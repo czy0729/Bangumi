@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 06:21:15
+ * @Last Modified time: 2023-03-11 15:43:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -125,11 +125,11 @@ export const RenderHtml = observer(
             // 防剧透字
             if (style.includes(SPAN_MARK.mask)) {
               const text = []
-              const target = rawChildren[0]
+              const target = rawChildren?.[0]
               if (target) {
-                if (target.children) {
+                if (target?.children) {
                   // 防剧透字中有表情
-                  target.children.forEach((item, index) => {
+                  target?.children?.forEach((item, index) => {
                     if (item.data) {
                       // 文字
                       text.push(item.data)
@@ -152,7 +152,7 @@ export const RenderHtml = observer(
                   })
                 } else {
                   // 防剧透字中没表情
-                  text.push(target.data)
+                  text.push(target?.data)
                 }
               }
               return (
@@ -170,14 +170,9 @@ export const RenderHtml = observer(
 
             // 删除字
             if (style.includes(SPAN_MARK.lineThrough)) {
-              const target = rawChildren[0]
+              const target = rawChildren?.[0]
               const text =
-                (target &&
-                  target.parent &&
-                  target.parent.children[0] &&
-                  target.parent.children[0].data) ||
-                (target.children[0] && target.children[0].data) ||
-                ''
+                target?.parent?.children?.[0]?.data || target?.children?.[0]?.data || ''
               return (
                 <LineThroughtText
                   key={key}
@@ -193,8 +188,8 @@ export const RenderHtml = observer(
 
             // 隐藏字
             if (style.includes(SPAN_MARK.hidden)) {
-              const target = rawChildren[0]
-              const text = (target && target.data) || ''
+              const target = rawChildren?.[0]
+              const text = target?.data || ''
               return (
                 <HiddenText
                   key={key}

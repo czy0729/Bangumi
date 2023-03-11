@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:45:12
+ * @Last Modified time: 2023-03-11 15:16:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,6 @@ function CoverToday({ data }, { navigation }: Ctx) {
           width={styles.cover.width}
           height={styles.cover.height}
           radius
-          placeholder={false}
         />
         <LinearGradient
           style={styles.linear}

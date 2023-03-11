@@ -1,10 +1,9 @@
 /*
  * 样式
- *
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 21:35:53
+ * @Last Modified time: 2023-03-11 15:36:35
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -211,6 +210,9 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
 
   /** margin-left (工具类) */
   readonly ml = _.ml
+
+  /** margin-vertical (工具类) */
+  readonly mv = _.mv
 
   /** 阴影 (工具类) */
   readonly shadow = _.shadow

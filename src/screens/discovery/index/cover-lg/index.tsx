@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:45:41
+ * @Last Modified time: 2023-03-11 15:16:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,6 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
           size={styles.cover.width}
           height={isMusic ? styles.cover.width : styles.cover.height}
           radius
-          placeholder={false}
           cdn={isUseCDN}
         />
         <LinearGradient

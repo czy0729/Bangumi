@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:35:31
+ * @Last Modified time: 2023-03-11 15:31:38
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -417,13 +417,22 @@ export default class ScreenTopic extends store {
   // -------------------- get: cdn fallback --------------------
   /** 帖子标题 */
   @computed get title() {
-    // fixed
     return HTMLDecode(
       (this.topic.title === 'undefined' ? '' : this.topic.title) ||
         this.params._title ||
         this.topicFormCDN.title ||
         ''
     )
+  }
+
+  /** 副标题 (用于章节类帖子, 因为章节标题爬取源头只用日文, 但是过来之前是可以带着中文的) */
+  @computed get subTitle() {
+    if (!this.topicId.includes('ep/')) return ''
+
+    const title = HTMLDecode(this.params._title || '')
+    if (title === this.title) return ''
+
+    return title
   }
 
   /** 帖子小组名 */

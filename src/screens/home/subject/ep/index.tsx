@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:23:34
+ * @Last Modified time: 2023-03-11 14:41:58
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -16,9 +16,15 @@ import { memoStyles } from './styles'
 export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
   global.rerender('Subject.Ep')
 
-  if ($.type === '游戏') return null // 游戏没有ep
-  if ($.type === '书籍') return <BookEp />
+  // 游戏没有ep
+  if ($.type === '游戏') return null
+
+  if ($.type === '书籍') {
+    return <BookEp onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
+  }
+
   if ($.type === '音乐') return <Disc />
+
   return (
     <Ep
       styles={memoStyles()}

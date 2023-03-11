@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:49:59
+ * @Last Modified time: 2023-03-11 15:36:23
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -203,6 +203,22 @@ export const ml = StyleSheet.create({
   },
   _md: {
     marginLeft: -md
+  }
+} as const)
+
+/** margin-vertical (工具类) */
+export const mv = StyleSheet.create({
+  xs: {
+    marginVertical: xs
+  },
+  sm: {
+    marginVertical: sm
+  },
+  md: {
+    marginVertical: md
+  },
+  lg: {
+    marginVertical: lg
   }
 } as const)
 

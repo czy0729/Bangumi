@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 22:50:49
+ * @Last Modified time: 2023-03-11 15:31:52
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -21,6 +21,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       styles={memoStyles()}
       topicId={$.topicId}
       title={$.title}
+      subTitle={$.subTitle}
       time={$.time}
       replies={_replies}
       group={$.group}

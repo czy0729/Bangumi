@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:46:40
+ * @Last Modified time: 2023-03-11 15:17:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,6 @@ export default memo(
               width={imageWidth}
               height={isMusic ? imageWidth : imageHeight}
               radius
-              placeholder={false}
             />
             <LinearGradient
               style={stl(styles.linear, isMusic && styles.linearMusic)}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:52
+ * @Last Modified time: 2023-03-11 15:17:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,6 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
           size={styles.cover.width}
           height={isMusic ? styles.cover.width : styles.cover.height}
           radius
-          placeholder={false}
         />
         <LinearGradient
           style={stl(styles.linear, isMusic && styles.linearMusic)}

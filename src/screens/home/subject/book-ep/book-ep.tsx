@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 14:02:12
+ * @Last Modified time: 2023-03-11 14:42:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ export default memo(
     comicLength,
     status,
     onChangeText,
+    onScrollIntoViewIfNeeded,
     doUpdateBookEp,
     doUpdateNext
   }) => {
@@ -73,6 +74,7 @@ export default memo(
                       : undefined
                   }
                   onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
+                  onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                 />
                 {!!book.totalChap && (
                   <Text style={styles.total} type='sub'>
@@ -122,6 +124,7 @@ export default memo(
                       : undefined
                   }
                   onSubmitEditing={canSubmit ? doUpdateBookEp : undefined}
+                  onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                 />
                 {!!textVol && (
                   <Text style={styles.total} type='sub'>

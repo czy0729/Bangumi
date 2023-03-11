@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:34:53
+ * @Last Modified time: 2023-03-11 15:36:53
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ export default memo(
     styles,
     topicId,
     title,
+    subTitle,
     time,
     replies,
     group,
@@ -77,6 +78,11 @@ export default memo(
               </Text>
             )}
           </Text>
+          {!!subTitle && (
+            <Text style={_.mv.sm} type='sub' size={14} bold selectable>
+              {subTitle}
+            </Text>
+          )}
           <Flex style={styles.groupWrap}>
             {!!group && (
               <Flex style={styles.groupLabel}>

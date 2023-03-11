@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:50:33
+ * @Last Modified time: 2023-03-11 15:57:56
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -123,9 +123,11 @@ const Item = memo(
                 }
               >
                 {!!replyCount && (
-                  <Text type='primary' size={12} onPress={() => onNavigate(replyUrl)}>
-                    {replyCount}
-                  </Text>
+                  <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
+                    <Text type='primary' size={12}>
+                      {replyCount}
+                    </Text>
+                  </Touchable>
                 )}
                 <Text style={_.mr.sm} type='sub' size={12}>
                   {time}

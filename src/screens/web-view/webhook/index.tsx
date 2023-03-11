@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-10 18:42:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 20:25:28
+ * @Last Modified time: 2023-03-11 15:21:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ const Webhook = () => {
               style={styles.input}
               placeholder={'输入你的 webhook 地址\n默认：https://postman-echo.com/post'}
               multiline
-              numberOfLines={2}
+              numberOfLines={3}
               defaultValue={webhookUrl || ''}
               onChangeText={text => {
                 systemStore.setSetting('webhookUrl', String(text).trim())

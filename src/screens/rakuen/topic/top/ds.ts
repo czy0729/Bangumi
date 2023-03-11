@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 13:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 13:25:05
+ * @Last Modified time: 2023-03-11 15:32:03
  */
 import { Navigation } from '@types'
 import { StoreType as $ } from '../types'
@@ -13,6 +13,7 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   topicId: '' as $['topicId'],
   title: '' as $['title'],
+  subTitle: '' as $['subTitle'],
   time: '' as $['time'],
   replies: '' as $['params']['_replies'],
   group: '' as $['group'],

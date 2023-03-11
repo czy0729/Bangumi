@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 14:53:21
+ * @Last Modified time: 2023-03-11 15:09:06
  */
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
@@ -143,25 +143,22 @@ export const updateHeader = ({
 }
 
 export const useOnScroll = () => {
-  // const [y, setY] = useState(0)
+  const yRef = useRef(0)
   const [fixed, setFixed] = useState(false)
   const onScroll = useCallback(
     ({ nativeEvent }) => {
       const { y } = nativeEvent.contentOffset
-      // if (y <= HEADER_TRANSITION_HEIGHT) {
-      //   setY(y)
-      // }
+      yRef.current = y
 
       const offset = HEADER_TRANSITION_HEIGHT
       if ((fixed && y > offset) || (!fixed && y <= offset)) return
-      // setY(HEADER_TRANSITION_HEIGHT)
       setFixed(y > offset)
     },
     [fixed]
   )
 
   return {
-    // y,
+    yRef,
     fixed,
     onScroll
   }

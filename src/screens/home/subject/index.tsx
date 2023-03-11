@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:27:07
+ * @Last Modified time: 2023-03-11 15:13:57
  */
 import React, { useCallback, useRef } from 'react'
 import { Page, Heatmap } from '@components'
@@ -41,22 +41,25 @@ const Subject = (props, { $ }: Ctx) => {
     }
   })
 
+  const { yRef, fixed, onScroll } = useOnScroll()
   const scrollViewRef = useRef(undefined)
   const forwardRef = useCallback(ref => {
     scrollViewRef.current = ref
   }, [])
-  const onScrollIntoViewIfNeeded = useCallback((y: number) => {
-    try {
-      if (typeof scrollViewRef?.current?.scrollToOffset === 'function') {
-        scrollViewRef.current.scrollToOffset({
-          animated: true,
-          offset: y
-        })
-      }
-    } catch (error) {}
-  }, [])
+  const onScrollIntoViewIfNeeded = useCallback(
+    (y: number) => {
+      try {
+        if (typeof scrollViewRef?.current?.scrollToOffset === 'function') {
+          scrollViewRef.current.scrollToOffset({
+            animated: true,
+            offset: y + yRef.current
+          })
+        }
+      } catch (error) {}
+    },
+    [yRef]
+  )
 
-  const { fixed, onScroll } = useOnScroll()
   return useObserver(() => (
     <>
       <Header fixed={fixed} />

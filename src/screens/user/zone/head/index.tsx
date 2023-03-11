@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:26:13
+ * @Last Modified time: 2023-03-11 15:54:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,6 +71,8 @@ function Head({ style }, { $, navigation }: Ctx) {
         </Text>
         <View style={styles.l3}>
           <Touchable
+            animate
+            scale={0.9}
             onPress={() => {
               t('空间.历史', {
                 userId: $.userId
@@ -87,6 +89,8 @@ function Head({ style }, { $, navigation }: Ctx) {
         </View>
         <View style={styles.r1}>
           <Touchable
+            animate
+            scale={0.8}
             onPress={() => {
               t('空间.跳转', {
                 userId: $.userId,
@@ -106,6 +110,8 @@ function Head({ style }, { $, navigation }: Ctx) {
         </View>
         <View style={styles.r2}>
           <Touchable
+            animate
+            scale={0.8}
             onPress={() => {
               t('空间.跳转', {
                 userId: $.userId,
@@ -125,6 +131,8 @@ function Head({ style }, { $, navigation }: Ctx) {
         </View>
         <View style={styles.r3}>
           <Touchable
+            animate
+            scale={0.8}
             onPress={() => {
               t('空间.跳转', {
                 userId: $.userId,
