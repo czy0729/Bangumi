@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 19:04:48
+ * @Last Modified time: 2023-03-11 17:44:06
  */
 import { ColorValue, ImageProps } from 'react-native'
 import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
@@ -111,4 +111,6 @@ export type State = {
 
   /** 图片当前高度 */
   height: number
+
+  loaded: boolean
 }

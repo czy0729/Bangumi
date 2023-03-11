@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 21:40:02
+ * @Last Modified time: 2023-03-11 18:23:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -73,9 +73,7 @@ class Cover extends React.Component<Props> {
         size={$.imageWidth}
         height={$.imageHeight}
         radius
-        placeholder={false}
         noDefault
-        textOnly={false}
       />
     )
   }
@@ -91,7 +89,6 @@ class Cover extends React.Component<Props> {
         size={$.imageWidth}
         height={$.imageHeight}
         radius
-        placeholder={false}
         imageViewer
         imageViewerSrc={getCoverLarge(image || placeholder)}
         fadeDuration={0}
@@ -99,7 +96,6 @@ class Cover extends React.Component<Props> {
         noDefault
         sync
         onLoad={this.onLoad}
-        textOnly={false}
       />
     )
   }

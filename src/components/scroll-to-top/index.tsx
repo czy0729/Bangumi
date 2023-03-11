@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:40:04
+ * @Last Modified time: 2023-03-11 17:36:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,9 +16,9 @@ import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { scrollToTopCallback } from './utils'
 import { memoStyles } from './styles'
-import { Props as ScrollToToPropsp } from './types'
+import { Props as ScrollToToProps } from './types'
 
-export { ScrollToToPropsp, scrollToTopCallback }
+export { ScrollToToProps, scrollToTopCallback }
 
 const ScrollToTop = observer(
   ({
@@ -27,7 +27,7 @@ const ScrollToTop = observer(
     scrollToIndex,
     scrollToLocation,
     onPress
-  }: ScrollToToPropsp) => {
+  }: ScrollToToProps) => {
     if (IOS) return null
     if ((IOS || !isFocused) && !systemStore.dev) return null
 

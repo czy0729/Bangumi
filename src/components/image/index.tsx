@@ -13,7 +13,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 19:05:56
+ * @Last Modified time: 2023-03-11 18:25:51
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
@@ -27,6 +27,7 @@ import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
+import { Skeleton } from '../skeleton'
 import { devLog } from '../dev'
 import CompImage from './image'
 import {
@@ -60,7 +61,8 @@ export const Image = observer(
       error: false,
       uri: undefined,
       width: 0,
-      height: 0
+      height: 0,
+      loaded: false
     }
 
     _errorCount = 0
@@ -105,7 +107,6 @@ export const Image = observer(
       } else {
         await this.cacheV2(src)
       }
-
       if (autoSize) {
         setTimeout(() => {
           this.getSize()
@@ -383,6 +384,12 @@ export const Image = observer(
       // if (info) devLog(info)
     }
 
+    onLoadEnd = () => {
+      this.setState({
+        loaded: true
+      })
+    }
+
     get headers(): {} {
       const { src, headers } = this.props
       if (headers) {
@@ -567,6 +574,7 @@ export const Image = observer(
           fadeDuration={this.fadeDuration}
           onError={this.onError}
           {...other}
+          onLoadEnd={this.onLoadEnd}
         />
       )
     }
@@ -589,6 +597,7 @@ export const Image = observer(
           fadeDuration={this.fadeDuration}
           onError={this.onError}
           {...other}
+          onLoadEnd={this.onLoadEnd}
         />
       )
     }
@@ -678,8 +687,18 @@ export const Image = observer(
           >
             {this.renderImage()}
           </Touchable>
+          {this.renderSkeleton()}
         </View>
       )
+    }
+
+    renderSkeleton() {
+      const { textOnly, placeholder } = this.props
+      const { loaded } = this.state
+      if (textOnly || !placeholder || loaded) return null
+
+      const { width, height } = _.flatten(this.computedStyle.image)
+      return <Skeleton width={width} height={height} />
     }
 
     render() {
@@ -704,7 +723,12 @@ export const Image = observer(
         return this.renderTouchabelImage(_onPress)
       }
 
-      return <View style={this.computedStyle.container}>{this.renderImage()}</View>
+      return (
+        <View style={this.computedStyle.container}>
+          {this.renderImage()}
+          {this.renderSkeleton()}
+        </View>
+      )
     }
 
     get styles() {
