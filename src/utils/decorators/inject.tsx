@@ -51,12 +51,17 @@ const Inject = (Store, config?: Config) => {
           const key = getScreenKey(route)
           this.$ = Stores.get(key)
 
-          // DEV 也新建保证热更新能获取到最新的代码
+          // DEV 环境下也需要每次新建, 保证热更新能获取到最新的 store 代码
           if (!this.$ || DEV) {
             this.$ = new Store()
-            this.$.params = route.params || {} // 把 navigation 的页面参数插入 store 方便使用
+
+            // 把 navigation 的页面参数插入 store 方便使用
+            this.$.params = route.params || {}
           }
-          if (cache) Stores.add(key, this.$)
+
+          if (cache) {
+            Stores.add(key, this.$)
+          }
         }
 
         state: WrapComponentProps = {
@@ -64,7 +69,7 @@ const Inject = (Store, config?: Config) => {
         }
 
         /** 页面独立状态机引用 */
-        $
+        $: any
 
         getChildContext() {
           const { navigation } = this.props

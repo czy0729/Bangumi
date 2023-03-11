@@ -7,7 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { Expand, Navigation } from '@types'
+import { Expand, Navigation, ReactNode } from '@types'
 import { Flex } from '../flex'
 import Back from './back'
 import Transition from './transition'
@@ -20,7 +20,9 @@ type Props = Expand<
   } & Pick<
     HeaderProps,
     'fixed' | 'title' | 'statusBarEventsType' | 'headerTitle' | 'headerRight'
-  >
+  > & {
+      headerLeft?: ReactNode
+    }
 >
 
 function HeaderComponent({
@@ -29,6 +31,7 @@ function HeaderComponent({
   title,
   statusBarEventsType,
   headerTitle,
+  headerLeft,
   headerRight
 }: Props) {
   const styles = memoStyles()
@@ -39,6 +42,7 @@ function HeaderComponent({
     <Flex style={styles.header}>
       <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
       <Back navigation={navigation} color={color} />
+      {headerLeft}
       <Flex.Item />
       {!!headerRight && headerRight()}
     </Flex>

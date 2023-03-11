@@ -55,6 +55,9 @@ export type Navigation = {
   /** 获取根部路由状态 */
   getRootState?: (arg0?: any) => any
 
+  /** 获取路由状态 */
+  getState?: () => any
+
   /** 动态设置路由参数 */
   setOptions?: (params?: object) => any
 

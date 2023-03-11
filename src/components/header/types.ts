@@ -25,8 +25,11 @@ export type Props = {
   /** 统计别名 */
   alias?: string
 
+  /** 左侧 element */
+  headerLeft?: ReactNode
+
   /**
-   * 右侧element
+   * 右侧 element
    * https://reactnavigation.org/docs/5.x/stack-navigator#headerright
    */
   headerRight?: () => ReactNode

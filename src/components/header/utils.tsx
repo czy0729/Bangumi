@@ -25,7 +25,9 @@ type UpdateHeaderProps = Expand<
     | 'mode'
     | 'fixed'
     | 'statusBarEventsType'
-  >
+  > & {
+      headerLeft?: any
+    }
 >
 
 const HEADER_TRANSITION_HEIGHT = 32
@@ -36,6 +38,7 @@ export const updateHeader = ({
   title = '',
   headerTitleAlign,
   headerTitleStyle,
+  headerLeft,
   headerRight,
 
   // 非必要
@@ -90,7 +93,12 @@ export const updateHeader = ({
     headerLeftContainerStyle: {
       paddingLeft: 5
     },
-    headerLeft: () => <Back navigation={navigation} color={color} />,
+    headerLeft: () => (
+      <>
+        <Back navigation={navigation} color={color} />
+        {headerLeft}
+      </>
+    ),
 
     // headerRight
     headerRightContainerStyle: {},

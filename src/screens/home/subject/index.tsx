@@ -18,7 +18,7 @@ import Modal from './modal'
 import Store from './store'
 import { Ctx } from './types'
 
-const Subject = (props, { $ }: Ctx) => {
+const Subject = (props, { $, navigation }: Ctx) => {
   const isFocused = useIsFocusedRef()
   useRunAfter(async () => {
     setTimeout(() => {
@@ -62,7 +62,7 @@ const Subject = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Header fixed={fixed} />
+      <Header fixed={fixed} index={navigation.getState().index} />
       <Page>
         {IOS && <Bg />}
         <List

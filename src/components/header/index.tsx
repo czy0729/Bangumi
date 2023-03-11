@@ -26,6 +26,7 @@ const Header: IHeader = ({
   title,
   hm,
   alias,
+  headerLeft = null,
   headerRight = null,
   headerTitle = null,
   headerTitleAlign = 'center',
@@ -40,6 +41,7 @@ const Header: IHeader = ({
       mode,
       fixed,
       title,
+      headerLeft,
       headerRight,
       headerTitleAlign,
       headerTitleStyle,
@@ -50,6 +52,7 @@ const Header: IHeader = ({
     mode,
     fixed,
     title,
+    headerLeft,
     headerRight,
     headerTitleAlign,
     headerTitleStyle,
@@ -83,6 +86,7 @@ const Header: IHeader = ({
             title={title}
             statusBarEventsType={statusBarEventsType}
             headerTitle={headerTitle}
+            headerLeft={headerLeft}
             headerRight={headerRight}
           />
         )}

@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
+import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { copy, cnjp, open, info } from '@utils'
 import { obc } from '@utils/decorators'
@@ -14,7 +15,7 @@ import HeaderTitle from '../header-title'
 import IconShare from '../icon/share'
 import { Ctx } from '../types'
 
-function Header({ fixed }, { $, navigation }: Ctx) {
+function Header({ fixed, index }, { $, navigation }: Ctx) {
   const color = _.isDark || !fixed ? '#fff' : '#000'
   return (
     <CompHeader
@@ -23,6 +24,19 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       fixed={fixed}
       title='条目'
       hm={[$.url, 'Subject']}
+      headerLeft={
+        !fixed &&
+        index >= 4 && (
+          <IconTouchable
+            name='icon-home'
+            size={19}
+            color={_.__colorPlain__}
+            onPress={() => {
+              navigation.popToTop()
+            }}
+          />
+        )
+      }
       headerTitle={<HeaderTitle $={$} />}
       headerRight={() => (
         <Flex>
