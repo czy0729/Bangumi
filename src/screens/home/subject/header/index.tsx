@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:26:16
+ * @Last Modified time: 2023-03-11 14:23:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ import Comment from '../comment'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Header(props, { $ }: Ctx) {
+function Header({ onScrollIntoViewIfNeeded }, { $ }: Ctx) {
   const styles = memoStyles()
   const { rendered } = $.state
   const { _loaded } = $.subjectComments
@@ -47,7 +47,7 @@ function Header(props, { $ }: Ctx) {
       <View style={styles.content}>
         <Lock />
         <Box />
-        <Ep />
+        <Ep onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
         <SMB />
         <Tags />
         <Summary />

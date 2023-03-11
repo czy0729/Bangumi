@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:33:11
+ * @Last Modified time: 2023-03-11 14:22:52
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -13,11 +13,12 @@ import Header from '../header'
 import { Ctx } from '../types'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
 
-function List({ onScroll }, { $ }: Ctx) {
+function List({ forwardRef, onScrollIntoViewIfNeeded, onScroll }, { $ }: Ctx) {
   global.rerender('Subject.List')
 
   return (
     <ListView
+      ref={forwardRef}
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
@@ -30,7 +31,9 @@ function List({ onScroll }, { $ }: Ctx) {
       keyboardDismissMode='on-drag'
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}
-      ListHeaderComponent={<Header />}
+      ListHeaderComponent={
+        <Header onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
+      }
       renderItem={renderItem}
       onScroll={onScroll}
       onHeaderRefresh={$.onHeaderRefresh}

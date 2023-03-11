@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-20 10:16:04
+ * @Last Modified time: 2023-03-11 14:27:07
  */
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
@@ -41,13 +41,32 @@ const Subject = (props, { $ }: Ctx) => {
     }
   })
 
+  const scrollViewRef = useRef(undefined)
+  const forwardRef = useCallback(ref => {
+    scrollViewRef.current = ref
+  }, [])
+  const onScrollIntoViewIfNeeded = useCallback((y: number) => {
+    try {
+      if (typeof scrollViewRef?.current?.scrollToOffset === 'function') {
+        scrollViewRef.current.scrollToOffset({
+          animated: true,
+          offset: y
+        })
+      }
+    } catch (error) {}
+  }, [])
+
   const { fixed, onScroll } = useOnScroll()
   return useObserver(() => (
     <>
       <Header fixed={fixed} />
       <Page>
         {IOS && <Bg />}
-        <List onScroll={onScroll} />
+        <List
+          forwardRef={forwardRef}
+          onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+          onScroll={onScroll}
+        />
         <Modal />
       </Page>
       <Heatmap id='条目' screen='Subject' />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:28:29
+ * @Last Modified time: 2023-03-11 14:17:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,6 +29,7 @@ export default memo(
     onChangeText,
     onSelectOnAir,
     onResetOnAirUser,
+    onScrollIntoViewIfNeeded,
     doUpdateSubjectEp
   }) => {
     global.rerender('Subject.Ep.Main')
@@ -73,6 +74,7 @@ export default memo(
                         onChangeText('watchedEps', text.replace(/[^\d]+/, ''))
                       }
                       onSubmitEditing={doUpdateSubjectEp}
+                      onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                     />
                     {!!totalEps && (
                       <Text style={styles.total} type='sub' size={11} bold>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:24:23
+ * @Last Modified time: 2023-03-11 14:23:34
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 import Ep from './ep'
 import { memoStyles } from './styles'
 
-export default obc((props, { $ }: Ctx) => {
+export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
   global.rerender('Subject.Ep')
 
   if ($.type === '游戏') return null // 游戏没有ep
@@ -31,6 +31,7 @@ export default obc((props, { $ }: Ctx) => {
       onChangeText={$.changeText}
       onSelectOnAir={$.onSelectOnAir}
       onResetOnAirUser={$.resetOnAirUser}
+      onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
       doUpdateSubjectEp={$.doUpdateSubjectEp}
     />
   )

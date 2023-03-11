@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 15:39:31
+ * @Last Modified time: 2023-03-11 14:18:56
  */
 import { TextInputProps } from 'react-native'
 import { Override, ColorValue, ViewStyle } from '@types'
@@ -36,6 +36,9 @@ export type Props = Override<
 
     /** 文字改变回调 */
     onChangeText?: (text: string) => any
+
+    /** TextInput focus 时, 当键盘遮住时的回调 */
+    onScrollIntoViewIfNeeded?: (y: number) => any
   }
 >
 
