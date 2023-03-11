@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 21:33:19
+ * @Last Modified time: 2023-03-11 21:49:04
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -10,7 +10,10 @@ import Constants from 'expo-constants'
 import { IOS } from '@constants/constants'
 import { WSA, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from '@constants/device'
 
-export const IS_IOS_5_6_7_8 = !!String(Device.modelName).match(/iPhone (5|6|7|8|SE)/gi)
+/** iPhone 非全面屏系列 */
+export const IS_IOS_5_6_7_8 =
+  !!String(Device.modelName).match(/iPhone (5|6|7|8|SE)/gi) ||
+  !!(String(Device.modelName).match(/iPhone/gi) && Constants.statusBarHeight <= 24)
 
 // -------------------- 设备 --------------------
 /** 是否平板 */
