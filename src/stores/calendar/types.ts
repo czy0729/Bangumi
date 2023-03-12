@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-26 12:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 16:53:27
+ * @Last Modified time: 2023-03-12 18:31:10
  */
 import {
   Images,
   ListEmpty,
   Loaded,
+  Override,
   Rating,
   SubjectId,
   SubjectTypeValue,
@@ -18,6 +19,15 @@ import { INIT_HOME, INIT_ONAIR_ITEM } from './init'
 export type OnAirUser = {
   weekDayCN: string
   timeCN: string
+}
+
+export type OnAir = {
+  [subjectId: number]: Override<
+    typeof INIT_ONAIR_ITEM,
+    {
+      custom?: boolean
+    }
+  >
 }
 
 export type State = {
@@ -39,9 +49,7 @@ export type State = {
   homeFromCDN: typeof INIT_HOME
 
   /** ekibun 的线上爬虫数据 */
-  onAir: {
-    [subjectId: number]: typeof INIT_ONAIR_ITEM
-  }
+  onAir: OnAir
 
   /**
    * 用户自定义放送时间

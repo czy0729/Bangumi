@@ -1,10 +1,9 @@
 /*
  * 时间表, 发现页信息聚合
- *
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:50:09
+ * @Last Modified time: 2023-03-12 19:16:09
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
@@ -24,7 +23,8 @@ import UserStore from '../user'
 import { LOG_INIT } from '../ds'
 import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
 import { cheerioToday } from './common'
-import { Calendar, OnAirUser, State } from './types'
+import { fixedOnAir } from './utils'
+import { Calendar, OnAir, OnAirUser, State } from './types'
 
 const state: State = {
   /** 每日放送 */
@@ -67,7 +67,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
   }
 
   // -------------------- get --------------------
-  /** 每日放送, 结合onAir和用户自定义放送时间覆盖原数据 */
+  /** 每日放送, 结合 onAir 和用户自定义放送时间覆盖原数据 */
   @computed get calendar(): Calendar {
     this.init('calendar')
 
@@ -142,32 +142,38 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     return this.state.homeFromCDN
   }
 
-  /** 需要用户自定义放送时间覆盖原数据 */
-  @computed get onAir() {
+  /**
+   * ekibun 的线上放送时间爬虫数据
+   *  - 最优先：用户自定义时间覆盖原数据
+   *  - 次优先：非东 8 区处理时区问题
+   * */
+  @computed get onAir(): OnAir {
     this.init('onAir')
 
-    const { onAir, onAirUser } = this.state
-    const keys = Object.keys(onAirUser)
-    if (keys.length < 1) return onAir
+    const { onAirUser, onAir } = this.state
+    if (!Object.keys(onAirUser).length) return onAir
 
     const _onAir = toJS(onAir)
-    Object.keys(onAirUser).forEach(subjectId => {
-      if (Number(subjectId) != 0) {
-        const target = _onAir[subjectId]
-        if (target) {
-          const user = this.onAirUser(subjectId)
-          const weekDay =
-            user.weekDayCN === ''
-              ? target.weekDayCN || target.weekDayJP
-              : user.weekDayCN
-          const time = user.timeCN || target.timeCN || target.timeJP
-          target.weekDayCN = weekDay
-          target.weekDayJP = weekDay
-          target.timeCN = time
-          target.timeJP = time
-        }
+    for (const subjectId in onAirUser) {
+      if (!Number(subjectId)) continue
+
+      const target = _onAir[subjectId] as OnAir[number]
+      if (!target) continue
+
+      // 用户自定义时间覆盖原数据
+      const user = this.onAirUser(subjectId)
+      const weekDay = user.weekDayCN || target.weekDayCN || target.weekDayJP
+      const time = user.timeCN || target.timeCN || target.timeJP
+      _onAir[subjectId] = {
+        ...target,
+        weekDayCN: weekDay,
+        weekDayJP: weekDay,
+        timeCN: time,
+        timeJP: time,
+        custom: true
       }
-    })
+    }
+
     return _onAir
   }
 
@@ -302,7 +308,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
 
   private _fetchOnAir = false
 
-  /** onAir数据, 数据不会经常变化, 所以一个启动周期只请求一次 */
+  /** onAir 数据, 数据不会经常变化, 所以一个启动周期只请求一次 */
   fetchOnAir = async () => {
     if (this._fetchOnAir) return
 
@@ -316,7 +322,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         onAir = JSON.parse(_response)
       } catch (error) {}
 
-      if (onAir.length <= 8) onAir = require('@constants/fallback/calendar.json')
+      if (onAir.length <= 8) onAir = require('@assets/json/calendar.json')
 
       const data = {
         _loaded: true
@@ -329,14 +335,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         data[item.id] = {
           timeCN: item.timeCN,
           timeJP: item.timeJP,
-
-          // weekDayCN === 0 为没国内放送, 使用weekDayJP, weekDayCN === 7 要转换为 0
-          weekDayCN:
-            item.weekDayCN === 0
-              ? item.weekDayJP
-              : item.weekDayCN === 7
-              ? 0
-              : item.weekDayCN,
+          weekDayCN: item.weekDayCN,
           weekDayJP: item.weekDayJP
         }
         if (airEps.length) {
@@ -345,7 +344,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
       })
 
       const key = 'onAir'
-      this.clearState(key, data)
+      this.clearState(key, fixedOnAir(data))
       this.save(key)
       this._fetchOnAir = true
     } catch (error) {}

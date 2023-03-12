@@ -17,13 +17,13 @@ export const INIT_HOME = {
 
 export const INIT_ONAIR_ITEM = {
   /** 中国放送星期几 */
-  weekDayCN: '',
+  weekDayCN: '' as string | number,
 
   /** 中国放送时间 */
   timeCN: '',
 
   /** 日本放送星期几 */
-  weekDayJP: '',
+  weekDayJP: '' as string | number,
 
   /** 日本放送时间 */
   timeJP: '',

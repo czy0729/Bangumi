@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-25 22:17:06
+ * @Last Modified time: 2023-03-12 17:36:10
  */
 import { ComponentType } from 'react'
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
-import dayjs from 'dayjs'
-import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat'
 import pLimit from 'p-limit'
 import { DEV } from '@/config'
-import { B, M, IOS } from '@constants/constants'
+import { B, M, IOS, TIMEZONE_IS_GMT8 } from '@constants/constants'
 import { Fn } from '@types'
+import { getTimestamp, date } from '../date'
 import { info } from '../ui'
 
-dayjs.extend(dayjsCustomParseFormat)
+export * from '../date'
 
 /**
  * 全局强制组件设置默认参数
@@ -260,30 +259,13 @@ export function sleep(ms: number = 800): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const DATE_FNS = {
-  Y: (d: Date) => d.getFullYear(),
-  y: (d: Date) => (d.getFullYear() + '').slice(2),
-  m: (d: Date) => pad(DATE_FNS.n(d)),
-  d: (d: Date) => pad(DATE_FNS.j(d)),
-  H: (d: Date) => pad(d.getHours()),
-  i: (d: Date) => pad(d.getMinutes()),
-  s: (d: Date) => pad(d.getSeconds()),
-  n: (d: Date) => d.getMonth() + 1,
-  j: (d: Date) => d.getDate()
-} as const
+/** 将网页版的中国时区时间转换成本地时区时间 */
+export function toLocalTimeStr(chinaTimeStr: string, format: string = 'Y-m-d H:i:s') {
+  if (TIMEZONE_IS_GMT8 || !chinaTimeStr) return chinaTimeStr
 
-/** 简易时间戳格式化函数 */
-export function date(format?: string, timestamp?: any): string {
-  // 假如第二个参数不存在, 第一个参数作为 timestamp
-  if (!timestamp) {
-    timestamp = format
-    format = 'Y-m-d H:i:s'
-  }
-
-  const now = timestamp ? new Date(timestamp * 1000) : new Date()
-  return format.replace(/[\\]?([a-zA-Z])/g, (t, s) =>
-    t != s ? s : DATE_FNS[s] ? DATE_FNS[s](now) : s
-  )
+  // 将中国时间字符串转换为本地时间
+  const localDateTime = new Date(`${chinaTimeStr.replace(/-/g, '/')} GMT+0800`)
+  return date(format, Math.floor(localDateTime.getTime() / 1000))
 }
 
 /**
@@ -300,16 +282,6 @@ export function parseIOS8601(isostr: string, format = 'Y-m-d'): string {
     `${year}-${month}-${day} ${hour}:${minute}:${second}`
   ).getTime()
   return date(format, timestamp / 1000)
-}
-
-/**
- * 返回 timestamp
- * @doc https://dayjs.fenxianglu.cn/category/parse.html#%E5%AD%97%E7%AC%A6%E4%B8%B2-%E6%A0%BC%E5%BC%8F
- * */
-export function getTimestamp(date: string = '', format?: string) {
-  const _date = date.trim()
-  const day = format ? dayjs(_date, format) : dayjs(_date)
-  return day.isValid() ? day.unix() : dayjs().unix()
 }
 
 /** xd xh xm xs ago => timestamp */
