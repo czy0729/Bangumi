@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 19:09:52
+ * @Last Modified time: 2023-03-13 18:22:43
  */
 import {
   calendarStore,
@@ -424,11 +424,11 @@ export default class Action extends Fetch {
   }
 
   /** 自定义放送时间 */
-  onSelectOnAir = (key: string, value: any) => {
+  onSelectOnAir = (weekDayCN: string | number, timeCN: string) => {
     t('条目.自定义放送', {
       subjectId: this.subjectId
     })
-    calendarStore.updateOnAirUser(this.subjectId, key, value)
+    calendarStore.updateOnAirUser(this.subjectId, weekDayCN, timeCN)
   }
 
   /** 重置条目的自定义放送时间 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 12:42:37
+ * @Last Modified time: 2023-03-13 16:05:46
  */
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
@@ -13,17 +13,16 @@ import { memoStyles } from './styles'
 
 export default obc(
   (
-    { subjectId, images = {}, name, desc, air, timeCN, score },
+    { subjectId, images = {}, name, desc, air, time, score },
     { $, navigation }: Ctx
   ) => {
     global.rerender('Calendar.ItemLine')
 
     const { type, expand } = $.state
-    const collection = collectionStore.collectionStatus(subjectId)
-    if ((type === 'collect' && !collection) || (!expand && !timeCN)) return null
+    const collection = collectionStore.collect(subjectId)
+    if ((type === 'collect' && !collection) || (!expand && !time)) return null
 
     const sites = $.sites(subjectId)
-
     return (
       <ItemLine
         navigation={navigation}
@@ -34,7 +33,7 @@ export default obc(
         desc={desc}
         images={images}
         air={air}
-        timeCN={timeCN}
+        time={time}
         expand={expand}
         collection={collection}
         score={score}

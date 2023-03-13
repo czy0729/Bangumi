@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-12 19:16:15
+ * @Last Modified time: 2023-03-13 17:35:07
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
@@ -11,6 +11,7 @@ import { desc, feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { BangumiData, SubjectId } from '@types'
+import { getTime } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 
 export default class ScreenCalendar extends store {
@@ -35,7 +36,7 @@ export default class ScreenCalendar extends store {
     setTimeout(async () => {
       try {
         const subjectIds = []
-        this.list.forEach(item => {
+        this.calendar.list.forEach(item => {
           item.items.forEach(i => {
             subjectIds.push(i.id)
           })
@@ -51,40 +52,9 @@ export default class ScreenCalendar extends store {
   }
 
   // -------------------- get --------------------
-  /** 用户自定义放送时间 */
-  @computed get onAir() {
-    return calendarStore.onAir
-  }
-
   /** 每日放送 */
   @computed get calendar() {
     return calendarStore.calendar
-  }
-
-  /** 结合 onAir 和用户自定义放送时间覆盖原数据 */
-  @computed get list() {
-    const { list } = this.calendar
-    return list.map(item => ({
-      ...item,
-      items: item.items
-        .map(i => {
-          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || {}
-
-          /**
-           * @fixed 20210217 bangumi 的每日放送是以日本放送日作为分组, 所以时间应以日本时间为主
-           * 避免刚好 +1 小时时差导致周几错误
-           */
-          const time = timeCN || timeJP || '2359'
-          return {
-            ...i,
-            air,
-            timeCN: time
-          }
-        })
-        // 暂时把没有放送具体时间的番剧隐藏
-        // .filter(item => item.timeCN !== '2359')
-        .sort((a, b) => desc(String(a.timeCN || ''), String(b.timeCN || '')))
-    }))
   }
 
   /** SectionList sections */
@@ -94,9 +64,13 @@ export default class ScreenCalendar extends store {
 
     const showPrevDay = new Date().getHours() < 12
     const shift = day - (showPrevDay ? 2 : 1)
-    return this.list
+    const list = this.calendar.list.map(item => ({
+      ...item,
+      items: item.items.slice().sort((a, b) => desc(getTime(a), getTime(b)))
+    }))
+    return list
       .slice(shift)
-      .concat(this.list.slice(0, shift))
+      .concat(list.slice(0, shift))
       .map((item, index) => ({
         title: item.weekday.cn,
         index,

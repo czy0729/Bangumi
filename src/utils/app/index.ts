@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 17:16:57
+ * @Last Modified time: 2023-03-13 17:34:04
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -34,7 +34,7 @@ import {
   SubjectId,
   UserId
 } from '@types'
-import { getTimestamp, open } from '../utils'
+import { getTimestamp, open, toLocal } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode } from '../html'
 import { getStorage, setStorage } from '../storage'
@@ -189,16 +189,25 @@ export function getOnAir(
 
   const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
   const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
-  const weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
+  let weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
 
-  const h = typeof time === 'string' ? time.slice(0, 2) : ''
-  const m = typeof time === 'string' ? time.slice(2, 4) : ''
+  let h = typeof time === 'string' ? time.slice(0, 2) : ''
+  let m = typeof time === 'string' ? time.slice(2, 4) : ''
+
+  const isCustom = !!onAirUser?._loaded
+  if (!isCustom) {
+    const onAirLocal = toLocal(weekDay, `${h}${m}`)
+    weekDay = onAirLocal.weekDayLocal
+    h = onAirLocal.timeLocal.slice(0, 2)
+    m = onAirLocal.timeLocal.slice(2, 4)
+  }
+
   return {
     weekDay,
     h,
     m,
     isExist: weekDay !== undefined && weekDay !== '',
-    isCustom: !!onAirUser?._loaded
+    isCustom
   }
 }
 

@@ -3,57 +3,47 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-12 19:16:09
+ * @Last Modified time: 2023-03-13 18:22:02
  */
 import { observable, computed, toJS } from 'mobx'
-import { getTimestamp, HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
+import {
+  getTimestamp,
+  HTMLTrim,
+  HTMLToTree,
+  findTreeNode,
+  toLocal,
+  deepClone
+} from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import store from '@utils/store'
 import { put, read } from '@utils/db'
-import {
-  API_CALENDAR,
-  CDN_DISCOVERY_HOME,
-  CDN_ONAIR,
-  DEV,
-  HOST,
-  LIST_EMPTY
-} from '@constants'
+import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, DEV, HOST } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import UserStore from '../user'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE, INIT_HOME, INIT_USER_ONAIR_ITEM } from './init'
+import {
+  NAMESPACE,
+  INIT_HOME,
+  INIT_USER_ONAIR_ITEM,
+  STATE,
+  LOADED,
+  INIT_CALENDAR,
+  INIT_ONAIR_ITEM
+} from './init'
 import { cheerioToday } from './common'
 import { fixedOnAir } from './utils'
-import { Calendar, OnAir, OnAirUser, State } from './types'
+import { OnAir, OnAirItem, OnAirUser } from './types'
 
-const state: State = {
-  /** 每日放送 */
-  calendar: LIST_EMPTY,
+type CacheKey = keyof typeof LOADED
 
-  /** 发现页信息聚合 */
-  home: INIT_HOME,
+class CalendarStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** @deprecated 发现页信息聚合 (CDN) */
-  homeFromCDN: INIT_HOME,
+  private _loaded = LOADED
 
-  /** ekibun 的线上爬虫数据 */
-  onAir: {},
+  private _fetchOnAir = false
 
-  /** 用户自定义放送时间, onAir 读取数据时, 需要用本数据覆盖原数据 */
-  onAirUser: {}
-}
-
-class CalendarStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    calendar: false,
-    home: false,
-    onAir: false,
-    onAirUser: false
-  }
-
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('CalendarStore /', key)
@@ -62,75 +52,11 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 
   // -------------------- get --------------------
-  /** 每日放送, 结合 onAir 和用户自定义放送时间覆盖原数据 */
-  @computed get calendar(): Calendar {
-    this.init('calendar')
-
-    const data = {
-      list: [
-        {
-          items: [],
-          weekday: { en: 'Mon', cn: '星期一', ja: '月耀日', id: 1 }
-        },
-        {
-          items: [],
-          weekday: { en: 'Tue', cn: '星期二', ja: '火耀日', id: 2 }
-        },
-        {
-          items: [],
-          weekday: { en: 'Wed', cn: '星期三', ja: '水耀日', id: 3 }
-        },
-        {
-          items: [],
-          weekday: { en: 'Thu', cn: '星期四', ja: '木耀日', id: 4 }
-        },
-        {
-          items: [],
-          weekday: { en: 'Fri', cn: '星期五', ja: '金耀日', id: 5 }
-        },
-        {
-          items: [],
-          weekday: { en: 'Sat', cn: '星期六', ja: '土耀日', id: 6 }
-        },
-        {
-          items: [],
-          weekday: { en: 'Sun', cn: '星期日', ja: '日耀日', id: 7 }
-        }
-      ],
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
-      _loaded: getTimestamp()
-    }
-
-    const { calendar } = this.state
-    calendar.list.forEach((item, index) => {
-      const { items } = item
-      items.forEach(item => {
-        const onAir = this.onAir[item.id]
-        if (!onAir) {
-          data.list[index].items.push(item)
-          return
-        }
-
-        const { weekDayCN } = onAir
-        const air_weekday = Number(weekDayCN) == 0 ? 7 : Number(weekDayCN)
-        data.list[air_weekday - 1].items.push({
-          ...item,
-          air_weekday
-        })
-      })
-    })
-
-    return data
-  }
-
   /** 发现页信息聚合 */
   @computed get home() {
     this.init('home')
@@ -142,43 +68,53 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     return this.state.homeFromCDN
   }
 
-  /**
-   * ekibun 的线上放送时间爬虫数据
-   *  - 最优先：用户自定义时间覆盖原数据
-   *  - 次优先：非东 8 区处理时区问题
-   * */
-  @computed get onAir(): OnAir {
-    this.init('onAir')
+  /** API 每日放送数据, 并整合云端 onAir 数据 */
+  @computed get calendar() {
+    this.init('calendar')
 
-    const { onAirUser, onAir } = this.state
-    if (!Object.keys(onAirUser).length) return onAir
-
-    const _onAir = toJS(onAir)
-    for (const subjectId in onAirUser) {
-      if (!Number(subjectId)) continue
-
-      const target = _onAir[subjectId] as OnAir[number]
-      if (!target) continue
-
-      // 用户自定义时间覆盖原数据
-      const user = this.onAirUser(subjectId)
-      const weekDay = user.weekDayCN || target.weekDayCN || target.weekDayJP
-      const time = user.timeCN || target.timeCN || target.timeJP
-      _onAir[subjectId] = {
-        ...target,
-        weekDayCN: weekDay,
-        weekDayJP: weekDay,
-        timeCN: time,
-        timeJP: time,
-        custom: true
-      }
+    const data = {
+      ...deepClone(INIT_CALENDAR),
+      _loaded: getTimestamp()
     }
+    const { calendar } = this.state
+    calendar.list.forEach(item => {
+      item.items.forEach(item => {
+        if (!item.id) return
 
-    return _onAir
+        const onAirLocal = this.onAirLocal(item.id)
+
+        // 如果没能计算到整合数据, 回退使用 api 的放送星期数据
+        const { air, ...rest } = onAirLocal
+        if (Object.values(rest).every(value => value === '')) {
+          onAirLocal.weekDayCN = item.air_weekday || 0
+        }
+
+        let air_weekday = Number(
+          (typeof onAirLocal.weekDayLocal === 'number'
+            ? onAirLocal.weekDayLocal
+            : onAirLocal.weekDayCN) || 0
+        )
+        if (air_weekday === 0) air_weekday = 7
+
+        data.list[air_weekday - 1].items.push({
+          ...item,
+          air_weekday,
+          ...onAirLocal
+        })
+      })
+    })
+
+    return data
+  }
+
+  /** 云端 onAir */
+  @computed get onAir() {
+    this.init('onAir')
+    return this.state.onAir
   }
 
   /** 用户自定义放送时间 */
-  onAirUser(subjectId: SubjectId): typeof INIT_USER_ONAIR_ITEM {
+  onAirUser(subjectId: SubjectId) {
     this.init('onAirUser')
     return computed<OnAirUser>(() => {
       const { onAirUser } = this.state
@@ -186,23 +122,45 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     }).get()
   }
 
-  // -------------------- fetch --------------------
-  /** 每日放送 */
-  fetchCalendar = () => {
-    return this.fetch(
-      {
-        url: API_CALENDAR(),
-        info: '每日放送'
-      },
-      'calendar',
-      {
-        list: true,
-        storage: true,
-        namespace: NAMESPACE
+  // -------------------- computed --------------------
+  /** 整合: 云端放送, 用户自定义放送时间, 本地时区 */
+  onAirLocal(subjectId: SubjectId) {
+    return computed<OnAirItem>(() => {
+      // 云端放送数据
+      const onAir = this.onAir[subjectId] || INIT_ONAIR_ITEM
+
+      // 用户自定义放送时间数据
+      const onAirUser = this.onAirUser(subjectId)
+
+      // 用户自定义放送时间最优先
+      if (onAirUser.weekDayCN !== '' || onAirUser.timeCN !== '') {
+        return {
+          ...onAir,
+          ...onAirUser,
+          custom: true
+        }
       }
-    )
+
+      // 若云端数据全为空, 不处理
+      if (!onAir.weekDayCN && !onAir.timeCN && !onAir.weekDayJP && !onAir.timeJP) {
+        return {
+          ...onAir
+        }
+      }
+
+      // 本地时区次优先
+      const onAirLocal = toLocal(
+        onAir.weekDayCN || onAir.weekDayJP,
+        onAir.timeCN || onAir.timeJP
+      )
+      return {
+        ...onAir,
+        ...onAirLocal
+      }
+    }).get()
   }
 
+  // -------------------- fetch --------------------
   /** 发现页信息聚合 */
   fetchHome = async () => {
     const res = fetchHTML({
@@ -280,7 +238,7 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     return res
   }
 
-  /** 发现页信息聚合 (CDN) */
+  /** @deprecated 发现页信息聚合 (CDN) */
   fetchHomeFromCDN = async () => {
     try {
       const { _response } = await xhrCustom({
@@ -306,7 +264,21 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     }
   }
 
-  private _fetchOnAir = false
+  /** 每日放送 */
+  fetchCalendar = () => {
+    return this.fetch(
+      {
+        url: API_CALENDAR(),
+        info: '每日放送'
+      },
+      'calendar',
+      {
+        list: true,
+        storage: true,
+        namespace: NAMESPACE
+      }
+    )
+  }
 
   /** onAir 数据, 数据不会经常变化, 所以一个启动周期只请求一次 */
   fetchOnAir = async () => {
@@ -322,25 +294,27 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
         onAir = JSON.parse(_response)
       } catch (error) {}
 
+      // 国外访问不到 CDN_ONAIR 接口的, 回退使用本地数据
       if (onAir.length <= 8) onAir = require('@assets/json/calendar.json')
 
       const data = {
-        _loaded: true
-      }
-      onAir.forEach(item => {
-        const airEps = item.eps.filter(
-          item => item.status === 'Air' || item.status === 'Today'
-        )
+        _loaded: getTimestamp()
+      } as OnAir
 
+      onAir.forEach(item => {
         data[item.id] = {
           timeCN: item.timeCN,
           timeJP: item.timeJP,
           weekDayCN: item.weekDayCN,
-          weekDayJP: item.weekDayJP
+          weekDayJP: item.weekDayJP,
+          air: 0
         }
-        if (airEps.length) {
-          data[item.id].air = airEps[airEps.length - 1].sort
-        }
+
+        // 计算当前放送到多少集
+        const airEps = item.eps.filter(
+          (item: { status: string }) => item.status === 'Air' || item.status === 'Today'
+        )
+        if (airEps.length) data[item.id].air = airEps[airEps.length - 1].sort
       })
 
       const key = 'onAir'
@@ -350,17 +324,21 @@ class CalendarStore extends store implements StoreConstructor<typeof state> {
     } catch (error) {}
   }
 
+  // -------------------- action --------------------
   /** 更新用户自定义放送时间 */
-  updateOnAirUser = (subjectId: SubjectId, k: string, v: any) => {
+  updateOnAirUser = (
+    subjectId: SubjectId,
+    weekDayCN: string | number,
+    timeCN: string
+  ) => {
     if (!subjectId) return
 
     const key = 'onAirUser'
-    const item = this.onAirUser(subjectId)
     this.setState({
       [key]: {
         [subjectId]: {
-          ...item,
-          [k]: v,
+          weekDayCN,
+          timeCN,
           _loaded: 1
         }
       }

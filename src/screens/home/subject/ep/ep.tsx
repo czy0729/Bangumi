@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:17:06
+ * @Last Modified time: 2023-03-13 18:24:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ export default memo(
               )}
             </Flex.Item>
             {showOnair && (
-              <Flex>
+              <Flex key={`${weekDay}${h}${m}`}>
                 <Popover
                   data={WEEK_DAY_DS}
                   onSelect={title => {
@@ -102,7 +102,7 @@ export default memo(
                     Object.keys(WEEK_DAY_MAP).forEach(
                       item => (map[WEEK_DAY_MAP[item]] = item)
                     )
-                    onSelectOnAir('weekDayCN', Number(map[title] || 0))
+                    onSelectOnAir(Number(map[title] || 0), `${h}${m}`)
                   }}
                 >
                   <Flex style={styles.btnOnAir} justify='center'>
@@ -115,9 +115,9 @@ export default memo(
                 </Popover>
                 <Popover
                   data={HOUR_DS}
-                  onSelect={title =>
-                    onSelectOnAir('timeCN', `${title || '00'}${m || '00'}`)
-                  }
+                  onSelect={title => {
+                    onSelectOnAir(weekDay, `${title || '00'}${m || '00'}`)
+                  }}
                 >
                   <Flex style={styles.btnOnAir} justify='center'>
                     <Text size={11} bold type='sub'>
@@ -127,9 +127,9 @@ export default memo(
                 </Popover>
                 <Popover
                   data={MINUTE_DS}
-                  onSelect={title =>
-                    onSelectOnAir('timeCN', `${h || '00'}${title || '00'}`)
-                  }
+                  onSelect={title => {
+                    onSelectOnAir(weekDay, `${h || '00'}${title || '00'}`)
+                  }}
                 >
                   <Flex style={styles.btnOnAir} justify='center'>
                     <Text size={11} bold type='sub'>

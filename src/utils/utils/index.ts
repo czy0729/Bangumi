@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-12 17:36:10
+ * @Last Modified time: 2023-03-13 13:13:47
  */
 import { ComponentType } from 'react'
 import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
@@ -10,7 +10,7 @@ import * as WebBrowser from 'expo-web-browser'
 import pLimit from 'p-limit'
 import { DEV } from '@/config'
 import { B, M, IOS, TIMEZONE_IS_GMT8 } from '@constants/constants'
-import { Fn } from '@types'
+import { AnyObject, Fn } from '@types'
 import { getTimestamp, date } from '../date'
 import { info } from '../ui'
 
@@ -44,6 +44,23 @@ export function setDefaultProps<T extends ComponentType<any>>(
   }
 
   return Component
+}
+
+/** 深拷贝 */
+export function deepClone<T extends AnyObject>(obj: T): T {
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+
+  const clone = Array.isArray(obj) ? [] : {}
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      // @ts-expect-error
+      clone[key] = deepClone(obj[key])
+    }
+  }
+
+  return clone as T
 }
 
 /**

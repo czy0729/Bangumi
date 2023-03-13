@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-03-12 18:50:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-12 19:01:24
+ * @Last Modified time: 2023-03-12 19:23:11
  */
 import { toCN, toJP } from '@utils'
 import { OnAir } from './types'
 
+/** 云端 onAir 爬虫数据信息补全 */
 export function fixedOnAir(onAir: OnAir) {
   for (const subjectId in onAir) {
     if (!Number(subjectId)) continue

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 12:50:57
+ * @Last Modified time: 2023-03-13 15:57:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ const ItemLine = memo(
     desc,
     images,
     air,
-    timeCN,
+    time,
     expand,
     collection,
     score,
@@ -36,7 +36,7 @@ const ItemLine = memo(
     global.rerender('Calendar.ItemLine.Main')
 
     const showScore = !hideScore && !!score
-    const canPress = expand || (!expand && timeCN && timeCN !== '2359')
+    const canPress = expand || (!expand && time && time !== '2359')
 
     const s = []
     if (sites.b) s.push('bilibili')
@@ -47,12 +47,12 @@ const ItemLine = memo(
     const content = (
       <Flex style={styles.item} align='start'>
         <View style={styles.time}>
-          {!!(timeCN && !(timeCN === '2359' && !expand)) && (
+          {!!(time && !(time === '2359' && !expand)) && (
             <Text bold>
-              {timeCN === '2359' ? '未知' : `${timeCN.slice(0, 2)}:${timeCN.slice(2)}`}
+              {time === '2359' ? '未知' : `${time.slice(0, 2)}:${time.slice(2)}`}
             </Text>
           )}
-          {timeCN === '2359' && (
+          {time === '2359' && (
             <Touchable
               style={styles.undetermined}
               withoutFeedback

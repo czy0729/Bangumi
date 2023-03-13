@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 07:05:37
+ * @Last Modified time: 2023-03-13 15:58:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,15 +26,15 @@ export default memo(
     score,
     collection,
     air,
-    timeCN
+    time
   }) => {
     global.rerender('Calendar.Item.Main')
 
     const showScore = !hideScore && !!score
 
     let middle: any = []
-    if (!!timeCN && timeCN !== '2359') {
-      middle.push(`${timeCN.slice(0, 2)}:${timeCN.slice(2)}`)
+    if (!!time && time !== '2359') {
+      middle.push(`${time.slice(0, 2)}:${time.slice(2)}`)
     }
     if (collection) middle.push(collection)
     middle = middle.join(' · ')

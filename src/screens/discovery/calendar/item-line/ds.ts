@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 12:43:09
+ * @Last Modified time: 2023-03-13 15:57:59
  */
 import { Images, Navigation, SubjectId } from '@types'
 import { StoreType as $ } from '../types'
@@ -17,7 +17,7 @@ export const DEFAULT_PROPS = {
   desc: '' as string,
   images: {} as Images,
   air: '' as string,
-  timeCN: '2359' as string,
+  time: '2359' as string,
   expand: false as boolean,
   collection: undefined as string,
   score: 0 as number,

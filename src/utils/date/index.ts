@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-12 16:48:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-12 18:33:39
+ * @Last Modified time: 2023-03-13 02:41:48
  */
 import dayjs from 'dayjs'
 import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat'
 import dayjsCustomUTC from 'dayjs/plugin/utc'
 import dayjsCustomTimezone from 'dayjs/plugin/timezone'
 import dayjsCustomWeekday from 'dayjs/plugin/weekday'
+import { TIMEZONE_IS_GMT8 } from '@constants/constants'
 
 dayjs.extend(dayjsCustomParseFormat)
 dayjs.extend(dayjsCustomUTC)
@@ -88,5 +89,35 @@ export function toCN(weekDayJP: string | number = 0, timeJP: string = '0000') {
     timeCN: day.format('HHmm'),
     weekDayJP: weekDayJP || 7,
     timeJP
+  }
+}
+
+const tz = dayjs.tz.guess()
+
+/** 中国转为本地时区放送时间 */
+export function toLocal(weekDayCN: string | number = 0, timeCN: string = '0000') {
+  if (TIMEZONE_IS_GMT8) {
+    return {
+      weekDayCN,
+      timeCN,
+      weekDayLocal: weekDayCN,
+      timeLocal: timeCN
+    }
+  }
+
+  const nextWeekday = dayjs()
+    .weekday(Number(weekDayCN || 7))
+    .format('YYYY-MM-DD')
+  const day = dayjs
+    .tz(
+      `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00`,
+      'Asia/Shanghai'
+    )
+    .tz(tz)
+  return {
+    weekDayCN,
+    timeCN,
+    weekDayLocal: day.day() || 7,
+    timeLocal: day.format('HHmm')
   }
 }

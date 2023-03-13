@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:24:23
+ * @Last Modified time: 2023-03-13 17:25:22
  */
 import { systemStore } from '@stores'
 import { StoreType as $ } from '../types'
@@ -40,7 +40,8 @@ export const WEEK_DAY_MAP = {
   3: '周三',
   4: '周四',
   5: '周五',
-  6: '周六'
+  6: '周六',
+  7: '周日'
 } as const
 
 export const HOUR_DS = [
