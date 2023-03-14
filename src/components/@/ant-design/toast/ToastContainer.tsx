@@ -9,7 +9,7 @@ import { ActivityIndicator, Animated, View, TouchableOpacity } from 'react-nativ
 import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
 import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
 import ToastStyles, { ToastStyle } from '@ant-design/react-native/lib/toast/style/index'
-import { getThemeStoreAsync } from '@utils/async'
+import { syncThemeStore } from '@utils/async'
 import { BlurView } from './blur-view'
 import { Desc } from './desc'
 
@@ -88,7 +88,7 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
     return (
       <WithTheme styles={this.props.styles} themeStyles={ToastStyles}>
         {styles => {
-          const _ = getThemeStoreAsync()
+          const _ = syncThemeStore()
 
           const iconType: {
             [key: string]: IconNames

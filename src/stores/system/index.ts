@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:22:01
+ * @Last Modified time: 2023-03-14 17:59:58
  */
 import { observable, computed } from 'mobx'
 import { confirm, getTimestamp, info, titleCase } from '@utils'
@@ -681,4 +681,8 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
   }
 }
 
-export default new SystemStore()
+const systemStore = new SystemStore()
+
+export type SystemStoreType = typeof systemStore
+
+export default systemStore

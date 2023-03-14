@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:36:35
+ * @Last Modified time: 2023-03-14 19:16:09
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -1147,4 +1147,8 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 }
 
-export default new ThemeStore()
+const themeStore = new ThemeStore()
+
+export type ThemeStoreType = typeof themeStore
+
+export default themeStore

@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 19:02:02
+ * @Last Modified time: 2023-03-14 20:00:55
  */
 import { observable, computed } from 'mobx'
 import { desc, getTimestamp, HTMLTrim, info } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
-import { getUserStoreAsync } from '@utils/async'
+import { syncUserStore } from '@utils/async'
 import { collect, collectList, is } from '@utils/kv'
 import store from '@utils/store'
 import {
@@ -1104,7 +1104,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   getFavor = async () => {
     await this.init('favorV2')
 
-    const { myUserId } = getUserStoreAsync()
+    const { myUserId } = syncUserStore()
     if (!myUserId) return null
 
     const result = await collectList(myUserId)
@@ -1129,7 +1129,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     await this.init('favorV2')
     await this.init('favorCount')
 
-    const { myUserId } = getUserStoreAsync()
+    const { myUserId } = syncUserStore()
     if (!myUserId) {
       info('请先登录')
       return null
@@ -1156,7 +1156,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   checkIsFavor = async (topicId: TopicId) => {
     await this.init('favorCount')
 
-    const { myUserId } = getUserStoreAsync()
+    const { myUserId } = syncUserStore()
     if (!myUserId) return false
 
     const result = await is(myUserId, topicId)
@@ -1188,7 +1188,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 上传收藏帖子到云端 */
   uploadFavorTopic = () => {
-    const { id } = getUserStoreAsync().userInfo
+    const { id } = syncUserStore().userInfo
     return put({
       path: `topic/${id}.json`,
       content: escape(JSON.stringify(this.favorTopic))
@@ -1197,7 +1197,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** @deprecated 同步云端收藏帖子 */
   downloadFavorTopic = async () => {
-    const { id } = getUserStoreAsync().userInfo
+    const { id } = syncUserStore().userInfo
     const { content } = await read({
       path: `topic/${id}.json`
     })
@@ -1224,7 +1224,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 上传当前设置到云端 */
   uploadSetting = () => {
-    const { id } = getUserStoreAsync().userInfo
+    const { id } = syncUserStore().userInfo
     return put({
       path: `rakuen-setting/${id}.json`,
       content: JSON.stringify({
@@ -1238,7 +1238,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
 
   /** 恢复到云端的设置 */
   downloadSetting = async () => {
-    const { id } = getUserStoreAsync().userInfo
+    const { id } = syncUserStore().userInfo
     const { content } = await read({
       path: `rakuen-setting/${id}.json`
     })
@@ -1293,4 +1293,8 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
   }
 }
 
-export default new RakuenStore()
+const rakuenStore = new RakuenStore()
+
+export type RakuenStoreType = typeof rakuenStore
+
+export default rakuenStore

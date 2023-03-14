@@ -8,7 +8,7 @@
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { urlStringify } from '../utils'
-import { getUserStoreAsync } from '../async'
+import { syncUserStore } from '../async'
 import { loading } from '../ui'
 import { log } from '../dev'
 import { SHOW_LOG } from './ds'
@@ -21,7 +21,7 @@ export function xhr(
   fail: Fn = () => {}
 ) {
   const { method = 'POST', url, data = {}, noConsole } = args || {}
-  const userStore = getUserStoreAsync()
+  const userStore = syncUserStore()
   const { cookie: userCookie, userAgent } = userStore.userCookie
   const hide = noConsole ? 0 : loading()
   const request = new XMLHttpRequest()

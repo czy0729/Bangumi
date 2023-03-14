@@ -7,11 +7,11 @@
 import React from 'react'
 import { Text } from 'react-native'
 import { observer } from 'mobx-react-lite'
-import { getThemeStoreAsync } from '@utils/async'
+import { syncThemeStore } from '@utils/async'
 import { Props } from './types'
 
 export const Desc = observer(({ style, children }: Props) => {
-  const _ = getThemeStoreAsync()
+  const _ = syncThemeStore()
   return (
     <Text
       style={[

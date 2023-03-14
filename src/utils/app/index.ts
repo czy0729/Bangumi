@@ -38,7 +38,7 @@ import { getTimestamp, open, toLocal } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode } from '../html'
 import { getStorage, setStorage } from '../storage'
-import { getRakuenStoreAsync, getSystemStoreAsync, s2tAsync } from '../async'
+import { syncRakuenStore, syncSystemStore, s2tAsync } from '../async'
 import { t } from '../fetch'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
 import { rerender, globalLog, globalWarn } from '../dev'
@@ -98,7 +98,7 @@ export function getIsBlockUser(
     if (!BLOCKED_USER_UUID[key]) {
       BLOCKED_USER_UUID[key] = 1
       setTimeout(() => {
-        getRakuenStoreAsync().trackBlockedUser(userId)
+        syncRakuenStore().trackBlockedUser(userId)
       }, 0)
     }
   }
@@ -108,7 +108,7 @@ export function getIsBlockUser(
 
 /** 获取设置 */
 export function getSetting() {
-  return getSystemStoreAsync().setting
+  return syncSystemStore().setting
 }
 
 /** 查找条目中文名 */

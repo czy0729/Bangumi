@@ -10,7 +10,7 @@ import { WSA } from '@constants/device'
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
 import { urlStringify } from '../utils'
-import { getUserStoreAsync, getThemeStoreAsync, getSystemStoreAsync } from '../async'
+import { syncUserStore, syncThemeStore, syncSystemStore } from '../async'
 import { log } from '../dev'
 import { xhr } from './utils'
 import { SI_ANDROID, SI_ERROR, SI_IOS, SI_UV, SI_WSA } from './ds'
@@ -38,10 +38,10 @@ export function hm(url?: string, screen?: string) {
       }
       if (IOS && IOS_IPA) query.ipa = 1
 
-      const { isDark, isTinygrailDark } = getThemeStoreAsync()
+      const { isDark, isTinygrailDark } = syncThemeStore()
       if (isDark) query.dark = 1
 
-      const { customFontFamily } = getSystemStoreAsync().setting
+      const { customFontFamily } = syncSystemStore().setting
       if (!customFontFamily) query.font = 1
 
       if (screen) {
@@ -69,11 +69,11 @@ export function ua() {
 
   try {
     InteractionManager.runAfterInteractions(() => {
-      const userStore = getUserStoreAsync()
+      const userStore = syncUserStore()
       if (!userStore.isWebLogin) return
 
       const si = SI_UV
-      const u = `${getUserStoreAsync().url}?v=${VERSION_GITHUB_RELEASE}`
+      const u = `${syncUserStore().url}?v=${VERSION_GITHUB_RELEASE}`
       xhr(si, u)
     })
   } catch (error) {
@@ -88,7 +88,7 @@ export function err(desc: string) {
   try {
     if (!desc) return
 
-    const userStore = getUserStoreAsync()
+    const userStore = syncUserStore()
     const si = SI_ERROR
     const u = `${userStore?.url}?${urlStringify({
       v: VERSION_GITHUB_RELEASE,

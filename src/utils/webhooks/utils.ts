@@ -9,7 +9,7 @@ import axios from '@utils/thirdParty/axios'
 import { getTimestamp, runAfter } from '../utils'
 import { removeHTMLTag } from '../html'
 import { getMonoCoverSmall, getSubjectCoverCommon } from '../app'
-import { getSystemStoreAsync } from '../async'
+import { syncSystemStore } from '../async'
 import { WebHooksTypes, SubjectType as WebHooksSubjectType } from './types'
 
 export const logs = observable<{
@@ -25,7 +25,7 @@ export const webhook: WebHooksTypes = (type: string, data: any) => {
   if (!type) return false
 
   try {
-    const systemStore = getSystemStoreAsync()
+    const systemStore = syncSystemStore()
     if (!systemStore.setting.webhook) return false
 
     // 保证这种低优先级的操作在 UI 响应之后再执行

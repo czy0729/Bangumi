@@ -4,80 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 19:05:07
+ * @Last Modified time: 2023-03-14 15:45:25
  */
-type ModelItem = {
-  label: string
-  value: string
-  title?: string
-}
-
-const CACHE = {}
-
-class Model {
-  constructor(data: readonly ModelItem[], key: string) {
-    this.data = data
-    if (key) this.key = key
-  }
-
-  data: any = []
-
-  key: string
-
-  /**
-   * 优先通过 value 找 label
-   * @param {*} value
-   */
-  getLabel<T = string | false>(value: any): T {
-    const key = this.key ? `getLabel|${this.key}|${value}` : ''
-    if (key && key in CACHE) return CACHE[key]
-
-    const find = this.data.find(
-      (item: { value: any; title: any }) => item.value == value || item.title == value
-    )
-    const result = find ? find.label : false
-    if (!key) return result
-
-    CACHE[key] = result
-    return result
-  }
-
-  /**
-   * 优先通过 label 找 value
-   * @param {*} label
-   */
-  getValue<T = string | false>(label: any): T {
-    const key = this.key ? `getValue|${this.key}|${label}` : ''
-    if (key && key in CACHE) return CACHE[key]
-
-    const find = this.data.find(
-      (item: { label: any; title: any }) => item.label == label || item.title == label
-    )
-    const result = find ? find.value : false
-    if (!key) return result
-
-    CACHE[key] = result
-    return result
-  }
-
-  /**
-   * 优先通过 label 找 title
-   * @param {*} label
-   */
-  getTitle<T = string | false>(label: any): T {
-    const key = this.key ? `getTitle|${this.key}|${label}` : ''
-    if (key && key in CACHE) return CACHE[key]
-
-    const find = this.data.find(
-      (item: { label: any; value: any }) => item.label == label || item.value == label
-    )
-    const result = find ? find.title : false
-    if (!key) return result
-
-    CACHE[key] = result
-    return result
-  }
-}
+import { Model } from './utils'
 
 /** 条目类型 */
 export const SUBJECT_TYPE = [
@@ -1190,3 +1119,142 @@ export const MODEL_TINYGRAIL_CACULATE_RICH_TYPE = new Model(
   TINYGRAIL_CACULATE_RICH_TYPE,
   'TINYGRAIL_CACULATE_RICH_TYPE'
 )
+
+/** [设置] 时区 */
+export const TIMEZONE = [
+  {
+    label: '默认时区',
+    value: '9999'
+  },
+  {
+    label: '(GMT -12:00) Eniwetok, Kwajalein',
+    value: '-12'
+  },
+  {
+    label: '(GMT -11:00) Midway Island, Samoa',
+    value: '-11'
+  },
+  {
+    label: '(GMT -10:00) Hawaii',
+    value: '-10'
+  },
+  {
+    label: '(GMT -09:00) Alaska',
+    value: '-9'
+  },
+  {
+    label: '(GMT -08:00) Pacific Time (US & Canada), Tijuana',
+    value: '-8'
+  },
+  {
+    label: '(GMT -07:00) Mountain Time (US & Canada), Arizona',
+    value: '-7'
+  },
+  {
+    label: '(GMT -06:00) Central Time (US & Canada), Mexico City',
+    value: '-6'
+  },
+  {
+    label: '(GMT -05:00) Eastern Time (US & Canada), Bogota, Lima, Quito',
+    value: '-5'
+  },
+  {
+    label: '(GMT -04:00) Atlantic Time (Canada), Caracas, La Paz',
+    value: '-4'
+  },
+  {
+    label: '(GMT -03:30) Newfoundland',
+    value: '-3.5'
+  },
+  {
+    label: '(GMT -03:00) Brassila, Buenos Aires, Georgetown, Falkland Is',
+    value: '-3'
+  },
+  {
+    label: '(GMT -02:00) Mid-Atlantic, Ascension Is., St. Helena',
+    value: '-2'
+  },
+  {
+    label: '(GMT -01:00) Azores, Cape Verde Islands',
+    value: '-1'
+  },
+  {
+    label: '(GMT) Casablanca, Dublin, Edinburgh, London, Lisbon, Monrovia',
+    value: '0'
+  },
+  {
+    label: '(GMT +01:00) Amsterdam, Berlin, Brussels, Madrid, Paris, Rome',
+    value: '1'
+  },
+  {
+    label: '(GMT +02:00) Cairo, Helsinki, Kaliningrad, South Africa',
+    value: '2'
+  },
+  {
+    label: '(GMT +03:00) Baghdad, Riyadh, Moscow, Nairobi',
+    value: '3'
+  },
+  {
+    label: '(GMT +03:30) Tehran',
+    value: '3.5'
+  },
+  {
+    label: '(GMT +04:00) Abu Dhabi, Baku, Muscat, Tbilisi',
+    value: '4'
+  },
+  {
+    label: '(GMT +04:30) Kabul',
+    value: '4.5'
+  },
+  {
+    label: '(GMT +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent',
+    value: '5'
+  },
+  {
+    label: '(GMT +05:30) Bombay, Calcutta, Madras, New Delhi',
+    value: '5.5'
+  },
+  {
+    label: '(GMT +05:45) Katmandu',
+    value: '5.75'
+  },
+  {
+    label: '(GMT +06:00) Almaty, Colombo, Dhaka, Novosibirsk',
+    value: '6'
+  },
+  {
+    label: '(GMT +06:30) Rangoon',
+    value: '6.5'
+  },
+  {
+    label: '(GMT +07:00) Bangkok, Hanoi, Jakarta',
+    value: '7'
+  },
+  {
+    label: '(GMT +08:00) Beijing, Hong Kong, Perth, Singapore, Taipei',
+    value: '8'
+  },
+  {
+    label: '(GMT +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk',
+    value: '9'
+  },
+  {
+    label: '(GMT +09:30) Adelaide, Darwin',
+    value: '9.5'
+  },
+  {
+    label: '(GMT +10:00) Canberra, Guam, Melbourne, Sydney, Vladivostok',
+    value: '10'
+  },
+  {
+    label: '(GMT +11:00) Magadan, New Caledonia, Solomon Islands',
+    value: '11'
+  },
+  {
+    label: '(GMT +12:00) Auckland, Wellington, Fiji, Marshall Island',
+    value: '12'
+  }
+] as const
+
+/** [设置] 时区 */
+export const MODEL_TIMEZONE = new Model(TIMEZONE, 'TIMEZONE')

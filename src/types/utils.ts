@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 16:28:49
+ * @Last Modified time: 2023-03-14 18:07:24
  */
 import React from 'react'
 import {
@@ -96,7 +96,7 @@ export type ModelValueOf<
 > = T[number][K]
 
 /** 普通对象 */
-export type AnyObject = Record<string, unknown>
+export type AnyObject = Record<string, any>
 
 /** 取数组项 */
 export type InferArray<T> = T extends (infer S)[] ? S : never

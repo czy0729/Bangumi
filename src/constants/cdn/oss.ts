@@ -8,7 +8,7 @@
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
-import { getSystemStoreAsync } from '@utils/async'
+import { syncSystemStore } from '@utils/async'
 import { xhrCustom } from '@utils/fetch'
 import Crypto from '@utils/crypto'
 import hashSubject from '@assets/json/hash/subject.min.json'
@@ -58,7 +58,7 @@ export const initHashSubjectOTA = async () => {
       setStorage(OTA_SUBJECT_HASH_VERSION, version)
       setStorage(OTA_SUBJECT_HASH_DATA, hashSubjectOTA)
 
-      const systemStore = getSystemStoreAsync()
+      const systemStore = syncSystemStore()
       systemStore.setState({
         hashSubjectOTALoaded: getTimestamp()
       })

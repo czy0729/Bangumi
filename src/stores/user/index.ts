@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:05:42
+ * @Last Modified time: 2023-03-14 18:10:20
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -1113,4 +1113,8 @@ class UserStore extends store implements StoreConstructor<typeof state> {
   }
 }
 
-export default new UserStore()
+const userStore = new UserStore()
+
+export type UserStoreType = typeof userStore
+
+export default userStore

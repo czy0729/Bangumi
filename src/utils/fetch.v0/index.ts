@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import { devLog } from '@components'
 import { getTimestamp } from '@utils'
 import { Subject as BaseSubject, SubjectId, UserId } from '@types'
-import { getSystemStoreAsync } from '../async'
+import { syncSystemStore } from '../async'
 import { request } from './utils'
 import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
 import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
@@ -78,7 +78,7 @@ async function fetchCollectionAll(userId: UserId) {
   if (Array.isArray(collection?.data)) all.push(...collection.data)
 
   // 高级会员才开放3页
-  const systemStore = getSystemStoreAsync()
+  const systemStore = syncSystemStore()
   if (systemStore.advance) {
     if (collection?.total > 100) {
       collection = await request<Collection>(API_COLLECTIONS(userId, '2', 2))

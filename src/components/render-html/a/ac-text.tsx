@@ -7,7 +7,7 @@
 import React from 'react'
 import { HOST } from '@constants'
 import { t } from '@utils/fetch'
-import { getUIStoreAsync, getRakuenStoreAsync } from '@utils/async'
+import { syncUIStore, syncRakuenStore } from '@utils/async'
 import { Text } from '../../text'
 
 function ACText({ navigation, style, subjectId, text, onPress }) {
@@ -17,13 +17,13 @@ function ACText({ navigation, style, subjectId, text, onPress }) {
       selectable
       underline
       onPress={() => {
-        const rakuenStore = getRakuenStoreAsync()
+        const rakuenStore = syncRakuenStore()
         if (rakuenStore.setting.acSearchPopable) {
           t('AC搜索.缩略框', {
             subjectId
           })
 
-          const uiStore = getUIStoreAsync()
+          const uiStore = syncUIStore()
           uiStore.showPopableSubject({
             subjectId
           })

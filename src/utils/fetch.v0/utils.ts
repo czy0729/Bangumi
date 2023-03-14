@@ -8,7 +8,7 @@ import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import { APP_ID, UA } from '@constants/constants'
-import { getUserStoreAsync } from '../async'
+import { syncUserStore } from '../async'
 import { Config } from './types'
 
 export async function request<T>(url: string, data?: object): Promise<T> {
@@ -19,7 +19,7 @@ export async function request<T>(url: string, data?: object): Promise<T> {
   axios.defaults.timeout = 8000
 
   try {
-    const { accessToken } = getUserStoreAsync()
+    const { accessToken } = syncUserStore()
 
     // 随机数防止接口CDN缓存
     url += `${url.includes('?') ? '&' : '?'}${urlStringify({

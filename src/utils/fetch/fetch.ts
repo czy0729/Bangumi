@@ -12,7 +12,7 @@ import { AnyObject } from '@types'
 import fetch from '../thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp } from '../utils'
 import { loading } from '../ui'
-import { getUserStoreAsync } from '../async'
+import { syncUserStore } from '../async'
 import { log } from '../dev'
 import { safe } from './utils'
 import { SHOW_LOG, FETCH_TIMEOUT, FETCH_RETRY, HEADERS_DEFAULT } from './ds'
@@ -31,7 +31,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
     noConsole = false
   } = args || {}
   const isGet = method === 'GET'
-  const userStore = getUserStoreAsync()
+  const userStore = syncUserStore()
   const config: AnyObject = {
     timeout: FETCH_TIMEOUT,
     headers: {
@@ -144,7 +144,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     }
   }
 
-  const userStore = getUserStoreAsync()
+  const userStore = syncUserStore()
   const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
   const _config: {
     method?: FetchHTMLArgs['method']

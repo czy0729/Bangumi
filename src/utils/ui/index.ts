@@ -12,7 +12,7 @@ import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { IOS } from '@constants/constants'
 import { Fn } from '@types'
-import { getSystemStoreAsync, s2tAsync } from '../async'
+import { syncSystemStore, s2tAsync } from '../async'
 
 /**
  * Loading 指示器
@@ -42,7 +42,7 @@ export function loading(
 
 /** 轻震动反馈 */
 export function feedback() {
-  const { vibration } = getSystemStoreAsync().setting
+  const { vibration } = syncSystemStore().setting
   if (!vibration) return
 
   if (DEV) console.info('vibration')
@@ -149,7 +149,7 @@ export function showImageViewer(
 ) {
   if (!Array.isArray(imageUrls) || imageUrls.length === 0) return
 
-  getSystemStoreAsync().showImageViewer(
+  syncSystemStore().showImageViewer(
     imageUrls.map(item => ({
       ...item,
       url:

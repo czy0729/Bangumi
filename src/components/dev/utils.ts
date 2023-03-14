@@ -6,14 +6,14 @@
  */
 import { observable, runInAction } from 'mobx'
 import { date, getTimestamp } from '@utils'
-import { getSystemStoreAsync } from '@utils/async'
+import { syncSystemStore } from '@utils/async'
 import { DEV } from '@constants'
 
 export const logs = observable([])
 
 /** 调试窗口打印 (手机实机开发用) */
 export function devLog(...args: any) {
-  if (!DEV && !getSystemStoreAsync().state.dev) return
+  if (!DEV && !syncSystemStore().state.dev) return
 
   setTimeout(() => {
     runInAction(() => {

@@ -10,7 +10,7 @@ import { View, DevSettings } from 'react-native'
 import { observer } from 'mobx-react'
 import { runInAction } from 'mobx'
 import { _ } from '@stores'
-import { getSystemStoreAsync } from '@utils/async'
+import { syncSystemStore } from '@utils/async'
 import { DEV as dev, IOS } from '@constants'
 import { ScrollView } from '../scroll-view'
 import { Flex } from '../flex'
@@ -23,7 +23,7 @@ import { memoStyles } from './styles'
 export { devLog, devLogs, devLogLimit }
 
 export const DEV = observer(() => {
-  if (!dev && !getSystemStoreAsync().state.dev) return null
+  if (!dev && !syncSystemStore().state.dev) return null
 
   const styles = memoStyles()
   return (

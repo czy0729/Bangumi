@@ -7,7 +7,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { getSystemStoreAsync } from '@utils/async'
+import { syncSystemStore } from '@utils/async'
 import { IOS } from '@constants'
 import TouchableWithoutFeedback from './touchable-without-feedback'
 import TouchableNativeFeedback from './touchable-native-feedback'
@@ -51,7 +51,7 @@ export const Touchable = observer(
     }
     if (withoutFeedback) return <TouchableWithoutFeedback {...passProps} />
 
-    const _ripple = ripple === undefined ? getSystemStoreAsync().setting.ripple : ripple
+    const _ripple = ripple === undefined ? syncSystemStore().setting.ripple : ripple
     if (!IOS && _ripple) return <TouchableNativeFeedback {...passProps} />
 
     if (highlight) return <TouchableHighlight {...passProps} />

@@ -10,11 +10,11 @@ import { Platform, View } from 'react-native'
 import { observer } from 'mobx-react-lite'
 // import { BlurView as RNBlurView } from '@react-native-community/blur'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { getThemeStoreAsync } from '@utils/async'
+import { syncThemeStore } from '@utils/async'
 import { Props } from './types'
 
 export const BlurView = observer(({ style, children }: Props) => {
-  const _ = getThemeStoreAsync()
+  const _ = syncThemeStore()
   if (Platform.OS === 'ios') {
     return (
       <ExpoBlurView
