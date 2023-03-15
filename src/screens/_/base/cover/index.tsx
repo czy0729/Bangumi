@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:52:48
+ * @Last Modified time: 2023-03-15 20:22:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,7 +85,7 @@ export const Cover = ob(
     if (coverThings || useType) {
       if (type === '音乐') {
         // 音乐为矩形唱片装, 长宽取短的
-        const w = Math.min(size || 1000, other.width || 1000, height || 1000)
+        const w = Math.min(size || 1000, other.width || 1000, height || 1000) - 8
         const _style = {
           width: w,
           height: w,
@@ -108,12 +108,14 @@ export const Cover = ob(
             <Image
               style={[imageStyle, styles.image]}
               src={_src}
-              size={w}
               imageViewerSrc={imageViewerSrc}
               border
               textOnly={textOnly}
               fallback={fallback}
               {...other}
+              size={w}
+              width={w}
+              height={w}
             />
           </View>
         )
@@ -132,19 +134,20 @@ export const Cover = ob(
           borderBottomLeftRadius: _.radiusSm
         }
         return (
-          <View key={hashSubjectOTALoaded} style={stl(_style, styles.bookMarginRight)}>
+          <View key={hashSubjectOTALoaded} style={_style}>
             <View style={[styles.book, _style]} />
             <View style={[styles.mask, _style]} />
             <Image
               style={[imageStyle, styles.image, styles.bookRadius]}
               src={_src}
               imageViewerSrc={imageViewerSrc}
-              size={w}
-              height={h}
               border
               textOnly={textOnly}
               fallback={fallback}
               {...other}
+              size={w}
+              width={w}
+              height={h}
               radius={_.radiusXs}
             />
             <View style={styles.bookLine} />
@@ -215,11 +218,13 @@ export const Cover = ob(
               style={[imageStyle, styles.image]}
               src={_src}
               imageViewerSrc={imageViewerSrc}
-              size={w}
               border
               textOnly={textOnly}
               fallback={fallback}
               {...other}
+              size={w}
+              width={w}
+              height={w}
               radius={_.radiusSm}
             />
           </View>
@@ -233,11 +238,11 @@ export const Cover = ob(
         style={imageStyle}
         src={_src}
         imageViewerSrc={imageViewerSrc}
-        size={size}
-        height={height}
         textOnly={textOnly}
         fallback={fallback}
         {...other}
+        size={size}
+        height={height}
       />
     )
   }

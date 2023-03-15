@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 05:22:20
+ * @Last Modified time: 2023-03-15 17:38:57
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -16,9 +16,14 @@ export const NAMESPACE = 'ScreenRakuen'
 
 export const H_TABBAR = 48
 
+// export const TABS = RAKUEN_TYPE.map(item => ({
+//   title: item.label
+// }))
+
 export const TABS = RAKUEN_TYPE.map(item => ({
-  title: item.label
-}))
+  title: item.label,
+  key: item.value
+})).filter(item => !!item.title)
 
 /** 每次预读取未读帖子数量 */
 export const PREFETCH_COUNT = 20

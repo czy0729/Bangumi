@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 19:16:09
+ * @Last Modified time: 2023-03-15 17:54:57
  */
 import { StyleSheet, InteractionManager, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -958,7 +958,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     return this.ratio * px
   }
 
-  /** 黑暗模式下, 非深黑模式使用第二个值 */
+  /** 黑暗模式下, 深黑使用第一个值, 非深黑模式使用第二个值 */
   deep: SelectFn = (deepDarkValue, darkValue) =>
     this.deepDark ? deepDarkValue : darkValue
 

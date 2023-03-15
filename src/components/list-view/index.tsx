@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:36:22
+ * @Last Modified time: 2023-03-15 19:48:37
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -308,10 +308,10 @@ export const ListView = observer(
         'data',
         'footerEmptyDataComponent',
         'footerEmptyDataText',
-        'footerFailureComponent',
+        // 'footerFailureComponent',
         'footerFailureText',
         'footerNoMoreDataComponent',
-        'footerRefreshingComponent',
+        // 'footerRefreshingComponent',
         'footerRefreshingText',
         'footerTextType',
         'showMesume',

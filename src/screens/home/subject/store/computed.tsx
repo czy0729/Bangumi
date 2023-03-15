@@ -555,8 +555,12 @@ export default class Computed extends State {
       )?.[0] || ''
     if (year) return year
 
-    return this.info.match(
-      /<li><span>(发售日|放送开始|上映年度|上映时间|开始|发行日期): <\/span>(.+?)<\/li>/
+    return (
+      (
+        this.info.match(
+          /<li><span>(发售日|放送开始|上映年度|上映时间|开始|发行日期): <\/span>(.+?)<\/li>/
+        )?.[2] || ''
+      ).match(/(\d{4})/)?.[0] || ''
     )
   }
 
@@ -925,15 +929,11 @@ export default class Computed extends State {
   /** @deprecated 高清资源 */
   @computed get hd() {
     const { HD = [] } = getOTA()
-
-    // @ts-expect-error
     if (HD.includes(Number(this.subjectId))) return this.subjectId
 
     // 若为单行本则还需要找到系列, 用系列id查询
     if (this.subjectSeries) {
       const { id } = this.subjectSeries
-
-      // @ts-expect-error
       if (HD.includes(Number(id))) return id
     }
 

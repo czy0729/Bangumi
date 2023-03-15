@@ -79,7 +79,7 @@ export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */
 export function stl<T>(style: T, ...otherStyles: any[]): T | any[] {
-  if (otherStyles.every(item => !item)) return style
+  if (otherStyles.every(item => !item)) return style || undefined
   return [style, ...otherStyles]
 }
 

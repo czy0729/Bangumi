@@ -2,43 +2,42 @@
  * @Author: czy0729
  * @Date: 2022-09-03 10:48:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 10:51:54
+ * @Last Modified time: 2023-03-15 18:17:31
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { BlurView } from '@_'
 import { _ } from '@stores'
-import { IOS, RAKUEN_TYPE } from '@constants'
+import { IOS } from '@constants'
 import List from '../list'
-import { memoStyles } from './styles'
-
-export const TABS = RAKUEN_TYPE.map(item => ({
-  title: item.label,
-  key: item.value
-})).filter(item => !!item.title)
+import { TABS } from '../ds'
+import { styles } from './styles'
 
 export const renderScene = SceneMap(
   Object.assign(
     {},
     ...TABS.map((item, index) => ({
-      [item.key]: () =>
-        index === TABS.length - 1 ? (
-          <>
-            <List index={index} />
-            {IOS && (
-              <BlurView
-                style={[
-                  memoStyles().blurView,
-                  {
-                    left: -_.window.width * TABS.length
-                  }
-                ]}
-              />
-            )}
-          </>
-        ) : (
-          <List index={index} />
-        )
+      [item.key]: () => {
+        if (index === TABS.length - 1) {
+          return (
+            <>
+              <List index={index} />
+              {IOS && (
+                <BlurView
+                  style={[
+                    styles.blurView,
+                    {
+                      left: -_.window.width * TABS.length
+                    }
+                  ]}
+                />
+              )}
+            </>
+          )
+        }
+
+        return <List index={index} />
+      }
     }))
   )
 )

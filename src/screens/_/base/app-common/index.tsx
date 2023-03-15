@@ -32,7 +32,7 @@ export const AppCommon = ob(() => {
         onClose={uiStore.closeManageModal}
       />
       <ListenClipboard />
-      {/* @ts-ignore */}
+      {/* @ts-expect-error */}
       <Heatmap.Control />
     </>
   )

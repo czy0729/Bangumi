@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-01 02:03:14
  */
+import { IOS } from '@constants'
 import { _ } from '@stores'
 import { memoStyles } from './styles'
 
@@ -38,11 +39,16 @@ export function getPosition(
   const { container } = memoStyles()
   if (y - container.height - LINE_HEIGHT * 3 >= 0) {
     position = 'top'
+
     style.top = y - container.height - LINE_HEIGHT
+    if (!IOS) style.top += 28
     if (_.isPad) style.top -= 32
   } else {
     position = 'bottom'
+
     style.top = y + (_.isPad ? 0 : LINE_HEIGHT * 1.2)
+    if (!IOS) style.top += 16
+    if (!_.isPad) style.top += LINE_HEIGHT * 1.2
   }
 
   if (x >= _.window.width / 2) {

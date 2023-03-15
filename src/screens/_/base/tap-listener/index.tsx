@@ -16,7 +16,6 @@ import {
   State
 } from 'react-native-gesture-handler'
 import { _, uiStore } from '@stores'
-import { IOS } from '@constants'
 
 export const TapListener = ({ children }) => {
   return useObserver(() => (
@@ -28,7 +27,7 @@ export const TapListener = ({ children }) => {
       activeOffsetX={_.window.contentWidth}
       activeOffsetY={_.window.contentWidth}
       onHandlerStateChange={(event: PanGestureHandlerStateChangeEvent) => {
-        if (event.nativeEvent.state === (IOS ? State.FAILED : State.END)) {
+        if (event.nativeEvent.state === State.FAILED) {
           uiStore.setXY(
             Math.floor(event.nativeEvent.absoluteX),
             Math.floor(event.nativeEvent.absoluteY)

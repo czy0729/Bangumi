@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react-lite'
 import { Popover } from 'react-native-popable'
-import { Portal, Loading, Flex, Text, Touchable } from '@components'
+import { Portal, Flex, Text, Touchable, Skeleton } from '@components'
 import { _, subjectStore, systemStore, uiStore } from '@stores'
 import { cnjp, navigationReference } from '@utils'
 import { t } from '@utils/fetch'
@@ -112,7 +112,10 @@ export const Popable = ({ subjectId, visible, portalKey, x, y }) => {
                   </Flex>
                 </Touchable>
               ) : (
-                <Loading style={_.mt.sm} spinnerStyle={styles.spinnerStyle} />
+                <Skeleton
+                  width={styles.container.width}
+                  height={styles.container.height}
+                />
               )}
             </BlurView>
           )}

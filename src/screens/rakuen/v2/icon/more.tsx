@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 07:19:46
+ * @Last Modified time: 2023-03-15 18:26:26
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Heatmap } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants'
@@ -33,7 +33,7 @@ function IconMore({ style }, { navigation }: Ctx) {
         </Flex>
       </Touchable>
       <Popover
-        style={[styles.touch, style]}
+        style={stl(styles.touch, style)}
         data={DATA}
         onSelect={key => {
           t('超展开.右上角菜单', {

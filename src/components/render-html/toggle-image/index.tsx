@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, rakuenStore } from '@stores'
-import { open } from '@utils'
+import { open, stl } from '@utils'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
 import { Touchable } from '../../touchable'
@@ -132,7 +132,7 @@ class ToggleImage extends React.Component<Props, State> {
         }
         return (
           <Touchable
-            style={[this.styles.image, this.styles.isLoad]}
+            style={stl(this.styles.image, this.styles.isLoad)}
             onPress={this.toggleShow}
             onLongPress={() => open(this.src as string)}
           >
@@ -171,7 +171,7 @@ class ToggleImage extends React.Component<Props, State> {
     return (
       <View style={this.styles.image}>
         <Flex
-          style={!loaded && this.styles.isLoad}
+          style={stl(!loaded && this.styles.isLoad)}
           justify={this.isIcon ? 'start' : 'center'}
         >
           {show && (

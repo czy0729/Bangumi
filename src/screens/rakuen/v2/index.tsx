@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 10:59:00
+ * @Last Modified time: 2023-03-15 18:13:29
  */
 import React from 'react'
 import { Page, Track } from '@components'
@@ -30,7 +30,7 @@ const Rakuen = (props, { $, navigation }: Ctx) => {
       <StatusBarEvents backgroundColor='transparent' />
       <Page>
         <Header />
-        {$.state._loaded && <Tab />}
+        <Tab />
       </Page>
       <NavigationBarEvents />
       <Track title='超展开' hm={['rakuen', 'Rakuen']} />

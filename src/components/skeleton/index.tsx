@@ -22,14 +22,21 @@ const shimmerColorsDark = [
 ]
 
 export const Skeleton = observer(({ width, height }: SkeletonProps) => {
-  if (Number.isNaN(width) || Number.isNaN(height)) return null
+  if (
+    typeof width !== 'number' ||
+    typeof height !== 'number' ||
+    Number.isNaN(width) ||
+    Number.isNaN(height)
+  ) {
+    return null
+  }
 
   return (
     <View style={styles.skeleton} pointerEvents='none'>
       <ShimmerPlaceholder
         visible={false}
-        width={typeof width === 'number' ? width : undefined}
-        height={typeof height === 'number' ? height : undefined}
+        width={width}
+        height={height}
         shimmerColors={_.select(shimmerColors, shimmerColorsDark)}
         duration={1600}
       />

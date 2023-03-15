@@ -9,7 +9,6 @@
  * 7. 联动ImageViewer
  * 8. 支持 @magma 提供的 [bgm_poster] 后缀
  * 9. iOS 环境下, Expo 浏览暂时不使用 cacheV2
- *
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
@@ -380,14 +379,18 @@ export const Image = observer(
           if (typeof onError === 'function') onError()
         }
       )
-
-      // if (info) devLog(info)
     }
 
     onLoadEnd = () => {
-      this.setState({
-        loaded: true
-      })
+      this.setState(
+        {
+          loaded: true
+        },
+        () => {
+          const { onLoadEnd } = this.props
+          if (typeof onLoadEnd === 'function') onLoadEnd()
+        }
+      )
     }
 
     get headers(): {} {

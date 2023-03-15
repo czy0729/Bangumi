@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:59:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:00:35
+ * @Last Modified time: 2023-03-15 20:21:10
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -28,6 +28,7 @@ function ItemGrid({ item, numColumns }, { $, navigation }: Ctx) {
       userCollection={$.label}
       event={EVENT}
       {...item}
+      isRectangle={typeCn === '音乐'}
       airtime={
         showYear
           ? typeCn === '动画'

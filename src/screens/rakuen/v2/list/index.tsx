@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-09 13:41:17
+ * @Last Modified time: 2023-03-15 19:32:33
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -24,21 +24,19 @@ function List({ index }, { $ }: Ctx) {
     )
   }
 
-  const rakuen = $.rakuen(type)
-  if (!rakuen._loaded) return <Loading />
+  const { list, _loaded } = $.rakuen(type)
+  if (!_loaded) return <Loading />
 
-  const { page, isFocused } = $.state
   return (
     <PaginationList2
       key={type}
       keyExtractor={keyExtractor}
       connectRef={ref => $.connectRef(ref, index)}
       contentContainerStyle={styles.contentContainerStyle}
-      data={rakuen.list}
+      data={list}
       limit={24}
       progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
-      scrollToTop={isFocused && page === index}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchRakuen}
     />

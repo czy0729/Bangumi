@@ -11,7 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 function TouchableWithoutFeedback({ useRN, children, ...other }) {
   const Component = useRN ? RNTouchableOpacity : TouchableOpacity
   return (
-    <Component activeOpacity={1} {...other}>
+    <Component {...other} activeOpacity={1}>
       <View>{children}</View>
     </Component>
   )

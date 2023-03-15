@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { appNavigate, confirm, findSubjectCn, getIsBlockUser } from '@utils'
+import { appNavigate, confirm, findSubjectCn, getIsBlockUser, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'

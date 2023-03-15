@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:08:18
+ * @Last Modified time: 2023-03-15 18:15:08
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
-import { runAfter, feedback, info, confirm } from '@utils'
+import { feedback, info, confirm } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -47,14 +47,12 @@ export default class ScreenRakuen extends store {
     })
     this.fetchRakuen(true)
 
-    runAfter(() => {
-      // 延迟加载标记
-      setTimeout(() => {
-        this.setState({
-          _mounted: true
-        })
-      }, 80)
-    })
+    // 延迟加载标记
+    setTimeout(() => {
+      this.setState({
+        _mounted: true
+      })
+    }, 80)
 
     return true
   }
@@ -82,6 +80,15 @@ export default class ScreenRakuen extends store {
   }
 
   // -------------------- get --------------------
+  /** Tab navigationState */
+  @computed get navigationState() {
+    const { page } = this.state
+    return {
+      index: page,
+      routes: TABS
+    }
+  }
+
   /** 页码背景颜色 */
   @computed get backgroundColor() {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
