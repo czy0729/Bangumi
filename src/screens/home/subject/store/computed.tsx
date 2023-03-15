@@ -548,12 +548,15 @@ export default class Computed extends State {
 
   /** 发布时间 (用于显示在 title label) */
   @computed get year() {
-    return (
-      (
-        this.info.match(
-          /<li><span>(发售日|放送开始|上映年度|上映时间|开始|发行日期|连载开始): <\/span>(.+?)<\/li>/
-        )?.[2] || ''
-      ).match(/(\d{4})/)?.[0] || ''
+    // 连载开始为最优先
+    const year =
+      (this.info.match(/<li><span>(连载开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
+        /(\d{4})/
+      )?.[0] || ''
+    if (year) return year
+
+    return this.info.match(
+      /<li><span>(发售日|放送开始|上映年度|上映时间|开始|发行日期): <\/span>(.+?)<\/li>/
     )
   }
 
