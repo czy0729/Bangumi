@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:08:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-01 07:22:43
+ * @Last Modified time: 2023-03-14 21:46:01
  */
 import React from 'react'
 import { Text, Heatmap } from '@components'
 import { ItemSetting } from '@_'
-import Stores, { _ } from '@stores'
+import Stores from '@stores'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
@@ -24,7 +24,6 @@ function DangerZone({ navigation, filter }) {
       <>
         <ItemSetting
           show={shows.logout}
-          style={_.mt.sm}
           hd={
             <Text type='danger' size={16} bold>
               {i18n.logout()}

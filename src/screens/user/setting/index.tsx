@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 03:42:16
+ * @Last Modified time: 2023-03-14 20:49:19
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -35,6 +35,7 @@ import Home from './home'
 import Contact from './contact'
 import Storage from './storage'
 import System from './system'
+import Timezone from './timezone'
 import DangerZone from './danger-zone'
 import { styles } from './styles'
 import { DEVICE_MODEL_NAME } from '@constants'
@@ -96,6 +97,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
               <Tip>系统</Tip>
               <Storage filter={filter} />
               <System navigation={navigation} filter={filter} />
+              <Timezone filter={filter} />
               <DangerZone navigation={navigation} filter={filter} />
             </Block>
             {!!ts?.[0] && (

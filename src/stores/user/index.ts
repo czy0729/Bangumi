@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 18:10:20
+ * @Last Modified time: 2023-03-14 21:33:47
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -989,8 +989,8 @@ class UserStore extends store implements StoreConstructor<typeof state> {
       newbio: string
       timeoffsetnew: string
     },
-    success?: () => any,
-    fail?: () => any
+    success?: (responseText?: string, request?: any) => any,
+    fail?: (request?: any) => any
   ) => {
     return xhr(
       {

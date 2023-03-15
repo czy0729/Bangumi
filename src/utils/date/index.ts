@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-12 16:48:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 02:41:48
+ * @Last Modified time: 2023-03-14 20:52:56
  */
 import dayjs from 'dayjs'
 import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat'
@@ -92,7 +92,8 @@ export function toCN(weekDayJP: string | number = 0, timeJP: string = '0000') {
   }
 }
 
-const tz = dayjs.tz.guess()
+/** 当前时区 */
+export const TZ = dayjs.tz.guess()
 
 /** 中国转为本地时区放送时间 */
 export function toLocal(weekDayCN: string | number = 0, timeCN: string = '0000') {
@@ -113,7 +114,7 @@ export function toLocal(weekDayCN: string | number = 0, timeCN: string = '0000')
       `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00`,
       'Asia/Shanghai'
     )
-    .tz(tz)
+    .tz(TZ)
   return {
     weekDayCN,
     timeCN,
