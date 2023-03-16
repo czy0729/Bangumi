@@ -57,20 +57,22 @@ export const Manage = ob(
       ? stl(styles.touch, style)
       : stl(styles.touchNoCollect, style)
     return (
-      <Touchable
-        style={_styles}
-        animate
-        scale={0.9}
-        hitSlop={HIT_SLOP}
-        onPress={onPress}
-      >
-        <Flex style={styles.manage} direction='column'>
-          <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
-          <Text style={_.mt.xxs} type={type} size={11}>
+      <Flex style={styles.manage} justify='end'>
+        <Touchable
+          style={_styles}
+          animate
+          scale={0.9}
+          hitSlop={HIT_SLOP}
+          onPress={onPress}
+        >
+          <Flex style={styles.icon} justify='center'>
+            <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
+          </Flex>
+          <Text style={styles.text} type={type} size={11} align='center'>
             {_collection}
           </Text>
-        </Flex>
-      </Touchable>
+        </Touchable>
+      </Flex>
     )
   }
 )

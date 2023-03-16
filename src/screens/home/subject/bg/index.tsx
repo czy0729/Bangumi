@@ -7,12 +7,15 @@
 import React from 'react'
 import { View } from 'react-native'
 import { obc } from '@utils/decorators'
+import { TEXT_ONLY } from '@constants'
 import { Ctx } from '../types'
 import Bg from './bg'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
   global.rerender('Subject.Bg')
+
+  if (TEXT_ONLY) return null
 
   const styles = memoStyles()
   const { images } = $.subject

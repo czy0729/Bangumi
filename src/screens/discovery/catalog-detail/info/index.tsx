@@ -45,6 +45,7 @@ function Info(props, { $, navigation }: Ctx) {
     replyCount,
     _loaded
   } = $.catalogDetail
+  const replyText = replyCount == 5 ? `5+` : replyCount
   return (
     <View style={styles.container}>
       <Header.Placeholder />
@@ -126,7 +127,7 @@ function Info(props, { $, navigation }: Ctx) {
                 }}
               >
                 <Text type='sub' size={12} bold>
-                  留言{replyCount ? ` (${replyCount})` : ''}
+                  留言{replyText ? ` (${replyText})` : ''}
                 </Text>
               </Touchable>
               <Text type='sub' size={12} bold>

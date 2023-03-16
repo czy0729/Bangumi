@@ -7,20 +7,28 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  manage: {
+    minWidth: 48,
+    marginTop: -2,
+    marginRight: -10
+  },
   touch: {
-    marginTop: -1,
-    marginRight: -12,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   touchNoCollect: {
     height: 22,
-    marginTop: -1,
-    marginRight: -12,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
-  manage: {
-    minWidth: 40
+  container: {
+    width: 40
+  },
+  icon: {
+    width: 40
+  },
+  text: {
+    width: 40,
+    marginTop: 2
   }
 })

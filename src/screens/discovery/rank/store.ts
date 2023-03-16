@@ -66,7 +66,7 @@ export default class ScreenRank extends store {
   }
 
   /** 过滤数据 */
-  @computed get list() {
+  @computed get list(): StoreRank {
     if (!this.rank._loaded) return this.ota || LIST_EMPTY
 
     const { collected } = this.state
