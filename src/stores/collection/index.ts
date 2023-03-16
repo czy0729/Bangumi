@@ -143,7 +143,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     return this.state.mosaicTile
   }
 
-  /** 条目的收藏状态, 替代 userCollectionsMap */
+  /** @deprecated 条目的收藏状态, 替代 userCollectionsMap */
   collectionStatus(subjectId: SubjectId) {
     this.init('collectionStatus')
     return computed<CollectionStatusCn | ''>(() => {
@@ -184,9 +184,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     return computed<CollectActions | ''>(() => {
       const value =
         this.collectionStatus(subjectId) || this.userCollectionsMap[subjectId] || ''
-      if (!value || !type || type === '动画' || type === '三次元') {
-        return value
-      }
+      if (!value || !type || type === '动画' || type === '三次元') return value
       if (type === '书籍') return value.replace('看', '读') as CollectActions
       if (type === '游戏') return value.replace('看', '玩') as CollectActions
       if (type === '音乐') return value.replace('看', '听') as CollectActions

@@ -316,6 +316,31 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     }).get()
   }
 
+  // -------------------- computed --------------------
+  /** 尽量获取到条目中文名 */
+  cn(subjectId: SubjectId) {
+    return computed(() => {
+      return (
+        this.subjectV2(subjectId)?.cn ||
+        this.subject(subjectId)?.name_cn ||
+        this.subjectFromOSS(subjectId)?.name_cn ||
+        ''
+      )
+    }).get()
+  }
+
+  /** 尽量获取到条目日文名 */
+  jp(subjectId: SubjectId) {
+    return computed(() => {
+      return (
+        this.subjectV2(subjectId)?.jp ||
+        this.subject(subjectId)?.name ||
+        this.subjectFromOSS(subjectId)?.name ||
+        ''
+      )
+    }).get()
+  }
+
   // -------------------- fetch --------------------
   /** 条目信息 */
   fetchSubject = async (

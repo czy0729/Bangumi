@@ -31,7 +31,7 @@ import { HOST } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import { List, Params } from './types'
 
 export default class ScreenCatalogDetail extends store {
   params: Params
@@ -80,20 +80,18 @@ export default class ScreenCatalogDetail extends store {
         this.list.forEach(({ id }) => {
           fetchs.push(async () => {
             const result = await subjectStore.fetchSubjectFromOSS(id)
-            if (!result) {
+            if (!result) await subjectStore.fetchSubject(id, 'small')
+
+            // 由于之前失误没有把排名存到云端
+            const rank =
+              subjectStore.subject(id)?.rank ||
+              subjectStore.subjectFromOSS(id)?.rank ||
+              ''
+            if (!rank) {
               await subjectStore.fetchSubject(id, 'small')
             } else {
-              // 由于之前失误没有把排名存到云端
-              const rank =
-                subjectStore.subject(id)?.rank ||
-                subjectStore.subjectFromOSS(id)?.rank ||
-                ''
-              if (!rank) {
-                await subjectStore.fetchSubject(id, 'small')
-              } else {
-                // 用于制作进度条加载效果
-                await sleep(80)
-              }
+              // 用于制作进度条加载效果
+              await sleep(40)
             }
 
             this.setState({
@@ -137,7 +135,7 @@ export default class ScreenCatalogDetail extends store {
   }
 
   /** 目录详情列表 */
-  @computed get list() {
+  @computed get list(): List {
     const key = `${NAMESPACE}|${this.catalogId}`
     if (this.state.progress.fetching) {
       const data = CacheManager.get(key)

@@ -21,9 +21,6 @@ export const styles = _.create({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
-  container: {
-    width: 40
-  },
   icon: {
     width: 40
   },

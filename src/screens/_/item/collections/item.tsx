@@ -39,12 +39,10 @@ const Item = memo(
     type,
     modify,
     numberOfLines,
-    // showLabel,
     hideScore,
     isDo,
     isOnHold,
     isDropped,
-    // isCollect,
     isCatalog,
     isEditable,
     event,
@@ -100,7 +98,12 @@ const Item = memo(
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Title name={name} nameCn={nameCn} filter={filter} />
+                  <Title
+                    name={name}
+                    nameCn={nameCn}
+                    filter={filter}
+                    numberOfLines={comments ? 1 : 2}
+                  />
                 </Flex.Item>
                 <Flex style={_.mt.xxs}>
                   {tags.includes('自己可见') && (
@@ -135,37 +138,35 @@ const Item = memo(
                   {HTMLDecode(tip)}
                 </Text>
               )}
-              <Bottom
-                score={score}
-                rank={rank}
-                total={total}
-                simpleStars={simpleStars}
-                time={time}
-                tags={tags}
-                hideScore={hideScore}
-                isDo={isDo}
-                isOnHold={isOnHold}
-                isDropped={isDropped}
-              />
+              <Flex>
+                <Flex.Item>
+                  <Bottom
+                    score={score}
+                    rank={rank}
+                    total={total}
+                    simpleStars={simpleStars}
+                    time={time}
+                    tags={tags}
+                    hideScore={hideScore}
+                    isDo={isDo}
+                    isOnHold={isOnHold}
+                    isDropped={isDropped}
+                  />
+                </Flex.Item>
+                {isEditable && (
+                  <IconTouchable
+                    style={styles.edit}
+                    name='md-more-vert'
+                    onPress={() => onEdit(modify)}
+                  />
+                )}
+              </Flex>
             </Flex>
-            <Flex>
-              <Flex.Item>
-                <Flex>
-                  {!!comments && (
-                    <Text style={styles.comments} size={14} lineHeight={17}>
-                      {comments}
-                    </Text>
-                  )}
-                </Flex>
-              </Flex.Item>
-              {isEditable && (
-                <IconTouchable
-                  style={styles.edit}
-                  name='md-more-vert'
-                  onPress={() => onEdit(modify)}
-                />
-              )}
-            </Flex>
+            {!!comments && (
+              <Text style={styles.comments} size={14} lineHeight={17}>
+                {comments}
+              </Text>
+            )}
           </Flex.Item>
         </Flex>
       </Touchable>

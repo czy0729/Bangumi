@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-26 15:49:25
  */
+import { CatalogDetail } from '@stores/discovery/types'
 import { factory } from '@utils'
-import { Id, InferArray, Navigation } from '@types'
+import { Id, InferArray, Navigation, Override } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -22,4 +23,13 @@ export type Params = {
   _hideScore?: boolean
 }
 
-export type CatalogItem = InferArray<StoreType['catalogDetail']['list']>
+export type ListItem = Override<
+  InferArray<CatalogDetail['list']>,
+  {
+    score?: number | string
+    rank?: number | string
+    total?: number | string
+  }
+>
+
+export type List = ListItem[]

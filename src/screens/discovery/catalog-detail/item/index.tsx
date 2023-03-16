@@ -9,8 +9,8 @@ import { Heatmap } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
-import { CatalogItem, Ctx } from '../types'
-import { collectionStore } from '@stores'
+import { ListItem, Ctx } from '../types'
+import { collectionStore, subjectStore } from '@stores'
 
 const EVENT = {
   id: '目录详情.跳转'
@@ -22,14 +22,12 @@ function Item(
     item
   }: {
     index: number
-    item: CatalogItem
+    item: ListItem
   },
   { $, navigation }: Ctx
 ) {
   const id = String(item.id).match(/\d+/)[0]
-  const nameCn = findSubjectCn(item.title, item.id)
-  const collection = collectionStore.collectionStatus(id)
-
+  const collection = collectionStore.collect(id)
   if ($.isList) {
     return (
       <>
@@ -39,17 +37,14 @@ function Item(
           id={id}
           type={item.type}
           cover={item.image}
-          name={item.title}
-          nameCn={nameCn}
+          name={subjectStore.jp(id) || item.title}
+          nameCn={subjectStore.cn(id) || findSubjectCn(item.title, id)}
           tip={item.info}
           comments={item.comment}
-          // @ts-expect-error
           score={item.score}
-          // @ts-expect-error
           rank={item.rank}
-          // @ts-expect-error
           total={item.total}
-          numberOfLines={4}
+          numberOfLines={3}
           modify={item.modify}
           isCollect={item.isCollect}
           collection={collection}
@@ -70,12 +65,10 @@ function Item(
       event={EVENT}
       id={id}
       num={$.gridNum}
-      name={item.title}
-      nameCn={nameCn}
+      name={subjectStore.jp(id) || item.title}
+      nameCn={subjectStore.cn(id) || findSubjectCn(item.title, id)}
       cover={item.image}
-      // @ts-expect-error
       score={item.score}
-      // @ts-expect-error
       rank={item.rank}
       typeCn={item.type}
       collection={collection}

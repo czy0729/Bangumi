@@ -9,7 +9,7 @@ import { Flex, Katakana, Highlight } from '@components'
 import { cnjp, HTMLDecode, getPinYinFilterValue } from '@utils'
 import { ob } from '@utils/decorators'
 
-function Title({ name, nameCn, filter }) {
+function Title({ name, nameCn, filter, numberOfLines }) {
   const hasName = !!name
   const left = HTMLDecode(cnjp(nameCn, name))
   const right = HTMLDecode(cnjp(name, nameCn))
@@ -19,7 +19,7 @@ function Title({ name, nameCn, filter }) {
   if (filterValue) {
     return (
       <Flex wrap='wrap' align='end'>
-        <Highlight size={15} bold numberOfLines={1} value={filterValue}>
+        <Highlight size={15} bold numberOfLines={numberOfLines} value={filterValue}>
           {`${left} `}
         </Highlight>
         {hasName && right !== left && (
@@ -40,7 +40,7 @@ function Title({ name, nameCn, filter }) {
 
   return (
     <Flex wrap='wrap' align='end'>
-      <Katakana.Provider size={15} numberOfLines={1}>
+      <Katakana.Provider size={15} numberOfLines={numberOfLines}>
         <Katakana size={15} bold>
           {left}{' '}
         </Katakana>
