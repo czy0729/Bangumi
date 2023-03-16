@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 18:26:26
+ * @Last Modified time: 2023-03-17 01:48:09
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Heatmap } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { open, stl } from '@utils'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_NEW_TOPIC } from '@constants'
@@ -16,7 +16,7 @@ import { Ctx } from '../types'
 
 const DATA = [
   '超展开设置',
-  '新讨论'
+  '添加新讨论'
   // , '预读取帖子'
 ] as const
 
@@ -51,8 +51,13 @@ function IconMore({ style }, { navigation }: Ctx) {
               navigation.push('RakuenSetting')
               break
 
-            case '新讨论':
-              open(HTML_NEW_TOPIC())
+            case '添加新讨论':
+              navigation.push('WebBrowser', {
+                url: HTML_NEW_TOPIC(),
+                title: '添加新讨论',
+                desc: '发帖组件复杂并没有重新开发实装。若你看见的不是发帖页面，请先在此页面进行登录。请务必刷新一下验证码再登录。成功后点击右上方刷新页面。',
+                injectedViewport: true
+              })
               break
 
             default:

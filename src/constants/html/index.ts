@@ -1,11 +1,10 @@
 /*
  * HTML地址
  *  - 地址开头带叹号的代表不携带cookie进行请求
- *
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 05:11:23
+ * @Last Modified time: 2023-03-17 01:58:43
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -208,7 +207,8 @@ export const HTML_USERS_CATALOGS = (
 ) => `${HOST}/user/${userId}/index${isCollect ? '/collect' : ''}?page=${page}`
 
 /** 添加新讨论 */
-export const HTML_NEW_TOPIC = () => `${HOST}/rakuen/new_topic`
+export const HTML_NEW_TOPIC = (group?: string) =>
+  group ? `${HOST}/group/${group}/new_topic` : `${HOST}/rakuen/new_topic`
 
 /** 添加新时间线 */
 export const HTML_NEW_TIMELINE = (userId: UserId) =>

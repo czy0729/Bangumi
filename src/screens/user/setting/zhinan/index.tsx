@@ -87,7 +87,13 @@ function Zhinan({ navigation, filter }) {
                 to: 'Zhinan'
               })
 
-              open(URL_ZHINAN)
+              setFalse()
+              setTimeout(() => {
+                navigation.push('WebBrowser', {
+                  url: URL_ZHINAN,
+                  title: '使用指南'
+                })
+              }, 240)
             }}
             {...TEXTS.zhinan}
           >
@@ -110,7 +116,13 @@ function Zhinan({ navigation, filter }) {
                 to: 'Notion'
               })
 
-              open(URL_DEV)
+              setFalse()
+              setTimeout(() => {
+                navigation.push('WebBrowser', {
+                  url: URL_DEV,
+                  title: '当前开发中'
+                })
+              }, 240)
             }}
             {...TEXTS.notion}
           >
@@ -156,7 +168,13 @@ function Zhinan({ navigation, filter }) {
                 to: 'Privacy'
               })
 
-              open(URL_PRIVACY)
+              setFalse()
+              setTimeout(() => {
+                navigation.push('WebBrowser', {
+                  url: URL_PRIVACY,
+                  title: '隐私保护政策'
+                })
+              }, 240)
             }}
             {...TEXTS.privacy}
           >

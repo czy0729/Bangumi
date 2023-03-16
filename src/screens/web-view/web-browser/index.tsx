@@ -2,19 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-12-30 20:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-13 08:02:57
+ * @Last Modified time: 2023-03-17 01:49:00
  */
 import React, { useState } from 'react'
-import { Flex, Header } from '@components'
+import { Flex, Header, Text } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { open } from '@utils'
+
+const SCRIPTS = {
+  injectedViewport: `
+    var meta = document.createElement('meta');
+    meta.name = "viewport";
+    meta.content = "width=device-width, initial-scale=1";
+    document.getElementsByTagName('head')[0].appendChild(meta);
+  `
+} as const
+
+let show = true
 
 const WebBrowser = ({ route }) => {
   const [key, setKey] = useState(0)
-
-  const { url, title } = route.params
+  const [showDesc, setShowDesc] = useState(show)
+  const { url, title, desc, injectedViewport } = route.params
   if (!url) return null
 
   return (
@@ -40,12 +51,35 @@ const WebBrowser = ({ route }) => {
           </Flex>
         )}
       />
+      {!!desc && showDesc && (
+        <Flex style={[_.container.wind, _.mb.sm]}>
+          <Flex.Item>
+            <Text size={12} lineHeight={13} bold>
+              {desc}
+            </Text>
+          </Flex.Item>
+          <IconTouchable
+            style={_.mr._sm}
+            name='md-close'
+            size={18}
+            color={_.colorDesc}
+            onPress={() => {
+              setShowDesc(false)
+              show = false
+            }}
+          />
+        </Flex>
+      )}
       <WebView
         key={String(key)}
         originWhitelist={['*']}
         source={{
           uri: url
         }}
+        sharedCookiesEnabled
+        thirdPartyCookiesEnabled
+        userAgent={userStore.userCookie.userAgent || undefined}
+        injectedJavaScript={injectedViewport ? SCRIPTS.injectedViewport : undefined}
       />
     </>
   )

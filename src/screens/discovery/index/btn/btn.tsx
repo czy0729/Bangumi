@@ -51,7 +51,7 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
             )}
           </Flex>
         </View>
-        <Text style={_.mt.sm} size={textSize} align='center' bold>
+        <Text style={_.mt.sm} size={textSize} align='center' bold numberOfLines={1}>
           {name}
         </Text>
       </Flex>

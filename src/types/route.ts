@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:31:28
+ * @Last Modified time: 2023-03-16 21:38:08
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -96,6 +96,10 @@ type RouteWebBrowser = (
   params: {
     url: string
     title: string
+    desc?: string
+
+    /** 是否自动插入移动端 meta viewport */
+    injectedViewport?: boolean
   }
 ) => any
 
