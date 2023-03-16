@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 18:05:41
+ * @Last Modified time: 2023-03-17 02:19:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,13 @@ function History(props, { $ }: Ctx) {
           </Flex>
         </View>
       ))}
+      {!!history.length && (
+        <View style={styles.clear}>
+          <Text type='sub' size={15} bold onPress={$.deleteHistoryAll}>
+            清除历史
+          </Text>
+        </View>
+      )}
       <Heatmap right={52} id='搜索.选择历史' />
       <Heatmap id='搜索.删除历史' transparent />
     </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 17:50:25
+ * @Last Modified time: 2023-03-17 02:18:49
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore, uiStore } from '@stores'
@@ -171,6 +171,14 @@ export default class ScreenSearch extends store {
     const { history } = this.state
     this.setState({
       history: history.filter(item => item !== value)
+    })
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 删除全部历史 */
+  deleteHistoryAll = () => {
+    this.setState({
+      history: []
     })
     this.setStorage(NAMESPACE)
   }
