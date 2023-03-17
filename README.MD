@@ -62,23 +62,30 @@ Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互�
 
 ## Update
 
-v7.9.0 - 2023/03/03
+v7.10.0 - 2023/03/18
 
-[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ia218hdgptzlfnrt?singleDoc)
+[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ilbk1t5pv060eqvp?singleDoc)
 
 —— 优化 ——
 
-- [x] [系统] 点击跳转相关交互，都追加了触摸后反馈动画
-- [x] [进度、条目] 收藏状态和章节按钮状态转变后，增加了小动画 （后续版本应该会把动画是否开启作为一个配置项）
-- [x] [帖子] 回复楼层时, 会把楼层的部分正文在输入框 placeholder 里显示
-- [x] [帖子] 回复框中常用 bgm 表情选择后不会改变常用的排序
-- [x] [进度] 收藏管理框，吐槽输入框增加恢复历史的按钮
-- [x] [SMB] 功能迭代（改善了一点用法，更方便）
-- [x] [电波提醒] 优化了切换时头像闪一下的问题
+- [x] [时区] 迭代处理每日放送时间的数据；对 APP 内所有外部获得的放送时间，也转了本地时差；同时设置支持网页版的时区设置 (进一步了解)[https://www.yuque.com/chenzhenyu-k0epm/znygb4/umhqt99g5083yoso?singleDoc]
+- [x] [条目] 在路由超过 4 页时，加入回到首页按钮
+- [x] [UI] 为了更加明显区分图片是否加载中，加载时使用骨架屏动画
+- [x] [进度] 网格布局增加设置「条目下方显示标题」
+- [x] [进度] 网格布局增加设置「自动调整章节按钮大小」（简单说就是允许按钮自动调节大小）
+- [x] [条目] 管理目录功能小幅度改善，使用分页减少卡顿（未来会继续迭代）
+- [x] [超展开] 超展开首页右上角和小组页面添加入跳转到 webview 发帖的入口
+- [x] 重新对平板设备的布局作了修复
+- [x] 提交请求若很快完成，减少了 Loading 的出现
 
 —— 修复 ——
 
-- [x] [进度] 修复了在刷新条目信息时, 有概率卡死程序的问题
+- [x] [条目] 暂时处理了一下集数过千条目，无法获取最新章节信息的问题
+- [x] [iOS] 修复了非全面屏 iPhone 型号，状态栏和底栏过高的问题
+
+—— 其他 ——
+
+- [x] [webhook] 允许用户设置影响时间线的 webhook (进一步了解)[https://www.yuque.com/chenzhenyu-k0epm/znygb4/kfpfze0u7old4en1?singleDoc]
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 

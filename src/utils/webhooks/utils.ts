@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-10 14:02:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 20:19:51
+ * @Last Modified time: 2023-03-18 02:42:21
  */
 import { observable, runInAction } from 'mobx'
 import axios from '@utils/thirdParty/axios'
@@ -32,9 +32,14 @@ export const webhook: WebHooksTypes = (type: string, data: any) => {
     runAfter(async () => {
       try {
         const { webhookUrl } = systemStore.setting
+        let url = webhookUrl || `https://postman-echo.com/post`
+        if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
+          url = `http://${url}`
+        }
+
         const params = {
           method: 'post',
-          url: webhookUrl || `https://postman-echo.com/post`,
+          url,
           data: {
             type,
             data: data || {}
@@ -52,10 +57,19 @@ export const webhook: WebHooksTypes = (type: string, data: any) => {
 
         // @ts-expect-error
         const res = await axios(params)
+        const content: any = {
+          status: res?.status
+        }
+        if (typeof res?.data === 'object') {
+          content.data = res.data
+        } else {
+          content._response = res?.request?._response
+        }
+
         runInAction(() => {
           logs.unshift({
             label: 'RESULT',
-            content: JSON.stringify(res?.data?.data, null, 2),
+            content: JSON.stringify(content, null, 2),
             ts: getTimestamp()
           })
           if (logs.length > MAX_LENGTH) logs.pop()

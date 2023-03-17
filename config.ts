@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:58:54
+ * @Last Modified time: 2023-03-18 02:24:14
  */
 import { Paths } from '@types'
 
@@ -21,7 +21,7 @@ export const IOS_IPA = false
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? !DEV : false
+export const TEXT_ONLY = DEV ? DEV : false
 
 /** ==================== 默认路由 ==================== */
 /** 路由覆盖配置 */
