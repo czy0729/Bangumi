@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:53:11
+ * @Last Modified time: 2023-03-18 01:43:58
  */
 import { observable, computed } from 'mobx'
 import Constants from 'expo-constants'
@@ -88,7 +88,7 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
 
     // -------------------- 请求HTML --------------------
     const raw = await fetchHTML({
-      url: HTML_SEARCH(_text, cat, page, legacy),
+      url: HTML_SEARCH(encodeURIComponent(_text), cat, page, legacy),
       cookie: `; chii_searchDateLine=${getTimestamp() - 60};` // 搜索不加这个会无条件返回错误
     })
     const HTML = HTMLTrim(raw)

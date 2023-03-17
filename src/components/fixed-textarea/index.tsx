@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 04:57:07
+ * @Last Modified time: 2023-03-18 01:39:14
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -823,7 +823,7 @@ export const FixedTextarea = observer(
                   <View key={index} style={this.styles.bgm}>
                     <Touchable onPress={() => this.onSelectBgm(item, false)}>
                       <Flex justify='center'>
-                        <Bgm index={item} />
+                        <Bgm index={item} size={22} />
                       </Flex>
                     </Touchable>
                   </View>
@@ -837,7 +837,7 @@ export const FixedTextarea = observer(
                   <View key={index + 1} style={this.styles.bgm}>
                     <Touchable onPress={() => this.onSelectBgm(index + 1)}>
                       <Flex justify='center'>
-                        <Bgm index={index + 1} />
+                        <Bgm index={index + 1} size={22} />
                       </Flex>
                     </Touchable>
                   </View>

@@ -9,7 +9,9 @@ import * as ScreenOrientation from 'expo-screen-orientation'
 import { PAD } from '@constants/device'
 
 export default function useOrientation() {
-  const [screenOrientation, setScreenOrientation] = useState()
+  const [screenOrientation, setScreenOrientation] = useState(
+    ScreenOrientation.Orientation.PORTRAIT_UP
+  )
 
   useEffect(() => {
     try {
@@ -23,8 +25,6 @@ export default function useOrientation() {
 
     const initScreenOrientation = async () => {
       const currentOrientation = await ScreenOrientation.getOrientationAsync()
-
-      // @ts-expect-error
       setScreenOrientation(currentOrientation)
     }
 

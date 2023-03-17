@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 18:22:43
+ * @Last Modified time: 2023-03-18 01:49:44
  */
 import {
   calendarStore,
@@ -363,7 +363,8 @@ export default class Action extends Fetch {
       collect,
       doing,
       onHold,
-      dropped
+      dropped,
+      type: this.type
     })
   }
 

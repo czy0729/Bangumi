@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:14:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:29:01
+ * @Last Modified time: 2023-03-18 01:34:14
  */
 import { computed, observable, toJS } from 'mobx'
 import { Parser } from 'json2csv'
@@ -168,7 +168,7 @@ export default class ScreenActions extends store {
 
   /** 更新一项收藏信息 */
   fetchCollection = async (subjectId: SubjectId) => {
-    console.log(subjectId)
+    console.info(subjectId)
   }
 
   // -------------------- get --------------------

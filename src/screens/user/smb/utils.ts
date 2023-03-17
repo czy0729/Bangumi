@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 00:59:49
+ * @Last Modified time: 2023-03-18 01:33:55
  */
 import SMBClient from 'react-native-smb'
 import { asc, desc, alert, info, loading } from '@utils'
@@ -38,7 +38,7 @@ export function smbList(
       config.username,
       config.password,
       (data: { success: any; errorCode: any; message: any }) => {
-        console.log('Create', data)
+        console.info('Create', data)
 
         if (!data?.success) {
           smbClient = null
@@ -74,7 +74,7 @@ function _smbList(path = '') {
       path,
       async (data: { success: any; errorCode: any; message: any; list: any[] }) => {
         if (!data?.success) {
-          smbClient.disconnect(() => console.log('Disconnect'))
+          smbClient.disconnect(() => console.info('Disconnect'))
           smbClient = null
 
           alert(`[${data.errorCode}] ${data.message}`, '连接失败')
@@ -185,7 +185,7 @@ function _smbList(path = '') {
 function smbDisconnect() {
   if (smbClient) {
     try {
-      smbClient.disconnect(() => console.log('Disconnect'))
+      smbClient.disconnect(() => console.info('Disconnect'))
     } catch (error) {}
     smbClient = null
   }

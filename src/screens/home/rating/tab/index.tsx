@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:49:35
+ * @Last Modified time: 2023-03-18 01:53:14
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -58,10 +58,20 @@ function Tab(props, { $ }: Ctx) {
             pressColor='transparent'
             renderLabel={({ route, focused }) => {
               const count = $.counts[route.key] || $.params[STATUS_MAP[route.key]]
+              const { type } = $.params
+              let title = route.title || ''
+              if (type === '书籍') {
+                title = title.replace('看', '读')
+              } else if (type === '游戏') {
+                title = title.replace('看', '玩')
+              } else if (type === '音乐') {
+                title = title.replace('看', '听')
+              }
+
               return (
                 <Flex style={_.container.block} justify='center'>
                   <Text type='title' size={13} bold={focused}>
-                    {route.title}
+                    {title}
                   </Text>
                   {!!count && (
                     <Text type='sub' size={11} bold lineHeight={13}>

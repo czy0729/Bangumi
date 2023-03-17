@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-16 21:38:08
+ * @Last Modified time: 2023-03-18 01:50:01
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -221,6 +221,7 @@ type RouteRating = (
     doing: number
     onHold: number
     dropped: number
+    type: string
   }
 ) => any
 

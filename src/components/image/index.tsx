@@ -5,8 +5,8 @@
  * 3. 图片缓存到本地
  * 4. 远端图片自动获取高度
  * 5. 错误处理
- * 6. 自动选择Bangumi图片质量
- * 7. 联动ImageViewer
+ * 6. 自动选择 Bangumi 图片质量
+ * 7. 联动 ImageViewer
  * 8. 支持 @magma 提供的 [bgm_poster] 后缀
  * 9. iOS 环境下, Expo 浏览暂时不使用 cacheV2
  * @Author: czy0729
@@ -20,7 +20,7 @@ import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
-import { IOS } from '@constants'
+import { DEV, IOS } from '@constants'
 import { Source } from '@types'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -64,13 +64,29 @@ export const Image = observer(
       loaded: false
     }
 
-    _errorCount = 0
+    /** 图片下载失败次数 */
+    private _errorCount = 0
 
-    _timeoutId = null
+    /** 图片下载失败重试间隔 */
+    private _timeoutId = null
+
+    /** 是否已获取远程图片宽高 */
+    private _getSized = false
+
+    /** 是否已回退到 props.fallback 地址 */
+    private _fallbacked = false
+
+    /** 是否已回退到 bgm 源头  */
+    private _recoveried = false
+
+    /** 是否已确定加载失败 */
+    private _commited = false
 
     componentDidMount() {
       const { src, cache, textOnly, sync } = this.props
-      if (textOnly) return
+      if (textOnly) {
+        return
+      }
 
       if (!cache) {
         this.setState({
@@ -82,23 +98,32 @@ export const Image = observer(
       /** 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理 */
       if (sync) {
         this.preCache()
-      } else {
-        setTimeout(() => {
-          this.preCache()
-        }, 0)
+        return
       }
+
+      setTimeout(() => {
+        this.preCache()
+      }, 0)
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: { src: Source }) {
       const { textOnly } = this.props
-      if (textOnly) return
-      if (nextProps.src !== this.props.src) this.cache(nextProps.src)
+      if (textOnly) {
+        return
+      }
+
+      if (nextProps.src !== this.props.src) {
+        this.cache(nextProps.src)
+      }
     }
 
     componentWillUnmount() {
-      if (this._timeoutId) clearTimeout(this._timeoutId)
+      if (this._timeoutId) {
+        clearTimeout(this._timeoutId)
+      }
     }
 
+    /** 预加载的规则 */
     preCache = async () => {
       const { src, autoSize } = this.props
       if (IOS) {
@@ -106,6 +131,7 @@ export const Image = observer(
       } else {
         await this.cacheV2(src)
       }
+
       if (autoSize) {
         setTimeout(() => {
           this.getSize()
@@ -116,11 +142,12 @@ export const Image = observer(
     /** 缓存图片 */
     cache = async (src: Source) => {
       const { iosImageCacheV2 } = systemStore.setting
-      if (IOS && iosImageCacheV2) return this.cacheV2(src)
+      if (IOS && iosImageCacheV2) {
+        return this.cacheV2(src)
+      }
 
       let res: Promise<string>
       let uri: string
-
       if (IOS) {
         try {
           if (typeof src === 'string') {
@@ -134,7 +161,7 @@ export const Image = observer(
 
             /**
              * 检查本地有没有图片缓存
-             * @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发unmounted
+             * @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发 unmounted
              * @issue to fixed
              */
             if (typeof _src === 'string' && _src.includes('https:/img/')) {
@@ -148,8 +175,7 @@ export const Image = observer(
             const path = await res
 
             /**
-             * magma 的 cdn 要单独对第一次对象存储镜像做延迟处理
-             * 需要再重新请求一遍
+             * magma 的 cdn 要单独对第一次对象存储镜像做延迟处理, 需要再重新请求一遍
              * @date 20220509
              */
             if (
@@ -171,7 +197,7 @@ export const Image = observer(
           this.retry(src as string)
         }
       } else {
-        /** 安卓貌似自带缓存? */
+        /** 安卓貌似自带缓存 */
         if (typeof src === 'string') {
           if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
             this.recoveryToBgmCover()
@@ -230,15 +256,14 @@ export const Image = observer(
           this._errorCount += 1
           this.cache(src)
         }, 400)
-      } else {
-        this._timeoutId = null
-        setTimeout(() => {
-          this.onError()
-        }, 0)
+        return
       }
-    }
 
-    _getSized = false
+      this._timeoutId = null
+      setTimeout(() => {
+        this.onError()
+      }, 0)
+    }
 
     /** 获取远程图片宽高 */
     getSize = () => {
@@ -273,8 +298,6 @@ export const Image = observer(
         RNImage.getSize(uri, cb)
       }, 0)
     }
-
-    _fallbacked = false
 
     /** 加载失败 */
     onError = async (error?: any) => {
@@ -346,8 +369,6 @@ export const Image = observer(
       }
     }
 
-    _recoveried = false
-
     /** 其他源头回退到 bgm 源头 */
     recoveryToBgmCover = () => {
       const { src } = this.props
@@ -363,9 +384,7 @@ export const Image = observer(
       })
     }
 
-    _commited = false
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /** 确定失败 */
     commitError = (info?: string) => {
       if (this._commited) return
 
@@ -377,10 +396,12 @@ export const Image = observer(
         () => {
           const { onError } = this.props
           if (typeof onError === 'function') onError()
+          if (DEV) console.info(info)
         }
       )
     }
 
+    /** 加载步骤完成 */
     onLoadEnd = () => {
       this.setState(
         {

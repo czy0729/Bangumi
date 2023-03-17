@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 17:39:19
+ * @Last Modified time: 2023-03-18 01:34:18
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore, uiStore } from '@stores'
@@ -268,7 +268,6 @@ export default class ScreenBrowser extends store {
       return
     }
 
-    console.log(month)
     if (!month) {
       this.setState({
         airtime: Number(airtime) - 1

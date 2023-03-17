@@ -16,7 +16,7 @@
     "platforms": [
       "ios"
     ],
-    "orientation": "portrait",
+    "orientation": "default",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
     "splash": {
@@ -33,7 +33,8 @@
     ],
     "ios": {
       "bundleIdentifier": "tv.bangumi.czy0729",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "requireFullScreen": true
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
