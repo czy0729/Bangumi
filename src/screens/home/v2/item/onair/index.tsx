@@ -8,11 +8,19 @@ import React from 'react'
 import { Text } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { WEEK_DAY_MAP } from '../ds'
 import { styles } from './styles'
 
 function OnAir({ subjectId }, { $ }: Ctx) {
+  const subject = $.subject(subjectId)
+  if (subject.type) {
+    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
+    if (typeCn !== '动画' && typeCn !== '三次元') return null
+  }
+
   const current = $.currentOnAir(subjectId)
   const total = $.epsCount(subjectId)
 

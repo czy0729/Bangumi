@@ -36,7 +36,6 @@ const Item = memo(
   }) => {
     global.rerender('Home.Item.Main', subject.name_cn || subject.name)
 
-    const isGame = title === '游戏'
     return (
       <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>
         <Flex style={styles.hd}>
@@ -73,7 +72,9 @@ const Item = memo(
                   isFirst={isFirst}
                 />
               </Flex>
-              {!isGame && <Progress subjectId={subjectId} epStatus={epStatus} />}
+              {title !== '游戏' && (
+                <Progress subjectId={subjectId} epStatus={epStatus} />
+              )}
             </View>
           </Flex.Item>
           {isFirst && (
