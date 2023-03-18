@@ -10,8 +10,9 @@ import { TimeLineScope } from '@types'
 export const NAMESPACE = 'ScreenTimeline'
 
 export const TABS = TIMELINE_TYPE.map(item => ({
-  title: item.label
-}))
+  title: item.label,
+  key: item.value
+})).filter(item => !!item.title)
 
 export const H_TABBAR = 48
 

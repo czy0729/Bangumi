@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:50:01
+ * @Last Modified time: 2023-03-18 18:23:12
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
+import { Fn } from './utils'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
@@ -27,6 +28,7 @@ export type NavigationPushType = RouteActions &
   RouteMono &
   RoutePM &
   RouteRating &
+  RouteSay &
   RouteSearch &
   RouteSetting &
   RouteShare &
@@ -40,6 +42,13 @@ export type NavigationPushType = RouteActions &
   ((path: Paths) => any)
 
 type RouteAuth = (path: 'Auth') => any
+
+type RouteSay = (
+  path: 'Say',
+  params: {
+    onNavigationCallback?: Fn
+  }
+) => any
 
 type RouteBlog = (
   path: 'Blog',

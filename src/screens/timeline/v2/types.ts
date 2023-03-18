@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:00:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 07:50:49
+ * @Last Modified time: 2023-03-18 16:49:13
  */
 import { factory } from '@utils'
 import { Navigation } from '@types'
@@ -18,4 +18,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type TabLabel = typeof TABS[number]['title']
+export type TabLabel = (typeof TABS)[number]['title']

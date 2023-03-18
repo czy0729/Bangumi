@@ -60,6 +60,15 @@ export default class ScreenTimeline extends store {
   }
 
   // -------------------- get --------------------
+  /** Tab navigationState */
+  @computed get navigationState() {
+    const { page } = this.state
+    return {
+      index: page,
+      routes: TABS
+    }
+  }
+
   @computed get backgroundColor() {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
   }

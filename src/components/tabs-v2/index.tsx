@@ -3,20 +3,20 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:42:57
+ * @Last Modified time: 2023-03-18 17:42:32
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
-import TabBar from '@components/@/react-native-tab-view/TabBar'
-import TabView from '@components/@/react-native-tab-view/TabView'
 import { _ } from '@stores'
 import { TextStyle } from '@types'
+import TabView from '../@/react-native-tab-view/TabView'
+import TabBar from '../@/react-native-tab-view/TabBar'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { W_INDICATOR, memoStyles } from './styles'
 import { Props as TabsV2Props } from './types'
 
-export { TabsV2Props }
+export { TabsV2Props, TabView, TabBar, SceneMap }
 
 export const TabsV2 = ({
   routes = [],

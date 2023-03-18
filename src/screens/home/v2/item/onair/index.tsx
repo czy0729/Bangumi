@@ -16,6 +16,8 @@ import { styles } from './styles'
 
 function OnAir({ subjectId }, { $ }: Ctx) {
   const subject = $.subject(subjectId)
+  if (!subject.type) return null
+
   if (subject.type) {
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
     if (typeCn !== '动画' && typeCn !== '三次元') return null

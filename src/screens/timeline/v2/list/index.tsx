@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:16:48
+ * @Last Modified time: 2023-03-18 18:23:47
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -76,6 +76,7 @@ class List extends React.Component<{
     if (!timeline._loaded) return <Loading />
 
     if (!$.showItem(title)) return null
+
     return (
       <ListView
         ref={this.forwardRef}
