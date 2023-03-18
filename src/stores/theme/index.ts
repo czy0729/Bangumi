@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 17:54:57
+ * @Last Modified time: 2023-03-18 02:54:46
  */
-import { StyleSheet, InteractionManager, Appearance } from 'react-native'
+import { StyleSheet, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
-import { androidDayNightToggle } from '@utils'
+import { androidDayNightToggle, runAfter } from '@utils'
 import store from '@utils/store'
 import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE, WSA, PAD } from '@constants'
 import _, { fontSize, IS_IOS_5_6_7_8 } from '@styles'
@@ -1068,7 +1068,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     if (IOS) return
 
     try {
-      InteractionManager.runAfterInteractions(() => {
+      runAfter(() => {
         // @ts-expect-error
         changeNavigationBarColor(
           this.select(
@@ -1091,7 +1091,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     if (IOS) return
 
     try {
-      InteractionManager.runAfterInteractions(() => {
+      runAfter(() => {
         // @ts-expect-error
         changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)

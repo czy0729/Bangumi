@@ -2,10 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 13:13:47
+ * @Last Modified time: 2023-03-18 02:56:04
  */
 import { ComponentType } from 'react'
-import { InteractionManager, PromiseTask, SimpleTask, Linking } from 'react-native'
+import {
+  // InteractionManager
+  Linking
+} from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from 'p-limit'
 import { DEV } from '@/config'
@@ -73,8 +76,9 @@ export function isObject(value: any): boolean {
 }
 
 /** 缩短 runAfterInteractions */
-export function runAfter(fn: (() => any) | SimpleTask | PromiseTask) {
-  return InteractionManager.runAfterInteractions(fn)
+export function runAfter(fn: () => any) {
+  // return InteractionManager.runAfterInteractions(fn)
+  return requestAnimationFrame(fn)
 }
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 20:06:04
+ * @Last Modified time: 2023-03-18 02:56:09
  */
-import { NativeModules, InteractionManager } from 'react-native'
+import { NativeModules } from 'react-native'
 import { DEV, IOS_IPA, LOG_LEVEL } from '@/config'
 import { WSA } from '@constants/device'
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
-import { urlStringify } from '../utils'
+import { runAfter, urlStringify } from '../utils'
 import { syncUserStore, syncThemeStore, syncSystemStore } from '../async'
 import { log } from '../dev'
 import { xhr } from './utils'
@@ -27,7 +27,7 @@ export function hm(url?: string, screen?: string) {
 
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
-    InteractionManager.runAfterInteractions(() => {
+    runAfter(() => {
       if (screen) t('其他.查看', { screen })
 
       const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
@@ -68,7 +68,7 @@ export function ua() {
   if (DEV) return
 
   try {
-    InteractionManager.runAfterInteractions(() => {
+    runAfter(() => {
       const userStore = syncUserStore()
       if (!userStore.isWebLogin) return
 
@@ -133,7 +133,7 @@ export function t(
 
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
-    InteractionManager.runAfterInteractions(() => {
+    runAfter(() => {
       const eventId = events[desc]
       if (eventId) {
         if (eventData) {

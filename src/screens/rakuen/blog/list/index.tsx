@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:18:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:17:02
+ * @Last Modified time: 2023-03-18 02:52:37
  */
 import React from 'react'
-import { InteractionManager, View } from 'react-native'
+import { View } from 'react-native'
 import { ListView, FixedTextarea } from '@components'
 import { ItemPost } from '@_'
 import { _ } from '@stores'
-import { keyExtractor, info } from '@utils'
+import { keyExtractor, info, runAfter } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Fn } from '@types'
@@ -27,7 +27,7 @@ class Blog extends React.Component<{
   scrollFailCount = 0
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(async () => {
+    runAfter(async () => {
       const { $ }: Ctx = this.context
       await $.init()
 
