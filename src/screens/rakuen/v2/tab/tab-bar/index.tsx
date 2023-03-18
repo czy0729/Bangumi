@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 18:00:56
+ * @Last Modified time: 2023-03-18 18:59:58
  */
 import React from 'react'
-import TabViewTabBar from '@components/@/react-native-tab-view/TabBar'
+import { TabBar as TabViewTabBar } from '@components'
 import { ob } from '@utils/decorators'
+import TabBarLabel from '../tab-bar-label'
 import { memoStyles } from './styles'
 
 function TabBar(props) {
@@ -21,8 +22,13 @@ function TabBar(props) {
       pressOpacity={1}
       pressColor='transparent'
       scrollEnabled
+      renderLabel={renderLabel}
     />
   )
 }
 
 export default ob(TabBar)
+
+function renderLabel({ route, focused }) {
+  return <TabBarLabel route={route} focused={focused} />
+}
