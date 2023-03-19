@@ -180,8 +180,15 @@ export function cnjp(cn: any, jp: any) {
 
 /** 云端 onAir 和自定义 onAir 组合判断 */
 export function getOnAir(
-  onAir: { [x: string]: any },
-  onAirUser: { [x: string]: any; weekDayCN?: string; timeCN?: string; _loaded?: any }
+  onAir: {
+    [x: string]: any
+  },
+  onAirUser: {
+    [x: string]: any
+    weekDayCN?: string
+    timeCN?: string
+    _loaded?: any
+  }
 ) {
   const timeJP = getSafeValue('timeJP', onAir, onAirUser)
   const timeCN = getSafeValue('timeCN', onAir, onAirUser)
@@ -190,10 +197,10 @@ export function getOnAir(
   const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
   const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
   let weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
+  const isOnair = weekDay !== undefined && weekDay !== ''
 
   let h = typeof time === 'string' ? time.slice(0, 2) : ''
   let m = typeof time === 'string' ? time.slice(2, 4) : ''
-
   const isCustom = !!onAirUser?._loaded
   if (!isCustom) {
     const onAirLocal = toLocal(weekDay, `${h}${m}`)
@@ -203,10 +210,22 @@ export function getOnAir(
   }
 
   return {
+    /** 星期几放送 1-7 */
     weekDay,
+
+    /** 放送时 */
     h,
+
+    /** 放送分 */
     m,
+
+    /** 是否云端有数据, 存在才代表是当季番剧 */
+    isOnair,
+
+    /** 是否最终计算后有放送时间 */
     isExist: weekDay !== undefined && weekDay !== '',
+
+    /** 是否用户自定义时间 */
     isCustom
   }
 }
@@ -481,9 +500,12 @@ export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string)
   const { cdn, cdnOrigin } = getSetting()
   const fallback = noDefault ? '' : IMG_DEFAULT
 
-  // 有些情况图片地址分析错误, 排除掉
-  if (NO_IMGS.includes(src)) return IMG_DEFAULT || fallback
+  /** 有些情况图片地址分析错误, 排除掉 */
+  if (NO_IMGS.includes(src)) {
+    return IMG_DEFAULT || fallback
+  }
 
+  /** magma 高级会员图片源 */
   if (
     cdn &&
     cdnOrigin === 'magma' &&
@@ -493,10 +515,20 @@ export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string)
     return CDN_OSS_MAGMA_POSTER(getCoverMedium(src), prefix) || fallback
   }
 
-  if (cdn) return CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin) || fallback
+  /** @deprecated 旧免费 CDN 源头, 国内已全部失效 */
+  if (cdn) {
+    return (
+      CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin as 'fastly' | 'OneDrive') ||
+      fallback
+    )
+  }
 
-  // 大图不替换成低质量图
-  if (typeof src === 'string' && src?.includes('/l/')) return src
+  /** 大图不替换成低质量图 */
+  if (typeof src === 'string' && src?.includes('/l/')) {
+    return src
+  }
+
+  /** 保证至少为中质量图 */
   return getCoverMedium(src) || fallback
 }
 

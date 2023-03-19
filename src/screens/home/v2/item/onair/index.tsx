@@ -52,8 +52,8 @@ function OnAir({ subjectId }, { $ }: Ctx) {
   }
 
   if (systemStore.setting.homeOnAir) {
-    const { weekDay, isExist, h, m } = $.onAirCustom(subjectId)
-    const weekDayText = isExist ? `周${WEEK_DAY_MAP[weekDay]}` : ''
+    const { weekDay, isOnair, h, m } = $.onAirCustom(subjectId)
+    const weekDayText = isOnair ? `周${WEEK_DAY_MAP[weekDay]}` : ''
     if (!weekDayText) return null
 
     const t = [h, m].filter(item => !!item)

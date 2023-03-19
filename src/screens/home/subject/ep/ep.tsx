@@ -34,8 +34,8 @@ export default memo(
   }) => {
     global.rerender('Subject.Ep.Main')
 
-    const { weekDay, h, m, isExist, isCustom } = onAirCustom
-    const showOnair = showCustomOnair && (isExist || isDoing)
+    const { weekDay, h, m, isOnair, isCustom } = onAirCustom
+    const showOnair = showCustomOnair && (isOnair || isDoing)
     return (
       <View style={styles.container}>
         <SectionTitle

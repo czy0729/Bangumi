@@ -198,8 +198,8 @@ export default class Computed extends State {
           const day = new Date().getDay()
           list.forEach(item => {
             const { subject_id: subjectId } = item
-            const { weekDay, isExist } = this.onAirCustom(subjectId)
-            if (!isExist) {
+            const { weekDay, isOnair } = this.onAirCustom(subjectId)
+            if (!isOnair) {
               weightMap[subjectId] = 1
             } else if (this.isToday(subjectId)) {
               weightMap[subjectId] = 1001
@@ -452,8 +452,8 @@ export default class Computed extends State {
   /** 是否放送中 */
   isToday(subjectId: SubjectId) {
     return computed(() => {
-      const { weekDay, isExist } = this.onAirCustom(subjectId)
-      if (!isExist) return false
+      const { weekDay, isOnair } = this.onAirCustom(subjectId)
+      if (!isOnair) return false
 
       const day = new Date().getDay()
       return weekDay === day
@@ -463,8 +463,8 @@ export default class Computed extends State {
   /** 是否明天放送 */
   isNextDay(subjectId: SubjectId) {
     return computed(() => {
-      const { weekDay, isExist } = this.onAirCustom(subjectId)
-      if (!isExist) return false
+      const { weekDay, isOnair } = this.onAirCustom(subjectId)
+      if (!isOnair) return false
 
       const day = new Date().getDay()
       return day === 6 ? weekDay === 0 : day === weekDay - 1

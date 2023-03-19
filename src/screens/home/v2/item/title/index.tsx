@@ -19,10 +19,10 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = type === '书籍' ? '读' : type === '游戏' ? '玩' : '看'
 
-  const { weekDay, isExist } = $.onAirCustom(subjectId)
+  const { weekDay, isOnair } = $.onAirCustom(subjectId)
   const weekDayText = systemStore.setting.homeOnAir
     ? ''
-    : isExist
+    : isOnair
     ? ` · 周${WEEK_DAY_MAP[weekDay]}`
     : ''
 
