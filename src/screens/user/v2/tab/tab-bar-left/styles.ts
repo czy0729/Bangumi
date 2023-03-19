@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-05 07:20:52
  */
 import { _ } from '@stores'
-import { H_RADIUS_LINE } from '../ds'
+import { H_RADIUS_LINE } from '../../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   tabBarLeft: {

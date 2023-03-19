@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 18:23:12
+ * @Last Modified time: 2023-03-19 22:02:58
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -37,11 +37,20 @@ export type NavigationPushType = RouteActions &
   RouteTinygrail &
   RouteTopic &
   RouteUser &
+  RouteUserTimeline &
   RouteWebBrowser &
   RouteZone &
   ((path: Paths) => any)
 
 type RouteAuth = (path: 'Auth') => any
+
+type RouteUserTimeline = (
+  path: 'UserTimeline',
+  params: {
+    userId?: UserId
+    userName?: string
+  }
+) => any
 
 type RouteSay = (
   path: 'Say',

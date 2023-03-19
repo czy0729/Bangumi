@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-27 17:23:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-04 21:55:55
+ * @Last Modified time: 2023-03-19 16:18:52
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Label({ title, focused }, { $ }: Ctx) {
   global.rerender('User.Label')

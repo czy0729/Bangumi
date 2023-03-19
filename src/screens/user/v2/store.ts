@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:57:00
+ * @Last Modified time: 2023-03-19 18:45:49
  */
 import { observable, computed } from 'mobx'
 import {
@@ -86,6 +86,16 @@ export default class ScreenUser extends store {
     return usersStore.fetchUsers({
       userId: this.userId
     })
+  }
+
+  /** 用户收藏 */
+  fetchCollections = () => {
+    const { subjectType, page } = this.state
+    const { _loaded } = this.userCollections(
+      subjectType,
+      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(TABS[page].title)
+    )
+    if (!_loaded) this.fetchUserCollections(true)
   }
 
   /** 用户收藏概览 (HTML, 全部) */
@@ -307,7 +317,8 @@ export default class ScreenUser extends store {
     return counts
   }
 
-  @computed get h_fixed() {
+  /** 顶部背景高度 */
+  @computed get fixedHeight() {
     return _.parallaxImageHeight - H_HEADER
   }
 
@@ -553,7 +564,7 @@ export default class ScreenUser extends store {
       setTimeout(() => {
         const { page } = this.state
         this.scrollToOffset[page]?.({
-          offset: this.h_fixed,
+          offset: this.fixedHeight,
           animated: true
         })
       }, 0)

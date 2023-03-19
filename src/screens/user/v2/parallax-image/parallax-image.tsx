@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 07:37:35
+ * @Last Modified time: 2023-03-19 19:19:20
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { open, HTMLDecode, getBlurRadius } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IOS, TEXT_ONLY } from '@constants'
 import { UserId, ViewStyle } from '@types'
 import Head from '../head'
 import { H_HEADER } from '../ds'
@@ -135,13 +135,17 @@ export default memo(
 
       return (
         <>
-          <Animated.Image
-            style={[themeStyles.parallaxImage, parallaxStyle]}
-            source={{
-              uri
-            }}
-            blurRadius={getBlurRadius(uri, bg, avatar?.large)}
-          />
+          {TEXT_ONLY ? (
+            <Animated.View style={[themeStyles.parallaxImage, parallaxStyle]} />
+          ) : (
+            <Animated.Image
+              style={[themeStyles.parallaxImage, parallaxStyle]}
+              source={{
+                uri
+              }}
+              blurRadius={getBlurRadius(uri, bg, avatar?.large)}
+            />
+          )}
           <Animated.View
             style={[
               styles.parallaxWrap,
