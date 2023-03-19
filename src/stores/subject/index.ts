@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 16:35:28
+ * @Last Modified time: 2023-03-20 04:38:29
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -72,7 +72,6 @@ import {
 } from './common'
 import {
   ApiSubjectResponse,
-  CacheKey,
   EpV2,
   Mono,
   MonoComments,
@@ -93,6 +92,12 @@ export function getInt(subjectId: SubjectId) {
   const str = String(subjectId)
   return Number(str.slice(str.length - 3, str.length))
 }
+
+type CacheKey =
+  | keyof typeof LOADED
+  | `subject${number}`
+  | `subjectFormHTML${number}`
+  | `subjectV2${number}`
 
 class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   state = observable(STATE)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 06:14:46
+ * @Last Modified time: 2023-03-20 04:38:37
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -30,13 +30,6 @@ import {
   UrlUser,
   UserId
 } from '@types'
-import { LOADED } from './init'
-
-export type CacheKey =
-  | keyof typeof LOADED
-  | `subject${number}`
-  | `subjectFormHTML${number}`
-  | `subjectV2${number}`
 
 /** 日志 */
 type Blog = {

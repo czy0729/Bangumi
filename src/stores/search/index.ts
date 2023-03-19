@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-14 22:06:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:43:58
+ * @Last Modified time: 2023-03-20 04:34:49
  */
 import { observable, computed } from 'mobx'
 import Constants from 'expo-constants'
@@ -12,32 +12,20 @@ import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { LIST_EMPTY, HTML_SEARCH, HTML_RAKUEN_SEARCH, DEV } from '@constants'
 import { SearchCat, StoreConstructor } from '@types'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
+import { NAMESPACE, DEFAULT_CAT, INIT_SEARCH_ITEM, STATE, LOADED } from './init'
 import { cheerioSearchRakuen } from './common'
 import { Search } from './types'
 
-const state = {
-  /** 搜索 */
-  search: {
-    0: LIST_EMPTY
-  },
+type CacheKey = keyof typeof LOADED
 
-  /** @deprecated 超展开搜索 */
-  searchRakuen: {
-    0: LIST_EMPTY
-  }
-}
-
-class SearchStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
+class SearchStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
   UA = ''
 
-  private _loaded = {
-    search: false
-  }
+  private _loaded = LOADED
 
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('SearchStore /', key)
@@ -46,7 +34,7 @@ class SearchStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

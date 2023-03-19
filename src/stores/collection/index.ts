@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 16:29:29
+ * @Last Modified time: 2023-03-20 04:21:08
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -72,12 +72,14 @@ import {
   UsersSubjectCollection
 } from './types'
 
+type CacheKey = keyof typeof LOADED
+
 class CollectionStore extends store implements StoreConstructor<typeof STATE> {
   state = observable(STATE)
 
   private _loaded = LOADED
 
-  init = async (key: keyof typeof LOADED) => {
+  init = async (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('CollectionStore /', key)
@@ -96,7 +98,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     return data
   }
 
-  save = (key: keyof typeof LOADED, data?: any) => {
+  save = (key: CacheKey, data?: any) => {
     return this.setStorage(key, data, NAMESPACE)
   }
 

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:05:35
+ * @Last Modified time: 2023-03-20 04:47:30
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -72,7 +72,6 @@ import UserStore from '../user'
 import { LOG_INIT } from '../ds'
 import {
   NAMESPACE,
-  INIT_RICH,
   INIT_KLINE_ITEM,
   INIT_DEPTH_ITEM,
   INIT_ASSETS,
@@ -80,224 +79,23 @@ import {
   INIT_USER_LOGS,
   INIT_MY_CHARA_ASSETS,
   INIT_AUCTION_STATUS,
-  INIT_CHARACTERS_ITEM
+  INIT_CHARACTERS_ITEM,
+  STATE,
+  LOADED
 } from './init'
 import { throttleInfo, toCharacter, calculateRate } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { Characters, ListKey } from './types'
 import { TinygrailMagic } from '@constants/api/types'
 
-const state = {
-  /** 授权 cookie */
-  cookie: '',
+type CacheKey = keyof typeof LOADED | ListKey
 
-  /** 高级会员 */
-  advance: false,
+class TinygrailStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 用户唯一标识 */
-  hash: '',
+  private _loaded = LOADED
 
-  /** 全局人物数据 */
-  characters: {},
-
-  /** 最高市值 */
-  mvc: LIST_EMPTY,
-
-  /** 最大涨幅 */
-  mrc: LIST_EMPTY,
-
-  /** 最大跌幅 */
-  mfc: LIST_EMPTY,
-
-  /** ICO 最多资金 */
-  mvi: LIST_EMPTY,
-
-  /** ICO 最高人气 */
-  mpi: LIST_EMPTY,
-
-  /** ICO 最近活跃 */
-  rai: LIST_EMPTY,
-
-  /** ICO 即将结束 */
-  mri: LIST_EMPTY,
-
-  /** 最近活跃 */
-  recent: LIST_EMPTY,
-
-  /** 新番市值 */
-  tnbc: LIST_EMPTY,
-
-  /** 新番活跃 */
-  nbc: LIST_EMPTY,
-
-  /** 最高股息 */
-  msrc: LIST_EMPTY,
-
-  /** 番市首富 */
-  rich: {
-    ...INIT_RICH
-  },
-
-  /** K线 */
-  kline: {},
-
-  /** 深度图 */
-  depth: {},
-
-  /** 用户资产 */
-  assets: INIT_ASSETS,
-
-  /** 其他用户资产 */
-  userAssets: {},
-
-  /** 用户资产概览信息 */
-  charaAssets: {},
-
-  /** 我的挂单和交易记录 */
-  userLogs: {},
-
-  /** 我的买单 */
-  bid: LIST_EMPTY,
-
-  /** 我的卖单 */
-  asks: LIST_EMPTY,
-
-  /** 我的持仓 */
-  myCharaAssets: INIT_MY_CHARA_ASSETS,
-
-  /** 资金日志 */
-  balance: LIST_EMPTY,
-
-  /** 记录所有角色的头像 Map (用于没有头像的列表) */
-  iconsCache: {},
-
-  /** ICO 参与者 */
-  initial: {},
-
-  /** 董事会 */
-  users: {},
-
-  /** 用户圣殿 */
-  temple: {},
-
-  /** 用户所有角色信息 */
-  charaAll: {},
-
-  /** 角色圣殿 */
-  charaTemple: {},
-
-  /** 可拍卖信息 */
-  valhallChara: {},
-
-  /** 上周拍卖记录 */
-  auctionList: {},
-
-  /** 英灵殿 */
-  valhallList: LIST_EMPTY,
-
-  /** 我的道具 */
-  items: LIST_EMPTY,
-
-  /** 我的拍卖列表 */
-  auction: LIST_EMPTY,
-
-  /** 当前拍卖状态 */
-  auctionStatus: {},
-
-  /** 角色发行价 */
-  issuePrice: {},
-
-  /** 最近圣殿 */
-  templeLast: LIST_EMPTY,
-
-  /** 每周萌王 */
-  topWeek: LIST_EMPTY,
-
-  /** 检测用户有多少圣殿 */
-  templeTotal: {},
-
-  /** 检测用户有多少角色 */
-  charaTotal: {},
-
-  /** 卖一推荐 */
-  advanceList: LIST_EMPTY,
-
-  /** 买一推荐 */
-  advanceBidList: LIST_EMPTY,
-
-  /** 竞拍推荐 */
-  advanceAuctionList: LIST_EMPTY,
-
-  /** 竞拍推荐 (按固定资产) */
-  advanceAuctionList2: LIST_EMPTY,
-
-  /** 献祭推荐 */
-  advanceSacrificeList: LIST_EMPTY,
-
-  /** 低价股 */
-  advanceState: LIST_EMPTY,
-
-  /** 角色本地收藏 */
-  collected: {},
-
-  /** 通天塔(α) */
-  star: {},
-
-  /** 通天塔(α)记录 */
-  starLogs: LIST_EMPTY,
-
-  /** 幻想乡 */
-  fantasy: LIST_EMPTY,
-
-  /** @deprecated */
-  _webview: true,
-
-  /** StockPreview 展开/收起 */
-  _stockPreview: false
-}
-
-class TinygrailStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    advance: false,
-    advanceAuctionList2: false,
-    advanceAuctionList: false,
-    advanceBidList: false,
-    advanceList: false,
-    advanceSacrificeList: false,
-    advanceState: false,
-    asks: false,
-    assets: false,
-    auction: false,
-    balance: false,
-    bid: false,
-    charaAll: false,
-    charaAssets: false,
-    charaTemple: false,
-    characters: false,
-    collected: false,
-    cookie: false,
-    depth: false,
-    fantasy: false,
-    hash: false,
-    iconsCache: false,
-    issuePrice: false,
-    items: false,
-    kline: false,
-    mvi: false,
-    myCharaAssets: false,
-    nbc: false,
-    recent: false,
-    rich: false,
-    star: false,
-    temple: false,
-    topWeek: false,
-    userLogs: false,
-    valhallList: false
-  }
-
-  init = (key: keyof typeof this._loaded | ListKey) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('TinygrailStore /', key)
@@ -306,7 +104,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded | ListKey) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

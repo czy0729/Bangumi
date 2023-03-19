@@ -335,6 +335,7 @@ export const INIT_SETTING = {
   ...INIT_SUBJECT_LAYOUT
 }
 
+/** 调试模式参数 */
 export const INIT_DEV_EVENT = {
   enabled: false,
   grid: true,
@@ -343,14 +344,67 @@ export const INIT_DEV_EVENT = {
   mini: false
 }
 
+/** 发行版本参数 */
 export const INIT_RELEASE = {
   name: VERSION_GITHUB_RELEASE,
   downloadUrl: ''
 }
 
+/** 全屏图片画廊参数 */
 export const INIT_IMAGE_VIEWER = {
   visible: false,
   imageUrls: [],
   index: 0,
   mini: false
+}
+
+export const STATE = {
+  /** 云端配置数据 */
+  ota: {},
+
+  /** 高级会员 */
+  advance: false,
+
+  /** 高级会员详情 */
+  advanceDetail: {
+    _loaded: 0
+  },
+
+  /** 基本设置 */
+  setting: INIT_SETTING,
+
+  /** 发布版本 */
+  release: INIT_RELEASE,
+
+  /** 是否显示图片预览 */
+  imageViewer: INIT_IMAGE_VIEWER,
+
+  /** @deprecated 是否 wifi */
+  wifi: false,
+
+  /** 是否开发环境 */
+  dev: false,
+
+  /** 是否显示埋点统计 */
+  devEvent: INIT_DEV_EVENT,
+
+  /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
+  iosUGCAgree: false,
+
+  /** 用于标记 APP 启动后是否进入静止期 */
+  rendered: false,
+
+  /** 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
+  hashSubjectOTALoaded: 0
+}
+
+export const LOADED = {
+  advance: false,
+  advanceDetail: false,
+  dev: false,
+  devEvent: false,
+  iosUGCAgree: false,
+  ota: false,
+  release: false,
+  setting: false
 }

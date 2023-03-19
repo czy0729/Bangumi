@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 15:20:47
+ * @Last Modified time: 2023-03-20 04:51:12
  */
+import { LIST_EMPTY } from '@constants'
+
 export const NAMESPACE = 'Users'
 
 export const INIT_FRIENDS_ITEM = {
@@ -102,4 +104,67 @@ export const INIT_CATALOGS = {
   avatar: '',
   time: '',
   num: ''
+}
+
+export const STATE = {
+  /** 好友列表 */
+  friends: {
+    0: LIST_EMPTY
+  },
+
+  /** 我的好友 userId 哈希映射 */
+  myFriendsMap: {
+    _loaded: 0
+  },
+
+  /** 用户信息 */
+  users: {
+    0: INIT_USERS
+  },
+
+  /** 用户简短信息 */
+  usersInfo: {
+    0: INIT_USERS_INFO
+  },
+
+  /** 用户收藏的虚拟角色 */
+  characters: {
+    0: LIST_EMPTY
+  },
+
+  /** 用户收藏的现实人物 */
+  persons: {
+    0: LIST_EMPTY
+  },
+
+  /** 我收藏人物的最近作品 */
+  recents: LIST_EMPTY,
+
+  /** 用户日志 */
+  blogs: {
+    0: LIST_EMPTY
+  },
+
+  /** 用户目录 */
+  catalogs: {
+    0: LIST_EMPTY
+  },
+
+  /** 用户收藏的目录 */
+  catalogsCollect: {
+    0: LIST_EMPTY
+  }
+}
+
+export const LOADED = {
+  blogs: false,
+  catalogs: false,
+  catalogsCollect: false,
+  characters: false,
+  friends: false,
+  myFriendsMap: false,
+  persons: false,
+  recents: false,
+  users: false,
+  usersInfo: false
 }

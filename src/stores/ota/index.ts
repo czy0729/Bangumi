@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:52:31
+ * @Last Modified time: 2023-03-20 04:31:04
  */
 import { observable, computed } from 'mobx'
 import { pick } from '@utils'
@@ -17,48 +17,17 @@ import { pick as hentaiPick } from '@utils/subject/hentai'
 import { DEV } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE } from './ds'
+import { LOADED, NAMESPACE, STATE } from './init'
 import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
-const state = {
-  /** 找番剧 */
-  anime: {
-    age_0: {}
-  },
+type CacheKey = keyof typeof LOADED
 
-  /** 找漫画 */
-  manga: {
-    mox_0: {}
-  },
+class OTAStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 找游戏 | ADV */
-  game: {
-    game_0: {}
-  },
+  private _loaded = LOADED
 
-  /** 找文库 */
-  wenku: {
-    wk8_0: {}
-  },
-
-  /** 找 Hentai */
-  hentai: {
-    hentai_0: {}
-  }
-}
-
-class OTAStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    anime: false,
-    manga: false,
-    game: false,
-    wenku: false,
-    hentai: false
-  }
-
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('OTAStore /', key)
@@ -67,7 +36,7 @@ class OTAStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

@@ -2,30 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 00:53:49
+ * @Last Modified time: 2023-03-20 04:37:33
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE } from './init'
-import { SMB } from './types'
+import { LOADED, NAMESPACE, STATE } from './init'
 
-const state = {
-  data: {
-    data: [] as SMB
-  }
-}
+type CacheKey = keyof typeof LOADED
 
-class SMBStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
+class SMBStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  private _loaded = {
-    data: false
-  }
+  private _loaded = LOADED
 
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('SMBStore /', key)
@@ -34,7 +27,7 @@ class SMBStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

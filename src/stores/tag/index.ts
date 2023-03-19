@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:25:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:54:23
+ * @Last Modified time: 2023-03-20 04:41:29
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -21,37 +21,18 @@ import {
   TagOrder
 } from '@types'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE, DEFAULT_TYPE } from './init'
+import { NAMESPACE, DEFAULT_TYPE, STATE, LOADED } from './init'
 import { analysisTags, analysiRank } from './common'
 import { Browser, Rank, Tag } from './types'
 
-const state = {
-  /** 标签条目 */
-  tag: {
-    0: LIST_EMPTY
-  },
+type CacheKey = keyof typeof LOADED
 
-  /** 排行榜 */
-  rank: {
-    0: LIST_EMPTY
-  },
+class TagStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 索引 */
-  browser: {
-    0: LIST_EMPTY
-  }
-}
+  private _loaded = LOADED
 
-class TagStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    tag: false,
-    rank: false,
-    browser: false
-  }
-
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('TagStore /', key)
@@ -60,7 +41,7 @@ class TagStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 00:59:48
+ * @Last Modified time: 2023-03-20 04:45:15
  */
-import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { LIST_EMPTY, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { TimeLineScope, TimeLineType } from '@types'
 
 export const NAMESPACE = 'Timeline'
@@ -17,4 +17,33 @@ export const INIT_SAY_ITEM = {
   id: '',
   name: '',
   text: ''
+}
+
+export const STATE = {
+  /** 时间胶囊 */
+  timeline: {
+    0: LIST_EMPTY
+  },
+
+  /** 其他人的时间胶囊 */
+  usersTimeline: {
+    0: LIST_EMPTY
+  },
+
+  /** 吐槽 */
+  say: {
+    0: LIST_EMPTY
+  },
+
+  /** 吐槽表单授权码 */
+  formhash: '',
+
+  /** 隐藏TA */
+  hidden: {}
+}
+
+export const LOADED = {
+  timeline: false,
+  say: false,
+  hidden: false
 }

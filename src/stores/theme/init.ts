@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 21:33:55
+ * @Last Modified time: 2023-03-20 04:43:39
  */
+import { ORIENTATION_PORTRAIT } from '@constants'
 import _ from '@styles'
 import { MemoStylesItem } from './types'
 
@@ -88,4 +89,28 @@ export function getMemoStylesId(): MemoStylesItem {
     _hash: '',
     _styles: ''
   }
+}
+
+export const STATE = {
+  mode: DEFAULT_MODE,
+  orientation: ORIENTATION_PORTRAIT,
+  window: _.window,
+  wind: _.wind,
+  _wind: _._wind,
+  landscapeWindow: _.landscapeWindow,
+  landscapeWind: _.landscapeWind,
+  landscapeWindowSm: _.landscapeWindowSm,
+  landscapeWindSm: _.landscapeWindSm,
+  fontSizeAdjust: 0,
+  ...STYLES_LIGHT,
+  tinygrailMode: DEFAULT_TINYGRAIL_MODE,
+  tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
+  wsaLayoutChanged: 0
+}
+
+export const LOADED = {
+  mode: false,
+  tinygrailMode: false,
+  tinygrailThemeMode: false,
+  fontSizeAdjust: false
 }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-27 16:52:02
+ * @Last Modified time: 2023-03-20 04:33:10
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -17,28 +17,18 @@ import {
 } from '@constants'
 import { StoreConstructor, SubjectId } from '@types'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE } from './init'
+import { LOADED, NAMESPACE, STATE } from './init'
 import { cheerioCharacters, cheerioPersons } from './common'
 import { Characters, Persons } from './types'
 
-const state = {
-  /** 更多角色 */
-  characters: {
-    0: LIST_EMPTY
-  },
+type CacheKey = keyof typeof LOADED
 
-  /** 更多制作人员 */
-  persons: {
-    0: LIST_EMPTY
-  }
-}
+class MonoStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-class MonoStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
+  private _loaded = LOADED
 
-  private _loaded = {}
-
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('MonoStore /', key)
@@ -47,7 +37,7 @@ class MonoStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

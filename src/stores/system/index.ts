@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 17:59:58
+ * @Last Modified time: 2023-03-20 04:39:31
  */
 import { observable, computed } from 'mobx'
 import { confirm, getTimestamp, info, titleCase } from '@utils'
@@ -49,67 +49,20 @@ import {
 } from '@types'
 import UserStore from '../user'
 import {
-  NAMESPACE,
-  INIT_SUBJECT_LAYOUT,
+  INIT_IMAGE_VIEWER,
   INIT_SETTING,
-  INIT_DEV_EVENT,
-  INIT_RELEASE,
-  INIT_IMAGE_VIEWER
+  INIT_SUBJECT_LAYOUT,
+  LOADED,
+  NAMESPACE,
+  STATE
 } from './init'
 
-const state = {
-  /** 云端配置数据 */
-  ota: {},
+type CacheKey = keyof typeof LOADED
 
-  /** 高级会员 */
-  advance: false,
+class SystemStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 高级会员详情 */
-  advanceDetail: {
-    _loaded: 0
-  },
-
-  /** 基本设置 */
-  setting: INIT_SETTING,
-
-  /** 发布版本 */
-  release: INIT_RELEASE,
-
-  /** 是否显示图片预览 */
-  imageViewer: INIT_IMAGE_VIEWER,
-
-  /** @deprecated 是否 wifi */
-  wifi: false,
-
-  /** 是否开发环境 */
-  dev: false,
-
-  /** 是否显示埋点统计 */
-  devEvent: INIT_DEV_EVENT,
-
-  /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
-  iosUGCAgree: false,
-
-  /** 用于标记 APP 启动后是否进入静止期 */
-  rendered: false,
-
-  /** 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
-  hashSubjectOTALoaded: 0
-}
-
-class SystemStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    advance: false,
-    advanceDetail: false,
-    dev: false,
-    devEvent: false,
-    iosUGCAgree: false,
-    ota: false,
-    release: false,
-    setting: false
-  }
+  private _loaded = LOADED
 
   init = async () => {
     await this.readStorage(
@@ -150,7 +103,7 @@ class SystemStore extends store implements StoreConstructor<typeof state> {
     return true
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

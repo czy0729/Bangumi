@@ -2,49 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 19:18:43
+ * @Last Modified time: 2023-03-20 04:48:59
  */
 import { observable, computed } from 'mobx'
 import { feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
-import { RatingStatus, StoreConstructor } from '@types'
+import { StoreConstructor } from '@types'
 import subjectStore from '../subject'
 import userStore from '../user'
 import collectionStore from '../collection'
+import { STATE } from './init'
 import { SubmitManageModalValues } from './types'
 
-const state = {
-  /** 存放带监听组件的页面上面, 最近一次点击的 x, y 坐标 */
-  tapXY: {
-    x: 0,
-    y: 0
-  },
-
-  /** 条目缩略信息弹出层 */
-  popableSubject: {
-    subjectId: 0,
-    visible: false,
-    portalKey: 0,
-    x: 0,
-    y: 0
-  },
-
-  /** 全局条目管理 Modal */
-  manageModal: {
-    visible: false,
-    subjectId: 0,
-    title: '',
-    desc: '',
-    status: '' as '' | RatingStatus,
-    action: '看' as '看' | '玩' | '听' | '读',
-    screen: ''
-  }
-}
-
-class UIStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
+class UIStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
   @computed get tapXY() {
     return this.state.tapXY

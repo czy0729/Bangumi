@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:48:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 21:20:12
+ * @Last Modified time: 2023-03-20 04:19:48
  */
 import {
   MODEL_SUBJECT_TYPE,
@@ -30,7 +30,7 @@ export const DEFAULT_USERS_SUBJECT_COLLECTION = {
   _loaded: false
 } as UsersSubjectCollection
 
-const STATE = {
+export const STATE = {
   /** 条目收藏信息 */
   collection: {
     0: {}
@@ -69,8 +69,6 @@ const STATE = {
     0: DEFAULT_USERS_SUBJECT_COLLECTION
   }
 }
-
-export { STATE }
 
 export const LOADED = {
   _collectionStatusLastFetchMS: false,

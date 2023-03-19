@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 02:54:46
+ * @Last Modified time: 2023-03-20 04:44:10
  */
 import { StyleSheet, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import { androidDayNightToggle, runAfter } from '@utils'
 import store from '@utils/store'
-import { IOS, ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE, WSA, PAD } from '@constants'
+import { IOS, ORIENTATION_LANDSCAPE, WSA, PAD } from '@constants'
 import _, { fontSize, IS_IOS_5_6_7_8 } from '@styles'
 import { AnyObject, SelectFn, SettingFontsizeadjust, StoreConstructor } from '@types'
 import systemStore from '../system'
@@ -18,31 +18,17 @@ import {
   NAMESPACE,
   DEFAULT_MODE,
   DEFAULT_TINYGRAIL_MODE,
-  DEFAULT_TINYGRAIL_THEME_MODE,
   STYLES_LIGHT,
-  STYLES_DARK
+  STYLES_DARK,
+  STATE,
+  LOADED
 } from './init'
 import { getMemoStyles, getMemoStylesHash } from './utils'
 import { Color, Mode, Orientation, TinygrailMode } from './types'
 
-const state = {
-  mode: DEFAULT_MODE,
-  orientation: ORIENTATION_PORTRAIT,
-  window: _.window,
-  wind: _.wind,
-  _wind: _._wind,
-  landscapeWindow: _.landscapeWindow,
-  landscapeWind: _.landscapeWind,
-  landscapeWindowSm: _.landscapeWindowSm,
-  landscapeWindSm: _.landscapeWindSm,
-  fontSizeAdjust: 0,
-  ...STYLES_LIGHT,
-  tinygrailMode: DEFAULT_TINYGRAIL_MODE,
-  tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
-  wsaLayoutChanged: 0
-}
+type CacheKey = keyof typeof LOADED
 
-class ThemeStore extends store implements StoreConstructor<typeof state> {
+class ThemeStore extends store implements StoreConstructor<typeof STATE> {
   constructor() {
     super()
 
@@ -53,14 +39,9 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
   }
 
   /** -------------------- store -------------------- */
-  state = observable(state)
+  state = observable(STATE)
 
-  private _loaded = {
-    mode: false,
-    tinygrailMode: false,
-    tinygrailThemeMode: false,
-    fontSizeAdjust: false
-  }
+  private _loaded = LOADED
 
   init = async () => {
     // 遗漏问题, 版本前有部分用户安卓9启用了跟随系统设置, 需要排除掉
@@ -88,7 +69,7 @@ class ThemeStore extends store implements StoreConstructor<typeof state> {
     return true
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

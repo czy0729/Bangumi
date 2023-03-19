@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 19:07:18
+ * @Last Modified time: 2023-03-20 04:45:30
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -21,43 +21,18 @@ import {
 import { Id, StoreConstructor, TimeLineScope, TimeLineType, UserId } from '@types'
 import userStore from '../user'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE, DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
+import { NAMESPACE, DEFAULT_SCOPE, DEFAULT_TYPE, STATE, LOADED } from './init'
 import { fetchTimeline, analysisSay, analysisFormHash } from './common'
 import { Hidden, Say, Timeline } from './types'
 
-const state = {
-  /** 时间胶囊 */
-  timeline: {
-    0: LIST_EMPTY
-  },
+type CacheKey = keyof typeof LOADED
 
-  /** 其他人的时间胶囊 */
-  usersTimeline: {
-    0: LIST_EMPTY
-  },
+class TimelineStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 吐槽 */
-  say: {
-    0: LIST_EMPTY
-  },
+  private _loaded = LOADED
 
-  /** 吐槽表单授权码 */
-  formhash: '',
-
-  /** 隐藏TA */
-  hidden: {}
-}
-
-class TimelineStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    timeline: false,
-    say: false,
-    hidden: false
-  }
-
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('TimelineStore /', key)
@@ -66,7 +41,7 @@ class TimelineStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

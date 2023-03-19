@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 16:01:31
+ * @Last Modified time: 2023-03-19 22:34:11
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -32,7 +32,10 @@ import usersStore from './users'
 let inited = false
 
 class GlobalStores {
-  /** 保证所有子 Store 初始化和加载缓存 */
+  /**
+   * 保证所有子 Store 初始化和加载缓存,
+   * 只有在第一次初始化后返回 systemStore.setting
+   * */
   async init() {
     try {
       if (!DEV && inited) return true

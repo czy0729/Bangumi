@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 21:33:47
+ * @Last Modified time: 2023-03-20 04:50:47
  */
 import { observable, computed, toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -64,8 +64,9 @@ import {
   INIT_ACCESS_TOKEN,
   INIT_USER_COOKIE,
   INIT_USER_INFO,
-  INIT_USER_SETTING,
-  NAMESPACE
+  LOADED,
+  NAMESPACE,
+  STATE
 } from './init'
 import {
   cheerioPM,
@@ -81,114 +82,14 @@ import {
   UserCollection
 } from './types'
 
-const state = {
-  /** 授权信息 */
-  accessToken: INIT_ACCESS_TOKEN,
+type CacheKey = keyof typeof LOADED
 
-  /** 自己用户信息 */
-  userInfo: {
-    ...INIT_USER_INFO,
-    _loaded: 0
-  },
+class UserStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 用户 cookie (请求html用) */
-  userCookie: INIT_USER_COOKIE,
+  private _loaded = LOADED
 
-  /**
-   * 是html中后续在请求头中获取的更新cookie的标志
-   * 会随请求一直更新, 并带上请求防止一段时候后掉登录
-   */
-  setCookie: '',
-
-  /** @deprecated hm.js 请求 cookie , 区分唯一用户, 一旦获取通常不再变更 */
-  hmCookie: '',
-
-  /** @deprecated 在看收藏 */
-  userCollection: LIST_EMPTY,
-
-  /** 在看收藏 (新 API, 取代 userCollection) */
-  collection: LIST_EMPTY,
-
-  /** 收视进度 (章节) */
-  userProgress: {
-    0: {}
-  },
-
-  /** 用户收藏概览 */
-  userCollections: {
-    0: LIST_EMPTY
-  },
-
-  /** 某用户信息 */
-  usersInfo: {
-    0: INIT_USER_INFO
-  },
-
-  /** 用户收藏统计 (每种状态条目的数量) */
-  userCollectionsStatus: {
-    0: []
-  },
-
-  /** 用户介绍 */
-  users: {
-    0: ''
-  },
-
-  /** 短信收信 */
-  pmIn: LIST_EMPTY,
-
-  /** 短信发信 */
-  pmOut: LIST_EMPTY,
-
-  /** 短信详情 */
-  pmDetail: {
-    0: LIST_EMPTY
-  },
-
-  /** 新短信参数 */
-  pmParams: {
-    0: {}
-  },
-
-  /** 登出地址 */
-  logout: '',
-
-  /** 表单提交唯一码 */
-  formhash: '',
-
-  /** 个人设置 */
-  userSetting: INIT_USER_SETTING,
-
-  /** 登录是否过期 */
-  outdate: false,
-
-  /** 在线用户最后上报时间集 */
-  onlines: {}
-}
-
-class UserStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    accessToken: false,
-    collection: false,
-    formhash: false,
-    hmCookie: false,
-    onlines: false,
-    pmDetail: false,
-    pmIn: false,
-    pmOut: false,
-    setCookie: false,
-    userCollection: false,
-    userCollectionsStatus: false,
-    userCookie: false,
-    userInfo: false,
-    userProgress: false,
-    userSetting: false,
-    usersInfo: false
-  }
-
-  init = async (key: keyof typeof this._loaded) => {
+  init = async (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('UserStore /', key)
@@ -217,7 +118,7 @@ class UserStore extends store implements StoreConstructor<typeof state> {
     return data
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

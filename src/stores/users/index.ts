@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:06:37
+ * @Last Modified time: 2023-03-20 04:51:48
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp, HTMLDecode } from '@utils'
@@ -25,7 +25,7 @@ import {
 import { StoreConstructor, UserId } from '@types'
 import userStore from '../user'
 import { LOG_INIT } from '../ds'
-import { NAMESPACE, INIT_USERS, INIT_USERS_INFO } from './init'
+import { NAMESPACE, INIT_USERS, INIT_USERS_INFO, STATE, LOADED } from './init'
 import {
   cheerioFriends,
   cheerioUsers,
@@ -48,76 +48,17 @@ import {
   UsersInfo
 } from './types'
 
-const state = {
-  /** 好友列表 */
-  friends: {
-    0: LIST_EMPTY
-  },
-
-  /** 我的好友 userId 哈希映射 */
-  myFriendsMap: {
-    _loaded: 0
-  },
-
-  /** 用户信息 */
-  users: {
-    0: INIT_USERS
-  },
-
-  /** 用户简短信息 */
-  usersInfo: {
-    0: INIT_USERS_INFO
-  },
-
-  /** 用户收藏的虚拟角色 */
-  characters: {
-    0: LIST_EMPTY
-  },
-
-  /** 用户收藏的现实人物 */
-  persons: {
-    0: LIST_EMPTY
-  },
-
-  /** 我收藏人物的最近作品 */
-  recents: LIST_EMPTY,
-
-  /** 用户日志 */
-  blogs: {
-    0: LIST_EMPTY
-  },
-
-  /** 用户目录 */
-  catalogs: {
-    0: LIST_EMPTY
-  },
-
-  /** 用户收藏的目录 */
-  catalogsCollect: {
-    0: LIST_EMPTY
-  }
-}
+type CacheKey = keyof typeof LOADED
 
 class UsersStore
   extends store
-  implements StoreConstructor<Omit<typeof state, 'catalogsCollect'>>
+  implements StoreConstructor<Omit<typeof STATE, 'catalogsCollect'>>
 {
-  state = observable(state)
+  state = observable(STATE)
 
-  private _loaded = {
-    blogs: false,
-    catalogs: false,
-    catalogsCollect: false,
-    characters: false,
-    friends: false,
-    myFriendsMap: false,
-    persons: false,
-    recents: false,
-    users: false,
-    usersInfo: false
-  }
+  private _loaded = LOADED
 
-  init = async (key: keyof typeof this._loaded) => {
+  init = async (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('UsersStore /', key)
@@ -139,7 +80,7 @@ class UsersStore
     return data
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 

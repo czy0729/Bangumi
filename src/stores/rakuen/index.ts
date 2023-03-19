@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 20:00:55
+ * @Last Modified time: 2023-03-20 04:33:10
  */
 import { observable, computed } from 'mobx'
 import { desc, getTimestamp, HTMLTrim, info } from '@utils'
@@ -52,11 +52,12 @@ import {
   DEFAULT_TYPE,
   INIT_GROUP_INFO,
   INIT_GROUP_ITEM,
-  INIT_NOTIFY,
   INIT_READED_ITEM,
   INIT_SETTING,
   INIT_TOPIC,
-  NAMESPACE
+  LOADED,
+  NAMESPACE,
+  STATE
 } from './init'
 import {
   analysisGroup,
@@ -84,133 +85,14 @@ import {
   UserTopicsFormCDN
 } from './types'
 
-const state = {
-  /** 超展开列表 */
-  rakuen: {
-    0: LIST_EMPTY
-  },
+type CacheKey = keyof typeof LOADED
 
-  /** 帖子历史查看信息 */
-  readed: {
-    0: INIT_READED_ITEM
-  },
+class RakuenStore extends store implements StoreConstructor<typeof STATE> {
+  state = observable(STATE)
 
-  /** 帖子内容 */
-  topic: {
-    0: INIT_TOPIC
-  },
+  private _loaded = LOADED
 
-  /** 帖子回复 */
-  comments: {
-    0: LIST_EMPTY
-  },
-
-  /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
-  topicFormCDN: {
-    0: INIT_TOPIC
-  },
-
-  /** 云端帖子内容 */
-  cloudTopic: {
-    0: INIT_TOPIC
-  },
-
-  /** 电波提醒 */
-  notify: INIT_NOTIFY,
-
-  /** 超展开设置 */
-  setting: INIT_SETTING,
-
-  /** @deprecated 是否本地收藏 */
-  favor: {
-    0: false
-  },
-
-  /** 收藏 v2 */
-  favorV2: {
-    0: false
-  },
-
-  /** 收藏人数 v2 */
-  favorCount: {
-    0: 0
-  },
-
-  /** 小组帖子列表 */
-  group: {
-    0: INIT_GROUP_ITEM
-  },
-
-  /** 小组信息 */
-  groupInfo: {
-    0: INIT_GROUP_INFO
-  },
-
-  /** 小组缩略图缓存 */
-  groupThumb: {
-    0: ''
-  },
-
-  /** 我的小组 */
-  mine: LIST_EMPTY,
-
-  /** 日志内容 */
-  blog: {
-    0: INIT_TOPIC
-  },
-
-  /** 日志回复 */
-  blogComments: {
-    0: LIST_EMPTY
-  },
-
-  /** 用户历史超展开帖子 (CDN) */
-  userTopicsFormCDN: {
-    0: LIST_EMPTY
-  },
-
-  /** 条目帖子列表 */
-  board: {
-    0: LIST_EMPTY
-  },
-
-  /** 条目讨论版 */
-  reviews: {
-    0: LIST_EMPTY
-  },
-
-  /** 超展开热门 */
-  hot: LIST_EMPTY,
-
-  /** 屏蔽用户的屏蔽次数追踪 */
-  blockedUsersTrack: {
-    0: 0
-  }
-}
-
-class RakuenStore extends store implements StoreConstructor<typeof state> {
-  state = observable(state)
-
-  private _loaded = {
-    blog: false,
-    cloudTopic: false,
-    comments: false,
-    favor: false,
-    favorV2: false,
-    favorCount: false,
-    groupInfo: false,
-    groupThumb: false,
-    hot: false,
-    mine: false,
-    notify: false,
-    rakuen: false,
-    readed: false,
-    setting: false,
-    topic: false,
-    blockedUsersTrack: false
-  }
-
-  init = (key: keyof typeof this._loaded) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
     if (DEV && LOG_INIT) console.info('RakuenStore /', key)
@@ -219,7 +101,7 @@ class RakuenStore extends store implements StoreConstructor<typeof state> {
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: keyof typeof this._loaded) => {
+  save = (key: CacheKey) => {
     return this.setStorage(key, undefined, NAMESPACE)
   }
 
