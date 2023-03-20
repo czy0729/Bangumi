@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 22:10:36
+ * @Last Modified time: 2023-03-20 17:17:13
  */
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
 import { useMount } from '@utils/hooks'
 import { memo } from '@utils/decorators'
@@ -27,7 +27,7 @@ const Wrap = memo(
 
     const scrollY = useRef(new Animated.Value(0))
     const y = useRef(0)
-    const [fixed, setFixed] = useState(false)
+    const fixed = useRef(false)
 
     const onScroll = useCallback(
       (e: {
@@ -40,33 +40,33 @@ const Wrap = memo(
         const { y: evtY } = e.nativeEvent.contentOffset
         y.current = evtY
 
-        if (fixed && evtY < fixedHeight - 20) {
-          setFixed(false)
+        if (fixed.current && evtY < fixedHeight - 20) {
+          fixed.current = false
           return
         }
 
-        if (!fixed && evtY >= fixedHeight - 20) {
-          setFixed(true)
+        if (!fixed.current && evtY >= fixedHeight - 20) {
+          fixed.current = true
         }
       },
-      [fixed, fixedHeight]
+      [fixedHeight]
     )
     const updatePageOffset = useCallback(
-      (index: number[] = [-1, 1]) => {
-        index.forEach(item => {
+      (offsets: number[] = [-1, 1]) => {
+        offsets.forEach(item => {
           if (typeof scrollToOffset[page + item] === 'function') {
             scrollToOffset[page + item]({
-              offset: fixed ? fixedHeight : y.current,
+              offset: fixed.current ? fixedHeight : y.current,
               animated: false
             })
           }
         })
       },
-      [fixed, fixedHeight, page, scrollToOffset]
+      [fixedHeight, page, scrollToOffset]
     )
 
     const onSwipeStart = useCallback(() => {
-      updatePageOffset()
+      updatePageOffset([-1, 1])
     }, [updatePageOffset])
     const onIndexChange = useCallback(
       (index: number) => {
@@ -94,7 +94,7 @@ const Wrap = memo(
           onSelectSubjectType={onSelectSubjectType}
           onToggleList={onToggleList}
         />
-        <ParallaxImage scrollY={scrollY.current} fixed={fixed} />
+        <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />
       </>
     )
   },

@@ -62,12 +62,9 @@ export function toJP(weekDayCN: string | number = 0, timeCN: string = '0000') {
   const nextWeekday = dayjs()
     .weekday(Number(weekDayCN || 7))
     .format('YYYY-MM-DD')
-  const day = dayjs
-    .tz(
-      `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00`,
-      'Asia/Shanghai'
-    )
-    .tz('Asia/Tokyo')
+  const day = dayjs(
+    `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00+08:00`
+  ).utcOffset(9)
   return {
     weekDayCN: weekDayCN || 7,
     timeCN,
@@ -81,9 +78,9 @@ export function toCN(weekDayJP: string | number = 0, timeJP: string = '0000') {
   const nextWeekday = dayjs()
     .weekday(Number(weekDayJP || 7))
     .format('YYYY-MM-DD')
-  const day = dayjs
-    .tz(`${nextWeekday}T${timeJP.slice(0, 2)}:${timeJP.slice(2, 4)}:00`, 'Asia/Tokyo')
-    .tz('Asia/Shanghai')
+  const day = dayjs(
+    `${nextWeekday}T${timeJP.slice(0, 2)}:${timeJP.slice(2, 4)}:00+09:00`
+  ).utcOffset(8)
   return {
     weekDayCN: day.day() || 7,
     timeCN: day.format('HHmm'),
@@ -109,12 +106,9 @@ export function toLocal(weekDayCN: string | number = 0, timeCN: string = '0000')
   const nextWeekday = dayjs()
     .weekday(Number(weekDayCN || 7))
     .format('YYYY-MM-DD')
-  const day = dayjs
-    .tz(
-      `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00`,
-      'Asia/Shanghai'
-    )
-    .tz(TZ)
+  const day = dayjs(
+    `${nextWeekday}T${timeCN.slice(0, 2)}:${timeCN.slice(2, 4)}:00+08:00`
+  )
   return {
     weekDayCN,
     timeCN,

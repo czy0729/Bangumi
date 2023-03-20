@@ -21,7 +21,6 @@ export const memoStyles = _.memoStyles(() => ({
     height: IMG_HEIGHT * 1.1 - _.xs
   },
   tip: {
-    paddingRight: 24,
     marginTop: _.sm,
     marginBottom: _.xs
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 19:19:20
+ * @Last Modified time: 2023-03-20 17:06:31
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -230,9 +230,7 @@ export default memo(
       scrollY,
       src,
       textType,
-      themeStyles.head,
-      themeStyles.parallaxImage,
-      themeStyles.parallaxLine
+      themeStyles
     ])
 
     const Content = useMemo(() => {

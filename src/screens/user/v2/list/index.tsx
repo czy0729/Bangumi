@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:51
+ * @Last Modified time: 2023-03-20 17:04:32
  */
 import React from 'react'
-import { Animated } from 'react-native'
+import { Animated, View } from 'react-native'
 import { Loading, ListView, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
+import FixedToolBar from '../fixed-tool-bar'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 import ItemList from './item-list'
@@ -76,7 +77,7 @@ class List extends React.Component<Props> {
     if (hide) return null
 
     const { $ }: Ctx = this.context
-    const { page, title, scrollY, onScroll, ...other } = this.props
+    const { page, title, scrollY, onScroll, onToggleList, ...other } = this.props
     const { subjectType, list, isFocused } = $.state
     const userCollections = $.userCollections(
       subjectType,
@@ -93,6 +94,7 @@ class List extends React.Component<Props> {
 
     const numColumns = list ? undefined : this.userGridNum
     const tab = TABS[page]
+
     return (
       <ListView
         key={`${_.orientation}${numColumns}`}
@@ -107,6 +109,13 @@ class List extends React.Component<Props> {
         lazy={12}
         animated
         scrollToTop={isFocused && tab.title === title}
+        scrollEventThrottle={16}
+        ListHeaderComponent={
+          <>
+            <View style={this.styles.header} />
+            <FixedToolBar page={page} onToggleList={onToggleList} />
+          </>
+        }
         onFooterRefresh={$.fetchUserCollections}
         {...other}
         onScroll={Animated.event(

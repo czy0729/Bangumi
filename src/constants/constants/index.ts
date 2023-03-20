@@ -218,8 +218,7 @@ export const TIMEZONE_OFFSET_GMT8 = -480
 export const TIMEZONE_OFFSET_LOCAL = new Date().getTimezoneOffset()
 
 /** 本地时区是否 GMT+0800 */
-// export const TIMEZONE_IS_GMT8 = TIMEZONE_OFFSET_LOCAL === TIMEZONE_OFFSET_GMT8
-export const TIMEZONE_IS_GMT8 = true
+export const TIMEZONE_IS_GMT8 = TIMEZONE_OFFSET_LOCAL === TIMEZONE_OFFSET_GMT8
 
 /** App 列表数据结构 */
 export const LIST_EMPTY = {

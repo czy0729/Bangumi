@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-19 04:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 22:07:20
+ * @Last Modified time: 2023-03-20 17:04:43
  */
 import React, { useCallback, useMemo, useRef } from 'react'
-import { View, Animated } from 'react-native'
+import { Animated } from 'react-native'
 import { TabView, SceneMap } from '@components'
 import { _ } from '@stores'
-import FixedToolBar from '../fixed-tool-bar'
 import List from '../list'
-import { H_HEADER, H_TABBAR, TABS } from '../ds'
+import { H_HEADER, TABS } from '../ds'
 import TabBar from './tab-bar'
 import TabBarLeft from './tab-bar-left'
 import { styles } from './styles'
@@ -35,19 +34,9 @@ function Tab({
             <List
               page={index}
               title={title}
-              ListHeaderComponent={
-                <>
-                  <View
-                    style={{
-                      height: _.parallaxImageHeight + H_TABBAR - _.radiusLg
-                    }}
-                  />
-                  <FixedToolBar page={index} onToggleList={onToggleList} />
-                </>
-              }
-              scrollEventThrottle={16}
               scrollY={scrollY}
               onScroll={onScroll}
+              onToggleList={onToggleList}
             />
           )
         }))
@@ -107,7 +96,7 @@ function Tab({
       <TabView
         key={_.orientation}
         lazy
-        lazyPreloadDistance={0}
+        lazyPreloadDistance={1}
         navigationState={navigationState}
         renderTabBar={renderTabBar}
         renderScene={renderScene.current}
