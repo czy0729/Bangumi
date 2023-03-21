@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 17:34:04
+ * @Last Modified time: 2023-03-21 18:06:21
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -109,6 +109,11 @@ export function getIsBlockUser(
 /** 获取设置 */
 export function getSetting() {
   return syncSystemStore().setting
+}
+
+/** 参数转成字符串 */
+export function getKeyString(...args: any[]) {
+  return args.toString()
 }
 
 /** 查找条目中文名 */

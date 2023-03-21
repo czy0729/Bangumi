@@ -12,6 +12,6 @@ export type Props = {
   page: number
   scrollY: any
   subjectType?: SubjectType
-  onToggleList: Fn
+  onRefreshOffset: Fn
   onScroll: ListViewProps['onScroll']
 }

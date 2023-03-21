@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 17:17:13
+ * @Last Modified time: 2023-03-21 18:40:45
  */
 import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -52,19 +52,34 @@ const Wrap = memo(
       [fixedHeight]
     )
     const updatePageOffset = useCallback(
-      (offsets: number[] = [-1, 1]) => {
-        offsets.forEach(item => {
-          if (typeof scrollToOffset[page + item] === 'function') {
-            scrollToOffset[page + item]({
-              offset: fixed.current ? fixedHeight : y.current,
-              animated: false
+      (offsets: number | number[]) => {
+        if (!offsets) return
+
+        try {
+          const config = {
+            offset: fixed.current ? fixedHeight : y.current,
+            animated: false
+          }
+
+          // 传入数组, 作为距离计算调用
+          if (Array.isArray(offsets)) {
+            offsets.forEach(item => {
+              if (typeof scrollToOffset[page + item] === 'function') {
+                scrollToOffset[page + item](config)
+              }
             })
           }
-        })
+
+          // 传入单独数字, 作为索引直接调用
+          if (typeof offsets === 'number') {
+            if (typeof scrollToOffset[offsets] === 'function') {
+              scrollToOffset[offsets](config)
+            }
+          }
+        } catch (error) {}
       },
       [fixedHeight, page, scrollToOffset]
     )
-
     const onSwipeStart = useCallback(() => {
       updatePageOffset([-1, 1])
     }, [updatePageOffset])
@@ -77,11 +92,14 @@ const Wrap = memo(
       },
       [onChange, updatePageOffset]
     )
-    const onToggleList = useCallback(() => {
-      setTimeout(() => {
-        updatePageOffset([0])
-      }, 0)
-    }, [updatePageOffset])
+    const onRefreshOffset = useCallback(
+      (offsets: number | number[] = [0]) => {
+        setTimeout(() => {
+          updatePageOffset(offsets)
+        }, 0)
+      },
+      [updatePageOffset]
+    )
 
     return (
       <>
@@ -92,7 +110,7 @@ const Wrap = memo(
           onSwipeStart={onSwipeStart}
           onIndexChange={onIndexChange}
           onSelectSubjectType={onSelectSubjectType}
-          onToggleList={onToggleList}
+          onRefreshOffset={onRefreshOffset}
         />
         <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />
       </>

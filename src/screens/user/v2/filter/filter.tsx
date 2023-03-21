@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:47
+ * @Last Modified time: 2023-03-21 18:44:30
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -34,6 +34,7 @@ const Filter = memo(
       }),
       []
     )
+
     useEffect(() => {
       setTimeout(
         () => {

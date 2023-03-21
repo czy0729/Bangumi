@@ -419,7 +419,7 @@ export default class ScreenUser extends store {
    * @param {*} ref
    * @param {*} index
    */
-  connectRef = (
+  forwardRef = (
     ref: {
       scrollToIndex: any
       scrollToOffset: any
@@ -521,7 +521,7 @@ export default class ScreenUser extends store {
   }
 
   /** 布局选择 */
-  onToggleList = () => {
+  onRefreshOffset = () => {
     const { list } = this.state
     t('我的.布局选择', {
       list: !list

@@ -21,7 +21,7 @@ function Tab({
   onScroll,
   onSelectSubjectType,
   onSwipeStart,
-  onToggleList
+  onRefreshOffset
 }) {
   global.rerender('User.Tab')
 
@@ -36,7 +36,7 @@ function Tab({
               title={title}
               scrollY={scrollY}
               onScroll={onScroll}
-              onToggleList={onToggleList}
+              onRefreshOffset={onRefreshOffset}
             />
           )
         }))

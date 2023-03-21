@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function More({ onToggleList }, { $ }: Ctx) {
+function More({ onRefreshOffset }, { $ }: Ctx) {
   const { list, showYear } = $.state
   return (
     <ToolBar.Popover
@@ -25,7 +25,7 @@ function More({ onToggleList }, { $ }: Ctx) {
       type='desc'
       transparent
       onSelect={title => {
-        if (title.includes('布局')) return onToggleList()
+        if (title.includes('布局')) return onRefreshOffset()
         if (title.includes('年份')) return $.onToggleShowYear()
       }}
     />

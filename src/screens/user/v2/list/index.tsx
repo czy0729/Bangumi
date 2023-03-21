@@ -1,145 +1,48 @@
 /*
  * @Author: czy0729
- * @Date: 2019-05-25 22:57:29
+ * @Date: 2023-03-21 16:47:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 17:04:32
+ * @Last Modified time: 2023-03-21 18:27:07
  */
 import React from 'react'
-import { Animated, View } from 'react-native'
-import { Loading, ListView, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { keyExtractor } from '@utils'
+import { getKeyString } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import FixedToolBar from '../fixed-tool-bar'
-import { TABS } from '../ds'
 import { Ctx } from '../types'
-import ItemList from './item-list'
-import ItemGrid from './item-grid'
+import List from './list'
+import Loading from './loading'
 import { memoStyles } from './styles'
-import { Props } from './types'
 
-class List extends React.Component<Props> {
-  state = {
-    // @issue 列表的滚回顶部 scrollToLocation 不知道如何正确使用
-    // 暂时使用重新渲染的办法解决列表变换置顶问题
-    hide: false
-  }
-
-  // @ts-expect-error
-  UNSAFE_componentWillReceiveProps({ subjectType }) {
-    if (subjectType !== this.props.subjectType) {
-      this.setState({
-        hide: true
-      })
-
-      setTimeout(() => {
-        this.setState({
-          hide: false
-        })
-      }, 0)
-    }
-  }
-
-  connectRef = (ref: { scrollToIndex: any; scrollToOffset: any }) => {
-    const { $ }: Ctx = this.context
-    const { title } = this.props
-    const index = TABS.findIndex((item: { title: string }) => item.title === title)
-    return $.connectRef(ref, index)
-  }
-
-  get userGridNum() {
-    const { userGridNum } = systemStore.setting
-    return Number(userGridNum) + (_.isLandscape ? 1 : 0)
-  }
-
-  renderItem = ({ item, index }) => {
-    const { $ }: Ctx = this.context
-    const { list } = $.state
-    if (list) {
-      const { page } = this.props
-      return (
-        <>
-          <ItemList item={item} page={page} />
-          {index === 0 && <Heatmap id='我的.跳转' to='Subject' alias='条目' />}
-        </>
-      )
-    }
-
-    return <ItemGrid item={item} numColumns={this.userGridNum} />
-  }
-
-  render() {
-    global.rerender('User.List')
-
-    const { hide } = this.state
-    if (hide) return null
-
-    const { $ }: Ctx = this.context
-    const { page, title, scrollY, onScroll, onToggleList, ...other } = this.props
-    const { subjectType, list, isFocused } = $.state
+export default obc(
+  ({ page, title, scrollY, onScroll, onRefreshOffset, ...other }, { $ }: Ctx) => {
+    const { subjectType, list } = $.state
     const userCollections = $.userCollections(
       subjectType,
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
     )
 
-    if (!userCollections._loaded) {
-      return (
-        <Loading
-          style={[_.ios(_.container.plain, _.container._plain), this.styles.loading]}
-        />
-      )
-    }
+    if (!userCollections._loaded) return <Loading />
 
-    const numColumns = list ? undefined : this.userGridNum
-    const tab = TABS[page]
-
+    const userGridNum =
+      Number(systemStore.setting.userGridNum) + (_.isLandscape ? 1 : 0)
     return (
-      <ListView
-        key={`${_.orientation}${numColumns}`}
-        ref={this.connectRef}
-        keyExtractor={keyExtractor}
-        style={this.styles.listView}
-        contentContainerStyle={list ? this.styles.list : this.styles.grid}
-        data={userCollections}
-        numColumns={numColumns}
-        renderItem={this.renderItem}
-        keyboardDismissMode='on-drag'
-        lazy={12}
-        animated
-        scrollToTop={isFocused && tab.title === title}
-        scrollEventThrottle={16}
-        ListHeaderComponent={
-          <>
-            <View style={this.styles.header} />
-            <FixedToolBar page={page} onToggleList={onToggleList} />
-          </>
-        }
+      <List
+        key={getKeyString(_.orientation, subjectType, userGridNum)}
+        styles={memoStyles()}
+        forwardRef={$.forwardRef}
+        subjectType={subjectType}
+        scrollY={scrollY}
+        page={page}
+        list={list}
+        userGridNum={userGridNum}
+        userCollections={userCollections}
+        onScroll={onScroll}
+        onRefreshOffset={onRefreshOffset}
         onFooterRefresh={$.fetchUserCollections}
         {...other}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: scrollY
-                }
-              }
-            }
-          ],
-          {
-            useNativeDriver: true,
-            listener: onScroll
-          }
-        )}
       />
     )
   }
-
-  get styles() {
-    return memoStyles()
-  }
-}
-
-export default obc(List)
+)

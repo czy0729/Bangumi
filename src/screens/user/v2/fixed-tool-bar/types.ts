@@ -9,5 +9,5 @@ import { Fn } from '@types'
 export type Props = {
   fixed?: boolean
   page?: number
-  onToggleList?: Fn
+  onRefreshOffset?: Fn
 }

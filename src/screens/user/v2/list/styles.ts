@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-05 07:11:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 16:29:12
+ * @Last Modified time: 2023-03-21 16:58:58
  */
 import { _ } from '@stores'
 import { H_TABBAR } from '../ds'
@@ -10,9 +10,6 @@ import { H_TABBAR } from '../ds'
 const H_TOOLBAR = _.r(42)
 
 export const memoStyles = _.memoStyles(() => ({
-  loading: {
-    marginTop: _.window.height / 3
-  },
   listView: {
     zIndex: 0
   },

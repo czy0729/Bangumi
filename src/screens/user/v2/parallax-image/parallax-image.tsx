@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 17:06:31
+ * @Last Modified time: 2023-03-21 18:45:10
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -70,8 +70,8 @@ export default memo(
         scale: scrollY.interpolate({
           inputRange: [-parallaxImageHeight, 0, parallaxImageHeight],
 
-          // -h: 2, 0: 1, h: 1 当scrollY在-h到0时, scale按照2-1的动画运动
-          // 当scrollY在0-h时, scale不变. 可以输入任意数量对应的值, 但必须是递增或者相等
+          // -h: 2, 0: 1, h: 1 当 scrollY 在 -h 到 0 时, scale 按照 2-1 的动画运动
+          // 当 scrollY 在 0-h 时, scale 不变. 可以输入任意数量对应的值, 但必须是递增或者相等
           outputRange: [2, 1, 1]
         })
       })

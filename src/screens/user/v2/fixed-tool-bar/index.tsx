@@ -12,13 +12,13 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 import { Props } from './types'
 
-function FixedToolBar({ fixed, page, onToggleList }: Props, { $ }: Ctx) {
+function FixedToolBar({ fixed, page, onRefreshOffset }: Props, { $ }: Ctx) {
   // 显示容器外固定工具条
   if (fixed) {
     if ($.state.fixed) {
       return (
         <View style={styles.fixed}>
-          <ToolBar page={$.state.page} onToggleList={$.onToggleList} />
+          <ToolBar page={$.state.page} onRefreshOffset={$.onRefreshOffset} />
         </View>
       )
     }
@@ -32,7 +32,7 @@ function FixedToolBar({ fixed, page, onToggleList }: Props, { $ }: Ctx) {
   }
 
   // 非固定的时候, 容器内工具条
-  return <ToolBar page={page} onToggleList={onToggleList} />
+  return <ToolBar page={page} onRefreshOffset={onRefreshOffset} />
 }
 
 export default obc(FixedToolBar)

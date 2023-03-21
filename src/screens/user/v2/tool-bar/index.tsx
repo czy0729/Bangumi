@@ -16,7 +16,7 @@ import Search from './search'
 import More from './more'
 import { memoStyles } from './styles'
 
-function ToolBar({ page, onToggleList }, { $ }: Ctx) {
+function ToolBar({ page, onRefreshOffset }, { $ }: Ctx) {
   global.rerender('User.ToolBar')
 
   const styles = memoStyles()
@@ -28,9 +28,9 @@ function ToolBar({ page, onToggleList }, { $ }: Ctx) {
         <Tag page={page} />
         <Search />
         <More
-          onToggleList={() => {
-            onToggleList()
-            $.onToggleList()
+          onRefreshOffset={() => {
+            onRefreshOffset()
+            $.onRefreshOffset()
           }}
         />
       </CompToolBar>
