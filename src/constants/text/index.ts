@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:28:10
+ * @Last Modified time: 2023-03-23 05:32:48
  */
 /** 加载 */
 export const TEXT_REFRESHING = '加载中...'
@@ -21,3 +21,6 @@ export const TEXT_18X = '什么都没找到\n敏感内容需要账号成年(注�
 
 /** 找番剧静态数据最后更新时间 */
 export const TEXT_UPDATE_ANIME = '2023-03-18'
+
+/** 找游戏、ADV静态数据最后更新时间 */
+export const TEXT_UPDATE_GAME = '2023-03-23'

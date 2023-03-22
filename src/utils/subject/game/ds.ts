@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-13 21:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-13 21:04:18
+ * @Last Modified time: 2023-03-23 05:26:45
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
@@ -20,9 +20,9 @@ export const GAME_PLATFORM = [
   'PS4',
   'XSX|S',
   'XB1',
-  'PSV',
   'PS3',
   'PS2',
+  'PSV',
   'PSP',
   '3DS',
   'NDS',
@@ -65,8 +65,8 @@ export const GAME_CATE = [
   '文字',
   '模拟',
   '主视角',
-  '平台',
   '剧情',
+  '平台',
   '解谜',
   '多人',
   '恐怖',
@@ -86,10 +86,10 @@ export const GAME_CATE = [
   '即时战略',
   '卡牌',
   'MMO',
-  '3D',
   '派对',
-  'Roguelike',
+  '3D',
   '潜入',
+  'Roguelike',
   'VR',
   '体感',
   '健身',
@@ -98,10 +98,10 @@ export const GAME_CATE = [
   '建造',
   '弹幕',
   'AR',
+  '桌面',
   '2D',
   '横版',
-  '养成',
-  '桌面'
+  '养成'
 ] as const
 
 const GAME_CATE_MAP = {}
@@ -124,16 +124,16 @@ export const GAME_DEV = [
   '日本一',
   'Nihon Falcom',
   'Game Freak',
-  'Gust Co. Ltd.',
   'EA',
+  'Gust Co. Ltd.',
   'Omega Force',
   'Marvelous',
   'Intelligent Systems',
   'LEVEL-5',
   'Arc System Works',
+  'Blizzard',
   'Sony Interactive Entertainment',
   '5pb.',
-  'Blizzard',
   'Team Ninja',
   'Spike Chunsoft',
   'Compile Heart',
@@ -152,6 +152,7 @@ export const GAME_DEV = [
   'AQUAPLUS',
   'DOMO Studio',
   'Kadokawa Games',
+  'Acquire',
   'Otomate',
   'Tamsoft'
 ] as const
@@ -184,15 +185,16 @@ export const GAME_PUB = [
   'Arc System Works',
   'Compile Heart',
   'LEVEL-5',
+  'Spike Chunsoft',
   'Valve',
   'Blizzard',
-  'Spike Chunsoft',
   'SNK',
   'AQUAPLUS',
   'Square',
   'KID',
   'Gust Co. Ltd.',
   'FromSoftware',
+  'Acquire',
   'Game Freak',
   'Otomate',
   'CyberConnect2'

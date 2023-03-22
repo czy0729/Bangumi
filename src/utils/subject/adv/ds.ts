@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-13 21:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 03:34:02
+ * @Last Modified time: 2023-03-23 05:31:27
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
@@ -16,30 +16,31 @@ export const ADV_COLLECTED = ANIME_COLLECTED
 export const ADV_DEV = [
   '戯画',
   'あざらしそふと',
+  'Key',
   'ALICESOFT',
   'SMEE',
-  'Key',
   'minori',
   'あかべぇそふとすりぃ',
+  'ensemble',
   'Campus',
   'アトリエかぐや',
-  'ぱれっと',
-  'Front Wing',
-  'Liar-soft',
   'あかべぇそふとつぅ',
+  'ぱれっと',
+  'CUBE',
+  'Whirlpool',
+  'Front Wing',
+  'ASa Project',
+  'HOOKSOFT',
+  'Liar-soft',
   'FAVORITE',
   'Circus',
-  'CUBE',
   'シルキーズプラス',
-  'ensemble',
-  'Whirlpool',
   'エウシュリー',
   'PULLTOP',
   'Innocent Grey',
   'Navel',
   'NEKO WORKs',
-  'ASa Project',
-  'HOOKSOFT',
+  'DiGination',
   'SAGA PLANETS',
   'Purple Software',
   'Sekai Project',
@@ -54,7 +55,8 @@ export const ADV_DEV = [
   'light',
   'ALcotハニカム',
   'ALcot',
-  'DiGination',
+  'まどそふと',
+  'CRYSTALiA',
   'プレカノ'
 ] as const
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:38:57
+ * @Last Modified time: 2023-03-21 18:51:50
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -18,7 +18,6 @@ const List = memo(
   ({
     styles,
     forwardRef,
-    subjectType,
     scrollY,
     page,
     list,
@@ -26,8 +25,7 @@ const List = memo(
     userCollections,
     onScroll,
     onRefreshOffset,
-    onFooterRefresh,
-    ...other
+    onFooterRefresh
   }) => {
     global.rerender('User.List')
 
@@ -100,7 +98,6 @@ const List = memo(
         ListHeaderComponent={ListHeaderComponent}
         onFooterRefresh={onFooterRefresh}
         onScroll={_onScroll}
-        {...other}
       />
     )
   },
