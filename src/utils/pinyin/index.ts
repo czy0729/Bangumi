@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-09 09:47:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-10 18:47:12
+ * @Last Modified time: 2023-03-24 01:35:24
  */
 import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 import { t2s } from '../thirdParty/cn-char'
 
-const CACHES = {}
+/** 缓存结果 */
+const getPinyinCacheMap = new Map<string, string>()
 
 /** 获取字符串所有字的首字母 */
 export function getPinYin(title: string) {
@@ -20,19 +21,33 @@ export function getPinYin(title: string) {
 
   // 简单过滤掉不能获得拼音的字符
   const str = title.replace(/~| |!|\?|;|:|"|&|\.|，|。|？|！|：|“|”|；|（|）/g, '')
-  if (!CACHES[str]) {
-    CACHES[str] = getPinYinFirstCharacter(str, str.length).replace(/ /g, '') || ''
+  if (getPinyinCacheMap.has(str)) {
+    return {
+      str,
+      pinyin: getPinyinCacheMap.get(str)
+    }
   }
+
+  const pinyin = getPinYinFirstCharacter(str, str.length).replace(/ /g, '') || ''
+  getPinyinCacheMap.set(str, pinyin)
 
   return {
     str,
-    pinyin: CACHES[str]
+    pinyin
   }
 }
+
+/** 缓存结果 */
+const getPinYinFilterValueCacheMap = new Map<string, string>()
 
 /** 获取字符串所有字的首字母, 并匹配 */
 export function getPinYinFilterValue(title: string, filter: string) {
   if (typeof title !== 'string' || typeof filter !== 'string' || !filter) return ''
+
+  const key = `${title}|${filter}`
+  if (getPinYinFilterValueCacheMap.has(key)) {
+    return getPinYinFilterValueCacheMap.get(key)
+  }
 
   let value = ''
   if (/^[a-zA-Z]+$/.test(filter)) {
@@ -49,5 +64,7 @@ export function getPinYinFilterValue(title: string, filter: string) {
     }
   }
 
+  console.log('getPinYinFilterValue')
+  getPinYinFilterValueCacheMap.set(key, value)
   return value
 }

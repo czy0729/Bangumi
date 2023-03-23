@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-03 11:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:09:15
+ * @Last Modified time: 2023-03-23 19:53:27
  */
 import { similar } from '../utils'
 import { xhrCustom } from '../fetch'
@@ -74,7 +74,6 @@ export async function search(q: string, artist: string) {
           return false
         })
         .filter((item, index: number) => index <= 6)
-      // .sort((a, b) => desc(b.like || 0, a.like || 0))
     }
   } catch (ex) {
     console.error(ex)

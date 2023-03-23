@@ -4,15 +4,24 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-23 18:54:18
+ * @Last Modified time: 2023-03-24 01:23:37
  */
 import lazyac from 'lazy-aho-corasick'
+import { TEXT_ONLY } from '@constants'
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
 import { Substrings } from './types'
 
+/** 忽略匹配的词 */
+const IGNORE_ITEMS = ['日常', 'PP'] as const
+
 /** 缓存搜索过的结果 */
 const cacheMap = new Map<string, string[]>()
+
+/** subject cn => subject id */
+const subStrings: {
+  [cn: string]: number
+} = {}
 
 /** 自定义 */
 let addon: Substrings = {}
@@ -23,16 +32,11 @@ let alias: Substrings = {}
 /** 动画 */
 let anime: Substrings = {}
 
+// /** 游戏 */
 // let game: Substrings = {}
+
+// /** 书籍 */
 // let book: Substrings = {}
-
-/** 忽略匹配的词 */
-const IGNORE_ITEMS = ['日常', 'PP'] as const
-
-/** subject cn => subject id */
-const SUBSTRINGS: {
-  [cn: string]: number
-} = {}
 
 /** 初始化对象 */
 const tries: lazyac[] = []
@@ -48,6 +52,8 @@ const trieInitDistance = 1000
 
 /** 初始化需要好几秒, 需要触发后延迟初始化, 待下一次再用 */
 function initLazyac() {
+  if (TEXT_ONLY) return
+
   if (!tries.length && !trieInit) {
     trieInit = true
 
@@ -105,9 +111,9 @@ async function initTrie(cns: string[]) {
       })
     )
 
-    // 把 subject cn => subject id 插入 SUBSTRINGS
+    // 把 subject cn => subject id 插入 subStrings
     cns.forEach((cn: string) => {
-      SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn] // || game[cn] || book[cn]
+      subStrings[cn] = addon[cn] || alias[cn] || anime[cn] // || game[cn] || book[cn]
     })
 
     if (i === arrs.length - 1) trieInitDone = true
@@ -146,5 +152,5 @@ export function acSearch(str: string) {
 
 /** subject cn => subject id */
 export function getSubStrings() {
-  return SUBSTRINGS
+  return subStrings
 }
