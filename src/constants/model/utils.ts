@@ -2,22 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-14 15:44:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 15:48:02
+ * @Last Modified time: 2023-03-23 06:23:42
  */
-type ModelItem = {
-  /** 键值名称 */
-  label: string
+import { ModelItem } from './types'
 
-  /** 键值值 */
-  value: string
+/** 缓存结果 */
+const cacheMap = new Map()
 
-  /** 额外键值名称 */
-  title?: string
-}
-
-const CACHE = {}
-
-class Model {
+export class Model {
   constructor(data: readonly ModelItem[], key: string) {
     this.data = data
     if (key) this.key = key
@@ -36,7 +28,7 @@ class Model {
    */
   getLabel<T = string | false>(value: any): T {
     const key = this.key ? `getLabel|${this.key}|${value}` : ''
-    if (key && key in CACHE) return CACHE[key]
+    if (key && cacheMap.has(key)) return cacheMap.get(key)
 
     const find = this.data.find(
       (item: { value: any; title?: any }) => item.value == value || item.title == value
@@ -44,7 +36,7 @@ class Model {
     const result = (find ? find.label : false) as T
     if (!key) return result
 
-    CACHE[key] = result
+    cacheMap.set(key, result)
     return result
   }
 
@@ -55,7 +47,7 @@ class Model {
    */
   getValue<T = string | false>(label: any): T {
     const key = this.key ? `getValue|${this.key}|${label}` : ''
-    if (key && key in CACHE) return CACHE[key]
+    if (key && cacheMap.has(key)) return cacheMap.get(key)
 
     const find = this.data.find(
       (item: { label: any; title?: any }) => item.label == label || item.title == label
@@ -63,7 +55,7 @@ class Model {
     const result = (find ? find.value : false) as T
     if (!key) return result
 
-    CACHE[key] = result
+    cacheMap.set(key, result)
     return result
   }
 
@@ -74,7 +66,7 @@ class Model {
    */
   getTitle<T = string | false>(label: any): T {
     const key = this.key ? `getTitle|${this.key}|${label}` : ''
-    if (key && key in CACHE) return CACHE[key]
+    if (key && cacheMap.has(key)) return cacheMap.get(key)
 
     const find = this.data.find(
       (item: { label: any; value: any }) => item.label == label || item.value == label
@@ -82,9 +74,7 @@ class Model {
     const result = (find ? find.title : false) as T
     if (!key) return result
 
-    CACHE[key] = result
+    cacheMap.set(key, result)
     return result
   }
 }
-
-export { Model }

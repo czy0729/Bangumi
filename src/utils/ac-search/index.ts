@@ -1,31 +1,33 @@
 /*
  * AC 自动机
- *
  * @Doc: https://github.com/theLAZYmd/aho-corasick
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:18:58
+ * @Last Modified time: 2023-03-23 18:54:18
  */
 import lazyac from 'lazy-aho-corasick'
 import { arrGroup, desc } from '../utils'
 import hash from '../thirdParty/hash'
+import { Substrings } from './types'
 
-type Substrings = Record<string, number>
+/** 缓存搜索过的结果 */
+const cacheMap = new Map<string, string[]>()
 
+/** 自定义 */
 let addon: Substrings = {}
+
+/** 动画别名 */
 let alias: Substrings = {}
+
+/** 动画 */
 let anime: Substrings = {}
+
 // let game: Substrings = {}
 // let book: Substrings = {}
 
 /** 忽略匹配的词 */
-const IGNORE_ITEMS = ['日常', 'PP']
-
-/** 缓存搜索过的结果 */
-const CACHE: {
-  [hash: string]: string[]
-} = {}
+const IGNORE_ITEMS = ['日常', 'PP'] as const
 
 /** subject cn => subject id */
 const SUBSTRINGS: {
@@ -56,56 +58,59 @@ function initLazyac() {
     // book = require('@assets/json/substrings/book.json')
 
     // 安卓环境一次性初始化太多词条会卡死, 所以下面做了分组初始化
-    const CNS = [
-      ...Object.keys(addon),
-      ...Object.keys(alias),
-      ...Object.keys(anime)
-      // ...Object.keys(game),
-      // ...Object.keys(book)
-    ]
-      .filter(item => {
-        // 过滤掉比较长的条目名字), 命中率很低
-        if (item.length >= 10 || item.length <= 1 || IGNORE_ITEMS.includes(item)) {
-          return false
-        }
+    initTrie(
+      [
+        ...Object.keys(addon),
+        ...Object.keys(alias),
+        ...Object.keys(anime)
+        // ...Object.keys(game),
+        // ...Object.keys(book)
+      ]
+        .filter(item => {
+          // 过滤掉比较长的条目名字, 命中率很低
+          if (
+            item.length >= 10 ||
+            item.length <= 1 ||
+            IGNORE_ITEMS.includes(item as any)
+          ) {
+            return false
+          }
 
-        // 带特殊符号的通常用户很少手动输入, 命中率很低
-        if (/。|！|？|：|、|～|・|《|〈|（|「|&|~|:|“|!|;|·|'|\*|\?|\+/.test(item)) {
-          return false
-        }
+          // 带特殊符号的通常用户很少手动输入, 命中率很低
+          if (/。|！|？|：|、|～|・|《|〈|（|「|&|~|:|“|!|;|·|'|\*|\?|\+/.test(item)) {
+            return false
+          }
 
-        return true
-      })
-      .sort((a: string, b: string) => desc(String(a), String(b)))
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        const arrs = arrGroup(CNS, 500)
-        arrs.forEach((cns, index) => {
-          setTimeout(() => {
-            requestAnimationFrame(() => {
-              tries.push(
-                new lazyac(
-                  // 这个ac库貌似不支持空格, 替换成特殊字符匹配后再还原回来
-                  cns,
-                  {
-                    allowDuplicates: false
-                  }
-                )
-              )
-
-              // 把 subject cn => subject id 插入 SUBSTRINGS
-              cns.forEach((cn: string) => {
-                SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn]
-                // || game[cn] || book[cn]
-              })
-
-              if (index === arrs.length - 1) trieInitDone = true
-            })
-          }, trieInitDistance * index)
+          return true
         })
-      }, trieInitDistance)
+        .sort((a: string, b: string) => desc(String(a), String(b)))
+    )
+  }
+}
+
+async function initTrie(cns: string[]) {
+  await new Promise(resolve => requestAnimationFrame(resolve))
+  await new Promise(resolve => setTimeout(resolve, trieInitDistance))
+
+  const arrs = arrGroup(cns, 500)
+  for (let i = 0; i < arrs.length; i += 1) {
+    await new Promise(resolve => setTimeout(resolve, trieInitDistance * i))
+    await new Promise(resolve => requestAnimationFrame(resolve))
+
+    const cns = arrs[i]
+    tries.push(
+      // 这个 ac 库貌似不支持空格, 替换成特殊字符匹配后再还原回来
+      new lazyac(cns, {
+        allowDuplicates: false
+      })
+    )
+
+    // 把 subject cn => subject id 插入 SUBSTRINGS
+    cns.forEach((cn: string) => {
+      SUBSTRINGS[cn] = addon[cn] || alias[cn] || anime[cn] // || game[cn] || book[cn]
     })
+
+    if (i === arrs.length - 1) trieInitDone = true
   }
 }
 
@@ -120,7 +125,7 @@ export function acSearch(str: string) {
   }
 
   const _hash = hash(str)
-  if (trieInitDone && CACHE[_hash]) return CACHE[_hash]
+  if (trieInitDone && cacheMap.has(_hash)) return cacheMap.get(_hash)
 
   let results = []
   tries.forEach(trie => {
@@ -134,10 +139,7 @@ export function acSearch(str: string) {
     return desc(b, a)
   })
 
-  if (trieInitDone) {
-    CACHE[_hash] = results
-    return CACHE[_hash]
-  }
+  if (trieInitDone) cacheMap.set(_hash, results)
 
   return results
 }

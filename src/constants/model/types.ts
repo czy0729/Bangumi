@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-26 02:35:02
+ * @Last Modified time: 2023-03-23 06:17:26
  */
 import { ModelValueOf } from '@types'
 import {
@@ -43,6 +43,17 @@ import {
   TINYGRAIL_CACULATE_RICH_TYPE,
   TINYGRAIL_CACULATE_TYPE
 } from './index'
+
+export type ModelItem = {
+  /** 键值名称 */
+  label: string
+
+  /** 键值值 */
+  value: string
+
+  /** 额外键值名称 */
+  title?: string
+}
 
 export type BrowserSort = ModelValueOf<typeof BROWSER_SORT>
 
