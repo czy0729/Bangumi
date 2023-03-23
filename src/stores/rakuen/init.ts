@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:32:55
+ * @Last Modified time: 2023-03-24 03:00:52
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -158,7 +158,7 @@ export const INIT_MINE_ITEM = {
   num: '' // 成员数
 }
 
-export const STATE = {
+const STATE = {
   /** 超展开列表 */
   rakuen: {
     0: LIST_EMPTY
@@ -172,11 +172,6 @@ export const STATE = {
   /** 帖子内容 */
   topic: {
     0: INIT_TOPIC
-  },
-
-  /** 帖子回复 */
-  comments: {
-    0: LIST_EMPTY
   },
 
   /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
@@ -261,6 +256,21 @@ export const STATE = {
     0: 0
   }
 }
+
+/**
+ * comments 根据 id 最后 2 位拆开 100 个 key 存放
+ * 避免 JSON.stringify 后长度太长, 无法本地化
+ * 也能减少每次写入本地储存的量
+ * @date 2023-03-24
+ */
+for (let i = 0; i < 100; i += 1) {
+  /** 帖子回复 */
+  STATE[`comments${i}`] = {
+    0: LIST_EMPTY
+  }
+}
+
+export { STATE }
 
 export const LOADED = {
   blog: false,

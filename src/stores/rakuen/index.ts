@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:33:10
+ * @Last Modified time: 2023-03-24 03:17:43
  */
 import { observable, computed } from 'mobx'
 import { desc, getTimestamp, HTMLTrim, info } from '@utils'
@@ -85,7 +85,12 @@ import {
   UserTopicsFormCDN
 } from './types'
 
-type CacheKey = keyof typeof LOADED
+type CacheKey = keyof typeof LOADED | `comments${number}`
+
+function getInt(topicId: TopicId) {
+  const str = String(topicId)
+  return Number(str.slice(str.length - 2, str.length)) || 0
+}
 
 class RakuenStore extends store implements StoreConstructor<typeof STATE> {
   state = observable(STATE)
@@ -134,11 +139,16 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
     }).get()
   }
 
-  /** 帖子回复 */
+  /** 帖子回复, 合并 comments 0-99 */
   comments(topicId: TopicId) {
-    this.init('comments')
+    if (!topicId) return LIST_EMPTY
+
+    const last = getInt(topicId)
+    const key = `comments${last}` as const
+    this.init(key)
+
     return computed<Comments>(() => {
-      return this.state.comments[topicId] || LIST_EMPTY
+      return this.state?.[key]?.[topicId] || LIST_EMPTY
     }).get()
   }
 
@@ -396,7 +406,8 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
     this.save(topicKey)
 
     // 缓存帖子回复
-    const commentsKey = 'comments'
+    const last = getInt(topicId)
+    const commentsKey = `comments${last}` as const
     this.setState({
       [commentsKey]: {
         [stateKey]: {

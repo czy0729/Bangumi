@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 06:00:18
+ * @Last Modified time: 2023-03-24 03:08:58
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -42,7 +42,8 @@ export const INIT_SUBJECT = {
   type: '',
   url: '',
   lock: '',
-  formhash: ''
+  formhash: '',
+  _loaded: 0
 }
 
 export const INIT_SUBJECT_V2 = {

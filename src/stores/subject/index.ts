@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:38:29
+ * @Last Modified time: 2023-03-24 03:08:58
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
@@ -131,39 +131,39 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   // -------------------- get --------------------
   /** 条目, 合并 subject 0-999 */
   subject(subjectId: SubjectId) {
+    if (!subjectId) return INIT_SUBJECT
+
+    const last = getInt(subjectId)
+    const key = `subject${last}` as const
+    this.init(key)
+
     return computed<Subject>(() => {
-      if (!subjectId) return INIT_SUBJECT
-
-      const last = getInt(subjectId)
-      const key = `subject${last}` as const
-      this.init(key)
-
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT
     }).get()
   }
 
   /** 条目 (HTML), 合并 subjectFormHTML 0-999 */
   subjectFormHTML(subjectId: SubjectId) {
+    if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
+
+    const last = getInt(subjectId)
+    const key = `subjectFormHTML${last}` as const
+    this.init(key)
+
     return computed<SubjectFormHTML>(() => {
-      if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
-
-      const last = getInt(subjectId)
-      const key = `subjectFormHTML${last}` as const
-      this.init(key)
-
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
     }).get()
   }
 
   /** 条目 (new api), 合并 subjectV2 0-999 */
   subjectV2(subjectId: SubjectId) {
+    if (!subjectId) return INIT_SUBJECT_V2
+
+    const last = getInt(subjectId)
+    const key = `subjectV2${last}` as const
+    // this.init(key)
+
     return computed<SubjectV2>(() => {
-      if (!subjectId) return INIT_SUBJECT_V2
-
-      const last = getInt(subjectId)
-      const key = `subjectV2${last}` as const
-      // this.init(key)
-
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_V2
     }).get()
   }
