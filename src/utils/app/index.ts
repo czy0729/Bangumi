@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:06:21
+ * @Last Modified time: 2023-03-26 04:52:19
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -203,7 +203,7 @@ export function getOnAir(
   const weekDayJP = getSafeValue('weekDayJP', onAir, onAirUser)
   const weekDayCN = getSafeValue('weekDayCN', onAir, onAirUser)
   let weekDay = isNull(weekDayCN) ? weekDayJP : weekDayCN
-  const isOnair = weekDay !== undefined && weekDay !== ''
+  const isOnair = !!(weekDay !== undefined && weekDay !== '' && (timeCN || timeJP))
 
   let h = typeof time === 'string' ? time.slice(0, 2) : ''
   let m = typeof time === 'string' ? time.slice(2, 4) : ''
