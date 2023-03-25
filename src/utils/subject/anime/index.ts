@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:43:56
+ * @Last Modified time: 2023-03-24 05:41:36
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
@@ -41,7 +41,9 @@ export {
   SORT
 }
 
-const SEARCH_CACHE: Record<Finger, SearchResult> = {}
+/** 缓存搜索结果 */
+const cacheMap = new Map<Finger, SearchResult>()
+
 let anime: Item[] = []
 let loaded: boolean = false
 
@@ -94,8 +96,8 @@ export function search(query: Query): SearchResult {
     sort
   } = query || {}
 
-  if (sort !== '随机' && SEARCH_CACHE[finger]) {
-    return SEARCH_CACHE[finger]
+  if (sort !== '随机' && cacheMap.has(finger)) {
+    return cacheMap.get(finger)
   }
 
   let _list = []
@@ -196,7 +198,7 @@ export function search(query: Query): SearchResult {
     _finger: finger,
     _loaded: getTimestamp()
   }
-  SEARCH_CACHE[finger] = result
+  cacheMap.set(finger, result)
 
   return result
 }

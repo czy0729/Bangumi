@@ -32,9 +32,6 @@ export const X18_DS = [
   '黄油'
 ] as const
 
-/** 查找条目中文名 */
-export const CN_CACHES = {}
-
 /** 年 */
 export const YEAR = date.getFullYear()
 

@@ -25,6 +25,8 @@ const config = {
 }
 
 function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated }) {
+  global.rerender('Subject.Box.FlipBtn.Main')
+
   const height = _.device(44, 50)
   const activeRef = useSharedValue(0)
   const beforeStyle = useAnimatedStyle(() => {

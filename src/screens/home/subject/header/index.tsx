@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:23:24
+ * @Last Modified time: 2023-03-24 05:55:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,8 +52,8 @@ function Header({ onScrollIntoViewIfNeeded }, { $ }: Ctx) {
         <Tags />
         <Summary />
         <Thumbs />
-        <Game />
         <Info />
+        <Game />
         <Rating />
         <Character />
         <Staff />

@@ -44,7 +44,6 @@ import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../ca
 import { rerender, globalLog, globalWarn } from '../dev'
 import { isNull, getSafeValue } from './utils'
 import {
-  CN_CACHES,
   HOST_IMAGE,
   NO_IMGS,
   PRIVACY_STATE,
@@ -116,11 +115,13 @@ export function getKeyString(...args: any[]) {
   return args.toString()
 }
 
+const findSubjectCnCacheMap = new Map<string, string>()
+
 /** 查找条目中文名 */
 export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
   if (!getSetting()?.cnFirst) return jp
 
-  if (CN_CACHES[jp]) return CN_CACHES[jp]
+  if (findSubjectCnCacheMap.has(jp)) return findSubjectCnCacheMap.get(jp)
 
   const item = (bangumiData as BangumiData).find(
     // 没有 id 则使用 jp 在 bangumi-data 里面匹配
@@ -129,13 +130,13 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
   if (item) {
     const cn = item.c || ''
     if (cn) {
-      CN_CACHES[jp] = cn
-      return CN_CACHES[jp]
+      findSubjectCnCacheMap.set(jp, cn)
+      return cn
     }
   }
 
-  CN_CACHES[jp] = jp
-  return CN_CACHES[jp]
+  findSubjectCnCacheMap.set(jp, jp)
+  return jp
 }
 
 /** 获取背景的模糊值 (iOS 与安卓实际表现不同，需要分开判断) */

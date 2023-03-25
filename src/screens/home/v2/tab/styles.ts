@@ -2,37 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-06-19 16:16:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-14 18:06:51
+ * @Last Modified time: 2023-03-26 04:17:29
  */
 import { _ } from '@stores'
+import { ViewStyle } from '@types'
 import { H_TABBAR } from '../ds'
 
-export const memoStyles = _.memoStyles(() => ({
-  tabBar: {
-    backgroundColor: _.ios('transparent', _.select('transparent', _.colorPlain)),
-    borderBottomWidth: _.ios(0, _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))),
-    borderBottomColor: _.ios(
-      'transparent',
-      _.select(_.colorBorder, _.deep('transparent', 'rgba(0, 0, 0, 0.16)'))
-    ),
-    elevation: 0
-  },
-  tab: {
-    height: _.r(48)
-  },
-  label: {
-    padding: 0
-  },
-  labelText: {
-    width: '100%'
-  },
-  indicator: {
-    width: _.r(16),
-    height: 4,
-    backgroundColor: _.colorMain,
-    borderRadius: 4
-  },
-  sceneContainerStyle: {
-    marginTop: _.ios(-_.headerHeight - H_TABBAR, 0)
+export const memoStyles = _.memoStyles(() => {
+  const tabs: ViewStyle = {
+    position: 'absolute',
+    zIndex: 1,
+    top: -_.statusBarHeight || 0,
+    right: 0,
+    height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
   }
-}))
+  return {
+    tabs4: {
+      ...tabs,
+      left: -_.window.width * 4
+    },
+    tabs3: {
+      ...tabs,
+      left: -_.window.width * 3
+    },
+    sceneContainerStyle: {
+      marginTop: _.ios(-_.headerHeight - H_TABBAR, 0)
+    }
+  }
+})

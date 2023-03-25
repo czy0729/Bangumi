@@ -130,9 +130,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
 
   // -------------------- get --------------------
   /** 条目, 合并 subject 0-999 */
-  subject(subjectId: SubjectId) {
-    if (!subjectId) return INIT_SUBJECT
-
+  subject(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subject${last}` as const
     this.init(key)
@@ -143,9 +141,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   }
 
   /** 条目 (HTML), 合并 subjectFormHTML 0-999 */
-  subjectFormHTML(subjectId: SubjectId) {
-    if (!subjectId) return INIT_SUBJECT_FROM_HTML_ITEM
-
+  subjectFormHTML(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subjectFormHTML${last}` as const
     this.init(key)
@@ -156,9 +152,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   }
 
   /** 条目 (new api), 合并 subjectV2 0-999 */
-  subjectV2(subjectId: SubjectId) {
-    if (!subjectId) return INIT_SUBJECT_V2
-
+  subjectV2(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subjectV2${last}` as const
     // this.init(key)

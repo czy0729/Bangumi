@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 07:18:51
+ * @Last Modified time: 2023-03-26 03:58:45
  */
 import { computed } from 'mobx'
 import {
@@ -61,6 +61,14 @@ export default class Computed extends State {
   @computed get tabs() {
     const { showGame } = systemStore.setting
     return showGame ? TABS_WITH_GAME : TABS
+  }
+
+  @computed get navigationState() {
+    const { page } = this.state
+    return {
+      index: page,
+      routes: this.tabs
+    }
   }
 
   /** 自己用户 Id */

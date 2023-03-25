@@ -53,11 +53,10 @@ setStorageInterval = setInterval(() => {
       cacheMap.delete(key)
 
       if (DEV) {
-        console.info(
-          'setStorageLazy',
-          `${(String(value).length / 1000).toFixed(2)}kb`.padEnd(10, ' '),
-          key
-        )
+        const size = (String(value).length / 1000).toFixed(2)
+        if (Number(size) >= 100) {
+          console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
+        }
       }
     })
   })

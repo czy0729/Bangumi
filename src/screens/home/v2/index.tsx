@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 04:34:36
+ * @Last Modified time: 2023-03-26 04:26:06
  */
 import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
@@ -16,7 +16,7 @@ import { StatusBarEvents, Auth, NavigationBarEvents, LoginNotice } from '@_'
 import { _ } from '@stores'
 import { IOS } from '@constants'
 import Header from './header'
-import Tab from './tab-wrap'
+import Tab from './tab'
 import Tips from './tips'
 import Modal from './modal'
 import Heatmaps from './heatmaps'

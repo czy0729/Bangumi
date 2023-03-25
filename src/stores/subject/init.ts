@@ -43,6 +43,7 @@ export const INIT_SUBJECT = {
   url: '',
   lock: '',
   formhash: '',
+  _responseGroup: '',
   _loaded: 0
 }
 
@@ -102,7 +103,9 @@ export const INIT_SUBJECT_FROM_HTML_ITEM = {
   who: [],
 
   /** 详情 */
-  info: ''
+  info: '',
+  formhash: '',
+  _loaded: 0
 }
 
 /** 条目 (CDN) */

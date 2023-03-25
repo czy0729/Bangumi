@@ -1,70 +1,51 @@
 /*
  * @Author: czy0729
- * @Date: 2020-06-03 09:53:54
+ * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:02:57
+ * @Last Modified time: 2023-03-26 04:24:29
  */
-import React from 'react'
-import TabBar from '@components/@/react-native-tab-view/TabBar'
-import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import React, { useMemo } from 'react'
+import { SceneMap } from 'react-native-tab-view'
+import { BlurView } from '@_'
 import { IOS } from '@constants'
-import { Ctx } from '../types'
+import List from '../list'
+import Tab from './tab'
 import { memoStyles } from './styles'
-import { Props } from './types'
 
-function Tab({ routes = [], renderScene }: Props, { $ }: Ctx) {
+/**
+ * 因为本组件使用 useMemo 后不能用 mobx@4 去 observer
+ * 所以只能在上面把 routes 的 length 传下来监听刷新
+ */
+export default ({ length }) => {
   global.rerender('Home.Tab')
 
   const styles = memoStyles()
-  const { page } = $.state
-  const W_TAB = _.window.width / routes.length
-  return (
-    <TabView
-      style={_.mt._sm}
-      sceneContainerStyle={styles.sceneContainerStyle}
-      lazy={!IOS}
-      lazyPreloadDistance={0}
-      navigationState={{
-        index: page,
-        // @ts-expect-error
-        routes
-      }}
-      renderTabBar={props => (
-        <TabBar
-          {...props}
-          style={styles.tabBar}
-          tabStyle={[
-            styles.tab,
-            {
-              width: W_TAB
-            }
-          ]}
-          labelStyle={styles.label}
-          indicatorStyle={[
-            styles.indicator,
-            {
-              marginLeft: (W_TAB - styles.indicator.width) / 2
-            }
-          ]}
-          pressOpacity={1}
-          pressColor='transparent'
-          scrollEnabled
-          renderLabel={({ route, focused }) => (
-            <Flex style={styles.labelText} justify='center'>
-              <Text type='title' size={13} bold={focused}>
-                {route.title}
-              </Text>
-            </Flex>
-          )}
-        />
-      )}
-      renderScene={renderScene}
-      onIndexChange={$.onChange}
-    />
-  )
-}
+  const renderScene = useMemo(() => {
+    const routes: Record<string, React.ComponentType> = {
+      all: () => <List title='全部' />,
+      anime: () => <List title='动画' />,
+      book: () => <List title='书籍' />
+    }
+    if (length === 5) {
+      routes.real = () => <List title='三次元' />
+      routes.game = () => (
+        <>
+          <List title='游戏' />
+          {IOS && <BlurView style={styles.tabs4} />}
+        </>
+      )
+    } else {
+      routes.real = () => (
+        <>
+          <List title='三次元' />
+          {IOS && <BlurView style={styles.tabs3} />}
+        </>
+      )
+    }
 
-export default obc(Tab)
+    return SceneMap(routes)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [length])
+
+  return <Tab renderScene={renderScene} />
+}
