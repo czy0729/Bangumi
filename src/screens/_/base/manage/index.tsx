@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:55:24
+ * @Last Modified time: 2023-03-28 06:27:08
  */
 import React from 'react'
-import { Touchable, Flex, Iconfont, Text } from '@components'
-import { _ } from '@stores'
-import { stl, titleCase } from '@utils'
+import { Touchable, Flex } from '@components'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import Flip from './flip'
+import Content from './content'
 import { styles } from './styles'
 import { Props as ManageProps } from './types'
 
@@ -22,7 +23,7 @@ const HIT_SLOP = {
 }
 
 export const Manage = ob(
-  ({ style, collection = '', typeCn = '动画', onPress }: ManageProps) => {
+  ({ style, subjectId, collection = '', typeCn = '动画', onPress }: ManageProps) => {
     let icon
     let type: any = 'icon'
     let size = 20
@@ -53,24 +54,24 @@ export const Manage = ob(
     if (typeCn === '书籍') _collection = _collection.replace('看', '读')
     if (typeCn === '游戏') _collection = _collection.replace('看', '玩')
 
-    const _styles = _collection
-      ? stl(styles.touch, style)
-      : stl(styles.touchNoCollect, style)
+    const passProps = {
+      icon,
+      size,
+      type,
+      collection: _collection
+    }
     return (
       <Flex style={styles.manage} justify='end'>
         <Touchable
-          style={_styles}
+          style={stl(styles.touch, style)}
           animate
           scale={0.9}
           hitSlop={HIT_SLOP}
           onPress={onPress}
         >
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
-          </Flex>
-          <Text style={styles.text} type={type} size={11} align='center'>
-            {_collection}
-          </Text>
+          <Flip subjectId={subjectId} height={40} {...passProps}>
+            <Content {...passProps} />
+          </Flip>
         </Touchable>
       </Flex>
     )

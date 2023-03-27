@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 18:32:39
+ * @Last Modified time: 2023-03-28 05:02:45
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -21,6 +21,7 @@ export * from './empty'
 export * from './expand'
 export * from './fixed-textarea'
 export * from './flex'
+export * from './flip'
 export * from './header'
 export * from './header-placeholder'
 export * from './heatmap'

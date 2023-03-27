@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 14:29:26
+ * @Last Modified time: 2023-03-28 05:50:04
  */
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
@@ -31,6 +31,5 @@ export const DEFAULT_PROPS = {
   /** 是否收藏 */
   collected: false as $['collected'],
   position: [] as $['position'],
-  event: EVENT as $['event'],
-  onManagePress: (() => {}) as $['onManagePress']
+  event: EVENT as $['event']
 }

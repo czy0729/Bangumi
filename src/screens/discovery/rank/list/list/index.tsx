@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-27 05:19:12
+ * @Last Modified time: 2023-03-28 05:49:22
  */
 import React from 'react'
 import { Empty, Heatmap } from '@components'
@@ -23,7 +23,8 @@ function List(props, { $, navigation }: Ctx) {
       {list.length ? (
         list.map((item, index) => {
           const id = String(item.id).replace('/subject/', '')
-          const collection = collectionStore.collectionStatus(id)
+          const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+          const collection = collectionStore.collect(id, typeCn)
           return (
             <>
               <ItemSearch
@@ -31,10 +32,9 @@ function List(props, { $, navigation }: Ctx) {
                 style={_.container.item}
                 navigation={navigation}
                 collection={collection}
+                typeCn={typeCn}
                 event={EVENT_LIST}
-                typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}
                 {...item}
-                onManagePress={$.onShowManageModal}
               />
               {index === 1 && <Heatmap id='排行榜.跳转' />}
             </>

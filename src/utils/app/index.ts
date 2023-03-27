@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 04:52:19
+ * @Last Modified time: 2023-03-28 07:08:29
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -32,6 +32,7 @@ import {
   Navigation,
   Paths,
   SubjectId,
+  SubjectTypeCn,
   UserId
 } from '@types'
 import { getTimestamp, open, toLocal } from '../utils'
@@ -103,6 +104,14 @@ export function getIsBlockUser(
   }
 
   return isBlock
+}
+
+/** 判断动作 */
+export function getAction(typeCn: SubjectTypeCn) {
+  if (typeCn === '书籍') return '读'
+  if (typeCn === '游戏') return '玩'
+  if (typeCn === '音乐') return '听'
+  return '看'
 }
 
 /** 获取设置 */

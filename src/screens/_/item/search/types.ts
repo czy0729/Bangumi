@@ -2,18 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 16:42:57
+ * @Last Modified time: 2023-03-28 05:49:41
  */
-import {
-  EventType,
-  Id,
-  Navigation,
-  RatingStatus,
-  SubjectId,
-  // SubjectType,
-  SubjectTypeCn,
-  ViewStyle
-} from '@types'
+import { EventType, Id, Navigation, SubjectTypeCn, ViewStyle } from '@types'
 
 export type Props = {
   navigation?: Navigation
@@ -33,11 +24,4 @@ export type Props = {
   collected?: boolean
   position?: string[]
   event?: EventType
-  onManagePress?: (args: {
-    subjectId: SubjectId
-    title: string
-    desc: string
-    status: RatingStatus
-    typeCn: SubjectTypeCn
-  }) => any
 }

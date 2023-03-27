@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:48:59
+ * @Last Modified time: 2023-03-28 06:50:22
  */
 import { observable, computed } from 'mobx'
-import { feedback, getTimestamp } from '@utils'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
-import { StoreConstructor } from '@types'
+import { StoreConstructor, SubjectId } from '@types'
 import subjectStore from '../subject'
 import userStore from '../user'
 import collectionStore from '../collection'
@@ -29,6 +29,10 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
 
   @computed get manageModal() {
     return this.state.manageModal
+  }
+
+  @computed get flip() {
+    return this.state.flip
   }
 
   /** ==================== tapXY ==================== */
@@ -108,7 +112,7 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
 
   /** ==================== manageModal ==================== */
   /** 存放提交全局条目管理后的回调 */
-  _manageModalSubmitCallback: (values?: SubmitManageModalValues) => any
+  private _manageModalSubmitCallback: (values?: SubmitManageModalValues) => any
 
   /** 显示全局条目管理 Modal */
   showManageModal = (
@@ -145,6 +149,33 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
     this._manageModalSubmitCallback = null
   }
 
+  /** 暂时禁用提交全局条目管理 Modal */
+  disabledManageModal = () => {
+    this.setState({
+      manageModal: {
+        disabled: true
+      }
+    })
+  }
+
+  /** 恢复提交全局条目管理 Modal */
+  enabledManageModal = () => {
+    this.setState({
+      manageModal: {
+        disabled: false
+      }
+    })
+  }
+
+  /** 调用提交全局条目管理 Modal 回调 */
+  callManageModalCallback = async (values: SubmitManageModalValues) => {
+    try {
+      if (typeof this._manageModalSubmitCallback === 'function') {
+        await this._manageModalSubmitCallback(values)
+      }
+    } catch (error) {}
+  }
+
   /** 提交全局条目管理 Modal */
   submitManageModal = async (values: SubmitManageModalValues) => {
     const { visible, screen } = this.state.manageModal
@@ -154,20 +185,49 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
       subjectId: values.subjectId,
       screen
     })
+
+    this.disabledManageModal()
     await collectionStore.doUpdateCollection(values)
-    feedback()
+    this.enabledManageModal()
 
-    try {
-      if (typeof this._manageModalSubmitCallback === 'function') {
-        this._manageModalSubmitCallback(values)
-      }
-    } catch (error) {}
-
+    await this.callManageModalCallback(values)
     this.closeManageModal()
-    collectionStore.fetchCollectionStatusQueue([values.subjectId])
+
+    this.preFlip(values.subjectId)
+    await collectionStore.fetchCollectionStatusQueue([values.subjectId])
+
+    // 虽然 Flip 组件会通过 onAnimated 调用, 但是要保证之后无论如何都关闭动画
+    setTimeout(() => {
+      this.afterFlip()
+    }, 4000)
+
     this.callWebhookCollection(values)
   }
 
+  /** ==================== flip ==================== */
+  /** 设置允许全局开启翻转动画 */
+  preFlip = (subjectId: SubjectId) => {
+    this.setState({
+      flip: {
+        animate: true,
+        subjectId,
+        key: this.state.flip.key + 1
+      }
+    })
+  }
+
+  /** 关闭全局翻转动画 */
+  afterFlip = () => {
+    this.setState({
+      flip: {
+        animate: false,
+        subjectId: 0
+      }
+    })
+  }
+
+  /** ==================== webhook ==================== */
+  /** 更新收藏时间线的 webhook */
   callWebhookCollection = (values: SubmitManageModalValues) => {
     setTimeout(async () => {
       let subject = subjectStore.subject(values.subjectId)

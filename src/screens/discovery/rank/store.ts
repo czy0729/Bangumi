@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 17:40:43
+ * @Last Modified time: 2023-03-28 05:56:24
  */
 import { observable, computed } from 'mobx'
-import { tagStore, collectionStore, subjectStore, userStore, uiStore } from '@stores'
-import { info, feedback, getTimestamp, x18 } from '@utils'
+import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
+import { info, getTimestamp, x18 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
@@ -373,57 +373,5 @@ export default class ScreenRank extends store {
     })
     this.resetScrollView()
     this.fetchRank()
-  }
-
-  /** 管理收藏 */
-  doUpdateCollection = async (
-    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
-  ) => {
-    await collectionStore.doUpdateCollection(values)
-    feedback()
-
-    const { subjectId } = this.state.modal
-    setTimeout(() => {
-      collectionStore.fetchCollectionStatusQueue([subjectId])
-    }, 400)
-    this.onCloseManageModal()
-    uiStore.callWebhookCollection(values)
-  }
-
-  /** 显示收藏管理框 */
-  onShowManageModal = args => {
-    const { subjectId, title, desc, status, typeCn } = args || {}
-
-    let action = '看'
-    if (typeCn === '书籍') action = '读'
-    if (typeCn === '音乐') action = '听'
-    if (typeCn === '游戏') action = '玩'
-
-    this.setState({
-      modal: {
-        visible: true,
-        subjectId,
-        title,
-        desc,
-        status: status || '',
-        action
-      }
-    })
-  }
-
-  /** 隐藏收藏管理框 */
-  onCloseManageModal = () => {
-    this.setState({
-      modal: {
-        visible: false
-      }
-    })
-
-    // 等到关闭动画完成后再重置
-    setTimeout(() => {
-      this.setState({
-        modal: EXCLUDE_STATE.modal
-      })
-    }, 400)
   }
 }

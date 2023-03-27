@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:21:08
+ * @Last Modified time: 2023-03-28 06:09:03
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -513,7 +513,7 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
     subjectIds.forEach(subjectId => {
       if (
         subjectIds.length === 1 || // [2]
-        (!['看过', '搁置', '抛弃'].includes(this.collectionStatus(subjectId)) && // [3]
+        (!['看过', '搁置', '抛弃'].includes(this.collect(subjectId)) && // [3]
           now - this._collectionStatusLastFetchMS(subjectId) >= 60 * 60) // [4]
       ) {
         fetchs.push(async () => {

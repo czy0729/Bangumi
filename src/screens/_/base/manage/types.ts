@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-26 05:06:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-26 05:18:28
+ * @Last Modified time: 2023-03-28 06:27:20
  */
-import { Fn, SubjectTypeCn, ViewStyle } from '@types'
+import { Fn, SubjectId, SubjectTypeCn, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
+
+  subjectId: SubjectId
 
   /** 条目收藏状态 */
   collection: string

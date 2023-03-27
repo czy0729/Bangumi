@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:59:09
+ * @Last Modified time: 2023-03-28 07:09:42
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { appNavigate, stl } from '@utils'
+import { _, uiStore } from '@stores'
+import { appNavigate, cnjp, getAction, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { IMG_WIDTH, IMG_WIDTH_LG, IMG_HEIGHT_LG, MODEL_RATING_STATUS } from '@constants'
-import { RatingStatus } from '@types'
+import {
+  IMG_WIDTH,
+  IMG_WIDTH_LG,
+  IMG_HEIGHT_LG,
+  MODEL_COLLECTION_STATUS
+} from '@constants'
+import { CollectionStatus } from '@types'
 import { Tag, Cover, Stars, Rank, Manage } from '../../base'
 import Title from './title'
 import { DEFAULT_PROPS } from './ds'
@@ -32,8 +37,7 @@ const Item = memo(
     comments,
     collection,
     position,
-    event,
-    onManagePress
+    event
   }) => {
     global.rerender('Component.ItemSearch.Main')
 
@@ -41,6 +45,7 @@ const Item = memo(
     const isMono = !String(id).includes('/subject/')
     const isMusic = typeCn === '音乐'
     const justify = tip || position.length ? 'between' : 'start'
+    const subjectId = String(id).replace('/subject/', '')
     return (
       <Touchable
         style={stl(styles.container, style)}
@@ -86,17 +91,17 @@ const Item = memo(
               </Flex.Item>
               {!isMono && (
                 <Manage
+                  subjectId={subjectId}
                   collection={collection}
                   typeCn={typeCn}
                   onPress={() => {
-                    if (isMono) return
-
-                    onManagePress({
-                      subjectId: String(id).replace('/subject/', ''),
-                      title: nameCn,
-                      desc: name,
-                      status: MODEL_RATING_STATUS.getValue<RatingStatus>(collection),
-                      typeCn
+                    uiStore.showManageModal({
+                      subjectId,
+                      title: cnjp(nameCn, name),
+                      desc: cnjp(name, nameCn),
+                      status:
+                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                      action: getAction(typeCn)
                     })
                   }}
                 />
