@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 20:16:40
+ * @Last Modified time: 2023-03-26 05:03:09
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { syncSystemStore } from '@utils/async'
-import { IOS } from '@constants'
+// import { syncSystemStore } from '@utils/async'
+// import { IOS } from '@constants'
 import TouchableWithoutFeedback from './touchable-without-feedback'
-import TouchableNativeFeedback from './touchable-native-feedback'
+// import TouchableNativeFeedback from './touchable-native-feedback'
 import TouchableHighlight from './touchable-highlight'
 import TouchableOpacity from './touchable-opacity'
 import TouchableAnimated from './touchable-animated'
@@ -51,8 +51,8 @@ export const Touchable = observer(
     }
     if (withoutFeedback) return <TouchableWithoutFeedback {...passProps} />
 
-    const _ripple = ripple === undefined ? syncSystemStore().setting.ripple : ripple
-    if (!IOS && _ripple) return <TouchableNativeFeedback {...passProps} />
+    // const _ripple = ripple === undefined ? syncSystemStore().setting.ripple : ripple
+    // if (!IOS && _ripple) return <TouchableNativeFeedback {...passProps} />
 
     if (highlight) return <TouchableHighlight {...passProps} />
 
