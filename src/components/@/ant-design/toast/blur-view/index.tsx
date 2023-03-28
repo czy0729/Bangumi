@@ -1,14 +1,12 @@
-/* eslint-disable react-native/no-inline-styles */
 /*
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-16 04:11:14
+ * @Last Modified time: 2023-03-29 04:17:57
  */
 import React from 'react'
 import { Platform, View } from 'react-native'
 import { observer } from 'mobx-react-lite'
-// import { BlurView as RNBlurView } from '@react-native-community/blur'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncThemeStore } from '@utils/async'
 import { Props } from './types'
@@ -20,6 +18,7 @@ export const BlurView = observer(({ style, children }: Props) => {
       <ExpoBlurView
         style={[
           style,
+          // eslint-disable-next-line react-native/no-inline-styles
           {
             backgroundColor: _.isDark
               ? 'rgba(255, 255, 255, 0.08)'
@@ -40,6 +39,7 @@ export const BlurView = observer(({ style, children }: Props) => {
     <View
       style={[
         style,
+        // eslint-disable-next-line react-native/no-inline-styles
         {
           backgroundColor: _.isDark ? _._colorDarkModeLevel2 : _.colorPlain,
           borderRadius: _.radiusSm,
@@ -49,11 +49,6 @@ export const BlurView = observer(({ style, children }: Props) => {
         }
       ]}
     >
-      {/* <RNBlurView
-        style={styles.absolute}
-        blurAmount={_.isDark ? 32 : 20}
-        overlayColor={_.isDark ? 'rgba(0, 0, 0, 0.24)' : 'rgba(255, 255, 255, 0.5)'}
-      /> */}
       {children}
     </View>
   )

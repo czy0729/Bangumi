@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:57:56
+ * @Last Modified time: 2023-03-29 04:47:12
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
-import { appNavigate, confirm } from '@utils'
+import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -83,7 +83,7 @@ const Item = memo(
           avatarSrc={avatarSrc}
           event={event}
         />
-        <Flex.Item style={[showImages ? styles.noPR : styles.content, _.ml.sm]}>
+        <Flex.Item style={stl(showImages ? styles.noPR : styles.content, _.ml.sm)}>
           <Flex align='start'>
             <Flex.Item>
               <View style={showImages && styles.hasPR}>

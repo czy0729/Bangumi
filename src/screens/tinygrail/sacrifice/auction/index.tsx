@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 15:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:45:59
+ * @Last Modified time: 2023-03-29 05:08:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text, Button, Slider as CompSlider, Iconfont } from '@components'
 import { IconTouchable, Popover } from '@_'
 import { _ } from '@stores'
-import { formatNumber, lastDate, toFixed } from '@utils'
+import { formatNumber, lastDate, stl, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import Stepper from '../stepper'
 import { Ctx } from '../types'
@@ -25,7 +25,7 @@ function Auction({ style }, { $ }: Ctx) {
   const { balance } = $.assets
   const { state, type } = $.auctionStatus
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       <Flex>
         <Flex.Item flex={1.2}>
           <Text type='tinygrailPlain' size={13}>

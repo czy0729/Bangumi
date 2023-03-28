@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:52:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 18:30:42
+ * @Last Modified time: 2023-03-29 05:05:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { _ } from '@stores'
-import { toFixed } from '@utils'
+import { stl, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { ColorValue } from '@types'
 import { memoStyles } from './styles'
@@ -42,7 +42,7 @@ function Bar({ style, total = 0, level, next = 1 }: Props) {
       break
   }
   return (
-    <View style={[styles.ico, style]}>
+    <View style={stl(styles.ico, style)}>
       <Text style={styles.iconText} type='tinygrailPlain' align='center'>
         lv.{level} {percent}%
       </Text>

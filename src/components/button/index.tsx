@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:28:28
+ * @Last Modified time: 2023-03-29 04:16:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { titleCase } from '@utils'
+import { titleCase, stl } from '@utils'
 import { ViewStyle, TextStyle } from '@types'
 import { Activity } from '../activity'
 import { Flex } from '../flex'
@@ -66,12 +66,12 @@ export const Button = observer(
         ) : (
           <>
             <Text
-              style={[
+              style={stl(
                 // 部分安卓机不写具体 width 会导致文字显示不全
                 size === 'sm' && styles.androidFixed,
                 textStyle,
                 styleText
-              ]}
+              )}
               align='center'
               bold={textBold || bold}
               selectable={false}

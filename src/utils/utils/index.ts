@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 05:46:05
+ * @Last Modified time: 2023-03-29 04:35:18
  */
 import { ComponentType } from 'react'
 import {
@@ -82,9 +82,9 @@ export function runAfter(fn: () => any) {
 }
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */
-export function stl<T>(style: T, ...otherStyles: any[]): T | any[] {
-  if (otherStyles.every(item => !item)) return style || undefined
-  return [style, ...otherStyles]
+export function stl(...styles: any[]): any | any[] {
+  const filteredStyles = styles.filter(Boolean)
+  return filteredStyles.length === 1 ? filteredStyles[0] : filteredStyles
 }
 
 /** 节流 */

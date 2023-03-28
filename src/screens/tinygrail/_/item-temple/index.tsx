@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:29:00
+ * @Last Modified time: 2023-03-29 05:03:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Image } from '@components'
 import { _, systemStore } from '@stores'
 import { Avatar } from '@_'
-import { formatNumber, HTMLDecode, tinygrailOSS } from '@utils'
+import { formatNumber, HTMLDecode, stl, tinygrailOSS } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -59,7 +59,7 @@ function ItemTemple(
   }
 
   return (
-    <View style={[styles.item, style]}>
+    <View style={stl(styles.item, style)}>
       <View
         style={[
           styles.wrap,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:44:10
+ * @Last Modified time: 2023-03-29 05:09:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { computed } from 'mobx'
 import { Flex, Text, Image, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { formatNumber, info, confirm, tinygrailOSS } from '@utils'
+import { formatNumber, info, confirm, tinygrailOSS, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import CharactersModal from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
@@ -262,7 +262,7 @@ class Items extends React.Component<{
     const { style } = this.props
     return (
       <>
-        <View style={[this.styles.container, style]}>
+        <View style={stl(this.styles.container, style)}>
           {this.renderTop()}
           {this.renderList()}
         </View>

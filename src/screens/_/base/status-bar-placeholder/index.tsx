@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 14:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 00:47:12
+ * @Last Modified time: 2023-03-29 04:43:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import Constants from 'expo-constants'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { WSA } from '@constants'
 import { Props as StatusBarPlaceholderProps } from './types'
@@ -20,12 +21,12 @@ export const StatusBarPlaceholder = ob(({ style }: StatusBarPlaceholderProps) =>
 
   return (
     <View
-      style={[
+      style={stl(
         {
           height: Constants.statusBarHeight
         },
         style
-      ]}
+      )}
     />
   )
 })

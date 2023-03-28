@@ -11,6 +11,7 @@ import TouchableItem from 'react-native-tab-view/src/TouchableItem'
 import { Scene, Route, NavigationState } from 'react-native-tab-view/src/types'
 import Animated from 'react-native-reanimated'
 import memoize from 'react-native-tab-view/src/memoize'
+import { stl } from '@utils'
 
 // @ts-expect-error
 const AnimatedInterpolate = Animated.interpolateNode || Animated.interpolate
@@ -150,12 +151,12 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
             if (typeof labelText === 'string') {
               return (
                 <Animated.Text
-                  style={[
+                  style={stl(
                     styles.label,
                     icon ? { marginTop: 0 } : null,
                     { color },
                     labelStyle
-                  ]}
+                  )}
                 >
                   {labelText}
                 </Animated.Text>

@@ -1,11 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2022-12-18 16:41:15
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-12-18 16:41:15
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-03-29 05:25:32
  */
 import React from 'react'
 import { Touchable, Flex, Text, Loading } from '@components'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
@@ -23,11 +24,11 @@ function Btn({
   const isSuccess = type === 'success' && !disabled
   return (
     <Touchable
-      style={[styles.touch, style]}
+      style={stl(styles.touch, style)}
       onPress={disabled || loading ? undefined : onPress}
     >
       <Flex
-        style={[styles.btn, isSuccess && styles.btnSuccess, btnStyle]}
+        style={stl(styles.btn, isSuccess && styles.btnSuccess, btnStyle)}
         justify='center'
       >
         {loading ? (

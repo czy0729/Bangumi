@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-22 05:49:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 11:26:41
+ * @Last Modified time: 2023-03-29 05:27:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Text, Flex, Iconfont } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
@@ -16,7 +17,7 @@ function Btn({ item, active = false, onPress }: any) {
   if (!item) return <View style={styles.btn} />
 
   return (
-    <Touchable style={[styles.btn, active && styles.btnActive]} onPress={onPress}>
+    <Touchable style={stl(styles.btn, active && styles.btnActive)} onPress={onPress}>
       <Flex style={styles.btn} direction='column' justify='center'>
         {item.text ? (
           <Text style={_.mb.xs} bold>

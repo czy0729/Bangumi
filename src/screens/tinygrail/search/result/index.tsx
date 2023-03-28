@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:33:07
+ * @Last Modified time: 2023-03-29 05:10:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { tinygrailOSS } from '@utils'
+import { stl, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -22,7 +22,7 @@ function Result({ style }, { $, navigation }: Ctx) {
     <View style={style}>
       {list.map((item, index) => (
         <View key={index} style={styles.item}>
-          <Flex style={[styles.wrap, index !== 0 && !_.flat && styles.border]}>
+          <Flex style={stl(styles.wrap, index !== 0 && !_.flat && styles.border)}>
             {!!item.icon && (
               <Avatar
                 style={styles.avatar}

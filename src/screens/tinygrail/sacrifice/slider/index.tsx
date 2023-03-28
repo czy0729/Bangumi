@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:57
+ * @Last Modified time: 2023-03-29 05:09:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { formatNumber, lastDate, confirm } from '@utils'
+import { formatNumber, lastDate, confirm, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -28,7 +28,7 @@ function Slider({ style }, { $ }: Ctx) {
   const { amount: userAmount, sacrifices = 0 } = $.userLogs
   const { current } = $.chara
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       <Flex>
         <Flex.Item>
           <Text type='tinygrailPlain' size={13}>

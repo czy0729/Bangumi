@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:45
+ * @Last Modified time: 2023-03-29 05:01:04
  */
 import React from 'react'
 import { BackHandler, View, StatusBar } from 'react-native'
@@ -17,6 +17,7 @@ import {
   getTimestamp,
   info,
   setStorage,
+  stl,
   toFixed,
   trim
 } from '@utils'
@@ -1052,7 +1053,7 @@ class CharactersModal extends React.Component<{
     const { focus } = this.state
     return (
       <Modal
-        style={[this.styles.modal, focus && this.styles.focus]}
+        style={stl(this.styles.modal, focus && this.styles.focus)}
         visible={visible}
         title={title}
         type='tinygrailPlain'

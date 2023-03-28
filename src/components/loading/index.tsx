@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 23:34:17
+ * @Last Modified time: 2023-03-29 04:31:04
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { DEV, IOS } from '@constants'
 import { Spinner } from '../spinner'
 import { styles } from './styles'
@@ -48,7 +49,7 @@ const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
 
 const Loading: ILoading = observer(
   ({ style, spinnerStyle, color, size = 'small', children }) => (
-    <View style={[_.container.column, styles.loading, style]}>
+    <View style={stl(_.container.column, styles.loading, style)}>
       <Raw spinnerStyle={spinnerStyle} color={color} size={size} />
       {children}
     </View>

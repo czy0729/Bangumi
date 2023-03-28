@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 14:28:29
+ * @Last Modified time: 2023-03-29 04:48:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import {
 } from '@components'
 import { _, otaStore, collectionStore, uiStore } from '@stores'
 import { Tags, Cover, Stars, Rank, Manage } from '@_'
-import { HTMLDecode, showImageViewer } from '@utils'
+import { HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
@@ -153,7 +153,10 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                 data={thumbs.filter((item, index) => index < 2)}
                 renderItem={(item, index) => (
                   <Image
-                    style={[!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md]}
+                    style={stl(
+                      !!index && _.ml.sm,
+                      index === thumbs.length - 1 && _.mr.md
+                    )}
                     key={item}
                     src={item}
                     size={THUMB_WIDTH}

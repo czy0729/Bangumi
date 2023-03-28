@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:17:21
+ * @Last Modified time: 2023-03-29 04:50:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,7 +78,7 @@ export default memo(
         </View>
         {!!avatar && (
           <Flex
-            style={[styles.fixed, avatarRound && styles.avatarRound]}
+            style={stl(styles.fixed, avatarRound && styles.avatarRound)}
             justify='center'
           >
             <UserStatus userId={data.userId} mini>

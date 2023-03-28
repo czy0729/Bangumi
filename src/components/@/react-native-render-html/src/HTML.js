@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:23:19
+ * @Last Modified time: 2023-03-29 04:08:53
  */
 import React, { PureComponent } from 'react'
 import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
@@ -29,6 +29,7 @@ import {
   generateDefaultTextStyles
 } from 'react-native-render-html/src/HTMLDefaultStyles'
 import htmlparser2 from 'htmlparser2'
+import { stl } from '@utils'
 import { IOS } from '@constants'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'
@@ -572,7 +573,7 @@ export default class HTML extends PureComponent {
           const textElement = data ? (
             <Text
               allowFontScaling={allowFontScaling}
-              style={[
+              style={stl(
                 !IOS && androidTextFixedStyle,
                 computeTextStyles(element, {
                   defaultTextStyles: this.defaultTextStyles,
@@ -584,7 +585,7 @@ export default class HTML extends PureComponent {
                   ignoredStyles,
                   allowedStyles
                 })
-              ]}
+              )}
               textBreakStrategy='simple'
               numberOfLines={0}
             >

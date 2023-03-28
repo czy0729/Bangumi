@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 22:02:58
+ * @Last Modified time: 2023-03-29 05:08:39
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -14,6 +14,7 @@ export type Paths = keyof typeof Screens
 
 /** 路由和参数约束 */
 export type NavigationPushType = RouteActions &
+  RouteAnime &
   RouteAuth &
   RouteAward &
   RouteBlog &
@@ -23,8 +24,11 @@ export type NavigationPushType = RouteActions &
   RouteCharacter &
   RouteCharacters &
   RouteFriends &
+  RouteGame &
   RouteGroup &
+  RouteHentai &
   RouteInformation &
+  RouteManga &
   RouteMono &
   RoutePM &
   RouteRating &
@@ -39,10 +43,46 @@ export type NavigationPushType = RouteActions &
   RouteUser &
   RouteUserTimeline &
   RouteWebBrowser &
+  RouteWenku &
   RouteZone &
   ((path: Paths) => any)
 
 type RouteAuth = (path: 'Auth') => any
+
+type RouteAnime = (
+  path: 'Anime',
+  params: {
+    _tags?: string[]
+  }
+) => any
+
+type RouteManga = (
+  path: 'Manga',
+  params: {
+    _tags?: string[]
+  }
+) => any
+
+type RouteWenku = (
+  path: 'Wenku',
+  params: {
+    _tags?: string[]
+  }
+) => any
+
+type RouteGame = (
+  path: 'Game',
+  params: {
+    _tags?: string[]
+  }
+) => any
+
+type RouteHentai = (
+  path: 'Hentai',
+  params: {
+    _tags?: string[]
+  }
+) => any
 
 type RouteUserTimeline = (
   path: 'UserTimeline',
@@ -55,6 +95,7 @@ type RouteUserTimeline = (
 type RouteSay = (
   path: 'Say',
   params: {
+    id?: Id
     onNavigationCallback?: Fn
   }
 ) => any
@@ -125,6 +166,7 @@ type RouteZone = (
   path: 'Zone',
   params: {
     userId: UserId
+    from?: string
     _id?: UserId
     _name?: string
     _image?: string

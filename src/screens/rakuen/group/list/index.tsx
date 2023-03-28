@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:22:44
+ * @Last Modified time: 2023-03-29 04:58:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,7 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
               }
             }}
           >
-            <View style={[styles.wrap, !!index && !_.flat && styles.border]}>
+            <View style={stl(styles.wrap, !!index && !_.flat && styles.border)}>
               <Text size={15}>
                 {HTMLDecode(title)}
                 <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15}>

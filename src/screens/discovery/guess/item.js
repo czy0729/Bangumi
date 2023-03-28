@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-04 19:23:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-16 17:58:36
+ * @Last Modified time: 2023-03-29 04:49:06
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Text, HorizontalList, Image } from '@components'
 import { Cover } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
@@ -83,10 +84,10 @@ function Item(
             initialRenderNums={4}
             renderItem={(item, index) => (
               <Image
-                style={[
+                style={stl(
                   !!index && _.ml.sm,
                   index === eps.epsThumbs.length - 1 && _.mr.md
-                ]}
+                )}
                 key={item}
                 src={item}
                 size={styles.thumb.width}

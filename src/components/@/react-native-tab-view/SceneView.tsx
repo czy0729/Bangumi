@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native'
+import { stl } from '@utils'
 import { SceneRendererProps, EventEmitterProps, NavigationState, Route } from './types'
 
 type Props<T extends Route> = SceneRendererProps &
@@ -86,7 +87,7 @@ export default class SceneView<T extends Route> extends React.Component<
       <View
         accessibilityElementsHidden={!focused}
         importantForAccessibility={focused ? 'auto' : 'no-hide-descendants'}
-        style={[
+        style={stl(
           styles.route,
           // If we don't have the layout yet, make the focused screen fill the container
           // This avoids delay before we are able to render pages side by side
@@ -96,7 +97,7 @@ export default class SceneView<T extends Route> extends React.Component<
             ? StyleSheet.absoluteFill
             : null,
           style
-        ]}
+        )}
       >
         {
           // Only render the route only if it's either focused or layout is available

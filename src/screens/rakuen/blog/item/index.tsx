@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:13:10
+ * @Last Modified time: 2023-03-29 04:57:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, UserStatus, RenderHtml } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { simpleTime, open, appNavigate, confirm } from '@utils'
+import { simpleTime, open, appNavigate, confirm, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { HOST, EVENT } from '@constants'
 import { Ctx } from '../types'
@@ -54,7 +54,7 @@ function Item(
   const url = _url || `${HOST}/blog/${$.blogId}`
   return (
     <Flex
-      style={[styles.item, isNew && styles.itemNew, isJump && styles.itemJump]}
+      style={stl(styles.item, isNew && styles.itemNew, isJump && styles.itemJump)}
       align='start'
     >
       <View style={styles.image}>
@@ -69,7 +69,7 @@ function Item(
         </UserStatus>
       </View>
       <Flex.Item
-        style={[styles.content, index !== 0 && !_.flat && styles.border, _.ml.sm]}
+        style={stl(styles.content, index !== 0 && !_.flat && styles.border, _.ml.sm)}
       >
         <Flex>
           <Flex.Item>
@@ -142,7 +142,7 @@ function Item(
             return (
               <Flex
                 key={item.id}
-                style={[isNew && styles.itemNew, isJump && styles.itemJump]}
+                style={stl(isNew && styles.itemNew, isJump && styles.itemJump)}
                 align='start'
               >
                 <View style={styles.subImage}>
@@ -157,7 +157,7 @@ function Item(
                   </UserStatus>
                 </View>
                 <Flex.Item
-                  style={[styles.subContent, !_.flat && styles.border, _.ml.sm]}
+                  style={stl(styles.subContent, !_.flat && styles.border, _.ml.sm)}
                 >
                   <Flex>
                     <Flex.Item>

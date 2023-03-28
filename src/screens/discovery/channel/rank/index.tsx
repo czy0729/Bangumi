@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:40:21
+ * @Last Modified time: 2023-03-29 04:48:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Katakana, Text } from '@components'
 import { SectionTitle, Cover, Tag } from '@_'
 import { _ } from '@stores'
-import { findSubjectCn, HTMLDecode } from '@utils'
+import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -105,7 +105,7 @@ function Rank(props, { $, navigation }: Ctx) {
             return (
               <View
                 key={item.id}
-                style={[styles.item, index % 2 !== 0 && styles.itemMarginLeft]}
+                style={stl(styles.item, index % 2 !== 0 && styles.itemMarginLeft)}
               >
                 <Touchable
                   animate

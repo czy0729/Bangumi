@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:44:10
+ * @Last Modified time: 2023-03-29 05:04:25
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
@@ -15,7 +16,7 @@ function Stepper({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { value } = $.state
   return (
-    <Flex style={[styles.stepper, style]}>
+    <Flex style={stl(styles.stepper, style)}>
       <Flex.Item>
         <Input
           style={styles.input}

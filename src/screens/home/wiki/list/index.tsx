@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:12:09
+ * @Last Modified time: 2023-03-29 04:56:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, HorizontalList, Divider } from '@components'
 import { Avatar, Cover } from '@_'
 import { _ } from '@stores'
-import { simpleTime, getCoverLarge, showImageViewer } from '@utils'
+import { simpleTime, getCoverLarge, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IMG_WIDTH, IMG_HEIGHT, API_AVATAR } from '@constants'
 import { Ctx } from '../types'
@@ -32,12 +32,12 @@ class List extends React.Component {
         renderItem={({ cover, userId, userName }, index) => (
           <View
             key={cover}
-            style={[
+            style={stl(
               {
                 width: COVER_WIDTH
               },
               !!index && _.ml.md
-            ]}
+            )}
           >
             <Cover
               src={cover}

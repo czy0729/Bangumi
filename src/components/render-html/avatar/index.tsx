@@ -3,21 +3,21 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:37:47
+ * @Last Modified time: 2023-03-29 05:37:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore, userStore } from '@stores'
-import { getTimestamp } from '@utils'
-import { getCoverMedium } from '@utils/app'
+import { getTimestamp, getCoverMedium } from '@utils'
 import { t } from '@utils/fetch'
 import {
-  IOS,
-  HOST_CDN,
   CDN_OSS_AVATAR,
-  URL_DEFAULT_AVATAR,
-  IMG_DEFAULT
+  HOST_CDN,
+  IMG_DEFAULT,
+  IOS,
+  TEXT_ONLY,
+  URL_DEFAULT_AVATAR
 } from '@constants'
 import { ColorValue, Navigation, ViewStyle, EventType } from '@types'
 import { Image } from '../../image'
@@ -155,7 +155,7 @@ export const Avatar = observer(
             radius={_radius}
             quality={false}
             placeholder={placeholder}
-            textOnly={textOnly}
+            textOnly={TEXT_ONLY || textOnly}
             onPress={_onPress}
             onLongPress={onLongPress}
           />
@@ -183,7 +183,7 @@ export const Avatar = observer(
         borderWidth={borderWidth}
         quality={false}
         placeholder={placeholder}
-        textOnly={textOnly}
+        textOnly={TEXT_ONLY || textOnly}
         onPress={_onPress}
         onLongPress={onLongPress}
       />

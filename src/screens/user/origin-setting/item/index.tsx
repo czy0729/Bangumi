@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 07:29:27
+ * @Last Modified time: 2023-03-29 05:26:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover, Tag } from '@_'
 import { _ } from '@stores'
-import { confirm } from '@utils'
+import { confirm, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import Form from '../form'
 import { Ctx } from '../types'
@@ -29,7 +29,7 @@ const Item = ({ type, id, uuid, active, name, url, sort }, { $ }: Ctx) => {
     ((id && edit.item.id === id) || (uuid && edit.item.uuid === uuid))
   return (
     <>
-      <Flex style={[styles.item, !isActive && styles.disabled]}>
+      <Flex style={stl(styles.item, !isActive && styles.disabled)}>
         <Flex.Item>
           <Text size={15} bold>
             {name}

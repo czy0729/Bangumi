@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:18:07
+ * @Last Modified time: 2023-03-29 05:23:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { toFixed } from '@utils'
+import { stl, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -40,7 +40,7 @@ function DepthList({ style }, { $ }: Ctx) {
   let calculateBids = 0
   let calculateAsks = 0
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       <Flex style={styles.header}>
         <Text style={[styles.index, _.ml.md]} type='tinygrailText' size={10}>
           买盘

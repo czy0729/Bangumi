@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 01:12:50
+ * @Last Modified time: 2023-03-29 04:48:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text, Heatmap } from '@components'
 import { Tag, Stars, Cover } from '@_'
 import { _ } from '@stores'
-import { cnjp, HTMLDecode, x18 } from '@utils'
+import { cnjp, HTMLDecode, stl, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE, IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -96,7 +96,10 @@ function ItemRecents(
           </Touchable>
           <Flex style={_.mt.sm} wrap='wrap'>
             {actors.map(item => (
-              <Flex key={item.id} style={[actors.length > 1 && styles.actors, _.mt.md]}>
+              <Flex
+                key={item.id}
+                style={stl(actors.length > 1 && styles.actors, _.mt.md)}
+              >
                 <Touchable
                   animate
                   onPress={() => {

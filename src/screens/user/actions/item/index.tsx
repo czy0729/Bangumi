@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover, Tag } from '@_'
 import { _ } from '@stores'
-import { confirm } from '@utils'
+import { confirm, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import Form from '../form'
 import { Ctx } from '../types'
@@ -24,7 +24,7 @@ const Item = ({ uuid, active, name, url, sort }, { $ }: Ctx) => {
   const isEdit = edit.show && uuid && edit.uuid === uuid
   return (
     <>
-      <Flex style={[styles.item, !isActive && styles.disabled]}>
+      <Flex style={stl(styles.item, !isActive && styles.disabled)}>
         <Flex.Item>
           <Text size={15} bold>
             {name}

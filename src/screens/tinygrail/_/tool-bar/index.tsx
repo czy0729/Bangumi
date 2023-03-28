@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 15:34:11
+ * @Last Modified time: 2023-03-29 05:02:59
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
@@ -32,7 +33,7 @@ function ToolBar({
     ...Object.keys(levelMap).map(level => `lv${level} (${levelMap[level]})`)
   ]
   return (
-    <Flex style={[styles.container, style]}>
+    <Flex style={stl(styles.container, style)}>
       {renderLeft}
       <Popover
         data={levelDS}

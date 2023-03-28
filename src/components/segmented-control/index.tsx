@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:40:18
+ * @Last Modified time: 2023-03-29 04:37:42
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { SegmentedControlTab } from './segmented-control-tab'
 import { styles } from './styles'
 import { Props as SegmentedControlProps } from './types'
@@ -46,7 +47,7 @@ const SegmentedControlComp = ({
   type,
   size
 }: SegmentedControlProps) => {
-  // 组件内缓存一层, 使UI能尽快响应
+  // 组件内缓存一层, 使 UI 能尽快响应
   const [_selectedIndex, _setSelectedIndex] = useState(selectedIndex)
   const [segmentWidth, setSegmentWidth] = useState(0)
   const animation = useRef(new Animated.Value(0)).current
@@ -82,13 +83,13 @@ const SegmentedControlComp = ({
 
   return (
     <View
-      style={[
+      style={stl(
         styles.default,
         style,
         styleExtra,
         backgroundColor && { backgroundColor }
         // !enabled && styles.disabled
-      ]}
+      )}
       onLayout={({
         nativeEvent: {
           layout: { width }
@@ -103,7 +104,7 @@ const SegmentedControlComp = ({
     >
       {_selectedIndex != null && segmentWidth ? (
         <Animated.View
-          style={[
+          style={stl(
             styles.slider,
             {
               transform: [
@@ -115,7 +116,7 @@ const SegmentedControlComp = ({
               backgroundColor: tintColor || 'white'
             },
             styleExtra
-          ]}
+          )}
         />
       ) : null}
       {values &&

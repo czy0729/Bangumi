@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 05:28:36
+ * @Last Modified time: 2023-03-29 05:02:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { toFixed, caculateICO } from '@utils'
+import { toFixed, caculateICO, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
 import { Id, ViewStyle } from '@types'
@@ -132,7 +132,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
     const hasNoChanged = show ? realChange === '0.00' : fluctuationText === '-%'
     return (
       <Touchable
-        style={[this.styles.container, style]}
+        style={stl(this.styles.container, style)}
         onPress={tinygrailStore.toggleStockPreview}
       >
         <Flex justify='end'>
@@ -178,10 +178,10 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
               )}
               {show && (
                 <Flex
-                  style={[
+                  style={stl(
                     show ? this.styles.floorShowDetail : this.styles.floor,
                     _.ml.xs
-                  ]}
+                  )}
                   justify='between'
                 >
                   <View

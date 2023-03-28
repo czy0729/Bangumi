@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:59:33
+ * @Last Modified time: 2023-03-29 05:28:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Touchable, Text, Heatmap } from '@components'
 import { _ } from '@stores'
-import { date, getTimestamp, info } from '@utils'
+import { date, getTimestamp, info, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
@@ -130,17 +130,13 @@ function MosaicTile(props, { $ }: Ctx) {
               {days.map(item => (
                 <Touchable
                   key={String(item)}
-                  style={[
-                    styles.item,
-                    item === today && styles.itemToday,
-                    {
-                      backgroundColor:
-                        colors[$.mosaicTile[item]] ||
-                        ($.mosaicTile[item]
-                          ? colors[5]
-                          : _.select(_.colorBg, _._colorDarkModeLevel1))
-                    }
-                  ]}
+                  style={stl(styles.item, item === today && styles.itemToday, {
+                    backgroundColor:
+                      colors[$.mosaicTile[item]] ||
+                      ($.mosaicTile[item]
+                        ? colors[5]
+                        : _.select(_.colorBg, _._colorDarkModeLevel1))
+                  })}
                   onPress={() => {
                     t('时间线.点击瓷砖', {
                       date: item,

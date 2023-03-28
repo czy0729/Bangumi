@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:56:09
+ * @Last Modified time: 2023-03-29 05:07:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, UserStatus, TextType } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { getTimestamp, lastDate, tinygrailOSS } from '@utils'
+import { getTimestamp, lastDate, stl, tinygrailOSS } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
@@ -102,7 +102,7 @@ function Item(
             />
           </UserStatus>
         </View>
-        <Flex.Item style={[styles.wrap, !isTop && !_.flat && styles.border]}>
+        <Flex.Item style={stl(styles.wrap, !isTop && !_.flat && styles.border)}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
               <Touchable

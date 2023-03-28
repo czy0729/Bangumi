@@ -4,12 +4,13 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:13:29
+ * @Last Modified time: 2023-03-29 04:38:08
  */
 import React, { Component } from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 
 const SCALE = 6 / 5
 
@@ -247,7 +248,7 @@ class SwitchProComp extends Component<any, any> {
       <Animated.View
         {...rest}
         {...this._panResponder.panHandlers}
-        style={[
+        style={stl(
           styles.container,
           {
             width,
@@ -257,10 +258,10 @@ class SwitchProComp extends Component<any, any> {
             backgroundColor: interpolatedBackgroundColor
           },
           style
-        ]}
+        )}
       >
         <Animated.View
-          style={[
+          style={stl(
             {
               backgroundColor: interpolatedCircleColor,
               width: handlerAnimation,
@@ -269,7 +270,7 @@ class SwitchProComp extends Component<any, any> {
               transform: [{ translateX: interpolatedTranslateX }]
             },
             circleStyle
-          ]}
+          )}
         />
       </Animated.View>
     )

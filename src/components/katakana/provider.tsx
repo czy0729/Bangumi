@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:19:49
+ * @Last Modified time: 2023-03-29 04:29:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
+import { stl } from '@utils'
 import { Override, TextStyle } from '@types'
 import { Flex } from '../flex'
 import { Text, TextProps } from '../text'
@@ -243,7 +244,7 @@ export const KatakanaProvider = observer(
         return (
           <Text
             key={item.jp}
-            style={[
+            style={stl(
               styles.katakana,
               {
                 top: item.top,
@@ -253,7 +254,7 @@ export const KatakanaProvider = observer(
               },
               itemStyle,
               !isLineFirst && itemSecondStyle
-            ]}
+            )}
             type={item.type}
             size={9}
             lineHeight={9}

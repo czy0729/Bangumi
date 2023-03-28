@@ -8,7 +8,7 @@ import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
 import { Modal, Touchable, Flex, Text, Image, Button } from '@components'
 import { _ } from '@stores'
-import { toFixed, tinygrailOSS } from '@utils'
+import { toFixed, tinygrailOSS, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Ctx } from '../types'
@@ -85,13 +85,13 @@ class BonusModal extends React.Component<{
             {bonus.map((item, index) => (
               <View
                 key={String(item.Id)}
-                style={[
+                style={stl(
                   this.styles.item,
                   {
                     width: this.imageWidth
                   },
                   (index + 1) % (bonus.length <= 4 ? 2 : 3) && _.mr.md
-                ]}
+                )}
               >
                 <Image
                   size={this.imageWidth}

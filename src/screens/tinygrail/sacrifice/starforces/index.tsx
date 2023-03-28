@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-07 02:43:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:00
+ * @Last Modified time: 2023-03-29 05:10:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text, Button, Slider as CompSlider, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { formatNumber, confirm } from '@utils'
+import { formatNumber, confirm, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../types'
@@ -23,7 +23,7 @@ function StarForces({ style }, { $ }: Ctx) {
   const { assets = 0 } = $.myTemple
   const max = parseInt(assets || sacrifices)
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       <Flex>
         <Flex.Item>
           <Text type='tinygrailPlain' size={13}>

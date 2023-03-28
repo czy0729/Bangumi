@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:20:36
+ * @Last Modified time: 2023-03-29 04:58:01
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { titleCase } from '@utils'
+import { stl, titleCase } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { Fn } from '@types'
@@ -63,10 +63,10 @@ function TouchScroll(
           <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
             <TouchableWithoutFeedback onPressIn={() => onPress(index)}>
               <Flex
-                style={[
+                style={stl(
                   isVertical ? styles.itemVertical : styles.itemHorizontal,
                   isNew && styles.itemNew
-                ]}
+                )}
               >
                 {showFloorText && (
                   <Text

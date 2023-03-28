@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 12:51:04
+ * @Last Modified time: 2023-03-29 04:51:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { toFixed } from '@utils'
+import { stl, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
 import { getHeight, getDeviation, getDispute } from './utils'
 import { DEFAULT_PROPS } from './ds'
@@ -37,13 +37,9 @@ export default memo(
                 <Flex.Item key={item} style={index > 0 && _.ml.xs}>
                   <Flex style={styles.item} justify='center' align='end'>
                     <View
-                      style={[
-                        styles.itemFill,
-                        isActive && styles.itemFillActive,
-                        {
-                          height
-                        }
-                      ]}
+                      style={stl(styles.itemFill, isActive && styles.itemFillActive, {
+                        height
+                      })}
                     />
                     <Text
                       style={[

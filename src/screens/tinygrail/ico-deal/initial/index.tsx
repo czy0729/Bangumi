@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 18:53:28
+ * @Last Modified time: 2023-03-29 05:05:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Flex } from '@components'
 import { _ } from '@stores'
-import { formatNumber, tinygrailOSS } from '@utils'
+import { formatNumber, stl, tinygrailOSS } from '@utils'
 import { Avatar } from '@_'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
@@ -24,7 +24,7 @@ function Initial({ style }, { $, navigation }: Ctx) {
   } as const
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
         <Text type='warning' size={16}>
           参与者 {users}

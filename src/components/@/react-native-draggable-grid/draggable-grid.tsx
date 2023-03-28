@@ -10,6 +10,7 @@ import {
   ViewStyle
 } from 'react-native'
 import { findKey, findIndex, differenceBy } from 'react-native-draggable-grid/src/utils'
+import { stl } from '@utils'
 import { Block } from './block'
 
 export interface IOnLayoutEvent {
@@ -399,13 +400,9 @@ export const DraggableGrid = function <DataType extends IBaseItemType>(
 
   return (
     <Animated.View
-      style={[
-        styles.draggableGrid,
-        props.style,
-        {
-          height: gridHeight
-        }
-      ]}
+      style={stl(styles.draggableGrid, props.style, {
+        height: gridHeight
+      })}
       onLayout={assessGridSize}
     >
       {hadInitBlockSize && itemList}

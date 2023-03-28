@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:37:48
+ * @Last Modified time: 2023-03-29 05:34:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -128,7 +128,6 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                   src={API_COVER(subjectId)}
                   size={48}
                   radius={_.radiusSm}
-                  textOnly={false}
                   headers={userStore.requestHeaders}
                 />
                 <View style={_.ml.sm}>
@@ -266,7 +265,7 @@ export function getMono({ passProps, params, onLinkPress }) {
           <View style={styles.wrap}>
             <Touchable animate onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Cover src={gCover} size={48} radius textOnly={false} quality={false} />
+                <Cover src={gCover} size={48} radius quality={false} />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {text}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-24 19:59:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-13 22:55:00
+ * @Last Modified time: 2023-03-29 05:00:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +21,7 @@ import {
 } from '@components'
 import { Tag } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { inject, withHeader, obc } from '@utils/decorators'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import Store from './store'
@@ -69,13 +70,7 @@ class Comic extends React.Component {
                 <Text size={15} numberOfLines={2} bold>
                   {item.title}
                 </Text>
-                <Text
-                  style={_.mt.sm}
-                  type='sub'
-                  size={13}
-                  numberOfLines={2}
-                  bold
-                >
+                <Text style={_.mt.sm} type='sub' size={13} numberOfLines={2} bold>
                   {item.sub}
                 </Text>
               </View>
@@ -113,9 +108,7 @@ class Comic extends React.Component {
             <Touchable
               key={i.url}
               style={this.styles.ep}
-              onPress={() =>
-                $.searchThenOpen(i, `${i.text} - ${item.title}`, index)
-              }
+              onPress={() => $.searchThenOpen(i, `${i.text} - ${item.title}`, index)}
             >
               <Text size={13}>{i.text}</Text>
               {!index && <Heatmap id='漫画.搜索图片' />}
@@ -160,9 +153,7 @@ class Comic extends React.Component {
         {list.length ? (
           list.map((item, index) => (
             <View key={item.url} style={this.styles.item}>
-              <View
-                style={[this.styles.wrap, index !== 0 && this.styles.border]}
-              >
+              <View style={stl(this.styles.wrap, index !== 0 && this.styles.border)}>
                 {this.renderInfo(item)}
                 {!!eps[item.url] && this.renderEps(item)}
               </View>

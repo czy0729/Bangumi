@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 18:59:13
+ * @Last Modified time: 2023-03-29 05:05:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -18,7 +18,7 @@ function Slider({ style }, { $ }: Ctx) {
   const { loading, amount } = $.state
   const { balance } = $.assets
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       <Flex>
         <Flex.Item>
           <View style={styles.inputWrap}>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:25:41
+ * @Last Modified time: 2023-03-29 04:09:38
  */
 import React from 'react'
 import { TouchableOpacity, Text, View, Platform } from 'react-native'
@@ -13,6 +13,7 @@ import {
 } from 'react-native-render-html/src/HTMLStyles'
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
 import WebView from '@components/@/web-view'
+import { stl } from '@utils'
 import { IOS } from '@constants'
 import { androidTextFixedStyle } from '@styles'
 
@@ -35,7 +36,7 @@ export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
     return (
       <Text
         {...passProps}
-        style={[!IOS && androidTextFixedStyle, style]}
+        style={stl(!IOS && androidTextFixedStyle, style)}
         onPress={onPress}
         key={key}
         textBreakStrategy='simple'
@@ -133,13 +134,10 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
             ) : (
               <Text
                 allowFontScaling={allowFontScaling}
-                style={[
-                  !IOS && androidTextFixedStyle,
-                  {
-                    marginRight: 5,
-                    fontSize: baseFontSize
-                  }
-                ]}
+                style={stl(!IOS && androidTextFixedStyle, {
+                  marginRight: 5,
+                  fontSize: baseFontSize
+                })}
                 textBreakStrategy='simple'
                 numberOfLines={0}
               >
@@ -201,12 +199,9 @@ export function pre(htlmAttribs, children, convertedCSSStyles, passProps) {
   return (
     <Text
       key={passProps.key}
-      style={[
-        !IOS && androidTextFixedStyle,
-        {
-          fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo'
-        }
-      ]}
+      style={stl(!IOS && androidTextFixedStyle, {
+        fontFamily: Platform.OS === 'android' ? 'monospace' : 'Menlo'
+      })}
       textBreakStrategy='simple'
       numberOfLines={0}
     >
@@ -219,13 +214,10 @@ export function br(htlmAttribs, children, convertedCSSStyles, passProps) {
   return (
     <Text
       allowFontScaling={passProps.allowFontScaling}
-      style={[
-        !IOS && androidTextFixedStyle,
-        {
-          height: 1.2 * passProps.emSize,
-          flex: 1
-        }
-      ]}
+      style={stl(!IOS && androidTextFixedStyle, {
+        height: 1.2 * passProps.emSize,
+        flex: 1
+      })}
       key={passProps.key}
       textBreakStrategy='simple'
       numberOfLines={0}
@@ -246,7 +238,7 @@ export function textwrapper(
       selectable={selectable}
       allowFontScaling={allowFontScaling}
       key={key}
-      style={[!IOS && androidTextFixedStyle, convertedCSSStyles]}
+      style={stl(!IOS && androidTextFixedStyle, convertedCSSStyles)}
       textBreakStrategy='simple'
       numberOfLines={0}
     >

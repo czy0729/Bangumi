@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 06:34:00
+ * @Last Modified time: 2023-03-29 05:00:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Page, ScrollView, Text, Flex } from '@components'
 import { Cover } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { CDN_HD_OBJECT } from '@constants/cdn'
@@ -36,7 +37,10 @@ const HD = (props, { $ }: Ctx) => {
               {$.state.data.map((item, index) => (
                 <View
                   key={item.vol}
-                  style={[styles.item, _.isPad && !(index % num) && _.container.left]}
+                  style={stl(
+                    styles.item,
+                    _.isPad && !(index % num) && _.container.left
+                  )}
                 >
                   <Cover
                     size={gridStyles.width}

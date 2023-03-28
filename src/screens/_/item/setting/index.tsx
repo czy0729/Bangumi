@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 04:24:33
+ * @Last Modified time: 2023-03-29 04:46:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Text, Highlight, Iconfont } from '@components'
 import { _ } from '@stores'
-import { showImageViewer } from '@utils/ui'
+import { stl, showImageViewer } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 import { Props as ItemSettingProps } from './types'
@@ -56,7 +56,11 @@ export const ItemSetting = ob(
           </Flex.Item>
           {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
           {arrow && (
-            <Iconfont style={[_.ml.xs, arrowStyle]} name={arrowIcon} size={arrowSize} />
+            <Iconfont
+              style={stl(_.ml.xs, arrowStyle)}
+              name={arrowIcon}
+              size={arrowSize}
+            />
           )}
         </Flex>
         <Flex>

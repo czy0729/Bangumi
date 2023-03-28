@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:44:49
+ * @Last Modified time: 2023-03-29 04:46:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,8 @@ import {
   getTimestamp,
   matchUserIdFromAvatar,
   open,
-  removeHTMLTag
+  removeHTMLTag,
+  stl
 } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -131,7 +132,10 @@ export default memo(
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
     return (
-      <Flex style={[isNew && styles.itemNew, isJump && styles.itemJump]} align='start'>
+      <Flex
+        style={stl(isNew && styles.itemNew, isJump && styles.itemJump)}
+        align='start'
+      >
         <View style={_.mt.md}>
           <UserStatus userId={userId}>
             <Avatar

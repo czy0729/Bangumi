@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 03:59:10
+ * @Last Modified time: 2023-03-29 04:58:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text, Iconfont } from '@components'
 import { Avatar } from '@_'
 import { _, rakuenStore } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
 import { memoStyles } from './styles'
@@ -24,7 +25,7 @@ function History({
   const styles = memoStyles()
   if (!data.length) {
     return (
-      <View style={[styles.container, style]}>
+      <View style={stl(styles.container, style)}>
         <View style={styles.item}>
           <Flex style={styles.content}>
             <Text type='title' size={15} bold>
@@ -37,7 +38,7 @@ function History({
   }
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       {data.map(item => {
         let userId = ''
         try {

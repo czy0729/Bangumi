@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 22:39:27
+ * @Last Modified time: 2023-03-29 04:45:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, RenderHtml, UserStatus } from '@components'
 import { _ } from '@stores'
-import { open, appNavigate, HTMLDecode } from '@utils'
+import { open, appNavigate, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { Avatar, Name } from '../../base'
 import UserLabel from './user-label'
@@ -61,7 +61,11 @@ const Item = memo(
     return (
       <View style={styles.item}>
         <Flex
-          style={[_.container.item, isNew && styles.itemNew, isJump && styles.itemJump]}
+          style={stl(
+            _.container.item,
+            isNew && styles.itemNew,
+            isJump && styles.itemJump
+          )}
           align='start'
         >
           <UserStatus userId={userId}>
@@ -75,7 +79,7 @@ const Item = memo(
               event={event}
             />
           </UserStatus>
-          <Flex.Item style={[styles.content, contentStyle]}>
+          <Flex.Item style={stl(styles.content, contentStyle)}>
             <Flex align='start'>
               <Flex.Item>
                 <Name

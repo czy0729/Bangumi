@@ -9,6 +9,7 @@ import {
   GestureResponderHandlers
 } from 'react-native'
 import { FunctionComponent } from 'react'
+import { stl } from '@utils'
 
 interface BlockProps {
   style?: StyleProp<any>
@@ -30,7 +31,7 @@ export const Block: FunctionComponent<BlockProps> = ({
 }) => {
   return (
     <Animated.View
-      style={[styles.blockContainer, style, dragStartAnimationStyle]}
+      style={stl(styles.blockContainer, style, dragStartAnimationStyle)}
       {...panHandlers}
     >
       <Animated.View>

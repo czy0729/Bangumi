@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 18:23:15
+ * @Last Modified time: 2023-03-29 04:51:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Cover as CompCover } from '@_'
 import { systemStore } from '@stores'
-import { getCoverLarge, matchCoverUrl } from '@utils'
+import { getCoverLarge, matchCoverUrl, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IMG_DEFAULT } from '@constants'
 import { Ctx } from '../types'
@@ -106,13 +106,9 @@ class Cover extends React.Component<Props> {
     const { coverRadius } = systemStore.setting
     return (
       <View
-        style={[
-          this.styles.container,
-          this.isLoaded && this.styles.shadow,
-          {
-            borderRadius: coverRadius + 2
-          }
-        ]}
+        style={stl(this.styles.container, this.isLoaded && this.styles.shadow, {
+          borderRadius: coverRadius + 2
+        })}
       >
         {this.renderCover()}
         {this.renderPlaceholder()}

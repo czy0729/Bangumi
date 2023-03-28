@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:56:49
+ * @Last Modified time: 2023-03-29 05:31:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { info, open } from '@utils'
+import { info, open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Btn from '../../bilibili-sync/btn'
@@ -22,7 +22,7 @@ function Login(props, { $ }: Ctx) {
   return (
     <>
       {!hide && <View style={styles.mask} />}
-      <View style={[styles.fixed, hide && styles.hide]}>
+      <View style={stl(styles.fixed, hide && styles.hide)}>
         <View style={styles.user}>
           <Input
             style={styles.input}

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:57:59
+ * @Last Modified time: 2023-03-29 04:55:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { systemStore, _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -242,7 +243,9 @@ export default memo(
 
     const show = showTags && !!tags.length
     return (
-      <View style={[_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md]}>
+      <View
+        style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}
+      >
         <SectionTitle
           style={_.container.wind}
           right={showTags ? <IconGame /> : <IconHidden name='标签' value='showTags' />}

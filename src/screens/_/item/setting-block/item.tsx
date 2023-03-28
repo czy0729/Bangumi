@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:15:28
+ * @Last Modified time: 2023-03-29 04:46:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,14 +37,14 @@ const ItemSettingBlockItem = ob(
         <Touchable animate onPress={onPress}>
           <View style={stl(styles.touch, active && styles.active)}>
             <Flex
-              style={[styles.body, itemStyle]}
+              style={stl(styles.body, itemStyle)}
               direction='column'
               justify='center'
               align='center'
             >
               {!!icon && (
                 <Iconfont
-                  style={[_.mb.sm, iconStyle]}
+                  style={stl(_.mb.sm, iconStyle)}
                   name={icon}
                   color={iconColor || _.colorSub}
                   size={20}

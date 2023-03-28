@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:05:43
+ * @Last Modified time: 2023-03-29 04:50:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
 import { ScrollView, Flex, Text, Image, Touchable, Heatmap } from '@components'
 import { _ } from '@stores'
-import { desc, cnjp, HTMLDecode, showImageViewer } from '@utils'
+import { desc, cnjp, HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
@@ -55,11 +55,11 @@ function List(props, { $, navigation }: Ctx) {
             <Flex.Item>
               <Flex align='start'>
                 <View
-                  style={[
+                  style={stl(
                     styles.status,
                     item.status === 'Air' && styles.statusPrimary,
                     item.status === 'Today' && styles.statusSuccess
-                  ]}
+                  )}
                 />
                 <Flex.Item>
                   <Text bold>

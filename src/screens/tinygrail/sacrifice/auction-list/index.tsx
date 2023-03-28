@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:28:42
+ * @Last Modified time: 2023-03-29 05:09:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { formatNumber, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -26,7 +26,7 @@ function AuctionList({ style }, { $ }: Ctx) {
       successAmount += item.amount
     })
   return (
-    <View style={[styles.container, style]}>
+    <View style={stl(styles.container, style)}>
       {_loaded && (
         <View style={styles.info}>
           {list.length ? (

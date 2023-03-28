@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-26 13:34:55
+ * @Last Modified time: 2023-03-29 04:31:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
-import { getCoverMedium } from '@utils/app'
+import { getCoverMedium, stl } from '@utils'
 import { DEV, IMG_DEFAULT, HOST_CDN, CDN_OSS_SUBJECT } from '@constants'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
@@ -34,14 +34,14 @@ export const Cover = observer(
       const h = height || size
       return (
         <Flex
-          style={[
+          style={stl(
             styles.textOnly,
             {
               width: w,
               height: h
             },
             other.radius && styles.textOnlyRadius
-          ]}
+          )}
           justify='center'
         >
           <Text type='sub' bold onPress={other.onPress}>

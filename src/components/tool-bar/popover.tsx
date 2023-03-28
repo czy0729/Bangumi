@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-28 13:07:08
+ * @Last Modified time: 2023-03-29 04:39:18
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { Popover } from '../popover/comp'
@@ -30,12 +31,12 @@ export const ToolBarPopover = observer(
     const styles = memoStyles()
     return (
       <Popover
-        style={[styles.touch, transparent && styles.transparentTouch]}
+        style={stl(styles.touch, transparent && styles.transparentTouch)}
         data={data}
         onSelect={onSelect}
       >
         <Flex
-          style={[styles.item, transparent && styles.transparentItem]}
+          style={stl(styles.item, transparent && styles.transparentItem)}
           justify='center'
         >
           {!!icon && (

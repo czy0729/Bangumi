@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 05:58:09
+ * @Last Modified time: 2023-03-29 05:07:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, TextType } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { lastDate, getTimestamp, formatNumber, tinygrailOSS } from '@utils'
+import { lastDate, getTimestamp, formatNumber, tinygrailOSS, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { AnyObject, ColorValue, MonoId, Navigation, Paths } from '@types'
@@ -79,7 +79,7 @@ function Item(
   return (
     <View style={styles.container}>
       <Touchable withoutFeedback={!onPress} onPress={onPress}>
-        <Flex style={[styles.wrap, !isTop && !_.flat && styles.border]}>
+        <Flex style={stl(styles.wrap, !isTop && !_.flat && styles.border)}>
           <Flex.Item style={_.mr.sm}>
             <View style={styles.item}>
               <Text type='tinygrailPlain' size={15} bold>

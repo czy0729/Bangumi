@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 20:05:00
+ * @Last Modified time: 2023-03-29 04:42:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { desc, findSubjectCn } from '@utils'
+import { desc, findSubjectCn, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -115,14 +115,14 @@ export const HorizontalList = ob(
               return (
                 <View
                   key={item.id}
-                  style={[
+                  style={stl(
                     {
                       width: w
                     },
                     index !== 0 && {
                       marginLeft: _.r(isMusic ? 16 : 12)
                     }
-                  ]}
+                  )}
                 >
                   <Touchable
                     animate

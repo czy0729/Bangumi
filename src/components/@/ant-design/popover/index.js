@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-08 12:21:11
+ * @Last Modified time: 2023-03-29 04:04:35
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
 import { Popover as Pop, PopoverController } from 'react-native-modal-popover'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { WithTheme } from '../style'
 import PopoverStyles from './style'
@@ -27,12 +28,12 @@ export class PopoverItem extends React.PureComponent {
                 onSelect(value)
               }
             }}
-            style={[
+            style={stl(
               {
                 padding: theme.v_spacing_md
               },
               style
-            ]}
+            )}
           >
             {children}
           </TouchableOpacity>

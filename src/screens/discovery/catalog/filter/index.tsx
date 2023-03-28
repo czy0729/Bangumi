@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-06 18:13:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:40
+ * @Last Modified time: 2023-03-29 04:47:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../types'
@@ -67,7 +68,7 @@ function Filter(props, { $ }: Ctx) {
                 return (
                   <Touchable
                     key={i}
-                    style={[styles.item, isActive && styles.itemActive]}
+                    style={stl(styles.item, isActive && styles.itemActive)}
                     onPress={() => $.onFilterChange(item.key, i)}
                   >
                     <Text size={11}>{i}</Text>

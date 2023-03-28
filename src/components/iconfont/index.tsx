@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 09:59:20
+ * @Last Modified time: 2023-03-29 04:28:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import Icons from '@components/@/vector-icons/AntDesign'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { PAD } from '@constants'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
@@ -49,13 +50,13 @@ export const Iconfont = observer(
 
     return (
       <Icons
-        style={[
+        style={stl(
           {
             height: _size,
             lineHeight: lineHeight ? _lineHeight : _size
           },
           style
-        ]}
+        )}
         name={(name.includes('icon') ? name : `icon-${name}`) as AppIconsNames}
         size={_size}
         color={color || _.colorIcon}

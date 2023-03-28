@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 12:58:12
+ * @Last Modified time: 2023-03-29 04:59:36
  */
 import React from 'react'
 import { TouchableWithoutFeedback, Insets } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { getTimestamp, titleCase } from '@utils'
+import { getTimestamp, stl, titleCase } from '@utils'
 import { memo } from '@utils/decorators'
 import { IOS, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
@@ -46,10 +46,10 @@ export const TouchScroll = memo(
     }
     return (
       <Flex
-        style={[
+        style={stl(
           styles[`container${titleCase(scrollDirection)}`],
           !isWebLogin && !isVertical && styles.notLogin
-        ]}
+        )}
         direction={isVertical ? 'column' : undefined}
       >
         <Flex.Item flex={isVertical ? 1 : 3}>
@@ -89,11 +89,11 @@ export const TouchScroll = memo(
             <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
               <TouchableWithoutFeedback {...passProps}>
                 <Flex
-                  style={[
+                  style={stl(
                     isVertical ? styles.itemVertical : styles.itemHorizontal,
                     isNew && styles.itemNew,
                     showFloorText && styles.itemText
-                  ]}
+                  )}
                 >
                   {showFloorText && (
                     <Text

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-02-18 06:37:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:58:43
+ * @Last Modified time: 2023-03-29 05:30:50
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
@@ -68,7 +69,7 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
     return (
       <>
         {!hide && <View style={styles.mask} />}
-        <View style={[styles.fixed, hide && styles.hide]}>
+        <View style={stl(styles.fixed, hide && styles.hide)}>
           <View style={styles.container}>
             <WebView
               key={key}

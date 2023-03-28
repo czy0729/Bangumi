@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:08
+ * @Last Modified time: 2023-03-29 04:39:35
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { getTimestamp } from '@utils'
+import { getTimestamp, stl } from '@utils'
 import { systemStore, userStore } from '@stores'
 import { Flex } from '../flex'
 import { getUserStatus } from './utils'
@@ -33,19 +33,19 @@ export const UserStatus = observer(
       <View>
         {children}
         <Flex
-          style={[styles.wrap, mini && styles.wrapMini, style]}
+          style={stl(styles.wrap, mini && styles.wrapMini, style)}
           justify='center'
           // @ts-expect-error
           pointerEvents='none'
         >
           <View
-            style={[
+            style={stl(
               styles.badge,
               mini && styles.badgeMini,
               distance >= D3_TS
                 ? styles.badgeDisabled
                 : distance >= D1_TS && styles.badgeWarning
-            ]}
+            )}
           />
         </Flex>
       </View>

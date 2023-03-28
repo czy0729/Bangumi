@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:45:08
+ * @Last Modified time: 2023-03-29 05:04:38
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
@@ -16,7 +17,7 @@ function Submit({ style }, { $ }: Ctx) {
   const { loading, isIce } = $.state
   return (
     <Touchable
-      style={[styles.btn, $.isBid ? styles.btnBid : styles.btnAsk, style]}
+      style={stl(styles.btn, $.isBid ? styles.btnBid : styles.btnAsk, style)}
       onPress={$.doSubmit}
     >
       <Flex justify='center'>

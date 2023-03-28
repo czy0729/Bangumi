@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-14 21:14:39
+ * @Last Modified time: 2023-03-29 04:43:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { toFixed } from '@utils'
-import { caculateICO } from '@utils/app'
+import { stl, toFixed, caculateICO } from '@utils'
 import { ob } from '@utils/decorators'
 import { ViewStyle } from '@types'
 import { memoStyles } from './styles'
@@ -171,12 +170,9 @@ export const StockPreview = ob(
         >
           <Flex justify='end'>
             <Text
-              style={[
-                !hasNoChanged && this.styles.current,
-                {
-                  color: this.isDark ? _.__colorPlain__ : _.colorDesc
-                }
-              ]}
+              style={stl(!hasNoChanged && this.styles.current, {
+                color: this.isDark ? _.__colorPlain__ : _.colorDesc
+              })}
               lineHeight={16}
               align='right'
             >

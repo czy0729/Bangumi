@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 15:04:33
+ * @Last Modified time: 2023-03-29 05:24:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Input } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -17,7 +18,7 @@ const Form = ({ style = undefined, name = '', url = '' }, { $ }: Ctx) => {
   const styles = memoStyles()
   const { edit } = $.state
   return (
-    <Flex style={[styles.form, style]} align='end'>
+    <Flex style={stl(styles.form, style)} align='end'>
       <Flex.Item>
         <Text size={13} bold>
           描述

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-23 11:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:40:11
+ * @Last Modified time: 2023-03-29 04:58:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Touchable, Expand, Flex, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { correctAgo } from '@utils'
+import { correctAgo, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -22,7 +22,7 @@ function Item({ index, topicId, content }, { $, navigation }: Ctx) {
   const titles = String(item.title).toLowerCase().split(String(value).toLowerCase())
   const contents = String(content).toLowerCase().split(String(value).toLowerCase())
   return (
-    <View style={[styles.item, !!index && styles.border]}>
+    <View style={stl(styles.item, !!index && styles.border)}>
       <Touchable
         style={styles.touch}
         onPress={() => {

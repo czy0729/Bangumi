@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:28:50
+ * @Last Modified time: 2023-03-29 05:10:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
-import { formatNumber, toFixed } from '@utils'
+import { formatNumber, stl, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import ItemTemple from '@tinygrail/_/item-temple'
 import { calculateRate } from '@tinygrail/_/utils'
@@ -114,7 +114,7 @@ class Temples extends React.Component<{
     const { rate, rank, stars } = $.chara
     const { list } = $.charaTemple
     return (
-      <View style={[this.styles.container, style]}>
+      <View style={stl(this.styles.container, style)}>
         <Flex style={this.styles.info}>
           <Flex.Item>
             <Text type='tinygrailPlain' size={13}>

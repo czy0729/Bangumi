@@ -23,6 +23,7 @@ import {
   Layout,
   Event
 } from 'react-native-tab-view/src/types'
+import { stl } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import TabBarItem from './TabBarItem'
 
@@ -330,7 +331,7 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
       >
         <Animated.View
           pointerEvents='none'
-          style={[
+          style={stl(
             styles.indicatorContainer,
             scrollEnabled ? { transform: [{ translateX }] as any } : null,
             tabBarWidth
@@ -339,7 +340,7 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
               ? { width: tabBarWidthPercent }
               : null,
             indicatorContainerStyle
-          ]}
+          )}
         >
           {this.props.renderIndicator({
             position,

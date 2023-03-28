@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:59:35
+ * @Last Modified time: 2023-03-29 05:01:16
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { tinygrailOSS } from '@utils'
+import { stl, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
 import Rank from '../../rank'
 import { memoStyles } from './styles'
@@ -17,7 +17,7 @@ function Item({ type, src, id, level, rank, name, extra, disabled, item, onPress
   const styles = memoStyles()
   return (
     <Touchable onPress={() => onPress(item)}>
-      <Flex style={[styles.item, !disabled && styles[type]]}>
+      <Flex style={stl(styles.item, !disabled && styles[type])}>
         {src ? (
           <Avatar style={styles.avatar} src={tinygrailOSS(src)} size={40} />
         ) : (

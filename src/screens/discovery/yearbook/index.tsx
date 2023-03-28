@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-27 23:49:27
+ * @Last Modified time: 2023-03-29 04:50:22
  */
 import React from 'react'
 import { Header, Page, ScrollView, Touchable, Image, Flex, Text } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
@@ -137,7 +138,7 @@ const Yearbook = ({ navigation }) => {
                   }}
                 >
                   <Flex
-                    style={[styles.item, index % num === 0 && styles.left]}
+                    style={stl(styles.item, index % num === 0 && styles.left)}
                     justify='center'
                     direction='column'
                   >

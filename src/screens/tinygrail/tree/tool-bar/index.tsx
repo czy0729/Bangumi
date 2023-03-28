@@ -8,7 +8,7 @@ import React from 'react'
 import { Flex, Text, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { toFixed } from '@utils'
+import { stl, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { B, M } from '@constants'
@@ -40,7 +40,7 @@ function ToolBar({ style }, { $ }: Ctx) {
     totalText = toFixed(total || 0, 1)
   }
   return (
-    <Flex style={[styles.container, style]}>
+    <Flex style={stl(styles.container, style)}>
       <Flex.Item flex={0.8}>
         <Popover data={TYPE_DATA} onSelect={title => $.onTypeSelect(title)}>
           <Flex style={styles.item} justify='center'>

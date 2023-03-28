@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 17:30:20
+ * @Last Modified time: 2023-03-29 05:01:24
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { EVENT } from '@constants'
 import { obc } from '@utils/decorators'
+import { EVENT } from '@constants'
 import Auction from './auction'
 import Control from './control'
 import Detail from './detail'
@@ -56,7 +57,7 @@ function Item(props, { $, navigation }) {
   }
 
   return (
-    <Flex style={[styles.container, style]} align='start'>
+    <Flex style={stl(styles.container, style)} align='start'>
       <Icon {...props} />
       <Flex.Item style={styles.wrap}>
         <Flex align='start'>

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-15 09:55:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-06 08:24:27
+ * @Last Modified time: 2023-03-29 04:15:58
  */
 import React from 'react'
 import {
@@ -16,6 +16,7 @@ import {
 import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { PAD } from '@constants'
 import CrossFadeIcon from './CrossFadeIcon'
@@ -165,11 +166,11 @@ class TabBarBottom extends React.Component {
         activeTintColor={_.colorMain}
         inactiveTintColor={_.colorDesc}
         renderIcon={renderIcon}
-        style={[
+        style={stl(
           styles.iconWithExplicitHeight,
           showLabel === false && !horizontal && styles.iconWithoutLabel,
           showLabel !== false && !horizontal && styles.iconWithLabel
-        ]}
+        )}
       />
     )
   }
@@ -229,8 +230,7 @@ class TabBarBottom extends React.Component {
             ? activeBackgroundColor
             : inactiveBackgroundColor
           const ButtonComponent =
-            this.props.getButtonComponent({ route }) ||
-            TouchableWithoutFeedbackWrapper
+            this.props.getButtonComponent({ route }) || TouchableWithoutFeedbackWrapper
           return (
             <ButtonComponent
               key={route.key}
