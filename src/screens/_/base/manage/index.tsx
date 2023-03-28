@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:27:08
+ * @Last Modified time: 2023-03-28 07:53:39
  */
 import React from 'react'
 import { Touchable, Flex } from '@components'
@@ -61,7 +61,7 @@ export const Manage = ob(
       collection: _collection
     }
     return (
-      <Flex style={styles.manage} justify='end'>
+      <Flex style={styles.manage} justify='end' align='start'>
         <Touchable
           style={stl(styles.touch, style)}
           animate

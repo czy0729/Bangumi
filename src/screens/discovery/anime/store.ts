@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 20:46:27
+ * @Last Modified time: 2023-03-28 07:35:12
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -82,10 +82,6 @@ export default class ScreenAnime extends store {
     return systemStore.setting.cnFirst
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
@@ -106,10 +102,7 @@ export default class ScreenAnime extends store {
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.animeSubjectId(item)
-        return !(
-          collectionStore.collectionStatus(subjectId) ||
-          this.userCollectionsMap[subjectId]
-        )
+        return !collectionStore.collect(subjectId)
       })
     }
 

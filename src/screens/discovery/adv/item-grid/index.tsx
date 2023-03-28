@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:21:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 03:54:08
+ * @Last Modified time: 2023-03-28 07:40:24
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -17,7 +17,7 @@ const EVENT = {
   id: 'ADV.跳转'
 } as const
 
-function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
+function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   const subjectId = otaStore.advSubjectId(pickIndex)
   const {
     id,
@@ -57,9 +57,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       score={score}
       rank={rank}
       airtime={time}
-      collection={
-        collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
-      }
+      collection={collectionStore.collect(id)}
     />
   )
 }

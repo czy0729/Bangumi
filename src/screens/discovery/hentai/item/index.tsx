@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:12:33
+ * @Last Modified time: 2023-03-28 15:33:41
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
 import { _, otaStore, collectionStore, uiStore } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
@@ -13,10 +12,11 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
 import {
-  IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
   IMG_DEFAULT,
-  MODEL_COLLECTION_STATUS
+  IMG_HEIGHT_LG,
+  IMG_WIDTH_LG,
+  MODEL_COLLECTION_STATUS,
+  TEXT_ONLY
 } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
@@ -46,11 +46,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
+  const size = cn.length >= 20 ? 13 : cn.length >= 14 ? 14 : 15
   const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [ep ? `${ep}话` : '', air].filter(item => !!item).join(' / ')
-
-  const collection =
-    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
+  const collection = collectionStore.collect(id)
   return (
     <Touchable
       style={styles.container}
@@ -68,17 +67,15 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={styles.wrap}>
-        <View style={styles.imgContainer}>
-          <Cover
-            src={cover}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            shadow
-            textOnly={!$.isLogin}
-          />
-        </View>
+      <Flex style={styles.wrap} align='start'>
+        <Cover
+          src={cover}
+          width={IMG_WIDTH_LG}
+          height={IMG_HEIGHT_LG}
+          radius
+          shadow
+          textOnly={TEXT_ONLY || !$.isLogin}
+        />
         <Flex.Item style={_.ml.wind}>
           <Flex
             style={$.isLogin && tags.length >= 14 ? styles.contentFlux : styles.content}
@@ -86,13 +83,17 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
             justify='between'
             align='start'
           >
-            <Flex align='start' style={styles.body}>
+            <Flex align='start'>
               <Flex.Item>
-                <Text size={15} bold numberOfLines={3}>
+                <Text size={size} bold numberOfLines={3}>
                   {cn}
+                </Text>
+                <Text style={_.mt.sm} size={11} lineHeight={14}>
+                  {tip}
                 </Text>
               </Flex.Item>
               <Manage
+                subjectId={id}
                 collection={collection}
                 onPress={() => {
                   uiStore.showManageModal(
@@ -102,19 +103,13 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                       status:
                         MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
                     },
-                    '找Hentai',
-                    () => {
-                      collectionStore.fetchCollectionStatusQueue([id])
-                    }
+                    '找Hentai'
                   )
                 }}
               />
             </Flex>
-            <Text style={styles.tip} size={11} lineHeight={14}>
-              {tip}
-            </Text>
             {$.isLogin && !!tags.length && (
-              <Flex style={_.mt.md} wrap='wrap'>
+              <Flex style={_.mt.sm} wrap='wrap'>
                 {tags.map((item: number) => (
                   <Tag
                     key={item}

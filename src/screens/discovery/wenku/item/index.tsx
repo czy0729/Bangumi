@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:23:23
+ * @Last Modified time: 2023-03-28 15:24:53
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
 import { _, otaStore, collectionStore, uiStore } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
@@ -54,6 +53,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
+  const size = cn.length >= 20 ? 13 : cn.length >= 14 ? 14 : 15
+
   const { sort } = $.state.query
   const tip = [
     status === 1 ? '完结' : '连载',
@@ -69,8 +70,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   const upStr = fill('', up, '▲')
 
   const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  const collection =
-    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
+  const collection = collectionStore.collect(id)
   return (
     <Touchable
       style={styles.container}
@@ -88,82 +88,76 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={styles.wrap}>
-        <View style={styles.imgContainer}>
-          <Cover
-            src={cover}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            shadow
-            type='书籍'
-          />
-        </View>
+      <Flex style={styles.wrap} align='start'>
+        <Cover
+          src={cover}
+          width={IMG_WIDTH_LG}
+          height={IMG_HEIGHT_LG}
+          radius
+          shadow
+          type='书籍'
+        />
         <Flex.Item style={_.ml.wind}>
-          <Flex
-            style={styles.content}
-            direction='column'
-            justify='between'
-            align='start'
-          >
-            <Flex style={styles.body} align='start'>
-              <Flex.Item>
-                <Text size={15} bold numberOfLines={3}>
-                  {cn}
+          <Flex align='start'>
+            <Flex.Item>
+              <Flex
+                style={styles.content}
+                direction='column'
+                justify='between'
+                align='start'
+              >
+                <Text size={size} bold numberOfLines={3}>
+                  {cn || '-'}
                 </Text>
-              </Flex.Item>
-              <Manage
-                collection={collection}
-                typeCn='书籍'
-                onPress={() => {
-                  uiStore.showManageModal(
-                    {
-                      subjectId: id,
-                      title: cn,
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                      action: '读'
-                    },
-                    '找文库',
-                    () => {
-                      collectionStore.fetchCollectionStatusQueue([id])
-                    }
-                  )
-                }}
-              />
-            </Flex>
-            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={4}>
-              {tipStr}
-            </Text>
-            {!!(hotStr || upStr) && (
-              <Flex style={styles.lv}>
-                <Flex.Item>
-                  {!!hotStr && (
-                    <Text size={10} bold type='sub'>
-                      热度　{hotStr}
-                    </Text>
-                  )}
-                </Flex.Item>
-                <Flex.Item>
-                  {!!upStr && (
-                    <Text size={10} bold type='sub'>
-                      趋势　{upStr}
-                    </Text>
-                  )}
-                </Flex.Item>
+                <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
+                  {tipStr}
+                </Text>
+                <Flex style={_.mt.sm}>
+                  <Flex.Item>
+                    {!!hotStr && (
+                      <Text size={10} bold type='sub'>
+                        热度　{hotStr}
+                      </Text>
+                    )}
+                  </Flex.Item>
+                  <Flex.Item>
+                    {!!upStr && (
+                      <Text size={10} bold type='sub'>
+                        趋势　{upStr}
+                      </Text>
+                    )}
+                  </Flex.Item>
+                </Flex>
               </Flex>
+            </Flex.Item>
+            <Manage
+              subjectId={id}
+              collection={collection}
+              typeCn='书籍'
+              onPress={() => {
+                uiStore.showManageModal(
+                  {
+                    subjectId: id,
+                    title: cn,
+                    status:
+                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                    action: '读'
+                  },
+                  '找文库'
+                )
+              }}
+            />
+          </Flex>
+          <Flex style={styles.bottom}>
+            <Rank value={rank} />
+            <Stars style={_.mr.xs} value={score} simple />
+            {!!total && (
+              <Text style={_.mr.sm} type='sub' size={11} bold>
+                ({total})
+              </Text>
             )}
-            <Flex style={_.mt.md}>
-              <Rank value={rank} />
-              <Stars style={_.mr.xs} value={score} simple />
-              {!!total && (
-                <Text style={_.mr.sm} type='sub' size={11} bold>
-                  ({total})
-                </Text>
-              )}
-              {!!anime && <Tag style={_.mr.sm} value='动画化' />}
-              <Tags value={tags} />
-            </Flex>
+            {!!anime && <Tag style={_.mr.sm} value='动画化' />}
+            <Tags value={tags} />
           </Flex>
         </Flex.Item>
       </Flex>

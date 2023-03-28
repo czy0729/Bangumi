@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 18:00:00
+ * @Last Modified time: 2023-03-28 07:34:58
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -17,7 +17,7 @@ const EVENT = {
   id: 'Anime.跳转'
 } as const
 
-function ItemGrid({ index, pickIndex, num }, { $, navigation }: Ctx) {
+function ItemGrid({ index, pickIndex, num }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const { id, ageId, image, cn, jp, score, begin, rank } = otaStore.anime(subjectId)
@@ -52,9 +52,7 @@ function ItemGrid({ index, pickIndex, num }, { $, navigation }: Ctx) {
       score={score}
       rank={rank}
       airtime={begin ? String(begin).slice(0, 7) : ''}
-      collection={
-        collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
-      }
+      collection={collectionStore.collect(id)}
     />
   )
 }

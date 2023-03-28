@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:14:40
+ * @Last Modified time: 2023-03-28 07:33:43
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -76,10 +76,6 @@ export default class ScreenGame extends store {
     return systemStore.setting.cnFirst
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
@@ -100,10 +96,7 @@ export default class ScreenGame extends store {
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.gameSubjectId(item)
-        return !(
-          collectionStore.collectionStatus(subjectId) ||
-          this.userCollectionsMap[subjectId]
-        )
+        return !collectionStore.collect(subjectId)
       })
     }
 

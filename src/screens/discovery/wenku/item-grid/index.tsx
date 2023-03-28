@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-12 16:41:06
+ * @Last Modified time: 2023-03-28 07:39:18
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -17,7 +17,7 @@ const EVENT = {
   id: '文库.跳转'
 } as const
 
-function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
+function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.wenkuSubjectId(pickIndex)
   const { id, wid, image, cn, score, rank, begin, update } = otaStore.wenku(subjectId)
@@ -52,9 +52,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       rank={rank}
       airtime={begin || update ? String(begin || update).slice(0, 7) : ''}
       typeCn='书籍'
-      collection={
-        collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
-      }
+      collection={collectionStore.collect(id)}
     />
   )
 }

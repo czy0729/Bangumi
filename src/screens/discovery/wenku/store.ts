@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 16:29:24
+ * @Last Modified time: 2023-03-28 07:38:12
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -78,10 +78,6 @@ export default class ScreenWenku extends store {
     return systemStore.setting.cnFirst
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
     const { layout } = this.state
@@ -102,10 +98,7 @@ export default class ScreenWenku extends store {
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.wenkuSubjectId(item)
-        return !(
-          collectionStore.collectionStatus(subjectId) ||
-          this.userCollectionsMap[subjectId]
-        )
+        return !collectionStore.collect(subjectId)
       })
     }
 

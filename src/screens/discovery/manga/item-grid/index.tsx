@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:01:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:48:08
+ * @Last Modified time: 2023-03-28 07:42:58
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -17,7 +17,7 @@ const EVENT = {
   id: 'Manga.跳转'
 } as const
 
-function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
+function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
   const { id, mid, image, title, score, rank, publish } = otaStore.manga(subjectId)
@@ -52,9 +52,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       rank={rank}
       airtime={publish}
       typeCn='书籍'
-      collection={
-        collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
-      }
+      collection={collectionStore.collect(id)}
     />
   )
 }

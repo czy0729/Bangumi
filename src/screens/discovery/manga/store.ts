@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:49:35
+ * @Last Modified time: 2023-03-28 07:42:16
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -77,10 +77,6 @@ export default class ScreenManga extends store {
     return systemStore.setting.cnFirst
   }
 
-  @computed get userCollectionsMap() {
-    return collectionStore.userCollectionsMap
-  }
-
   /** 是否中文优先 */
   @computed get isList() {
     const { layout } = this.state
@@ -101,10 +97,7 @@ export default class ScreenManga extends store {
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.mangaSubjectId(item)
-        return !(
-          collectionStore.collectionStatus(subjectId) ||
-          this.userCollectionsMap[subjectId]
-        )
+        return !collectionStore.collect(subjectId)
       })
     }
 

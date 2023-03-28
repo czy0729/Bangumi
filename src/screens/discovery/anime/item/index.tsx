@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 23:09:09
+ * @Last Modified time: 2023-03-28 14:56:52
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
 import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { Tag, Tags, Cover, Stars, Rank, Manage } from '@_'
-import { cnjp, x18 } from '@utils'
+import { Tags, Cover, Stars, Rank, Manage } from '@_'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
@@ -22,7 +21,7 @@ import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+function Item({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const {
@@ -49,6 +48,9 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
+  const title = cnjp(cn, jp)
+  const size = title.length >= 20 ? 13 : title.length >= 14 ? 14 : 15
+
   const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _tags = String(tags)
     .split(' ')
@@ -62,8 +64,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   ]
     .filter(item => !!item)
     .join(' / ')
-  const collection =
-    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
+  const collection = collectionStore.collect(id)
   return (
     <Touchable
       style={styles.container}
@@ -81,53 +82,44 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={styles.wrap}>
-        <View style={styles.imgContainer}>
-          <Cover
-            src={cover}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            shadow
-          />
-        </View>
+      <Flex style={styles.wrap} align='start'>
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
         <Flex.Item style={_.ml.wind}>
-          <Flex
-            style={styles.content}
-            direction='column'
-            justify='between'
-            align='start'
-          >
-            <Flex align='start' style={styles.body}>
-              <Flex.Item>
-                <Text size={15} bold numberOfLines={2}>
-                  {cnjp(cn, jp)}
+          <Flex align='start'>
+            <Flex.Item>
+              <Flex
+                style={styles.content}
+                direction='column'
+                justify='between'
+                align='start'
+              >
+                <Text size={size} bold numberOfLines={2}>
+                  {title}
                 </Text>
-              </Flex.Item>
-              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
-              <Manage
-                collection={collection}
-                onPress={() => {
-                  uiStore.showManageModal(
-                    {
-                      subjectId: id,
-                      title: cnjp(cn, jp),
-                      desc: cnjp(jp, cn),
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
-                    },
-                    '找番剧',
-                    () => {
-                      collectionStore.fetchCollectionStatusQueue([id])
-                    }
-                  )
-                }}
-              />
-            </Flex>
-            <Text style={styles.tip} size={11} lineHeight={14}>
-              {tipStr}
-            </Text>
-            <Flex style={_.mt.md}>
+                <Text style={_.mt.sm} size={11} lineHeight={14}>
+                  {tipStr}
+                </Text>
+              </Flex>
+            </Flex.Item>
+            <Manage
+              subjectId={id}
+              collection={collection}
+              onPress={() => {
+                uiStore.showManageModal(
+                  {
+                    subjectId: id,
+                    title: cnjp(cn, jp),
+                    desc: cnjp(jp, cn),
+                    status:
+                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                  },
+                  '找番剧'
+                )
+              }}
+            />
+          </Flex>
+          <Flex style={styles.bottom}>
+            <Flex>
               <Rank value={rank} />
               <Stars style={_.mr.xs} value={score} simple />
               {!!total && (
@@ -135,8 +127,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   ({total})
                 </Text>
               )}
-              <Tags value={_tags} />
             </Flex>
+            <Flex.Item>
+              <Tags value={_tags} />
+            </Flex.Item>
           </Flex>
         </Flex.Item>
       </Flex>

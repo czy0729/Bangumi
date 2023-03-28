@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-13 21:41:03
+ * @Last Modified time: 2023-03-28 14:28:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,7 +32,7 @@ import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 import { getThumbs } from './utils'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+function Item({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.gameSubjectId(pickIndex)
   const game = otaStore.game(subjectId)
@@ -55,6 +55,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
+  const _title = HTMLDecode(title)
+  const size = _title.length >= 20 ? 13 : _title.length >= 14 ? 14 : 15
+
+  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const thumbs = getThumbs(id, length)
   const thumbs2 = getThumbs(id, length, false)
 
@@ -78,10 +82,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     tip.push(`${_dev.join('、')} 开发`, `${_publish.join('、')} 发行`)
   }
   const tipStr = tip.filter((item: string) => !!item).join(' / ')
-
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  const collection =
-    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
+  const collection = collectionStore.collect(id)
   return (
     <Touchable
       style={styles.container}
@@ -97,7 +98,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={styles.wrap}>
+      <Flex style={styles.wrap} align='start'>
         <Cover
           src={cover}
           width={IMG_WIDTH_LG}
@@ -106,15 +107,29 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           shadow
           type='游戏'
         />
-        <Flex style={styles.content} direction='column' justify='between' align='start'>
+        <Flex style={styles.content} direction='column' align='start'>
           <View style={styles.body}>
-            <Flex align='start' style={_.container.w100}>
+            <Flex style={_.container.block} align='start'>
               <Flex.Item>
-                <Text size={15} bold numberOfLines={3}>
-                  {HTMLDecode(title)}
+                <Text size={size} bold numberOfLines={3}>
+                  {_title}
                 </Text>
+                <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={5}>
+                  {tipStr}
+                </Text>
+                <Flex style={_.mt.md} wrap='wrap'>
+                  <Rank value={rank} />
+                  <Stars style={_.mr.xs} value={score} simple />
+                  {!!total && (
+                    <Text style={_.mr.sm} type='sub' size={11} bold>
+                      ({total})
+                    </Text>
+                  )}
+                  <Tags value={tag} />
+                </Flex>
               </Flex.Item>
               <Manage
+                subjectId={id}
                 collection={collection}
                 typeCn='游戏'
                 onPress={() => {
@@ -126,26 +141,10 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                         MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                       action: '玩'
                     },
-                    '找游戏',
-                    () => {
-                      collectionStore.fetchCollectionStatusQueue([id])
-                    }
+                    '找游戏'
                   )
                 }}
               />
-            </Flex>
-            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={5}>
-              {tipStr}
-            </Text>
-            <Flex style={_.mt.md} wrap='wrap'>
-              <Rank value={rank} />
-              <Stars style={_.mr.xs} value={score} simple />
-              {!!total && (
-                <Text style={_.mr.sm} type='sub' size={11} bold>
-                  ({total})
-                </Text>
-              )}
-              <Tags value={tag} />
             </Flex>
           </View>
           {!!thumbs.length && (

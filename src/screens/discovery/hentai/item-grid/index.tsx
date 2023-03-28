@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:17:09
+ * @Last Modified time: 2023-03-28 07:41:58
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -17,7 +17,7 @@ const EVENT = {
   id: 'Hentai.跳转'
 } as const
 
-function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
+function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.hentaiSubjectId(pickIndex)
   const { id, i: image, c: cn, a: air, s: score, r: rank } = otaStore.hentai(subjectId)
@@ -50,9 +50,7 @@ function ItemGrid({ pickIndex, index, num }, { $, navigation }: Ctx) {
       score={score}
       rank={rank}
       airtime={air ? String(air).slice(0, 7) : ''}
-      collection={
-        collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
-      }
+      collection={collectionStore.collect(id)}
     />
   )
 }

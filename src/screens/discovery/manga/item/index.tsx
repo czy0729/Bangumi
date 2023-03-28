@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:42:17
+ * @Last Modified time: 2023-03-28 15:24:26
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
 import { _, otaStore, collectionStore, uiStore } from '@stores'
 import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
@@ -22,7 +20,7 @@ import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+function Item({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
   const {
@@ -47,11 +45,11 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
+  const size = title.length >= 20 ? 13 : title.length >= 14 ? 14 : 15
   const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const _cates = String(cates).split(' ')
   const tipStr = [status, publish, author, ep].filter(item => !!item).join(' / ')
-  const collection =
-    collectionStore.collectionStatus(id) || $.userCollectionsMap[id] || ''
+  const collection = collectionStore.collect(id)
   return (
     <Touchable
       style={styles.container}
@@ -69,69 +67,58 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex align='start' style={styles.wrap}>
-        <View style={styles.imgContainer}>
-          <Cover
-            src={cover}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            shadow
-          />
-        </View>
+      <Flex style={styles.wrap} align='start'>
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
         <Flex.Item style={_.ml.wind}>
-          <Flex
-            style={styles.content}
-            direction='column'
-            justify='between'
-            align='start'
-          >
-            <Flex align='start' style={styles.body}>
-              <Flex.Item>
-                <Text size={15} bold numberOfLines={2}>
+          <Flex align='start'>
+            <Flex.Item>
+              <Flex
+                style={styles.content}
+                direction='column'
+                justify='between'
+                align='start'
+              >
+                <Text size={size} bold numberOfLines={2}>
                   {title}
                 </Text>
-              </Flex.Item>
-              {x18(id) && <Tag style={_.ml.sm} value='NSFW' />}
-              <Manage
-                collection={collection}
-                typeCn='书籍'
-                onPress={() => {
-                  uiStore.showManageModal(
-                    {
-                      subjectId: id,
-                      title,
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                      action: '读'
-                    },
-                    '找漫画',
-                    () => {
-                      collectionStore.fetchCollectionStatusQueue([id])
-                    }
-                  )
-                }}
-              />
-            </Flex>
-            <Text size={11} lineHeight={14}>
-              {tipStr}
-            </Text>
-            <Flex style={_.mt.md} wrap='wrap'>
-              <Rank value={rank} />
-              <Stars style={_.mr.xs} value={score} simple />
-              {!!total && (
-                <Text style={_.mr.sm} type='sub' size={11} bold>
-                  ({total})
+                <Text size={11} lineHeight={14}>
+                  {tipStr}
                 </Text>
-              )}
-              <Flex.Item>
-                <Flex>
-                  {_cates.map(item => (
-                    <Tag key={item} style={_.mr.sm} value={item} />
-                  ))}
-                </Flex>
-              </Flex.Item>
-            </Flex>
+              </Flex>
+            </Flex.Item>
+            <Manage
+              subjectId={id}
+              collection={collection}
+              typeCn='书籍'
+              onPress={() => {
+                uiStore.showManageModal(
+                  {
+                    subjectId: id,
+                    title,
+                    status:
+                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                    action: '读'
+                  },
+                  '找漫画'
+                )
+              }}
+            />
+          </Flex>
+          <Flex style={styles.bottom}>
+            <Rank value={rank} />
+            <Stars style={_.mr.xs} value={score} simple />
+            {!!total && (
+              <Text style={_.mr.sm} type='sub' size={11} bold>
+                ({total})
+              </Text>
+            )}
+            <Flex.Item>
+              <Flex>
+                {_cates.map(item => (
+                  <Tag key={item} style={_.mr.sm} value={item} />
+                ))}
+              </Flex>
+            </Flex.Item>
           </Flex>
         </Flex.Item>
       </Flex>

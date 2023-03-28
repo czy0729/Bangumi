@@ -2,25 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-11 12:25:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:09:30
+ * @Last Modified time: 2023-03-28 15:28:58
  */
 import { _ } from '@stores'
-import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
+import { IMG_HEIGHT_LG } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.wind
   },
-  imgContainer: {
-    width: IMG_WIDTH_LG
-  },
   wrap: {
     paddingVertical: _.md,
     paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   },
   content: {
     height: IMG_HEIGHT_LG
@@ -28,16 +21,9 @@ export const memoStyles = _.memoStyles(() => ({
   contentFlux: {
     minHeight: IMG_HEIGHT_LG
   },
-  body: {
-    width: '100%'
-  },
   tag: {
     marginTop: 6,
     marginRight: 6
-  },
-  tip: {
-    paddingRight: 24,
-    marginTop: _.xs
   },
   loading: {
     height: IMG_HEIGHT_LG
