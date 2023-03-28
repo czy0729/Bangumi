@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 16:05:46
+ * @Last Modified time: 2023-03-28 16:19:21
  */
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
@@ -39,7 +39,6 @@ export default obc(
         score={score}
         sites={sites}
         onToggleExpand={$.onToggleExpand}
-        onShowManageModal={$.onShowManageModal}
       />
     )
   }

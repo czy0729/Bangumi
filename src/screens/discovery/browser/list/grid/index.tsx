@@ -22,7 +22,7 @@ const EVENT = {
 function Grid({ item, index }, { $, navigation }: Ctx) {
   const { type } = $.state
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collectionStatus(id)
+  const collection = collectionStore.collect(id)
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const numColumns = _.portrait(3, 5)
   return (

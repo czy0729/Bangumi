@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:22:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-27 05:38:21
+ * @Last Modified time: 2023-03-28 13:31:40
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -11,8 +11,7 @@ import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
 import ToolBar from '../tool-bar'
 import { Ctx } from '../types'
-import ListLayout from './list'
-import Grid from './grid'
+import Item from './item'
 
 function List(props, { $ }: Ctx) {
   const { show, layout, fixed } = $.state
@@ -36,10 +35,7 @@ function List(props, { $ }: Ctx) {
       data={$.list}
       lazy={9}
       ListHeaderComponent={!fixed && <ToolBar />}
-      renderItem={({ item, index }) => {
-        if ($.isList) return <ListLayout item={item} />
-        return <Grid item={item} index={index} />
-      }}
+      renderItem={renderItem}
       scrollToTop
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchBrowser}
@@ -48,3 +44,7 @@ function List(props, { $ }: Ctx) {
 }
 
 export default obc(List)
+
+function renderItem({ item, index }) {
+  return <Item item={item} index={index} />
+}

@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-12-30 22:36:43
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { BrowserSort, RatingStatus, SubjectType } from '@types'
+import { BrowserSort, SubjectType } from '@types'
 
 export const DATE = new Date()
 
@@ -16,16 +16,6 @@ export const EXCLUDE_STATE = {
 
   /** 是否显示列表, 制造切页效果 */
   show: true,
-
-  /** 收藏管理框 */
-  modal: {
-    visible: false,
-    subjectId: 0,
-    title: '',
-    desc: '',
-    status: '' as '' | RatingStatus,
-    action: '听' as '看' | '玩' | '听' | '读'
-  },
 
   /** 云快照 */
   ota: {}

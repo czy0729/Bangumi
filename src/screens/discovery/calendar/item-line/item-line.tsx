@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 15:57:47
+ * @Last Modified time: 2023-03-28 16:58:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
 import { Cover, Stars, Manage } from '@_'
-import { _ } from '@stores'
+import { uiStore, _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatus } from '@types'
 import { DEFAULT_PROPS } from './ds'
 
 const ItemLine = memo(
@@ -30,10 +31,12 @@ const ItemLine = memo(
     collection,
     score,
     sites,
-    onToggleExpand,
-    onShowManageModal
+    onToggleExpand
   }) => {
     global.rerender('Calendar.ItemLine.Main')
+
+    const title = HTMLDecode(name)
+    const size = title.length >= 20 ? 12 : title.length >= 14 ? 13 : 14
 
     const showScore = !hideScore && !!score
     const canPress = expand || (!expand && time && time !== '2359')
@@ -64,15 +67,13 @@ const ItemLine = memo(
         </View>
         {canPress && (
           <>
-            <View style={styles.image}>
-              <Cover
-                width={IMG_WIDTH}
-                height={IMG_HEIGHT}
-                src={images?.medium}
-                radius
-                shadow
-              />
-            </View>
+            <Cover
+              width={IMG_WIDTH}
+              height={IMG_HEIGHT}
+              src={images?.medium}
+              radius
+              shadow
+            />
             <Flex.Item style={_.ml.md}>
               <Flex
                 style={styles.body}
@@ -85,12 +86,12 @@ const ItemLine = memo(
                     <Flex.Item>
                       <Katakana.Provider
                         itemStyle={styles.katakanas}
-                        size={15}
+                        size={size}
                         numberOfLines={3}
                         bold
                       >
-                        <Katakana type='desc' size={15} numberOfLines={3} bold>
-                          {HTMLDecode(name)}
+                        <Katakana type='desc' size={size} numberOfLines={3} bold>
+                          {title}
                         </Katakana>
                       </Katakana.Provider>
                     </Flex.Item>
@@ -112,14 +113,19 @@ const ItemLine = memo(
               </Flex>
             </Flex.Item>
             <Manage
-              style={_.mt.z}
+              subjectId={subjectId}
               collection={collection}
               onPress={() => {
-                onShowManageModal({
-                  subjectId,
-                  title: HTMLDecode(name),
-                  desc
-                })
+                uiStore.showManageModal(
+                  {
+                    subjectId,
+                    title: HTMLDecode(name),
+                    desc,
+                    status:
+                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                  },
+                  '每日放送'
+                )
               }}
             />
           </>

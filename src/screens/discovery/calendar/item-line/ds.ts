@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 15:57:59
+ * @Last Modified time: 2023-03-28 16:19:31
  */
 import { Images, Navigation, SubjectId } from '@types'
 import { StoreType as $ } from '../types'
@@ -22,6 +22,5 @@ export const DEFAULT_PROPS = {
   collection: undefined as string,
   score: 0 as number,
   sites: {} as ReturnType<$['sites']>,
-  onToggleExpand: (() => {}) as $['onToggleExpand'],
-  onShowManageModal: (() => {}) as $['onShowManageModal']
+  onToggleExpand: (() => {}) as $['onToggleExpand']
 }

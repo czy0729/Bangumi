@@ -22,7 +22,7 @@ const EVENT = {
 function List({ item }, { $, navigation }: Ctx) {
   const { type } = $.state
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collectionStatus(id)
+  const collection = collectionStore.collect(id)
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   return (
     <ItemSearch
@@ -32,7 +32,6 @@ function List({ item }, { $, navigation }: Ctx) {
       {...item}
       typeCn={typeCn}
       collection={collection}
-      onManagePress={$.onShowManageModal}
     />
   )
 }

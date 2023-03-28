@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 17:35:07
+ * @Last Modified time: 2023-03-28 16:17:47
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { calendarStore, subjectStore, collectionStore, uiStore } from '@stores'
-import { desc, feedback, getTimestamp } from '@utils'
+import { calendarStore, subjectStore, collectionStore } from '@stores'
+import { desc, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { BangumiData, SubjectId } from '@types'
 import { getTime } from './utils'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { NAMESPACE, STATE } from './ds'
 
 export default class ScreenCalendar extends store {
   state = observable(STATE)
@@ -132,52 +132,5 @@ export default class ScreenCalendar extends store {
       expand: !expand
     })
     this.setStorage(NAMESPACE)
-  }
-
-  /** 显示收藏管理框 */
-  onShowManageModal = args => {
-    const { subjectId, title, desc, status } = args || {}
-    this.setState({
-      modal: {
-        visible: true,
-        subjectId,
-        title,
-        desc,
-        status: status || '',
-        action: '看'
-      }
-    })
-  }
-
-  /** 隐藏收藏管理框 */
-  onCloseManageModal = () => {
-    this.setState({
-      modal: {
-        visible: false
-      }
-    })
-
-    // 等到关闭动画完成后再重置
-    setTimeout(() => {
-      this.setState({
-        modal: EXCLUDE_STATE.modal
-      })
-    }, 400)
-  }
-
-  /** 管理收藏 */
-  doUpdateCollection = async (
-    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
-  ) => {
-    await collectionStore.doUpdateCollection(values)
-    feedback()
-
-    const { subjectId } = this.state.modal
-    setTimeout(() => {
-      collectionStore.fetchCollectionStatusQueue([subjectId])
-    }, 400)
-
-    this.onCloseManageModal()
-    uiStore.callWebhookCollection(values)
   }
 }
