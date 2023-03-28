@@ -352,7 +352,7 @@ export default class ScreenSmb extends store {
 
       if (!flag) {
         flag = tags.includes(
-          collectionStore.collectionStatus(subjectId) ||
+          collectionStore.collect(subjectId) ||
             this.collection(subjectId)?.status?.name ||
             '未收藏'
         )

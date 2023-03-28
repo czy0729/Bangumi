@@ -27,7 +27,7 @@ function Grid(props, { $, navigation }: Ctx) {
       {list.length ? (
         list.map((item, index: number) => {
           const id = String(item.id).replace('/subject/', '')
-          const collection = collectionStore.collectionStatus(id)
+          const collection = collectionStore.collect(id)
           return (
             <ItemCollectionsGrid
               key={item.id}

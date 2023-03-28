@@ -5,23 +5,13 @@
  * @Last Modified time: 2022-07-31 19:03:37
  */
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants'
-import { MonoWorksOrderby, RatingStatus } from '@types'
+import { MonoWorksOrderby } from '@types'
 
 export const NAMESPACE = 'ScreenWorks'
 
 export const EXCLUDE_STATE = {
   /** 职位, 默认全部 */
   position: '',
-
-  /** 收藏管理框 */
-  modal: {
-    visible: false,
-    subjectId: 0,
-    title: '',
-    desc: '',
-    status: '' as '' | RatingStatus,
-    action: '听' as '看' | '玩' | '听' | '读'
-  },
 
   /** 云快照 */
   ota: {}

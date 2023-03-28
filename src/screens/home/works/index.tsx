@@ -11,7 +11,6 @@ import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import ToolBar from './tool-bar'
 import List from './list'
-import Modal from './modal'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -28,7 +27,6 @@ const Works = (props, { $ }: Ctx) => {
         <Page>
           {fixed && <ToolBar />}
           <List />
-          <Modal />
         </Page>
       </>
     )

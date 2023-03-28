@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:09:42
+ * @Last Modified time: 2023-03-28 17:29:08
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -65,7 +65,7 @@ const Item = memo(
           )
         }}
       >
-        <Flex align='start' style={styles.wrap}>
+        <Flex style={styles.wrap} align='start'>
           <Cover
             src={cover}
             placeholder={!isMono}
@@ -85,7 +85,7 @@ const Item = memo(
             justify={justify}
             align='start'
           >
-            <Flex align='start' style={_.container.block}>
+            <Flex style={_.container.block} align='start'>
               <Flex.Item>
                 <Title name={name} nameCn={nameCn} comments={comments} />
               </Flex.Item>

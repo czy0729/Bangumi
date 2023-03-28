@@ -45,7 +45,7 @@ function ItemList({ item, page }, { $, navigation }: Ctx) {
       filter={filter}
       simpleStars
       rank={rankText}
-      collection={!$.isMe ? collectionStore.collectionStatus(item.id) : undefined}
+      collection={!$.isMe ? collectionStore.collect(item.id) : undefined}
       onManagePress={$.onManagePress}
     />
   )

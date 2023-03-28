@@ -22,7 +22,7 @@ const EVENT = {
 
 function Grid({ item, index, numColumns }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collectionStatus(id)
+  const collection = collectionStore.collect(id)
   return (
     <ItemCollectionsGrid
       style={[

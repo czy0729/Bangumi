@@ -20,9 +20,9 @@ const EVENT = {
   }
 } as const
 
-function List({ item }, { $, navigation }: Ctx) {
+function List({ item }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collectionStatus(id)
+  const collection = collectionStore.collect(id)
   return (
     <ItemSearch
       style={_.container.item}
@@ -32,7 +32,6 @@ function List({ item }, { $, navigation }: Ctx) {
       tip={HTMLDecode(item.tip)}
       typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)}
       collection={collection}
-      onManagePress={$.onShowManageModal}
     />
   )
 }

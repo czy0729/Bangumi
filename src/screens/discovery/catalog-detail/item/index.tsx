@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 02:22:42
+ * @Last Modified time: 2023-03-28 17:18:08
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -51,8 +51,8 @@ function Item(
           isCatalog
           hideScore={$.hideScore}
           isEditable={$.isSelf}
+          showManage
           onEdit={$.onEdit}
-          onManagePress={$.onManagePress}
         />
         {!index && <Heatmap id='目录详情.跳转' />}
       </>

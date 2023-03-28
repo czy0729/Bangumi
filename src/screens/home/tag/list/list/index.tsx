@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 10:48:42
+ * @Last Modified time: 2023-03-28 17:36:09
  */
 import React from 'react'
 import { ItemSearch } from '@_'
@@ -17,9 +17,9 @@ const EVENT_LIST = {
   }
 }
 
-function List({ item }, { $, navigation }: Ctx) {
+function List({ item }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collectionStatus(id)
+  const collection = collectionStore.collect(id)
   return (
     <ItemSearch
       style={_.container.item}
@@ -27,7 +27,6 @@ function List({ item }, { $, navigation }: Ctx) {
       event={EVENT_LIST}
       collection={collection}
       {...item}
-      onManagePress={$.onShowManageModal}
     />
   )
 }

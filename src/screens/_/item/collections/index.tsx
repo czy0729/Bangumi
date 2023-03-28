@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 13:45:20
+ * @Last Modified time: 2023-03-28 17:18:34
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -42,8 +42,8 @@ export const ItemCollections = ob(
     isEditable,
     event,
     filter,
-    onEdit,
-    onManagePress
+    showManage,
+    onEdit
   }: ItemCollectionsProps) => {
     global.rerender('Component.ItemCollections')
 
@@ -78,8 +78,8 @@ export const ItemCollections = ob(
         isEditable={isEditable}
         event={event}
         filter={filter}
+        showManage={showManage}
         onEdit={onEdit}
-        onManagePress={onManagePress}
       />
     )
   }

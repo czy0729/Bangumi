@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:49:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 12:27:07
+ * @Last Modified time: 2023-03-28 17:36:22
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -21,7 +21,7 @@ const EVENT_GRID = {
 function Grid({ item, index, numColumns }, { $, navigation }: Ctx) {
   const { airtime } = $.state
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collectionStatus(id)
+  const collection = collectionStore.collect(id)
   return (
     <ItemCollectionsGrid
       navigation={navigation}

@@ -2,17 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 15:44:43
+ * @Last Modified time: 2023-03-28 17:17:54
  */
 import { observable, computed } from 'mobx'
-import {
-  _,
-  collectionStore,
-  discoveryStore,
-  subjectStore,
-  uiStore,
-  userStore
-} from '@stores'
+import { _, collectionStore, discoveryStore, subjectStore, userStore } from '@stores'
 import {
   confirm,
   desc,
@@ -408,9 +401,5 @@ export default class ScreenCatalogDetail extends store {
         }
       }
     )
-  }
-
-  onManagePress = args => {
-    uiStore.showManageModal(args, '目录详情')
   }
 }

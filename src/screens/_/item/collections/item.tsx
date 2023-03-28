@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:53:25
+ * @Last Modified time: 2023-03-28 17:21:11
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
-import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { uiStore, _ } from '@stores'
+import { getAction, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
-import { IMG_WIDTH, IMG_HEIGHT, MODEL_RATING_STATUS } from '@constants'
-import { RatingStatus } from '@types'
+import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatus } from '@types'
 import { Cover, Manage } from '../../base'
 import { IconTouchable } from '../../icon/touchable'
 import Title from './title'
@@ -47,8 +47,8 @@ const Item = memo(
     isEditable,
     event,
     filter,
-    onEdit,
-    onManagePress
+    showManage,
+    onEdit
   }) => {
     global.rerender('Component.ItemCollections.Main')
 
@@ -57,6 +57,7 @@ const Item = memo(
     let justify
     if (!isCatalog || (!comments && !isEditable)) justify = 'between'
 
+    const subjectId = String(id).replace('/subject/', '')
     return (
       <Touchable
         style={styles.container}
@@ -112,18 +113,25 @@ const Item = memo(
                     </Flex>
                   )}
                 </Flex>
-                {!!onManagePress && (
+                {showManage && (
                   <Manage
+                    subjectId={subjectId}
                     collection={collection}
                     typeCn={typeCn}
                     onPress={() => {
-                      onManagePress({
-                        subjectId: String(id).replace('/subject/', ''),
-                        title: nameCn,
-                        desc: name,
-                        status: MODEL_RATING_STATUS.getValue<RatingStatus>(collection),
-                        typeCn
-                      })
+                      uiStore.showManageModal(
+                        {
+                          subjectId,
+                          title: nameCn,
+                          desc: name,
+                          status:
+                            MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(
+                              collection
+                            ),
+                          action: getAction(typeCn)
+                        },
+                        '收藏'
+                      )
                     }}
                   />
                 )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 01:54:03
+ * @Last Modified time: 2023-03-28 17:32:02
  */
 import React from 'react'
 import { Flex, Text, Loading, Touchable } from '@components'
@@ -10,8 +10,7 @@ import { Cover, Rank, Stars, Manage } from '@_'
 import { _, uiStore, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusCn } from '@types'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
@@ -90,13 +89,8 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
         </Flex.Item>
         <Manage
           style={styles.manage}
-          collection={
-            collectionStore.collectionStatus(id) ||
-            MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
-              String(collection?.type)
-            ) ||
-            ''
-          }
+          subjectId={id}
+          collection={collectionStore.collect(id)}
           onPress={() => {
             uiStore.showManageModal(
               {
@@ -104,10 +98,7 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
                 title: subject.name,
                 status: collection?.type
               },
-              '关联系列',
-              () => {
-                collectionStore.fetchCollectionStatusQueue([id])
-              }
+              '关联系列'
             )
           }}
         />
