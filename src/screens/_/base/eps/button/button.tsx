@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 22:20:47
+ * @Last Modified time: 2023-03-29 06:41:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,11 @@ export default memo(
       popoverProps = {
         overlay: (
           <Menu
-            title={[`ep${item.sort} · ${item.airdate || item.duration}`]}
+            title={[
+              [`ep${item.sort}`, item.airdate || item.duration]
+                .filter(item => !!item)
+                .join(' · ')
+            ]}
             data={popoverData}
             onSelect={value => onSelect(value, item)}
           />
