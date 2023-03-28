@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:27:07
+ * @Last Modified time: 2023-03-29 07:16:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,10 +39,16 @@ export default memo(
               <View>
                 {translateResult.map((item, index) => (
                   <View key={index} style={_.mt.sm}>
-                    <Text style={_.mt.md} type='sub' size={12} selectable>
+                    <Text
+                      style={_.mt.md}
+                      type='sub'
+                      size={12}
+                      lineHeight={14}
+                      selectable
+                    >
                       {item.src.trim()}
                     </Text>
-                    <Text style={_.mt.sm} size={15} bold selectable>
+                    <Text style={_.mt.sm} size={15} lineHeight={17} bold selectable>
                       {item.dst.trim()}
                     </Text>
                   </View>

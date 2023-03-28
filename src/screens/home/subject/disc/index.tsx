@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 00:34:31
+ * @Last Modified time: 2023-03-29 07:19:50
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -19,7 +19,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       styles={memoStyles()}
       subjectId={$.subjectId}
       disc={$.disc}
-      discTranslateResult={$.state.discTranslateResult}
+      discTranslateResult={$.state.discTranslateResult.slice()}
     />
   )
 })

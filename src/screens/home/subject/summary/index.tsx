@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:25:07
+ * @Last Modified time: 2023-03-29 07:15:50
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -21,7 +21,7 @@ export default obc((props, { $ }: Ctx) => {
     <Summary
       styles={memoStyles()}
       showSummary={showSummary}
-      translateResult={$.state.translateResult}
+      translateResult={$.state.translateResult.slice()}
       content={$.summary.replace(/\r\n\r\n/g, '\r\n')}
       onSwitchBlock={$.onSwitchBlock}
     />
