@@ -29,7 +29,12 @@ const Popover = ob(
         }
 
     return (
-      <CompPopover placement='bottom' {...popoverProps} {...other}>
+      <CompPopover
+        key={String(data.length)}
+        placement='bottom'
+        {...popoverProps}
+        {...other}
+      >
         {children}
       </CompPopover>
     )
@@ -55,7 +60,12 @@ Popover.Old = ob(
         }
 
     return (
-      <CompPopoverOld placement='bottom' {...popoverProps} {...other}>
+      <CompPopoverOld
+        key={String(data.length)}
+        placement='bottom'
+        {...popoverProps}
+        {...other}
+      >
         {children}
       </CompPopoverOld>
     )

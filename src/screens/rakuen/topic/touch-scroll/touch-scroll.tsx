@@ -102,7 +102,7 @@ export const TouchScroll = memo(
                       type={isNew ? _.select('plain', 'icon') : 'icon'}
                       align='center'
                     >
-                      {String(list[index]?.floor).replace('#', '')}
+                      {String(list[index]?.floor || '').replace('#', '')}
                     </Text>
                   )}
                 </Flex>

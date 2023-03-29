@@ -121,16 +121,24 @@ export default class ScreenTopic extends store {
       const { ts, topic, comments } = data
       const _loaded = getTimestamp()
       if (typeof topic === 'object' && typeof comments === 'object') {
-        this.setState({
+        const state: any = {
           topic: {
             ...topic,
             _loaded: getTimestamp()
-          },
-          comments: {
+          }
+        }
+
+        /**
+         * bgm.tv 网页版修改了帖子回复的样式导致楼层获取失败, 需要排除这部分的缓存
+         * @date 2023-03-30
+         */
+        if (comments?.list?.[0]?.floor) {
+          state.comments = {
             ...comments,
             _loaded: getTimestamp()
           }
-        })
+        }
+        this.setState(state)
       }
 
       if (_loaded - ts >= 60 * 60 * 2) this.updateTopicThirdParty()
