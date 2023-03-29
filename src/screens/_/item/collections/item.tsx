@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:21:11
+ * @Last Modified time: 2023-03-29 08:23:10
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -58,6 +58,7 @@ const Item = memo(
     if (!isCatalog || (!comments && !isEditable)) justify = 'between'
 
     const subjectId = String(id).replace('/subject/', '')
+    const titleLength = name.length + nameCn.length
     return (
       <Touchable
         style={styles.container}
@@ -138,10 +139,9 @@ const Item = memo(
               </Flex>
               {!!tip && (
                 <Text
-                  style={styles.tip}
                   size={11}
                   lineHeight={12}
-                  numberOfLines={numberOfLines}
+                  numberOfLines={numberOfLines - (titleLength >= 28 ? 1 : 0)}
                 >
                   {HTMLDecode(tip)}
                 </Text>

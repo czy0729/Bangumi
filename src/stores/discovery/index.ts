@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:44:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:24:42
+ * @Last Modified time: 2023-03-29 11:19:50
  */
 import { observable, computed } from 'mobx'
 import { cheerio, getTimestamp, HTMLDecode } from '@utils'
@@ -60,7 +60,12 @@ import {
   Wiki
 } from './types'
 
-type CacheKey = keyof typeof LOADED
+type CacheKey = keyof typeof LOADED | `catalogDetail${number}`
+
+function getInt(id: Id) {
+  const str = String(id)
+  return Number(str.slice(str.length - 2, str.length)) || 0
+}
 
 class DiscoveryStore extends store implements StoreConstructor<typeof STATE> {
   state = observable(STATE)
@@ -92,9 +97,12 @@ class DiscoveryStore extends store implements StoreConstructor<typeof STATE> {
 
   /** 目录详情 */
   catalogDetail(id: Id) {
-    this.init('catalogDetail')
+    const last = getInt(id)
+    const key = `catalogDetail${last}` as const
+    this.init(key)
+
     return computed<CatalogDetail>(() => {
-      return this.state.catalogDetail[id] || INIT_CATELOG_DETAIL_ITEM
+      return this.state?.[key]?.[id] || INIT_CATELOG_DETAIL_ITEM
     }).get()
   }
 
@@ -414,7 +422,8 @@ class DiscoveryStore extends store implements StoreConstructor<typeof STATE> {
     })
     const data = analysisCatalogDetail(html)
 
-    const key = 'catalogDetail'
+    const last = getInt(id)
+    const key = `catalogDetail${last}` as const
     this.setState({
       [key]: {
         [id]: {

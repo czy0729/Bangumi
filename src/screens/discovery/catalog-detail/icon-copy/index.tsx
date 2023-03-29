@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-09 06:34:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:53:49
+ * @Last Modified time: 2023-03-29 11:42:58
  */
 import React from 'react'
 import { IconHeader } from '@_'
@@ -13,7 +13,6 @@ import { Ctx } from '../types'
 function IconCopy({ $, navigation }: Ctx) {
   return (
     <IconHeader
-      style={_.mr.xs}
       name='md-filter-none'
       color={_.colorDesc}
       size={17}

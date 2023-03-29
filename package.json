@@ -93,6 +93,7 @@
     "react-native-shimmer-placeholder": "^2.0.9",
     "react-native-smb": "^0.2.4",
     "react-native-tab-view": "2.14.3",
+    "react-native-text-ticker": "^1.14.0",
     "react-native-web": "~0.18.7",
     "react-native-webview": "11.23.0",
     "react-navigation": "3.0.9",

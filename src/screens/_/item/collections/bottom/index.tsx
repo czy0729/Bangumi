@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 13:49:01
+ * @Last Modified time: 2023-03-29 08:07:25
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -43,7 +43,7 @@ function Bottom({
   if (!(!hideScore && hasScore) && !info.length && !tag.length && !rank) return null
 
   return (
-    <Flex style={_.mt.sm}>
+    <Flex style={_.mt.md}>
       {!hideScore && !!rank && <Rank value={rank} />}
       {!hideScore && hasScore && (
         <Stars style={total ? _.mr.xs : _.mr.sm} value={score} simple={simpleStars} />

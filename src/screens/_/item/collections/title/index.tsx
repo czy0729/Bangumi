@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-08 16:32:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 02:24:48
+ * @Last Modified time: 2023-03-29 08:26:30
  */
 import React from 'react'
 import { Flex, Katakana, Highlight } from '@components'
+import { _ } from '@stores'
 import { cnjp, HTMLDecode, getPinYinFilterValue } from '@utils'
 import { ob } from '@utils/decorators'
 
@@ -38,16 +39,21 @@ function Title({ name, nameCn, filter, numberOfLines }) {
     )
   }
 
+  const { length: lt } = left
+  const size = lt >= 32 ? 12 : lt >= 24 ? 13 : lt >= 12 ? 14 : 15
+
+  const { length: lb } = right
+  const sizeBottom = lb >= 32 ? 9 : lb >= 24 ? 10 : lb >= 16 ? 11 : 12
   return (
-    <Flex wrap='wrap' align='end'>
-      <Katakana.Provider size={15} numberOfLines={numberOfLines}>
-        <Katakana size={15} bold>
+    <Flex style={lt + lb >= 16 && _.mb.xs} wrap='wrap' align='end'>
+      <Katakana.Provider size={size} numberOfLines={numberOfLines}>
+        <Katakana size={size} bold>
           {left}{' '}
         </Katakana>
       </Katakana.Provider>
       {hasName && right !== left && (
-        <Katakana.Provider size={11} lineHeight={13} bold numberOfLines={1}>
-          <Katakana type='sub' size={11} lineHeight={13} bold>
+        <Katakana.Provider size={sizeBottom} lineHeight={13} bold numberOfLines={1}>
+          <Katakana type='sub' size={sizeBottom} lineHeight={13} bold>
             {right}
           </Katakana>
         </Katakana.Provider>

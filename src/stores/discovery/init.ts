@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:23:27
+ * @Last Modified time: 2023-03-29 11:13:15
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -48,15 +48,10 @@ export const INIT_CHANNEL = {
   discuss: []
 }
 
-export const STATE = {
+const STATE = {
   /** 目录 */
   catalog: {
     0: INIT_CATALOG_ITEM
-  },
-
-  /** 目录详情 */
-  catalogDetail: {
-    0: INIT_CATELOG_DETAIL_ITEM
   },
 
   /** 目录详情 (云缓存) */
@@ -145,11 +140,26 @@ export const STATE = {
   }
 }
 
+/**
+ * catalogDetail 根据 id 最后 2 位拆开 100 个 key 存放
+ * 避免 JSON.stringify 后长度太长, 无法本地化
+ * 也能减少每次写入本地储存的量
+ * @date 2023-03-29
+ */
+for (let i = 0; i < 100; i += 1) {
+  /** 目录详情 */
+  STATE[`catalogDetail${i}`] = {
+    0: INIT_CATELOG_DETAIL_ITEM
+  }
+}
+
+export { STATE }
+
 export const LOADED = {
   blog: false,
   blogReaded: false,
   catalog: false,
-  catalogDetail: false,
+  // catalogDetail: false,
   catalogDetailFromOSS: false,
   channel: false,
   online: false,

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 15:54:47
+ * @Last Modified time: 2023-03-29 11:43:43
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
 import { Props } from './types'
 import { WSA } from '@constants'
@@ -32,9 +33,15 @@ function Transition({ fixed, title, headerTitle }: TransitionProps) {
       <Animated.View style={[styles.view, wrapStyles]}>
         <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>
           {headerTitle || (
-            <Text style={styles.text} size={15} numberOfLines={1}>
-              {title}
-            </Text>
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={styles.container}
+              horizontal
+            >
+              <Text style={styles.text} size={15} numberOfLines={1}>
+                {title}
+              </Text>
+            </ScrollView>
           )}
         </Animated.View>
       </Animated.View>
@@ -58,15 +65,21 @@ const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     bottom: 8,
-    left: 56,
+    left: 48,
     right: 72,
     minHeight: WSA ? 40 : 20 * 1.28
   },
   bodyTitle: {
     bottom: 6
   },
+  scrollView: {
+    maxWidth: '80%'
+  },
+  container: {
+    paddingRight: _.md,
+    paddingLeft: _.sm
+  },
   text: {
-    maxWidth: '84%',
     marginBottom: _.ios(0, 10),
     marginLeft: -8
   }
