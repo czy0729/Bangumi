@@ -314,7 +314,7 @@ export function cheerioTopic(HTML) {
     // 主楼
     const $group = $('#pageHeader a.avatar')
     const $user = $('div.postTopic strong > a.l')
-    const [floor, time] = ($('div.postTopic div.re_info > small').text().trim() || '')
+    const [floor, time] = ($('div.postTopic div.re_info small').text().trim() || '')
       .split('/')[0]
       .split(' - ')
     const titleText = $('#pageHeader > h1').text().trim() || ''
@@ -355,7 +355,6 @@ export function cheerioTopic(HTML) {
           const [floor, time] = (
             $row.find('> div.re_info small').text().trim() || ''
           ).split(' - ')
-
           return safeObject({
             ...INIT_COMMENTS_ITEM,
             avatar: getCoverSmall(
@@ -463,10 +462,9 @@ export function cheerioBlog(HTML) {
       $('#comment_list > div.row_reply')
         .map((index, element) => {
           const $row = cheerio(element)
-
-          const [floor, time] = ($row.find('> div.re_info > small').text() || '')
-            .split('/')[0] // 这里其实为了去除 / del / edit
-            .split(' - ')
+          const [floor, time] = (
+            $row.find('> div.re_info small').text().trim() || ''
+          ).split(' - ')
           return safeObject({
             ...INIT_COMMENTS_ITEM,
             avatar: getCoverSmall(
@@ -477,7 +475,7 @@ export function cheerioBlog(HTML) {
             message: HTMLTrim(
               $row.find('> div.inner > div.reply_content > div.message').html()
             ),
-            replySub: $row.find('> div.inner > a.icons_cmt').attr('onclick'),
+            replySub: $row.find('> div.re_info > div.action a.icon').attr('onclick'),
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName:
@@ -494,9 +492,7 @@ export function cheerioBlog(HTML) {
                   const $row = cheerio(element, {
                     decodeEntities: false
                   })
-                  const [floor, time] = ($row.find('small').text() || '')
-                    .split('/')[0] // 这里其实为了去除 / del / edit
-                    .split(' - ')
+                  const [floor, time] = ($row.find('small').text() || '').split(' - ')
                   return safeObject({
                     ...INIT_COMMENTS_ITEM,
                     avatar: getCoverSmall(
@@ -505,7 +501,7 @@ export function cheerioBlog(HTML) {
                     floor,
                     id: $row.attr('id').substring(5),
                     message: HTMLTrim($row.find('div.cmt_sub_content').html()),
-                    replySub: $row.find('a.icons_cmt').attr('onclick'),
+                    replySub: $row.find('a.icon').attr('onclick'),
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),
                     userName: $row.find('strong > a.l').text(),

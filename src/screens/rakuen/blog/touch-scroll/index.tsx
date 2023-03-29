@@ -75,7 +75,7 @@ function TouchScroll(
                     type={isNew ? _.select('plain', 'icon') : 'icon'}
                     align='center'
                   >
-                    {list[index].floor.replace('#', '')}
+                    {String(list[index].floor || '').replace('#', '')}
                   </Text>
                 )}
               </Flex>
