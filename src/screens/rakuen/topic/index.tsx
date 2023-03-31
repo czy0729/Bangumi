@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 22:38:56
+ * @Last Modified time: 2023-03-31 05:13:35
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
@@ -25,10 +25,11 @@ import TouchScroll from './touch-scroll'
 import Heatmaps from './heatmaps'
 import Bottom from './bottom'
 import Store from './store'
+import { Ctx } from './types'
 
 const PRE_RENDER_INDEX = 8
 
-const Topic = (props, { $ }) => {
+const Topic = (props, { $ }: Ctx) => {
   const isFocused = useIsFocused()
   const isFocusedRef = useIsFocusedRef()
   const { fixed, onScroll } = useOnScroll()

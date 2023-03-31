@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:08:29
+ * @Last Modified time: 2023-03-31 03:00:34
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -26,7 +26,9 @@ import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import x18Data from '@assets/json/18x.json'
 import {
   AnyObject,
+  Avatar,
   BangumiData,
+  Cover,
   EventType,
   Id,
   Navigation,
@@ -673,10 +675,15 @@ export function getCookie(cookies = '', name: string) {
 
 /**
  * 获取低质量 bgm 图片
- *  - bgm 图片质量 g < s < m < c < l, 只用s, m(c), l
- *  - CDN开启下 Avatar 组件会忽略 s, 把 s 转成 m(c)
+ *  - bgm 图片质量 g < s < m < c < l, 只用 s, m(c), l
+ *  - CDN 开启下 Avatar 组件会忽略 s, 把 s 转成 m(c)
  */
-export function getCoverSmall(src = '') {
+export function getCoverSmall(src?: Avatar): Avatar<'s'>
+export function getCoverSmall(src?: Cover): Cover<'s'>
+export function getCoverSmall(src: string): string
+export function getCoverSmall(
+  src: Avatar | Cover | string = ''
+): Avatar<'s'> | Cover<'s'> | string {
   if (
     typeof src !== 'string' ||
     src === '' ||

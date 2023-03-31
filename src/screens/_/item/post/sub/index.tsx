@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:39:01
+ * @Last Modified time: 2023-03-31 07:45:43
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -41,25 +41,26 @@ export default obc(
 
     if (isBlockUser(userId, userName, replySub)) return null
 
-    const { translateResultFloor } = $.state
+    const { translateResultFloor } = $?.state
     const { blockKeywords, quote, quoteAvatar, wide } = rakuenStore.setting
     return (
       <ItemSub
         navigation={navigation}
         styles={memoStyles()}
+        topicId={$?.topicId}
         authorId={authorId}
         avatar={avatar}
         blockKeywords={blockKeywords}
         erase={erase}
-        filterDelete={$.filterDelete}
+        filterDelete={$?.filterDelete}
         floor={floor}
         id={id}
-        isBlockUser={$.isBlockUser}
+        isBlockUser={$?.isBlockUser}
         matchLink={matchLink}
         message={message}
-        myFriendsMap={$.myFriendsMap}
+        myFriendsMap={$?.myFriendsMap}
         postId={postId}
-        postUsersMap={$.postUsersMap}
+        postUsersMap={$?.postUsersMap}
         quote={quote}
         quoteAvatar={quoteAvatar}
         wide={wide}
@@ -72,6 +73,7 @@ export default obc(
         url={url}
         userId={userId}
         userName={userName}
+        formhash={$?.topic?.formhash}
         event={event}
       />
     )

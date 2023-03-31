@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 14:13:09
+ * @Last Modified time: 2023-03-31 07:49:28
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
@@ -157,3 +157,13 @@ export const API_RANDOM_AVATAR = () => `https://api.yimian.xyz/img?type=head`
 /** 圣地巡游 */
 export const API_ANITABI = (subjectId: SubjectId) =>
   `https://api.anitabi.cn/bangumi/${subjectId}/lite`
+
+/** 帖子楼层表情 */
+export const API_TOPIC_COMMENT_LIKE = (
+  type: number,
+  main_id: number,
+  id: number,
+  value: string,
+  gh: string
+) =>
+  `${HOST}/like?type=${type}&main_id=${main_id}&id=${id}&value=${value}&gh=${gh}&ajax=1`

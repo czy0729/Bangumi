@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 19:32:25
+ * @Last Modified time: 2023-03-31 07:45:57
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -59,7 +59,7 @@ export const ItemPost = obc(
     }
 
     // 展开子楼层
-    const { expands, translateResultFloor } = $.state
+    const { expands, translateResultFloor } = $?.state || {}
     const _expands = Number(expandNums || subExpand)
     let isExpand: boolean
 
@@ -71,7 +71,7 @@ export const ItemPost = obc(
     }
 
     // 新楼层标识
-    const readedTime = $.readed?._time
+    const readedTime = $?.readed?._time
     const isNew = !!readedTime && getTimestamp(time) > readedTime
 
     // 作者
@@ -81,7 +81,7 @@ export const ItemPost = obc(
     const isJump = !!postId && postId === id
 
     // 浏览器查看
-    const { _url } = $.params || {}
+    const { _url } = $?.params || {}
     const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
 
     // 屏蔽关键字命中
@@ -95,6 +95,7 @@ export const ItemPost = obc(
         navigation={navigation}
         styles={memoStyles()}
         contentStyle={contentStyle}
+        topicId={$?.topicId}
         authorId={authorId}
         avatar={avatar}
         erase={erase}
@@ -102,7 +103,7 @@ export const ItemPost = obc(
         id={id}
         isAuthor={isAuthor}
         isExpand={isExpand}
-        isFriend={$.myFriendsMap?.[userId]}
+        isFriend={$?.myFriendsMap?.[userId]}
         isJump={isJump}
         isNew={isNew}
         matchLink={matchLink === undefined ? rendered : matchLink}
@@ -119,8 +120,9 @@ export const ItemPost = obc(
         userId={userId}
         userName={userName}
         userSign={userSign}
+        formhash={$?.topic?.formhash}
         event={event}
-        onToggleExpand={$.toggleExpand}
+        onToggleExpand={$?.toggleExpand}
       />
     )
   }

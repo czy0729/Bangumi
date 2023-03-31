@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 22:52:52
+ * @Last Modified time: 2023-03-31 05:04:44
  */
 import {
   HTMLDecode,
@@ -10,15 +10,17 @@ import {
   HTMLTrim,
   cheerio,
   findTreeNode,
+  getCoverSmall,
   safeObject,
   trim
 } from '@utils'
-import { getCoverSmall } from '@utils/app'
 import { fetchHTML } from '@utils/fetch'
 import { matchAvatar, matchUserId } from '@utils/match'
+import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { INIT_TOPIC, INIT_COMMENTS_ITEM, INIT_BLOG } from './init'
+import { Likes, CommentsItem, CommentsItemWithSub, Topic } from './types'
 
 export async function fetchRakuen(args: {
   scope: RakuenScope
@@ -300,13 +302,11 @@ export function cheerioNotify(HTML) {
     .get()
 }
 
-/**
- * 分析帖子和留言
- * @param {*} HTML
- */
-export function cheerioTopic(HTML) {
-  let topic: any = INIT_TOPIC
-  let comments = []
+/** 分析帖子和留言 */
+export function cheerioTopic(HTML: string) {
+  let topic: Topic = INIT_TOPIC
+  let comments: CommentsItem[] = []
+  let likes: Likes = {}
 
   try {
     const $ = cheerio(HTML)
@@ -318,13 +318,15 @@ export function cheerioTopic(HTML) {
       .split('/')[0]
       .split(' - ')
     const titleText = $('#pageHeader > h1').text().trim() || ''
-    let title
+
+    let title: string
     if (titleText.includes(' &raquo; ')) {
       title = String(titleText.split(' &raquo; ')[1]).replace(/讨论|章节/, '')
     } else {
       title = String(titleText.split(' / ')[1])
     }
-    topic = safeObject({
+
+    topic = safeObject<Topic>({
       avatar: getCoverSmall(
         matchAvatar($('div.postTopic span.avatarNeue').attr('style'))
       ),
@@ -350,49 +352,56 @@ export function cheerioTopic(HTML) {
     // 回复
     comments =
       $('#comment_list > div.row_reply')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
+          /** 回复主楼层块 */
           const $row = cheerio(element)
-          const [floor, time] = (
-            $row.find('> div.re_info small').text().trim() || ''
-          ).split(' - ')
-          return safeObject({
-            ...INIT_COMMENTS_ITEM,
+
+          /** 左上角头像块 */
+          const $avatar = $row.find('> a.avatar')
+
+          /** 左上角用户信息块 */
+          const $user = $row.find('> div.inner > span.userInfo')
+
+          /** 右上角楼层时间块 */
+          const $info = $row.find('> div.re_info')
+
+          /** 主楼层内容块 */
+          const $floor = $row.find('> div.inner > div.reply_content')
+
+          const [floor, time] = $info.find('small').text().trim().split(' - ')
+
+          return safeObject<CommentsItemWithSub>({
             avatar: getCoverSmall(
-              matchAvatar($row.find('span.avatarNeue').attr('style'))
+              matchAvatar($avatar.find('span.avatarNeue').attr('style'))
             ),
             floor,
             id: $row.attr('id').substring(5),
-            message: HTMLTrim(
-              $row.find('> div.inner > div.reply_content > div.message').html()
-            ),
-            replySub: $row.find('> div.re_info > div.action a.icon').attr('onclick'),
+            message: decoder(HTMLTrim($floor.find('> div.message').html())),
+            replySub: $info.find('> div.action a.icon').attr('onclick'),
             time,
-            userId: matchUserId($row.find('a.avatar').attr('href')),
+            userId: matchUserId($avatar.attr('href')),
             userName:
-              $row.find('> div.inner > span.userInfo > strong > a.l').text().trim() ||
+              $user.find('strong > a.l').text().trim() ||
               $row.find('> div.inner > strong > a.l').text().trim(),
-            userSign: HTMLDecode($row.find('span.tip_j').text().trim()),
-            erase: $row.find('> div.re_info a.erase_post').attr('href'),
+            userSign: HTMLDecode($user.find('span.tip_j').text().trim()),
+            erase: $info.find('a.erase_post').attr('href'),
 
             // 子回复
             sub:
               $row
                 .find('div.sub_reply_bg')
-                .map((index, element) => {
-                  const $row = cheerio(element, {
-                    decodeEntities: false
-                  })
+                .map((index: number, element: any) => {
+                  const $row = cheerio(element)
                   const [floor, time] = ($row.find('small').text().trim() || '').split(
                     ' - '
                   )
-                  return safeObject({
-                    ...INIT_COMMENTS_ITEM,
+                  return safeObject<CommentsItem>({
                     avatar: getCoverSmall(
                       matchAvatar($row.find('span.avatarNeue').attr('style'))
                     ),
                     floor,
                     id: $row.attr('id').substring(5),
-                    message: HTMLTrim($row.find('div.cmt_sub_content').html()),
+                    message: decoder(HTMLTrim($row.find('div.cmt_sub_content').html())),
                     replySub: $row.find('a.icon').attr('onclick'),
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),
@@ -405,11 +414,16 @@ export function cheerioTopic(HTML) {
           })
         })
         .get() || []
+
+    try {
+      likes = JSON.parse(HTML.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+    } catch (error) {}
   } catch (ex) {}
 
   return {
     topic,
-    comments
+    comments,
+    likes
   }
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 03:00:52
+ * @Last Modified time: 2023-03-31 05:03:01
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -10,7 +10,7 @@ import {
   MODEL_RAKUEN_SCROLL_DIRECTION,
   LIST_EMPTY
 } from '@constants'
-import { RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
+import { Avatar, RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -38,35 +38,36 @@ export const INIT_READED_ITEM = {
   _time: 0 // 帖子查看时间, 需要多一个来缓存上一次点击事件, 用于制造页面内标记新楼层效果
 }
 
+/** 帖子内容 */
 export const INIT_TOPIC = {
-  avatar: '', // 作者头像
-  floor: '', // 楼层
-  formhash: '', // 回复表单凭据
-  group: '', // 小组名称
-  groupHref: '', // 小组地址
-  groupThumb: '', // 小组图片
-  lastview: '', // 回复表单时间戳
-  message: '', // 帖子内容
-  time: '', // 发帖时间
-  title: '', // 帖子标题
-  userId: '', // 作者Id
-  userName: '', // 作者名称
-  userSign: '', // 作者签名
-  tip: '', // 存在即代表需要加入小组才能回复
-  close: '', // 存在即代表主题被关闭
-  delete: false // 帖子已删除
+  avatar: '' as Avatar<'s'>,
+  floor: '',
+  formhash: '',
+  group: '',
+  groupHref: '',
+  groupThumb: '',
+  lastview: '',
+  message: '',
+  time: '',
+  title: '',
+  userId: '',
+  userName: '',
+  userSign: '',
+  tip: '',
+  close: '',
+  delete: false
 }
 
 export const INIT_COMMENTS_ITEM = {
-  avatar: '', // 用户头像
-  floor: '', // 楼层
-  id: '', // 楼层id
-  replySub: '', // 回复参数
-  time: '', // 发帖时间
-  userId: '', // 用户Id
-  userName: '', // 用户名称
-  userSign: '', // 用户签名
-  erase: '' // 删除的链接
+  avatar: '',
+  floor: '',
+  id: '',
+  replySub: '',
+  time: '',
+  userId: '',
+  userName: '',
+  userSign: '',
+  erase: ''
 }
 
 export const INIT_NOTIFY = {
@@ -174,6 +175,11 @@ const STATE = {
     0: INIT_TOPIC
   },
 
+  /** 帖子回复表情 */
+  likes: {
+    0: {}
+  },
+
   /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
   topicFormCDN: {
     0: INIT_TOPIC
@@ -273,20 +279,21 @@ for (let i = 0; i < 100; i += 1) {
 export { STATE }
 
 export const LOADED = {
+  blockedUsersTrack: false,
   blog: false,
   cloudTopic: false,
   comments: false,
   favor: false,
-  favorV2: false,
   favorCount: false,
+  favorV2: false,
   groupInfo: false,
   groupThumb: false,
   hot: false,
+  likes: false,
   mine: false,
   notify: false,
   rakuen: false,
   readed: false,
   setting: false,
-  topic: false,
-  blockedUsersTrack: false
+  topic: false
 }

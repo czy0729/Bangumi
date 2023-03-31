@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 18:33:14
+ * @Last Modified time: 2023-03-31 05:04:32
  */
 import {
   ListEmpty,
@@ -12,7 +12,8 @@ import {
   UserId,
   Id,
   CoverGroup,
-  Loaded
+  Loaded,
+  Override
 } from '@types'
 
 /** 超展开列表 */
@@ -44,51 +45,111 @@ export type Readed = {
 
 /** 帖子内容 */
 export type Topic = {
+  /** 作者头像 */
   avatar: Avatar<'s'>
+
+  /** 楼层 */
   floor: string
+
+  /** 回复表单凭据 */
   formhash: string
+
+  /** 小组名称 */
   group: string
+
+  /** 小组地址 */
   groupHref: string
+
+  /** 小组图片 */
   groupThumb: string
+
+  /** 回复表单时间戳 */
   lastview: string
+
+  /** 帖子内容 */
   message: HTMLText
+
+  /** 发帖时间 */
   time: string
+
+  /** 帖子标题 */
   title: string
+
+  /** 作者 Id */
   userId: UserId
+
+  /** 作者名称 */
   userName: string
+
+  /** 作者签名 */
   userSign: string
+
+  /** 存在即代表需要加入小组才能回复 */
   tip: string
+
+  /** 存在即代表主题被关闭 */
   close: string
+
+  /** 帖子已删除 */
   delete: boolean
-  _loaded: Loaded
+  _loaded?: Loaded
 }
 
+export type CommentsItem = {
+  /** 用户头像 */
+  avatar: Avatar<'s'>
+
+  /** 楼层 */
+  floor: string
+
+  /** 楼层 d */
+  id: Id
+
+  /** 楼层内容 */
+  message: HTMLText
+
+  /** 回复参数 */
+  replySub: string
+
+  /** 发帖时间 */
+  time: string
+
+  /** 用户 Id */
+  userId: UserId
+
+  /** 用户名称 */
+  userName: string
+
+  /** 用户签名 */
+  userSign: string
+
+  /** 删除的链接 */
+  erase: string
+}
+
+export type CommentsItemWithSub = Override<
+  CommentsItem,
+  {
+    sub: CommentsItem[]
+  }
+>
+
 /** 帖子回复 */
-export type Comments = ListEmpty<
-  DeepPartial<{
-    avatar: Avatar<'s'>
-    floor: string
-    id: Id
-    message: HTMLText
-    replySub: string
-    time: string
-    userId: UserId
-    userName: string
-    userSign: string
-    erase: string
-    sub: {
-      avatar: Avatar<'s'>
-      floor: string
-      id: Id
-      message: HTMLText
-      replySub: string
-      time: string
-      userId: UserId
-      userName: string
-      userSign: string
-      erase: string
-    }[]
-  }>
+export type Comments = ListEmpty<CommentsItemWithSub>
+
+/** 帖子回复表情 */
+export type Likes = Record<
+  number,
+  Record<
+    number,
+    {
+      emoji: string
+      main_id: number
+      total: string
+      type: number
+      value: string
+    }
+  >
 >
 
 /** 电波提醒 */

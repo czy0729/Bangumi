@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:41:28
+ * @Last Modified time: 2023-03-31 07:44:40
  */
 import { EVENT } from '@constants'
-import { Navigation, UserId } from '@types'
+import { Navigation, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
+  topicId: '' as TopicId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
   blockKeywords: [] as any[],
@@ -37,6 +38,7 @@ export const DEFAULT_PROPS = {
   url: '' as string,
   userId: '' as Props['userId'],
   userName: '' as Props['userName'],
+  formhash: '' as string,
   event: EVENT
 }
 

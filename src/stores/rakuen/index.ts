@@ -3,16 +3,17 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 03:17:43
+ * @Last Modified time: 2023-03-31 08:08:57
  */
 import { observable, computed } from 'mobx'
-import { desc, getTimestamp, HTMLTrim, info } from '@utils'
+import { desc, feedback, getTimestamp, HTMLTrim, info } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
 import { syncUserStore } from '@utils/async'
 import { collect, collectList, is } from '@utils/kv'
 import store from '@utils/store'
 import {
+  API_TOPIC_COMMENT_LIKE,
   CDN_RAKUEN,
   CDN_RAKUEN_USER_TOPICS,
   DEV,
@@ -76,6 +77,7 @@ import {
   Comments,
   Group,
   GroupInfo,
+  Likes,
   Mine,
   Notify,
   Rakuen,
@@ -136,6 +138,14 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
     this.init('topic')
     return computed<Topic>(() => {
       return this.state.topic[topicId] || INIT_TOPIC
+    }).get()
+  }
+
+  /** 帖子回复表情 */
+  likes(topicId: TopicId) {
+    this.init('likes')
+    return computed<Likes>(() => {
+      return this.state.likes[topicId] || {}
     }).get()
   }
 
@@ -325,6 +335,18 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
     return data
   }
 
+  /** 帖子回复表情 */
+  likesList(topicId: TopicId, floorId: number) {
+    return computed(() => {
+      const likes = rakuenStore.likes(topicId)?.[floorId]
+      if (!likes) return null
+
+      return Object.entries(likes)
+        .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
+        .map(item => item[1])
+    }).get()
+  }
+
   // -------------------- fetch --------------------
   /**
    * 获取超展开聚合列表 (高流量, 20k左右1次)
@@ -389,26 +411,22 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
     const HTML = await fetchHTML({
       url: HTML_TOPIC(topicId)
     })
-    const { topic, comments } = cheerioTopic(HTML)
+    const { topic, comments, likes } = cheerioTopic(HTML)
     const _loaded = getTimestamp()
 
-    // 缓存帖子内容
     const stateKey = topicId
     const topicKey = 'topic'
+    const last = getInt(topicId)
+    const commentsKey = `comments${last}` as const
+    const likesKey = 'likes'
+
     this.setState({
       [topicKey]: {
         [stateKey]: {
           ...topic,
           _loaded
         }
-      }
-    })
-    this.save(topicKey)
-
-    // 缓存帖子回复
-    const last = getInt(topicId)
-    const commentsKey = `comments${last}` as const
-    this.setState({
+      },
       [commentsKey]: {
         [stateKey]: {
           list: comments,
@@ -419,14 +437,21 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
           _list: [],
           _loaded
         }
+      },
+      [likesKey]: {
+        [stateKey]: likes
       }
     })
+
+    this.save(topicKey)
     this.save(commentsKey)
+    this.save(likesKey)
     this.updateGroupThumb(topic.group, topic.groupThumb)
 
     return {
       topic,
-      comments
+      comments,
+      likes
     }
   }
 
@@ -786,6 +811,58 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
       },
       success
     )
+  }
+
+  private _doLiking = false
+
+  /** 添加回复表情 */
+  doLike = (
+    item: {
+      emoji?: string
+      main_id: number
+      total?: string
+      type: number
+      value: string
+    },
+    floorId: number,
+    formhash: string,
+    topicId: TopicId
+  ) => {
+    if (this._doLiking) return
+
+    this._doLiking = true
+    xhr(
+      {
+        url: API_TOPIC_COMMENT_LIKE(
+          item.type,
+          item.main_id,
+          floorId,
+          item.value,
+          formhash
+        )
+      },
+      responseText => {
+        try {
+          const data = JSON.parse(responseText)
+          if (data?.status === 'ok' && data?.data) {
+            const key = 'likes'
+            this.setState({
+              [key]: {
+                [topicId]: {
+                  ...this.likes(topicId),
+                  ...data.data
+                }
+              }
+            })
+            this.save(key)
+            feedback()
+          }
+        } catch (error) {}
+      }
+    )
+    setTimeout(() => {
+      this._doLiking = false
+    }, 1600)
   }
 
   /** 回复日志 */

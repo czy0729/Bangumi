@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-14 19:22:47
+ * @Last Modified time: 2023-03-31 07:41:31
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
-import { Navigation } from '@types'
+import { Navigation, TopicId } from '@types'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -22,6 +22,7 @@ export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   contentStyle: {} as Props['contentStyle'],
+  topicId: '' as TopicId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
   erase: '' as Props['erase'],
@@ -46,6 +47,7 @@ export const DEFAULT_PROPS = {
   userId: '' as Props['userId'],
   userName: '' as Props['userName'],
   userSign: '' as Props['userSign'],
+  formhash: '' as string,
   event: EVENT as Props['event'],
   onToggleExpand: (() => {}) as any
 } as const

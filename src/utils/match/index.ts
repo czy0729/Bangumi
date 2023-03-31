@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 01:08:27
+ * @Last Modified time: 2023-03-31 02:51:48
  */
-import { UserId } from '@types'
+import { Avatar, UserId } from '@types'
 import { pad } from '../utils'
 
 /** 缓存结果 */
@@ -33,7 +33,7 @@ function match(
 }
 
 /** 匹配头像地址 */
-export function matchAvatar(str: string = ''): string {
+export function matchAvatar(str: string = ''): Avatar {
   return match(
     str,
     str =>

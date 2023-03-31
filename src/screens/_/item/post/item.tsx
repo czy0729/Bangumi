@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:45:52
+ * @Last Modified time: 2023-03-31 07:42:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
+import Likes from './likes'
 import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
 const AVATAR_SIZE = 36
@@ -24,6 +25,7 @@ const Item = memo(
     navigation,
     styles,
     contentStyle,
+    topicId,
     authorId,
     avatar,
     erase,
@@ -48,6 +50,7 @@ const Item = memo(
     userId,
     userName,
     userSign,
+    formhash,
     event,
     onToggleExpand
   }) => {
@@ -109,15 +112,17 @@ const Item = memo(
               />
             </Flex>
             <FloorText time={time} floor={floor} />
-            <RenderHtml
-              style={_.mt.sm}
-              baseFontStyle={_.baseFontStyle.md}
-              imagesMaxWidth={IMAGES_MAX_WIDTH}
-              html={_msg}
-              matchLink={matchLink}
-              onLinkPress={href => appNavigate(href, navigation, {}, event)}
-              onImageFallback={() => open(`${url}#post_${id}`)}
-            />
+            <View style={_.mt.sm}>
+              <RenderHtml
+                baseFontStyle={_.baseFontStyle.md}
+                imagesMaxWidth={IMAGES_MAX_WIDTH}
+                html={_msg}
+                matchLink={matchLink}
+                onLinkPress={href => appNavigate(href, navigation, {}, event)}
+                onImageFallback={() => open(`${url}#post_${id}`)}
+              />
+              <Likes topicId={topicId} id={id} formhash={formhash} />
+            </View>
             {!!translate && (
               <Text style={styles.translate} size={11}>
                 {translate}

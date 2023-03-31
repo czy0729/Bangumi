@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:46:02
+ * @Last Modified time: 2023-03-31 07:44:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ import IconExtra from '../icon-extra'
 import Mark from '../mark'
 import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
+import Likes from '../likes'
 import { REG_MARK } from '../ds'
 import { DEFAULT_PROPS, REG_BGM, REG_PLUS, AVATAR_WIDTH } from './ds'
 
@@ -32,6 +33,7 @@ export default memo(
   ({
     navigation,
     styles,
+    topicId,
     authorId,
     avatar,
     blockKeywords,
@@ -57,6 +59,7 @@ export default memo(
     url,
     userId,
     userName,
+    formhash,
     event
   }) => {
     global.rerender('Topic.ItemSub.Main')
@@ -217,6 +220,7 @@ export default memo(
                 </Text>
               </Flex>
             )}
+            <Likes topicId={topicId} id={id} formhash={formhash} />
           </View>
         </Flex.Item>
       </Flex>
