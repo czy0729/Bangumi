@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-01 06:09:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 06:44:10
+ * @Last Modified time: 2023-04-01 10:49:16
  */
-export const LIMIT = 4
+export const LIMIT = 3
 
 export const HIT_SLOP = {
   top: 12,

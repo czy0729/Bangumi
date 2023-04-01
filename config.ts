@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 02:24:14
+ * @Last Modified time: 2023-04-01 13:01:29
  */
 import { Paths } from '@types'
 
@@ -28,14 +28,14 @@ export const TEXT_ONLY = DEV ? DEV : false
 const CONFIGS: Configs = {
   initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
-    // subjectId: 318896 // anime: 296870, music: 302514, book: 267358, game: 137458
-    // topicId: 'group/376561' // group/366561
+    // subjectId: 393217 // anime: 296870, music: 302514, book: 267358, game: 137458
+    // topicId: 'group/379812' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
-    // monoId: 'person/5745' // character/70323 person/5745
+    // monoId: 'character/76270' // character/70323 person/5745
     // id: 240929
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
-    // catalogId: 39516
+    // catalogId: 37787
     // groupId: 'fillgrids' // fillgrids
     // jp: 'ようこそ実力至上主義の教室へ',
     // cn: '无职转生 ～在异世界认真地活下去～'

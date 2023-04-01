@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 09:36:38
+ * @Last Modified time: 2023-04-01 11:29:32
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -117,7 +117,12 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
 
   /** ==================== likegGrid ==================== */
   /** 显示回复表情选择弹出层 */
-  showLikesGrid = (topicId: TopicId, floorId: number, formhash: string) => {
+  showLikesGrid = (
+    topicId: TopicId,
+    floorId: number,
+    formhash: string,
+    likeType: string = '8'
+  ) => {
     setTimeout(() => {
       const likesList = rakuenStore.likesList(topicId, floorId) || []
       let value: string
@@ -135,7 +140,8 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
           topicId,
           floorId,
           formhash,
-          value
+          value,
+          likeType
         }
       })
     }, 80)
@@ -151,7 +157,8 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
         topicId: '',
         floorId: '',
         formhash: '',
-        value: ''
+        value: '',
+        likeType: ''
       }
     })
   }

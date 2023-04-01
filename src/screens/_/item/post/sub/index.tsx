@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:45:43
+ * @Last Modified time: 2023-04-01 11:53:16
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -74,6 +74,7 @@ export default obc(
         userId={userId}
         userName={userName}
         formhash={$?.topic?.formhash}
+        likeType={$?.topic?.likeType}
         event={event}
       />
     )

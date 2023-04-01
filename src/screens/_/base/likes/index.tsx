@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 10:25:40
+ * @Last Modified time: 2023-04-01 12:16:58
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -14,7 +14,7 @@ import Btn from './btn'
 import { LIMIT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 
-export const Likes = ({ show = false, topicId, id, formhash }) => {
+export const Likes = ({ show = false, topicId, id, formhash, likeType }) => {
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
@@ -41,7 +41,7 @@ export const Likes = ({ show = false, topicId, id, formhash }) => {
                 return
               }
 
-              uiStore.showLikesGrid(topicId, id, formhash)
+              uiStore.showLikesGrid(topicId, id, formhash, likeType)
             }}
           >
             <Flex style={styles.item} justify='center'>

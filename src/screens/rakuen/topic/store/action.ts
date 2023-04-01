@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 02:10:12
+ * @Last Modified time: 2023-04-01 11:00:10
  */
 import { rakuenStore } from '@stores'
 import { HTMLDecode, feedback, info, loading, removeHTMLTag } from '@utils'
@@ -235,7 +235,6 @@ export default class Action extends Fetch {
 
     const { placeholder, replySub, message } = this.state
     const { formhash } = this.topic
-
     const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
@@ -253,10 +252,10 @@ export default class Action extends Fetch {
         type,
         content: _content,
         formhash,
-        topicId,
-        related,
-        sub_reply_uid: subReplyUid,
-        post_uid: postUid
+        topicId: String(topicId || '').trim(),
+        related: String(related || '').trim(),
+        sub_reply_uid: String(subReplyUid || '').trim(),
+        post_uid: String(postUid || '').trim()
       },
       responseText => {
         let res: AnyObject = {}

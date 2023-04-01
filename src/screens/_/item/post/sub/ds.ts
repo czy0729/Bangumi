@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:44:40
+ * @Last Modified time: 2023-04-01 11:52:49
  */
 import { EVENT } from '@constants'
 import { Navigation, TopicId, UserId } from '@types'
@@ -39,6 +39,7 @@ export const DEFAULT_PROPS = {
   userId: '' as Props['userId'],
   userName: '' as Props['userName'],
   formhash: '' as string,
+  likeType: '' as string,
   event: EVENT
 }
 

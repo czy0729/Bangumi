@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 09:22:05
+ * @Last Modified time: 2023-04-01 11:50:57
  */
 import React from 'react'
 import { Touchable, Flex, BgmText, Text } from '@components'

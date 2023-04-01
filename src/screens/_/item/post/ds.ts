@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:41:31
+ * @Last Modified time: 2023-04-01 11:23:53
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -48,6 +48,7 @@ export const DEFAULT_PROPS = {
   userName: '' as Props['userName'],
   userSign: '' as Props['userSign'],
   formhash: '' as string,
+  likeType: '' as string,
   event: EVENT as Props['event'],
   onToggleExpand: (() => {}) as any
 } as const

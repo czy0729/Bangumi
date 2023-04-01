@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:45:57
+ * @Last Modified time: 2023-04-01 11:23:41
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -121,6 +121,7 @@ export const ItemPost = obc(
         userName={userName}
         userSign={userSign}
         formhash={$?.topic?.formhash}
+        likeType={$?.topic?.likeType}
         event={event}
         onToggleExpand={$?.toggleExpand}
       />

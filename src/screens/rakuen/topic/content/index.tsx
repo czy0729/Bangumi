@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 08:41:52
+ * @Last Modified time: 2023-04-01 12:16:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,13 @@ function Content(props, { $, navigation }: Ctx) {
           </>
         )
       )}
-      <Likes show topicId={$.topicId} id={$.topic?.id} formhash={$.topic?.formhash} />
+      <Likes
+        show
+        topicId={$.topicId}
+        id={$.topic?.id}
+        formhash={$.topic?.formhash}
+        likeType={$.topic?.likeType}
+      />
     </View>
   )
 }

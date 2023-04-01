@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 08:39:35
+ * @Last Modified time: 2023-04-01 11:18:59
  */
 import {
   ListEmpty,
@@ -56,6 +56,9 @@ export type Topic = {
 
   /** 回复表单凭据 */
   formhash: string
+
+  /** 贴贴类型 */
+  likeType: string
 
   /** 小组名称 */
   group: string

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 14:47:24
+ * @Last Modified time: 2023-04-01 12:02:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -50,6 +50,7 @@ const Item = memo(
     userName,
     userSign,
     formhash,
+    likeType,
     event,
     onToggleExpand
   }) => {
@@ -104,6 +105,7 @@ const Item = memo(
                 topicId={topicId}
                 id={id}
                 formhash={formhash}
+                likeType={likeType}
                 msg={msg}
                 replySub={replySub}
                 erase={erase}
@@ -122,7 +124,12 @@ const Item = memo(
                 onLinkPress={href => appNavigate(href, navigation, {}, event)}
                 onImageFallback={() => open(`${url}#post_${id}`)}
               />
-              <Likes topicId={topicId} id={id} formhash={formhash} />
+              <Likes
+                topicId={topicId}
+                id={id}
+                formhash={formhash}
+                likeType={likeType}
+              />
             </View>
             {!!translate && (
               <Text style={styles.translate} size={11}>

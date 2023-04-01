@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 09:28:51
+ * @Last Modified time: 2023-04-01 11:29:39
  */
 import { RatingStatus } from '@types'
 
@@ -31,7 +31,8 @@ export const STATE = {
     topicId: '',
     floorId: '',
     formhash: '',
-    value: ''
+    value: '',
+    likeType: ''
   },
 
   /** 全局条目管理 Modal */

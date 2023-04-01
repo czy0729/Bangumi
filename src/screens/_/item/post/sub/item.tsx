@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 07:13:48
+ * @Last Modified time: 2023-04-01 12:02:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,6 +59,7 @@ export default memo(
     userId,
     userName,
     formhash,
+    likeType,
     event
   }) => {
     global.rerender('Topic.ItemSub.Main')
@@ -173,6 +174,7 @@ export default memo(
               topicId={topicId}
               id={id}
               formhash={formhash}
+              likeType={likeType}
               replySub={replySub}
               erase={erase}
               userId={userId}
@@ -221,7 +223,7 @@ export default memo(
                 </Text>
               </Flex>
             )}
-            <Likes topicId={topicId} id={id} formhash={formhash} />
+            <Likes topicId={topicId} id={id} formhash={formhash} likeType={likeType} />
           </View>
         </Flex.Item>
       </Flex>

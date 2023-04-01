@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 10:27:57
+ * @Last Modified time: 2023-04-01 11:51:32
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
@@ -17,7 +17,7 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 
 export const LikesGrid = ob(
-  ({ visible, portalKey, x, y, value, topicId, floorId, formhash }) => {
+  ({ visible, portalKey, x, y, value, topicId, floorId, formhash, likeType }) => {
     if (!rakuenStore.setting.likes) return null
 
     const styles = memoStyles()
@@ -48,7 +48,7 @@ export const LikesGrid = ob(
                     rakuenStore.doLike(
                       {
                         main_id,
-                        type: 8,
+                        type: likeType || 8,
                         value
                       },
                       floorId,

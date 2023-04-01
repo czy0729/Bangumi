@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 08:39:22
+ * @Last Modified time: 2023-04-01 13:01:09
  */
 import {
   HTMLDecode,
@@ -180,10 +180,10 @@ function getCommentAttrs(tree) {
     const { children } = tree
     const id = String(tree.attrs.id).replace('post_', '')
 
-    node = findTreeNode(children, 'div|text&class=re_info')
+    node = findTreeNode(children, 'div > div')
     const time = node ? node[0].text[0].replace(/ - |\/ /g, '') : ''
 
-    node = findTreeNode(children, 'div > a|class=floor-anchor')
+    node = findTreeNode(children, 'div > div > a')
     const floor = node ? node[0].text[0] : ''
 
     node = findTreeNode(children, 'a > span|style~background-image')
@@ -212,9 +212,7 @@ function getCommentAttrs(tree) {
       userSign: HTMLDecode(userSign),
       replySub
     }
-  } catch (error) {
-    // do nothing
-  }
+  } catch (error) {}
 
   return INIT_COMMENTS_ITEM
 }
@@ -327,12 +325,13 @@ export function cheerioTopic(HTML: string) {
     }
 
     topic = safeObject<Topic>({
-      id: $('div.postTopic').attr('id').substring(5),
+      id: String($('div.postTopic').attr('id') || '').substring(5),
       avatar: getCoverSmall(
         matchAvatar($('div.postTopic span.avatarNeue').attr('style'))
       ),
       floor,
       formhash: $('input[name=formhash]').attr('value'),
+      likeType: $('a.like_dropdown').data('like-type') || '',
       group: $group.text().trim().replace(/\n/g, ''),
       groupHref: $group.attr('href'),
       groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')),
@@ -419,7 +418,9 @@ export function cheerioTopic(HTML: string) {
     try {
       likes = JSON.parse(HTML.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
     } catch (error) {}
-  } catch (ex) {}
+  } catch (ex) {
+    console.log(ex)
+  }
 
   return {
     topic,

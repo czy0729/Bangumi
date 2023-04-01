@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 10:24:12
+ * @Last Modified time: 2023-04-01 12:05:06
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -17,6 +17,7 @@ function IconExtra(
     topicId,
     id,
     formhash,
+    likeType,
     replySub,
     erase,
     userId,
@@ -28,7 +29,7 @@ function IconExtra(
   { $ }
 ) {
   const data = []
-  if (rakuenStore.setting.likes) data.push('贴贴')
+  if (rakuenStore.setting.likes && likeType) data.push('贴贴')
   if (replySub && !$.isLimit && $.showFixedTextarea) data.push('回复')
   if (erase && $.doDeleteReply) data.push('删除')
   data.push('屏蔽用户')
@@ -44,7 +45,7 @@ function IconExtra(
         }
 
         if (title === '贴贴') {
-          return uiStore.showLikesGrid(topicId, id, formhash)
+          return uiStore.showLikesGrid(topicId, id, formhash, likeType)
         }
 
         if (title === '回复') {

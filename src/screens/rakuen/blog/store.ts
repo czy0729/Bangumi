@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-13 07:26:01
+ * @Last Modified time: 2023-04-01 11:04:09
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -324,7 +324,6 @@ export default class ScreenBlog extends store {
 
     const { placeholder, replySub, message } = this.state
     const { formhash } = this.blog
-
     const [, blogId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
@@ -340,10 +339,10 @@ export default class ScreenBlog extends store {
       {
         content: _content,
         formhash,
-        blogId: blogId as TopicId,
-        related,
-        sub_reply_uid: subReplyUid,
-        post_uid: postUid
+        blogId: String(blogId || '').trim() as TopicId,
+        related: String(related || '').trim(),
+        sub_reply_uid: String(subReplyUid || '').trim(),
+        post_uid: String(postUid || '').trim()
       },
       responseText => {
         let res: { status?: string } = {}
