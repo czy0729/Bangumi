@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-28 06:19:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:48:36
+ * @Last Modified time: 2023-04-01 09:22:57
  */
 import React from 'react'
 import { Flip as FlipComp } from '@components'
@@ -14,14 +14,7 @@ function Flip({ subjectId, height, children, ...other }) {
 
   const { key } = uiStore.flip
   return (
-    <FlipComp
-      key={key}
-      height={height}
-      {...other}
-      onAnimated={() => {
-        uiStore.afterFlip()
-      }}
-    >
+    <FlipComp key={key} height={height} {...other} onAnimated={uiStore.afterFlip}>
       {children}
     </FlipComp>
   )

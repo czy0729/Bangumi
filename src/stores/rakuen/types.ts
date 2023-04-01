@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 05:04:32
+ * @Last Modified time: 2023-04-01 08:39:35
  */
 import {
   ListEmpty,
@@ -45,6 +45,9 @@ export type Readed = {
 
 /** 帖子内容 */
 export type Topic = {
+  /** 楼层 d */
+  id?: Id
+
   /** 作者头像 */
   avatar: Avatar<'s'>
 
@@ -92,6 +95,7 @@ export type Topic = {
 
   /** 帖子已删除 */
   delete: boolean
+
   _loaded?: Loaded
 }
 
@@ -148,6 +152,7 @@ export type Likes = Record<
       total: string
       type: number
       value: string
+      selected?: boolean
     }
   >
 >

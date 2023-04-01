@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:35:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:50:22
+ * @Last Modified time: 2023-04-01 09:36:38
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
-import { StoreConstructor, SubjectId } from '@types'
+import { StoreConstructor, SubjectId, TopicId } from '@types'
 import subjectStore from '../subject'
 import userStore from '../user'
 import collectionStore from '../collection'
 import { STATE } from './init'
 import { SubmitManageModalValues } from './types'
+import rakuenStore from '@stores/rakuen'
 
 class UIStore extends store implements StoreConstructor<typeof STATE> {
   state = observable(STATE)
@@ -25,6 +26,10 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
 
   @computed get popableSubject() {
     return this.state.popableSubject
+  }
+
+  @computed get likesGrid() {
+    return this.state.likesGrid
   }
 
   @computed get manageModal() {
@@ -106,6 +111,47 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
     this.setState({
       popableSubject: {
         portalKey: getTimestamp() || this.popableSubject.portalKey
+      }
+    })
+  }
+
+  /** ==================== likegGrid ==================== */
+  /** 显示回复表情选择弹出层 */
+  showLikesGrid = (topicId: TopicId, floorId: number, formhash: string) => {
+    setTimeout(() => {
+      const likesList = rakuenStore.likesList(topicId, floorId) || []
+      let value: string
+      try {
+        if (likesList.length) {
+          value = likesList.find(item => item.selected === true)?.value || ''
+        }
+      } catch (error) {}
+
+      this.setState({
+        likesGrid: {
+          visible: true,
+          x: this.tapXY.x,
+          y: this.tapXY.y,
+          topicId,
+          floorId,
+          formhash,
+          value
+        }
+      })
+    }, 80)
+  }
+
+  /** 关闭回复表情选择弹出层 */
+  closeLikesGrid = () => {
+    if (!this.state.likesGrid.visible) return
+
+    this.setState({
+      likesGrid: {
+        visible: false,
+        topicId: '',
+        floorId: '',
+        formhash: '',
+        value: ''
       }
     })
   }
@@ -211,6 +257,21 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
       flip: {
         animate: true,
         subjectId,
+        topicId: 0,
+        floorId: 0,
+        key: this.state.flip.key + 1
+      }
+    })
+  }
+
+  /** 设置允许全局开启翻转动画 */
+  preFlipLikes = (topicId: TopicId, floorId: number) => {
+    this.setState({
+      flip: {
+        animate: true,
+        subjectId: 0,
+        topicId,
+        floorId,
         key: this.state.flip.key + 1
       }
     })
@@ -221,7 +282,9 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
     this.setState({
       flip: {
         animate: false,
-        subjectId: 0
+        subjectId: 0,
+        topicId: 0,
+        floorId: 0
       }
     })
   }

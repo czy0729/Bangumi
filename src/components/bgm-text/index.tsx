@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:22:39
+ * @Last Modified time: 2023-04-01 07:44:30
  */
 import React from 'react'
 import { Text } from 'react-native'
@@ -17,7 +17,15 @@ import { Props as BgmTextProps } from './types'
 export { BgmTextProps, bgmMap }
 
 export const BgmText = observer(
-  ({ style, index = 0, size = 14, lineHeight, children, ...other }: BgmTextProps) => {
+  ({
+    style,
+    index = 0,
+    size = 14,
+    selectable = false,
+    lineHeight,
+    children,
+    ...other
+  }: BgmTextProps) => {
     const _style: TextStyle[] = [styles.text]
     if (size) _style.push(styles[size])
     if (lineHeight !== undefined) {
@@ -28,7 +36,7 @@ export const BgmText = observer(
     if (style) _style.push(style)
 
     return (
-      <Text style={_style} allowFontScaling={false} selectable {...other}>
+      <Text style={_style} allowFontScaling={false} selectable={selectable} {...other}>
         {children || bgmMap[index - 1]}
       </Text>
     )

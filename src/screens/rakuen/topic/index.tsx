@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 05:13:35
+ * @Last Modified time: 2023-04-01 08:33:10
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
@@ -57,6 +57,7 @@ const Topic = (props, { $ }: Ctx) => {
   const onScrollFn = useCallback(
     e => {
       uiStore.closePopableSubject()
+      uiStore.closeLikesGrid()
       onScroll(e)
     },
     [onScroll]

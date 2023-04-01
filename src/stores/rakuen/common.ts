@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 05:04:44
+ * @Last Modified time: 2023-04-01 08:39:22
  */
 import {
   HTMLDecode,
@@ -327,6 +327,7 @@ export function cheerioTopic(HTML: string) {
     }
 
     topic = safeObject<Topic>({
+      id: $('div.postTopic').attr('id').substring(5),
       avatar: getCoverSmall(
         matchAvatar($('div.postTopic span.avatarNeue').attr('style'))
       ),
@@ -371,11 +372,11 @@ export function cheerioTopic(HTML: string) {
           const [floor, time] = $info.find('small').text().trim().split(' - ')
 
           return safeObject<CommentsItemWithSub>({
+            id: $row.attr('id').substring(5),
             avatar: getCoverSmall(
               matchAvatar($avatar.find('span.avatarNeue').attr('style'))
             ),
             floor,
-            id: $row.attr('id').substring(5),
             message: decoder(HTMLTrim($floor.find('> div.message').html())),
             replySub: $info.find('> div.action a.icon').attr('onclick'),
             time,

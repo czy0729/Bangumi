@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:11:35
+ * @Last Modified time: 2023-04-01 07:50:03
  */
 
 /** Rakuen */
@@ -60,6 +60,7 @@ export default {
   '帖子.UCG': 'Topic.UCGAgree',
   '帖子.楼层跳转': 'Topic.scrollTo',
   '帖子.翻译内容': 'Topic.doTranslate',
+  '帖子.贴贴': 'Topic.doLike',
 
   // 日志
   '日志.跳转': 'Blog.to',

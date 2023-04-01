@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:20:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:44:20
+ * @Last Modified time: 2023-03-31 14:48:02
  */
 import { _ } from '@stores'
 import { AVATAR_WIDTH } from './ds'
@@ -39,7 +39,12 @@ export const memoStyles = _.memoStyles(() => {
       borderRadius: _.radiusXs,
       overflow: 'hidden'
     },
+    html: {
+      paddingRight: _.md + 2,
+      marginTop: _.xs
+    },
     wide: {
+      paddingRight: _.sm,
       marginTop: 4,
       marginLeft: -(AVATAR_WIDTH + marginLeft + 4)
     },

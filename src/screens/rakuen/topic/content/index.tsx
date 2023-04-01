@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:53:04
+ * @Last Modified time: 2023-04-01 08:41:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, RenderHtml, Loading, Text, Heatmap } from '@components'
-import { IconTouchable } from '@_'
+import { IconTouchable, Likes } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
@@ -83,6 +83,7 @@ function Content(props, { $, navigation }: Ctx) {
           </>
         )
       )}
+      <Likes show topicId={$.topicId} id={$.topic?.id} formhash={$.topic?.formhash} />
     </View>
   )
 }

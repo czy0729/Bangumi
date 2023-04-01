@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:16:54
+ * @Last Modified time: 2023-04-01 09:28:51
  */
 import { RatingStatus } from '@types'
 
@@ -22,6 +22,18 @@ export const STATE = {
     y: 0
   },
 
+  /** 回复表情选择弹出层 */
+  likesGrid: {
+    visible: false,
+    portalKey: 0,
+    x: 0,
+    y: 0,
+    topicId: '',
+    floorId: '',
+    formhash: '',
+    value: ''
+  },
+
   /** 全局条目管理 Modal */
   manageModal: {
     visible: false,
@@ -38,6 +50,8 @@ export const STATE = {
   flip: {
     animate: false,
     subjectId: 0,
+    topicId: 0,
+    floorId: 0,
     key: 0
   }
 }

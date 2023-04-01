@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:45:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 08:08:57
+ * @Last Modified time: 2023-04-01 07:37:31
  */
 import { observable, computed } from 'mobx'
-import { desc, feedback, getTimestamp, HTMLTrim, info } from '@utils'
+import { desc, getTimestamp, HTMLTrim, info } from '@utils'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { put, read } from '@utils/db'
 import { syncUserStore } from '@utils/async'
@@ -35,6 +35,7 @@ import {
 import { RakuenReplyType } from '@constants/html/types'
 import {
   CoverGroup,
+  Fn,
   Id,
   RakuenScope,
   RakuenScrollDirection,
@@ -818,19 +819,22 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
   /** 添加回复表情 */
   doLike = (
     item: {
-      emoji?: string
       main_id: number
-      total?: string
       type: number
       value: string
     },
     floorId: number,
     formhash: string,
-    topicId: TopicId
+    topicId: TopicId,
+    callback?: Fn
   ) => {
     if (this._doLiking) return
 
     this._doLiking = true
+    setTimeout(() => {
+      this._doLiking = false
+    }, 1600)
+
     xhr(
       {
         url: API_TOPIC_COMMENT_LIKE(
@@ -844,25 +848,36 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
       responseText => {
         try {
           const data = JSON.parse(responseText)
-          if (data?.status === 'ok' && data?.data) {
+          if (data?.status === 'ok') {
             const key = 'likes'
+            let state: any
+
+            if (data?.data) {
+              state = {
+                ...this.likes(topicId),
+                ...data.data
+              }
+            } else {
+              state = {
+                ...this.likes(topicId),
+                [floorId]: {}
+              }
+            }
+
             this.setState({
               [key]: {
-                [topicId]: {
-                  ...this.likes(topicId),
-                  ...data.data
-                }
+                [topicId]: state
               }
             })
             this.save(key)
-            feedback()
+            if (typeof callback === 'function') callback()
           }
         } catch (error) {}
+      },
+      () => {
+        if (typeof callback === 'function') callback()
       }
     )
-    setTimeout(() => {
-      this._doLiking = false
-    }, 1600)
   }
 
   /** 回复日志 */

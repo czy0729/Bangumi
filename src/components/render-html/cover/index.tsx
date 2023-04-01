@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:31:41
+ * @Last Modified time: 2023-04-01 09:59:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { getCoverMedium, stl } from '@utils'
-import { DEV, IMG_DEFAULT, HOST_CDN, CDN_OSS_SUBJECT } from '@constants'
+import { TEXT_ONLY, IMG_DEFAULT, HOST_CDN, CDN_OSS_SUBJECT } from '@constants'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
 import { Props as ImageProps } from '../../image/types'
@@ -27,7 +27,16 @@ type Props = ImageProps & {
 const noImg: any[] = ['//lain.bgm.tv/pic/cover/c/', '/img/no_icon_subject.png']
 
 export const Cover = observer(
-  ({ style, src, size, height, noDefault, type, textOnly = DEV, ...other }: Props) => {
+  ({
+    style,
+    src,
+    size,
+    height,
+    noDefault,
+    type,
+    textOnly = TEXT_ONLY,
+    ...other
+  }: Props) => {
     const styles = memoStyles()
     if (textOnly) {
       const w = other.width || size

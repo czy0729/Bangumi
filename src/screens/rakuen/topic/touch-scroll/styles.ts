@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 12:56:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-04 12:58:09
+ * @Last Modified time: 2023-03-31 14:34:19
  */
 import { _ } from '@stores'
 
@@ -46,7 +46,8 @@ export const memoStyles = _.memoStyles(() => ({
     height: '100%'
   },
   itemNew: {
-    backgroundColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
+    borderRightWidth: 4,
+    borderRightColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
   },
   itemText: {
     minHeight: _.r(24)

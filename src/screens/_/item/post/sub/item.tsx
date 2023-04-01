@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:44:29
+ * @Last Modified time: 2023-04-01 07:13:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,13 +19,12 @@ import {
 } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { Avatar, Name } from '../../../base'
+import { Avatar, Name, Likes } from '../../../base'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import Mark from '../mark'
 import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
-import Likes from '../likes'
 import { REG_MARK } from '../ds'
 import { DEFAULT_PROPS, REG_BGM, REG_PLUS, AVATAR_WIDTH } from './ds'
 
@@ -171,7 +170,9 @@ export default memo(
               </Name>
             </Flex.Item>
             <IconExtra
+              topicId={topicId}
               id={id}
+              formhash={formhash}
               replySub={replySub}
               erase={erase}
               userId={userId}
@@ -182,7 +183,7 @@ export default memo(
             />
           </Flex>
           <FloorText time={time} floor={floor} />
-          <View style={_.mt.xs}>
+          <View style={styles.html}>
             <RenderHtml
               style={wide && styles.wide}
               baseFontStyle={_.baseFontStyle.md}

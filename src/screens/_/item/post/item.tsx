@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:42:16
+ * @Last Modified time: 2023-03-31 14:47:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,12 +10,11 @@ import { Flex, Text, Touchable, RenderHtml, UserStatus } from '@components'
 import { _ } from '@stores'
 import { open, appNavigate, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { Avatar, Name } from '../../base'
+import { Avatar, Name, Likes } from '../../base'
 import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
-import Likes from './likes'
 import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
 const AVATAR_SIZE = 36
@@ -102,7 +101,9 @@ const Item = memo(
                 </Name>
               </Flex.Item>
               <IconExtra
+                topicId={topicId}
                 id={id}
+                formhash={formhash}
                 msg={msg}
                 replySub={replySub}
                 erase={erase}
@@ -112,7 +113,7 @@ const Item = memo(
               />
             </Flex>
             <FloorText time={time} floor={floor} />
-            <View style={_.mt.sm}>
+            <View style={styles.html}>
               <RenderHtml
                 baseFontStyle={_.baseFontStyle.md}
                 imagesMaxWidth={IMAGES_MAX_WIDTH}
