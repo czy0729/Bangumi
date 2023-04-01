@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 09:33:38
+ * @Last Modified time: 2023-04-01 10:27:57
  */
 import React from 'react'
-import { useObserver } from 'mobx-react-lite'
 import { Popover } from 'react-native-popable'
 import { Portal, Flex, BgmText, Touchable } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
@@ -15,18 +14,12 @@ import { getPosition } from './utils'
 import { DATA, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 import { stl } from '@utils'
+import { ob } from '@utils/decorators'
 
-export const LikesGrid = ({
-  visible,
-  portalKey,
-  x,
-  y,
-  value,
-  topicId,
-  floorId,
-  formhash
-}) => {
-  return useObserver(() => {
+export const LikesGrid = ob(
+  ({ visible, portalKey, x, y, value, topicId, floorId, formhash }) => {
+    if (!rakuenStore.setting.likes) return null
+
     const styles = memoStyles()
     const position = getPosition(x, y)
     return (
@@ -92,5 +85,5 @@ export const LikesGrid = ({
         </Popover>
       </Portal>
     )
-  })
-}
+  }
+)

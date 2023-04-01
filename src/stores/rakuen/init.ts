@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 05:03:01
+ * @Last Modified time: 2023-04-01 10:19:19
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -97,6 +97,9 @@ export const INIT_SETTING = {
 
   /** 子楼层折叠 */
   subExpand: '2',
+
+  /** 显示贴贴模块 */
+  likes: true,
 
   /** 是否屏蔽默认头像用户帖子 */
   isBlockDefaultUser: false,

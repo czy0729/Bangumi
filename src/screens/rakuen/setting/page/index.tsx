@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 06:27:51
+ * @Last Modified time: 2023-04-01 10:35:23
  */
 import React from 'react'
 import { Page, ScrollView, SwitchPro, Flex, SegmentedControl, Text } from '@components'
@@ -38,6 +38,7 @@ class RakuenSetting extends React.Component<{
       acSearch,
       acSearchPopable,
       autoLoadImage,
+      likes,
       matchLink,
       quote,
       quoteAvatar,
@@ -48,6 +49,26 @@ class RakuenSetting extends React.Component<{
     return (
       <Block>
         <Tip>帖子</Tip>
+
+        {/* 贴贴模块 */}
+        <ItemSetting
+          hd='贴贴模块'
+          information={`近期新增的帖子回复上面贴表情的功能\n因在网页版随处可见，不建议关闭`}
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={likes}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '贴贴模块',
+                  checked: !likes
+                })
+                rakuenStore.switchSetting('likes')
+              }}
+            />
+          }
+          withoutFeedback
+        />
 
         {/* 楼层链接显示成信息块 */}
         <ItemSetting

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 09:34:37
+ * @Last Modified time: 2023-04-01 10:25:40
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -18,7 +18,7 @@ export const Likes = ({ show = false, topicId, id, formhash }) => {
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
-    if (!topicId || !id) return null
+    if (!rakuenStore.setting.likes || !topicId || !id) return null
 
     const showCreateBtn = !!formhash && show
     const likesList = rakuenStore.likesList(topicId, id) || []

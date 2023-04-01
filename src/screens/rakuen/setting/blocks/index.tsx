@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:22:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 03:56:25
+ * @Last Modified time: 2023-04-01 10:29:46
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import Tip from '../../../user/setting/tip'
 import History from './../history'
 import { memoStyles } from './styles'
 
-function Blocks({ navigation, onNavigate }) {
+function Blocks({ navigation, onNavigate = undefined }) {
   const [keyword, setKeyword] = useState('')
   const onChange = useCallback(keyword => {
     setKeyword(keyword.trim())
