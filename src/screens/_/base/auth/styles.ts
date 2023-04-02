@@ -12,7 +12,6 @@ export const styles = _.create({
   },
   zhinan: {
     padding: _.sm,
-    marginTop: -_.sm,
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },

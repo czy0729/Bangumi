@@ -9,14 +9,17 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   item: {
     height: 28,
-    paddingRight: 8,
+    paddingRight: 9,
     paddingLeft: 10,
     marginRight: _.sm,
     backgroundColor: _.colorBg,
     borderRadius: 16
   },
   itemActive: {
-    backgroundColor: _.select('rgba(255, 208, 214, 0.5)', _.colorMainLight)
+    backgroundColor: _.select('rgba(255, 208, 214, 0.4)', _.colorMainLight)
+  },
+  bgm: {
+    marginTop: _.ios(0, 3)
   },
   text: {
     marginLeft: 6

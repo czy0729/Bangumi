@@ -19,7 +19,10 @@ export const memoStyles = _.memoStyles(() => {
     container: {
       width,
       height: width * 0.8,
-      backgroundColor: _.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.24)'),
+      backgroundColor: _.select(
+        `rgba(0, 0, 0, ${_.ios('0.08', '0.16')})`,
+        `rgba(255, 255, 255, ${_.ios('0.24', '0.05')})`
+      ),
       borderRadius: _.radiusSm,
       overflow: 'hidden'
     },
@@ -32,7 +35,7 @@ export const memoStyles = _.memoStyles(() => {
       height: width * 0.2
     },
     itemActive: {
-      backgroundColor: 'rgba(254, 138, 149, 0.28)'
+      backgroundColor: 'rgba(254, 138, 149, 0.12)'
     }
   }
 })

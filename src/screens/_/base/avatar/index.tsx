@@ -171,6 +171,8 @@ export const Avatar = ob(
       _src = _src.replace(USER_MEDIUM, USER_LARGE)
     }
 
+    _src = fixed(_src)
+
     if (isUrl && !_src.includes(USER_LARGE) && !_src.includes(HOST_API_V0)) {
       fallback = true
     }
@@ -189,7 +191,7 @@ export const Avatar = ob(
       quality: false,
       placeholder: placeholder,
       fallback: fallback,
-      fallbackSrc: String(fallbackSrc || src)
+      fallbackSrc: fixed(String(fallbackSrc || src))
     }
     if (_onPress || onLongPress) {
       return (
@@ -209,3 +211,19 @@ export const Avatar = ob(
     return <Image {...passProps} />
   }
 )
+
+/**
+ * 网页端新出的图片规则, 需要处理一下
+ * please use '/r/<size>/pic/cover/l/' path instead
+ * @date 2023-04-02
+ */
+function fixed(src: any) {
+  if (typeof src === 'string') {
+    return src.replace(
+      /\/r\/(\d+)x(\d+)\/pic\/cover\/(s|c|m)\//g,
+      '/r/$1x$2/pic/cover/l/'
+    )
+  }
+
+  return src
+}

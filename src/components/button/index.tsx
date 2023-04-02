@@ -40,19 +40,29 @@ export const Button = observer(
     const textStyle: TextStyle[] = [styles.text]
     let textBold = false
 
-    if (shadow && !_.isDark) wrapStyle.push(styles.shadow)
+    if ((shadow && !_.isDark && type === 'plain') || type === 'ghostPlain') {
+      wrapStyle.push(styles.shadow)
+    }
+
     if (type) {
       wrapStyle.push(styles[type])
       textStyle.push(styles[`text${titleCase(type)}`])
     }
-    if (radius) wrapStyle.push(styles.radius)
+
+    if (radius) {
+      wrapStyle.push(styles.radius)
+    }
+
     if (size) {
       const textSize = `text${titleCase(size)}`
       wrapStyle.push(styles[size])
       textStyle.push(styles[textSize])
       if (textSize === 'textSm') textBold = true
     }
-    if (style) wrapStyle.push(style)
+
+    if (style) {
+      wrapStyle.push(style)
+    }
 
     const content = (
       <Flex justify='center'>

@@ -43,7 +43,12 @@ function Btn({ topicId, id, formhash, ...item }) {
         style={stl(styles.item, item.selected && styles.itemActive)}
         justify='center'
       >
-        <BgmText size={14} index={Number(item.emoji)} selectable={false} />
+        <BgmText
+          style={styles.bgm}
+          size={16}
+          index={Number(item.emoji)}
+          selectable={false}
+        />
         <Text
           style={styles.text}
           size={12}

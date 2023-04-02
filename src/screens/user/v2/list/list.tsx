@@ -7,7 +7,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Heatmap, ListView } from '@components'
-import { keyExtractor } from '@utils'
+import { getKeyString, keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import FixedToolBar from '../fixed-tool-bar'
@@ -84,6 +84,7 @@ const List = memo(
 
     return (
       <ListView
+        key={getKeyString(list, numColumns)}
         ref={_forwardRef}
         keyExtractor={keyExtractor}
         style={styles.listView}

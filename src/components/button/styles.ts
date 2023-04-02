@@ -126,14 +126,16 @@ export const memoStyles = _.memoStyles(() => ({
 
   // other
   shadow: {
-    shadowColor: _.colorShadow,
-    shadowOffset: {
-      width: 1,
-      height: 3
-    },
-    shadowOpacity: 0.16,
-    shadowRadius: 3,
-    elevation: 3
+    // shadowColor: _.colorShadow,
+    // shadowOffset: {
+    //   width: 1,
+    //   height: 3
+    // },
+    // shadowOpacity: 0.16,
+    // shadowRadius: 3,
+    // elevation: 3
+    borderWidth: 1,
+    borderColor: _.colorBorder
   },
   radius: {
     borderRadius: _.radiusSm,

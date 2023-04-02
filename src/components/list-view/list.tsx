@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 16:32:32
+ * @Last Modified time: 2023-04-02 08:28:45
  */
 import React from 'react'
 import { FlatList, SectionList, Animated } from 'react-native'
@@ -23,6 +23,8 @@ type PassProps = {
 
   /** https://reactnative.dev/docs/scrollview#alwaysbouncevertical-ios */
   alwaysBounceVertical: false
+
+  removeClippedSubviews: true
 }
 
 const ASectionList = Animated.createAnimatedComponent(SectionList)
@@ -43,7 +45,8 @@ function List({
     ...other,
     overScrollMode: 'never',
     alwaysBounceHorizontal: false,
-    alwaysBounceVertical: false
+    alwaysBounceVertical: false,
+    removeClippedSubviews: true
   }
 
   if (sections) {

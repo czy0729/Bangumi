@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 13:01:29
+ * @Last Modified time: 2023-04-02 08:47:14
  */
 import { Paths } from '@types'
 
@@ -28,7 +28,7 @@ export const TEXT_ONLY = DEV ? DEV : false
 const CONFIGS: Configs = {
   initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
-    // subjectId: 393217 // anime: 296870, music: 302514, book: 267358, game: 137458
+    // subjectId: 393238 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/379812' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'character/76270' // character/70323 person/5745

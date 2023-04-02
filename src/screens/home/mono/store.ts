@@ -56,7 +56,11 @@ export default class ScreenMono extends store {
    * @opitimize 1h
    * */
   fetchMono = (refresh: boolean = false) => {
-    if (!refresh && opitimize(this.mono, 60 * 60) && this.monoComments.list.length) {
+    if (
+      refresh === true &&
+      opitimize(this.mono, 60 * 60) &&
+      this.monoComments.list.length
+    ) {
       return true
     }
 

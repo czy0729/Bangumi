@@ -25,11 +25,26 @@ export const Auth = obc((props, { navigation }) => (
       <Touchable style={styles.zhinan} onPress={() => open(URL_ZHINAN)}>
         <Flex>
           <Iconfont name='md-chrome-reader-mode' color={_.colorDesc} size={20} />
-          <Text style={_.ml.sm} size={13}>
+          <Text style={_.ml.sm} size={13} lineHeight={14}>
             指南
           </Text>
         </Flex>
       </Touchable>
+      <IconTouchable
+        style={_.mr.xs}
+        name={_.isDark ? 'ios-moon' : 'ios-sunny'}
+        color={_.colorDesc}
+        size={22}
+        onPress={() => {
+          setTimeout(() => {
+            _.toggleMode()
+
+            setTimeout(() => {
+              if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+            }, 40)
+          }, 40)
+        }}
+      />
       <Flex.Item />
       <IconTouchable
         style={_.mr.xs}
