@@ -31,57 +31,59 @@ export const LikesGrid = ob(
           caret={false}
           backgroundColor='transparent'
         >
-          <BlurView style={styles.container} intensity={_.select(64, 80)}>
-            <Flex wrap='wrap'>
-              {DATA.map(item => (
-                <Touchable
-                  style={styles.touch}
-                  useRN
-                  highlight
-                  hitSlop={HIT_SLOP}
-                  onPress={() => {
-                    uiStore.closeLikesGrid()
-                    uiStore.preFlipLikes(topicId, floorId)
+          {!!topicId && (
+            <BlurView style={styles.container} intensity={_.select(64, 80)}>
+              <Flex wrap='wrap'>
+                {DATA.map(item => (
+                  <Touchable
+                    style={styles.touch}
+                    useRN
+                    highlight
+                    hitSlop={HIT_SLOP}
+                    onPress={() => {
+                      uiStore.closeLikesGrid()
+                      uiStore.preFlipLikes(topicId, floorId)
 
-                    const main_id = Number(String(topicId).split('/')?.[1]) || 0
-                    const value = String(item[1])
-                    rakuenStore.doLike(
-                      {
-                        main_id,
-                        type: likeType || 8,
-                        value
-                      },
-                      floorId,
-                      formhash,
-                      topicId,
-                      () => {
-                        setTimeout(() => {
-                          uiStore.afterFlip()
-                        }, 800)
+                      const main_id = Number(String(topicId).split('/')?.[1]) || 0
+                      const value = String(item[1])
+                      rakuenStore.doLike(
+                        {
+                          main_id,
+                          type: likeType || 8,
+                          value
+                        },
+                        floorId,
+                        formhash,
+                        topicId,
+                        () => {
+                          setTimeout(() => {
+                            uiStore.afterFlip()
+                          }, 800)
 
-                        t('帖子.贴贴', {
-                          id: floorId,
-                          topicId,
-                          value,
-                          from: 'grid'
-                        })
-                      }
-                    )
-                  }}
-                >
-                  <Flex
-                    style={stl(
-                      styles.item,
-                      String(value) === String(item[1]) && styles.itemActive
-                    )}
-                    justify='center'
+                          t('帖子.贴贴', {
+                            id: floorId,
+                            topicId,
+                            value,
+                            from: 'grid'
+                          })
+                        }
+                      )
+                    }}
                   >
-                    <BgmText key={item[0]} index={item[0]} size={18} />
-                  </Flex>
-                </Touchable>
-              ))}
-            </Flex>
-          </BlurView>
+                    <Flex
+                      style={stl(
+                        styles.item,
+                        String(value) === String(item[1]) && styles.itemActive
+                      )}
+                      justify='center'
+                    >
+                      <BgmText key={item[0]} index={item[0]} size={18} />
+                    </Flex>
+                  </Touchable>
+                ))}
+              </Flex>
+            </BlurView>
+          )}
         </Popover>
       </Portal>
     )

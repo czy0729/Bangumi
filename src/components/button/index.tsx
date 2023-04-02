@@ -40,7 +40,7 @@ export const Button = observer(
     const textStyle: TextStyle[] = [styles.text]
     let textBold = false
 
-    if ((shadow && !_.isDark && type === 'plain') || type === 'ghostPlain') {
+    if (shadow && !_.isDark && (type === 'plain' || type === 'ghostPlain')) {
       wrapStyle.push(styles.shadow)
     }
 

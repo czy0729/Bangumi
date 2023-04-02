@@ -23,8 +23,6 @@ type PassProps = {
 
   /** https://reactnative.dev/docs/scrollview#alwaysbouncevertical-ios */
   alwaysBounceVertical: false
-
-  removeClippedSubviews: true
 }
 
 const ASectionList = Animated.createAnimatedComponent(SectionList)
@@ -45,8 +43,7 @@ function List({
     ...other,
     overScrollMode: 'never',
     alwaysBounceHorizontal: false,
-    alwaysBounceVertical: false,
-    removeClippedSubviews: true
+    alwaysBounceVertical: false
   }
 
   if (sections) {
