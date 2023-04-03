@@ -88,7 +88,7 @@ export default memo(
           {flip ? (
             <FlipButton {...btnPassProps} text={item.sort} onAnimated={onFliped} />
           ) : (
-            <Button {...btnPassProps} size='sm'>
+            <Button {...btnPassProps} size='sm' animate={false}>
               {item.sort}
             </Button>
           )}

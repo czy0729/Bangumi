@@ -47,6 +47,9 @@ export type Props = {
   /** 放在文字右边 */
   extra?: any
 
+  /** 点击缩放动画 */
+  animate?: boolean
+
   /** 点击回调 */
   onPress?: (arg0?: any) => any
 

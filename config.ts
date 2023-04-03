@@ -28,7 +28,7 @@ export const TEXT_ONLY = DEV ? DEV : false
 const CONFIGS: Configs = {
   initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
-    // subjectId: 393238 // anime: 296870, music: 302514, book: 267358, game: 137458
+    // subjectId: 246920 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/379812' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'character/76270' // character/70323 person/5745

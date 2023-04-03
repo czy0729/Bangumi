@@ -7,6 +7,7 @@
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
+import { isObservableArray } from 'mobx'
 import { DEV } from '@/config'
 import {
   EVENT,
@@ -106,6 +107,12 @@ export function getIsBlockUser(
   }
 
   return isBlock
+}
+
+/** 是否数组 */
+export function isArray(arr: any) {
+  if (!arr) return false
+  return Array.isArray(arr) || isObservableArray(arr)
 }
 
 /** 判断动作 */

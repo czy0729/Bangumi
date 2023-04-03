@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 05:03:09
+ * @Last Modified time: 2023-04-03 14:15:20
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -36,11 +36,10 @@ export const Touchable = observer(
     children,
     ...other
   }: TouchableProps) => {
+    /** @todo 安卓开发环境热使用 RNGH 的组件会导致 GestureHandler already initialized 问题, 暂时规避 */
     // const _useRN = !IOS && DEV ? true : useRN
-    const _useRN = useRN
     const passProps = {
-      /** @todo 安卓开发环境热使用 RNGH 的组件会导致 GestureHandler already initialized 问题, 暂时规避 */
-      useRN: _useRN,
+      useRN,
       style,
       hitSlop,
       delayPressIn,
@@ -56,9 +55,7 @@ export const Touchable = observer(
 
     if (highlight) return <TouchableHighlight {...passProps} />
 
-    if (!_useRN && animate) return <TouchableAnimated {...passProps} scale={scale} />
-
-    if (_useRN) return <TouchableOpacity {...passProps} />
+    if (!useRN && animate) return <TouchableAnimated {...passProps} scale={scale} />
 
     // 绝大部分情况会 return 这个
     return <TouchableOpacity {...passProps} />

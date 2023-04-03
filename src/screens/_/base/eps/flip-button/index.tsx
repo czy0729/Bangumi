@@ -127,13 +127,13 @@ function FlipBtn({ style, styleText, type, text, onAnimated }) {
         <View style={styles.container}>
           <Animated.View style={[styles.animated, beforeStyle]}>
             <View style={styles.placeholder} />
-            <Button size='sm' {...beforeRest}>
+            <Button size='sm' {...beforeRest} animate={false}>
               {beforeText}
             </Button>
           </Animated.View>
           <Animated.View style={[styles.animated, afterStyle]}>
             <View style={styles.placeholder} />
-            <Button size='sm' {...afterRest}>
+            <Button size='sm' {...afterRest} animate={false}>
               {afterText}
             </Button>
           </Animated.View>

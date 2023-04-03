@@ -26,7 +26,8 @@ import {
   getOnAir,
   getTimestamp,
   x18,
-  removeHTMLTag
+  removeHTMLTag,
+  isArray
 } from '@utils'
 import { findAnime, ANIME_TAGS } from '@utils/subject/anime'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
@@ -365,9 +366,10 @@ export default class Computed extends State {
   @computed get animeTags() {
     if (!this.animeInfo) return null
 
-    if (Array.isArray(this.animeInfo?.t)) {
+    if (isArray(this.animeInfo?.t)) {
       return this.animeInfo.t.map(item => ANIME_TAGS[item])
     }
+
     return []
   }
 
@@ -376,9 +378,10 @@ export default class Computed extends State {
     if (this.type !== '动画' && !this.x18) return null
 
     const item = findHentai(this.subjectId)
-    if (Array.isArray(item?.t)) {
+    if (isArray(item?.t)) {
       return item.t.map(item => HENTAI_TAGS[item])
     }
+
     return []
   }
 
@@ -409,7 +412,7 @@ export default class Computed extends State {
   @computed get gameTags() {
     if (!this.gameInfo || this.gameInfo?.isADV) return null
 
-    const tags = (this.gameInfo as { ta: number[] })?.ta
+    const tags = (this.gameInfo as { ta: number[] })?.ta || []
     return tags.map(item => GAME_CATE[item])
   }
 

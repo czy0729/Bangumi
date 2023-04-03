@@ -30,6 +30,7 @@ export const Button = observer(
     radius = true,
     loading = false,
     bold = false,
+    animate = true,
     children,
     extra,
     onPress,
@@ -96,7 +97,7 @@ export const Button = observer(
 
     if (!loading && onPress) {
       return (
-        <Touchable animate onPress={onPress} {...other}>
+        <Touchable animate={animate} onPress={onPress} {...other}>
           <View style={wrapStyle}>{content}</View>
         </Touchable>
       )
