@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:51:32
+ * @Last Modified time: 2023-04-04 04:42:37
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
-import { Portal, Flex, BgmText, Touchable } from '@components'
+import { Portal, Flex, Bgm, BgmText, Touchable } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
 import { t } from '@utils/fetch'
 import { BlurView } from '../blur-view'
@@ -36,6 +36,7 @@ export const LikesGrid = ob(
               <Flex wrap='wrap'>
                 {DATA.map(item => (
                   <Touchable
+                    key={item[0]}
                     style={styles.touch}
                     useRN
                     highlight
@@ -77,7 +78,16 @@ export const LikesGrid = ob(
                       )}
                       justify='center'
                     >
-                      <BgmText key={item[0]} index={item[0]} size={18} />
+                      {item[0] > 100 ? (
+                        <Bgm
+                          style={styles.bgm}
+                          index={item[0]}
+                          size={21}
+                          textOnly={false}
+                        />
+                      ) : (
+                        <BgmText index={item[0]} size={18} />
+                      )}
                     </Flex>
                   </Touchable>
                 ))}

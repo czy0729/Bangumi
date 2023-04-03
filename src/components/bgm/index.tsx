@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:22:32
+ * @Last Modified time: 2023-04-04 04:31:16
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -118,7 +118,9 @@ function init() {
     97: require('@bgm/97.gif'),
     98: require('@bgm/98.gif'),
     99: require('@bgm/99.gif'),
-    100: require('@bgm/100.gif')
+    100: require('@bgm/100.gif'),
+    101: require('@bgm/101.gif'),
+    102: require('@bgm/102.gif')
   }
 }
 

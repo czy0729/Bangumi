@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:31:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 09:32:48
+ * @Last Modified time: 2023-04-04 04:42:32
  */
 import { _ } from '@stores'
 
@@ -18,7 +18,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     container: {
       width,
-      height: width * 0.8,
+      height: width,
       backgroundColor: _.select(
         `rgba(0, 0, 0, ${_.ios('0.08', '0.16')})`,
         `rgba(255, 255, 255, ${_.ios('0.24', '0.05')})`
@@ -36,6 +36,9 @@ export const memoStyles = _.memoStyles(() => {
     },
     itemActive: {
       backgroundColor: 'rgba(254, 138, 149, 0.12)'
+    },
+    bgm: {
+      marginTop: -3
     }
   }
 })

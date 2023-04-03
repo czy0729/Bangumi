@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:50:57
+ * @Last Modified time: 2023-04-04 04:57:46
  */
 import React from 'react'
-import { Touchable, Flex, BgmText, Text } from '@components'
+import { Touchable, Flex, BgmText, Text, Bgm } from '@components'
 import { rakuenStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -15,6 +15,7 @@ import { memoStyles } from './styles'
 
 function Btn({ topicId, id, formhash, ...item }) {
   const styles = memoStyles()
+  const emoji = Number(item.emoji)
   return (
     <Touchable
       animate
@@ -43,12 +44,22 @@ function Btn({ topicId, id, formhash, ...item }) {
         style={stl(styles.item, item.selected && styles.itemActive)}
         justify='center'
       >
-        <BgmText
-          style={styles.bgm}
-          size={16}
-          index={Number(item.emoji)}
-          selectable={false}
-        />
+        {emoji > 100 ? (
+          <Bgm
+            style={styles.image}
+            index={emoji}
+            size={18}
+            textOnly={false}
+          />
+        ) : (
+          <BgmText
+            style={styles.bgm}
+            size={15}
+            lineHeight={17}
+            index={emoji}
+            selectable={false}
+          />
+        )}
         <Text
           style={styles.text}
           size={12}
