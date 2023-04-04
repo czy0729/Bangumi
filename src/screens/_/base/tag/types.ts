@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 11:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:59:08
+ * @Last Modified time: 2023-04-04 08:10:36
  */
 import { TextType } from '@components'
 import { ViewStyle } from '@types'
@@ -22,4 +22,6 @@ export type Props = {
 
   /** 文字对齐 */
   align?: 'left' | 'center' | 'right'
+
+  children?: any
 }

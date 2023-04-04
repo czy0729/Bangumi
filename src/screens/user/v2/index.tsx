@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 18:48:16
+ * @Last Modified time: 2023-04-04 07:34:13
  */
 import React from 'react'
 import { Page, StatusBarEvents, Track } from '@components'
 import { Login } from '@_'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { _, userStore } from '@stores'
+import { _, userStore, subjectStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Wrap from './wrap'

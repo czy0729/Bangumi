@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 06:40:04
+ * @Last Modified time: 2023-04-04 07:46:49
  */
 import { _, userStore, collectionStore, usersStore, subjectStore } from '@stores'
 import { info } from '@utils'
@@ -13,7 +13,6 @@ import Computed from './computed'
 
 /** 用于记录 fetchUserCollectionsByScore 是否执行过 */
 const fetched: Record<string, boolean> = {}
-
 
 export default class Fetch extends Computed {
   /** 用户信息 (自己视角) */
@@ -74,10 +73,8 @@ export default class Fetch extends Computed {
     const finger = JSON.stringify([this.username, subjectType, this.type])
     if (fetched[finger]) return true
 
-    subjectStore.init('rank')
-    fetched[finger] = true
-
     info('正在获取所有收藏')
+    fetched[finger] = true
     const { pagination } = await this.fetchUserCollectionsNormal(true)
     const { pageTotal } = pagination
     let { page } = pagination
@@ -97,9 +94,9 @@ export default class Fetch extends Computed {
 
   /** 收藏统一请求入口 */
   fetchUserCollections = async (refresh: boolean = false) => {
-    return this.isSortByScore
-      ? this.fetchUserCollectionsByScore()
-      : this.fetchUserCollectionsNormal(refresh)
+    if (this.isSortByScore) return this.fetchUserCollectionsByScore()
+
+    return this.fetchUserCollectionsNormal(refresh)
   }
 
   /** 当前 Tab 一直请求到最后, 用于页内搜索 */
@@ -108,10 +105,7 @@ export default class Fetch extends Computed {
     lastType: CollectionStatus,
     isNext: boolean = false
   ) => {
-    if (!this.isTabActive(lastSubjectType, lastType)) {
-      console.info('fetchUntilTheEnd abort')
-      return
-    }
+    if (!this.isTabActive(lastSubjectType, lastType)) return
 
     const { subjectType, page } = this.state
     const { key: type } = TABS[page]
@@ -131,7 +125,6 @@ export default class Fetch extends Computed {
       return
     }
 
-    console.info('fetchUntilTheEnd')
     this.setState({
       fetching: true
     })
@@ -144,6 +137,7 @@ export default class Fetch extends Computed {
   fetchIsNeedToEnd = (refresh: boolean = false) => {
     const { showFilter, filter, subjectType, page } = this.state
     if (showFilter && filter) return this.fetchUntilTheEnd(subjectType, TABS[page].key)
+
     return this.fetchUserCollections(refresh)
   }
 
@@ -154,6 +148,7 @@ export default class Fetch extends Computed {
       await this.fetchUserCollections(true)
       return this.fetchUntilTheEnd(subjectType, TABS[page].key)
     }
+
     return this.fetchUserCollections(true)
   }
 }

@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 08:07:25
+ * @Last Modified time: 2023-04-04 08:46:21
  */
 import React from 'react'
-import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { Flex, Iconfont, Text } from '@components'
+import { _, subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { Rank, Stars, Tags } from '../../../base'
+import { Rank, Stars, Tags, Tag } from '../../../base'
+import { memoStyles } from './styles'
+import { View } from 'react-native'
 
 function Bottom({
+  id,
   score,
   rank,
   total,
@@ -40,25 +43,73 @@ function Bottom({
     .filter((item: string) => !!item && item !== '自己可见')
     .filter((item: string, index: number) => index < 4)
 
-  if (!(!hideScore && hasScore) && !info.length && !tag.length && !rank) return null
+  const styles = memoStyles()
+  const showRank = !hideScore && !!rank
+  const showScore = !hideScore && hasScore
+  const showTotal = !hideScore && !!total
+  const showInfo = !!info.length
+  const showVisibility = tags.includes('自己可见')
+  const showR18 = subjectStore.nsfw(id)
+  const showTags = !!tag?.length
+
+  const hasLeft = showRank || showScore || showTotal || showInfo
+  const hasCenter = showVisibility || showR18
+  const hasRight = showTags
+
+  if (!hasLeft && !hasCenter && !hasRight) return null
 
   return (
     <Flex style={_.mt.md}>
-      {!hideScore && !!rank && <Rank value={rank} />}
-      {!hideScore && hasScore && (
-        <Stars style={total ? _.mr.xs : _.mr.sm} value={score} simple={simpleStars} />
+      {/* left */}
+      {hasLeft && (
+        <>
+          {showRank && <Rank value={rank} />}
+          {showScore && (
+            <Stars style={showRank && _.ml.sm} value={score} simple={simpleStars} />
+          )}
+          {showTotal && (
+            <Text style={(showRank || showScore) && _.ml.sm} type='sub' size={10}>
+              ({total}人评分)
+            </Text>
+          )}
+          {showInfo && (
+            <Text
+              style={(showRank || showScore || showTotal) && _.ml.sm}
+              type='sub'
+              size={11}
+              lineHeight={12}
+              numberOfLines={1}
+            >
+              {info}
+            </Text>
+          )}
+        </>
       )}
-      {!hideScore && !!total && (
-        <Text style={_.mr.sm} type='sub' size={10}>
-          ({total}人评分)
-        </Text>
+
+      {/* center */}
+      {hasCenter && (
+        <>
+          {hasLeft && <View style={styles.split} />}
+          {showVisibility && (
+            <Tag>
+              <Iconfont
+                name='md-visibility-off'
+                color={_.select(_.colorSub, _.colorDesc)}
+                size={12}
+              />
+            </Tag>
+          )}
+          {showR18 && <Tag style={showVisibility && _.ml.sm} value='R18' />}
+        </>
       )}
-      {!!info.length && (
-        <Text style={_.mr.sm} type='sub' size={11} numberOfLines={1}>
-          {info}
-        </Text>
+
+      {/* right */}
+      {hasRight && (
+        <>
+          {(hasLeft || hasCenter) && <View style={styles.split} />}
+          <Tags value={tag} />
+        </>
       )}
-      <Tags value={tag} />
     </Flex>
   )
 }

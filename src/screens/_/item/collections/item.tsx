@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 08:23:10
+ * @Last Modified time: 2023-04-04 08:37:13
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
-import { uiStore, _ } from '@stores'
+import { _, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
@@ -17,6 +17,7 @@ import { IconTouchable } from '../../icon/touchable'
 import Title from './title'
 import Bottom from './bottom'
 import { DEFAULT_PROPS } from './ds'
+import { View } from 'react-native'
 
 const Item = memo(
   ({
@@ -107,13 +108,20 @@ const Item = memo(
                     numberOfLines={comments ? 1 : 2}
                   />
                 </Flex.Item>
-                <Flex style={_.mt.xxs}>
+                {/* <View style={_.mt.xxs}>
                   {tags.includes('自己可见') && (
-                    <Flex style={styles.hidden} justify='center'>
+                    <Flex style={styles.tag} justify='center'>
                       <Iconfont name='md-visibility-off' color={_.colorSub} size={13} />
                     </Flex>
                   )}
-                </Flex>
+                  {nsfw && (
+                    <Flex style={styles.tag} justify='center'>
+                      <Text size={10} type='sub' bold>
+                        R18
+                      </Text>
+                    </Flex>
+                  )}
+                </View> */}
                 {showManage && (
                   <Manage
                     subjectId={subjectId}
@@ -149,6 +157,7 @@ const Item = memo(
               <Flex>
                 <Flex.Item>
                   <Bottom
+                    id={id}
                     score={score}
                     rank={rank}
                     total={total}
@@ -170,7 +179,7 @@ const Item = memo(
                 )}
               </Flex>
             </Flex>
-            {!!comments && (
+            {!!comments && comments !== 'undefined' && (
               <Text style={styles.comments} size={14} lineHeight={17}>
                 {comments}
               </Text>

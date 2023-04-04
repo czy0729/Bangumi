@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 03:08:58
+ * @Last Modified time: 2023-04-04 07:56:07
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
-import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit, queue } from '@utils'
+import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit, queue, x18 } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
@@ -290,6 +290,19 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
           s: undefined,
           _loaded: false
         }
+      )
+    }).get()
+  }
+
+  /** r18 */
+  nsfw(subjectId: SubjectId) {
+    this.init('nsfw')
+    return computed<boolean>(() => {
+      return (
+        this.state.nsfw[subjectId] ||
+        this.subjectV2(subjectId).nsfw ||
+        x18(subjectId) ||
+        false
       )
     }).get()
   }
@@ -977,6 +990,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
   fetchRanks = async (subjectIds: SubjectId[]) => {
     const fetchs = []
     const state = {}
+    const nsfw = {}
     const now = getTimestamp()
     subjectIds.forEach(subjectId => {
       const rank = this.rank(subjectId)
@@ -993,6 +1007,7 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
                 _loaded: now
               }
             }
+            if (data?.nsfw) nsfw[subjectId] = true
           } catch (error) {}
 
           return true
@@ -1002,10 +1017,13 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
 
     await queue(fetchs)
     const key = 'rank'
+    const key2 = 'nsfw'
     this.setState({
-      [key]: state
+      [key]: state,
+      [key2]: nsfw
     })
     this.save(key)
+    this.save(key2)
 
     return true
   }

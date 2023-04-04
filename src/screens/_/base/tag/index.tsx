@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:59:11
+ * @Last Modified time: 2023-04-04 08:21:09
  */
 import React from 'react'
 import { Flex, Text, TextType } from '@components'
@@ -17,8 +17,8 @@ import { Props as TagProps } from './types'
 export { TagProps }
 
 export const Tag = ob(
-  ({ style, type, value, size = 10, align = 'center' }: TagProps) => {
-    if (!value) return null
+  ({ style, type, value, size = 10, align = 'center', children }: TagProps) => {
+    if (!value && !children) return null
 
     const _type = type || getType(value) || _.select('plain', 'title')
     const isActive = _type.includes('Active')
@@ -30,17 +30,22 @@ export const Tag = ob(
 
     return (
       <Flex style={_styles} justify='center'>
-        <Text
-          type={
-            isActive ? _.select('plain', 'title') : (_.select('sub', _type) as TextType)
-          }
-          size={size}
-          shadow={isActive}
-          bold
-          align={align}
-        >
-          {value}
-        </Text>
+        {value !== undefined && (
+          <Text
+            type={
+              isActive
+                ? _.select('plain', 'title')
+                : (_.select('sub', _type) as TextType)
+            }
+            size={size}
+            shadow={isActive}
+            bold
+            align={align}
+          >
+            {value}
+          </Text>
+        )}
+        {children}
       </Flex>
     )
   }

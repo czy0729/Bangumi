@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 20:40:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:09:03
+ * @Last Modified time: 2023-04-04 07:46:37
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -614,7 +614,11 @@ class CollectionStore extends store implements StoreConstructor<typeof STATE> {
   ) => {
     const data = this.userCollections(userId, subjectType, type)
     const subjectIds = data.list.map(item => item.id)
+
+    await subjectStore.init('rank')
+    await subjectStore.init('nsfw')
     await subjectStore.fetchRanks(subjectIds)
+
     const list = data.list
       .slice()
       .sort((a, b) =>

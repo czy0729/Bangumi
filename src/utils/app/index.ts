@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 03:00:34
+ * @Last Modified time: 2023-04-04 07:52:10
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -261,7 +261,8 @@ export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
   return weekDay === '' ? '' : weekDay
 }
 
-const X18_CACHE: Record<SubjectId, boolean> = {}
+/** 缓存搜索过的结果 */
+const x18CacheMap = new Map<SubjectId, boolean>()
 
 /**
  * 是否敏感条目
@@ -275,23 +276,23 @@ export function x18(subjectId: SubjectId, title?: string) {
     subjectId = Number(subjectId.replace('/subject/', ''))
   }
 
-  if (subjectId in X18_CACHE) return X18_CACHE[subjectId]
+  if (x18CacheMap.has(subjectId)) return x18CacheMap.get(subjectId)
 
   const flag = x18Data.includes(subjectId)
   if (flag) {
-    X18_CACHE[subjectId] = true
+    x18CacheMap.set(subjectId, true)
     return true
   }
 
   if (title) {
     const flag = X18_TITLE.some(item => title.includes(item))
     if (flag) {
-      X18_CACHE[subjectId] = true
+      x18CacheMap.set(subjectId, true)
       return true
     }
   }
 
-  X18_CACHE[subjectId] = false
+  x18CacheMap.set(subjectId, false)
   return false
 }
 

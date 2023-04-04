@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 03:08:58
+ * @Last Modified time: 2023-04-04 07:08:29
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
@@ -296,6 +296,11 @@ const STATE = {
     }
   },
 
+  /** r18 */
+  nsfw: {
+    0: false
+  },
+
   /** wiki修订历史 */
   wiki: {
     0: INIT_SUBJECT_WIKI
@@ -339,11 +344,12 @@ for (let i = 0; i < 1000; i += 1) {
 export { STATE }
 
 export const LOADED = {
-  subjectFromOSS: false,
-  subjectComments: false,
+  actions: false,
   epV2: false,
   mono: false,
-  rank: false,
+  nsfw: false,
   origin: false,
-  actions: false
+  rank: false,
+  subjectComments: false,
+  subjectFromOSS: false
 }

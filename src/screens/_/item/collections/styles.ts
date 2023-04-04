@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 08:15:10
+ * @Last Modified time: 2023-04-04 08:01:18
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT } from '@constants'
@@ -37,13 +37,14 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.sm,
     marginRight: -12
   },
-  hidden: {
-    width: 32,
+  tag: {
+    width: 34,
     height: 18,
     paddingHorizontal: _.xs,
     paddingVertical: 1,
     marginTop: -1,
     marginLeft: _.sm,
+    marginBottom: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     borderWidth: _.hairlineWidth,
     borderRadius: _.radiusXs,
