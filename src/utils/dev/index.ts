@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:51:42
+ * @Last Modified time: 2023-04-05 00:08:58
  */
 import { DEV, LOG_LEVEL } from '@/config'
 import { RERENDER_SHOW } from '@/config'
+import { AnyObject } from '@types'
 import { pad } from '../utils'
 import { handleCircular } from './utils'
 import { RERENDER_LOG_COUNT, RERENDER_MEMO } from './ds'
@@ -45,6 +46,22 @@ export function now() {
   const m = now.getMinutes()
   const s = now.getSeconds()
   return `${h}:${pad(m)}:${pad(s)}`
+}
+
+const _collectLogKeys = {}
+const _collectLogItems = []
+
+/** 收集项数据, 到达一定数目后打印 */
+export function collectLog(item: AnyObject, key: string | number, limit: number = 12) {
+  if (_collectLogItems.length >= limit) return
+
+  if (!_collectLogKeys[key]) {
+    _collectLogKeys[key] = true
+    _collectLogItems.push(item)
+    if (_collectLogItems.length === limit) {
+      console.info(JSON.stringify(_collectLogItems))
+    }
+  }
 }
 
 /**

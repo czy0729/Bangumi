@@ -15,6 +15,7 @@
     "top": "top -s 4 -o rsize",
     "mv": "sudo yarn k && mv ios ios_ && mv android android_",
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
+    "storybook:web": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -27,8 +28,6 @@
     "@react-native-community/async-storage": "1.12.1",
     "@react-native-community/blur": "4.2.0",
     "@react-native-community/cameraroll": "4.0.4",
-    "@react-native-community/datetimepicker": "6.7.3",
-    "@react-native-community/slider": "4.4.2",
     "@react-native-community/viewpager": "5.0.11",
     "@react-native-masked-view/masked-view": "0.2.7",
     "@react-navigation/bottom-tabs": "5.x",

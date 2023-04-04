@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 21:49:04
+ * @Last Modified time: 2023-04-05 00:45:26
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
 import Constants from 'expo-constants'
-import { IOS } from '@constants/constants'
+import { IOS, STORYBOOK, STORYBOOK_HEIGHT, STORYBOOK_WIDTH } from '@constants/constants'
 import { WSA, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from '@constants/device'
 
 /** iPhone 非全面屏系列 */
@@ -110,7 +110,11 @@ export const bottom = tabBarHeight + lg
 
 /** 计算 App 布局参数 */
 export function getAppLayout() {
-  const { width, height } = Dimensions.get('window')
+  let { width, height } = Dimensions.get('window')
+  if (STORYBOOK) {
+    width = STORYBOOK_WIDTH
+    height = STORYBOOK_HEIGHT
+  }
 
   // WSA 子系统因在 window 上屏幕 ratio 都为 1, 并没有高清模式，所以用最小值就可以
   // 平板设备乘以一个小于 1 的值可以让中间区域两侧一定保留一定的距离

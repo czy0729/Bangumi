@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 21:49:51
+ * @Last Modified time: 2023-04-05 00:44:53
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -123,6 +123,13 @@ export const APP_USERID_TOURIST = 700939
 
 /** APP 审核用户id */
 export const APP_USERID_IOS_AUTH = 700939
+
+/** @ts-expect-error */
+export const STORYBOOK = process.env.STORYBOOK === 'true'
+
+export const STORYBOOK_WIDTH = 440
+
+export const STORYBOOK_HEIGHT = 640
 
 /** 是否 iOS */
 export const IOS = Platform.OS === 'ios'

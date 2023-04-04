@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 04:11:04
+ * @Last Modified time: 2023-04-05 00:40:16
  */
 import { Platform, Dimensions } from 'react-native'
 
@@ -30,7 +30,8 @@ if (
 }
 
 /** 是否平板 */
-export const PAD = isPad
+/** @ts-expect-error */
+export const PAD = process.env.STORYBOOK === 'true' ? 0 : isPad
 
 /** 平板放大比例 */
 export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1

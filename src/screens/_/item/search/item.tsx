@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:29:08
+ * @Last Modified time: 2023-04-04 20:49:12
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -39,7 +39,7 @@ const Item = memo(
     position,
     event
   }) => {
-    global.rerender('Component.ItemSearch.Main')
+    // global.rerender('Component.ItemSearch.Main')
 
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !String(id).includes('/subject/')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-25 20:44:19
+ * @Last Modified time: 2023-04-05 00:13:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,7 @@ const Item = memo(
     isRectangle,
     event
   }) => {
-    global.rerender('Component.ItemCollectionsGrid.Main')
+    // global.rerender('Component.ItemCollectionsGrid.Main')
 
     return (
       <View

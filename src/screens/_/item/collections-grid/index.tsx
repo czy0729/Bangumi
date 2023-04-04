@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 11:59:48
+ * @Last Modified time: 2023-04-05 00:12:09
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -35,7 +35,7 @@ export const ItemCollectionsGrid = ob(
     isRectangle,
     event
   }: ItemCollectionsGridProps) => {
-    global.rerender('Component.ItemCollectionsGrid')
+    // global.rerender('Component.ItemCollectionsGrid')
 
     return (
       <Item
