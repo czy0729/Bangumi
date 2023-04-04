@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 21:25:47
+ * @Last Modified time: 2023-04-05 05:48:00
  */
 import React from 'react'
 import { timelineStore } from '@stores'
@@ -37,7 +37,7 @@ export const ItemTimeline = ob(
     onDelete,
     onHidden
   }: ItemTimelineProps) => {
-    global.rerender('Component.ItemTimeline')
+    // global.rerender('Component.ItemTimeline')
 
     const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
     if (userId in timelineStore.hidden) {

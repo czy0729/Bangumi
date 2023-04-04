@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-02 08:46:25
+ * @Last Modified time: 2023-04-05 05:06:35
  */
 import React from 'react'
 import { Flex, Iconfont, Text, UserStatus } from '@components'
@@ -28,7 +28,7 @@ const Item = memo(
     popoverData,
     onSelect
   }) => {
-    global.rerender('Item.ItemComment.Main', userName)
+    // global.rerender('Item.ItemComment.Main', userName)
 
     return (
       <Flex style={stl(styles.item, style)} align='start'>

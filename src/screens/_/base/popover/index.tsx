@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:01:27
+ * @Last Modified time: 2023-04-05 02:41:02
  */
 import React from 'react'
-import { Popover as CompPopover, PopoverProps, Menu } from '@components'
-// @ts-expect-error
+import { Popover as CompPopover, PopoverProps, Menu, Touchable } from '@components'
 import { Popover as CompPopoverOld } from '@components/popover/old'
 import { ob } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 
 const Popover = ob(
   ({ data = [], menuStyle, onSelect = () => {}, children, ...other }: PopoverProps) => {
+    if (STORYBOOK) return <Touchable {...other}>{children}</Touchable>
+
     const popoverProps = IOS
       ? {
           overlay: (

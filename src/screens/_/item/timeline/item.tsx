@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:47:12
+ * @Last Modified time: 2023-04-05 05:42:47
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ const Item = memo(
     onDelete,
     onHidden
   }) => {
-    global.rerender('Component.ItemTimeline.Main')
+    // global.rerender('Component.ItemTimeline.Main')
 
     const { src: avatarSrc } = avatar
     const { count: replyCount, url: replyUrl, content: replyContent } = reply

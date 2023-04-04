@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 19:37:24
+ * @Last Modified time: 2023-04-05 04:39:22
  */
+import { CatalogDetail } from '@stores/discovery/types'
 import { EventType, Id } from '@types'
 
 export type Props = {
@@ -32,4 +33,7 @@ export type Props = {
   isUser?: boolean
   hideScore?: boolean
   children?: any
+
+  /** 目录详情信息 */
+  detail?: CatalogDetail
 }

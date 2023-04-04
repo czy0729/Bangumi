@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 00:08:58
+ * @Last Modified time: 2023-04-05 05:31:56
  */
 import { DEV, LOG_LEVEL } from '@/config'
 import { RERENDER_SHOW } from '@/config'
@@ -50,16 +50,22 @@ export function now() {
 
 const _collectLogKeys = {}
 const _collectLogItems = []
+let _collectIndex = 0
 
 /** 收集项数据, 到达一定数目后打印 */
-export function collectLog(item: AnyObject, key: string | number, limit: number = 12) {
+export function ll(item: AnyObject, key: string | number, limit: number = 12) {
   if (_collectLogItems.length >= limit) return
+
+  if (!key) {
+    _collectIndex += 1
+    key = _collectIndex
+  }
 
   if (!_collectLogKeys[key]) {
     _collectLogKeys[key] = true
     _collectLogItems.push(item)
     if (_collectLogItems.length === limit) {
-      console.info(JSON.stringify(_collectLogItems))
+      console.info('\n', JSON.stringify(_collectLogItems))
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 12:05:06
+ * @Last Modified time: 2023-04-05 02:38:44
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -30,10 +30,10 @@ function IconExtra(
 ) {
   const data = []
   if (rakuenStore.setting.likes && likeType) data.push('贴贴')
-  if (replySub && !$.isLimit && $.showFixedTextarea) data.push('回复')
-  if (erase && $.doDeleteReply) data.push('删除')
+  if (replySub && !$?.isLimit && $?.showFixedTextarea) data.push('回复')
+  if (erase && $?.doDeleteReply) data.push('删除')
   data.push('屏蔽用户')
-  if ($.doTranslateFloor) data.push('翻译')
+  if ($?.doTranslateFloor) data.push('翻译')
 
   return (
     <Popover
@@ -41,7 +41,7 @@ function IconExtra(
       data={data}
       onSelect={title => {
         if (title === '翻译') {
-          return $.doTranslateFloor(id, msg)
+          return $?.doTranslateFloor(id, msg)
         }
 
         if (title === '贴贴') {
@@ -49,12 +49,12 @@ function IconExtra(
         }
 
         if (title === '回复') {
-          $.showFixedTextarea(userName, replySub, message, msg)
+          $?.showFixedTextarea(userName, replySub, message, msg)
           return showFixedTextare()
         }
 
         if (title === '删除') {
-          return confirm('确定删除回复?', () => $.doDeleteReply(erase))
+          return confirm('确定删除回复?', () => $?.doDeleteReply(erase))
         }
 
         if (title === '屏蔽用户') {

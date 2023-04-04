@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 12:02:23
+ * @Last Modified time: 2023-04-05 02:19:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,7 +62,7 @@ export default memo(
     likeType,
     event
   }) => {
-    global.rerender('Topic.ItemSub.Main')
+    // global.rerender('Topic.ItemSub.Main')
 
     let msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)

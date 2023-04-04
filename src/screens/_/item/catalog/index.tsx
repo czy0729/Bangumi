@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 14:37:59
+ * @Last Modified time: 2023-04-05 04:46:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,6 +39,7 @@ export const ItemCatalog = obc(
       isUser,
       hideScore = false,
       filter,
+      detail,
       children
     }: ItemCatalogProps,
     { navigation }
@@ -46,19 +47,19 @@ export const ItemCatalog = obc(
     if (!isUser && !book && !anime && !music && !game && !real) return null
 
     const styles = memoStyles()
-    const detail = discoveryStore.catalogDetail(id)
+    const _detail = detail || discoveryStore.catalogDetail(id)
     const oss = discoveryStore.catalogDetailFromOSS(id)
 
     let data: any
-    if (detail._loaded) {
-      data = detail
+    if (_detail._loaded) {
+      data = _detail
     } else if (oss._loaded) {
       data = oss
     } else {
-      data = detail
+      data = _detail
     }
 
-    const { list, collect, content, avatar, userId, time: detailTime } = data
+    const { list, collect, content, avatar, userId, time: _detailTime } = data
     const _avatar = avatar || data?.avatar
     const _userId = userId || data?.userId
     const _name = HTMLDecode(name || userName || data?.nickname)
@@ -74,8 +75,8 @@ export const ItemCatalog = obc(
       dateText = `创建于 ${last}`
     } else if (time && !time.includes('创建于')) {
       dateText = `最后更新 ${lastDate(getTimestamp(time))}`
-    } else if (detailTime) {
-      dateText = `创建于 ${lastDate(getTimestamp(detailTime))?.slice(0, 10)}`
+    } else if (_detailTime) {
+      dateText = `创建于 ${lastDate(getTimestamp(_detailTime))?.slice(0, 10)}`
     }
 
     return (

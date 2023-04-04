@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 12:02:18
+ * @Last Modified time: 2023-04-05 02:37:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,7 +54,7 @@ const Item = memo(
     event,
     onToggleExpand
   }) => {
-    global.rerender('Topic.Item.Main')
+    // global.rerender('Topic.Item.Main')
 
     // 遗留问题, 给宣传语增加一点高度
     const _msg = msg.replace(

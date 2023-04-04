@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 16:35:35
+ * @Last Modified time: 2023-04-05 04:06:41
  */
 import React from 'react'
 import { Flex, Text, Touchable, UserStatus } from '@components'

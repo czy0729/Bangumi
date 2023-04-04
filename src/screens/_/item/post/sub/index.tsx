@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:53:16
+ * @Last Modified time: 2023-04-05 02:28:02
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -34,14 +34,14 @@ export default obc(
     },
     { $, navigation }
   ) => {
-    global.rerender('Topic.ItemSub')
+    // global.rerender('Topic.ItemSub')
 
     // 屏蔽脏数据
     if (!userId) return null
 
     if (isBlockUser(userId, userName, replySub)) return null
 
-    const { translateResultFloor } = $?.state
+    const { translateResultFloor } = $?.state || {}
     const { blockKeywords, quote, quoteAvatar, wide } = rakuenStore.setting
     return (
       <ItemSub

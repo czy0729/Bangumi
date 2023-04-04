@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:23:41
+ * @Last Modified time: 2023-04-05 04:02:19
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -42,7 +42,7 @@ export const ItemPost = obc(
     }: ItemPostProps,
     { $, navigation }
   ) => {
-    global.rerender('Topic.Item')
+    // global.rerender('Topic.Item')
 
     // 屏蔽脏数据
     if (!userId) return null
@@ -82,7 +82,7 @@ export const ItemPost = obc(
 
     // 浏览器查看
     const { _url } = $?.params || {}
-    const url = _url || `${HOST}/rakuen/topic/${$.topicId}`
+    const url = _url || `${HOST}/rakuen/topic/${$?.topicId}`
 
     // 屏蔽关键字命中
     if (blockKeywords.some(item => msg.includes(item))) {

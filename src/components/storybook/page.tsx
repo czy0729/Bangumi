@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 00:46:02
+ * @Last Modified time: 2023-04-05 02:46:18
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -20,6 +20,7 @@ export const StorybookPage = ({ style = undefined, children, ...other }) => {
 
 const styles = _.create({
   view: {
+    width: STORYBOOK_WIDTH,
     maxWidth: STORYBOOK_WIDTH
   }
 })

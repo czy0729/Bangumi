@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 08:37:13
+ * @Last Modified time: 2023-04-05 01:45:09
  */
 import React from 'react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
-import { _, uiStore } from '@stores'
+import { Flex, Text, Touchable } from '@components'
+import { uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
@@ -17,7 +17,6 @@ import { IconTouchable } from '../../icon/touchable'
 import Title from './title'
 import Bottom from './bottom'
 import { DEFAULT_PROPS } from './ds'
-import { View } from 'react-native'
 
 const Item = memo(
   ({
@@ -51,7 +50,7 @@ const Item = memo(
     showManage,
     onEdit
   }) => {
-    global.rerender('Component.ItemCollections.Main')
+    //  global.rerender('Component.ItemCollections.Main')
 
     const typeCn = type
 

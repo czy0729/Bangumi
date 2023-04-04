@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:44:19
+ * @Last Modified time: 2023-04-05 02:30:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -34,9 +34,9 @@ export const Filter = obc(
     { $, navigation }
   ) => {
     const styles = memoStyles()
-    const { query, layout, expand } = $.state
-    const { length } = $.list || []
-    const total = $.total || length
+    const { query, layout, expand } = $?.state || {}
+    const { length } = $?.list || []
+    const total = $?.total || length
     const eventId = `${type}.选择` as EventKeys
     return (
       <View style={layout === 'grid' ? styles.grid : styles.list}>
@@ -88,7 +88,7 @@ export const Filter = obc(
                         }
                       )}
                       hitSlop={HIT_SLOP}
-                      onPress={() => $.onSelect(item.type, '')}
+                      onPress={() => $?.onSelect(item.type, '')}
                     >
                       <Text size={11}>{item.type === 'sort' ? '默认' : '全部'}</Text>
                     </Touchable>
@@ -124,10 +124,10 @@ export const Filter = obc(
                                       isActive && styles.itemActive
                                     )}
                                     hitSlop={HIT_SLOP}
-                                    onPress={() => $.onSelect(item.type, tag)}
+                                    onPress={() => $?.onSelect(item.type, tag)}
                                     onLongPress={
                                       multiSelect
-                                        ? () => $.onSelect(item.type, tag, true)
+                                        ? () => $?.onSelect(item.type, tag, true)
                                         : undefined
                                     }
                                   >
@@ -151,7 +151,7 @@ export const Filter = obc(
                         </Flex>
                       ) : (
                         <>
-                          {item.login && !$.isLogin ? (
+                          {item.login && !$?.isLogin ? (
                             <Text style={_.ml.sm} size={11} type='sub' lineHeight={16}>
                               {i18n.login()}后显示
                             </Text>
@@ -166,7 +166,7 @@ export const Filter = obc(
                                     : state === i) && styles.itemActive
                                 )}
                                 hitSlop={HIT_SLOP}
-                                onPress={() => $.onSelect(item.type, i)}
+                                onPress={() => $?.onSelect(item.type, i)}
                               >
                                 <Text size={11}>
                                   {i}
@@ -192,7 +192,7 @@ export const Filter = obc(
             )
           })}
         <Flex style={_.mt.sm} justify='center'>
-          <Touchable style={styles.more} onPress={$.onExpand}>
+          <Touchable style={styles.more} onPress={$?.onExpand}>
             <Text size={11} lineHeight={12} type='icon' bold>
               {expand ? '收起' : '更多'}选项
             </Text>

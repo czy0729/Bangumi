@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 00:01:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 01:36:30
+ * @Last Modified time: 2023-04-05 04:53:21
  */
 import React from 'react'
 import { StorybookPage, StorybookGrid } from '@components/storybook'
@@ -15,9 +15,7 @@ export default {
 }
 
 export const Component = (args: ItemCollectionsGridProps) => (
-  <StorybookPage>
-    <ItemCollectionsGrid {...args} />
-  </StorybookPage>
+  <ItemCollectionsGrid {...args} />
 )
 
 Component.args = list[2] as ItemCollectionsGridProps
