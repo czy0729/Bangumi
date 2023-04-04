@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 05:55:00
+ * @Last Modified time: 2023-04-04 11:43:03
  */
-import React from 'react'
+import React, { ComponentType } from 'react'
 import { View } from 'react-native'
-import { Flex, Loading } from '@components'
+import { Flex, Loading, ErrorBoundary, renderWithErrorBoundary } from '@components'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import Anitabi from '../anitabi'
@@ -36,41 +36,51 @@ import Comment from '../comment'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Header({ onScrollIntoViewIfNeeded }, { $ }: Ctx) {
+const TopEls = [
+  Lock,
+  Box,
+  [Ep, ['onScrollIntoViewIfNeeded']],
+  SMB,
+  Tags,
+  Summary,
+  Thumbs,
+  Info,
+  Game,
+  Rating,
+  Character,
+  Staff
+] as const
+
+const BottomEls = [
+  Anitabi,
+  Relations,
+  Comic,
+  Catalog,
+  Like,
+  Blog,
+  Topic,
+  Recent,
+  Comment,
+  TrackComment
+] as const
+
+function Header(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { rendered } = $.state
   const { _loaded } = $.subjectComments
+
   return (
     <>
-      {!IOS && <Bg />}
+      {!IOS && (
+        <ErrorBoundary>
+          <Bg />
+        </ErrorBoundary>
+      )}
       <Head />
       <View style={styles.content}>
-        <Lock />
-        <Box />
-        <Ep onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
-        <SMB />
-        <Tags />
-        <Summary />
-        <Thumbs />
-        <Info />
-        <Game />
-        <Rating />
-        <Character />
-        <Staff />
-        {rendered && (
-          <>
-            <Anitabi />
-            <Relations />
-            <Comic />
-            <Catalog />
-            <Like />
-            <Blog />
-            <Topic />
-            <Recent />
-            <Comment />
-            <TrackComment />
-          </>
-        )}
+        {TopEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
+        {rendered &&
+          BottomEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
         {!_loaded && (
           <Flex style={styles.loading} justify='center'>
             <Loading />

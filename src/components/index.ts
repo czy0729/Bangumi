@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 05:02:45
+ * @Last Modified time: 2023-04-04 10:14:42
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -18,6 +18,7 @@ export * from './deep-link'
 export * from './dev'
 export * from './divider'
 export * from './empty'
+export * from './error-boundary'
 export * from './expand'
 export * from './fixed-textarea'
 export * from './flex'

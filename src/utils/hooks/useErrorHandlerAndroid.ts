@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 21:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-21 22:27:55
+ * @Last Modified time: 2023-04-04 10:44:21
  */
 import { useEffect } from 'react'
 import { Alert } from 'react-native'
@@ -20,16 +20,16 @@ export default function useErrorHandlerAndroid() {
   }, [])
 }
 
-function errorHandler(e, isFatal) {
+function errorHandler(e: Error, isFatal: boolean) {
   if (isFatal) {
     err(`${e.name} ${e.message}`)
 
     Alert.alert(
-      'Unexpected error occurred',
+      '致命错误',
       `
         Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}
 
-        We will need to restart the app.
+        很抱歉，需要重新启动。若此错误稳定触发，恳请截取此屏幕并告知作者，谢谢！
         `,
       [
         {
