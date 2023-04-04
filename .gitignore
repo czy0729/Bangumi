@@ -1,3 +1,5 @@
+# Recommend
+# ----------------------------------------------------------------------------
 *.jks
 *.mobileprovision
 *.p12
@@ -7,11 +9,14 @@
 .vscode
 
 # Bangumi App
-\[deprecated\]/
+# ----------------------------------------------------------------------------
 \[auth\]/
-node_modules/
+\[deprecated\]/
+android_/
 dist/
-android1/
+ios_/
+node_modules/
+storybook-static/
 web/test/
 gradle.properties
 yarn.lock

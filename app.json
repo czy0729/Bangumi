@@ -16,6 +16,9 @@
     "platforms": [
       "ios"
     ],
+    "extra": {
+      "storybookEnabled": true
+    },
     "orientation": "default",
     "scheme": "bangumi",
     "icon": "./src/assets/images/icon.png",
