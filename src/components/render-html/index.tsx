@@ -4,17 +4,17 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:43:53
+ * @Last Modified time: 2023-04-04 12:23:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { open } from '@utils'
-import { cheerio, HTMLDecode } from '@utils/html'
+import { open, cheerio, HTMLDecode } from '@utils'
 import { TextStyle } from '@types'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
+import { ErrorBoundary } from '../error-boundary'
 import { BgmText, bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
@@ -73,7 +73,7 @@ export const RenderHtml = observer(
       }
     }
 
-    componentDidCatch(error) {
+    componentDidCatch(error: Error) {
       this.setState({
         error: true
       })
@@ -81,11 +81,16 @@ export const RenderHtml = observer(
     }
 
     /** 生成 render-html 配置 */
-    generateConfig = (imagesMaxWidth, baseFontStyle, linkStyle, matchLink) => ({
+    generateConfig = (
+      imagesMaxWidth: number,
+      baseFontStyle: any,
+      linkStyle: any,
+      matchLink: boolean
+    ) => ({
       imagesMaxWidth: _.window.width,
       baseFontStyle: {
         ...this.defaultBaseFontStyle,
-        ...fixedBaseFontStyle(baseFontStyle)
+        ...baseFontStyle
       },
       tagsStyles: {
         a: {
@@ -99,7 +104,7 @@ export const RenderHtml = observer(
 
       // 渲染定义tag前回调
       renderers: {
-        img: ({ src = '' }, children, convertedCSSStyles, { key }) => {
+        img: ({ src = '' }, children: any, convertedCSSStyles: any, { key }) => {
           const { autoShowImage, onImageFallback } = this.props
           return (
             <ToggleImage
@@ -116,8 +121,8 @@ export const RenderHtml = observer(
         },
         span: (
           { style = '' },
-          children,
-          convertedCSSStyles,
+          children: any,
+          convertedCSSStyles: any,
           { rawChildren, key, baseFontStyle }
         ) => {
           try {
@@ -208,14 +213,14 @@ export const RenderHtml = observer(
 
           return children
         },
-        q: (attrs, children, convertedCSSStyles, { key }) => (
+        q: (attrs: any, children: any, convertedCSSStyles: any, { key }) => (
           <QuoteText key={key}>{children}</QuoteText>
         ),
-        li: (attrs, children, convertedCSSStyles, { key }) => (
+        li: (attrs: any, children: any, convertedCSSStyles: any, { key }) => (
           <Li key={key}>{children}</Li>
         ),
         a: matchLink
-          ? (attrs, children, convertedCSSStyles, passProps) => (
+          ? (attrs: any, children: any, convertedCSSStyles: any, passProps) => (
               <A
                 key={passProps.key}
                 style={{
@@ -234,7 +239,7 @@ export const RenderHtml = observer(
       }
     })
 
-    onLinkPress = (evt, href) => {
+    onLinkPress = (evt: any, href: string) => {
       const { onLinkPress } = this.props
       if (onLinkPress) {
         onLinkPress(href)
@@ -248,25 +253,21 @@ export const RenderHtml = observer(
       const { katakanaResult } = this.state
 
       try {
-        /**
-         * iOS碰到过文本里巨大会遇到Maximun stack size exceeded的错误
-         */
+        /** iOS 碰到过文本里巨大会遇到 Maximun stack size exceeded 的错误 */
         // if (IOS && html.length > 100000) return html
 
         let _html = html
 
-        /**
-         * 把bgm表情替换成bgm字体文字
-         */
+        /** 把 bgm 表情替换成 bgm 字体文字 */
         const $ = cheerio(html)
         $('img[smileid]').replaceWith((index, element) => {
           const $img = cheerio(element)
           const alt = $img.attr('alt') || ''
           if (alt) {
-            // bgm偏移量24
+            // bgm 偏移量 24
             const index = parseInt(alt.replace(regs.bgm, '')) - 24
 
-            // 限制用户不显示bgm表情
+            // 限制用户不显示 bgm 表情
             // if (userStore.isLimit) {
             //   return alt
             // }
@@ -285,9 +286,7 @@ export const RenderHtml = observer(
         })
         _html = $.html()
 
-        /**
-         * 片假名后面加上小的英文
-         */
+        /** 片假名后面加上小的英文 */
         const jps = Object.keys(katakanaResult)
         if (jps.length) {
           jps.forEach(jp => {
@@ -309,9 +308,7 @@ export const RenderHtml = observer(
       }
     }
 
-    /**
-     * @issue iOS开发遇到奇怪bug, 文字太多当lineHeight大于15, 不显示?
-     */
+    /** @issue iOS 开发遇到奇怪 bug, 文字太多当 lineHeight 大于15, 不显示? */
     get defaultBaseFontStyle() {
       return {
         fontFamily: _.fontFamily,
@@ -336,25 +333,22 @@ export const RenderHtml = observer(
       const { error } = this.state
       if (error) return <Error />
 
-      const _baseFontStyle = fixedBaseFontStyle(baseFontStyle)
       return (
-        <View style={style}>
-          <HTML
-            html={this.formatHTML()}
-            baseFontStyle={{
-              ...this.defaultBaseFontStyle,
-              ..._baseFontStyle
-            }}
-            onLinkPress={this.onLinkPress}
-            {...this.generateConfig(
-              imagesMaxWidth,
-              _baseFontStyle,
-              linkStyle,
-              matchLink
-            )}
-            {...other}
-          />
-        </View>
+        <ErrorBoundary style={style}>
+          <View style={style}>
+            <HTML
+              html={this.formatHTML()}
+              onLinkPress={this.onLinkPress}
+              {...this.generateConfig(
+                imagesMaxWidth,
+                fixedBaseFontStyle(baseFontStyle),
+                linkStyle,
+                matchLink
+              )}
+              {...other}
+            />
+          </View>
+        </ErrorBoundary>
       )
     }
   }

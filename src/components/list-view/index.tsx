@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 19:48:37
+ * @Last Modified time: 2023-04-04 12:12:20
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { pick, omit, sleep, simpleTime, date } from '@utils'
 import { IOS, LIST_EMPTY } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
+import { ErrorBoundary } from '../error-boundary'
 import { ScrollToTop } from '../scroll-to-top'
 import List from './list'
 import Footer from './footer'
@@ -343,10 +344,10 @@ export const ListView = observer(
 
     render() {
       return (
-        <>
+        <ErrorBoundary>
           {this.renderList()}
           {this.renderScrollToTop()}
-        </>
+        </ErrorBoundary>
       )
     }
 

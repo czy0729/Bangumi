@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 12:50:58
+ * @Last Modified time: 2023-04-04 12:05:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
 import { Props as PageProps } from './types'
 
@@ -19,9 +20,11 @@ export const Page = observer(
     const _style = [_.container.plain, style]
     if (loaded || loaded === undefined)
       return (
-        <View style={_style} {...other}>
-          {children}
-        </View>
+        <ErrorBoundary style={_style}>
+          <View style={_style} {...other}>
+            {children}
+          </View>
+        </ErrorBoundary>
       )
 
     return (
