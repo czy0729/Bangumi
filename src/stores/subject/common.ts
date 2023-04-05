@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-10 05:31:10
+ * @Last Modified time: 2023-04-06 05:14:27
  */
 import { safeObject } from '@utils'
 import {
@@ -444,6 +444,38 @@ export function cheerioSubjectFormHTML(HTML) {
 
     // hash 比如删除等网页操作需要
     formhash: String($('#collectBoxForm').attr('action')).split('?gh=')?.[1] || ''
+  }
+}
+
+/** 条目留言 */
+export function cheerioSubjectComments(html: string) {
+  const $ = cheerio(html)
+  const pagination = $('.page_inner .p_edge').text().trim().match(/\d+/g)
+  const page = Number(pagination?.[0]) || 1
+  const pageTotal = Number(pagination?.[1] || pagination?.[0]) || 1
+  return {
+    pagination: {
+      page,
+      pageTotal: pageTotal
+    },
+    list:
+      $('#comment_box .item')
+        .map((index: number, element: any) => {
+          const $row = cheerio(element)
+          return {
+            id: `${page}|${index}`,
+            userId: matchUserId($row.find('a.avatar').attr('href')),
+            userName: $row.find('a.l').text().trim(),
+            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
+            time: $row.find('small.grey').text().trim().replace('@ ', ''),
+            star: ($row.find('span.starlight').attr('class') || '').replace(
+              'starlight stars',
+              ''
+            ),
+            comment: $row.find('p').text().trim()
+          }
+        })
+        .get() || []
   }
 }
 

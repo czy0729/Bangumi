@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-02-27 07:47:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 07:56:07
+ * @Last Modified time: 2023-04-06 05:17:06
  */
 import { observable, computed } from 'mobx'
 import CryptoJS from 'crypto-js'
-import { getTimestamp, HTMLTrim, HTMLDecode, cheerio, omit, queue, x18 } from '@utils'
+import { getTimestamp, HTMLTrim, omit, queue, x18 } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
@@ -68,7 +68,8 @@ import {
   cheerioRating,
   cheerioSubjectCatalogs,
   cheerioWikiEdits,
-  cheerioWikiCovers
+  cheerioWikiCovers,
+  cheerioSubjectComments
 } from './common'
 import {
   ApiSubjectResponse,
@@ -632,15 +633,17 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     args: {
       subjectId: SubjectId
     },
-    refresh?: boolean,
-    reverse?: boolean
+    refresh: boolean = false,
+    reverse: boolean = false
   ) => {
     const { subjectId } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
-    let page: number // 下一页的页码
 
-    // @notice 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
-    // 点击倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
+    /** 下一页的页码 */
+    let page: number
+
+    // 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
+    // 倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
     let isReverse = reverse
     if (!isReverse && !refresh) isReverse = _reverse
 
@@ -653,83 +656,18 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
       page = pagination.page + 1
     }
 
-    // -------------------- 请求HTML --------------------
-    const raw = await fetchHTML({
+    const html = await fetchHTML({
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
-    const html = raw.replace(/ {2}|&nbsp;/g, ' ').replace(/\n/g, '')
-    const commentsHTML =
-      html
-        .split('<div id="comment_box">')?.[1]
-        .split('</div></div><div class="section_line clear"')?.[0] || ''
 
-    // -------------------- 分析HTML --------------------
-    let { pageTotal = 0 } = pagination
-    const comments = []
-    if (commentsHTML) {
-      /**
-       * 总页数
-       *  - [1] 超过10页的, 有总页数
-       *  - [2] 少于10页的, 需要读取最后一个分页按钮获取页数
-       *  - [3] 只有1页, 没有分页按钮
-       */
-      if (page === 1) {
-        // @todo 使用新的HTML解释函数重写
-        const pageHTML =
-          html.match(/<span class="p_edge">\( \d+ \/ (\d+) \)<\/span>/) ||
-          html.match(
-            /<a href="\?page=(\d+)" class="p">10<\/a><a href="\?page=2" class="p">&rsaquo;&rsaquo;<\/a>/
-          )
-        if (pageHTML) {
-          pageTotal = Number(pageHTML[1])
-        } else {
-          // @todo
-          const pageHTML =
-            html.match(/<div class="page_inner">(.+?)<\/div>/g)?.[0] || ''
-          if (pageHTML) {
-            const $ = cheerio(pageHTML)
-            pageTotal = $('div.page_inner > a.p').length || 1
-          } else {
-            pageTotal = 1
-          }
-        }
-      }
+    const { pagination: _pagination, list: _list } = cheerioSubjectComments(html)
+    if (isReverse) _list.reverse()
 
-      // 留言
-      let items = commentsHTML.split('<div class="item clearit">')
-      items.shift()
-
-      if (isReverse) items = items.reverse()
-      items.forEach((item: string, index: number) => {
-        const userId = item.match(
-          /<div class="text"><a href="\/user\/(.+?)" class="l">/
-        )
-        const userName = item.match(/" class="l">(.+?)<\/a> <small class="grey">/)
-        const avatar = item.match(/background-image:url\('(.+?)'\)"><\/span>/)
-        const time = item.match(/<small class="grey">@(.+?)<\/small>/)
-        const star = item.match(/starlight stars(.+?)"/)
-        const comment = item.match(/<p>(.+?)<\/p>/)
-        comments.push({
-          id: `${page}|${index}`,
-          userId: userId ? userId[1] : '',
-          userName: userName ? HTMLDecode(userName[1]) : '',
-          avatar: avatar ? avatar[1] : '',
-          time: time ? time[1].trim() : '',
-          star: star ? star[1] : '',
-          comment: comment ? HTMLDecode(comment[1]) : ''
-        })
-      })
-    }
-
-    // -------------------- 缓存 --------------------
     const key = 'subjectComments'
     const data = {
       [subjectId]: {
-        list: refresh ? comments : [...list, ...comments],
-        pagination: {
-          page,
-          pageTotal: pageTotal
-        },
+        list: refresh ? _list : [...list, ..._list],
+        pagination: _pagination,
         _loaded: getTimestamp(),
         _reverse: isReverse
       }
@@ -737,8 +675,8 @@ class SubjectStore extends store implements StoreConstructor<typeof STATE> {
     this.setState({
       [key]: data
     })
-
     this.save(key)
+
     return data
   }
 
