@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 20:01:19
+ * @Last Modified time: 2023-04-05 14:41:49
  */
 import { TextProps } from 'react-native'
 import { Fn, ViewStyle } from '@types'
@@ -32,6 +32,9 @@ export type Props = {
 
   /** 没有拨动前渲染的个数 */
   initialRenderNums?: number
+
+  /** 是否懒渲染 */
+  scrolled?: boolean
 
   /** item 点击回调 */
   onPress?: Fn

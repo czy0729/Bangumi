@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-22 11:59:51
+ * @Last Modified time: 2023-04-05 14:20:45
  */
 import React, { useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
 import { HoldItem } from 'react-native-hold-menu'
 import { _ } from '@stores'
 import { useMount } from '@utils/hooks'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'
 let id = 0
@@ -40,6 +40,8 @@ function Popover({ children, ...other }) {
     )
     return () => subscription.remove()
   })
+
+  if (STORYBOOK) return <View style={style}>{children}</View>
 
   return (
     <View style={style}>

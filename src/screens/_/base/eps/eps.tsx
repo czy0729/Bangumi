@@ -36,12 +36,12 @@ export default memo(
     onFliped,
     onSelect
   }: Props) => {
-    global.rerender('Eps.Main')
+    // global.rerender('Eps.Main')
 
     const [width, setWidth] = useState(layoutWidth - marginRight)
 
     const btnStyle = useMemo(() => {
-      global.rerender('Eps.btnStyle')
+      // global.rerender('Eps.btnStyle')
 
       if (WSA || _.isPad) {
         return {
@@ -65,7 +65,7 @@ export default memo(
     }, [width, numbersOfLine, grid])
 
     const passProps = useMemo(() => {
-      global.rerender('Eps.passProps')
+      // global.rerender('Eps.passProps')
 
       const { width, margin } = btnStyle
       return {
@@ -95,7 +95,7 @@ export default memo(
     ])
 
     const pages = useMemo(() => {
-      global.rerender('Eps.pages')
+      // global.rerender('Eps.pages')
 
       let _eps = eps || []
       const hasSp = _eps.some(item => item.type == 1) // 是否有 SP

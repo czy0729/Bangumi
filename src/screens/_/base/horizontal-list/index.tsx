@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:42:39
+ * @Last Modified time: 2023-04-05 14:41:56
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -31,12 +31,13 @@ export const HorizontalList = ob(
       findCn: false,
       ellipsizeMode: 'tail',
       initialRenderNums: 0,
-      onPress: Function.prototype,
+      scrolled: false,
+      onPress: () => {},
       onSubPress: undefined
     }
 
     state = {
-      scrolled: false
+      scrolled: this.props.scrolled
     }
 
     onScroll = () => {

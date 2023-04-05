@@ -1,10 +1,9 @@
 /*
  * 筛选组
- *
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 02:30:58
+ * @Last Modified time: 2023-04-05 14:31:12
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'

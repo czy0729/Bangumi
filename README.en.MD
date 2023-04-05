@@ -47,6 +47,10 @@ Because of bangumi is a totally chinese website, so there is no plan to translat
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
+## Storybook Preview
+
+Preview at [https://czy0729.github.io/Bangumi-Storybook/storybook-static](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
+
 ## Preview
 
 ![0001](https://user-images.githubusercontent.com/13514316/212605771-d9186720-eefd-4780-ba3a-a923e60d3e76.jpg)

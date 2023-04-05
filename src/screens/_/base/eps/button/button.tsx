@@ -16,7 +16,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ styles, heatMap, props, item, eps, isSp, num }) => {
-    global.rerender('Eps.Button.Main')
+    // global.rerender('Eps.Button.Main')
 
     const {
       subjectId,
