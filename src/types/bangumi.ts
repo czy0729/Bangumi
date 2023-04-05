@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 02:45:27
+ * @Last Modified time: 2023-04-06 04:21:56
  */
 import { SubjectTypeValue } from '@constants/model/types'
 
@@ -61,6 +61,7 @@ export type UrlStatic = `${Url}/pic`
 /** 头像地址 */
 export type Avatar<S extends 'l' | 'm' | 's' = 'l'> =
   | `${UrlStatic}/user/${S}/${string}.jpg?r=${number}`
+  | '${UrlStatic}/user/${S}/icon.jpg'
 
 /** 条目封面地址 */
 export type Cover<S extends 'l' | 'c' | 'm' | 's' | 'g' = 'm'> =

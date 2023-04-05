@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:35:21
+ * @Last Modified time: 2023-04-06 04:20:40
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
-import { collectionStore, subjectStore, systemStore, monoStore } from '@stores'
+import {
+  collectionStore,
+  subjectStore,
+  systemStore,
+  monoStore,
+  usersStore
+} from '@stores'
 import {
   HTMLDecode,
   HTMLTrim,
@@ -29,6 +35,7 @@ import {
 import { search as searchMV } from '@utils/bilibili'
 import { get, update } from '@utils/kv'
 import { API_ANITABI, CDN_EPS, SITES } from '@constants'
+import { UserId } from '@types'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
 import { AnitabiData } from './types'
@@ -155,6 +162,34 @@ export default class Fetch extends Computed {
     )
   }
 
+  private _fetchTrackUsersInfo = false
+
+  /** 更新追踪特定用户的用户信息 */
+  fetchTrackUsersInfo = async (userIds: UserId[]) => {
+    if (this._fetchTrackUsersInfo || !userIds.length) return false
+
+    await usersStore.init('usersInfo')
+
+    for (let i = 0; i < userIds.length; i += 1) {
+      const userId = userIds[i]
+      const users = usersStore.usersInfo(userId)
+      if (!users._loaded) {
+        const data = await usersStore.fetchUsers({
+          userId
+        })
+        if (data.userId) {
+          usersStore.updateUsersInfo({
+            avatar: data.avatar,
+            userId: data.userId,
+            userName: data.userName
+          })
+        }
+      }
+    }
+
+    this._fetchTrackUsersInfo = true
+  }
+
   /** 特别关注 */
   fetchTrackComments = () => {
     if (!this.subjectTypeValue) return false
@@ -171,6 +206,9 @@ export default class Fetch extends Computed {
       }
     })
 
+    setTimeout(() => {
+      this.fetchTrackUsersInfo(userIds)
+    }, 0)
     return queue(fetchs, 1)
   }
 

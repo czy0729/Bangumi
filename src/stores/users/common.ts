@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:22:47
+ * @Last Modified time: 2023-04-06 04:08:43
  */
 import { safeObject, trim } from '@utils'
 import { cheerio } from '@utils/html'
@@ -26,18 +26,16 @@ export function cheerioFriends(HTML) {
     .get()
 }
 
-/**
- * 分析用户
- * @param {*} HTML
- */
-export function cheerioUsers(HTML) {
+/** 分析用户 */
+export function cheerioUsers(HTML: string) {
   const $ = cheerio(HTML)
-  const userId = $('.inner small.grey')
-    .text()
-    .replace('@', '')
-    .replace('报告 &nbsp;', '')
-  const hobby = $('small.hot').text().match(/\d+/g)
+  const userId = (
+    $('.inner small.grey')
+      .text()
+      .match(/@([a-zA-Z0-9]+)/g)?.[0] || ''
+  ).replace('@', '')
 
+  const hobby = $('small.hot').text().match(/\d+/g)
   let disconnectUrl = ''
   let formhash = ''
   const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
@@ -55,10 +53,8 @@ export function cheerioUsers(HTML) {
   const $gridItems = $('.gridStats .item')
   const $chartItems = $('.horizontalChart li .count')
 
-  let avatar = matchAvatar($('.headerAvatar .avatarNeue').attr('style'))
-  if (avatar === '//lain.bgm.tv/pic/user/l/icon.jpg') {
-    avatar = ''
-  }
+  let avatar: string = matchAvatar($('.headerAvatar .avatarNeue').attr('style'))
+  if (avatar.includes('icon.jpg')) avatar = ''
 
   const counts = $('#anime .horizontalOptions').text().trim()
   return safeObject({
