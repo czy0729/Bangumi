@@ -204,7 +204,7 @@ export default class Action extends Fetch {
   scrollToIndex = {}
 
   /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
-  connectRef = (
+  forwardRef = (
     ref: {
       scrollToIndex: any
     },

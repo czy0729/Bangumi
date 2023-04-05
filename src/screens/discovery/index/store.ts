@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:13:51
+ * @Last Modified time: 2023-04-06 06:30:25
  */
 import { observable, computed } from 'mobx'
 import {
@@ -12,6 +12,7 @@ import {
   discoveryStore,
   usersStore
 } from '@stores'
+import { ON_AIR } from '@stores/calendar/onair'
 import {
   date,
   getTimestamp,
@@ -134,7 +135,7 @@ export default class ScreenDiscovery extends store {
       ...item,
       items: item.items
         .map(i => {
-          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || {}
+          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || ON_AIR[i.id] || {}
           return {
             ...i,
             air,

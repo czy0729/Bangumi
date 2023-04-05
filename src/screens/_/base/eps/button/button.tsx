@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 06:41:49
+ * @Last Modified time: 2023-04-06 05:26:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -84,26 +84,28 @@ export default memo(
     return (
       <View style={containerStyle}>
         {flip && <View style={styles.flip} />}
-        <Popover style={style} {...popoverProps}>
-          {flip ? (
-            <FlipButton {...btnPassProps} text={item.sort} onAnimated={onFliped} />
-          ) : (
-            <Button {...btnPassProps} size='sm' animate={false}>
-              {item.sort}
-            </Button>
-          )}
-          {heatMap && (
-            <View
-              style={[
-                styles.bar,
-                {
-                  /** 1.68 是比率, 增大少回复与高回复的透明度幅度 */
-                  opacity: (item.comment - min / 1.68) / max
-                }
-              ]}
-            />
-          )}
-        </Popover>
+        <View style={style}>
+          <Popover {...popoverProps}>
+            {flip ? (
+              <FlipButton {...btnPassProps} text={item.sort} onAnimated={onFliped} />
+            ) : (
+              <Button {...btnPassProps} size='sm' animate={false}>
+                {item.sort}
+              </Button>
+            )}
+            {heatMap && (
+              <View
+                style={[
+                  styles.bar,
+                  {
+                    /** 1.68 是比率, 增大少回复与高回复的透明度幅度 */
+                    opacity: (item.comment - min / 1.68) / max
+                  }
+                ]}
+              />
+            )}
+          </Popover>
+        </View>
       </View>
     )
   },

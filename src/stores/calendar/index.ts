@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 18:22:02
+ * @Last Modified time: 2023-04-06 06:24:42
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -32,6 +32,7 @@ import {
 } from './init'
 import { cheerioToday } from './common'
 import { fixedOnAir } from './utils'
+import { ON_AIR } from './onair'
 import { OnAir, OnAirItem, OnAirUser } from './types'
 
 type CacheKey = keyof typeof LOADED
@@ -76,6 +77,7 @@ class CalendarStore extends store implements StoreConstructor<typeof STATE> {
       ...deepClone(INIT_CALENDAR),
       _loaded: getTimestamp()
     }
+
     const { calendar } = this.state
     calendar.list.forEach(item => {
       item.items.forEach(item => {
@@ -141,8 +143,14 @@ class CalendarStore extends store implements StoreConstructor<typeof STATE> {
         }
       }
 
-      // 若云端数据全为空, 不处理
-      if (!onAir.weekDayCN && !onAir.timeCN && !onAir.weekDayJP && !onAir.timeJP) {
+      // 若云端和代码本地数据全为空, 不处理
+      if (
+        !onAir.weekDayCN &&
+        !onAir.timeCN &&
+        !onAir.weekDayJP &&
+        !onAir.timeJP &&
+        !ON_AIR[subjectId]
+      ) {
         return {
           ...onAir
         }
@@ -150,8 +158,8 @@ class CalendarStore extends store implements StoreConstructor<typeof STATE> {
 
       // 本地时区次优先
       const onAirLocal = toLocal(
-        onAir.weekDayCN || onAir.weekDayJP,
-        onAir.timeCN || onAir.timeJP
+        onAir.weekDayCN || onAir.weekDayJP || ON_AIR[subjectId]?.weekDayCN,
+        onAir.timeCN || onAir.timeJP || ON_AIR[subjectId]?.timeCN
       )
       return {
         ...onAir,

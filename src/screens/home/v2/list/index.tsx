@@ -32,7 +32,7 @@ export default obc(({ title = '全部' }, { $ }: Ctx) => {
   const index = $.tabs.findIndex(item => item.title === title)
   return (
     <List
-      connectRef={ref => $.connectRef(ref, index)}
+      forwardRef={ref => $.forwardRef(ref, index)}
       styles={styles}
       data={$.currentCollection(title)}
       title={title}
