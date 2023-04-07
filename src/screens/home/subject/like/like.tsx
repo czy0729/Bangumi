@@ -15,7 +15,7 @@ import IconHidden from '../icon/hidden'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, showLike, subjectId, like, onSwitchBlock }) => {
-  global.rerender('Subject.Like.Main')
+  // global.rerender('Subject.Like.Main')
 
   return (
     <View style={!showLike ? [_.mt.lg, _.short] : _.mt.lg}>

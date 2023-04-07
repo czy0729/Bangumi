@@ -12,7 +12,7 @@ import Summary from './summary'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Subject.Summary')
+  // global.rerender('Subject.Summary')
 
   const { showSummary } = systemStore.setting
   if (showSummary === -1 || ($.subject._loaded && !$.summary)) return null

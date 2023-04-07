@@ -30,7 +30,7 @@ export default memo(
     doUpdateBookEp,
     doUpdateNext
   }) => {
-    global.rerender('Subject.BookEp.Main')
+    // global.rerender('Subject.BookEp.Main')
 
     let textVol = book.totalVol
     if (textVol === '??' && comicLength) textVol = `?${comicLength}`

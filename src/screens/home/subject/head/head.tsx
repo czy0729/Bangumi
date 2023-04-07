@@ -37,7 +37,7 @@ export default memo(
     rating,
     x18
   }) => {
-    global.rerender('Subject.Head.Main')
+    // global.rerender('Subject.Head.Main')
 
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)

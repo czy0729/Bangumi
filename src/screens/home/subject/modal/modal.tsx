@@ -11,7 +11,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ visible, disabled, subjectId, name, nameCn, action, onSubmit, onClose }) => {
-    global.rerender('Subject.Modal.Main')
+    // global.rerender('Subject.Modal.Main')
 
     return (
       <ManageModal

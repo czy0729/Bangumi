@@ -101,7 +101,7 @@ class Cover extends React.Component<Props> {
   }
 
   render() {
-    global.rerender('Subject.Cover')
+    // global.rerender('Subject.Cover')
 
     const { coverRadius } = systemStore.setting
     return (

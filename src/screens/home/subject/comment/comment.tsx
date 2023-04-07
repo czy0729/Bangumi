@@ -14,7 +14,7 @@ import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ styles, showComment, pageTotal, total, onSwitchBlock }) => {
-  global.rerender('Subject.Comment.Main')
+  // global.rerender('Subject.Comment.Main')
 
   const comment =
     pageTotal <= 1 ? total : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)

@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 import Character from './character'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Character')
+  // global.rerender('Subject.Character')
 
   const { showCharacter } = systemStore.setting
   if (showCharacter === -1 || !$.crt.length) return null

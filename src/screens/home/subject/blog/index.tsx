@@ -13,7 +13,7 @@ import Blog from './blog'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Blog')
+  // global.rerender('Subject.Blog')
 
   const { showBlog } = systemStore.setting
   if (showBlog === -1) return null

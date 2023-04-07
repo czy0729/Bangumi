@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, subjectId, comic }) => {
-  global.rerender('Subject.Comic.Main')
+  // global.rerender('Subject.Comic.Main')
 
   return (
     <View style={_.mt.lg}>

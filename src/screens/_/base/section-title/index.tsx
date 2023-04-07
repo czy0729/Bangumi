@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 15:36:00
+ * @Last Modified time: 2023-04-08 06:23:45
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
@@ -18,7 +18,7 @@ export { SectionTitleProps }
 
 export const SectionTitle = memo(
   ({ style, icon, left, right, children, onPress }: SectionTitleProps) => {
-    global.rerender('Component.SectionTitle')
+    // global.rerender('Component.SectionTitle')
 
     return (
       <Flex style={style}>

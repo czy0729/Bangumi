@@ -17,7 +17,7 @@ import { styles } from './styles'
 
 export default memo(
   ({ navigation, showRelations, subjectId, relations, onSwitchBlock }) => {
-    global.rerender('Subject.Relations.Main')
+    // global.rerender('Subject.Relations.Main')
 
     return (
       <View style={showRelations ? styles.container : styles.hide}>

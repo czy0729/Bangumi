@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import FlipBtn from './flip-btn'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Subject.Box.FlipBtn')
+  // global.rerender('Subject.Box.FlipBtn')
 
   const { flip, flipKey } = $.state
   const {

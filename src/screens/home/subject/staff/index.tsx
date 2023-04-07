@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 import Staff from './staff'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Staff')
+  // global.rerender('Subject.Staff')
 
   const { showStaff } = systemStore.setting
   if (showStaff === -1 || !$.staff.length) return null

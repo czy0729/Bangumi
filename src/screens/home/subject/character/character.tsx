@@ -17,7 +17,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, showCharacter, subjectId, crt, crtCounts, onSwitchBlock }) => {
-    global.rerender('Subject.Character.Main')
+    // global.rerender('Subject.Character.Main')
 
     return (
       <View style={!showCharacter ? [_.mt.lg, _.short] : _.mt.lg}>

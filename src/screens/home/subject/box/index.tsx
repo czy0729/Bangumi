@@ -12,7 +12,7 @@ import Box from './box'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Box')
+  // global.rerender('Subject.Box')
 
   return (
     <Box

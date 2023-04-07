@@ -12,7 +12,7 @@ import Anitabi from './anitabi'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Subject.Anitabi')
+  // global.rerender('Subject.Anitabi')
 
   const { showAnitabi } = systemStore.setting
   const { anitabi } = $.state

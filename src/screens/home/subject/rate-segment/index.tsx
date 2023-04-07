@@ -14,7 +14,7 @@ import { styles } from './styles'
 const SCORES_DS = ['全部', '9-10', '7-8', '4-6', '1-3'] as const
 
 function RateSegement(props, { $ }: Ctx) {
-  global.rerender('Subject.RateSegement')
+  // global.rerender('Subject.RateSegement')
 
   const { filterScores } = $.state
   return (

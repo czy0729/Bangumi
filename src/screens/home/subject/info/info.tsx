@@ -17,7 +17,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, subjectId, showInfo, info, onSwitchBlock }) => {
-    global.rerender('Subject.Info.Main')
+    // global.rerender('Subject.Info.Main')
 
     const [expand, setExpand] = useState(false)
     const onExpand = useCallback(() => {

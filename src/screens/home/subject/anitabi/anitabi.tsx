@@ -18,7 +18,7 @@ import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
 export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) => {
-  global.rerender('Subject.Anitabi.Main')
+  // global.rerender('Subject.Anitabi.Main')
 
   const { city, pointsLength, imagesLength, litePoints } = data
   const { list, onScroll } = useHorizontalLazy(

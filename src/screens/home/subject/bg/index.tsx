@@ -13,7 +13,7 @@ import Bg from './bg'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Subject.Bg')
+  // global.rerender('Subject.Bg')
 
   if (TEXT_ONLY) return null
 

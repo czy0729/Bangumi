@@ -32,7 +32,7 @@ export default memo(
     onScrollIntoViewIfNeeded,
     doUpdateSubjectEp
   }) => {
-    global.rerender('Subject.Ep.Main')
+    // global.rerender('Subject.Ep.Main')
 
     const { weekDay, h, m, isOnair, isCustom } = onAirCustom
     const showOnair = showCustomOnair && (isOnair || isDoing)

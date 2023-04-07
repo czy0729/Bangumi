@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2022-03-07 14:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:38:57
+ * @Last Modified time: 2023-04-08 04:54:46
  */
 import { useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@utils/hooks'
 
 type Props = {
   /** 聚焦前，在 react-navigation@5 后，与 onDidFocus 合并，同时只使用一个即可 */

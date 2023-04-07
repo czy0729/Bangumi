@@ -11,7 +11,7 @@ import { memo } from '@utils/decorators'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ style, src }) => {
-  global.rerender('Subject.Bg.Main')
+  // global.rerender('Subject.Bg.Main')
 
   return (
     <BlurView

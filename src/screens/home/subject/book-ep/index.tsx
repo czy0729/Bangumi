@@ -11,7 +11,7 @@ import BookEp from './book-ep'
 import { memoStyles } from './styles'
 
 export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
-  global.rerender('Subject.BookEp')
+  // global.rerender('Subject.BookEp')
 
   return (
     <BookEp

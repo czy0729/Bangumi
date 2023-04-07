@@ -12,7 +12,7 @@ import { Ctx } from '../types'
 import Recent from './recent'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Recent')
+  // global.rerender('Subject.Recent')
 
   const { showRecent } = systemStore.setting
   if (showRecent === -1) return null

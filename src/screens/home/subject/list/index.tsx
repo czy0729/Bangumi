@@ -14,7 +14,7 @@ import { Ctx } from '../types'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
 
 function List({ forwardRef, onScrollIntoViewIfNeeded, onScroll }, { $ }: Ctx) {
-  global.rerender('Subject.List')
+  // global.rerender('Subject.List')
 
   return (
     <ListView

@@ -4,12 +4,11 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:27:33
+ * @Last Modified time: 2023-04-08 04:54:27
  */
 import React, { useLayoutEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { StatusBarEvents } from '../status-bar-events'
 import { Track } from '../track'

@@ -11,7 +11,7 @@ import Disc from './disc'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Disc')
+  // global.rerender('Subject.Disc')
 
   return (
     <Disc

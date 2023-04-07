@@ -26,7 +26,7 @@ export default memo(
     toRating,
     outdate
   }) => {
-    global.rerender('Subject.Box.Main')
+    // global.rerender('Subject.Box.Main')
 
     const onPress = isLogin ? showManageModel : () => navigation.push('LoginV2')
     const statusSize = status[status.length - 1]?.text.length >= 6 ? 11 : 12

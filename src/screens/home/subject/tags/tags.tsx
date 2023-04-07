@@ -34,7 +34,7 @@ export default memo(
     wenkuTags,
     onSwitchBlock
   }) => {
-    global.rerender('Subject.Tags.Main')
+    // global.rerender('Subject.Tags.Main')
 
     const elBadge = (
       <Flex

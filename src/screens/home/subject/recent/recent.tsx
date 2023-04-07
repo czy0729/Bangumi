@@ -18,7 +18,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, subjectId, showRecent, who, hideScore, onSwitchBlock }) => {
-    global.rerender('Subject.Recent.Main')
+    // global.rerender('Subject.Recent.Main')
 
     const { list, onScroll } = useHorizontalLazy(who)
     return (

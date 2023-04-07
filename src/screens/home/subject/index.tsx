@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-02 08:17:53
+ * @Last Modified time: 2023-04-08 07:23:49
  */
 import React, { useCallback, useRef } from 'react'
 import { Page, Heatmap } from '@components'
@@ -59,6 +59,8 @@ const Subject = (props, { $, navigation }: Ctx) => {
     },
     [yRef]
   )
+
+  console.log(JSON.stringify($.subjectComments))
 
   return useObserver(() => (
     <>

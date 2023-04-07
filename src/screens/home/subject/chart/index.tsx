@@ -11,7 +11,7 @@ import Chart from './chart'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Rating.Chart')
+  // global.rerender('Subject.Rating.Chart')
 
   const { total, count, score } = $.rating
   return (

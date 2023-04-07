@@ -12,7 +12,7 @@ import Comment from './comment'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }) => {
-  global.rerender('Subject.Comment')
+  // global.rerender('Subject.Comment')
 
   const { showComment } = systemStore.setting
   if (showComment === -1) return <View style={_.mt.lg} />

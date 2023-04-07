@@ -19,7 +19,7 @@ import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, styles, showCatalog, catalog, onSwitchBlock }) => {
-  global.rerender('Subject.Catalog.Main')
+  // global.rerender('Subject.Catalog.Main')
 
   const { list, onScroll } = useHorizontalLazy(catalog)
   return (

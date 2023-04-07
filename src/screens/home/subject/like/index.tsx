@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 import Like from './like'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Like')
+  // global.rerender('Subject.Like')
 
   const { showLike } = systemStore.setting
   if (showLike === -1 || !$.like.length) return null

@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 const LAYOUT_WIDTH = Math.floor(window.width - wind) - 1
 
 function Eps(props, { $, navigation }: Ctx) {
-  global.rerender('Subject.Eps')
+  // global.rerender('Subject.Eps')
 
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   const showPlay = !$.isLimit && canPlay

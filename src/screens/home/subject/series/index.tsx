@@ -12,7 +12,7 @@ import Series from './series'
 import { memoStyles } from './styles'
 
 export default obc(({ size }: { size: number }, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Series')
+  // global.rerender('Subject.Series')
 
   if (!($.subjectPrev || $.subjectAfter || $.subjectSeries || $.subjectAnime)) {
     return null

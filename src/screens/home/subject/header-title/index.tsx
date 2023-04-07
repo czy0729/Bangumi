@@ -10,7 +10,7 @@ import { Ctx } from '../types'
 import HeaderTitle from './header-title'
 
 export default ob(({ $ }: Ctx) => {
-  global.rerender('Subject.HeaderTitle')
+  // global.rerender('Subject.HeaderTitle')
 
   return (
     <HeaderTitle

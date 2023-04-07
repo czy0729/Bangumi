@@ -11,7 +11,7 @@ import Rating from './rating'
 import { memoStyles } from './styles'
 
 export default ob(() => {
-  global.rerender('Subject.Rating')
+  // global.rerender('Subject.Rating')
 
   const { showRating } = systemStore.setting
   if (showRating === -1) return null

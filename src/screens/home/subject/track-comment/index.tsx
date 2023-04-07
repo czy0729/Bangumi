@@ -24,7 +24,7 @@ const POPOVER_DATA = {
 } as const
 
 function TrackComment(props, { $, navigation }: Ctx) {
-  global.rerender('Subject.TrackComment')
+  // global.rerender('Subject.TrackComment')
 
   if (!$.subjectTypeValue) return null
 

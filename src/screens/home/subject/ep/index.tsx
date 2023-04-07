@@ -14,7 +14,7 @@ import Ep from './ep'
 import { memoStyles } from './styles'
 
 export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
-  global.rerender('Subject.Ep')
+  // global.rerender('Subject.Ep')
 
   // 游戏没有ep
   if ($.type === '游戏') return null

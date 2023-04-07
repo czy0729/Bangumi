@@ -172,7 +172,7 @@ class Game extends React.Component {
   }
 
   render() {
-    global.rerender('Subject.Game')
+    // global.rerender('Subject.Game')
 
     const { showGameInfo } = systemStore.setting
     const { $ }: Ctx = this.context

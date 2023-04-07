@@ -26,7 +26,7 @@ export default memo(
     subjectAnime,
     subjectDiff
   }) => {
-    global.rerender('Subject.Series.Main')
+    // global.rerender('Subject.Series.Main')
 
     if (subjectPrev || subjectAfter || subjectAnime || subjectDiff) {
       let i = 0

@@ -10,7 +10,7 @@ import { Ctx } from '../types'
 import Modal from './modal'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Subject.Modal')
+  // global.rerender('Subject.Modal')
 
   if (!$.isLogin) return null
 

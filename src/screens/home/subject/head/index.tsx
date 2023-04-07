@@ -12,7 +12,7 @@ import Head from './head'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Subject.Head')
+  // global.rerender('Subject.Head')
 
   return (
     <Head

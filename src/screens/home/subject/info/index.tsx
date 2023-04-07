@@ -12,7 +12,7 @@ import Info from './info'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Info')
+  // global.rerender('Subject.Info')
 
   const { showInfo } = systemStore.setting
   if (showInfo === -1) return null

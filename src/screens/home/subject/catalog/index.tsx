@@ -13,7 +13,7 @@ import Catalog from './catalog'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Catalog')
+  // global.rerender('Subject.Catalog')
 
   const { showCatalog } = systemStore.setting
   if (showCatalog === -1) return null

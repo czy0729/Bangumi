@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 23:15:21
+ * @Last Modified time: 2023-04-08 06:45:55
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -16,7 +16,7 @@ import Tags from './tags'
 // }
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Tags')
+  // global.rerender('Subject.Tags')
 
   const { showTags, subjectTagsExpand } = systemStore.setting
   if (showTags === -1) return null

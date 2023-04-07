@@ -89,7 +89,7 @@ class Thumbs extends React.Component {
   }
 
   render() {
-    global.rerender('Subject.Thumbs')
+    // global.rerender('Subject.Thumbs')
 
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return null

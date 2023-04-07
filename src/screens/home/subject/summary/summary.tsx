@@ -16,7 +16,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ styles, showSummary, translateResult, content, onSwitchBlock }) => {
-    global.rerender('Subject.Summary.Main')
+    // global.rerender('Subject.Summary.Main')
 
     return (
       <View style={showSummary ? styles.container : styles.hide}>

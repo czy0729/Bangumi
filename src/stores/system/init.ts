@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 18:52:27
+ * @Last Modified time: 2023-04-08 07:11:03
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -14,6 +14,7 @@ import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
+  STORYBOOK,
   VERSION_GITHUB_RELEASE
 } from '@constants'
 import { radiusMd } from '@styles'
@@ -83,19 +84,19 @@ export const INIT_SUBJECT_LAYOUT = {
   showRelations: true as LayoutValue,
 
   /** 目录 */
-  showCatalog: false as LayoutValue,
+  showCatalog: (false || STORYBOOK) as LayoutValue,
 
   /** 动态 */
-  showRecent: false as LayoutValue,
+  showRecent: (false || STORYBOOK) as LayoutValue,
 
   /** 日志 */
-  showBlog: false as LayoutValue,
+  showBlog: (false || STORYBOOK) as LayoutValue,
 
   /** 帖子 */
-  showTopic: false as LayoutValue,
+  showTopic: (false || STORYBOOK) as LayoutValue,
 
   /** 猜你喜欢 */
-  showLike: false as LayoutValue,
+  showLike: (false || STORYBOOK) as LayoutValue,
 
   /** 吐槽 */
   showComment: true as LayoutValue

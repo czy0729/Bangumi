@@ -17,7 +17,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, showTopic, subjectId, topic, onSwitchBlock }) => {
-    global.rerender('Subject.Topic.Main')
+    // global.rerender('Subject.Topic.Main')
 
     const { list, onExpand } = useExpandLazy(topic, 4)
     return (

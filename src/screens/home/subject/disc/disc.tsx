@@ -17,7 +17,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, subjectId, disc, discTranslateResult }) => {
-    global.rerender('Subject.Disc.Main')
+    // global.rerender('Subject.Disc.Main')
 
     const _discTranslateResult = [...discTranslateResult]
     return (

@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 
 function Title({ showScore }, { $, navigation }: Ctx) {
-  global.rerender('Subject.Rating.Title')
+  // global.rerender('Subject.Rating.Title')
 
   const { showRating } = systemStore.setting
   const { rank = '-' } = $.subject

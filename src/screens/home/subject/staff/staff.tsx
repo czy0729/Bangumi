@@ -16,7 +16,7 @@ import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock }) => {
-  global.rerender('Subject.Staff.Main')
+  // global.rerender('Subject.Staff.Main')
 
   return (
     <View style={!showStaff ? [_.mt.lg, _.short] : _.mt.lg}>

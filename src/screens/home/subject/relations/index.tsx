@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 import Relations from './relations'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Subject.Relations')
+  // global.rerender('Subject.Relations')
 
   const { showRelations } = systemStore.setting
   if (showRelations === -1 || !$.relations.length) return null

@@ -14,7 +14,7 @@ import Title from './title'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ styles, hideScore, showRating }) => {
-  global.rerender('Subject.Rating.Main')
+  // global.rerender('Subject.Rating.Main')
 
   const [showScore, setShowScore] = useState(!hideScore)
   return (

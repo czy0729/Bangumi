@@ -15,7 +15,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
-    global.rerender('Subject.Rating.Chart.Main')
+    // global.rerender('Subject.Rating.Chart.Main')
 
     const deviation = getDeviation(total, count, score)
     return (
