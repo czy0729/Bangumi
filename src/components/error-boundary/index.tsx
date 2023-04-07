@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-04-04 10:10:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 12:05:35
+ * @Last Modified time: 2023-04-06 12:29:11
  */
 import React from 'react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { AnyObject } from '@types'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { styles } from './styles'
-import { type State, type Props as ErrorBoundaryProps } from './types'
-import { stl } from '@utils'
+import { State, Props as ErrorBoundaryProps } from './types'
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   state: State = {
-    error: null
+    error: this.props.error || null
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -26,7 +26,11 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
     const { error } = this.state
     if (error) {
       return (
-        <Flex style={stl(styles.error, this.props.style)} direction='column' justify='center'>
+        <Flex
+          style={stl(styles.error, this.props.style)}
+          direction='column'
+          justify='center'
+        >
           <Text size={13} type='sub'>
             代码发生错误
           </Text>

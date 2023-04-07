@@ -3,7 +3,13 @@ module.exports = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-react-native-web'
+    '@storybook/addon-react-native-web',
+    {
+      name: 'storybook-dark-mode',
+      parameters: {
+        defaultTheme: 'Dark'
+      }
+    }
   ],
   core: {
     builder: 'webpack5'

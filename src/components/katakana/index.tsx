@@ -10,7 +10,7 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:35:20
+ * @Last Modified time: 2023-04-07 06:43:05
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -57,8 +57,9 @@ const Katakana = observer(
 
     translate = async () => {
       const { children } = this.props
-      if (!children || !(typeof children === 'string' || Array.isArray(children)))
+      if (!children || !(typeof children === 'string' || Array.isArray(children))) {
         return
+      }
 
       const match = matchKatakanas(this.text)
       if (!match) return

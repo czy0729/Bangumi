@@ -1,4 +1,10 @@
 export const parameters = {
+  darkMode: {
+    current: 'dark',
+    darkClass: 'dark',
+    classTarget: 'html',
+    stylePreview: true
+  },
   actions: {
     argTypesRegex: '^on[A-Z].*'
   },

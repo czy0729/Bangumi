@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-04-04 19:43:56
  */
 import React from 'react'
+import { StorybookPage } from '@components/storybook'
 import { Divider, DividerProps } from './index'
 
 export default {
@@ -12,4 +13,8 @@ export default {
   component: Divider
 }
 
-export const Component = (args: DividerProps) => <Divider {...args} />
+export const Component = (args: DividerProps) => (
+  <StorybookPage>
+    <Divider {...args} />
+  </StorybookPage>
+)

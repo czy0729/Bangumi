@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:43:39
+ * @Last Modified time: 2023-04-06 11:33:51
  */
-import { ORIENTATION_PORTRAIT } from '@constants'
+import { ORIENTATION_PORTRAIT, STORYBOOK } from '@constants'
 import _ from '@styles'
 import { MemoStylesItem } from './types'
 
@@ -91,7 +91,7 @@ export function getMemoStylesId(): MemoStylesItem {
   }
 }
 
-export const STATE = {
+const STATE = {
   mode: DEFAULT_MODE,
   orientation: ORIENTATION_PORTRAIT,
   window: _.window,
@@ -107,6 +107,19 @@ export const STATE = {
   tinygrailThemeMode: DEFAULT_TINYGRAIL_THEME_MODE,
   wsaLayoutChanged: 0
 }
+
+// Storybook 中强制初始化为深黑模式
+if (STORYBOOK) {
+  Object.entries({
+    mode: 'dark',
+    ...STYLES_DARK,
+    ..._._colorThemeDeepDark
+  }).forEach(([key, value]) => {
+    STATE[key] = value
+  })
+}
+
+export { STATE }
 
 export const LOADED = {
   mode: false,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 18:29:56
+ * @Last Modified time: 2023-04-07 07:19:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,8 @@ import { observer } from 'mobx-react-lite'
 import { _ } from '@stores'
 import { styles } from './styles'
 import { Props as SkeletonProps } from './types'
+
+export { SkeletonProps }
 
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
 const shimmerColors = [_.colorBg, _.colorIcon, _.colorBg]

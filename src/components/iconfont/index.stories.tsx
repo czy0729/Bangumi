@@ -5,13 +5,13 @@
  * @Last Modified time: 2023-04-05 16:07:42
  */
 import React from 'react'
-import { _ } from '@stores'
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
-import MaterialIcons from '../@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
-import { StorybookGrid, StorybookPage } from '../storybook'
-import { Flex } from '../flex'
-import { Text } from '../text'
+import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/MaterialIcons.json'
+import { StorybookGrid, StorybookPage } from '@components/storybook'
+import { Flex } from '@components/flex'
+import { Text } from '@components/text'
+import { _ } from '@stores'
 import { Iconfont } from './index'
 
 export default {
@@ -21,14 +21,14 @@ export default {
 
 export const App = () => (
   <StorybookPage>
-    <StorybookGrid style={styles.page}>
+    <StorybookGrid>
       {Object.keys(AppIcons).map(item => {
         const name = `${item}`
         return (
-          <Flex key={name} style={styles.item} direction='column'>
+          <Flex key={name} style={styles.item} direction='column' justify='center'>
             {/* @ts-expect-error */}
             <Iconfont name={name} />
-            <Text style={_.mt.xs} size={12} align='center'>
+            <Text style={styles.text} size={12} align='center'>
               {name}
             </Text>
           </Flex>
@@ -40,14 +40,14 @@ export const App = () => (
 
 export const Material = () => (
   <StorybookPage>
-    <StorybookGrid style={styles.page}>
+    <StorybookGrid>
       {Object.keys(MaterialIcons).map(item => {
         const name = `md-${item}`
         return (
-          <Flex key={name} style={styles.item} direction='column'>
+          <Flex key={name} style={styles.item} direction='column' justify='center'>
             {/* @ts-expect-error */}
             <Iconfont name={name} />
-            <Text style={_.mt.xs} size={12} align='center'>
+            <Text style={styles.text} size={12} align='center'>
               {name}
             </Text>
           </Flex>
@@ -59,14 +59,14 @@ export const Material = () => (
 
 export const Ionicons = () => (
   <StorybookPage>
-    <StorybookGrid style={styles.page}>
+    <StorybookGrid>
       {Object.keys(IoniconsIcons).map(item => {
         const name = `${item}`
         return (
-          <Flex key={name} style={styles.item} direction='column'>
+          <Flex key={name} style={styles.item} direction='column' justify='center'>
             {/* @ts-expect-error */}
             <Iconfont name={name} />
-            <Text style={_.mt.xs} size={12} align='center'>
+            <Text style={styles.text} size={12} align='center'>
               {name}
             </Text>
           </Flex>
@@ -77,13 +77,19 @@ export const Ionicons = () => (
 )
 
 const styles = _.create({
-  page: {
-    paddingLeft: 12
-  },
   item: {
-    width: _.window.contentWidth * 0.2,
-    height: _.window.contentWidth * 0.2,
+    width: (_.window.width - 4) * 0.2,
+    height: (_.window.width - 4) * 0.2,
     paddingHorizontal: _.xs,
-    marginBottom: _.sm
+    marginTop: _.sm
+  },
+  text: {
+    height: 30,
+    marginTop: _.sm,
+    transform: [
+      {
+        scale: 10 / 12
+      }
+    ]
   }
 })

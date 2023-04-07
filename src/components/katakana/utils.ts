@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 12:07:04
+ * @Last Modified time: 2023-04-07 06:48:24
  */
 import { setStorage, getStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import { CACHE_KEY, CACHES } from './ds'
 
 let cache = {
+  スクールアイドル: 'Idol school',
   マギカ: 'Magica'
 }
 
