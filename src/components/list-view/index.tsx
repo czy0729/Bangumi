@@ -4,14 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 12:12:20
+ * @Last Modified time: 2023-04-08 07:58:22
  */
 import React from 'react'
-import { RefreshControl } from 'react-native'
+import { RefreshControl, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { pick, omit, sleep, simpleTime, date } from '@utils'
-import { IOS, LIST_EMPTY } from '@constants'
+import { IOS, LIST_EMPTY, STORYBOOK } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { ErrorBoundary } from '../error-boundary'
 import { ScrollToTop } from '../scroll-to-top'
@@ -342,7 +342,24 @@ export const ListView = observer(
       )
     }
 
+    renderStorybook() {
+      return (
+        <View style={this.props.contentContainerStyle}>
+          {this.props.ListHeaderComponent}
+          {this.data.map((item: any, index: number) =>
+            this.props.renderItem({
+              item,
+              index
+            })
+          )}
+          {this.renderFooter()}
+        </View>
+      )
+    }
+
     render() {
+      if (STORYBOOK) return this.renderStorybook()
+
       return (
         <ErrorBoundary>
           {this.renderList()}

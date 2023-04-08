@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 10:39:07
+ * @Last Modified time: 2023-04-08 08:19:20
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { DEV } from '@/config'
-import { contextTypes } from '@constants/constants'
-import { Navigation } from '@types'
+import { contextTypes, STORYBOOK } from '@constants/constants'
+import { Fn, Navigation } from '@types'
 import { urlStringify } from '../index'
 import observer from './observer'
 
@@ -29,6 +29,14 @@ type WrapComponentProps = {
 
 type Props = {
   navigation: Navigation
+
+  route?: {
+    params?: any
+    name?: any
+  }
+
+  /** Storybook */
+  onMounted?: Fn
 }
 
 /** App inject store HOC */
@@ -97,7 +105,14 @@ const Inject = (Store, config?: Config) => {
         }
 
         get passProps() {
+          if (STORYBOOK) {
+            return {
+              onMounted: this.props.onMounted
+            }
+          }
+
           if (!listenIsFocused) return {}
+
           return {
             isFocused: this.state.isFocused
           }

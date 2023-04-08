@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 06:01:38
+ * @Last Modified time: 2023-04-08 08:26:45
  */
 import { StorybookPage } from './page'
 import { StorybookList } from './list'
@@ -18,5 +18,6 @@ export const navigation = {
   },
   push() {},
   replace() {},
-  goBack() {}
+  goBack() {},
+  addListener() {}
 }

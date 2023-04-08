@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:55:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 07:05:39
+ * @Last Modified time: 2023-04-08 08:24:32
  */
-import { STORYBOOK } from '@constants'
+import { STORYBOOK } from '@constants/constants'
 import { TextStyle } from '@types'
 import { lineHeightRatio } from './layout'
 
