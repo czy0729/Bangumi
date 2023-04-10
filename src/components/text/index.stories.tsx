@@ -8,44 +8,44 @@ import React from 'react'
 import { StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
 import { _ } from '@stores'
-import { Text, TextProps } from './index'
+import { Text as Component, TextProps as Props } from './index'
 
 export default {
   title: 'components/Text',
-  component: Text
+  component: Component
 }
 
-export const Component = (args: TextProps) => (
+export const Text = (args: Props) => (
   <StorybookPage>
     <Flex direction='column'>
-      <Text {...args} type='main'>
+      <Component {...args} type='main'>
         main
-      </Text>
-      <Text style={_.mt.lg} {...args} type='warning'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='warning'>
         warning
-      </Text>
-      <Text style={_.mt.lg} {...args} type='primary'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='primary'>
         primary
-      </Text>
-      <Text style={_.mt.lg} {...args} type='success'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='success'>
         success
-      </Text>
-      <Text style={_.mt.lg} {...args} type='danger'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='danger'>
         danger
-      </Text>
-      <Text style={_.mt.lg} {...args} type='title'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='title'>
         title
-      </Text>
-      <Text style={_.mt.lg} {...args} type='desc'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='desc'>
         desc
-      </Text>
-      <Text style={_.mt.lg} {...args} type='sub'>
+      </Component>
+      <Component style={_.mt.lg} {...args} type='sub'>
         sub
-      </Text>
+      </Component>
     </Flex>
   </StorybookPage>
 )
 
-Component.args = {
+Text.args = {
   size: 16
-} as TextProps
+}

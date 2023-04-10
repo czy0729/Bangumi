@@ -6,15 +6,15 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Loading } from './index'
+import { Loading as Component } from './index'
 
 export default {
   title: 'components/Loading',
-  component: Loading
+  component: Component
 }
 
-export const Component = args => (
+export const Loading = args => (
   <StorybookPage>
-    <Loading {...args} />
+    <Component {...args} />
   </StorybookPage>
 )

@@ -6,20 +6,20 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Menu, MenuProps } from './index'
+import { Menu as Component, MenuProps as Props } from './index'
 
 export default {
   title: 'components/Menu',
-  component: Menu
+  component: Component
 }
 
-export const Component = (args: MenuProps) => (
+export const Menu = (args: Props) => (
   <StorybookPage radius>
-    <Menu {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+Menu.args = {
   title: ['ep.1 鏡でも見ることができない自分の顔って、なに？'],
   data: ['看过', '看到', '想看', '抛弃']
 }

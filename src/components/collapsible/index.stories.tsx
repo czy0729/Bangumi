@@ -8,16 +8,16 @@ import React from 'react'
 import { _ } from '@stores'
 import { StorybookPage } from '@components/storybook'
 import { Text } from '@components/text'
-import { Collapsible, CollapsibleProps } from './index'
+import { Collapsible as Component, CollapsibleProps as Props } from './index'
 
 export default {
   title: 'components/Collapsible',
-  component: Collapsible
+  component: Component
 }
 
-export const Component = (args: CollapsibleProps) => (
+export const Collapsible = (args: Props) => (
   <StorybookPage>
-    <Collapsible {...args}>
+    <Component {...args}>
       <Text style={styles.content} lineHeight={18}>
         2024年，世界发生了史无前例的灾难，然后15年过去了。
         成为废墟的日本栖息着一种食人的怪物（蛭子），人们艰难地生存着。
@@ -26,12 +26,12 @@ export const Component = (args: CollapsibleProps) => (
         除此之外他什么都不知道。 “天国”究竟在哪里？ 当你到达那里时会发生什么......？
         真流和斩子寻找天国的旅程现在开始了——！
       </Text>
-    </Collapsible>
+    </Component>
   </StorybookPage>
 )
 
-Component.args = {
-  collapsed: true
+Collapsible.args = {
+  collapsed: false
 }
 
 const styles = _.create({

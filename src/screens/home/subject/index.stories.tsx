@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-08 04:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 08:58:32
+ * @Last Modified time: 2023-04-09 09:03:42
  */
 import React from 'react'
-import { Page } from '@components'
-import { StorybookPage, StorybookList, navigation } from '@components/storybook'
+import { Page, StorybookPage, StorybookList, StorybookNavigation } from '@components'
 import { subjectStore } from '@stores'
 import { getInt } from '@stores/subject'
 import { ic } from '@utils/decorators'
@@ -41,7 +40,7 @@ export const Anime = () => (
   <StorybookPage>
     <StorybookList>
       <Subject
-        navigation={navigation}
+        navigation={StorybookNavigation}
         route={{
           params: {
             subjectId: anime.subjectId
@@ -72,9 +71,10 @@ export const Game = () => (
   <StorybookPage>
     <StorybookList>
       <Subject
-        navigation={navigation}
+        navigation={StorybookNavigation}
         route={{
           params: {
+            name: 'Subject',
             subjectId: game.subjectId
           }
         }}

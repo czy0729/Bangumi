@@ -5,18 +5,18 @@
  * @Last Modified time: 2023-04-05 14:12:20
  */
 import React from 'react'
-import { Cover, CoverProps } from './index'
+import { Cover as Component, CoverProps as Props } from './index'
 
 export default {
   title: 'base/Cover',
-  component: Cover
+  component: Component
 }
 
-export const Component = (args: CoverProps) => <Cover {...args} />
+export const Cover = (args: Props) => <Component {...args} />
 
-Component.args = {
+Cover.args = {
   src: 'https://lain.bgm.tv/pic/cover/l/ba/c9/404804_1sTp8.jpg',
   width: 216,
   height: 302,
   radius: true
-} as CoverProps
+}

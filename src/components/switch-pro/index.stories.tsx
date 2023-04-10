@@ -6,15 +6,19 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { SwitchPro } from './index'
+import { SwitchPro as Component } from './index'
 
 export default {
   title: 'components/SwitchPro',
-  component: SwitchPro
+  component: Component
 }
 
-export const Component = args => (
+export const SwitchPro = args => (
   <StorybookPage>
-    <SwitchPro {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
+
+SwitchPro.args = {
+  value: true
+}

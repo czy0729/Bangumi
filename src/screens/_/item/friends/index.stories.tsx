@@ -5,28 +5,30 @@
  * @Last Modified time: 2023-04-05 05:16:23
  */
 import React from 'react'
-import { StorybookPage, StorybookList } from '@components/storybook'
-import { ItemFriends, ItemFriendsProps } from './index'
+import { StorybookPage, StorybookList, Flex } from '@components'
+import { ItemFriends as Component, ItemFriendsProps as Props } from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemFriends',
-  component: ItemFriends
+  component: Component
 }
 
-export const Component = (args: ItemFriendsProps) => (
-  <StorybookPage>
-    <ItemFriends {...args} />
+export const Item = (args: Props) => (
+  <StorybookPage radius>
+    <Flex.Item>
+      <Component {...args} />
+    </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = list[0]
+Item.args = list[0]
 
 export const List = () => (
   <StorybookPage>
     <StorybookList>
       {list.map(item => (
-        <ItemFriends key={item.userId} {...item} />
+        <Component key={item.userId} {...item} />
       ))}
     </StorybookList>
   </StorybookPage>

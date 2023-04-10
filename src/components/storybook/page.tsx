@@ -49,9 +49,11 @@ const styles = _.create({
     paddingHorizontal: _.wind
   },
   space: {
-    paddingVertical: _.sm
+    paddingVertical: _.md
   },
   radius: {
+    width: STORYBOOK_WIDTH,
+    maxWidth: STORYBOOK_WIDTH,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   }

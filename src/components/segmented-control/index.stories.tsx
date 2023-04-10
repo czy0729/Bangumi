@@ -6,20 +6,20 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { SegmentedControl, SegmentedControlProps } from './index'
+import { SegmentedControl as Component, SegmentedControlProps as Props } from './index'
 
 export default {
   title: 'components/SegmentedControl',
-  component: SegmentedControl
+  component: Component
 }
 
-export const Component = (args: SegmentedControlProps) => (
+export const SegmentedControl = (args: Props) => (
   <StorybookPage>
-    <SegmentedControl {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+SegmentedControl.args = {
   values: ['动画', '书籍', '音乐', '游戏'],
   selectedIndex: 1
 }

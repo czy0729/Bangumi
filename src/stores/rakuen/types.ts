@@ -146,9 +146,9 @@ export type Comments = ListEmpty<CommentsItemWithSub>
 
 /** 帖子回复表情 */
 export type Likes = Record<
-  number,
+  string | number,
   Record<
-    number,
+    string | number,
     {
       emoji: string
       main_id: number

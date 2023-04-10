@@ -5,28 +5,30 @@
  * @Last Modified time: 2023-04-04 23:59:20
  */
 import React from 'react'
-import { StorybookPage, StorybookList } from '@components/storybook'
-import { ItemSearch, ItemSearchProps } from './index'
+import { StorybookPage, StorybookList, Flex } from '@components'
+import { ItemSearch as Component, ItemSearchProps as Props } from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemSearch',
-  component: ItemSearch
+  component: Component
 }
 
-export const Component = (args: ItemSearchProps) => (
+export const Item = (args: Props) => (
   <StorybookPage>
-    <ItemSearch {...args} />
+    <Flex.Item>
+      <Component {...args} />
+    </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = list[0] as ItemSearchProps
+Item.args = list[0]
 
 export const List = () => (
   <StorybookPage>
     <StorybookList>
       {list.map(item => (
-        <ItemSearch key={item.id} {...item} />
+        <Component key={item.id} {...item} />
       ))}
     </StorybookList>
   </StorybookPage>

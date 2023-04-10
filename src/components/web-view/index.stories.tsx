@@ -7,14 +7,14 @@
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
 import { Text } from '@components/text'
-import { WebView } from './index'
+import { WebView as Component } from './index'
 
 export default {
   title: 'components/WebView',
-  component: WebView
+  component: Component
 }
 
-export const Component = () => (
+export const WebView = () => (
   <StorybookPage>
     <Text>Not supported on web</Text>
   </StorybookPage>

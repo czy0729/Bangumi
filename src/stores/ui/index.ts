@@ -119,7 +119,7 @@ class UIStore extends store implements StoreConstructor<typeof STATE> {
   /** 显示回复表情选择弹出层 */
   showLikesGrid = (
     topicId: TopicId,
-    floorId: number,
+    floorId: string | number,
     formhash: string,
     likeType: string = '8'
   ) => {

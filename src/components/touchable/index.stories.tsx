@@ -9,28 +9,28 @@ import { StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
 import { Text } from '@components/text'
 import { _ } from '@stores'
-import { Touchable } from './index'
+import { Touchable as Component } from './index'
 
 export default {
   title: 'components/Touchable',
-  component: Touchable
+  component: Component
 }
 
-export const Component = () => (
+export const Touchable = () => (
   <StorybookPage>
     <Flex direction='column'>
-      <Touchable withoutFeedback>
+      <Component withoutFeedback>
         <Text>TouchableWithoutFeedback</Text>
-      </Touchable>
-      <Touchable style={_.mt.lg} highlight>
+      </Component>
+      <Component style={_.mt.lg} highlight>
         <Text>TouchableHighlight</Text>
-      </Touchable>
-      <Touchable style={_.mt.lg} animate>
+      </Component>
+      <Component style={_.mt.lg} animate>
         <Text>TouchableAnimated</Text>
-      </Touchable>
-      <Touchable style={_.mt.lg}>
+      </Component>
+      <Component style={_.mt.lg}>
         <Text>TouchableOpacity</Text>
-      </Touchable>
+      </Component>
     </Flex>
   </StorybookPage>
 )

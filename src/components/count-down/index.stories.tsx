@@ -6,19 +6,19 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { CountDown, CountDownProps } from './index'
+import { CountDown as Component, CountDownProps as Props } from './index'
 
 export default {
   title: 'components/CountDown',
-  component: CountDown
+  component: Component
 }
 
-export const Component = (args: CountDownProps) => (
+export const CountDown = (args: Props) => (
   <StorybookPage>
-    <CountDown {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+CountDown.args = {
   end: 1800000000
 }

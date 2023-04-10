@@ -7,11 +7,13 @@
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { APP_ID, UA } from '@constants/constants'
+import { APP_ID, STORYBOOK, UA } from '@constants/constants'
 import { syncUserStore } from '../async'
 import { Config } from './types'
 
 export async function request<T>(url: string, data?: object): Promise<T> {
+  if (STORYBOOK) return {} as T
+
   // @ts-expect-error
   axios.defaults.withCredentials = false
 

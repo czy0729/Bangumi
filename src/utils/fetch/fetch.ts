@@ -1,13 +1,11 @@
 /*
- * 使用 RN.fetch 的请求
- *  - 待废弃, 尽量少用
- *
+ * 使用 RN.fetch 的请求 (待废弃, 尽量少用)
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-09 19:10:38
  */
-import { APP_ID, UA } from '@constants/constants'
+import { APP_ID, STORYBOOK, UA } from '@constants/constants'
 import { AnyObject } from '@types'
 import fetch from '../thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp } from '../utils'
@@ -22,6 +20,8 @@ const RETRY_CACHE = {}
 
 /** 统一请求方法 (若GET请求异常, 默认一段时间后重试retryCb, 直到成功) */
 export async function fetchAPI(args: FetchAPIArgs) {
+  if (STORYBOOK) return
+
   const {
     method = 'GET',
     url,
@@ -112,6 +112,8 @@ const LAST_FETCH_HTML = {}
  *  - 2021/01/17 拦截瞬间多次完全同样的请求
  */
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
+  if (STORYBOOK) return
+
   const {
     method = 'GET',
     url,
@@ -145,7 +147,12 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   }
 
   const userStore = syncUserStore()
-  const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
+  const {
+    cookie: userCookie,
+    // @ts-expect-error
+    setCookie,
+    userAgent
+  } = userStore.userCookie
   const _config: {
     method?: FetchHTMLArgs['method']
     timeout: typeof FETCH_TIMEOUT

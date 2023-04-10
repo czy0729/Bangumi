@@ -6,19 +6,19 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { ErrorBoundary, ErrorBoundaryProps } from './index'
+import { ErrorBoundary as Component, ErrorBoundaryProps as Props } from './index'
 
 export default {
   title: 'components/ErrorBoundary',
-  component: ErrorBoundary
+  component: Component
 }
 
-export const Component = (args: ErrorBoundaryProps) => (
+export const ErrorBoundary = (args: Props) => (
   <StorybookPage>
-    <ErrorBoundary {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+ErrorBoundary.args = {
   error: new Error('JS Exception Test.')
 }

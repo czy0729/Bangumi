@@ -8,17 +8,17 @@ import React from 'react'
 import { View } from 'react-native'
 import { StorybookPage } from '@components/storybook'
 import { _ } from '@stores'
-import { Empty, EmptyProps } from './index'
+import { Empty as Component, EmptyProps as Props } from './index'
 
 export default {
   title: 'components/Empty',
-  component: Empty
+  component: Component
 }
 
-export const Component = (args: EmptyProps) => (
+export const Empty = (args: Props) => (
   <StorybookPage>
     <View style={styles.content}>
-      <Empty {...args} />
+      <Component {...args} />
     </View>
   </StorybookPage>
 )

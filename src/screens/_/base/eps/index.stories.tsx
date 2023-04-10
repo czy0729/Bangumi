@@ -5,23 +5,25 @@
  * @Last Modified time: 2023-04-05 14:30:17
  */
 import React from 'react'
-import { StorybookPage } from '@components/storybook'
+import { StorybookPage, Flex } from '@components'
 import { _ } from '@stores'
-import { Eps, EpsProps } from './index'
+import { Eps as Component, EpsProps as Props } from './index'
 import { props } from './index.mock'
 
 export default {
   title: 'base/Eps',
-  component: Eps
+  component: Component
 }
 
-export const Component = (args: EpsProps) => (
-  <StorybookPage style={_.container.wind}>
-    <Eps {...args} />
+export const Eps = (args: Props) => (
+  <StorybookPage>
+    <Flex.Item style={_.container.wind}>
+      <Component {...args} />
+    </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = {
+Eps.args = {
   ...props,
   numbersOfLine: 8,
   layoutWidth: _.window.contentWidth,

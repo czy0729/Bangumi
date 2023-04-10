@@ -9,22 +9,22 @@ import { StorybookList, StorybookPage } from '@components/storybook'
 import { Text } from '@components/text'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import Header from './header-component'
+import Component from './header-component'
 
 export default {
   title: 'components/Header',
-  component: Header
+  component: Component
 }
 
-export const Component = args => (
+export const Header = args => (
   <StorybookPage>
     <StorybookList>
-      <Header {...args} />
+      <Component {...args} />
     </StorybookList>
   </StorybookPage>
 )
 
-Component.args = {
+Header.args = {
   navigation: {},
   fixed: true,
   headerTitle: (

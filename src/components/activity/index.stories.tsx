@@ -6,15 +6,15 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Activity, ActivityProps } from './index'
+import { Activity as Component, ActivityProps as Props } from './index'
 
 export default {
   title: 'components/Activity',
-  component: Activity
+  component: Component
 }
 
-export const Component = (args: ActivityProps) => (
+export const Activity = (args: Props) => (
   <StorybookPage>
-    <Activity {...args} />
+    <Component {...args} />
   </StorybookPage>
 )

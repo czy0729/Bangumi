@@ -5,26 +5,27 @@
  * @Last Modified time: 2023-04-05 04:53:21
  */
 import React from 'react'
-import { StorybookPage, StorybookGrid } from '@components/storybook'
-import { ItemCollectionsGrid, ItemCollectionsGridProps } from './index'
+import { StorybookPage, StorybookGrid } from '@components'
+import {
+  ItemCollectionsGrid as Component,
+  ItemCollectionsGridProps as Props
+} from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemCollectionsGrid',
-  component: ItemCollectionsGrid
+  component: Component
 }
 
-export const Component = (args: ItemCollectionsGridProps) => (
-  <ItemCollectionsGrid {...args} />
-)
+export const Item = (args: Props) => <Component {...args} />
 
-Component.args = list[2] as ItemCollectionsGridProps
+Item.args = list[2]
 
 export const List = () => (
   <StorybookPage>
-    <StorybookGrid>
+    <StorybookGrid space>
       {list.map(item => (
-        <ItemCollectionsGrid key={item.id} {...item} />
+        <Component key={item.id} {...item} />
       ))}
     </StorybookGrid>
   </StorybookPage>

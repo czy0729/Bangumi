@@ -1,12 +1,12 @@
 /*
  * OSS 快照
- *
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-02-04 20:58:55
  */
 import axios from '@utils/thirdParty/axios'
+import { STORYBOOK } from '@constants'
 import { getTimestamp } from '../utils'
 import { HOST } from './ds'
 import { Result, ResultTemp } from './type'
@@ -46,6 +46,8 @@ export async function update(
   value: object,
   updateTS: boolean = true
 ): Promise<Result> {
+  if (STORYBOOK) return
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'post',

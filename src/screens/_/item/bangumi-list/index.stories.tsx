@@ -5,24 +5,24 @@
  * @Last Modified time: 2023-04-05 04:15:30
  */
 import React from 'react'
-import { StorybookPage, StorybookGrid } from '@components/storybook'
-import { ItemBangumiList, ItemBangumiListProps } from './index'
+import { StorybookPage, StorybookGrid } from '@components'
+import { ItemBangumiList as Component, ItemBangumiListProps as Props } from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemBangumiList',
-  component: ItemBangumiList
+  component: Component
 }
 
-export const Component = (args: ItemBangumiListProps) => <ItemBangumiList {...args} />
+export const Item = (args: Props) => <Component {...args} />
 
-Component.args = list[0] as ItemBangumiListProps
+Item.args = list[0]
 
 export const List = () => (
   <StorybookPage>
-    <StorybookGrid>
+    <StorybookGrid space>
       {list.map(item => (
-        <ItemBangumiList key={item.subjectId} {...item} />
+        <Component key={item.subjectId} {...item} />
       ))}
     </StorybookGrid>
   </StorybookPage>

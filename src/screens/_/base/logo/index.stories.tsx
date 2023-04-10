@@ -5,11 +5,11 @@
  * @Last Modified time: 2023-04-05 15:49:07
  */
 import React from 'react'
-import { Logo, LogoProps } from './index'
+import { Logo as Component, LogoProps as Props } from './index'
 
 export default {
   title: 'base/Logo',
-  component: Logo
+  component: Component
 }
 
-export const Component = (args: LogoProps) => <Logo {...args} />
+export const Logo = (args: Props) => <Component {...args} />

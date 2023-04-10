@@ -6,20 +6,20 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Progress, ProgressProps } from './index'
+import { Progress as Component, ProgressProps as Props } from './index'
 
 export default {
   title: 'components/Progress',
-  component: Progress
+  component: Component
 }
 
-export const Component = (args: ProgressProps) => (
+export const Progress = (args: Props) => (
   <StorybookPage>
-    <Progress {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+Progress.args = {
   show: true,
   current: 10,
   total: 100

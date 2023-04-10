@@ -3,17 +3,22 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:40:13
+ * @Last Modified time: 2023-04-09 11:02:26
  */
 import React, { useRef } from 'react'
-import { ScrollView as RNScrollView } from 'react-native'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { ScrollView as RNScrollView, View } from 'react-native'
+import { stl } from '@utils'
+import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
+import { styles } from './styles'
 import { Props as ScrollViewProps } from './types'
 
 export { ScrollViewProps }
 
 export const ScrollView = ({
+  style,
+  contentContainerStyle,
+  horizontal,
   scrollToTop,
   connectRef,
 
@@ -35,10 +40,22 @@ export const ScrollView = ({
     ref = ref => connectRef(ref?.scrollTo)
   }
 
+  // Storybook 中通常最外层就有一层 ScrollView, 所以里面不应再套一层
+  if (STORYBOOK && !horizontal) {
+    return (
+      <View style={stl(style, contentContainerStyle, styles.storybook)}>
+        {children}
+      </View>
+    )
+  }
+
   return (
     <>
       <RNScrollView
         ref={ref}
+        style={style}
+        contentContainerStyle={contentContainerStyle}
+        horizontal={horizontal}
         scrollIndicatorInsets={scrollIndicatorInsets}
         scrollEventThrottle={
           scrollEventThrottle === undefined && onScroll ? 16 : scrollEventThrottle

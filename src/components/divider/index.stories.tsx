@@ -6,15 +6,15 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Divider, DividerProps } from './index'
+import { Divider as Component, DividerProps as Props } from './index'
 
 export default {
   title: 'components/Divider',
-  component: Divider
+  component: Component
 }
 
-export const Component = (args: DividerProps) => (
+export const Divider = (args: Props) => (
   <StorybookPage>
-    <Divider {...args} />
+    <Component {...args} />
   </StorybookPage>
 )

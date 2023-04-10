@@ -7,14 +7,14 @@
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
 import { Text } from '@components/text'
-import { Slider } from './index'
+import { Slider as Component } from './index'
 
 export default {
   title: 'components/Slider',
-  component: Slider
+  component: Component
 }
 
-export const Component = () => (
+export const Slider = () => (
   <StorybookPage>
     <Text>Not supported on web</Text>
   </StorybookPage>

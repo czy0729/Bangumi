@@ -17,7 +17,7 @@ export type Props = {
   topicId: TopicId
 
   /** 楼层 ID */
-  id: number
+  id: string | number
 
   /** 操作凭证 */
   formhash: string

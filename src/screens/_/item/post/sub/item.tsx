@@ -136,7 +136,11 @@ export default memo(
     const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
     return (
       <Flex
-        style={stl(isNew && styles.itemNew, isJump && styles.itemJump)}
+        style={stl(
+          _.container.block,
+          isNew && styles.itemNew,
+          isJump && styles.itemJump
+        )}
         align='start'
       >
         <View style={_.mt.md}>

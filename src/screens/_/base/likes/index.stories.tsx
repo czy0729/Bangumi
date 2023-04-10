@@ -5,20 +5,20 @@
  * @Last Modified time: 2023-04-05 15:04:08
  */
 import React from 'react'
-import { StorybookPage } from '@components/storybook'
+import { StorybookPage } from '@components'
 import { _ } from '@stores'
-import { Likes, LikesProps } from './index'
+import { Likes as Component, LikesProps as Props } from './index'
 import { props } from './index.mock'
 
 export default {
   title: 'base/Likes',
-  component: Likes
+  component: Component
 }
 
-export const Component = (args: LikesProps) => (
+export const Likes = (args: Props) => (
   <StorybookPage style={_.container.wind}>
-    <Likes {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = props
+Likes.args = props

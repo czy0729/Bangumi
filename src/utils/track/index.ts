@@ -7,7 +7,7 @@
 import { NativeModules } from 'react-native'
 import { DEV, IOS_IPA, LOG_LEVEL } from '@/config'
 import { WSA } from '@constants/device'
-import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
+import { HOST, IOS, STORYBOOK, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import events, { EventKeys } from '@constants/events'
 import { runAfter, urlStringify } from '../utils'
 import { syncUserStore, syncThemeStore, syncSystemStore } from '../async'
@@ -23,7 +23,7 @@ let currentQuery = ''
 
 /** HM@6.0 浏览统计 */
 export function hm(url?: string, screen?: string) {
-  if (DEV) return
+  if (DEV || STORYBOOK) return
 
   try {
     // 保证这种低优先级的操作在UI响应之后再执行
@@ -65,7 +65,7 @@ export function hm(url?: string, screen?: string) {
 
 /** UA */
 export function ua() {
-  if (DEV) return
+  if (DEV || STORYBOOK) return
 
   try {
     runAfter(() => {
@@ -83,7 +83,7 @@ export function ua() {
 
 /** Error 致命错误上报 */
 export function err(desc: string) {
-  if (DEV) return
+  if (DEV || STORYBOOK) return
 
   try {
     if (!desc) return
@@ -112,7 +112,7 @@ export function t(
     [key: string]: string | number | boolean
   }
 ) {
-  if (!desc || typeof desc !== 'string') return
+  if (DEV || STORYBOOK || !desc || typeof desc !== 'string') return
 
   // fixed: 遗留问题, 显示为登录, 统计还是以前录入的登陆
   desc = desc.replace(/登录/g, '登陆') as EventKeys

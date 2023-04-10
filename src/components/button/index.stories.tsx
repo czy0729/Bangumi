@@ -7,22 +7,22 @@
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
-import { Button, ButtonProps } from './index'
+import { Button as Component, ButtonProps as Props } from './index'
 
 export default {
   title: 'components/Button',
-  component: Button
+  component: Component
 }
 
-export const Component = (args: ButtonProps) => (
+export const Button = (args: Props) => (
   <StorybookPage container>
     <Flex.Item>
-      <Button {...args} />
+      <Component {...args} />
     </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = {
+Button.args = {
   size: 'md',
   radius: true,
   children: '点击提交'

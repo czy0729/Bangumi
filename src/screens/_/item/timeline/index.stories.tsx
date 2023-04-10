@@ -5,30 +5,31 @@
  * @Last Modified time: 2023-04-05 05:40:55
  */
 import React from 'react'
-import { StorybookPage, StorybookList } from '@components/storybook'
-import { _ } from '@stores'
-import { ItemTimeline, ItemTimelineProps } from './index'
+import { StorybookPage, StorybookList, Flex } from '@components'
+import { ItemTimeline as Component, ItemTimelineProps as Props } from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemTimeline',
-  component: ItemTimeline
+  component: Component
 }
 
-export const Component = (args: ItemTimelineProps) => (
-  <StorybookPage>
-    <ItemTimeline {...args} />
+export const Item = (args: Props) => (
+  <StorybookPage radius>
+    <Flex.Item>
+      <Component {...args} />
+    </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = list[0]
+Item.args = list[0]
 
 export const List = () => (
   <StorybookPage>
-    <StorybookList style={_.container.wind}>
+    <StorybookList>
       {list.map((item, index) => (
         // @ts-expect-error
-        <ItemTimeline key={index} {...item} />
+        <Component key={index} {...item} />
       ))}
     </StorybookList>
   </StorybookPage>

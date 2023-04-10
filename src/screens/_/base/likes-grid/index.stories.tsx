@@ -7,22 +7,22 @@
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
-import Grid from './grid'
+import Component from './grid'
 import { DATA } from './grid/ds'
 import { props } from './index.mock'
 
 export default {
   title: 'base/LikesGrid',
-  component: Grid
+  component: Component
 }
 
-export const Component = args => (
+export const LikesGrid = args => (
   <View style={styles.container}>
-    <Grid {...args} data={DATA.filter(item => item[0] < 100)} />
+    <Component {...args} data={DATA.filter(item => item[0] < 100)} />
   </View>
 )
 
-Component.args = props
+LikesGrid.args = props
 
 const styles = _.create({
   container: {

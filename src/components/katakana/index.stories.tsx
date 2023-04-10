@@ -7,33 +7,33 @@
 import React from 'react'
 import { View } from 'react-native'
 import { StorybookPage } from '@components/storybook'
-import { TextProps } from '@components/text'
+import { TextProps as Props } from '@components/text'
 import { _ } from '@stores'
-import { Katakana } from './index'
+import { Katakana as Component } from './index'
 
 export default {
   title: 'components/Katakana',
-  component: Katakana
+  component: Component
 }
 
-export const Component = (args: TextProps) => (
+export const Katakana = (args: Props) => (
   <StorybookPage>
     <View>
       <View>
-        <Katakana.Provider {...args} active>
-          <Katakana {...args}>魔法少女まどか☆マギカ</Katakana>
-        </Katakana.Provider>
+        <Component.Provider {...args} active>
+          <Component {...args}>魔法少女まどか☆マギカ</Component>
+        </Component.Provider>
       </View>
       <View style={_.mt.lg}>
-        <Katakana.Provider {...args} active>
-          <Katakana {...args}>スクールアイドル</Katakana>
-        </Katakana.Provider>
+        <Component.Provider {...args} active>
+          <Component {...args}>スクールアイドル</Component>
+        </Component.Provider>
       </View>
     </View>
   </StorybookPage>
 )
 
-Component.args = {
+Katakana.args = {
   size: 16,
   lineHeight: 20,
   bold: true

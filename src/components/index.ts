@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 19:29:39
+ * @Last Modified time: 2023-04-09 08:56:51
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -55,6 +55,7 @@ export * from './skeleton'
 export * from './slider'
 export * from './spinner'
 export * from './status-bar-events'
+export * from './storybook'
 export * from './switch'
 export * from './switch-pro'
 export * from './tabs-v2'

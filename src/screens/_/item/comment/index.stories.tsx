@@ -5,29 +5,31 @@
  * @Last Modified time: 2023-04-05 05:11:02
  */
 import React from 'react'
-import { StorybookPage, StorybookList } from '@components/storybook'
-import { ItemComment, ItemCommentProps } from './index'
+import { StorybookPage, StorybookList, Flex } from '@components'
+import { ItemComment as Component, ItemCommentProps as Props } from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemComment',
-  component: ItemComment
+  component: Component
 }
 
-export const Component = (args: ItemCommentProps) => (
-  <StorybookPage>
-    <ItemComment {...args} />
+export const Item = (args: Props) => (
+  <StorybookPage radius>
+    <Flex.Item>
+      <Component {...args} />
+    </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = list[2]
+Item.args = list[2]
 
 export const List = () => (
   <StorybookPage>
     <StorybookList>
       {list.map(item => (
         // @ts-expect-error
-        <ItemComment key={item.userId} {...item} />
+        <Component key={item.userId} {...item} />
       ))}
     </StorybookList>
   </StorybookPage>

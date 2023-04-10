@@ -37,6 +37,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: 24
   },
   text: {
+    maxWidth: '100%',
     padding: 12,
     marginRight: 24,
     backgroundColor: _.colorPlain,

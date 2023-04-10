@@ -6,20 +6,20 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Image, ImageProps } from './index'
+import { Image as Component, ImageProps as Props } from './index'
 
 export default {
   title: 'components/Image',
-  component: Image
+  component: Component
 }
 
-export const Component = (args: ImageProps) => (
+export const Image = (args: Props) => (
   <StorybookPage>
-    <Image {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+Image.args = {
   src: 'https://lain.bgm.tv/r/400/pic/cover/l/58/c1/376703_g5559.jpg',
   width: 216,
   height: 302

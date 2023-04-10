@@ -5,30 +5,31 @@
  * @Last Modified time: 2023-04-05 05:38:42
  */
 import React from 'react'
-import { StorybookPage, StorybookList } from '@components/storybook'
-import { _ } from '@stores'
-import { ItemSettingBlock, ItemSettingBlockProps } from './index'
+import { StorybookPage, StorybookList, Flex } from '@components'
+import { ItemSettingBlock as Component, ItemSettingBlockProps as Props } from './index'
 import { list } from './index.mock'
 
 export default {
   title: 'item/ItemSettingBlock',
-  component: ItemSettingBlock
+  component: Component
 }
 
-export const Component = (args: ItemSettingBlockProps) => (
+export const Item = (args: Props) => (
   <StorybookPage>
-    <ItemSettingBlock {...args} />
+    <Flex.Item>
+      <Component {...args} />
+    </Flex.Item>
   </StorybookPage>
 )
 
-Component.args = list[0]
+Item.args = list[0]
 
 export const List = () => (
   <StorybookPage>
-    <StorybookList style={_.container.wind}>
+    <StorybookList space>
       {list.map((item, index) => (
         // @ts-expect-error
-        <ItemSettingBlock key={index} {...item} />
+        <Component key={index} {...item} />
       ))}
     </StorybookList>
   </StorybookPage>

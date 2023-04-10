@@ -337,7 +337,7 @@ class RakuenStore extends store implements StoreConstructor<typeof STATE> {
   }
 
   /** 帖子回复表情 */
-  likesList(topicId: TopicId, floorId: number) {
+  likesList(topicId: TopicId, floorId: string | number) {
     return computed(() => {
       const likes = rakuenStore.likes(topicId)?.[floorId]
       if (!likes) return null

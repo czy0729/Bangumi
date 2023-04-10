@@ -7,14 +7,14 @@
 import React from 'react'
 import { View } from 'react-native'
 import { StorybookPage } from '@components/storybook'
-import { Skeleton, SkeletonProps } from './index'
+import { Skeleton as Component, SkeletonProps as Props } from './index'
 
 export default {
   title: 'components/Skeleton',
-  component: Skeleton
+  component: Component
 }
 
-export const Component = (args: SkeletonProps) => (
+export const Skeleton = (args: Props) => (
   <StorybookPage>
     <View
       // eslint-disable-next-line react-native/no-inline-styles
@@ -23,12 +23,12 @@ export const Component = (args: SkeletonProps) => (
         height: 136
       }}
     >
-      <Skeleton {...args} />
+      <Component {...args} />
     </View>
   </StorybookPage>
 )
 
-Component.args = {
+Skeleton.args = {
   width: 240,
   height: 136
 }

@@ -6,19 +6,19 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Input, InputProps } from './index'
+import { Input as Component, InputProps as Props } from './index'
 
 export default {
   title: 'components/Input',
-  component: Input
+  component: Component
 }
 
-export const Component = (args: InputProps) => (
+export const Input = (args: Props) => (
   <StorybookPage>
-    <Input {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+Input.args = {
   placeholder: 'Input'
 }

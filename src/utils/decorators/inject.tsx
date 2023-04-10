@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 08:19:20
+ * @Last Modified time: 2023-04-09 09:03:07
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
@@ -138,8 +138,13 @@ const Inject = (Store, config?: Config) => {
 
 export default Inject
 
-function getScreenKey(route: { params: any; name: any }) {
-  const params = Object.entries(route.params || {})
+function getScreenKey(
+  route: {
+    params?: any
+    name?: any
+  } = {}
+) {
+  const params = Object.entries(route?.params || {})
     // 后期对页面跳转传递数据进行了优化, 排除 params 里面 _ 开头的 key, 如 _name, _image
     .filter(([key]) => !key.startsWith('_'))
     .reduce((obj, [key, value]) => {

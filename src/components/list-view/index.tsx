@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 07:58:22
+ * @Last Modified time: 2023-04-09 09:55:10
  */
 import React from 'react'
 import { RefreshControl, View } from 'react-native'
@@ -346,12 +346,14 @@ export const ListView = observer(
       return (
         <View style={this.props.contentContainerStyle}>
           {this.props.ListHeaderComponent}
-          {this.data.map((item: any, index: number) =>
-            this.props.renderItem({
-              item,
-              index
-            })
-          )}
+          {this.data.map((item: any, index: number) => (
+            <View key={this.props.keyExtractor(item, index)}>
+              {this.props.renderItem({
+                item,
+                index
+              })}
+            </View>
+          ))}
           {this.renderFooter()}
         </View>
       )

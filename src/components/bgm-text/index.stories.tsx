@@ -9,21 +9,21 @@ import { _ } from '@stores'
 import { StorybookGrid, StorybookPage } from '@components/storybook'
 import { Flex } from '@components/flex'
 import { Text } from '@components/text'
-import { BgmText } from './index'
+import { BgmText as Component } from './index'
 
 export default {
   title: 'components/BgmText',
-  component: BgmText
+  component: Component
 }
 
-export const Component = () => (
+export const BgmText = () => (
   <StorybookPage>
     <StorybookGrid space justify='between'>
       {Array(102)
         .fill('')
         .map((item, index) => (
           <Flex key={index + 1} style={styles.item} direction='column' justify='center'>
-            <BgmText index={index + 1} size={18} />
+            <Component index={index + 1} size={18} />
             <Text style={_.mt.xs} size={12} align='center'>
               {index + 1}
             </Text>

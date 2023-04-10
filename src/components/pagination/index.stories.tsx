@@ -6,19 +6,19 @@
  */
 import React from 'react'
 import { StorybookPage } from '@components/storybook'
-import { Pagination, PaginationProps } from './index'
+import { Pagination as Component, PaginationProps as Props } from './index'
 
 export default {
   title: 'components/Pagination',
-  component: Pagination
+  component: Component
 }
 
-export const Component = (args: PaginationProps) => (
+export const Pagination = (args: Props) => (
   <StorybookPage>
-    <Pagination {...args} />
+    <Component {...args} />
   </StorybookPage>
 )
 
-Component.args = {
+Pagination.args = {
   input: 3
 }
