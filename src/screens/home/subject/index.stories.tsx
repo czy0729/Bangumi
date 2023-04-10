@@ -2,25 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-04-08 04:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-09 09:03:42
+ * @Last Modified time: 2023-04-10 22:35:17
  */
 import React from 'react'
-import { Page, StorybookPage, StorybookList, StorybookNavigation } from '@components'
-import { subjectStore } from '@stores'
-import { getInt } from '@stores/subject'
+import {
+  Page,
+  StorybookPage,
+  StorybookList,
+  StorybookNavigation,
+  getStorybookRoute
+} from '@components'
+import { urlStringify } from '@utils'
 import { ic } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import List from './list'
 import Store from './store'
-import { anime, game } from './index.mock'
 import { Ctx } from './types'
 
-const Subject = ic(Store, ({ onMounted }, { $ }: Ctx) => {
+const Component = ic(Store, (props, { $ }: Ctx) => {
   useMount(() => {
-    onMounted($)
-    setTimeout(() => {
-      $.rendered()
-    }, 400)
+    $.init()
   })
 
   return (
@@ -33,68 +34,20 @@ const Subject = ic(Store, ({ onMounted }, { $ }: Ctx) => {
 
 export default {
   title: 'screens/Subject',
-  component: Subject
+  component: Component
 }
 
-export const Anime = () => (
-  <StorybookPage>
-    <StorybookList>
-      <Subject
-        navigation={StorybookNavigation}
-        route={{
-          params: {
-            subjectId: anime.subjectId
-          }
-        }}
-        onMounted={$ => {
-          const subjectId = anime.subjectId
-          const last = getInt(subjectId)
-          subjectStore.setState({
-            [`subject${last}`]: {
-              [subjectId]: anime.subject
-            },
-            [`subjectFormHTML${last}`]: {
-              [subjectId]: anime.subjectFromHTML
-            },
-            subjectComments: {
-              [subjectId]: anime.subjectComments
-            }
-          })
-          $.setState(anime.state)
-        }}
-      />
-    </StorybookList>
-  </StorybookPage>
-)
-
-export const Game = () => (
-  <StorybookPage>
-    <StorybookList>
-      <Subject
-        navigation={StorybookNavigation}
-        route={{
-          params: {
-            name: 'Subject',
-            subjectId: game.subjectId
-          }
-        }}
-        onMounted={$ => {
-          const subjectId = game.subjectId
-          const last = getInt(subjectId)
-          subjectStore.setState({
-            [`subject${last}`]: {
-              [subjectId]: game.subject
-            },
-            [`subjectFormHTML${last}`]: {
-              [subjectId]: game.subjectFromHTML
-            },
-            subjectComments: {
-              [subjectId]: game.subjectComments
-            }
-          })
-          $.setState(game.state)
-        }}
-      />
-    </StorybookList>
-  </StorybookPage>
-)
+export const Subject = () => {
+  const route = getStorybookRoute('Subject')
+  return (
+    <StorybookPage>
+      <StorybookList>
+        <Component
+          key={urlStringify(route.params)}
+          navigation={StorybookNavigation}
+          route={route}
+        />
+      </StorybookList>
+    </StorybookPage>
+  )
+}

@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 18:25:51
+ * @Last Modified time: 2023-04-10 15:59:22
  */
 import React from 'react'
 import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
@@ -20,7 +20,7 @@ import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
-import { DEV, IOS } from '@constants'
+import { DEV, IOS, STORYBOOK } from '@constants'
 import { Source } from '@types'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -88,9 +88,9 @@ export const Image = observer(
         return
       }
 
-      if (!cache) {
+      if (!cache || STORYBOOK) {
         this.setState({
-          uri: src
+          uri: fixedRemoteImageUrl(src)
         })
         return
       }
@@ -113,6 +113,13 @@ export const Image = observer(
       }
 
       if (nextProps.src !== this.props.src) {
+        if (STORYBOOK) {
+          this.setState({
+            uri: fixedRemoteImageUrl(nextProps.src)
+          })
+          return
+        }
+
         this.cache(nextProps.src)
       }
     }
@@ -464,7 +471,7 @@ export const Image = observer(
         })
       }
 
-      // 若边框等于hairlineWidth且有影子就不显示边框
+      // 若边框等于 hairlineWidth 且有影子就不显示边框
       if (border && !(border === _.hairlineWidth && shadow)) {
         image.push(
           typeof border === 'string'
@@ -497,7 +504,6 @@ export const Image = observer(
 
       /**
        * 以下特殊情况不显示阴影
-       *
        * _.isDark 黑暗模式没必要显示阴影
        * systemStore.devEvent 安卓下当有阴影, 层级会被提高, 导致遮挡卖点分析的可视化文字
        */
@@ -660,7 +666,7 @@ export const Image = observer(
       const { error, uri } = this.state
       if (error && errorToHide) return null
 
-      if (error) return this.renderError()
+      if (!STORYBOOK && error) return this.renderError()
 
       if (typeof src === 'string' || typeof src === 'undefined') {
         // 没有图片占位

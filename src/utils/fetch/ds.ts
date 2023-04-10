@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 12:28:17
+ * @Last Modified time: 2023-04-10 15:31:27
  */
-import { HOST } from '@constants/constants'
+import { HOST, STORYBOOK } from '@constants/constants'
 
 /** 开发显示请求信息 */
 export const SHOW_LOG = true
@@ -13,7 +13,7 @@ export const SHOW_LOG = true
 export const FETCH_TIMEOUT = 6400
 
 /** GET 请求失败自动重试次数 */
-export const FETCH_RETRY = 4
+export const FETCH_RETRY = STORYBOOK ? 0 : 4
 
 /** 默认请求头 */
 export const HEADERS_DEFAULT = {

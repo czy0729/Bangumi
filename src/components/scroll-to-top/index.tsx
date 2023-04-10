@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 17:36:55
+ * @Last Modified time: 2023-04-10 18:04:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import Portal from '@ant-design/react-native/lib/portal'
 import { _, systemStore } from '@stores'
-import { IOS, WSA } from '@constants'
+import { IOS, STORYBOOK, WSA } from '@constants'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -28,7 +28,7 @@ const ScrollToTop = observer(
     scrollToLocation,
     onPress
   }: ScrollToToProps) => {
-    if (IOS) return null
+    if (IOS || STORYBOOK) return null
     if ((IOS || !isFocused) && !systemStore.dev) return null
 
     const styles = memoStyles()

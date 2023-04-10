@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 19:10:38
+ * @Last Modified time: 2023-04-10 17:46:54
  */
-import { APP_ID, STORYBOOK, UA } from '@constants/constants'
+import { APP_ID, HOST, STORYBOOK, UA } from '@constants/constants'
 import { AnyObject } from '@types'
+import { HOST_PROXY } from '@/config'
 import fetch from '../thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp } from '../utils'
 import { loading } from '../ui'
@@ -18,10 +19,8 @@ import { FetchAPIArgs, FetchHTMLArgs } from './types'
 
 const RETRY_CACHE = {}
 
-/** 统一请求方法 (若GET请求异常, 默认一段时间后重试retryCb, 直到成功) */
+/** 统一请求方法 (若 GET 请求异常, 默认一段时间后重试 retryCb, 直到成功) */
 export async function fetchAPI(args: FetchAPIArgs) {
-  if (STORYBOOK) return
-
   const {
     method = 'GET',
     url,
@@ -33,12 +32,16 @@ export async function fetchAPI(args: FetchAPIArgs) {
   const isGet = method === 'GET'
   const userStore = syncUserStore()
   const config: AnyObject = {
-    timeout: FETCH_TIMEOUT,
-    headers: {
-      Authorization: `${userStore.accessToken.token_type} ${userStore.accessToken.access_token}`,
-      'User-Agent': UA
-    }
+    method: isGet ? 'GET' : 'POST',
+    headers: STORYBOOK
+      ? {}
+      : {
+          Authorization: `${userStore.accessToken.token_type} ${userStore.accessToken.access_token}`,
+          'User-Agent': UA
+        },
+    timeout: FETCH_TIMEOUT
   }
+
   const body: AnyObject = {
     app_id: APP_ID,
     ...data
@@ -47,11 +50,9 @@ export async function fetchAPI(args: FetchAPIArgs) {
   let _url = url
   let hide: () => void
   if (isGet) {
-    config.method = 'GET'
-    body.state = getTimestamp() // 随机数防止接口CDN缓存
+    body.state = getTimestamp() // 随机数防止接口 CDN 缓存
     _url += `${_url.includes('?') ? '&' : '?'}${urlStringify(body)}`
   } else {
-    config.method = 'POST'
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     config.body = urlStringify(body)
     if (!noConsole) hide = loading()
@@ -75,8 +76,9 @@ export async function fetchAPI(args: FetchAPIArgs) {
 
       // @issue 由于 Bangumi 提供的 API 没有统一返回数据
       // 正常情况没有 code, 错误情况例如空的时候, 返回 { code: 400, err: '...' }
-      if (json && json.error) {
+      if (json?.error) {
         if (json.error === 'invalid_token') userStore.setOutdate()
+
         return Promise.resolve({
           code: json.code,
           error: json.error,
@@ -84,7 +86,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
         })
       }
 
-      // 接口某些字段为空返回null, 影响到解构的正常使用, 统一处理成空字符串
+      // 接口某些字段为空返回 null, 影响到解构的正常使用, 统一处理成空字符串
       return Promise.resolve(safe(json))
     })
     .catch(async err => {
@@ -99,7 +101,6 @@ export async function fetchAPI(args: FetchAPIArgs) {
         if (RETRY_CACHE[key] < FETCH_RETRY) return retryCb()
       }
 
-      // UIInfo(`${info}请求失败`)
       return Promise.reject(err)
     })
 }
@@ -112,8 +113,6 @@ const LAST_FETCH_HTML = {}
  *  - 2021/01/17 拦截瞬间多次完全同样的请求
  */
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
-  if (STORYBOOK) return
-
   const {
     method = 'GET',
     url,
@@ -209,6 +208,8 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   }
 
   if (SHOW_LOG) log(`⚡️ ${_url}`)
+
+  if (STORYBOOK && HOST_PROXY) _url = _url.replace(HOST, HOST_PROXY)
 
   return fetch(_url, _config)
     .then(res => {

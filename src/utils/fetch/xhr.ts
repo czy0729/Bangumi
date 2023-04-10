@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 19:14:21
+ * @Last Modified time: 2023-04-10 15:37:19
  */
-import { HOST, HOST_CDN, HOST_NAME, IOS, STORYBOOK } from '@constants/constants'
+import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { urlStringify } from '../utils'
 import { syncUserStore } from '../async'
@@ -20,8 +20,6 @@ export function xhr(
   success: (responseText?: string, request?: any) => any = () => {},
   fail: Fn = () => {}
 ) {
-  if (STORYBOOK) return
-
   const { method = 'POST', url, data = {}, noConsole } = args || {}
   const userStore = syncUserStore()
   const { cookie: userCookie, userAgent } = userStore.userCookie
@@ -52,8 +50,6 @@ export function xhr(
 export function xhrCustom(args: XHRCustomArgs): Promise<{
   _response: string
 }> {
-  if (STORYBOOK) return
-
   const {
     method = 'GET',
     url,
@@ -107,8 +103,6 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
 
 /** 请求收到返回数据马上结束 */
 export function ping(url: string, headers = {}): Promise<number> {
-  if (STORYBOOK) return
-
   return new Promise(resolve => {
     const start = new Date().getTime()
     const xhr = new XMLHttpRequest()

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-09 09:55:10
+ * @Last Modified time: 2023-04-10 18:37:30
  */
 import React from 'react'
 import { RefreshControl, View } from 'react-native'
@@ -15,6 +15,7 @@ import { IOS, LIST_EMPTY, STORYBOOK } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { ErrorBoundary } from '../error-boundary'
 import { ScrollToTop } from '../scroll-to-top'
+import { StorybookScroll } from '../storybook'
 import List from './list'
 import Footer from './footer'
 import { REFRESH_STATE } from './ds'
@@ -344,7 +345,10 @@ export const ListView = observer(
 
     renderStorybook() {
       return (
-        <View style={this.props.contentContainerStyle}>
+        <StorybookScroll
+          style={this.props.contentContainerStyle}
+          onFooterRefresh={this.props.onFooterRefresh}
+        >
           {this.props.ListHeaderComponent}
           {this.data.map((item: any, index: number) => (
             <View key={this.props.keyExtractor(item, index)}>
@@ -355,7 +359,7 @@ export const ListView = observer(
             </View>
           ))}
           {this.renderFooter()}
-        </View>
+        </StorybookScroll>
       )
     }
 
