@@ -1,15 +1,15 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-09 10:33:08
+ * @Date: 2023-04-11 12:27:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:22:18
+ * @Last Modified time: 2023-04-11 12:27:38
  */
 import React from 'react'
 import {
   Page,
-  StorybookSPA,
   StorybookList,
   StorybookNavigation,
+  StorybookSPA,
   getStorybookRoute
 } from '@components'
 import { urlStringify } from '@utils'
@@ -32,12 +32,12 @@ const Component = ic(Store, (props, { $ }: Ctx) => {
 })
 
 export default {
-  title: 'screens/Rank',
+  title: 'screens/Browser',
   component: Component
 }
 
-export const Rank = () => {
-  const route = getStorybookRoute('Rank')
+export const Browser = () => {
+  const route = getStorybookRoute('Browser')
   return (
     <StorybookSPA>
       <StorybookList>

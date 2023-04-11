@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 01:45:09
+ * @Last Modified time: 2023-04-11 13:11:26
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { uiStore } from '@stores'
+import { _, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
@@ -98,7 +98,7 @@ const Item = memo(
               justify={justify}
               align='start'
             >
-              <Flex align='start'>
+              <Flex style={_.container.block} align='start'>
                 <Flex.Item>
                   <Title
                     name={name}

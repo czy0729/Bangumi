@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2020-06-04 16:41:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-02 05:29:17
+ * @Last Modified time: 2023-04-11 12:11:09
  */
 import { useCallback, useState, useMemo } from 'react'
 
-export default function useToggle(defaultValue, reverseValue) {
+export default function useToggle(defaultValue, reverseValue?) {
   const [state, setState] = useState(defaultValue)
   const reverseValueOrigin = useMemo(
     () => (reverseValue === undefined ? !defaultValue : reverseValue),

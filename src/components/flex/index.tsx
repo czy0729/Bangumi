@@ -1,12 +1,13 @@
 /*
- * Flex 布局
- * @Doc: https://rn.mobile.ant.design/components/flex-cn/
  * @Author: czy0729
- * @Date: 2019-04-04 05:24:27
+ * @Date: 2023-04-11 12:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:27:26
+ * @Last Modified time: 2023-04-11 12:54:19
  */
-import Flex from '@ant-design/react-native/lib/flex'
+import Flex from './flex'
+import FlexItem from './flex-item'
 import { Props as FlexProps } from './types'
+
+Flex.Item = FlexItem
 
 export { Flex, FlexProps }

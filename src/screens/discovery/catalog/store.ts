@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 02:52:56
+ * @Last Modified time: 2023-04-11 12:33:06
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -13,7 +13,12 @@ import { update } from '@utils/kv'
 import catalogs from '@assets/json/catalogs.json'
 import { Id, SubjectTypeCn } from '@types'
 import { TypeType, TypeLabel } from './types'
-import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, MODEL_SUBJECT_TYPE } from '@constants'
+import {
+  APP_USERID_IOS_AUTH,
+  APP_USERID_TOURIST,
+  MODEL_SUBJECT_TYPE,
+  STORYBOOK
+} from '@constants'
 
 const NAMESPACE = 'ScreenCatalog'
 
@@ -220,6 +225,8 @@ export default class ScreenCatalog extends store {
 
   /** 是否限制显示 */
   @computed get isLimit() {
+    if (STORYBOOK) return false
+
     const { type } = this.state
     if (type !== 'advance') return false
 

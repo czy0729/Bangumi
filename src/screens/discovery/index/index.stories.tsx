@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-11 01:59:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 02:00:22
+ * @Last Modified time: 2023-04-11 12:21:22
  */
 import React from 'react'
 import {
   Page,
-  StorybookPage,
   StorybookList,
   StorybookNavigation,
+  StorybookSPA,
   getStorybookRoute
 } from '@components'
 import { urlStringify } from '@utils'
@@ -40,7 +40,7 @@ export default {
 export const Discovery = () => {
   const route = getStorybookRoute('Discovery')
   return (
-    <StorybookPage>
+    <StorybookSPA>
       <StorybookList>
         <Component
           key={urlStringify(route.params)}
@@ -48,6 +48,6 @@ export const Discovery = () => {
           route={route}
         />
       </StorybookList>
-    </StorybookPage>
+    </StorybookSPA>
   )
 }

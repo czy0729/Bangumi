@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-09 10:33:08
+ * @Date: 2023-04-11 12:34:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:22:18
+ * @Last Modified time: 2023-04-11 12:35:06
  */
 import React from 'react'
 import {
@@ -26,18 +26,19 @@ const Component = ic(Store, (props, { $ }: Ctx) => {
 
   return (
     <Page>
+      {/* @ts-expect-error */}
       <List />
     </Page>
   )
 })
 
 export default {
-  title: 'screens/Rank',
+  title: 'screens/CatalogDetail',
   component: Component
 }
 
-export const Rank = () => {
-  const route = getStorybookRoute('Rank')
+export const CatalogDetail = () => {
+  const route = getStorybookRoute('CatalogDetail')
   return (
     <StorybookSPA>
       <StorybookList>

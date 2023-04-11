@@ -2,26 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:52:50
+ * @Last Modified time: 2023-04-11 11:34:04
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
-import { Touchable, Flex, Text, Iconfont } from '@components'
-import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { INIT_DISCOVERY_MENU } from '@stores/system/init'
-import { confirm } from '@utils'
+import { Flex, Text } from '@components'
 import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import { ORIENTATION_PORTRAIT } from '@constants'
 import Btn from '../btn'
 import { getMenus } from '../ds'
+import Btns from './btns'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({
-    navigation,
     styles,
     orientation,
     dragging,
@@ -78,67 +74,8 @@ export default memo(
     }, [menu, onSubmit, onToggle])
 
     const btns = useMemo(
-      () =>
-        dragging && (
-          <>
-            <Flex style={styles.btns} justify='end'>
-              <Flex.Item>
-                <Touchable style={styles.touch} onPress={onCancel}>
-                  <Flex style={styles.btn} justify='center'>
-                    <Text type='sub' bold size={11}>
-                      取消
-                    </Text>
-                  </Flex>
-                </Touchable>
-              </Flex.Item>
-              <Flex.Item style={_.ml.md}>
-                <Touchable style={styles.touch} onPress={onSave}>
-                  <Flex style={styles.btn} justify='center'>
-                    <Text type='__plain__' bold size={11}>
-                      保存
-                    </Text>
-                  </Flex>
-                </Touchable>
-              </Flex.Item>
-              <IconTouchable
-                style={[_.ml.md, _.mr.sm]}
-                name='md-refresh'
-                color={_.colorDesc}
-                onPress={() => {
-                  confirm('是否恢复默认菜单布局', () => {
-                    // @ts-expect-error
-                    setMenu(INIT_DISCOVERY_MENU)
-                  })
-                }}
-              />
-            </Flex>
-            <Touchable
-              style={_.mt.sm}
-              onPress={() => {
-                navigation.push('Setting', {
-                  open: 'Discovery'
-                })
-              }}
-            >
-              <Flex style={styles.setting}>
-                <Flex.Item>
-                  <Text>更多设置</Text>
-                </Flex.Item>
-                <Iconfont name='md-navigate-next' size={24} />
-              </Flex>
-            </Touchable>
-          </>
-        ),
-      [
-        dragging,
-        navigation,
-        onCancel,
-        onSave,
-        styles.btn,
-        styles.btns,
-        styles.setting,
-        styles.touch
-      ]
+      () => dragging && <Btns setMenu={setMenu} onCancel={onCancel} onSave={onSave} />,
+      [dragging, onCancel, onSave]
     )
 
     const isPortrait = orientation === ORIENTATION_PORTRAIT

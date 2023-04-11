@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-09 10:33:08
- * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:22:18
+ * @Date: 2023-04-11 12:32:08
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2023-04-11 12:32:08
  */
 import React from 'react'
 import {
@@ -32,12 +32,12 @@ const Component = ic(Store, (props, { $ }: Ctx) => {
 })
 
 export default {
-  title: 'screens/Rank',
+  title: 'screens/Catalog',
   component: Component
 }
 
-export const Rank = () => {
-  const route = getStorybookRoute('Rank')
+export const Catalog = () => {
+  const route = getStorybookRoute('Catalog')
   return (
     <StorybookSPA>
       <StorybookList>

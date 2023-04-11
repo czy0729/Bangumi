@@ -6,7 +6,7 @@
  */
 import { useEffect } from 'react'
 
-export default function useMount(fn) {
+export default function useMount(fn = () => {}) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useEffect(() => fn(), [])
 }

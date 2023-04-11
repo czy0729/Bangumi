@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-09 09:20:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-09 09:42:01
+ * @Last Modified time: 2023-04-11 12:26:20
  */
 import React from 'react'
-import { Page, StorybookPage, StorybookList, StorybookNavigation } from '@components'
+import { Page, StorybookSPA, StorybookList, StorybookNavigation } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import List from './list'
@@ -30,7 +30,7 @@ export default {
 }
 
 export const Game = () => (
-  <StorybookPage>
+  <StorybookSPA>
     <StorybookList>
       <Screen
         navigation={StorybookNavigation}
@@ -41,5 +41,5 @@ export const Game = () => (
         }}
       />
     </StorybookList>
-  </StorybookPage>
+  </StorybookSPA>
 )

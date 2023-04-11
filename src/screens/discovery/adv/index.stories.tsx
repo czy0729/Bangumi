@@ -1,11 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-09 10:33:08
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-04-09 10:33:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-04-11 12:25:46
  */
 import React from 'react'
-import { Page, StorybookPage, StorybookList, StorybookNavigation } from '@components'
+import { Page, StorybookSPA, StorybookList, StorybookNavigation } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import List from './list'
@@ -30,7 +30,7 @@ export default {
 }
 
 export const ADV = () => (
-  <StorybookPage>
+  <StorybookSPA>
     <StorybookList>
       <Screen
         navigation={StorybookNavigation}
@@ -41,5 +41,5 @@ export const ADV = () => (
         }}
       />
     </StorybookList>
-  </StorybookPage>
+  </StorybookSPA>
 )

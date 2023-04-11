@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 22:35:03
+ * @Last Modified time: 2023-04-11 11:54:39
  */
 import { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
@@ -39,10 +39,10 @@ export default function useCachedResources() {
         // 保持启动屏
         SplashScreen.preventAutoHideAsync()
 
-        // App初始化
+        // App 初始化
         bootApp()
 
-        // Stores初始化
+        // Stores 初始化
         const settings = await Stores.init()
 
         // 加载 bgm 表情特殊字体

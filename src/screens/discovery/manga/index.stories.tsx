@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-09 10:34:46
  */
 import React from 'react'
-import { Page, StorybookPage, StorybookList, StorybookNavigation } from '@components'
+import { Page, StorybookSPA, StorybookList, StorybookNavigation } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import List from './list'
@@ -30,7 +30,7 @@ export default {
 }
 
 export const Manga = () => (
-  <StorybookPage>
+  <StorybookSPA>
     <StorybookList>
       <Screen
         navigation={StorybookNavigation}
@@ -41,5 +41,5 @@ export const Manga = () => (
         }}
       />
     </StorybookList>
-  </StorybookPage>
+  </StorybookSPA>
 )
