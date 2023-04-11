@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 18:37:30
+ * @Last Modified time: 2023-04-11 18:48:46
  */
 import React from 'react'
 import { RefreshControl, View } from 'react-native'
@@ -14,6 +14,7 @@ import { pick, omit, sleep, simpleTime, date } from '@utils'
 import { IOS, LIST_EMPTY, STORYBOOK } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { ErrorBoundary } from '../error-boundary'
+import { Flex } from '../flex'
 import { ScrollToTop } from '../scroll-to-top'
 import { StorybookScroll } from '../storybook'
 import List from './list'
@@ -344,20 +345,31 @@ export const ListView = observer(
     }
 
     renderStorybook() {
-      return (
-        <StorybookScroll
-          style={this.props.contentContainerStyle}
-          onFooterRefresh={this.props.onFooterRefresh}
-        >
-          {this.props.ListHeaderComponent}
-          {this.data.map((item: any, index: number) => (
+      const content = this.props.sections
+        ? this.sections.map((section: any, index: number) => (
+            <View key={index}>
+              {this.props.renderSectionHeader({ section })}
+              {this.props.renderItem({
+                item: section.data[0],
+                section
+              })}
+            </View>
+          ))
+        : this.data.map((item: any, index: number) => (
             <View key={this.props.keyExtractor(item, index)}>
               {this.props.renderItem({
                 item,
                 index
               })}
             </View>
-          ))}
+          ))
+      return (
+        <StorybookScroll
+          style={this.props.contentContainerStyle}
+          onFooterRefresh={this.props.onFooterRefresh}
+        >
+          {this.props.ListHeaderComponent}
+          {this.props.numColumns > 1 ? <Flex wrap='wrap'>{content}</Flex> : content}
           {this.renderFooter()}
         </StorybookScroll>
       )

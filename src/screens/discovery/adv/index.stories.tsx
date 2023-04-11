@@ -2,44 +2,34 @@
  * @Author: czy0729
  * @Date: 2023-04-09 10:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:25:46
+ * @Last Modified time: 2023-04-11 19:18:46
  */
 import React from 'react'
-import { Page, StorybookSPA, StorybookList, StorybookNavigation } from '@components'
-import { ic } from '@utils/decorators'
-import { useMount } from '@utils/hooks'
-import List from './list'
-import Store from './store'
-import { Ctx } from './types'
-
-const Screen = ic(Store, (props, { $ }: Ctx) => {
-  useMount(() => {
-    $.init()
-  })
-
-  return (
-    <Page>
-      <List />
-    </Page>
-  )
-})
+import {
+  StorybookSPA,
+  StorybookList,
+  StorybookNavigation,
+  getStorybookRoute
+} from '@components'
+import { urlStringify } from '@utils'
+import Component from './index'
 
 export default {
   title: 'screens/ADV',
-  component: Screen
+  component: Component
 }
 
-export const ADV = () => (
-  <StorybookSPA>
-    <StorybookList>
-      <Screen
-        navigation={StorybookNavigation}
-        route={{
-          params: {
-            name: 'ADV'
-          }
-        }}
-      />
-    </StorybookList>
-  </StorybookSPA>
-)
+export const ADV = () => {
+  const route = getStorybookRoute('ADV')
+  return (
+    <StorybookSPA>
+      <StorybookList>
+        <Component
+          key={urlStringify(route.params)}
+          navigation={StorybookNavigation}
+          route={route}
+        />
+      </StorybookList>
+    </StorybookSPA>
+  )
+}

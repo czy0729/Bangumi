@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:48:50
+ * @Last Modified time: 2023-04-11 16:52:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -117,7 +117,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                 <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={5}>
                   {tipStr}
                 </Text>
-                <Flex style={_.mt.md} wrap='wrap'>
+                <Flex style={_.mt.md}>
                   <Rank value={rank} />
                   <Stars style={_.mr.xs} value={score} simple />
                   {!!total && (
@@ -125,7 +125,9 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                       ({total})
                     </Text>
                   )}
-                  <Tags value={tag} />
+                  <Flex.Item>
+                    <Tags value={tag} />
+                  </Flex.Item>
                 </Flex>
               </Flex.Item>
               <Manage

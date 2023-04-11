@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 04:20:40
+ * @Last Modified time: 2023-04-11 17:41:28
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -34,7 +34,7 @@ import {
 } from '@utils/douban'
 import { search as searchMV } from '@utils/bilibili'
 import { get, update } from '@utils/kv'
-import { API_ANITABI, CDN_EPS, SITES } from '@constants'
+import { API_ANITABI, CDN_EPS, SITES, STORYBOOK } from '@constants'
 import { UserId } from '@types'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
@@ -214,6 +214,8 @@ export default class Fetch extends Computed {
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
+    if (STORYBOOK) return
+
     if (this.type === '动画') {
       try {
         const { _response } = await xhrCustom({
@@ -525,7 +527,7 @@ export default class Fetch extends Computed {
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
     const { showAnitabi } = systemStore.setting
-    if (showAnitabi === -1 || !showAnitabi) return false
+    if (STORYBOOK || showAnitabi === -1 || !showAnitabi) return false
 
     const { _loaded } = this.state.anitabi
     if (_loaded && getTimestamp() - Number(_loaded) <= 60 * 60 * 24) return true

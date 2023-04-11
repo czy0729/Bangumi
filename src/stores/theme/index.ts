@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 11:18:18
+ * @Last Modified time: 2023-04-11 16:00:28
  */
 import { StyleSheet, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -115,7 +115,7 @@ class ThemeStore extends store implements StoreConstructor<typeof STATE> {
   /** 状态栏高度 */
   readonly statusBarHeight = _.statusBarHeight
 
-  /** 底部 <bottomTab> 高度 */
+  /** 底部 bottomTab 高度 */
   readonly tabBarHeight = _.tabBarHeight
 
   /** 带标签栏的头部高度 */
@@ -124,7 +124,7 @@ class ThemeStore extends store implements StoreConstructor<typeof STATE> {
   /** @deprecated */
   readonly header = _.header
 
-  /** @tofixed 头部高度 (顶部<Tab>) */
+  /** @tofixed 头部高度 (顶部 Tab) */
   readonly appBarHeight = _.appBarHeight
 
   /** @tofixed 整个头部高度 (状态栏高度 + 头部高度) */

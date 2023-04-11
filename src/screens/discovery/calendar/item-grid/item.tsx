@@ -28,7 +28,7 @@ export default memo(
     air,
     time
   }) => {
-    global.rerender('Calendar.Item.Main')
+    // global.rerender('Calendar.Item.Main')
 
     const showScore = !hideScore && !!score
 

@@ -13,7 +13,7 @@ import { memoStyles } from './styles'
 
 export default obc(
   ({ style, subjectId, name, images, score, air, time }, { $, navigation }: Ctx) => {
-    global.rerender('Calendar.Item')
+    // global.rerender('Calendar.Item')
 
     const { type } = $.state
     const collection = collectionStore.collect(subjectId)

@@ -33,7 +33,7 @@ const ItemLine = memo(
     sites,
     onToggleExpand
   }) => {
-    global.rerender('Calendar.ItemLine.Main')
+    // global.rerender('Calendar.ItemLine.Main')
 
     const title = HTMLDecode(name)
     const size = title.length >= 20 ? 12 : title.length >= 14 ? 13 : 14

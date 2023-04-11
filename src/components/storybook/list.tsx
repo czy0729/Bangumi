@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 10:38:06
+ * @Last Modified time: 2023-04-11 19:51:19
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -32,7 +32,7 @@ export const StorybookList = ({
 
 const styles = _.create({
   scrollView: {
-    width: STORYBOOK_WIDTH,
+    width: STORYBOOK_WIDTH + 4,
     height: STORYBOOK_HEIGHT,
     backgroundColor: _.colorPlain,
     borderWidth: 2,

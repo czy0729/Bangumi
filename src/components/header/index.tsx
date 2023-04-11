@@ -4,12 +4,12 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 04:54:27
+ * @Last Modified time: 2023-04-11 16:08:07
  */
 import React, { useLayoutEffect } from 'react'
 import { _ } from '@stores'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { StatusBarEvents } from '../status-bar-events'
 import { Track } from '../track'
 import Popover from './popover'
@@ -78,7 +78,7 @@ const Header: IHeader = ({
 
     return (
       <>
-        {!!mode && (
+        {(!!mode || STORYBOOK) && (
           <HeaderComponent
             navigation={navigation}
             fixed={fixed}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 15:24:53
+ * @Last Modified time: 2023-04-11 17:01:32
  */
 import React from 'react'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
@@ -112,7 +112,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                 <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
                   {tipStr}
                 </Text>
-                <Flex style={_.mt.sm}>
+                <Flex style={[_.container.block, _.mt.sm]}>
                   <Flex.Item>
                     {!!hotStr && (
                       <Text size={10} bold type='sub'>
@@ -157,7 +157,9 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
               </Text>
             )}
             {!!anime && <Tag style={_.mr.sm} value='动画化' />}
-            <Tags value={tags} />
+            <Flex.Item>
+              <Tags value={tags} />
+            </Flex.Item>
           </Flex>
         </Flex.Item>
       </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 16:19:21
+ * @Last Modified time: 2023-04-11 17:35:14
  */
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
@@ -16,7 +16,7 @@ export default obc(
     { subjectId, images = {}, name, desc, air, time, score },
     { $, navigation }: Ctx
   ) => {
-    global.rerender('Calendar.ItemLine')
+    // global.rerender('Calendar.ItemLine')
 
     const { type, expand } = $.state
     const collection = collectionStore.collect(subjectId)

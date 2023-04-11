@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-09 08:54:23
- * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:23:42
+ * @Date: 2023-04-11 19:31:13
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2023-04-11 19:31:13
  */
 import React from 'react'
 import {
@@ -15,12 +15,12 @@ import { urlStringify } from '@utils'
 import Component from './index'
 
 export default {
-  title: 'screens/Anime',
+  title: 'screens/Tinygrail',
   component: Component
 }
 
-export const Anime = () => {
-  const route = getStorybookRoute('Anime')
+export const Tinygrail = () => {
+  const route = getStorybookRoute('Tinygrail')
   return (
     <StorybookSPA>
       <StorybookList>

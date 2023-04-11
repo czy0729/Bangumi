@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:07:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 17:05:01
+ * @Last Modified time: 2023-04-11 18:23:22
  */
 import { ColorValue, ViewStyle } from '@types'
 
@@ -21,6 +21,7 @@ export type Props = {
   routes: Route[] | Readonly<Route[]>
   tabBarLength?: number
   page?: number
+  swipeEnabled?: boolean
   textColor?: ColorValue
   backgroundColor?: ColorValue
   borderBottomColor?: ColorValue

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 03:52:33
+ * @Last Modified time: 2023-04-11 19:58:43
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
-import { IOS, SUBJECT_TYPE } from '@constants'
+import { IOS, STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { MenuItemType } from './types'
 
 export const NAMESPACE = 'ScreenDiscovery'
@@ -99,7 +99,8 @@ export const MENU_MAP = {
     key: 'Tinygrail',
     name: '小圣杯',
     icon: 'trophy',
-    size: 20
+    size: 20,
+    web: false
   },
   // Guess: {
   //   key: 'Guess',
@@ -122,67 +123,78 @@ export const MENU_MAP = {
     key: 'UserTimeline',
     name: '时间线',
     icon: 'md-timeline',
-    login: true
+    login: true,
+    web: false
   },
   Netabare: {
     key: 'Netabare',
     name: 'netaba.re',
     text: 'N',
-    size: 18
+    size: 18,
+    web: false
   },
   Anitama: {
     key: 'Anitama',
     name: '资讯',
     icon: 'md-text-format',
-    size: 26
+    size: 26,
+    web: false
   },
   Smb: {
     key: 'Smb',
     name: '本地管理',
     text: 'SMB',
     size: 14,
-    ios: false
+    ios: false,
+    web: false
   },
   DoubanSync: {
     key: 'DoubanSync',
     name: '豆瓣同步',
     text: 'D',
-    size: 18
+    size: 18,
+    web: false
   },
   BilibiliSync: {
     key: 'BilibiliSync',
     name: 'bilibili 同步',
     text: 'B',
-    size: 20
+    size: 20,
+    web: false
   },
   Backup: {
     key: 'Backup',
     name: '本地备份',
     text: 'CSV',
-    size: 14
+    size: 14,
+    web: false
   },
   Series: {
     key: 'Series',
     name: '关联系列',
     icon: 'md-workspaces-outline',
-    login: true
+    login: true,
+    web: false
   },
   Character: {
     key: 'Character',
     name: '我的人物',
     icon: 'md-folder-shared',
-    login: true
+    login: true,
+    web: false
   },
   Catalogs: {
     key: 'Catalogs',
     name: '我的目录',
     icon: 'md-folder-special',
-    login: true
+    login: true,
+    web: false
   },
   Link: {
     key: 'Link',
     name: '剪贴板',
-    icon: 'md-link'
+    icon: 'md-link',
+    web: false
   }
 } as const
 
@@ -214,6 +226,8 @@ export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
       ...menus.slice(openIndex, menus.length)
     ]
   }
+
+  if (STORYBOOK) return menus.filter(item => item.web !== false)
 
   if (IOS) return menus.filter(item => item.ios !== false)
 

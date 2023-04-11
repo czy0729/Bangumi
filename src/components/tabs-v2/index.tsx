@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:36
+ * @Last Modified time: 2023-04-11 18:23:48
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
+import { STORYBOOK } from '@constants'
 import { TextStyle } from '@types'
 import TabView from '../@/react-native-tab-view/TabView'
 import TabBar from '../@/react-native-tab-view/TabBar'
@@ -22,6 +23,7 @@ export const TabsV2 = ({
   routes = [],
   tabBarLength,
   page = 0,
+  swipeEnabled = !STORYBOOK,
   textColor,
   backgroundColor,
   borderBottomColor,
@@ -98,6 +100,7 @@ export const TabsV2 = ({
         // @ts-expect-error
         routes
       }}
+      swipeEnabled={swipeEnabled}
       renderTabBar={props => (
         <TabBar
           {...props}

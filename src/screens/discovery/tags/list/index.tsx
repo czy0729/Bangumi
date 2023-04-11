@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:07:51
+ * @Last Modified time: 2023-04-11 18:54:48
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -72,6 +72,6 @@ class List extends React.Component<{
 
 export default obc(List)
 
-function keyExtractor(item: { title: any; nums: any }) {
-  return `${item.title}|${item.nums}`
+function keyExtractor(item: { name: any; nums: any }) {
+  return `${item.name}|${item.nums}`
 }

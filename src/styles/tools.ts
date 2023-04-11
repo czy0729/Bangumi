@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:36:23
+ * @Last Modified time: 2023-04-11 19:07:40
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -119,6 +119,9 @@ export const mt = StyleSheet.create({
   },
   header: {
     marginTop: headerHeight
+  },
+  center: {
+    marginTop: '46%'
   },
   _sm: {
     marginTop: -sm

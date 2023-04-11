@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 13:01:23
+ * @Last Modified time: 2023-04-11 19:32:08
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { NavigationEvents } from '../navigation/events'
 
 const { UMAnalyticsModule } = NativeModules
@@ -19,7 +19,7 @@ type Props = {
 }
 
 export function UM({ title = '' }: Props) {
-  if (IOS || !title) return null
+  if (IOS || STORYBOOK || !title) return null
 
   return (
     <NavigationEvents

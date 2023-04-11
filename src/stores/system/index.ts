@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:39:31
+ * @Last Modified time: 2023-04-11 16:39:56
  */
 import { observable, computed } from 'mobx'
 import { confirm, getTimestamp, info, titleCase } from '@utils'
@@ -24,6 +24,7 @@ import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
+  STORYBOOK,
   VERSION_GITHUB_RELEASE
 } from '@constants'
 import {
@@ -81,7 +82,7 @@ class SystemStore extends store implements StoreConstructor<typeof STATE> {
 
     // 优先度: 高
     setTimeout(() => {
-      this.fetchOTA()
+      if (!STORYBOOK) this.fetchOTA()
       if (!DEV) this.fetchRelease()
     }, 4000)
 

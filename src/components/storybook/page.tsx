@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 10:34:03
+ * @Last Modified time: 2023-04-11 19:52:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,8 +40,8 @@ export const StorybookPage = ({
 
 const styles = _.create({
   view: {
-    width: STORYBOOK_WIDTH,
-    maxWidth: STORYBOOK_WIDTH
+    width: STORYBOOK_WIDTH + 4,
+    maxWidth: STORYBOOK_WIDTH + 4
   },
   container: {
     paddingHorizontal: '8%'
@@ -53,8 +53,8 @@ const styles = _.create({
     paddingVertical: _.md
   },
   radius: {
-    width: STORYBOOK_WIDTH,
-    maxWidth: STORYBOOK_WIDTH,
+    width: STORYBOOK_WIDTH + 4,
+    maxWidth: STORYBOOK_WIDTH + 4,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   }

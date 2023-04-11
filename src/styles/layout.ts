@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 00:45:26
+ * @Last Modified time: 2023-04-11 15:59:07
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -72,23 +72,27 @@ export const radiusLg = 16
 export const logoWidth = 124 * ratio
 
 /** 状态栏高度 */
-export const statusBarHeight = WSA ? 0 : Constants.statusBarHeight
+export const statusBarHeight = STORYBOOK || WSA ? 0 : Constants.statusBarHeight
 
 /** [待重构] 头部高度 (顶部 Tab) */
 export const appBarHeight = IOS
   ? statusBarHeight
   : 56 - (WSA ? Constants.statusBarHeight : 0)
 
+/** 最大头部高度 */
+const MAX_HEADER_HEIGHT = STORYBOOK ? 48 : 80
+
 /**
  * 整个头部高度 (状态栏高度 + 头部高度)
  *  - iOS 8 以前的设备 statusBarHeight 获取不好, 需要手动添加一个固定高度
  *  - Pad 固定最大 80
+ *  - Web 固定最大 48
  *  - 安卓没影响
  * */
 export const headerHeight = Math.max(
-  80,
+  MAX_HEADER_HEIGHT,
   (PAD
-    ? Math.max(appBarHeight + statusBarHeight, 80)
+    ? Math.max(appBarHeight + statusBarHeight, MAX_HEADER_HEIGHT)
     : appBarHeight + statusBarHeight) + (IOS ? (IS_IOS_5_6_7_8 ? 28 : 0) : 0)
 )
 

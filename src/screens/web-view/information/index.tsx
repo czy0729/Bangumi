@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-02 08:17:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:44:49
+ * @Last Modified time: 2023-04-11 19:21:09
  */
 import React from 'react'
 import { Page, Header, ScrollView, Text } from '@components'
@@ -20,7 +20,7 @@ const Information = ({ navigation, route }) => {
               {title}说明
             </Text>
           )}
-          {message
+          {(typeof message === 'string' ? [message] : message)
             .filter(item => !!item.trim())
             .map((item: string, index: number) => (
               <Text key={index} style={_.mt.md} size={16} lineHeight={18}>

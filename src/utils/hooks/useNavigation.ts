@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-08 04:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 02:11:40
+ * @Last Modified time: 2023-04-11 15:35:30
  */
 import { useContext } from 'react'
 import { NavigationContext, NavigationProp } from '@react-navigation/native'
@@ -14,10 +14,13 @@ const storybookFakeNavigation = {
   navigate() {},
   push() {},
   replace() {},
-  goBack() {},
+  goBack() {
+    window.history.back()
+  },
   addListener() {
     return () => {}
-  }
+  },
+  setOptions() {}
 } as const
 
 /**
