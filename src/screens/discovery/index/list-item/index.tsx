@@ -13,7 +13,7 @@ import { memoStyles } from './styles'
 const LIST_CACHE = {}
 
 export default obc(({ style, type = 'anime' }, { $ }: Ctx) => {
-  global.rerender('Discovery.ListItem')
+  // global.rerender('Discovery.ListItem')
 
   const { dragging } = $.state
   if (dragging) return null

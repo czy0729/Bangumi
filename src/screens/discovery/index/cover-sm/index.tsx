@@ -19,7 +19,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
-  global.rerender('Discovery.CoverSm')
+  // global.rerender('Discovery.CoverSm')
 
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting

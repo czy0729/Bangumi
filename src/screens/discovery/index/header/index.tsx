@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:43:25
+ * @Last Modified time: 2023-04-11 02:05:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
 function Header(props, { $, navigation }: Ctx) {
-  global.rerender('Discovery.Header')
+  // global.rerender('Discovery.Header')
 
   const styles = memoStyles()
   const { dragging } = $.state

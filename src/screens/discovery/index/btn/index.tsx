@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 import Btn from './btn'
 
 export default obc(({ item }, { $, navigation }: Ctx) => {
-  global.rerender('Discovery.Btn')
+  // global.rerender('Discovery.Btn')
 
   const { dragging } = $.state
   const { username, id } = $.userInfo

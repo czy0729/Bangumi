@@ -21,7 +21,7 @@ import { DEFAULT_PROPS } from './ds'
 const INITIAL_RENDER_NUMS_SM = _.device(Math.floor(_.window.contentWidth / 140) + 1, 0)
 
 export default memo(({ styles, style, type, list, friendsChannel, friendsMap }) => {
-  global.rerender('Discovery.ListItem.Main')
+  // global.rerender('Discovery.ListItem.Main')
 
   const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   return (

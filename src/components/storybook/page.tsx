@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-07 07:01:31
+ * @Last Modified time: 2023-04-11 10:34:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,16 +10,17 @@ import { Flex } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { STORYBOOK_WIDTH } from '@constants'
+import { StorybookPageProps } from './types'
 
 export const StorybookPage = ({
-  style = undefined,
-  container = false,
-  wind = false,
-  space = false,
-  radius = false,
+  style,
+  container,
+  wind,
+  space,
+  radius,
   children,
   ...other
-}) => {
+}: StorybookPageProps) => {
   return (
     <Flex
       style={stl(

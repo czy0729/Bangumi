@@ -11,7 +11,7 @@ import Today from './today'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  global.rerender('Discovery.Today')
+  // global.rerender('Discovery.Today')
 
   if (!$.discoveryTodayOnair || !$.todayBangumi.length) return null
 

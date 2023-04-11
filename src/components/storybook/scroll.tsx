@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 19:01:23
+ * @Last Modified time: 2023-04-11 10:40:41
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS, STORYBOOK_HEIGHT } from '@constants'
+import { StorybookScrollProps } from './types'
 
 export const StorybookScroll = ({
-  style = undefined,
-  contentContainerStyle = undefined,
-  onFooterRefresh = undefined,
+  style,
+  contentContainerStyle,
+  onFooterRefresh,
   children,
   ...other
-}) => {
+}: StorybookScrollProps) => {
   const ref = useRef(null)
   const [fetching, setFetching] = useState(false)
   const onScroll = useCallback(async () => {

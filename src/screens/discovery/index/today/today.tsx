@@ -14,7 +14,7 @@ import CoverToday from '../cover-today'
 import { DEFAULTP_ROPS } from './ds'
 
 export default memo(({ styles, todayBangumi }) => {
-  global.rerender('Discovery.Today.Main')
+  // global.rerender('Discovery.Today.Main')
 
   return (
     <HorizontalList

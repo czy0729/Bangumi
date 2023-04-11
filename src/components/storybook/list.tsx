@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 18:34:48
+ * @Last Modified time: 2023-04-11 10:38:06
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { STORYBOOK_HEIGHT, STORYBOOK_WIDTH, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { StorybookListProps } from './types'
 
 export const StorybookList = ({
-  style = undefined,
-  wind = false,
-  space = false,
+  style,
+  wind,
+  space,
   children,
   ...other
-}) => {
+}: StorybookListProps) => {
   return (
     <ScrollView
       style={stl(styles.scrollView, style)}
@@ -33,7 +34,7 @@ const styles = _.create({
   scrollView: {
     width: STORYBOOK_WIDTH,
     height: STORYBOOK_HEIGHT,
-    backgroundColor: _.colorBg,
+    backgroundColor: _.colorPlain,
     borderWidth: 2,
     borderColor: _.colorBorder,
     borderRadius: _.radiusMd,

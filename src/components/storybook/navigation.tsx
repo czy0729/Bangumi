@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 15:23:31
+ * @Last Modified time: 2023-04-11 10:32:19
  */
 import { AnyObject } from '@types'
 import { navigate, parseUrlParams } from './utils'
@@ -23,7 +23,9 @@ export const StorybookNavigation = {
     navigate(routeName, params)
   },
   goBack() {},
-  addListener() {}
+  addListener() {
+    return () => {}
+  }
 }
 
 export function getStorybookRoute(routeName: string) {

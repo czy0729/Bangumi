@@ -18,7 +18,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
-  global.rerender('Discovery.CoverLg')
+  // global.rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
   const { coverRadius, cdnOrigin } = systemStore.setting

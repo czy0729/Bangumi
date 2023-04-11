@@ -32,7 +32,7 @@ export default obc(
     iptRef: any
 
     render() {
-      global.rerender('Discovery.LinkModal')
+      // global.rerender('Discovery.LinkModal')
 
       const { $, navigation } = this.context
       const { visible, link } = $.state

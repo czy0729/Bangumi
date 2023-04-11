@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 00:54:25
+ * @Last Modified time: 2023-04-11 02:11:55
  */
 import React, { useCallback, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -18,7 +18,7 @@ import { memoStyles } from './styles'
 const YEARS = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010] as const
 
 function Award({ navigation }) {
-  global.rerender('Discovery.Award')
+  // global.rerender('Discovery.Award')
 
   const [scrolled, setScrolled] = useState(_.isPad)
   const onScroll = useCallback(evt => {

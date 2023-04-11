@@ -12,7 +12,7 @@ import CoverXs from './cover-xs'
 import { memoStyles } from './styles'
 
 export default obc(({ title, avatar, data }, { navigation }: Ctx) => {
-  global.rerender('Discovery.CoverXs')
+  // global.rerender('Discovery.CoverXs')
 
   const { avatarRound } = systemStore.setting
   return (

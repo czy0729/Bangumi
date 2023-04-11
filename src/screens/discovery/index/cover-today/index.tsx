@@ -18,7 +18,7 @@ import { WEEKDAY_CN } from './ds'
 import { memoStyles } from './styles'
 
 function CoverToday({ data }, { navigation }: Ctx) {
-  global.rerender('Discovery.CoverToday')
+  // global.rerender('Discovery.CoverToday')
 
   const styles = memoStyles()
   return (

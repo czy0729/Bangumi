@@ -2,13 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-04-08 04:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 04:53:30
+ * @Last Modified time: 2023-04-11 02:11:40
  */
 import { useContext } from 'react'
-import { NavigationContext } from '@react-navigation/native'
+import { NavigationContext, NavigationProp } from '@react-navigation/native'
+import { ParamListBase } from '@react-navigation/routers'
 import { STORYBOOK } from '@constants'
-import type { ParamListBase } from '@react-navigation/routers'
-import type { NavigationProp } from '@react-navigation/native'
+
+const storybookFakeNavigation = {
+  getState() {},
+  navigate() {},
+  push() {},
+  replace() {},
+  goBack() {},
+  addListener() {
+    return () => {}
+  }
+} as const
 
 /**
  * Hook to access the navigation prop of the parent screen anywhere.
@@ -19,7 +29,7 @@ export default function useNavigation<T extends NavigationProp<ParamListBase>>()
 
   if (navigation === undefined) {
     if (STORYBOOK) {
-      return {} as T
+      return storybookFakeNavigation as unknown as T
     }
 
     throw new Error(

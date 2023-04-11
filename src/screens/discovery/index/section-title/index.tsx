@@ -14,7 +14,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function SectionTitle({ title, type }, { navigation }: Ctx) {
-  global.rerender('Discovery.SectionTitle')
+  // global.rerender('Discovery.SectionTitle')
 
   const styles = memoStyles()
   return (
