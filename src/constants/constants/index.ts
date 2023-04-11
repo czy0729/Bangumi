@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 00:44:53
+ * @Last Modified time: 2023-04-11 11:10:52
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -124,11 +124,15 @@ export const APP_USERID_TOURIST = 700939
 /** APP 审核用户id */
 export const APP_USERID_IOS_AUTH = 700939
 
-/** @ts-expect-error */
-export const STORYBOOK = process.env.STORYBOOK === 'true'
+/** 是否 Storybook 环境, 也就是是否 Web SPA */
+export const STORYBOOK =
+  /** @ts-expect-error */
+  process.env.STORYBOOK === 'true'
 
+/** Storybook 窗口宽度 */
 export const STORYBOOK_WIDTH = 440
 
+/** Storybook 窗口高度 */
 export const STORYBOOK_HEIGHT = 640
 
 /** 是否 iOS */
