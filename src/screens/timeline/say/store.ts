@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 20:03:20
+ * @Last Modified time: 2023-04-12 17:44:52
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -39,9 +39,8 @@ export default class ScreenSay extends store {
 
   /** 吐槽 */
   fetchSay = () => {
-    const { id } = this.params
     return timelineStore.fetchSay({
-      id
+      id: this.id
     })
   }
 
@@ -58,16 +57,19 @@ export default class ScreenSay extends store {
   }
 
   // -------------------- get --------------------
+  @computed get id() {
+    const { id, sayId } = this.params
+    return sayId || id
+  }
+
   /** 是否创建 */
   @computed get isNew() {
-    const { id } = this.params
-    return !id
+    return !this.id
   }
 
   /** 吐槽 */
   @computed get say() {
-    const { id } = this.params
-    return timelineStore.say(id)
+    return timelineStore.say(this.id)
   }
 
   @computed get users() {
@@ -130,10 +132,10 @@ export default class ScreenSay extends store {
 
   /** 对应网址 */
   @computed get url() {
-    const { userId, id } = this.params
+    const { userId } = this.params
     return this.isNew
       ? `${HOST}/timeline?type=say`
-      : `${HOST}/user/${userId}/timeline/status/${id}`
+      : `${HOST}/user/${userId}/timeline/status/${this.id}`
   }
 
   // -------------------- page --------------------
@@ -288,11 +290,10 @@ export default class ScreenSay extends store {
   doReply = (content: string, scrollView: any) => {
     t('吐槽.回复吐槽')
 
-    const { id } = this.params
     const { list = [] } = this.say
     timelineStore.doReply(
       {
-        id: String(id).split('#')[0],
+        id: String(this.id).split('#')[0],
         content,
         formhash: list[0].formhash
       },

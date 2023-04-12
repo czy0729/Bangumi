@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 10:32:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 10:40:34
+ * @Last Modified time: 2023-04-12 19:25:30
  */
 import { Fn, ReactNode, ViewStyle } from '@types'
 
@@ -33,5 +33,6 @@ export type StorybookScrollProps = {
   style?: ViewStyle
   contentContainerStyle?: ViewStyle
   onFooterRefresh?: Fn
+  onScroll?: Fn
   children: ReactNode
 }

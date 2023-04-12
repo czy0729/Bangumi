@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 15:53:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:58:32
+ * @Last Modified time: 2023-04-12 18:42:18
  */
 import { _ } from '@stores'
 
@@ -20,7 +20,8 @@ export const memoStyles = _.memoStyles(() => ({
   month: {
     position: 'absolute',
     zIndex: 1,
-    top: 0
+    top: 0,
+    whiteSpace: 'nowrap'
   },
   days: {
     marginLeft: _.wind,

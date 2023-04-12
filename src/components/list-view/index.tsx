@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 01:25:13
+ * @Last Modified time: 2023-04-12 18:32:31
  */
 import React from 'react'
 import { RefreshControl, View } from 'react-native'
@@ -352,11 +352,12 @@ export const ListView = observer(
         numColumns,
         ListHeaderComponent,
         renderSectionHeader,
-        renderItem
+        renderItem,
+        onScroll
       } = this.props
       const content = sections
         ? this.sections.map((section: any, index: number) => (
-            <View key={index}>
+            <View key={`section-${index}`}>
               {renderSectionHeader({ section })}
               {renderItem({
                 item: section.data[0],
@@ -372,7 +373,10 @@ export const ListView = observer(
                 index
               }),
               {
-                key: keyExtractor(item, index) || index
+                key:
+                  (typeof keyExtractor === 'function'
+                    ? keyExtractor(item, index)
+                    : '') || `item-${index}`
               }
             )
           )
@@ -380,6 +384,7 @@ export const ListView = observer(
       return (
         <StorybookScroll
           style={contentContainerStyle}
+          onScroll={onScroll}
           onFooterRefresh={() => {
             const { data, onFooterRefresh } = this.props
             const { pagination } = data

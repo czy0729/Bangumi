@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-09 09:03:07
+ * @Last Modified time: 2023-04-12 17:37:49
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { DEV } from '@/config'
 import { contextTypes, STORYBOOK } from '@constants/constants'
-import { Fn, Navigation } from '@types'
+import { AnyObject, Fn, Navigation } from '@types'
 import { urlStringify } from '../index'
 import observer from './observer'
 
@@ -140,8 +140,9 @@ export default Inject
 
 function getScreenKey(
   route: {
-    params?: any
-    name?: any
+    params?: AnyObject
+    routeName?: string
+    name?: string
   } = {}
 ) {
   const params = Object.entries(route?.params || {})
@@ -152,5 +153,5 @@ function getScreenKey(
       return obj
     }, {})
 
-  return `${route.name}?${urlStringify(params, false)}`
+  return `${route.routeName || route.name}?${urlStringify(params, false)}`
 }
