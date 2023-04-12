@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:18:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:47:30
+ * @Last Modified time: 2023-04-12 11:05:18
  */
 import { observable, computed, toJS } from 'mobx'
 import { getTimestamp, toFixed, lastDate, HTMLDecode, info } from '@utils'
@@ -524,7 +524,7 @@ class TinygrailStore extends store implements StoreConstructor<typeof STATE> {
   /** 小圣杯统一请求入口 */
   // @ts-expect-error
   fetch = (url: string, isPost?: boolean, data?: any, showError?: boolean) => {
-    global.log(`⚡️ ${url}`)
+    // global.log(`⚡️ ${url}`)
 
     // @ts-expect-error
     axios.defaults.withCredentials = false

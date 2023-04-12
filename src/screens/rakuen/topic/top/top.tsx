@@ -49,7 +49,7 @@ export default memo(
     isMono,
     delete: topicDelete
   }) => {
-    global.rerender('Topic.Top.Main')
+    // global.rerender('Topic.Top.Main')
 
     const [lines, setLines] = useState(1)
     const setLines2 = useCallback(() => setLines(2), [])

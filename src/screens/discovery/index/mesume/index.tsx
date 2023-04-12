@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-15 22:40:22
+ * @Last Modified time: 2023-04-12 10:12:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,14 +10,14 @@ import { WebView } from 'react-native-webview'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { useIsFocused, useObserver } from '@utils/hooks'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { memoStyles } from './styles'
 
 function Mesume({ dragging }) {
   const show = useIsFocused()
 
   return useObserver(() => {
-    if (dragging || !show) return null
+    if (STORYBOOK || dragging || !show) return null
 
     const styles = memoStyles()
     const { live2DVoice } = systemStore.setting

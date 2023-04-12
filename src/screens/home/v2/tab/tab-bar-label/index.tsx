@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 
 function TabBarLabel({ focused, route }) {
-  global.rerender('Home.Tab.TabBarLabel')
+  // global.rerender('Home.Tab.TabBarLabel')
 
   return (
     <Flex style={_.container.block} justify='center'>

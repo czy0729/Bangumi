@@ -29,7 +29,7 @@ export default obc(
     { index, avatar, userId, userName, group, groupHref, href, title, time, replies },
     { $, navigation }: Ctx
   ) => {
-    global.rerender('Rakuen.Item')
+    // global.rerender('Rakuen.Item')
 
     const { _mounted } = $.state
     if (index >= LIMIT_HEAVY && !_mounted) {

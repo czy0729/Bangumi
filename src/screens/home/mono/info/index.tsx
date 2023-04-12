@@ -33,7 +33,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Info(props, { $, navigation }: Ctx) {
-  global.rerender('Mono.Info')
+  // global.rerender('Mono.Info')
 
   const styles = memoStyles()
   const maxSize = _.r(_.window.contentWidth * 0.5)

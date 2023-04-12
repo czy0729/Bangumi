@@ -22,7 +22,7 @@ type PassProps = {
 
 export const TouchScroll = memo(
   ({ styles, list, readedTime, scrollDirection, isWebLogin, onPress }) => {
-    global.rerender('Topic.TouchScroll.Main')
+    // global.rerender('Topic.TouchScroll.Main')
 
     const showFloor = [
       Math.floor(list.length * 0.33333),

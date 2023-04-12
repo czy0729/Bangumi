@@ -16,7 +16,7 @@ import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
 import { DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
 
 export default memo(({ navigation, styles, style, voices }) => {
-  global.rerender('Mono.Voice.Main')
+  // global.rerender('Mono.Voice.Main')
 
   return (
     <View style={style ? [styles.container, style] : styles.container}>

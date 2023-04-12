@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-15 13:07:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 03:57:36
+ * @Last Modified time: 2023-04-12 11:00:07
  */
 import React, { useEffect } from 'react'
-import { useIsFocused } from '@react-navigation/native'
 import { ActionSheet, SwitchPro, Heatmap, Flex, Text, Touchable } from '@components'
 import { TapListener, ItemSetting } from '@_'
 import { systemStore, uiStore } from '@stores'
-import { useBoolean, useObserver } from '@utils/hooks'
+import { useIsFocused, useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { getShows } from '../utils'
 import commonStyles from '../styles'

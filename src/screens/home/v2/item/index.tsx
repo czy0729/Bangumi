@@ -17,7 +17,7 @@ export default obc(
     { index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props,
     { $, navigation }: Ctx
   ) => {
-    global.rerender('Home.Item', subject.name_cn || subject.name)
+    // global.rerender('Home.Item', subject.name_cn || subject.name)
 
     const { heatMap } = systemStore.setting
     const { top, progress } = $.state

@@ -17,7 +17,7 @@ import More from './more'
 import { memoStyles } from './styles'
 
 function ToolBar({ page, onRefreshOffset }, { $ }: Ctx) {
-  global.rerender('User.ToolBar')
+  // global.rerender('User.ToolBar')
 
   const styles = memoStyles()
   const { list } = $.state

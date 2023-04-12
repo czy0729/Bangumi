@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Segement(props, { $ }: Ctx) {
-  global.rerender('Topic.Segement')
+  // global.rerender('Topic.Segement')
 
   const { filterMe, filterFriends } = $.state
   const hasLogin = !!$.myId

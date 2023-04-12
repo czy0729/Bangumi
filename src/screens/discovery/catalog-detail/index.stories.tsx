@@ -2,55 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-04-11 12:34:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 15:30:46
+ * @Last Modified time: 2023-04-12 09:59:05
  */
 import React from 'react'
-import {
-  Page,
-  StorybookSPA,
-  StorybookList,
-  StorybookNavigation,
-  getStorybookRoute
-} from '@components'
-import { urlStringify } from '@utils'
-import { ic } from '@utils/decorators'
-import { useMount } from '@utils/hooks'
-import Header from './header'
-import List from './list'
-import Store from './store'
-import { Ctx } from './types'
-
-const Component = ic(Store, (props, { $ }: Ctx) => {
-  useMount(() => {
-    $.init()
-  })
-
-  return (
-    <Page>
-      {/* @ts-expect-error */}
-      <Header />
-      {/* @ts-expect-error */}
-      <List />
-    </Page>
-  )
-})
+import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
+import Component from './index'
 
 export default {
   title: 'screens/CatalogDetail',
   component: Component
 }
 
-export const CatalogDetail = () => {
-  const route = getStorybookRoute('CatalogDetail')
-  return (
-    <StorybookSPA>
-      <StorybookList>
-        <Component
-          key={urlStringify(route.params)}
-          navigation={StorybookNavigation}
-          route={route}
-        />
-      </StorybookList>
-    </StorybookSPA>
-  )
-}
+export const CatalogDetail = () => (
+  <StorybookSPA>
+    <StorybookList>
+      <Component {...getStorybookArgs('CatalogDetail')} />
+    </StorybookList>
+  </StorybookSPA>
+)

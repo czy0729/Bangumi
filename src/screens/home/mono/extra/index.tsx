@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 import Extra from './extra'
 
 export default ob(({ $, navigation }: Ctx) => {
-  global.rerender('Mono.Extra')
+  // global.rerender('Mono.Extra')
 
   return (
     <>

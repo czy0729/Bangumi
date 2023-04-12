@@ -18,7 +18,7 @@ import { memoStyles } from './styles'
 import { Props } from './types'
 
 function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) {
-  global.rerender('Home.GridItem')
+  // global.rerender('Home.GridItem')
 
   const styles = memoStyles()
   const { homeGridTitle } = systemStore.setting

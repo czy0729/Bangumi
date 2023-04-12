@@ -18,7 +18,7 @@ import { Props } from './types'
 const RENDERED = {}
 
 function Grid({ title = '全部' }: Props, { $ }: Ctx) {
-  global.rerender('Home.Grid')
+  // global.rerender('Home.Grid')
 
   if ($.tabsLabel === title) RENDERED[title] = true
   if ($.tabsLabel !== title && !RENDERED[title]) return null

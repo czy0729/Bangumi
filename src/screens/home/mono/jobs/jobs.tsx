@@ -17,7 +17,7 @@ import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
 import { DEFAULT_PROPS, EVENT } from './ds'
 
 const Jobs = memo(({ navigation, styles, style, jobs }) => {
-  global.rerender('Mono.Jobs.Main')
+  // global.rerender('Mono.Jobs.Main')
 
   const { avatarRound } = systemStore.setting
   const radius = avatarRound ? COVER_WIDTH : _.radiusSm

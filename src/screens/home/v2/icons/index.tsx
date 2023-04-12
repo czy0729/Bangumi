@@ -17,7 +17,7 @@ const EVENT = {
 } as const
 
 function Icons(props, { navigation }) {
-  global.rerender('Home.Icons')
+  // global.rerender('Home.Icons')
 
   const { tinygrail } = systemStore.setting
   return (

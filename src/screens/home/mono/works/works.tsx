@@ -18,7 +18,7 @@ import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
 import { EVENT, DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, styles, style, works }) => {
-  global.rerender('Mono.Works.Main')
+  // global.rerender('Mono.Works.Main')
 
   return (
     <View style={style ? [styles.container, style] : styles.container}>

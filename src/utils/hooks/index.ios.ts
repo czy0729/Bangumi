@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-04 15:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 04:54:05
+ * @Last Modified time: 2023-04-12 10:08:25
  */
 export { default as useBackHandler } from './useBackHandler'
 export { default as useBoolean } from './useBoolean'
 export { default as useCachedResources } from './useCachedResources'
 export { default as useDimensions } from './useDimensions'
 export { default as useExpandLazy } from './useExpandLazy'
+export { default as useFocusEffect } from './useFocusEffect'
 export { default as useGlobalMount } from './useGlobalMount'
 export { default as useHorizontalLazy } from './useHorizontalLazy'
 export { default as useInitialURL } from './useInitialURL'

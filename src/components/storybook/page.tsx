@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:52:25
+ * @Last Modified time: 2023-04-12 09:31:51
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { STORYBOOK_WIDTH } from '@constants'
+import { Flex } from '../flex'
 import { StorybookPageProps } from './types'
 
 export const StorybookPage = ({

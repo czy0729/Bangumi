@@ -17,7 +17,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Collected(props, { $, navigation }: Ctx) {
-  global.rerender('Mono.Collected')
+  // global.rerender('Mono.Collected')
 
   const { collected } = $.mono
   if (!collected?.length) return null

@@ -17,7 +17,7 @@ import { memoStyles } from './styles'
  * 所以只能在上面把 routes 的 length 传下来监听刷新
  */
 export default ({ length }) => {
-  global.rerender('Home.Tab')
+  // global.rerender('Home.Tab')
 
   const styles = memoStyles()
   const renderScene = useMemo(() => {

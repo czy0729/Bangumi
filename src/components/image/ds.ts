@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-11 12:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 12:08:10
+ * @Last Modified time: 2023-04-12 01:06:45
  */
 import { _ } from '@stores'
-import { EVENT, HOST, TEXT_ONLY } from '@constants'
+import { EVENT, HOST, STORYBOOK, TEXT_ONLY } from '@constants'
 
 /** 默认请求头 */
 export const DEFAULT_HEADERS = {
@@ -19,8 +19,8 @@ export const DEFAULT_PROPS = {
   autoSize: 0,
   border: false,
   borderWidth: _.hairlineWidth,
-  cache: true,
-  delay: true,
+  cache: !STORYBOOK,
+  delay: !STORYBOOK,
   event: EVENT,
   headers: undefined,
   height: undefined,

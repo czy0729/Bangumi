@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 08:33:10
+ * @Last Modified time: 2023-04-12 00:34:47
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import { useIsFocused } from '@react-navigation/native'
 import { Page, Loading } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ItemPost, TapListener } from '@_'
@@ -13,10 +12,11 @@ import { _, uiStore } from '@stores'
 import { info, androidKeyboardAdjust } from '@utils'
 import { ic } from '@utils/decorators'
 import {
-  useObserver,
+  useIsFocused,
   useIsFocusedRef,
-  useRunAfter,
-  useKeyboardAdjustResize
+  useKeyboardAdjustResize,
+  useObserver,
+  useRunAfter
 } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import Header from './header'

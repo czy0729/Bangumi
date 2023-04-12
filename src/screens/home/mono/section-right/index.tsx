@@ -12,7 +12,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function SectionRight({ event, text, to }, { $, navigation }: Ctx) {
-  global.rerender('Mono.SectionRight')
+  // global.rerender('Mono.SectionRight')
 
   return (
     <Touchable

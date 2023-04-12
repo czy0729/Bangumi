@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Content(props, { $, navigation }: Ctx) {
-  global.rerender('Topic.Content')
+  // global.rerender('Topic.Content')
 
   const event = {
     id: '帖子.跳转',

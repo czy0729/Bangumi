@@ -11,7 +11,7 @@ import Jobs from './jobs'
 import { memoStyles } from './styles'
 
 export default obc(({ style }, { $, navigation }: Ctx) => {
-  global.rerender('Mono.Jobs')
+  // global.rerender('Mono.Jobs')
 
   if (!$.jobs.length) return null
 

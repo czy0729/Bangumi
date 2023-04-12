@@ -11,7 +11,7 @@ import Works from './works'
 import { memoStyles } from './styles'
 
 export default obc(({ style }, { $, navigation }: Ctx) => {
-  global.rerender('Mono.Works')
+  // global.rerender('Mono.Works')
 
   if (!$.works.length) return null
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:18
+ * @Last Modified time: 2023-04-11 23:49:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,8 +33,16 @@ import {
 import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
+import {
+  HOST,
+  APP_ID,
+  APP_SECRET,
+  URL_OAUTH_REDIRECT,
+  URL_PRIVACY,
+  STORYBOOK
+} from '@constants'
 import i18n from '@constants/i18n'
+import { HOST_PROXY } from '@/config'
 import { Navigation } from '@types'
 import Preview from './preview'
 import Form from './form'
@@ -49,15 +57,15 @@ class LoginV2 extends React.Component<{
 }> {
   state = {
     host: HOST,
-    clicked: false,
+    clicked: !STORYBOOK,
     email: '',
     password: '',
     captcha: '',
     base64: '',
-    isCommonUA: false,
-    loading: false,
+    isCommonUA: !STORYBOOK,
+    loading: !STORYBOOK,
     info: '',
-    focus: false
+    focus: !STORYBOOK
   }
 
   userAgent = ''
@@ -143,7 +151,7 @@ class LoginV2 extends React.Component<{
     t('登陆.错误')
 
     this.setState({
-      loading: false,
+      loading: !STORYBOOK,
       info
     })
     this.reset()
@@ -208,7 +216,7 @@ class LoginV2 extends React.Component<{
   getUA = async () => {
     const { isCommonUA } = this.state
     if (isCommonUA) {
-      // 与ekibun的bangumi一样的ua
+      // 与 ekibun 的 bangumi 一样的 ua
       const ua =
         'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
       this.userAgent = ua
@@ -224,15 +232,13 @@ class LoginV2 extends React.Component<{
 
   /** 获取表单 hash */
   getFormHash = async () => {
-    const { host } = this.state
-
     // @ts-expect-error
-    axios.defaults.withCredentials = false
+    axios.defaults.withCredentials = !STORYBOOK
 
     // @ts-expect-error
     const { data, headers } = await axios({
       method: 'get',
-      url: `${host}/login`,
+      url: `${this.host}/login`,
       headers: {
         'User-Agent': this.userAgent
       }
@@ -251,15 +257,13 @@ class LoginV2 extends React.Component<{
       base64: ''
     })
 
-    const { host } = this.state
-
     // @ts-expect-error
-    axios.defaults.withCredentials = false
+    axios.defaults.withCredentials = !STORYBOOK
 
     // @ts-expect-error
     const { request } = await axios({
       method: 'get',
-      url: `${host}/signup/captcha?${getTimestamp()}`,
+      url: `${this.host}/signup/captcha?${getTimestamp()}`,
       headers: {
         Cookie: this.cookieString,
         'User-Agent': this.userAgent
@@ -282,15 +286,15 @@ class LoginV2 extends React.Component<{
       info: `${i18n.login()}请求中...(1/5)`
     })
 
-    const { host, email, password, captcha } = this.state
+    const { email, password, captcha } = this.state
 
     // @ts-expect-error
-    axios.defaults.withCredentials = false
+    axios.defaults.withCredentials = !STORYBOOK
 
     // @ts-expect-error
     const { data, headers } = await axios({
       method: 'post',
-      url: `${host}/FollowTheRabbit`,
+      url: `${this.host}/FollowTheRabbit`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Cookie: this.cookieString,
@@ -323,15 +327,13 @@ class LoginV2 extends React.Component<{
       info: '获取授权表单码...(2/5)'
     })
 
-    const { host } = this.state
-
     // @ts-expect-error
-    axios.defaults.withCredentials = false
+    axios.defaults.withCredentials = !STORYBOOK
 
     // @ts-expect-error
     const { data } = await axios({
       method: 'get',
-      url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+      url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
       headers: {
         'User-Agent': this.userAgent,
         Cookie: this.cookieString
@@ -349,17 +351,15 @@ class LoginV2 extends React.Component<{
       info: '授权中...(3/5)'
     })
 
-    const { host } = this.state
-
     // @ts-expect-error
-    axios.defaults.withCredentials = false
+    axios.defaults.withCredentials = !STORYBOOK
 
     // @ts-expect-error
     const { request } = await axios({
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+      url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': this.userAgent,
@@ -384,17 +384,15 @@ class LoginV2 extends React.Component<{
       info: '授权成功, 获取token中...(4/5)'
     })
 
-    const { host } = this.state
-
     // @ts-expect-error
-    axios.defaults.withCredentials = false
+    axios.defaults.withCredentials = !STORYBOOK
 
     // @ts-expect-error
     const { status, data } = await axios({
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
-      url: `${host}/oauth/access_token`,
+      url: `${this.host}/oauth/access_token`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': this.userAgent
@@ -488,7 +486,7 @@ class LoginV2 extends React.Component<{
   /** 输入框 blur */
   onBlur = () => {
     this.setState({
-      focus: false
+      focus: !STORYBOOK
     })
   }
 
@@ -536,6 +534,11 @@ class LoginV2 extends React.Component<{
     return Object.keys(this.cookie)
       .map(item => `${item}=${this.cookie[item]}`)
       .join('; ')
+  }
+
+  get host() {
+    const { host } = this.state
+    return STORYBOOK && HOST_PROXY ? HOST_PROXY : host
   }
 
   renderPreview() {

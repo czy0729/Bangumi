@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 15:41:54
+ * @Last Modified time: 2023-04-12 00:30:25
  */
 import { urlStringify } from '@utils'
 import { AnyObject } from '@types'
@@ -30,9 +30,11 @@ export function navigate(routeName: string, params: AnyObject = {}) {
         return obj
       }, {}),
 
-    // CatalogDetail -> catalogdetail -- CatalogDetail -> catalog-detail
+    // CatalogDetail -> catalogdetail--catalog-detail
+    // LoginV2 -> loginv2--login-v-2
     id: `screens-${routeName.toLowerCase()}--${routeName
       .replace(/([a-z])([A-Z])/g, '$1-$2')
+      .replace(/(\d+)/g, '-$1')
       .toLowerCase()}`
   }
   const url = `iframe.html?${urlStringify(config)}`

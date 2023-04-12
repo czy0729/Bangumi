@@ -21,7 +21,7 @@ const FOOTER_EMPTY_TEXT = {
 } as const
 
 function Empty({ title, length }, { $, navigation }: Ctx) {
-  global.rerender('Home.Empty')
+  // global.rerender('Home.Empty')
 
   const styles = memoStyles()
   const { filter } = $.state

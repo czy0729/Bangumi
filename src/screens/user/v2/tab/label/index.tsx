@@ -13,7 +13,7 @@ import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 
 function Label({ title, focused }, { $ }: Ctx) {
-  global.rerender('User.Label')
+  // global.rerender('User.Label')
 
   const { subjectType } = $.state
   const count = $.counts[MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)][title]

@@ -15,7 +15,7 @@ import { Ctx } from '../../types'
 import { memoStyles } from '../styles'
 
 function List({ title }, { $ }: Ctx) {
-  global.rerender('Home.Grid.List')
+  // global.rerender('Home.Grid.List')
 
   const styles = memoStyles()
   const { homeGridCoverLayout } = systemStore.setting

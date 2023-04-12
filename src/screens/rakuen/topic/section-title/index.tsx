@@ -14,7 +14,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function SectionTitle(props, { $ }: Ctx) {
-  global.rerender('Topic.SectionTitle')
+  // global.rerender('Topic.SectionTitle')
 
   const styles = memoStyles()
   const { list = [] } = $.comments

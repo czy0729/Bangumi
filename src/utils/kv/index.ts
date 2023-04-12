@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 20:58:55
+ * @Last Modified time: 2023-04-12 09:28:23
  */
 import axios from '@utils/thirdParty/axios'
-import { STORYBOOK } from '@constants'
+import { STORYBOOK } from '@constants/constants'
 import { getTimestamp } from '../utils'
 import { HOST } from './ds'
 import { Result, ResultTemp } from './type'

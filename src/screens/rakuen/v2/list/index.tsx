@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function List({ index }, { $ }: Ctx) {
-  global.rerender('Rakuen.List')
+  // global.rerender('Rakuen.List')
 
   const type = $.type(index)
   if (type === 'hot' && !$.isWebLogin) {

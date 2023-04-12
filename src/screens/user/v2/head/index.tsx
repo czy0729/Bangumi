@@ -12,7 +12,7 @@ import CenterAvatar from '../center-avatar'
 import { Ctx } from '../types'
 
 function Head({ style }, { $ }: Ctx) {
-  global.rerender('User.Head')
+  // global.rerender('User.Head')
 
   const { nickname, id, username } = $.usersInfo
   return (

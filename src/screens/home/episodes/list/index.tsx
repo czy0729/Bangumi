@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:50:44
+ * @Last Modified time: 2023-04-12 00:59:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { desc, cnjp, HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { STORYBOOK } from '@constants'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
@@ -77,7 +78,7 @@ function List(props, { $, navigation }: Ctx) {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            {!!epsThumbs[index + filterEps] && (
+            {!STORYBOOK && !!epsThumbs[index + filterEps] && (
               <View style={_.ml.sm}>
                 <Image
                   src={epsThumbs[index]}

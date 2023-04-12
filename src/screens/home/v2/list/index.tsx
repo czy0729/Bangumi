@@ -16,7 +16,7 @@ import List from './list'
 import { memoStyles } from './styles'
 
 export default obc(({ title = '全部' }, { $ }: Ctx) => {
-  global.rerender('Home.List')
+  // global.rerender('Home.List')
 
   if (!$.collection._loaded) return <Loading />
 

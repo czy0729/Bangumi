@@ -11,7 +11,7 @@ import Voice from './voice'
 import { memoStyles } from './styles'
 
 export default obc(({ style }, { $, navigation }: Ctx) => {
-  global.rerender('Mono.Voice')
+  // global.rerender('Mono.Voice')
 
   if (!$.voices.length) return null
 

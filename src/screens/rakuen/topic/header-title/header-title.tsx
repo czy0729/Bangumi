@@ -13,7 +13,7 @@ import { IMG_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ navigation, avatar, userId, userName, title, group }) => {
-  global.rerender('Topic.HeaderTitle.Main')
+  // global.rerender('Topic.HeaderTitle.Main')
 
   const texts = [userName || group, group].filter(item => !!item).join(' · ')
   return (

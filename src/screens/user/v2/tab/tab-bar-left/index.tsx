@@ -17,7 +17,7 @@ import { memoStyles } from './styles'
 const DATA = SUBJECT_TYPE.map(item => item.title)
 
 function TabBarLeft({ onSelect }, { $ }: Ctx) {
-  global.rerender('User.TabBarLeft')
+  // global.rerender('User.TabBarLeft')
 
   const styles = memoStyles()
   const { subjectType } = $.state

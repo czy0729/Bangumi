@@ -38,7 +38,7 @@ export default memo(
     userId,
     username
   }) => {
-    global.rerender('User.ParallaxImage.Main')
+    // global.rerender('User.ParallaxImage.Main')
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const parallaxStyle: {
@@ -128,7 +128,7 @@ export default memo(
     )
 
     const AnimatedView = useMemo(() => {
-      global.rerender('User.ParallaxImage.AnimatedView')
+      // global.rerender('User.ParallaxImage.AnimatedView')
 
       let uri = bg || bgAvatar || avatar.large
       if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
@@ -234,7 +234,7 @@ export default memo(
     ])
 
     const Content = useMemo(() => {
-      global.rerender('User.ParallaxImage.Content')
+      // global.rerender('User.ParallaxImage.Content')
 
       const isMe = !!id && myUserId === id
       const data = isMe ? DATA_ME : DATA_OTHER

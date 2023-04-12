@@ -15,7 +15,7 @@ import { memoStyles } from '../styles'
 import { PREV_TEXT } from './ds'
 
 function Info({ title }, { $ }: Ctx) {
-  global.rerender('Home.Grid.Info')
+  // global.rerender('Home.Grid.Info')
 
   if (!$.collection._loaded) return <Loading />
 

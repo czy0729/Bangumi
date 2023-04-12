@@ -12,7 +12,7 @@ import Filter from './filter'
 import { memoStyles } from './styles'
 
 export default obc(({ page }, { $ }: Ctx) => {
-  global.rerender('User.Filter')
+  // global.rerender('User.Filter')
 
   const { subjectType, showFilter, fliterInputText } = $.state
   const { key: type } = TABS[page]

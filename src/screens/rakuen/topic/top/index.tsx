@@ -11,7 +11,7 @@ import Top from './top'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  global.rerender('Topic.Top')
+  // global.rerender('Topic.Top')
 
   const { _replies } = $.params
   const { _loaded } = $.comments

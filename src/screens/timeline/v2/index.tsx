@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 18:24:05
+ * @Last Modified time: 2023-04-12 10:59:59
  */
 import React, { useEffect } from 'react'
-import { useIsFocused } from '@react-navigation/native'
 import { Page, Track } from '@components'
 import { StatusBarEvents, NavigationBarEvents, TapListener } from '@_'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { uiStore } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useIsFocused, useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import Tab from './tab'
 import Heatmaps from './heatmaps'

@@ -13,7 +13,7 @@ import Label from '../label'
 import { memoStyles } from './styles'
 
 function TabBar(props) {
-  global.rerender('User.TabBar')
+  // global.rerender('User.TabBar')
 
   const styles = memoStyles()
   return (

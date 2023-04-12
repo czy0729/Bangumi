@@ -34,7 +34,7 @@ const Item = memo(
     isRefreshing,
     onItemPress
   }) => {
-    global.rerender('Home.Item.Main', subject.name_cn || subject.name)
+    // global.rerender('Home.Item.Main', subject.name_cn || subject.name)
 
     return (
       <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>

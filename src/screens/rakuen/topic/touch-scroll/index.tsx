@@ -13,7 +13,7 @@ import { TouchScroll } from './touch-scroll'
 import { memoStyles } from './styles'
 
 export default obc(({ onPress }, { $ }: Ctx) => {
-  global.rerender('Topic.TouchScroll')
+  // global.rerender('Topic.TouchScroll')
 
   const { scrollDirection } = $.setting
   const { list } = $.comments

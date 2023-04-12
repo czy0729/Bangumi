@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 18:07:24
+ * @Last Modified time: 2023-04-12 08:47:03
  */
 import React from 'react'
 import {
@@ -12,7 +12,8 @@ import {
   ViewStyle as RNViewStyle,
   TextStyle as RNTextStyle,
   ImageStyle as RNImageStyle,
-  ColorValue as RNColorValue
+  ColorValue as RNColorValue,
+  ImageProps
 } from 'react-native'
 
 /** <View> StyleProp */
@@ -38,15 +39,7 @@ export type ReactNode = React.ReactNode
 export type ColorValue = RNColorValue
 
 /** 图片 uri */
-export type Source =
-  | string
-  | number
-  | {
-      uri?: string
-      headers?: {
-        [key: string]: string
-      }
-    }
+export type Source = ImageProps['source']
 
 /**
  * 用于在 vscode 里面注释能直接显示展开的 type

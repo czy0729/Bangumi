@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function BookNextBtn({ subjectId, epStatus, volStatus }, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.BookNextBtn')
+  // global.rerender('Home.GridInfo.BookNextBtn')
 
   return (
     <Touchable

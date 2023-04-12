@@ -2,22 +2,28 @@
  * @Author: czy0729
  * @Date: 2023-04-08 04:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 15:35:30
+ * @Last Modified time: 2023-04-12 10:17:42
  */
 import { useContext } from 'react'
 import { NavigationContext, NavigationProp } from '@react-navigation/native'
 import { ParamListBase } from '@react-navigation/routers'
 import { STORYBOOK } from '@constants'
+import { Fn } from '@types'
 
 const storybookFakeNavigation = {
-  getState() {},
+  getState() {
+    return {
+      index: 1
+    }
+  },
   navigate() {},
   push() {},
   replace() {},
   goBack() {
     window.history.back()
   },
-  addListener() {
+  addListener(eventType: string): Fn {
+    console.info('Navigation: addListener', eventType)
     return () => {}
   },
   setOptions() {}

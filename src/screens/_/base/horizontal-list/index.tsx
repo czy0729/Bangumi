@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 14:41:56
+ * @Last Modified time: 2023-04-12 09:43:30
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -115,7 +115,7 @@ export const HorizontalList = ob(
               const descSize = desc.length >= 6 ? 9 : 10
               return (
                 <View
-                  key={item.id}
+                  key={item.id || index}
                   style={stl(
                     {
                       width: w

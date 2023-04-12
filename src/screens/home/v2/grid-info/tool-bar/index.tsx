@@ -17,7 +17,7 @@ import BtnNextEp from '../btn-next-ep'
 import { styles } from './styles'
 
 function ToolBar({ subjectId, subject = {} }: any, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.ToolBar')
+  // global.rerender('Home.GridInfo.ToolBar')
 
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(

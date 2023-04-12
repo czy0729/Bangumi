@@ -24,7 +24,7 @@ const List = memo(
     onHeaderRefresh,
     onFooterRefresh
   }) => {
-    global.rerender('Home.List.Main')
+    // global.rerender('Home.List.Main')
 
     const { length } = data.list
     const emptyComponent = <Empty title={title} length={length} />

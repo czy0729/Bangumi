@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
 function Onair({ subjectId }, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.Onair')
+  // global.rerender('Home.GridInfo.Onair')
 
   const style = _.isMobileLanscape ? _.mt.xs : _.mt.md
   if ($.isToday(subjectId)) {

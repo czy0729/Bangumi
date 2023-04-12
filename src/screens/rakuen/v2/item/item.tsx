@@ -32,7 +32,7 @@ export default memo(
     isGroup,
     onPress
   }) => {
-    global.rerender('Rakuen.Item.Main')
+    // global.rerender('Rakuen.Item.Main')
 
     return (
       <Touchable

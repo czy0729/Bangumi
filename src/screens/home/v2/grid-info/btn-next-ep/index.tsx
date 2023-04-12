@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function BtnNextEp({ subjectId }, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.BtnNextEp')
+  // global.rerender('Home.GridInfo.BtnNextEp')
 
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null

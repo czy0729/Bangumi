@@ -49,7 +49,7 @@ class Filter extends React.Component<Props> {
   render() {
     if (!this.show) return null
 
-    global.rerender('Home.Filter')
+    // global.rerender('Home.Filter')
 
     const { $ }: Ctx = this.context
     const { progress } = $.state

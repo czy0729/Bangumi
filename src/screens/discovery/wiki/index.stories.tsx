@@ -1,17 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-11 19:47:20
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-04-11 19:47:20
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-04-12 10:28:29
  */
 import React from 'react'
-import {
-  StorybookSPA,
-  StorybookList,
-  StorybookNavigation,
-  getStorybookRoute
-} from '@components'
-import { urlStringify } from '@utils'
+import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
 import Component from './index'
 
 export default {
@@ -19,17 +13,10 @@ export default {
   component: Component
 }
 
-export const Wiki = () => {
-  const route = getStorybookRoute('Wiki')
-  return (
-    <StorybookSPA>
-      <StorybookList>
-        <Component
-          key={urlStringify(route.params)}
-          navigation={StorybookNavigation}
-          route={route}
-        />
-      </StorybookList>
-    </StorybookSPA>
-  )
-}
+export const Wiki = () => (
+  <StorybookSPA>
+    <StorybookList>
+      <Component {...getStorybookArgs('Wiki')} />
+    </StorybookList>
+  </StorybookSPA>
+)

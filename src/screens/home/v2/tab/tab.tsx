@@ -14,7 +14,7 @@ import TabBar from './tab-bar'
 import { memoStyles } from './styles'
 
 function Tab({ renderScene }, { $ }: Ctx) {
-  global.rerender('Home.Tab.Main')
+  // global.rerender('Home.Tab.Main')
 
   const styles = memoStyles()
   return (

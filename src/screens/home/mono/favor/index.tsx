@@ -12,7 +12,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Favor({ $ }: Ctx) {
-  global.rerender('Mono.Favor')
+  // global.rerender('Mono.Favor')
 
   const { collectUrl, eraseCollectUrl } = $.mono
   if (collectUrl) {

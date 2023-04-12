@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-06 23:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 06:58:31
+ * @Last Modified time: 2023-04-12 01:28:30
  */
 import { _ } from '@stores'
 
@@ -14,6 +14,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: -4
   },
   chart: {
+    minHeight: _.r(120),
     marginTop: _.md,
     marginHorizontal: -4
   },

@@ -12,23 +12,24 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:56:40
+ * @Last Modified time: 2023-04-12 10:51:47
  */
 import React from 'react'
-import { View, Image as RNImage, ImageProps as RNImageProps } from 'react-native'
+import { View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
 import { DEV, IOS, STORYBOOK } from '@constants'
 import { Source } from '@types'
-import { Flex } from '../flex'
-import { Iconfont } from '../iconfont'
-import { Text } from '../text'
 import { Touchable } from '../touchable'
-import { Skeleton } from '../skeleton'
 import { devLog } from '../dev'
-import CompImage from './image'
+import Error from './error'
+import Local from './local'
+import Placeholder from './placeholder'
+import Remote from './remote'
+import Skeleton from './skeleton'
+import TextOnly from './text-only'
 import {
   checkBgmEmoji,
   checkError404,
@@ -106,7 +107,7 @@ export const Image = observer(
       }, 0)
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: { src: Source }) {
+    UNSAFE_componentWillReceiveProps(nextProps: { src: Source | string }) {
       const { textOnly } = this.props
       if (textOnly) {
         return
@@ -147,7 +148,7 @@ export const Image = observer(
     }
 
     /** 缓存图片 */
-    cache = async (src: Source) => {
+    cache = async (src: Source | string) => {
       const { iosImageCacheV2 } = systemStore.setting
       if (IOS && iosImageCacheV2) {
         return this.cacheV2(src)
@@ -201,7 +202,7 @@ export const Image = observer(
             }
           }
         } catch (error) {
-          this.retry(src as string)
+          this.retry(src)
         }
       } else {
         /** 安卓貌似自带缓存 */
@@ -219,7 +220,7 @@ export const Image = observer(
 
         if (uri) {
           this.setState({
-            uri
+            uri: uri as Source
           })
         }
       }
@@ -228,7 +229,7 @@ export const Image = observer(
     }
 
     /** 缓存图片 (使用系统默认图片策略) */
-    cacheV2 = async (src: Source) => {
+    cacheV2 = async (src: Source | string) => {
       let uri: string
       if (!IOS && typeof src === 'string') {
         if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
@@ -249,7 +250,7 @@ export const Image = observer(
 
       if (uri) {
         this.setState({
-          uri
+          uri: uri as Source
         })
       }
 
@@ -257,7 +258,7 @@ export const Image = observer(
     }
 
     /** 图片是不是会下载失败, 当错误次数大于 MAX_ERROR_COUNT 就认为是错误 */
-    retry = (src: string) => {
+    retry = (src: Source | string) => {
       if (this._errorCount < MAX_ERROR_COUNT) {
         this._timeoutId = setTimeout(() => {
           this._errorCount += 1
@@ -436,7 +437,9 @@ export const Image = observer(
         }
       }
 
-      if (typeof src === 'string' && src.includes('lain.')) return DEFAULT_HEADERS
+      if (typeof src === 'string' && src.includes('lain.')) {
+        return DEFAULT_HEADERS
+      }
 
       return {}
     }
@@ -462,7 +465,7 @@ export const Image = observer(
       if (autoSize) {
         image.push({
           width: w || 160,
-          height: h || 160
+          height: h || (STORYBOOK ? 'auto' : 160)
         })
       } else if (size) {
         image.push({
@@ -525,16 +528,6 @@ export const Image = observer(
       }
     }
 
-    get fadeDuration() {
-      const { fadeDuration } = this.props
-      const { imageTransition } = systemStore.setting
-      return fadeDuration === undefined
-        ? imageTransition
-          ? undefined
-          : 0
-        : fadeDuration
-    }
-
     get borderRadius() {
       const { coverRadius } = systemStore.setting
       return coverRadius || _.radiusXs
@@ -542,94 +535,6 @@ export const Image = observer(
 
     get dev() {
       return systemStore.state.dev
-    }
-
-    renderTextOnly() {
-      return (
-        <Flex style={this.computedStyle.image} justify='center'>
-          <Text style={this.styles.textOnly} type='sub' bold>
-            text-only
-          </Text>
-        </Flex>
-      )
-    }
-
-    renderError() {
-      const size = this.props.width || this.props.size || 80
-      return (
-        <Flex style={[this.computedStyle.image, this.styles.error]} justify='center'>
-          <Iconfont
-            style={this.styles.errorIcon}
-            name='md-do-not-disturb-alt'
-            size={Math.min(size / 2.4, 80)}
-          />
-        </Flex>
-      )
-    }
-
-    renderPlaceholder() {
-      return <View style={this.computedStyle.image} />
-    }
-
-    // renderTransitionImage(uri, other) {
-    //   return (
-    //     <AnimatedImage
-    //       style={[
-    //         this.computedStyle.image,
-    //         {
-    //           width: this.props.width || this.props.size
-    //         }
-    //       ]}
-    //       uri={uri}
-    //       headers={this.headers}
-    //       tint={_.select('light', 'dark')}
-    //       preview={_.select(IMG_EMPTY, IMG_EMPTY_DARK)}
-    //       onError={this.onError}
-    //       {...other}
-    //     />
-    //   )
-    // }
-
-    renderRemoteImage(uri, other) {
-      const source: RNImageProps['source'] = {
-        headers: this.headers,
-        uri: uri.replace('http://', 'https://') // 安卓新版本不允许非 https 的图片了
-      }
-      if (IOS) source.cache = 'force-cache'
-
-      return (
-        <CompImage
-          style={this.computedStyle.image}
-          source={source}
-          fadeDuration={this.fadeDuration}
-          onError={this.onError}
-          {...other}
-          onLoadEnd={this.onLoadEnd}
-        />
-      )
-    }
-
-    renderLocalImage(headers, src, other) {
-      let source: RNImageProps['source']
-      if (headers && typeof src === 'object') {
-        source = {
-          ...src,
-          headers: this.headers
-        }
-      } else {
-        source = src as RNImageProps['source']
-      }
-
-      return (
-        <CompImage
-          style={this.computedStyle.image}
-          source={source}
-          fadeDuration={this.fadeDuration}
-          onError={this.onError}
-          {...other}
-          onLoadEnd={this.onLoadEnd}
-        />
-      )
     }
 
     renderImage() {
@@ -661,37 +566,68 @@ export const Image = observer(
         onError,
         ...other
       } = this.props
-      if (textOnly) return this.renderTextOnly()
+      if (textOnly) {
+        return <TextOnly style={this.computedStyle.image} />
+      }
 
       const { error, uri } = this.state
-      if (error && errorToHide) return null
+      if (error && errorToHide) {
+        return null
+      }
 
-      if (!STORYBOOK && error) return this.renderError()
+      if (error && !STORYBOOK) {
+        return (
+          <Error
+            style={this.computedStyle.image}
+            size={this.props.width || this.props.size}
+          />
+        )
+      }
 
       if (typeof src === 'string' || typeof src === 'undefined') {
         // 没有图片占位
-        if (!uri) return this.renderPlaceholder()
+        if (!uri) {
+          return <Placeholder style={this.computedStyle.image} />
+        }
 
         if (typeof uri === 'string') {
-          // IOS 使用了 CacheManager 管理图片, 请求时已加 headers, 所以组件就不需要再加了
-          // if (IOS && systemStore.setting.imageTransition) {
-          //   return this.renderTransitionImage(uri, other)
-          // }
-
           // 获取图片的宽高中, 占位
-          if (!IOS && autoSize && !this.state.width) return this.renderPlaceholder()
+          if (!(IOS || STORYBOOK) && autoSize && !this.state.width) {
+            return <Placeholder style={this.computedStyle.image} />
+          }
 
           // 网络图片
-          return this.renderRemoteImage(uri, other)
+          return (
+            <Remote
+              {...other}
+              style={this.computedStyle.image}
+              headers={this.headers}
+              uri={uri}
+              autoSize={autoSize}
+              onError={this.onError}
+              onLoadEnd={this.onLoadEnd}
+            />
+          )
         }
       }
 
       // 本地图片
-      return this.renderLocalImage(headers, src, other)
+      return (
+        <Local
+          {...other}
+          style={this.computedStyle.image}
+          headers={headers}
+          overrideHeaders={this.headers}
+          src={src}
+          onError={this.onError}
+          onLoadEnd={this.onLoadEnd}
+        />
+      )
     }
 
-    renderTouchabelImage(onPress) {
-      const { delay, scale, onLongPress } = this.props
+    renderTouchableImage(onPress) {
+      const { textOnly, placeholder, delay, scale, onLongPress } = this.props
+      const { loaded } = this.state
       return (
         <View style={this.computedStyle.container}>
           <Touchable
@@ -717,24 +653,28 @@ export const Image = observer(
           >
             {this.renderImage()}
           </Touchable>
-          {this.renderSkeleton()}
+          <Skeleton
+            style={this.computedStyle.image}
+            textOnly={textOnly}
+            placeholder={placeholder}
+            loaded={loaded}
+          />
         </View>
       )
     }
 
-    renderSkeleton() {
-      const { textOnly, placeholder } = this.props
-      const { loaded } = this.state
-      if (textOnly || !placeholder || loaded) return null
-
-      const { width, height } = _.flatten(this.computedStyle.image)
-      return <Skeleton width={width} height={height} />
-    }
-
     render() {
-      const { src, imageViewer, imageViewerSrc, event, onPress, onLongPress } =
-        this.props
-      const { uri } = this.state
+      const {
+        src,
+        textOnly,
+        placeholder,
+        imageViewer,
+        imageViewerSrc,
+        event,
+        onPress,
+        onLongPress
+      } = this.props
+      const { uri, loaded } = this.state
       let _onPress = onPress
 
       // 需要调用 ImageViewer 弹窗
@@ -750,13 +690,18 @@ export const Image = observer(
 
       // 带点击事件
       if (this.dev || _onPress || onLongPress) {
-        return this.renderTouchabelImage(_onPress)
+        return this.renderTouchableImage(_onPress)
       }
 
       return (
         <View style={this.computedStyle.container}>
           {this.renderImage()}
-          {this.renderSkeleton()}
+          <Skeleton
+            style={this.computedStyle.image}
+            textOnly={textOnly}
+            placeholder={placeholder}
+            loaded={loaded}
+          />
         </View>
       )
     }

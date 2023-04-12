@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import BookNextBtn from '../book-next-btn'
 
 function Count({ subjectId, subject = {}, epStatus }: any, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.Count')
+  // global.rerender('Home.GridInfo.Count')
 
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(

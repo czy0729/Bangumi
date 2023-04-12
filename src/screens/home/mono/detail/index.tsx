@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Content(props, { $, navigation }: Ctx) {
-  global.rerender('Mono.Content')
+  // global.rerender('Mono.Content')
 
   if (!$.detail) return null
 

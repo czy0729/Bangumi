@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 15:37:19
+ * @Last Modified time: 2023-04-11 20:16:06
  */
-import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
+import { HOST, HOST_CDN, HOST_NAME, IOS, STORYBOOK } from '@constants/constants'
 import { Fn } from '@types'
 import { urlStringify } from '../utils'
 import { syncUserStore } from '../async'
@@ -13,6 +13,7 @@ import { loading } from '../ui'
 import { log } from '../dev'
 import { SHOW_LOG } from './ds'
 import { XHRArgs, XHRCustomArgs } from './types'
+import { HOST_PROXY } from '@/config'
 
 /** @deprecated 带登录信息的 XMLHttpRequest */
 export function xhr(
@@ -60,6 +61,9 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
     showLog = true
   } = args || {}
 
+  let _url = url
+  if (STORYBOOK && HOST_PROXY) _url = _url.replace(HOST, HOST_PROXY)
+
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function () {
@@ -83,7 +87,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
       reject(new TypeError('xhrCustom onAbort'))
     }
 
-    request.open(method, url, true)
+    request.open(method, _url, true)
     request.withCredentials = withCredentials
     if (responseType) request.responseType = responseType
 

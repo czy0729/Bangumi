@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
 function Title({ subjectId, subject = {} }: any, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.Title')
+  // global.rerender('Home.GridInfo.Title')
 
   const _subject = $.subject(subjectId)
   const title = HTMLDecode(

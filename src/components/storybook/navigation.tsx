@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 15:35:23
+ * @Last Modified time: 2023-04-12 10:16:21
  */
-import { AnyObject } from '@types'
+import { AnyObject, Fn } from '@types'
+import { urlStringify } from '@utils'
 import { navigate, parseUrlParams } from './utils'
 
 export const StorybookNavigation = {
@@ -25,7 +26,8 @@ export const StorybookNavigation = {
   goBack() {
     window.history.back()
   },
-  addListener() {
+  addListener(eventType: string): Fn {
+    console.info('Navigation: addListener', eventType)
     return () => {}
   },
   setOptions() {}
@@ -34,8 +36,17 @@ export const StorybookNavigation = {
 export function getStorybookRoute(routeName: string) {
   return {
     params: {
-      ...parseUrlParams(),
-      name: routeName
+      name: routeName,
+      ...parseUrlParams()
     }
+  }
+}
+
+export function getStorybookArgs(routeName: string) {
+  const route = getStorybookRoute(routeName)
+  return {
+    key: urlStringify(route.params),
+    navigation: StorybookNavigation,
+    route
   }
 }

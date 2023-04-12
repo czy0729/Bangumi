@@ -45,7 +45,7 @@ export const ItemCollections = ob(
     showManage,
     onEdit
   }: ItemCollectionsProps) => {
-    //  global.rerender('Component.ItemCollections')
+    // global.rerender('Component.ItemCollections')
 
     return (
       <Item

@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function Eps({ subjectId }, { $, navigation }: Ctx) {
-  global.rerender('Home.GridInfo.Eps')
+  // global.rerender('Home.GridInfo.Eps')
 
   const { homeGridEpAutoAdjust } = systemStore.setting
   const { flip } = $.state

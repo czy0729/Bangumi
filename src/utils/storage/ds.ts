@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:48:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:45:57
+ * @Last Modified time: 2023-04-12 09:25:42
  */
-import { STORYBOOK } from '@constants'
+import { STORYBOOK } from '@constants/constants'
 import { DEV } from '@/config'
 
 /** 本地化字符串大于此值会延迟合并再写入 */

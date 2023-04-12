@@ -18,7 +18,7 @@ const EVENT = {
 } as const
 
 function Header(props, { navigation }) {
-  global.rerender('Home.Header')
+  // global.rerender('Home.Header')
 
   const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
   const left = MENU_MAP[homeTopLeftCustom]

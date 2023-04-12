@@ -12,7 +12,7 @@ import { memoStyles as gridItemMemoStyles } from '../../grid-item/styles'
 import { Ctx } from '../../types'
 
 function Cover({ subjectId, subject = {}, onPress }: any, { $ }: Ctx) {
-  global.rerender('Home.GridInfo.Cover')
+  // global.rerender('Home.GridInfo.Cover')
 
   const _subject = $.subject(subjectId)
   const itemStyles = gridItemMemoStyles()

@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 let rendered = false
 
 function CheckLogin(props, { $, navigation }: Ctx) {
-  global.rerender('Home.CheckLogin')
+  // global.rerender('Home.CheckLogin')
 
   const { initialPage } = systemStore.setting
   return (

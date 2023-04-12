@@ -12,7 +12,7 @@ import ParallaxImage from './parallax-image'
 import { memoStyles } from './styles'
 
 export default obc(({ scrollY, fixed }, { $, navigation }: Ctx) => {
-  global.rerender('User.ParallaxImage')
+  // global.rerender('User.ParallaxImage')
 
   const { id, avatar, nickname, username } = $.usersInfo
   return (

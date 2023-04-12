@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:51:10
+ * @Last Modified time: 2023-04-12 01:31:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,14 @@ import { _ } from '@stores'
 import { stl, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
 import { getHeight, getDeviation, getDispute } from './utils'
-import { DEFAULT_PROPS } from './ds'
+import { DEFAULT_PROPS, DEFAULT_RATES } from './ds'
 
 export default memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
     // global.rerender('Subject.Rating.Chart.Main')
 
     const deviation = getDeviation(total, count, score)
+    const _count = Object.keys(count).length ? count : DEFAULT_RATES
     return (
       <>
         {!!total && (
@@ -26,10 +27,10 @@ export default memo(
           </Text>
         )}
         <Flex style={styles.chart}>
-          {Object.keys(count)
+          {Object.keys(_count)
             .reverse()
             .map((item, index) => {
-              const height = getHeight(total, count[item])
+              const height = getHeight(total, _count[item])
 
               // @ts-expect-error
               const isActive = rating == item
@@ -53,7 +54,7 @@ export default memo(
                       align='center'
                       bold
                     >
-                      {count[item]}{' '}
+                      {_count[item]}{' '}
                     </Text>
                   </Flex>
                   <Text

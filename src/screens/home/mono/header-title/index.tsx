@@ -10,7 +10,7 @@ import { Ctx } from '../types'
 import HeaderTitle from './header-title'
 
 export default obc(({ $ }: Ctx) => {
-  global.rerender('Mono.HeaderTitle')
+  // global.rerender('Mono.HeaderTitle')
 
   return (
     <HeaderTitle

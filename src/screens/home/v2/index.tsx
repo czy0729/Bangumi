@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 04:26:06
+ * @Last Modified time: 2023-04-12 10:09:43
  */
 import React from 'react'
-import { useFocusEffect } from '@react-navigation/native'
 import { Page } from '@components'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { privacy } from '@utils'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useFocusEffect, useRunAfter, useObserver } from '@utils/hooks'
 import { Track } from '@components'
 import { StatusBarEvents, Auth, NavigationBarEvents, LoginNotice } from '@_'
 import { _ } from '@stores'

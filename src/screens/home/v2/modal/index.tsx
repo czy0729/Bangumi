@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function Modal(props, { $ }: Ctx) {
-  global.rerender('Home.Modal')
+  // global.rerender('Home.Modal')
 
   const { visible, subjectId, modal } = $.state
   const { name, name_cn: nameCn } = $.subject(subjectId)

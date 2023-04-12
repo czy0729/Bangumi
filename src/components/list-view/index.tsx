@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 18:48:46
+ * @Last Modified time: 2023-04-12 01:25:13
  */
 import React from 'react'
 import { RefreshControl, View } from 'react-native'
@@ -345,31 +345,49 @@ export const ListView = observer(
     }
 
     renderStorybook() {
-      const content = this.props.sections
+      const {
+        contentContainerStyle,
+        keyExtractor,
+        sections,
+        numColumns,
+        ListHeaderComponent,
+        renderSectionHeader,
+        renderItem
+      } = this.props
+      const content = sections
         ? this.sections.map((section: any, index: number) => (
             <View key={index}>
-              {this.props.renderSectionHeader({ section })}
-              {this.props.renderItem({
+              {renderSectionHeader({ section })}
+              {renderItem({
                 item: section.data[0],
                 section
               })}
             </View>
           ))
-        : this.data.map((item: any, index: number) => (
-            <View key={this.props.keyExtractor(item, index)}>
-              {this.props.renderItem({
+        : this.data.map((item: any, index: number) =>
+            React.cloneElement(
+              // @ts-expect-error
+              renderItem({
                 item,
                 index
-              })}
-            </View>
-          ))
+              }),
+              {
+                key: keyExtractor(item, index) || index
+              }
+            )
+          )
+
       return (
         <StorybookScroll
-          style={this.props.contentContainerStyle}
-          onFooterRefresh={this.props.onFooterRefresh}
+          style={contentContainerStyle}
+          onFooterRefresh={() => {
+            const { data, onFooterRefresh } = this.props
+            const { pagination } = data
+            if (pagination.page < pagination.pageTotal) onFooterRefresh()
+          }}
         >
-          {this.props.ListHeaderComponent}
-          {this.props.numColumns > 1 ? <Flex wrap='wrap'>{content}</Flex> : content}
+          {ListHeaderComponent}
+          {numColumns > 1 ? <Flex wrap='wrap'>{content}</Flex> : content}
           {this.renderFooter()}
         </StorybookScroll>
       )

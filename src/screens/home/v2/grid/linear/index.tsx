@@ -11,7 +11,7 @@ import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
 function Linear() {
-  global.rerender('Home.Grid.Linear')
+  // global.rerender('Home.Grid.Linear')
 
   if (!_.isDark) return null
 

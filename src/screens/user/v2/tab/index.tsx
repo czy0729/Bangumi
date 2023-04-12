@@ -23,7 +23,7 @@ function Tab({
   onSwipeStart,
   onRefreshOffset
 }) {
-  global.rerender('User.Tab')
+  // global.rerender('User.Tab')
 
   const renderScene = useRef(
     SceneMap(

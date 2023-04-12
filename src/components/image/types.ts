@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 17:44:06
+ * @Last Modified time: 2023-04-12 08:51:36
  */
 import { ColorValue, ImageProps } from 'react-native'
 import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
@@ -17,7 +17,7 @@ export type Props = Override<
     imageStyle?: ImageStyle
 
     /** 图片地址 */
-    src?: Source
+    src?: Source | string
 
     /** 此组件禁用source */
     // source: never
@@ -104,7 +104,7 @@ export type State = {
   error: boolean
 
   /** 图片加载实际地址 */
-  uri: Source
+  uri: Source | string
 
   /** 图片当前宽度 */
   width: number

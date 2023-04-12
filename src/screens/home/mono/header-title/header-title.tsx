@@ -14,7 +14,7 @@ import { DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ tinygrail, cover, nameTop, nameBottom }) => {
-  global.rerender('Mono.HeaderTitle.Main')
+  // global.rerender('Mono.HeaderTitle.Main')
 
   return (
     <Flex

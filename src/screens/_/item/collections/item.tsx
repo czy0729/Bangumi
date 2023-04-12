@@ -50,7 +50,7 @@ const Item = memo(
     showManage,
     onEdit
   }) => {
-    //  global.rerender('Component.ItemCollections.Main')
+    // global.rerender('Component.ItemCollections.Main')
 
     const typeCn = type
 

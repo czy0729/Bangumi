@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 19:30:50
+ * @Last Modified time: 2023-04-12 09:46:04
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -10,7 +10,7 @@ import { DEV } from '@/config'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { IOS } from '@constants/constants'
+import { IOS, STORYBOOK } from '@constants/constants'
 import { Fn } from '@types'
 import { syncSystemStore, s2tAsync } from '../async'
 
@@ -42,6 +42,8 @@ export function loading(
 
 /** 轻震动反馈 */
 export function feedback() {
+  if (STORYBOOK) return
+
   const { vibration } = syncSystemStore().setting
   if (!vibration) return
 
@@ -171,7 +173,7 @@ export function showImageViewer(
  * https://github.com/zubricky/react-native-android-keyboard-adjust
  */
 export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
-  if (IOS) return
+  if (IOS || STORYBOOK) return
 
   const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
   AndroidKeyboardAdjust[fn]()
@@ -179,7 +181,7 @@ export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
 
 /** 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色 */
 export function androidDayNightToggle(isDark?: boolean) {
-  if (IOS) return
+  if (IOS || STORYBOOK) return
 
   NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)
 }

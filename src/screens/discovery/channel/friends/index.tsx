@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:31:58
+ * @Last Modified time: 2023-04-12 00:51:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,8 @@ import { memoStyles } from './styles'
 function Friends(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { friends = [] } = $.channel
+  if (!friends.length) return null
+
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>好友最近关注</SectionTitle>

@@ -20,7 +20,7 @@ const Filter = memo(
     isFiltering,
     onFilterChange
   }) => {
-    global.rerender('User.Filter.Main')
+    // global.rerender('User.Filter.Main')
 
     const inputRef = useRef(null)
     const aHeight = useRef(new Animated.Value(0))

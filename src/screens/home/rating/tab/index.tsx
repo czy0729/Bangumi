@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:53:14
+ * @Last Modified time: 2023-04-12 01:10:30
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
-import TabBar from '@components/@/react-native-tab-view/TabBar'
-import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text, Heatmap } from '@components'
+import { TabView, TabBar, Flex, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import List from '../list'

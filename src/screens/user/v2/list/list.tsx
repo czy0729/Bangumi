@@ -27,7 +27,7 @@ const List = memo(
     onRefreshOffset,
     onFooterRefresh
   }) => {
-    global.rerender('User.List')
+    // global.rerender('User.List')
 
     const ListHeaderComponent = useMemo(
       () => (

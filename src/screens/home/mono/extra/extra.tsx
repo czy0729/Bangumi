@@ -14,7 +14,7 @@ import { t } from '@utils/fetch'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
-  global.rerender('Mono.Extra.Main')
+  // global.rerender('Mono.Extra.Main')
 
   if (canICO) {
     return (

@@ -11,7 +11,7 @@ import { Ctx } from '../types'
 import HeaderTitle from './header-title'
 
 export default ob(({ $, navigation }: Ctx) => {
-  global.rerender('Topic.HeaderTitle')
+  // global.rerender('Topic.HeaderTitle')
 
   return (
     <HeaderTitle

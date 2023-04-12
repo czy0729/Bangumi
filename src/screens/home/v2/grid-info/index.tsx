@@ -24,7 +24,7 @@ function GridInfo(
   { subjectId = 0, subject = {}, epStatus = '' }: Props,
   { $, navigation }: Ctx
 ) {
-  global.rerender('Home.GridInfo')
+  // global.rerender('Home.GridInfo')
 
   const styles = memoStyles()
   const isTop = $.state.top.indexOf(subjectId) !== -1
