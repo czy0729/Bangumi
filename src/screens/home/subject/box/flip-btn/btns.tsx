@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 03:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 08:44:21
+ * @Last Modified time: 2023-04-13 15:35:09
  */
 import React from 'react'
 import { Flex, Button, Iconfont } from '@components'
@@ -28,14 +28,16 @@ function Btns({ btnText, rating, privacy, last }) {
           style={leftStyle}
           type={getType(btnText)}
           extra={
-            privacy == 1 && (
-              <Iconfont
-                style={_.ml.sm}
-                color={_.__colorPlain__}
-                size={17}
-                name='md-visibility-off'
-              />
-            )
+            <>
+              {privacy == 1 && (
+                <Iconfont
+                  style={_.ml.sm}
+                  name='md-visibility-off'
+                  color={_.__colorPlain__}
+                  size={17}
+                />
+              )}
+            </>
           }
         >
           {btnText}

@@ -9,14 +9,14 @@ import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
 import Component from './index'
 
 export default {
-  title: 'screens/Catelogs',
+  title: 'screens/Catalogs',
   component: Component
 }
 
-export const Catelogs = () => (
+export const Catalogs = () => (
   <StorybookSPA>
     <StorybookList>
-      <Component {...getStorybookArgs('Catelogs')} />
+      <Component {...getStorybookArgs('Catalogs')} />
     </StorybookList>
   </StorybookSPA>
 )

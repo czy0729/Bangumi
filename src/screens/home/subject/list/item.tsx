@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:36:42
+ * @Last Modified time: 2023-04-13 19:05:47
  */
 import React from 'react'
 import { ItemComment } from '@_'
@@ -23,8 +23,7 @@ function Item(
   { time, avatar, userId, userName, star, comment },
   { $, navigation }: Ctx
 ) {
-  const { rendered } = $.state
-  if (!rendered) return null
+  if (!$.rendered) return null
 
   const { blockUserIds } = rakuenStore.setting
   if (getIsBlockUser(blockUserIds, userName, userId, `Subject|${$.subjectId}`)) {

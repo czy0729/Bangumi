@@ -32,9 +32,9 @@ function Eps(props, { $, navigation }: Ctx) {
       canPlay={showPlay}
       flip={$.state.flipEps}
       onFliped={$.afterEpsFlip}
-      onSelect={(value, item: InferArray<typeof $.toEps>) =>
+      onSelect={(value, item: InferArray<typeof $.toEps>) => {
         $.doEpsSelect(value, item, navigation)
-      }
+      }}
     />
   )
 }

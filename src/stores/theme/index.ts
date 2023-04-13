@@ -10,7 +10,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { observable, computed } from 'mobx'
 import { androidDayNightToggle, runAfter } from '@utils'
 import store from '@utils/store'
-import { IOS, ORIENTATION_LANDSCAPE, WSA, PAD } from '@constants'
+import { IOS, ORIENTATION_LANDSCAPE, WSA, PAD, STORYBOOK } from '@constants'
 import _, { fontSize, IS_IOS_5_6_7_8 } from '@styles'
 import { AnyObject, SelectFn, SettingFontsizeadjust, StoreConstructor } from '@types'
 import systemStore from '../system'
@@ -912,13 +912,17 @@ class ThemeStore extends store implements StoreConstructor<typeof STATE> {
   select: SelectFn = (lightValue, darkValue) => (this.isDark ? darkValue : lightValue)
 
   /** 目前支持的所有平台选择 */
-  platforms = (ios: any, ios_5678: any, android: any, wsa: any) => {
+  platforms = (ios: any, ios_5678: any, android: any, wsa: any, web?: any) => {
+    if (STORYBOOK && web !== undefined) return web
+
     if (IOS) {
       if (IS_IOS_5_6_7_8) return ios_5678
+
       return ios
-    } else if (WSA) {
-      return wsa
     }
+
+    if (WSA) return wsa
+
     return android
   }
 

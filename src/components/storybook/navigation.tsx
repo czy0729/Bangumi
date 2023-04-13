@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 18:48:41
+ * @Last Modified time: 2023-04-13 15:22:16
  */
 import { AnyObject, Fn } from '@types'
 import { urlStringify } from '@utils'
+import { SHARE_MODE } from '@constants'
 import { navigate, parseUrlParams } from './utils'
 
 export const StorybookNavigation = {
@@ -21,41 +22,46 @@ export const StorybookNavigation = {
     navigate(routeName, params)
   },
   replace(routeName: string, params?: AnyObject) {
-    navigate(routeName, params)
+    navigate(routeName, params, true)
   },
   goBack() {
     window.history.back()
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addListener(eventType: string): Fn {
-    console.info('Navigation: addListener', eventType)
+    // console.info('Navigation: addListener', eventType)
     return () => {}
   },
   setOptions() {}
 }
 
+/** Demo 展示用默认参数 */
+const DEMO_PARAMS = {
+  userId: 'sukaretto',
+  subjectId: 376703,
+  catalogId: 44079,
+  monoId: 'person/5745',
+  groupId: 'boring',
+  topicId: 'group/350677',
+  blogId: 319794,
+  sayId: 33457566,
+  name: '偶像大师 灰姑娘女孩 U149',
+  tag: '2023年4月',
+  title: '标准差',
+  message: [
+    '0-1 异口同声',
+    '1.15 基本一致',
+    '1.3 略有分歧',
+    '1.45 莫衷一是',
+    '1.6 各执一词',
+    '1.75 你死我活'
+  ]
+} as const
+
 export function getStorybookRoute(routeName: string) {
   return {
     params: {
-      // Demo 参数
-      userId: 'sukaretto',
-      subjectId: 376703,
-      catalogId: 44079,
-      monoId: 'person/5745',
-      groupId: 'boring',
-      topicId: 'group/350677',
-      blogId: 319794,
-      sayId: 33457566,
-      name: '偶像大师 灰姑娘女孩 U149',
-      tag: '2023年4月',
-      title: '标准差',
-      message: [
-        '0-1 异口同声',
-        '1.15 基本一致',
-        '1.3 略有分歧',
-        '1.45 莫衷一是',
-        '1.6 各执一词',
-        '1.75 你死我活'
-      ],
+      ...(SHARE_MODE ? {} : DEMO_PARAMS),
 
       // 页面参数
       routeName,

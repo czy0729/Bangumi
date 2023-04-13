@@ -10,7 +10,7 @@ import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { stl, titleCase } from '@utils'
 import { obc } from '@utils/decorators'
-import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
+import { MODEL_RAKUEN_SCROLL_DIRECTION, STORYBOOK } from '@constants'
 import { Fn } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -23,6 +23,8 @@ function TouchScroll(
   },
   { $ }: Ctx
 ) {
+  if (STORYBOOK) return null
+
   const { scrollDirection } = $.setting
   const { list } = $.comments
   if (

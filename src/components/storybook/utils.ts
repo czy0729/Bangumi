@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 00:30:25
+ * @Last Modified time: 2023-04-13 13:39:30
  */
 import { urlStringify } from '@utils'
 import { AnyObject } from '@types'
@@ -18,7 +18,11 @@ export function parseUrlParams() {
   return result
 }
 
-export function navigate(routeName: string, params: AnyObject = {}) {
+export function navigate(
+  routeName: string,
+  params: AnyObject = {},
+  replace: boolean = false
+) {
   const config = {
     viewMode: 'story',
 
@@ -39,6 +43,6 @@ export function navigate(routeName: string, params: AnyObject = {}) {
   }
   const url = `iframe.html?${urlStringify(config)}`
 
-  window.history.pushState({}, '', url)
+  window.history[replace ? 'replaceState' : 'pushState']({}, '', url)
   window.dispatchEvent(new PopStateEvent('popstate'))
 }

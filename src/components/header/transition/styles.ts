@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 16:26:49
+ * @Last Modified time: 2023-04-13 19:18:00
  */
 import { _ } from '@stores'
 import { STORYBOOK, WSA } from '@constants'
@@ -31,7 +31,7 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     bottom: 8,
     left: 48,
-    right: 72,
+    right: STORYBOOK ? 0 : 72,
     minHeight
   },
   bodyTitle: {

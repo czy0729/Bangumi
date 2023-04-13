@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 17:41:28
+ * @Last Modified time: 2023-04-13 14:22:29
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -214,7 +214,7 @@ export default class Fetch extends Computed {
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
-    if (STORYBOOK) return
+    if (STORYBOOK) return false
 
     if (this.type === '动画') {
       try {
@@ -253,10 +253,12 @@ export default class Fetch extends Computed {
 
   /** 获取章节的缩略图 */
   fetchEpsThumbs = async bangumiData => {
-    if (this.state.epsThumbs.length >= 12) return
+    if (STORYBOOK) return false
+
+    if (this.state.epsThumbs.length >= 12) return false
 
     try {
-      // 尝试从douban找
+      // 尝试从 douban 找
       const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
       const jp = bangumiData.title
       await this.fetchMovieFromDouban(cn, jp)
@@ -368,9 +370,9 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 从donban匹配条目, 并获取官方剧照信息 */
+  /** 从 donban 匹配条目, 并获取官方剧照信息 */
   fetchMovieFromDouban = async (cn: string, jp: string) => {
-    if (this.x18) return
+    if (STORYBOOK || this.x18) return false
 
     const q = cn || jp
     if (q) {
@@ -402,9 +404,9 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 从donban匹配条目, 并获取预告视频 */
+  /** 从 donban 匹配条目, 并获取预告视频 */
   fetchGameFromDouban = async (cn: string, jp: string) => {
-    if (this.x18) return
+    if (STORYBOOK || this.x18) return false
 
     const q = cn || jp
     if (q) {
@@ -438,6 +440,8 @@ export default class Fetch extends Computed {
 
   /** 从 bilibili 匹配音乐 MV */
   fetchMVFromBilibili = async (cn: string, jp: string, artist: string) => {
+    if (STORYBOOK) return false
+
     const videos = await searchMV(cn || jp, artist)
     if (videos.length) {
       this.setState({
@@ -526,8 +530,10 @@ export default class Fetch extends Computed {
 
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
+    if (STORYBOOK) return false
+
     const { showAnitabi } = systemStore.setting
-    if (STORYBOOK || showAnitabi === -1 || !showAnitabi) return false
+    if (showAnitabi === -1 || !showAnitabi) return false
 
     const { _loaded } = this.state.anitabi
     if (_loaded && getTimestamp() - Number(_loaded) <= 60 * 60 * 24) return true

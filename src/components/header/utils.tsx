@@ -7,7 +7,7 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { IOS } from '@constants'
+import { IOS, SHARE_MODE } from '@constants'
 import { Expand, Navigation } from '@types'
 import Back from './back'
 import { colors, backgroundColors } from './styles'
@@ -46,6 +46,15 @@ export const updateHeader = ({
   fixed = false,
   statusBarEventsType
 }: UpdateHeaderProps) => {
+  if (SHARE_MODE) {
+    try {
+      const _title = systemStore.setting.s2t ? s2t(title) : title
+      if (typeof _title === 'string' && _title) {
+        document.title = _title
+      }
+    } catch (error) {}
+  }
+
   if (!navigation) return
 
   const _title = systemStore.setting.s2t ? s2t(title) : title

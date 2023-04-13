@@ -7,6 +7,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { STORYBOOK } from '@constants'
 import AntdModal from '../@/ant-design/modal'
 import { Text } from '../text'
 import { Props as ModalProps } from './types'
@@ -15,6 +16,9 @@ export { ModalProps }
 
 export const Modal = observer(
   ({ style, visible, title, type = 'title', focus, onClose, children }: ModalProps) => {
+    // 待开发
+    if (STORYBOOK) return null
+
     return (
       <AntdModal
         style={style}

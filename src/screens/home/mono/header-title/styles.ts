@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   container: {
     height: 28,
-    marginTop: _.platforms(2, -6, -10, -4),
+    marginTop: _.platforms(2, -6, -10, -4, -4),
     marginLeft: -_.sm,
     marginRight: _.lg
   },

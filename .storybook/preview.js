@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 22:29:50
+ * @Last Modified time: 2023-04-13 17:25:21
  */
+// import { AliveScope } from 'react-activation'
 import { addons } from '@storybook/addons'
-import { SET_CURRENT_STORY, FORCE_RE_RENDER } from '@storybook/core-events'
-
-let lastStoryId
+import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
 
 // 监听 URL 变化
 window.addEventListener('popstate', () => {
@@ -18,8 +17,7 @@ window.addEventListener('popstate', () => {
   }
 
   addons.getChannel().emit(SET_CURRENT_STORY, args)
-  if (args.storyId === lastStoryId) addons.getChannel().emit(FORCE_RE_RENDER, args)
-  lastStoryId = args.storyId
+  addons.getChannel().emit(FORCE_REMOUNT, args)
 })
 
 export const parameters = {
@@ -39,6 +37,14 @@ export const parameters = {
     }
   }
 }
+
+// export const decorators = [
+//   Story => (
+//     <AliveScope>
+//       <Story />
+//     </AliveScope>
+//   )
+// ]
 
 function parseUrlParams() {
   const params = new URLSearchParams(window.location.search)

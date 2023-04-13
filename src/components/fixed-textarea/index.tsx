@@ -20,7 +20,13 @@ import {
   setStorage,
   stl
 } from '@utils'
-import { IOS, HOST_IMAGE_UPLOAD, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
+import {
+  HOST_IMAGE_UPLOAD,
+  IOS,
+  SCROLL_VIEW_RESET_PROPS,
+  STORYBOOK,
+  WSA
+} from '@constants'
 import { BlurView } from '../@/ant-design/modal/blur-view'
 import { Text } from '../text'
 import { Bgm } from '../bgm'
@@ -882,6 +888,8 @@ export const FixedTextarea = observer(
     }
 
     render() {
+      if (STORYBOOK) return null
+
       const { showKeyboardSpacer } = this.state
       return (
         <>

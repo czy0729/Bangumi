@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 12:08:37
+ * @Last Modified time: 2023-04-13 19:05:39
  */
-import React, { ComponentType } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, ErrorBoundary, renderWithErrorBoundary } from '@components'
 import { obc } from '@utils/decorators'
@@ -66,9 +66,7 @@ const BottomEls = [
 
 function Header(props, { $ }: Ctx) {
   const styles = memoStyles()
-  const { rendered } = $.state
   const { _loaded } = $.subjectComments
-
   return (
     <>
       {!IOS && (
@@ -79,7 +77,7 @@ function Header(props, { $ }: Ctx) {
       <Head />
       <View style={styles.content}>
         {TopEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
-        {rendered &&
+        {$.rendered &&
           BottomEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
         {!_loaded && (
           <Flex style={styles.loading} justify='center'>

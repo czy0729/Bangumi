@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Popover, Menu, Button } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
-import { IOS, WSA } from '@constants'
+import { IOS, SHARE_MODE, WSA } from '@constants'
 import FlipButton from '../flip-button'
 import { getType, getPopoverData, getComment, customCompare } from './utils'
 import { DEFAULT_PROPS } from './ds'
@@ -42,27 +42,24 @@ export default memo(
       advance,
       userProgress
     )
-    let popoverProps
-    if (IOS) {
-      popoverProps = {
-        overlay: (
-          <Menu
-            title={[
-              [`ep${item.sort}`, item.airdate || item.duration]
-                .filter(item => !!item)
-                .join(' · ')
-            ]}
-            data={popoverData}
-            onSelect={value => onSelect(value, item)}
-          />
-        )
-      }
-    } else {
-      popoverProps = {
-        data: popoverData,
-        onSelect: value => onSelect(value, item, subjectId)
-      }
-    }
+    const popoverProps = IOS
+      ? {
+          overlay: (
+            <Menu
+              title={[
+                [`ep${item.sort}`, item.airdate || item.duration]
+                  .filter(item => !!item)
+                  .join(' · ')
+              ]}
+              data={popoverData}
+              onSelect={value => onSelect(value, item)}
+            />
+          )
+        }
+      : {
+          data: popoverData,
+          onSelect: (value: string) => onSelect(value, item, subjectId)
+        }
 
     const { min, max } = getComment(eps)
     const containerStyle = {
@@ -78,7 +75,8 @@ export default memo(
         height: width
       },
       styleText: type === 'dropped' && styles.textThrough,
-      type
+      type,
+      onPress: SHARE_MODE ? () => onSelect('本集讨论', item, subjectId) : undefined
     } as const
 
     return (

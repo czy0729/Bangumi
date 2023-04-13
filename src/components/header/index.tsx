@@ -9,7 +9,7 @@
 import React, { useLayoutEffect } from 'react'
 import { _ } from '@stores'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { StatusBarEvents } from '../status-bar-events'
 import { Track } from '../track'
 import Popover from './popover'
@@ -76,18 +76,23 @@ const Header: IHeader = ({
       }
     }
 
+    const passProps = {
+      navigation,
+      fixed,
+      title,
+      statusBarEventsType,
+      headerTitle,
+      headerLeft,
+      headerRight
+    }
     return (
       <>
-        {!!mode && (
-          <HeaderComponent
-            navigation={navigation}
-            fixed={fixed}
-            title={title}
-            statusBarEventsType={statusBarEventsType}
-            headerTitle={headerTitle}
-            headerLeft={headerLeft}
-            headerRight={headerRight}
-          />
+        {!!mode && <HeaderComponent {...passProps} />}
+        {STORYBOOK && !mode && (
+          <>
+            <HeaderComponent {...passProps} fixed />
+            <Placeholder />
+          </>
         )}
         {statusBarEvents && <StatusBarEvents {...statusBarEventsProps} />}
         <Track title={title} hm={hm} alias={alias} />

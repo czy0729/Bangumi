@@ -28,6 +28,10 @@ export const memoStyles = _.memoStyles(() => ({
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.24)'
   },
+  noWrap: {
+    // @ts-expect-error
+    whiteSpace: 'nowrap'
+  },
 
   /** theme color */
   plain: {

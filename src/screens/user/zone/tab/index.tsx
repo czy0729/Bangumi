@@ -117,7 +117,7 @@ class Tab extends React.Component<{
 
   renderLabel = ({ route, focused }) => (
     <Flex style={this.styles.labelText} justify='center'>
-      <Text type='title' size={13} bold={focused}>
+      <Text type='title' size={13} bold={focused} noWrap>
         {route.title}
       </Text>
     </Flex>

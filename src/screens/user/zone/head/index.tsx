@@ -63,10 +63,10 @@ function Head({ style }, { $, navigation }: Ctx) {
             </Flex>
           )}
         </View>
-        <Text style={styles.l1} type={textType} size={11} bold>
+        <Text style={styles.l1} type={textType} size={11} bold noWrap>
           {join || '- 加入'}
         </Text>
-        <Text style={styles.l2} type={textType} size={11} bold>
+        <Text style={styles.l2} type={textType} size={11} bold noWrap>
           同步率 {isNaN(percent) ? '-' : percent}%
         </Text>
         <View style={styles.l3}>
@@ -81,7 +81,7 @@ function Head({ style }, { $, navigation }: Ctx) {
               $.openUsedModal()
             }}
           >
-            <Text type={textType} size={11} bold>
+            <Text type={textType} size={11} bold noWrap>
               {activeText}
             </Text>
           </Touchable>
@@ -102,7 +102,7 @@ function Head({ style }, { $, navigation }: Ctx) {
               })
             }}
           >
-            <Text type={textType} size={11} bold>
+            <Text type={textType} size={11} bold noWrap>
               人物
             </Text>
           </Touchable>
@@ -123,7 +123,7 @@ function Head({ style }, { $, navigation }: Ctx) {
               })
             }}
           >
-            <Text type={textType} size={11} bold>
+            <Text type={textType} size={11} bold noWrap>
               日志
             </Text>
           </Touchable>
@@ -144,7 +144,7 @@ function Head({ style }, { $, navigation }: Ctx) {
               })
             }}
           >
-            <Text type={textType} size={11} bold>
+            <Text type={textType} size={11} bold noWrap>
               目录
             </Text>
           </Touchable>

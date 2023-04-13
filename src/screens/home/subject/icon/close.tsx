@@ -8,12 +8,15 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { confirm, info } from '@utils'
 import { obc } from '@utils/decorators'
-import { confirm, info } from '@utils/ui'
+import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
 
 function IconClose(props, { $ }: Ctx) {
+  if (SHARE_MODE) return null
+
   const { status = { name: '未收藏' } } = $.collection
   const { formhash } = $.subjectFormHTML
   return (

@@ -35,6 +35,7 @@ function CompText(
     underline = false,
     shadow = false,
     selectable = false,
+    noWrap = false,
     children,
     ...other
   }: TextProps,
@@ -60,6 +61,7 @@ function CompText(
 
   if (align) _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
   if (shadow) _style.push(styles.shadow)
+  if (noWrap) _style.push(styles.noWrap)
   if (style) _style.push(style)
 
   // 若需要设置字体, rn 环境下与 web 不同, 若 font-weight 设置是该字体没有支持的

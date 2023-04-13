@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 01:36:17
+ * @Last Modified time: 2023-04-13 14:01:00
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -135,6 +135,9 @@ export const STORYBOOK_WIDTH = 440
 /** Storybook 窗口高度 */
 export const STORYBOOK_HEIGHT = 640
 
+/** 网页端分享模式 (限制操作) */
+export const SHARE_MODE = STORYBOOK
+
 /** 是否 iOS */
 export const IOS = Platform.OS === 'ios'
 
@@ -195,9 +198,14 @@ export const IMG_EMPTY_DARK = {
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 
 /** 默认图 */
-export const IMG_DEFAULT = require('@assets/images/default.png')
+export const IMG_DEFAULT = STORYBOOK
+  ? 'https://s-sh-4501-bangumi-cdn.oss.dogecdn.com/assets/default.png'
+  : require('@assets/images/default.png')
 
-export const AVATAR_DEFAULT = require('@assets/images/l.png')
+/** 默认头像 */
+export const AVATAR_DEFAULT = STORYBOOK
+  ? 'https://lain.bgm.tv/pic/user/l/icon.jpg'
+  : require('@assets/images/l.png')
 
 const h = (w: any) => parseInt(String(w * 1.4))
 

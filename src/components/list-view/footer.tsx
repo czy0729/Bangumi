@@ -41,8 +41,13 @@ function Footer({
         <TouchableOpacity
           onPress={() => {
             if (length === 0) {
-              if (onHeaderRefresh) onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
-            } else if (onFooterRefresh) {
+              if (typeof onHeaderRefresh === 'function') {
+                onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
+              }
+              return
+            }
+
+            if (typeof onFooterRefresh === 'function') {
               onFooterRefresh(REFRESH_STATE.FooterRefreshing)
             }
           }}
@@ -67,7 +72,7 @@ function Footer({
       return (
         <TouchableOpacity
           onPress={() => {
-            if (onHeaderRefresh) {
+            if (typeof onHeaderRefresh === 'function') {
               onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
             }
           }}

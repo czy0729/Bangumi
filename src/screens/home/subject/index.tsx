@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 08:40:54
+ * @Last Modified time: 2023-04-13 19:04:33
  */
 import React, { useCallback, useRef } from 'react'
 import { Page, Heatmap } from '@components'
@@ -22,7 +22,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
   const isFocused = useIsFocusedRef()
   useRunAfter(async () => {
     setTimeout(() => {
-      if (isFocused.current) $.rendered()
+      if (isFocused.current) $.setRendered()
     }, 400)
 
     await $.init()
@@ -36,7 +36,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
   useMount(() => {
     return () => {
       setTimeout(() => {
-        $.unrendered()
+        $.unRendered()
       }, 400)
     }
   })

@@ -22,8 +22,9 @@ const storybookFakeNavigation = {
   goBack() {
     window.history.back()
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addListener(eventType: string): Fn {
-    console.info('Navigation: addListener', eventType)
+    // console.info('Navigation: addListener', eventType)
     return () => {}
   },
   setOptions() {}

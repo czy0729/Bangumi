@@ -16,6 +16,7 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   isLogin: false as $['isLogin'],
   status: [] as $['status'],
+  url: '' as $['url'],
   showCount: true as typeof systemStore.setting.showCount,
   showManageModel: (() => {}) as $['showManageModel'],
   toRating: (() => {}) as $['toRating'],

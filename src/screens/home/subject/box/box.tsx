@@ -14,6 +14,8 @@ import IconFolder from '../icon/folder'
 import IconClose from '../icon/close'
 import FlipBtn from './flip-btn'
 import { DEFAULT_PROPS } from './ds'
+import { SHARE_MODE } from '@constants'
+import { appNavigate } from '@utils'
 
 export default memo(
   ({
@@ -21,6 +23,7 @@ export default memo(
     navigation,
     isLogin,
     status,
+    url,
     showCount,
     showManageModel,
     toRating,
@@ -28,8 +31,17 @@ export default memo(
   }) => {
     // global.rerender('Subject.Box.Main')
 
-    const onPress = isLogin ? showManageModel : () => navigation.push('LoginV2')
+    const onPress = isLogin
+      ? showManageModel
+      : () => {
+          if (SHARE_MODE) {
+            appNavigate(url)
+            return
+          }
+          navigation.push('LoginV2')
+        }
     const statusSize = status[status.length - 1]?.text.length >= 6 ? 11 : 12
+
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -59,8 +71,7 @@ export default memo(
                     type='sub'
                     onPress={() => toRating(navigation, '收藏', item.status)}
                   >
-                    {!!index && ' / '}
-                    {item.text}
+                    {`${index ? ' / ' : ''}${item.text}`}
                   </Text>
                 ))}
               </Text>

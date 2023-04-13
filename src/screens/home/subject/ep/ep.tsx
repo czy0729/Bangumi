@@ -10,6 +10,7 @@ import { Text, Flex, Input, Button, Heatmap } from '@components'
 import { SectionTitle, Popover, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { SHARE_MODE } from '@constants'
 import Eps from '../eps'
 import IconEpFilter from '../icon/ep-filter'
 import IconOnline from '../icon/online'
@@ -34,6 +35,8 @@ export default memo(
   }) => {
     // global.rerender('Subject.Ep.Main')
 
+    const _showEpInput = showEpInput && !SHARE_MODE
+
     const { weekDay, h, m, isOnair, isCustom } = onAirCustom
     const showOnair = showCustomOnair && (isOnair || isDoing)
     return (
@@ -55,10 +58,10 @@ export default memo(
           <Heatmap id='条目.章节按钮长按' />
           <Heatmap bottom={35} id='条目.章节菜单操作' />
         </View>
-        {(showEpInput || showOnair) && (
+        {(_showEpInput || showOnair) && (
           <Flex style={_.mt.sm}>
             <Flex.Item>
-              {showEpInput && (
+              {_showEpInput && (
                 <Flex>
                   <View style={styles.input}>
                     <Input

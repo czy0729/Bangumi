@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:49:44
+ * @Last Modified time: 2023-04-13 19:05:11
  */
 import {
   calendarStore,
@@ -387,7 +387,7 @@ export default class Action extends Fetch {
   }
 
   /** 用于延迟底部块渲染 (优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题) */
-  rendered = () => {
+  setRendered = () => {
     const { rendered } = this.state
     if (!rendered) {
       this.setState({
@@ -396,7 +396,7 @@ export default class Action extends Fetch {
     }
   }
 
-  unrendered = () => {
+  unRendered = () => {
     const { rendered } = this.state
     if (rendered) {
       this.setState({
@@ -615,7 +615,7 @@ export default class Action extends Fetch {
     navigation?: Navigation
   ) => {
     try {
-      // iOS是本集讨论, 安卓是(+N)...
+      // iOS 是本集讨论, 安卓是 (+N)...
       if (value.includes('本集讨论') || value.includes('(+')) {
         t('条目.章节菜单操作', {
           title: '本集讨论',
@@ -737,7 +737,7 @@ export default class Action extends Fetch {
 
           /**
            * 批量更新收视进度
-           * @issue 多季度非1开始的番不能直接使用sort, 需要把sp去除后使用当前item.sort查找index
+           * @issue 多季度非 1 开始的番不能直接使用 sort, 需要把 sp 去除后使用当前 item.sort 查找 index
            */
           const { eps = [] } = this.subject
           const sort = eps

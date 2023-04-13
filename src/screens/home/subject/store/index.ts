@@ -6,11 +6,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:44:05
+ * @Last Modified time: 2023-04-13 19:05:15
  */
 import { collectionStore, otaStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
+import { SHARE_MODE } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
 
@@ -54,10 +55,10 @@ class ScreenSubject extends Action {
     if (!this.state.subject._loaded) this.fetchSubjectFormCDN()
 
     // 用户每集收看进度
-    this.fetchCollection()
+    if (!SHARE_MODE) this.fetchCollection()
 
     // 用户收藏状态
-    userStore.fetchUserProgress(this.subjectId)
+    if (!SHARE_MODE) userStore.fetchUserProgress(this.subjectId)
 
     // API 条目信息
     const data = await this.fetchSubject()
@@ -69,7 +70,7 @@ class ScreenSubject extends Action {
       () => this.fetchSubjectComments(true),
       () => this.fetchSubjectFormHTML(),
       () => this.fetchEpsData(),
-      () => this.rendered(),
+      () => this.setRendered(),
       () => {
         // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
         if (this.subject.eps?.length < 1000) return true

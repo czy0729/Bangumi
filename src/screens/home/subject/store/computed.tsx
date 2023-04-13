@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 12:08:46
+ * @Last Modified time: 2023-04-13 19:03:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,7 +43,8 @@ import {
   SITES,
   SITES_DS,
   URL_DEFAULT_AVATAR,
-  getOTA
+  getOTA,
+  STORYBOOK
 } from '@constants'
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
@@ -60,6 +61,11 @@ export default class Computed extends State {
   /** 页面唯一命名空间 */
   @computed get namespace() {
     return `${NAMESPACE}|${this.subjectId}` as const
+  }
+
+  /** 用于懒渲染 */
+  @computed get rendered() {
+    return STORYBOOK ? true : this.state.rendered
   }
 
   /** 是否敏感条目 */

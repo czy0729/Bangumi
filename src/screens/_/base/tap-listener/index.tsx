@@ -16,26 +16,33 @@ import {
   State
 } from 'react-native-gesture-handler'
 import { _, uiStore } from '@stores'
+import { STORYBOOK } from '@constants'
 
 export const TapListener = ({ children }) => {
-  return useObserver(() => (
-    <PanGestureHandler
-      enabled
-      // 设置下面值, 使得这个容器不应该能激活手势, 只用来获取点击 x, y 坐标
-      minPointers={1}
-      maxPointers={1}
-      activeOffsetX={_.window.contentWidth}
-      activeOffsetY={_.window.contentWidth}
-      onHandlerStateChange={(event: PanGestureHandlerStateChangeEvent) => {
-        if (event.nativeEvent.state === State.FAILED) {
-          uiStore.setXY(
-            Math.floor(event.nativeEvent.absoluteX),
-            Math.floor(event.nativeEvent.absoluteY)
-          )
-        }
-      }}
-    >
-      <View style={_.container.flex}>{children}</View>
-    </PanGestureHandler>
-  ))
+  return useObserver(() => {
+    if (STORYBOOK) {
+      return <View style={_.container.flex}>{children}</View>
+    }
+
+    return (
+      <PanGestureHandler
+        enabled
+        // 设置下面值, 使得这个容器不应该能激活手势, 只用来获取点击 x, y 坐标
+        minPointers={1}
+        maxPointers={1}
+        activeOffsetX={_.window.contentWidth}
+        activeOffsetY={_.window.contentWidth}
+        onHandlerStateChange={(event: PanGestureHandlerStateChangeEvent) => {
+          if (event.nativeEvent.state === State.FAILED) {
+            uiStore.setXY(
+              Math.floor(event.nativeEvent.absoluteX),
+              Math.floor(event.nativeEvent.absoluteY)
+            )
+          }
+        }}
+      >
+        <View style={_.container.flex}>{children}</View>
+      </PanGestureHandler>
+    )
+  })
 }

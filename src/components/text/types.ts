@@ -69,6 +69,9 @@ export type Props = Override<
     /** 是否可选择 */
     selectable?: boolean
 
+    /** 是否不允许换行 (仅在网页端生效) */
+    noWrap?: boolean
+
     children: string | string[] | ReactNode | ReactNode[]
   }
 >

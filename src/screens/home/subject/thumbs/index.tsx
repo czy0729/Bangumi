@@ -11,7 +11,7 @@ import { SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { open } from '@utils'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
 import IconPreview from '../icon/preview'
 import IconHidden from '../icon/hidden'
 import Video from './video'
@@ -90,6 +90,8 @@ class Thumbs extends React.Component {
 
   render() {
     // global.rerender('Subject.Thumbs')
+
+    if (STORYBOOK) return null
 
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return null

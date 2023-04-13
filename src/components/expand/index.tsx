@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:56:57
+ * @Last Modified time: 2023-04-13 14:45:35
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -66,7 +66,8 @@ export const Expand = ({
     event => {
       const { height } = event.nativeEvent.layout
       setHeight(height)
-      if (height <= ratioHeight) onExpand()
+
+      if (height && height <= ratioHeight) onExpand()
     },
     [ratioHeight, onExpand]
   )

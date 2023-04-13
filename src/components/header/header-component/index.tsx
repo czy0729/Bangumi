@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { SHARE_MODE } from '@constants'
 import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
@@ -32,7 +33,7 @@ function HeaderComponent({
       <Back navigation={navigation} color={color} />
       {headerLeft}
       <Flex.Item />
-      {!!headerRight && headerRight()}
+      {!!headerRight && !SHARE_MODE && headerRight()}
     </Flex>
   )
 }

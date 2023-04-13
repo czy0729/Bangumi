@@ -33,5 +33,9 @@ export const styles = _.create({
     borderLeftWidth: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
+  },
+  open: {
+    marginLeft: _.sm,
+    marginRight: -22
   }
 })

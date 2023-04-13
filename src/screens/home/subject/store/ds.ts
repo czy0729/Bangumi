@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 22:32:58
+ * @Last Modified time: 2023-04-13 18:58:22
  */
 import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
 import { STORYBOOK } from '@constants'
@@ -51,7 +51,7 @@ export const EXCLUDE_STATE = {
   folder: false,
 
   /** 页面是否渲染完毕 */
-  rendered: STORYBOOK ? true : false,
+  rendered: STORYBOOK,
 
   /** 书籍章 */
   chap: '',

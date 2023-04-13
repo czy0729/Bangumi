@@ -20,6 +20,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       navigation={navigation}
       isLogin={$.isLogin}
       status={$.status}
+      url={$.url}
       showCount={systemStore.setting.showCount}
       showManageModel={$.showManageModel}
       toRating={$.toRating}

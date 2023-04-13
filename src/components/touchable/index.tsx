@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-03 14:15:20
+ * @Last Modified time: 2023-04-13 14:54:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 // import { syncSystemStore } from '@utils/async'
 // import { IOS } from '@constants'
+import { STORYBOOK } from '@constants'
 import TouchableWithoutFeedback from './touchable-without-feedback'
 // import TouchableNativeFeedback from './touchable-native-feedback'
 import TouchableHighlight from './touchable-highlight'
@@ -55,7 +56,9 @@ export const Touchable = observer(
 
     if (highlight) return <TouchableHighlight {...passProps} />
 
-    if (!useRN && animate) return <TouchableAnimated {...passProps} scale={scale} />
+    if (!STORYBOOK && !useRN && animate) {
+      return <TouchableAnimated {...passProps} scale={scale} />
+    }
 
     // 绝大部分情况会 return 这个
     return <TouchableOpacity {...passProps} />

@@ -9,9 +9,12 @@ import { Flex, Text, Heatmap } from '@components'
 import { IconTouchable, FolderManageModal } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { SHARE_MODE } from '@constants'
 import { Ctx } from '../types'
 
 function IconFolder(props, { $ }: Ctx) {
+  if (SHARE_MODE) return null
+
   const { folder } = $.state
   const isInclude = !!$.catalogIncludes
   return (

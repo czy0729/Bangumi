@@ -567,7 +567,7 @@ export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string)
  */
 export function appNavigate(
   url: string = '',
-  navigation: Navigation,
+  navigation?: Navigation,
   passParams: {
     [key: string]: any
   } = {},

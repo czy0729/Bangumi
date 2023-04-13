@@ -4,24 +4,23 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 18:32:31
+ * @Last Modified time: 2023-04-13 19:01:36
  */
 import React from 'react'
-import { RefreshControl, View } from 'react-native'
+import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { pick, omit, sleep, simpleTime, date } from '@utils'
 import { IOS, LIST_EMPTY, STORYBOOK } from '@constants'
 import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
 import { ErrorBoundary } from '../error-boundary'
-import { Flex } from '../flex'
 import { ScrollToTop } from '../scroll-to-top'
-import { StorybookScroll } from '../storybook'
 import List from './list'
 import Footer from './footer'
 import { REFRESH_STATE } from './ds'
 import { memoStyles } from './styles'
 import { Props as ListViewProps, RenderListProps, ScrollToFunction } from './types'
+import { AnyObject } from '@types'
 
 export { ListViewProps }
 
@@ -57,7 +56,7 @@ export const ListView = observer(
 
     state = {
       refreshState: REFRESH_STATE.Idle,
-      rendered: false
+      rendered: STORYBOOK
     }
 
     componentDidMount() {
@@ -161,7 +160,7 @@ export const ListView = observer(
       const { rendered } = this.state
       if (lazy && !rendered) return undefined
 
-      if (onFooterRefresh) {
+      if (typeof onFooterRefresh === 'function') {
         this.setState({
           refreshState: REFRESH_STATE.FooterRefreshing
         })
@@ -291,14 +290,22 @@ export const ListView = observer(
         'showsHorizontalScrollIndicator',
         'showsVerticalScrollIndicator'
       ])
-      const { sectionKey, sections, ...passProps } = props
+      const { sectionKey, sections, ...rest } = props
+      const passProps: AnyObject = {
+        ...rest
+      }
       if (sectionKey || sections) {
-        // @ts-expect-error
         passProps.sections = this.sections
       } else {
-        // @ts-expect-error
         passProps.data = this.data
       }
+
+      if (STORYBOOK) {
+        passProps.pagination = this.props.data.pagination
+        passProps.renderFooter = this.renderFooter()
+        passProps.onFooterRefresh = this.onFooterRefresh
+      }
+
       return <List {...this.commonProps} {...passProps} />
     }
 
@@ -344,63 +351,7 @@ export const ListView = observer(
       )
     }
 
-    renderStorybook() {
-      const {
-        contentContainerStyle,
-        keyExtractor,
-        sections,
-        numColumns,
-        ListHeaderComponent,
-        renderSectionHeader,
-        renderItem,
-        onScroll
-      } = this.props
-      const content = sections
-        ? this.sections.map((section: any, index: number) => (
-            <View key={`section-${index}`}>
-              {renderSectionHeader({ section })}
-              {renderItem({
-                item: section.data[0],
-                section
-              })}
-            </View>
-          ))
-        : this.data.map((item: any, index: number) =>
-            React.cloneElement(
-              // @ts-expect-error
-              renderItem({
-                item,
-                index
-              }),
-              {
-                key:
-                  (typeof keyExtractor === 'function'
-                    ? keyExtractor(item, index)
-                    : '') || `item-${index}`
-              }
-            )
-          )
-
-      return (
-        <StorybookScroll
-          style={contentContainerStyle}
-          onScroll={onScroll}
-          onFooterRefresh={() => {
-            const { data, onFooterRefresh } = this.props
-            const { pagination } = data
-            if (pagination.page < pagination.pageTotal) onFooterRefresh()
-          }}
-        >
-          {ListHeaderComponent}
-          {numColumns > 1 ? <Flex wrap='wrap'>{content}</Flex> : content}
-          {this.renderFooter()}
-        </StorybookScroll>
-      )
-    }
-
     render() {
-      if (STORYBOOK) return this.renderStorybook()
-
       return (
         <ErrorBoundary>
           {this.renderList()}
