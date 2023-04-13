@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 17:25:21
+ * @Last Modified time: 2023-04-13 20:33:24
  */
-// import { AliveScope } from 'react-activation'
 import { addons } from '@storybook/addons'
 import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
 
@@ -37,14 +36,6 @@ export const parameters = {
     }
   }
 }
-
-// export const decorators = [
-//   Story => (
-//     <AliveScope>
-//       <Story />
-//     </AliveScope>
-//   )
-// ]
 
 function parseUrlParams() {
   const params = new URLSearchParams(window.location.search)

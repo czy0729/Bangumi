@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 13:39:30
+ * @Last Modified time: 2023-04-13 19:25:32
  */
-import { urlStringify } from '@utils'
+import { appNavigate, urlStringify } from '@utils'
 import { AnyObject } from '@types'
 
 export function parseUrlParams() {
@@ -23,6 +23,11 @@ export function navigate(
   params: AnyObject = {},
   replace: boolean = false
 ) {
+  if (routeName === 'WebBrowser' && params?.url) {
+    appNavigate(params.url)
+    return
+  }
+
   const config = {
     viewMode: 'story',
 

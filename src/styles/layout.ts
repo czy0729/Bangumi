@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 15:59:07
+ * @Last Modified time: 2023-04-13 21:31:06
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
 import Constants from 'expo-constants'
-import { IOS, STORYBOOK, STORYBOOK_HEIGHT, STORYBOOK_WIDTH } from '@constants/constants'
-import { WSA, PAD, PAD_LEVEL_1, PAD_LEVEL_2, RATIO } from '@constants/device'
+import { IOS, STORYBOOK } from '@constants/constants'
+import {
+  PAD,
+  PAD_LEVEL_1,
+  PAD_LEVEL_2,
+  RATIO,
+  STORYBOOK_HEIGHT,
+  STORYBOOK_WIDTH,
+  WSA
+} from '@constants/device'
 
 /** iPhone 非全面屏系列 */
 export const IS_IOS_5_6_7_8 =

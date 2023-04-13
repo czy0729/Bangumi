@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:06:35
+ * @Last Modified time: 2023-04-13 21:51:56
  */
 import React from 'react'
 import { Flex, Iconfont, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { stl, correctAgo } from '@utils'
 import { memo } from '@utils/decorators'
+import { SHARE_MODE } from '@constants'
 import { Popover, Avatar, Stars, Name } from '../../base'
 import { DEFAULT_PROPS } from './ds'
 
@@ -60,7 +61,7 @@ const Item = memo(
                 {userName}
               </Name>
             </Flex.Item>
-            {!!popoverData && typeof onSelect === 'function' && (
+            {!SHARE_MODE && !!popoverData && typeof onSelect === 'function' && (
               <Popover
                 key={userId}
                 style={styles.touch}

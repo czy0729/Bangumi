@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 09:31:51
+ * @Last Modified time: 2023-04-13 21:35:35
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { STORYBOOK_WIDTH } from '@constants'
+import { STORYBOOK_IFRAME, STORYBOOK_WIDTH } from '@constants'
 import { Flex } from '../flex'
 import { StorybookPageProps } from './types'
 
@@ -38,10 +38,12 @@ export const StorybookPage = ({
   )
 }
 
+const width = STORYBOOK_WIDTH + (STORYBOOK_IFRAME ? 4 : 0)
+
 const styles = _.create({
   view: {
-    width: STORYBOOK_WIDTH + 4,
-    maxWidth: STORYBOOK_WIDTH + 4
+    width,
+    maxWidth: width
   },
   container: {
     paddingHorizontal: '8%'
@@ -53,8 +55,8 @@ const styles = _.create({
     paddingVertical: _.md
   },
   radius: {
-    width: STORYBOOK_WIDTH + 4,
-    maxWidth: STORYBOOK_WIDTH + 4,
+    width,
+    maxWidth: width,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   }

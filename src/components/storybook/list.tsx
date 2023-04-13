@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 00:52:29
+ * @Last Modified time: 2023-04-13 21:53:17
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { STORYBOOK_HEIGHT, STORYBOOK_WIDTH, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import {
+  STORYBOOK_HEIGHT,
+  STORYBOOK_WIDTH,
+  SCROLL_VIEW_RESET_PROPS,
+  STORYBOOK_IFRAME
+} from '@constants'
 import { StorybookListProps } from './types'
 
 export const StorybookList = ({
@@ -32,13 +37,19 @@ export const StorybookList = ({
 
 const styles = _.create({
   scrollView: {
-    width: STORYBOOK_WIDTH + 4,
     height: STORYBOOK_HEIGHT,
     backgroundColor: _.colorPlain,
-    borderWidth: 2,
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusMd,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    ...(STORYBOOK_IFRAME
+      ? {
+          width: STORYBOOK_WIDTH + 4,
+          borderWidth: 2,
+          borderColor: 'rgba(255, 255, 255, 0.64)',
+          borderRadius: _.radiusMd
+        }
+      : {
+          width: STORYBOOK_WIDTH
+        })
   },
   wind: {
     paddingHorizontal: _.wind

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 14:54:45
+ * @Last Modified time: 2023-04-13 21:37:49
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -49,6 +49,8 @@ export const Touchable = observer(
       children,
       ...other
     }
+    if (STORYBOOK) passProps.useRN = true
+
     if (withoutFeedback) return <TouchableWithoutFeedback {...passProps} />
 
     // const _ripple = ripple === undefined ? syncSystemStore().setting.ripple : ripple

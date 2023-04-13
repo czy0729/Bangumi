@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 16:13:27
+ * @Last Modified time: 2023-04-13 21:44:12
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { Loading, ListView } from '@components'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { Fn } from '@types'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
@@ -70,21 +71,25 @@ class BangumiList extends React.Component<{
         renderItem={this.renderItem}
         ListFooterComponent={this.ListFooterComponent}
         {...this.props}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: $.scrollY
+        onScroll={
+          STORYBOOK
+            ? undefined
+            : Animated.event(
+                [
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        y: $.scrollY
+                      }
+                    }
+                  }
+                ],
+                {
+                  useNativeDriver: true,
+                  listener: onScroll
                 }
-              }
-            }
-          ],
-          {
-            useNativeDriver: true,
-            listener: onScroll
-          }
-        )}
+              )
+        }
       />
     )
   }

@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:08:21
+ * @Last Modified time: 2023-04-13 21:57:24
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { SHARE_MODE } from '@constants'
 import { Ctx } from '../types'
 
 function BtnPopover(
   { groupCn, groupHref, href, topicId, userId, userName, isGroup },
   { $, navigation }: Ctx
 ) {
+  if (SHARE_MODE) return null
+
   const isSubject = topicId.includes('subject/')
 
   // 类别进入点击

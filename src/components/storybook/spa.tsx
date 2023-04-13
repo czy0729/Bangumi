@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 17:27:14
+ * @Last Modified time: 2023-04-13 21:00:40
  */
 import React, { useCallback } from 'react'
-// import KeepAlive from 'react-activation'
 import Stores from '@stores'
 import { useMount, useBoolean } from '@utils/hooks'
 import { StorybookPage } from './page'
 
 let inited = false
 
-export const StorybookSPA = ({ children, ...other }) => {
+export const StorybookSPA = ({ children }) => {
   const { state, setTrue } = useBoolean(inited)
   const init = useCallback(async () => {
     if (!inited) {
@@ -30,5 +29,5 @@ export const StorybookSPA = ({ children, ...other }) => {
     init()
   })
 
-  return <StorybookPage {...other}>{state ? children : null}</StorybookPage>
+  return <StorybookPage>{state ? children : null}</StorybookPage>
 }

@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:51:47
+ * @Last Modified time: 2023-04-13 19:59:06
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -59,7 +59,7 @@ export const Image = observer(
 
     state: State = {
       error: false,
-      uri: undefined,
+      uri: STORYBOOK ? fixedRemoteImageUrl(this.props.src) : undefined,
       width: 0,
       height: 0,
       loaded: false

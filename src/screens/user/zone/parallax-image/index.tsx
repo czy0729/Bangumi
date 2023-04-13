@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:28:05
+ * @Last Modified time: 2023-04-13 21:58:17
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, rakuenStore } from '@stores'
 import { open, copy, info, HTMLDecode, confirm, getBlurRadius } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS, HOST } from '@constants'
+import { IOS, HOST, SHARE_MODE } from '@constants'
 import Head from '../head'
 import { H_HEADER } from '../store'
 import { Ctx } from '../types'
@@ -189,93 +189,95 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
             </Flex>
           </Touchable>
         )}
-        <View style={styles.touch}>
-          <Popover
-            key={id || username}
-            data={data}
-            onSelect={key => {
-              t('空间.右上角菜单', {
-                key,
-                userId: $.userId
-              })
+        {!SHARE_MODE && (
+          <View style={styles.touch}>
+            <Popover
+              key={id || username}
+              data={data}
+              onSelect={key => {
+                t('空间.右上角菜单', {
+                  key,
+                  userId: $.userId
+                })
 
-              const url = `${HOST}/user/${username}`
-              const userName = HTMLDecode(nickname || _name)
-              switch (key) {
-                case '浏览器查看':
-                  open(url)
-                  break
+                const url = `${HOST}/user/${username}`
+                const userName = HTMLDecode(nickname || _name)
+                switch (key) {
+                  case '浏览器查看':
+                    open(url)
+                    break
 
-                case '复制链接':
-                  copy(url, '已复制链接')
-                  break
+                  case '复制链接':
+                    copy(url, '已复制链接')
+                    break
 
-                case '复制分享':
-                  copy(
-                    `【链接】${userName} | Bangumi番组计划\n${url}`,
-                    '已复制分享文案'
-                  )
-                  break
-
-                case '发短信':
-                  navigation.push('PM', {
-                    userId: id,
-                    userName
-                  })
-                  break
-
-                case 'TA的收藏':
-                  $.navigateToUser(navigation)
-                  break
-
-                case 'TA的好友':
-                  navigation.push('Friends', {
-                    userId: username || id
-                  })
-                  break
-
-                case '加为好友':
-                  $.doConnect()
-                  break
-
-                case '解除好友':
-                  confirm('确定解除好友?', () => $.doDisconnect())
-                  break
-
-                case '屏蔽用户':
-                  if (username || id) {
-                    confirm(
-                      `屏蔽来自 ${userName}@${
-                        username || id
-                      } 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
-                      () => {
-                        rakuenStore.addBlockUser(`${userName}@${username || id}`)
-                        info(`已屏蔽 ${userName}`)
-                      }
+                  case '复制分享':
+                    copy(
+                      `【链接】${userName} | Bangumi番组计划\n${url}`,
+                      '已复制分享文案'
                     )
-                  }
-                  break
+                    break
 
-                default:
-                  break
-              }
-            }}
-          >
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-more-vert' color={_.__colorPlain__} />
-            </Flex>
-            <Heatmap id='空间.右上角菜单' />
-            <Heatmap right={62} id='空间.添加好友' transparent />
-            <Heatmap right={113} id='空间.解除好友' transparent />
-            <Heatmap
-              right={170}
-              id='空间.跳转'
-              to='WebBrowser'
-              alias='浏览器'
-              transparent
-            />
-          </Popover>
-        </View>
+                  case '发短信':
+                    navigation.push('PM', {
+                      userId: id,
+                      userName
+                    })
+                    break
+
+                  case 'TA的收藏':
+                    $.navigateToUser(navigation)
+                    break
+
+                  case 'TA的好友':
+                    navigation.push('Friends', {
+                      userId: username || id
+                    })
+                    break
+
+                  case '加为好友':
+                    $.doConnect()
+                    break
+
+                  case '解除好友':
+                    confirm('确定解除好友?', () => $.doDisconnect())
+                    break
+
+                  case '屏蔽用户':
+                    if (username || id) {
+                      confirm(
+                        `屏蔽来自 ${userName}@${
+                          username || id
+                        } 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+                        () => {
+                          rakuenStore.addBlockUser(`${userName}@${username || id}`)
+                          info(`已屏蔽 ${userName}`)
+                        }
+                      )
+                    }
+                    break
+
+                  default:
+                    break
+                }
+              }}
+            >
+              <Flex style={styles.icon} justify='center'>
+                <Iconfont name='md-more-vert' color={_.__colorPlain__} />
+              </Flex>
+              <Heatmap id='空间.右上角菜单' />
+              <Heatmap right={62} id='空间.添加好友' transparent />
+              <Heatmap right={113} id='空间.解除好友' transparent />
+              <Heatmap
+                right={170}
+                id='空间.跳转'
+                to='WebBrowser'
+                alias='浏览器'
+                transparent
+              />
+            </Popover>
+          </View>
+        )}
       </Flex>
     </>
   )

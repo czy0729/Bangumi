@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:42:47
+ * @Last Modified time: 2023-04-13 21:56:28
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Text, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
+import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Cover, Stars, Popover } from '../../base'
 import Avatar from './avatar'
@@ -159,23 +159,24 @@ const Item = memo(
                   />
                 </Touchable>
               )}
-              {clearHref ? (
-                <Touchable style={styles.touch} onPress={onClear}>
-                  <Flex style={styles.extra} justify='center'>
-                    <Iconfont name='md-close' size={18} />
-                  </Flex>
-                </Touchable>
-              ) : (
-                <Popover
-                  style={styles.touch}
-                  data={HIDDEN_DS}
-                  onSelect={title => onHidden(title, userId)}
-                >
-                  <Flex style={styles.extra} justify='center'>
-                    <Iconfont name='md-more-vert' size={18} />
-                  </Flex>
-                </Popover>
-              )}
+              {!SHARE_MODE &&
+                (clearHref ? (
+                  <Touchable style={styles.touch} onPress={onClear}>
+                    <Flex style={styles.extra} justify='center'>
+                      <Iconfont name='md-close' size={18} />
+                    </Flex>
+                  </Touchable>
+                ) : (
+                  <Popover
+                    style={styles.touch}
+                    data={HIDDEN_DS}
+                    onSelect={title => onHidden(title, userId)}
+                  >
+                    <Flex style={styles.extra} justify='center'>
+                      <Iconfont name='md-more-vert' size={18} />
+                    </Flex>
+                  </Popover>
+                ))}
             </Flex>
           </Flex>
         </Flex.Item>

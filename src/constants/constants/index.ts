@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 14:01:00
+ * @Last Modified time: 2023-04-13 22:01:00
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import * as Device from 'expo-device'
-import { PAD, RATIO } from '../device'
+import { PAD, RATIO, STORYBOOK_IFRAME } from '../device'
 
 /** 设备名字 */
 export const DEVICE_MODEL_NAME = Device.modelName
@@ -129,14 +129,8 @@ export const STORYBOOK =
   /** @ts-expect-error */
   process.env.STORYBOOK === 'true'
 
-/** Storybook 窗口宽度 */
-export const STORYBOOK_WIDTH = 440
-
-/** Storybook 窗口高度 */
-export const STORYBOOK_HEIGHT = 640
-
 /** 网页端分享模式 (限制操作) */
-export const SHARE_MODE = STORYBOOK
+export const SHARE_MODE = STORYBOOK && !STORYBOOK_IFRAME
 
 /** 是否 iOS */
 export const IOS = Platform.OS === 'ios'
