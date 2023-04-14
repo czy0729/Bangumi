@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:03:09
+ * @Last Modified time: 2023-04-14 14:36:08
  */
 import { Platform, Dimensions } from 'react-native'
 
@@ -34,11 +34,17 @@ export const PAD =
   /** @ts-expect-error */
   process.env.STORYBOOK === 'true' ? 0 : isPad
 
+/** 是否 Storybook 环境, 也就是是否 Web SPA */
+export const STORYBOOK = false
+
 /** 平板放大比例 */
 export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
 
 /** 是否 Storybook iframe.html 中 */
 export const STORYBOOK_IFRAME = false
+
+/** 是否需要使用边框 UI */
+export const STORYBOOK_GRID = false
 
 /** Storybook 窗口宽度 */
 export const STORYBOOK_WIDTH = 440

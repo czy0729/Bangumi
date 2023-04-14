@@ -9,6 +9,7 @@ import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
 import { info, confirm } from '@utils'
 import { obc } from '@utils/decorators'
+import { SHARE_MODE } from '@constants'
 import { Popover } from '../../../base'
 import { styles } from './styles'
 
@@ -28,6 +29,8 @@ function IconExtra(
   },
   { $ }
 ) {
+  if (SHARE_MODE) return null
+
   const data = []
   if (rakuenStore.setting.likes && likeType) data.push('贴贴')
   if (replySub && !$?.isLimit && $?.showFixedTextarea) data.push('回复')

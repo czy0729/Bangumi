@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 16:00:28
+ * @Last Modified time: 2023-04-13 23:52:14
  */
 import { StyleSheet, Appearance } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -48,7 +48,9 @@ class ThemeStore extends store implements StoreConstructor<typeof STATE> {
     if (this.autoColorScheme) {
       this.toggleMode(Appearance.getColorScheme())
     } else {
-      const mode = await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
+      const mode = STORYBOOK
+        ? DEFAULT_MODE
+        : await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
       this.toggleMode(mode)
     }
 

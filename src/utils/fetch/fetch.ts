@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 17:46:54
+ * @Last Modified time: 2023-04-13 23:08:06
  */
-import { APP_ID, HOST, STORYBOOK, UA } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { APP_ID, HOST, UA } from '@constants/constants'
 import { AnyObject } from '@types'
 import { HOST_PROXY } from '@/config'
 import fetch from '../thirdParty/fetch-polyfill'
@@ -137,8 +138,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     } else {
       const distance = ts - LAST_FETCH_HTML[cacheKey]
       if (distance <= 2000) {
-        console.info(`[prevent] ${url} ${distance}ms`)
-        return Promise.reject(new Error('prevent fetchHTML'))
+        return Promise.reject(new Error(`[prevent] ${url} ${distance}ms`))
       }
 
       LAST_FETCH_HTML[cacheKey] = ts

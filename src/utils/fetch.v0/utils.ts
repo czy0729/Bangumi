@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:06:23
+ * @Last Modified time: 2023-04-13 23:08:26
  */
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { APP_ID, STORYBOOK, UA } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { APP_ID, UA } from '@constants/constants'
 import { syncUserStore } from '../async'
 import { Config } from './types'
 

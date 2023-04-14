@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:53:39
+ * @Last Modified time: 2023-04-13 23:42:03
  */
 import React from 'react'
 import { Touchable, Flex } from '@components'
@@ -12,6 +12,7 @@ import Flip from './flip'
 import Content from './content'
 import { styles } from './styles'
 import { Props as ManageProps } from './types'
+import { SHARE_MODE } from '@constants'
 
 export { ManageProps }
 
@@ -24,6 +25,8 @@ const HIT_SLOP = {
 
 export const Manage = ob(
   ({ style, subjectId, collection = '', typeCn = '动画', onPress }: ManageProps) => {
+    if (SHARE_MODE) return null
+
     let icon
     let type: any = 'icon'
     let size = 20

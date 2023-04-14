@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:55:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-09 09:37:38
+ * @Last Modified time: 2023-04-13 23:06:40
  */
-import { STORYBOOK } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import { lineHeightRatio } from './layout'
 
 /** 设置里动态调整的文字单位 */

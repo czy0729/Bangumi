@@ -33,7 +33,8 @@ export function navigate(
 
     // params
     ...Object.entries(params || {})
-      .filter(([key]) => !key.startsWith('_'))
+      // .filter(([key]) => !key.startsWith('_'))
+      .filter(([, value]) => value)
       .reduce((obj, [key, value]) => {
         obj[key] = value
         return obj

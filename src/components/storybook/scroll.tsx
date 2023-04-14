@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 20:38:42
+ * @Last Modified time: 2023-04-14 14:22:43
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { useMount } from '@utils/hooks'
-import { SCROLL_VIEW_RESET_PROPS, STORYBOOK_HEIGHT } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { StorybookState } from './state'
 import { StorybookScrollProps } from './types'
 
@@ -51,15 +51,13 @@ export const StorybookScroll = ({
   )
 
   useMount(() => {
-    if (StorybookState.navigateAction === 'POP') {
-      const y = StorybookState.scrollTopMap.get(window.location.search)
-      if (y) {
-        ref.current.scrollTo({
-          x: 0,
-          y,
-          animated: false
-        })
-      }
+    const y = StorybookState.scrollTopMap.get(window.location.search)
+    if (y) {
+      ref.current.scrollTo({
+        x: 0,
+        y,
+        animated: false
+      })
     }
   })
 
@@ -80,6 +78,6 @@ export const StorybookScroll = ({
 
 const styles = _.create({
   scrollView: {
-    height: STORYBOOK_HEIGHT
+    height: '100vh'
   }
 })

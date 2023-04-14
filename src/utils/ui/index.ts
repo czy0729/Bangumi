@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 09:46:04
+ * @Last Modified time: 2023-04-13 23:09:08
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -10,7 +10,8 @@ import { DEV } from '@/config'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { IOS, STORYBOOK } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { syncSystemStore, s2tAsync } from '../async'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 11:33:51
+ * @Last Modified time: 2023-04-13 23:50:53
  */
 import { ORIENTATION_PORTRAIT, STORYBOOK } from '@constants'
 import _ from '@styles'
@@ -17,7 +17,7 @@ export type themeWindowType = {
 
 export const NAMESPACE = 'Theme'
 
-export const DEFAULT_MODE = 'light'
+export const DEFAULT_MODE = STORYBOOK ? 'dark' : 'light'
 
 export const DEFAULT_TINYGRAIL_MODE = 'green'
 

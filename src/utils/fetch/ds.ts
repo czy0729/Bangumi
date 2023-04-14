@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 15:31:27
+ * @Last Modified time: 2023-04-13 23:07:50
  */
-import { HOST, STORYBOOK } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { HOST } from '@constants/constants'
 
 /** 开发显示请求信息 */
 export const SHOW_LOG = true

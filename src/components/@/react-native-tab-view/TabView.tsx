@@ -11,7 +11,6 @@ import {
   PagerCommonProps
 } from 'react-native-tab-view/src/types'
 import Pager, { Props as ChildProps } from 'react-native-tab-view/src/Pager'
-import { STORYBOOK } from '@constants'
 import SceneView from './SceneView'
 
 export type Props<T extends Route> = PagerCommonProps & {
@@ -53,7 +52,7 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
     renderTabBar: <P extends Route>(props: TabBarProps<P>) => <TabBar {...props} />,
     renderLazyPlaceholder: () => null,
     keyboardDismissMode: 'auto',
-    swipeEnabled: !STORYBOOK,
+    swipeEnabled: true,
     lazy: false,
     lazyPreloadDistance: 0,
     removeClippedSubviews: false,

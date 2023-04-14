@@ -8,7 +8,6 @@
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
-import { STORYBOOK } from '@constants'
 import { TextStyle } from '@types'
 import TabView from '../@/react-native-tab-view/TabView'
 import TabBar from '../@/react-native-tab-view/TabBar'
@@ -23,7 +22,7 @@ export const TabsV2 = ({
   routes = [],
   tabBarLength,
   page = 0,
-  swipeEnabled = !STORYBOOK,
+  swipeEnabled = true,
   textColor,
   backgroundColor,
   borderBottomColor,

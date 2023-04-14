@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 22:01:00
+ * @Last Modified time: 2023-04-14 14:34:56
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import * as Device from 'expo-device'
-import { PAD, RATIO, STORYBOOK_IFRAME } from '../device'
+import { PAD, RATIO, STORYBOOK, STORYBOOK_IFRAME } from '../device'
 
 /** 设备名字 */
 export const DEVICE_MODEL_NAME = Device.modelName
@@ -123,11 +123,6 @@ export const APP_USERID_TOURIST = 700939
 
 /** APP 审核用户id */
 export const APP_USERID_IOS_AUTH = 700939
-
-/** 是否 Storybook 环境, 也就是是否 Web SPA */
-export const STORYBOOK =
-  /** @ts-expect-error */
-  process.env.STORYBOOK === 'true'
 
 /** 网页端分享模式 (限制操作) */
 export const SHARE_MODE = STORYBOOK && !STORYBOOK_IFRAME

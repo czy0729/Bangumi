@@ -3,9 +3,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 20:16:06
+ * @Last Modified time: 2023-04-13 23:08:18
  */
-import { HOST, HOST_CDN, HOST_NAME, IOS, STORYBOOK } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { urlStringify } from '../utils'
 import { syncUserStore } from '../async'

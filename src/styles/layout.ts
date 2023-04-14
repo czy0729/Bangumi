@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:31:06
+ * @Last Modified time: 2023-04-13 23:06:34
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
 import Constants from 'expo-constants'
-import { IOS, STORYBOOK } from '@constants/constants'
+import { IOS } from '@constants/constants'
 import {
   PAD,
   PAD_LEVEL_1,
   PAD_LEVEL_2,
   RATIO,
+  STORYBOOK,
   STORYBOOK_HEIGHT,
   STORYBOOK_WIDTH,
   WSA
