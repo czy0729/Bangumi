@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:47
+ * @Last Modified time: 2023-04-15 05:01:20
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Touchable } from '../touchable'
@@ -35,7 +36,7 @@ export const Pagination = ({
     const styles = memoStyles()
     return (
       <>
-        <Flex style={style ? [styles.container, style] : styles.container}>
+        <Flex style={stl(styles.container, style)}>
           <Flex.Item>
             <Touchable style={styles.touch} onPress={onPrev}>
               <Flex style={styles.pagination} justify='center'>

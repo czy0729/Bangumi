@@ -3,14 +3,12 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:35:10
+ * @Last Modified time: 2023-04-15 03:46:57
  */
 import React, { useRef } from 'react'
-import { ScrollView as RNScrollView, View } from 'react-native'
-import { stl } from '@utils'
-import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
+import { ScrollView as RNScrollView } from 'react-native'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
-import { styles } from './styles'
 import { Props as ScrollViewProps } from './types'
 
 export { ScrollViewProps }
@@ -38,15 +36,6 @@ export const ScrollView = ({
     ref = ref => (scrollViewEl.current = ref?.scrollTo)
   } else if (connectRef) {
     ref = ref => connectRef(ref?.scrollTo)
-  }
-
-  // Storybook 中通常最外层就有一层 ScrollView, 所以里面不应再套一层
-  if (STORYBOOK && !horizontal) {
-    return (
-      <View style={stl(style, contentContainerStyle, styles.storybook)}>
-        {children}
-      </View>
-    )
   }
 
   return (

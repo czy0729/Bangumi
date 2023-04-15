@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-12-26 04:29:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 12:17:45
+ * @Last Modified time: 2023-04-15 05:18:06
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
 import { Flex, Text } from '@components'
 import { obc } from '@utils/decorators'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 import Chart from './chart'
@@ -27,21 +27,25 @@ function Stats(props, { $ }: Ctx) {
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
       {...SCROLL_VIEW_RESET_PROPS}
-      onScroll={Animated.event(
-        [
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: $.scrollY
+      onScroll={
+        STORYBOOK
+          ? undefined
+          : Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: $.scrollY
+                    }
+                  }
+                }
+              ],
+              {
+                useNativeDriver: true,
+                listener: onScroll
               }
-            }
-          }
-        ],
-        {
-          useNativeDriver: true,
-          listener: onScroll
-        }
-      )}
+            )
+      }
     >
       <View style={styles.page}>
         <Flex>

@@ -4,11 +4,12 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-26 16:39:41
+ * @Last Modified time: 2023-04-15 05:53:41
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
 import { getTimestamp } from '@utils'
+import { STORYBOOK } from '@constants'
 import { ListEmpty } from '@types'
 import { Props as PaginationListProps } from './types'
 
@@ -16,7 +17,7 @@ export { PaginationListProps }
 
 export const PaginationList = ({
   data,
-  limit = 24,
+  limit: _limit = 24,
   onPage,
   ...other
 }: PaginationListProps) => {
@@ -28,6 +29,9 @@ export const PaginationList = ({
     },
     _loaded: false
   })
+
+  // 网页端因为页面滚动状态不能保存, 故不使用下拉更多加载
+  const limit = STORYBOOK ? 100 : _limit
 
   const onFooterRefresh = useCallback(() => {
     const { page, pageTotal } = list.pagination

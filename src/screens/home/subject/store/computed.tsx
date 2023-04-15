@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:03:57
+ * @Last Modified time: 2023-04-15 02:11:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,8 @@ import {
   getTimestamp,
   x18,
   removeHTMLTag,
-  isArray
+  isArray,
+  matchCoverUrl
 } from '@utils'
 import { findAnime, ANIME_TAGS } from '@utils/subject/anime'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
@@ -44,7 +45,8 @@ import {
   SITES_DS,
   URL_DEFAULT_AVATAR,
   getOTA,
-  STORYBOOK
+  STORYBOOK,
+  IMG_DEFAULT
 } from '@constants'
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
@@ -183,6 +185,13 @@ export default class Computed extends State {
     }
 
     return subjectComments
+  }
+
+  /** 主封面 */
+  @computed get cover() {
+    const { _imageForce } = this.params
+    const { images } = this.subject
+    return _imageForce || matchCoverUrl(images?.common) || IMG_DEFAULT
   }
 
   /** 条目收藏信息 */

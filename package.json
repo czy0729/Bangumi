@@ -123,6 +123,7 @@
     "@storybook/addon-react-native-web": "^0.0.19",
     "@storybook/builder-webpack5": "^6.5.16",
     "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/preview-web": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/react-native": "^6.5.1",
     "@types/react": "~17.0.21",
@@ -141,7 +142,8 @@
     "prettier": "^2.6.2",
     "storybook-dark-mode": "^3.0.0",
     "ts-node": "^10.8.1",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "uglifyjs-webpack-plugin": "^2.2.0"
   },
   "private": true,
   "version": "1.0.0",

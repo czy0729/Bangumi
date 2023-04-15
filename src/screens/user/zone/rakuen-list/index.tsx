@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:05:03
+ * @Last Modified time: 2023-04-15 05:20:57
  */
 import React from 'react'
+import { Animated } from 'react-native'
 import { Loading, ListView, Text, Heatmap } from '@components'
 import { SectionHeader } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { SHARE_MODE, STORYBOOK } from '@constants'
 import { Fn } from '@types'
 import RakuenItem from '../rakuen-item'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 import { styles } from './styles'
-import { Animated } from 'react-native'
 
 const EVENT = {
   id: '空间.跳转',
@@ -59,6 +60,14 @@ class RakuenList extends React.Component<{
   }
 
   render() {
+    if (SHARE_MODE) {
+      return (
+        <Loading style={styles.loading}>
+          <Text style={_.mt.md}>网页端不支持此功能</Text>
+        </Loading>
+      )
+    }
+
     const { $ }: Ctx = this.context
     const { timeout } = $.state
     if (!$.userTopicsFormCDN._loaded) {
@@ -101,21 +110,25 @@ class RakuenList extends React.Component<{
         ListFooterComponent={ListFooterComponent}
         onFooterRefresh={$.fetchUsersTimeline}
         {...this.props}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: $.scrollY
+        onScroll={
+          STORYBOOK
+            ? undefined
+            : Animated.event(
+                [
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        y: $.scrollY
+                      }
+                    }
+                  }
+                ],
+                {
+                  useNativeDriver: true,
+                  listener: onScroll
                 }
-              }
-            }
-          ],
-          {
-            useNativeDriver: true,
-            listener: onScroll
-          }
-        )}
+              )
+        }
       />
     )
   }

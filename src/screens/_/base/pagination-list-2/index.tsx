@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 19:42:15
+ * @Last Modified time: 2023-04-15 05:53:36
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
 import { getTimestamp } from '@utils'
+import { STORYBOOK } from '@constants'
 import { ListEmpty } from '@types'
 import { Props as PaginationList2Props } from './types'
 
@@ -17,12 +18,15 @@ export const PaginationList2 = ({
   forwardRef,
   connectRef,
   data,
-  limit = 24,
+  limit: _limit = 24,
   onPage,
   ...other
 }: PaginationList2Props) => {
   // 用户记住列表看到多少页, 在触发更新后需要使用此值去重新划归数组当前页数
   const lastPage = useRef(1)
+
+  // 网页端因为页面滚动状态不能保存, 故不使用下拉更多加载
+  const limit = STORYBOOK ? 100 : _limit
 
   // 托管列表数据制作分页效果
   const [list, setList] = useState<ListEmpty>({

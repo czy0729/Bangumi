@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 12:22:33
+ * @Last Modified time: 2023-04-15 05:22:08
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -31,7 +31,7 @@ import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { fixedRemote } from '@utils/user-setting'
 import { webhookFriend } from '@utils/webhooks'
-import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
+import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE, SHARE_MODE } from '@constants'
 import { Navigation, TimeLineScope, TimeLineType } from '@types'
 import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
 import { NAMESPACE, STATE, EXCLUDE_STATE, TABS, TABS_WITH_TINYGRAIL } from './ds'
@@ -248,6 +248,8 @@ export default class ScreenZone extends store {
 
   /** 用户历史帖子 */
   fetchUserTopicsFormCDN = () => {
+    if (SHARE_MODE) return false
+
     const { id, username } = this.usersInfo
     return rakuenStore.fetchUserTopicsFormCDN(username || id)
   }

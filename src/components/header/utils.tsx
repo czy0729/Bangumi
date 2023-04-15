@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:09:06
+ * @Last Modified time: 2023-04-15 06:53:39
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { _, systemStore } from '@stores'
@@ -50,7 +50,7 @@ export const updateHeader = ({
     try {
       const _title = systemStore.setting.s2t ? s2t(title) : title
       if (typeof _title === 'string' && _title) {
-        document.title = _title
+        // document.title = _title
       }
     } catch (error) {}
   }

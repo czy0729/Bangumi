@@ -21,7 +21,6 @@ export type Props = {
   routes: Route[] | Readonly<Route[]>
   tabBarLength?: number
   page?: number
-  swipeEnabled?: boolean
   textColor?: ColorValue
   backgroundColor?: ColorValue
   borderBottomColor?: ColorValue

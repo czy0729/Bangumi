@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-13 20:40:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 14:35:32
+ * @Last Modified time: 2023-04-14 17:38:04
  */
+import { isMobile } from '@utils/dom'
+
 /** 是否 WSA 子系统 */
 export const WSA = false
 
@@ -28,7 +30,7 @@ const { clientWidth, clientHeight } = document.documentElement
 export const STORYBOOK_IFRAME = window.self !== window.top
 
 /** 是否需要使用边框 UI */
-export const STORYBOOK_GRID = STORYBOOK_IFRAME || clientWidth > 960
+export const STORYBOOK_GRID = STORYBOOK_IFRAME || !isMobile()
 
 /** Storybook 窗口宽度 */
 export const STORYBOOK_WIDTH = STORYBOOK_GRID ? 440 : clientWidth

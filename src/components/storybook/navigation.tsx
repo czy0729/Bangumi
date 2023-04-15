@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:47:28
+ * @Last Modified time: 2023-04-15 05:37:42
  */
 import { AnyObject, Fn } from '@types'
 import { urlStringify } from '@utils'
 import { SHARE_MODE } from '@constants'
-import { StorybookState } from './state'
 import { navigate, parseUrlParams } from './utils'
 
 export const StorybookNavigation = {
@@ -17,20 +16,16 @@ export const StorybookNavigation = {
     }
   },
   navigate(routeName: string, params?: AnyObject) {
-    StorybookState.navigateAction = 'PUSH'
     navigate(routeName, params)
   },
   push(routeName: string, params?: AnyObject) {
-    StorybookState.navigateAction = 'PUSH'
     navigate(routeName, params)
   },
   replace(routeName: string, params?: AnyObject) {
-    StorybookState.navigateAction = 'REPLACE'
     navigate(routeName, params, true)
   },
   goBack() {
-    StorybookState.navigateAction = 'POP'
-    window.history.back()
+    navigate()
   },
   addListener(): Fn {
     // console.info('Navigation: addListener', eventType)

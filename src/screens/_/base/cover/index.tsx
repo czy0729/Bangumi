@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 20:22:05
+ * @Last Modified time: 2023-04-15 02:29:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
-import { matchCoverUrl, stl } from '@utils'
+import { getCover400, matchCoverUrl, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 import { Props as CoverProps } from './types'
@@ -68,18 +68,7 @@ export const Cover = ob(
     }
 
     // @update 2022/12/30 源站图片现在可以统一处理
-    if (typeof _src === 'string' && _src.includes('lain.bgm.tv')) {
-      _src = _src
-        // 使用新增的 r/400 前缀
-        .replace(
-          /lain.bgm.tv\/pic\/cover\/(g|s|c|m|l)\//,
-          'lain.bgm.tv/r/400/pic/cover/l/'
-        )
-        // 不使用 nxn 直接使用 r/400
-        .replace(/\/r\/\d+x\d+\//, '/r/400/')
-        // 不使用 r/800
-        .replace('/r/800/', '/r/400/')
-    }
+    _src = getCover400(_src)
 
     const { coverThings, coverRadius } = systemStore.setting
     if (coverThings || useType) {

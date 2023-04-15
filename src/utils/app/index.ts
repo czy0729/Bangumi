@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 07:52:10
+ * @Last Modified time: 2023-04-15 02:28:17
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -726,7 +726,7 @@ export function getCoverMedium(src: any = '', mini: boolean = false) {
   return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
 }
 
-/** 获取高质量bgm图片 */
+/** 获取高质量 bgm 图片 */
 export function getCoverLarge(src = '') {
   if (
     typeof src !== 'string' ||
@@ -738,6 +738,26 @@ export function getCoverLarge(src = '') {
   }
 
   return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
+}
+
+/** 获取新格式 bgm 封面大图 */
+export function getCover400(src: string = '') {
+  if (typeof src === 'string' && src.includes('lain.bgm.tv')) {
+    return (
+      src
+        // 使用新增的 r/400 前缀
+        .replace(
+          /lain.bgm.tv\/pic\/cover\/(g|s|c|m|l)\//,
+          'lain.bgm.tv/r/400/pic/cover/l/'
+        )
+        // 不使用 nxn 直接使用 r/400
+        .replace(/\/r\/\d+x\d+\//, '/r/400/')
+        // 不使用 r/800
+        .replace('/r/800/', '/r/400/')
+    )
+  }
+
+  return src
 }
 
 export function getSubjectCoverCommon(url: string): string {

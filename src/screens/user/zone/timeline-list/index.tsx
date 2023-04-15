@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 12:29:27
+ * @Last Modified time: 2023-04-15 05:18:38
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -11,6 +11,7 @@ import { TapListener, SectionHeader, ItemTimeline } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { Fn } from '@types'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
@@ -70,21 +71,25 @@ class TimelineList extends React.Component<{
           animated
           onFooterRefresh={() => $.fetchUsersTimeline()}
           {...this.props}
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    y: $.scrollY
+          onScroll={
+            STORYBOOK
+              ? undefined
+              : Animated.event(
+                  [
+                    {
+                      nativeEvent: {
+                        contentOffset: {
+                          y: $.scrollY
+                        }
+                      }
+                    }
+                  ],
+                  {
+                    useNativeDriver: true,
+                    listener: onScroll
                   }
-                }
-              }
-            ],
-            {
-              useNativeDriver: true,
-              listener: onScroll
-            }
-          )}
+                )
+          }
         />
       </TapListener>
     )

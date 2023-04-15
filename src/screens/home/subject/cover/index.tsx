@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:51:29
+ * @Last Modified time: 2023-04-15 02:25:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Cover as CompCover } from '@_'
 import { systemStore } from '@stores'
-import { getCoverLarge, matchCoverUrl, stl } from '@utils'
+import { getCoverLarge, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IMG_DEFAULT } from '@constants'
 import { Ctx } from '../types'
@@ -24,23 +24,20 @@ class Cover extends React.Component<Props> {
   }
 
   onLoad = () => {
-    if (typeof this.src === 'string') SRC_LOADED[this.src] = true
+    const { $ }: Ctx = this.context
+    if (typeof $.cover === 'string') SRC_LOADED[$.cover] = true
 
     this.setState({
       isLoaded: true
     })
   }
 
-  get src() {
-    const { $ }: Ctx = this.context
-    const { _imageForce } = $.params
-    const { image } = this.props
-    const src = _imageForce || matchCoverUrl(image) || IMG_DEFAULT
-    return src
-  }
-
   get isLoaded() {
-    if (typeof this.src === 'string') return SRC_LOADED[this.src] || this.state.isLoaded
+    const { $ }: Ctx = this.context
+    if (typeof $.cover === 'string') {
+      return SRC_LOADED[$.cover] || this.state.isLoaded
+    }
+
     return this.state.isLoaded
   }
 
@@ -85,7 +82,7 @@ class Cover extends React.Component<Props> {
 
     return (
       <CompCover
-        src={this.src}
+        src={$.cover}
         size={$.imageWidth}
         height={$.imageHeight}
         radius

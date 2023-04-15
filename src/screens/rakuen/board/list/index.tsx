@@ -8,7 +8,7 @@ import React from 'react'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { open, info, appNavigate, correctAgo, stl } from '@utils'
+import { open, info, appNavigate, correctAgo, stl, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
@@ -82,7 +82,7 @@ function List(props, { $, navigation }: Ctx) {
               />
               <Flex.Item>
                 <Text size={15}>
-                  {title}
+                  {HTMLDecode(title)}
                   {replyText !== '+0' && (
                     <Text
                       type={isReaded ? 'sub' : 'main'}

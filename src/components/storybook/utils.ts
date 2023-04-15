@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:25:32
+ * @Last Modified time: 2023-04-15 05:39:27
  */
 import { appNavigate, urlStringify } from '@utils'
 import { AnyObject } from '@types'
+import { setNavigating } from './state'
 
 export function parseUrlParams() {
   const params = new URLSearchParams(window.location.search)
@@ -18,13 +19,20 @@ export function parseUrlParams() {
   return result
 }
 
+/** 统一跳转函数, 不传参数等于后退 */
 export function navigate(
-  routeName: string,
+  routeName?: string,
   params: AnyObject = {},
   replace: boolean = false
 ) {
   if (routeName === 'WebBrowser' && params?.url) {
     appNavigate(params.url)
+    return
+  }
+
+  setNavigating(routeName === undefined ? 'POP' : replace ? 'REPLACE' : 'PUSH')
+  if (!routeName) {
+    window.history.back()
     return
   }
 

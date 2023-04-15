@@ -8,7 +8,7 @@ import React from 'react'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { correctAgo } from '@utils'
+import { correctAgo, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -50,7 +50,7 @@ function List(props, { $, navigation }: Ctx) {
             />
             <Flex.Item>
               <Text size={15}>
-                {title}
+                {HTMLDecode(title)}
                 {replies !== '+0' && (
                   <Text type='main' size={12} lineHeight={15} bold>
                     {' '}

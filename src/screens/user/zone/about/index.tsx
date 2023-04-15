@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 16:14:15
+ * @Last Modified time: 2023-04-15 05:24:24
  */
 import React from 'react'
 import { View, Animated } from 'react-native'
@@ -10,7 +10,7 @@ import { RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
 import { Fn } from '@types'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
@@ -27,7 +27,7 @@ function About(
   const styles = memoStyles()
   const { onScroll } = props
 
-  // 去除APP内高清头像背景的代码
+  // 去除 APP 高清头像背景的代码
   const sign =
     String($.users.sign).replace(
       /<span style="font-size:0px; line-height:0px;">(.+?)<\/span>/g,
@@ -43,21 +43,25 @@ function About(
       contentContainerStyle={styles.contentContainerStyle}
       {...props}
       {...SCROLL_VIEW_RESET_PROPS}
-      onScroll={Animated.event(
-        [
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: $.scrollY
+      onScroll={
+        STORYBOOK
+          ? undefined
+          : Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: $.scrollY
+                    }
+                  }
+                }
+              ],
+              {
+                useNativeDriver: true,
+                listener: onScroll
               }
-            }
-          }
-        ],
-        {
-          useNativeDriver: true,
-          listener: onScroll
-        }
-      )}
+            )
+      }
     >
       <View style={styles.page}>
         <RenderHtml

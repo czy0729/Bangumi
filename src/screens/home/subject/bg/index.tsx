@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 19:30:30
+ * @Last Modified time: 2023-04-15 02:28:47
  */
 import React from 'react'
 import { View } from 'react-native'
+import { getCover400 } from '@utils'
 import { obc } from '@utils/decorators'
 import { TEXT_ONLY } from '@constants'
 import { Ctx } from '../types'
@@ -22,5 +23,5 @@ export default obc((props, { $ }: Ctx) => {
   const src = $.coverPlaceholder || images?.common
   if (typeof src !== 'string') return <View style={styles.bg} />
 
-  return <Bg style={styles.bg} src={src} />
+  return <Bg style={styles.bg} src={getCover400(src)} />
 })
