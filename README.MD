@@ -106,8 +106,6 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 # 在线
 
-部分组件提供 Storybook 在线预览 [https://czy0729.github.io/Bangumi-Storybook/storybook-static](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
-
 基于 @storybook/react-native 生成的 iframe.html, 尽量少入侵原项目, 补全了一个完整的单页面应用
 
 ## Storybook 组件面板预览
