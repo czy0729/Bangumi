@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 00:34:47
+ * @Last Modified time: 2023-04-16 12:00:44
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Page, Loading } from '@components'
@@ -209,7 +209,10 @@ const Topic = (props, { $ }: Ctx) => {
   useKeyboardAdjustResize()
 
   useEffect(() => {
-    if (!isFocused) uiStore.closePopableSubject()
+    if (!isFocused) {
+      uiStore.closePopableSubject()
+      uiStore.closeLikesGrid()
+    }
   }, [isFocused])
 
   return useObserver(() => {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 10:51:15
+ * @Last Modified time: 2023-04-16 11:57:29
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
@@ -79,6 +79,8 @@ export function fixedBaseFontStyle(baseFontStyle = {}) {
 
 /** 给每个 span 至少添加一个默认行高 */
 function addDefaultLineHeightToSpan(html: string) {
+  if (html.includes('<q>')) return html
+
   const regex = /<span([^>]*)style="([^"]*)"([^>]*)>/gi
   const replacement = `<span$1style="line-height: 24px; $2"$3>`
   return html.replace(regex, replacement)
@@ -149,7 +151,7 @@ function fixedWhiteTags(html: string) {
 /** 强制修改 html 以能被组件正常渲染 */
 export function hackFixedHTMLTags(html: string) {
   let _html = HTMLDecode(html)
-  _html = addDefaultLineHeightToSpan(html)
+  _html = addDefaultLineHeightToSpan(_html)
   _html = removeQuote(_html)
   _html = removePre(_html)
   _html = smallQuote(_html)
