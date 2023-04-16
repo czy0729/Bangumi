@@ -15,8 +15,8 @@
     "top": "top -s 4 -o rsize",
     "mv": "sudo yarn k && mv ios ios_ && mv android android_",
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
-    "storybook:web": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "web": "STORYBOOK=true start-storybook -p 6006",
+    "build-storybook": "STORYBOOK=true build-storybook"
   },
   "dependencies": {
     "@ant-design/react-native": "3.1.3",
