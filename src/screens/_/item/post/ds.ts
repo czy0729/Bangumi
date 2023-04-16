@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:23:53
+ * @Last Modified time: 2023-04-16 11:35:42
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -13,6 +13,9 @@ import { Props } from './types'
 const AVATAR_WIDTH = 32
 
 export const IMAGES_MAX_WIDTH = _.window.width - 2 * _.wind - AVATAR_WIDTH - _.sm
+
+export const IMAGES_MAX_WIDTH_SUB =
+  _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
 
 export const EXPAND_NUMS = 3
 

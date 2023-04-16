@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 12:16:50
+ * @Last Modified time: 2023-04-16 11:43:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,9 +64,9 @@ function Content(props, { $, navigation }: Ctx) {
               <RenderHtml
                 html={$.html}
                 matchLink
-                onLinkPress={(href, passProps = {}) =>
+                onLinkPress={(href, passProps = {}) => {
                   appNavigate(href, navigation, passProps, event)
-                }
+                }}
               />
               <Heatmap bottom={133} id='帖子.跳转' to='Blog' alias='日志' transparent />
               <Heatmap

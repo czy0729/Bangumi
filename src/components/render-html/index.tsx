@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 02:04:34
+ * @Last Modified time: 2023-04-16 09:56:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,9 +26,9 @@ import Li from './li'
 import A from './a'
 import ToggleImage from './toggle-image'
 import {
-  padFontSizeIncrease,
-  padLineHeightIncrease,
-  regs,
+  PAD_FONT_ZISE_INCREASE,
+  PAD_LINE_HEIGHT_INCREASE,
+  REGS,
   getIncreaseFontSize,
   fixedBaseFontStyle,
   hackFixedHTMLTags,
@@ -220,7 +220,7 @@ export const RenderHtml = observer(
           <Li key={key}>{children}</Li>
         ),
         a: matchLink
-          ? (attrs: any, children: any, convertedCSSStyles: any, passProps) => (
+          ? (attrs: any, children: any, convertedCSSStyles: any, passProps: any) => (
               <A
                 key={passProps.key}
                 style={{
@@ -241,11 +241,9 @@ export const RenderHtml = observer(
 
     onLinkPress = (evt: any, href: string) => {
       const { onLinkPress } = this.props
-      if (onLinkPress) {
-        onLinkPress(href)
-      } else {
-        open(href)
-      }
+      if (onLinkPress) return onLinkPress(href)
+
+      open(href)
     }
 
     formatHTML = () => {
@@ -265,12 +263,7 @@ export const RenderHtml = observer(
           const alt = $img.attr('alt') || ''
           if (alt) {
             // bgm 偏移量 24
-            const index = parseInt(alt.replace(regs.bgm, '')) - 24
-
-            // 限制用户不显示 bgm 表情
-            // if (userStore.isLimit) {
-            //   return alt
-            // }
+            const index = parseInt(alt.replace(REGS.bgm, '')) - 24
 
             if (bgmMap[index]) {
               const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
@@ -284,6 +277,7 @@ export const RenderHtml = observer(
           }
           return $img.html()
         })
+
         _html = $.html()
 
         /** 片假名后面加上小的英文 */
@@ -312,8 +306,8 @@ export const RenderHtml = observer(
     get defaultBaseFontStyle() {
       return {
         fontFamily: _.fontFamily,
-        fontSize: 15 + _.fontSizeAdjust + (_.isPad ? padFontSizeIncrease : 0),
-        lineHeight: 24 + (_.isPad ? padLineHeightIncrease : 0),
+        fontSize: 15 + _.fontSizeAdjust + (_.isPad ? PAD_FONT_ZISE_INCREASE : 0),
+        lineHeight: 24 + (_.isPad ? PAD_LINE_HEIGHT_INCREASE : 0),
         color: _.colorTitle
       }
     }

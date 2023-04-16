@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 14:45:35
+ * @Last Modified time: 2023-04-16 11:09:35
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -24,6 +24,7 @@ export const Expand = ({
   moreStyle,
   ratio = 1,
   linearGradient = true,
+  checkLayout = true,
   onExpand: onExpandCb,
   children
 }: ExpandProps) => {
@@ -67,9 +68,9 @@ export const Expand = ({
       const { height } = event.nativeEvent.layout
       setHeight(height)
 
-      if (height && height <= ratioHeight) onExpand()
+      if (checkLayout && height && height <= ratioHeight) onExpand()
     },
-    [ratioHeight, onExpand]
+    [checkLayout, ratioHeight, onExpand]
   )
 
   useEffect(() => {

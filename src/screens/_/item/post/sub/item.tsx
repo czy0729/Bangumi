@@ -2,31 +2,29 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 02:19:04
+ * @Last Modified time: 2023-04-16 11:41:26
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, RenderHtml, UserStatus } from '@components'
+import { Flex, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import {
   HTMLDecode,
-  appNavigate,
   getTimestamp,
   matchUserIdFromAvatar,
-  open,
   removeHTMLTag,
   stl
 } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { Avatar, Name, Likes } from '../../../base'
+import { Avatar, Name, HTML, Likes } from '../../../base'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import Mark from '../mark'
 import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
-import { REG_MARK } from '../ds'
-import { DEFAULT_PROPS, REG_BGM, REG_PLUS, AVATAR_WIDTH } from './ds'
+import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
+import { DEFAULT_PROPS, REG_BGM, REG_PLUS } from './ds'
 
 export default memo(
   ({
@@ -64,7 +62,7 @@ export default memo(
   }) => {
     // global.rerender('Topic.ItemSub.Main')
 
-    let msg = decoder(message)
+    const msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)
     if (filterDelete && rawMsg.includes('内容已被用户删除')) return null
 
@@ -124,16 +122,9 @@ export default memo(
         '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
     }
 
-    // 遗留问题, 给宣传语增加一点高度
-    msg = msg.replace(
-      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
-      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
-    )
-
     const isNew = !!readedTime && getTimestamp(time) > readedTime
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
-    const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
     return (
       <Flex
         style={stl(
@@ -190,14 +181,15 @@ export default memo(
           </Flex>
           <FloorText time={time} floor={floor} />
           <View style={styles.html}>
-            <RenderHtml
+            <HTML
+              navigation={navigation}
               style={wide && styles.wide}
-              baseFontStyle={_.baseFontStyle.md}
-              imagesMaxWidth={imagesMaxWidthSub}
-              html={msg}
+              id={id}
+              msg={msg}
+              url={url}
+              imagesMaxWidth={IMAGES_MAX_WIDTH_SUB}
               matchLink={matchLink}
-              onLinkPress={href => appNavigate(href, navigation, {}, event)}
-              onImageFallback={() => open(`${url}#post_${id}`)}
+              event={event}
             />
             {!!translate && (
               <Text style={styles.translate} size={11}>

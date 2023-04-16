@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 02:37:45
+ * @Last Modified time: 2023-04-16 11:34:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, RenderHtml, UserStatus } from '@components'
+import { Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
-import { open, appNavigate, HTMLDecode, stl } from '@utils'
+import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { Avatar, Name, Likes } from '../../base'
+import { Avatar, Name, HTML, Likes } from '../../base'
 import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
@@ -56,11 +56,6 @@ const Item = memo(
   }) => {
     // global.rerender('Topic.Item.Main')
 
-    // 遗留问题, 给宣传语增加一点高度
-    const _msg = msg.replace(
-      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
-      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
-    )
     return (
       <View style={styles.item}>
         <Flex
@@ -116,13 +111,14 @@ const Item = memo(
             </Flex>
             <FloorText time={time} floor={floor} />
             <View style={styles.html}>
-              <RenderHtml
-                baseFontStyle={_.baseFontStyle.md}
+              <HTML
+                navigation={navigation}
+                id={id}
+                msg={msg}
+                url={url}
                 imagesMaxWidth={IMAGES_MAX_WIDTH}
-                html={_msg}
                 matchLink={matchLink}
-                onLinkPress={href => appNavigate(href, navigation, {}, event)}
-                onImageFallback={() => open(`${url}#post_${id}`)}
+                event={event}
               />
               <Likes
                 topicId={topicId}

@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 /*
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 16:19:53
+ * @Last Modified time: 2023-04-16 10:51:15
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
@@ -11,39 +12,44 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { DEV, IOS, PAD } from '@constants'
 
-export const padFontSizeIncrease = PAD === 2 ? 3 : 2
+/** 平板设备字体固定放大字号 */
+export const PAD_FONT_ZISE_INCREASE = PAD === 2 ? 3 : 2
 
-export const padLineHeightIncrease = PAD === 2 ? 10 : 4
+/** 平板设备字体固定放大行高 */
+export const PAD_LINE_HEIGHT_INCREASE = PAD === 2 ? 10 : 4
 
-export const regs = {
+/** 标签匹配规则 */
+export const REGS = {
+  a: /<a (.+?)<\/a>/g,
   bgm: /\(bgm|\)/g,
   divQ: /<div class="quote"><q>/g,
   fixedQ: /<\/(.+?)\.\.\.<\/span>$/,
   img: /<img/g,
   imgBr: /<br><img/g,
+  media:
+    /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|rakuen\/topic\/group|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
   pre: /<pre>/g,
   preR: /<\/pre>/g,
   q: /<q>(.+?)<\/q>/g,
   quote: /<div class="quote"><q(.+?)<\/q><\/div>/g,
-  a: /<a (.+?)<\/a>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
   whiteTags:
-    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g,
-  media:
-    // eslint-disable-next-line max-len
-    /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|rakuen\/topic\/group|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g
+    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
 } as const
 
-export function getIncreaseFontSize(fontSize) {
+/** 获取最后字体渲染字号大小 */
+export function getIncreaseFontSize(fontSize: number) {
   if (!fontSize || !_.isPad) return fontSize
-  return Number(fontSize) + padFontSizeIncrease
+  return Number(fontSize) + PAD_FONT_ZISE_INCREASE
 }
 
-export function getIncreaseLineHeight(lineHeight) {
+/** 获取最后字体渲染行高大小 */
+export function getIncreaseLineHeight(lineHeight: number) {
   if (!lineHeight || !_.isPad) return lineHeight
-  return Number(lineHeight) + padLineHeightIncrease
+  return Number(lineHeight) + PAD_LINE_HEIGHT_INCREASE
 }
 
+/** 获取最后字体渲染基本样式 */
 export function fixedBaseFontStyle(baseFontStyle = {}) {
   if (!_.isPad) return baseFontStyle
 
@@ -53,79 +59,109 @@ export function fixedBaseFontStyle(baseFontStyle = {}) {
   } = {
     ...baseFontStyle
   }
-  if (_baseFontStyle.fontSize) _baseFontStyle.fontSize += padFontSizeIncrease
+  if (_baseFontStyle.fontSize) _baseFontStyle.fontSize += PAD_FONT_ZISE_INCREASE
   if (_baseFontStyle.lineHeight) {
-    _baseFontStyle.lineHeight += padLineHeightIncrease
+    _baseFontStyle.lineHeight += PAD_LINE_HEIGHT_INCREASE
   }
 
   return _baseFontStyle
 }
 
-export function hackFixedHTMLTags(html: string) {
-  let _html = html
+/** 给纯文字包上 span, 否则安卓不能自由复制 */
+// function wrapSpanToRawText(html: string) {
+//   html = `<div>${html}</div>`
+//   const match = html.match(/>[^<>]+?</g)
+//   if (match) {
+//     match.forEach((item: string) => (html = html.replace(item, `><span${item}/span><`)))
+//   }
+//   return html
+// }
 
-  /** 给纯文字包上 span, 否则安卓不能自由复制 */
-  // _html = `<div>${_html}</div>`
-  // const match = _html.match(/>[^<>]+?</g)
-  // if (match) match.forEach(item => (_html = _html.replace(item, `><span${item}/span><`)))
+/** 给每个 span 至少添加一个默认行高 */
+function addDefaultLineHeightToSpan(html: string) {
+  const regex = /<span([^>]*)style="([^"]*)"([^>]*)>/gi
+  const replacement = `<span$1style="line-height: 24px; $2"$3>`
+  return html.replace(regex, replacement)
+}
 
-  /** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓Text里面不能包含其他元素) */
-  if (!IOS) {
-    if (_html.includes('<q>')) {
-      _html = HTMLDecode(_html).replace(regs.q, (match, q) => {
-        let _q = q.replace(regs.img, ' img')
+/** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓 Text 里面不能包含其他元素) */
+function removeQuote(html: string) {
+  if (!IOS && html.includes('<q>')) {
+    html = html.replace(REGS.q, (match, q) => {
+      let _q = q.replace(REGS.img, ' img')
 
-        // 暂时没办法处理像 </smal...结尾这样的情况
-        // 因为之前的错误全局HTMLDecode, 没办法再处理
-        if (regs.fixedQ.test(_q)) {
-          const { index } = _q.match(regs.fixedQ)
-          _q = _q.slice(0, index)
-        }
+      // 暂时没办法处理像 </smal... 结尾这样的情况
+      // 因为之前的错误全局 HTMLDecode, 没办法再处理
+      if (REGS.fixedQ.test(_q)) {
+        const { index } = _q.match(REGS.fixedQ)
+        _q = _q.slice(0, index)
+      }
 
-        return `<q>${_q}</span></q>`
-      })
-    }
+      return `<q>${_q}</span></q>`
+    })
   }
+  return html
+}
 
-  /** 安卓识别 pre 目前报错, 暂时屏蔽此标签 */
-  if (!IOS) {
-    if (_html.includes('<pre>')) {
-      _html = HTMLDecode(_html).replace(regs.pre, '<div>').replace(regs.preR, '</div>')
-    }
+/** 安卓识别 pre 目前报错, 暂时屏蔽此标签 */
+function removePre(html: string) {
+  if (!IOS && html.includes('<pre>')) {
+    html = html.replace(REGS.pre, '<div>').replace(REGS.preR, '</div>')
   }
+  return html
+}
 
-  /** 缩小引用的字号 */
-  if (regs.divQ.test(_html)) {
-    _html = _html.replace(
-      regs.divQ,
+/** 缩小引用的字号 */
+function smallQuote(html: string) {
+  if (REGS.divQ.test(html)) {
+    html = html.replace(
+      REGS.divQ,
       `<div class="quote"><q style="font-size: ${getIncreaseFontSize(
         12
       )}px; line-height: ${getIncreaseLineHeight(16)}px">`
     )
   }
-
-  /** 去除图片之间的 br */
-  _html = _html.replace(regs.imgBr, '<img')
-
-  /** 去除暂时无法支持的 html */
-  _html = _html.replace(regs.ruby, '')
-
-  /** 转义 bug */
-  // _html = _html.replace(/<;/g, '< ;')
-
-  const { s2t: _s2t } = systemStore.setting
-  if (_s2t) _html = s2t(decoder(_html))
-
-  /** 转义 bug, 因一开始错误把整体转义过一次, 导致只能手动把左边的非合法标签'<'转义规避报错 */
-  return HTMLDecode(_html).replace(regs.whiteTags, '&lt;')
+  return html
 }
 
+/** 去除图片之间的 br */
+function removeBrBetweenImages(html: string) {
+  return html.replace(REGS.imgBr, '<img')
+}
+
+/** 去除暂时无法支持的 html */
+function removeSomeTags(html: string) {
+  return html.replace(REGS.ruby, '')
+}
+
+/** 简转繁 */
+function htmlS2T(html: string) {
+  const { s2t: _s2t } = systemStore.setting
+  if (_s2t) html = s2t(decoder(html))
+  return html
+}
+
+/** 转义 bug, 因一开始错误把整体转义过一次, 导致只能手动把左边的非合法标签 '<' 转义规避报错 */
+function fixedWhiteTags(html: string) {
+  return html.replace(REGS.whiteTags, '&lt;')
+}
+
+/** 强制修改 html 以能被组件正常渲染 */
+export function hackFixedHTMLTags(html: string) {
+  let _html = HTMLDecode(html)
+  _html = addDefaultLineHeightToSpan(html)
+  _html = removeQuote(_html)
+  _html = removePre(_html)
+  _html = smallQuote(_html)
+  _html = removeBrBetweenImages(_html)
+  _html = removeSomeTags(_html)
+  _html = htmlS2T(_html)
+  return fixedWhiteTags(_html)
+}
+
+/** 去除 html 标签、空行、换行 */
 function removeHTMLTag(str: string) {
-  return String(str)
-    .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
-    .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
-    .replace(/\n[\s| | ]*\r/g, '\n') // 去除多余空行
-  // .replace(/ /gi, '') // 去掉
+  return str.replace(/(<([^>]+)>)/gi, '').replace(/^\s*[\r\n]/gm, '')
 }
 
 /** 匹配 bgm 部分页面链接, 把这些链接变成 Media 块, 与行内文字独立 */
@@ -136,13 +172,14 @@ export function hackMatchMediaLink(html: string) {
   let flag: boolean
 
   if (matchLink) {
-    _html = html.replace(regs.media, match => {
-      // App推广语不做单独块处理
+    _html = html.replace(REGS.media, match => {
+      // App 推广语不做单独块处理
       if (
         match ===
         '<a href="https://bgm.tv/group/topic/350677" target="_blank" rel="nofollow external noopener noreferrer" class="l"><span style="color: grey;">获取</span></a>'
-      )
+      ) {
         return match
+      }
 
       flag = true
       return `<div>${match}</div>`
@@ -156,7 +193,7 @@ export function hackMatchMediaLink(html: string) {
 
   // [实验性] 文字猜测条目并替换成链接
   if (acSearchSetting) {
-    const htmlNoTags = _html.replace(regs.quote, '').replace(regs.a, '')
+    const htmlNoTags = _html.replace(REGS.quote, '').replace(REGS.a, '')
 
     const acData = acSearch(removeHTMLTag(htmlNoTags))
     if (Array.isArray(acData) && acData.length) {
@@ -176,33 +213,38 @@ export function hackMatchMediaLink(html: string) {
   return _html
 }
 
-const ids = []
-const loadedIds = []
+/** 存放等待发起获取媒体信息的 id */
+const IDS = []
+
+/** 已获取过媒体信息的 id */
+const LOADED_IDS = []
+
+/** 是否获取中 */
 let loading = false
 
-/** 列队请求条目信息 */
+/** 列队请求媒体信息 */
 export async function fetchMediaQueue(type?: string, id?: unknown) {
   if (type && id) {
     if (
-      ids.length <= 16 &&
-      ![...ids, ...loadedIds].find(item => item.type === type && item.id === id)
+      IDS.length <= 16 &&
+      ![...IDS, ...LOADED_IDS].find(item => item.type === type && item.id === id)
     ) {
-      ids.push({
+      IDS.push({
         type,
         id
       })
     }
   }
 
-  if (!ids.length) return
+  if (!IDS.length) return
 
   if (!loading) {
-    const item = ids.shift()
-    loadedIds.push(item)
+    const item = IDS.shift()
+    LOADED_IDS.push(item)
 
     try {
       if (DEV) {
-        // console.info('fetchMediaQueue', ids, item)
+        // console.info('fetchMediaQueue', IDS, item)
       }
       loading = true
 
