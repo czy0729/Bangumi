@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:05:47
+ * @Last Modified time: 2023-04-18 13:33:29
  */
 import React from 'react'
 import { ItemComment } from '@_'
@@ -12,11 +12,11 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 const POPOVER_DATA = {
-  动画: ['特别关注TA的动画评论', '屏蔽用户'],
-  书籍: ['特别关注TA的书籍评论', '屏蔽用户'],
-  游戏: ['特别关注TA的游戏评论', '屏蔽用户'],
-  音乐: ['特别关注TA的音乐评论', '屏蔽用户'],
-  三次元: ['特别关注TA的三次元评论', '屏蔽用户']
+  动画: ['复制评论', '特别关注TA的动画评论', '屏蔽用户'],
+  书籍: ['复制评论', '特别关注TA的书籍评论', '屏蔽用户'],
+  游戏: ['复制评论', '特别关注TA的游戏评论', '屏蔽用户'],
+  音乐: ['复制评论', '特别关注TA的音乐评论', '屏蔽用户'],
+  三次元: ['复制评论', '特别关注TA的三次元评论', '屏蔽用户']
 } as const
 
 function Item(

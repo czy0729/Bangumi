@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:05:11
+ * @Last Modified time: 2023-04-18 13:44:12
  */
 import {
   calendarStore,
@@ -486,9 +486,17 @@ export default class Action extends Fetch {
       avatar: string
       userId: UserId
       userName: string
-    }
+    },
+    comment: string
   ) => {
-    if (!userData?.userId) return false
+    if (!userData?.userId) {
+      return false
+    }
+
+    if (title === '复制评论') {
+      this.onCopyComment(userData, comment)
+      return
+    }
 
     if (title === '屏蔽用户') {
       this.addBlockUser(userData)
@@ -532,6 +540,19 @@ export default class Action extends Fetch {
         userId
       })
     }
+  }
+
+  /** 复制评论 */
+  onCopyComment = (
+    userData: {
+      avatar: string
+      userId: UserId
+      userName: string
+    },
+    comment: string
+  ) => {
+    copy(comment, `已复制 ${userData?.userName} 的评论`)
+    feedback()
   }
 
   /** Box 状态按钮做动画前, 需要先设置开启 */

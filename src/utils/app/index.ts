@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 02:28:17
+ * @Last Modified time: 2023-04-18 16:01:59
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -40,7 +40,7 @@ import {
 } from '@types'
 import { getTimestamp, open, toLocal } from '../utils'
 import { info, confirm, feedback } from '../ui'
-import { HTMLDecode } from '../html'
+import { HTMLDecode, removeHTMLTag } from '../html'
 import { getStorage, setStorage } from '../storage'
 import { syncRakuenStore, syncSystemStore, s2tAsync } from '../async'
 import { t } from '../fetch'
@@ -1069,4 +1069,15 @@ export function genICSCalenderEventDate(
     DTSTART: date.format(format),
     DTEND: dateEnd.format(format)
   }
+}
+
+/** 获取符合预期的回复纯文字 */
+export function getCommentPlainText(str: string) {
+  const pattern = /<img[^>]+alt="\((bgm\d+)\)"[^>]*>/
+  return removeHTMLTag(
+    str
+      .replace(/<div class="quote">(.+?)<\/div>/g, '')
+      .replace(/<br>/g, '\n')
+      .replace(pattern, '($1)')
+  )
 }

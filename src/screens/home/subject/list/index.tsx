@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 04:33:04
+ * @Last Modified time: 2023-04-18 13:45:38
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -25,7 +25,6 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onScroll }, { $ }: Ctx) {
       data={$.subjectComments}
       lazy={1}
       progressViewOffset={_.ios(_.statusBarHeight, 0)}
-      removeClippedSubviews={false}
       scrollEventThrottle={16}
       scrollToTop
       keyboardDismissMode='on-drag'

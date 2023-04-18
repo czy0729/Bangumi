@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 02:38:44
+ * @Last Modified time: 2023-04-18 16:03:16
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
-import { info, confirm } from '@utils'
+import { info, confirm, getCommentPlainText, copy } from '@utils'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
 import { Popover } from '../../../base'
@@ -34,9 +34,10 @@ function IconExtra(
   const data = []
   if (rakuenStore.setting.likes && likeType) data.push('贴贴')
   if (replySub && !$?.isLimit && $?.showFixedTextarea) data.push('回复')
-  if (erase && $?.doDeleteReply) data.push('删除')
-  data.push('屏蔽用户')
+  data.push('复制回复')
   if ($?.doTranslateFloor) data.push('翻译')
+  data.push('屏蔽用户')
+  if (erase && $?.doDeleteReply) data.push('删除')
 
   return (
     <Popover
@@ -65,6 +66,11 @@ function IconExtra(
             rakuenStore.addBlockUser(`${userName}@${userId}`)
             info(`已屏蔽 ${userName}`)
           })
+          return
+        }
+
+        if (title === '复制回复') {
+          copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
         }
       }}
     >

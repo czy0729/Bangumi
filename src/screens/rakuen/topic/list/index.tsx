@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:31:50
+ * @Last Modified time: 2023-04-18 15:10:02
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -22,7 +22,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
     lazy: $.postId ? undefined : 4,
     progressViewOffset: _.ios(_.statusBarHeight, 0),
     scrollEventThrottle: 16,
-    removeClippedSubviews: false,
+    // removeClippedSubviews: false,
     initialNumToRender: 120,
     maxToRenderPerBatch: 120,
     updateCellsBatchingPeriod: 120,

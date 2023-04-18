@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 07:16:49
+ * @Last Modified time: 2023-04-18 13:50:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,7 @@ export default memo(
               </View>
             ) : (
               !!content && (
-                <Expand>
+                <Expand ratio={0.88}>
                   <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>
