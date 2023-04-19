@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 09:50:29
+ * @Last Modified time: 2023-04-19 14:57:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Heatmap, UserStatus } from '@components'
-import { SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
+import { InView, SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
@@ -22,7 +22,7 @@ export default memo(
 
     const { list, onScroll } = useHorizontalLazy(who)
     return (
-      <View style={showRecent ? styles.container : styles.hide}>
+      <InView style={showRecent ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={!showRecent && <IconHidden name='动态' value='showRecent' />}
@@ -76,7 +76,7 @@ export default memo(
           </>
         )}
         <PreventTouchPlaceholder />
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS

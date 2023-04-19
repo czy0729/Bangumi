@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:47:23
+ * @Last Modified time: 2023-04-19 09:26:25
  */
 import React from 'react'
 import { Image, Touchable } from '@components'

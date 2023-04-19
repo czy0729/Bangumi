@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:35:52
+ * @Last Modified time: 2023-04-19 14:21:30
  */
 import { _ } from '@stores'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 
 export const styles = _.create({
+  container: {
+    minHeight: 158,
+    marginTop: _.lg
+  },
   image: {
     height: THUMB_HEIGHT,
     marginLeft: _.sm,

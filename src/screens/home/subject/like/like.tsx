@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 01:41:54
+ * @Last Modified time: 2023-04-19 16:34:52
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { SectionTitle, HorizontalList } from '@_'
+import { InView, SectionTitle, HorizontalList } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconHidden from '../icon/hidden'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 export default memo(({ navigation, showLike, subjectId, like, onSwitchBlock }) => {
   // global.rerender('Subject.Like.Main')
 
   return (
-    <View style={!showLike ? [_.mt.lg, _.short] : _.mt.lg}>
+    <InView style={stl(styles.container, !showLike && _.short)}>
       <SectionTitle
         style={_.container.wind}
         right={!showLike && <IconHidden name='猜你喜欢' value='showLike' />}
@@ -55,6 +56,6 @@ export default memo(({ navigation, showLike, subjectId, like, onSwitchBlock }) =
           <Heatmap id='条目.跳转' from='猜你喜欢' />
         </>
       )}
-    </View>
+    </InView>
   )
 }, DEFAULT_PROPS)

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-17 06:47:57
+ * @Last Modified time: 2023-04-19 16:32:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Touchable, Flex, Expand, Image, Text, Iconfont } from '@components'
-import { SectionTitle, PreventTouchPlaceholder } from '@_'
+import { InView, SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore, otaStore } from '@stores'
 import { open, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
@@ -179,29 +179,31 @@ class Game extends React.Component {
     if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.i) return null
 
     return (
-      <Expand style={_.mt.lg}>
-        <SectionTitle
-          style={_.container.wind}
-          right={
-            !showGameInfo ? (
-              <IconHidden name='游戏' value='showGameInfo' />
-            ) : (
-              !this.isADV && <IconPS />
-            )
-          }
-          icon={!showGameInfo && 'md-navigate-next'}
-          onPress={() => $.onSwitchBlock('showGameInfo')}
-        >
-          游戏
-        </SectionTitle>
-        {showGameInfo && (
-          <>
-            {this.renderThumbs()}
-            {this.renderDetails()}
-          </>
-        )}
-        <PreventTouchPlaceholder />
-      </Expand>
+      <InView style={this.styles.container}>
+        <Expand>
+          <SectionTitle
+            style={_.container.wind}
+            right={
+              !showGameInfo ? (
+                <IconHidden name='游戏' value='showGameInfo' />
+              ) : (
+                !this.isADV && <IconPS />
+              )
+            }
+            icon={!showGameInfo && 'md-navigate-next'}
+            onPress={() => $.onSwitchBlock('showGameInfo')}
+          >
+            游戏
+          </SectionTitle>
+          {showGameInfo && (
+            <>
+              {this.renderThumbs()}
+              {this.renderDetails()}
+            </>
+          )}
+          <PreventTouchPlaceholder />
+        </Expand>
+      </InView>
     )
   }
 

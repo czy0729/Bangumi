@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:55:57
+ * @Last Modified time: 2023-04-19 09:50:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconGame from '../icon/game'
+import Block from './block'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -36,15 +37,6 @@ export default memo(
   }) => {
     // global.rerender('Subject.Tags.Main')
 
-    const elBadge = (
-      <Flex
-        style={subjectTagsExpand ? [styles.badge, styles.badgeExpand] : styles.badge}
-      >
-        <Text size={13} type='sub'>
-          第三方标签
-        </Text>
-      </Flex>
-    )
     const elTags = (
       <>
         {tags.map(({ name, count }, index) => {
@@ -88,156 +80,11 @@ export default memo(
             </Touchable>
           )
         })}
-
-        {/* 动画 */}
-        {!!animeTags?.length && (
-          <>
-            {elBadge}
-            {animeTags.map((item: string) => (
-              <Touchable
-                key={item}
-                animate
-                scale={0.9}
-                onPress={() => {
-                  t('条目.跳转', {
-                    to: 'Anime',
-                    from: '标签',
-                    subjectId
-                  })
-                  navigation.push('Anime', {
-                    _tags: [item]
-                  })
-                }}
-              >
-                <View style={styles.item}>
-                  <Text size={13} bold>
-                    {item}
-                  </Text>
-                </View>
-              </Touchable>
-            ))}
-          </>
-        )}
-
-        {/* Hentai */}
-        {!!hentaiTags?.length && (
-          <>
-            {elBadge}
-            {hentaiTags.map((item: string) => (
-              <Touchable
-                key={item}
-                animate
-                scale={0.9}
-                onPress={() => {
-                  t('条目.跳转', {
-                    to: 'Hentai',
-                    from: '标签',
-                    subjectId
-                  })
-                  navigation.push('Hentai', {
-                    _tags: [item]
-                  })
-                }}
-              >
-                <View style={styles.item}>
-                  <Text size={13} bold>
-                    {item}
-                  </Text>
-                </View>
-              </Touchable>
-            ))}
-          </>
-        )}
-
-        {/* 游戏 */}
-        {!!gameTags?.length && (
-          <>
-            {elBadge}
-            {gameTags.map((item: string) => (
-              <Touchable
-                key={item}
-                animate
-                scale={0.9}
-                onPress={() => {
-                  t('条目.跳转', {
-                    to: 'Game',
-                    from: '标签',
-                    subjectId
-                  })
-                  navigation.push('Game', {
-                    _tags: [item]
-                  })
-                }}
-              >
-                <View style={styles.item}>
-                  <Text size={13} bold>
-                    {item}
-                  </Text>
-                </View>
-              </Touchable>
-            ))}
-          </>
-        )}
-
-        {/* 漫画 */}
-        {!!mangaTags?.length && (
-          <>
-            {elBadge}
-            {mangaTags.map((item: string) => (
-              <Touchable
-                key={item}
-                animate
-                scale={0.9}
-                onPress={() => {
-                  t('条目.跳转', {
-                    to: 'Manga',
-                    from: '标签',
-                    subjectId
-                  })
-                  navigation.push('Manga', {
-                    _tags: [item]
-                  })
-                }}
-              >
-                <View style={styles.item}>
-                  <Text size={13} bold>
-                    {item}
-                  </Text>
-                </View>
-              </Touchable>
-            ))}
-          </>
-        )}
-
-        {/* 文库 */}
-        {!!wenkuTags?.length && (
-          <>
-            {elBadge}
-            {wenkuTags.map((item: string) => (
-              <Touchable
-                key={item}
-                animate
-                scale={0.9}
-                onPress={() => {
-                  t('条目.跳转', {
-                    to: 'Wenku',
-                    from: '标签',
-                    subjectId
-                  })
-                  navigation.push('Wenku', {
-                    _tags: [item]
-                  })
-                }}
-              >
-                <View style={styles.item}>
-                  <Text size={13} bold>
-                    {item}
-                  </Text>
-                </View>
-              </Touchable>
-            ))}
-          </>
-        )}
+        <Block path='Anime' tags={animeTags} />
+        <Block path='Hentai' tags={hentaiTags} />
+        <Block path='Game' tags={gameTags} />
+        <Block path='Manga' tags={mangaTags} />
+        <Block path='Wenku' tags={wenkuTags} />
       </>
     )
 

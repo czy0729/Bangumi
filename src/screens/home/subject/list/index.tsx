@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 13:45:38
+ * @Last Modified time: 2023-04-19 15:53:45
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -13,7 +13,7 @@ import Header from '../header'
 import { Ctx } from '../types'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
 
-function List({ forwardRef, onScrollIntoViewIfNeeded, onScroll }, { $ }: Ctx) {
+function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
   // global.rerender('Subject.List')
 
   return (
@@ -25,9 +25,10 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onScroll }, { $ }: Ctx) {
       data={$.subjectComments}
       lazy={1}
       progressViewOffset={_.ios(_.statusBarHeight, 0)}
-      scrollEventThrottle={16}
+      scrollEventThrottle={32}
       scrollToTop
       keyboardDismissMode='on-drag'
+      listenViewport
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={

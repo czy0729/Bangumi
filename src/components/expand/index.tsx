@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:09:35
+ * @Last Modified time: 2023-04-19 16:15:01
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -42,13 +42,16 @@ export const Expand = ({
               inputRange: [0, 1],
 
               // 1个比例的最大高度
-              outputRange: [Math.min(ratioHeight, height), height]
+              outputRange: [
+                Math.min(ratioHeight, checkLayout ? height : ratioHeight),
+                height
+              ]
             })
           : 'auto'
       },
       style
     ],
-    [height, ratioHeight, style]
+    [checkLayout, height, ratioHeight, style]
   )
 
   const onExpand = useCallback(() => {

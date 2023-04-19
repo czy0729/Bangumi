@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 18:58:22
+ * @Last Modified time: 2023-04-19 12:11:40
  */
+import { _ } from '@stores'
 import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
 import { STORYBOOK } from '@constants'
 import {
@@ -41,6 +42,12 @@ export const INIT_RATING = {
 
 /** 页面 store 初始化后需要还原的 state */
 export const EXCLUDE_STATE = {
+  /** 可视范围顶部 y */
+  visibleTop: 0,
+
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 是否显示管理模态框 */
   visible: false,
 

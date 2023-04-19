@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 10:33:30
+ * @Last Modified time: 2023-04-19 14:47:42
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
-import { SectionTitle, ItemArticle } from '@_'
+import { InView, SectionTitle, ItemArticle } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import IconBlog from '../icon/blog'
@@ -21,7 +21,7 @@ export default memo(
 
     const { list, onExpand } = useExpandLazy(blog)
     return (
-      <View style={!showBlog ? [_.mt.lg, _.short] : _.mt.lg}>
+      <InView style={stl(styles.container, !showBlog && _.short)}>
         <SectionTitle
           style={styles.sectionTitle}
           right={showBlog ? <IconBlog /> : <IconHidden name='日志' value='showBlog' />}
@@ -59,7 +59,7 @@ export default memo(
             <Heatmap id='条目.跳转' from='评论' />
           </>
         )}
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS

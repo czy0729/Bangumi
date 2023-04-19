@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:03:58
+ * @Last Modified time: 2023-04-19 14:55:37
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
-import { SectionTitle, ItemArticle } from '@_'
+import { InView, SectionTitle, ItemArticle } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import IconTopic from '../icon/topic'
@@ -21,7 +21,7 @@ export default memo(
 
     const { list, onExpand } = useExpandLazy(topic, 4)
     return (
-      <View style={!showTopic ? [_.mt.lg, _.short] : _.mt.lg}>
+      <InView style={stl(styles.container, !showTopic && _.short)}>
         <SectionTitle
           style={_.container.wind}
           right={
@@ -60,7 +60,7 @@ export default memo(
             <Heatmap id='条目.跳转' from='讨论版' />
           </>
         )}
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS

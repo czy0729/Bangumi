@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 13:33:29
+ * @Last Modified time: 2023-04-19 16:03:56
  */
 import React from 'react'
-import { ItemComment } from '@_'
-import { rakuenStore } from '@stores'
+import { InView, ItemComment } from '@_'
+import { _, rakuenStore } from '@stores'
 import { getIsBlockUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -20,7 +20,7 @@ const POPOVER_DATA = {
 } as const
 
 function Item(
-  { time, avatar, userId, userName, star, comment },
+  { index, time, avatar, userId, userName, star, comment },
   { $, navigation }: Ctx
 ) {
   if (!$.rendered) return null
@@ -39,18 +39,20 @@ function Item(
   } as const
 
   return (
-    <ItemComment
-      navigation={navigation}
-      event={event}
-      time={time}
-      avatar={avatar}
-      userId={userId}
-      userName={userName}
-      star={$.hideScore ? undefined : star}
-      comment={comment}
-      popoverData={POPOVER_DATA[$.type]}
-      onSelect={$.onTrackUsersCollection}
-    />
+    <InView y={_.window.height + index * 100}>
+      <ItemComment
+        navigation={navigation}
+        event={event}
+        time={time}
+        avatar={avatar}
+        userId={userId}
+        userName={userName}
+        star={$.hideScore ? undefined : star}
+        comment={comment}
+        popoverData={POPOVER_DATA[$.type]}
+        onSelect={$.onTrackUsersCollection}
+      />
+    </InView>
   )
 }
 

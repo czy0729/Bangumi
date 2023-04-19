@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 19:28:04
+ * @Last Modified time: 2023-04-19 14:59:37
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Divider } from '@components'
-import { ItemComment } from '@_'
+import { InView, ItemComment } from '@_'
 import { _, systemStore, collectionStore, usersStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
 import { obc } from '@utils/decorators'
@@ -47,7 +46,7 @@ function TrackComment(props, { $, navigation }: Ctx) {
     }
   } as const
   return (
-    <View style={_.mt.sm}>
+    <InView style={_.mt.sm}>
       {items.map(item => {
         const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
         const userInfo = usersStore.usersInfo(item)
@@ -72,7 +71,7 @@ function TrackComment(props, { $, navigation }: Ctx) {
         )
       })}
       <Divider />
-    </View>
+    </InView>
   )
 }
 

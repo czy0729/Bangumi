@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-08 07:48:15
+ * @Last Modified time: 2023-04-19 15:53:58
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -13,9 +13,10 @@ export const REFRESH_CONTROL_PROPS = {
   titleColor: _.__colorPlain__
 } as const
 
-export function renderItem({ item }) {
+export function renderItem({ item, index }) {
   return (
     <Item
+      index={index}
       time={item.time}
       avatar={item.avatar}
       userId={item.userId}

@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:59:06
+ * @Last Modified time: 2023-04-19 10:04:07
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -53,6 +53,8 @@ import { Props as ImageProps, State } from './types'
 
 export { ImageProps }
 
+let renderCount = 0
+
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
     static defaultProps: ImageProps = DEFAULT_PROPS
@@ -84,6 +86,9 @@ export const Image = observer(
     private _commited = false
 
     componentDidMount() {
+      renderCount += 1
+      console.log(renderCount)
+
       const { src, cache, textOnly, sync } = this.props
       if (textOnly) {
         return

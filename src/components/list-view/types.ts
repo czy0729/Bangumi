@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:43:34
+ * @Last Modified time: 2023-04-19 12:01:17
  */
 import { FlatListProps } from 'react-native'
 import { Override, Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
@@ -100,6 +100,9 @@ export type Props = Override<
     }
 
     stickySectionHeadersEnabled?: boolean
+
+    /** 是否观察页面可视范围变化 */
+    listenViewport?: boolean
 
     /** 顶部刷新回调 */
     onHeaderRefresh?: Fn

@@ -2,13 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:04:33
+ * @Last Modified time: 2023-04-19 15:51:41
  */
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
-import { useMount, useRunAfter, useIsFocusedRef, useObserver } from '@utils/hooks'
+import {
+  useIsFocusedRef,
+  useMount,
+  useObserver,
+  useRunAfter,
+  useViewport
+} from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './page-header'
@@ -41,11 +47,28 @@ const Subject = (props, { $, navigation }: Ctx) => {
     }
   })
 
-  const { yRef, fixed, onScroll } = useOnScroll()
   const scrollViewRef = useRef(undefined)
   const forwardRef = useCallback(ref => {
     scrollViewRef.current = ref
   }, [])
+
+  const { visibleTop, visibleBottom, onScroll: onUseViewport } = useViewport()
+  useEffect(() => {
+    $.setState({
+      visibleTop,
+      visibleBottom
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleBottom, visibleTop])
+
+  const { yRef, fixed, onScroll: onUseOnScroll } = useOnScroll()
+  const onScroll = useCallback(
+    evt => {
+      onUseOnScroll(evt)
+      onUseViewport(evt)
+    },
+    [onUseOnScroll, onUseViewport]
+  )
   const onScrollIntoViewIfNeeded = useCallback(
     (y: number) => {
       try {
@@ -67,8 +90,8 @@ const Subject = (props, { $, navigation }: Ctx) => {
         {IOS && <Bg />}
         <List
           forwardRef={forwardRef}
-          onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
           onScroll={onScroll}
+          onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
         />
         <Modal />
       </Page>

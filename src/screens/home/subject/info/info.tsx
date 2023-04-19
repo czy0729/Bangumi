@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 13:50:47
+ * @Last Modified time: 2023-04-19 16:15:50
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, RenderHtml, Heatmap } from '@components'
-import { SectionTitle } from '@_'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
@@ -26,13 +26,13 @@ export default memo(
 
     let html = info
     try {
-      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, 200)
+      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, 440)
     } catch (error) {
       console.error('home/subject/info.js', 'Info', error)
     }
 
     return (
-      <View style={showInfo ? styles.container : styles.hide}>
+      <InView style={showInfo ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
@@ -44,7 +44,7 @@ export default memo(
         {showInfo && (
           <View>
             {!!info && (
-              <Expand ratio={0.88} onExpand={onExpand}>
+              <Expand ratio={0.88} checkLayout={false} onExpand={onExpand}>
                 <RenderHtml
                   style={styles.info}
                   html={html}
@@ -69,7 +69,7 @@ export default memo(
             <Heatmap id='条目.跳转' from='详情' />
           </View>
         )}
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS

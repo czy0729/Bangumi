@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 13:50:13
+ * @Last Modified time: 2023-04-19 14:27:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Expand, Text } from '@components'
-import { SectionTitle } from '@_'
+import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import IconTranslate from '../icon/translate'
@@ -19,7 +19,7 @@ export default memo(
     // global.rerender('Subject.Summary.Main')
 
     return (
-      <View style={showSummary ? styles.container : styles.hide}>
+      <InView style={showSummary ? styles.container : styles.hide}>
         <SectionTitle
           right={
             showSummary ? (
@@ -65,7 +65,7 @@ export default memo(
             )}
           </View>
         )}
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS,

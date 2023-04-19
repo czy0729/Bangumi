@@ -2,25 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-03 23:25:08
+ * @Last Modified time: 2023-04-19 14:31:11
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { SectionTitle, HorizontalList } from '@_'
+import { InView, SectionTitle, HorizontalList } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconCharacter from '../icon/character'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 export default memo(
   ({ navigation, showCharacter, subjectId, crt, crtCounts, onSwitchBlock }) => {
     // global.rerender('Subject.Character.Main')
 
     return (
-      <View style={!showCharacter ? [_.mt.lg, _.short] : _.mt.lg}>
+      <InView style={stl(styles.container, !showCharacter && _.short)}>
         <SectionTitle
           style={_.container.wind}
           right={
@@ -77,7 +78,7 @@ export default memo(
             <Heatmap id='条目.跳转' from='角色' />
           </>
         )}
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS

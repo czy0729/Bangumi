@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:20:46
+ * @Last Modified time: 2023-04-19 14:34:18
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { SectionTitle, HorizontalList } from '@_'
+import { InView, SectionTitle, HorizontalList } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconStaff from '../icon/staff'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock }) => {
   // global.rerender('Subject.Staff.Main')
 
   return (
-    <View style={!showStaff ? [_.mt.lg, _.short] : _.mt.lg}>
+    <InView style={stl(styles.container, !showStaff && _.short)}>
       <SectionTitle
         style={_.container.wind}
         right={
@@ -55,6 +56,6 @@ export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock })
           <Heatmap id='条目.跳转' from='制作人员' />
         </>
       )}
-    </View>
+    </InView>
   )
 }, DEFAULT_PROPS)

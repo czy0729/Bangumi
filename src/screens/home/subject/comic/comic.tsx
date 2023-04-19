@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 00:28:34
+ * @Last Modified time: 2023-04-19 12:47:01
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { SectionTitle, HorizontalList } from '@_'
+import { SectionTitle, HorizontalList, InView } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 export default memo(({ navigation, subjectId, comic }) => {
   // global.rerender('Subject.Comic.Main')
 
   return (
-    <View style={_.mt.lg}>
+    <InView style={styles.container}>
       <SectionTitle style={_.container.wind}>单行本</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
@@ -44,6 +44,6 @@ export default memo(({ navigation, subjectId, comic }) => {
         }}
       />
       <Heatmap id='条目.跳转' from='单行本' />
-    </View>
+    </InView>
   )
 }, DEFAULT_PROPS)

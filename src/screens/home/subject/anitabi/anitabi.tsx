@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-30 09:57:55
+ * @Last Modified time: 2023-04-19 14:37:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Image, Text, Touchable } from '@components'
-import { PreventTouchPlaceholder, SectionTitle } from '@_'
+import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
-import { date, open, showImageViewer } from '@utils'
+import { date, open, showImageViewer, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useHorizontalLazy } from '@utils/hooks'
@@ -32,7 +32,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
       url: item.image.replace('h160', 'h360')
     }))
   return (
-    <View style={!showAnitabi ? [_.mt.lg, _.short] : _.mt.lg}>
+    <InView style={stl(styles.container, !showAnitabi && _.short)}>
       <SectionTitle
         style={_.container.wind}
         right={
@@ -131,6 +131,6 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
           <PreventTouchPlaceholder />
         </>
       )}
-    </View>
+    </InView>
   )
 }, DEFAULT_PROPS)

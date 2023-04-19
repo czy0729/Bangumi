@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 17:49:01
+ * @Last Modified time: 2023-04-19 14:22:50
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
-import { SectionTitle, PreventTouchPlaceholder } from '@_'
+import { InView, SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { open } from '@utils'
+import { open, stl } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
 import IconPreview from '../icon/preview'
 import IconHidden from '../icon/hidden'
+import { Ctx } from '../types'
 import Video from './video'
 import Preview from './preview'
 import { THUMB_WIDTH } from './ds'
-import { Ctx } from '../types'
+import { styles } from './styles'
 
 class Thumbs extends React.Component {
   state = {
@@ -102,7 +103,7 @@ class Thumbs extends React.Component {
 
     const { scrolled } = this.state
     return (
-      <View style={!showThumbs ? [_.mt.lg, _.short] : _.mt.lg}>
+      <InView style={stl(styles.container, !showThumbs && _.short)}>
         <SectionTitle
           style={_.container.wind}
           right={this.renderRight()}
@@ -161,7 +162,7 @@ class Thumbs extends React.Component {
         )}
         <PreventTouchPlaceholder />
         <Heatmap id='条目.预览' />
-      </View>
+      </InView>
     )
   }
 }

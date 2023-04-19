@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:17:56
+ * @Last Modified time: 2023-04-19 14:38:19
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { SectionTitle, HorizontalList } from '@_'
+import { InView, SectionTitle, HorizontalList } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -20,7 +19,7 @@ export default memo(
     // global.rerender('Subject.Relations.Main')
 
     return (
-      <View style={showRelations ? styles.container : styles.hide}>
+      <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={!showRelations && <IconHidden name='关联' value='showRelations' />}
@@ -59,7 +58,7 @@ export default memo(
             <Heatmap id='条目.跳转' from='关联条目' />
           </>
         )}
-      </View>
+      </InView>
     )
   },
   DEFAULT_PROPS
