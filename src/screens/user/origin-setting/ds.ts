@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 10:44:30
+ * @Last Modified time: 2023-04-19 08:50:36
  */
 export const NAMESPACE = 'ScreenOriginSetting'
 
@@ -73,33 +73,12 @@ export const TYPES_DS = [
 ] as const
 
 export const SITES_ANIME = [
-  // {
-  //   id: 'anime|scdmfun',
-  //   name: '双辞动漫',
-  //   url: 'https://www.scdmfun.cn/search/wd/[CN].html',
-  //   sort: 0,
-  //   active: 1
-  // },
-  // {
-  //   id: 'anime|omofun',
-  //   name: 'OmoFun',
-  //   url: 'https://omofun.tv/vod/search.html?wd=[CN]',
-  //   sort: 0,
-  //   active: 0
-  // },
   {
-    id: 'anime|zzzfun',
-    name: 'ZzzFun',
-    url: 'http://www.zzzfun.com/vod_search.html?wd=[CN]',
+    id: 'anime|dmys3',
+    name: '大米星球',
+    url: 'https://dmys3.com/vodsearch/-------------.html?wd=[CN]',
     sort: 0,
     active: 1
-  },
-  {
-    id: 'anime|pixivel',
-    name: 'pixivel.moe',
-    url: 'https://pixivel.moe/search?keyword=[JP]&mode=tag&features=sortpop',
-    sort: 0,
-    active: 0
   },
   {
     id: 'anime|libvio',
@@ -109,16 +88,9 @@ export const SITES_ANIME = [
     active: 0
   },
   {
-    id: 'anime|renpe',
-    name: 'RP影视',
-    url: 'https://mac.rp123.top/vodsearch/-------------/?wd=[CN]',
-    sort: 0,
-    active: 0
-  },
-  {
-    id: 'anime|gimy',
-    name: 'gimy剧迷',
-    url: 'https://gmtv1.xyz/search/-------------.html?wd=[CN]',
+    id: 'anime|pixivel',
+    name: 'pixivel.moe',
+    url: 'https://pixivel.moe/search?keyword=[JP]&mode=tag&features=sortpop',
     sort: 0,
     active: 0
   },
@@ -133,13 +105,6 @@ export const SITES_ANIME = [
     id: 'anime|mx',
     name: 'MX动漫',
     url: 'http://www.mxdm8.com/search/[CN]-------------.html',
-    sort: 0,
-    active: 0
-  },
-  {
-    id: 'anime|qiqi',
-    name: '奇奇动漫',
-    url: 'https://www.qiqidongman.com/vod-search-wd-[CN].html',
     sort: 0,
     active: 0
   },
@@ -173,8 +138,8 @@ export const SITES_NSFW = [
 export const SITES_MANGA = [
   {
     id: 'manga|moxmoe',
-    name: '[DL] Mox.moe',
-    url: `https://mox.moe/list.php?s=[CN]`,
+    name: '[DL] Kox.moe',
+    url: `https://kox.moe/list.php?s=[CN]`,
     sort: 0,
     active: 1
   },
@@ -246,7 +211,7 @@ export const SITES_GAME = [
   {
     id: 'game|xxxx520',
     name: '[DL] xxxx520',
-    url: 'https://xxxxx520.com/?s=[CN]',
+    url: 'https://xxxxx525.com/?s=[CN]',
     sort: 0,
     active: 1
   },
@@ -268,18 +233,11 @@ export const SITES_REAL = [
     active: 1
   },
   {
-    id: 'real|renpe',
-    name: 'RP影视',
-    url: 'https://mac.rp123.top/vodsearch/-------------/?wd=[CN]',
+    id: 'anime|dmys3',
+    name: '大米星球',
+    url: 'https://dmys3.com/vodsearch/-------------.html?wd=[CN]',
     sort: 0,
     active: 1
-  },
-  {
-    id: 'real|gimy',
-    name: 'gimy剧迷',
-    url: 'https://gmtv1.xyz/search/-------------.html?wd=[CN]',
-    sort: 0,
-    active: 0
   },
   {
     id: 'real|cupfox',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 13:44:12
+ * @Last Modified time: 2023-04-19 09:44:32
  */
 import {
   calendarStore,
@@ -603,11 +603,14 @@ export default class Action extends Fetch {
       this.setState({
         disabled: true
       })
+
       await collectionStore.doUpdateCollection({
         ...values,
         noConsole: true
       })
       collectionStore.fetchCollection(this.subjectId)
+      collectionStore.fetchCollectionStatusQueue([this.subjectId])
+
       this.closeManageModal()
       webhookCollection(values, this.subject, userStore.userInfo)
     } catch (error) {

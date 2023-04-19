@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:35:38
+ * @Last Modified time: 2023-04-19 09:48:15
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2, Filter } from '@_'
 import { _, otaStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { TEXT_UPDATE_MANGA } from '@constants'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
@@ -38,8 +39,8 @@ class List extends React.Component {
         filterDS={filterDS}
         name='漫画'
         type='Manga'
-        lastUpdate='2022-09'
-        information={`数据最后快照于 2022-09-23，在版本更新前数据不会有任何变化，漫画因变化频率较低预计半年更新一次。
+        lastUpdate={TEXT_UPDATE_MANGA.slice(0, 7)}
+        information={`数据最后快照于 ${TEXT_UPDATE_MANGA}，在版本更新前数据不会有任何变化，漫画因变化频率较低预计半年更新一次。
         \n本页数据非来源自 bgm.tv，而是作者从互联网上花了很大功夫，经过筛选优化后，与 bgm.tv 相应条目对应的数据。
         \n有比 bgm.tv 更准确的分类、更丰富的筛选、最后更新章节和更多的排序。
         \n目前本功能对所有用户开放，非高级会员在一个条件下会有最多只显示前 ${ADVANCE_LIMIT} 条数据的限制。
