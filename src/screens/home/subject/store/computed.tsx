@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 02:11:37
+ * @Last Modified time: 2023-04-20 16:10:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -382,7 +382,7 @@ export default class Computed extends State {
     if (!this.animeInfo) return null
 
     if (isArray(this.animeInfo?.t)) {
-      return this.animeInfo.t.map(item => ANIME_TAGS[item])
+      return this.animeInfo.t.map(item => ANIME_TAGS[item]).filter(item => !!item)
     }
 
     return []
