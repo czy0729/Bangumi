@@ -51,7 +51,7 @@ function Contact({ navigation, filter }) {
           information={systemStore.advance && '已收到巨款，您已成为高级会员，感谢支持'}
           informationType='success'
           filter={filter}
-          ft='22-08-15'
+          ft='23-04-20'
           onPress={() => {
             t('设置.跳转', {
               to: 'Qiafan'

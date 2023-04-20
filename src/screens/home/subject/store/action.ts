@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 09:44:32
+ * @Last Modified time: 2023-04-20 18:14:47
  */
 import {
+  _,
   calendarStore,
   collectionStore,
   otaStore,
@@ -391,6 +392,7 @@ export default class Action extends Fetch {
     const { rendered } = this.state
     if (!rendered) {
       this.setState({
+        visibleBottom: _.window.height * 1.5,
         rendered: true
       })
     }
@@ -400,6 +402,7 @@ export default class Action extends Fetch {
     const { rendered } = this.state
     if (rendered) {
       this.setState({
+        visibleBottom: 0,
         rendered: false
       })
     }
@@ -588,6 +591,14 @@ export default class Action extends Fetch {
       flipEps: false
     })
   })
+
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight + _.window.height * 0.5
+    })
+  }
 
   // -------------------- action --------------------
   /** 管理收藏 */

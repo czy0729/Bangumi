@@ -96,7 +96,7 @@ class List extends React.Component<{
         scrollToTop={isFocused && TABS[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}
-        scrollEventThrottle={32}
+        scrollEventThrottle={16}
         onScroll={this.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}

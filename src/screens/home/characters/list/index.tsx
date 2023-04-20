@@ -24,7 +24,7 @@ function List(props, { $ }: Ctx) {
       limit={12}
       scrollToTop
       renderItem={renderItem}
-      scrollEventThrottle={32}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
     />
   )

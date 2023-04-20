@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 23:04:01
+ * @Last Modified time: 2023-04-20 18:15:42
  */
-import { _ } from '@stores'
 import { ExcludeState, State, InitItem } from '../types'
 
 /** 唯一命名空间 */
@@ -19,7 +18,7 @@ export const INIT_ITEM: InitItem = {
 /** 不参与本地化的 state */
 export const EXCLUDE_STATE: ExcludeState = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: undefined,
   modal: {
     title: '',
     desc: ''

@@ -15,7 +15,7 @@ export const DEFAULT_PROPS = {
   title: '' as TabLabel,
   scrollToTop: false as boolean,
   showItem: (IOS ? false : true) as boolean,
-  onScroll: (() => {}) as StoreType['onScroll'],
+  // onScroll: (() => {}) as StoreType['onScroll'],
   onHeaderRefresh: (() => {}) as StoreType['onHeaderRefresh'],
   onFooterRefresh: undefined as StoreType['onFooterRefresh']
 }

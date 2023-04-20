@@ -2,19 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:52:56
+ * @Last Modified time: 2023-04-20 18:51:53
  */
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
-import {
-  useIsFocusedRef,
-  useMount,
-  useObserver,
-  useRunAfter,
-  useViewport
-} from '@utils/hooks'
+import { useIsFocusedRef, useMount, useObserver, useRunAfter } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './page-header'
@@ -29,7 +23,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
   useRunAfter(async () => {
     setTimeout(() => {
       if (isFocused.current) $.setRendered()
-    }, 400)
+    }, 480)
 
     await $.init()
 
@@ -43,7 +37,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
     return () => {
       setTimeout(() => {
         $.unRendered()
-      }, 400)
+      }, 480)
     }
   })
 
@@ -52,21 +46,14 @@ const Subject = (props, { $, navigation }: Ctx) => {
     scrollViewRef.current = ref
   }, [])
 
-  const { visibleBottom, onScroll: onUseViewport } = useViewport()
-  useEffect(() => {
-    $.setState({
-      visibleBottom
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visibleBottom])
-
-  const { yRef, fixed, onScroll: onUseOnScroll } = useOnScroll()
-  const onScroll = useCallback(
+  const { yRef, fixed, onScroll } = useOnScroll()
+  const onScrollFn = useCallback(
     evt => {
-      onUseViewport(evt)
-      onUseOnScroll(evt)
+      $.onScroll(evt)
+      onScroll(evt)
     },
-    [onUseOnScroll, onUseViewport]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onScroll]
   )
   const onScrollIntoViewIfNeeded = useCallback(
     (y: number) => {
@@ -89,7 +76,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
         {IOS && <Bg />}
         <List
           forwardRef={forwardRef}
-          onScroll={onScroll}
+          onScroll={onScrollFn}
           onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
         />
         <Modal />

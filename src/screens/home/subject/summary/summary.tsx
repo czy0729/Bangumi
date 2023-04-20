@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Expand, Text } from '@components'
-import { InView, SectionTitle } from '@_'
+import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import IconTranslate from '../icon/translate'
@@ -19,7 +19,7 @@ export default memo(
     // global.rerender('Subject.Summary.Main')
 
     return (
-      <InView style={showSummary ? styles.container : styles.hide}>
+      <View style={showSummary ? styles.container : styles.hide}>
         <SectionTitle
           right={
             showSummary ? (
@@ -65,7 +65,7 @@ export default memo(
             )}
           </View>
         )}
-      </InView>
+      </View>
     )
   },
   DEFAULT_PROPS,

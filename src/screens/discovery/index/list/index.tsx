@@ -30,7 +30,7 @@ function List({ isFocused }, { $ }: Ctx) {
       renderItem={renderItem}
       scrollToTop={isFocused || WSA}
       scrollEnabled={!dragging}
-      scrollEventThrottle={32}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
     />
   )

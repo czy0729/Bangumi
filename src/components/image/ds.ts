@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-11 12:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 01:06:45
+ * @Last Modified time: 2023-04-20 18:29:17
  */
 import { _ } from '@stores'
 import { EVENT, HOST, STORYBOOK, TEXT_ONLY } from '@constants'
@@ -33,6 +33,7 @@ export const DEFAULT_PROPS = {
   size: 40,
   src: undefined,
   textOnly: TEXT_ONLY,
+  skeleton: true,
   onPress: undefined,
   onLongPress: undefined,
   onError: undefined

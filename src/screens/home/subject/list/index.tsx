@@ -25,7 +25,7 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
       data={$.subjectComments}
       lazy={1}
       progressViewOffset={_.ios(_.statusBarHeight, 0)}
-      scrollEventThrottle={32}
+      scrollEventThrottle={16}
       scrollToTop
       keyboardDismissMode='on-drag'
       footerEmptyDataComponent={$.footerEmptyDataComponent}

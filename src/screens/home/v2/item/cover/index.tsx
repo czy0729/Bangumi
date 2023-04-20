@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 14:46:57
+ * @Last Modified time: 2023-04-20 16:40:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import { IMG_HEIGHT, IMG_WIDTH, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
 const ITEM_HEIGHT = 154
 
@@ -21,7 +22,7 @@ function Cover({ index, subjectId, subject }, { $, navigation }: Ctx) {
   return (
     <View>
       <Touchable animate onPress={() => $.onItemPress(navigation, subjectId, subject)}>
-        <InView y={ITEM_HEIGHT * index + _.headerHeight}>
+        <InView style={styles.inView} y={ITEM_HEIGHT * index + _.headerHeight}>
           <CompCover
             src={subject?.images?.medium || ''}
             size={IMG_WIDTH}

@@ -21,7 +21,7 @@ const List = memo(
     title,
     scrollToTop,
     showItem,
-    onScroll,
+    // onScroll,
     onHeaderRefresh,
     onFooterRefresh
   }) => {
@@ -63,8 +63,8 @@ const List = memo(
         footerEmptyDataComponent={emptyComponent}
         footerNoMoreDataComponent={emptyComponent}
         footerNoMoreDataText=''
-        scrollEventThrottle={32}
-        onScroll={onScroll}
+        // scrollEventThrottle={16}
+        // onScroll={onScroll}
         onHeaderRefresh={onHeaderRefresh}
         onFooterRefresh={onFooterRefresh}
       />

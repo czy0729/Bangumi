@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 10:04:07
+ * @Last Modified time: 2023-04-20 18:30:00
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -53,8 +53,6 @@ import { Props as ImageProps, State } from './types'
 
 export { ImageProps }
 
-let renderCount = 0
-
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
     static defaultProps: ImageProps = DEFAULT_PROPS
@@ -86,9 +84,6 @@ export const Image = observer(
     private _commited = false
 
     componentDidMount() {
-      renderCount += 1
-      console.log(renderCount)
-
       const { src, cache, textOnly, sync } = this.props
       if (textOnly) {
         return
@@ -631,7 +626,7 @@ export const Image = observer(
     }
 
     renderTouchableImage(onPress) {
-      const { textOnly, placeholder, delay, scale, onLongPress } = this.props
+      const { textOnly, placeholder, delay, scale, skeleton, onLongPress } = this.props
       const { loaded } = this.state
       return (
         <View style={this.computedStyle.container}>
@@ -658,12 +653,14 @@ export const Image = observer(
           >
             {this.renderImage()}
           </Touchable>
-          <Skeleton
-            style={this.computedStyle.image}
-            textOnly={textOnly}
-            placeholder={placeholder}
-            loaded={loaded}
-          />
+          {skeleton && (
+            <Skeleton
+              style={this.computedStyle.image}
+              textOnly={textOnly}
+              placeholder={placeholder}
+              loaded={loaded}
+            />
+          )}
         </View>
       )
     }
@@ -675,6 +672,7 @@ export const Image = observer(
         placeholder,
         imageViewer,
         imageViewerSrc,
+        skeleton,
         event,
         onPress,
         onLongPress
@@ -701,12 +699,14 @@ export const Image = observer(
       return (
         <View style={this.computedStyle.container}>
           {this.renderImage()}
-          <Skeleton
-            style={this.computedStyle.image}
-            textOnly={textOnly}
-            placeholder={placeholder}
-            loaded={loaded}
-          />
+          {skeleton && (
+            <Skeleton
+              style={this.computedStyle.image}
+              textOnly={textOnly}
+              placeholder={placeholder}
+              loaded={loaded}
+            />
+          )}
         </View>
       )
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 02:25:21
+ * @Last Modified time: 2023-04-20 18:30:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -71,6 +71,7 @@ class Cover extends React.Component<Props> {
         height={$.imageHeight}
         radius
         noDefault
+        skeleton={false}
       />
     )
   }
@@ -91,6 +92,7 @@ class Cover extends React.Component<Props> {
         fadeDuration={0}
         event={this.event}
         noDefault
+        skeleton={false}
         sync
         onLoad={this.onLoad}
       />

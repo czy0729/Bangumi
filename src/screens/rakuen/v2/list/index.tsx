@@ -37,7 +37,7 @@ function List({ index }, { $ }: Ctx) {
       limit={24}
       progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
-      scrollEventThrottle={32}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchRakuen}

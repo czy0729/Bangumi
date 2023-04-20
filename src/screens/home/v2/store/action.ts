@@ -228,13 +228,6 @@ export default class Action extends Fetch {
     try {
       let url: string
 
-      // AGE动漫，有自维护id数据，优先匹配
-      // if (label === 'AGE动漫') {
-      //   if (find(subjectId).ageId) {
-      //     url = `${SITE_AGEFANS()}/detail/${find(subjectId).ageId}`
-      //   }
-      // }
-
       // 匹配用户自定义源头
       if (!url) {
         const find = this.onlineOrigins(subjectId).find(item =>
@@ -369,13 +362,13 @@ export default class Action extends Fetch {
   })
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  // onScroll = ({ nativeEvent }) => {
+  //   const { contentOffset, layoutMeasurement } = nativeEvent
+  //   const screenHeight = layoutMeasurement.height
+  //   this.setState({
+  //     visibleBottom: contentOffset.y + screenHeight
+  //   })
+  // }
 
   /** -------------------- action -------------------- */
   /** 管理收藏 */

@@ -38,7 +38,7 @@ export default obc(({ title = '全部' }, { $ }: Ctx) => {
       title={title}
       scrollToTop={$.scrollToTop(title)}
       showItem={$.showItem(title)}
-      onScroll={$.onScroll}
+      // onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
     />
