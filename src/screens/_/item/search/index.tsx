@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:00:49
+ * @Last Modified time: 2023-04-19 21:02:24
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -16,6 +16,7 @@ export const ItemSearch = ob(
   ({
     navigation,
     style,
+    index,
     id,
     name,
     nameCn,
@@ -38,6 +39,7 @@ export const ItemSearch = ob(
         navigation={navigation}
         styles={memoStyles()}
         style={style}
+        index={index}
         id={id}
         name={name}
         nameCn={nameCn}

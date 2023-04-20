@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:18:08
+ * @Last Modified time: 2023-04-20 14:08:47
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@_'
+import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { ListItem, Ctx } from '../types'
@@ -34,6 +35,8 @@ function Item(
         <ItemCollections
           navigation={navigation}
           event={EVENT}
+          inViewY={_.window.height * 0.5}
+          index={index}
           id={id}
           type={item.type}
           cover={item.image}

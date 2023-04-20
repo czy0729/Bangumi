@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 01:49:59
+ * @Last Modified time: 2023-04-19 20:35:27
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -15,6 +15,8 @@ export { ItemCollectionsProps }
 export const ItemCollections = ob(
   ({
     navigation,
+    index,
+    inViewY,
     id,
     name,
     nameCn,
@@ -51,6 +53,8 @@ export const ItemCollections = ob(
       <Item
         navigation={navigation}
         styles={memoStyles()}
+        index={index}
+        inViewY={inViewY}
         id={id}
         name={name}
         nameCn={nameCn}

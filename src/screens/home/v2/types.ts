@@ -19,6 +19,7 @@ export type Ctx = {
 }
 
 export type ExcludeState = {
+  visibleBottom: number
   modal: {
     title: string
     desc: string

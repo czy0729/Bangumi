@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:50:29
+ * @Last Modified time: 2023-04-20 12:06:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,17 +12,20 @@ import { cnjp } from '@utils'
 import { t } from '@utils/fetch'
 import { useExpandLazy, useObserver } from '@utils/hooks'
 import { EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-import { Cover, Tag } from '../../base'
+import { InView, Cover, Tag } from '../../base'
 import { AVATAR_SIZE } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemVoiceProps } from './types'
 
 export { ItemVoiceProps }
 
+const ITEM_HEIGHT = 132
+
 export const ItemVoice = ({
   style,
   navigation,
   event = EVENT,
+  index,
   id,
   name,
   nameCn,
@@ -36,6 +39,7 @@ export const ItemVoice = ({
     const styles = memoStyles()
     const cn = cnjp(nameCn, name)
     const jp = cnjp(name, nameCn)
+    const y = ITEM_HEIGHT * index + 1
     const content = (
       <>
         <Flex style={styles.wrap} align='start'>
@@ -58,7 +62,9 @@ export const ItemVoice = ({
               }}
             >
               <Flex align='start'>
-                <Image size={AVATAR_SIZE} src={cover} radius shadow />
+                <InView style={styles.inViewAvatar} y={y}>
+                  <Image size={AVATAR_SIZE} src={cover} radius shadow />
+                </InView>
                 <Flex.Item style={_.ml.sm}>
                   <Text size={12} bold>
                     {cn}
@@ -115,13 +121,15 @@ export const ItemVoice = ({
                         <Tag value={item.staff} />
                       </Flex>
                     </Flex.Item>
-                    <Cover
-                      size={IMG_WIDTH_SM}
-                      height={IMG_HEIGHT_SM}
-                      src={item.cover}
-                      radius
-                      shadow
-                    />
+                    <InView style={styles.inViewCover} y={y}>
+                      <Cover
+                        size={IMG_WIDTH_SM}
+                        height={IMG_HEIGHT_SM}
+                        src={item.cover}
+                        radius
+                        shadow
+                      />
+                    </InView>
                   </Flex>
                 </Touchable>
               )

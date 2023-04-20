@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:03:56
+ * @Last Modified time: 2023-04-19 17:52:56
  */
 import React from 'react'
 import { InView, ItemComment } from '@_'
@@ -18,6 +18,8 @@ const POPOVER_DATA = {
   音乐: ['复制评论', '特别关注TA的音乐评论', '屏蔽用户'],
   三次元: ['复制评论', '特别关注TA的三次元评论', '屏蔽用户']
 } as const
+
+const ITEM_HEIGHT = 100
 
 function Item(
   { index, time, avatar, userId, userName, star, comment },
@@ -39,7 +41,7 @@ function Item(
   } as const
 
   return (
-    <InView y={_.window.height + index * 100}>
+    <InView y={_.window.height * 1.5 + index * ITEM_HEIGHT}>
       <ItemComment
         navigation={navigation}
         event={event}

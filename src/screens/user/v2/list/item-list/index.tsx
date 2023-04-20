@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 16:23:37
+ * @Last Modified time: 2023-04-19 20:34:20
  */
 import React from 'react'
 import { ItemCollections } from '@_'
@@ -10,7 +10,7 @@ import { collectionStore, subjectStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { TABS } from '../../ds'
+import { H_HEADER, TABS } from '../../ds'
 import { Ctx } from '../../types'
 
 const EVENT = {
@@ -18,7 +18,7 @@ const EVENT = {
   type: 'list'
 } as const
 
-function ItemList({ item, page }, { $, navigation }: Ctx) {
+function ItemList({ item, index, page }, { $, navigation }: Ctx) {
   const { subjectType } = $.state
   const { key: type } = TABS[page]
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
@@ -34,6 +34,8 @@ function ItemList({ item, page }, { $, navigation }: Ctx) {
   return (
     <ItemCollections
       navigation={navigation}
+      index={index}
+      inViewY={H_HEADER}
       {...item}
       showLabel={false}
       type={typeCn}

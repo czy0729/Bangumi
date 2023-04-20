@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:48:00
+ * @Last Modified time: 2023-04-19 19:11:57
  */
 import React from 'react'
 import { timelineStore } from '@stores'
@@ -33,6 +33,7 @@ export const ItemTimeline = ob(
     subject,
     subjectId,
     clearHref,
+    index,
     event,
     onDelete,
     onHidden
@@ -63,6 +64,7 @@ export const ItemTimeline = ob(
         subject={subject}
         subjectId={subjectId}
         clearHref={clearHref}
+        index={index}
         event={event}
         onDelete={onDelete}
         onHidden={onHidden}

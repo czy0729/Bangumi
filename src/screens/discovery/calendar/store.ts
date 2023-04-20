@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 05:36:20
+ * @Last Modified time: 2023-04-20 14:11:32
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
@@ -12,7 +12,7 @@ import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { BangumiData, SubjectId } from '@types'
 import { getTime } from './utils'
-import { NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenCalendar extends store {
   state = observable(STATE)
@@ -21,6 +21,7 @@ export default class ScreenCalendar extends store {
     const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       ...state,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -132,5 +133,14 @@ export default class ScreenCalendar extends store {
       expand: !expand
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

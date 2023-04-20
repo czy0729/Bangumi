@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 14:19:43
+ * @Last Modified time: 2023-04-20 11:58:12
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -25,6 +25,8 @@ function List(props, { $ }: Ctx) {
       limit={5}
       scrollToTop
       renderItem={renderItem}
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
     />
   )

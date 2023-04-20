@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 20:49:12
+ * @Last Modified time: 2023-04-19 21:09:59
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -16,15 +16,18 @@ import {
   MODEL_COLLECTION_STATUS
 } from '@constants'
 import { CollectionStatus } from '@types'
-import { Tag, Cover, Stars, Rank, Manage } from '../../base'
+import { InView, Tag, Cover, Stars, Rank, Manage } from '../../base'
 import Title from './title'
 import { DEFAULT_PROPS } from './ds'
+
+const ITEM_HEIGHT = 184
 
 const Item = memo(
   ({
     navigation,
     styles,
     style,
+    index,
     id,
     name,
     nameCn,
@@ -46,6 +49,9 @@ const Item = memo(
     const isMusic = typeCn === '音乐'
     const justify = tip || position.length ? 'between' : 'start'
     const subjectId = String(id).replace('/subject/', '')
+
+    const width = isMono ? IMG_WIDTH : IMG_WIDTH_LG
+    const height = isMono ? IMG_WIDTH : IMG_HEIGHT_LG
     return (
       <Touchable
         style={stl(styles.container, style)}
@@ -66,15 +72,23 @@ const Item = memo(
         }}
       >
         <Flex style={styles.wrap} align='start'>
-          <Cover
-            src={cover}
-            placeholder={!isMono}
-            width={isMono ? IMG_WIDTH : IMG_WIDTH_LG}
-            height={isMono ? IMG_WIDTH : IMG_HEIGHT_LG}
-            radius
-            shadow
-            type={typeCn}
-          />
+          <InView
+            style={{
+              minWidth: width,
+              minHeight: height
+            }}
+            y={ITEM_HEIGHT * index + 1}
+          >
+            <Cover
+              src={cover}
+              placeholder={!isMono}
+              width={width}
+              height={height}
+              radius
+              shadow
+              type={typeCn}
+            />
+          </InView>
           <Flex
             style={stl(
               styles.content,

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-30 12:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 16:58:35
+ * @Last Modified time: 2023-04-19 21:55:50
  */
+import { _ } from '@stores'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import { RatingStatus, SearchCat, SearchLegacy } from '@types'
 
@@ -14,6 +15,9 @@ export const DEFAULT_CAT = MODEL_SEARCH_CAT.getValue<SearchCat>('动画')
 export const DEFAULT_LEGACY = MODEL_SEARCH_LEGACY.getValue<SearchLegacy>('精确')
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 输入框值 */
   value: '',
 

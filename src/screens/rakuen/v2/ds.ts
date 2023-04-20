@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 17:38:57
+ * @Last Modified time: 2023-04-19 17:04:32
  */
+import { _ } from '@stores'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE_GROUP,
@@ -35,6 +36,8 @@ export const INIT_PREFETCH_STATE = {
 }
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
   isFocused: true,
   _mounted: false
 }

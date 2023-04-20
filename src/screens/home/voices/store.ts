@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 19:56:49
+ * @Last Modified time: 2023-04-20 11:57:45
  */
 import { observable, computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -159,5 +159,14 @@ export default class ScreenVoices extends store {
 
     this.fetchMonoVoices()
     this.setStorage(NAMESPACE)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:39:22
+ * @Last Modified time: 2023-04-19 20:47:27
  */
 import { CatalogDetail } from '@stores/discovery/types'
 import { EventType, Id } from '@types'
 
 export type Props = {
   event?: EventType
+  index?: number
   id?: Id
   name?: string
 

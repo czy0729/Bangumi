@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 13:56:53
+ * @Last Modified time: 2023-04-19 17:46:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text, Heatmap } from '@components'
-import { SectionTitle, Cover, Tag } from '@_'
+import { InView, SectionTitle, Cover, Tag } from '@_'
 import { _ } from '@stores'
-import { appNavigate, findSubjectCn } from '@utils'
+import { appNavigate, findSubjectCn, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -21,7 +21,7 @@ export default memo(({ navigation, styles, style, works }) => {
   // global.rerender('Mono.Works.Main')
 
   return (
-    <View style={style ? [styles.container, style] : styles.container}>
+    <InView style={stl(styles.container, style)}>
       <SectionTitle
         style={styles.section}
         right={
@@ -78,6 +78,6 @@ export default memo(({ navigation, styles, style, works }) => {
         })}
         <Heatmap id='人物.跳转' from='最近参与' />
       </View>
-    </View>
+    </InView>
   )
 }, DEFAULT_PROPS)

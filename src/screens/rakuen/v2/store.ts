@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 18:15:08
+ * @Last Modified time: 2023-04-19 17:14:03
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
@@ -449,5 +449,14 @@ export default class ScreenRakuen extends store {
     } catch (error) {
       console.error('Rakuen', 'onRefreshThenScrollTop', error)
     }
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

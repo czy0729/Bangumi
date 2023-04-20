@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 18:23:47
+ * @Last Modified time: 2023-04-19 20:32:28
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -50,8 +50,15 @@ class List extends React.Component<{
     return $.forwardRef(ref, index)
   }
 
-  onScroll = () => {
+  onScroll = ({ nativeEvent }) => {
     uiStore.closePopableSubject()
+
+    const { $ }: Ctx = this.context
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    $.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 
   renderItem = ({ item, index }) => {
@@ -89,6 +96,7 @@ class List extends React.Component<{
         scrollToTop={isFocused && TABS[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}
+        scrollEventThrottle={32}
         onScroll={this.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}

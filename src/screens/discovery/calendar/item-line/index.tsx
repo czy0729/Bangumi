@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 17:35:14
+ * @Last Modified time: 2023-04-20 14:18:25
  */
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
@@ -13,7 +13,7 @@ import { memoStyles } from './styles'
 
 export default obc(
   (
-    { subjectId, images = {}, name, desc, air, time, score },
+    { subjectId, images = {}, name, desc, air, time, score, section, index },
     { $, navigation }: Ctx
   ) => {
     // global.rerender('Calendar.ItemLine')
@@ -26,6 +26,8 @@ export default obc(
     return (
       <ItemLine
         navigation={navigation}
+        section={section}
+        index={index}
         styles={memoStyles()}
         hideScore={systemStore.setting.hideScore}
         subjectId={subjectId}

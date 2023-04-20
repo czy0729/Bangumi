@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 16:57:33
+ * @Last Modified time: 2023-04-20 14:21:00
  */
 import { _ } from '@stores'
-import { IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
     width: '100%',
     paddingVertical: 12,
     paddingRight: _._wind
+  },
+  inView: {
+    minWidth: IMG_WIDTH,
+    minHeight: IMG_HEIGHT
   },
   time: {
     width: _.r(72),

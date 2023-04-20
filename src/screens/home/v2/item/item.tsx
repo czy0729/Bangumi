@@ -22,6 +22,7 @@ const Item = memo(
   ({
     navigation,
     styles,
+    index,
     subject,
     subjectId,
     title,
@@ -30,16 +31,16 @@ const Item = memo(
     expand,
     epsCount,
     isTop,
-    isFirst,
     isRefreshing,
     onItemPress
   }) => {
     // global.rerender('Home.Item.Main', subject.name_cn || subject.name)
 
+    const isFirst = index === 0
     return (
       <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>
         <Flex style={styles.hd}>
-          <Cover subjectId={subjectId} subject={subject} isFirst={isFirst} />
+          <Cover index={index} subjectId={subjectId} subject={subject} />
           <Flex.Item style={styles.content}>
             <Touchable
               style={styles.title}

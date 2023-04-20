@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 12:00:44
+ * @Last Modified time: 2023-04-19 21:21:16
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Page, Loading } from '@components'
@@ -56,10 +56,12 @@ const Topic = (props, { $ }: Ctx) => {
   }, [])
   const onScrollFn = useCallback(
     e => {
+      $.onScroll(e)
+      onScroll(e)
       uiStore.closePopableSubject()
       uiStore.closeLikesGrid()
-      onScroll(e)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScroll]
   )
   const onScrollTo = useCallback((index = 0) => {
@@ -179,6 +181,7 @@ const Topic = (props, { $ }: Ctx) => {
 
       return (
         <ItemPost
+          inViewY={_.window.height * 0.8}
           index={index}
           postId={$.postId}
           authorId={$.topic.userId}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 10:59:42
+ * @Last Modified time: 2023-04-19 21:01:41
  */
 import React from 'react'
 import { ScrollView, Flex, Loading } from '@components'
@@ -19,7 +19,12 @@ function List(props, { $ }: Ctx) {
   const { _loaded } = $.list
   if (show && _loaded) {
     return (
-      <ScrollView contentContainerStyle={styles.scrollView} scrollToTop>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        scrollToTop
+        scrollEventThrottle={32}
+        onScroll={$.onScroll}
+      >
         {!fixed && <ToolBar />}
         {list ? <ListLayout /> : <Grid />}
         {!fixedPagination && <Pagination />}

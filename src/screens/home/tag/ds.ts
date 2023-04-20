@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 14:59:22
+ * @Last Modified time: 2023-04-20 11:22:57
  */
+import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
 import { TagOrder } from '@types'
 
@@ -12,6 +13,9 @@ export const NAMESPACE = 'ScreenTag'
 export const DEFAULT_ORDER = MODEL_TAG_ORDERBY.getValue<TagOrder>('标注数')
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 年 */
   airtime: '',
 

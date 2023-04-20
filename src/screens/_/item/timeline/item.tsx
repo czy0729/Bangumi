@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:56:28
+ * @Last Modified time: 2023-04-19 19:19:02
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,14 @@ import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Cover, Stars, Popover } from '../../base'
+import { InView, Cover, Stars, Popover } from '../../base'
 import Avatar from './avatar'
 import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
 import P from './p'
 import Desc from './desc'
 import Images from './images'
+
+const ITEM_HEIGHT = 84
 
 const Item = memo(
   ({
@@ -38,6 +40,7 @@ const Item = memo(
     subject,
     subjectId,
     clearHref,
+    index,
     event,
     onDelete,
     onHidden
@@ -74,15 +77,18 @@ const Item = memo(
       type = '游戏'
     }
 
+    const y = ITEM_HEIGHT * (index + 2)
     return (
       <Flex style={style} align='start'>
-        <Avatar
-          navigation={navigation}
-          p1Text={p1Text}
-          userId={userId}
-          avatarSrc={avatarSrc}
-          event={event}
-        />
+        <InView key={index} style={styles.inView} y={y}>
+          <Avatar
+            navigation={navigation}
+            p1Text={p1Text}
+            userId={userId}
+            avatarSrc={avatarSrc}
+            event={event}
+          />
+        </InView>
         <Flex.Item style={stl(showImages ? styles.noPR : styles.content, _.ml.sm)}>
           <Flex align='start'>
             <Flex.Item>
@@ -110,13 +116,15 @@ const Item = memo(
                   event
                 />
               </View>
-              <Images
-                type={type}
-                image={image}
-                p3Text={p3Text}
-                p3Url={p3Url}
-                onNavigate={onNavigate}
-              />
+              <InView key={index} y={y}>
+                <Images
+                  type={type}
+                  image={image}
+                  p3Text={p3Text}
+                  p3Url={p3Url}
+                  onNavigate={onNavigate}
+                />
+              </InView>
               <Flex
                 style={
                   image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
@@ -137,27 +145,29 @@ const Item = memo(
             </Flex.Item>
             <Flex align='start'>
               {image.length === 1 && (
-                <Touchable
-                  style={_.ml.md}
-                  animate
-                  onPress={() => {
-                    onNavigate(!!p3Url.length && p3Url[0], {
-                      _jp: !!p3Text.length && p3Text[0],
-                      _name: !!p3Text.length && p3Text[0],
-                      _image,
-                      _type: type
-                    })
-                  }}
-                >
-                  <Cover
-                    src={_image}
-                    size={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
-                    height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
-                    radius
-                    shadow
-                    type={type}
-                  />
-                </Touchable>
+                <InView key={index} y={y}>
+                  <Touchable
+                    style={_.ml.md}
+                    animate
+                    onPress={() => {
+                      onNavigate(!!p3Url.length && p3Url[0], {
+                        _jp: !!p3Text.length && p3Text[0],
+                        _name: !!p3Text.length && p3Text[0],
+                        _image,
+                        _type: type
+                      })
+                    }}
+                  >
+                    <Cover
+                      src={_image}
+                      size={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
+                      height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
+                      radius
+                      shadow
+                      type={type}
+                    />
+                  </Touchable>
+                </InView>
               )}
               {!SHARE_MODE &&
                 (clearHref ? (

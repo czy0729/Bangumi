@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:02:19
+ * @Last Modified time: 2023-04-19 21:20:03
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -20,6 +20,8 @@ export { ItemPostProps }
 export const ItemPost = obc(
   (
     {
+      inViewY,
+      index,
       contentStyle,
       avatar,
       userId,
@@ -93,6 +95,8 @@ export const ItemPost = obc(
     return (
       <Item
         navigation={navigation}
+        inViewY={inViewY}
+        index={index}
         styles={memoStyles()}
         contentStyle={contentStyle}
         topicId={$?.topicId}

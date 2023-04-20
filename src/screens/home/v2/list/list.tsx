@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-06 05:29:29
  */
 import React, { useCallback, useMemo } from 'react'
-import { PaginationList2 as ListView } from '@_'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import Filter from '../filter'
@@ -21,6 +21,7 @@ const List = memo(
     title,
     scrollToTop,
     showItem,
+    onScroll,
     onHeaderRefresh,
     onFooterRefresh
   }) => {
@@ -47,14 +48,14 @@ const List = memo(
     )
 
     return (
-      <ListView
+      <PaginationList2
         forwardRef={forwardRef}
         style={styles.listView}
         contentContainerStyle={styles.contentContainerStyle}
         progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
         keyExtractor={keyExtractor}
         data={data.list}
-        limit={_.device(8, 12)}
+        limit={12}
         scrollToTop={scrollToTop}
         keyboardDismissMode='on-drag'
         ListHeaderComponent={ListHeaderComponent}
@@ -62,6 +63,8 @@ const List = memo(
         footerEmptyDataComponent={emptyComponent}
         footerNoMoreDataComponent={emptyComponent}
         footerNoMoreDataText=''
+        scrollEventThrottle={32}
+        onScroll={onScroll}
         onHeaderRefresh={onHeaderRefresh}
         onFooterRefresh={onFooterRefresh}
       />

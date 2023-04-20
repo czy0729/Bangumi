@@ -224,7 +224,7 @@ export default class ScreenDiscovery extends store {
   scrollToIndex: any
 
   /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
-  connectRef = (ref: { scrollToIndex: any }) => {
+  forwardRef = (ref: { scrollToIndex: any }) => {
     this.scrollToIndex = ref?.scrollToIndex
   }
 
@@ -325,5 +325,14 @@ export default class ScreenDiscovery extends store {
   /** 更新菜单的自定义配置 */
   saveDiscoveryMenu = discoveryMenu => {
     systemStore.setSetting('discoveryMenu', discoveryMenu)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

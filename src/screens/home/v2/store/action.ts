@@ -368,6 +368,15 @@ export default class Action extends Fetch {
     })
   })
 
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
+  }
+
   /** -------------------- action -------------------- */
   /** 管理收藏 */
   doUpdateCollection = async (

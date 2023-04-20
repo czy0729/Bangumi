@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 16:46:36
+ * @Last Modified time: 2023-04-20 14:15:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function Item({ item, section }, { $ }: Ctx) {
   const items = item.items as CalendarItem[]
   const current = parseInt(date('Hi', getTimestamp()))
   let renderLine = false
+
   return (
     <Flex wrap='wrap' align='start'>
       {items.map((i, idx) => {
@@ -43,7 +44,9 @@ function Item({ item, section }, { $ }: Ctx) {
           desc: cnjp(i.name, i.name_cn),
           score: i.rating && i.rating.score,
           air,
-          time
+          time,
+          section: section.index,
+          index: idx
         }
 
         if ($.isList) {
@@ -66,7 +69,6 @@ function Item({ item, section }, { $ }: Ctx) {
             return (
               <View key={i.id} style={_.container.block}>
                 <ItemLine {...passProps} />
-
                 <Line />
               </View>
             )

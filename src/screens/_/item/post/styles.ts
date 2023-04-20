@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 14:50:05
+ * @Last Modified time: 2023-04-19 21:17:16
  */
 import { _ } from '@stores'
 
@@ -16,6 +16,10 @@ export const memoStyles = _.memoStyles(() => ({
   itemJump: {
     borderBottomWidth: 2,
     borderColor: _.colorSuccess
+  },
+  inView: {
+    minWidth: 36,
+    minHeight: 36
   },
   image: {
     marginTop: _.md,

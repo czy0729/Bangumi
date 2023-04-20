@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:26:27
+ * @Last Modified time: 2023-04-19 21:56:09
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -216,6 +216,14 @@ export default class ScreenSearch extends store {
   onBlur = () => {
     this.setState({
       focus: true
+    })
+  }
+
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
     })
   }
 

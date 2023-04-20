@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:22:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:18:23
+ * @Last Modified time: 2023-04-19 20:34:40
  */
-import { EventType, Navigation, RatingStatus, SubjectId, SubjectTypeCn } from '@types'
+import { EventType, Navigation, SubjectId, SubjectTypeCn } from '@types'
 
 export type Props = {
   navigation?: Navigation
+  index?: number
+  inViewY?: number
   id?: SubjectId
   name?: string
   nameCn?: string

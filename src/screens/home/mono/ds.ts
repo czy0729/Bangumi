@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:30:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-10 06:46:27
+ * @Last Modified time: 2023-04-19 17:42:40
  */
 import { _ } from '@stores'
 import { Mono, MonoComments } from '@stores/subject/types'
@@ -14,6 +14,9 @@ export const COVER_WIDTH = _.r(64)
 export const COVER_HEIGHT = COVER_WIDTH * 1.28
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 是否需要检查是否进行过 ICO (XSB) */
   checkTinygrail: false,
 

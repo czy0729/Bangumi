@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 06:39:15
+ * @Last Modified time: 2023-04-19 20:21:03
  */
 import { _ } from '@stores'
 import { DEFAULT_SUBJECT_TYPE, DEFAULT_ORDER } from '../ds'
@@ -10,6 +10,8 @@ import { DEFAULT_SUBJECT_TYPE, DEFAULT_ORDER } from '../ds'
 export const NAMESPACE = 'ScreenUser'
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
   isFocused: true,
   showFilter: false,
   fixed: false,

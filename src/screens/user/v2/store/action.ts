@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 06:39:53
+ * @Last Modified time: 2023-04-19 20:21:33
  */
 import { collectionStore, uiStore } from '@stores'
 import { debounce, feedback } from '@utils'
@@ -225,6 +225,14 @@ export default class Action extends Fetch {
           subjectId: values.subjectId
         })
       }
+    })
+  }
+
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
     })
   }
 }

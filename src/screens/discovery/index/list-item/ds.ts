@@ -11,6 +11,7 @@ import { memoStyles } from './styles'
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as ViewStyle,
+  index: 0 as number,
   type: 'anime' as SubjectType,
   list: [] as any[],
   friendsChannel: [] as ReturnType<$['friendsChannel']>,

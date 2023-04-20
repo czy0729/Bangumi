@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 19:32:33
+ * @Last Modified time: 2023-04-19 17:09:56
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -37,6 +37,8 @@ function List({ index }, { $ }: Ctx) {
       limit={24}
       progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchRakuen}
     />

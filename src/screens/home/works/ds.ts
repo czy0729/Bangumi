@@ -2,14 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 19:03:37
+ * @Last Modified time: 2023-04-20 11:53:09
  */
+import { _ } from '@stores'
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants'
 import { MonoWorksOrderby } from '@types'
 
 export const NAMESPACE = 'ScreenWorks'
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 职位, 默认全部 */
   position: '',
 

@@ -9,6 +9,7 @@ import { EventType, Id, Navigation, SubjectTypeCn, ViewStyle } from '@types'
 export type Props = {
   navigation?: Navigation
   style?: ViewStyle
+  index?: number
   id?: Id
   name?: string
   nameCn?: string

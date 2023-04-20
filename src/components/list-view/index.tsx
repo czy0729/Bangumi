@@ -7,12 +7,20 @@
  * @Last Modified time: 2023-04-19 11:45:54
  */
 import React from 'react'
-import { RefreshControl } from 'react-native'
+import { RefreshControl, FlatList } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { pick, omit, sleep, simpleTime, date } from '@utils'
-import { IOS, LIST_EMPTY, STORYBOOK } from '@constants'
-import { TEXT_REFRESHING, TEXT_FAIL, TEXT_NO_MORE, TEXT_EMPTY } from '@constants/text'
+import { pick, omit, sleep, simpleTime, date, stl } from '@utils'
+import {
+  IOS,
+  LIST_EMPTY,
+  STORYBOOK,
+  TEXT_EMPTY,
+  TEXT_FAIL,
+  TEXT_NO_MORE,
+  TEXT_REFRESHING
+} from '@constants'
+import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
 import { ScrollToTop } from '../scroll-to-top'
 import List from './list'
@@ -20,7 +28,6 @@ import Footer from './footer'
 import { REFRESH_STATE } from './ds'
 import { memoStyles } from './styles'
 import { Props as ListViewProps, RenderListProps, ScrollToFunction } from './types'
-import { AnyObject } from '@types'
 
 export { ListViewProps }
 
@@ -88,30 +95,44 @@ export const ListView = observer(
 
     scrollToLocation: ScrollToFunction = () => {}
 
-    connectRef = ref => {
+    connectRef = (ref: React.RefObject<FlatList>['current']) => {
       if (ref?.scrollToIndex) {
-        this.scrollToIndex = params => ref.scrollToIndex(params)
+        this.scrollToIndex = (params: any) => ref.scrollToIndex(params)
       }
 
       if (ref?.scrollToOffset) {
-        this.scrollToOffset = params => ref.scrollToOffset(params)
-      } else if (ref?._wrapperListRef?._listRef?.scrollToOffset) {
-        this.scrollToOffset = params =>
+        this.scrollToOffset = (params: any) => ref.scrollToOffset(params)
+      } else if (
+        // @ts-expect-error
+        ref?._wrapperListRef?._listRef?.scrollToOffset
+      ) {
+        this.scrollToOffset = (params: any) =>
+          // @ts-expect-error
           ref._wrapperListRef._listRef.scrollToOffset(params)
       }
 
       if (ref?.scrollToItem) {
-        this.scrollToItem = params => ref.scrollToItem(params)
+        this.scrollToItem = (params: any) => ref.scrollToItem(params)
       }
 
+      // @ts-expect-error
       if (ref?.scrollToLocation) {
-        this.scrollToLocation = params => ref.scrollToLocation(params)
+        this.scrollToLocation = (params: any) =>
+          // @ts-expect-error
+          ref.scrollToLocation(params)
       }
     }
 
-    updateRefreshState = data => {
-      const { list = [], pagination = {}, _loaded } = data
-      let refreshState
+    updateRefreshState = (data: ListEmpty) => {
+      const {
+        list = [],
+        pagination = {
+          page: 0,
+          pageTotal: 0
+        },
+        _loaded
+      } = data
+      let refreshState: number
 
       if (!_loaded) {
         refreshState = REFRESH_STATE.Idle
@@ -140,7 +161,7 @@ export const ListView = observer(
           refreshState: REFRESH_STATE.HeaderRefreshing
         })
 
-        // 4秒没有返回也强制消除加载中的提示
+        // 4 秒没有返回也强制消除加载中的提示
         setTimeout(() => {
           if (this.state.refreshState !== REFRESH_STATE.Idle) {
             this.setState({
@@ -186,13 +207,9 @@ export const ListView = observer(
       return refreshState === REFRESH_STATE.Idle
     }
 
-    get style() {
-      const { style } = this.props
-      return style ? [this.styles.container, style] : this.styles.container
-    }
-
     get commonProps() {
       const {
+        style,
         optimize,
         showFooter,
         ListFooterComponent = null,
@@ -200,7 +217,7 @@ export const ListView = observer(
       } = this.props
       const { refreshState } = this.state
       return {
-        style: this.style,
+        style: stl(this.styles.container, style),
         connectRef: this.connectRef,
         ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
         refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
@@ -249,10 +266,12 @@ export const ListView = observer(
       const { data, lazy } = this.props
       const { rendered } = this.state
       if (lazy && !rendered) return data.list.slice(0, lazy)
-      return Array.isArray(data.list)
-        ? data.list
-        : // @ts-expect-error 这里是针对 mobx 的代理对象
-          data.list.slice()
+
+      // return Array.isArray(data.list)
+      // ? data.list
+      // : // @ts-expect-error 这里是针对 mobx 的代理对象
+      // data.list.slice()
+      return data.list
     }
 
     renderRefreshControl() {
@@ -262,6 +281,7 @@ export const ListView = observer(
       const title = data._loaded
         ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}`
         : undefined
+
       return (
         <RefreshControl
           enabled={!!onHeaderRefresh}
@@ -318,10 +338,8 @@ export const ListView = observer(
         'data',
         'footerEmptyDataComponent',
         'footerEmptyDataText',
-        // 'footerFailureComponent',
         'footerFailureText',
         'footerNoMoreDataComponent',
-        // 'footerRefreshingComponent',
         'footerRefreshingText',
         'footerTextType',
         'showMesume',
@@ -329,6 +347,7 @@ export const ListView = observer(
         'onFooterRefresh'
       ]) as any
       const { list, _filter } = data
+
       return (
         <Footer
           refreshState={refreshState}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:40:45
+ * @Last Modified time: 2023-04-19 20:23:15
  */
 import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -19,6 +19,7 @@ const Wrap = memo(
     scrollToOffset,
     fetchCollections,
     onChange,
+    onScroll,
     onSelectSubjectType
   }) => {
     useMount(() => {
@@ -29,7 +30,7 @@ const Wrap = memo(
     const y = useRef(0)
     const fixed = useRef(false)
 
-    const onScroll = useCallback(
+    const _onScroll = useCallback(
       (e: {
         nativeEvent: {
           contentOffset: {
@@ -37,6 +38,8 @@ const Wrap = memo(
           }
         }
       }) => {
+        onScroll(e)
+
         const { y: evtY } = e.nativeEvent.contentOffset
         y.current = evtY
 
@@ -49,7 +52,7 @@ const Wrap = memo(
           fixed.current = true
         }
       },
-      [fixedHeight]
+      [fixedHeight, onScroll]
     )
     const updatePageOffset = useCallback(
       (offsets: number | number[]) => {
@@ -106,7 +109,7 @@ const Wrap = memo(
         <Tab
           page={page}
           scrollY={scrollY.current}
-          onScroll={onScroll}
+          onScroll={_onScroll}
           onSwipeStart={onSwipeStart}
           onIndexChange={onIndexChange}
           onSelectSubjectType={onSelectSubjectType}

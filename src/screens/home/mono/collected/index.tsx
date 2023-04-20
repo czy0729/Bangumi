@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 14:34:22
+ * @Last Modified time: 2023-04-19 17:50:03
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
-import { Avatar, PreventTouchPlaceholder, SectionTitle } from '@_'
+import { InView, Avatar, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
@@ -23,7 +23,7 @@ function Collected(props, { $, navigation }: Ctx) {
   if (!collected?.length) return null
 
   return (
-    <View style={_.mt.md}>
+    <InView style={styles.container}>
       <SectionTitle
         style={_.container.wind}
         right={
@@ -94,7 +94,7 @@ function Collected(props, { $, navigation }: Ctx) {
         ))}
       </ScrollView>
       <PreventTouchPlaceholder />
-    </View>
+    </InView>
   )
 }
 

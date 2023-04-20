@@ -2,14 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 18:11:30
+ * @Last Modified time: 2023-04-19 21:14:22
  */
+import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
 import { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenTopic'
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 是否显示头顶吸附标题组件 */
   showHeaderTitle: false,
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:21:30
+ * @Last Modified time: 2023-04-19 21:25:37
  */
 import { _ } from '@stores'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'

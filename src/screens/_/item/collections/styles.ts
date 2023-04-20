@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 08:01:18
+ * @Last Modified time: 2023-04-19 20:28:35
  */
 import { _ } from '@stores'
-import { IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     flex: 1,
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
+  },
+  inView: {
+    minWidth: IMG_WIDTH * 1.1,
+    minHeight: IMG_HEIGHT * 1.1
   },
   wrap: {
     paddingVertical: _.md,

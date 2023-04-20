@@ -26,6 +26,7 @@ export default obc(
       <Item
         navigation={navigation}
         styles={memoStyles()}
+        index={index}
         subject={subject}
         subjectId={subjectId}
         title={title}
@@ -34,7 +35,6 @@ export default obc(
         expand={$.$Item(subjectId).expand}
         epsCount={$.epsCount(subjectId)}
         isTop={top.indexOf(subjectId) !== -1}
-        isFirst={index === 0}
         isRefreshing={
           fetchingSubjectId1 === subjectId || fetchingSubjectId2 === subjectId
         }

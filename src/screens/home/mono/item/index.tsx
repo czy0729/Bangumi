@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:19:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 04:16:19
+ * @Last Modified time: 2023-04-19 17:53:06
  */
 import React from 'react'
-import { ItemPost } from '@_'
+import { _ } from '@stores'
+import { InView, ItemPost } from '@_'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -17,18 +18,22 @@ const EVENT = {
   }
 } as const
 
+const ITEM_HEIGHT = 94
+
 function Item({ item, index }, { navigation }: Ctx) {
   const styles = memoStyles()
   return (
-    <ItemPost
-      navigation={navigation}
-      contentStyle={styles.contentStyle}
-      index={index}
-      event={EVENT}
-      matchLink={false}
-      expandNums={2}
-      {...item}
-    />
+    <InView y={_.window.height * 1.5 + ITEM_HEIGHT * index}>
+      <ItemPost
+        navigation={navigation}
+        contentStyle={styles.contentStyle}
+        index={index}
+        event={EVENT}
+        matchLink={false}
+        expandNums={2}
+        {...item}
+      />
+    </InView>
   )
 }
 

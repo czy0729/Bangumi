@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:35:47
+ * @Last Modified time: 2023-04-20 11:48:18
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore } from '@stores'
@@ -294,5 +294,14 @@ export default class ScreenTag extends store {
       collected: !collected
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

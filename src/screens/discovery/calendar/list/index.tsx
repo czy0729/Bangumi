@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 02:58:57
+ * @Last Modified time: 2023-04-20 14:12:09
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -30,6 +30,8 @@ function List(props, { $ }: Ctx) {
       scrollToTop
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
     />
   )
 }

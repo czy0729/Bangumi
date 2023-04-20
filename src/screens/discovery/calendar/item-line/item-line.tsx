@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 16:58:03
+ * @Last Modified time: 2023-04-20 14:21:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
-import { Cover, Stars, Manage } from '@_'
+import { InView, Cover, Stars, Manage } from '@_'
 import { uiStore, _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
@@ -16,9 +16,14 @@ import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { DEFAULT_PROPS } from './ds'
 
+const SECTION_HEIGHT = _.window.height * 0.64
+const ITEM_HEIGHT = 138
+
 const ItemLine = memo(
   ({
     navigation,
+    section,
+    index,
     styles,
     hideScore,
     subjectId,
@@ -67,13 +72,18 @@ const ItemLine = memo(
         </View>
         {canPress && (
           <>
-            <Cover
-              width={IMG_WIDTH}
-              height={IMG_HEIGHT}
-              src={images?.medium}
-              radius
-              shadow
-            />
+            <InView
+              style={styles.inView}
+              y={SECTION_HEIGHT * section + ITEM_HEIGHT * index + 1}
+            >
+              <Cover
+                width={IMG_WIDTH}
+                height={IMG_HEIGHT}
+                src={images?.medium}
+                radius
+                shadow
+              />
+            </InView>
             <Flex.Item style={_.ml.md}>
               <Flex
                 style={styles.body}

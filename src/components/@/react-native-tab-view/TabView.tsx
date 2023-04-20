@@ -11,6 +11,7 @@ import {
   PagerCommonProps
 } from 'react-native-tab-view/src/types'
 import Pager, { Props as ChildProps } from 'react-native-tab-view/src/Pager'
+import { IOS } from '@constants'
 import SceneView from './SceneView'
 
 export type Props<T extends Route> = PagerCommonProps & {
@@ -55,7 +56,7 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
     swipeEnabled: true,
     lazy: false,
     lazyPreloadDistance: 0,
-    removeClippedSubviews: false,
+    removeClippedSubviews: !IOS,
     springConfig: {},
     timingConfig: {},
     gestureHandlerProps: {},

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:50:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:03:17
+ * @Last Modified time: 2023-04-19 19:15:45
  */
 import { EventType, Navigation, SubjectId, UserId, ViewStyle } from '@types'
 
@@ -39,6 +39,7 @@ export type Props = {
   subject?: string
   subjectId?: SubjectId
   clearHref?: string
+  index?: number
   event?: EventType
   onDelete?: (clearHref?: string) => any
   onHidden?: (title?: string, userId?: UserId) => any

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 08:06:34
+ * @Last Modified time: 2023-04-19 20:34:53
  */
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
@@ -12,6 +12,8 @@ import { Props } from './types'
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
+  index: 0 as number,
+  inViewY: 0 as number,
   id: 0 as Props['id'],
   name: '' as Props['name'],
   nameCn: '' as Props['nameCn'],

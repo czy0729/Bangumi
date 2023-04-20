@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 13:11:26
+ * @Last Modified time: 2023-04-19 21:11:28
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -12,16 +12,20 @@ import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
 import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import { Cover, Manage } from '../../base'
+import { InView, Cover, Manage } from '../../base'
 import { IconTouchable } from '../../icon/touchable'
 import Title from './title'
 import Bottom from './bottom'
 import { DEFAULT_PROPS } from './ds'
 
+const ITEM_HEIGHT = 156
+
 const Item = memo(
   ({
     navigation,
     styles,
+    index,
+    inViewY,
     id,
     name,
     nameCn,
@@ -83,14 +87,16 @@ const Item = memo(
         }}
       >
         <Flex style={styles.wrap} align='start'>
-          <Cover
-            src={cover}
-            width={IMG_WIDTH * 1.1}
-            height={IMG_HEIGHT * 1.1}
-            radius
-            shadow
-            type={type}
-          />
+          <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
+            <Cover
+              src={cover}
+              width={IMG_WIDTH * 1.1}
+              height={IMG_HEIGHT * 1.1}
+              radius
+              shadow
+              type={type}
+            />
+          </InView>
           <Flex.Item style={styles.body}>
             <Flex
               style={!!justify && styles.content}

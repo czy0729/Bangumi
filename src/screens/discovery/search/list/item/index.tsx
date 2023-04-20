@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:26:04
+ * @Last Modified time: 2023-04-19 21:57:33
  */
 import React from 'react'
 import { ItemSearch } from '@_'
@@ -16,13 +16,14 @@ const EVENT = {
   id: '搜索.跳转'
 } as const
 
-function Item({ item }, { navigation }: Ctx) {
+function Item({ item, index }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
   const collection = collectionStore.collect(id)
   return (
     <ItemSearch
       style={_.container.item}
       navigation={navigation}
+      index={index}
       event={EVENT}
       {...item}
       typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)}

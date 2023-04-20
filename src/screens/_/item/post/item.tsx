@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:34:34
+ * @Last Modified time: 2023-04-19 21:19:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { Avatar, Name, HTML, Likes } from '../../base'
+import { InView, Avatar, Name, HTML, Likes } from '../../base'
 import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
@@ -19,9 +19,13 @@ import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
 const AVATAR_SIZE = 36
 
+const ITEM_HEIGHT = 100
+
 const Item = memo(
   ({
     navigation,
+    inViewY,
+    index,
     styles,
     contentStyle,
     topicId,
@@ -67,15 +71,17 @@ const Item = memo(
           align='start'
         >
           <UserStatus userId={userId}>
-            <Avatar
-              style={styles.image}
-              navigation={navigation}
-              userId={userId}
-              name={userName}
-              size={AVATAR_SIZE}
-              src={avatar}
-              event={event}
-            />
+            <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
+              <Avatar
+                style={styles.image}
+                navigation={navigation}
+                userId={userId}
+                name={userName}
+                size={AVATAR_SIZE}
+                src={avatar}
+                event={event}
+              />
+            </InView>
           </UserStatus>
           <Flex.Item style={stl(styles.content, contentStyle)}>
             <Flex align='start'>

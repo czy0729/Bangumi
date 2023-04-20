@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 05:50:04
+ * @Last Modified time: 2023-04-19 21:02:45
  */
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
@@ -13,6 +13,7 @@ export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as $['style'],
+  index: 0 as number,
   id: '' as $['id'],
   name: '' as $['name'],
   nameCn: '' as $['nameCn'],

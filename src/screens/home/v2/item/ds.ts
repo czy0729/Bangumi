@@ -42,6 +42,7 @@ export type Props = {
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
+  index: 0 as number,
   subject: {} as Subject,
   subjectId: 0 as SubjectId,
   title: '' as TabLabel,
@@ -52,7 +53,6 @@ export const DEFAULT_PROPS = {
   expand: false as boolean,
   epsCount: 0 as number,
   isTop: false as boolean,
-  isFirst: false as boolean,
   isRefreshing: false as boolean,
   onItemPress: (() => {}) as StoreType['onItemPress']
 }

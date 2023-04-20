@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:45:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 19:04:48
+ * @Last Modified time: 2023-04-20 11:55:21
  */
 import React from 'react'
 import { ItemSearch } from '@_'
@@ -20,7 +20,7 @@ const EVENT = {
   }
 } as const
 
-function List({ item }, { navigation }: Ctx) {
+function List({ item, index }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
   const collection = collectionStore.collect(id)
   return (
@@ -28,6 +28,7 @@ function List({ item }, { navigation }: Ctx) {
       style={_.container.item}
       navigation={navigation}
       event={EVENT}
+      index={index}
       {...item}
       tip={HTMLDecode(item.tip)}
       typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)}

@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 05:13:40
+ * @Last Modified time: 2023-04-19 21:20:09
  */
 import { Id, UserId, EventType, ViewStyle } from '@types'
 
 export type Props = {
+  inViewY?: number
+  index?: number
+
   /** 容器样式 */
   contentStyle?: ViewStyle
 

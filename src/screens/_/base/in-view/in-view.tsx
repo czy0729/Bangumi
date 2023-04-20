@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:31:43
+ * @Last Modified time: 2023-04-19 17:44:48
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
     ({ nativeEvent }) => {
       const { layout } = nativeEvent
       if (layout.y) setTop(layout.y)
-      if (log) console.info('layout.height', log, layout)
+      if (log) console.info('layout.height', log, layout.height)
     },
     [log]
   )

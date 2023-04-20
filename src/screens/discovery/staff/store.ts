@@ -2,16 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-04 20:27:36
+ * @Last Modified time: 2023-04-19 20:46:04
  */
-import { computed } from 'mobx'
-import { usersStore, discoveryStore } from '@stores'
+import { observable, computed } from 'mobx'
+import { _, usersStore, discoveryStore } from '@stores'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { Id } from '@types'
 
 export default class ScreenStaff extends store {
+  state = observable({
+    /** 可视范围底部 y */
+    visibleBottom: _.window.height
+  })
+
   init = () => {
     return this.fetchCatalogs(true)
   }
@@ -92,5 +97,13 @@ export default class ScreenStaff extends store {
   /** 用户目录 */
   @computed get catalogs() {
     return usersStore.catalogs(this.userId, false)
+  }
+
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

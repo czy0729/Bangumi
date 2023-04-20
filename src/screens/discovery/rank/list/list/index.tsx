@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 05:49:22
+ * @Last Modified time: 2023-04-19 21:02:08
  */
 import React from 'react'
 import { Empty, Heatmap } from '@components'
@@ -31,6 +31,7 @@ function List(props, { $, navigation }: Ctx) {
                 key={item.id}
                 style={_.container.item}
                 navigation={navigation}
+                index={index}
                 collection={collection}
                 typeCn={typeCn}
                 event={EVENT_LIST}

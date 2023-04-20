@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 14:50:54
+ * @Last Modified time: 2023-04-20 11:54:26
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
@@ -37,6 +37,8 @@ function List(props, { $ }: Ctx) {
       scrollToTop
       ListHeaderComponent={!fixed && <ToolBar />}
       renderItem={list ? renderListItem : renderGridItem}
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchMonoWorks}
     />
@@ -48,7 +50,7 @@ export default obc(List)
 function renderListItem({ item, index }) {
   return (
     <>
-      <ListItem item={item} />
+      <ListItem item={item} index={index} />
       {!index && <Heatmap id='作品.跳转' />}
     </>
   )

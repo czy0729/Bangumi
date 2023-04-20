@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 15:51:27
+ * @Last Modified time: 2023-04-20 14:07:26
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Page } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { FolderManageModal } from '@_'
@@ -22,13 +22,22 @@ const CatalogDetail = (props, { $ }: Ctx) => {
   })
 
   const { fixed, onScroll } = useOnScroll()
+  const onScrollFn = useCallback(
+    evt => {
+      $.onScroll(evt)
+      onScroll(evt)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onScroll]
+  )
+
   return useObserver(() => {
     const { visible, defaultEditItem } = $.state
     return (
       <>
         <Header fixed={fixed} />
         <Page>
-          <List onScroll={onScroll} />
+          <List onScroll={onScrollFn} />
           <Tips />
         </Page>
         <FolderManageModal

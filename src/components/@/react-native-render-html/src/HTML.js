@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:08:53
+ * @Last Modified time: 2023-04-20 11:13:17
  */
 import React, { PureComponent } from 'react'
 import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
@@ -33,6 +33,7 @@ import { stl } from '@utils'
 import { IOS } from '@constants'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'
+import { optimizeCmputeTextStyles } from './utils'
 
 const flexStyle = { flex: 1, alignItems: 'center' }
 
@@ -575,16 +576,18 @@ export default class HTML extends PureComponent {
               allowFontScaling={allowFontScaling}
               style={stl(
                 !IOS && androidTextFixedStyle,
-                computeTextStyles(element, {
-                  defaultTextStyles: this.defaultTextStyles,
-                  tagsStyles,
-                  classesStyles,
-                  baseFontStyle,
-                  emSize,
-                  ptSize,
-                  ignoredStyles,
-                  allowedStyles
-                })
+                optimizeCmputeTextStyles(
+                  computeTextStyles(element, {
+                    defaultTextStyles: this.defaultTextStyles,
+                    tagsStyles,
+                    classesStyles,
+                    baseFontStyle,
+                    emSize,
+                    ptSize,
+                    ignoredStyles,
+                    allowedStyles
+                  })
+                )
               )}
               textBreakStrategy='simple'
               numberOfLines={0}

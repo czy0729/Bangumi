@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:02:44
+ * @Last Modified time: 2023-04-19 17:21:08
  */
 import { _ } from '@stores'
 import { Fn } from '@types'
@@ -16,6 +16,7 @@ export const AD_REPLIES_COUNT = 4
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
+  index: 0 as number,
   avatar: '' as string,
   userId: '' as string,
   userName: '' as string,

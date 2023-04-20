@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 05:56:34
+ * @Last Modified time: 2023-04-19 21:00:59
  */
+import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import {
   RankAnimeFilter,
@@ -18,6 +19,9 @@ export const NAMESPACE = 'ScreenRank'
 export const DEFAULT_TYPE = MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画')
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   /** 是否显示列表, 制造切页效果 */
   show: true,
 

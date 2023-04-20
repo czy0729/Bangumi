@@ -12,6 +12,8 @@ import { MenuItemType } from './types'
 export const NAMESPACE = 'ScreenDiscovery'
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
   home: {
     list: SUBJECT_TYPE.map(item => ({
       type: item.label

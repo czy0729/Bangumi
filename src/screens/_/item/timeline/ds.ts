@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 09:02:22
+ * @Last Modified time: 2023-04-19 19:12:10
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -37,6 +37,7 @@ export const DEFAULT_PROPS = {
   subject: '' as Props['subject'],
   subjectId: 0 as Props['subjectId'],
   clearHref: '' as Props['clearHref'],
+  index: 0 as number,
   event: EVENT as Props['event'],
   onDelete: (() => {}) as Props['onDelete'],
   onHidden: (() => {}) as Props['onHidden']

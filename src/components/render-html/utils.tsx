@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:57:29
+ * @Last Modified time: 2023-04-20 11:16:07
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
@@ -77,15 +77,6 @@ export function fixedBaseFontStyle(baseFontStyle = {}) {
 //   return html
 // }
 
-/** 给每个 span 至少添加一个默认行高 */
-function addDefaultLineHeightToSpan(html: string) {
-  if (html.includes('<q>')) return html
-
-  const regex = /<span([^>]*)style="([^"]*)"([^>]*)>/gi
-  const replacement = `<span$1style="line-height: 24px; $2"$3>`
-  return html.replace(regex, replacement)
-}
-
 /** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓 Text 里面不能包含其他元素) */
 function removeQuote(html: string) {
   if (!IOS && html.includes('<q>')) {
@@ -151,7 +142,6 @@ function fixedWhiteTags(html: string) {
 /** 强制修改 html 以能被组件正常渲染 */
 export function hackFixedHTMLTags(html: string) {
   let _html = HTMLDecode(html)
-  _html = addDefaultLineHeightToSpan(_html)
   _html = removeQuote(_html)
   _html = removePre(_html)
   _html = smallQuote(_html)
@@ -177,8 +167,9 @@ export function hackMatchMediaLink(html: string) {
     _html = html.replace(REGS.media, match => {
       // App 推广语不做单独块处理
       if (
-        match ===
-        '<a href="https://bgm.tv/group/topic/350677" target="_blank" rel="nofollow external noopener noreferrer" class="l"><span style="color: grey;">获取</span></a>'
+        match.includes(
+          '<a href="https://bgm.tv/group/topic/350677" target="_blank" rel="nofollow external noopener noreferrer" class="l"><'
+        )
       ) {
         return match
       }

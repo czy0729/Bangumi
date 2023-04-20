@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 20:43:07
+ * @Last Modified time: 2023-04-19 17:42:14
  */
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { useObserver, useRunAfter, useViewport } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import Item from './item'
@@ -20,7 +20,23 @@ const Topic = (props, { $ }: Ctx) => {
     $.init()
   })
 
-  const { fixed, onScroll } = useOnScroll()
+  const { visibleBottom, onScroll: onUseViewport } = useViewport()
+  useEffect(() => {
+    $.setState({
+      visibleBottom
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleBottom])
+
+  const { fixed, onScroll: onUseOnScroll } = useOnScroll()
+  const onScroll = useCallback(
+    evt => {
+      onUseViewport(evt)
+      onUseOnScroll(evt)
+    },
+    [onUseOnScroll, onUseViewport]
+  )
+
   return useObserver(() => (
     <>
       <Header fixed={fixed} />

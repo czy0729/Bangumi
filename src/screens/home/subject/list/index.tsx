@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 15:53:45
+ * @Last Modified time: 2023-04-19 16:40:52
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -28,7 +28,6 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
       scrollEventThrottle={32}
       scrollToTop
       keyboardDismissMode='on-drag'
-      listenViewport
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={

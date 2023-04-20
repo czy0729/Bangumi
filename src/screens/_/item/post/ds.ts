@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:35:42
+ * @Last Modified time: 2023-04-19 21:19:38
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -23,6 +23,8 @@ export const REG_MARK = /mark|mrak|cy|码|马|眼/i
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
+  inViewY: 0 as number,
+  index: 0 as number,
   styles: {} as ReturnType<typeof memoStyles>,
   contentStyle: {} as Props['contentStyle'],
   topicId: '' as TopicId,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 05:56:24
+ * @Last Modified time: 2023-04-19 21:00:49
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
@@ -373,5 +373,13 @@ export default class ScreenRank extends store {
     })
     this.resetScrollView()
     this.fetchRank()
+  }
+
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

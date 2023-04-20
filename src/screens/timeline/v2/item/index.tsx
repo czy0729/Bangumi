@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 02:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:29:27
+ * @Last Modified time: 2023-04-19 19:10:45
  */
 import React from 'react'
 import { ItemTimeline } from '@_'
@@ -39,6 +39,7 @@ function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
         style={_.container._item}
         navigation={navigation}
         {...item}
+        index={index}
         event={EVENT}
         onDelete={$.doDelete}
         onHidden={$.onHidden}

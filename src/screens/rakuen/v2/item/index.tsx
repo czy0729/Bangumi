@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:02:49
+ * @Last Modified time: 2023-04-19 17:21:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,6 +55,7 @@ export default obc(
     return (
       <Item
         styles={styles}
+        index={index}
         avatar={avatar}
         userId={_userId}
         userName={userName}

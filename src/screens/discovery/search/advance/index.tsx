@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-15 07:29:21
+ * @Last Modified time: 2023-04-19 21:53:03
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { memoStyles } from './styles'
 
-const SEARCH_CACHE = {}
+const searchMap = new Map<string, any[]>()
 let anime = {}
 let book = {}
 let game = {}
@@ -34,14 +34,21 @@ function Advance({ navigation, cat, value, onSubmit }) {
       } else if (value && cat === 'subject_4' && !Object.keys(game).length) {
         game = require('@assets/json/substrings/game.json')
       } else if (value && !Object.keys(anime).length) {
+        const bangumiDataMap = {}
+        const bangumiData = require('@assets/json/thirdParty/bangumiData.min.json')
+        bangumiData.forEach(item => {
+          bangumiDataMap[item.c] = item.id
+        })
+
         anime = {
-          ...require('@assets/json/substrings/alias.json'),
-          ...require('@assets/json/substrings/anime.json')
+          ...bangumiDataMap,
+          ...require('@assets/json/substrings/anime.json'),
+          ...require('@assets/json/substrings/alias.json')
         }
       }
 
-      if (SEARCH_CACHE[_value]) {
-        setResult(SEARCH_CACHE[_value])
+      if (searchMap.has(_value)) {
+        setResult(searchMap.get(_value))
         return
       }
 
@@ -63,7 +70,7 @@ function Advance({ navigation, cat, value, onSubmit }) {
         if (item.toLocaleUpperCase().includes(_value)) _result.push(item)
       })
       setResult(_result)
-      SEARCH_CACHE[_value] = _result
+      searchMap.set(_value, _result)
     } catch (error) {}
   }, [cat, value])
 
@@ -84,7 +91,12 @@ function Advance({ navigation, cat, value, onSubmit }) {
                     })
                   }}
                 >
-                  <Highlight size={15} bold value={value} numberOfLines={1}>
+                  <Highlight
+                    size={item.length >= 12 ? 13 : 15}
+                    bold
+                    value={value}
+                    numberOfLines={2}
+                  >
                     {item}
                   </Highlight>
                 </Touchable>

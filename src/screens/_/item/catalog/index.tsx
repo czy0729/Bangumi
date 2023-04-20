@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:46:58
+ * @Last Modified time: 2023-04-19 21:11:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { lastDate, getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar } from '../../base'
+import { InView, Avatar } from '../../base'
 import Covers from './covers'
 import { AVATAR_WIDTH } from './ds'
 import { memoStyles } from './styles'
@@ -20,10 +20,13 @@ import { Props as ItemCatalogProps } from './types'
 
 export { ItemCatalogProps }
 
+const ITEM_HEIGHT = 176
+
 export const ItemCatalog = obc(
   (
     {
       event = EVENT,
+      index,
       id,
       name,
       userName,
@@ -98,7 +101,9 @@ export const ItemCatalog = obc(
         }}
       >
         <Flex style={styles.wrap} align='start'>
-          <Covers list={list} total={oss?.total} />
+          <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+            <Covers list={list} total={oss?.total} />
+          </InView>
           <Flex.Item>
             <Flex
               style={styles.content}

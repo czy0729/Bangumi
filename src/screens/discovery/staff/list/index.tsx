@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 14:08:09
+ * @Last Modified time: 2023-04-19 20:47:15
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -31,6 +31,8 @@ function List(props, { $ }: Ctx) {
       lazy={6}
       scrollToTop
       renderItem={renderItem}
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
       onHeaderRefresh={() => $.fetchCatalogs(true)}
       onFooterRefresh={() => $.fetchCatalogs()}
     />
@@ -39,6 +41,6 @@ function List(props, { $ }: Ctx) {
 
 export default obc(List)
 
-function renderItem({ item }) {
-  return <ItemCatalog {...item} name='优莉雅' isUser event={EVENT} />
+function renderItem({ item, index }) {
+  return <ItemCatalog {...item} index={index} name='优莉雅' isUser event={EVENT} />
 }

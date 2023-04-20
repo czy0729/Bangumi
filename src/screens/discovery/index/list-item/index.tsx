@@ -12,7 +12,7 @@ import { memoStyles } from './styles'
 
 const LIST_CACHE = {}
 
-export default obc(({ style, type = 'anime' }, { $ }: Ctx) => {
+export default obc(({ style, index, type = 'anime' }, { $ }: Ctx) => {
   // global.rerender('Discovery.ListItem')
 
   const { dragging } = $.state
@@ -26,6 +26,7 @@ export default obc(({ style, type = 'anime' }, { $ }: Ctx) => {
     <ListItem
       styles={memoStyles()}
       style={style}
+      index={index}
       type={type}
       list={LIST_CACHE[type]}
       friendsChannel={$.friendsChannel(type)}

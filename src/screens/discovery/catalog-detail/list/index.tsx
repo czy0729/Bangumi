@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-06 15:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 02:21:49
+ * @Last Modified time: 2023-04-20 14:06:20
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -27,9 +27,9 @@ function List({ onScroll }, { $ }: Ctx) {
       limit={12}
       ListHeaderComponent={<Info />}
       renderItem={renderItem}
-      scrollEventThrottle={16}
       scrollToTop
       footerEmptyDataText={TEXT_18X}
+      scrollEventThrottle={32}
       onScroll={onScroll}
       onHeaderRefresh={$.fetchCatalogDetail}
     />

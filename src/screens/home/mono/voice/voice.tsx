@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 13:56:39
+ * @Last Modified time: 2023-04-19 17:45:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Image, Text, Heatmap } from '@components'
-import { SectionTitle, Cover, Tag } from '@_'
+import { InView, SectionTitle, Cover, Tag } from '@_'
 import { _ } from '@stores'
-import { appNavigate, cnjp } from '@utils'
+import { appNavigate, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import SectionRight from '../section-right'
 import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
@@ -19,7 +19,7 @@ export default memo(({ navigation, styles, style, voices }) => {
   // global.rerender('Mono.Voice.Main')
 
   return (
-    <View style={style ? [styles.container, style] : styles.container}>
+    <InView style={stl(styles.container, style)}>
       <SectionTitle
         style={styles.section}
         right={
@@ -109,6 +109,6 @@ export default memo(({ navigation, styles, style, voices }) => {
         })}
         <Heatmap id='人物.跳转' from='最近演出角色' />
       </View>
-    </View>
+    </InView>
   )
 }, DEFAULT_PROPS)

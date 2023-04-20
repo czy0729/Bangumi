@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 15:51:41
+ * @Last Modified time: 2023-04-19 17:52:56
  */
 import React, { useCallback, useEffect, useRef } from 'react'
 import { Page, Heatmap } from '@components'
@@ -52,20 +52,19 @@ const Subject = (props, { $, navigation }: Ctx) => {
     scrollViewRef.current = ref
   }, [])
 
-  const { visibleTop, visibleBottom, onScroll: onUseViewport } = useViewport()
+  const { visibleBottom, onScroll: onUseViewport } = useViewport()
   useEffect(() => {
     $.setState({
-      visibleTop,
       visibleBottom
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visibleBottom, visibleTop])
+  }, [visibleBottom])
 
   const { yRef, fixed, onScroll: onUseOnScroll } = useOnScroll()
   const onScroll = useCallback(
     evt => {
-      onUseOnScroll(evt)
       onUseViewport(evt)
+      onUseOnScroll(evt)
     },
     [onUseOnScroll, onUseViewport]
   )

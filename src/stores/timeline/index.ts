@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 23:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:45:30
+ * @Last Modified time: 2023-04-19 17:57:35
  */
 import { observable, computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -48,7 +48,6 @@ class TimelineStore extends store implements StoreConstructor<typeof STATE> {
   // -------------------- get --------------------
   /** 时间胶囊 */
   timeline(scope: TimeLineScope = DEFAULT_SCOPE, type: TimeLineType = DEFAULT_TYPE) {
-    this.init('timeline')
     return computed<Timeline>(() => {
       const key = `${scope}|${type}`
       return this.state.timeline[key] || LIST_EMPTY
@@ -114,7 +113,6 @@ class TimelineStore extends store implements StoreConstructor<typeof STATE> {
       }
     })
 
-    if (scope === 'friend') this.save(key)
     return data
   }
 
