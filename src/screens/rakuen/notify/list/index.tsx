@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-25 23:09:58
+ * @Last Modified time: 2023-04-20 15:40:05
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -14,11 +14,17 @@ import ItemPM from '../item-pm'
 import { Ctx, TabsKey } from '../types'
 
 function List({ id }: { id: TabsKey }, { $ }: Ctx) {
+  const passProps = {
+    keyExtractor,
+    contentContainerStyle: _.container.bottom,
+    scrollEventThrottle: 32,
+    onScroll: $.onScroll
+  }
+
   if (id === 'notify') {
     return (
       <ListView
-        keyExtractor={keyExtractor}
-        contentContainerStyle={_.container.bottom}
+        {...passProps}
         data={$.notify}
         renderItem={({ item, index }) => <ItemNotify item={item} index={index} />}
         onHeaderRefresh={$.fetchNotify}
@@ -28,10 +34,9 @@ function List({ id }: { id: TabsKey }, { $ }: Ctx) {
 
   return (
     <ListView
-      keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      {...passProps}
       data={$[id] as ListEmpty}
-      renderItem={({ item }) => <ItemPM item={item} id={id} />}
+      renderItem={({ item, index }) => <ItemPM item={item} id={id} index={index} />}
       onHeaderRefresh={() => $.fetchPM(true, id)}
       onFooterRefresh={() => $.fetchPM(false, id)}
     />

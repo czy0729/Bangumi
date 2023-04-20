@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:27:32
+ * @Last Modified time: 2023-04-20 15:44:00
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,16 +11,19 @@ import { t } from '@utils/fetch'
 import { HTMLDecode } from '@utils/html'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../../base'
+import { InView, Avatar, Name } from '../../base'
 import { memoStyles } from './styles'
 import { Props as ItemPMProps } from './types'
 
 export { ItemPMProps }
 
+const ITEM_HEIGHT = 98
+
 export const ItemPM = ob(
   ({
     navigation,
     event = EVENT,
+    index,
     id,
     title,
     content,
@@ -53,14 +56,16 @@ export const ItemPM = ob(
         }}
       >
         <Flex style={styles.container} align='start'>
-          <Avatar
-            style={styles.image}
-            navigation={navigation}
-            userId={userId}
-            name={name}
-            src={avatar}
-            event={event}
-          />
+          <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+            <Avatar
+              style={styles.image}
+              navigation={navigation}
+              userId={userId}
+              name={name}
+              src={avatar}
+              event={event}
+            />
+          </InView>
           <Flex.Item style={styles.item}>
             <Flex>
               <Flex.Item>

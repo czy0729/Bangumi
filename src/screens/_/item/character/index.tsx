@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:02:32
+ * @Last Modified time: 2023-04-20 15:01:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Tag, Cover } from '../../base'
+import { InView, Tag, Cover } from '../../base'
 import { IMG_WIDTH } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCharacterProps } from './types'
@@ -20,10 +20,13 @@ import { cnjp } from '@utils'
 
 export { ItemCharacterProps }
 
+const ITEM_HEIGHT = 158
+
 export const ItemCharacter = obc(
   (
     {
       event = EVENT,
+      index,
       type = 'character',
       id,
       cover,
@@ -55,16 +58,18 @@ export const ItemCharacter = obc(
         _image: cover
       })
     }
+    const y = ITEM_HEIGHT * index + 1
+
     return (
       <View style={styles.container}>
         <Flex style={styles.wrap} align='start'>
-          <View style={styles.imgContainer}>
+          <InView style={styles.inViewCover} y={y}>
             {!!cover && (
               <Touchable animate scale={0.9} onPress={onPress}>
                 <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius shadow />
               </Touchable>
             )}
-          </View>
+          </InView>
           <Flex.Item style={_.ml.wind}>
             <Touchable style={styles.touch} animate onPress={onPress}>
               <Flex direction='column' justify='between' align='start'>
@@ -125,7 +130,9 @@ export const ItemCharacter = obc(
                     }}
                   >
                     <Flex>
-                      <Cover src={item.cover} size={_.r(32)} radius shadow />
+                      <InView style={styles.inViewAvatar} y={y}>
+                        <Cover src={item.cover} size={_.r(32)} radius shadow />
+                      </InView>
                       <Flex.Item style={_.ml.sm}>
                         <Text size={12} numberOfLines={1} bold lineHeight={13}>
                           {cn}

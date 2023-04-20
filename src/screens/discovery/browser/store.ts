@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:34:18
+ * @Last Modified time: 2023-04-20 15:46:25
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -366,5 +366,14 @@ export default class ScreenBrowser extends store {
       collected: !collected
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

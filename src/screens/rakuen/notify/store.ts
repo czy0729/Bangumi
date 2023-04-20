@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 17:11:19
+ * @Last Modified time: 2023-04-20 15:08:13
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore, userStore } from '@stores'
+import { _, rakuenStore, userStore } from '@stores'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { TYPE_PAGE } from './ds'
@@ -15,6 +15,8 @@ export default class ScreenNotify extends store {
   params: Params
 
   state = observable({
+    /** 可视范围底部 y */
+    visibleBottom: _.window.height,
     page: 0,
     _loaded: false
   })
@@ -64,6 +66,15 @@ export default class ScreenNotify extends store {
   onTabsChange = (page: number) => {
     this.setState({
       page
+    })
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
     })
   }
 

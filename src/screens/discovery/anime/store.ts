@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:35:12
+ * @Last Modified time: 2023-04-20 15:58:23
  */
 import { observable, computed } from 'mobx'
-import { systemStore, collectionStore, otaStore } from '@stores'
+import { _, systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
@@ -22,11 +22,13 @@ export default class ScreenAnime extends store {
   params: Params
 
   state = observable({
+    /** 可视范围底部 y */
+    visibleBottom: _.window.height,
     query: {
       area: '日本',
       type: '',
       first: '',
-      year: 2022,
+      year: 2023,
       begin: '',
       status: '',
       tags: [],
@@ -208,5 +210,14 @@ export default class ScreenAnime extends store {
       expand: !expand
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

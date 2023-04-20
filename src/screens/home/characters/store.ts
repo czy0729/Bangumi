@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:37:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 16:31:55
+ * @Last Modified time: 2023-04-20 14:33:21
  */
 import { observable, computed } from 'mobx'
-import { monoStore } from '@stores'
+import { _, monoStore } from '@stores'
 import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_SUBJECT_CHARACTERS, LIST_EMPTY } from '@constants'
@@ -19,6 +19,9 @@ export default class ScreenCharacters extends store {
   params: Params
 
   state = observable({
+    /** 可视范围底部 y */
+    visibleBottom: _.window.height,
+
     /** 云快照 */
     ota: {}
   })
@@ -125,5 +128,14 @@ export default class ScreenCharacters extends store {
       })
       THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
     }, 0)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
+    const { contentOffset, layoutMeasurement } = nativeEvent
+    const screenHeight = layoutMeasurement.height
+    this.setState({
+      visibleBottom: contentOffset.y + screenHeight
+    })
   }
 }

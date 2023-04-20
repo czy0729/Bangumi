@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:50:48
+ * @Last Modified time: 2023-04-20 14:33:50
  */
 import React from 'react'
 import { PaginationList2, ItemCharacter } from '@_'
@@ -24,6 +24,8 @@ function List(props, { $ }: Ctx) {
       limit={12}
       scrollToTop
       renderItem={renderItem}
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
     />
   )
 }

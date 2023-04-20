@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 06:56:40
+ * @Last Modified time: 2023-04-20 15:52:32
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -72,6 +72,8 @@ class List extends React.Component {
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop
+        scrollEventThrottle={32}
+        onScroll={$.onScroll}
         onPage={otaStore.onAnimePage}
       />
     )

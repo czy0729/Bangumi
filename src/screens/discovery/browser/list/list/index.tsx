@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:24:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:56:48
+ * @Last Modified time: 2023-04-20 15:47:04
  */
 import React from 'react'
 import { ItemSearch } from '@_'
@@ -19,7 +19,7 @@ const EVENT = {
   }
 } as const
 
-function List({ item }, { $, navigation }: Ctx) {
+function List({ item, index }, { $, navigation }: Ctx) {
   const { type } = $.state
   const id = String(item.id).replace('/subject/', '')
   const collection = collectionStore.collect(id)
@@ -29,6 +29,7 @@ function List({ item }, { $, navigation }: Ctx) {
       style={_.container.item}
       navigation={navigation}
       event={EVENT}
+      index={index}
       {...item}
       typeCn={typeCn}
       collection={collection}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 00:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 17:02:06
+ * @Last Modified time: 2023-04-20 14:39:10
  */
 import { _ } from '@stores'
 import { IMG_WIDTH } from './ds'
@@ -12,8 +12,13 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
   },
-  imgContainer: {
-    width: IMG_WIDTH
+  inViewCover: {
+    minWidth: IMG_WIDTH,
+    minHeight: IMG_WIDTH
+  },
+  inViewAvatar: {
+    minWidth: _.r(32),
+    minHeight: _.r(32)
   },
   wrap: {
     paddingVertical: _.md,

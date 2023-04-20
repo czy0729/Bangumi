@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-25 21:11:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-25 23:27:32
+ * @Last Modified time: 2023-04-20 15:41:40
  */
 import React from 'react'
 import { ItemNotify } from '@_'
@@ -31,7 +31,13 @@ function Item({ item, index }, { $, navigation }: Ctx) {
   repeat = 0
 
   return (
-    <ItemNotify navigation={navigation} event={EVENT} {...item} repeat={passRepeat} />
+    <ItemNotify
+      navigation={navigation}
+      index={index - repeat}
+      event={EVENT}
+      {...item}
+      repeat={passRepeat}
+    />
   )
 }
 

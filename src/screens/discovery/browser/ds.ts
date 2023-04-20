@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:36:43
+ * @Last Modified time: 2023-04-20 15:46:10
  */
+import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { BrowserSort, SubjectType } from '@types'
 
@@ -12,6 +13,9 @@ export const DATE = new Date()
 export const NAMESPACE = 'ScreenBrowser'
 
 export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+
   sort: 'date' as BrowserSort,
 
   /** 是否显示列表, 制造切页效果 */

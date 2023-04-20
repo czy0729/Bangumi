@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:22:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 13:31:40
+ * @Last Modified time: 2023-04-20 15:46:43
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -37,6 +37,8 @@ function List(props, { $ }: Ctx) {
       ListHeaderComponent={!fixed && <ToolBar />}
       renderItem={renderItem}
       scrollToTop
+      scrollEventThrottle={32}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchBrowser}
     />

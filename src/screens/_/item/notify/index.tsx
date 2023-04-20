@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:31:38
+ * @Last Modified time: 2023-04-20 15:41:46
  */
 import React from 'react'
 import { Flex, Text, Touchable, UserStatus } from '@components'
@@ -10,15 +10,18 @@ import { _, timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name, Tag } from '../../base'
+import { InView, Avatar, Name, Tag } from '../../base'
 import { memoStyles } from './styles'
 import { Props as ItemNotifyProps } from './types'
 
 export { ItemNotifyProps }
 
+const ITEM_HEIGHT = 40
+
 export const ItemNotify = ob(
   ({
     navigation,
+    index,
     avatar,
     userId,
     userName,
@@ -54,15 +57,17 @@ export const ItemNotify = ob(
       >
         <Flex style={styles.container} align='start'>
           <UserStatus userId={userId}>
-            <Avatar
-              key={String(avatar)}
-              style={styles.image}
-              navigation={navigation}
-              userId={userId}
-              name={userName}
-              src={avatar}
-              event={event}
-            />
+            <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+              <Avatar
+                key={String(avatar)}
+                style={styles.image}
+                navigation={navigation}
+                userId={userId}
+                name={userName}
+                src={avatar}
+                event={event}
+              />
+            </InView>
           </UserStatus>
           <Flex.Item style={styles.item}>
             <Name userId={userId} showFriend size={13} type='title' bold>

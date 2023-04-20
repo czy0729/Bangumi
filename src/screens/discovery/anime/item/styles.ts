@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-10 17:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 14:57:01
+ * @Last Modified time: 2023-04-20 15:53:32
  */
 import { _ } from '@stores'
-import { IMG_HEIGHT_LG } from '@constants'
+import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 
 export const memoStyles = _.memoStyles(() => {
   const height = IMG_HEIGHT_LG * 0.58
@@ -16,6 +16,10 @@ export const memoStyles = _.memoStyles(() => {
     wrap: {
       paddingVertical: _.md,
       paddingRight: _.wind
+    },
+    inView: {
+      minWidth: IMG_WIDTH_LG,
+      minHeight: IMG_HEIGHT_LG
     },
     content: {
       height
