@@ -6,6 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { _, rakuenStore, userStore } from '@stores'
+import { updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { TYPE_PAGE } from './ds'
@@ -70,13 +71,7 @@ export default class ScreenNotify extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 清除电波提醒未读 */

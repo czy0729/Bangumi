@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
-import { feedback, info, confirm } from '@utils'
+import { feedback, info, confirm, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import {
@@ -452,11 +452,5 @@ export default class ScreenRakuen extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 }

@@ -3,8 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-10 17:50:13
+ * @Last Modified time: 2023-04-20 15:55:14
  */
+import { Platform } from 'react-native'
+import Constants from 'expo-constants';
 import { Paths } from '@types'
 
 /** @ts-ignore 是否开发模式 */
@@ -13,9 +15,6 @@ export const DEV = global.__DEV__
 /** ==================== 常用配置 ==================== */
 /** 观察组件 re-render 用 (开发用) */
 export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
-
-/** 是否来源于 IPA (iOS) */
-export const IOS_IPA = false
 
 /** 显示调试菜单按钮 (安卓、开发用) */
 export const ANDROID_DEV_MENU = true
@@ -31,8 +30,8 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy.magmablock.top'
 const CONFIGS: Configs = {
   initialRouteName: 'HomeTab', // HomeTab
   initialRouteParams: {
-    // subjectId: 397025 // anime: 296870, music: 302514, book: 267358, game: 137458
-    // topicId: 'group/379812' // group/366561
+    // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
+    // topicId: 'group/380621' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'character/76270' // character/70323 person/5745
     // id: 240929
@@ -72,6 +71,10 @@ export const INIT_ROUTE = 'Home'
 
 /** 是否带字体打包 */
 export const FONT_FAMILY = true
+
+/** 是否来源于 IPA (iOS) */
+export const IOS_IPA =
+  Platform.OS === 'ios' && Constants.appOwnership !== 'expo'
 
 /** 图片是否开启新本地缓存策略 (iOS) */
 export const IOS_IMAGE_CACHE_V2 = IOS_IPA

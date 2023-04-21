@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-19 21:14:55
  */
 import { rakuenStore } from '@stores'
-import { HTMLDecode, feedback, info, loading, removeHTMLTag } from '@utils'
+import { HTMLDecode, feedback, info, loading, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { t, baiduTranslate } from '@utils/fetch'
 import { update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -162,13 +162,8 @@ export default class Action extends Fetch {
     this.setStorage(this.namespace)
   }
 
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 提交回复 */

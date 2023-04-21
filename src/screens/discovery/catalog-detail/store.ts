@@ -14,7 +14,8 @@ import {
   info,
   opitimize,
   removeHTMLTag,
-  sleep
+  sleep,
+  updateVisibleBottom
 } from '@utils'
 import store from '@utils/store'
 import { t, fetchHTML, queue } from '@utils/fetch'
@@ -298,13 +299,7 @@ export default class ScreenCatalogDetail extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 收藏目录 */

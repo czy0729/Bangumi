@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
-import { x18, feedback } from '@utils'
+import { x18, feedback, updateVisibleBottom } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import {
@@ -222,6 +222,9 @@ export default class ScreenTimeline extends store {
       day
     })
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 删除时间线 */

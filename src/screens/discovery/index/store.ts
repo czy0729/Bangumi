@@ -20,7 +20,8 @@ import {
   appRandom,
   info,
   matchBgmUrl,
-  desc
+  desc,
+  updateVisibleBottom
 } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
@@ -328,11 +329,5 @@ export default class ScreenDiscovery extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 }

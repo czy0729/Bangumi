@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-04 06:26:44
  */
-import { collectionStore, userStore } from '@stores'
+import { _, collectionStore, userStore } from '@stores'
 import {
   HTMLDecode,
   appNavigate,
@@ -23,7 +23,8 @@ import {
   open,
   queue,
   saveCalenderEvent,
-  sleep
+  sleep,
+  updateVisibleBottom
 } from '@utils'
 import { t } from '@utils/fetch'
 import {
@@ -362,13 +363,7 @@ export default class Action extends Fetch {
   })
 
   /** 更新可视范围底部 y */
-  // onScroll = ({ nativeEvent }) => {
-  //   const { contentOffset, layoutMeasurement } = nativeEvent
-  //   const screenHeight = layoutMeasurement.height
-  //   this.setState({
-  //     visibleBottom: contentOffset.y + screenHeight
-  //   })
-  // }
+  onScroll = updateVisibleBottom.bind(this)
 
   /** -------------------- action -------------------- */
   /** 管理收藏 */

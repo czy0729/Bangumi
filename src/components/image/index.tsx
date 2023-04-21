@@ -22,6 +22,7 @@ import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
 import { DEV, IOS, STORYBOOK } from '@constants'
 import { Source } from '@types'
+import { IOS_IPA } from '@/config'
 import { Touchable } from '../touchable'
 import { devLog } from '../dev'
 import Error from './error'
@@ -653,7 +654,7 @@ export const Image = observer(
           >
             {this.renderImage()}
           </Touchable>
-          {skeleton && (
+          {!IOS_IPA && skeleton && (
             <Skeleton
               style={this.computedStyle.image}
               textOnly={textOnly}
@@ -699,7 +700,7 @@ export const Image = observer(
       return (
         <View style={this.computedStyle.container}>
           {this.renderImage()}
-          {skeleton && (
+          {!IOS_IPA && skeleton && (
             <Skeleton
               style={this.computedStyle.image}
               textOnly={textOnly}

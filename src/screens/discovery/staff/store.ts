@@ -6,6 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { _, usersStore, discoveryStore } from '@stores'
+import { updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
@@ -99,11 +100,6 @@ export default class ScreenStaff extends store {
     return usersStore.catalogs(this.userId, false)
   }
 
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
-import { x18, info, getTimestamp } from '@utils'
+import { x18, info, getTimestamp, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
@@ -369,11 +369,5 @@ export default class ScreenBrowser extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 }

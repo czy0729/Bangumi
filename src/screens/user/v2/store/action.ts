@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-19 20:21:33
  */
 import { collectionStore, uiStore } from '@stores'
-import { debounce, feedback } from '@utils'
+import { debounce, feedback, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import {
   CollectionsOrder,
@@ -228,11 +228,6 @@ export default class Action extends Fetch {
     })
   }
 
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

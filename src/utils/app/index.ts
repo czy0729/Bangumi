@@ -5,7 +5,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-18 16:01:59
  */
-import { Alert, BackHandler } from 'react-native'
+import { Alert, Dimensions, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
 import { isObservableArray } from 'mobx'
 import { DEV } from '@/config'
@@ -107,6 +107,22 @@ export function getIsBlockUser(
   }
 
   return isBlock
+}
+
+const { height } = Dimensions.get('window')
+
+/** 统一更新控制页面懒渲染 visibleBottom 变量的函数 */
+export function updateVisibleBottom({ nativeEvent }) {
+  if (typeof this.setState !== 'function') return
+
+  const { contentOffset, layoutMeasurement } = nativeEvent
+  const screenHeight = layoutMeasurement.height
+  const visibleBottom = contentOffset.y + screenHeight
+  if (visibleBottom <= (this.state.visibleBottom || 0)) return
+
+  this.setState({
+    visibleBottom: visibleBottom + height * 0.5
+  })
 }
 
 /** 是否数组 */

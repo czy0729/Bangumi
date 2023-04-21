@@ -592,11 +592,15 @@ export default class Action extends Fetch {
     })
   })
 
-  onScroll = ({ nativeEvent }) => {
+   /** 更新可视范围底部 y */
+   onScroll = ({ nativeEvent }) => {
     const { contentOffset, layoutMeasurement } = nativeEvent
     const screenHeight = layoutMeasurement.height
+    const visibleBottom = contentOffset.y + screenHeight
+    if (visibleBottom <= (this.state.visibleBottom || 0)) return
+
     this.setState({
-      visibleBottom: contentOffset.y + screenHeight + _.window.height * 0.5
+      visibleBottom: visibleBottom + _.window.height * 0.5
     })
   }
 

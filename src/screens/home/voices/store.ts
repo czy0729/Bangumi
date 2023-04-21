@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { subjectStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
@@ -162,11 +162,5 @@ export default class ScreenVoices extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 }

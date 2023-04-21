@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
-import { info, getTimestamp, x18 } from '@utils'
+import { info, getTimestamp, x18, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
@@ -375,11 +375,6 @@ export default class ScreenRank extends store {
     this.fetchRank()
   }
 
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

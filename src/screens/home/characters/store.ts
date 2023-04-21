@@ -6,11 +6,11 @@
  */
 import { observable, computed } from 'mobx'
 import { _, monoStore } from '@stores'
+import { getTimestamp, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_SUBJECT_CHARACTERS, LIST_EMPTY } from '@constants'
 import { Params } from './types'
-import { getTimestamp } from '@utils'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
@@ -131,11 +131,5 @@ export default class ScreenCharacters extends store {
   }
 
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  onScroll = updateVisibleBottom.bind(this)
 }

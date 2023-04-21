@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
-import { info, x18 } from '@utils'
+import { info, updateVisibleBottom, x18 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY, HTML_SEARCH } from '@constants'
@@ -219,13 +219,8 @@ export default class ScreenSearch extends store {
     })
   }
 
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    this.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
-  }
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 搜索 */

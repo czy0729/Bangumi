@@ -50,15 +50,11 @@ class List extends React.Component<{
     return $.forwardRef(ref, index)
   }
 
-  onScroll = ({ nativeEvent }) => {
+  onScroll = evt => {
     uiStore.closePopableSubject()
 
     const { $ }: Ctx = this.context
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    $.setState({
-      visibleBottom: contentOffset.y + screenHeight
-    })
+    $.onScroll(evt)
   }
 
   renderItem = ({ item, index }) => {
