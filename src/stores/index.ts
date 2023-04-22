@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:50:13
+ * @Last Modified time: 2023-04-22 16:51:46
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -137,6 +137,7 @@ class GlobalStores {
     userStore.save('accessToken')
     userStore.save('userInfo')
     userStore.save('userCookie')
+    userStore.checkLogin()
 
     /** 条目 */
     await subjectStore.init('origin')

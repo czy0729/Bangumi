@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:50:22
+ * @Last Modified time: 2023-04-22 16:34:22
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { ImagesAvatar, SubjectType } from '@types'
@@ -120,7 +120,7 @@ export const STATE = {
   },
 
   /** 登出地址 */
-  logout: '',
+  // logout: '',
 
   /** 表单提交唯一码 */
   formhash: '',
