@@ -24,7 +24,7 @@ import {
 import { EpId, EpStatus, SubjectId } from '@types'
 import RakuenStore from '../rakuen'
 import Fetch from './fetch'
-import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO, NAMESPACE } from './init'
+import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO } from './init'
 
 export default class Action extends Fetch {
   /** 登出 */
@@ -37,10 +37,10 @@ export default class Action extends Fetch {
         userInfo: INIT_USER_INFO,
         outdate: false
       })
-      this.setStorage('accessToken', undefined, NAMESPACE)
-      this.setStorage('userCookie', undefined, NAMESPACE)
-      this.setStorage('setCookie', undefined, NAMESPACE)
-      this.setStorage('userInfo', undefined, NAMESPACE)
+      this.save('accessToken')
+      this.save('userCookie')
+      this.save('setCookie')
+      this.save('userInfo')
     }, 0)
   }
 
@@ -57,7 +57,7 @@ export default class Action extends Fetch {
         refresh_token: accessToken.refresh_token
       }
     })
-    this.setStorage('accessToken', undefined, NAMESPACE)
+    this.save('accessToken')
   }
 
   /** 更新用户 cookie */
@@ -66,7 +66,7 @@ export default class Action extends Fetch {
       userCookie,
       outdate: false
     })
-    this.setStorage('userCookie', undefined, NAMESPACE)
+    this.save('userCookie')
   }
 
   /** @deprecated */
@@ -74,7 +74,7 @@ export default class Action extends Fetch {
     this.setState({
       hmCookie
     })
-    this.setStorage('hmCookie', undefined, NAMESPACE)
+    this.save('hmCookie')
   }
 
   /** 打印游客登录 sercet */
@@ -104,7 +104,7 @@ export default class Action extends Fetch {
     this.setState({
       collection
     })
-    this.setStorage('collection', undefined, NAMESPACE)
+    this.save('collection')
     return true
   }
 
@@ -148,14 +148,14 @@ export default class Action extends Fetch {
         // logout: `${HOST}/logout${matchLogout[1]}`,
         formhash: matchLogout[1].replace('/', '')
       })
-      this.setStorage('formhash', undefined, NAMESPACE)
+      this.save('formhash')
     }
 
     if (setCookie) {
       this.setState({
         setCookie
       })
-      this.setStorage('setCookie', undefined, NAMESPACE)
+      this.save('setCookie')
     }
 
     return data

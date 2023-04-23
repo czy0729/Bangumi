@@ -108,7 +108,7 @@ export default class Fetch extends Computed {
       collection
     })
 
-    this.setStorage('collection', undefined, NAMESPACE)
+    this.save('collection')
     return collection
   }
 
@@ -130,7 +130,8 @@ export default class Fetch extends Computed {
     this.setState({
       collection
     })
-    this.setStorage('collection', undefined, NAMESPACE)
+
+    this.save('collection')
     return true
   }
 
@@ -179,7 +180,7 @@ export default class Fetch extends Computed {
         }
       })
     }
-    this.setStorage('userProgress', undefined, NAMESPACE)
+    this.save('userProgress')
 
     return res
   }
@@ -305,7 +306,7 @@ export default class Fetch extends Computed {
     this.setState({
       [key]: data
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -343,7 +344,7 @@ export default class Fetch extends Computed {
         [id]: data
       }
     })
-    this.setStorage(key, undefined, NAMESPACE)
+    this.save(key)
 
     return data
   }
@@ -400,7 +401,7 @@ export default class Fetch extends Computed {
         this.setState({
           [key]: data
         })
-        this.setStorage(key, undefined, NAMESPACE)
+        this.save(key)
         return data
       }
     }
