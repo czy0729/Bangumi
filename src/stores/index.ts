@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-22 16:51:46
+ * @Last Modified time: 2023-04-24 03:18:25
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -42,7 +42,7 @@ class GlobalStores {
 
       inited = true
 
-      /** systemStore.init 和 themeStore.init 维持旧逻辑 */
+      /** ========== systemStore.init 和 themeStore.init 维持旧逻辑 ========== */
       await systemStore.init()
       await themeStore.init()
       await smbStore.init('data')
@@ -52,13 +52,13 @@ class GlobalStores {
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来
        * 会显著提高 APP 使用体验，实际上不取出来也不会影响使用
        */
-      // usersStore
+      /** ==================== usersStore ==================== */
       const usersStoreKeys = ['users'] as const
       for (let i = 0; i < usersStoreKeys.length; i += 1) {
         await usersStore.init(usersStoreKeys[i])
       }
 
-      // userStore
+      /** ==================== userStore ==================== */
       const userStoreKeys = [
         'accessToken',
         'formhash',
@@ -72,13 +72,14 @@ class GlobalStores {
         await userStore.init(userStoreKeys[i])
       }
 
-      // calendarStore, 把这些值提前取出来是为了防止首次首页列表多次计算渲染
+      /** ==================== calendarStore ==================== */
+      // 把这些值提前取出来是为了防止首次首页列表多次计算渲染
       const calendarStoreKeys = ['onAir', 'onAirUser'] as const
       for (let i = 0; i < calendarStoreKeys.length; i += 1) {
         await calendarStore.init(calendarStoreKeys[i])
       }
 
-      // subjectStoreKeys
+      /** ==================== subjectStoreKeys ==================== */
       const subjectStoreKeys: `subject${number}`[] = []
       userStore.collection.list.forEach(item => {
         subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
@@ -87,7 +88,13 @@ class GlobalStores {
         await subjectStore.init(subjectStoreKeys[i])
       }
 
-      // if (DEV) console.info('========== GlobalStores init ==========')
+      /** ==================== collectionStore ==================== */
+      await collectionStore.init('userCollectionsMap')
+      if (!DEV) {
+        setTimeout(() => {
+          collectionStore.fetchUserCollectionsQueue()
+        }, 16000)
+      }
 
       return systemStore.setting
     } catch (error) {
@@ -95,7 +102,7 @@ class GlobalStores {
     }
   }
 
-  // -------------------- methods --------------------
+  /** ==================== methods ==================== */
   /** 添加页面 Store */
   add(key: string, store: any) {
     if (!this[key] || DEV) this[key] = store
