@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 07:11:03
+ * @Last Modified time: 2023-04-25 18:06:33
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -307,6 +307,9 @@ export const INIT_SETTING = {
 
   /** 图片是否开启新本地缓存策略 (iOS) */
   iosImageCacheV2: IOS_IMAGE_CACHE_V2,
+
+  /** 图片加载骨架屏动画 */
+  imageSkeleton: true,
 
   /** 放送提醒菜单增加导出 ICS */
   exportICS: false,

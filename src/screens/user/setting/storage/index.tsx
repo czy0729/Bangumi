@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-07 07:48:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:09:16
+ * @Last Modified time: 2023-04-25 17:28:03
  */
 import React, { useState, useCallback } from 'react'
 import AsyncStorage from '@components/@/react-native-async-storage'
-import { ActionSheet, Text, SwitchPro, Heatmap } from '@components'
+import { ActionSheet, Text, Heatmap } from '@components'
 import { clearCache } from '@components/image/image'
 import { ItemSetting } from '@_'
-import Stores, { systemStore } from '@stores'
+import Stores from '@stores'
 import { toFixed, confirm, info } from '@utils'
 import { t } from '@utils/fetch'
 import { useBoolean, useObserver, useMount } from '@utils/hooks'
-import { IOS } from '@constants'
 import i18n from '@constants/i18n'
 import { getShows } from '../utils'
-import commonStyles from '../styles'
 import { TEXTS } from './ds'
 
 function Storage({ filter }) {
@@ -93,7 +91,6 @@ function Storage({ filter }) {
   return useObserver(() => {
     if (!shows) return null
 
-    const { iosImageCacheV2 } = systemStore.setting
     return (
       <>
         <ItemSetting hd='缓存' arrow highlight filter={filter} onPress={setTrue} />
@@ -141,31 +138,6 @@ function Storage({ filter }) {
           >
             <Heatmap id='设置.清除缓存' />
           </ItemSetting>
-
-          {/* 默认图片缓存策略 */}
-          {IOS && (
-            <ItemSetting
-              show={shows.iOSImageCache}
-              ft={
-                <SwitchPro
-                  style={commonStyles.switch}
-                  value={iosImageCacheV2}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '默认图片缓存策略',
-                      checked: !iosImageCacheV2
-                    })
-
-                    systemStore.switchSetting('iosImageCacheV2')
-                  }}
-                />
-              }
-              filter={filter}
-              {...TEXTS.iOSImageCache}
-            >
-              <Heatmap id='设置.切换' title='震动' />
-            </ItemSetting>
-          )}
         </ActionSheet>
       </>
     )

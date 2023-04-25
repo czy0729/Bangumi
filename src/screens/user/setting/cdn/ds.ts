@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-23 19:19:21
+ * @Last Modified time: 2023-04-25 18:09:28
  */
 import { _ } from '@stores'
 
@@ -55,5 +55,14 @@ export const TEXTS = {
   cdnAvatar: {
     hd: '头像加速',
     information: '[已废弃] 不再生效'
+  },
+  iOSImageCache: {
+    hd: 'iOS 使用系统默认图片缓存策略',
+    information:
+      '警告：此选项仅建议部分加载不到图片的 iOS 设备开启，若您的设备图片能正常加载请勿开启，开启后可能会导致图片每次都进行网络请求，切换后需要重新冷启动才能生效'
+  },
+  imageSkeleton: {
+    hd: '图片加载动画',
+    information: '部分手机显示骨架屏动画卡顿，可尝试关闭提升流畅度'
   }
 } as const

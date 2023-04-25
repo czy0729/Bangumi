@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 13:16:20
+ * @Last Modified time: 2023-04-25 18:08:50
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import { ActionSheet, Flex, Text, SwitchPro, Heatmap, Highlight } from '@components'
+import { ActionSheet, Flex, Text, Heatmap, Highlight, SwitchPro } from '@components'
 import { clearCache } from '@components/image/image'
 import { IconTouchable } from '@_'
 import { ItemSetting, ItemSettingBlock, Cover } from '@_'
@@ -14,20 +14,17 @@ import { _, systemStore, userStore } from '@stores'
 import { info, confirm } from '@utils'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t, ping } from '@utils/fetch'
-import { MODEL_SETTING_CDN_ORIGIN, CDN_OSS_MAGMA_POSTER, ADVANCE_CDN } from '@constants'
-import { getShows } from '../utils'
-import styles from '../styles'
 import {
-  IMG_HEIGHT,
-  IMG_WIDTH,
-  TEXTS,
-  URL_FASTLY,
-  URL_JSDELIVR,
-  URL_LAIN,
-  URL_ONEDRIVE
-} from './ds'
-import { Pings } from './types'
+  MODEL_SETTING_CDN_ORIGIN,
+  CDN_OSS_MAGMA_POSTER,
+  ADVANCE_CDN,
+  IOS
+} from '@constants'
 import { SettingCDNOrigin, SettingCDNOriginCn } from '@types'
+import { getShows } from '../utils'
+import commonStyles from '../styles'
+import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from './ds'
+import { Pings } from './types'
 
 function waitToResetCDN() {
   setTimeout(() => {
@@ -39,7 +36,6 @@ function waitToResetCDN() {
 function CDN({ navigation, filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
   const [test, setTest] = useState(false)
-  const [deprecated, setDeprecated] = useState(false)
   const [pings, setPings] = useState<Pings>({})
 
   useEffect(() => {
@@ -48,9 +44,6 @@ function CDN({ navigation, filter }) {
       async function cb() {
         data.lain = await ping(URL_LAIN)
         data.magma = await ping(CDN_OSS_MAGMA_POSTER(URL_LAIN))
-        data.onedrive = await ping(URL_ONEDRIVE)
-        data.jsdelivr = await ping(URL_JSDELIVR)
-        data.fastly = await ping(URL_FASTLY)
         setPings(data)
       }
       cb()
@@ -63,7 +56,7 @@ function CDN({ navigation, filter }) {
   return useObserver(() => {
     if (!shows) return null
 
-    const { cdn, cdnOrigin, cdnAvatar } = systemStore.setting
+    const { cdn, cdnOrigin, imageSkeleton, iosImageCacheV2 } = systemStore.setting
     const origin = MODEL_SETTING_CDN_ORIGIN.getLabel<SettingCDNOriginCn>(cdnOrigin)
     const label = []
     if (!cdn) label.push('关闭')
@@ -71,7 +64,7 @@ function CDN({ navigation, filter }) {
       <>
         {/* CDN */}
         <ItemSetting
-          hd='CDN'
+          hd='图片'
           ft={
             <Text type='sub' size={15}>
               {label.join('、')}
@@ -85,7 +78,7 @@ function CDN({ navigation, filter }) {
 
         <ActionSheet
           show={state}
-          title='CDN'
+          title='图片'
           height={filter ? 400 : 640}
           onClose={setFalse}
         >
@@ -224,7 +217,7 @@ function CDN({ navigation, filter }) {
                       type='sub'
                       size={10}
                       align='center'
-                      filter={filter}
+                      value={filter}
                     >
                       不使用: {pings.lain || 0}ms
                     </Highlight>
@@ -243,23 +236,11 @@ function CDN({ navigation, filter }) {
                     </Text>
                   </Flex>
                 </Flex.Item>
-                <Flex.Item style={_.ml.md}>
-                  <Flex style={_.container.block} direction='column' justify='center'>
-                    <Cover
-                      size={IMG_WIDTH}
-                      height={IMG_HEIGHT}
-                      src={URL_ONEDRIVE}
-                      radius
-                    />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                      OneDrive: {pings.onedrive || 0}ms
-                    </Text>
-                  </Flex>
-                </Flex.Item>
+                <Flex.Item style={_.ml.md} />
               </>
             ) : (
               <Text
-                style={styles.test}
+                style={commonStyles.test}
                 size={12}
                 type='sub'
                 onPress={() => setTest(true)}
@@ -271,239 +252,54 @@ function CDN({ navigation, filter }) {
               </Text>
             )}
           </ItemSettingBlock>
-          {shows.test && test && (
-            <ItemSettingBlock style={_.mt._md}>
-              <Flex.Item>
-                <Flex style={_.container.block} direction='column' justify='center'>
-                  <Cover
-                    size={IMG_WIDTH}
-                    height={IMG_HEIGHT}
-                    src={URL_JSDELIVR}
-                    radius
-                  />
-                  <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                    jsDelivr: {pings.jsdelivr || 0}ms
-                  </Text>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item style={_.ml.md}>
-                <Flex style={_.container.block} direction='column' justify='center'>
-                  <Cover size={IMG_WIDTH} height={IMG_HEIGHT} src={URL_FASTLY} radius />
-                  <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                    fastly: {pings.fastly || 0}ms
-                  </Text>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item style={_.ml.md} />
-            </ItemSettingBlock>
-          )}
 
-          {/* 新番 */}
-          {/* {shows.test && test && (
-            <>
-              <ItemSettingBlock>
-                <Flex.Item>
-                  <Flex style={_.container.block} direction='column' justify='center'>
-                    <Cover
-                      size={IMG_WIDTH}
-                      height={IMG_HEIGHT}
-                      src={URL_LAIN_NEW}
-                      cdn={false}
-                      radius
-                    />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                      不使用: 新番图
-                    </Text>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item style={_.ml.md}>
-                  <Flex style={_.container.block} direction='column' justify='center'>
-                    <Cover
-                      size={IMG_WIDTH}
-                      height={IMG_HEIGHT}
-                      src={CDN_OSS_MAGMA_POSTER(URL_LAIN_NEW)}
-                      radius
-                    />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                      Magma: 新番图
-                    </Text>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item style={_.ml.md}>
-                  <Flex style={_.container.block} direction='column' justify='center'>
-                    <Cover
-                      size={IMG_WIDTH}
-                      height={IMG_HEIGHT}
-                      src={URL_LAIN_NEW}
-                      cdn={false}
-                      radius
-                    />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                      OneDrive: 新番图
-                    </Text>
-                  </Flex>
-                </Flex.Item>
-              </ItemSettingBlock>
-              <ItemSettingBlock style={_.mt._md}>
-                <Flex.Item>
-                  <Flex style={_.container.block} direction='column' justify='center'>
-                    <Cover
-                      size={IMG_WIDTH}
-                      height={IMG_HEIGHT}
-                      src={URL_LAIN_NEW}
-                      cdn={false}
-                      radius
-                    />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                      jsDelivr: 新番图
-                    </Text>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item style={_.ml.md}>
-                  <Flex style={_.container.block} direction='column' justify='center'>
-                    <Cover
-                      size={IMG_WIDTH}
-                      height={IMG_HEIGHT}
-                      src={URL_LAIN_NEW}
-                      cdn={false}
-                      radius
-                    />
-                    <Text style={_.mt.sm} type='sub' size={10} align='center'>
-                      fastly: 新番图
-                    </Text>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item style={_.ml.md} />
-              </ItemSettingBlock>
-            </>
-          )} */}
-
-          {/* 旧版本域 */}
-          <ItemSettingBlock
-            show={shows.deprecated}
-            style={_.mt.md}
-            filter={filter}
-            {...TEXTS.deprecated.setting}
-          >
-            <Text
-              style={styles.test}
-              size={12}
-              type='sub'
-              onPress={() => setDeprecated(!deprecated)}
-            >
-              [待废弃] 因国内访问困难无法恢复，v6.2.5
-              以后不再维护，功能保留，若你的网络依然能访问可以考虑使用，
-              <Text size={12} type='warning'>
-                点击{deprecated ? '收起' : '展开'}
-              </Text>
-            </Text>
-          </ItemSettingBlock>
-          {shows.deprecated && deprecated && (
-            <ItemSettingBlock style={_.mt._md}>
-              {/* jsDelivr */}
-              <ItemSettingBlock.Item
-                active={cdn && origin === 'jsDelivr'}
-                filter={filter}
-                onPress={async () => {
-                  if (cdn && origin === 'jsDelivr') return
-
-                  t('设置.切换', {
-                    title: 'CDN加速',
-                    checked: !cdn,
-                    origin: 'jsDelivr'
-                  })
-
-                  if (!cdn) systemStore.switchSetting('cdn')
-                  systemStore.setSetting(
-                    'cdnOrigin',
-                    MODEL_SETTING_CDN_ORIGIN.getValue('jsDelivr')
-                  )
-
-                  setTimeout(() => {
-                    clearCache()
-                  }, 0)
-                }}
-                {...TEXTS.deprecated.jsDelivr}
-              />
-
-              {/* fastly */}
-              <ItemSettingBlock.Item
-                style={_.ml.sm}
-                active={cdn && origin === 'fastly'}
-                filter={filter}
-                onPress={async () => {
-                  if (cdn && origin === 'fastly') return
-
-                  t('设置.切换', {
-                    title: 'CDN加速',
-                    checked: !cdn,
-                    origin: 'fastly'
-                  })
-
-                  if (!cdn) systemStore.switchSetting('cdn')
-                  systemStore.setSetting(
-                    'cdnOrigin',
-                    MODEL_SETTING_CDN_ORIGIN.getValue('fastly')
-                  )
-
-                  setTimeout(() => {
-                    clearCache()
-                  }, 0)
-                }}
-                {...TEXTS.deprecated.fastly}
-              />
-
-              {/* onedrive */}
-              <ItemSettingBlock.Item
-                style={_.ml.sm}
-                active={cdn && origin === 'OneDrive'}
-                filter={filter}
-                onPress={async () => {
-                  if (cdn && origin === 'OneDrive') return
-                  if (!systemStore.advance) return info('此域名仅对高级会员开放')
-
-                  t('设置.切换', {
-                    title: 'CDN加速',
-                    checked: !cdn,
-                    origin: 'OneDrive'
-                  })
-
-                  if (!cdn) systemStore.switchSetting('cdn')
-                  systemStore.setSetting(
-                    'cdnOrigin',
-                    MODEL_SETTING_CDN_ORIGIN.getValue('OneDrive')
-                  )
-
-                  setTimeout(() => {
-                    clearCache()
-                  }, 0)
-                }}
-                {...TEXTS.deprecated.oneDrive}
-              />
-            </ItemSettingBlock>
-          )}
-
-          {/* 头像加速 */}
+          {/* 图片加载动画 */}
           <ItemSetting
-            show={shows.cdnAvatar}
+            show={shows.imageSkeleton}
             ft={
               <SwitchPro
-                style={styles.switch}
-                value={cdn && cdnAvatar}
-                disabled={!cdn}
+                style={commonStyles.switch}
+                value={imageSkeleton}
                 onSyncPress={() => {
                   t('设置.切换', {
-                    title: '头像加速',
-                    checked: !cdnAvatar
+                    title: '图片加载动画',
+                    checked: !imageSkeleton
                   })
 
-                  systemStore.switchSetting('cdnAvatar')
+                  systemStore.switchSetting('imageSkeleton')
                 }}
               />
             }
             filter={filter}
-            {...TEXTS.cdnAvatar}
-          />
+            {...TEXTS.imageSkeleton}
+          >
+            <Heatmap id='设置.切换' title='图片加载动画' />
+          </ItemSetting>
+
+          {/* 默认图片缓存策略 */}
+          {IOS && (
+            <ItemSetting
+              show={shows.iOSImageCache}
+              ft={
+                <SwitchPro
+                  style={commonStyles.switch}
+                  value={iosImageCacheV2}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '默认图片缓存策略',
+                      checked: !iosImageCacheV2
+                    })
+
+                    systemStore.switchSetting('iosImageCacheV2')
+                  }}
+                />
+              }
+              filter={filter}
+              {...TEXTS.iOSImageCache}
+            >
+              <Heatmap id='设置.切换' title='默认图片缓存策略' />
+            </ItemSetting>
+          )}
         </ActionSheet>
       </>
     )
