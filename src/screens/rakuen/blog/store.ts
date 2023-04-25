@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:04:09
+ * @Last Modified time: 2023-04-25 14:26:56
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -54,6 +54,7 @@ export default class ScreenBlog extends store {
       _loaded: true
     })
 
+    usersStore.updateFriendsMap()
     return this.fetchBlog()
   }
 

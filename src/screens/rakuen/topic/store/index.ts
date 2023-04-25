@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 02:12:46
+ * @Last Modified time: 2023-04-25 14:28:07
  */
-import { rakuenStore } from '@stores'
+import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { NAMESPACE, EXCLUDE_STATE } from './ds'
 import Action from './action'
@@ -43,6 +43,8 @@ class ScreenTopic extends Action {
         } else {
           rakuenStore.checkIsFavor(this.topicId)
         }
+
+        usersStore.updateFriendsMap()
 
         // 本地帖子过来不主动请求
         const { _noFetch } = this.params
