@@ -1,10 +1,9 @@
 /*
  * 管理全局 Stores 和放置系统级别状态
- *
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 03:18:25
+ * @Last Modified time: 2023-04-26 14:32:07
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -64,7 +63,7 @@ class GlobalStores {
         'formhash',
         'userInfo',
         'usersInfo',
-        'userCookie', // userCookie 一定要在读取 userInfo 和 usersInfo 之后
+        'userCookie', // userCookie 一定要在 userInfo 和 usersInfo 之后读取
         'collection',
         'userSetting'
       ] as const

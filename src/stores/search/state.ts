@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 16:05:18
+ * @Last Modified time: 2023-04-26 15:00:57
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -17,7 +17,7 @@ export default class State extends Store {
 
   UA = ''
 
-  _loaded = LOADED
+  private _loaded = LOADED
 
   init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true

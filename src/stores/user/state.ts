@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 20:52:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-22 16:51:12
+ * @Last Modified time: 2023-04-26 15:05:32
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -15,7 +15,7 @@ type CacheKey = keyof typeof LOADED
 export default class State extends Store {
   state = observable(STATE)
 
-  _loaded = LOADED
+  private _loaded = LOADED
 
   init = async (key: CacheKey) => {
     if (!key || this._loaded[key]) return true

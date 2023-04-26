@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-24 02:57:23
+ * @Date: 2023-04-26 14:45:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:43:49
+ * @Last Modified time: 2023-04-26 14:47:02
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -17,16 +17,16 @@ export default class State extends Store {
 
   private _loaded = LOADED
 
-  init = async (key: CacheKey) => {
+  init = (key: CacheKey) => {
     if (!key || this._loaded[key]) return true
 
-    if (DEV && LOG_INIT) console.info('CollectionStore /', key)
+    if (DEV && LOG_INIT) console.info('OTAStore /', key)
 
     this._loaded[key] = true
     return this.readStorage([key], NAMESPACE)
   }
 
-  save = (key: CacheKey, data?: any) => {
-    return this.setStorage(key, data, NAMESPACE)
+  save = (key: CacheKey) => {
+    return this.setStorage(key, undefined, NAMESPACE)
   }
 }

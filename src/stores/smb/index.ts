@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:37:33
+ * @Last Modified time: 2023-04-26 15:01:53
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -70,4 +70,6 @@ class SMBStore extends store implements StoreConstructor<typeof STATE> {
   }
 }
 
-export default new SMBStore()
+const smbStore = new SMBStore()
+
+export default smbStore

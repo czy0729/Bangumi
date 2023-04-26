@@ -3,8 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-04-20 11:41:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 14:07:37
+ * @Last Modified time: 2023-04-26 14:58:10
  */
 import Action from './action'
 
-export default new Action()
+const calendarStore = new Action()
+
+export default calendarStore
