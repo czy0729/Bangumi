@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-03-11 13:11:15
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-03-11 13:11:15
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-04-27 20:16:24
  */
 import { _ } from '@stores'
 
@@ -11,6 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: '100%',
     paddingVertical: 8,
     paddingHorizontal: 12,
+    fontFamily: _.fontBoldFamily,
     color: _.colorDesc,
     ..._.fontSize(14),
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
@@ -22,6 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
   inputMulti: {
     width: '100%',
     paddingTop: 0,
+    fontFamily: _.fontBoldFamily,
     color: _.colorDesc,
     ..._.fontSize(14)
   }

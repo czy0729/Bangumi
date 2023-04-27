@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 17:33:18
+ * @Last Modified time: 2023-04-27 20:13:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
               src={`${HOST}/pic/user/l/${avatar}`}
               size={52}
               borderWidth={2}
-              borderColor='rgba(255, 255, 255, 0.88)'
+              borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
               radius={4}
               onPress={() => $.onToggleShow(nickname)}
               onLongPress={() => {
@@ -48,7 +48,7 @@ function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
             />
           </InView>
         </UserStatus>
-        <Text style={_.mt.sm} type='__plain__' size={12} bold align='center'>
+        <Text style={_.mt.sm} size={12} bold align='center'>
           {nickname}
         </Text>
       </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-22 05:49:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:27:29
+ * @Last Modified time: 2023-04-27 19:46:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,18 +19,20 @@ function Btn({ item, active = false, onPress }: any) {
   return (
     <Touchable style={stl(styles.btn, active && styles.btnActive)} onPress={onPress}>
       <Flex style={styles.btn} direction='column' justify='center'>
-        {item.text ? (
-          <Text style={_.mb.xs} bold>
-            {item.text}
-          </Text>
-        ) : (
-          <Iconfont
-            style={_.mb.xs}
-            name={item.icon}
-            color={_.colorDesc}
-            size={Math.floor((item.size || 24) * 0.9)}
-          />
-        )}
+        <Flex style={styles.icon} justify='center'>
+          {item.text ? (
+            <Text style={_.mb.xs} size={Math.floor((item.size || 24) * 0.9)} bold>
+              {item.text}
+            </Text>
+          ) : (
+            <Iconfont
+              style={_.mb.xs}
+              name={item.icon}
+              color={_.colorDesc}
+              size={Math.floor((item.size || 24) * 0.9)}
+            />
+          )}
+        </Flex>
         <Text size={10} bold>
           {item.name}
         </Text>

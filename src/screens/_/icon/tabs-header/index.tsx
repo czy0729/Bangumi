@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:44:49
+ * @Last Modified time: 2023-04-27 20:14:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ export const IconTabsHeader = ob(
     onPress
   }: IconTabsHeaderProps) => {
     const top = text ? (
-      <Text style={_.mr.xs} type='title' size={16} bold>
+      <Text style={_.mr.xs} type='desc' size={size}>
         {text}
       </Text>
     ) : (

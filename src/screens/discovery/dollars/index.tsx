@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:22:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 16:57:31
+ * @Last Modified time: 2023-04-27 20:10:29
  */
 import React, { useRef } from 'react'
 import { Page } from '@components'
@@ -34,12 +34,7 @@ const Dollars = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header />
-      <Page
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          backgroundColor: '#000'
-        }}
-      >
+      <Page>
         <Textarea />
         <List />
       </Page>

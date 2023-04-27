@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 18:16:37
+ * @Last Modified time: 2023-04-27 20:09:53
  */
 import React from 'react'
 import {
@@ -252,6 +252,7 @@ export const Input = observer(
           <TextInput
             style={stl(
               {
+                fontFamily: _.fontBoldFamily,
                 borderRadius: this.borderRadius
               },
               style
