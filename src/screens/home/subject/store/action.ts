@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:14:47
+ * @Last Modified time: 2023-04-28 03:37:39
  */
 import {
   _,
@@ -592,8 +592,8 @@ export default class Action extends Fetch {
     })
   })
 
-   /** 更新可视范围底部 y */
-   onScroll = ({ nativeEvent }) => {
+  /** 更新可视范围底部 y */
+  onScroll = ({ nativeEvent }) => {
     const { contentOffset, layoutMeasurement } = nativeEvent
     const screenHeight = layoutMeasurement.height
     const visibleBottom = contentOffset.y + screenHeight
@@ -843,10 +843,13 @@ export default class Action extends Fetch {
     }
 
     // 20220414 x18 无效，待废弃，改用 doUpdateSubjectEp
-    this.doUpdateEp({
-      eps: query.chap,
-      vol: query.vol
-    })
+    this.doUpdateEp(
+      {
+        eps: query.chap,
+        vol: query.vol
+      },
+      true
+    )
   }
 
   /** 更新书籍章节 */
@@ -858,10 +861,13 @@ export default class Action extends Fetch {
     const { chap, vol } = this.state
 
     // 20220414 x18 无效，待废弃，改用 doUpdateEp
-    this.doUpdateEp({
-      eps: chap,
-      vol
-    })
+    this.doUpdateEp(
+      {
+        eps: chap,
+        vol
+      },
+      true
+    )
   }
 
   /** 输入框更新章节 */
@@ -879,7 +885,10 @@ export default class Action extends Fetch {
   }
 
   /** 章节更新统一入口 */
-  doUpdateEp = async ({ eps, vol }: { eps?: any; vol?: any }) => {
+  doUpdateEp = async (
+    { eps, vol }: { eps?: any; vol?: any },
+    isNeedFeedback: boolean = false
+  ) => {
     try {
       this.prepareEpsFlip()
 
@@ -895,6 +904,10 @@ export default class Action extends Fetch {
           await this.fetchSubjectFormHTML()
           this.setStorage(this.namespace)
           this.afterEpsFlip()
+          if (isNeedFeedback) {
+            info('已提交')
+            feedback()
+          }
 
           webhookEp(
             {
@@ -925,13 +938,13 @@ export default class Action extends Fetch {
 
     try {
       const userProgress = this.userProgress
-      let status
+      let status: EpStatus
       if (userProgress[id]) {
         // 已观看 -> 撤销
-        status = MODEL_EP_STATUS.getValue('撤销')
+        status = MODEL_EP_STATUS.getValue<EpStatus>('撤销')
       } else {
         // 未观看 -> 看过
-        status = MODEL_EP_STATUS.getValue('看过')
+        status = MODEL_EP_STATUS.getValue<EpStatus>('看过')
       }
 
       await userStore.doUpdateEpStatus({
