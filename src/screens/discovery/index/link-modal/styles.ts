@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-10 07:30:49
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-10 07:30:49
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-04-28 03:57:53
  */
 import { _ } from '@stores'
 
@@ -24,9 +24,16 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 0,
     color: _.colorDesc,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: _.select(_.colorIcon, _.colorBorder),
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
+  },
+  info: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 1,
+    right: 20,
+    marginTop: -20
   }
 }))
