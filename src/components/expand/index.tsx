@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:15:01
+ * @Last Modified time: 2023-04-26 18:13:30
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -22,6 +22,7 @@ export { ExpandProps }
 export const Expand = ({
   style,
   moreStyle,
+  iconColor,
   ratio = 1,
   linearGradient = true,
   checkLayout = true,
@@ -107,7 +108,11 @@ export const Expand = ({
           <View style={stl(styles.more, moreStyle)}>
             <Touchable onPress={onExpand}>
               <Flex justify='center'>
-                <Iconfont name='md-keyboard-arrow-down' size={_.device(24, 32)} />
+                <Iconfont
+                  name='md-keyboard-arrow-down'
+                  color={iconColor}
+                  size={_.device(24, 32)}
+                />
               </Flex>
             </Touchable>
           </View>

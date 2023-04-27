@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-31 08:31:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:10:28
+ * @Last Modified time: 2023-04-26 18:13:27
  */
-import { ViewStyle, ReactNode, Fn } from '@types'
+import { ViewStyle, ReactNode, Fn, ColorValue } from '@types'
 
 export type Props = {
   /** 容器样式 */
   style?: ViewStyle
 
-  /** 展开箭头样式 */
+  /** 展开箭头容器样式 */
   moreStyle?: ViewStyle
+
+  /** 展开箭头颜色 */
+  iconColor?: ColorValue
 
   /** 比例 */
   ratio?: number

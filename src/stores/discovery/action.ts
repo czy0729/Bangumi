@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 15:54:35
+ * @Last Modified time: 2023-04-27 16:26:02
  */
 import { xhr } from '@utils/fetch'
 import {
@@ -11,9 +11,10 @@ import {
   HTML_ACTION_CATALOG_CREATE,
   HTML_ACTION_CATALOG_DELETE,
   HTML_ACTION_CATALOG_EDIT,
-  HTML_ACTION_CATALOG_MODIFY_SUBJECT
+  HTML_ACTION_CATALOG_MODIFY_SUBJECT,
+  HTML_DOLLARS
 } from '@constants'
-import { Id, SubjectId } from '@types'
+import { Fn, Id, SubjectId } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -163,6 +164,28 @@ export default class Action extends Fetch {
         }
       },
       success
+    )
+  }
+
+  /** 发送 Dollars */
+  doDollars = (
+    args: {
+      message: string
+    },
+    success?: Fn,
+    fail?: Fn
+  ) => {
+    const { message } = args || {}
+    xhr(
+      {
+        url: `${HTML_DOLLARS()}?ajax=1`,
+        data: {
+          message
+        },
+        noConsole: true
+      },
+      success,
+      fail
     )
   }
 }

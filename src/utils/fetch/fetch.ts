@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:08:06
+ * @Last Modified time: 2023-04-26 17:11:11
  */
 import { STORYBOOK } from '@constants/device'
 import { APP_ID, HOST, UA } from '@constants/constants'
@@ -109,8 +109,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
 const LAST_FETCH_HTML = {}
 
 /**
- * 请求获取HTML
- *  - chii_cookietime=2592000
+ * 请求获取 HTML (携带授权信息)
  *  - 2021/01/17 拦截瞬间多次完全同样的请求
  */
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:58:43
+ * @Last Modified time: 2023-04-27 18:10:23
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -110,6 +110,12 @@ export const MENU_MAP = {
   //   icon: 'md-favorite-outline',
   //   login: true
   // },
+  Dollars: {
+    key: 'Dollars',
+    name: 'Dollars',
+    text: 'D',
+    size: 20
+  },
   Wiki: {
     key: 'Wiki',
     name: '维基人',
@@ -153,7 +159,7 @@ export const MENU_MAP = {
   DoubanSync: {
     key: 'DoubanSync',
     name: '豆瓣同步',
-    text: 'D',
+    text: '豆',
     size: 18,
     web: false
   },

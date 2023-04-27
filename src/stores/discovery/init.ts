@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 11:13:15
+ * @Last Modified time: 2023-04-26 17:15:48
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -137,7 +137,10 @@ const STATE = {
   /** @deprecated Anitama 文章列表 */
   anitamaTimeline: {
     0: INIT_ANITAMA_TIMELINE_ITEM
-  }
+  },
+
+  /** DOLLARS */
+  dollars: LIST_EMPTY
 }
 
 /**
@@ -163,5 +166,6 @@ export const LOADED = {
   catalogDetailFromOSS: false,
   channel: false,
   online: false,
-  wiki: false
+  wiki: false,
+  dollars: false
 }

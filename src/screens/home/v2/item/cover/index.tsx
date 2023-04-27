@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 16:40:15
+ * @Last Modified time: 2023-04-27 18:17:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-const ITEM_HEIGHT = 154
+const ITEM_HEIGHT = 142
 
 function Cover({ index, subjectId, subject }, { $, navigation }: Ctx) {
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)

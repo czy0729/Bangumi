@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:25:24
+ * @Last Modified time: 2023-04-27 18:16:37
  */
 import React from 'react'
 import {
@@ -34,6 +34,7 @@ export const Input = observer(
   class InputComponent extends React.Component<InputProps, State> {
     static defaultProps = {
       style: undefined,
+      inputStyle: undefined,
       multiline: false,
       numberOfLines: 1,
       showClear: false,
@@ -194,9 +195,14 @@ export const Input = observer(
     }
 
     get overrideProps() {
-      const { numberOfLines, placeholderTextColor, onFocus, onScrollIntoViewIfNeeded } =
-        this.props
-      return {
+      const {
+        inputStyle,
+        numberOfLines,
+        placeholderTextColor,
+        onFocus,
+        onScrollIntoViewIfNeeded
+      } = this.props
+      const props: any = {
         forwardRef: this.forwardRef,
         numberOfLines,
         allowFontScaling: false,
@@ -209,7 +215,9 @@ export const Input = observer(
         cursorColor: _.colorMain,
         onChange: this.onChange,
         onFocus: typeof onScrollIntoViewIfNeeded === 'function' ? this.onFocus : onFocus
-      } as const
+      }
+      if (inputStyle) props.style = inputStyle
+      return props
     }
 
     render() {

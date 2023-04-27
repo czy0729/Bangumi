@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-17 01:58:43
+ * @Last Modified time: 2023-04-26 16:53:06
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -314,6 +314,9 @@ export const HTML_SUBJECT_PERSONS = (subjectId: SubjectId) =>
 
 /** 维基人 */
 export const HTML_WIKI = () => `${HOST}/wiki`
+
+/** DOLLARS */
+export const HTML_DOLLARS = () => `${HOST}/dollars`
 
 /**
  * 回复帖子

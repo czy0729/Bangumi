@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:45:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 15:53:00
+ * @Last Modified time: 2023-04-26 17:16:04
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -141,5 +141,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return computed<News>(() => {
       return this.state.anitamaTimeline[page] || INIT_ANITAMA_TIMELINE_ITEM
     }).get()
+  }
+
+  /** DOLLARS */
+  @computed get dollars() {
+    this.init('dollars')
+    return this.state.dollars
   }
 }

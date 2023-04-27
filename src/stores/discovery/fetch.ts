@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 15:53:03
+ * @Last Modified time: 2023-04-27 16:05:16
  */
-import { cheerio, getTimestamp, HTMLDecode } from '@utils'
+import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { get } from '@utils/kv'
 import {
@@ -15,6 +15,7 @@ import {
   HTML_CATALOG,
   HTML_CATALOG_DETAIL,
   HTML_CHANNEL,
+  HTML_DOLLARS,
   HTML_TAGS,
   HTML_WIKI,
   LIST_EMPTY
@@ -28,6 +29,7 @@ import {
   analysisTags,
   cheerioBlog,
   cheerioChannel,
+  cheerioDollars,
   cheerioWiki
 } from './common'
 import {
@@ -379,6 +381,52 @@ export default class Fetch extends Computed {
     return this[key]
   }
 
+  /** DOLLARS */
+  fetchDollars = async () => {
+    const html = await fetchHTML({
+      url: HTML_DOLLARS()
+    })
+
+    const data = cheerioDollars(html)
+    const key = 'dollars'
+    this.setState({
+      [key]: {
+        ...data,
+        _loaded: getTimestamp()
+      }
+    })
+    this.save(key)
+
+    return this[key]
+  }
+
+  /** 轮询更新 DOLLARS */
+  updateDollars = async () => {
+    const sinceId = String(this.dollars.list?.[0]?.id || 0).slice(0, 10)
+    const html = await fetchHTML({
+      url: `${HTML_DOLLARS()}?since_id=${sinceId}&_=${getTimestamp()}`
+    })
+
+    if (html !== 'null') {
+      try {
+        const items = JSON.parse(html)
+        const key = 'dollars'
+        this.setState({
+          [key]: {
+            ...this.state.dollars,
+            list: [...items.reverse(), ...this.state.dollars.list].slice(0, 32),
+            _loaded: getTimestamp()
+          }
+        })
+        this.save(key)
+        feedback()
+        return true
+      } catch (error) {}
+    }
+
+    return false
+  }
+
   /** @deprecated 随便看看 */
   fetchRandom = async (refresh?: boolean) => {
     const url = `${HOST_NING_MOE}/api/get_random_bangumi`
@@ -532,7 +580,7 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** @deprecated Anitama文章列表 */
+  /** @deprecated Anitama 文章列表 */
   fetchAnitamaTimeline = async (page: number = 1) => {
     const url = `${HOST_ANITAMA}/timeline?pageNo=${page}`
 

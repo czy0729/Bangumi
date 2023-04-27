@@ -2,16 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:18:56
+ * @Last Modified time: 2023-04-27 15:25:22
  */
 import { TextInputProps } from 'react-native'
-import { Override, ColorValue, ViewStyle } from '@types'
+import { Override, ColorValue, ViewStyle, TextStyle } from '@types'
 
 export type Props = Override<
   TextInputProps,
   {
     /** Input 容器样式 */
     style?: ViewStyle
+
+    /** Input mutiline 容器样式 */
+    inputStyle?: TextStyle
 
     /** 是否启用多行 */
     multiline?: boolean

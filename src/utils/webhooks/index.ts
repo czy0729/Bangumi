@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-26 02:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 19:25:30
+ * @Last Modified time: 2023-04-27 17:27:41
  */
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { getTimestamp } from '../utils'
+import { syncSystemStore } from '../async'
 import { t } from '../track'
 import {
   getCatalog,
@@ -32,6 +33,8 @@ export const webhookCollection = (
   subject: any,
   userInfo: any
 ) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'collection'
   webhook(type, {
     type: Number(
@@ -67,6 +70,8 @@ export const webhookEp = (
   subject: any,
   userInfo: any
 ) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'ep'
   let ep = (subject?.eps || []).find(item => item.id === values.id)
   if (!ep) ep = (subject?.eps || []).find(item => item.sort == values.sort)
@@ -109,6 +114,8 @@ export const webhookSay = (
   } = {},
   userInfo: any
 ) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'say'
   webhook(type, {
     content: values.content || '新吐槽',
@@ -125,6 +132,8 @@ export const webhookSay = (
 
 /** 钩子: 收藏人物 */
 export const webhookMono = (mono: any, userInfo: any) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'mono'
   webhook(type, {
     mono: getMono(mono),
@@ -141,6 +150,8 @@ export const webhookMono = (mono: any, userInfo: any) => {
 
 /** 钩子: 加为好友 */
 export const webhookFriend = (user: any, userInfo: any) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'friend'
   webhook(type, {
     friend: getUserInfo(user),
@@ -157,6 +168,8 @@ export const webhookFriend = (user: any, userInfo: any) => {
 
 /** 钩子: 加入小组 */
 export const webhookGroup = (group: any, userInfo: any) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'group'
   webhook(type, {
     group: getGroup(group),
@@ -173,6 +186,8 @@ export const webhookGroup = (group: any, userInfo: any) => {
 
 /** 钩子: 收藏目录 */
 export const webhookCatalog = (catalog: any, userInfo: any) => {
+  if (!syncSystemStore().setting.webhook) return false
+
   const type = 'catalog'
   webhook(type, {
     catalog: getCatalog(catalog),

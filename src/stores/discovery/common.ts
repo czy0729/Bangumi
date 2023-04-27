@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-29 20:20:24
+ * @Last Modified time: 2023-04-26 19:28:04
  */
-import { safeObject } from '@utils'
-import { cheerio, HTMLDecode } from '@utils/html'
+import { safeObject, cheerio, HTMLDecode } from '@utils'
 import { getCoverMedium } from '@utils/app'
 import { matchUserId } from '@utils/match'
 
@@ -340,6 +339,30 @@ export function cheerioWiki(HTML) {
       music: getList('#latest_3 li'),
       game: getList('#latest_4 li'),
       real: getList('#latest_6 li')
+    }
+  }
+}
+
+/** 分析 Dollars */
+export function cheerioDollars(html: string) {
+  const $ = cheerio(html)
+  return {
+    list:
+      $('#chatList ul li')
+        .map((index: number, element: any) => {
+          const $row = $(element)
+          return {
+            id: String($row.attr('id')).split('_')?.[1].slice(0, 10),
+            avatar: $row.find('img.avatar').attr('src').split('/m/')?.[1] || '',
+            nickname: $row.find('.icon p').text().trim(),
+            msg: $row.find('.content p').text().trim(),
+            color: $row.find('.content').attr('style').split(':')?.[1] || ''
+          }
+        })
+        .get() || [],
+    pagination: {
+      page: 1,
+      pageTotal: 1
     }
   }
 }

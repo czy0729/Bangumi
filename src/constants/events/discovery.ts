@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 03:56:40
+ * @Last Modified time: 2023-04-27 17:15:06
  */
 
 /** Discovery */
@@ -19,6 +19,10 @@ export default {
   'Anitama.上一页': 'Anitama.prev',
   'Anitama.下一页': 'Anitama.next',
   'Anitama.页码跳转': 'Anitama.doSearch',
+
+  // Dollars
+  'Dollars.跳转': 'Dollars.to',
+  'Dollars.发送': 'Dollars.onSubmit',
 
   // 年鉴
   '年鉴.跳转': 'Award.to',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:33:20
+ * @Last Modified time: 2023-04-26 17:36:08
  */
 import { _ } from '@stores'
 
@@ -26,7 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
       height: 1
     },
     textShadowRadius: 1,
-    textShadowColor: 'rgba(0, 0, 0, 0.24)'
+    textShadowColor: 'rgba(0, 0, 0, 0.32)'
   },
   noWrap: {
     // @ts-expect-error
