@@ -35,5 +35,8 @@ export const memoStyles = _.memoStyles(() => ({
     top: 1,
     right: 20,
     marginTop: -20
+  },
+  item: {
+    paddingVertical: 12
   }
 }))

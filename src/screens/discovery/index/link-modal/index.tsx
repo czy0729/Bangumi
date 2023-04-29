@@ -128,7 +128,7 @@ export default obc(
           <View style={_.container.wind}>
             {LINKS.map(item => (
               <Touchable
-                style={_.mt.md}
+                style={this.styles.item}
                 key={item.key}
                 onPress={() => this.onSelect(item.value)}
               >
@@ -137,7 +137,7 @@ export default obc(
                     <Text size={15} bold>
                       {item.key}
                     </Text>
-                    <Text style={_.mt.xs} type='sub' size={12} bold>
+                    <Text style={_.mt.xs} type='sub' size={13} bold>
                       {item.text}
                     </Text>
                   </Flex.Item>

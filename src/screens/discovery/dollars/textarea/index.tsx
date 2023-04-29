@@ -20,6 +20,7 @@ function Textarea(props, { $ }: Ctx) {
   return (
     <View style={styles.container}>
       <Input
+        ref={$.forwardInputRef}
         style={styles.textarea}
         inputStyle={styles.input}
         multiline

@@ -27,6 +27,7 @@ const Dollars = (props, { $ }: Ctx) => {
 
     return () => {
       $.scrollViewRef = null
+      $.inputRef = null
       clearInterval(interval.current)
     }
   })
@@ -34,7 +35,7 @@ const Dollars = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <>
       <Header />
-      <Page>
+      <Page loaded={$.dollars._loaded}>
         <Textarea />
         <List />
       </Page>

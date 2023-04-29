@@ -12,14 +12,14 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
-  const { visibleBottom } = $.state
+  const { visibleBottom, show } = $.state
   return (
     <CompHeader
       title='DOLLARS'
       hm={['dollars', 'Dollars']}
       headerRight={() => (
         <Flex>
-          {visibleBottom >= _.window.height * 2 && (
+          {!show && visibleBottom >= _.window.height * 2 && (
             <IconTouchable
               style={_.mr.xs}
               name='md-keyboard-arrow-up'
@@ -41,8 +41,8 @@ function Header(props, { $ }: Ctx) {
           /> */}
           <IconTouchable
             style={_.mr.xs}
-            name='md-edit'
-            size={16}
+            name={show ? 'md-close' : 'md-edit'}
+            size={show ? 20 : 16}
             color={_.colorTitle}
             onPress={() => {
               $.onToggleShow()

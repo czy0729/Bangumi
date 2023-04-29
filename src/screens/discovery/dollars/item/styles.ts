@@ -15,14 +15,13 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 52
   },
   avatar: {
-    width: 68,
-    marginLeft: -8
+    width: 80,
+    paddingRight: 12
   },
   content: {
     padding: 15,
     paddingTop: 12,
     marginTop: -1,
-    marginLeft: 8,
     borderWidth: 5,
     borderRadius: _.radiusMd,
     borderColor: _.select('rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 0.88)')

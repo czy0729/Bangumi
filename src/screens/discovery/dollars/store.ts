@@ -16,11 +16,23 @@ export default class ScreenDollars extends store {
 
   scrollViewRef = null
 
+  inputRef = null
+
   init = async () => {
     this.setState({
       ...EXCLUDE_STATE
     })
     return this.fetchDollars()
+  }
+
+  forwardRef = (ref: any) => {
+    this.scrollViewRef = ref
+  }
+
+  forwardInputRef = (ref: any) => {
+    try {
+      this.inputRef = ref.inputRef
+    } catch (error) {}
   }
 
   fetchDollars = () => {
@@ -38,10 +50,6 @@ export default class ScreenDollars extends store {
 
   @computed get dollars() {
     return discoveryStore.dollars
-  }
-
-  forwardRef = (ref: any) => {
-    this.scrollViewRef = ref
   }
 
   /** 滚动到顶 */
@@ -82,10 +90,16 @@ export default class ScreenDollars extends store {
 
     const { show, text } = this.state
     if (nickname) {
+      const mark = `@${nickname}`
       this.setState({
         show: true,
-        text: `@${nickname} ${text}`
+        text: text.includes(mark) ? text : `@${nickname} ${text}`
       })
+      setTimeout(() => {
+        try {
+          this.inputRef.focus()
+        } catch (error) {}
+      }, 0)
       return
     }
 

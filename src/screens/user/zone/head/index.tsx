@@ -19,8 +19,8 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { memoStyles } from './styles'
 import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
 const AVATAR_SIZE = _.r(88)
 
@@ -31,7 +31,7 @@ function Head({ style }, { $, navigation }: Ctx) {
   const { avatar, nickname, id, username } = $.usersInfo
   const { join, percent } = $.users
   const userId = id || _id
-  const isRename = !!username && !/d+/.test(username) && username != userId
+  const isRename = !!username && username != userId
   const userName = HTMLDecode(nickname || _name)
   const textType = _.select('plain', 'title')
   const fallback =
