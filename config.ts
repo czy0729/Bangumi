@@ -20,7 +20,7 @@ export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? !DEV : false
+export const TEXT_ONLY = DEV ? DEV : false
 
 /** 反代地址 */
 export const HOST_PROXY = 'https://bangumi-app-webproxy.magmablock.top'
