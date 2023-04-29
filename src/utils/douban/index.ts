@@ -5,7 +5,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-06 13:13:40
  */
-import { asc, similar, sleep } from '../utils'
+import { desc, similar, sleep } from '../utils'
 import { xhrCustom } from '../fetch'
 import { cheerio } from '../html'
 import { DoubanId, Cat, SubType, SearchItem, VideoItem, TrailerItem } from './types'
@@ -68,21 +68,27 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
   })
   const $ = cheerio(_response)
 
-  return (
-    $('.result .content')
-      .map((index: number, element) => {
-        const $row = cheerio(element)
-        const $a = $row.find('h3 a')
-        return {
-          id: $a.attr('onclick').match(/sid: (\d+)/)?.[1],
-          title: removeSpecial($a.text().trim()),
-          desc: removeSpecial($row.find('p').text().trim())
-        }
-      })
-      .get() || []
-  )
-    .filter((item: SearchItem) => item.id)
-    .sort((a: SearchItem, b: SearchItem) => asc(a.title.length, b.title.length))
+  try {
+    return (
+      $('.result .content')
+        .map((index: number, element) => {
+          const $row = cheerio(element)
+          const $a = $row.find('h3 a')
+          return {
+            id: $a.attr('onclick').match(/sid: (\d+)/)?.[1],
+            title: removeSpecial($a.text().trim()),
+            desc: removeSpecial($row.find('p').text().trim())
+          }
+        })
+        .get() || []
+    )
+      .filter((item: SearchItem) => item.id)
+      .sort((a: SearchItem, b: SearchItem) =>
+        desc(similar(q, a.title), similar(q, b.title))
+      )
+  } catch (error) {
+    return []
+  }
 }
 
 /**

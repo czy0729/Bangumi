@@ -464,8 +464,12 @@ export default class Fetch extends Computed {
 
       const { ts, videos = [], epsThumbs = [], epsThumbsHeader = {} } = data
       if (
+        // 数量不够更新
         videos.length + epsThumbs.length <= 2 ||
-        getTimestamp() - ts >= 60 * 60 * 24 * 7
+        // 7 天更新一次
+        getTimestamp() - ts >= 60 * 60 * 24 * 7 ||
+        // 最后一次逻辑修正的时间戳
+        ts < 1682762759
       ) {
         return true
       }
