@@ -7,7 +7,7 @@
  */
 import Action from './action'
 
-export default  class ScreenMono extends Action {
+export default class ScreenMono extends Action {
   init = () => {
     this.fetchMonoFromOSS()
 

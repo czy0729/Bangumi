@@ -175,6 +175,9 @@ export const INIT_MONO = {
   /** 谁收藏了 */
   collected: [],
 
+  /** 合作 */
+  collabs: [],
+
   /** 加入收藏 */
   collectUrl: '',
 

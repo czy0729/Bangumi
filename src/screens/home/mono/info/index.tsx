@@ -28,6 +28,7 @@ import Detail from '../detail'
 import Voice from '../voice'
 import Works from '../works'
 import Jobs from '../jobs'
+import Collabs from '../collabs'
 import Collected from '../collected'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -98,6 +99,7 @@ function Info(props, { $, navigation }: Ctx) {
       <Voice style={_.mt.md} />
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />
+      <Collabs style={_.mt.md} />
       <Collected style={_.mt.md} />
       <SectionTitle
         style={styles.title}

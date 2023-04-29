@@ -6,20 +6,21 @@
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { InView, Avatar, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
+import { appNavigate } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
-function Collected(props, { $, navigation }: Ctx) {
-  // global.rerender('Mono.Collected')
+function Collabs(props, { $, navigation }: Ctx) {
+  // global.rerender('Mono.Collabs')
 
-  const { collected } = $.mono
-  if (!collected?.length) return null
+  const { collabs } = $.mono
+  if (!collabs?.length) return null
 
   return (
     <InView style={styles.container}>
@@ -31,12 +32,12 @@ function Collected(props, { $, navigation }: Ctx) {
               style={styles.touch}
               onPress={() => {
                 navigation.push('WebBrowser', {
-                  url: `${HOST}/${$.monoId}/collections`,
-                  title: `谁收藏了${$.nameTop}`
+                  url: `${HOST}/${$.monoId}/collabs`,
+                  title: `${$.nameTop}的合作`
                 })
 
                 t('人物.跳转', {
-                  from: '谁收藏了',
+                  from: '合作',
                   to: 'WebBrowser',
                   monoId: $.monoId
                 })
@@ -57,7 +58,7 @@ function Collected(props, { $, navigation }: Ctx) {
           </Flex>
         }
       >
-        谁收藏了
+        合作
       </SectionTitle>
       <ScrollView
         style={_.mt.md}
@@ -65,37 +66,32 @@ function Collected(props, { $, navigation }: Ctx) {
         horizontal
         {...SCROLL_VIEW_RESET_PROPS}
       >
-        {collected.map(item => (
+        {collabs.map(item => (
           <Touchable
-            key={item.userId}
+            key={item.href}
             style={styles.item}
             animate
             onPress={() => {
-              navigation.push('Zone', {
-                userId: item.userId,
-                _name: item.name
-              })
+              appNavigate(item.href, navigation)
 
               t('人物.跳转', {
-                from: '谁收藏了',
-                to: 'Zone',
+                from: '合作',
+                to: 'Mono',
                 monoId: $.monoId,
-                userId: item.userId
+                href: item.href
               })
             }}
           >
             <Flex>
-              <UserStatus userId={item.userId}>
-                <Avatar name={item.name} src={item.avatar} />
-              </UserStatus>
+              <Avatar name={item.name} src={item.cover} />
               <View style={_.ml.sm}>
                 <Flex>
                   <Text size={13} bold>
                     {item.name}
                   </Text>
                 </Flex>
-                <Text style={_.mt.xs} size={10} type='sub'>
-                  {item.last}
+                <Text style={_.mt.xs} size={10} type='sub' bold>
+                  {item.count}
                 </Text>
               </View>
             </Flex>
@@ -107,4 +103,4 @@ function Collected(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Collected)
+export default obc(Collabs)

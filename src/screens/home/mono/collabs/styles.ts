@@ -10,7 +10,7 @@ export const styles = _.create({
   container: {
     minHeight: 84,
     marginTop: _.md,
-    marginBottom: _.md
+    marginBottom: _.lg
   },
   item: {
     paddingRight: _.sm,

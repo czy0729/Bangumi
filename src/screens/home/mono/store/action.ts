@@ -4,14 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-21 18:36:22
  */
-import { _, tinygrailStore, userStore } from '@stores'
-import {
-  feedback,
-  info,
-  loading,
-  open,
-  removeHTMLTag
-} from '@utils'
+import { tinygrailStore, userStore } from '@stores'
+import { feedback, info, loading, open, removeHTMLTag } from '@utils'
 import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
@@ -65,7 +59,7 @@ export default class Action extends Fetch {
       userStore.userInfo
     )
 
-    return this.fetchMono(true)
+    return this.fetchMono(true, false)
   }
 
   /** 取消收藏人物 */
@@ -84,7 +78,7 @@ export default class Action extends Fetch {
     feedback()
     info('已取消收藏')
 
-    return this.fetchMono(true)
+    return this.fetchMono(true, false)
   }
 
   /** 开启 ICO */

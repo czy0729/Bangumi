@@ -234,6 +234,23 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
       })
     }
 
+    // 合作
+    mono.collabs = []
+    matchHTML = HTML.match(/<ul class="coversSmall">(.+?)<\/ul>/)
+    if (matchHTML) {
+      const $ = cheerio(matchHTML[1])
+      $('li.clearit').each((index: number, element: any) => {
+        const $row = cheerio(element)
+        const $a = $row.find('a.l')
+        mono.collabs.push({
+          href: $row.find('a.avatar').attr('href'),
+          name: HTMLDecode($a.text().trim()),
+          cover: matchAvatar($row.find('span.avatarNeue').attr('style')),
+          count: $row.find('small').text().trim().replace(/\(|\)/g, '')
+        })
+      })
+    }
+
     // 吐槽箱
     matchHTML = HTML.match(
       /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><div id="footer/

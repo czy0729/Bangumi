@@ -403,6 +403,14 @@ export type Mono = DeepPartial<{
     last: string
   }[]
 
+  /** 合作 */
+  collabs: {
+    href: `/person/${Id}`
+    name: string
+    cover: Cover<'s'>
+    count: number
+  }[]
+
   collectUrl: `${string}?gh=${string}`
   eraseCollectUrl: `${string}?gh=${string}`
   _loaded: Loaded

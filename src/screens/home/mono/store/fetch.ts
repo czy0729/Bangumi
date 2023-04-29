@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-21 18:32:59
  */
-import { subjectStore, tinygrailStore, systemStore, userStore } from '@stores'
+import { subjectStore, tinygrailStore, systemStore } from '@stores'
 import { getTimestamp, omit, opitimize } from '@utils'
 import { get, update } from '@utils/kv'
 import Computed from './computed'
@@ -14,8 +14,9 @@ export default class Fetch extends Computed {
    * 人物信息和吐槽箱
    * @opitimize 1h
    * */
-  fetchMono = (refresh: boolean = false) => {
+  fetchMono = (refresh: boolean = false, isOpitimize = true) => {
     if (
+      isOpitimize &&
       refresh === true &&
       opitimize(this.mono, 60 * 60) &&
       this.monoComments.list.length
