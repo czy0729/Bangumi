@@ -48,6 +48,10 @@ export const HTML_SUBJECT_RATING = (
     isFriend ? '&filter=friends' : ''
   }`
 
+/** 用于获取条目管理相关信息 */
+export const HTML_SUBJECT_COLLECT_DETAIL = (subjectId: SubjectId) =>
+  `${HOST}/update/${subjectId}?keepThis=false`
+
 /** 包含条目的目录列表 */
 export const HTML_SUBJECT_CATALOGS = (subjectId: SubjectId, page: number = 1) =>
   `${HOST}/subject/${subjectId}/index?page=${page}`

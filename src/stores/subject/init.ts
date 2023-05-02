@@ -304,7 +304,7 @@ const STATE = {
     0: false
   },
 
-  /** wiki修订历史 */
+  /** wiki 修订历史 */
   wiki: {
     0: INIT_SUBJECT_WIKI
   },

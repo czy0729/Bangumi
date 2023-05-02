@@ -15,7 +15,8 @@ import {
   Override,
   RatingStatus,
   StoreConstructor,
-  SubjectId
+  SubjectId,
+  SubjectTypeValue
 } from '@types'
 import State from './state'
 import { getInt } from './utils'
@@ -250,7 +251,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   // -------------------- computed --------------------
   /** 尽量获取到条目中文名 */
   cn(subjectId: SubjectId) {
-    return computed(() => {
+    return computed<string>(() => {
       return (
         this.subjectV2(subjectId)?.cn ||
         this.subject(subjectId)?.name_cn ||
@@ -262,12 +263,24 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 尽量获取到条目日文名 */
   jp(subjectId: SubjectId) {
-    return computed(() => {
+    return computed<string>(() => {
       return (
         this.subjectV2(subjectId)?.jp ||
         this.subject(subjectId)?.name ||
         this.subjectFromOSS(subjectId)?.name ||
         ''
+      )
+    }).get()
+  }
+
+  /** 尽量获取到条目类型 */
+  type(subjectId: SubjectId) {
+    return computed<SubjectTypeValue>(() => {
+      return (
+        this.subjectV2(subjectId)?.type ||
+        this.subject(subjectId)?.type ||
+        this.subjectFromOSS(subjectId)?.type ||
+        '2'
       )
     }).get()
   }

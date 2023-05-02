@@ -22,6 +22,7 @@ import {
   HTML_PM_DETAIL,
   HTML_PM_OUT,
   HTML_PM_PARAMS,
+  HTML_SUBJECT_COLLECT_DETAIL,
   HTML_USERS,
   HTML_USER_SETTING,
   LIST_EMPTY,
@@ -33,6 +34,7 @@ import {
   cheerioPM,
   cheerioPMDetail,
   cheerioPMParams,
+  cheerioTags,
   cheerioUserSetting
 } from './common'
 import { DEFAULT_SCOPE, NAMESPACE } from './init'
@@ -406,5 +408,31 @@ export default class Fetch extends Computed {
       }
     }
     return false
+  }
+
+  /** 我的标签 */
+  fetchTags = async (subjectId: SubjectId, subjectType?: SubjectType) => {
+    const html = await fetchHTML({
+      url: HTML_SUBJECT_COLLECT_DETAIL(subjectId)
+    })
+    const list = cheerioTags(html)
+
+    const key = 'tags'
+    const data = {
+      list,
+      pagination: {
+        page: 1,
+        pageTotal: 1
+      },
+      _loaded: getTimestamp()
+    }
+    this.setState({
+      [key]: {
+        [subjectType]: data
+      }
+    })
+    this.save(key)
+
+    return data
   }
 }

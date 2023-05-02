@@ -22,6 +22,7 @@ import {
   ListEmpty,
   StoreConstructor,
   SubjectId,
+  SubjectType,
   UserId
 } from '@types'
 import State from './state'
@@ -186,6 +187,15 @@ export default class Computed extends State implements StoreConstructor<typeof S
         return Math.floor(Number(onlines[userId]) / 1000)
       }
       return 0
+    }).get()
+  }
+
+  /** 我的标签 */
+  tags(subjectType: SubjectType) {
+    this.init('tags')
+
+    return computed<ListEmpty>(() => {
+      return this.state.tags[subjectType] || LIST_EMPTY
     }).get()
   }
 

@@ -33,14 +33,30 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.sm,
     marginTop: _.isMobileLanscape ? -24 : 0
   },
-  tagsWrap: {
-    height: _.select(84, 80),
-    overflow: 'hidden'
-  },
   tags: {
     width: '100%',
-    minHeight: 54,
+    minHeight: 96,
+    maxHeight: 128,
+    marginTop: 6,
     paddingVertical: 12
+  },
+  tagsWrap: {
+    marginTop: _.sm,
+    marginRight: -_.sm + 1,
+    overflow: 'hidden'
+  },
+  userTags: {
+    width: '100%',
+    maxHeight: 100,
+    paddingVertical: 12,
+    marginTop: -12,
+    marginBottom: 2,
+    overflow: 'hidden'
+  },
+  userTagsWrap: {
+    marginTop: _.sm,
+    marginRight: -_.sm + 1,
+    overflow: 'hidden'
   },
   tag: {
     paddingVertical: _.xs - 1,

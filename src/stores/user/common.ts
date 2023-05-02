@@ -95,3 +95,22 @@ export function cheerioUserSetting(HTML) {
       $('select[name=timeoffsetnew] option[selected=selected]').attr('value') || '8'
   }
 }
+
+/** 分析我的标签 */
+export function cheerioTags(html: string): string[] {
+  html = html.split('<span class="tip_j ll">我的标签：</span>')?.[1] || ''
+  if (!html) return []
+
+  try {
+    const $ = cheerio(html)
+    return (
+      $('a.btnGray')
+        .map((index: number, element: any) => {
+          return cheerio(element).text().trim()
+        })
+        .get() || []
+    )
+  } catch (error) {
+    return []
+  }
+}

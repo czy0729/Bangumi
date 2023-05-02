@@ -19,11 +19,11 @@ import {
   Text,
   Touchable
 } from '@components'
-import { _, collectionStore, subjectStore, systemStore } from '@stores'
-import { setStorage, getStorage, sleep } from '@utils'
+import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
+import { setStorage, getStorage, sleep, getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { IOS, MODEL_PRIVATE } from '@constants'
-import { Private, PrivateCn, RatingStatus } from '@types'
+import { IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
+import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
 import CommentHistory from './comment-history'
@@ -106,6 +106,7 @@ export const ManageModal = ob(
             private: privacy,
             status: _status = {}
           } = await collectionStore.fetchCollection(subjectId)
+          this.fetchUserTags()
 
           const state: any = {
             rating,
@@ -177,11 +178,22 @@ export const ManageModal = ob(
         fetching: true,
         showTags: true
       })
+
       await subjectStore.fetchSubjectFormHTML(subjectId)
 
       this.setState({
         fetching: false
       })
+    }
+
+    fetchUserTags = async () => {
+      const { subjectId } = this.props
+
+      // 每种类型一小时最多刷新一次
+      const { _loaded } = userStore.tags(this.type)
+      if (getTimestamp() - Number(_loaded || 0) <= 60 * 60) return
+
+      return userStore.fetchTags(subjectId, this.type)
     }
 
     onFocus = () => {
@@ -261,13 +273,28 @@ export const ManageModal = ob(
       return _.device(4, 6)
     }
 
+    get type() {
+      const { subjectId, action } = this.props
+      let type: SubjectType
+      if (action === '听') {
+        type = 'music'
+      } else if (action === '玩') {
+        type = 'game'
+      } else if (action === '读') {
+        type = 'book'
+      } else {
+        type = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectStore.type(subjectId))
+      }
+      return type
+    }
+
     renderInputTags() {
       const { tags } = this.state
       return (
         <Input
           style={this.styles.inputTags}
           defaultValue={tags}
-          placeholder='我的标签'
+          placeholder='标签'
           returnKeyType='next'
           onChangeText={text => this.changeText('tags', text)}
           onSubmitEditing={this.onSubmitEditing}
@@ -300,43 +327,94 @@ export const ManageModal = ob(
 
       const selected = this.state.tags.split(' ')
       return (
-        <ScrollView style={this.styles.tagsWrap}>
-          <Flex wrap='wrap'>
-            {tags.map(({ name, count }) => {
-              const isSelected = selected.indexOf(name) !== -1
-              return (
-                <Touchable
-                  style={this.styles.touchTag}
-                  key={name}
-                  onPress={() => this.toggleTag(name)}
-                >
-                  <Flex
-                    style={
-                      isSelected
-                        ? [this.styles.tag, this.styles.tagSelected]
-                        : this.styles.tag
-                    }
+        <View>
+          <Text style={_.ml.xs} type='sub' size={11} bold>
+            常用标签
+          </Text>
+          <ScrollView style={this.styles.tagsWrap}>
+            <Flex wrap='wrap'>
+              {tags
+                .filter(item => !String(item.count).includes('更多'))
+                .map(({ name, count }) => {
+                  const isSelected = selected.indexOf(name) !== -1
+                  return (
+                    <Touchable
+                      style={this.styles.touchTag}
+                      key={name}
+                      onPress={() => this.toggleTag(name)}
+                    >
+                      <Flex
+                        style={
+                          isSelected
+                            ? [this.styles.tag, this.styles.tagSelected]
+                            : this.styles.tag
+                        }
+                      >
+                        <Text
+                          size={12}
+                          bold
+                          type={_.select('desc', isSelected ? 'main' : 'desc')}
+                        >
+                          {name}
+                        </Text>
+                        <Text
+                          style={_.ml.xs}
+                          type={_.select('sub', isSelected ? 'main' : 'sub')}
+                          size={12}
+                        >
+                          {count}
+                        </Text>
+                      </Flex>
+                    </Touchable>
+                  )
+                })}
+            </Flex>
+          </ScrollView>
+        </View>
+      )
+    }
+
+    renderUserTags() {
+      const { list } = userStore.tags(this.type)
+      if (!list.length) return null
+
+      const selected = this.state.tags.split(' ')
+      return (
+        <View style={this.styles.userTags}>
+          <Text style={_.ml.xs} type='sub' size={11} bold>
+            我的标签
+          </Text>
+          <ScrollView style={this.styles.userTagsWrap}>
+            <Flex wrap='wrap'>
+              {list.map(item => {
+                const isSelected = selected.indexOf(item) !== -1
+                return (
+                  <Touchable
+                    style={this.styles.touchTag}
+                    key={item}
+                    onPress={() => this.toggleTag(item)}
                   >
-                    <Text
-                      size={12}
-                      bold
-                      type={_.select('desc', isSelected ? 'main' : 'desc')}
+                    <Flex
+                      style={
+                        isSelected
+                          ? [this.styles.tag, this.styles.tagSelected]
+                          : this.styles.tag
+                      }
                     >
-                      {name}
-                    </Text>
-                    <Text
-                      style={_.ml.xs}
-                      type={_.select('sub', isSelected ? 'main' : 'sub')}
-                      size={12}
-                    >
-                      {count}
-                    </Text>
-                  </Flex>
-                </Touchable>
-              )
-            })}
-          </Flex>
-        </ScrollView>
+                      <Text
+                        size={12}
+                        bold
+                        type={_.select('desc', isSelected ? 'main' : 'desc')}
+                      >
+                        {item}
+                      </Text>
+                    </Flex>
+                  </Touchable>
+                )
+              })}
+            </Flex>
+          </ScrollView>
+        </View>
       )
     }
 
@@ -441,6 +519,7 @@ export const ManageModal = ob(
                   <StarGroup value={rating} onChange={this.changeRating} />
                   {this.renderInputTags()}
                   <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
+                  {this.renderUserTags()}
                   {this.renderInputComment()}
                   {this.renderStatusBtnGroup()}
                   {this.renderSubmit()}

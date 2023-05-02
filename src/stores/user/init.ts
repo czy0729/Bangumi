@@ -132,7 +132,10 @@ export const STATE = {
   outdate: false,
 
   /** 在线用户最后上报时间集 */
-  onlines: {}
+  onlines: {},
+
+  /** 我的标签 */
+  tags: {}
 }
 
 export const LOADED = {
@@ -151,5 +154,6 @@ export const LOADED = {
   userInfo: false,
   userProgress: false,
   userSetting: false,
-  usersInfo: false
+  usersInfo: false,
+  tags: false
 }
