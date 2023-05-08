@@ -20,7 +20,7 @@ import {
   Touchable
 } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { setStorage, getStorage, sleep, getTimestamp } from '@utils'
+import { setStorage, getStorage, sleep, getTimestamp, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
@@ -54,6 +54,7 @@ export const ManageModal = ob(
       rating: 0,
       tags: '',
       showTags: true,
+      showUserTags: false,
       comment: '',
       commentHistory: [],
       status: '',
@@ -268,6 +269,18 @@ export const ManageModal = ob(
       return sleep(240)
     }
 
+    onToggleTagsRecent = () => {
+      this.setState({
+        showUserTags: false
+      })
+    }
+
+    onToggleTagsUser = () => {
+      this.setState({
+        showUserTags: true
+      })
+    }
+
     get numberOfLines() {
       if (!_.isPad && _.isLandscape) return 2
       return _.device(4, 6)
@@ -303,7 +316,7 @@ export const ManageModal = ob(
     }
 
     renderTags() {
-      const { fetching } = this.state
+      const { fetching, showUserTags } = this.state
       if (fetching) {
         return (
           <View style={_.ml.xs}>
@@ -326,16 +339,46 @@ export const ManageModal = ob(
       }
 
       const selected = this.state.tags.split(' ')
+      const { list } = userStore.tags(this.type)
       return (
         <View>
-          <Text style={_.ml.xs} type='sub' size={11} bold>
-            常用标签
-          </Text>
+          <Flex style={this.styles.title}>
+            <Touchable onPress={this.onToggleTagsRecent}>
+              <Text
+                style={showUserTags && this.styles.opacity}
+                type='sub'
+                size={12}
+                bold
+              >
+                常用
+              </Text>
+            </Touchable>
+            <View style={this.styles.split} />
+            <Touchable onPress={this.onToggleTagsUser}>
+              <Text
+                style={!showUserTags && this.styles.opacity}
+                type='sub'
+                size={12}
+                bold
+              >
+                我的
+              </Text>
+            </Touchable>
+          </Flex>
           <ScrollView style={this.styles.tagsWrap}>
             <Flex wrap='wrap'>
-              {tags
+              {(showUserTags ? list : tags)
                 .filter(item => !String(item.count).includes('更多'))
-                .map(({ name, count }) => {
+                .map(item => {
+                  let name: string
+                  let count: number
+                  if (showUserTags) {
+                    name = item
+                  } else {
+                    name = item.name
+                    count = item.count
+                  }
+
                   const isSelected = selected.indexOf(name) !== -1
                   return (
                     <Touchable
@@ -344,11 +387,10 @@ export const ManageModal = ob(
                       onPress={() => this.toggleTag(name)}
                     >
                       <Flex
-                        style={
-                          isSelected
-                            ? [this.styles.tag, this.styles.tagSelected]
-                            : this.styles.tag
-                        }
+                        style={stl(
+                          this.styles.tag,
+                          isSelected && this.styles.tagSelected
+                        )}
                       >
                         <Text
                           size={12}
@@ -357,61 +399,19 @@ export const ManageModal = ob(
                         >
                           {name}
                         </Text>
-                        <Text
-                          style={_.ml.xs}
-                          type={_.select('sub', isSelected ? 'main' : 'sub')}
-                          size={12}
-                        >
-                          {count}
-                        </Text>
+                        {!!count && (
+                          <Text
+                            style={_.ml.xs}
+                            type={_.select('sub', isSelected ? 'main' : 'sub')}
+                            size={12}
+                          >
+                            {count}
+                          </Text>
+                        )}
                       </Flex>
                     </Touchable>
                   )
                 })}
-            </Flex>
-          </ScrollView>
-        </View>
-      )
-    }
-
-    renderUserTags() {
-      const { list } = userStore.tags(this.type)
-      if (!list.length) return null
-
-      const selected = this.state.tags.split(' ')
-      return (
-        <View style={this.styles.userTags}>
-          <Text style={_.ml.xs} type='sub' size={11} bold>
-            我的标签
-          </Text>
-          <ScrollView style={this.styles.userTagsWrap}>
-            <Flex wrap='wrap'>
-              {list.map(item => {
-                const isSelected = selected.indexOf(item) !== -1
-                return (
-                  <Touchable
-                    style={this.styles.touchTag}
-                    key={item}
-                    onPress={() => this.toggleTag(item)}
-                  >
-                    <Flex
-                      style={
-                        isSelected
-                          ? [this.styles.tag, this.styles.tagSelected]
-                          : this.styles.tag
-                      }
-                    >
-                      <Text
-                        size={12}
-                        bold
-                        type={_.select('desc', isSelected ? 'main' : 'desc')}
-                      >
-                        {item}
-                      </Text>
-                    </Flex>
-                  </Touchable>
-                )
-              })}
             </Flex>
           </ScrollView>
         </View>
@@ -519,7 +519,6 @@ export const ManageModal = ob(
                   <StarGroup value={rating} onChange={this.changeRating} />
                   {this.renderInputTags()}
                   <Flex style={this.styles.tags}>{this.renderTags()}</Flex>
-                  {this.renderUserTags()}
                   {this.renderInputComment()}
                   {this.renderStatusBtnGroup()}
                   {this.renderSubmit()}

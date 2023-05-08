@@ -11,7 +11,7 @@ import { Modal, View, StatusBar } from 'react-native'
 import RNImageViewer from 'react-native-image-zoom-viewer'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { open, showActionSheet } from '@utils'
+import { open, showActionSheet, stl } from '@utils'
 import { HOST_DOGE, IOS } from '@constants'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
@@ -102,13 +102,7 @@ export const ImageViewer = observer(
             <View style={styles.activityIndicator}>
               <ActivityIndicator />
             </View>
-            <View
-              style={
-                mini
-                  ? [styles.viewerContainer, styles.viewerMini]
-                  : styles.viewerContainer
-              }
-            >
+            <View style={stl(styles.viewerContainer, mini && styles.viewerMini)}>
               <RNImageViewer
                 style={styles.viewer}
                 index={index}

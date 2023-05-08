@@ -33,28 +33,19 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.sm,
     marginTop: _.isMobileLanscape ? -24 : 0
   },
+  title: {
+    height: 16,
+    paddingLeft: _.xs
+  },
   tags: {
     width: '100%',
     minHeight: 96,
-    maxHeight: 128,
+    maxHeight: _.select(136, 132),
     marginTop: 6,
     paddingVertical: 12
   },
   tagsWrap: {
-    marginTop: _.sm,
-    marginRight: -_.sm + 1,
-    overflow: 'hidden'
-  },
-  userTags: {
-    width: '100%',
-    maxHeight: 100,
-    paddingVertical: 12,
-    marginTop: -12,
-    marginBottom: 2,
-    overflow: 'hidden'
-  },
-  userTagsWrap: {
-    marginTop: _.sm,
+    marginTop: 12,
     marginRight: -_.sm + 1,
     overflow: 'hidden'
   },
@@ -89,6 +80,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   comment: {
+    marginTop: 6,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
     borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
@@ -97,6 +89,16 @@ export const memoStyles = _.memoStyles(() => ({
   },
   input: {
     borderWidth: 0
+  },
+  split: {
+    width: 2,
+    height: 6,
+    marginHorizontal: 12,
+    borderRadius: 4,
+    backgroundColor: _.colorIcon
+  },
+  opacity: {
+    opacity: 0.5
   },
   btn: {
     borderRadius: _.radiusSm

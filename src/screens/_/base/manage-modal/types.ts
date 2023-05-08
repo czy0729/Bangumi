@@ -32,6 +32,7 @@ export type State = Partial<{
   rating: number
   tags: string
   showTags: boolean
+  showUserTags: boolean
   comment: string
   commentHistory: string[]
   status: '' | RatingStatus
