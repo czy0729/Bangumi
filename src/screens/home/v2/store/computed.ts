@@ -148,7 +148,7 @@ export default class Computed extends State {
       const type = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(title)
       if (type) data.list = data.list.filter(item => item?.subject?.type == type)
 
-      // 若当前Tab有文字过滤
+      // 若当前 Tab 有文字过滤
       if (this.isFilter(title)) {
         const { filter } = this.state
 
@@ -170,7 +170,12 @@ export default class Computed extends State {
         })
       }
 
-      data.list = this.sortList(data.list)
+      if (title === '全部' && systemStore.setting.showGame) {
+        data.list = [...this.sortList(data.list), ...this.games.list]
+      } else {
+        data.list = this.sortList(data.list)
+      }
+
       return CacheManager.set(key, data)
     }).get()
   }
