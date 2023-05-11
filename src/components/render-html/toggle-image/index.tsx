@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:37
+ * @Last Modified time: 2023-05-12 06:37:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, rakuenStore } from '@stores'
 import { open, stl } from '@utils'
+import { IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
 import { Touchable } from '../../touchable'
@@ -84,7 +85,7 @@ class ToggleImage extends React.Component<Props, State> {
 
     if (!this.isIcon) {
       const isRemote = typeof this.src === 'string'
-      if (isRemote && (this.src as string).includes('.webp')) {
+      if (isRemote && !IOS && (this.src as string).includes('.webp')) {
         return (
           <Touchable style={this.styles.image} onPress={onImageFallback}>
             <Flex

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-16 10:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:33:16
+ * @Last Modified time: 2023-05-12 06:34:24
  */
 import React, { useCallback, useState } from 'react'
 import { Expand, RenderHtml } from '@components'
 import { _ } from '@stores'
-import { appNavigate } from '@utils'
+import { appNavigate, open } from '@utils'
 
 export const HTML = ({
   navigation,
