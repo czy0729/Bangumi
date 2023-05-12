@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 05:54:08
+ * @Last Modified time: 2023-05-13 06:25:47
  */
-import React, { useCallback, useState, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
 import { useMount } from '@utils/hooks'
 import { memo } from '@utils/decorators'
@@ -28,7 +28,7 @@ const Wrap = memo(
 
     const scrollY = useRef(new Animated.Value(0))
     const y = useRef(0)
-    const [fixed, setFixed] = useState(false)
+    const fixed = useRef(false)
 
     const _onScroll = useCallback(
       (e: {
@@ -43,16 +43,16 @@ const Wrap = memo(
         const { y: evtY } = e.nativeEvent.contentOffset
         y.current = evtY
 
-        if (fixed && evtY < fixedHeight - 20) {
-          setFixed(false)
+        if (fixed.current && evtY < fixedHeight - 20) {
+          fixed.current = false
           return
         }
 
-        if (!fixed && evtY >= fixedHeight - 20) {
-          setFixed(true)
+        if (!fixed.current && evtY >= fixedHeight - 20) {
+          fixed.current = true
         }
       },
-      [fixed, fixedHeight, onScroll]
+      [fixedHeight, onScroll]
     )
     const updatePageOffset = useCallback(
       (offsets: number | number[]) => {
@@ -60,7 +60,7 @@ const Wrap = memo(
 
         try {
           const config = {
-            offset: fixed ? fixedHeight : y.current,
+            offset: fixed.current ? fixedHeight : y.current,
             animated: false
           }
 
@@ -81,7 +81,7 @@ const Wrap = memo(
           }
         } catch (error) {}
       },
-      [fixed, fixedHeight, page, scrollToOffset]
+      [fixedHeight, page, scrollToOffset]
     )
     const onSwipeStart = useCallback(() => {
       updatePageOffset([-1, 1])
@@ -115,7 +115,7 @@ const Wrap = memo(
           onSelectSubjectType={onSelectSubjectType}
           onRefreshOffset={onRefreshOffset}
         />
-        <ParallaxImage scrollY={scrollY.current} fixed={fixed} />
+        <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />
       </>
     )
   },

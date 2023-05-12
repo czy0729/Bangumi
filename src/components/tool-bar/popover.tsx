@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:39:18
+ * @Last Modified time: 2023-05-13 04:56:59
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,6 +18,8 @@ import { ToolBarPopoverProps } from './types'
 
 export const ToolBarPopover = observer(
   ({
+    style,
+    itemStyle,
     data,
     icon,
     iconColor,
@@ -31,12 +33,12 @@ export const ToolBarPopover = observer(
     const styles = memoStyles()
     return (
       <Popover
-        style={stl(styles.touch, transparent && styles.transparentTouch)}
+        style={stl(styles.touch, transparent && styles.transparentTouch, style)}
         data={data}
         onSelect={onSelect}
       >
         <Flex
-          style={stl(styles.item, transparent && styles.transparentItem)}
+          style={stl(styles.item, transparent && styles.transparentItem, itemStyle)}
           justify='center'
         >
           {!!icon && (

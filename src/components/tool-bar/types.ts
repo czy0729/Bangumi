@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 05:38:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:51:05
+ * @Last Modified time: 2023-05-13 04:56:56
  */
 import { ColorValue, Override, ReactNode, TextStyle, ViewStyle } from '@types'
 import { EventKeys } from '@constants/events'
@@ -20,6 +20,8 @@ export type ToolBarIconProps = {
 }
 
 export type ToolBarPopoverProps = {
+  style?: ViewStyle
+  itemStyle?: ViewStyle
   data: PopoverProps['data']
   icon?: IconfontNames
   iconColor?: ColorValue

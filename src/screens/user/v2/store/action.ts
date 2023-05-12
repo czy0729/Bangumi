@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:21:33
+ * @Last Modified time: 2023-05-13 05:11:25
  */
-import { collectionStore, uiStore } from '@stores'
+import { _, collectionStore, uiStore } from '@stores'
 import { debounce, feedback, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import {
@@ -74,7 +74,8 @@ export default class Action extends Fetch {
 
     this.setState({
       page,
-      tag: ''
+      tag: '',
+      ipt: '1'
     })
     this.fetchIsNeedToEnd(true)
     this.setStorage(NAMESPACE)
@@ -91,7 +92,8 @@ export default class Action extends Fetch {
     if (nextSubjectType !== subjectType) {
       this.setState({
         subjectType: nextSubjectType,
-        tag: ''
+        tag: '',
+        ipt: '1'
       })
       this.fetchIsNeedRefreshToEnd()
       this.setStorage(NAMESPACE)
@@ -226,6 +228,48 @@ export default class Action extends Fetch {
         })
       }
     })
+  }
+
+  /** 上一页 */
+  onPrev = () => {
+    const { ipt } = this.state
+    if (Number(ipt) === 1) return
+
+    const value = Number(ipt) - 1
+    this.onPage(value)
+  }
+
+  /** 下一页 */
+  onNext = () => {
+    const { ipt } = this.state
+    const value = Number(ipt) + 1
+    this.onPage(value)
+  }
+
+  /** 输入框改变 */
+  onPageChange = ({ nativeEvent }) => {
+    const { text } = nativeEvent
+    this.setState({
+      ipt: text
+    })
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 刷新页 */
+  onPage = (value: any) => {
+    const { page } = this.state
+    this.setState({
+      ipt: String(value)
+    })
+    this.setStorage(NAMESPACE)
+
+    try {
+      this.scrollToOffset[page]({
+        offset: _.parallaxImageHeight - 100,
+        animated: true
+      })
+    } catch (error) {}
+    this.fetchUserCollectionsNormal(value)
   }
 
   /** 更新可视范围底部 y */

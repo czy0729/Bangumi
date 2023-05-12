@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-21 17:39:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:52:06
+ * @Last Modified time: 2023-05-12 09:09:57
  */
 import { LIST_EMPTY } from '@constants'
 import { Fn } from '@types'
@@ -15,6 +15,7 @@ export const DEFAULT_PROPS = {
   scrollY: 0 as any,
   page: 0 as number,
   list: true as boolean,
+  userPagination: false as boolean,
   userGridNum: 4 as number,
   userCollections: LIST_EMPTY as ReturnType<$['userCollections']>,
   onScroll: (() => {}) as Fn,

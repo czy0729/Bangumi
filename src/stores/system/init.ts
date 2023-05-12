@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 18:06:33
+ * @Last Modified time: 2023-05-12 09:07:37
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -223,8 +223,11 @@ export const INIT_SETTING = {
   /** 回复是否显示来源 */
   source: false,
 
-  /** 用户空间网格个数 */
+  /** 时光机网格个数 */
   userGridNum: MODEL_SETTING_USER_GRID_NUM.getValue<SettingUserGridNum>('4'),
+
+  /** 时光机分页 */
+  userPagination: true,
 
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),

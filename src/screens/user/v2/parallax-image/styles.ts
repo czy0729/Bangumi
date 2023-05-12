@@ -8,29 +8,33 @@ import { _ } from '@stores'
 import { IS_IOS_5_6_7_8 } from '@styles'
 import { H_RADIUS_LINE } from '../ds'
 
-export const memoStyles = _.memoStyles(() => ({
-  parallaxLine: {
-    position: 'absolute',
-    right: 0,
-    bottom: -1,
-    left: 0,
-    height: H_RADIUS_LINE,
-    backgroundColor: _.select(
-      _.colorPlain,
-      _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
-    ),
-    borderTopLeftRadius: H_RADIUS_LINE,
-    borderTopRightRadius: H_RADIUS_LINE,
-    overflow: 'hidden'
-  },
-  parallaxImage: {
-    marginTop: -8,
-    height: _.parallaxImageHeight + 8
-  },
-  head: {
-    marginTop: _.device((_.parallaxImageHeight - 120) / 2, 80)
+export const memoStyles = _.memoStyles(() => {
+  const backgroundColor = _.select(
+    _.colorPlain,
+    _.deepDark ? _._colorPlain : _._colorDarkModeLevel1
+  )
+  return {
+    parallaxLine: {
+      position: 'absolute',
+      right: 0,
+      bottom: -1,
+      left: 0,
+      height: H_RADIUS_LINE,
+      backgroundColor,
+      borderTopLeftRadius: H_RADIUS_LINE,
+      borderTopRightRadius: H_RADIUS_LINE,
+      overflow: 'hidden'
+    },
+    parallaxImage: {
+      marginTop: -8,
+      height: _.parallaxImageHeight + 8,
+      backgroundColor
+    },
+    head: {
+      marginTop: _.device((_.parallaxImageHeight - 120) / 2, 80)
+    }
   }
-}))
+})
 
 export const styles = _.create({
   parallax: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:11:28
+ * @Last Modified time: 2023-05-13 05:53:01
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -113,20 +113,6 @@ const Item = memo(
                     numberOfLines={comments ? 1 : 2}
                   />
                 </Flex.Item>
-                {/* <View style={_.mt.xxs}>
-                  {tags.includes('自己可见') && (
-                    <Flex style={styles.tag} justify='center'>
-                      <Iconfont name='md-visibility-off' color={_.colorSub} size={13} />
-                    </Flex>
-                  )}
-                  {nsfw && (
-                    <Flex style={styles.tag} justify='center'>
-                      <Text size={10} type='sub' bold>
-                        R18
-                      </Text>
-                    </Flex>
-                  )}
-                </View> */}
                 {showManage && (
                   <Manage
                     subjectId={subjectId}
@@ -154,7 +140,7 @@ const Item = memo(
                 <Text
                   size={11}
                   lineHeight={12}
-                  numberOfLines={numberOfLines - (titleLength >= 28 ? 1 : 0)}
+                  numberOfLines={numberOfLines - (titleLength >= 36 ? 1 : 0)}
                 >
                   {HTMLDecode(tip)}
                 </Text>

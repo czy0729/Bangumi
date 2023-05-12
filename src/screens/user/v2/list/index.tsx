@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-21 16:47:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:52:00
+ * @Last Modified time: 2023-05-12 09:09:33
  */
 import React from 'react'
 import { _, systemStore } from '@stores'
@@ -25,8 +25,8 @@ export default obc(
 
     if (!userCollections._loaded) return <Loading />
 
-    const userGridNum =
-      Number(systemStore.setting.userGridNum) + (_.isLandscape ? 1 : 0)
+    const { userPagination, userGridNum } = systemStore.setting
+    const num = Number(userGridNum) + (_.isLandscape ? 1 : 0)
     return (
       <List
         key={getKeyString(_.orientation, subjectType, userGridNum)}
@@ -35,7 +35,8 @@ export default obc(
         scrollY={scrollY}
         page={page}
         list={list}
-        userGridNum={userGridNum}
+        userPagination={userPagination}
+        userGridNum={num}
         userCollections={userCollections}
         onScroll={onScroll}
         onRefreshOffset={onRefreshOffset}

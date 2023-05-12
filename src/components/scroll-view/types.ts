@@ -12,6 +12,8 @@ export type Props = Expand<
     /** 是否启用点击顶部滚动到顶（安卓 only） */
     scrollToTop?: boolean
 
+    animated?: boolean
+
     /** 连接 ref.scrollTo */
     connectRef?: (scrollTo: Fn) => any
 

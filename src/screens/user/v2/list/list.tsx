@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:26:03
+ * @Last Modified time: 2023-05-13 05:17:50
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -12,6 +12,7 @@ import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
 import FixedToolBar from '../fixed-tool-bar'
 import Item from './item'
+import Pagination from './pagination'
 import { DEFAULT_PROPS } from './ds'
 
 const List = memo(
@@ -21,6 +22,7 @@ const List = memo(
     scrollY,
     page,
     list,
+    userPagination,
     userGridNum,
     userCollections,
     onScroll,
@@ -29,14 +31,20 @@ const List = memo(
   }) => {
     // global.rerender('User.List')
 
+    const { page: pageCurrent, pageTotal } = userCollections.pagination
     const ListHeaderComponent = useMemo(
       () => (
         <>
           <View style={styles.header} />
-          <FixedToolBar page={page} onRefreshOffset={onRefreshOffset} />
+          <FixedToolBar
+            page={page}
+            pageCurrent={pageCurrent}
+            pageTotal={pageTotal}
+            onRefreshOffset={onRefreshOffset}
+          />
         </>
       ),
-      [onRefreshOffset, page, styles]
+      [onRefreshOffset, page, pageCurrent, pageTotal, styles]
     )
     const _onScroll = useMemo(
       () =>
@@ -82,6 +90,13 @@ const List = memo(
       onRefreshOffset(page)
     })
 
+    const passProps: any = {}
+    if (userPagination) {
+      passProps.ListFooterComponent = <Pagination />
+    } else {
+      passProps.onFooterRefresh = onFooterRefresh
+    }
+
     return (
       <ListView
         key={getKeyString(list, numColumns)}
@@ -89,16 +104,16 @@ const List = memo(
         keyExtractor={keyExtractor}
         style={styles.listView}
         contentContainerStyle={list ? styles.list : styles.grid}
+        animated
         data={userCollections}
         numColumns={numColumns}
         lazy={12}
-        animated
-        scrollEventThrottle={16}
         keyboardDismissMode='on-drag'
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
-        onFooterRefresh={onFooterRefresh}
+        scrollEventThrottle={16}
         onScroll={_onScroll}
+        {...passProps}
       />
     )
   },

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 06:10:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:24:54
+ * @Last Modified time: 2023-05-13 06:35:10
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -24,6 +24,7 @@ function Tag({ page }, { $ }: Ctx) {
     <ToolBar.Popover
       data={filterData}
       icon='md-bookmark-outline'
+      iconSize={17}
       iconColor={_.colorDesc}
       text={tag ? tag.replace(/ \(\d+\)/, '') : '标签'}
       type='desc'

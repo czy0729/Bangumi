@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 03:03:37
+ * @Last Modified time: 2023-05-12 08:49:42
  */
 import {
   findTreeNode,
@@ -98,7 +98,7 @@ export default class Fetch extends Computed {
       order?: CollectionsOrder
       tag?: string
     },
-    refresh?: boolean
+    refreshOrPage?: boolean | number
   ) => {
     const {
       userId: _userId,
@@ -110,35 +110,37 @@ export default class Fetch extends Computed {
     const userId = _userId || userStore.myUserId
     const { list, pagination } = this.userCollections(userId, subjectType, type)
 
+    let page: number
+    let refresh: boolean
+    if (typeof refreshOrPage === 'boolean') {
+      refresh = refreshOrPage
+      page = refresh ? 1 : pagination.page + 1
+    } else {
+      refresh = true
+      page = refreshOrPage
+    }
+
     // 没有更多不再请求
     if (!refresh && pagination.page >= pagination.pageTotal) {
       return this.userCollections(userId, subjectType, type)
     }
 
-    const page = refresh ? 1 : pagination.page + 1
-
-    // -------------------- 请求HTML --------------------
-    // 需要携带 cookie 请求, 不然会查询不到自己隐藏了的条目
-    const raw = await fetchHTML({
-      url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, page)
-    })
-    const HTML = HTMLTrim(raw)
-
-    // -------------------- 分析HTML --------------------
-    let node
+    const html = HTMLTrim(
+      await fetchHTML({
+        url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, page)
+      })
+    )
     const stateKey = `${userId}|${subjectType}|${type}`
+    let node: any
 
     // 看过的标签
-    if (page === 1) {
-      const userCollectionsTags = []
-      const userCollectionsTagsHTML = HTML.match(
-        /<ul id="userTagList" class="tagList">(.*?)<\/ul>/
-      )
-
-      if (userCollectionsTagsHTML) {
-        const tree = HTMLToTree(userCollectionsTagsHTML[1])
+    if (page === 1 || typeof refreshOrPage === 'number') {
+      const tags = []
+      const tagsHtml = html.match(/<ul id="userTagList" class="tagList">(.*?)<\/ul>/)
+      if (tagsHtml) {
+        const tree = HTMLToTree(tagsHtml[1])
         tree.children.forEach(item => {
-          userCollectionsTags.push({
+          tags.push({
             tag: item.children[0].text[0],
             count: parseInt(item.children[0].children[0].text[0])
           })
@@ -148,32 +150,31 @@ export default class Fetch extends Computed {
       const key = 'userCollectionsTags'
       this.setState({
         [key]: {
-          [stateKey]: userCollectionsTags
+          [stateKey]: tags
         }
       })
 
-      if (userId === userStore.myUserId) {
-        this.setUserCollectionsTagsStroage()
-      }
+      if (userId === userStore.myUserId) this.setUserCollectionsTagsStroage()
     }
 
     // 收藏记录
-    let { pageTotal = 0 } = pagination
-    const userCollections = []
-    const userCollectionsHTML = HTML.match(
+    const items = []
+    const itemsHtml = html.match(
       /<ul id="browserItemList" class="browserFull">(.+?)<\/ul><div id="multipage"/
     )
-    if (userCollectionsHTML) {
+    let { pageTotal = 0 } = pagination
+
+    if (itemsHtml) {
       // 总页数
       if (page === 1) {
         const pageHTML =
-          HTML.match(
+          html.match(
             /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
-          ) || HTML.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
+          ) || html.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
         pageTotal = pageHTML?.[1] || 1
       }
 
-      const tree = HTMLToTree(userCollectionsHTML[1])
+      const tree = HTMLToTree(itemsHtml[1])
       tree.children.forEach(item => {
         const { children } = item
 
@@ -221,7 +222,7 @@ export default class Fetch extends Computed {
         node = findTreeNode(children, 'div > div|class=collectBlock tip_i')
         const collected = node ? true : false
 
-        const data = {
+        items.push({
           id,
           cover,
           name,
@@ -232,14 +233,13 @@ export default class Fetch extends Computed {
           score,
           time,
           collected
-        }
-        userCollections.push(data)
+        })
       })
     }
 
     const key = 'userCollections'
     const data = {
-      list: refresh ? userCollections : [...list, ...userCollections],
+      list: refresh ? items : [...list, ...items],
       pagination: {
         page,
         pageTotal: Number(pageTotal)
@@ -260,7 +260,7 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /** 排队获取自己的所有动画收藏列表记录 (每种最多取10页240条数据) */
+  /** 排队获取自己的所有动画收藏列表记录 (每种最多取 10 页 240 条数据) */
   fetchUserCollectionsQueue = async (
     refresh?: boolean,
     typeCn: SubjectTypeCn = '动画',

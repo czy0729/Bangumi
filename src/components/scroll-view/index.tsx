@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 03:46:57
+ * @Last Modified time: 2023-05-12 07:22:42
  */
 import React, { useRef } from 'react'
-import { ScrollView as RNScrollView } from 'react-native'
+import { ScrollView as RNScrollView, Animated } from 'react-native'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
 import { Props as ScrollViewProps } from './types'
@@ -19,6 +19,7 @@ export const ScrollView = ({
   horizontal,
   scrollToTop,
   connectRef,
+  animated,
 
   // 此属性对于 iOS 需要有默认值, 否则会出现首次渲染滚动条位置不正确的问题
   scrollIndicatorInsets = {
@@ -38,9 +39,10 @@ export const ScrollView = ({
     ref = ref => connectRef(ref?.scrollTo)
   }
 
+  const Component: any = animated ? Animated.ScrollView : RNScrollView
   return (
     <>
-      <RNScrollView
+      <Component
         ref={ref}
         style={style}
         contentContainerStyle={contentContainerStyle}
@@ -54,7 +56,7 @@ export const ScrollView = ({
         {...SCROLL_VIEW_RESET_PROPS}
       >
         {children}
-      </RNScrollView>
+      </Component>
       {scrollToTop && <ScrollToTop scrollTo={scrollViewEl.current} />}
     </>
   )

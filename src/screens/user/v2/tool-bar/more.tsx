@@ -6,18 +6,21 @@
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function More({ onRefreshOffset }, { $ }: Ctx) {
+  const { userPagination } = systemStore.setting
   const { list, showYear } = $.state
+  const paginationOption = `分页（${userPagination ? '开启' : '关闭'}）`
+  const yearOption = `年份（${showYear ? '显示' : '隐藏'}）`
   return (
     <ToolBar.Popover
       data={
         list
-          ? [`布局（列表）`]
-          : [`布局（网格）`, `年份（${showYear ? '显示' : '隐藏'}）`]
+          ? [`布局（列表）`, paginationOption]
+          : [`布局（网格）`, paginationOption, yearOption]
       }
       icon='md-more-vert'
       iconColor={_.colorDesc}
@@ -27,6 +30,10 @@ function More({ onRefreshOffset }, { $ }: Ctx) {
       onSelect={title => {
         if (title.includes('布局')) return onRefreshOffset()
         if (title.includes('年份')) return $.onToggleShowYear()
+        if (title.includes('分页')) {
+          systemStore.switchSetting('userPagination')
+          $.fetchUserCollectionsNormal(true)
+        }
       }}
     />
   )

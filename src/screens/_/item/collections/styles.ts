@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:28:35
+ * @Last Modified time: 2023-05-13 05:50:07
  */
 import { _ } from '@stores'
 import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
@@ -28,7 +28,8 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 40
   },
   comments: {
-    padding: _.sm,
+    paddingVertical: _.sm,
+    paddingHorizontal: 12,
     marginTop: _.md,
     marginBottom: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),

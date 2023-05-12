@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 06:36:19
+ * @Last Modified time: 2023-05-12 09:19:58
  */
-import { userStore } from '@stores'
+import { userStore, systemStore } from '@stores'
 import { MODEL_COLLECTIONS_ORDERBY } from '@constants'
 import { CollectionsOrderCn } from '@types'
 import Action from './action'
@@ -28,7 +28,13 @@ export default class ScreenUser extends Action {
     // 用户收藏记录
     const { order } = this.state
     if (MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) !== '网站评分') {
-      this.fetchUserCollections(true)
+      const { userPagination } = systemStore.setting
+      if (userPagination) {
+        const { ipt } = this.state
+        this.fetchUserCollectionsNormal(Number(ipt))
+      } else {
+        this.fetchUserCollections(true)
+      }
     }
 
     // 用户信息 (他人视角)

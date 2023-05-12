@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 07:46:49
+ * @Last Modified time: 2023-05-12 09:17:52
  */
-import { _, userStore, collectionStore, usersStore, subjectStore } from '@stores'
+import { userStore, collectionStore, usersStore } from '@stores'
 import { info } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus, SubjectType } from '@types'
@@ -38,7 +38,7 @@ export default class Fetch extends Computed {
   }
 
   /** 用户收藏概览 (HTML, 全部) */
-  fetchUserCollectionsNormal = async (refresh: boolean = false) => {
+  fetchUserCollectionsNormal = async (refreshOrPage: boolean | number = false) => {
     const { subjectType, order, tag } = this.state
     const data = await collectionStore.fetchUserCollections(
       {
@@ -48,7 +48,7 @@ export default class Fetch extends Computed {
         tag,
         userId: this.username
       },
-      refresh
+      refreshOrPage
     )
 
     // 别人的空间
