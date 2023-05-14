@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 10:23:37
+ * @Last Modified time: 2023-05-14 16:49:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,12 +15,14 @@ import { ob } from '@utils/decorators'
 import { HOST_CDN, IOS } from '@constants'
 import { AnyObject } from '@types'
 import {
-  fixedSize,
-  fixedLarge,
-  getAvatar,
-  getRadius,
   USER_LARGE,
-  getOnPress
+  fixedHD,
+  fixedLarge,
+  fixedSize,
+  getAvatar,
+  getCDNAvatar,
+  getOnPress,
+  getRadius
 } from './utils'
 import { memoStyles } from './styles'
 import { Props as AvatarProps } from './types'
@@ -47,9 +49,9 @@ export const Avatar = ob(
     onLongPress
   }: AvatarProps) => {
     const styles = memoStyles()
+    let _src = getAvatar(src)
     const _size = _.r(size)
     const _radius = getRadius(radius, round, _size)
-    let _src = getAvatar(src)
     const _onPress = getOnPress(onPress, {
       navigation,
       userId,
@@ -98,14 +100,10 @@ export const Avatar = ob(
 
     _src = fixedLarge(_src)
     _src = fixedSize(_src)
+    _src = fixedHD(_src)
+    _src = getCDNAvatar(_src)
 
-    // @issue 有些第三方地址使用 rn-fast-image 不使用 fallback 都会直接加载失败
-    let fallback = false
     const isUrl = typeof _src === 'string'
-    if (isUrl && !_src.includes(USER_LARGE) && !_src.includes(HOST_API_V0)) {
-      fallback = true
-    }
-
     const { dev } = systemStore.state
     const containerStyle = stl(
       style,
@@ -120,8 +118,10 @@ export const Avatar = ob(
       borderWidth: borderWidth,
       quality: false,
       placeholder: placeholder,
-      fallback: fallback,
-      fallbackSrc: fixedSize(String(fallbackSrc || src))
+
+      // @issue 有些第三方地址使用 rn-fast-image 不使用 fallback 都会直接加载失败
+      fallback: isUrl && !_src.includes(USER_LARGE) && !_src.includes(HOST_API_V0),
+      fallbackSrc: fixedHD(fixedSize(String(fallbackSrc || src)))
     }
     if (_onPress || onLongPress) {
       return (

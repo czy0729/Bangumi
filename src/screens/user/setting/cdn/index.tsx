@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 18:08:50
+ * @Last Modified time: 2023-05-14 18:00:51
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -56,7 +56,8 @@ function CDN({ navigation, filter }) {
   return useObserver(() => {
     if (!shows) return null
 
-    const { cdn, cdnOrigin, imageSkeleton, iosImageCacheV2 } = systemStore.setting
+    const { cdn, cdnOrigin, cdnAvatarV2, imageSkeleton, iosImageCacheV2 } =
+      systemStore.setting
     const origin = MODEL_SETTING_CDN_ORIGIN.getLabel<SettingCDNOriginCn>(cdnOrigin)
     const label = []
     if (!cdn) label.push('关闭')
@@ -252,6 +253,46 @@ function CDN({ navigation, filter }) {
               </Text>
             )}
           </ItemSettingBlock>
+
+          {/* 头像加速 */}
+          <ItemSetting
+            show={shows.cdnAvatarV2}
+            ft={
+              <SwitchPro
+                style={commonStyles.switch}
+                value={cdnAvatarV2}
+                onAsyncPress={async () => {
+                  if (!systemStore.advance) {
+                    info('此为高级会员功能')
+                    return
+                  }
+
+                  // 获取历史打赏金额
+                  const value = await systemStore.fetchAdvanceDetail()
+                  if (value == 1) {
+                    info('你是老打赏用户或特殊关照会员，允许开启')
+                  } else {
+                    const [, amount] = String(value).split('|')
+                    if (Number(amount || 0) < ADVANCE_CDN) {
+                      info(`历史打赏为 ${amount}，不足条件 ${ADVANCE_CDN}`)
+                      return
+                    }
+                  }
+
+                  t('设置.切换', {
+                    title: '头像加速',
+                    checked: !cdnAvatarV2
+                  })
+
+                  systemStore.switchSetting('cdnAvatarV2')
+                }}
+              />
+            }
+            filter={filter}
+            {...TEXTS.cdnAvatarV2}
+          >
+            <Heatmap id='设置.切换' title='头像加速' />
+          </ItemSetting>
 
           {/* 图片加载动画 */}
           <ItemSetting

@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:30:00
+ * @Last Modified time: 2023-05-14 18:13:32
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -20,7 +20,7 @@ import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
-import { DEV, IOS, STORYBOOK } from '@constants'
+import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
 import { Source } from '@types'
 import { IOS_IPA } from '@/config'
 import { Touchable } from '../touchable'
@@ -35,11 +35,14 @@ import {
   checkBgmEmoji,
   checkError404,
   checkError451,
+  checkErrorTimeout,
   fixedRemoteImageUrl,
   getDevStyles,
   imageViewerCallback,
   setError404,
-  setError451
+  setError451,
+  setErrorTimeout,
+  timeoutPromise
 } from './utils'
 import {
   DEFAULT_HEADERS,
@@ -155,7 +158,6 @@ export const Image = observer(
         return this.cacheV2(src)
       }
 
-      let res: Promise<string>
       let uri: string
       if (IOS) {
         try {
@@ -178,10 +180,32 @@ export const Image = observer(
               return false
             }
 
-            res = CacheManager.get(_src, {
-              headers: this.headers
-            }).getPath()
-            const path = await res
+            /**
+             * 头像 CDN 目前尚未稳定, 发现了图片损坏下载不能的现象
+             * 暂时写了超时应对
+             */
+            let path: string
+            if (typeof _src === 'string' && _src.includes(HOST_CDN_AVATAR)) {
+              try {
+                await Promise.race([
+                  new Promise(async resolve => {
+                    path = await CacheManager.get(_src, {
+                      headers: this.headers
+                    }).getPath()
+                    resolve(path)
+                  }),
+                  timeoutPromise()
+                ])
+              } catch (error) {
+                if (typeof this.props.src === 'string') setErrorTimeout(this.props.src)
+                this.onError(error)
+                return
+              }
+            } else {
+              path = await CacheManager.get(_src, {
+                headers: this.headers
+              }).getPath()
+            }
 
             /**
              * magma 的 cdn 要单独对第一次对象存储镜像做延迟处理, 需要再重新请求一遍
@@ -212,6 +236,11 @@ export const Image = observer(
             this.recoveryToBgmCover()
             return
           }
+
+          if (checkErrorTimeout(src)) {
+            this.onError()
+            return
+          }
         }
 
         uri = fixedRemoteImageUrl(uri)
@@ -225,8 +254,6 @@ export const Image = observer(
           })
         }
       }
-
-      return res
     }
 
     /** 缓存图片 (使用系统默认图片策略) */
@@ -235,6 +262,11 @@ export const Image = observer(
       if (!IOS && typeof src === 'string') {
         if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
           this.recoveryToBgmCover()
+          return
+        }
+
+        if (checkErrorTimeout(src)) {
+          this.onError()
           return
         }
       }
@@ -371,7 +403,7 @@ export const Image = observer(
       if (fallbackSrc && uri !== fallbackSrc && !this._fallbacked) {
         this._fallbacked = true
         this.setState({
-          uri: fallbackSrc
+          uri: fixedRemoteImageUrl(fallbackSrc)
         })
       } else {
         this.commitError(error)
@@ -405,7 +437,7 @@ export const Image = observer(
         () => {
           const { onError } = this.props
           if (typeof onError === 'function') onError()
-          if (DEV) console.info(info)
+          if (DEV) console.info('commitError', info)
         }
       )
     }

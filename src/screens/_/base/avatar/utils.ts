@@ -2,19 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 10:24:18
+ * @Last Modified time: 2023-05-14 17:55:47
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
-import { AVATAR_DEFAULT, CDN_OSS_AVATAR, URL_DEFAULT_AVATAR } from '@constants'
+import { AVATAR_DEFAULT, HOST_CDN_AVATAR, URL_DEFAULT_AVATAR } from '@constants'
 import { Props } from './types'
 
 /** 判断是否自己的头像, 一周才变化一次 */
 const TS = Math.floor(getTimestamp() / 604800)
-
-/** 中质量头像 */
-const USER_MEDIUM = '//lain.bgm.tv/pic/user/m/'
 
 /** 大质量头像 */
 export const USER_LARGE = '//lain.bgm.tv/pic/user/l/'
@@ -24,21 +21,21 @@ export const USER_LARGE = '//lain.bgm.tv/pic/user/l/'
  * 注意头像后面 ?r=xxx 的参数不要去掉, 因头像地址每个人都唯一, 需要防止本地缓存
  */
 function checkSelf(src: any) {
-  const mSrc = getCoverMedium(src, true)
+  const medium = getCoverMedium(src, true)
 
   let value = src
-  if (typeof mSrc === 'string') {
+  if (typeof medium === 'string') {
     const { avatar } = userStore.usersInfo()
     if (avatar?.medium) {
-      const a = mSrc.split('?')[0].split('/m/')
+      const a = medium.split('?')[0].split('/m/')
       const b = getCoverMedium(avatar.medium, true).split('?')[0].split('/m/')
 
       // 为自己
       if (a[1] && b[1] && a[1] === b[1]) {
-        if (mSrc.includes(URL_DEFAULT_AVATAR)) {
-          value = `${mSrc}?r=${TS}`
+        if (medium.includes(URL_DEFAULT_AVATAR)) {
+          value = `${medium}?r=${TS}`
         } else {
-          value = usersStore.customAvatar || `${mSrc}?r=${TS}`
+          value = usersStore.customAvatar || `${medium}?r=${TS}`
         }
       }
     }
@@ -49,11 +46,7 @@ function checkSelf(src: any) {
 
 /** 判断是否空, 若是使用默认值 */
 function checkNull(src: any) {
-  if (src) return src
-
-  return systemStore.setting.cdn && systemStore.setting.cdnAvatar
-    ? CDN_OSS_AVATAR(getCoverMedium(src, true))
-    : getCoverMedium(src, true)
+  return getCoverMedium(src, true)
 }
 
 /** 判断是否为默认头像, 若是直接使用本地的默认头像, 避免不必要的网络请求 */
@@ -68,10 +61,25 @@ export function getAvatar(src: any) {
   let avatar: any
 
   avatar = checkSelf(src)
-  avatar = checkNull(avatar)
+  if (!avatar) avatar = checkNull(src)
   avatar = checkDefault(avatar)
 
   return avatar
+}
+
+/** 判断是否使用 CDN */
+export function getCDNAvatar(src: any) {
+  if (typeof src !== 'string' || !systemStore.setting.cdnAvatarV2) return src
+
+  const reg = /(\d+)\.jpg\?r=(\d+)/
+  const match = src.match(reg)
+  if (!match) return src
+
+  const num1 = parseInt(match[1])
+  const num2 = parseInt(match[2]) || 0
+  if (!num1) return src
+
+  return `${HOST_CDN_AVATAR}/pic/user/${num1}/${num2}.jpg`
 }
 
 /** 计算圆角参数值 */
@@ -136,7 +144,9 @@ export function getOnPress(
 
 /** 强制使用 /l/ */
 export function fixedLarge(src: any) {
-  return typeof src !== 'string' ? src : src.replace(USER_MEDIUM, USER_LARGE)
+  return typeof src !== 'string'
+    ? src
+    : src.replace(/\/\/lain.bgm.tv\/pic\/user\/(m|s)\//g, USER_LARGE)
 }
 
 /**
@@ -148,4 +158,10 @@ export function fixedSize(src: any) {
   return typeof src !== 'string'
     ? src
     : src.replace(/\/r\/(\d+)x(\d+)\/pic\/cover\/(s|c|m)\//g, '/r/$1x$2/pic/cover/l/')
+}
+
+/** 网页端新出的图片规则, 地址后接 hd=1 开启高清头像 */
+export function fixedHD(src: any) {
+  if (typeof src !== 'string' || src.includes('hd=') || !src.includes('r=')) return src
+  return src.includes('?') ? `${src}&hd=1` : `${src}?hd=1`
 }

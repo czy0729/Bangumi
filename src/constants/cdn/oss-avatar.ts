@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:55:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-27 08:20:11
+ * @Last Modified time: 2023-05-14 11:45:35
  */
 import { getStorage, setStorage } from '@utils/storage'
 import { xhrCustom } from '@utils/fetch'
@@ -21,7 +21,7 @@ let cacheAvatar = {}
 let hashAvatarOTA = hashAvatar
 let hashAvatarLoaded = false
 
-/** [待废弃] 初始化所有云端头像 hash */
+/** @deprecated 初始化所有云端头像 hash */
 export const initHashAvatarOTA = async () => {
   if (hashAvatarLoaded) return
 
@@ -69,10 +69,10 @@ export const initHashAvatarOTA = async () => {
   cacheAvatar = {}
 }
 
-/** [待废弃] 返回云端头像 hash */
+/** @deprecated 返回云端头像 hash */
 export const getHashAvatarOTA = () => hashAvatarOTA
 
-/** [待废弃] 头像CDN */
+/** @deprecated 头像CDN */
 export const CDN_OSS_AVATAR = (src: any) => {
   if (typeof src !== 'string') return src
   if (cacheAvatar[src]) return cacheAvatar[src]

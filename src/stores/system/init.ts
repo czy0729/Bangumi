@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 09:07:37
+ * @Last Modified time: 2023-05-14 17:46:47
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -156,6 +156,9 @@ export const INIT_SETTING = {
 
   /** @deprecated 头像使用 CDN */
   cdnAvatar: false,
+
+  /** 头像启用付费 CDN */
+  cdnAvatarV2: false,
 
   /** 封面使用 CDN */
   cdnSubject: true,

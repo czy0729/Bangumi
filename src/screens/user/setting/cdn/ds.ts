@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 18:09:28
+ * @Last Modified time: 2023-05-14 17:47:33
  */
 import { _ } from '@stores'
 
@@ -52,9 +52,10 @@ export const TEXTS = {
       information: '免费开放\n目前可能已失效'
     }
   },
-  cdnAvatar: {
+  cdnAvatarV2: {
     hd: '头像加速',
-    information: '[已废弃] 不再生效'
+    information:
+      '若你经常碰到部分用户头像一直加载不出来，可尝试启用此高速付费域，原理同封面加速'
   },
   iOSImageCache: {
     hd: 'iOS 使用系统默认图片缓存策略',
