@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-12 16:04:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:43:26
+ * @Last Modified time: 2023-05-14 10:10:23
  */
-import { ColorValue, EventType, Navigation, ViewStyle, Fn } from '@types'
+import { ColorValue, EventType, Navigation, ViewStyle, Fn, AnyObject } from '@types'
 
 export type Props = {
   /** 图片容器样式 */
@@ -39,7 +39,7 @@ export type Props = {
   event?: EventType
 
   /** 路由跳转额外传递参数 */
-  params?: object
+  params?: AnyObject
 
   /** 是否强制圆形 */
   round?: boolean

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 12:00:21
+ * @Last Modified time: 2023-05-13 12:41:48
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -200,7 +200,7 @@ export default class ScreenUserSetting extends store {
     }
 
     let _bg = bg || ''
-    if (typeof _bg === 'string' && _bg.includes('i.pixiv.re')){
+    if (typeof _bg === 'string' && _bg.includes('i.pixiv.re')) {
       _bg = _bg.replace('/c/540x540_70', '')
     }
 
