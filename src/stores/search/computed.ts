@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:58:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 15:26:15
+ * @Last Modified time: 2023-05-16 06:39:14
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
@@ -27,6 +27,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
   searchRakuen(q: string) {
     return computed(() => {
       return this.state.searchRakuen[q] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 搜索帖子 */
+  rakuenSearch(q: string, withMessage: boolean = false) {
+    return computed(() => {
+      return this.state.rakuenSearch[`${q}|${withMessage}`] || LIST_EMPTY
     }).get()
   }
 }

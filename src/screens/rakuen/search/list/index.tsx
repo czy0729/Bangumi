@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:41:24
+ * @Last Modified time: 2023-05-16 07:18:56
  */
 import React from 'react'
 import { Loading, ListView, Text } from '@components'
@@ -22,18 +22,15 @@ class List extends React.Component {
 
     if (!$.search._loaded) return null
 
-    const { _pageTotal = 1, _filter = 0 } = $.search
+    const { _filter = 0 } = $.search
     const ListFooterComponent =
       _filter > 0 ? (
         <>
-          <Text style={_.mt.md} type='sub' align='center' size={12}>
-            还有{Math.max((_pageTotal - 1) * 10, _filter)}+条搜索结果未显示
+          <Text style={_.mt.lg} type='sub' align='center' size={13} bold>
+            非会员只显示 8 条结果
           </Text>
-          <Text style={_.mt.xs} type='sub' align='center' size={12}>
-            <Text type='warning' size={12}>
-              高级会员
-            </Text>
-            显示所有
+          <Text style={_.mt.xs} type='sub' align='center' size={13} bold>
+            高级会员显示 20 条结果
           </Text>
         </>
       ) : undefined
@@ -43,10 +40,8 @@ class List extends React.Component {
         contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
         data={$.search}
-        scrollToTop
         renderItem={this.renderItem}
         ListFooterComponent={ListFooterComponent}
-        onFooterRefresh={$.doSearch}
       />
     )
   }

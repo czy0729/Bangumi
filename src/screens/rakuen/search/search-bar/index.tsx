@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:42:04
+ * @Last Modified time: 2023-05-16 07:50:59
  */
 import React from 'react'
 import { Input } from '@components'
@@ -19,10 +19,10 @@ function SearchBar(props, { $ }: Ctx) {
       value={value}
       returnKeyType='search'
       returnKeyLabel='搜索'
-      placeholder='输入关键字'
+      placeholder='输入关键字，多关键字空格隔开'
       autoFocus
       onChange={$.onChange}
-      onSubmitEditing={() => $.doSearch(true)}
+      onSubmitEditing={$.doSearch}
     />
   )
 }

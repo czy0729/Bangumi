@@ -2,65 +2,54 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:39:41
+ * @Last Modified time: 2023-05-16 07:48:27
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Button, Heatmap } from '@components'
+import { Page, Header, Flex, Button, Heatmap } from '@components'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { ic } from '@utils/decorators'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import SearchBar from './search-bar'
 import History from './history'
 import List from './list'
 import Store from './store'
 import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-const title = '帖子搜索'
-
-class Search extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context
+const RakuenSearch = (props, { $ }: Ctx) => {
+  useRunAfter(() => {
     $.init()
-  }
+  })
 
-  onPress = () => {
-    const { $ } = this.context
-    $.doSearch(true)
-  }
-
-  render() {
+  return useObserver(() => {
+    const styles = memoStyles()
     return (
-      <View style={_.container.plain}>
-        <Flex style={this.styles.searchBar}>
-          <Flex.Item>
-            <SearchBar />
-          </Flex.Item>
-          <View style={_.ml.sm}>
-            <Button
-              style={this.styles.btn}
-              type='ghostPlain'
-              size='sm'
-              onPress={this.onPress}
-            >
-              查询
-            </Button>
-            <Heatmap id='帖子搜索.搜索' />
-          </View>
-        </Flex>
-        <History style={_.mt.sm} />
-        <List />
-      </View>
+      <>
+        <Header title='小组搜索' hm={['rakuenSearch', 'RakuenSearch']} />
+        <Page>
+          <Flex style={styles.searchBar}>
+            <Flex.Item>
+              <SearchBar />
+            </Flex.Item>
+            <View style={_.ml.sm}>
+              <Button
+                style={styles.btn}
+                type='ghostPlain'
+                size='sm'
+                onPress={$.doSearch}
+              >
+                查询
+              </Button>
+              <Heatmap id='帖子搜索.搜索' />
+            </View>
+          </Flex>
+          <History style={_.mt.sm} />
+          <List />
+        </Page>
+      </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default inject(Store)(
-  withHeader({
-    screen: title,
-    hm: ['search', 'Search']
-  })(obc(Search))
-)
+export default ic(Store, RakuenSearch)

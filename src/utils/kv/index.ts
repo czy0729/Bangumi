@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:08:33
+ * @Last Modified time: 2023-05-16 06:22:45
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
@@ -164,4 +164,19 @@ export async function temp(
 /** 下载文件 */
 export function download(downloadKey: string) {
   return `${HOST}/v1/temp/download/${downloadKey}`
+}
+
+/** 搜索 */
+export async function search(q: string, withMessage: boolean = false) {
+  // @ts-expect-error
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/topic/search`,
+    data: {
+      search: q,
+      withMessage
+    }
+  })
+
+  return data
 }

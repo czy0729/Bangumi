@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-25 15:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 15:35:40
+ * @Last Modified time: 2023-05-16 07:23:08
  */
-import Constants from 'expo-constants'
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
-import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { HTML_RAKUEN_SEARCH, HTML_SEARCH, LIST_EMPTY } from '@constants'
+import { fetchHTML } from '@utils/fetch'
+import { search } from '@utils/kv'
+import { HTML_SEARCH } from '@constants'
 import { SearchCat } from '@types'
 import Computed from './computed'
-import { cheerioSearchRakuen } from './common'
 import { DEFAULT_CAT, INIT_SEARCH_ITEM } from './init'
 
 export default class Fetch extends Computed {
@@ -210,47 +209,66 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /** @deprecated 超展开搜索 */
-  fetchSearchRakuen = async (args: { q: string }, refresh?: boolean) => {
-    const { q } = args || {}
+  // /** @deprecated 超展开搜索 */
+  // fetchSearchRakuen = async (args: { q: string }, refresh?: boolean) => {
+  //   const { q } = args || {}
 
-    try {
-      const key = 'searchRakuen'
-      const limit = 10 // ?有时1页是10个有时是11个
-      const { list, pagination } = this[key](q)
-      const page = refresh ? 1 : pagination.page + 1
+  //   try {
+  //     const key = 'searchRakuen'
+  //     const limit = 10 // ?有时1页是10个有时是11个
+  //     const { list, pagination } = this[key](q)
+  //     const page = refresh ? 1 : pagination.page + 1
 
-      if (!this.UA) this.UA = await Constants.getWebViewUserAgentAsync()
-      const { _response } = await xhrCustom({
-        url: HTML_RAKUEN_SEARCH(q, page),
-        headers: {
-          Host: 'search.gitee.com',
-          'User-Agent':
-            this.UA ||
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.80 Safari/537.36'
-        }
-      })
+  //     if (!this.UA) this.UA = await Constants.getWebViewUserAgentAsync()
+  //     const { _response } = await xhrCustom({
+  //       url: HTML_RAKUEN_SEARCH(q, page),
+  //       headers: {
+  //         Host: 'search.gitee.com',
+  //         'User-Agent':
+  //           this.UA ||
+  //           'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.80 Safari/537.36'
+  //       }
+  //     })
 
-      const { list: _list, pageTotal } = cheerioSearchRakuen(_response)
+  //     const { list: _list, pageTotal } = cheerioSearchRakuen(_response)
+  //     this.setState({
+  //       [key]: {
+  //         [q]: {
+  //           list: refresh ? _list : [...list, ..._list],
+  //           pagination: {
+  //             page,
+  //             pageTotal: _list.length >= limit ? pageTotal : page
+  //           },
+  //           _loaded: getTimestamp()
+  //         }
+  //       }
+  //     })
+
+  //     return this[key](q)
+  //   } catch (error) {
+  //     return {
+  //       ...LIST_EMPTY,
+  //       _loaded: getTimestamp()
+  //     }
+  //   }
+  // }
+
+  /** 搜索帖子 */
+  fetchRakuenSearch = async (q: string, withMessage: boolean = false) => {
+    const data = await search(q, withMessage)
+    if (data?.code === 200) {
       this.setState({
-        [key]: {
-          [q]: {
-            list: refresh ? _list : [...list, ..._list],
+        rakuenSearch: {
+          [`${q}|${withMessage}`]: {
+            list: (data?.data || []).sort((a: any, b: any) => b.id - a.id),
             pagination: {
-              page,
-              pageTotal: _list.length >= limit ? pageTotal : page
+              page: 1,
+              pageTotal: 1
             },
             _loaded: getTimestamp()
           }
         }
       })
-
-      return this[key](q)
-    } catch (error) {
-      return {
-        ...LIST_EMPTY,
-        _loaded: getTimestamp()
-      }
     }
   }
 }
