@@ -6,7 +6,6 @@
  * @Last Modified time: 2023-03-23 19:55:17
  */
 import { toJS } from 'mobx'
-import { DEV } from '@constants'
 
 /** 缓存搜索过的结果 */
 const cacheMap = new Map<string, any>()
@@ -22,8 +21,6 @@ export default {
 
   /** 取缓存 */
   get(key: string) {
-    if (DEV) console.info('CM get', key)
-
     return cacheMap.get(key)
   }
 }

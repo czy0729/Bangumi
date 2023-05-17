@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:24:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 17:28:40
+ * @Last Modified time: 2023-05-16 16:38:01
  */
 import React from 'react'
 import { Flex, Text, UserStatus } from '@components'
@@ -34,7 +34,7 @@ export default memo(({ navigation, avatar, userId, userName, title, group }) => 
           {title}
         </Text>
         {!!texts && (
-          <Text type='sub' size={10} bold numberOfLines={1}>
+          <Text type='sub' size={10} lineHeight={12} bold numberOfLines={1}>
             {texts}
           </Text>
         )}

@@ -19,6 +19,7 @@ export const DEFAULT_PROPS = {
   erase: '' as Props['erase'],
   filterDelete: true as boolean,
   floor: '' as Props['floor'],
+  directFloor: false as boolean,
   id: 0 as Props['id'],
   isBlockUser: false as any,
   matchLink: false as boolean,

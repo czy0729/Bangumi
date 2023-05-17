@@ -2,10 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-11-26 04:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 02:36:24
+ * @Last Modified time: 2023-05-17 17:29:03
  */
 import { rakuenStore } from '@stores'
 import { UserId } from '@types'
+
+/** 记录每个楼层的高度 */
+export const layoutHeightMap = new Map<number, number>()
 
 /** 处理屏蔽用户, 追踪计数 uuid */
 const BLOCKED_USER_UUID = {}

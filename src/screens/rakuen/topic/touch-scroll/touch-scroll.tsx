@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:59:36
+ * @Last Modified time: 2023-05-16 20:25:14
  */
 import React from 'react'
 import { TouchableWithoutFeedback, Insets } from 'react-native'
@@ -25,11 +25,10 @@ export const TouchScroll = memo(
     // global.rerender('Topic.TouchScroll.Main')
 
     const showFloor = [
-      Math.floor(list.length * 0.33333),
-      Math.floor(list.length * 0.66666),
+      Math.floor(list.length * 0.33333) - 1,
+      Math.floor(list.length * 0.66666) - 1,
       list.length - 1
     ]
-
     const isVertical =
       scrollDirection ===
         MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧') ||
@@ -39,10 +38,20 @@ export const TouchScroll = memo(
     const passProps: PassProps = {
       hitSlop: HIT_SLOP
     }
+    // const prevDirectPassProps: PassProps = {
+    //   hitSlop: HIT_SLOP
+    // }
+    // const nextDirectPassProps: PassProps = {
+    //   hitSlop: HIT_SLOP
+    // }
     if (IOS) {
       passProps.onPress = () => onPress(-1)
+      // prevDirectPassProps.onPress = () => onDirect(false)
+      // nextDirectPassProps.onPress = () => onDirect(true)
     } else {
       passProps.onPressIn = () => onPress(-1)
+      // prevDirectPassProps.onPressIn = () => onDirect(false)
+      // nextDirectPassProps.onPressIn = () => onDirect(true)
     }
     return (
       <Flex
@@ -55,7 +64,12 @@ export const TouchScroll = memo(
         <Flex.Item flex={isVertical ? 1 : 3}>
           <TouchableWithoutFeedback {...passProps}>
             <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
-              <Text style={styles.text} size={8} type='icon' align='center'>
+              <Text
+                style={[styles.text, styles.itemText]}
+                size={8}
+                type='icon'
+                align='center'
+              >
                 1
               </Text>
             </Flex>
@@ -110,6 +124,24 @@ export const TouchScroll = memo(
             </Flex.Item>
           )
         })}
+        {/* <View style={styles.itemTop}>
+          <TouchableWithoutFeedback {...prevDirectPassProps}>
+            <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
+              <Text style={styles.text} size={8} type='icon' align='center'>
+                ↑
+              </Text>
+            </Flex>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.itemBottom}>
+          <TouchableWithoutFeedback {...nextDirectPassProps}>
+            <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
+              <Text style={styles.text} size={8} type='icon' align='center'>
+                ↓
+              </Text>
+            </Flex>
+          </TouchableWithoutFeedback>
+        </View> */}
       </Flex>
     )
   },

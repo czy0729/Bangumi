@@ -740,7 +740,7 @@ export const FixedTextarea = observer(
                 ref={this.connectRef}
                 style={this.styles.textarea}
                 value={value}
-                placeholder={placeholder || '我要吐槽'}
+                placeholder={editing ? placeholder || '我要吐槽' : ''}
                 placeholderTextColor={_.colorDisabled}
                 rows={editing ? 8 : 1}
                 selectionColor={_.colorMain}
@@ -750,15 +750,17 @@ export const FixedTextarea = observer(
                 onSelectionChange={this.onSelectionChange}
               />
             </Flex.Item>
-            <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
-              <Flex style={this.styles.send} justify='center'>
-                <Iconfont
-                  name='md-send'
-                  size={16}
-                  color={canSend ? _.colorMain : _.colorSub}
-                />
-              </Flex>
-            </Touchable>
+            {editing && (
+              <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
+                <Flex style={this.styles.send} justify='center'>
+                  <Iconfont
+                    name='md-send'
+                    size={16}
+                    color={canSend ? _.colorMain : _.colorSub}
+                  />
+                </Flex>
+              </Touchable>
+            )}
             {this.renderSource()}
           </Flex>
         </View>

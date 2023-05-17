@@ -52,6 +52,9 @@ export type Props = {
   /** 删除楼层的请求地址 */
   erase?: string
 
+  /** 高亮标记楼层 */
+  directFloor?: string
+
   /** 是否允许渲染 (用于优化) */
   rendered?: boolean
 

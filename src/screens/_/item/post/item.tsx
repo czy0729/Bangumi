@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:19:51
+ * @Last Modified time: 2023-05-17 17:31:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import UserLabel from './user-label'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
+import { layoutHeightMap } from './utils'
 import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
 const AVATAR_SIZE = 36
@@ -33,6 +34,7 @@ const Item = memo(
     avatar,
     erase,
     floor,
+    directFloor,
     id,
     isAuthor,
     isExpand,
@@ -115,8 +117,17 @@ const Item = memo(
                 showFixedTextare={showFixedTextare}
               />
             </Flex>
-            <FloorText time={time} floor={floor} />
-            <View style={styles.html}>
+            <FloorText time={time} floor={floor} directFloor={directFloor} />
+            <View
+              style={styles.html}
+              onLayout={
+                sub.length && !layoutHeightMap.has(Number(id))
+                  ? e => {
+                      layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
+                    }
+                  : undefined
+              }
+            >
               <HTML
                 navigation={navigation}
                 id={id}

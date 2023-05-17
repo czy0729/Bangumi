@@ -5,7 +5,9 @@
  * @Last Modified time: 2022-09-28 16:06:33
  */
 import React from 'react'
-import { FixedTextarea, Flex, Text } from '@components'
+import { View } from 'react-native'
+import { FixedTextarea, Touchable, Flex, Text, Iconfont } from '@components'
+import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -13,7 +15,7 @@ import { memoStyles } from './styles'
 
 const MARKS = ['+1', 'mark', '(bgm38)'] as const
 
-function Bottom({ fixedTextareaRef }, { $, navigation }: Ctx) {
+function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { placeholder, value } = $.state
   const { tip = '', close } = $.topic
@@ -40,16 +42,37 @@ function Bottom({ fixedTextareaRef }, { $, navigation }: Ctx) {
   if (!$.isWebLogin || $.isLimit) return null
 
   return (
-    <FixedTextarea
-      ref={fixedTextareaRef}
-      placeholder={placeholder ? placeholder : undefined}
-      value={value}
-      source
-      marks={MARKS}
-      onChange={$.onChange}
-      onClose={$.closeFixedTextarea}
-      onSubmit={$.doSubmit}
-    />
+    <>
+      <FixedTextarea
+        ref={fixedTextareaRef}
+        placeholder={placeholder ? placeholder : undefined}
+        value={value}
+        source
+        marks={MARKS}
+        onChange={$.onChange}
+        onClose={$.closeFixedTextarea}
+        onSubmit={$.doSubmit}
+      />
+      <View style={styles.fixedLeft}>
+        <Touchable onPress={() => onDirect(false)}>
+          <Flex style={styles.btn} justify='center'>
+            <Iconfont style={_.mr.md} name='md-navigate-before' size={24} />
+          </Flex>
+        </Touchable>
+      </View>
+      <View style={styles.fixedCenter} pointerEvents='none'>
+        <Flex style={styles.btn} justify='center'>
+          <Iconfont name='md-edit' size={15} />
+        </Flex>
+      </View>
+      <View style={styles.fixedRight}>
+        <Touchable onPress={() => onDirect(true)}>
+          <Flex style={styles.btn} justify='center'>
+            <Iconfont style={_.ml.md} name='md-navigate-next' size={24} />
+          </Flex>
+        </Touchable>
+      </View>
+    </>
   )
 }
 

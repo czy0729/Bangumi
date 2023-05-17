@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 19:03:29
+ * @Last Modified time: 2023-05-16 16:28:44
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -631,7 +631,7 @@ export const FolderManageModal = ob(
           style={this.styles.scrollView}
           contentContainerStyle={this.styles.list}
           {...SCROLL_VIEW_RESET_PROPS}
-          scrollEnabled={!expand.length}
+          // scrollEnabled={!expand.length}
         >
           {list.map(item => {
             const detail = this.catalogDetail(item.id)

@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    opacity: _.select(1, 0.64)
+    opacity: _.select(1, 0.8)
   }
 }))

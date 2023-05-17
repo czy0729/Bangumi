@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:23:44
+ * @Last Modified time: 2023-05-17 20:10:28
  */
 import { rakuenStore } from '@stores'
 import {
@@ -165,6 +165,21 @@ export default class Action extends Fetch {
       expands: expands.includes(id)
         ? expands.filter(item => item !== id)
         : [...expands, id]
+    })
+    this.setStorage(this.namespace)
+  }
+
+  onExpand = (id: any) => {
+    const { expands } = this.state
+    if (expands.includes(String(id))) return
+
+    this.toggleExpand(String(id))
+  }
+
+  updateDirection = (directIndex: number, directFloor: string = '') => {
+    this.setState({
+      directIndex,
+      directFloor
     })
     this.setStorage(this.namespace)
   }

@@ -113,7 +113,7 @@ export const memoStyles = _.memoStyles(() => ({
   send: {
     width: 36,
     height: 36,
-    marginTop: _.platforms(0, 0, _.device(0, _.xs), 0)
+    marginTop: _.platforms(2, 2, _.device(0, _.xs), 0)
   },
   touchSource: {
     padding: _.xs,

@@ -32,6 +32,7 @@ export const DEFAULT_PROPS = {
   avatar: '' as Props['avatar'],
   erase: '' as Props['erase'],
   floor: '' as Props['floor'],
+  directFloor: false as boolean,
   id: 0 as Props['id'],
   isAuthor: false as boolean,
   isExpand: false as boolean,

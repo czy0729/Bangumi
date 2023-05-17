@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:41:26
+ * @Last Modified time: 2023-05-17 17:29:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ import IconExtra from '../icon-extra'
 import Mark from '../mark'
 import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
+import { layoutHeightMap } from '../utils'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
 import { DEFAULT_PROPS, REG_BGM, REG_PLUS } from './ds'
 
@@ -37,6 +38,7 @@ export default memo(
     erase,
     filterDelete,
     floor,
+    directFloor,
     id,
     isBlockUser,
     matchLink,
@@ -119,7 +121,7 @@ export default memo(
 
     if (blockKeywords.some(item => rawMsg.includes(item))) {
       message =
-        '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
+        '<span style="color:#999;font-size:12px">命中自定义关键字，已被屏蔽</span>'
     }
 
     const isNew = !!readedTime && getTimestamp(time) > readedTime
@@ -133,6 +135,13 @@ export default memo(
           isJump && styles.itemJump
         )}
         align='start'
+        onLayout={
+          !layoutHeightMap.has(Number(id))
+            ? e => {
+                layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
+              }
+            : undefined
+        }
       >
         <View style={_.mt.md}>
           <UserStatus userId={userId}>
@@ -179,7 +188,7 @@ export default memo(
               showFixedTextare={showFixedTextare}
             />
           </Flex>
-          <FloorText time={time} floor={floor} />
+          <FloorText time={time} floor={floor} directFloor={directFloor} />
           <View style={styles.html}>
             <HTML
               navigation={navigation}

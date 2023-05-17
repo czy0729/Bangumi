@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 12:57:34
+ * @Last Modified time: 2023-05-16 20:06:10
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -12,7 +12,7 @@ import { Ctx } from '../types'
 import { TouchScroll } from './touch-scroll'
 import { memoStyles } from './styles'
 
-export default obc(({ onPress }, { $ }: Ctx) => {
+export default obc(({ onPress, onDirect }, { $ }: Ctx) => {
   // global.rerender('Topic.TouchScroll')
 
   if (STORYBOOK) return null
@@ -36,6 +36,7 @@ export default obc(({ onPress }, { $ }: Ctx) => {
       reverse={$.state.reverse}
       isWebLogin={$.isWebLogin}
       onPress={onPress}
+      onDirect={onDirect}
     />
   )
 })

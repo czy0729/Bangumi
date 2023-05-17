@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-07-04 12:56:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 14:34:19
+ * @Last Modified time: 2023-05-16 17:07:16
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   containerRight: {
     position: 'absolute',
-    top: _.headerHeight,
+    top: _.headerHeight + 8,
     right: 0,
-    bottom: 40,
+    bottom: 68,
     width: _.r(16),
     backgroundColor: _.colorPlain
   },
   containerLeft: {
     position: 'absolute',
-    top: _.headerHeight,
+    top: _.headerHeight + 8,
     left: 0,
-    bottom: 40,
+    bottom: 68,
     width: _.r(16),
     backgroundColor: _.colorPlain
   },
@@ -36,6 +36,15 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     height: _.r(32),
     paddingBottom: 8
+  },
+  itemTop: {
+    height: _.window.height * 0.12,
+    paddingTop: _.window.height * 0.02,
+    marginTop: _.window.height * 0.02
+  },
+  itemBottom: {
+    height: _.window.height * 0.12,
+    paddingBottom: _.window.height * 0.02
   },
   itemVertical: {
     width: _.r(16),

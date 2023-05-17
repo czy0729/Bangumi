@@ -88,8 +88,7 @@ export const ItemPost = obc(
 
     // 屏蔽关键字命中
     if (blockKeywords.some(item => msg.includes(item))) {
-      msg =
-        '<span style="color:#999;font-size:12px">命中自定义关键字，已被App屏蔽</span>'
+      msg = '<span style="color:#999;font-size:12px">命中自定义关键字，已被屏蔽</span>'
     }
 
     return (
@@ -104,6 +103,7 @@ export const ItemPost = obc(
         avatar={avatar}
         erase={erase}
         floor={floor}
+        directFloor={$?.state?.directFloor === floor}
         id={id}
         isAuthor={isAuthor}
         isExpand={isExpand}

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 05:11:56
+ * @Last Modified time: 2023-05-17 17:23:54
  */
 import { computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
-import { HTMLDecode } from '@utils'
+import { asc, HTMLDecode } from '@utils'
+import CacheManager from '@utils/cache-manager'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { TopicId, UserId } from '@types'
 import State from './state'
@@ -126,6 +127,43 @@ export default class Computed extends State {
       }
       return this.myFriendsMap[item.userId]
     }).length
+  }
+
+  /** 导演排序 */
+  @computed get directItems(): {
+    pid?: number
+    id: number
+    floor: string
+    index: [number, number?]
+    sibling?: number[]
+  }[] {
+    const { list, _loaded } = this.comments
+    const key = `directItems|${this.topicId}|${_loaded}`
+    if (CacheManager.get(key)) return CacheManager.get(key)
+
+    const data = []
+    list.forEach((item, index) => {
+      data.push({
+        id: Number(item.id),
+        floor: item.floor,
+        index: [index]
+      })
+
+      const sibling = []
+      item.sub.forEach((i, idx) => {
+        sibling.push(Number(i.id))
+        data.push({
+          pid: Number(item.id),
+          id: Number(i.id),
+          floor: i.floor,
+          index: [index, idx],
+          sibling: [...sibling]
+        })
+      })
+    })
+    data.sort((a, b) => asc(a.id, b.id))
+
+    return CacheManager.set(key, data)
   }
 
   /** 是否章节 */

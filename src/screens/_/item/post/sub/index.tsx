@@ -54,6 +54,7 @@ export default obc(
         erase={erase}
         filterDelete={$?.filterDelete}
         floor={floor}
+        directFloor={$?.state?.directFloor === floor}
         id={id}
         isBlockUser={$?.isBlockUser}
         matchLink={matchLink}

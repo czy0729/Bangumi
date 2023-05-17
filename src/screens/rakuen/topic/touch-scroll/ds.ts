@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:08:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 12:57:31
+ * @Last Modified time: 2023-05-16 20:24:43
  */
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
@@ -18,7 +18,8 @@ export const DEFAULT_PROPS = {
   ) as $['setting']['scrollDirection'],
   reverse: false as $['state']['reverse'],
   isWebLogin: false as $['isWebLogin'],
-  onPress: (() => {}) as any
+  onPress: (() => {}) as any,
+  onDirect: (() => {}) as any
 } as const
 
 export const HIT_SLOP = {

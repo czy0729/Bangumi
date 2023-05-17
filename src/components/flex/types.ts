@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-28 05:41:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:19
+ * @Last Modified time: 2023-05-17 16:30:23
  */
 import { FlexPropsType } from '@ant-design/react-native/lib/flex/PropsType'
-import { Override, ViewStyle } from '@types'
+import { Fn, Override, ViewStyle } from '@types'
 
 export type Props = Override<
   FlexPropsType,
@@ -13,5 +13,6 @@ export type Props = Override<
     style?: ViewStyle
     flex?: number
     pointerEvents?: any
+    onLayout?: Fn
   }
 >

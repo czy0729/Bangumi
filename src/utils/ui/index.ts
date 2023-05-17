@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:09:08
+ * @Last Modified time: 2023-05-17 19:49:42
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -42,7 +42,7 @@ export function loading(
 }
 
 /** 轻震动反馈 */
-export function feedback() {
+export function feedback(light?: boolean) {
   if (STORYBOOK) return
 
   const { vibration } = syncSystemStore().setting
@@ -51,9 +51,13 @@ export function feedback() {
   if (DEV) console.info('vibration')
 
   if (IOS) {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    if (light) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    }
   } else {
-    Vibration.vibrate(4)
+    Vibration.vibrate(light ? 2 : 4)
   }
 }
 
