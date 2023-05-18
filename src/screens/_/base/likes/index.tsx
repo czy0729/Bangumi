@@ -18,6 +18,7 @@ import { Props as LikesProps } from './types'
 export { LikesProps }
 
 export const Likes = ({
+  style,
   show = false,
   topicId,
   id,
@@ -40,7 +41,7 @@ export const Likes = ({
 
     const styles = memoStyles()
     return (
-      <ScrollView contentContainerStyle={styles.container} horizontal>
+      <ScrollView style={style} contentContainerStyle={styles.container} horizontal>
         {showCreateBtn && (
           <Touchable
             animate

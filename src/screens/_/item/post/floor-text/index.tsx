@@ -5,26 +5,22 @@
  * @Last Modified time: 2022-10-18 04:08:43
  */
 import React from 'react'
-import { Text } from '@components'
-import { _ } from '@stores'
+import { View } from 'react-native'
+import { Flex, Text } from '@components'
 import { simpleTime } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
-function FloorText({ time, floor, directFloor }) {
+function FloorText({ time, floor, isNew }) {
   const styles = memoStyles()
-  const type = directFloor ? _.select('main', 'warning') : 'sub'
   return (
-    <Text
-      style={!directFloor && styles.container}
-      type={type}
-      size={11}
-      lineHeight={12}
-      bold={directFloor}
-    >
-      {simpleTime(time)}
-      {'   '}#{String(floor).replace('#', '')}
-    </Text>
+    <Flex>
+      {isNew && <View style={styles.new} />}
+      <Text style={styles.container} type='sub' size={11} lineHeight={12}>
+        {simpleTime(time)}
+        {'   '}#{String(floor).replace('#', '')}
+      </Text>
+    </Flex>
   )
 }
 

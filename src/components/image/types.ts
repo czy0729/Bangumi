@@ -58,6 +58,8 @@ export type Props = Override<
     /** 若有值, 打开ImageViewer时使用此src */
     imageViewerSrc?: string
 
+    withoutFeedback?: boolean
+
     /** 埋点事件 */
     event?: EventType
 

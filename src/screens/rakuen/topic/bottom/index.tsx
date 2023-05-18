@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 16:06:33
+ * @Last Modified time: 2023-05-17 21:21:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { FixedTextarea, Touchable, Flex, Text, Iconfont } from '@components'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -41,6 +41,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
 
   if (!$.isWebLogin || $.isLimit) return null
 
+  const { switchSlider } = rakuenStore.setting
   return (
     <>
       <FixedTextarea
@@ -54,9 +55,16 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
         onSubmit={$.doSubmit}
       />
       <View style={styles.fixedLeft}>
-        <Touchable onPress={() => onDirect(false)}>
+        <Touchable
+          onPress={() => onDirect(switchSlider ? true : false)}
+          onLongPress={() => onDirect(switchSlider ? true : false, 20)}
+        >
           <Flex style={styles.btn} justify='center'>
-            <Iconfont style={_.mr.md} name='md-navigate-before' size={24} />
+            <Iconfont
+              style={_.mr.md}
+              name={switchSlider ? 'md-navigate-next' : 'md-navigate-before'}
+              size={24}
+            />
           </Flex>
         </Touchable>
       </View>
@@ -66,9 +74,16 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
         </Flex>
       </View>
       <View style={styles.fixedRight}>
-        <Touchable onPress={() => onDirect(true)}>
+        <Touchable
+          onPress={() => onDirect(switchSlider ? false : true)}
+          onLongPress={() => onDirect(switchSlider ? false : true, 20)}
+        >
           <Flex style={styles.btn} justify='center'>
-            <Iconfont style={_.ml.md} name='md-navigate-next' size={24} />
+            <Iconfont
+              style={_.ml.md}
+              name={switchSlider ? 'md-navigate-before' : 'md-navigate-next'}
+              size={24}
+            />
           </Flex>
         </Touchable>
       </View>

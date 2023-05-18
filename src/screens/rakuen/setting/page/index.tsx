@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 10:35:23
+ * @Last Modified time: 2023-05-18 00:08:05
  */
 import React from 'react'
 import { Page, ScrollView, SwitchPro, Flex, SegmentedControl, Text } from '@components'
@@ -33,22 +33,11 @@ class RakuenSetting extends React.Component<{
     uiStore.closePopableSubject()
   }
 
-  renderTopic() {
-    const {
-      acSearch,
-      acSearchPopable,
-      autoLoadImage,
-      likes,
-      matchLink,
-      quote,
-      quoteAvatar,
-      scrollDirection,
-      subExpand,
-      wide
-    } = rakuenStore.setting
+  renderLikes() {
+    const { likes } = rakuenStore.setting
     return (
       <Block>
-        <Tip>帖子</Tip>
+        <Tip>贴贴</Tip>
 
         {/* 贴贴模块 */}
         <ItemSetting
@@ -69,6 +58,64 @@ class RakuenSetting extends React.Component<{
           }
           withoutFeedback
         />
+      </Block>
+    )
+  }
+
+  renderSlider() {
+    const { switchSlider, sliderAnimated } = rakuenStore.setting
+    return (
+      <Block>
+        <Tip>楼层跳转</Tip>
+
+        {/* 楼层跳转滚动动画 */}
+        <ItemSetting
+          hd='跳转滚动动画'
+          information='频繁跳动可能会产生视觉疲劳，若您经常使用跳转功能，建议关闭'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={sliderAnimated}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '楼层跳转滚动动画',
+                  checked: !sliderAnimated
+                })
+                rakuenStore.switchSetting('sliderAnimated')
+              }}
+            />
+          }
+          withoutFeedback
+        />
+
+        {/* 交换楼层跳转按钮 */}
+        <ItemSetting
+          hd='交换跳转按钮'
+          information='为了方便左手持机用户，启用后左侧按钮为下一楼，右侧按钮为上一楼'
+          ft={
+            <SwitchPro
+              style={this.styles.switch}
+              value={switchSlider}
+              onSyncPress={() => {
+                t('超展开设置.切换', {
+                  title: '交换楼层跳转按钮',
+                  checked: !switchSlider
+                })
+                rakuenStore.switchSetting('switchSlider')
+              }}
+            />
+          }
+          withoutFeedback
+        />
+      </Block>
+    )
+  }
+
+  renderMedia() {
+    const { acSearch, acSearchPopable, matchLink } = rakuenStore.setting
+    return (
+      <Block>
+        <Tip>媒体信息块</Tip>
 
         {/* 楼层链接显示成信息块 */}
         <ItemSetting
@@ -159,6 +206,16 @@ class RakuenSetting extends React.Component<{
             物语是什么鬼翻译[bgm38]
           </Text>
         </Flex>
+      </Block>
+    )
+  }
+
+  renderTopic() {
+    const { autoLoadImage, quote, quoteAvatar, scrollDirection, subExpand, wide } =
+      rakuenStore.setting
+    return (
+      <Block>
+        <Tip>帖子</Tip>
 
         {/* 楼层中图片自动加载 */}
         <ItemSetting
@@ -377,6 +434,9 @@ class RakuenSetting extends React.Component<{
           contentContainerStyle={this.styles.container}
           onScroll={this.onScroll}
         >
+          {this.renderLikes()}
+          {this.renderSlider()}
+          {this.renderMedia()}
           {this.renderTopic()}
           {this.renderList()}
           <Blocks navigation={navigation} />

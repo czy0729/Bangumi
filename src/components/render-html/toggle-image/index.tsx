@@ -181,6 +181,7 @@ class ToggleImage extends React.Component<Props, State> {
               autoSize={_autoSize}
               radius={_.radiusXs}
               fallback
+              withoutFeedback
               onLoadEnd={loaded ? undefined : this.onLoadEnd}
               onError={loaded ? undefined : this.onLoadEnd}
             />

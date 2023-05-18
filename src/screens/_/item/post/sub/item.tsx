@@ -129,33 +129,27 @@ export default memo(
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
       <Flex
-        style={stl(
-          _.container.block,
-          isNew && styles.itemNew,
-          isJump && styles.itemJump
-        )}
+        style={stl(styles.item, isJump && styles.itemJump)}
         align='start'
-        onLayout={
-          !layoutHeightMap.has(Number(id))
-            ? e => {
-                layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
-              }
-            : undefined
-        }
+        onLayout={e => {
+          layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
+        }}
       >
-        <View style={_.mt.md}>
-          <UserStatus userId={userId}>
-            <Avatar
-              navigation={navigation}
-              userId={userId}
-              name={userName}
-              src={avatar}
-              size={36}
-              event={event}
-            />
-          </UserStatus>
-        </View>
-        <Flex.Item style={styles.subContent}>
+        {/* 头像 */}
+        <UserStatus userId={userId}>
+          <Avatar
+            style={_.mt.md}
+            navigation={navigation}
+            userId={userId}
+            name={userName}
+            src={avatar}
+            size={36}
+            event={event}
+          />
+        </UserStatus>
+
+        {/* 主楼层 */}
+        <Flex.Item style={styles.content}>
           <Flex align='start'>
             <Flex.Item>
               <Name
@@ -188,7 +182,7 @@ export default memo(
               showFixedTextare={showFixedTextare}
             />
           </Flex>
-          <FloorText time={time} floor={floor} directFloor={directFloor} />
+          <FloorText time={time} floor={floor} isNew={isNew} />
           <View style={styles.html}>
             <HTML
               navigation={navigation}
@@ -207,11 +201,7 @@ export default memo(
             )}
             {showQuoteAvatar && (
               <Flex
-                style={
-                  wide
-                    ? [styles.quoteUserRound, styles.quoteUserRoundWide]
-                    : styles.quoteUserRound
-                }
+                style={stl(styles.quoteUserRound, wide && styles.quoteUserRoundWide)}
               >
                 <Avatar
                   navigation={navigation}
@@ -228,9 +218,18 @@ export default memo(
                 </Text>
               </Flex>
             )}
-            <Likes topicId={topicId} id={id} formhash={formhash} likeType={likeType} />
+            <Likes
+              style={wide && styles.likesWide}
+              topicId={topicId}
+              id={id}
+              formhash={formhash}
+              likeType={likeType}
+            />
           </View>
         </Flex.Item>
+
+        {/* 高亮 */}
+        {directFloor && <View style={styles.direct} pointerEvents='none' />}
       </Flex>
     )
   },

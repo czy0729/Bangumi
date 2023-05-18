@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:19:21
+ * @Last Modified time: 2023-05-17 23:18:16
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -101,6 +101,12 @@ export const INIT_SETTING = {
 
   /** 显示贴贴模块 */
   likes: true,
+
+  /** 是否交换回复跳转按钮 */
+  switchSlider: false,
+
+  /** 是否启用楼层跳转滚动动画 */
+  sliderAnimated: true,
 
   /** 是否屏蔽默认头像用户帖子 */
   isBlockDefaultUser: false,

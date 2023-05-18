@@ -26,6 +26,7 @@ export const DEFAULT_PROPS = {
   height: undefined,
   imageViewer: false,
   imageViewerSrc: undefined,
+  withoutFeedback: false,
   placeholder: true,
   quality: true,
   radius: undefined,

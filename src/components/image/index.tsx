@@ -586,6 +586,7 @@ export const Image = observer(
         quality,
         imageViewer,
         imageViewerSrc,
+        withoutFeedback,
         headers,
         event,
         delay,
@@ -659,13 +660,22 @@ export const Image = observer(
     }
 
     renderTouchableImage(onPress) {
-      const { textOnly, placeholder, delay, scale, skeleton, onLongPress } = this.props
+      const {
+        textOnly,
+        placeholder,
+        delay,
+        scale,
+        skeleton,
+        withoutFeedback,
+        onLongPress
+      } = this.props
       const { loaded } = this.state
       return (
         <View style={this.computedStyle.container}>
           <Touchable
             delay={delay}
             scale={scale}
+            withoutFeedback={withoutFeedback}
             onPress={onPress}
             onLongPress={
               this.dev

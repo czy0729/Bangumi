@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 16:05:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 16:06:18
+ * @Last Modified time: 2023-05-17 21:18:33
  */
 import { _ } from '@stores'
 import { IOS } from '@constants'
@@ -55,6 +55,6 @@ export const memoStyles = _.memoStyles(() => ({
   btn: {
     width: _.window.width / 3,
     height: 64,
-    paddingBottom: 16
+    paddingBottom: 20
   }
 }))

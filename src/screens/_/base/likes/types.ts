@@ -5,11 +5,13 @@
  * @Last Modified time: 2023-04-05 15:03:45
  */
 import { rakuenStore } from '@stores'
-import { TopicId } from '@types'
+import { TopicId, ViewStyle } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
 
 export type Props = {
+  style?: ViewStyle
+
   /** 初始渲染是否显示全部 */
   show?: boolean
 

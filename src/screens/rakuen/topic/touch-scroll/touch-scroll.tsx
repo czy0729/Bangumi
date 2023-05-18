@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-05-16 20:25:14
  */
 import React from 'react'
-import { TouchableWithoutFeedback, Insets } from 'react-native'
+import { View, TouchableWithoutFeedback, Insets } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, stl, titleCase } from '@utils'
@@ -21,9 +21,10 @@ type PassProps = {
 }
 
 export const TouchScroll = memo(
-  ({ styles, list, readedTime, scrollDirection, isWebLogin, onPress }) => {
+  ({ styles, list, readedTime, scrollDirection, directFloor, isWebLogin, onPress }) => {
     // global.rerender('Topic.TouchScroll.Main')
 
+    const currentFloor = directFloor ? Number(directFloor.match(/\d+/)?.[0] || 0) : 0
     const showFloor = [
       Math.floor(list.length * 0.33333) - 1,
       Math.floor(list.length * 0.66666) - 1,
@@ -38,21 +39,12 @@ export const TouchScroll = memo(
     const passProps: PassProps = {
       hitSlop: HIT_SLOP
     }
-    // const prevDirectPassProps: PassProps = {
-    //   hitSlop: HIT_SLOP
-    // }
-    // const nextDirectPassProps: PassProps = {
-    //   hitSlop: HIT_SLOP
-    // }
     if (IOS) {
       passProps.onPress = () => onPress(-1)
-      // prevDirectPassProps.onPress = () => onDirect(false)
-      // nextDirectPassProps.onPress = () => onDirect(true)
     } else {
       passProps.onPressIn = () => onPress(-1)
-      // prevDirectPassProps.onPressIn = () => onDirect(false)
-      // nextDirectPassProps.onPressIn = () => onDirect(true)
     }
+
     return (
       <Flex
         style={stl(
@@ -61,23 +53,19 @@ export const TouchScroll = memo(
         )}
         direction={isVertical ? 'column' : undefined}
       >
-        <Flex.Item flex={isVertical ? 1 : 3}>
+        <Flex.Item style={styles.itemText} flex={isVertical ? 1 : 3}>
           <TouchableWithoutFeedback {...passProps}>
             <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
-              <Text
-                style={[styles.text, styles.itemText]}
-                size={8}
-                type='icon'
-                align='center'
-              >
+              <Text style={_.container.block} size={8} type='icon' align='center'>
                 1
               </Text>
             </Flex>
           </TouchableWithoutFeedback>
         </Flex.Item>
         {list.map((item, index) => {
-          let isNew = false
+          const isCurrent = currentFloor && `#${currentFloor}` === item.floor
 
+          let isNew = false
           if (readedTime) {
             if (getTimestamp(item.time) > readedTime) isNew = true
 
@@ -99,49 +87,39 @@ export const TouchScroll = memo(
           } else {
             passProps.onPressIn = () => onPress(index)
           }
+
           return (
-            <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
+            <Flex.Item
+              key={index}
+              style={showFloorText && styles.itemText}
+              flex={isVertical ? 1 : showFloorText ? 3 : 1}
+            >
               <TouchableWithoutFeedback {...passProps}>
                 <Flex
                   style={stl(
                     isVertical ? styles.itemVertical : styles.itemHorizontal,
-                    isNew && styles.itemNew,
-                    showFloorText && styles.itemText
+                    isNew && styles.itemNew
                   )}
+                  justify='center'
                 >
-                  {showFloorText && (
+                  {showFloorText ? (
                     <Text
-                      style={styles.text}
+                      style={_.container.block}
                       size={8}
                       type={isNew ? _.select('plain', 'icon') : 'icon'}
+                      bold={isCurrent}
                       align='center'
                     >
                       {String(list[index]?.floor || '').replace('#', '')}
                     </Text>
-                  )}
+                  ) : isCurrent ? (
+                    <View style={styles.dot} />
+                  ) : null}
                 </Flex>
               </TouchableWithoutFeedback>
             </Flex.Item>
           )
         })}
-        {/* <View style={styles.itemTop}>
-          <TouchableWithoutFeedback {...prevDirectPassProps}>
-            <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
-              <Text style={styles.text} size={8} type='icon' align='center'>
-                ↑
-              </Text>
-            </Flex>
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={styles.itemBottom}>
-          <TouchableWithoutFeedback {...nextDirectPassProps}>
-            <Flex style={isVertical ? styles.itemVertical : styles.itemHorizontal}>
-              <Text style={styles.text} size={8} type='icon' align='center'>
-                ↓
-              </Text>
-            </Flex>
-          </TouchableWithoutFeedback>
-        </View> */}
       </Flex>
     )
   },

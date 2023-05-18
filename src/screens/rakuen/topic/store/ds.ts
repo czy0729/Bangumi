@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 19:57:03
+ * @Last Modified time: 2023-05-17 20:47:08
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
@@ -49,11 +49,7 @@ export const EXCLUDE_STATE = {
     },
     _list: [],
     _loaded: 0
-  } as Comments,
-
-  /** 导演位置 */
-  directIndex: 0,
-  directFloor: ''
+  } as Comments
 }
 
 export const STATE = {
@@ -81,6 +77,10 @@ export const STATE = {
 
     _loaded: 0 as Loaded
   },
+
+  /** 导演位置 */
+  directIndex: -1,
+  directFloor: '',
 
   /** 页面初始化 */
   _loaded: false as Loaded

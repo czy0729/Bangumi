@@ -9,18 +9,18 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   containerRight: {
     position: 'absolute',
-    top: _.headerHeight + 8,
+    top: _.headerHeight,
     right: 0,
-    bottom: 68,
-    width: _.r(16),
+    bottom: 64,
+    width: 16,
     backgroundColor: _.colorPlain
   },
   containerLeft: {
     position: 'absolute',
-    top: _.headerHeight + 8,
+    top: _.headerHeight,
     left: 0,
-    bottom: 68,
-    width: _.r(16),
+    bottom: 64,
+    width: 16,
     backgroundColor: _.colorPlain
   },
   containerBottom: {
@@ -29,25 +29,16 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 40,
     width: '100%',
-    height: _.r(24),
+    height: 24,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1)
   },
   notLogin: {
     bottom: 0,
-    height: _.r(32),
+    height: 32,
     paddingBottom: 8
   },
-  itemTop: {
-    height: _.window.height * 0.12,
-    paddingTop: _.window.height * 0.02,
-    marginTop: _.window.height * 0.02
-  },
-  itemBottom: {
-    height: _.window.height * 0.12,
-    paddingBottom: _.window.height * 0.02
-  },
   itemVertical: {
-    width: _.r(16),
+    width: 16,
     height: '100%'
   },
   itemHorizontal: {
@@ -55,13 +46,16 @@ export const memoStyles = _.memoStyles(() => ({
     height: '100%'
   },
   itemNew: {
-    borderRightWidth: 4,
-    borderRightColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
+    borderRightWidth: 6,
+    borderColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
   },
   itemText: {
-    minHeight: _.r(24)
+    minHeight: 16
   },
-  text: {
-    width: '100%'
+  dot: {
+    width: 4,
+    height: 4,
+    backgroundColor: _.colorIcon,
+    borderRadius: 4
   }
 }))

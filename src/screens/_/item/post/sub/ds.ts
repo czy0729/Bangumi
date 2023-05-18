@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-01 11:52:49
  */
+import { _ } from '@stores'
 import { EVENT } from '@constants'
 import { Navigation, TopicId, UserId } from '@types'
 import { Props } from '../types'
@@ -49,4 +50,4 @@ export const REG_BGM =
 
 export const REG_PLUS = /\+\d/
 
-export const AVATAR_WIDTH = 32
+export const AVATAR_WIDTH = _.r(32)

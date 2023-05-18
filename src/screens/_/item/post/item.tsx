@@ -65,17 +65,20 @@ const Item = memo(
     return (
       <View style={styles.item}>
         <Flex
-          style={stl(
-            _.container.item,
-            isNew && styles.itemNew,
-            isJump && styles.itemJump
-          )}
+          style={stl(_.container.item, isJump && styles.itemJump)}
           align='start'
+          onLayout={
+            sub.length
+              ? e => {
+                  layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
+                }
+              : undefined
+          }
         >
+          {/* 头像 */}
           <UserStatus userId={userId}>
             <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
               <Avatar
-                style={styles.image}
                 navigation={navigation}
                 userId={userId}
                 name={userName}
@@ -85,6 +88,8 @@ const Item = memo(
               />
             </InView>
           </UserStatus>
+
+          {/* 主楼层 */}
           <Flex.Item style={stl(styles.content, contentStyle)}>
             <Flex align='start'>
               <Flex.Item>
@@ -117,17 +122,8 @@ const Item = memo(
                 showFixedTextare={showFixedTextare}
               />
             </Flex>
-            <FloorText time={time} floor={floor} directFloor={directFloor} />
-            <View
-              style={styles.html}
-              onLayout={
-                sub.length && !layoutHeightMap.has(Number(id))
-                  ? e => {
-                      layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
-                    }
-                  : undefined
-              }
-            >
+            <FloorText time={time} floor={floor} isNew={isNew} />
+            <View style={styles.html}>
               <HTML
                 navigation={navigation}
                 id={id}
@@ -149,47 +145,55 @@ const Item = memo(
                 {translate}
               </Text>
             )}
-            <View style={styles.sub}>
-              <Flex wrap='wrap'>
-                {sub
-                  .filter((item, index) => (isExpand ? true : index < expandNums))
-                  .map(item => (
-                    <ItemSub
-                      key={item.id}
-                      id={item.id}
-                      message={item.message}
-                      userId={item.userId}
-                      userName={item.userName}
-                      avatar={item.avatar}
-                      floor={item.floor}
-                      erase={item.erase}
-                      replySub={item.replySub}
-                      time={item.time}
-                      postId={postId}
-                      authorId={authorId}
-                      uid={userId}
-                      url={url}
-                      readedTime={readedTime}
-                      matchLink={matchLink}
-                      showFixedTextare={showFixedTextare}
-                      event={event}
-                    />
-                  ))}
-              </Flex>
-              {sub.length > expandNums && (
-                <Touchable onPress={() => onToggleExpand(id)}>
-                  <Text
-                    style={styles.expand}
-                    type={isExpand ? 'sub' : 'main'}
-                    size={12}
-                    align='center'
-                    bold
-                  >
-                    {isExpand ? '收起楼层' : `展开 ${sub.length - expandNums} 条回复`}
-                  </Text>
-                </Touchable>
-              )}
-            </View>
+          </Flex.Item>
+
+          {/* 高亮 */}
+          {directFloor && <View style={styles.direct} pointerEvents='none' />}
+        </Flex>
+
+        {/* 子楼层 */}
+        <Flex>
+          <View style={styles.left} />
+          <Flex.Item style={styles.sub}>
+            <Flex wrap='wrap'>
+              {sub
+                .filter((item, index) => (isExpand ? true : index < expandNums))
+                .map(item => (
+                  <ItemSub
+                    key={item.id}
+                    id={item.id}
+                    message={item.message}
+                    userId={item.userId}
+                    userName={item.userName}
+                    avatar={item.avatar}
+                    floor={item.floor}
+                    erase={item.erase}
+                    replySub={item.replySub}
+                    time={item.time}
+                    postId={postId}
+                    authorId={authorId}
+                    uid={userId}
+                    url={url}
+                    readedTime={readedTime}
+                    matchLink={matchLink}
+                    showFixedTextare={showFixedTextare}
+                    event={event}
+                  />
+                ))}
+            </Flex>
+            {sub.length > expandNums && (
+              <Touchable onPress={() => onToggleExpand(id)}>
+                <Text
+                  style={styles.expand}
+                  type={isExpand ? 'sub' : 'main'}
+                  size={12}
+                  align='center'
+                  bold
+                >
+                  {isExpand ? '收起楼层' : `展开 ${sub.length - expandNums} 条回复`}
+                </Text>
+              </Touchable>
+            )}
           </Flex.Item>
         </Flex>
       </View>

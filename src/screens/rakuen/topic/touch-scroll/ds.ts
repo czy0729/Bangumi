@@ -16,7 +16,7 @@ export const DEFAULT_PROPS = {
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>(
     '右侧'
   ) as $['setting']['scrollDirection'],
-  reverse: false as $['state']['reverse'],
+  directFloor: '' as string,
   isWebLogin: false as $['isWebLogin'],
   onPress: (() => {}) as any,
   onDirect: (() => {}) as any

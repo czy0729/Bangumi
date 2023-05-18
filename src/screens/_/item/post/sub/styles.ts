@@ -9,19 +9,23 @@ import { AVATAR_WIDTH } from './ds'
 
 export const memoStyles = _.memoStyles(() => {
   const marginLeft = _.sm
+  const marginLeftWide = -(AVATAR_WIDTH + marginLeft + 4)
   return {
-    itemNew: {
-      paddingLeft: _.sm,
-      marginLeft: -_.sm,
-      backgroundColor: _.colorMainLight
+    item: {
+      width: '100%',
+      paddingLeft: _.sm
     },
     itemJump: {
       borderBottomWidth: 2,
       borderColor: _.colorSuccess
     },
-    subContent: {
+    content: {
       paddingVertical: _.md,
       marginLeft
+    },
+    html: {
+      paddingRight: _.md + 2,
+      marginTop: _.xs
     },
     quoteUserRound: {
       position: 'absolute',
@@ -39,19 +43,29 @@ export const memoStyles = _.memoStyles(() => {
       borderRadius: _.radiusXs,
       overflow: 'hidden'
     },
-    html: {
-      paddingRight: _.md + 2,
-      marginTop: _.xs
-    },
     wide: {
       paddingRight: _.sm,
       marginTop: 4,
-      marginLeft: -(AVATAR_WIDTH + marginLeft + 4)
+      marginLeft: marginLeftWide
     },
     quoteUserRoundWide: {
       top: 15,
       left: 11,
-      marginLeft: -(AVATAR_WIDTH + marginLeft + 4)
+      marginLeft: marginLeftWide
+    },
+    likesWide: {
+      marginLeft: marginLeftWide
+    },
+    direct: {
+      position: 'absolute',
+      top: 6,
+      right: 2,
+      bottom: 2,
+      left: -2,
+      borderWidth: 1,
+      borderColor: _.colorBorder,
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
     }
   }
 })

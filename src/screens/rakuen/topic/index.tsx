@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 19:55:41
+ * @Last Modified time: 2023-05-17 21:45:08
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Page, Loading } from '@components'
@@ -30,7 +30,7 @@ import { Ctx } from './types'
 
 const PRE_RENDER_INDEX = 8
 
-const PRE_OFFSET = 80
+const PRE_OFFSET = _.window.height * 0.2
 
 const Topic = (props, { $ }: Ctx) => {
   const isFocused = useIsFocused()
@@ -78,13 +78,16 @@ const Topic = (props, { $ }: Ctx) => {
       index
     })
 
+    const { sliderAnimated } = rakuenStore.setting
     if (index === -1) {
       if (animated) info('#1', 0.8)
+
       forwardRef.current?.scrollToOffset({
-        animated,
+        animated: sliderAnimated ? true : animated,
         offset: 0 - _.headerHeight
       })
       feedback(true)
+      $.updateDirection(-1, '')
       return
     }
 
@@ -93,7 +96,7 @@ const Topic = (props, { $ }: Ctx) => {
 
     try {
       forwardRef.current?.scrollToIndex({
-        animated,
+        animated: sliderAnimated ? true : animated,
         index,
         viewOffset: 0 + _.headerHeight + offset
       })
@@ -193,12 +196,23 @@ const Topic = (props, { $ }: Ctx) => {
 
   /** 导演模式, 按楼层回复顺序前进或者退后 */
   const onDirect = useCallback(
-    (isNext: boolean = true) => {
+    (isNext: boolean = true, step: number = 1) => {
       const { length } = $.directItems
       if (!$.directItems.length) return
 
       const { directIndex } = $.state
-      const nextDirectIndex = directIndex + (isNext ? 1 : -1)
+      const nextDirectIndex = Math.min(
+        length - 1,
+        Math.max(0, directIndex + (isNext ? 1 : -1) * step)
+      )
+      if (
+        (directIndex === 0 && nextDirectIndex === 0) ||
+        (directIndex === -1 && nextDirectIndex === 0 && !isNext)
+      ) {
+        onScrollTo(-1, false)
+        return
+      }
+
       const item = $.directItems[nextDirectIndex]
       if (!item) return
 
@@ -206,6 +220,7 @@ const Topic = (props, { $ }: Ctx) => {
       let offset = PRE_OFFSET
       if (index.length === 1) {
         onScrollTo(index[0], false, offset)
+        if (step > 1) info(floor, 0.8)
       } else {
         // 假如子楼层折叠中, 需要先展开
         const { subExpand } = rakuenStore.setting
@@ -222,9 +237,10 @@ const Topic = (props, { $ }: Ctx) => {
           })
 
           onScrollTo(index[0], false, offset)
+          if (step > 1) info(floor, 0.8)
         }, 40)
       }
-      $.updateDirection(Math.min(length - 1, Math.max(0, nextDirectIndex)), floor)
+      $.updateDirection(nextDirectIndex, floor)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScrollTo]
