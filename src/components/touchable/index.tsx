@@ -17,8 +17,19 @@ import TouchableOpacity from './touchable-opacity'
 import TouchableAnimated from './touchable-animated'
 import { defaultHitSlop, callOnceInInterval } from './utils'
 import { Props as TouchableProps } from './types'
+import { _ } from '@stores'
 
 export { TouchableProps }
+
+const EXTRA_BUTTON_PROPS = {
+  rippleColor: 'rgba(255, 255, 255, 0)',
+  exclusive: true
+} as const
+
+const EXTRA_BUTTON_PROPS_DARK = {
+  rippleColor: 'rgba(0, 0, 0, 0)',
+  exclusive: true
+} as const
 
 export const Touchable = observer(
   ({
@@ -45,6 +56,7 @@ export const Touchable = observer(
       hitSlop,
       delayPressIn,
       delayPressOut,
+      extraButtonProps: _.select(EXTRA_BUTTON_PROPS, EXTRA_BUTTON_PROPS_DARK),
       onPress: delay ? () => callOnceInInterval(onPress) : onPress,
       children,
       ...other

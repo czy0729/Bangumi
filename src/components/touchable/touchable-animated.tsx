@@ -19,6 +19,7 @@ function TouchableAnimated({
   delayPressIn,
   delayPressOut,
   scale = 0.95,
+  extraButtonProps,
   onPress,
   children,
   ...other
@@ -128,6 +129,7 @@ function TouchableAnimated({
       {...other}
       delayPressIn={delay}
       delayPressOut={delay}
+      extraButtonProps={extraButtonProps}
       onStateChange={onStateChange}
       onPress={_onPress}
     >

@@ -8,10 +8,10 @@ import React from 'react'
 import { View, TouchableOpacity as RNTouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
 
-function TouchableOpacity({ useRN, children, ...other }) {
+function TouchableOpacity({ useRN, extraButtonProps, children, ...other }) {
   const Component = useRN ? RNTouchableOpacity : GHTouchableOpacity
   return (
-    <Component activeOpacity={0.72} {...other}>
+    <Component activeOpacity={0.72} {...other} extraButtonProps={extraButtonProps}>
       <View>{children}</View>
     </Component>
   )
