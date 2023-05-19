@@ -8,6 +8,7 @@
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
+import { getCDNAvatar } from '@_/base/avatar/utils'
 import {
   _,
   userStore,
@@ -154,7 +155,7 @@ export default class ScreenZone extends store {
   @computed get src() {
     const { _image } = this.params
     const { avatar } = this.usersInfo
-    return this.avatar || _image || avatar?.large
+    return getCDNAvatar(this.avatar || _image || avatar?.large)
   }
 
   /** 小圣杯 / 用户资产 */

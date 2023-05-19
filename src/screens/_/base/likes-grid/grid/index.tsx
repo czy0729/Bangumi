@@ -10,6 +10,7 @@ import { rakuenStore, uiStore } from '@stores'
 import { t } from '@utils/fetch'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { IOS } from '@constants'
 import { DATA, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
@@ -61,7 +62,12 @@ function Grid({ data = DATA, value, topicId, floorId, formhash, likeType }) {
             justify='center'
           >
             {item[0] > 100 ? (
-              <Bgm style={styles.bgm} index={item[0]} size={21} textOnly={false} />
+              <Bgm
+                style={styles.bgm}
+                index={item[0]}
+                size={IOS ? 21 : 18}
+                textOnly={false}
+              />
             ) : (
               <BgmText index={item[0]} size={18} />
             )}

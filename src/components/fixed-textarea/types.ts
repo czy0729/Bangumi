@@ -20,6 +20,8 @@ export type Props = {
   /** 在 TextArea 下方设置常用短语 */
   marks?: string[] | readonly string[]
 
+  extraComponent?: any
+
   /** 关闭回调 */
   onClose?: (arg0?: any) => any
 

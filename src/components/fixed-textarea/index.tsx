@@ -76,6 +76,7 @@ export const FixedTextarea = observer(
       simple: false,
       source: false,
       marks: [],
+      extraComponent: null,
       onClose: () => {},
       onChange: () => {},
       onSubmit: () => {}
@@ -519,6 +520,11 @@ export const FixedTextarea = observer(
       return `${value}${SOURCE_TEXT}`
     }
 
+    get editing() {
+      const { showTextarea, showBgm } = this.state
+      return showTextarea || showBgm
+    }
+
     renderBtn(text: string, symbol?: string) {
       const textSize = _.window.width < 375 ? 10 : 11
       if (text === 'BGM') {
@@ -728,21 +734,20 @@ export const FixedTextarea = observer(
 
     renderTextarea() {
       const { placeholder } = this.props
-      const { value, showTextarea, showBgm } = this.state
+      const { value, showTextarea } = this.state
       const canSend = value !== ''
-      const editing = showTextarea || showBgm
       return (
         <View style={this.styles.textareaContainer}>
           <Flex align='start'>
-            <Flex.Item style={editing && this.styles.textareaBody}>
+            <Flex.Item style={this.editing && this.styles.textareaBody}>
               <TextareaItem
                 key={String(showTextarea)}
                 ref={this.connectRef}
                 style={this.styles.textarea}
                 value={value}
-                placeholder={editing ? placeholder || '我要吐槽' : ''}
+                placeholder={this.editing ? placeholder || '我要吐槽' : ''}
                 placeholderTextColor={_.colorDisabled}
-                rows={editing ? 8 : 1}
+                rows={this.editing ? 8 : 1}
                 selectionColor={_.colorMain}
                 clear
                 onFocus={this.onFocus}
@@ -750,7 +755,7 @@ export const FixedTextarea = observer(
                 onSelectionChange={this.onSelectionChange}
               />
             </Flex.Item>
-            {editing && (
+            {this.editing && (
               <Touchable style={this.styles.touchSend} onPress={this.onSubmit}>
                 <Flex style={this.styles.send} justify='center'>
                   <Iconfont
@@ -892,6 +897,7 @@ export const FixedTextarea = observer(
     render() {
       if (STORYBOOK) return null
 
+      const { extraComponent } = this.props
       const { showKeyboardSpacer } = this.state
       return (
         <>
@@ -908,6 +914,7 @@ export const FixedTextarea = observer(
               <KeyboardSpacer onToggle={this.onToggle} />
             </View>
           )}
+          {!this.editing && extraComponent}
         </>
       )
     }

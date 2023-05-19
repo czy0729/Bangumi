@@ -22,7 +22,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.ios(0, 3)
   },
   image: {
-    marginTop: _.ios(-2, 1)
+    marginTop: _.ios(-2, -1),
+    opacity: _.ios(1, 0.5)
   },
   text: {
     marginLeft: 6

@@ -10,6 +10,7 @@ import { rakuenStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { IOS } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { memoStyles } from './styles'
 
@@ -48,7 +49,7 @@ function Btn({ topicId, id, formhash, ...item }) {
           <Bgm
             style={styles.image}
             index={emoji}
-            size={18}
+            size={IOS ? 18 : 16}
             textOnly={false}
           />
         ) : (

@@ -152,50 +152,52 @@ const Item = memo(
         </Flex>
 
         {/* 子楼层 */}
-        <Flex>
-          <View style={styles.left} />
-          <Flex.Item style={styles.sub}>
-            <Flex wrap='wrap'>
-              {sub
-                .filter((item, index) => (isExpand ? true : index < expandNums))
-                .map(item => (
-                  <ItemSub
-                    key={item.id}
-                    id={item.id}
-                    message={item.message}
-                    userId={item.userId}
-                    userName={item.userName}
-                    avatar={item.avatar}
-                    floor={item.floor}
-                    erase={item.erase}
-                    replySub={item.replySub}
-                    time={item.time}
-                    postId={postId}
-                    authorId={authorId}
-                    uid={userId}
-                    url={url}
-                    readedTime={readedTime}
-                    matchLink={matchLink}
-                    showFixedTextare={showFixedTextare}
-                    event={event}
-                  />
-                ))}
-            </Flex>
-            {sub.length > expandNums && (
-              <Touchable onPress={() => onToggleExpand(id)}>
-                <Text
-                  style={styles.expand}
-                  type={isExpand ? 'sub' : 'main'}
-                  size={12}
-                  align='center'
-                  bold
-                >
-                  {isExpand ? '收起楼层' : `展开 ${sub.length - expandNums} 条回复`}
-                </Text>
-              </Touchable>
-            )}
-          </Flex.Item>
-        </Flex>
+        {!!sub.length && (
+          <Flex>
+            <View style={styles.left} />
+            <Flex.Item style={styles.sub}>
+              <Flex wrap='wrap'>
+                {sub
+                  .filter((item, index) => (isExpand ? true : index < expandNums))
+                  .map(item => (
+                    <ItemSub
+                      key={item.id}
+                      id={item.id}
+                      message={item.message}
+                      userId={item.userId}
+                      userName={item.userName}
+                      avatar={item.avatar}
+                      floor={item.floor}
+                      erase={item.erase}
+                      replySub={item.replySub}
+                      time={item.time}
+                      postId={postId}
+                      authorId={authorId}
+                      uid={userId}
+                      url={url}
+                      readedTime={readedTime}
+                      matchLink={matchLink}
+                      showFixedTextare={showFixedTextare}
+                      event={event}
+                    />
+                  ))}
+              </Flex>
+              {sub.length > expandNums && (
+                <Touchable onPress={() => onToggleExpand(id)}>
+                  <Text
+                    style={styles.expand}
+                    type={isExpand ? 'sub' : 'main'}
+                    size={12}
+                    align='center'
+                    bold
+                  >
+                    {isExpand ? '收起楼层' : `展开 ${sub.length - expandNums} 条回复`}
+                  </Text>
+                </Touchable>
+              )}
+            </Flex.Item>
+          </Flex>
+        )}
       </View>
     )
   },

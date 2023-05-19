@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     top: _.headerHeight,
     right: 0,
-    bottom: 64,
+    bottom: _.ios(64, 46),
     width: 16,
     backgroundColor: _.colorPlain
   },
@@ -19,7 +19,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     top: _.headerHeight,
     left: 0,
-    bottom: 64,
+    bottom: _.ios(64, 46),
     width: 16,
     backgroundColor: _.colorPlain
   },

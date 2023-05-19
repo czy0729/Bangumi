@@ -42,20 +42,11 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   if (!$.isWebLogin || $.isLimit) return null
 
   const { switchSlider } = rakuenStore.setting
-  return (
+  const extraComponent = (
     <>
-      <FixedTextarea
-        ref={fixedTextareaRef}
-        placeholder={placeholder ? placeholder : undefined}
-        value={value}
-        source
-        marks={MARKS}
-        onChange={$.onChange}
-        onClose={$.closeFixedTextarea}
-        onSubmit={$.doSubmit}
-      />
       <View style={styles.fixedLeft}>
         <Touchable
+          useRN
           onPress={() => onDirect(switchSlider ? true : false)}
           onLongPress={() => onDirect(switchSlider ? true : false, 20)}
         >
@@ -75,6 +66,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
       </View>
       <View style={styles.fixedRight}>
         <Touchable
+          useRN
           onPress={() => onDirect(switchSlider ? false : true)}
           onLongPress={() => onDirect(switchSlider ? false : true, 20)}
         >
@@ -88,6 +80,19 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
         </Touchable>
       </View>
     </>
+  )
+  return (
+    <FixedTextarea
+      ref={fixedTextareaRef}
+      placeholder={placeholder ? placeholder : undefined}
+      value={value}
+      source
+      marks={MARKS}
+      extraComponent={extraComponent}
+      onChange={$.onChange}
+      onClose={$.closeFixedTextarea}
+      onSubmit={$.doSubmit}
+    />
   )
 }
 

@@ -1,0 +1,44 @@
+diff --git a/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt b/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt
+index 63ee79f..bde397f 100644
+--- a/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt
++++ b/node_modules/react-native-gesture-handler/android/src/main/java/com/swmansion/gesturehandler/react/RNGestureHandlerButtonViewManager.kt
+@@ -132,7 +132,7 @@ class RNGestureHandlerButtonViewManager : ViewGroupManager<ButtonViewGroup>(), R
+       _backgroundColor = color
+     }
+ 
+-    private fun applyRippleEffectWhenNeeded(selectable: Drawable): Drawable {
++    private fun applyRippleEffectWhenNeeded(selectable: Drawable?): Drawable? {
+       val rippleColor = rippleColor
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && selectable is RippleDrawable) {
+         val states = arrayOf(intArrayOf(android.R.attr.state_enabled))
+@@ -242,17 +242,19 @@ class RNGestureHandlerButtonViewManager : ViewGroupManager<ButtonViewGroup>(), R
+       }
+     }
+ 
+-    private fun createSelectableDrawable(): Drawable {
+-      val version = Build.VERSION.SDK_INT
+-      val identifier = if (useBorderlessDrawable && version >= 21) SELECTABLE_ITEM_BACKGROUND_BORDERLESS else SELECTABLE_ITEM_BACKGROUND
+-      val attrID = getAttrId(context, identifier)
+-      context.theme.resolveAttribute(attrID, resolveOutValue, true)
+-      return if (version >= 21) {
+-        resources.getDrawable(resolveOutValue.resourceId, context.theme)
+-      } else {
+-        @Suppress("Deprecation")
+-        resources.getDrawable(resolveOutValue.resourceId)
+-      }
++    private fun createSelectableDrawable(): Drawable? {
++      return null
++
++      // val version = Build.VERSION.SDK_INT
++      // val identifier = if (useBorderlessDrawable && version >= 21) SELECTABLE_ITEM_BACKGROUND_BORDERLESS else SELECTABLE_ITEM_BACKGROUND
++      // val attrID = getAttrId(context, identifier)
++      // context.theme.resolveAttribute(attrID, resolveOutValue, true)
++      // return if (version >= 21) {
++      //   resources.getDrawable(resolveOutValue.resourceId, context.theme)
++      // } else {
++      //   @Suppress("Deprecation")
++      //   resources.getDrawable(resolveOutValue.resourceId)
++      // }
+     }
+ 
+     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {

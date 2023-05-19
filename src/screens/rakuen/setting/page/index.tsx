@@ -56,6 +56,9 @@ class RakuenSetting extends React.Component<{
               }}
             />
           }
+          thumb={getYuqueThumbs([
+            '0/2023/png/386799/1684389118526-fa7066b5-5c37-4280-abe0-0325e05aa4c7.png'
+          ])}
           withoutFeedback
         />
       </Block>
@@ -63,7 +66,7 @@ class RakuenSetting extends React.Component<{
   }
 
   renderSlider() {
-    const { switchSlider, sliderAnimated } = rakuenStore.setting
+    const { switchSlider, sliderAnimated, scrollDirection } = rakuenStore.setting
     return (
       <Block>
         <Tip>楼层跳转</Tip>
@@ -105,7 +108,39 @@ class RakuenSetting extends React.Component<{
               }}
             />
           }
+          thumb={getYuqueThumbs([
+            '0/2023/png/386799/1684388975121-fbe54014-9b5b-4b08-94e4-f7ad9a463e71.png',
+            '0/2023/png/386799/1684388990177-37b68af2-7d66-4e0b-827d-3c390410a943.png'
+          ])}
           withoutFeedback
+        />
+
+        {/* 楼层直达条 */}
+        <ItemSetting
+          hd='楼层直达条'
+          ft={
+            <SegmentedControl
+              style={this.styles.segmentedControl}
+              backgroundColor={_.select(_.colorBg, _.colorPlain)}
+              size={12}
+              values={scrollDirectionDS}
+              selectedIndex={RAKUEN_SCROLL_DIRECTION.findIndex(
+                item => item.value === scrollDirection
+              )}
+              onValueChange={title => {
+                t('超展开设置.切换', {
+                  title: '楼层导航条方向',
+                  value: title
+                })
+                rakuenStore.setScrollDirection(
+                  MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title)
+                )
+              }}
+            />
+          }
+          thumb={getYuqueThumbs([
+            '0/2022/png/386799/1661159480188-a1279dab-0af3-4985-ba54-cda3581a5cbf.png'
+          ])}
         />
       </Block>
     )
@@ -211,8 +246,7 @@ class RakuenSetting extends React.Component<{
   }
 
   renderTopic() {
-    const { autoLoadImage, quote, quoteAvatar, scrollDirection, subExpand, wide } =
-      rakuenStore.setting
+    const { autoLoadImage, quote, quoteAvatar, subExpand, wide } = rakuenStore.setting
     return (
       <Block>
         <Tip>帖子</Tip>
@@ -332,34 +366,6 @@ class RakuenSetting extends React.Component<{
             />
           }
         />
-
-        {/* 楼层直达条 */}
-        <ItemSetting
-          hd='楼层直达条'
-          ft={
-            <SegmentedControl
-              style={this.styles.segmentedControl}
-              backgroundColor={_.select(_.colorBg, _.colorPlain)}
-              size={12}
-              values={scrollDirectionDS}
-              selectedIndex={RAKUEN_SCROLL_DIRECTION.findIndex(
-                item => item.value === scrollDirection
-              )}
-              onValueChange={title => {
-                t('超展开设置.切换', {
-                  title: '楼层导航条方向',
-                  value: title
-                })
-                rakuenStore.setScrollDirection(
-                  MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title)
-                )
-              }}
-            />
-          }
-          thumb={getYuqueThumbs([
-            '0/2022/png/386799/1661159480188-a1279dab-0af3-4985-ba54-cda3581a5cbf.png'
-          ])}
-        />
       </Block>
     )
   }
@@ -435,9 +441,9 @@ class RakuenSetting extends React.Component<{
           onScroll={this.onScroll}
         >
           {this.renderLikes()}
+          {this.renderTopic()}
           {this.renderSlider()}
           {this.renderMedia()}
-          {this.renderTopic()}
           {this.renderList()}
           <Blocks navigation={navigation} />
         </ScrollView>

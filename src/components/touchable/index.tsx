@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:37:49
+ * @Last Modified time: 2023-05-18 19:06:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 // import { syncSystemStore } from '@utils/async'
 // import { IOS } from '@constants'
 import { STORYBOOK } from '@constants'
@@ -17,18 +18,19 @@ import TouchableOpacity from './touchable-opacity'
 import TouchableAnimated from './touchable-animated'
 import { defaultHitSlop, callOnceInInterval } from './utils'
 import { Props as TouchableProps } from './types'
-import { _ } from '@stores'
 
 export { TouchableProps }
 
 const EXTRA_BUTTON_PROPS = {
   rippleColor: 'rgba(255, 255, 255, 0)',
-  exclusive: true
+  exclusive: true,
+  disabled: true
 } as const
 
 const EXTRA_BUTTON_PROPS_DARK = {
   rippleColor: 'rgba(0, 0, 0, 0)',
-  exclusive: true
+  exclusive: true,
+  disabled: true
 } as const
 
 export const Touchable = observer(

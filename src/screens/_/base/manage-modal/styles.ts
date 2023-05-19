@@ -54,7 +54,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.sm - 2,
     marginRight: _.sm - 1,
     marginBottom: _.sm - 1,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2),
+    backgroundColor: _.select(_.ios(_.colorBg, _.colorPlain), _._colorDarkModeLevel2),
     borderWidth: _.select(1, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusSm

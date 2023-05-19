@@ -7,6 +7,7 @@
 import React from 'react'
 import { View, Alert } from 'react-native'
 import { Image, Heatmap, Touchable, Flex, Iconfont } from '@components'
+import { getCDNAvatar } from '@_/base/avatar/utils'
 import { _, systemStore, userStore } from '@stores'
 import { feedback, info } from '@utils'
 import { obc } from '@utils/decorators'
@@ -27,7 +28,7 @@ const HIT_SLOP = {
 function CenterAvatar(props, { $, navigation }: Ctx) {
   const { onlineStatus } = systemStore.setting
   const { avatar } = $.usersInfo
-  const src = $.avatar || avatar?.large
+  const src = getCDNAvatar($.avatar || avatar?.large)
   const fallback = typeof src === 'string' && !src.includes('//lain.bgm.tv/pic/user/l/')
   return (
     <View style={_.mt.md}>

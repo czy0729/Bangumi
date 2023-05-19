@@ -38,7 +38,7 @@ export const memoStyles = _.memoStyles(() => ({
   direct: {
     position: 'absolute',
     top: -_.md + 1,
-    right: 2,
+    right: 0,
     bottom: -_.md,
     left: -_._wind + 4,
     borderWidth: 1,
