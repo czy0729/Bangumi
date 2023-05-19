@@ -32,29 +32,5 @@ export const memoStyles = _.memoStyles(() => ({
       : {
           elevation: 8
         })
-  },
-  fixedLeft: {
-    position: 'absolute',
-    zIndex: 1002,
-    left: 0,
-    bottom: 0,
-    paddingRight: _.md
-  },
-  fixedCenter: {
-    position: 'absolute',
-    zIndex: 1001,
-    left: _.window.width / 3,
-    bottom: 0
-  },
-  fixedRight: {
-    position: 'absolute',
-    zIndex: 1002,
-    right: 0,
-    bottom: 0
-  },
-  btn: {
-    width: _.window.width / 3,
-    height: _.ios(64, 48),
-    paddingBottom: _.ios(20, 0)
   }
 }))

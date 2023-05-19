@@ -28,7 +28,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   btn: {
     width: _.window.width / 3,
-    height: _.ios(64, 48),
-    paddingBottom: _.ios(20, 0)
+    height: _.platforms(64, 48, 48, 48, 48),
+    paddingBottom: _.platforms(20, 0, 0, 0, 0)
   }
 }))
