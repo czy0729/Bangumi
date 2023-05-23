@@ -1,15 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.czy0729.bangumi">
-  <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
-  <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
-  <!-- <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" /> -->
-  <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> -->
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.READ_CALENDAR" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.WRITE_CALENDAR" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -99,5 +97,27 @@
         <action android:name="android.intent.action.BROWSABLE" />
       </intent-filter>
     </activity>
+
+    <service
+      android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
+      android:enabled="true"
+      android:label="RNWidgetBackgroundTaskService" />
+
+    <service
+      android:name="com.reactnativeandroidwidget.RNWidgetCollectionService"
+      android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+    <receiver
+      android:name=".widget.Hello"
+      android:exported="false"
+      android:label="My Hello Widget">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <action android:name="com.czy0729.bangumi.WIDGET_CLICK" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/widgetprovider_hello" />
+    </receiver>
   </application>
 </manifest>
