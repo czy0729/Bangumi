@@ -4,7 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-05-23 20:30:36
  */
-import { WIDGET_WIDTH, LIST_HEIGHT, WIND, SPACE, SIDE_WIDTH } from '../ds'
+import {
+  LIST_HEIGHT,
+  SIDE_WIDTH,
+  SPACE,
+  WIDGET_HEIGHT,
+  WIDGET_WIDTH,
+  WIND
+} from '../ds'
 
 const PADDING = 8
 
@@ -12,7 +19,7 @@ export const styles = {
   container: {
     flexDirection: 'column',
     width: 'match_parent',
-    height: 'match_parent',
+    height: WIDGET_HEIGHT,
     backgroundColor: '#121212',
     borderRadius: 16
   },
@@ -44,7 +51,7 @@ export const styles = {
   },
   time: {
     marginTop: 2,
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: 'bold',
     color: 'rgba(255, 255, 255, 0.56)'
   }

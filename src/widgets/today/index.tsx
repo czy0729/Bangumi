@@ -2,15 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-05-23 11:59:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-23 20:51:09
+ * @Last Modified time: 2023-05-24 10:17:30
  */
 import React from 'react'
-import {
-  FlexWidget as Flex,
-  ImageWidget as Image,
-  TextWidget as Text
-} from 'react-native-android-widget'
-import { Title } from '../components'
+import { ImageWidget as Image, TextWidget as Text } from 'react-native-android-widget'
+import { Flex, Title } from '../components'
 import { styles } from './styles'
 
 const WEEK_DAY_MAP = {
@@ -28,7 +24,12 @@ export default function Today({ day = 0, calendar = [] }: any) {
   const { length } = calendar
   return (
     <Flex style={styles.container}>
-      <Title text={`每日放送 · ${WEEK_DAY_MAP[day]}`} />
+      <Flex row>
+        <Flex.Item>
+          <Title text='每日放送' />
+        </Flex.Item>
+        <Text text={WEEK_DAY_MAP[day]} />
+      </Flex>
       <Flex style={styles.list}>
         {!!length && (
           <Flex>
@@ -58,8 +59,8 @@ function Item({ item }) {
           'http://lain.bgm.tv',
           'https://lain.bgm.tv/r/100x100'
         )}
-        imageWidth={32}
-        imageHeight={32}
+        imageWidth={28}
+        imageHeight={28}
         radius={6}
       />
       <Flex style={styles.body}>

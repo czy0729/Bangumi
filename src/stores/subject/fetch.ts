@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 13:38:34
+ * @Last Modified time: 2023-05-24 16:04:17
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -130,27 +130,28 @@ export default class Fetch extends Computed {
   /** 获取条目分数值 */
   fetchSubjectV2 = async (subjectId: SubjectId) => {
     try {
-      const key = await this.initSubjectV2([subjectId])
+      await this.initSubjectV2([subjectId])
       const data: any = await request(
         `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
       )
 
+      const key = `subjectV2${getInt(subjectId)}` as `subjectV2${number}`
       const now = getTimestamp()
       if (!data?.id) {
         this.setState({
-          [key[0]]: {
+          [key]: {
             [subjectId]: {
               ...INIT_SUBJECT_V2,
               _loaded: now
             }
           }
         })
-        this.save(key[0])
+        this.save(key)
         return false
       }
 
       this.setState({
-        [key[0]]: {
+        [key]: {
           [subjectId]: {
             id: data.id || '',
             date: data.date || '',
@@ -174,7 +175,7 @@ export default class Fetch extends Computed {
           }
         }
       })
-      this.save(key[0])
+      this.save(key)
     } catch (error) {
       return false
     }

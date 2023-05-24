@@ -70,7 +70,7 @@
     "react-dom": "17.0.2",
     "react-native": "0.66.4",
     "react-native-android-keyboard-adjust": "1.2.0",
-    "react-native-android-widget": "^0.5.1",
+    "react-native-android-widget": "0.5.2",
     "react-native-collapsible": "1.6.0",
     "react-native-device-info": "8.5.0",
     "react-native-draggable-grid": "2.1.4",

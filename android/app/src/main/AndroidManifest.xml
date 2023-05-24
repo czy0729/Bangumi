@@ -108,16 +108,16 @@
       android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     <receiver
-      android:name=".widget.Hello"
+      android:name=".widget.Today"
       android:exported="false"
-      android:label="My Hello Widget">
+      android:label="Bangumi Calendar">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
         <action android:name="com.czy0729.bangumi.WIDGET_CLICK" />
       </intent-filter>
       <meta-data
         android:name="android.appwidget.provider"
-        android:resource="@xml/widgetprovider_hello" />
+        android:resource="@xml/widgetprovider_today" />
     </receiver>
   </application>
 </manifest>

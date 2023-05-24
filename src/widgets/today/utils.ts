@@ -34,7 +34,7 @@ export default async function getData() {
 
   let day = new Date().getDay()
   if (day === 0) day = 7
-  const showPrevDay = new Date().getHours() < 12
+  const showPrevDay = false // new Date().getHours() < 12
   const shift = day - (showPrevDay ? 2 : 1)
   const list = calendarStore.calendar.list.map(item => ({
     ...item,
