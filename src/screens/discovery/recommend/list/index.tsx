@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 12:33:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 16:55:56
+ * @Last Modified time: 2023-05-24 17:42:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,9 @@ function List(props, { $, navigation }: Ctx) {
                       subject.eps || oss.totalEps
                         ? `${subject.eps || oss.totalEps}话`
                         : '',
-                      subject.date || oss.date
+                      subject.date || oss.date,
+                      oss.origin,
+                      oss.director
                     ]
                       .filter(item => !!item)
                       .join(' / ')}

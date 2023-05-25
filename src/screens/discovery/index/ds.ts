@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 18:10:23
+ * @Last Modified time: 2023-05-24 18:19:33
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -104,12 +104,11 @@ export const MENU_MAP = {
     size: 20,
     web: false
   },
-  // Guess: {
-  //   key: 'Guess',
-  //   name: '推荐',
-  //   icon: 'md-favorite-outline',
-  //   login: true
-  // },
+  Recommend: {
+    key: 'Recommend',
+    name: '推荐',
+    icon: 'md-favorite-outline'
+  },
   Dollars: {
     key: 'Dollars',
     name: 'Dollars',
@@ -208,11 +207,31 @@ export const MENU_MAP = {
 
 export type MenuMapType = keyof typeof MENU_MAP
 
+export const MENU_MAP_STORYBOOK = {
+  Rakuen: {
+    key: 'Rakuen',
+    name: '超展开',
+    size: 20,
+    icon: 'md-chat-bubble-outline'
+  },
+  Timeline: {
+    key: 'Timeline',
+    name: '时间胶囊',
+    icon: 'md-access-time'
+  }
+}
+
 /** 根据设置自定义菜单构造菜单数据 */
 export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
   if (!discoveryMenu.length) return []
 
-  const menuMap = { ...MENU_MAP }
+  let menuMap = { ...MENU_MAP }
+  if (STORYBOOK) {
+    menuMap = {
+      ...menuMap,
+      ...MENU_MAP_STORYBOOK
+    }
+  }
 
   // 若 discoveryMenu 的 key 不存在在 defaultMenu 里, 需要过滤
   let menus = []

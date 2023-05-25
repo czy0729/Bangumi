@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 07:03:48
+ * @Last Modified time: 2023-05-24 20:49:41
  */
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
@@ -48,6 +48,18 @@ module.exports = {
       } else {
         // 添加新的 UglifyJsPlugin
         config.optimization.minimizer.push(new UglifyJsPlugin())
+      }
+
+      // config.performance = {
+      //   hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
+      //   maxAssetSize: 1024 * 1024, // 限制单个文件大小为 1MB
+      //   maxEntrypointSize: 1024 * 1024 // 限制整体打包后的文件大小为 1MB
+      // }
+
+      // 设置 optimization 分割代码
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        maxSize: 1024 * 1024
       }
     }
     return config

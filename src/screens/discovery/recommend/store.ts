@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 16:57:01
+ * @Last Modified time: 2023-05-24 17:44:58
  */
 import { computed, observable } from 'mobx'
+import { subjectStore } from '@stores'
 import { getTimestamp, pick, queue } from '@utils'
+import axios from '@utils/thirdParty/axios'
 import store from '@utils/store'
 import { gets } from '@utils/kv'
-import { subjectStore } from '@stores'
-import { xhrCustom } from '@utils/fetch'
+import { STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 
@@ -24,7 +25,7 @@ export default class ScreenRecommend extends store {
       _loaded: true
     })
 
-    await this.fetchSubjects()
+    if (!STORYBOOK) await this.fetchSubjects()
     this.fetchSubjectsFromOSS()
   }
 
@@ -61,7 +62,10 @@ export default class ScreenRecommend extends store {
       if (!this.subject(id).id) {
         const { _loaded } = subjects[id] || {}
         if (!_loaded || now - Number(_loaded) >= 60 * 60) {
-          fetchIds.push(`subject_${id}`)
+          const { _loaded } = this.subjectOSS(id)
+          if (!_loaded || now - Number(_loaded) >= 60 * 60) {
+            fetchIds.push(`subject_${id}`)
+          }
         }
       }
     })
@@ -69,8 +73,9 @@ export default class ScreenRecommend extends store {
 
     try {
       console.info('fetchSubjectsFromOSS', fetchIds)
+
       const data = await gets(fetchIds)
-      Object.entries(([key, item]) => {
+      Object.entries(data).forEach(([key, item]) => {
         try {
           data[key] = pick(item, [
             'name',
@@ -79,7 +84,8 @@ export default class ScreenRecommend extends store {
             'rank',
             'rating',
             'totalEps',
-            'info'
+            'info',
+            'staff'
           ])
           if (data[key].info) {
             data[key].date =
@@ -88,8 +94,20 @@ export default class ScreenRecommend extends store {
               )?.[2] || ''
             delete data[key].info
           }
+          if (Array.isArray(data[key].staff)) {
+            // 原作
+            const origin = data[key].staff.find(item => item.desc === '原作')
+            data[key].origin = origin?.name || origin?.nameJP || ''
+
+            // 导演
+            const director = data[key].staff.find(item => item.desc === '导演')
+            data[key].director = director?.name || director?.nameJP || ''
+          }
+
+          data[key]._loaded = getTimestamp()
         } catch (error) {}
       })
+
       this.setState({
         subjects: data
       })
@@ -117,7 +135,7 @@ export default class ScreenRecommend extends store {
 
   subjectOSS(id: SubjectId) {
     return computed(() => {
-      return this.state.subjects[id] || {}
+      return this.state.subjects[`subject_${id}`] || {}
     }).get()
   }
 
@@ -138,19 +156,29 @@ export default class ScreenRecommend extends store {
       this.setState({
         searching: true
       })
-      const { _response } = await xhrCustom({
+
+      // @ts-expect-error
+      const { data } = await axios({
+        method: 'get',
         url: `http://101.43.236.40/api/rec/${value.trim()}`
       })
-      const data = JSON.parse(_response)
       if ('tv' in data) {
+        data.old_tv = data.old_tv || data['old tv']
+        delete data['old tv']
+
+        data.old_movie = data.old_movie || data['old movie']
+        delete data['old movie']
+
         this.setState({
           data
         })
-        await this.fetchSubjects()
+        if (!STORYBOOK) await this.fetchSubjects()
         await this.fetchSubjectsFromOSS()
         this.setStorage(NAMESPACE)
       }
-    } catch (ex) {}
+    } catch (ex) {
+      console.log(ex)
+    }
 
     this.setState({
       searching: false

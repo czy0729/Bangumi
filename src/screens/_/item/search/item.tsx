@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:09:59
+ * @Last Modified time: 2023-05-24 17:46:45
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -13,7 +13,8 @@ import {
   IMG_WIDTH,
   IMG_WIDTH_LG,
   IMG_HEIGHT_LG,
-  MODEL_COLLECTION_STATUS
+  MODEL_COLLECTION_STATUS,
+  STORYBOOK
 } from '@constants'
 import { CollectionStatus } from '@types'
 import { InView, Tag, Cover, Stars, Rank, Manage } from '../../base'
@@ -123,7 +124,7 @@ const Item = memo(
             </Flex>
             {!!tip && (
               <Text
-                style={isMusic && _.mt.xs}
+                style={stl(isMusic && _.mt.xs, STORYBOOK && _.mr.lg)}
                 size={11}
                 lineHeight={13}
                 numberOfLines={isMusic ? 2 : 3}

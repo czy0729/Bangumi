@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-11 14:08:36
+ * @Last Modified time: 2023-05-24 18:15:43
  */
 import React, { useState, useCallback } from 'react'
 import { Text } from '@components'
@@ -22,6 +22,7 @@ export const Name = ({
   showFriend = false,
   right,
   numberOfLines = 1,
+  disabled,
   children,
   ...other
 }: NameProps) => {
@@ -40,7 +41,7 @@ export const Name = ({
       size={size}
       lineHeight={lineHeight}
       numberOfLines={lines}
-      onPress={setLines2}
+      onPress={disabled ? undefined : setLines2}
       {...other}
     >
       {children}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 15:34:15
+ * @Last Modified time: 2023-05-24 17:42:57
  */
 import { _ } from '@stores'
 
@@ -16,10 +16,7 @@ export const EXCLUDE_STATE = {
   focus: false,
 
   /** 查询搜索中 */
-  searching: false,
-
-  /** 缓存条目快照 */
-  subjects: {}
+  searching: false
 }
 
 export const STATE = {
@@ -53,6 +50,9 @@ export const STATE = {
 
     _loaded: 0
   },
+
+  /** 缓存条目快照 */
+  subjects: {},
 
   _loaded: false
 }

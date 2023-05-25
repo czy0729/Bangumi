@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 14:21:13
+ * @Last Modified time: 2023-05-25 19:44:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Page, Header, Flex, Button } from '@components'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
+import { STORYBOOK } from '@constants'
 import SearchBar from './search-bar'
 import List from './list'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
-const Recommend = (props, { $ }: Ctx) => {
+const Recommend = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -44,6 +46,16 @@ const Recommend = (props, { $ }: Ctx) => {
           </Flex>
           <List />
         </Page>
+        {STORYBOOK && (
+          <View style={styles.home}>
+            <IconTouchable
+              name='home'
+              size={17}
+              color={_.colorSub}
+              onPress={() => navigation.push('Discovery')}
+            />
+          </View>
+        )}
       </>
     )
   })
