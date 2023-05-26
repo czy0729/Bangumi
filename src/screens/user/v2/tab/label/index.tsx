@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-27 17:23:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-19 16:18:52
+ * @Last Modified time: 2023-05-26 17:02:41
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -19,7 +19,7 @@ function Label({ title, focused }, { $ }: Ctx) {
   const count = $.counts[MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)][title]
   return (
     <Flex style={_.container.block} justify='center' align='start'>
-      <Text type='title' size={13} bold={focused}>
+      <Text type='title' size={13} bold={focused} noWrap>
         {title.replace('看', $.action)}
       </Text>
       {!!count && (

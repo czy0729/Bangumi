@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 19:40:47
+ * @Last Modified time: 2023-05-26 12:54:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,7 @@ function keyExtractor(item: { type: any }) {
 
 function renderItem({ item, index }) {
   return (
-    <View>
+    <View key={item.type}>
       <ListItem {...item} index={index} />
       <Heatmap
         id='发现.跳转'

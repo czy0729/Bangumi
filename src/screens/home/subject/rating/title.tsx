@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-13 08:00:42
+ * @Last Modified time: 2023-05-26 19:42:36
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -17,11 +17,19 @@ function Title({ showScore }, { $, navigation }: Ctx) {
   // global.rerender('Subject.Rating.Title')
 
   const { showRating } = systemStore.setting
-  const { rank = '-' } = $.subject
+  const { rank } = $.subject
   const showNetabare = $.type === '动画'
   return (
     <SectionTitle
-      left={showRating && <Rank style={styles.rank} value={rank} size={13} />}
+      left={
+        showRating && (
+          <Rank
+            style={styles.rank}
+            value={rank || $.subjectFromOSS?.rating?.rank || '-'}
+            size={13}
+          />
+        )
+      }
       right={
         showRating && (
           <Flex>

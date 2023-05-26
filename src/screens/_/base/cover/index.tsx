@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 11:17:37
+ * @Last Modified time: 2023-05-26 16:32:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,7 +68,7 @@ export const Cover = ob(
     }
 
     // @update 2022/12/30 源站图片现在可以统一处理
-    _src = getCover400(_src)
+    _src = getCover400(_src, (other.width || size) > 100 ? 400 : 100)
 
     const { coverThings, coverRadius } = systemStore.setting
     if (coverThings || useType) {

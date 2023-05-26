@@ -4,15 +4,18 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 12:51:29
+ * @Last Modified time: 2023-05-26 12:28:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
+import { fontSize } from '@styles'
 import { styles } from './styles'
 import { Props as StarsProps } from './types'
+import { stl } from '@utils'
 
 export { StarsProps }
 
@@ -22,11 +25,18 @@ export const Stars = ob(
   ({ style, simple = false, value = 0, size = 11, type = 'sub' }: StarsProps) => {
     if (systemStore.setting.hideScore || !value) return null
 
+    const transform = STORYBOOK && size < 12
+    const webStyle = transform && fontSize(size, size, true)
     if (simple) {
       return (
         <Flex style={style}>
-          <Iconfont name='md-star' size={size} color={_.colorWarning} />
-          <Text style={_.ml.xxs} type={type} size={size} bold>
+          <Iconfont
+            style={webStyle}
+            name='md-star'
+            size={size}
+            color={_.colorWarning}
+          />
+          <Text style={stl(_.ml.xxs, webStyle)} type={type} size={size} bold>
             {value}
           </Text>
         </Flex>
@@ -34,11 +44,17 @@ export const Stars = ob(
     }
 
     return (
-      <Flex style={style}>
+      <Flex style={style} align={transform ? 'start' : 'center'}>
         {NUMS.map(item => {
           if (Number(value) / 2 >= item) {
             return (
-              <Iconfont key={item} name='md-star' size={size} color={_.colorWarning} />
+              <Iconfont
+                key={item}
+                style={webStyle}
+                name='md-star'
+                size={size}
+                color={_.colorWarning}
+              />
             )
           }
 
@@ -46,12 +62,13 @@ export const Stars = ob(
             return (
               <View key={item}>
                 <Iconfont
+                  style={webStyle}
                   name='md-star'
                   size={size}
                   color={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.4)')}
                 />
                 <Iconfont
-                  style={styles.half}
+                  style={stl(styles.half, webStyle)}
                   name='md-star-half'
                   size={size}
                   color={_.colorWarning}
@@ -63,13 +80,20 @@ export const Stars = ob(
           return (
             <Iconfont
               key={item}
+              style={webStyle}
               name='md-star'
               size={size}
               color={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.4)')}
             />
           )
         })}
-        <Text style={_.ml.xxs} type={type} size={size} lineHeight={size} bold>
+        <Text
+          style={stl(_.ml.xxs, transform && fontSize(size, size, true))}
+          type={type}
+          size={size}
+          lineHeight={size}
+          bold
+        >
           {value}
         </Text>
       </Flex>

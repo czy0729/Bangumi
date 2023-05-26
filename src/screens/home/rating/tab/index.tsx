@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 01:10:30
+ * @Last Modified time: 2023-05-26 17:02:25
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -68,11 +68,11 @@ function Tab(props, { $ }: Ctx) {
 
               return (
                 <Flex style={_.container.block} justify='center'>
-                  <Text type='title' size={13} bold={focused}>
+                  <Text type='title' size={13} bold={focused} noWrap>
                     {title}
                   </Text>
                   {!!count && (
-                    <Text type='sub' size={11} bold lineHeight={13}>
+                    <Text type='sub' size={11} bold lineHeight={13} noWrap>
                       {' '}
                       {count}{' '}
                     </Text>

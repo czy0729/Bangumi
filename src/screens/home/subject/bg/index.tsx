@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 02:28:47
+ * @Last Modified time: 2023-05-26 19:19:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ export default obc((props, { $ }: Ctx) => {
 
   const styles = memoStyles()
   const { images } = $.subject
-  const src = $.coverPlaceholder || images?.common
+  const src = $.coverPlaceholder || images?.common || $.cover
   if (typeof src !== 'string') return <View style={styles.bg} />
 
   return <Bg style={styles.bg} src={getCover400(src)} />

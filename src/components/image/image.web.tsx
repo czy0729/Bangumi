@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 15:43:56
+ * @Last Modified time: 2023-05-26 12:36:35
  */
 import React, { useState, useRef, useEffect } from 'react'
 import { Image as RNImage } from 'react-native'
-import { IMG_DEFAULT } from '@constants'
+import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 
 const lazyloadedMap = new Map<string, boolean>()
+lazyloadedMap.set(DOGE_CDN_IMG_DEFAULT, true)
 
 export default function Image({ style, source, ...props }) {
   const ref = useRef(null)

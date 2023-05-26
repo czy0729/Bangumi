@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:30:32
+ * @Last Modified time: 2023-05-26 19:18:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,9 +78,9 @@ class Cover extends React.Component<Props> {
 
   renderCover() {
     const { $ }: Ctx = this.context
-    const { image, placeholder } = this.props
-    if (!image) return null
+    if (!$.cover) return null
 
+    const { image, placeholder } = this.props
     return (
       <CompCover
         src={$.cover}

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:16:37
+ * @Last Modified time: 2023-05-26 17:11:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
+import { _ } from '@stores'
 import { StorybookScroll } from '../storybook'
 import { Flex } from '../flex'
 
@@ -67,10 +68,22 @@ function List({
       ) : ListHeaderComponent ? (
         <ListHeaderComponent />
       ) : null}
-      {numColumns > 1 ? <Flex wrap='wrap'>{content}</Flex> : content}
+      {numColumns > 1 ? (
+        <Flex style={styles.columnsContainer} wrap='wrap'>
+          {content}
+        </Flex>
+      ) : (
+        content
+      )}
       {renderFooter}
     </StorybookScroll>
   )
 }
 
 export default observer(List)
+
+const styles = _.create({
+  columnsContainer: {
+    alignItems: 'flex-start'
+  }
+})

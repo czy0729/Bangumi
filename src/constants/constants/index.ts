@@ -186,9 +186,12 @@ export const IMG_EMPTY_DARK = {
 /** 空头像 */
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 
+export const DOGE_CDN_IMG_DEFAULT =
+  'https://s-sh-4501-bangumi-cdn.oss.dogecdn.com/assets/default.png'
+
 /** 默认图 */
 export const IMG_DEFAULT = STORYBOOK
-  ? 'https://s-sh-4501-bangumi-cdn.oss.dogecdn.com/assets/default.png'
+  ? DOGE_CDN_IMG_DEFAULT
   : require('@assets/images/default.png')
 
 /** 默认头像 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 14:22:29
+ * @Last Modified time: 2023-05-26 17:28:30
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -122,6 +122,8 @@ export default class Fetch extends Computed {
         }
       })
     }
+
+    if (STORYBOOK) return
 
     // 先检测云端数据
     const needUpdate = await this.getThirdParty()

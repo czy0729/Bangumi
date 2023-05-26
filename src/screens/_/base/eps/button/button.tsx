@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 05:26:23
+ * @Last Modified time: 2023-05-26 16:44:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Popover, Menu, Button } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
-import { IOS, SHARE_MODE, WSA } from '@constants'
+import { IOS, WSA } from '@constants'
 import FlipButton from '../flip-button'
 import { getType, getPopoverData, getComment, customCompare } from './utils'
 import { DEFAULT_PROPS } from './ds'
@@ -58,6 +58,7 @@ export default memo(
         }
       : {
           data: popoverData,
+          date: item.airdate || item.duration,
           onSelect: (value: string) => onSelect(value, item, subjectId)
         }
 
@@ -75,8 +76,7 @@ export default memo(
         height: width
       },
       styleText: type === 'dropped' && styles.textThrough,
-      type,
-      onPress: SHARE_MODE ? () => onSelect('本集讨论', item, subjectId) : undefined
+      type
     } as const
 
     return (

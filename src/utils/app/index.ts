@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 16:01:59
+ * @Last Modified time: 2023-05-26 16:30:03
  */
 import { Alert, Dimensions, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -757,19 +757,19 @@ export function getCoverLarge(src = '') {
 }
 
 /** 获取新格式 bgm 封面大图 */
-export function getCover400(src: string = '') {
+export function getCover400(src: string = '', size: 100 | 400 = 400) {
   if (typeof src === 'string' && src.includes('lain.bgm.tv')) {
     return (
       src
         // 使用新增的 r/400 前缀
         .replace(
           /lain.bgm.tv\/pic\/cover\/(g|s|c|m|l)\//,
-          'lain.bgm.tv/r/400/pic/cover/l/'
+          `lain.bgm.tv/r/${size}/pic/cover/l/`
         )
         // 不使用 nxn 直接使用 r/400
-        .replace(/\/r\/\d+x\d+\//, '/r/400/')
+        .replace(/\/r\/\d+x\d+\//, `/r/${size}/`)
         // 不使用 r/800
-        .replace('/r/800/', '/r/400/')
+        .replace('/r/800/', `/r/${size}/`)
     )
   }
 

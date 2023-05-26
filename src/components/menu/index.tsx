@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 09:54:53
+ * @Last Modified time: 2023-05-26 16:58:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import { Props as MenuProps } from './types'
 export { MenuProps }
 
 export const Menu = observer(
-  ({ style, title = [], data = [], onSelect = () => {} }: MenuProps) => {
+  ({ style, title = [], desc = '', data = [], onSelect = () => {} }: MenuProps) => {
     const styles = memoStyles()
     return (
       <View style={stl(styles.container, style)}>
@@ -37,10 +37,16 @@ export const Menu = observer(
             ))}
           </View>
         )}
+        {!!desc && (
+          <Text style={_.mt.sm} type='sub' size={10} lineHeight={16} align='center'>
+            {desc}
+          </Text>
+        )}
         {data.map((item, index) => {
+          const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
           if (typeof item === 'string') {
             return (
-              <View key={item} style={styles.border}>
+              <View key={item} style={showBorder && styles.border}>
                 <Touchable style={styles.item} onPress={() => onSelect(item)}>
                   <Text align='center'>{item}</Text>
                 </Touchable>
@@ -51,7 +57,7 @@ export const Menu = observer(
           if (item.type === 'divider') return <View key={index} style={styles.border} />
 
           return (
-            <View key={item.title} style={styles.border}>
+            <View key={item.title} style={showBorder && styles.border}>
               <Touchable style={styles.item} onPress={() => onSelect(item.title)}>
                 {item.title}
               </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 00:49:49
+ * @Last Modified time: 2023-05-26 19:26:45
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -14,7 +14,7 @@ export default ob(({ $ }: Ctx) => {
 
   return (
     <HeaderTitle
-      common={$.coverPlaceholder || $.subject.images?.common}
+      common={$.subject.images?.common || $.coverPlaceholder || $.cover}
       score={$.rating.score}
       type={$.type}
       cn={$.cn}

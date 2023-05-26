@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 16:10:51
+ * @Last Modified time: 2023-05-26 19:38:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -191,7 +191,12 @@ export default class Computed extends State {
   @computed get cover() {
     const { _imageForce } = this.params
     const { images } = this.subject
-    return _imageForce || matchCoverUrl(images?.common) || IMG_DEFAULT
+    return (
+      _imageForce ||
+      (images?.common ? matchCoverUrl(images.common) : '') ||
+      this.subjectFromOSS.image ||
+      IMG_DEFAULT
+    )
   }
 
   /** 条目收藏信息 */
@@ -605,9 +610,13 @@ export default class Computed extends State {
   /** 封面占位 */
   @computed get coverPlaceholder() {
     const { _image, _imageForce } = this.params
+
+    // 可能是游客访问 nsfw 导致
+    let placeholder = _imageForce || _image
+    if (placeholder === '/img/no_icon_subject.png') placeholder = ''
+
     return (
-      _imageForce ||
-      _image ||
+      placeholder ||
       this.subjectFromOSS.image ||
       this.subjectFormCDN.image ||
       this.subject?.images?.medium ||
@@ -636,7 +645,9 @@ export default class Computed extends State {
 
   /** 网站用户评分 */
   @computed get rating() {
-    if (this.subject._loaded) {
+    // 若条目 api 返回 404, 是没有 rating 结构的
+    // 所以可以使用此来判断数据源, 让游客也能访问到数据, 下方其他 computed 同理
+    if (this.subject._loaded && this.subject.rating) {
       return {
         ...INIT_RATING,
         ...this.subject.rating
@@ -668,23 +679,29 @@ export default class Computed extends State {
 
   /** 各状态评分人数 */
   @computed get subjectCollection() {
-    if (this.subject._loaded) return this.subject.collection || {}
+    if (this.subject._loaded && this.subject.rating) {
+      return this.subject.collection || {}
+    }
+
     return this.subjectFromOSS.collection || this.subjectFormCDN.collection || {}
   }
 
   /** 章节数据 */
   @computed get eps() {
-    if (this.subject._loaded) {
+    if (this.subject._loaded && this.subject.rating) {
       const eps = this.subject.eps || []
       if (eps.length >= 1000) {
         return [...eps, ...subjectStore.epV2(this.subject.id).list].sort((a, b) =>
           asc(a, b, item => item.type)
         )
       }
-
       return eps.slice().sort((a, b) => asc(a, b, item => item.type))
     }
-    if (this.subjectFromOSS.eps?.length) return this.subjectFromOSS.eps || []
+
+    if (this.subjectFromOSS.eps?.length) {
+      return this.subjectFromOSS.eps || []
+    }
+
     return this.subjectFormCDN.eps || []
   }
 
@@ -709,7 +726,10 @@ export default class Computed extends State {
 
   /** 详情 */
   @computed get summary() {
-    if (this.subject._loaded) return this.subject.summary
+    if (this.subject._loaded && this.subject.rating) {
+      return this.subject.summary
+    }
+
     return (
       this.subjectFromOSS.summary ||
       this.subjectFormCDN.summary ||
@@ -729,13 +749,16 @@ export default class Computed extends State {
 
   /** 网页版详情 */
   @computed get info() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.info
+    if (this.subjectFormHTML._loaded) {
+      return this.subjectFormHTML.info
+    }
+
     return this.subjectFromOSS.info || this.subjectFormCDN.info || ''
   }
 
   /** 关联人物 */
   @computed get crt() {
-    if (this.subject._loaded) {
+    if (this.subject._loaded && this.subject.rating) {
       const { crt } = this.subject
       return (crt || []).map(
         ({
@@ -762,7 +785,7 @@ export default class Computed extends State {
 
   /** 制作人员 */
   @computed get staff() {
-    if (this.subject._loaded) {
+    if (this.subject._loaded && this.subject.rating) {
       const { staff } = this.subject
 
       /**
@@ -803,7 +826,7 @@ export default class Computed extends State {
       name: any
       desc: any
     }[] = []
-    if (this.subject._loaded) {
+    if (this.subject._loaded && this.subject.rating) {
       data = (this.subjectFormHTML.relations || []).map(
         ({ id, image, title, type }) => ({
           id,
