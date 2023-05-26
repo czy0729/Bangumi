@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:36:30
+ * @Last Modified time: 2023-05-26 09:54:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
@@ -20,7 +21,7 @@ export const Menu = observer(
   ({ style, title = [], data = [], onSelect = () => {} }: MenuProps) => {
     const styles = memoStyles()
     return (
-      <View style={style ? [styles.container, style] : styles.container}>
+      <View style={stl(styles.container, style)}>
         {title.length !== 0 && (
           <View style={styles.title}>
             {title.map((item, index) => (

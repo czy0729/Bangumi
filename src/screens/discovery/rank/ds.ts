@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-19 21:00:59
  */
 import { _ } from '@stores'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import {
   RankAnimeFilter,
   RankBookFilter,
@@ -69,10 +69,10 @@ export const STATE = {
   list: true,
 
   /** 是否锁定工具条 (工具条) */
-  fixed: false,
+  fixed: STORYBOOK,
 
   /** 是否锁定分液器 (工具条) */
-  fixedPagination: false,
+  fixedPagination: STORYBOOK,
 
   /** 是否显示收藏条目 (工具条) */
   collected: true,

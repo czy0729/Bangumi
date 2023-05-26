@@ -1,13 +1,13 @@
 /*
  * @Author: czy0729
- * @Date: 2019-12-14 16:28:46
+ * @Date: 2023-05-26 08:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-12-31 19:21:24
+ * @Last Modified time: 2023-05-26 09:19:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import PopoverAndroid from './popover.android'
+import PopoverComp from './popover.web'
 
 export const Popover = observer(props => {
-  return <PopoverAndroid {...props} />
+  return <PopoverComp {...props} />
 })

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-03 14:21:30
+ * @Last Modified time: 2023-05-26 11:06:23
  */
 import React from 'react'
 import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
@@ -11,7 +11,7 @@ import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { Touchable } from '../touchable'
 
-export default class Popover extends React.Component {
+export default class Popover extends React.Component<any> {
   static defaultProps = {
     data: [],
     hitSlop: undefined,
@@ -31,7 +31,7 @@ export default class Popover extends React.Component {
     UIManager.showPopupMenu(
       findNodeHandle(this.ref),
       _s2t ? data.map(item => (typeof item === 'string' ? s2t(item) : item)) : data,
-      Function.prototype, // err callback
+      () => {}, // err callback
       this.onPopupItemPress
     )
   }
