@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 18:19:33
+ * @Last Modified time: 2023-05-30 17:12:51
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -218,6 +218,11 @@ export const MENU_MAP_STORYBOOK = {
     key: 'Timeline',
     name: '时间胶囊',
     icon: 'md-access-time'
+  },
+  Setting: {
+    key: 'Setting',
+    name: '设置',
+    icon: 'setting'
   }
 }
 
@@ -231,6 +236,7 @@ export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
       ...menuMap,
       ...MENU_MAP_STORYBOOK
     }
+    delete menuMap.Dollars
   }
 
   // 若 discoveryMenu 的 key 不存在在 defaultMenu 里, 需要过滤

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:17:57
+ * @Last Modified time: 2023-05-30 16:02:51
  */
 import React from 'react'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react-lite'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncThemeStore } from '@utils/async'
+import { IOS, STORYBOOK } from '@constants'
 import { Props } from './types'
 
 export const BlurView = observer(({ style, children }: Props) => {
   const _ = syncThemeStore()
-  if (Platform.OS === 'ios') {
+  if (IOS || STORYBOOK) {
     return (
       <ExpoBlurView
         style={[

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 18:00:51
+ * @Last Modified time: 2023-05-30 17:33:26
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,8 @@ import {
   MODEL_SETTING_CDN_ORIGIN,
   CDN_OSS_MAGMA_POSTER,
   ADVANCE_CDN,
-  IOS
+  IOS,
+  STORYBOOK
 } from '@constants'
 import { SettingCDNOrigin, SettingCDNOriginCn } from '@types'
 import { getShows } from '../utils'
@@ -86,7 +87,7 @@ function CDN({ navigation, filter }) {
           {/* 封面加速 */}
           <ItemSettingBlock
             style={_.mt.sm}
-            show={shows.cover}
+            show={!STORYBOOK && shows.cover}
             filter={filter}
             align='start'
             {...TEXTS.cover.setting}
@@ -197,7 +198,7 @@ function CDN({ navigation, filter }) {
 
           {/* 测试 */}
           <ItemSettingBlock
-            show={shows.test}
+            show={!STORYBOOK && shows.test}
             style={_.mt.md}
             filter={filter}
             {...TEXTS.test}
@@ -256,7 +257,7 @@ function CDN({ navigation, filter }) {
 
           {/* 头像加速 */}
           <ItemSetting
-            show={shows.cdnAvatarV2}
+            show={!STORYBOOK && shows.cdnAvatarV2}
             ft={
               <SwitchPro
                 style={commonStyles.switch}

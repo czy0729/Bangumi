@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 06:30:25
+ * @Last Modified time: 2023-05-30 17:25:58
  */
 import { observable, computed } from 'mobx'
 import {
@@ -25,7 +25,7 @@ import {
 } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
-import { SUBJECT_TYPE } from '@constants'
+import { STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { Navigation, SubjectType } from '@types'
 import { NAMESPACE, EXCLUDE_STATE, STATE, MenuMapType } from './ds'
 
@@ -42,14 +42,25 @@ export default class ScreenDiscovery extends store {
 
     setTimeout(() => {
       queue([
-        () => this.fetchOnline(),
+        () => {
+          if (STORYBOOK) return true
+          return this.fetchOnline()
+        },
         () => {
           if (userStore.isWebLogin) return this.fetchChannel()
           return true
         },
-        () => calendarStore.fetchOnAir(),
+        async () => {
+          await calendarStore.init('onAir')
+          const { _loaded } = this.onAir
+          if (getTimestamp() - Number(_loaded || 0) < 60 * 60 * 24) return true
+          return calendarStore.fetchOnAir()
+        },
         () => calendarStore.fetchCalendar(),
-        () => usersStore.fetchUsers()
+        () => {
+          if (STORYBOOK) return true
+          return usersStore.fetchUsers()
+        }
       ])
     }, 800)
 

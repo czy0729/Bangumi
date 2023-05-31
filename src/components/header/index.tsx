@@ -90,8 +90,8 @@ const Header: IHeader = ({
         {!!mode && <HeaderComponent {...passProps} />}
         {STORYBOOK && !mode && (
           <>
-            <HeaderComponent {...passProps} fixed />
             <Placeholder />
+            <HeaderComponent {...passProps} fixed />
           </>
         )}
         {statusBarEvents && <StatusBarEvents {...statusBarEventsProps} />}

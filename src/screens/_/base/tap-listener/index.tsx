@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-15 13:52:38
+ * @Last Modified time: 2023-05-30 18:27:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,14 +16,9 @@ import {
   State
 } from 'react-native-gesture-handler'
 import { _, uiStore } from '@stores'
-import { STORYBOOK } from '@constants'
 
 export const TapListener = ({ children }) => {
   return useObserver(() => {
-    if (STORYBOOK) {
-      return <View style={_.container.flex}>{children}</View>
-    }
-
     return (
       <PanGestureHandler
         enabled
@@ -33,6 +28,8 @@ export const TapListener = ({ children }) => {
         activeOffsetX={_.window.contentWidth}
         activeOffsetY={_.window.contentWidth}
         onHandlerStateChange={(event: PanGestureHandlerStateChangeEvent) => {
+          console.log(event)
+
           if (event.nativeEvent.state === State.FAILED) {
             uiStore.setXY(
               Math.floor(event.nativeEvent.absoluteX),

@@ -5,10 +5,11 @@
  * @Last Modified time: 2023-04-15 05:00:53
  */
 import { _ } from '@stores'
+import { STORYBOOK } from '@constants'
 
 export const styles = _.create({
   pagination: {
     marginTop: _.xs,
-    marginBottom: _.ios(_.md + _.sm, _.md)
+    marginBottom: STORYBOOK ? 0 : _.ios(_.md + _.sm, _.md)
   }
 })

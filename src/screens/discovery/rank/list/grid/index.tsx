@@ -38,6 +38,7 @@ function Grid(props, { $, navigation }: Ctx) {
               airtime={airtime === '' && matchYear(item.tip)}
               {...item}
               id={id}
+              cover={item.cover || $.cover(item.id)}
               typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}
               collection={collection}
               isCollect={item.collected}

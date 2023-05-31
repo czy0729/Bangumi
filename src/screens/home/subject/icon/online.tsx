@@ -9,6 +9,7 @@ import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 import IconActions from './actions'
 
@@ -18,7 +19,7 @@ const ICS_MANAGE = '导出放送日程ICS'
 
 function IconOnline(props, { $, navigation }: Ctx) {
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
-  if (!$.actions.length) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
 
   const { exportICS } = systemStore.setting
   if (exportICS) data.push(ICS_MANAGE)

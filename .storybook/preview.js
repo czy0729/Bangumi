@@ -2,11 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 07:51:30
+ * @Last Modified time: 2023-05-30 18:29:32
  */
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Provider from '@ant-design/react-native/lib/provider'
 import { addons } from '@storybook/addons'
 import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
 import { __FORCE_SET_NAVIGATING__ } from '@components/storybook/state'
+import { AppCommon } from '@_/base/app-common'
+import { _ } from '@stores'
+import theme from '@styles/theme'
 
 // 监听 URL 变化
 window.addEventListener('popstate', e => {
@@ -55,11 +60,13 @@ function parseUrlParams() {
   return result
 }
 
-
-// export const decorators = [
-//   (Story) => (
-//     <>
-//       <Story />
-//     </>
-//   ),
-// ];
+export const decorators = [
+  Story => (
+    <Provider theme={theme}>
+      <GestureHandlerRootView style={_.container.plain}>
+        <Story />
+      </GestureHandlerRootView>
+      <AppCommon />
+    </Provider>
+  )
+]

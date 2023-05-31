@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:11:42
+ * @Last Modified time: 2023-05-30 17:09:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ function List({
   renderSectionHeader,
   renderItem,
   renderFooter,
+  showFooter,
   onFooterRefresh,
   onScroll
 }) {
@@ -75,7 +76,7 @@ function List({
       ) : (
         content
       )}
-      {renderFooter}
+      {showFooter !== false && renderFooter}
     </StorybookScroll>
   )
 }

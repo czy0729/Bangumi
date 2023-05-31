@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 05:34:17
+ * @Last Modified time: 2023-05-30 15:43:45
  */
 import React from 'react'
 import { ActivityIndicator, Animated, View, TouchableOpacity } from 'react-native'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 12:54:13
+ * @Last Modified time: 2023-05-30 17:09:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ function List({ isFocused }, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       data={home}
       ListHeaderComponent={<Header />}
-      showFooter={!live2D}
+      showFooter={!live2D && !dragging}
       renderItem={renderItem}
       scrollToTop={isFocused || WSA}
       scrollEnabled={!dragging}

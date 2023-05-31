@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:20:57
+ * @Last Modified time: 2023-05-30 20:40:51
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -99,7 +99,7 @@ class RakuenList extends React.Component<{
     return (
       <ListView
         ref={this.connectRef}
-        contentContainerStyle={_.container.bottom}
+        contentContainerStyle={!STORYBOOK && _.container.bottom}
         keyExtractor={keyExtractor}
         data={$.userTopicsFormCDN}
         sectionKey='date'

@@ -36,6 +36,7 @@ function List(props, { $, navigation }: Ctx) {
                 typeCn={typeCn}
                 event={EVENT_LIST}
                 {...item}
+                cover={item.cover || $.cover(item.id)}
               />
               {index === 1 && <Heatmap id='排行榜.跳转' />}
             </>

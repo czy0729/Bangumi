@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 18:49:25
+ * @Last Modified time: 2023-05-30 17:35:12
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { STORYBOOK } from '@constants'
 import { getShows, getYuqueThumbs } from '../utils'
 import { TEXTS } from './ds'
 import { styles } from './styles'
@@ -67,6 +68,7 @@ function Katakana({ navigation, filter }) {
 
           {/* Webhook */}
           <ItemSetting
+            show={!STORYBOOK}
             arrow
             highlight
             filter={filter}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 19:49:42
+ * @Last Modified time: 2023-05-30 17:34:05
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -116,8 +116,8 @@ export function alert(content: string, title: string = '提示') {
 export function info(
   content: string | number = '网络错误',
   duration: number = 2.4,
-  onClose = () => {},
-  mask = false
+  onClose: Fn = () => {},
+  mask: boolean = false
 ) {
   Toast.info(s2tAsync(content), duration, onClose, mask)
 }

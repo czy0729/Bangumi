@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 18:11:04
+ * @Last Modified time: 2023-05-24 16:10:18
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -20,7 +20,7 @@ export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? DEV : false
+export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 反代地址 */
 export const HOST_PROXY = 'https://bangumi-app-webproxy.magmablock.top'
@@ -28,7 +28,7 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy.magmablock.top'
 /** ==================== 默认路由 ==================== */
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
-  initialRouteName: 'HomeTab', // HomeTab
+  initialRouteName: 'Recommend', // HomeTab
   initialRouteParams: {
     // subjectId: 296870 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/380621' // group/366561

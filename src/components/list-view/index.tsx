@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 11:45:54
+ * @Last Modified time: 2023-05-30 17:09:32
  */
 import React from 'react'
 import { RefreshControl, FlatList } from 'react-native'
@@ -306,7 +306,6 @@ export const ListView = observer(
         'progressViewOffset',
         'refreshControlProps',
         'scrollToTop',
-        'showFooter',
         'showsHorizontalScrollIndicator',
         'showsVerticalScrollIndicator'
       ])

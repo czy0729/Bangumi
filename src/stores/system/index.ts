@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 09:17:26
+ * @Last Modified time: 2023-05-30 17:17:15
  */
 import { getTimestamp } from '@utils'
 import { DEV, STORYBOOK } from '@constants'
@@ -32,22 +32,22 @@ class SystemStore extends Action {
         this.fetchOTA()
         if (!DEV) this.fetchRelease()
       }, 4000)
+
+      // 优先度: 中
+      setTimeout(() => {
+        this.setState({
+          rendered: true
+        })
+
+        const now = getTimestamp()
+        if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
+          this.fetchAdvanceDetail()
+        }
+
+        this.resetCDN()
+        if (this.setting.onlineStatus) UserStore.fetchOnlines()
+      }, 8000)
     }
-
-    // 优先度: 中
-    setTimeout(() => {
-      this.setState({
-        rendered: true
-      })
-
-      const now = getTimestamp()
-      if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
-        this.fetchAdvanceDetail()
-      }
-
-      this.resetCDN()
-      if (this.setting.onlineStatus) UserStore.fetchOnlines()
-    }, 8000)
 
     return true
   }

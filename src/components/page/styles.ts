@@ -8,6 +8,9 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   page: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '100vh',
     minHeight: _.window.height * 0.8
   }
 })

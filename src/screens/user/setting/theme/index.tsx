@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:18:26
+ * @Last Modified time: 2023-05-30 17:28:40
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
@@ -11,7 +11,7 @@ import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { IS_BEFORE_ANDROID_10 } from '@constants'
+import { IS_BEFORE_ANDROID_10, STORYBOOK } from '@constants'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
@@ -21,7 +21,7 @@ function Theme({ navigation, filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (!shows) return null
+    if (STORYBOOK || !shows) return null
 
     const { deepDark, autoColorScheme } = systemStore.setting
     return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 11:55:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:17:53
+ * @Last Modified time: 2023-05-30 17:34:23
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,10 @@ import {
 } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
+import { info } from '@utils'
 import { useObserver, useBoolean } from '@utils/hooks'
-import { info } from '@utils/ui'
 import { t } from '@utils/fetch'
+import { STORYBOOK } from '@constants'
 import { getShows } from '../utils'
 import { TEXTS } from './ds'
 import { memoStyles } from './styles'
@@ -48,7 +49,7 @@ function Route({ filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (!shows) return null
+    if (STORYBOOK || !shows) return null
 
     const styles = memoStyles()
     const { homeRenderTabs, initialPage, tinygrail } = systemStore.setting

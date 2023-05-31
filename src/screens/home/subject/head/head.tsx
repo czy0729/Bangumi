@@ -41,7 +41,6 @@ export default memo(
 
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)
-
     const { id, images } = subject
 
     // 是否未上映

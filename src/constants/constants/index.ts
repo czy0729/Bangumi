@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 14:34:56
+ * @Last Modified time: 2023-05-30 20:18:54
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -82,11 +82,14 @@ export const URL_DEFAULT_AVATAR = '/icon.jpg'
 /** 指南 (语雀) */
 export const URL_ZHINAN = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4'
 
+/** 关于 */
+export const URL_ABOUT = `${URL_ZHINAN}/bw81ax?singleDoc` as const
+
 /** 获取 */
-export const URL_RELEASE = `${URL_ZHINAN}/ratl2b` as const
+export const URL_RELEASE = `${URL_ZHINAN}/ratl2b?singleDoc` as const
 
 /** 隐私条款 */
-export const URL_PRIVACY = `${URL_ZHINAN}/oi3ss2` as const
+export const URL_PRIVACY = `${URL_ZHINAN}/oi3ss2?singleDoc` as const
 
 /** 开发状况 */
 export const URL_DEV =
@@ -106,9 +109,9 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
  * - [2020] 19945783
  * - [2021] 23045125,25475042
  * - [2022] 27168016,29260639,29987675,31072870
- * - [2023] 32279369,33457566
+ * - [2023] 32279369,33457566,34836087
  * */
-export const APP_ID_SAY_DEVELOP = '33457566'
+export const APP_ID_SAY_DEVELOP = '34836087'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'

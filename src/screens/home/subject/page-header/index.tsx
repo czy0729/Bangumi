@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-25 04:52:04
+ * @Last Modified time: 2023-05-29 14:44:56
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -11,12 +11,20 @@ import { _, systemStore } from '@stores'
 import { copy, cnjp, open, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { STORYBOOK, URL_ABOUT } from '@constants'
 import HeaderTitle from '../header-title'
 import IconShare from '../icon/share'
 import { Ctx } from '../types'
 
+const TEXT_COPY = '复制链接'
+const TEXT_SHARE = '复制分享'
+const TEXT_LAYOUT = '重置布局'
+const TEXT_APP = '获取 APP'
+
 function Header({ fixed, index }, { $, navigation }: Ctx) {
   const color = _.isDark || !fixed ? '#fff' : '#000'
+  const data = [`浏览器打开 · ${$.subjectId}`, TEXT_COPY, TEXT_SHARE, TEXT_LAYOUT]
+  if (STORYBOOK) data.push(TEXT_APP)
   return (
     <CompHeader
       mode='transition'
@@ -42,7 +50,7 @@ function Header({ fixed, index }, { $, navigation }: Ctx) {
         <Flex>
           <IconShare $={$} navigation={navigation} color={color} />
           <CompHeader.Popover
-            data={[`浏览器打开 · ${$.subjectId}`, '复制链接', '复制分享', '重置布局']}
+            data={data}
             color={color}
             onSelect={key => {
               t('条目.右上角菜单', {
@@ -52,20 +60,24 @@ function Header({ fixed, index }, { $, navigation }: Ctx) {
 
               setTimeout(() => {
                 switch (key) {
-                  case '复制链接':
+                  case TEXT_COPY:
                     copy($.url, '已复制链接')
                     break
 
-                  case '复制分享':
+                  case TEXT_SHARE:
                     copy(
                       `【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`,
                       '已复制分享文案'
                     )
                     break
 
-                  case '重置布局':
+                  case TEXT_LAYOUT:
                     systemStore.resetSubjectLayout()
                     info('已重置')
+                    break
+
+                  case TEXT_APP:
+                    open(URL_ABOUT)
                     break
 
                   default:

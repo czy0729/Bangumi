@@ -7,12 +7,11 @@
 import React from 'react'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { getCoverMedium, getCoverLarge, cnjp, loading } from '@utils'
 import { ob } from '@utils/decorators'
-import { getCoverMedium, getCoverLarge, cnjp } from '@utils/app'
 import { t } from '@utils/fetch'
-import { loading } from '@utils/ui'
 import axios from '@utils/thirdParty/axios'
-import { HOST, HOST_CDN, CDN_OSS_SUBJECT } from '@constants'
+import { HOST, HOST_CDN, CDN_OSS_SUBJECT, STORYBOOK } from '@constants'
 import { Override } from '@types'
 import { Ctx } from '../types'
 
@@ -26,6 +25,8 @@ function IconShare({
     color?: any
   }
 >) {
+  if (STORYBOOK) return null
+
   return (
     <IconTouchable
       style={_.mr.xs}

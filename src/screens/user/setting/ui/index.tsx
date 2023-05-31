@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:21:28
+ * @Last Modified time: 2023-05-30 17:30:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,8 @@ import { loadAppFontsAsync } from '@utils/hooks/useCachedResources'
 import {
   IMG_DEFAULT_AVATAR,
   SETTING_FONTSIZEADJUST,
-  SETTING_TRANSITION
+  SETTING_TRANSITION,
+  STORYBOOK
 } from '@constants'
 import { getShows, getYuqueThumbs } from '../utils'
 import commonStyles from '../styles'
@@ -511,7 +512,7 @@ function UI({ filter }) {
 
           {/* 切页动画 */}
           <ItemSetting
-            show={shows.transition}
+            show={!STORYBOOK && shows.transition}
             ft={
               <SegmentedControl
                 style={commonStyles.segmentedControl}
@@ -540,7 +541,7 @@ function UI({ filter }) {
 
           {/* 震动 */}
           <ItemSetting
-            show={shows.vibration}
+            show={!STORYBOOK && shows.vibration}
             ft={
               <SwitchPro
                 style={commonStyles.switch}

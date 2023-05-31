@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:18:38
+ * @Last Modified time: 2023-05-30 20:40:20
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -61,7 +61,7 @@ class TimelineList extends React.Component<{
       <TapListener>
         <ListView
           ref={this.connectRef}
-          contentContainerStyle={_.container.bottom}
+          contentContainerStyle={!STORYBOOK && _.container.bottom}
           keyExtractor={keyExtractor}
           data={$.usersTimeline}
           sectionKey='date'

@@ -108,6 +108,6 @@ export const StorybookScroll = ({
 
 const styles = _.create({
   scrollView: {
-    height: '100vh'
+    flexGrow: 1
   }
 })

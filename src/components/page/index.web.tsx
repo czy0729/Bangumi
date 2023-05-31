@@ -1,30 +1,29 @@
 /*
- * 页面容器
  * @Author: czy0729
- * @Date: 2022-05-01 14:26:57
- * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 15:06:34
+ * @Date: 2023-05-31 17:16:43
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2023-05-31 17:16:43
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
+import { styles } from './styles'
 import { Props as PageProps } from './types'
 
 export { PageProps }
 
 export const Page = observer(
   ({ style, loaded, loadingColor, backgroundColor, children, ...other }: PageProps) => {
-    const _style = stl(_.container.plain, style)
+    const _style = stl(_.container.plain, styles.page, style)
     if (loaded || loaded === undefined)
       return (
         <ErrorBoundary style={_style}>
-          <View style={_style} {...other}>
+          <main style={_.flatten(_style)} {...other}>
             {children}
-          </View>
+          </main>
         </ErrorBoundary>
       )
 

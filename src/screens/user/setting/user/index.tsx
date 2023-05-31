@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:01:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:09:28
+ * @Last Modified time: 2023-05-30 18:31:50
  */
 import React from 'react'
 import { ActionSheet, SegmentedControl, Heatmap } from '@components'
@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { SETTING_USER_GRID_NUM } from '@constants'
+import { SETTING_USER_GRID_NUM, STORYBOOK } from '@constants'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
@@ -20,7 +20,7 @@ function User({ filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (!shows) return null
+    if (STORYBOOK || !shows) return null
 
     const { userGridNum } = systemStore.setting
     return (

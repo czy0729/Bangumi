@@ -134,7 +134,7 @@ export function analysiRank(raw) {
         findTreeNode(children, 'a > span > img') ||
         findTreeNode(children, 'a > noscript > img')
       let cover = node ? node[0].attrs.src : ''
-      if (cover === '/img/info_only.png') {
+      if (cover === '/img/info_only.png' || cover === '/img/no_icon_subject.png') {
         cover = ''
       }
 

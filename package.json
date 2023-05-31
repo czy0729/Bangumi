@@ -17,7 +17,7 @@
     "pub": "sudo expo publish",
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
     "web": "STORYBOOK=true start-storybook -p 6006",
-    "build-storybook": "STORYBOOK=true build-storybook"
+    "build-web": "STORYBOOK=true build-storybook"
   },
   "dependencies": {
     "@ant-design/react-native": "3.1.3",

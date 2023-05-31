@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 04:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 05:41:56
+ * @Last Modified time: 2023-05-30 17:36:41
  */
 import React from 'react'
 import { ActionSheet, SegmentedControl, Heatmap, SwitchPro } from '@components'
@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { STORYBOOK } from '@constants'
 import { getShows } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
@@ -59,7 +60,7 @@ function Discovery({ filter, open = false }) {
 
           {/* 看板娘 Live2D */}
           <ItemSetting
-            show={shows.live2D}
+            show={!STORYBOOK && shows.live2D}
             ft={
               <SwitchPro
                 style={styles.switch}
@@ -83,7 +84,7 @@ function Discovery({ filter, open = false }) {
           {/* 看板娘 Live2D 声音 */}
           {live2D && (
             <ItemSetting
-              show={shows.live2DVoice}
+              show={!STORYBOOK && shows.live2DVoice}
               ft={
                 <SwitchPro
                   style={styles.switch}

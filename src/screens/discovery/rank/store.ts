@@ -89,6 +89,7 @@ export default class ScreenRank extends store {
     return computed(() => subjectStore.subject(subjectId)).get()
   }
 
+  /** 云端数据键值 */
   @computed get thirdPartyKey() {
     const { currentPage, type, filter, airtime, month } = this.state
     const query = [
@@ -98,6 +99,15 @@ export default class ScreenRank extends store {
       currentPage[type]
     ].join('_')
     return `rank_${query}`
+  }
+
+  /** 尝试从云端数据查找封面 */
+  cover(subjectId: SubjectId) {
+    if (!this.ota) return ''
+
+    const { list } = this.ota
+    const find = list.find(item => item.id === subjectId)
+    return find?.cover || ''
   }
 
   // -------------------- fetch --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 20:44:51
+ * @Last Modified time: 2023-05-30 17:35:59
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -16,7 +16,8 @@ import {
   MODEL_SETTING_HOME_SORTING,
   SETTING_HOME_COUNT_VIEW,
   SETTING_HOME_GRID_COVER_LAYOUT,
-  SETTING_HOME_SORTING
+  SETTING_HOME_SORTING,
+  STORYBOOK
 } from '@constants'
 import {
   SettingHomeGridCoverLayout,
@@ -33,7 +34,7 @@ function Home({ filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (!shows) return null
+    if (STORYBOOK || !shows) return null
 
     const {
       exportICS,

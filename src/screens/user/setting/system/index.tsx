@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:42:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:09:17
+ * @Last Modified time: 2023-05-30 20:45:50
  */
 import React, { useState } from 'react'
 import { ActionSheet, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, userStore, systemStore, rakuenStore, calendarStore } from '@stores'
+import { confirm, info, loading, feedback } from '@utils'
 import { useObserver, useMount, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { confirm, info, loading, feedback } from '@utils/ui'
 import { read } from '@utils/db'
+import { STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { getShows } from '../utils'
 import { TEXTS } from './ds'
@@ -176,7 +177,7 @@ function System({ navigation, filter }) {
 
         {/* 网络探针 */}
         <ItemSetting
-          show={shows.serverStatus}
+          show={!STORYBOOK && shows.serverStatus}
           arrow
           highlight
           filter={filter}

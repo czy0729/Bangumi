@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 06:29:33
+ * @Last Modified time: 2023-05-30 19:35:46
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
@@ -25,7 +26,7 @@ function Header(props, { $ }: Ctx) {
 
         return (
           <Flex>
-            {list.length >= 10 && (
+            {!STORYBOOK && list.length >= 10 && (
               <>
                 <IconTouchable
                   style={_.mr._xs}

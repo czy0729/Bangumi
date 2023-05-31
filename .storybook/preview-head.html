@@ -8,16 +8,7 @@
 <meta name="theme-color" content="#000000" />
 <link rel="shortcut icon" href="https://bgm.tv/img/favicon.ico" type="image/x-icon" />
 <link rel="apple-touch-icon-precomposed" href="https://bgm.tv/img/ico/ico_ios.png" />
-<script>
-  document.title = 'Bangumi 番组计划'
-</script>
 <style>
-  @font-face {
-    font-family: 'bgm';
-    src: url('https://cdn.jsdelivr.net/gh/czy0729/Bangumi@master/src/assets/fonts/AppleColorEmoji.ttf')
-      format('truetype');
-    font-display: swap;
-  }
   * {
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
@@ -27,12 +18,20 @@
     height: 0;
     color: transparent;
   }
+  html[data-theme='dark'] {
+    background: rgb(24, 24, 24) !important;
+    color-scheme: dark;
+    supported-color-schemes: dark;
+  }
   body {
     padding: 0 !important;
     font-family: rhrm, PingFangSC, Open Sans, Helvetica Neue, Arial, Hiragino Sans GB,
       Microsoft YaHei, WenQuanYi Micro Hei, sans-serif !important;
-    background: rgb(24, 24, 24);
+    background: rgb(24, 24, 24) !important;
     -webkit-text-size-adjust: none;
+  }
+  .sb-wrapper {
+    background: rgb(24, 24, 24) !important;
   }
   #root {
     height: 100vh;
@@ -41,10 +40,25 @@
     align-items: center;
     font-family: rhrm, PingFangSC, Open Sans, Helvetica Neue, Arial, Hiragino Sans GB,
       Microsoft YaHei, WenQuanYi Micro Hei, sans-serif !important;
-    background: rgb(24, 24, 24);
+    background: rgb(24, 24, 24) !important;
     overflow: hidden;
   }
+  header + main {
+    max-height: calc(100vh - 56px) !important;
+  }
+  @font-face {
+    font-family: 'bgm';
+    src: url('https://cdn.jsdelivr.net/gh/czy0729/Bangumi@master/src/assets/fonts/AppleColorEmoji.ttf')
+      format('truetype');
+    font-display: swap;
+  }
 </style>
+<script>
+  const htmlElement = document.getElementsByTagName('html')[0]
+  htmlElement.setAttribute('data-theme', 'dark')
+
+  document.title = 'Bangumi 番组计划'
+</script>
 <script
   async
   defer
