@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 18:29:32
+ * @Last Modified time: 2023-05-31 17:36:10
  */
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Provider from '@ant-design/react-native/lib/provider'
@@ -63,10 +63,18 @@ function parseUrlParams() {
 export const decorators = [
   Story => (
     <Provider theme={theme}>
-      <GestureHandlerRootView style={_.container.plain}>
+      <GestureHandlerRootView style={styles.container}>
         <Story />
       </GestureHandlerRootView>
       <AppCommon />
     </Provider>
   )
 ]
+
+const styles = _.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})

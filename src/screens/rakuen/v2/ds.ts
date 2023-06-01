@@ -9,7 +9,8 @@ import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE_GROUP,
   MODEL_RAKUEN_TYPE_MONO,
-  RAKUEN_TYPE
+  RAKUEN_TYPE,
+  STORYBOOK
 } from '@constants'
 import { RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
 
@@ -39,7 +40,7 @@ export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
   isFocused: true,
-  _mounted: false
+  _mounted: STORYBOOK
 }
 
 export const STATE = {

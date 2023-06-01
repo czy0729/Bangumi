@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-05-31 17:16:43
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-05-31 17:16:43
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-06-01 01:28:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,7 +21,7 @@ export const Page = observer(
     if (loaded || loaded === undefined)
       return (
         <ErrorBoundary style={_style}>
-          <main style={_.flatten(_style)} {...other}>
+          <main className='component-page' style={_.flatten(_style)} {...other}>
             {children}
           </main>
         </ErrorBoundary>

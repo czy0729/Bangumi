@@ -12,7 +12,7 @@ export type Props = Expand<
     navigation: Navigation
   } & Pick<
     HeaderProps,
-    'fixed' | 'title' | 'statusBarEventsType' | 'headerTitle' | 'headerRight'
+    'fixed' | 'mode' | 'title' | 'statusBarEventsType' | 'headerTitle' | 'headerRight'
   > & {
       headerLeft?: ReactNode
     }

@@ -79,6 +79,7 @@ const Header: IHeader = ({
     const passProps = {
       navigation,
       fixed,
+      mode,
       title,
       statusBarEventsType,
       headerTitle,

@@ -23,6 +23,9 @@ export const memoStyles = _.memoStyles(() => ({
   hasPR: {
     paddingRight: _._wind
   },
+  menu: {
+    minWidth: _._wind
+  },
   touch: {
     marginTop: -7,
     marginHorizontal: _.xs,

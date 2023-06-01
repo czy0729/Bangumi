@@ -169,24 +169,26 @@ const Item = memo(
                   </Touchable>
                 </InView>
               )}
-              {!SHARE_MODE &&
-                (clearHref ? (
-                  <Touchable style={styles.touch} onPress={onClear}>
-                    <Flex style={styles.extra} justify='center'>
-                      <Iconfont name='md-close' size={18} />
-                    </Flex>
-                  </Touchable>
-                ) : (
-                  <Popover
-                    style={styles.touch}
-                    data={HIDDEN_DS}
-                    onSelect={title => onHidden(title, userId)}
-                  >
-                    <Flex style={styles.extra} justify='center'>
-                      <Iconfont name='md-more-vert' size={18} />
-                    </Flex>
-                  </Popover>
-                ))}
+              <View style={styles.menu}>
+                {!SHARE_MODE &&
+                  (clearHref ? (
+                    <Touchable style={styles.touch} onPress={onClear}>
+                      <Flex style={styles.extra} justify='center'>
+                        <Iconfont name='md-close' size={18} />
+                      </Flex>
+                    </Touchable>
+                  ) : (
+                    <Popover
+                      style={styles.touch}
+                      data={HIDDEN_DS}
+                      onSelect={title => onHidden(title, userId)}
+                    >
+                      <Flex style={styles.extra} justify='center'>
+                        <Iconfont name='md-more-vert' size={18} />
+                      </Flex>
+                    </Popover>
+                  ))}
+              </View>
             </Flex>
           </Flex>
         </Flex.Item>

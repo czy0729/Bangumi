@@ -31,10 +31,12 @@ function List({
     content = sections.map((section: any, index: number) => (
       <View key={`section-${index}`}>
         {renderSectionHeader({ section })}
-        {renderItem({
-          item: section.data[0],
-          section
-        })}
+        {(section.data || []).map(item =>
+          renderItem({
+            item,
+            section
+          })
+        )}
       </View>
     ))
   } else {

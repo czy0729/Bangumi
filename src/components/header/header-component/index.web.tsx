@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-03-23 00:51:52
+ * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 16:20:02
+ * @Last Modified time: 2023-06-01 01:33:58
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,6 +16,7 @@ import { Props } from './types'
 function HeaderComponent({
   navigation,
   fixed,
+  mode,
   title,
   statusBarEventsType,
   headerTitle,
@@ -28,6 +29,7 @@ function HeaderComponent({
     : undefined
   return (
     <header
+      className={`component-header component-header--${mode || 'normal'}`}
       // eslint-disable-next-line react-native/no-inline-styles
       style={{
         ...styles.header,
