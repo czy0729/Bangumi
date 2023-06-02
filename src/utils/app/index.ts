@@ -3,12 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 16:30:03
+ * @Last Modified time: 2023-06-02 23:23:25
  */
 import { Alert, Dimensions, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
 import { isObservableArray } from 'mobx'
 import { DEV } from '@/config'
+import { STORYBOOK } from '@constants/device'
 import {
   EVENT,
   HOST,
@@ -322,12 +323,17 @@ let _navigationReference: Navigation | undefined
 
 /** 保存 navigation 引用 */
 export function navigationReference(navigation?: Navigation | undefined) {
+  if (STORYBOOK) {
+    return require('@components/storybook/navigation').StorybookNavigation as Navigation
+  }
+
   if (navigation) {
     _navigationReference = navigation
     if (!_navigationReference.push) {
       _navigationReference.push = _navigationReference.navigate
     }
   }
+
   return _navigationReference
 }
 

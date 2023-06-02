@@ -76,6 +76,9 @@ export default class Action extends Computed {
 
   /** 切换主题模式 */
   toggleMode = (mode?: Mode) => {
+    // web 端暂不开放白天模式
+    if (STORYBOOK) return false
+
     const key = 'mode'
     if (mode === 'light') {
       this.setState({

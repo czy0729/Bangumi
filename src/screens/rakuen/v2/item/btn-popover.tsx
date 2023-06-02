@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-04-13 21:57:24
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
@@ -16,7 +17,7 @@ function BtnPopover(
   { groupCn, groupHref, href, topicId, userId, userName, isGroup },
   { $, navigation }: Ctx
 ) {
-  if (SHARE_MODE) return null
+  if (SHARE_MODE) return <View style={styles.placeholder} />
 
   const isSubject = topicId.includes('subject/')
 
@@ -69,6 +70,9 @@ function BtnPopover(
 export default obc(BtnPopover)
 
 const styles = _.create({
+  placeholder: {
+    minWidth: _._wind
+  },
   touch: {
     marginRight: 4,
     marginTop: 8,

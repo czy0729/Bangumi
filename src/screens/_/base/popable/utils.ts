@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-13 11:42:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 02:03:14
+ * @Last Modified time: 2023-06-02 23:17:08
  */
-import { IOS } from '@constants'
 import { _ } from '@stores'
+import { IOS, STORYBOOK } from '@constants'
 import { memoStyles } from './styles'
 
 type Position = 'bottom' | 'left' | 'right' | 'top'
@@ -41,13 +41,13 @@ export function getPosition(
     position = 'top'
 
     style.top = y - container.height - LINE_HEIGHT
-    if (!IOS) style.top += 28
+    if (!(IOS || STORYBOOK)) style.top += 28
     if (_.isPad) style.top -= 32
   } else {
     position = 'bottom'
 
     style.top = y + (_.isPad ? 0 : LINE_HEIGHT * 1.2)
-    if (!IOS) style.top += 16
+    if (!(IOS || STORYBOOK)) style.top += 16
     if (!_.isPad) style.top += LINE_HEIGHT * 1.2
   }
 

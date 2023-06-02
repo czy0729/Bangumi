@@ -2,30 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 18:26:10
+ * @Last Modified time: 2023-06-02 22:21:52
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader } from '@_'
 import { _ } from '@stores'
-import { info, stl } from '@utils'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import i18n from '@constants/i18n'
 import { Ctx } from '../types'
 
-function IconGroup(props, { $, navigation }: Ctx) {
+function IconGroup(props, { navigation }: Ctx) {
   return (
     <IconTabsHeader
       style={stl(styles.icon, _.isPad && styles.iconPad)}
       name='md-filter-none'
       size={18}
       onPress={() => {
-        if (!$.isWebLogin) {
-          info(`请先${i18n.login()}`)
-          return
-        }
-
         t('超展开.跳转', {
           to: 'Mine'
         })

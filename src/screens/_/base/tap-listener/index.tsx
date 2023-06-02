@@ -1,11 +1,10 @@
 /*
  * 获取手指最近一次点击相对于屏幕的坐标
- *
  * @Doc: https://docs.swmansion.com/react-native-gesture-handler/docs/2.1.1/api/gestures/pan-gesture
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 18:27:52
+ * @Last Modified time: 2023-06-02 23:13:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,8 +27,6 @@ export const TapListener = ({ children }) => {
         activeOffsetX={_.window.contentWidth}
         activeOffsetY={_.window.contentWidth}
         onHandlerStateChange={(event: PanGestureHandlerStateChangeEvent) => {
-          console.log(event)
-
           if (event.nativeEvent.state === State.FAILED) {
             uiStore.setXY(
               Math.floor(event.nativeEvent.absoluteX),
