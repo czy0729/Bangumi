@@ -86,7 +86,7 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ### 修复
 
-- [x] [UI] 修复了安卓13下按钮点击错误渲染阴影的问题
+- [x] [UI] 修复了安卓 13 下按钮点击错误渲染阴影的问题
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
@@ -96,11 +96,15 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 ## Storybook 组件面板预览
 
-[https://czy0729.github.io/Bangumi-Storybook/storybook-static](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
+[国内部署访问快](https://bangumi-app.5t5.top)
+
+[gh-pages https://czy0729.github.io/Bangumi-Storybook/storybook-static](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
 
 ## SPA 应用预览 (仍在开发中, 已支持基本预览, 移动端最佳)
 
-[https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)
+[国内部署访问快](https://bangumi-app.5t5.top/iframe.html?viewMode=story&id=screens-discovery--discovery)
+
+[gh-pages https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)
 
 # 预览
 
