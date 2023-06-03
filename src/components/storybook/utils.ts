@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:39:27
+ * @Last Modified time: 2023-06-03 21:47:28
  */
-import { appNavigate, urlStringify } from '@utils'
+import { appNavigate, getSPAParams } from '@utils'
 import { AnyObject } from '@types'
 import { setNavigating } from './state'
 
@@ -36,27 +36,10 @@ export function navigate(
     return
   }
 
-  const config = {
-    viewMode: 'story',
-
-    // params
-    ...Object.entries(params || {})
-      // .filter(([key]) => !key.startsWith('_'))
-      .filter(([, value]) => value)
-      .reduce((obj, [key, value]) => {
-        obj[key] = value
-        return obj
-      }, {}),
-
-    // CatalogDetail -> catalogdetail--catalog-detail
-    // LoginV2 -> loginv2--login-v-2
-    id: `screens-${routeName.toLowerCase()}--${routeName
-      .replace(/([a-z])([A-Z])/g, '$1-$2')
-      .replace(/(\d+)/g, '-$1')
-      .toLowerCase()}`
-  }
-  const url = `iframe.html?${urlStringify(config)}`
-
-  window.history[replace ? 'replaceState' : 'pushState']({}, '', url)
+  window.history[replace ? 'replaceState' : 'pushState'](
+    {},
+    '',
+    getSPAParams(routeName, params)
+  )
   window.dispatchEvent(new PopStateEvent('popstate'))
 }

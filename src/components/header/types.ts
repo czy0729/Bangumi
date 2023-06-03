@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 17:26:41
+ * @Last Modified time: 2023-06-03 22:01:14
  */
 import { ViewStyle, TextStyle, IconfontNames, ColorValue, ReactNode } from '@types'
 
@@ -51,14 +51,19 @@ export type Props = {
 }
 
 export type PopoverProps = {
+  style?: ViewStyle
+
   /** 图标名字 */
   name?: IconfontNames
+
+  /** 图标大小 */
+  size?: number
 
   /** 图标颜色 */
   color?: ColorValue
 
   /** Popover data */
-  data?: string[]
+  data?: string[] | readonly string[]
 
   /** 菜单样式 */
   menuStyle?: ViewStyle

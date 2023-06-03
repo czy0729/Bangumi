@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-02 23:23:25
+ * @Last Modified time: 2023-06-03 21:43:57
  */
 import { Alert, Dimensions, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -39,7 +39,7 @@ import {
   SubjectTypeCn,
   UserId
 } from '@types'
-import { getTimestamp, open, toLocal } from '../utils'
+import { getTimestamp, open, toLocal, urlStringify } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode, removeHTMLTag } from '../html'
 import { getStorage, setStorage } from '../storage'
@@ -59,6 +59,29 @@ import {
   X18_TITLE,
   YEAR
 } from './ds'
+
+/** 获取 APP 网页版参数 */
+export function getSPAParams(routeName: string, params?: AnyObject) {
+  return `iframe.html?${urlStringify({
+    viewMode: 'story',
+
+    // params
+    ...Object.entries(params || {})
+      // .filter(([key]) => !key.startsWith('_'))
+      .filter(([, value]) => value)
+      .reduce((obj, [key, value]) => {
+        obj[key] = value
+        return obj
+      }, {}),
+
+    // CatalogDetail -> catalogdetail--catalog-detail
+    // LoginV2 -> loginv2--login-v-2
+    id: `screens-${routeName.toLowerCase()}--${routeName
+      .replace(/([a-z])([A-Z])/g, '$1-$2')
+      .replace(/(\d+)/g, '-$1')
+      .toLowerCase()}`
+  })}`
+}
 
 /** 启动 */
 export function bootApp() {

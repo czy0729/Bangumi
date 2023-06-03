@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:56:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-29 08:50:56
+ * @Last Modified time: 2023-06-03 22:01:31
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { IOS } from '@constants'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -16,7 +17,9 @@ import { styles } from './styles'
 import { PopoverProps } from './types'
 
 function Popover({
+  style,
   name = 'md-more-horiz',
+  size,
   color,
   data = [],
   menuStyle,
@@ -40,10 +43,15 @@ function Popover({
       }
 
   return (
-    <CompPopover style={styles.touch} placement='bottom' {...popoverProps} {...other}>
+    <CompPopover
+      style={stl(styles.touch, style)}
+      placement='bottom'
+      {...popoverProps}
+      {...other}
+    >
       {!!name && (
         <Flex style={styles.icon} justify='center'>
-          <Iconfont name={name} color={color || _.colorTitle} />
+          <Iconfont size={size} name={name} color={color || _.colorTitle} />
         </Flex>
       )}
       {children}

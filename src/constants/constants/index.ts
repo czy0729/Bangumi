@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 20:18:54
+ * @Last Modified time: 2023-06-03 21:49:15
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -52,16 +52,16 @@ export const HOST_3 = 'https://chii.in'
 /** jsDelivr */
 export const HOST_CDN = 'https://cdn.jsdelivr.net'
 
-/** @deprecated [已废弃] 柠萌瞬间地址 */
+/** @deprecated 柠萌瞬间地址 */
 export const HOST_NING_MOE = 'https://www.ningmoe.com'
 
-/** @deprecated [已废弃] Anitama api地址 */
+/** @deprecated Anitama api 地址 */
 export const HOST_ANITAMA = 'https://app.anitama.net'
 
-/** @deprecated [已废弃] 动漫之家 */
+/** @deprecated 动漫之家 */
 export const HOST_DMZJ = 'https://m.news.dmzj.com'
 
-/** @deprecated [已废弃] HD漫画 */
+/** @deprecated HD 漫画 */
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'
 
 /** 免费图床 */
@@ -97,6 +97,9 @@ export const URL_DEV =
 
 /** 开发问卷 */
 export const URL_WENJUAN = 'https://wj.qq.com/s2/9645600/92c2/'
+
+/** APP 网页版 */
+export const URL_SPA = 'https://bangumi-app.5t5.top'
 
 /** App ID https://bgm.tv/dev/app */
 export const APP_ID = 'bgm8885c4d524cd61fc'
