@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 17:44:58
+ * @Last Modified time: 2023-06-03 16:59:50
  */
 import { computed, observable } from 'mobx'
-import { subjectStore } from '@stores'
-import { getTimestamp, pick, queue } from '@utils'
+import { subjectStore, userStore } from '@stores'
+import { desc, getTimestamp, info, pick, queue, updateVisibleBottom } from '@utils'
 import axios from '@utils/thirdParty/axios'
 import store from '@utils/store'
 import { gets } from '@utils/kv'
-import { STORYBOOK } from '@constants'
-import { SubjectId } from '@types'
+import { t } from '@utils/fetch'
+import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
+import { SubjectId, SubjectTypeValue } from '@types'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 
 export default class ScreenRecommend extends store {
@@ -25,7 +26,15 @@ export default class ScreenRecommend extends store {
       _loaded: true
     })
 
-    if (!STORYBOOK) await this.fetchSubjects()
+    if (!STORYBOOK) {
+      if (this.state.value === '' && userStore.myUserId) {
+        this.setState({
+          value: String(userStore.myUserId)
+        })
+      }
+
+      await this.fetchSubjects()
+    }
     this.fetchSubjectsFromOSS()
   }
 
@@ -85,24 +94,45 @@ export default class ScreenRecommend extends store {
             'rating',
             'totalEps',
             'info',
-            'staff'
+            'staff',
+            'tags'
           ])
+
           if (data[key].info) {
             data[key].date =
               data[key].info.match(
                 /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
               )?.[2] || ''
-            delete data[key].info
           }
+          delete data[key].info
+
+          if (!data[key].date && Array.isArray(data[key].tags)) {
+            let find = data[key].tags.find(item => /^\d+年\d+月$/.test(item.name))
+            if (find) data[key].date = find.name
+
+            find = data[key].tags.find(item => /^\d{4}$/.test(item.name))
+            if (find) data[key].date = find.name
+          }
+          delete data[key].tags
+
           if (Array.isArray(data[key].staff)) {
             // 原作
             const origin = data[key].staff.find(item => item.desc === '原作')
             data[key].origin = origin?.name || origin?.nameJP || ''
 
             // 导演
-            const director = data[key].staff.find(item => item.desc === '导演')
+            let director = data[key].staff.find(item => item.desc === '导演')
             data[key].director = director?.name || director?.nameJP || ''
+
+            if (!data[key].director) {
+              director = data[key].staff.find(
+                item =>
+                  item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
+              )
+              data[key].director = director?.name || director?.nameJP || ''
+            }
           }
+          delete data[key].staff
 
           data[key]._loaded = getTimestamp()
         } catch (error) {}
@@ -118,12 +148,19 @@ export default class ScreenRecommend extends store {
   // -------------------- get --------------------
   @computed get ids() {
     const ids: SubjectId[] = []
-    const { data } = this.state
-    ;['top', 'pop', 'tv', 'old_tv', 'movie', 'old_movie', 'nsfw'].forEach(key => {
-      data[key].forEach((id: SubjectId) => {
-        ids.push(id)
+    const { cat } = this.state
+    if (cat === 'v1') {
+      const { data } = this.state
+      ;['top', 'pop', 'tv', 'old_tv', 'movie', 'old_movie', 'nsfw'].forEach(key => {
+        data[key].forEach((id: SubjectId) => {
+          ids.push(id)
+        })
       })
-    })
+    } else {
+      const data = this.state.dataV2[cat] || []
+      data.forEach(item => ids.push(item.sid))
+    }
+
     return ids
   }
 
@@ -147,6 +184,23 @@ export default class ScreenRecommend extends store {
     })
   }
 
+  onSelect = (cat: string) => {
+    setTimeout(async () => {
+      this.setState({
+        cat
+      })
+
+      await this.doSearchV2()
+
+      if (!STORYBOOK) await this.fetchSubjects()
+      await this.fetchSubjectsFromOSS()
+      this.setStorage(NAMESPACE)
+    }, 16)
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
+
   // -------------------- action --------------------
   doSearch = async () => {
     try {
@@ -162,6 +216,12 @@ export default class ScreenRecommend extends store {
         method: 'get',
         url: `http://101.43.236.40/api/rec/${value.trim()}`
       })
+
+      t('推荐.刷新', {
+        value: value.trim(),
+        type: 'v1'
+      })
+
       if ('tv' in data) {
         data.old_tv = data.old_tv || data['old tv']
         delete data['old tv']
@@ -175,6 +235,66 @@ export default class ScreenRecommend extends store {
         if (!STORYBOOK) await this.fetchSubjects()
         await this.fetchSubjectsFromOSS()
         this.setStorage(NAMESPACE)
+      }
+    } catch (ex) {
+      console.log(ex)
+    }
+
+    this.setState({
+      searching: false
+    })
+  }
+
+  doSearchV2 = async () => {
+    try {
+      const { cat, value } = this.state
+      if (!value) return
+
+      if (cat === 'v1') return this.doSearch()
+
+      this.setState({
+        searching: true
+      })
+
+      const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(cat)
+
+      // @ts-expect-error
+      const { data } = await axios({
+        method: 'get',
+        url: `http://101.43.236.40/api/v2/rec/${value.trim()}?type=${subjectType || 0}`
+      })
+
+      t('推荐.刷新', {
+        value: value.trim(),
+        type: subjectType || 0
+      })
+
+      if (Array.isArray(data) && data.length) {
+        this.setState({
+          dataV2: {
+            [cat]: data
+              .sort((a, b) => desc(a.score, b.score))
+              .map(item => {
+                return {
+                  sid: item.sid,
+                  type: item.type,
+                  score: item.score.toFixed(1)
+                }
+              })
+          }
+        })
+        if (!STORYBOOK) await this.fetchSubjects()
+        await this.fetchSubjectsFromOSS()
+        this.setStorage(NAMESPACE)
+      } else if (data?.message) {
+        this.setState({
+          dataV2: {
+            [cat]: []
+          }
+        })
+        this.setStorage(NAMESPACE)
+
+        info(data.message)
       }
     } catch (ex) {
       console.log(ex)

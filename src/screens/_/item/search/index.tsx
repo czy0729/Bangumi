@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:02:24
+ * @Last Modified time: 2023-06-03 16:22:56
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -29,6 +29,7 @@ export const ItemSearch = ob(
     comments,
     collection,
     collected,
+    showManage,
     position,
     event
   }: ItemSearchProps) => {
@@ -52,6 +53,7 @@ export const ItemSearch = ob(
         comments={comments}
         collection={collection}
         collected={collected}
+        showManage={showManage}
         position={position}
         event={event}
       />

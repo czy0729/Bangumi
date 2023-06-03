@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:02:45
+ * @Last Modified time: 2023-06-03 16:22:20
  */
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
@@ -31,6 +31,7 @@ export const DEFAULT_PROPS = {
 
   /** 是否收藏 */
   collected: false as $['collected'],
+  showManage: true as boolean,
   position: [] as $['position'],
   event: EVENT as $['event']
 }

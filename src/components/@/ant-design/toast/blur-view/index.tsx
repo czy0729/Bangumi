@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 16:02:51
+ * @Last Modified time: 2023-06-03 16:16:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react-lite'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncThemeStore } from '@utils/async'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import { Props } from './types'
 
 export const BlurView = observer(({ style, children }: Props) => {

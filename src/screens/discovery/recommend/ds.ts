@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 17:42:57
+ * @Last Modified time: 2023-06-03 13:21:39
  */
 import { _ } from '@stores'
 
@@ -11,6 +11,9 @@ export const NAMESPACE = 'ScreenRecommend'
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
+
+  /** 类型 */
+  cat: '默认',
 
   /** 输入框聚焦中 */
   focus: false,
@@ -49,6 +52,16 @@ export const STATE = {
     nsfw: [],
 
     _loaded: 0
+  },
+
+  /** 推荐结果 v2 */
+  dataV2: {
+    默认: [],
+    动画: [],
+    书籍: [],
+    游戏: [],
+    音乐: [],
+    三次元: []
   },
 
   /** 缓存条目快照 */

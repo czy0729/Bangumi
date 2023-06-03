@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 17:46:45
+ * @Last Modified time: 2023-06-03 16:22:33
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -41,6 +41,7 @@ const Item = memo(
     comments,
     collection,
     position,
+    showManage,
     event
   }) => {
     // global.rerender('Component.ItemSearch.Main')
@@ -104,7 +105,7 @@ const Item = memo(
               <Flex.Item>
                 <Title name={name} nameCn={nameCn} comments={comments} />
               </Flex.Item>
-              {!isMono && (
+              {showManage && !isMono && (
                 <Manage
                   subjectId={subjectId}
                   collection={collection}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 05:49:41
+ * @Last Modified time: 2023-06-03 16:22:53
  */
 import { EventType, Id, Navigation, SubjectTypeCn, ViewStyle } from '@types'
 
@@ -23,6 +23,7 @@ export type Props = {
   comments?: string
   collection?: string
   collected?: boolean
+  showManage?: boolean
   position?: string[]
   event?: EventType
 }

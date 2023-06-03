@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-25 19:44:19
+ * @Last Modified time: 2023-06-03 12:29:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
+import Category from './category'
 import SearchBar from './search-bar'
 import List from './list'
 import Store from './store'
@@ -30,6 +31,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
         <Header title='番剧推荐' hm={['recommend', 'Recommend']} />
         <Page>
           <Flex style={styles.searchBar}>
+            <Category />
             <Flex.Item>
               <SearchBar />
             </Flex.Item>
@@ -38,7 +40,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
                 style={styles.btn}
                 type='ghostPlain'
                 size='sm'
-                onPress={$.doSearch}
+                onPress={$.doSearchV2}
               >
                 查询
               </Button>
