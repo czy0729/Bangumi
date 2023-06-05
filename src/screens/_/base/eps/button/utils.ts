@@ -33,23 +33,18 @@ export function getPopoverData(
     canAddCalendar = false
   }
 
-  let data: string[]
+  const data: string[] = []
   if (login) {
-    data = [userProgress[item.id] === '看过' ? '撤销' : '看过']
+    if (userProgress[item.id] !== '看过') data.push('看过')
     if (!isSp) data.push('看到')
     if (advance) {
-      if (userProgress[item.id] && userProgress[item.id] !== '看过') {
-        data.unshift('撤销')
-      }
       data.push('想看', '抛弃')
     }
-    if (canAddCalendar) data.push('添加提醒')
-    data.push(discuss)
-  } else {
-    data = []
-    if (canAddCalendar) data.push('添加提醒')
-    data.push(discuss)
+    if (userProgress[item.id]) data.push('撤销')
   }
+
+  if (canAddCalendar) data.push('添加提醒')
+  data.push(discuss)
 
   if (canPlay) data.push('正版播放')
 

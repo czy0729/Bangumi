@@ -111,11 +111,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 条目吐槽箱 */
-  subjectComments(subjectId: SubjectId) {
-    this.init('subjectComments')
+  /** 条目吐槽箱, 合并 subjectComments 0-999 */
+  subjectComments(subjectId: SubjectId = 0) {
+    const last = getInt(subjectId)
+    const key = `subjectComments${last}` as const
+    this.init(key)
+
     return computed<SubjectComments>(() => {
-      return this.state.subjectComments[subjectId] || LIST_EMPTY
+      return this.state?.[key]?.[subjectId] || LIST_EMPTY
     }).get()
   }
 

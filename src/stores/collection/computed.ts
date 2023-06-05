@@ -71,7 +71,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.mosaicTile
   }
 
-  /** @deprecated 条目的收藏状态, 替代 userCollectionsMap */
+  /**
+   * @deprecated
+   * 请使用 collectionStore.collect 替代
+   * 条目的收藏状态, 替代 userCollectionsMap
+   * */
   collectionStatus(subjectId: SubjectId) {
     this.init('collectionStatus')
     return computed<CollectionStatusCn | ''>(() => {
@@ -110,8 +114,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 获取指定条目收藏状态 */
   collect(subjectId: SubjectId, type?: SubjectTypeCn) {
     return computed<CollectActions | ''>(() => {
-      const value =
-        this.collectionStatus(subjectId) || this.userCollectionsMap[subjectId] || ''
+      const value = this.collectionStatus(subjectId) || ''
       if (!value || !type || type === '动画' || type === '三次元') return value
       if (type === '书籍') return value.replace('看', '读') as CollectActions
       if (type === '游戏') return value.replace('看', '玩') as CollectActions

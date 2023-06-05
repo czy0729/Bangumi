@@ -36,6 +36,7 @@ import { s2t } from '@utils/thirdParty/cn-char'
 import { download, temp } from '@utils/kv'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
+  MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
   SITES,
   SITE_AGEFANS,
@@ -626,6 +627,14 @@ export default class Action extends Fetch {
       collectionStore.fetchCollection(this.subjectId)
       collectionStore.fetchCollectionStatusQueue([this.subjectId])
 
+      if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
+        // 不是在看的话要在进度中删掉对应条目信息
+        userStore.removeCollection(values.subjectId)
+      } else {
+        // 在看的话要在进度中添加对应条目信息
+        userStore.addCollection(values.subjectId)
+      }
+
       this.closeManageModal()
       webhookCollection(values, this.subject, userStore.userInfo)
     } catch (error) {
@@ -986,6 +995,10 @@ export default class Action extends Fetch {
           setTimeout(() => {
             collectionStore.removeStatus(this.subjectId)
             this.fetchCollection()
+            collectionStore.fetchCollectionStatusQueue([this.subjectId])
+
+            // 不是在看的话要删掉对应条目信息
+            userStore.removeCollection(this.subjectId)
           }, 40)
         }
       )

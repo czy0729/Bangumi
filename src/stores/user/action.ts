@@ -8,6 +8,7 @@ import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
 import { getTimestamp, info, loading, urlStringify } from '@utils'
 import fetch, { xhr } from '@utils/fetch'
+import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import axios from '@utils/thirdParty/axios'
 import {
   API_EP_STATUS,
@@ -78,14 +79,7 @@ export default class Action extends Fetch {
   }
 
   /** 打印游客登录 sercet */
-  logTourist = () => {
-    // if (LOG_LEVEL <= 0) return
-    // log({
-    //   tourist: 1,
-    //   accessToken: this.state.accessToken,
-    //   userCookie: this.state.userCookie
-    // })
-  }
+  logTourist = () => {}
 
   /** 设置授权信息过期提示 */
   setOutdate = () => {
@@ -96,7 +90,9 @@ export default class Action extends Fetch {
 
   /** 删掉在看收藏的条目信息 */
   removeCollection = (subjectId: SubjectId) => {
-    const index = this.collection.list.findIndex(item => item.subject_id === subjectId)
+    const index = this.collection.list.findIndex(
+      item => Number(item.subject_id) === Number(subjectId)
+    )
     if (index === -1) return false
 
     const collection = toJS(this.collection)
@@ -105,6 +101,30 @@ export default class Action extends Fetch {
       collection
     })
     this.save('collection')
+
+    return true
+  }
+
+  /** 添加在看收藏的条目信息 */
+  addCollection = async (subjectId: SubjectId) => {
+    const index = this.collection.list.findIndex(
+      item => Number(item.subject_id) === Number(subjectId)
+    )
+    if (index !== -1) return false
+
+    const data = await fetchCollectionSingleV0({
+      userId: this.myId,
+      subjectId
+    })
+    if (!data) return false
+
+    const collection = toJS(this.collection)
+    collection.list.unshift(data)
+    this.setState({
+      collection
+    })
+    this.save('collection')
+
     return true
   }
 

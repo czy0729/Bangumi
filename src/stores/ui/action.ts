@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:53:54
+ * @Last Modified time: 2023-06-05 19:00:03
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
-import { SubjectId, TopicId } from '@types'
+import { MODEL_COLLECTION_STATUS } from '@constants'
+import { RatingStatus, SubjectId, TopicId } from '@types'
 import collectionStore from '../collection'
 import rakuenStore from '../rakuen'
 import subjectStore from '../subject'
@@ -224,6 +225,14 @@ export default class Action extends Computed {
 
     this.preFlip(values.subjectId)
     await collectionStore.fetchCollectionStatusQueue([values.subjectId])
+
+    if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
+      // 不是在看的话要在进度中删掉对应条目信息
+      userStore.removeCollection(values.subjectId)
+    } else {
+      // 在看的话要在进度中添加对应条目信息
+      userStore.addCollection(values.subjectId)
+    }
 
     // 虽然 Flip 组件会通过 onAnimated 调用, 但是要保证之后无论如何都关闭动画
     setTimeout(() => {
