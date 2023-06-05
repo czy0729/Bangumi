@@ -184,6 +184,13 @@ export default class ScreenRecommend extends store {
     })
   }
 
+  onChangeE = ({ nativeEvent }) => {
+    const { text } = nativeEvent
+    this.setState({
+      e: text
+    })
+  }
+
   onSelect = (cat: string) => {
     setTimeout(async () => {
       this.setState({
@@ -247,7 +254,7 @@ export default class ScreenRecommend extends store {
 
   doSearchV2 = async () => {
     try {
-      const { cat, value } = this.state
+      const { cat, value, e } = this.state
       if (!value) return
 
       if (cat === 'v1') return this.doSearch()
@@ -261,7 +268,9 @@ export default class ScreenRecommend extends store {
       // @ts-expect-error
       const { data } = await axios({
         method: 'get',
-        url: `http://101.43.236.40/api/v2/rec/${value.trim()}?type=${subjectType || 0}`
+        url: `http://101.43.236.40/api/v2/rec/${value.trim()}?type=${
+          subjectType || 0
+        }&e=${e === '' ? 0.1 : e}`
       })
 
       t('推荐.刷新', {

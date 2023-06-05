@@ -7,14 +7,25 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  searchBar: {
+    borderTopRightRadius: 34,
+    borderBottomRightRadius: 34,
+    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    overflow: 'hidden'
+  },
   searchIpt: {
     height: 40,
-    paddingRight: 20,
-    paddingLeft: 20,
+    paddingRight: 12,
+    paddingLeft: 12,
     ..._.fontSize12,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: 34,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0
+    borderRadius: 0
+  },
+  split: {
+    width: 1,
+    height: 16,
+    marginRight: 8,
+    borderLeftWidth: 1,
+    borderColor: _.colorBorder
   }
 }))
