@@ -233,11 +233,6 @@ const STATE = {
     0: LIST_EMPTY
   },
 
-  /** 条目吐槽箱 */
-  subjectComments: {
-    0: LIST_EMPTY
-  },
-
   /** 章节内容 */
   epFormHTML: {
     0: ''
@@ -342,6 +337,9 @@ for (let i = 0; i < 1000; i += 1) {
 
   /** 条目 (new api) */
   STATE[`subjectV2${i}`] = {}
+
+  /** 条目吐槽箱 */
+  STATE[`subjectComments${i}`] = {}
 }
 
 export { STATE }
@@ -353,6 +351,5 @@ export const LOADED = {
   nsfw: false,
   origin: false,
   rank: false,
-  subjectComments: false,
   subjectFromOSS: false
 }

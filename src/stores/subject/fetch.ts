@@ -357,7 +357,8 @@ export default class Fetch extends Computed {
     const { pagination: _pagination, list: _list } = cheerioSubjectComments(html)
     if (isReverse) _list.reverse()
 
-    const key = 'subjectComments'
+    const last = getInt(subjectId)
+    const key = `subjectComments${last}` as const
     const data = {
       [subjectId]: {
         list: refresh ? _list : [...list, ..._list],

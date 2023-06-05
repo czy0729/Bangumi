@@ -17,6 +17,7 @@ type CacheKey =
   | `subject${number}`
   | `subjectFormHTML${number}`
   | `subjectV2${number}`
+  | `subjectComments${number}`
 
 export default class State extends Store {
   state = observable(STATE)
