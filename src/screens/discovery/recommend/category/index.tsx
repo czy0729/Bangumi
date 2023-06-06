@@ -11,7 +11,15 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
-const DATA = ['默认', '动画', '书籍', '游戏', '音乐', '三次元', 'v1'] as const
+const DATA = [
+  '默认',
+  '动画',
+  '书籍',
+  '游戏',
+  '音乐',
+  '三次元'
+  // 'v1'
+] as const
 
 function Category(props, { $ }: Ctx) {
   const { cat } = $.state

@@ -35,7 +35,7 @@ function SearchBar(props, { $ }: Ctx) {
           keyboardType='numeric'
           returnKeyType='search'
           returnKeyLabel='查询'
-          placeholder='权重 0-10'
+          placeholder='权重 0-5'
           onChange={$.onChangeE}
           onSubmitEditing={$.doSearch}
         />

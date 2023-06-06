@@ -268,7 +268,7 @@ export default class ScreenRecommend extends store {
       // @ts-expect-error
       const { data } = await axios({
         method: 'get',
-        url: `http://101.43.236.40/api/v2/rec/${value.trim()}?type=${
+        url: `http://124.221.81.229/api/v3/rec/${value.trim()}?type=${
           subjectType || 0
         }&e=${e === '' ? 0.1 : e}`
       })
