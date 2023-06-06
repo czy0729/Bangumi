@@ -58,6 +58,13 @@
   htmlElement.setAttribute('data-theme', 'dark')
 
   document.title = 'Bangumi 番组计划'
+
+  function scrollHorizontally(event) {
+    event.preventDefault() // 阻止默认滚动行为
+    const delta = Math.max(-1, Math.min(1, event.wheelDelta || -event.detail))
+    const container = event.target
+    container.scrollLeft -= delta * 30 // 触发横向滚动
+  }
 </script>
 <script
   async

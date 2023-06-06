@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:33:43
+ * @Last Modified time: 2023-06-06 04:11:27
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -47,7 +47,7 @@ export default class ScreenGame extends store {
     _loaded = true
 
     const { _tags = [] } = this.params
-    if (_tags.length) this.initQuery(_tags)
+    if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
 
     collectionStore.fetchUserCollectionsQueue(false, '游戏')
 

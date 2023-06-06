@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:22:08
+ * @Last Modified time: 2023-06-06 04:54:04
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -73,6 +73,10 @@ export default class ScreenZone extends store {
 
     this.fetchUsersTimeline(true)
     return this.fetchUsersInfo()
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- get --------------------
@@ -392,7 +396,7 @@ export default class ScreenZone extends store {
         [title]: !expand[title]
       }
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 去用户的所有收藏页面 */

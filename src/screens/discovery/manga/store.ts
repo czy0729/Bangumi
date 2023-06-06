@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:42:16
+ * @Last Modified time: 2023-06-06 04:12:20
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -48,7 +48,7 @@ export default class ScreenManga extends store {
     _loaded = true
 
     const { _tags = [] } = this.params
-    if (_tags.length) this.initQuery(_tags)
+    if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
 
     collectionStore.fetchUserCollectionsQueue(false, '书籍')
 

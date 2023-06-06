@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:58:23
+ * @Last Modified time: 2023-06-06 04:10:38
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, collectionStore, otaStore } from '@stores'
@@ -56,7 +56,7 @@ export default class ScreenAnime extends store {
     _loaded = true
 
     const { _tags = [] } = this.params
-    if (_tags.length) this.initQuery(_tags)
+    if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
 
     collectionStore.fetchUserCollectionsQueue(false)
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:38:12
+ * @Last Modified time: 2023-06-06 04:14:05
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -49,7 +49,7 @@ export default class ScreenWenku extends store {
     _loaded = true
 
     const { _tags = [] } = this.params
-    if (_tags.length) this.initQuery(_tags)
+    if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
 
     collectionStore.fetchUserCollectionsQueue(false, '书籍')
 

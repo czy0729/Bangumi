@@ -46,6 +46,10 @@ export default class ScreenTimeline extends store {
     return this.fetchTimeline(true)
   }
 
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   // -------------------- fetch --------------------
   fetchTimeline = (refresh: boolean = false) => {
     const { scope, page } = this.state
@@ -148,7 +152,7 @@ export default class ScreenTimeline extends store {
     if (!this.timeline(scope, TIMELINE_TYPE[page].value)._loaded) {
       this.fetchTimeline(true)
     }
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 切换类型 */
@@ -164,7 +168,7 @@ export default class ScreenTimeline extends store {
         scope: nextScope
       })
       this.fetchTimeline(true)
-      this.setStorage(NAMESPACE)
+      this.save()
     }
   }
 

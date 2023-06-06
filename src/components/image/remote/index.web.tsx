@@ -10,7 +10,7 @@ import { IOS } from '@constants'
 import { AnyObject } from '@types'
 import Image from '../image'
 
-function Remote({ style, headers, uri, autoSize, onError, onLoadEnd, ...other }) {
+function Remote({ style, headers, uri, onError, onLoadEnd, ...other }) {
   const source: AnyObject = {
     headers,
 
@@ -19,30 +19,9 @@ function Remote({ style, headers, uri, autoSize, onError, onLoadEnd, ...other })
   }
   if (IOS) source.cache = 'force-cache'
 
-  const passProps = {
-    ...other
-  }
-  if (autoSize) {
-    passProps.ref = (ref: any) => {
-      if (ref) {
-        const img = ref.querySelector('img')
-        if (img) {
-          img.style = `
-            position: unset;
-            z-index: unset;
-            width: unset;
-            height: unset;
-            opacity: unset;
-            inset: unset;
-          `
-        }
-      }
-    }
-  }
-
   return (
     <Image
-      {...passProps}
+      {...other}
       style={style}
       source={source}
       fadeDuration={0}

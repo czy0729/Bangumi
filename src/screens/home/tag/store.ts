@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:48:18
+ * @Last Modified time: 2023-06-06 05:05:11
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore } from '@stores'
@@ -42,6 +42,10 @@ export default class ScreenTag extends store {
     this.setState(_state)
 
     return this.fetchTag(true)
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- fetch --------------------
@@ -85,30 +89,34 @@ export default class ScreenTag extends store {
 
   /** 获取云快照 */
   fetchThirdParty = async () => {
-    if (!this.ota && !this.tag._loaded) {
-      const data = await get(this.thirdPartyKey)
-      if (!data) {
-        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+    await tagStore.init('tag')
+
+    setTimeout(async () => {
+      if (!this.ota && !this.tag._loaded) {
+        const data = await get(this.thirdPartyKey)
+        if (!data) {
+          // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+          this.setState({
+            ota: {
+              [this.thirdPartyKey]: {
+                list: [],
+                _loaded: 0
+              }
+            }
+          })
+          return
+        }
+
         this.setState({
           ota: {
             [this.thirdPartyKey]: {
-              list: [],
-              _loaded: 0
+              ...data,
+              _loaded: getTimestamp()
             }
           }
         })
-        return
       }
-
-      this.setState({
-        ota: {
-          [this.thirdPartyKey]: {
-            ...data,
-            _loaded: getTimestamp()
-          }
-        }
-      })
-    }
+    }, 80)
   }
 
   /** 上传预数据 */
@@ -209,7 +217,7 @@ export default class ScreenTag extends store {
       this.setState({
         hide: false
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }, 0)
   }
 
@@ -283,7 +291,7 @@ export default class ScreenTag extends store {
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 切换显示收藏 */
@@ -293,7 +301,7 @@ export default class ScreenTag extends store {
     this.setState({
       collected: !collected
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新可视范围底部 y */

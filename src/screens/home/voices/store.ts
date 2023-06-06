@@ -40,6 +40,10 @@ export default class ScreenVoices extends store {
     return this.fetchMonoVoices()
   }
 
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   // -------------------- get --------------------
   @computed get monoId() {
     const { monoId } = this.params
@@ -158,7 +162,7 @@ export default class ScreenVoices extends store {
     })
 
     this.fetchMonoVoices()
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新可视范围底部 y */

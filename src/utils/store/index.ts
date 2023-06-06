@@ -4,12 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 15:57:42
+ * @Last Modified time: 2023-06-05 20:50:36
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants/constants'
-import { getTimestamp } from '../utils'
+import { AnyObject } from '@types'
+import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
 import fetch from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
@@ -186,6 +187,26 @@ export default class Store {
   }
 
   /**
+   * 代替 this.setStorage(undefined, undefined, namespace)
+   * 若传递了 excludeState, 还会排除不本地化的 key
+   * */
+  saveStorage = (namespace: string, excludeState?: AnyObject) => {
+    if (!(namespace || this.namespace)) return false
+
+    if (excludeState) {
+      const key = `${namespace || this.namespace}|state`
+      const data = omit(this.state, Object.keys(excludeState))
+
+      const a = JSON.stringify(this.state).length
+      const b = JSON.stringify(data).length
+      console.log(a, b, ((b / a) * 100).toFixed(1))
+      return setStorage(key, data)
+    }
+
+    return this.setStorage(undefined, undefined, namespace || this.namespace)
+  }
+
+  /**
    * 读取本地缓存
    * @param {*} key
    * @param {*} namespace 空间名其实一定要传递的
@@ -235,12 +256,6 @@ export default class Store {
     )
     this.setState(state)
     return state
-  }
-
-  /** 代替 this.setStorage(undefined, undefined, namespace) */
-  saveStorage = (namespace: string) => {
-    if (!(namespace || this.namespace)) return false
-    this.setStorage(undefined, undefined, namespace || this.namespace)
   }
 
   /**

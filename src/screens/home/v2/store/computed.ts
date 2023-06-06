@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 03:58:45
+ * @Last Modified time: 2023-06-05 20:41:11
  */
 import { computed } from 'mobx'
 import {
@@ -45,10 +45,20 @@ import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { OriginItem, getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS, TABS_WITH_GAME } from '../ds'
 import { TabLabel } from '../types'
-import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
+import {
+  EXCLUDE_STATE,
+  INIT_ITEM,
+  NAMESPACE,
+  PAGE_LIMIT_GRID,
+  PAGE_LIMIT_LIST
+} from './ds'
 import State from './state'
 
 export default class Computed extends State {
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   /** 置顶的映射 */
   getTopMap() {
     const { top } = this.state

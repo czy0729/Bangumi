@@ -43,6 +43,10 @@ export default class ScreenCatalogDetail extends store {
     return this.fetchCatalogDetail()
   }
 
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   // -------------------- fetch --------------------
   /** 目录详情 */
   fetchCatalogDetail = async (refresh: boolean = false) => {
@@ -239,7 +243,7 @@ export default class ScreenCatalogDetail extends store {
     this.setState({
       sort
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 编辑自己的目录 */
@@ -295,7 +299,7 @@ export default class ScreenCatalogDetail extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新可视范围底部 y */

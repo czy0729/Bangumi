@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 19:38:08
+ * @Last Modified time: 2023-06-05 20:45:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,9 +51,13 @@ import {
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
-import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC } from './ds'
+import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC, EXCLUDE_STATE } from './ds'
 
 export default class Computed extends State {
+  save = () => {
+    return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
   /** 条目唯一Id */
   @computed get subjectId() {
     const { subjectId } = this.params

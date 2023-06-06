@@ -39,6 +39,10 @@ export default class ScreenWorks extends store {
     return this.fetchMonoWorks(true)
   }
 
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   // -------------------- get --------------------
   /** 人物 Id */
   @computed get monoId() {
@@ -185,7 +189,7 @@ export default class ScreenWorks extends store {
       order: MODEL_MONO_WORKS_ORDERBY.getValue(label)
     })
     this.fetchMonoWorks(true)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 职位选择 */
@@ -199,7 +203,7 @@ export default class ScreenWorks extends store {
       position: value
     })
     this.fetchMonoWorks(true)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 切换布局 */
@@ -212,7 +216,7 @@ export default class ScreenWorks extends store {
     this.setState({
       list: !list
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 工具栏 */
@@ -220,7 +224,7 @@ export default class ScreenWorks extends store {
     this.setState({
       [key]: !this.state[key]
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新可视范围底部 y */

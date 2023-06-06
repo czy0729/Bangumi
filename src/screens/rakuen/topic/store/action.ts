@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 20:10:28
+ * @Last Modified time: 2023-06-06 04:38:43
  */
 import { rakuenStore } from '@stores'
 import {
@@ -19,8 +19,8 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IOS, HOST } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
 import { AnyObject } from '@types'
-import { NAMESPACE } from './ds'
 import Fetch from './fetch'
+import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
   /** 吐槽倒序 */
@@ -49,7 +49,7 @@ export default class Action extends Fetch {
       filterMe: !filterMe,
       filterFriends: false
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   /** 显示好友相关的回复 */
@@ -64,7 +64,7 @@ export default class Action extends Fetch {
       filterMe: false,
       filterFriends: !filterFriends
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   /** 显示评论框 */
@@ -166,7 +166,7 @@ export default class Action extends Fetch {
         ? expands.filter(item => item !== id)
         : [...expands, id]
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   onExpand = (id: any) => {
@@ -181,7 +181,7 @@ export default class Action extends Fetch {
       directIndex,
       directFloor
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   /** 更新可视范围底部 y */

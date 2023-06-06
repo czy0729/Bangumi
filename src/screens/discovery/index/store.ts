@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:25:58
+ * @Last Modified time: 2023-06-06 04:52:48
  */
 import { observable, computed } from 'mobx'
 import {
@@ -84,6 +84,10 @@ export default class ScreenDiscovery extends store {
       ),
       1
     )
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- get --------------------
@@ -222,7 +226,7 @@ export default class ScreenDiscovery extends store {
     this.setState({
       expand: true
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 收起菜单 */
@@ -230,7 +234,7 @@ export default class ScreenDiscovery extends store {
     this.setState({
       expand: false
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   scrollToIndex: any
@@ -331,7 +335,7 @@ export default class ScreenDiscovery extends store {
     this.setState({
       showBlockTrain: !showBlockTrain
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新菜单的自定义配置 */

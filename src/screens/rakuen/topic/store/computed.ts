@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 17:23:54
+ * @Last Modified time: 2023-06-06 04:36:49
  */
 import { computed } from 'mobx'
 import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
@@ -11,9 +11,13 @@ import CacheManager from '@utils/cache-manager'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { TopicId, UserId } from '@types'
 import State from './state'
-import { NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 export default class Computed extends State {
+  save = () => {
+    return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
   /** 帖子 id */
   @computed get topicId() {
     const { topicId = '' } = this.params

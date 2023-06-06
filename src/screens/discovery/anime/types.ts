@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 16:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 17:00:49
+ * @Last Modified time: 2023-06-06 03:30:13
  */
 import { factory } from '@utils'
 import { Navigation } from '@types'
@@ -18,7 +18,7 @@ export type Ctx = {
 }
 
 export type Params = {
-  _tags?: string[]
+  _tags?: string[] | string
 }
 
 export type TitleType = 'Anime' | '文库' | 'Manga' | '游戏' | 'Hentai'

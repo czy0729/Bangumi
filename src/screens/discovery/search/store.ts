@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:56:09
+ * @Last Modified time: 2023-06-06 04:40:30
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -34,6 +34,10 @@ export default class ScreenSearch extends store {
   /** 下拉刷新 */
   onHeaderRefresh = () => {
     return this.doSearch(true)
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- get --------------------
@@ -95,7 +99,7 @@ export default class ScreenSearch extends store {
         this.setState({
           value: String(value || _value)
         })
-        this.setStorage(NAMESPACE)
+        this.save()
         this.doSearch()
       }
     }, 40)
@@ -113,7 +117,7 @@ export default class ScreenSearch extends store {
       this.setState({
         cat: nextCat
       })
-      this.setStorage(NAMESPACE)
+      this.save()
 
       const { value } = this.state
       if (value) this.doSearch()
@@ -132,7 +136,7 @@ export default class ScreenSearch extends store {
       this.setState({
         legacy: nextLegacy
       })
-      this.setStorage(NAMESPACE)
+      this.save()
 
       const { value } = this.state
       if (value) this.doSearch()
@@ -172,7 +176,7 @@ export default class ScreenSearch extends store {
     this.setState({
       history: history.filter(item => item !== value)
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 删除全部历史 */
@@ -180,7 +184,7 @@ export default class ScreenSearch extends store {
     this.setState({
       history: []
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 提交 */
@@ -246,7 +250,7 @@ export default class ScreenSearch extends store {
         history: _history,
         searching: true
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }
 
     try {

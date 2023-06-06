@@ -239,7 +239,7 @@ export default class Fetch extends Computed {
         this.setState({
           epsData
         })
-        this.setStorage(this.namespace)
+        this.save()
       } catch (error) {
         console.error(NAMESPACE, 'fetchEpsData', error)
       }
@@ -292,7 +292,7 @@ export default class Fetch extends Computed {
                 Referer: 'https://www.bilibili.com/'
               }
             })
-            this.setStorage(this.namespace)
+            this.save()
             this.updateThirdParty()
           }
         }
@@ -335,7 +335,7 @@ export default class Fetch extends Computed {
               Referer: 'https://list.youku.com/'
             }
           })
-          this.setStorage(this.namespace)
+          this.save()
           this.updateThirdParty()
         }
       }
@@ -361,7 +361,7 @@ export default class Fetch extends Computed {
               Referer: 'https://www.iqiyi.com/'
             }
           })
-          this.setStorage(this.namespace)
+          this.save()
           this.updateThirdParty()
         }
       }
@@ -401,7 +401,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      this.setStorage(this.namespace)
+      this.save()
       this.updateThirdParty()
     }
   }
@@ -435,7 +435,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      this.setStorage(this.namespace)
+      this.save()
       this.updateThirdParty()
     }
   }
@@ -453,7 +453,7 @@ export default class Fetch extends Computed {
         }
       })
 
-      this.setStorage(this.namespace)
+      this.save()
       this.updateThirdParty()
     }
   }
@@ -481,7 +481,7 @@ export default class Fetch extends Computed {
         epsThumbs,
         epsThumbsHeader
       })
-      this.setStorage(this.namespace)
+      this.save()
 
       return false
     } catch (error) {
@@ -578,7 +578,7 @@ export default class Fetch extends Computed {
       this.setState({
         anitabi
       })
-      this.setStorage(this.namespace)
+      this.save()
 
       setTimeout(() => {
         update(key, anitabi)

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 06:26:44
+ * @Last Modified time: 2023-06-05 20:41:17
  */
-import { _, collectionStore, userStore } from '@stores'
+import { collectionStore, userStore } from '@stores'
 import {
   HTMLDecode,
   appNavigate,
@@ -74,7 +74,7 @@ export default class Action extends Fetch {
 
     if (page === 4) state.grid = EXCLUDE_STATE.grid
     this.setState(state)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 显示收藏管理 Modal */
@@ -114,7 +114,7 @@ export default class Action extends Fetch {
         }
       }
     })
-    this.setStorage(NAMESPACE)
+    this.save()
 
     if (!expand) {
       this.fetchSubject(subjectId)
@@ -144,7 +144,7 @@ export default class Action extends Fetch {
     this.setState({
       top: _top
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 全部展开 (书籍不展开, 展开就收不回去了) */
@@ -164,7 +164,7 @@ export default class Action extends Fetch {
     this.setState({
       item
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 全部关闭 */
@@ -172,7 +172,7 @@ export default class Action extends Fetch {
     t('首页.全部关闭')
 
     this.clearState('item')
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** @deprecated 选择布局 */
@@ -184,7 +184,7 @@ export default class Action extends Fetch {
     this.setState({
       grid: title === '方格布局'
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 格子布局条目选择 */
@@ -199,7 +199,7 @@ export default class Action extends Fetch {
     })
     this.fetchSubject(subjectId)
     this.fetchUserProgress(subjectId)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   scrollToIndex = {}

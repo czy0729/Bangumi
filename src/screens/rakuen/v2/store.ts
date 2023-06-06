@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:14:03
+ * @Last Modified time: 2023-06-06 04:56:46
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
@@ -60,6 +60,10 @@ export default class ScreenRakuen extends store {
   /** 下拉刷新 */
   onHeaderRefresh = () => {
     return this.fetchRakuen(true)
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- fetch --------------------
@@ -203,7 +207,7 @@ export default class ScreenRakuen extends store {
   shouldFetchRakuen = page => {
     const { _loaded, list } = this.rakuen(this.type(page))
     if (!_loaded || list.length === 0) this.fetchRakuen(true)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 小组菜单点击 */
@@ -216,7 +220,7 @@ export default class ScreenRakuen extends store {
       group: MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>(title)
     })
     this.fetchRakuen(true)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 人物菜单点击 */
@@ -229,7 +233,7 @@ export default class ScreenRakuen extends store {
       mono: MODEL_RAKUEN_TYPE_MONO.getValue<RakuenTypeMono>(title)
     })
     this.fetchRakuen(true)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新帖子历史查看信息 */

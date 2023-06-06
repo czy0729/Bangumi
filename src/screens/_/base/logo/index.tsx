@@ -9,9 +9,10 @@
 import React from 'react'
 import { Touchable, Flex, Iconfont } from '@components'
 import { _ } from '@stores'
+import { info } from '@utils'
 import { t } from '@utils/fetch'
-import { info } from '@utils/ui'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { styles } from './styles'
 import { Props as LogoProps } from './types'
 
@@ -22,6 +23,11 @@ export const Logo = obc(
     <Touchable
       style={styles.radius}
       onPress={() => {
+        if (STORYBOOK) {
+          if (navigation) navigation.push('Discovery')
+          return
+        }
+
         t('其他.切换主题', {
           isDark: !_.isDark
         })

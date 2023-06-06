@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:11:32
+ * @Last Modified time: 2023-06-06 04:31:19
  */
 import { observable, computed } from 'mobx'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
@@ -47,9 +47,13 @@ export default class ScreenCalendar extends store {
         this.setState({
           _lastQueue: getTimestamp()
         })
-        this.setStorage(NAMESPACE)
+        this.save()
       } catch (error) {}
     }, 2000)
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- get --------------------
@@ -108,7 +112,7 @@ export default class ScreenCalendar extends store {
     this.setState({
       layout: _layout
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 切换类型 */
@@ -123,7 +127,7 @@ export default class ScreenCalendar extends store {
     this.setState({
       type: type === 'all' ? 'collect' : 'all'
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 切换展开 */
@@ -132,7 +136,7 @@ export default class ScreenCalendar extends store {
     this.setState({
       expand: !expand
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 更新可视范围底部 y */

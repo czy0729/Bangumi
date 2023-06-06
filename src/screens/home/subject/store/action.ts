@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-28 03:37:39
+ * @Last Modified time: 2023-06-05 20:46:07
  */
 import {
   _,
@@ -78,7 +78,7 @@ export default class Action extends Fetch {
     this.setState({
       epsReverse: !epsReverse
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   /** 吐槽倒序 */
@@ -331,7 +331,7 @@ export default class Action extends Fetch {
     this.setState({
       filterEps
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   /** 筛选分数 */
@@ -344,7 +344,7 @@ export default class Action extends Fetch {
     this.setState({
       filterScores: label === '全部' ? [] : label.split('-')
     })
-    this.setStorage(this.namespace)
+    this.save()
   }
 
   /** 去用户评分页面 */
@@ -911,7 +911,7 @@ export default class Action extends Fetch {
           userStore.fetchUserCollection()
           await userStore.fetchUserProgress(this.subjectId)
           await this.fetchSubjectFormHTML()
-          this.setStorage(this.namespace)
+          this.save()
           this.afterEpsFlip()
           if (isNeedFeedback) {
             info('已提交')

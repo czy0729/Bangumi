@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:00:49
+ * @Last Modified time: 2023-06-06 04:25:32
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
@@ -146,30 +146,34 @@ export default class ScreenRank extends store {
 
   /** 获取排行榜云快照 */
   fetchThirdParty = async () => {
-    if (!this.ota && !this.rank._loaded) {
-      const data = await get(this.thirdPartyKey)
-      if (!data) {
-        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+    await tagStore.init('rank')
+
+    setTimeout(async () => {
+      if (!this.ota && !this.rank._loaded) {
+        const data = await get(this.thirdPartyKey)
+        if (!data) {
+          // 就算没有数据也插入 key, 用于判断是否需要更新云数据
+          this.setState({
+            ota: {
+              [this.thirdPartyKey]: {
+                list: [],
+                _loaded: 0
+              }
+            }
+          })
+          return
+        }
+
         this.setState({
           ota: {
             [this.thirdPartyKey]: {
-              list: [],
-              _loaded: 0
+              ...data,
+              _loaded: getTimestamp()
             }
           }
         })
-        return
       }
-
-      this.setState({
-        ota: {
-          [this.thirdPartyKey]: {
-            ...data,
-            _loaded: getTimestamp()
-          }
-        }
-      })
-    }
+    }, 80)
   }
 
   /** 上传预数据 */
@@ -185,6 +189,10 @@ export default class ScreenRank extends store {
   }
 
   // -------------------- page --------------------
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
   resetScrollView = () => {
     this.setState({
@@ -195,7 +203,7 @@ export default class ScreenRank extends store {
       this.setState({
         show: true
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }, 40)
   }
 
@@ -294,7 +302,7 @@ export default class ScreenRank extends store {
     this.setState({
       [key]: !this.state[key]
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 上一页 */

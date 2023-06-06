@@ -11,13 +11,28 @@ import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 const lazyloadedMap = new Map<string, boolean>()
 lazyloadedMap.set(DOGE_CDN_IMG_DEFAULT, true)
 
-export default function Image({ style, source, ...props }) {
+export default function Image({ style, source, autoSize, ...props }) {
   const ref = useRef(null)
   const { uri } = source
   const lazyloaded = lazyloadedMap.has(uri)
   const [opacity, setOpacity] = useState(lazyloaded ? 1 : 0)
-
   useEffect(() => {
+    if (ref.current) {
+      if (autoSize) {
+        const img = ref.current.querySelector('img')
+        if (img) {
+          img.style = `
+            position: unset;
+            z-index: unset;
+            width: unset;
+            height: unset;
+            opacity: unset;
+            inset: unset;
+          `
+        }
+      }
+    }
+
     if (lazyloaded) return
 
     if (ref.current) {
@@ -53,7 +68,7 @@ export default function Image({ style, source, ...props }) {
         observer.disconnect()
       }
     }
-  }, [lazyloaded, uri])
+  }, [autoSize, lazyloaded, uri])
 
   return (
     <RNImage
