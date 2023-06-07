@@ -467,9 +467,11 @@ export function cheerioSubjectFormHTML(HTML) {
 /** 条目留言 */
 export function cheerioSubjectComments(html: string) {
   const $ = cheerio(html)
+  const page = Number($('.page_inner .p_cur').text().trim() || 1)
   const pagination = $('.page_inner .p_edge').text().trim().match(/\d+/g)
-  const page = Number(pagination?.[0]) || 1
-  const pageTotal = Number(pagination?.[1] || pagination?.[0]) || 1
+  const pageTotal = Number(
+    pagination?.[1] || pagination?.[0] || $('.page_inner a.p').length || 1
+  )
   return {
     pagination: {
       page,
