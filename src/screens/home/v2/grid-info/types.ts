@@ -10,4 +10,5 @@ export type Props = {
   subjectId?: SubjectId
   subject?: Subject
   epStatus?: string | number
+  tip?: string
 }

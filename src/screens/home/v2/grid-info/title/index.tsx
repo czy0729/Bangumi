@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-11-21 07:40:37
  */
 import React from 'react'
-import { Touchable, Text } from '@components'
+import { Text } from '@components'
 import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -18,11 +18,9 @@ function Title({ subjectId, subject = {} }: any, { $ }: Ctx) {
     cnjp(_subject?.name_cn || subject?.name_cn, _subject?.name || subject?.name)
   )
   return (
-    <Touchable onPress={this.onPress}>
-      <Text size={15} numberOfLines={$.eps(subjectId).length >= 14 ? 1 : 2} bold>
-        {title}
-      </Text>
-    </Touchable>
+    <Text size={15} numberOfLines={$.eps(subjectId).length >= 14 ? 1 : 2} bold>
+      {title}
+    </Text>
   )
 }
 

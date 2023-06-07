@@ -24,11 +24,6 @@ export type ExcludeState = {
     title: string
     desc: string
   }
-  grid: {
-    subject_id: SubjectId
-    subject: Subject
-    ep_status: string | number
-  }
   progress: {
     fetching: boolean
     fetchingSubjectId1: SubjectId
@@ -64,6 +59,12 @@ export type State = {
 
   /** 格子布局当前选中的条目Id */
   current: number
+
+  grid: {
+    subject_id: SubjectId
+    subject: Subject
+    ep_status: string | number
+  }
 
   /** 本地数据读取完成 */
   _loaded: Loaded

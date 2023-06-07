@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 08:49:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:40:09
+ * @Last Modified time: 2023-06-08 00:38:35
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -12,15 +12,22 @@ import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import BookNextBtn from '../book-next-btn'
+import { styles } from './styles'
 
-function Count({ subjectId, subject = {}, epStatus }: any, { $ }: Ctx) {
+function Count({ subjectId, subject = {}, epStatus, tip }: any, { $ }: Ctx) {
   // global.rerender('Home.GridInfo.Count')
 
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
     _subject?.type || subject?.type
   )
-  if (label === '游戏') return null
+  if (label === '游戏') {
+    return (
+      <Text style={_.mt.xs} type='sub' size={12} lineHeight={13}>
+        {tip}
+      </Text>
+    )
+  }
 
   if (label === '书籍') {
     const { list = [] } = $.collection
@@ -28,7 +35,7 @@ function Count({ subjectId, subject = {}, epStatus }: any, { $ }: Ctx) {
       item => item.subject_id === subjectId
     )
     return (
-      <Flex justify='end'>
+      <Flex style={styles.book} justify='end'>
         <Text type='primary' size={20}>
           <Text type='primary' size={12} lineHeight={20}>
             Chap.{' '}

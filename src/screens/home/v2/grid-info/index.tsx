@@ -8,6 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -21,11 +22,10 @@ import { memoStyles } from './styles'
 import { Props } from './types'
 
 function GridInfo(
-  { subjectId = 0, subject = {}, epStatus = '' }: Props,
+  { subjectId = 0, subject = {}, epStatus = '', tip = '' }: Props,
   { $, navigation }: Ctx
 ) {
   // global.rerender('Home.GridInfo')
-
   const styles = memoStyles()
   const isTop = $.state.top.indexOf(subjectId) !== -1
   return (
@@ -53,9 +53,14 @@ function GridInfo(
       </View>
       <Flex.Item style={styles.info}>
         <Title subjectId={subjectId} subject={subject} />
-        <Flex style={_.isPad ? [_.mt.sm, _.mb.xs] : _.mb.xs}>
+        <Flex style={stl(_.mt.sm, _.isPad && _.mb.xs)}>
           <Flex.Item>
-            <Count subjectId={subjectId} subject={subject} epStatus={epStatus} />
+            <Count
+              subjectId={subjectId}
+              subject={subject}
+              epStatus={epStatus}
+              tip={tip}
+            />
           </Flex.Item>
           <ToolBar subjectId={subjectId} subject={subject} />
         </Flex>

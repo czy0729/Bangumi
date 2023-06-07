@@ -24,11 +24,6 @@ export const EXCLUDE_STATE: ExcludeState = {
     title: '',
     desc: ''
   },
-  grid: {
-    subject_id: 0,
-    subject: {},
-    ep_status: ''
-  },
   progress: {
     fetching: false,
     fetchingSubjectId1: 0,
@@ -52,6 +47,11 @@ export const STATE: State & ExcludeState = {
   top: [],
   item: {},
   current: 0,
+  grid: {
+    subject_id: 0,
+    subject: {},
+    ep_status: ''
+  },
   ...EXCLUDE_STATE,
   _loaded: false
 }
