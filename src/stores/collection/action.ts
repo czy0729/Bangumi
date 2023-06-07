@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 03:05:31
+ * @Last Modified time: 2023-06-08 04:09:28
  */
 import { toJS } from 'mobx'
+import { confirm } from '@utils'
 import fetch, { xhr } from '@utils/fetch'
+import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import { SORT } from '@utils/subject/anime'
 import {
   API_COLLECTION_ACTION,
@@ -102,6 +104,8 @@ export default class Action extends Fetch {
   }
 
   // -------------------- action --------------------
+  private showFailNotice = true
+
   /** 条目管理 */
   doUpdateCollection = (args: {
     subjectId: SubjectId
@@ -135,9 +139,22 @@ export default class Action extends Fetch {
         noConsole
       })
 
-      // @todo 20220216 以下旧API不再响应敏感条目, 暂时使用请求网页代替
+      // @todo 20220216 以下旧 API 不再响应敏感条目, 暂时使用请求网页代替
       if (data?.code === 404) {
         const interest = MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>(status)
+        const failCallback = () => {
+          confirm(
+            `此次提交可能未成功，原因可能为：授权信息过期，可尝试重新登录；管理的是 NSFW 条目，需要注册两三个月后才能操作。\n若还没能解决，可尝试联系作者。`,
+            () => {
+              this.showFailNotice = false
+            },
+            '提示',
+            () => {},
+            '暂不再提示',
+            '知道了'
+          )
+        }
+
         xhr(
           {
             url: HTML_ACTION_SUBJECT_INTEREST_UPDATE(subjectId, userStore.formhash),
@@ -151,7 +168,23 @@ export default class Action extends Fetch {
               update: '保存'
             }
           },
+          async () => {
+            if (this.showFailNotice) {
+              const collection = await fetchCollectionSingleV0({
+                subjectId,
+                userId: userStore.myId
+              })
+
+              // 更新后状态与提交的不一致
+              if (collection?.type && Number(collection.type) !== Number(interest)) {
+                failCallback()
+              }
+            }
+
+            return resolve(true)
+          },
           () => {
+            failCallback()
             return resolve(true)
           }
         )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 08:50:36
+ * @Last Modified time: 2023-06-08 01:02:19
  */
 export const NAMESPACE = 'ScreenOriginSetting'
 
@@ -194,6 +194,13 @@ export const SITES_MUSIC = [
 ] as const
 
 export const SITES_GAME = [
+  {
+    id: 'game|vndb',
+    name: 'GAL vndb.org',
+    url: 'https://vndb.org/v?sq=[JP]',
+    sort: 0,
+    active: 1
+  },
   {
     id: 'game|psnine',
     name: 'PSNINE',

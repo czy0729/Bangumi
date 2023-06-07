@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:34:05
+ * @Last Modified time: 2023-06-08 04:06:07
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -67,11 +67,12 @@ export function confirm(
   onPress = () => {},
   title = '警告',
   onCancelPress = () => {},
-  confirmText: string = '确定'
+  confirmText: string = '确定',
+  cancelText: string = '取消'
 ) {
   const params = [
     {
-      text: s2tAsync('取消'),
+      text: s2tAsync(cancelText),
       style: 'cancel' as const,
       onPress: onCancelPress
     },

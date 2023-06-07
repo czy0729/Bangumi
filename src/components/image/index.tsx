@@ -12,14 +12,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 18:13:32
+ * @Last Modified time: 2023-06-08 03:50:04
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
-import { getCoverMedium, getTimestamp } from '@utils'
+import { getCover400, getCoverMedium, getTimestamp } from '@utils'
 import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
 import { Source } from '@types'
 import { IOS_IPA } from '@/config'
@@ -421,7 +421,10 @@ export const Image = observer(
 
       this._recoveried = true
       this.setState({
-        uri: getCoverMedium(`${OSS_BGM}/pic/${s}`)
+        uri:
+          (this.props.width || this.props.size) > 100
+            ? getCover400(`${OSS_BGM}/pic/${s}`)
+            : getCoverMedium(`${OSS_BGM}/pic/${s}`)
       })
     }
 
