@@ -257,7 +257,7 @@ export default class ScreenRecommend extends store {
       const { cat, value, e } = this.state
       if (!value) return
 
-      if (cat === 'v1') return this.doSearch()
+      // if (cat === 'v1') return this.doSearch()
 
       this.setState({
         searching: true

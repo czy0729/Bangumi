@@ -28,7 +28,25 @@ const Recommend = (props, { $, navigation }: Ctx) => {
     const styles = memoStyles()
     return (
       <>
-        <Header title='番剧推荐' hm={['recommend', 'Recommend']} />
+        <Header
+          title='番剧推荐'
+          hm={['recommend', 'Recommend']}
+          headerRight={() => {
+            if (STORYBOOK) return null
+
+            return (
+              <IconTouchable
+                name='md-info-outline'
+                color={_.colorDesc}
+                onPress={() => {
+                  navigation.push('Topic', {
+                    topicId: 'group/382655'
+                  })
+                }}
+              />
+            )
+          }}
+        />
         <Page>
           <Flex style={styles.searchBar}>
             <Category />

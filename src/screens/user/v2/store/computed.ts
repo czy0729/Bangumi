@@ -22,8 +22,13 @@ import {
 } from '@types'
 import { H_HEADER, TABS } from '../ds'
 import State from './state'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 export default class Computed extends State {
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   /** 我的用户 Id */
   @computed get myUserId() {
     return userStore.myUserId

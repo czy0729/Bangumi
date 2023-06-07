@@ -16,7 +16,6 @@ import {
 import { MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 import { TABS } from '../ds'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
   /** ScrollView.scrollToIndex */
@@ -78,7 +77,7 @@ export default class Action extends Fetch {
       ipt: '1'
     })
     this.fetchIsNeedToEnd(true)
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 条目类型选择 */
@@ -96,7 +95,7 @@ export default class Action extends Fetch {
         ipt: '1'
       })
       this.fetchIsNeedRefreshToEnd()
-      this.setStorage(NAMESPACE)
+      this.save()
     }
   }
 
@@ -110,7 +109,7 @@ export default class Action extends Fetch {
       order: MODEL_COLLECTIONS_ORDERBY.getValue<CollectionsOrder>(label)
     })
     this.fetchIsNeedRefreshToEnd()
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 标签选择 */
@@ -130,7 +129,7 @@ export default class Action extends Fetch {
       tag
     })
     this.fetchIsNeedRefreshToEnd()
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 布局选择 */
@@ -143,7 +142,7 @@ export default class Action extends Fetch {
     this.setState({
       list: !list
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 固定切换 (工具条) */
@@ -153,7 +152,7 @@ export default class Action extends Fetch {
     this.setState({
       fixed: !fixed
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 是否显示条目年份 (工具条) */
@@ -163,7 +162,7 @@ export default class Action extends Fetch {
     this.setState({
       showYear: !showYear
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起搜索栏 */
@@ -252,7 +251,7 @@ export default class Action extends Fetch {
     this.setState({
       ipt: text
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 刷新页 */
@@ -261,7 +260,7 @@ export default class Action extends Fetch {
     this.setState({
       ipt: String(value)
     })
-    this.setStorage(NAMESPACE)
+    this.save()
 
     try {
       this.scrollToOffset[page]({

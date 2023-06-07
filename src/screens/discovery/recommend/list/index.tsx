@@ -110,7 +110,9 @@ function List(props, { $, navigation }: Ctx) {
                 navigation={navigation}
                 index={index}
                 id={`/subject/${sid}`}
-                typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}
+                typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
+                  type || subject.type || oss.type
+                )}
                 name={subject.jp || oss.name}
                 nameCn={subject.cn || oss.name_cn}
                 cover={subject.image || oss.image}
