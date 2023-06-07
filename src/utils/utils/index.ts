@@ -191,7 +191,7 @@ export function desc(a: any, b: any, fn?: (item: any) => any): 0 | 1 | -1 {
  * @param {*} fetchs 请求数组
  * @param {*} num 并发数, 默认为 2
  */
-export async function queue(fetchs: (() => Promise<any>)[] = [], num: number = 2) {
+export async function queue(fetchs: (() => any)[] = [], num: number = 2) {
   if (fetchs?.length === 0) return false
 
   const limit = pLimit(num)

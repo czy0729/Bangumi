@@ -8,15 +8,15 @@
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
-import { getCDNAvatar } from '@_/base/avatar/utils'
+import { fixedHD, getCDNAvatar } from '@_/base/avatar/utils'
 import {
   _,
-  userStore,
-  usersStore,
+  rakuenStore,
+  systemStore,
   timelineStore,
   tinygrailStore,
-  systemStore,
-  rakuenStore
+  userStore,
+  usersStore
 } from '@stores'
 import {
   HTMLDecode,
@@ -25,14 +25,21 @@ import {
   info,
   loading,
   omit,
-  opitimize
+  opitimize,
+  queue
 } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { fixedRemote } from '@utils/user-setting'
 import { webhookFriend } from '@utils/webhooks'
-import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE, SHARE_MODE } from '@constants'
+import {
+  HOST,
+  MODEL_TIMELINE_SCOPE,
+  MODEL_TIMELINE_TYPE,
+  SHARE_MODE,
+  STORYBOOK
+} from '@constants'
 import { Navigation, TimeLineScope, TimeLineType } from '@types'
 import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
 import { NAMESPACE, STATE, EXCLUDE_STATE, TABS, TABS_WITH_TINYGRAIL } from './ds'
@@ -60,18 +67,20 @@ export default class ScreenZone extends store {
       _loaded: true
     })
 
-    this.fetchUsersFromOSS()
-    this.fetchUsers()
+    queue(
+      [
+        () => this.fetchUsersFromOSS(),
+        () => this.fetchUsers(),
+        () => (this.fromTinygrail ? this.fetchCharaAssets() : true),
+        () => (this.fromTinygrail ? this.fetchTempleTotal() : true),
+        () => (this.fromTinygrail ? this.fetchCharaTotal() : true),
+        () => (!this.fromTinygrail ? this.fetchUserCollections() : true),
+        () => this.fetchUsersTimeline(true),
+        () => (!STORYBOOK ? this.fetchRecent() : true)
+      ],
+      1
+    )
 
-    if (this.fromTinygrail) {
-      this.fetchCharaAssets()
-      this.fetchTempleTotal()
-      this.fetchCharaTotal()
-    } else {
-      this.fetchUserCollections()
-    }
-
-    this.fetchUsersTimeline(true)
     return this.fetchUsersInfo()
   }
 
@@ -140,8 +149,18 @@ export default class ScreenZone extends store {
     return this.state.users
   }
 
+  /** 最近 */
+  @computed get recent() {
+    const { username } = this.usersInfo
+    if (!username) return false
+
+    return this.state.recent[username] || false
+  }
+
   /** 自定义背景 */
   @computed get bg() {
+    if (!this.recent) return ''
+
     const { sign = '' } = this.users
     const bgs = sign.match(/\[bg\](.+?)\[\/bg\]/)
     return fixedRemote(HTMLDecode(bgs ? String(bgs[1]).trim() : ''))
@@ -149,6 +168,8 @@ export default class ScreenZone extends store {
 
   /** 自定义头像 */
   @computed get avatar() {
+    if (!this.recent) return ''
+
     const { sign = '' } = this.users
     const avatars = sign.match(/\[avatar\](.+?)\[\/avatar\]/)
     const src = avatars ? String(avatars[1]).trim() : ''
@@ -159,7 +180,7 @@ export default class ScreenZone extends store {
   @computed get src() {
     const { _image } = this.params
     const { avatar } = this.usersInfo
-    return getCDNAvatar(this.avatar || _image || avatar?.large)
+    return fixedHD(getCDNAvatar(this.avatar || _image || avatar?.large))
   }
 
   /** 小圣杯 / 用户资产 */
@@ -272,6 +293,22 @@ export default class ScreenZone extends store {
   /** 小圣杯 / 总人物数 */
   fetchCharaTotal = () => {
     return tinygrailStore.fetchCharaTotal(this.username)
+  }
+
+  /** 获取最近 */
+  fetchRecent = async () => {
+    const { username } = this.usersInfo
+    if (!username) return
+
+    const data: any = await get(`u_${username}`)
+    this.setState({
+      recent: {
+        [username]: data?.ts
+          ? getTimestamp() - Number(data.ts || 0) <= 60 * 60 * 30
+          : false
+      }
+    })
+    this.save()
   }
 
   // -------------------- page --------------------

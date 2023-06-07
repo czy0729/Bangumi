@@ -8,11 +8,12 @@ import React from 'react'
 import { Animated, View } from 'react-native'
 import { Flex, Iconfont, Touchable, Text, Heatmap } from '@components'
 import { Popover, IconBack, Avatar } from '@_'
+import { fixedHD } from '@_/base/avatar/utils'
 import { _, rakuenStore } from '@stores'
 import { open, copy, info, HTMLDecode, confirm, getBlurRadius } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS, HOST, SHARE_MODE } from '@constants'
+import { IOS, HOST, STORYBOOK } from '@constants'
 import Head from '../head'
 import { H_HEADER } from '../store'
 import { Ctx } from '../types'
@@ -60,13 +61,18 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
     })
   }
 
-  const data = ['浏览器查看', '复制链接', '复制分享', '发短信', 'TA的收藏', 'TA的好友']
-  if ($.users.connectUrl) {
-    data.push('加为好友')
-  } else if ($.users.disconnectUrl) {
-    data.push('解除好友')
+  const data = ['浏览器查看', '复制链接', '复制分享']
+  if (!STORYBOOK) data.push('发短信')
+  data.push('TA的收藏', 'TA的好友')
+
+  if (!STORYBOOK) {
+    if ($.users.connectUrl) {
+      data.push('加为好友')
+    } else if ($.users.disconnectUrl) {
+      data.push('解除好友')
+    }
+    data.push('屏蔽用户')
   }
-  data.push('屏蔽用户')
 
   let uri: any = avatar?.large
   if (typeof _image === 'string') {
@@ -77,7 +83,7 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
     }
   }
 
-  uri = $.bg || $.avatar || uri
+  uri = fixedHD($.bg || $.avatar || uri)
   if (typeof uri === 'string') {
     uri = uri.replace('http://', 'https://')
   }
@@ -189,95 +195,93 @@ function ParallaxImage(props, { $, navigation }: Ctx) {
             </Flex>
           </Touchable>
         )}
-        {!SHARE_MODE && (
-          <View style={styles.touch}>
-            <Popover
-              key={id || username}
-              data={data}
-              onSelect={key => {
-                t('空间.右上角菜单', {
-                  key,
-                  userId: $.userId
-                })
+        <View style={styles.touch}>
+          <Popover
+            key={id || username}
+            data={data}
+            onSelect={key => {
+              t('空间.右上角菜单', {
+                key,
+                userId: $.userId
+              })
 
-                const url = `${HOST}/user/${username}`
-                const userName = HTMLDecode(nickname || _name)
-                switch (key) {
-                  case '浏览器查看':
-                    open(url)
-                    break
+              const url = `${HOST}/user/${username}`
+              const userName = HTMLDecode(nickname || _name)
+              switch (key) {
+                case '浏览器查看':
+                  open(url)
+                  break
 
-                  case '复制链接':
-                    copy(url, '已复制链接')
-                    break
+                case '复制链接':
+                  copy(url, '已复制链接')
+                  break
 
-                  case '复制分享':
-                    copy(
-                      `【链接】${userName} | Bangumi番组计划\n${url}`,
-                      '已复制分享文案'
+                case '复制分享':
+                  copy(
+                    `【链接】${userName} | Bangumi番组计划\n${url}`,
+                    '已复制分享文案'
+                  )
+                  break
+
+                case '发短信':
+                  navigation.push('PM', {
+                    userId: id,
+                    userName
+                  })
+                  break
+
+                case 'TA的收藏':
+                  $.navigateToUser(navigation)
+                  break
+
+                case 'TA的好友':
+                  navigation.push('Friends', {
+                    userId: username || id
+                  })
+                  break
+
+                case '加为好友':
+                  $.doConnect()
+                  break
+
+                case '解除好友':
+                  confirm('确定解除好友?', () => $.doDisconnect())
+                  break
+
+                case '屏蔽用户':
+                  if (username || id) {
+                    confirm(
+                      `屏蔽来自 ${userName}@${
+                        username || id
+                      } 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+                      () => {
+                        rakuenStore.addBlockUser(`${userName}@${username || id}`)
+                        info(`已屏蔽 ${userName}`)
+                      }
                     )
-                    break
+                  }
+                  break
 
-                  case '发短信':
-                    navigation.push('PM', {
-                      userId: id,
-                      userName
-                    })
-                    break
-
-                  case 'TA的收藏':
-                    $.navigateToUser(navigation)
-                    break
-
-                  case 'TA的好友':
-                    navigation.push('Friends', {
-                      userId: username || id
-                    })
-                    break
-
-                  case '加为好友':
-                    $.doConnect()
-                    break
-
-                  case '解除好友':
-                    confirm('确定解除好友?', () => $.doDisconnect())
-                    break
-
-                  case '屏蔽用户':
-                    if (username || id) {
-                      confirm(
-                        `屏蔽来自 ${userName}@${
-                          username || id
-                        } 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
-                        () => {
-                          rakuenStore.addBlockUser(`${userName}@${username || id}`)
-                          info(`已屏蔽 ${userName}`)
-                        }
-                      )
-                    }
-                    break
-
-                  default:
-                    break
-                }
-              }}
-            >
-              <Flex style={styles.icon} justify='center'>
-                <Iconfont name='md-more-vert' color={_.__colorPlain__} />
-              </Flex>
-              <Heatmap id='空间.右上角菜单' />
-              <Heatmap right={62} id='空间.添加好友' transparent />
-              <Heatmap right={113} id='空间.解除好友' transparent />
-              <Heatmap
-                right={170}
-                id='空间.跳转'
-                to='WebBrowser'
-                alias='浏览器'
-                transparent
-              />
-            </Popover>
-          </View>
-        )}
+                default:
+                  break
+              }
+            }}
+          >
+            <Flex style={styles.icon} justify='center'>
+              <Iconfont name='md-more-vert' color={_.__colorPlain__} />
+            </Flex>
+            <Heatmap id='空间.右上角菜单' />
+            <Heatmap right={62} id='空间.添加好友' transparent />
+            <Heatmap right={113} id='空间.解除好友' transparent />
+            <Heatmap
+              right={170}
+              id='空间.跳转'
+              to='WebBrowser'
+              alias='浏览器'
+              transparent
+            />
+          </Popover>
+        </View>
       </Flex>
     </>
   )

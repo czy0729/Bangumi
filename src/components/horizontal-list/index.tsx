@@ -62,7 +62,15 @@ export const HorizontalList = observer(
           {...SCROLL_VIEW_RESET_PROPS}
           onScroll={this.show ? undefined : this.onScroll}
         >
-          {this.data.map(renderItem)}
+          {this.data.map((item, index) => {
+            const element = renderItem(item, index)
+            if (element) {
+              return React.cloneElement(element, {
+                key: `horizontal-list-item-${index}`
+              })
+            }
+            return null
+          })}
           {typeof renderNums === 'function' && renderNums()}
         </ScrollView>
       )

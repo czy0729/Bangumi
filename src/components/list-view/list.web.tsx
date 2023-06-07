@@ -31,12 +31,26 @@ function List({
     content = sections.map((section: any, index: number) => (
       <View key={`section-${index}`}>
         {renderSectionHeader({ section })}
-        {(section.data || []).map(item =>
-          renderItem({
-            item,
-            section
+        {(section.data || [])
+          .map(item => {
+            const element = renderItem({
+              item,
+              section
+            })
+
+            if (element) {
+              const key =
+                typeof keyExtractor === 'function'
+                  ? `section-item-${keyExtractor(item, index)}`
+                  : `section-item-${index}`
+
+              return React.cloneElement(element, {
+                key
+              })
+            }
+            return null
           })
-        )}
+          .filter(item => !!item)}
       </View>
     ))
   } else {
@@ -47,10 +61,13 @@ function List({
           index
         })
         if (element) {
+          const key =
+            typeof keyExtractor === 'function'
+              ? `list-item-${keyExtractor(item, index)}`
+              : `list-item-${index}`
+
           return React.cloneElement(element, {
-            key:
-              (typeof keyExtractor === 'function' ? keyExtractor(item, index) : '') ||
-              `item-${index}`
+            key
           })
         }
         return null

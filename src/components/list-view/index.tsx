@@ -267,10 +267,6 @@ export const ListView = observer(
       const { rendered } = this.state
       if (lazy && !rendered) return data.list.slice(0, lazy)
 
-      // return Array.isArray(data.list)
-      // ? data.list
-      // : // @ts-expect-error 这里是针对 mobx 的代理对象
-      // data.list.slice()
       return data.list
     }
 

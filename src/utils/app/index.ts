@@ -206,6 +206,7 @@ export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
     if (avatarLarge === bg || !bg) return 10
     return 48
   }
+  if (STORYBOOK) return 28
   return 8
 }
 
