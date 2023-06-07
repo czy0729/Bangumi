@@ -146,7 +146,11 @@ export default class Computed extends State {
    *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
    */
   @computed get subjectComments() {
-    const subjectComments = subjectStore.subjectComments(this.subjectId)
+    let subjectComments = subjectStore.subjectComments(this.subjectId)
+    if (!subjectComments._loaded && this.state.comments.list?.length) {
+      subjectComments = this.state.comments
+    }
+
     if (!this.showComment || this.showComment === -1) {
       const { pageTotal } = subjectComments.pagination
       return {
@@ -483,20 +487,6 @@ export default class Computed extends State {
       mangaId: 0,
       wenkuId: 0
     }
-
-    // this._wenku = findWenku(this.subjectId)
-    // this._manga = findManga(this.subjectId)
-
-    // // 若为单行本则还需要找到系列, 用系列id查询
-    // if (this.subjectSeries) {
-    //   const { id } = this.subjectSeries
-    //   if (!this._manga?.id) this._manga = findManga(id)
-    //   if (!this._wenku?.id) this._wenku = findWenku(id)
-    // }
-    // return {
-    //   mangaId: this._manga.mangaId,
-    //   wenkuId: this._wenku.wenkuId
-    // }
   }
 
   /** 筛选章节构造数据, 每 100 章节一个选项 */

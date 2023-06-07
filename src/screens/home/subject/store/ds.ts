@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-20 18:14:30
  */
 import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
-import { STORYBOOK } from '@constants'
+import { LIST_EMPTY, STORYBOOK } from '@constants'
 import {
   Collection,
   Cover,
@@ -90,6 +90,9 @@ export const EXCLUDE_STATE = {
       _loaded: Loaded
     }
   >,
+
+  /** 云端缓存的留言信息 */
+  comments: LIST_EMPTY,
 
   /** Box 中按钮是否允许使用翻页动画 */
   flip: false,

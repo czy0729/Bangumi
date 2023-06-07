@@ -44,9 +44,10 @@ export async function gets(keys: string[]): Promise<Result> {
 export async function update(
   key: string,
   value: object,
-  updateTS: boolean = true
+  updateTS: boolean = true,
+  test?: boolean
 ): Promise<Result> {
-  if (STORYBOOK) return
+  if (STORYBOOK && !test) return
 
   // @ts-expect-error
   const { data } = await axios({

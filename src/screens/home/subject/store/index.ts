@@ -11,7 +11,7 @@
 import { collectionStore, otaStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
-import { SHARE_MODE } from '@constants'
+import { SHARE_MODE, STORYBOOK } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
 
@@ -51,36 +51,59 @@ class ScreenSubject extends Action {
 
   /** 访问私有 cdn, 加速未缓存条目首屏数据渲染 */
   onHeaderRefresh = async () => {
-    // 因为有 cdn, 下面 2 个用户相关的接口可以提前
-    if (!this.state.subject._loaded) this.fetchSubjectFormCDN()
-
-    // 用户每集收看进度
-    if (!SHARE_MODE) this.fetchCollection()
-
-    // 用户收藏状态
-    if (!SHARE_MODE) userStore.fetchUserProgress(this.subjectId)
+    queue(
+      [
+        () => {
+          // 因为有 cdn, 下面 2 个用户相关的接口可以提前
+          if (!this.state.subject._loaded) return this.fetchSubjectFormCDN()
+        },
+        () => {
+          // 用户每集收看进度
+          if (!SHARE_MODE) return this.fetchCollection()
+        },
+        () => {
+          // 用户收藏状态
+          if (!SHARE_MODE) return userStore.fetchUserProgress(this.subjectId)
+        }
+      ],
+      1
+    )
 
     // API 条目信息
     const data = await this.fetchSubject()
-    queue([
-      () => this.fetchOTA(),
-      () => this.fetchThirdParty(data),
-      () => this.fetchAnitabi(),
-      () => this.fetchTrackComments(),
-      () => this.fetchSubjectComments(true),
-      () => this.fetchSubjectFormHTML(),
-      () => this.fetchEpsData(),
-      () => this.setRendered(),
-      () => {
-        // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
-        if (this.subject.eps?.length < 1000) return true
-        return subjectStore.fetchSubjectEpV2(this.subjectId)
-      }
-    ])
+    queue(
+      [
+        () => this.fetchOTA(),
+        () => this.fetchThirdParty(data),
+        () => this.fetchAnitabi(),
+        () => {
+          // 网页端走的反代, 很容易请求挂起, 需要第一时间回去云端缓存数据
+          if (STORYBOOK) return this.fetchCommentsFromOSS()
 
-    // 敏感条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
-    // @ts-expect-error
-    if (data?.code === 404) this.fetchPersons()
+          // APP 端可以延迟获取, 若正常数据获取到, 会取消获取云端数据
+          setTimeout(() => {
+            this.fetchCommentsFromOSS()
+          }, 6400)
+        },
+        () => this.fetchTrackComments(),
+        () => this.fetchSubjectComments(true),
+        () => this.fetchSubjectFormHTML(),
+        () => this.fetchEpsData(),
+        () => this.setRendered(),
+        () => {
+          // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
+          if (this.subject.eps?.length < 1000) return true
+          return subjectStore.fetchSubjectEpV2(this.subjectId)
+        },
+        () => {
+          // nsfw 条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
+          // @ts-expect-error
+          if (data?.code === 404) return this.fetchPersons()
+          return true
+        }
+      ],
+      2
+    )
 
     return true
   }

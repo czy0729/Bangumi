@@ -102,6 +102,31 @@ export default class Fetch extends Computed {
     return subjectStore.fetchSubjectFormCDN(this.subjectId)
   }
 
+  /** 装载云端条目留言缓存数据 */
+  fetchCommentsFromOSS = async () => {
+    if (this.subjectComments._loaded) return
+
+    try {
+      const data = await get(`comments_${this.subjectId}`)
+
+      // 云端没有数据存在, 本地计算后上传
+      if (!data) {
+        this.updateCommentsThirdParty()
+        return
+      }
+
+      const { ts, ...comments } = data
+      const _loaded = getTimestamp()
+      if (typeof comments === 'object') {
+        this.setState({
+          comments
+        })
+      }
+
+      if (_loaded - ts >= 60 * 60 * 24) this.updateCommentsThirdParty()
+    } catch (error) {}
+  }
+
   /** 装载第三方数据 */
   fetchThirdParty = async (data: { name: string }) => {
     // 若匹配到 bangumi-data 数据, 使用其中的 sites 数据进行对应平台 api 查找缩略图
@@ -154,14 +179,16 @@ export default class Fetch extends Computed {
   }
 
   /** 条目留言 */
-  fetchSubjectComments = (refresh?: boolean, reverse?: boolean) => {
-    return subjectStore.fetchSubjectComments(
+  fetchSubjectComments = async (refresh?: boolean, reverse?: boolean) => {
+    const data = await subjectStore.fetchSubjectComments(
       {
         subjectId: this.subjectId
       },
       refresh,
       reverse
     )
+    this.updateCommentsThirdParty()
+    return data
   }
 
   private _fetchTrackUsersInfo = false
@@ -519,6 +546,24 @@ export default class Fetch extends Computed {
         character: this.crt,
         staff: this.staff,
         titleLabel: this.titleLabel
+      })
+    }, 10000)
+  }
+
+  /** 上传留言预数据 */
+  updateCommentsThirdParty = () => {
+    setTimeout(() => {
+      const data = this.subjectComments
+      if (!data?.list?.length || !data?._loaded || data?._reverse) return false
+
+      update(`comments_${this.subjectId}`, {
+        list: data.list.slice(0, 20),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: data._loaded,
+        _reverse: false
       })
     }, 10000)
   }

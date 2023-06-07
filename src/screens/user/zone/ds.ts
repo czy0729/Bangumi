@@ -32,6 +32,7 @@ export const STATE = {
     抛弃: false
   },
   page: 0,
+  recent: {},
   ...EXCLUDE_STATE,
   _loaded: false
 }
