@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 04:57:46
+ * @Last Modified time: 2023-06-09 00:30:52
  */
 import React from 'react'
 import { Touchable, Flex, BgmText, Text, Bgm } from '@components'
@@ -10,7 +10,7 @@ import { rakuenStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { memoStyles } from './styles'
 
@@ -45,7 +45,7 @@ function Btn({ topicId, id, formhash, ...item }) {
         style={stl(styles.item, item.selected && styles.itemActive)}
         justify='center'
       >
-        {emoji > 100 ? (
+        {STORYBOOK || emoji > 100 ? (
           <Bgm
             style={styles.image}
             index={emoji}

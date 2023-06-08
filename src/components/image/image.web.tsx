@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 12:36:35
+ * @Last Modified time: 2023-06-09 00:55:31
  */
 import React, { useState, useRef, useEffect } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -54,8 +54,10 @@ export default function Image({ style, source, autoSize, ...props }) {
             // 停止对该图片的观察
             observer.unobserve(entry.target)
 
-            // 标记已观察过
-            lazyloadedMap.set(uri, true)
+            // 标记已观察过, 延迟是为了防止页面同时出现这个图片多次而后面的不执行逻辑
+            setTimeout(() => {
+              lazyloadedMap.set(uri, true)
+            }, 800)
           }
         },
         {

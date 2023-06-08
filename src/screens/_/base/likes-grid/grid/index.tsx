@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 15:43:45
+ * @Last Modified time: 2023-06-09 01:02:13
  */
 import React from 'react'
 import { Flex, Bgm, BgmText, Touchable } from '@components'
@@ -10,7 +10,7 @@ import { rakuenStore, uiStore } from '@stores'
 import { t } from '@utils/fetch'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { DATA, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
@@ -61,7 +61,7 @@ function Grid({ data = DATA, value, topicId, floorId, formhash, likeType }) {
             )}
             justify='center'
           >
-            {item[0] > 100 ? (
+            {STORYBOOK || item[0] > 100 ? (
               <Bgm
                 style={styles.bgm}
                 index={item[0]}
