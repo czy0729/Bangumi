@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-22 16:50:36
+ * @Last Modified time: 2023-06-09 05:10:47
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -151,9 +151,9 @@ export default class Action extends Fetch {
   }
 
   /**
-   * 检测cookie有没有过期
-   *  - 访问任意个人中心的页面就可以判断, 顺便记录formhash用于登出
-   *  - setCookie是html中后续在请求头中获取的更新cookie的标志
+   * 检测 cookie 有没有过期
+   *  - 访问任意个人中心的页面就可以判断, 顺便记录 formhash 用于登出
+   *  - setCookie 是 html 中后续在请求头中获取的更新 cookie 的标志
    */
   doCheckCookie = async () => {
     const data = await RakuenStore.fetchNotify()
@@ -164,9 +164,11 @@ export default class Action extends Fetch {
 
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
     if (Array.isArray(matchLogout) && matchLogout[1]) {
+      const formhash = matchLogout[1].replace('/', '')
+      console.info('doCheckCookie', formhash)
+
       this.setState({
-        // logout: `${HOST}/logout${matchLogout[1]}`,
-        formhash: matchLogout[1].replace('/', '')
+        formhash
       })
       this.save('formhash')
     }

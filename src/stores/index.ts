@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:32:07
+ * @Last Modified time: 2023-06-09 05:09:44
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { confirm } from '@utils'
@@ -70,6 +70,7 @@ class GlobalStores {
       for (let i = 0; i < userStoreKeys.length; i += 1) {
         await userStore.init(userStoreKeys[i])
       }
+      userStore.checkLogin()
 
       /** ==================== calendarStore ==================== */
       // 把这些值提前取出来是为了防止首次首页列表多次计算渲染
