@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-01-07 16:44:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 20:55:20
+ * @Last Modified time: 2023-06-09 01:55:28
  */
 import { computed, observable } from 'mobx'
 import { info } from '@utils'
 import store from '@utils/store'
 import DS from '@assets/json/advance.json'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { devGetUsersInfo } from './utils'
 
 const NAMESPACE = 'ScreeSponsor'
 
@@ -23,6 +25,9 @@ export default class ScreeSponsor extends store {
       ...state,
       _loaded: true
     })
+
+    // devGetUsersInfo()
+
     return true
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 20:47:32
+ * @Last Modified time: 2023-06-09 01:55:52
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -129,18 +129,23 @@ function caculateTotal(nodes: any[]) {
 
 export async function devGetUsersInfo() {
   const USERS_MAP = {}
-
+  const items = Object.keys(DS)
   await queue(
-    Object.keys(DS).map((userId, index) => async () => {
+    items.map((userId, index) => async () => {
       const data = await usersStore.fetchUsers({
         userId
       })
-      console.info(index)
+      console.info(`${index} / ${items.length}`)
 
       USERS_MAP[userId] = {
         n: data.userName
       }
-      if (data.avatar) USERS_MAP[userId].a = data.avatar
+      if (data.avatar) {
+        USERS_MAP[userId].a = data.avatar
+          .split('?')[0]
+          .split('/000/')[1]
+          .replace('.jpg', '')
+      }
       if (data.userId !== userId) USERS_MAP[userId].i = data.userId
       return true
     })
