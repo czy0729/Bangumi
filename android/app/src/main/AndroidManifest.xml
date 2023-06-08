@@ -98,7 +98,7 @@
       </intent-filter>
     </activity>
 
-    <service
+    <!-- <service
       android:name="com.reactnativeandroidwidget.RNWidgetBackgroundTaskService"
       android:enabled="true"
       android:label="RNWidgetBackgroundTaskService" />
@@ -118,6 +118,6 @@
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/widgetprovider_today" />
-    </receiver>
+    </receiver> -->
   </application>
 </manifest>

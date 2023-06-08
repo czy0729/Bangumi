@@ -17,7 +17,7 @@
     "pub": "sudo expo publish",
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
     "web": "STORYBOOK=true start-storybook -p 6006",
-    "build-storybook": "STORYBOOK=true build-storybook"
+    "build-web": "STORYBOOK=true build-storybook"
   },
   "dependencies": {
     "@ant-design/react-native": "3.1.3",
@@ -68,6 +68,7 @@
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",
     "prop-types": "15.8.1",
+    "rc-dropdown": "^4.1.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",

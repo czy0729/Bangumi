@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 16:32:52
+ * @Last Modified time: 2023-06-09 06:02:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Flex, Image, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { getCover400, matchCoverUrl, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { memoStyles } from './styles'
 import { Props as CoverProps } from './types'
 
@@ -68,7 +69,7 @@ export const Cover = ob(
     }
 
     // @update 2022/12/30 源站图片现在可以统一处理
-    _src = getCover400(_src, (other.width || size) > 100 ? 400 : 100)
+    _src = getCover400(_src, (other.width || size) > (STORYBOOK ? 100 : 50) ? 400 : 100)
 
     const { coverThings, coverRadius } = systemStore.setting
     if (coverThings || useType) {
