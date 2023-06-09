@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 12:33:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 17:00:45
+ * @Last Modified time: 2023-06-10 05:02:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { ItemSearch } from '@_'
 import { _ } from '@stores'
 import { desc } from '@utils'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
 import { styles } from './styles'
@@ -131,7 +131,10 @@ function List(props, { $, navigation }: Ctx) {
                 event={EVENT}
               />
               <View style={styles.recBadge} pointerEvents='none'>
-                <Text overrideStyle={styles.recText}>{score}</Text>
+                <Text overrideStyle={styles.recText}>
+                  {score}
+                  {IOS ? '' : '　'}
+                </Text>
               </View>
             </View>
           )

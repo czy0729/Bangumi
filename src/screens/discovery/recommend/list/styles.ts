@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 16:21:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 16:24:43
+ * @Last Modified time: 2023-06-10 05:01:46
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG } from '@constants'
@@ -21,7 +21,7 @@ export const styles = _.create({
     position: 'absolute',
     zIndex: 1,
     top: 8,
-    right: 20,
+    right: _.ios(20, 14),
     opacity: 0.5
   },
   recText: {

@@ -12,7 +12,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 03:50:04
+ * @Last Modified time: 2023-06-10 05:31:01
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -21,7 +21,7 @@ import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp } from '@utils'
 import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
-import { Source } from '@types'
+import { AnyObject, Source } from '@types'
 import { IOS_IPA } from '@/config'
 import { Touchable } from '../touchable'
 import { devLog } from '../dev'
@@ -89,9 +89,7 @@ export const Image = observer(
 
     componentDidMount() {
       const { src, cache, textOnly, sync } = this.props
-      if (textOnly) {
-        return
-      }
+      if (textOnly) return
 
       if (!cache || STORYBOOK) {
         this.setState({
@@ -101,10 +99,7 @@ export const Image = observer(
       }
 
       /** 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理 */
-      if (sync) {
-        this.preCache()
-        return
-      }
+      if (sync) return this.preCache()
 
       setTimeout(() => {
         this.preCache()
@@ -113,9 +108,7 @@ export const Image = observer(
 
     UNSAFE_componentWillReceiveProps(nextProps: { src: Source | string }) {
       const { textOnly } = this.props
-      if (textOnly) {
-        return
-      }
+      if (textOnly) return
 
       if (nextProps.src !== this.props.src) {
         if (STORYBOOK) {
@@ -130,9 +123,7 @@ export const Image = observer(
     }
 
     componentWillUnmount() {
-      if (this._timeoutId) {
-        clearTimeout(this._timeoutId)
-      }
+      if (this._timeoutId) clearTimeout(this._timeoutId)
     }
 
     /** 预加载的规则 */
@@ -154,9 +145,7 @@ export const Image = observer(
     /** 缓存图片 */
     cache = async (src: Source | string) => {
       const { iosImageCacheV2 } = systemStore.setting
-      if (IOS && iosImageCacheV2) {
-        return this.cacheV2(src)
-      }
+      if (IOS && iosImageCacheV2) return this.cacheV2(src)
 
       let uri: string
       if (IOS) {
@@ -229,6 +218,7 @@ export const Image = observer(
         } catch (error) {
           this.retry(src)
         }
+        return
       } else {
         /** 安卓貌似自带缓存 */
         if (typeof src === 'string') {
@@ -363,6 +353,8 @@ export const Image = observer(
                 if (this.status === 451) {
                   setError451(src)
                   that.recoveryToBgmCover()
+                } else if (this.status === 404) {
+                  that.recoveryToBgmCover()
                 } else {
                   setTimeout(() => {
                     that.retry(`${src}?ts=${getTimestamp()}`)
@@ -380,6 +372,8 @@ export const Image = observer(
                 // magma oss 若 status code 为 451 直接触发失败
                 if (String(error).includes('code=451')) {
                   setError451(src)
+                  this.recoveryToBgmCover()
+                } else if (String(error).includes('code=404')) {
                   this.recoveryToBgmCover()
                 } else {
                   setTimeout(() => {
@@ -458,7 +452,8 @@ export const Image = observer(
       )
     }
 
-    get headers(): {} {
+    /** 自定义请求头 */
+    get headers(): AnyObject {
       const { src, headers } = this.props
       if (headers) {
         if (typeof src === 'string' && src.includes('lain.')) {
@@ -473,13 +468,12 @@ export const Image = observer(
         }
       }
 
-      if (typeof src === 'string' && src.includes('lain.')) {
-        return DEFAULT_HEADERS
-      }
+      if (typeof src === 'string' && src.includes('lain.')) return DEFAULT_HEADERS
 
       return {}
     }
 
+    /** 计算图片实际样式 */
     get computedStyle() {
       const {
         style,
@@ -549,6 +543,7 @@ export const Image = observer(
       if (shadow && !_.isDark && !(!IOS && systemStore.devEvent.text)) {
         container.push(shadow === 'lg' ? this.styles.shadowLg : this.styles.shadow)
       }
+
       if (placeholder) container.push(this.styles.placeholder)
       if (style) container.push(style)
       if (imageStyle) {
@@ -564,11 +559,13 @@ export const Image = observer(
       }
     }
 
+    /** 圆角 */
     get borderRadius() {
       const { coverRadius } = systemStore.setting
       return coverRadius || _.radiusXs
     }
 
+    /** 开发模式 */
     get dev() {
       return systemStore.state.dev
     }
@@ -603,14 +600,10 @@ export const Image = observer(
         onError,
         ...other
       } = this.props
-      if (textOnly) {
-        return <TextOnly style={this.computedStyle.image} />
-      }
+      if (textOnly) return <TextOnly style={this.computedStyle.image} />
 
       const { error, uri } = this.state
-      if (error && errorToHide) {
-        return null
-      }
+      if (error && errorToHide) return null
 
       if (error && !STORYBOOK) {
         return (
@@ -623,9 +616,7 @@ export const Image = observer(
 
       if (typeof src === 'string' || typeof src === 'undefined') {
         // 没有图片占位
-        if (!uri) {
-          return <Placeholder style={this.computedStyle.image} />
-        }
+        if (!uri) return <Placeholder style={this.computedStyle.image} />
 
         if (typeof uri === 'string') {
           // 获取图片的宽高中, 占位

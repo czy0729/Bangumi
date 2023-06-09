@@ -27,9 +27,9 @@ export default class ScreenRecommend extends store {
     })
 
     if (!STORYBOOK) {
-      if (this.state.value === '' && userStore.myUserId) {
+      if (this.state.value === '' && userStore.myId) {
         this.setState({
-          value: String(userStore.myUserId)
+          value: String(userStore.myId)
         })
       }
 
