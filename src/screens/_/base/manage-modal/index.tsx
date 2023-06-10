@@ -180,7 +180,7 @@ export const ManageModal = ob(
         showTags: true
       })
 
-      await subjectStore.fetchSubjectFormHTML(subjectId)
+      await subjectStore.fetchSubjectFromHTML(subjectId)
 
       this.setState({
         fetching: false

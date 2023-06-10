@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 12:23:57
+ * @Last Modified time: 2023-06-10 14:27:49
  */
 export * from './app-common'
 export * from './auth'
@@ -36,6 +36,7 @@ export * from './popable'
 export * from './popover'
 export * from './prevent-touch-placeholder'
 export * from './rank'
+export * from './rate'
 export * from './safe-area-view'
 export * from './score-tag'
 export * from './section-header'

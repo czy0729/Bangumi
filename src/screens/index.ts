@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 12:36:07
+ * @Last Modified time: 2023-06-10 05:47:33
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -26,6 +26,7 @@ export { default as Dollars } from './discovery/dollars'
 export { default as Game } from './discovery/game'
 export { default as Guess } from './discovery/guess'
 export { default as Hentai } from './discovery/hentai'
+export { default as Like } from './discovery/like'
 export { default as Manga } from './discovery/manga'
 export { default as Rank } from './discovery/rank'
 export { default as Recommend } from './discovery/recommend'

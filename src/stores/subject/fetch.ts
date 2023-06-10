@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 16:04:17
+ * @Last Modified time: 2023-06-10 06:20:45
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -106,7 +106,7 @@ export default class Fetch extends Computed {
   }
 
   /** 网页获取条目信息 */
-  fetchSubjectFormHTML = async (subjectId: SubjectId) => {
+  fetchSubjectFromHTML = async (subjectId: SubjectId) => {
     const HTML = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
@@ -127,7 +127,7 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /** 获取条目分数值 */
+  /** 新接口获取条目信息 */
   fetchSubjectV2 = async (subjectId: SubjectId) => {
     try {
       await this.initSubjectV2([subjectId])

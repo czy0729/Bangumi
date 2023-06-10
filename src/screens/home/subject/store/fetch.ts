@@ -54,8 +54,8 @@ export default class Fetch extends Computed {
   }
 
   /** 网页的条目信息 (书籍只有网页端有数据源, 需要初始值) */
-  fetchSubjectFormHTML = async () => {
-    const data = await subjectStore.fetchSubjectFormHTML(this.subjectId)
+  fetchSubjectFromHTML = async () => {
+    const data = await subjectStore.fetchSubjectFromHTML(this.subjectId)
 
     const { watchedEps, book } = data
     this.setState({

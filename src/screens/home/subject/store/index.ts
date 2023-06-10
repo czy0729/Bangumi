@@ -87,7 +87,7 @@ class ScreenSubject extends Action {
         },
         () => this.fetchTrackComments(),
         () => this.fetchSubjectComments(true),
-        () => this.fetchSubjectFormHTML(),
+        () => this.fetchSubjectFromHTML(),
         () => this.fetchEpsData(),
         () => this.setRendered(),
         () => {

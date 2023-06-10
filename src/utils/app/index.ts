@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 21:43:57
+ * @Last Modified time: 2023-06-10 06:07:57
  */
 import { Alert, Dimensions, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -787,7 +787,7 @@ export function getCoverLarge(src = '') {
 }
 
 /** 获取新格式 bgm 封面大图 */
-export function getCover400(src: string = '', size: 100 | 400 = 400) {
+export function getCover400(src: string = '', size: 100 | 200 | 400 | 800 = 400) {
   if (typeof src === 'string' && src.includes('lain.bgm.tv')) {
     return (
       src

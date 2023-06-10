@@ -910,7 +910,7 @@ export default class Action extends Fetch {
         async () => {
           userStore.fetchUserCollection()
           await userStore.fetchUserProgress(this.subjectId)
-          await this.fetchSubjectFormHTML()
+          await this.fetchSubjectFromHTML()
           this.save()
           this.afterEpsFlip()
           if (isNeedFeedback) {
