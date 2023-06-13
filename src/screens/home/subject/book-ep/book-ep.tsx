@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:42:43
+ * @Last Modified time: 2023-06-11 03:52:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -62,6 +62,7 @@ export default memo(
                   keyboardType='numeric'
                   value={chap}
                   placeholder={String(book.chap) || '0'}
+                  editable={canSubmit}
                   clearButtonMode='never'
                   returnKeyType='done'
                   returnKeyLabel='更新'
@@ -112,6 +113,7 @@ export default memo(
                   keyboardType='numeric'
                   value={vol}
                   placeholder={String(book.vol) || '0'}
+                  editable={canSubmit}
                   clearButtonMode='never'
                   returnKeyType='done'
                   returnKeyLabel='更新'

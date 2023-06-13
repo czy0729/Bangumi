@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 12:56:25
+ * @Last Modified time: 2023-06-12 04:33:12
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { desc, findSubjectCn, stl } from '@utils'
+import { desc, findSubjectCn, HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -147,7 +147,7 @@ export const HorizontalList = ob(
                       ellipsizeMode={ellipsizeMode}
                       bold
                     >
-                      {title}
+                      {HTMLDecode(title)}
                     </Text>
                     {!!desc && (
                       <Touchable

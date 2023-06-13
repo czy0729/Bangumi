@@ -354,6 +354,7 @@ export const Image = observer(
                   setError451(src)
                   that.recoveryToBgmCover()
                 } else if (this.status === 404) {
+                  setError404(src)
                   that.recoveryToBgmCover()
                 } else {
                   setTimeout(() => {
@@ -374,6 +375,7 @@ export const Image = observer(
                   setError451(src)
                   this.recoveryToBgmCover()
                 } else if (String(error).includes('code=404')) {
+                  setError404(src)
                   this.recoveryToBgmCover()
                 } else {
                   setTimeout(() => {

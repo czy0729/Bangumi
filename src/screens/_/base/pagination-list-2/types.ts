@@ -23,5 +23,8 @@ export type Props = Override<
 
     /** 下一页回调 */
     onPage?: (nextPageData?: any[]) => any
+
+    /** 下下一页回调 */
+    onNextPage?: (nextPageData?: any[]) => any
   }
 >

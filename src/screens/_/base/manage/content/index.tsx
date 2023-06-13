@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-26 05:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:56:13
+ * @Last Modified time: 2023-06-11 03:30:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,18 @@ import { titleCase } from '@utils'
 import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
-function Content({ icon, size, type, collection }) {
+function Content({ icon, size, type, collection, horizontal }) {
+  if (horizontal) {
+    return (
+      <Flex style={[styles.content, styles.horizontal]}>
+        <Iconfont name={icon} size={size - 1} color={_[`color${titleCase(type)}`]} />
+        <Text style={_.ml.xs} type={type} size={13} lineHeight={15} align='center'>
+          {collection}
+        </Text>
+      </Flex>
+    )
+  }
+
   return (
     <View style={styles.content}>
       <Flex style={styles.icon} justify='center'>

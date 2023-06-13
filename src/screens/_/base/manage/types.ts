@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-26 05:06:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:27:20
+ * @Last Modified time: 2023-06-11 03:26:03
  */
 import { Fn, SubjectId, SubjectTypeCn, ViewStyle } from '@types'
 
@@ -16,6 +16,9 @@ export type Props = {
 
   /** 条目类型 (中文) */
   typeCn?: SubjectTypeCn
+
+  /** 水平布局 */
+  horizontal?: boolean
 
   /** 点击 */
   onPress: Fn

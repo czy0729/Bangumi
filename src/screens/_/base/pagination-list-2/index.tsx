@@ -20,6 +20,7 @@ export const PaginationList2 = ({
   data,
   limit: _limit = 24,
   onPage,
+  onNextPage,
   ...other
 }: PaginationList2Props) => {
   // 用户记住列表看到多少页, 在触发更新后需要使用此值去重新划归数组当前页数
@@ -56,7 +57,11 @@ export const PaginationList2 = ({
     if (typeof onPage === 'function') {
       onPage(data.slice(page * limit, (page + 1) * limit))
     }
-  }, [data, limit, list, onPage])
+
+    if (typeof onNextPage === 'function') {
+      onNextPage(data.slice((page + 1) * limit, (page + 2) * limit))
+    }
+  }, [data, limit, list, onPage, onNextPage])
 
   useEffect(() => {
     const list = data.slice(0, lastPage.current * limit)
@@ -69,8 +74,14 @@ export const PaginationList2 = ({
       _loaded: getTimestamp()
     })
 
-    if (typeof onPage === 'function') onPage(list)
-  }, [data, limit, onPage])
+    if (typeof onPage === 'function') {
+      onPage(list)
+    }
+
+    if (typeof onNextPage === 'function') {
+      onNextPage(data.slice(limit, limit * 2))
+    }
+  }, [data, limit, onPage, onNextPage])
 
   return (
     <ListView

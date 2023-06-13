@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 08:49:42
+ * @Last Modified time: 2023-06-11 03:08:40
  */
 import {
   findTreeNode,
@@ -380,7 +380,7 @@ export default class Fetch extends Computed {
    *  - [1] 需要登录
    *  - [2] subjectIds 长度 = 1 时, 都会请求
    *  - [3] subjectIds 长度 > 1 时, 当前有记录为 [看过 | 搁置 | 抛弃] 时不重新请求
-   *  - [4] 批量请求时, 若条件通过, 条目重请求依然有 1 小时的间隔
+   *  - [4] 批量请求时, 若条件通过, 条目重请求依然有 12 小时的间隔
    * */
   fetchCollectionStatusQueue = async (subjectIds: SubjectId[] = []) => {
     if (!userStore.isLogin || !subjectIds.length) return {} // [1]
@@ -393,9 +393,10 @@ export default class Fetch extends Computed {
       if (
         subjectIds.length === 1 || // [2]
         (!['看过', '搁置', '抛弃'].includes(this.collect(subjectId)) && // [3]
-          now - this._collectionStatusLastFetchMS(subjectId) >= 60 * 60) // [4]
+          now - this._collectionStatusLastFetchMS(subjectId) >= 60 * 60 * 12) // [4]
       ) {
         fetchs.push(async () => {
+          console.info('fetchCollectionStatusQueue', subjectId)
           const collection = await fetchCollectionSingleV0({
             subjectId,
             userId: userStore.myId

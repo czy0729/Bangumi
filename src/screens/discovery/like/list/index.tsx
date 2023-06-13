@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 00:28:06
+ * @Last Modified time: 2023-06-13 05:50:18
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -23,9 +23,12 @@ function List(props, { $ }: Ctx) {
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={list[type]}
-      limit={10}
+      limit={12}
       renderItem={renderItem}
-      onHeaderRefresh={() => $.getList(true)}
+      onScroll={$.onScroll}
+      onPage={$.onPage}
+      onNextPage={$.onNextPage}
+      onHeaderRefresh={$.onHeaderRefresh}
     />
   )
 }

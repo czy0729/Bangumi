@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 14:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 14:24:38
+ * @Last Modified time: 2023-06-11 03:35:59
  */
 import { _ } from '@stores'
 
@@ -10,8 +10,8 @@ export const styles = _.create({
   rate: {
     position: 'absolute',
     zIndex: 1,
-    top: 8,
-    right: _.ios(20, 14),
+    top: _.sm,
+    right: _.ios(26, 20),
     opacity: 0.5
   },
   rateText: {

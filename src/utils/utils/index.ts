@@ -478,6 +478,8 @@ export function cleanQ(str: any) {
   return String(str).replace(/['!"#$%&\\'()*+,./:;<=>?@[\\\]^`{|}~']/g, ' ')
 }
 
+const similarCache = new Map<string, number>()
+
 /**
  * 字符串相似度
  * @param {*} s 字符串1
@@ -490,6 +492,10 @@ export function similar(s: string, t: string, f?: number) {
     m = t.length,
     l = Math.max(n, m)
   if (n === 0 || m === 0) return l
+
+  const key = `${s}|${t}|${f}`
+  if (similarCache.has(key)) return similarCache.get(key)
+
   const d = Array.from({ length: n + 1 }, (_, i) => [i])
   d[0] = Array.from({ length: m + 1 }, (_, i) => i)
   for (let i = 1; i <= n; i++) {
@@ -501,7 +507,10 @@ export function similar(s: string, t: string, f?: number) {
     }
   }
   const res = 1 - d[n][m] / l
-  return parseFloat(res.toFixed(f))
+
+  const value = parseFloat(res.toFixed(f))
+  similarCache.set(key, value)
+  return value
 }
 
 /** 工厂辅助函数 */

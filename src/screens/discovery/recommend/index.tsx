@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 12:29:25
+ * @Last Modified time: 2023-06-13 18:51:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
     return (
       <>
         <Header
-          title='番剧推荐'
+          title='AI 推荐'
           hm={['recommend', 'Recommend']}
           headerRight={() => {
             if (STORYBOOK) return null

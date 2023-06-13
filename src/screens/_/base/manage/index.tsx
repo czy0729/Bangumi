@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:42:03
+ * @Last Modified time: 2023-06-11 03:26:17
  */
 import React from 'react'
 import { Touchable, Flex } from '@components'
@@ -24,7 +24,14 @@ const HIT_SLOP = {
 }
 
 export const Manage = ob(
-  ({ style, subjectId, collection = '', typeCn = '动画', onPress }: ManageProps) => {
+  ({
+    style,
+    subjectId,
+    collection = '',
+    typeCn = '动画',
+    horizontal,
+    onPress
+  }: ManageProps) => {
     if (SHARE_MODE) return null
 
     let icon
@@ -61,7 +68,8 @@ export const Manage = ob(
       icon,
       size,
       type,
-      collection: _collection
+      collection: _collection,
+      horizontal
     }
     return (
       <Flex style={styles.manage} justify='end' align='start'>

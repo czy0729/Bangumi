@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 16:59:50
+ * @Last Modified time: 2023-06-13 18:50:45
  */
 import { computed, observable } from 'mobx'
 import { subjectStore, userStore } from '@stores'
-import { desc, getTimestamp, info, pick, queue, updateVisibleBottom } from '@utils'
+import { desc, getTimestamp, info, pick, updateVisibleBottom } from '@utils'
 import axios from '@utils/thirdParty/axios'
 import store from '@utils/store'
 import { gets } from '@utils/kv'
@@ -39,24 +39,27 @@ export default class ScreenRecommend extends store {
   }
 
   fetchSubjects = async () => {
-    const ids = [...this.ids]
-    if (!ids.length) return true
+    // 这个接口太慢了, 而且不太依赖, 暂时屏蔽
+    return true
 
-    await subjectStore.initSubjectV2(ids)
-    const now = getTimestamp()
-    const fetchs = []
-    ids.forEach(id => {
-      const { _loaded } = subjectStore.subjectV2(id)
-      if (!_loaded || now - Number(_loaded) >= 60 * 60) {
-        fetchs.push(() => {
-          console.info('fetchSubjects', id)
-          return subjectStore.fetchSubjectV2(id)
-        })
-      }
-    })
-    if (!fetchs.length) return true
+    // const ids = [...this.ids]
+    // if (!ids.length) return true
 
-    return queue(fetchs)
+    // await subjectStore.initSubjectV2(ids)
+    // const now = getTimestamp()
+    // const fetchs = []
+    // ids.forEach(id => {
+    //   const { _loaded } = subjectStore.subjectV2(id)
+    //   if (!_loaded || now - Number(_loaded) >= 60 * 60) {
+    //     fetchs.push(() => {
+    //       console.info('fetchSubjects', id)
+    //       return subjectStore.fetchSubjectV2(id)
+    //     })
+    //   }
+    // })
+    // if (!fetchs.length) return true
+
+    // return queue(fetchs)
   }
 
   fetchSubjectsFromOSS = async () => {

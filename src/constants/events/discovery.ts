@@ -155,5 +155,9 @@ export default {
   'Hentai.切换布局': 'Hentai.switchLayout',
 
   // 维基人
-  '维基人.右上角菜单': 'Wiki.topRightMenu'
+  '维基人.右上角菜单': 'Wiki.topRightMenu',
+
+  // 猜你喜欢
+  '猜你喜欢.跳转': 'Like.to',
+  '猜你喜欢.切换': 'Like.switch'
 }
