@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 11:59:24
+ * @Last Modified time: 2023-06-13 20:13:32
  */
 import { TextProps } from 'react-native'
 import { Override, TextStyle, ReactNode } from '@types'
@@ -71,6 +71,9 @@ export type Props = Override<
 
     /** 是否不允许换行 (仅在网页端生效) */
     noWrap?: boolean
+
+    /** 是否允许自动转换简繁体 */
+    s2t?: boolean
 
     children: string | string[] | ReactNode | ReactNode[]
   }

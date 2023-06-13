@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 08:57:51
+ * @Last Modified time: 2023-06-13 20:14:11
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -396,6 +396,7 @@ export const ManageModal = ob(
                           size={12}
                           bold
                           type={_.select('desc', isSelected ? 'main' : 'desc')}
+                          s2t={false}
                         >
                           {name}
                         </Text>

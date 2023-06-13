@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 18:19:19
+ * @Last Modified time: 2023-06-13 20:14:05
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -36,6 +36,7 @@ function CompText(
     shadow = false,
     selectable = false,
     noWrap = false,
+    s2t = true,
     children,
     ...other
   }: TextProps,
@@ -83,7 +84,7 @@ function CompText(
       // @ts-ignore
       android_hyphenationFrequency='none'
     >
-      {systemStore.setting.s2t ? format(children) : children}
+      {s2t && systemStore.setting.s2t ? format(children) : children}
     </RNText>
   )
 }
