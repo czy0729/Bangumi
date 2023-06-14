@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => {
     contentContainerStyle: {
       paddingHorizontal: _.wind,
       paddingTop: _.md,
-      paddingBottom: _.bottom,
+      paddingBottom: _.window.height / 2,
       minHeight: height,
       maxHeight: height
     }

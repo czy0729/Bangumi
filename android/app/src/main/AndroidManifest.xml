@@ -18,6 +18,7 @@
     android:icon="@mipmap/ic_launcher"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:allowBackup="true"
+    android:usesCleartextTraffic="true"
     android:theme="@style/AppTheme">
     <meta-data android:name="UMENT_APPKEY" android:value="5ddceaa10cafb2ea9900066a" />
 

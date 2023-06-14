@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 12:33:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 05:02:21
+ * @Last Modified time: 2023-06-13 21:50:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -133,7 +133,7 @@ function List(props, { $, navigation }: Ctx) {
               <View style={styles.recBadge} pointerEvents='none'>
                 <Text overrideStyle={styles.recText}>
                   {score}
-                  {IOS ? '' : '　'}
+                  {IOS ? '' : ' '}
                 </Text>
               </View>
             </View>

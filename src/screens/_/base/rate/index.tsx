@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 14:08:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-12 04:02:47
+ * @Last Modified time: 2023-06-13 21:49:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export const Rate = ob(({ value = '', onPress }: RateProps) => {
     <View style={styles.rate}>
       <Text overrideStyle={styles.rateText} onPress={onPress}>
         {value}
-        {IOS ? '' : '　'}
+        {IOS ? '' : ' '}
       </Text>
     </View>
   )

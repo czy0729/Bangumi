@@ -11,7 +11,7 @@ export const styles = _.create({
     position: 'absolute',
     zIndex: 1,
     top: _.sm,
-    right: _.ios(26, 20),
+    right: _.ios(26, 20) + _.wind - _._wind,
     opacity: 0.5
   },
   rateText: {

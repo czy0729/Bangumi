@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 18:50:45
+ * @Last Modified time: 2023-06-13 22:08:17
  */
 import { computed, observable } from 'mobx'
 import { subjectStore, userStore } from '@stores'
@@ -27,7 +27,7 @@ export default class ScreenRecommend extends store {
     })
 
     if (!STORYBOOK) {
-      if (this.state.value === '' && userStore.myId) {
+      if (!this.state.value && userStore.myId) {
         this.setState({
           value: String(userStore.myId)
         })
@@ -271,7 +271,7 @@ export default class ScreenRecommend extends store {
       // @ts-expect-error
       const { data } = await axios({
         method: 'get',
-        url: `http://124.221.81.229/api/v3/rec/${value.trim()}?type=${
+        url: `http://124.221.81.229/api/v3/rec/${value.trim()}/?type=${
           subjectType || 0
         }&e=${e === '' ? 0.1 : e}`
       })
@@ -309,7 +309,7 @@ export default class ScreenRecommend extends store {
         info(data.message)
       }
     } catch (ex) {
-      console.log(ex)
+      info('获取出错，请重试')
     }
 
     this.setState({
