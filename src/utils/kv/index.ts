@@ -7,8 +7,10 @@
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
+import { DEV } from '@/config'
 import { getTimestamp } from '../utils'
-import { HOST } from './ds'
+import hash from '../thirdParty/hash'
+import { HOST, UPDATE_CACHE_MAP } from './ds'
 import { Result, ResultTemp } from './type'
 
 /** 获取 */
@@ -48,6 +50,18 @@ export async function update(
   test?: boolean
 ): Promise<Result> {
   if (STORYBOOK && !test) return
+
+  const finger = hash(
+    JSON.stringify({
+      key,
+      value,
+      updateTS
+    })
+  ).slice(0, 4)
+  if (UPDATE_CACHE_MAP.has(finger)) return
+
+  UPDATE_CACHE_MAP.set(finger, true)
+  if (DEV) console.info('update', key, finger)
 
   // @ts-expect-error
   const { data } = await axios({

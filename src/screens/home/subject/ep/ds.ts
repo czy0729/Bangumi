@@ -13,6 +13,9 @@ export const DEFAULT_PROPS = {
   watchedEps: '' as $['state']['watchedEps'],
   totalEps: 0 as $['subjectFormHTML']['totalEps'],
   onAirCustom: {} as $['onAirCustom'],
+  status: {
+    name: '未收藏'
+  } as $['collection']['status'],
   isDoing: false as boolean,
   showEpInput: true as typeof systemStore.setting.showEpInput,
   showCustomOnair: true as typeof systemStore.setting.showCustomOnair,

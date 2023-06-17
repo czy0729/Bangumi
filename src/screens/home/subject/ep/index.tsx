@@ -31,6 +31,7 @@ export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
       watchedEps={$.state.watchedEps}
       totalEps={$.subjectFormHTML.totalEps}
       onAirCustom={$.onAirCustom}
+      status={$.collection.status}
       isDoing={$.collection?.status?.type === 'do'}
       showEpInput={systemStore.setting.showEpInput}
       showCustomOnair={systemStore.setting.showCustomOnair}

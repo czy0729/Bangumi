@@ -24,6 +24,7 @@ export default memo(
     watchedEps,
     totalEps,
     onAirCustom,
+    status,
     isDoing,
     showEpInput,
     showCustomOnair,
@@ -36,6 +37,7 @@ export default memo(
     // global.rerender('Subject.Ep.Main')
 
     const _showEpInput = showEpInput && !SHARE_MODE
+    const canSubmit = !!status.name && status.name !== '未收藏'
 
     const { weekDay, h, m, isOnair, isCustom } = onAirCustom
     const showOnair = showCustomOnair && (isOnair || isDoing)
@@ -70,6 +72,7 @@ export default memo(
                       keyboardType='numeric'
                       value={watchedEps}
                       placeholder={watchedEps || '0'}
+                      editable={canSubmit}
                       clearButtonMode='never'
                       returnKeyType='done'
                       returnKeyLabel='更新'
@@ -89,7 +92,7 @@ export default memo(
                     style={styles.btn}
                     size='sm'
                     type='ghostPrimary'
-                    onPress={doUpdateSubjectEp}
+                    onPress={canSubmit ? doUpdateSubjectEp : undefined}
                   >
                     更新
                   </Button>
