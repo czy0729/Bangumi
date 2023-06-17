@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 17:44:52
+ * @Last Modified time: 2023-06-17 14:14:38
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -69,23 +69,11 @@ export default class ScreenSay extends store {
 
   /** 吐槽 */
   @computed get say() {
-    return timelineStore.say(this.id)
-  }
-
-  @computed get users() {
-    const { list } = this.say
-    const map = {}
-    const users = []
-    list
-      .slice()
-      .reverse()
-      .forEach(item => {
-        if (!map[item.id]) {
-          users.push(item)
-          map[item.id] = true
-        }
-      })
-    return users
+    const data = timelineStore.say(this.id)
+    return {
+      ...data,
+      list: data.list.slice().reverse()
+    }
   }
 
   @computed get myId() {
@@ -94,30 +82,6 @@ export default class ScreenSay extends store {
 
   @computed get userInfo() {
     return userStore.userInfo
-  }
-
-  usersInfo(id: UserId) {
-    return computed(() => userStore.usersInfo(id)).get()
-  }
-
-  /** 列表和缓存中都没有头像的用户 id */
-  @computed get noAvatarUserIds() {
-    const { _loaded, list } = this.say
-    if (!_loaded) return []
-
-    const data = []
-    list.forEach(item => {
-      if (
-        !item.avatar &&
-        item.id &&
-        !data.includes(item.id) &&
-        !this.usersInfo(item.id).username
-      ) {
-        data.push(item.id)
-      }
-    })
-
-    return data.reverse()
   }
 
   /** 是否登录 (web) */
@@ -142,11 +106,12 @@ export default class ScreenSay extends store {
   /** 滚动到底 */
   scrollToBottom = (scrollView: any, animated = false) => {
     try {
-      if (scrollView?.scrollToEnd) {
+      if (scrollView?.scrollToIndex) {
         setTimeout(() => {
-          scrollView.scrollToEnd({
+          scrollView.scrollToIndex({
             animated,
-            duration: 640
+            index: 0,
+            viewOffset: 0
           })
         }, 160)
       }
@@ -156,11 +121,9 @@ export default class ScreenSay extends store {
   /** 滚动到顶 */
   scrollToTop = (scrollView: any, animated = false) => {
     try {
-      if (scrollView?.scrollTo) {
+      if (scrollView?.scrollToEnd) {
         setTimeout(() => {
-          scrollView.scrollTo({
-            x: 0,
-            y: 0,
+          scrollView.scrollToEnd({
             animated,
             duration: 640
           })

@@ -37,7 +37,7 @@ class GlobalStores {
    * */
   async init() {
     try {
-      if (!DEV && inited) return true
+      if (inited) return true
 
       inited = true
 

@@ -2,45 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 06:29:05
+ * @Last Modified time: 2023-06-17 14:14:54
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Text } from '@components'
-import { ItemSay } from '@_'
+import { PaginationList2 } from '@_'
+import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { API_AVATAR } from '@constants'
+import Item from './item'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-const EVENT = {
-  id: '吐槽.跳转'
-} as const
-
-function Chat(props, { $ }: Ctx) {
+function Chat({ forwardRef }: any, { $ }: Ctx) {
   const styles = memoStyles()
   const { list } = $.say
   return (
-    <View style={styles.container}>
-      <Text size={12} type='sub' align='center'>
-        {!!list.length && list[0].date}
-      </Text>
-      {list.map((item, index) => {
-        const prevItem = index === 0 ? {} : list[index - 1]
-        const isMe = item.id === $.myId
-        return (
-          <ItemSay
-            {...item}
-            event={EVENT}
-            position={isMe ? 'right' : 'left'}
-            avatar={API_AVATAR(item.id)}
-            showName={prevItem.name !== item.name}
-            onLongPress={() => $.at(item.id)}
-          />
-        )
-      })}
-    </View>
+    <PaginationList2
+      forwardRef={forwardRef}
+      style={_.container.screen}
+      contentContainerStyle={styles.container}
+      keyExtractor={keyExtractor}
+      data={list}
+      inverted
+      renderItem={renderItem}
+      ListFooterComponent={null}
+    />
   )
 }
 
 export default obc(Chat)
+
+function renderItem({ item, index }) {
+  return <Item item={item} index={index} />
+}

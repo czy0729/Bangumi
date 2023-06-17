@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Touchable, UserStatus } from '@components'
-import { _, timelineStore } from '@stores'
+import { timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -73,7 +73,7 @@ export const ItemNotify = ob(
             <Name userId={userId} showFriend size={13} type='title' bold>
               {userName}
             </Name>
-            <Flex style={_.mt.xs} align='start'>
+            <Flex style={styles.message} align='start'>
               <Flex.Item>
                 <Text lineHeight={18}>
                   {message}
@@ -83,13 +83,7 @@ export const ItemNotify = ob(
                   {message2}
                 </Text>
                 {!!sayTitle && (
-                  <Text
-                    style={styles.desc}
-                    type='sub'
-                    size={11}
-                    lineHeight={18}
-                    numberOfLines={1}
-                  >
+                  <Text type='sub' size={11} lineHeight={18} numberOfLines={1} bold>
                     描述：{sayTitle}
                   </Text>
                 )}

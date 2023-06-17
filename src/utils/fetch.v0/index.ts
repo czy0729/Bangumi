@@ -73,11 +73,11 @@ export async function fetchSubjectV0(config: { url: string }) {
 async function fetchCollectionAll(userId: UserId) {
   const all: Collection['data'] = []
 
-  // 动画请求最多3页
+  // 动画请求最多3 页
   let collection = await request<Collection>(API_COLLECTIONS(userId, '2'))
   if (Array.isArray(collection?.data)) all.push(...collection.data)
 
-  // 高级会员才开放3页
+  // 高级会员才开放 3 页
   const systemStore = syncSystemStore()
   if (systemStore.advance) {
     if (collection?.total > 100) {
@@ -91,11 +91,11 @@ async function fetchCollectionAll(userId: UserId) {
     }
   }
 
-  // 书籍1页
+  // 书籍 1 页
   collection = await request<Collection>(API_COLLECTIONS(userId, '1'))
   if (Array.isArray(collection?.data)) all.push(...collection.data)
 
-  // 三次元1页
+  // 三次元 1 页
   collection = await request<Collection>(API_COLLECTIONS(userId, '6'))
   if (Array.isArray(collection?.data)) all.push(...collection.data)
 

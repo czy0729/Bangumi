@@ -136,19 +136,21 @@ export function t(
     runAfter(() => {
       const eventId = events[desc]
       if (eventId) {
-        if (eventData) {
-          UMAnalyticsModule.onEventWithMap(
-            eventId,
-            eventId === '其他.崩溃'
-              ? {
-                  ...eventData,
-                  url: currentUrl
-                }
-              : eventData
-          )
-        } else {
-          UMAnalyticsModule.onEvent(eventId)
-        }
+        const _eventData = eventData || {}
+        const userId = syncUserStore().myId || 0
+        UMAnalyticsModule.onEventWithMap(
+          eventId,
+          eventId === '其他.崩溃'
+            ? {
+                userId,
+                ..._eventData,
+                url: currentUrl
+              }
+            : {
+                userId,
+                ..._eventData
+              }
+        )
       }
     })
   } catch (error) {

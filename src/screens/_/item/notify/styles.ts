@@ -23,8 +23,8 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind,
     marginLeft: _.sm
   },
-  desc: {
-    marginTop: _.xs
+  message: {
+    marginTop: 2
   },
   tag: {
     width: 40,

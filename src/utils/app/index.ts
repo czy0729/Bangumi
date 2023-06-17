@@ -5,7 +5,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-06-10 06:07:57
  */
-import { Alert, Dimensions, BackHandler } from 'react-native'
+import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
 import { isObservableArray } from 'mobx'
 import { DEV } from '@/config'
@@ -26,6 +26,7 @@ import {
 } from '@constants/cdn'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import x18Data from '@assets/json/18x.json'
+import userData from '@assets/json/user.json'
 import {
   AnyObject,
   Avatar,
@@ -49,12 +50,19 @@ import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../ca
 import { rerender, globalLog, globalWarn } from '../dev'
 import { isNull, getSafeValue } from './utils'
 import {
+  BANGUMI_URL_TEMPLATES,
+  BLOCKED_USER_UUID,
+  FIND_SUBJECT_CN_CACHE_MAP,
+  GET_AVATAR_CACHE_MAP,
+  HEIGHT,
   HOST_IMAGE,
   NO_IMGS,
   PRIVACY_STATE,
   RANDOM_FACTOR,
+  RATING_MAP,
   SITE_MAP,
   TYPE_MAP,
+  X18_CACHE_MAP,
   X18_DS,
   X18_TITLE,
   YEAR
@@ -104,9 +112,6 @@ export function bootApp() {
   initHashAvatarOTA()
 }
 
-/** 处理屏蔽用户, 追踪计数 uuid */
-const BLOCKED_USER_UUID = {}
-
 /** 处理屏蔽用户 */
 export function getIsBlockUser(
   blockUserIds: string[],
@@ -133,8 +138,6 @@ export function getIsBlockUser(
   return isBlock
 }
 
-const { height } = Dimensions.get('window')
-
 /** 统一更新控制页面懒渲染 visibleBottom 变量的函数 */
 export function updateVisibleBottom({ nativeEvent }) {
   if (typeof this.setState !== 'function') return
@@ -145,17 +148,17 @@ export function updateVisibleBottom({ nativeEvent }) {
   if (visibleBottom <= (this.state.visibleBottom || 0)) return
 
   this.setState({
-    visibleBottom: visibleBottom + height * 0.5
+    visibleBottom: visibleBottom + HEIGHT * 0.5
   })
 }
 
-/** 是否数组 */
+/** 是否数组, 若为 mobx 观察的数组使用原生方法是判断不出来的 */
 export function isArray(arr: any) {
   if (!arr) return false
   return Array.isArray(arr) || isObservableArray(arr)
 }
 
-/** 判断动作 */
+/** 判断收藏动作 */
 export function getAction(typeCn: SubjectTypeCn) {
   if (typeCn === '书籍') return '读'
   if (typeCn === '游戏') return '玩'
@@ -173,13 +176,11 @@ export function getKeyString(...args: any[]) {
   return args.toString()
 }
 
-const findSubjectCnCacheMap = new Map<string, string>()
-
 /** 查找条目中文名 */
 export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
   if (!getSetting()?.cnFirst) return jp
 
-  if (findSubjectCnCacheMap.has(jp)) return findSubjectCnCacheMap.get(jp)
+  if (FIND_SUBJECT_CN_CACHE_MAP.has(jp)) return FIND_SUBJECT_CN_CACHE_MAP.get(jp)
 
   const item = (bangumiData as BangumiData).find(
     // 没有 id 则使用 jp 在 bangumi-data 里面匹配
@@ -188,31 +189,35 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
   if (item) {
     const cn = item.c || ''
     if (cn) {
-      findSubjectCnCacheMap.set(jp, cn)
+      FIND_SUBJECT_CN_CACHE_MAP.set(jp, cn)
       return cn
     }
   }
 
-  findSubjectCnCacheMap.set(jp, jp)
+  FIND_SUBJECT_CN_CACHE_MAP.set(jp, jp)
   return jp
 }
 
-/** 获取背景的模糊值 (iOS 与安卓实际表现不同，需要分开判断) */
+/** 获取背景的模糊值 (各平台实际表现是不一样的, 需要分开判断) */
 export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
   if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
   if (typeof bg === 'string') bg = bg.replace('http://', 'https://')
   if (uri === bg) return 0
+
   if (IOS) {
     if (avatarLarge === bg || !bg) return 10
     return 48
   }
+
   if (STORYBOOK) return 28
+
   return 8
 }
 
 /** 简单控制请求频率工具函数, 若不需要发请求返回 true */
 export function opitimize(data: any, s = 60) {
   if (!data?._loaded) return false
+
   return getTimestamp() - Number(data?._loaded || 0) < s
 }
 
@@ -302,9 +307,6 @@ export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
   return weekDay === '' ? '' : weekDay
 }
 
-/** 缓存搜索过的结果 */
-const x18CacheMap = new Map<SubjectId, boolean>()
-
 /**
  * 是否敏感条目
  * @param {*} subjectId
@@ -317,23 +319,23 @@ export function x18(subjectId: SubjectId, title?: string) {
     subjectId = Number(subjectId.replace('/subject/', ''))
   }
 
-  if (x18CacheMap.has(subjectId)) return x18CacheMap.get(subjectId)
+  if (X18_CACHE_MAP.has(subjectId)) return X18_CACHE_MAP.get(subjectId)
 
   const flag = x18Data.includes(subjectId)
   if (flag) {
-    x18CacheMap.set(subjectId, true)
+    X18_CACHE_MAP.set(subjectId, true)
     return true
   }
 
   if (title) {
     const flag = X18_TITLE.some(item => title.includes(item))
     if (flag) {
-      x18CacheMap.set(subjectId, true)
+      X18_CACHE_MAP.set(subjectId, true)
       return true
     }
   }
 
-  x18CacheMap.set(subjectId, false)
+  X18_CACHE_MAP.set(subjectId, false)
   return false
 }
 
@@ -666,19 +668,6 @@ export function getType(label: string, defaultType: string = 'plain') {
   return TYPE_MAP[label] || defaultType
 }
 
-const RATING_MAP = {
-  1: '不忍直视',
-  2: '很差',
-  3: '差',
-  4: '较差',
-  5: '不过不失',
-  6: '还行',
-  7: '推荐',
-  8: '力荐',
-  9: '神作',
-  10: '超神作'
-} as const
-
 /** 获取评分中文 */
 export function getRating(
   score: number
@@ -686,21 +675,6 @@ export function getRating(
   if (score === undefined) return ''
   return RATING_MAP[Math.floor(score + 0.5)] || RATING_MAP[1]
 }
-
-const BANGUMI_URL_TEMPLATES = {
-  acfun: (id: Id) => `https://www.acfun.cn/bangumi/aa${id}`,
-  bangumi: (id: Id) => `${HOST}/subject/${id}`,
-  bilibili: (id: Id) => `https://www.bilibili.com/bangumi/media/md${id}/`,
-  iqiyi: (id: Id) => `https://www.iqiyi.com/${id}.html`,
-  letv: (id: Id) => `https://www.le.com/comic/${id}.html`,
-  mgtv: (id: Id) => `https://www.mgtv.com/h/${id}.html`,
-  netflix: (id: Id) => `https://www.netflix.com/title/${id}`,
-  nicovideo: (id: Id) => `https://ch.nicovideo.jp/${id}`,
-  pptv: (id: Id) => `http://v.pptv.com/page/${id}.html`,
-  qq: (id: Id) => `https://v.qq.com/detail/${id}.html`,
-  sohu: (id: Id) => `https://tv.sohu.com/${id}`,
-  youku: (id: Id) => `https://list.youku.com/show/id_z${id}.html`
-} as const
 
 /**
  * 获得在线播放地址
@@ -1126,4 +1100,26 @@ export function getCommentPlainText(str: string) {
       .replace(/<br>/g, '\n')
       .replace(pattern, '($1)')
   )
+}
+
+/**
+ * 在本地数据中尽量获取用户头像地址
+ * 目的为进行减少 API 请求
+ * */
+export function getAvatarLocal(userId: string) {
+  if (!userId) return false
+
+  if (GET_AVATAR_CACHE_MAP.has(userId)) return GET_AVATAR_CACHE_MAP.get(userId)
+
+  let find = userData[userId]
+  if (!find) find = Object.values(userData).find((item: any) => item.i == userId)
+
+  if (!find?.a) {
+    GET_AVATAR_CACHE_MAP.set(userId, false)
+    return false
+  }
+
+  const avatar = `https://lain.bgm.tv/pic/user/l/000/${find.a}.jpg`
+  GET_AVATAR_CACHE_MAP.set(userId, avatar)
+  return avatar
 }

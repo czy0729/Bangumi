@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:53:41
+ * @Last Modified time: 2023-06-17 14:07:14
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
@@ -16,6 +16,7 @@ import { Props as PaginationListProps } from './types'
 export { PaginationListProps }
 
 export const PaginationList = ({
+  forwardRef,
   data,
   limit: _limit = 24,
   onPage,
@@ -64,5 +65,12 @@ export const PaginationList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.length, onPage])
 
-  return <ListView data={list} {...other} onFooterRefresh={onFooterRefresh} />
+  return (
+    <ListView
+      ref={forwardRef}
+      data={list}
+      {...other}
+      onFooterRefresh={onFooterRefresh}
+    />
+  )
 }

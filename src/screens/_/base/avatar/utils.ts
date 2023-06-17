@@ -71,8 +71,8 @@ export function getAvatar(src: any) {
 export function getCDNAvatar(src: any) {
   if (typeof src !== 'string' || !systemStore.setting.cdnAvatarV2) return src
 
-  const reg = /(\d+)\.jpg\?r=(\d+)/
-  const match = src.match(reg)
+  let match = src.match(/(\d+)\.jpg\?r=(\d+)/)
+  if (!match) match = src.match(/(\d+)\.jpg/)
   if (!match) return src
 
   const num1 = parseInt(match[1])

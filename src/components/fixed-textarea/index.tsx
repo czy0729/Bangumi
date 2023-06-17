@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:57:00
+ * @Last Modified time: 2023-06-17 12:26:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -35,6 +35,8 @@ import { Iconfont } from '../iconfont'
 import { KeyboardSpacer } from '../keyboard-spacer'
 import { Touchable } from '../touchable'
 import {
+  BTN_ICONS,
+  BTN_TEXT,
   MAX_BGM_HISTORY_COUNT,
   MAX_HISTORY_COUNT,
   NAMESPACE,
@@ -46,27 +48,11 @@ import { Props as FixedTextareaProps } from './types'
 
 export { FixedTextareaProps }
 
-/** 内置键盘切换中、英文高度会变化
- *  因为各种原因，后续就一直用最大的那个值作为高度 */
+/**
+ * 内置键盘切换中、英文高度会变化
+ * 因为各种原因，后续就一直用最大的那个值作为高度
+ * */
 let maxKeyboardHeight = 0
-
-const BTN_ICONS = {
-  加粗: 'icon-bold',
-  斜体: 'icon-italic',
-  下划: 'icon-underline',
-  删除: 'icon-strikethrough',
-  剧透: 'icon-hide',
-  链接: 'icon-link',
-  图片: 'icon-image',
-  图床: 'icon-layer'
-} as const
-
-const BTN_TEXT = [
-  'icon-bold',
-  'icon-italic',
-  'icon-underline',
-  'icon-strikethrough'
-] as const
 
 export const FixedTextarea = observer(
   class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
@@ -733,7 +719,7 @@ export const FixedTextarea = observer(
     }
 
     renderTextarea() {
-      const { placeholder } = this.props
+      const { placeholder, simple } = this.props
       const { value, showTextarea } = this.state
       const canSend = value !== ''
       return (
@@ -745,7 +731,7 @@ export const FixedTextarea = observer(
                 ref={this.connectRef}
                 style={this.styles.textarea}
                 value={value}
-                placeholder={this.editing ? placeholder || '我要吐槽' : ''}
+                placeholder={simple || this.editing ? placeholder || '我要吐槽' : ''}
                 placeholderTextColor={_.colorDisabled}
                 rows={this.editing ? 8 : 1}
                 selectionColor={_.colorMain}

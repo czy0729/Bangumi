@@ -4,6 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-03 11:34:06
  */
+import { Dimensions } from 'react-native'
+import { HOST } from '@constants/constants'
+import { Id, SubjectId } from '@types'
+
 const date = new Date()
 
 /** 源站图片域名 */
@@ -73,3 +77,42 @@ export const SITE_MAP = {
 
 /** 隐私条款弹窗 key */
 export const PRIVACY_STATE = 'bangumi|privacy'
+
+/** 处理屏蔽用户, 追踪计数 uuid */
+export const BLOCKED_USER_UUID = {}
+
+export const { height: HEIGHT } = Dimensions.get('window')
+
+export const FIND_SUBJECT_CN_CACHE_MAP = new Map<string, string>()
+
+export const X18_CACHE_MAP = new Map<SubjectId, boolean>()
+
+export const RATING_MAP = {
+  1: '不忍直视',
+  2: '很差',
+  3: '差',
+  4: '较差',
+  5: '不过不失',
+  6: '还行',
+  7: '推荐',
+  8: '力荐',
+  9: '神作',
+  10: '超神作'
+} as const
+
+export const BANGUMI_URL_TEMPLATES = {
+  acfun: (id: Id) => `https://www.acfun.cn/bangumi/aa${id}`,
+  bangumi: (id: Id) => `${HOST}/subject/${id}`,
+  bilibili: (id: Id) => `https://www.bilibili.com/bangumi/media/md${id}/`,
+  iqiyi: (id: Id) => `https://www.iqiyi.com/${id}.html`,
+  letv: (id: Id) => `https://www.le.com/comic/${id}.html`,
+  mgtv: (id: Id) => `https://www.mgtv.com/h/${id}.html`,
+  netflix: (id: Id) => `https://www.netflix.com/title/${id}`,
+  nicovideo: (id: Id) => `https://ch.nicovideo.jp/${id}`,
+  pptv: (id: Id) => `http://v.pptv.com/page/${id}.html`,
+  qq: (id: Id) => `https://v.qq.com/detail/${id}.html`,
+  sohu: (id: Id) => `https://tv.sohu.com/${id}`,
+  youku: (id: Id) => `https://list.youku.com/show/id_z${id}.html`
+} as const
+
+export const GET_AVATAR_CACHE_MAP = new Map<string, any>()

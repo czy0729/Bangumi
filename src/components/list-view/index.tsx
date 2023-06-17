@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:09:32
+ * @Last Modified time: 2023-06-17 12:46:04
  */
 import React from 'react'
 import { RefreshControl, FlatList } from 'react-native'
@@ -95,6 +95,8 @@ export const ListView = observer(
 
     scrollToLocation: ScrollToFunction = () => {}
 
+    scrollToEnd: ScrollToFunction = () => {}
+
     connectRef = (ref: React.RefObject<FlatList>['current']) => {
       if (ref?.scrollToIndex) {
         this.scrollToIndex = (params: any) => ref.scrollToIndex(params)
@@ -120,6 +122,17 @@ export const ListView = observer(
         this.scrollToLocation = (params: any) =>
           // @ts-expect-error
           ref.scrollToLocation(params)
+      }
+
+      if (ref?.scrollToEnd) {
+        this.scrollToEnd = (params: any) => ref.scrollToEnd(params)
+      } else if (
+        // @ts-expect-error
+        ref?._wrapperListRef?._listRef?.scrollToEnd
+      ) {
+        this.scrollToEnd = (params: any) =>
+          // @ts-expect-error
+          ref._wrapperListRef._listRef.scrollToEnd(params)
       }
     }
 
@@ -273,6 +286,8 @@ export const ListView = observer(
     renderRefreshControl() {
       const { data, progressViewOffset, refreshControlProps, onHeaderRefresh } =
         this.props
+      if (!onHeaderRefresh) return null
+
       const { refreshState } = this.state
       const title = data._loaded
         ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}`

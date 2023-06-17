@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 20:14:58
+ * @Last Modified time: 2023-06-17 11:49:00
  */
 import React from 'react'
 import { ScrollView, FixedTextarea, Flex, Loading, Page, Text } from '@components'
@@ -11,7 +11,6 @@ import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import Chat from '../chat'
 import { Ctx } from '../types'
-import { memoStyles } from './styles'
 
 class Say extends React.Component {
   state = {
@@ -98,10 +97,6 @@ class Say extends React.Component {
         {$.isNew ? this.renderNew() : this.renderList()}
       </Page>
     )
-  }
-
-  get styles() {
-    return memoStyles()
   }
 }
 
