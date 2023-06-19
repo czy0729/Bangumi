@@ -16,6 +16,7 @@ function Filter({ $ }: Ctx) {
   return (
     <View>
       <SegmentedControl
+        key={String(isFriend)}
         style={styles.segment}
         size={11}
         values={['所有', '好友']}

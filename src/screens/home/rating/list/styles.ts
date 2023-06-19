@@ -8,14 +8,24 @@ import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
 
 export const memoStyles = _.memoStyles(() => {
-  const height = _.window.height - (STORYBOOK ? _.headerHeight : 0)
+  if (STORYBOOK) {
+    const height = _.window.height - (STORYBOOK ? _.headerHeight : 0)
+    return {
+      contentContainerStyle: {
+        paddingHorizontal: _.wind,
+        paddingTop: _.md,
+        paddingBottom: _.window.height / 2,
+        minHeight: height,
+        maxHeight: height
+      }
+    }
+  }
+
   return {
     contentContainerStyle: {
       paddingHorizontal: _.wind,
       paddingTop: _.md,
-      paddingBottom: _.window.height / 2,
-      minHeight: height,
-      maxHeight: height
+      paddingBottom: _.bottom
     }
   }
 })
