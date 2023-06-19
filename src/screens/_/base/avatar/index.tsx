@@ -9,7 +9,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Image, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { stl } from '@utils'
+import { getCover400, stl } from '@utils'
 import { HOST_API_V0 } from '@utils/fetch.v0/ds'
 import { ob } from '@utils/decorators'
 import { HOST_CDN, IOS } from '@constants'
@@ -102,6 +102,7 @@ export const Avatar = ob(
     _src = fixedSize(_src)
     _src = fixedHD(_src)
     _src = getCDNAvatar(_src)
+    _src = getCover400(_src, 100)
 
     const isUrl = typeof _src === 'string'
     const { dev } = systemStore.state

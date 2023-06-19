@@ -7,7 +7,13 @@
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
-import { AVATAR_DEFAULT, HOST_CDN_AVATAR, URL_DEFAULT_AVATAR } from '@constants'
+import {
+  AVATAR_DEFAULT,
+  HOST_CDN_AVATAR,
+  IMG_DEFAULT,
+  URL_DEFAULT_AVATAR,
+  URL_DEFAULT_MONO
+} from '@constants'
 import { Props } from './types'
 
 /** 判断是否自己的头像, 一周才变化一次 */
@@ -51,9 +57,11 @@ function checkNull(src: any) {
 
 /** 判断是否为默认头像, 若是直接使用本地的默认头像, 避免不必要的网络请求 */
 function checkDefault(src: any) {
-  return !src || (typeof src === 'string' && src.includes(URL_DEFAULT_AVATAR))
-    ? AVATAR_DEFAULT
-    : src
+  if (typeof src === 'string') {
+    if (src.includes(URL_DEFAULT_AVATAR)) return AVATAR_DEFAULT
+    if (src.includes(URL_DEFAULT_MONO)) return IMG_DEFAULT
+  }
+  return src
 }
 
 /** 处理头像地址 */
@@ -151,8 +159,7 @@ export function fixedLarge(src: any) {
 
 /**
  * 网页端新出的图片规则, 需要处理一下
- * please use '/r/<size>/pic/cover/l/' path instead
- * @date 2023-04-02
+ * 如果地址有 number x number 是必须使用 /l/ 的
  */
 export function fixedSize(src: any) {
   return typeof src !== 'string'

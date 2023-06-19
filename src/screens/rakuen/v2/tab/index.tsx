@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { TabView } from '@components'
+import { BlurView } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -23,11 +24,12 @@ function Tab(props, { $ }: Ctx) {
       key={_.orientation}
       style={_.mt._sm}
       sceneContainerStyle={styles.sceneContainerStyle}
-      lazy={!IOS}
+      lazy
       lazyPreloadDistance={0}
       navigationState={$.navigationState}
       renderTabBar={renderTabBar}
       renderScene={renderScene}
+      renderSceneHeaderComponent={IOS && <BlurView style={styles.blurView} />}
       onIndexChange={$.onChange}
     />
   )

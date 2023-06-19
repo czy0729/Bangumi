@@ -79,6 +79,9 @@ export const URL_FEEDBACK = `${HOST}/group/topic/350677` as const
 /** 空头像地址 */
 export const URL_DEFAULT_AVATAR = '/icon.jpg'
 
+/** 空角色地址 */
+export const URL_DEFAULT_MONO = '/info_only.png'
+
 /** 指南 (语雀) */
 export const URL_ZHINAN = 'https://www.yuque.com/chenzhenyu-k0epm/znygb4'
 

@@ -6,19 +6,10 @@
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
-import { BlurView } from '@_'
-import { IOS } from '@constants'
 import List from '../list'
 import { TABS } from '../ds'
-import { styles } from './styles'
 
-const renderScene = (item, index: number) => () =>
-  (
-    <>
-      <List index={index} />
-      {IOS && index === TABS.length - 1 && <BlurView style={styles.blurView} />}
-    </>
-  )
+const renderScene = (item: any, index: number) => () => <List index={index} />
 
 export default SceneMap(
   TABS.reduce(

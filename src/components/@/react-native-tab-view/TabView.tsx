@@ -38,7 +38,10 @@ export type Props<T extends Route> = PagerCommonProps & {
   style?: StyleProp<ViewStyle>
   gestureHandlerProps: React.ComponentProps<typeof PanGestureHandler>
   renderPager: (props: ChildProps<T>) => React.ReactNode
+
+  /** modify */
   renderContentHeaderComponent?: React.ReactNode
+  renderSceneHeaderComponent?: React.ReactNode
 }
 
 type State = {
@@ -61,7 +64,10 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
     timingConfig: {},
     gestureHandlerProps: {},
     renderPager: (props: ChildProps<any>) => <Pager {...props} />,
-    renderContentHeaderComponent: null // @add
+
+    /** modify */
+    renderContentHeaderComponent: null,
+    renderSceneHeaderComponent: null
   }
 
   state = {
@@ -112,7 +118,10 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
       gestureHandlerProps,
       springVelocityScale,
       renderPager,
-      renderContentHeaderComponent // @add
+
+      /** modify */
+      renderContentHeaderComponent,
+      renderSceneHeaderComponent
     } = this.props
     const { layout } = this.state
 
@@ -144,6 +153,7 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
               jumpTo
             }
 
+            const { routes } = navigationState
             return (
               <React.Fragment>
                 {positionListener ? (
@@ -156,7 +166,7 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
                   })}
                 {renderContentHeaderComponent}
                 {render(
-                  navigationState.routes.map((route, i) => {
+                  routes.map((route, i) => {
                     return (
                       <SceneView
                         {...sceneRendererProps}
@@ -169,14 +179,17 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
                         navigationState={navigationState}
                         style={sceneContainerStyle}
                       >
-                        {({ loading }) =>
-                          loading
-                            ? renderLazyPlaceholder({ route })
-                            : renderScene({
-                                ...sceneRendererProps,
-                                route
-                              })
-                        }
+                        {({ loading }) => (
+                          <>
+                            {i === routes.length - 1 && renderSceneHeaderComponent}
+                            {loading
+                              ? renderLazyPlaceholder({ route })
+                              : renderScene({
+                                  ...sceneRendererProps,
+                                  route
+                                })}
+                          </>
+                        )}
                       </SceneView>
                     )
                   })
