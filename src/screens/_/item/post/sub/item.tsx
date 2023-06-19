@@ -129,7 +129,7 @@ export default memo(
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
       <Flex
-        style={stl(styles.item, isJump && styles.itemJump)}
+        style={styles.item}
         align='start'
         onLayout={e => {
           layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
@@ -229,7 +229,11 @@ export default memo(
         </Flex.Item>
 
         {/* 高亮 */}
-        {directFloor && <View style={styles.direct} pointerEvents='none' />}
+        {directFloor ? (
+          <View style={styles.direct} pointerEvents='none' />
+        ) : isJump ? (
+          <View style={[styles.direct, styles.directJump]} pointerEvents='none' />
+        ) : null}
       </Flex>
     )
   },

@@ -36,7 +36,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
     onEndReachedThreshold: 0.5
   }
 
-  if (list.length <= 96) {
+  if (list.length <= 64) {
     return (
       <ListView
         ref={forwardRef}
@@ -48,7 +48,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
   }
 
   return (
-    <PaginationList2 forwardRef={forwardRef} data={list} limit={12} {...passProps} />
+    <PaginationList2 forwardRef={forwardRef} data={list} limit={16} {...passProps} />
   )
 }
 

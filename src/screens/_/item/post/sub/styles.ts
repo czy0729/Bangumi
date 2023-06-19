@@ -15,10 +15,6 @@ export const memoStyles = _.memoStyles(() => {
       width: '100%',
       paddingLeft: _.sm
     },
-    itemJump: {
-      borderBottomWidth: 2,
-      borderColor: _.colorSuccess
-    },
     content: {
       paddingVertical: _.md,
       marginLeft
@@ -66,6 +62,9 @@ export const memoStyles = _.memoStyles(() => {
       borderColor: _.colorBorder,
       borderRadius: _.radiusMd,
       overflow: 'hidden'
+    },
+    directJump: {
+      borderColor: _.colorSuccess
     }
   }
 })
