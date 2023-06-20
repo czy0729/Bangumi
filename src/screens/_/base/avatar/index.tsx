@@ -102,6 +102,8 @@ export const Avatar = ob(
     _src = fixedSize(_src)
     _src = fixedHD(_src)
     _src = getCDNAvatar(_src)
+
+    // 有时候 Avatar 组件也会被条目封面传入使用, 需要避免使用大图
     _src = getCover400(_src, 100)
 
     const isUrl = typeof _src === 'string'

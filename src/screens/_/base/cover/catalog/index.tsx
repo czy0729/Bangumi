@@ -1,0 +1,70 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-06-20 12:22:59
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-06-20 12:24:07
+ */
+import React from 'react'
+import { View } from 'react-native'
+import { Image } from '@components'
+import { _ } from '@stores'
+import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
+
+function Catalog({
+  imageStyle,
+  src,
+  imageViewerSrc,
+  textOnly,
+  fallback,
+  size,
+  width,
+  height,
+  ...other
+}) {
+  const styles = memoStyles()
+  const w = Math.min(size || 1000, width || 1000, height || 1000)
+  const _style = {
+    width: w,
+    height: w
+  }
+  return (
+    <View style={_style}>
+      <View
+        style={[
+          styles.catalog,
+          styles.catalogLevel2,
+          {
+            width: w,
+            height: w - 8
+          }
+        ]}
+      />
+      <View
+        style={[
+          styles.catalog,
+          styles.catalogLevel1,
+          {
+            width: w,
+            height: w - 4
+          }
+        ]}
+      />
+      <Image
+        style={[imageStyle, styles.image]}
+        src={src}
+        imageViewerSrc={imageViewerSrc}
+        border
+        textOnly={textOnly}
+        fallback={fallback}
+        {...other}
+        size={w}
+        width={w}
+        height={w}
+        radius={_.radiusSm}
+      />
+    </View>
+  )
+}
+
+export default ob(Catalog)

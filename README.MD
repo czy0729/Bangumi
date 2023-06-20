@@ -14,7 +14,7 @@
 
 安卓和 iOS 都做了兼容，并最大限度保持一致
 
-目前已开发不少于 90 个页面，基于移动端重新设计布局，几乎涵盖网站所有页面
+目前已开发不少于 100 个页面，基于移动端重新设计布局，几乎涵盖网站所有页面
 
 Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏、AVG），发现和讨论番组
 
@@ -31,9 +31,10 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 - [版本](#版本)
 - [在线](#在线)
 - [预览](#预览)
-- [致谢](#致谢)
+- [开发心得](#开发心得)
 - [本地开发](#本地开发)
 - [免责](#免责)
+- [致谢](#致谢)
 - [投食](#投食)
 - [统计](#统计)
 
@@ -125,15 +126,15 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 ![0010](https://user-images.githubusercontent.com/13514316/212605826-6d4eec77-ac8e-4712-8373-09d606b70cbb.jpg)
 ![0011](https://user-images.githubusercontent.com/13514316/212605831-2457702d-0d5a-44c2-88c1-1a139c1e3cc9.jpg)
 
-# 致谢
+# 开发心得
 
-[![](https://data.jsdelivr.com/v1/package/gh/ekibot/bangumi-onair/badge)](https://www.jsdelivr.com/package/gh/ekibot/bangumi-onair) [[Bangumi-OnAir]](https://github.com/ekibot/bangumi-onair) [ekibun](https://github.com/ekibun) 的单集播放数据源
+使用 React-Native 开发一个 App，想做到流畅是需要下很大的功夫的。但几年开发下来，关键影响到流畅度，无非就几个点：
 
-[[bangumi-mosaic-tile]](https://github.com/weizhenye/bangumi-mosaic-tile) [weizhenye](https://github.com/weizhenye) 的用户统计瓷砖库
-
-[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
-
-[[bangumi-api]](https://github.com/bangumi/api) 官方接口
+- 图片不要渲染过大的（图片是所有里面最影响流畅性的）
+- 尽量减少同时请求数、慢请求（包括图片的请求）
+- 对不可见区域延迟渲染
+- 多写函数式编程，多写异步逻辑，少用 this，少写循环
+- 计算过的结果尽量缓存
 
 # 本地开发
 
@@ -248,6 +249,16 @@ react-native run-android // [android] 真机 usb 调试
 - 本项目所有数据信息均来自各种网站，不提供任何形式的媒体下载、直接播放和修改功能
 - 本项目承诺不保存任何第三方用户信息
 - 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
+
+# 致谢
+
+[![](https://data.jsdelivr.com/v1/package/gh/ekibot/bangumi-onair/badge)](https://www.jsdelivr.com/package/gh/ekibot/bangumi-onair) [[Bangumi-OnAir]](https://github.com/ekibot/bangumi-onair) [ekibun](https://github.com/ekibun) 的单集播放数据源
+
+[[bangumi-mosaic-tile]](https://github.com/weizhenye/bangumi-mosaic-tile) [weizhenye](https://github.com/weizhenye) 的用户统计瓷砖库
+
+[[bangumi-data]](https://github.com/bangumi-data/bangumi-data) 番组数据索引
+
+[[bangumi-api]](https://github.com/bangumi/api) 官方接口
 
 # 投食
 

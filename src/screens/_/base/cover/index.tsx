@@ -3,16 +3,19 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 06:02:47
+ * @Last Modified time: 2023-06-20 12:43:11
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Image, Text } from '@components'
-import { _, systemStore } from '@stores'
-import { getCover400, matchCoverUrl, stl } from '@utils'
+import { Image } from '@components'
+import { systemStore } from '@stores'
+import { getCover400, matchCoverUrl } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
-import { memoStyles } from './styles'
+import TextOnly from './text-only'
+import Disc from './disc'
+import Book from './book'
+import Game from './game'
+import Catalog from './catalog'
 import { Props as CoverProps } from './types'
 
 export { CoverProps }
@@ -35,31 +38,17 @@ export const Cover = ob(
     fallback,
     ...other
   }: CoverProps) => {
-    const styles = memoStyles()
     if (textOnly) {
-      const w = other.width || size
-      const h = height || size
       return (
-        <Flex
-          style={stl(
-            styles.textOnly,
-            {
-              width: w,
-              height: h
-            },
-            other.radius && styles.textOnlyRadius
-          )}
-          justify='center'
-        >
-          <Text type='sub' bold onPress={other.onPress}>
-            text-only
-          </Text>
-        </Flex>
+        <TextOnly
+          width={other.width || size}
+          height={height || size}
+          radius={other.radius}
+          onPress={other.onPress}
+        />
       )
     }
 
-    const imageStyle = [style]
-    const { hashSubjectOTALoaded } = systemStore.state
     let _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
 
     // 相册模式大图
@@ -68,172 +57,71 @@ export const Cover = ob(
       _imageViewerSrc = _src
     }
 
-    // @update 2022/12/30 源站图片现在可以统一处理
-    _src = getCover400(_src, (other.width || size) > (STORYBOOK ? 100 : 50) ? 400 : 100)
+    // 对部分尺寸过少的图片, 强制使用缩略图
+    const width = other.width || size
+    if (STORYBOOK) {
+      _src = getCover400(_src, width > 200 ? 400 : width > 100 ? 200 : 100)
+    } else {
+      _src = getCover400(_src, width > 134 ? 400 : width > 67 ? 200 : 100)
+    }
 
-    const { coverThings, coverRadius } = systemStore.setting
+    const { coverThings } = systemStore.setting
+    const passProps = {
+      src: _src,
+      imageViewerSrc,
+      textOnly,
+      fallback,
+      size,
+      height
+    }
     if (coverThings || useType) {
       if (type === '音乐') {
-        // 音乐为矩形唱片装, 长宽取短的
-        const w = Math.min(size || 1000, other.width || 1000, height || 1000) - 8
-        const _style = {
-          width: w,
-          height: w,
-          borderRadius:
-            other?.radius === true ? coverRadius : other?.radius || _.radiusXs
-        }
         return (
-          <View key={hashSubjectOTALoaded} style={_style}>
-            <View
-              style={stl([
-                styles.disc,
-                _style,
-                {
-                  borderRadius: w / 2
-                },
-                angleStyle
-              ])}
-            />
-            <View style={[styles.mask, _style]} />
-            <Image
-              style={[imageStyle, styles.image]}
-              src={_src}
-              imageViewerSrc={imageViewerSrc}
-              border
-              textOnly={textOnly}
-              fallback={fallback}
-              {...other}
-              size={w}
-              width={w}
-              height={w}
-            />
-          </View>
+          <Disc
+            {...other}
+            {...passProps}
+            imageStyle={style}
+            angleStyle={angleStyle}
+            width={other.width}
+            radius={other.radius}
+          />
         )
       }
 
       if (type === '书籍') {
-        // 书籍为书本状
-        const w = (other.width || size) - 4
-        const h = height || size
-        const _style = {
-          width: w,
-          height: h,
-          borderTopRightRadius: _.radiusXs,
-          borderBottomRightRadius: _.radiusXs,
-          borderTopLeftRadius: _.radiusSm,
-          borderBottomLeftRadius: _.radiusSm
-        }
         return (
-          <View key={hashSubjectOTALoaded} style={_style}>
-            <View style={[styles.book, _style]} />
-            <View style={[styles.mask, _style]} />
-            <Image
-              style={[imageStyle, styles.image, styles.bookRadius]}
-              src={_src}
-              imageViewerSrc={imageViewerSrc}
-              border
-              textOnly={textOnly}
-              fallback={fallback}
-              {...other}
-              size={w}
-              width={w}
-              height={h}
-              radius={_.radiusXs}
-            />
-            <View style={styles.bookLine} />
-          </View>
+          <Book
+            {...other}
+            {...passProps}
+            containerStyle={containerStyle}
+            bodyStyle={bodyStyle}
+            imageStyle={style}
+            width={other.width}
+          />
         )
       }
 
       if (type === '游戏') {
-        // 游戏为NS卡带状
-        const w = other.width || size
-        const h = height || size
         return (
-          <Flex
-            key={hashSubjectOTALoaded}
-            style={stl(styles.game, containerStyle)}
-            direction='column'
-            justify='center'
-          >
-            <View style={[styles.gameHead, bodyStyle]} />
-            <Image
-              style={imageStyle}
-              src={_src}
-              imageViewerSrc={imageViewerSrc}
-              textOnly={textOnly}
-              fallback={fallback}
-              {...other}
-              radius={_.radiusXs}
-              size={w - 8}
-              width={w - 8}
-              height={Math.max(h - 20, w - 12)}
-              shadow={false}
-              border={false}
-            />
-            <View style={[styles.gameAngle, angleStyle]} />
-          </Flex>
+          <Game
+            {...other}
+            {...passProps}
+            containerStyle={containerStyle}
+            bodyStyle={bodyStyle}
+            angleStyle={angleStyle}
+            imageStyle={style}
+            width={other.width}
+          />
         )
       }
 
       if (type === '目录') {
-        const w = Math.min(size || 1000, other.width || 1000, height || 1000)
-        const _style = {
-          width: w,
-          height: w
-        }
         return (
-          <View key={hashSubjectOTALoaded} style={_style}>
-            <View
-              style={[
-                styles.catalog,
-                styles.catalogLevel2,
-                {
-                  width: w,
-                  height: w - 8
-                }
-              ]}
-            />
-            <View
-              style={[
-                styles.catalog,
-                styles.catalogLevel1,
-                {
-                  width: w,
-                  height: w - 4
-                }
-              ]}
-            />
-            <Image
-              style={[imageStyle, styles.image]}
-              src={_src}
-              imageViewerSrc={imageViewerSrc}
-              border
-              textOnly={textOnly}
-              fallback={fallback}
-              {...other}
-              size={w}
-              width={w}
-              height={w}
-              radius={_.radiusSm}
-            />
-          </View>
+          <Catalog {...other} {...passProps} imageStyle={style} width={other.width} />
         )
       }
     }
 
-    return (
-      <Image
-        key={hashSubjectOTALoaded}
-        style={imageStyle}
-        src={_src}
-        imageViewerSrc={imageViewerSrc}
-        textOnly={textOnly}
-        fallback={fallback}
-        {...other}
-        size={size}
-        height={height}
-      />
-    )
+    return <Image {...other} {...passProps} style={style} />
   }
 )
