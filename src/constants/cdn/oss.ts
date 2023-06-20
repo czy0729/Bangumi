@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 04:14:24
+ * @Last Modified time: 2023-06-20 19:17:55
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
@@ -120,7 +120,10 @@ export const CDN_OSS_SUBJECT = (src: any, cdnOrigin?: 'OneDrive' | 'fastly') => 
 let CDN_MAGMA: string
 
 /** MAGMA CDN */
-export const CDN_OSS_MAGMA_POSTER = (mediumSrc = '', prefix = 'bgm_poster') => {
+export const CDN_OSS_MAGMA_POSTER = (
+  mediumSrc: any = '',
+  prefix: 'bgm_poster_100' | 'bgm_poster_200' | 'bgm_poster' | string = 'bgm_poster'
+) => {
   if (
     typeof mediumSrc !== 'string' ||
     mediumSrc === '' ||

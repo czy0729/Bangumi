@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:54:04
+ * @Last Modified time: 2023-06-20 21:19:29
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -180,7 +180,10 @@ export default class ScreenZone extends store {
   @computed get src() {
     const { _image } = this.params
     const { avatar } = this.usersInfo
-    return fixedHD(getCDNAvatar(this.avatar || _image || avatar?.large))
+    return getCDNAvatar(
+      fixedHD(this.avatar || _image || avatar?.large),
+      'bgm_poster_200'
+    )
   }
 
   /** 小圣杯 / 用户资产 */

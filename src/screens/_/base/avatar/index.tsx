@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 16:49:56
+ * @Last Modified time: 2023-06-20 21:21:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -101,10 +101,10 @@ export const Avatar = ob(
     _src = fixedLarge(_src)
     _src = fixedSize(_src)
     _src = fixedHD(_src)
-    _src = getCDNAvatar(_src)
+    _src = getCDNAvatar(_src, _size >= 100 ? 'bgm_poster_200' : 'bgm_poster_100')
 
     // 有时候 Avatar 组件也会被条目封面传入使用, 需要避免使用大图
-    _src = getCover400(_src, 100)
+    _src = getCover400(_src, _size >= 100 ? 200 : 100)
 
     const isUrl = typeof _src === 'string'
     const { dev } = systemStore.state

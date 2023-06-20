@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 16:44:57
+ * @Last Modified time: 2023-06-20 20:07:04
  */
 import { setStorage, getStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
@@ -94,45 +94,47 @@ export function checkBgmEmoji(src: string): boolean {
 
 /**
  * 开发调试用
- *  - fallback    红色 2x
- *  - lain.bgm.tv 蓝色
- *  - magma       绿色
- *  - jsDelivr    橙色
+ *  - fallback     红色 5x
+ *  - lain.bgm.tv  蓝色
+ *  - magma        绿色
+ *  - jsDelivr     橙色
+ *  - < 10K 1x, < 60k 3x, > 100k 5x
  */
-export function getDevStyles(src: any, fallback: boolean = false) {
+export function getDevStyles(src: any, fallback: boolean = false, size: number) {
   if (typeof src !== 'string') return false
 
   if (fallback) {
     return {
-      borderWidth: 2,
+      borderWidth: 5,
       borderColor: _.colorDanger
     }
   }
 
+  const borderWidth = !size ? 1 : size < 10000 ? 1 : size < 60000 ? 3 : 5
   if (src.includes('lain.bgm.tv')) {
     return {
-      borderWidth: 1,
+      borderWidth,
       borderColor: _.colorPrimary
     }
   }
 
   if (src.includes('img.5t5')) {
     return {
-      borderWidth: 1,
+      borderWidth,
       borderColor: _.colorSuccess
     }
   }
 
   if (src.includes(HOST_CDN)) {
     return {
-      borderWidth: 1,
+      borderWidth,
       borderColor: _.colorWarning
     }
   }
 
   if (src.includes('hdslb.com')) {
     return {
-      borderWidth: 1,
+      borderWidth,
       borderColor: _.colorBid
     }
   }

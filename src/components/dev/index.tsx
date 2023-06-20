@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:50:40
+ * @Last Modified time: 2023-06-20 19:39:51
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -32,11 +32,11 @@ export const DEV = observer(() => {
         <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
           {logs.map((item, index) => (
             <Flex key={`${index}|${item.date}`} style={_.mb.sm} align='start'>
-              <Text type='sub' size={10} lineHeight={13}>
-                {item.date}
+              <Text type='sub' size={10} lineHeight={11}>
+                {item.date.slice(3, 8)}
               </Text>
               <Flex.Item style={_.ml.sm}>
-                <Text type='__plain__' size={12} lineHeight={13} bold selectable>
+                <Text type='__plain__' size={10} lineHeight={11} bold selectable>
                   {item.data}
                 </Text>
               </Flex.Item>

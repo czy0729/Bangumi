@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 17:55:47
+ * @Last Modified time: 2023-06-20 21:32:14
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
@@ -19,8 +19,11 @@ import { Props } from './types'
 /** 判断是否自己的头像, 一周才变化一次 */
 const TS = Math.floor(getTimestamp() / 604800)
 
+/** 静态资源域名 */
+const HOST_IMAGE = '//lain.bgm.tv'
+
 /** 大质量头像 */
-export const USER_LARGE = '//lain.bgm.tv/pic/user/l/'
+export const USER_LARGE = `${HOST_IMAGE}/pic/user/l/`
 
 /**
  * 判断是否自己的头像, 若是不走 CDN, 保证最新
@@ -76,8 +79,17 @@ export function getAvatar(src: any) {
 }
 
 /** 判断是否使用 CDN */
-export function getCDNAvatar(src: any) {
-  if (typeof src !== 'string' || !systemStore.setting.cdnAvatarV2) return src
+export function getCDNAvatar(
+  src: any,
+  prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
+) {
+  if (
+    typeof src !== 'string' ||
+    !systemStore.setting.cdnAvatarV2 ||
+    !src.includes(HOST_IMAGE)
+  ) {
+    return src
+  }
 
   let match = src.match(/(\d+)\.jpg\?r=(\d+)/)
   if (!match) match = src.match(/(\d+)\.jpg/)
@@ -87,7 +99,7 @@ export function getCDNAvatar(src: any) {
   const num2 = parseInt(match[2]) || 0
   if (!num1) return src
 
-  return `${HOST_CDN_AVATAR}/pic/user/${num1}/${num2}.jpg`
+  return `${HOST_CDN_AVATAR}/pic/user/${num1}/${num2}.jpg${prefix ? `/${prefix}` : ''}`
 }
 
 /** 计算圆角参数值 */
@@ -169,6 +181,14 @@ export function fixedSize(src: any) {
 
 /** 网页端新出的图片规则, 地址后接 hd=1 开启高清头像 */
 export function fixedHD(src: any) {
-  if (typeof src !== 'string' || src.includes('hd=') || !src.includes('r=')) return src
+  if (
+    typeof src !== 'string' ||
+    !src.includes(HOST_IMAGE) ||
+    src.includes('hd=') ||
+    !src.includes('r=')
+  ) {
+    return src
+  }
+
   return src.includes('?') ? `${src}&hd=1` : `${src}?hd=1`
 }

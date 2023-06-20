@@ -71,10 +71,10 @@ export default class Image extends React.Component<ImageProps, ImageState> {
   async load({ uri, options = {}, onError }: ImageProps): Promise<void> {
     if (uri) {
       try {
-        const path = await CacheManager.get(uri, options).getPath()
+        const result = await CacheManager.get(uri, options).getPath()
         if (this.mounted) {
-          if (path) {
-            this.setState({ uri: path })
+          if (result) {
+            this.setState({ uri: result.path })
           } else {
             onError({ nativeEvent: { error: new Error('Could not load image') } })
           }

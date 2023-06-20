@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 20:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:06:33
+ * @Last Modified time: 2023-06-20 21:19:18
  */
 import React from 'react'
 import { View, Alert } from 'react-native'
@@ -28,7 +28,7 @@ const HIT_SLOP = {
 function CenterAvatar(props, { $, navigation }: Ctx) {
   const { onlineStatus } = systemStore.setting
   const { avatar } = $.usersInfo
-  const src = getCDNAvatar($.avatar || avatar?.large)
+  const src = getCDNAvatar($.avatar || avatar?.large, 'bgm_poster_200')
   const fallback = typeof src === 'string' && !src.includes('//lain.bgm.tv/pic/user/l/')
   return (
     <View style={_.mt.md}>

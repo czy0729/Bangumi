@@ -12,14 +12,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 05:31:01
+ * @Last Modified time: 2023-06-20 20:31:00
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
-import { getCover400, getCoverMedium, getTimestamp } from '@utils'
+import { getCover400, getTimestamp } from '@utils'
 import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
 import { AnyObject, Source } from '@types'
 import { IOS_IPA } from '@/config'
@@ -86,6 +86,9 @@ export const Image = observer(
 
     /** 是否已确定加载失败 */
     private _commited = false
+
+    /** 当前图片大小 */
+    private _size = 0
 
     componentDidMount() {
       const { src, cache, textOnly, sync } = this.props
@@ -162,26 +165,24 @@ export const Image = observer(
             /**
              * 检查本地有没有图片缓存
              * @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发 unmounted
-             * @issue to fixed
              */
             if (typeof _src === 'string' && _src.includes('https:/img/')) {
               this.commitError('error: 2')
               return false
             }
 
-            /**
-             * 头像 CDN 目前尚未稳定, 发现了图片损坏下载不能的现象
-             * 暂时写了超时应对
-             */
+            /** 头像 CDN 目前尚未稳定, 发现了图片损坏下载不能的现象 (暂时写了超时应对) */
             let path: string
             if (typeof _src === 'string' && _src.includes(HOST_CDN_AVATAR)) {
               try {
                 await Promise.race([
                   new Promise(async resolve => {
-                    path = await CacheManager.get(_src, {
+                    const result = await CacheManager.get(_src, {
                       headers: this.headers
                     }).getPath()
-                    resolve(path)
+                    path = result?.path
+                    this._size = result?.size
+                    resolve(true)
                   }),
                   timeoutPromise()
                 ])
@@ -191,9 +192,11 @@ export const Image = observer(
                 return
               }
             } else {
-              path = await CacheManager.get(_src, {
+              const result = await CacheManager.get(_src, {
                 headers: this.headers
               }).getPath()
+              path = result?.path
+              this._size = result?.size
             }
 
             /**
@@ -411,16 +414,34 @@ export const Image = observer(
       const { src } = this.props
       if (typeof src !== 'string' || this._recoveried) return
 
+      this._recoveried = true
+
       // 提取原来的封面图片地址
       let s = src.split('/pic/')?.[1] || ''
-      if (s) s = s.replace(OSS_MEGMA_PREFIX, '')
+      if (s) s = s.replace(/\/bgm_poster(_100|_200)?/g, '')
 
-      this._recoveried = true
+      // 如果是触发回滚机制的图, 通常是游戏类的横屏图, 所以可以使用 height 去检查加大一个级别
+      const width = Math.max(
+        this.props.width || 0,
+        this.props.height || 0,
+        this.props.size || 0
+      )
+      let coverSize: 100 | 200 | 400 = 100
+      if (STORYBOOK) {
+        if (width > 200) {
+          coverSize = 400
+        } else if (width > 100) {
+          coverSize = 200
+        }
+      } else {
+        if (width > 134) {
+          coverSize = 400
+        } else if (width > 67) {
+          coverSize = 200
+        }
+      }
       this.setState({
-        uri:
-          (this.props.width || this.props.size) > 100
-            ? getCover400(`${OSS_BGM}/pic/${s}`)
-            : getCoverMedium(`${OSS_BGM}/pic/${s}`)
+        uri: getCover400(`${OSS_BGM}/pic/${s}`, coverSize)
       })
     }
 
@@ -553,7 +574,9 @@ export const Image = observer(
         image.push(imageStyle)
       }
 
-      if (this.dev) image.push(getDevStyles(this.props.src, this._fallbacked))
+      if (this.dev) {
+        image.push(getDevStyles(this.props.src, this._fallbacked, this._size))
+      }
 
       return {
         container,
@@ -679,6 +702,13 @@ export const Image = observer(
                     devLog(
                       JSON.stringify(
                         {
+                          _size: `${Math.floor(this._size / 1024)} kb`,
+                          _errorCount: this._errorCount,
+                          _timeoutId: this._timeoutId,
+                          _getSized: this._getSized,
+                          _fallbacked: this._fallbacked,
+                          _recoveried: this._recoveried,
+                          _commited: this._commited,
                           ...this.props,
                           ...this.state
                         },

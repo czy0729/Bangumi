@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 12:43:11
+ * @Last Modified time: 2023-06-20 19:35:53
  */
 import React from 'react'
 import { Image } from '@components'
@@ -49,20 +49,36 @@ export const Cover = ob(
       )
     }
 
-    let _src = cdn !== false ? matchCoverUrl(src, noDefault) : src
-
-    // 相册模式大图
-    let _imageViewerSrc = imageViewerSrc
-    if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_poster')) {
-      _imageViewerSrc = _src
-    }
-
     // 对部分尺寸过少的图片, 强制使用缩略图
     const width = other.width || size
+    let prefix = 'bgm_poster_100'
+    let coverSize: 100 | 200 | 400 = 100
     if (STORYBOOK) {
-      _src = getCover400(_src, width > 200 ? 400 : width > 100 ? 200 : 100)
+      if (width > 200) {
+        prefix = 'bgm_poster'
+        coverSize = 400
+      } else if (width > 100) {
+        prefix = 'bgm_poster_200'
+        coverSize = 200
+      }
     } else {
-      _src = getCover400(_src, width > 134 ? 400 : width > 67 ? 200 : 100)
+      if (width > 134) {
+        prefix = 'bgm_poster'
+        coverSize = 400
+      } else if (width > 67) {
+        prefix = 'bgm_poster_200'
+        coverSize = 200
+      }
+    }
+    const _src = getCover400(
+      cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src,
+      coverSize
+    )
+
+    // 相册模式强制大图
+    let _imageViewerSrc = imageViewerSrc
+    if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_poster')) {
+      _imageViewerSrc = _src.replace(/\/bgm_poster_(100|200)/g, '/bgm_poster')
     }
 
     const { coverThings } = systemStore.setting
@@ -74,6 +90,8 @@ export const Cover = ob(
       size,
       height
     }
+
+    // 封面拟物
     if (coverThings || useType) {
       if (type === '音乐') {
         return (
