@@ -32,11 +32,11 @@ export const DEV = observer(() => {
         <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
           {logs.map((item, index) => (
             <Flex key={`${index}|${item.date}`} style={_.mb.sm} align='start'>
-              <Text type='sub' size={10} lineHeight={11}>
+              <Text type='sub' size={12} lineHeight={14}>
                 {item.date.slice(3, 8)}
               </Text>
               <Flex.Item style={_.ml.sm}>
-                <Text type='__plain__' size={10} lineHeight={11} bold selectable>
+                <Text type='__plain__' size={12} lineHeight={14} selectable>
                   {item.data}
                 </Text>
               </Flex.Item>

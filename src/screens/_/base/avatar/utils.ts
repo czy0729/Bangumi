@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 21:32:14
+ * @Last Modified time: 2023-06-20 21:46:17
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCoverMedium, getTimestamp } from '@utils'
@@ -84,8 +84,8 @@ export function getCDNAvatar(
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
 ) {
   if (
-    typeof src !== 'string' ||
     !systemStore.setting.cdnAvatarV2 ||
+    typeof src !== 'string' ||
     !src.includes(HOST_IMAGE)
   ) {
     return src

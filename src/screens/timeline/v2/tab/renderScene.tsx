@@ -6,27 +6,19 @@
  */
 import React from 'react'
 import { SceneMap } from '@components'
-import { BlurView } from '@_'
-import { IOS } from '@constants'
 import List from '../list'
 import { TABS } from '../ds'
-import { memoStyles } from './styles'
 
 const renderScene =
-  ({ title }, index: number) =>
+  ({ title }) =>
   () =>
-    (
-      <>
-        <List title={title} />
-        {IOS && index === TABS.length - 1 && <BlurView style={memoStyles().blurView} />}
-      </>
-    )
+    <List title={title} />
 
 export default SceneMap(
   TABS.reduce(
     (acc, tab) => ({
       ...acc,
-      [tab.key]: renderScene(tab, TABS.indexOf(tab))
+      [tab.key]: renderScene(tab)
     }),
     {}
   )

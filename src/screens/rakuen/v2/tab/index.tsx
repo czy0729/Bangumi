@@ -28,8 +28,8 @@ function Tab(props, { $ }: Ctx) {
       lazyPreloadDistance={0}
       navigationState={$.navigationState}
       renderTabBar={renderTabBar}
-      renderScene={renderScene}
       renderSceneHeaderComponent={IOS && <BlurView style={styles.blurView} />}
+      renderScene={renderScene}
       onIndexChange={$.onChange}
     />
   )

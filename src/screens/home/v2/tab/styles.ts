@@ -17,11 +17,11 @@ export const memoStyles = _.memoStyles(() => {
     height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
   }
   return {
-    tabs4: {
+    tabs5: {
       ...tabs,
       left: -_.window.width * 4
     },
-    tabs3: {
+    tabs4: {
       ...tabs,
       left: -_.window.width * 3
     },

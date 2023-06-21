@@ -34,7 +34,7 @@ function List({ index }, { $ }: Ctx) {
       connectRef={ref => $.connectRef(ref, index)}
       contentContainerStyle={styles.contentContainerStyle}
       data={list}
-      limit={12}
+      limit={40}
       progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
       scrollEventThrottle={16}
