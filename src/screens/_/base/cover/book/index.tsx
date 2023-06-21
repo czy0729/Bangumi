@@ -27,7 +27,7 @@ function Book({
   const styles = memoStyles()
 
   // 书籍为书本状
-  const w = (other.width || size) - 4
+  const w = (width || size) - 4
   const h = height || size
   const _style = {
     width: w,

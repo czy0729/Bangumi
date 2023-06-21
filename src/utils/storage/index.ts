@@ -7,7 +7,7 @@
  * @Last Modified time: 2023-03-24 02:57:18
  */
 import AsyncStorage from '@components/@/react-native-async-storage'
-import { DEV } from '@/config'
+// import { DEV } from '@/config'
 import { queue } from '../utils'
 import { LAZY_SET_STORAGE_SIZE, LAZY_SET_STORAGE_INTERVAL } from './ds'
 
@@ -52,12 +52,12 @@ setStorageInterval = setInterval(() => {
       await AsyncStorage.setItem(key, value)
       cacheMap.delete(key)
 
-      if (DEV) {
-        const size = (String(value).length / 1000).toFixed(2)
-        if (Number(size) >= 100) {
-          console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
-        }
-      }
+      // if (DEV) {
+      //   const size = (String(value).length / 1000).toFixed(2)
+      //   if (Number(size) >= 100) {
+      //     console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
+      //   }
+      // }
     })
   })
 

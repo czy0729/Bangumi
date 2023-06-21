@@ -10,7 +10,7 @@ import { action, configure, extendObservable, isObservableArray, toJS } from 'mo
 import AsyncStorage from '@components/@/react-native-async-storage'
 import { LIST_EMPTY } from '@constants/constants'
 import { AnyObject } from '@types'
-import { DEV } from '@/config'
+// import { DEV } from '@/config'
 import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
 import fetch from '../fetch'
@@ -198,11 +198,11 @@ export default class Store {
       const key = `${namespace || this.namespace}|state`
       const data = omit(this.state, Object.keys(excludeState))
 
-      if (DEV) {
-        const a = JSON.stringify(this.state).length
-        const b = JSON.stringify(data).length
-        console.info('saveStorage', a, b, `${((b / a) * 100).toFixed(1)}%`)
-      }
+      // if (DEV) {
+      //   const a = JSON.stringify(this.state).length
+      //   const b = JSON.stringify(data).length
+      //   console.info('saveStorage', a, b, `${((b / a) * 100).toFixed(1)}%`)
+      // }
 
       return setStorage(key, data)
     }

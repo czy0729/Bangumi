@@ -87,7 +87,9 @@ const List = memo(
     )
 
     useMount(() => {
-      onRefreshOffset(page)
+      requestAnimationFrame(() => {
+        onRefreshOffset(page)
+      })
     })
 
     const passProps: any = {}

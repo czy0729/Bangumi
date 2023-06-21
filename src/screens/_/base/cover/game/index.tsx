@@ -29,7 +29,7 @@ function Game({
   const styles = memoStyles()
 
   // 游戏为 NS 卡带状
-  const w = other.width || size
+  const w = width || size
   const h = height || size
   return (
     <Flex style={stl(styles.game, containerStyle)} direction='column' justify='center'>

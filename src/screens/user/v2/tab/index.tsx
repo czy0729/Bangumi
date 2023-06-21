@@ -96,7 +96,7 @@ function Tab({
       <TabView
         key={_.orientation}
         lazy
-        lazyPreloadDistance={1}
+        lazyPreloadDistance={0}
         navigationState={navigationState}
         renderTabBar={renderTabBar}
         renderScene={renderScene.current}

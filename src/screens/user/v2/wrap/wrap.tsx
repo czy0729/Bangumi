@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-05-13 05:54:08
  */
-import React, { useCallback, useState, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
 import { useMount } from '@utils/hooks'
 import { memo } from '@utils/decorators'
@@ -28,9 +28,9 @@ const Wrap = memo(
 
     const scrollY = useRef(new Animated.Value(0))
     const y = useRef(0)
-    const [fixed, setFixed] = useState(false)
+    const fixed = useRef(false)
 
-    const _onScroll = useCallback(
+    const onScrollCallback = useCallback(
       (e: {
         nativeEvent: {
           contentOffset: {
@@ -43,24 +43,22 @@ const Wrap = memo(
         const { y: evtY } = e.nativeEvent.contentOffset
         y.current = evtY
 
-        if (fixed && evtY < fixedHeight - 20) {
-          setFixed(false)
-          return
-        }
-
-        if (!fixed && evtY >= fixedHeight - 20) {
-          setFixed(true)
+        if (fixed.current && evtY < fixedHeight - 20) {
+          fixed.current = false
+        } else if (!fixed.current && evtY >= fixedHeight - 20) {
+          fixed.current = true
         }
       },
-      [fixed, fixedHeight, onScroll]
+      [fixedHeight, onScroll]
     )
+
     const updatePageOffset = useCallback(
       (offsets: number | number[]) => {
         if (!offsets) return
 
         try {
           const config = {
-            offset: fixed ? fixedHeight : y.current,
+            offset: fixed.current ? fixedHeight : y.current,
             animated: false
           }
 
@@ -81,7 +79,7 @@ const Wrap = memo(
           }
         } catch (error) {}
       },
-      [fixed, fixedHeight, page, scrollToOffset]
+      [fixedHeight, page, scrollToOffset]
     )
     const onSwipeStart = useCallback(() => {
       updatePageOffset([-1, 1])
@@ -109,13 +107,13 @@ const Wrap = memo(
         <Tab
           page={page}
           scrollY={scrollY.current}
-          onScroll={_onScroll}
+          onScroll={onScrollCallback}
           onSwipeStart={onSwipeStart}
           onIndexChange={onIndexChange}
           onSelectSubjectType={onSelectSubjectType}
           onRefreshOffset={onRefreshOffset}
         />
-        <ParallaxImage scrollY={scrollY.current} fixed={fixed} />
+        <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />
       </>
     )
   },
