@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 05:47:33
+ * @Last Modified time: 2023-06-23 14:20:08
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -131,6 +131,8 @@ export { default as DoubanSync } from './web-view/douban-sync'
 export { default as Information } from './web-view/information'
 export { default as Playground } from './web-view/playground'
 export { default as Share } from './web-view/share'
+export { default as Tips } from './web-view/tips'
+export { default as Versions } from './web-view/versions'
 export { default as WebBrowser } from './web-view/web-browser'
 export { default as WebView } from './web-view'
 export { default as Webhook } from './web-view/webhook'

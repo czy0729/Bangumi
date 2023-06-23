@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:12:58
+ * @Last Modified time: 2023-06-23 14:46:29
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
-import { TextStyle } from '@types'
+import { TextStyle, ViewStyle } from '@types'
 import TabView from '../@/react-native-tab-view/TabView'
 import TabBar from '../@/react-native-tab-view/TabBar'
 import { Flex } from '../flex'
@@ -22,6 +22,7 @@ export const TabsV2 = ({
   routes = [],
   tabBarLength,
   page = 0,
+  lazy = true,
   textColor,
   backgroundColor,
   borderBottomColor,
@@ -37,18 +38,20 @@ export const TabsV2 = ({
       SceneMap(
         Object.assign(
           {},
-          ...routes.map(item => ({
-            [item.key]: () => renderItem(item)
+          ...routes.map((item: any, index: number) => ({
+            [item.key]: () => renderItem(item, index)
           }))
         )
       ),
     [renderItem, routes]
   )
-  const W_TAB = useMemo(
-    () => _.window.width / (tabBarLength || routes.length),
-    [tabBarLength, routes]
-  )
-  const tabBarStyle = useMemo(
+
+  const W_TAB = useMemo(() => {
+    const length = tabBarLength || routes.length
+    if (length >= 10) return _.window.width / 3.6
+    return _.window.width / length
+  }, [tabBarLength, routes])
+  const tabBarStyle = useMemo<ViewStyle>(
     () => [
       styles.tabBar,
       backgroundColor && {
@@ -60,7 +63,7 @@ export const TabsV2 = ({
     ],
     [styles, backgroundColor, borderBottomColor]
   )
-  const tabStyle = useMemo(
+  const tabStyle = useMemo<ViewStyle>(
     () => [
       styles.tab,
       {
@@ -69,7 +72,7 @@ export const TabsV2 = ({
     ],
     [styles, W_TAB]
   )
-  const indicatorStyle = useMemo(
+  const indicatorStyle = useMemo<ViewStyle>(
     () => [
       styles.indicator,
       {
@@ -90,8 +93,10 @@ export const TabsV2 = ({
         : undefined,
     [textColor]
   )
+
   return (
     <TabView
+      lazy={lazy}
       lazyPreloadDistance={0}
       navigationState={{
         index: page,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 14:59:55
+ * @Last Modified time: 2023-06-23 06:11:45
  */
 import React from 'react'
 import { Text } from '@components'
@@ -14,7 +14,7 @@ import { URL_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
 import { getShows } from '../utils'
 import { TEXTS } from './ds'
 
-function Version({ filter }) {
+function Version({ navigation, filter }) {
   const shows = getShows(filter, TEXTS)
   if (!shows) return null
 
@@ -26,13 +26,14 @@ function Version({ filter }) {
       Number(VERSION_GITHUB_RELEASE.replace(/\./g, '')) <
         Number(name.replace(/\./g, ''))
   } catch (error) {}
+
   return (
     <ItemSetting
       hd={TEXTS.version.hd}
       arrow
       arrowStyle={[_.ml.sm, _.mr.xxs]}
       arrowIcon='md-open-in-new'
-      arrowSize={18}
+      arrowSize={17}
       highlight
       ft={
         hasNewVersion ? (

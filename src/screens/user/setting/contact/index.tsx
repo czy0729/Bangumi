@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 18:34:13
+ * @Last Modified time: 2023-06-23 14:20:28
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -81,6 +81,28 @@ function Contact({ navigation, filter }) {
         >
           <Heatmap id='设置.跳转' to='Sponsor' alias='赞助者' />
         </ItemSetting>
+
+        {/* 更新内容 */}
+        <ItemSetting
+          hd='更新内容'
+          arrow
+          highlight
+          filter={filter}
+          onPress={() => {
+            navigation.push('Versions')
+          }}
+        />
+
+        {/* 特色功能 */}
+        <ItemSetting
+          hd='特色功能'
+          arrow
+          highlight
+          filter={filter}
+          onPress={() => {
+            navigation.push('Tips')
+          }}
+        />
       </>
     )
   })

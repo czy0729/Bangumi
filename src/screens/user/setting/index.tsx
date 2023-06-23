@@ -64,7 +64,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
               />
             </Block>
             <Block>
-              <Version filter={filter} />
+              <Version navigation={navigation} filter={filter} />
             </Block>
             <Block>
               <Tip>基本</Tip>
@@ -89,7 +89,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
               <Tinygrail filter={filter} />
             </Block>
             <Block>
-              <Tip>{i18n.contact()}</Tip>
+              <Tip>相关</Tip>
               <Contact navigation={navigation} filter={filter} />
               <Zhinan navigation={navigation} filter={filter} />
             </Block>

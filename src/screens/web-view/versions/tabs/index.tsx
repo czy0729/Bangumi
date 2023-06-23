@@ -1,35 +1,32 @@
 /*
  * @Author: czy0729
- * @Date: 2019-10-03 15:48:52
+ * @Date: 2023-06-10 05:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:09:26
+ * @Last Modified time: 2023-06-23 14:25:06
  */
 import React from 'react'
 import { TabsV2 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { SubjectType } from '@types'
-import List from '../list'
-import { TABS } from '../ds'
+import Web from '../web'
 import { Ctx } from '../types'
 
-function Tabs(props, { $ }: Ctx) {
+function Tabs({ routes }, { $ }: Ctx) {
   const { page } = $.state
   return (
     <TabsV2
       key={_.orientation}
       style={_.mt._sm}
-      routes={TABS}
+      routes={routes}
       page={page}
       backgroundColor={_.colorPlain}
-      renderItem={renderItem}
+      renderItem={(item, index) => {
+        if (index - page) return null
+        return <Web uri={item.key} />
+      }}
       onChange={$.onChange}
     />
   )
 }
 
 export default obc(Tabs)
-
-function renderItem(item) {
-  return <List key={item.key} id={item.key as SubjectType} />
-}

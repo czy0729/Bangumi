@@ -21,7 +21,7 @@ import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCover400, getTimestamp } from '@utils'
 import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
-import { AnyObject, Source } from '@types'
+import { AnyObject, Fn, Source } from '@types'
 import { IOS_IPA } from '@/config'
 import { Touchable } from '../touchable'
 import { devLog } from '../dev'
@@ -411,10 +411,16 @@ export const Image = observer(
 
     /** 其他源头回退到 bgm 源头 */
     recoveryToBgmCover = () => {
-      const { src } = this.props
+      const { src, fallbackSrc } = this.props
       if (typeof src !== 'string' || this._recoveried) return
 
       this._recoveried = true
+      if (fallbackSrc) {
+        this.setState({
+          uri: fixedRemoteImageUrl(fallbackSrc)
+        })
+        return
+      }
 
       // 提取原来的封面图片地址
       let s = src.split('/pic/')?.[1] || ''
@@ -678,7 +684,7 @@ export const Image = observer(
       )
     }
 
-    renderTouchableImage(onPress) {
+    renderTouchableImage(onPress: Fn) {
       const {
         textOnly,
         placeholder,
