@@ -7,11 +7,11 @@ import {
   TextStyle,
   ViewStyle
 } from 'react-native'
-import TouchableItem from 'react-native-tab-view/src/TouchableItem'
 import { Scene, Route, NavigationState } from 'react-native-tab-view/src/types'
 import Animated from 'react-native-reanimated'
 import memoize from 'react-native-tab-view/src/memoize'
 import { stl } from '@utils'
+import TouchableItem from './TouchableItem'
 
 // @ts-expect-error
 const AnimatedInterpolate = Animated.interpolateNode || Animated.interpolate

@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => {
   return {
     tabBar: {
       paddingLeft: W_TAB_BAR_LEFT,
-      backgroundColor: _.ios('transparent', _.select('transparent', _.colorPlain)),
+      backgroundColor: _.ios('transparent',  _.colorPlain),
       borderBottomWidth: _.ios(
         0,
         _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))

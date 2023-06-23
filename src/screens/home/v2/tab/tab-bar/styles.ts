@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   tabBar: {
-    backgroundColor: _.ios('transparent', _.select('transparent', _.colorPlain)),
+    backgroundColor: _.ios('transparent', _.colorPlain),
     borderBottomWidth: _.ios(0, _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))),
     borderBottomColor: _.ios(
       'transparent',

@@ -11,6 +11,7 @@ import {
   PagerCommonProps
 } from 'react-native-tab-view/src/types'
 import Pager, { Props as ChildProps } from 'react-native-tab-view/src/Pager'
+import { stl } from '@utils'
 import { IOS } from '@constants'
 import SceneView from './SceneView'
 
@@ -127,7 +128,7 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
 
     return (
       <GestureHandlerWrapper
-        style={style ? [styles.pager, style] : styles.pager}
+        style={stl(styles.pager, style)}
         onLayout={this.handleLayout}
       >
         {renderPager({
@@ -166,33 +167,31 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
                   })}
                 {renderContentHeaderComponent}
                 {render(
-                  routes.map((route, i) => {
-                    return (
-                      <SceneView
-                        {...sceneRendererProps}
-                        addListener={addListener}
-                        removeListener={removeListener}
-                        key={route.key}
-                        index={i}
-                        lazy={lazy}
-                        lazyPreloadDistance={lazyPreloadDistance}
-                        navigationState={navigationState}
-                        style={sceneContainerStyle}
-                      >
-                        {({ loading }) => (
-                          <>
-                            {i === routes.length - 1 && renderSceneHeaderComponent}
-                            {loading
-                              ? renderLazyPlaceholder({ route })
-                              : renderScene({
-                                  ...sceneRendererProps,
-                                  route
-                                })}
-                          </>
-                        )}
-                      </SceneView>
-                    )
-                  })
+                  routes.map((route, i) => (
+                    <SceneView
+                      {...sceneRendererProps}
+                      addListener={addListener}
+                      removeListener={removeListener}
+                      key={route.key}
+                      index={i}
+                      lazy={lazy}
+                      lazyPreloadDistance={lazyPreloadDistance}
+                      navigationState={navigationState}
+                      style={sceneContainerStyle}
+                    >
+                      {({ loading }) => (
+                        <>
+                          {i === routes.length - 1 && renderSceneHeaderComponent}
+                          {loading
+                            ? renderLazyPlaceholder({ route })
+                            : renderScene({
+                                ...sceneRendererProps,
+                                route
+                              })}
+                        </>
+                      )}
+                    </SceneView>
+                  ))
                 )}
                 {tabBarPosition === 'bottom' &&
                   renderTabBar({
@@ -211,6 +210,5 @@ export default class TabView<T extends Route> extends React.Component<Props<T>, 
 const styles = StyleSheet.create({
   pager: {
     flex: 1
-    // overflow: 'hidden'
   }
 })
