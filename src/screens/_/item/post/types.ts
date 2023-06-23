@@ -13,6 +13,9 @@ export type Props = {
   /** 容器样式 */
   contentStyle?: ViewStyle
 
+  /** 右侧菜单按钮样式 */
+  extraStyle?: ViewStyle
+
   /** 头像地址 */
   avatar?: string
 

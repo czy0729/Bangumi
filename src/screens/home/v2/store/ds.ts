@@ -52,6 +52,7 @@ export const STATE: State & ExcludeState = {
     subject: {},
     ep_status: ''
   },
+  boot: 0,
   ...EXCLUDE_STATE,
   _loaded: false
 }

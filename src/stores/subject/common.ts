@@ -21,7 +21,7 @@ import {
 import { fetchHTML } from '@utils/fetch'
 import { HOST, HTML_MONO } from '@constants'
 import { AnyObject, MonoId } from '@types'
-import { analysisComments } from '../rakuen/common'
+import { cheerioComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
 
 export async function fetchMono({ monoId }: { monoId: MonoId }) {
@@ -60,7 +60,6 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
     }
 
     // 封面
-    // @issue
     matchHTML = HTML.match(/<img src="(.+?)" class="cover"/)
     if (matchHTML) mono.cover = String(matchHTML[1]).split('?')[0]
 
@@ -252,16 +251,13 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
     }
 
     // 吐槽箱
-    matchHTML = HTML.match(
-      /<div id="comment_list" class="commentList borderNeue">(.+?)<\/div><\/div><\/div><div id="footer/
-    )
-    monoComments = analysisComments(matchHTML)
+    monoComments = cheerioComments(HTML)
   }
 
-  return Promise.resolve({
+  return {
     mono,
     monoComments: monoComments.reverse()
-  })
+  }
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 02:28:02
+ * @Last Modified time: 2023-06-24 06:25:49
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -14,6 +14,7 @@ import { memoStyles } from './styles'
 export default obc(
   (
     {
+      extraStyle,
       authorId,
       avatar,
       erase,
@@ -47,6 +48,7 @@ export default obc(
       <ItemSub
         navigation={navigation}
         styles={memoStyles()}
+        extraStyle={extraStyle}
         topicId={$?.topicId}
         authorId={authorId}
         avatar={avatar}

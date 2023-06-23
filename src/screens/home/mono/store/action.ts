@@ -59,7 +59,7 @@ export default class Action extends Fetch {
       userStore.userInfo
     )
 
-    return this.fetchMono(true, false)
+    return this.fetchMono()
   }
 
   /** 取消收藏人物 */
@@ -78,7 +78,7 @@ export default class Action extends Fetch {
     feedback()
     info('已取消收藏')
 
-    return this.fetchMono(true, false)
+    return this.fetchMono()
   }
 
   /** 开启 ICO */

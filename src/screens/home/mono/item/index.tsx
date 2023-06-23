@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:19:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:53:06
+ * @Last Modified time: 2023-06-24 06:24:00
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -27,6 +27,7 @@ function Item({ item, index }, { navigation }: Ctx) {
       <ItemPost
         navigation={navigation}
         contentStyle={styles.contentStyle}
+        extraStyle={styles.extraStyle}
         index={index}
         event={EVENT}
         matchLink={false}

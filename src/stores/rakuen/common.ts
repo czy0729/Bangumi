@@ -9,7 +9,6 @@ import {
   HTMLToTree,
   HTMLTrim,
   cheerio,
-  findTreeNode,
   getCoverSmall,
   safeObject,
   trim
@@ -81,140 +80,55 @@ export async function fetchRakuen(args: {
   return Promise.resolve(rakuen)
 }
 
-/**
- * 分析留言层信息
- * @param {*} HTML
- */
-export function analysisComments(HTML, reverse?) {
-  const comments = []
-  if (!HTML) return comments
+/** 分析留言层信息 */
+export function cheerioComments(html: string, reverse?: boolean) {
+  if (!html) return []
 
-  // 回复内容需要渲染html就不能使用node查找了, 而且子回复也在里面
-  let messageHTML = HTML[1]
-    .match(/<div class="reply_content">(.+?)<\/div><\/div><\/div><\/div>/g)
-    .map(item => item.replace(/^<div class="reply_content">|<\/div>$/g, ''))
-
-  if (reverse && messageHTML.length) {
-    messageHTML = messageHTML.reverse()
-  }
-
-  const tree = HTMLToTree(HTML[1])
-  let { children } = tree
-  if (reverse && children.length) {
-    children = children.reverse()
-
-    // 会有一个评论被折叠的提示
-    if (children.length > messageHTML.length) {
-      children.shift()
-    }
-  }
-
-  children.forEach((item, index) => {
-    // @todo 暂时只显示前1000楼, 因为写法是一次性计算的, 计算太大会爆栈闪退, 待优化
-    if (index >= 1000) return
-
-    const sub = [] // 存放子回复
-    const subHTML =
-      messageHTML[index] &&
-      messageHTML[index].match(
-        /<div class="topic_sub_reply" id="topic_reply_\d+">(.+?)$/
-      )
-    if (subHTML) {
-      const subMessageHTML = subHTML[1]
-        .match(/<div id="post_\d+"(.+?)<\/div><\/div><\/div>/g)
-        .map(item =>
-          item.replace(/<div id="post_\d+" class="sub_reply_bgclearit">|<\/div>$/g, '')
-        )
-
-      const subTree = HTMLToTree(subHTML[1])
-      subTree.children.forEach((item, index) => {
-        // 子楼层回复内容
-        if (subMessageHTML[index]) {
-          const message = subMessageHTML[index].match(
-            /<div class="cmt_sub_content">(.+?)<\/div><\/div>/
-          )[1]
-          sub.push({
-            ...getCommentAttrs(item),
-            message
-          })
-        }
-      })
-    }
-
-    // 楼层回复内容
-    let message
-    if (sub.length) {
-      // 某些界面class="message clearit"不一致, 抹平差异
-      const match =
-        messageHTML[index] &&
-        messageHTML[index]
-          .replace('class="message clearit"', 'class="message"')
-          .match(/<div class="message">(.+?)<\/div><div class="topic_sub_reply"/)
-      message = match ? match[1] : ''
-    } else {
-      const match =
-        messageHTML[index] &&
-        messageHTML[index]
-          .replace('class="message clearit"', 'class="message"')
-          .match(/<div class="message">(.+?)<\/div><\/div>/)
-      message = match ? match[1] : ''
-    }
-
-    comments.push({
-      ...getCommentAttrs(item),
-      message,
-      sub
-    })
-  })
-
-  return comments
-}
-
-/**
- * 分析留言层信息
- * @param {*} tree
- */
-function getCommentAttrs(tree) {
   try {
-    let node
-    const { children } = tree
-    const id = String(tree.attrs.id).replace('post_', '')
-
-    node = findTreeNode(children, 'div > div')
-    const time = node ? node[0].text[0].replace(/ - |\/ /g, '') : ''
-
-    node = findTreeNode(children, 'div > div > a')
-    const floor = node ? node[0].text[0] : ''
-
-    node = findTreeNode(children, 'a > span|style~background-image')
-    const avatar = node
-      ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-      : ''
-
-    node = findTreeNode(children, 'div > a|text&class~l&href~/user/')
-    const userId = node ? node[0].attrs.href.replace('/user/', '') : ''
-    const userName = node ? node[0].text[0] : ''
-
-    node = findTreeNode(children, 'div > span|text&class=tip_j')
-    const userSign = node ? node[0].text[0] : ''
-
-    // sub reply
-    node = findTreeNode(children, 'div > a|onclick')
-    const replySub = node ? node[0].attrs.onclick : ''
-
-    return {
-      id,
-      time,
-      floor,
-      avatar,
-      userId,
-      userName: HTMLDecode(userName),
-      userSign: HTMLDecode(userSign),
-      replySub
-    }
-  } catch (error) {}
-
-  return INIT_COMMENTS_ITEM
+    const list =
+      cheerio(html)('.commentList .row_replyclearit')
+        .map((index: number, element: any) => {
+          const $row = cheerio(element)
+          const info = $row.find('div.action small').text().trim().split(' - ')
+          const $name = $row.find('a.l')
+          return {
+            id: $row.attr('id').replace('post_', ''),
+            time: info?.[1] || '',
+            floor: info?.[0] || '',
+            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')) || '',
+            userId: matchUserId($name.attr('href')) || '',
+            userName: HTMLDecode($name.text().trim()),
+            userSign: HTMLDecode($row.find('span.sign').text().trim()),
+            replySub: $row.find('a.icon[onclick]').attr('onclick'),
+            message: decoder(HTMLTrim($row.find('.reply_content > .message').html())),
+            sub:
+              $row
+                .find('.sub_reply_bgclearit')
+                .map((index: number, element: any) => {
+                  const $row = cheerio(element)
+                  const info = $row.find('div.action small').text().trim().split(' - ')
+                  const $name = $row.find('a.l')
+                  return {
+                    id: $row.attr('id').replace('post_', ''),
+                    time: info?.[1] || '',
+                    floor: info?.[0] || '',
+                    avatar:
+                      matchAvatar($row.find('span.avatarNeue').attr('style')) || '',
+                    userId: matchUserId($name.attr('href')) || '',
+                    userName: HTMLDecode($name.text().trim()),
+                    userSign: HTMLDecode($row.find('span.sign').text().trim()),
+                    replySub: $row.find('a.icon[onclick]').attr('onclick'),
+                    message: decoder(HTMLTrim($row.find('.cmt_sub_content').html()))
+                  }
+                })
+                .get() || []
+          }
+        })
+        .get() || []
+    return reverse ? list.reverse() : list
+  } catch (error) {
+    return []
+  }
 }
 
 /**

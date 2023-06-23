@@ -13,14 +13,14 @@ export default class ScreenMono extends Action {
 
     // 设置开启小圣杯和是虚拟人物
     if (this.tinygrail && this.monoId.includes('character/')) {
-      return Promise.all([this.fetchMono(true), this.fetchChara()])
+      return Promise.all([this.fetchMono(), this.fetchChara()])
     }
 
-    return this.fetchMono(true)
+    return this.fetchMono()
   }
 
   /** 下拉刷新 */
   onHeaderRefresh = () => {
-    return this.fetchMono(true)
+    return this.fetchMono()
   }
 }

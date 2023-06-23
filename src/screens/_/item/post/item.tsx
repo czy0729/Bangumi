@@ -29,6 +29,7 @@ const Item = memo(
     index,
     styles,
     contentStyle,
+    extraStyle,
     topicId,
     authorId,
     avatar,
@@ -110,6 +111,7 @@ const Item = memo(
                 </Name>
               </Flex.Item>
               <IconExtra
+                style={extraStyle}
                 topicId={topicId}
                 id={id}
                 formhash={formhash}
@@ -162,6 +164,7 @@ const Item = memo(
                   .map(item => (
                     <ItemSub
                       key={item.id}
+                      extraStyle={extraStyle}
                       id={item.id}
                       message={item.message}
                       userId={item.userId}

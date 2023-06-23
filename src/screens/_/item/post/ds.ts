@@ -27,6 +27,7 @@ export const DEFAULT_PROPS = {
   index: 0 as number,
   styles: {} as ReturnType<typeof memoStyles>,
   contentStyle: {} as Props['contentStyle'],
+  extraStyle: {} as Props['contentStyle'],
   topicId: '' as TopicId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],

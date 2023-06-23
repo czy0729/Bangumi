@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 17:29:34
+ * @Last Modified time: 2023-06-24 06:28:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ export default memo(
   ({
     navigation,
     styles,
+    extraStyle,
     topicId,
     authorId,
     avatar,
@@ -169,6 +170,7 @@ export default memo(
               </Name>
             </Flex.Item>
             <IconExtra
+              style={extraStyle}
               topicId={topicId}
               id={id}
               formhash={formhash}

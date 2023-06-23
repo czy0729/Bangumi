@@ -66,6 +66,8 @@ export type State = {
     ep_status: string | number
   }
 
+  boot: number
+
   /** 本地数据读取完成 */
   _loaded: Loaded
 }

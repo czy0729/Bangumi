@@ -5,28 +5,28 @@
  * @Last Modified time: 2022-09-25 04:17:23
  */
 import React from 'react'
-import { ListView } from '@components'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { keyExtractor } from '@utils/app'
 import Info from '../info'
 import { Ctx } from '../types'
 
 function List({ renderItem, onScroll }, { $ }: Ctx) {
   return (
-    <ListView
+    <PaginationList2
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      data={$.monoComments}
+      data={$.list}
       scrollEventThrottle={16}
       scrollToTop
+      limit={20}
       ListHeaderComponent={<Info />}
       progressViewOffset={_.ios(_.statusBarHeight, 0)}
       removeClippedSubviews={$.list.length >= 100}
       renderItem={renderItem}
       onScroll={onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
-      onFooterRefresh={$.fetchMono}
     />
   )
 }

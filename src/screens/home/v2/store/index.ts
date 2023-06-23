@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 23:36:27
+ * @Last Modified time: 2023-06-23 18:13:21
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
-import { feedback, getTimestamp, info } from '@utils'
+import { date, feedback, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import {
@@ -102,7 +102,6 @@ class ScreenHomeV2 extends Action {
   initQueue = async () => {
     const data = await Promise.all([userStore.fetchCollection()])
     if (data?.[0]?.list?.length) return this.fetchSubjectsQueue(data[0].list)
-
     return false
   }
 
@@ -112,18 +111,29 @@ class ScreenHomeV2 extends Action {
 
     setTimeout(() => {
       if (!this.userId || !DEVICE_MODEL_NAME) return false
+
+      const boot = this.state.boot + 1
+      this.setState({
+        boot
+      })
+      this.save()
+
       update(`u_${this.userId}`, {
         b: Device.brand,
         y: Device.deviceYearClass,
         i: Device.modelId,
         d: Device.modelName,
         o: Device.osVersion,
-        m: Device.totalMemory,
+        m: `${Math.floor(Device.totalMemory / 1000 / 1000 / 1000)}G`,
         v: VERSION_GITHUB_RELEASE,
-        s: _.statusBarHeight,
-        h: _.headerHeight,
-        t: _.tabBarHeight,
         a: systemStore.advance,
+        n: boot,
+        l: {
+          s: _.statusBarHeight,
+          h: _.headerHeight,
+          t: _.tabBarHeight
+        },
+        t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA
       })
     }, 8000)

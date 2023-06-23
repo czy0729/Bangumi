@@ -7,7 +7,7 @@
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
-import { info, confirm, getCommentPlainText, copy } from '@utils'
+import { info, confirm, getCommentPlainText, copy, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
 import { Popover } from '../../../base'
@@ -15,6 +15,7 @@ import { styles } from './styles'
 
 function IconExtra(
   {
+    style,
     topicId,
     id,
     formhash,
@@ -41,7 +42,7 @@ function IconExtra(
 
   return (
     <Popover
-      style={styles.touch}
+      style={stl(styles.touch, style)}
       data={data}
       onSelect={title => {
         if (title === '翻译') {

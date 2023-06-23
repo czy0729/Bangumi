@@ -23,6 +23,7 @@ export const ItemPost = obc(
       inViewY,
       index,
       contentStyle,
+      extraStyle,
       avatar,
       userId,
       userName,
@@ -98,6 +99,7 @@ export const ItemPost = obc(
         index={index}
         styles={memoStyles()}
         contentStyle={contentStyle}
+        extraStyle={extraStyle}
         topicId={$?.topicId}
         authorId={authorId}
         avatar={avatar}

@@ -248,12 +248,9 @@ export async function fetchMediaQueue(type?: string, id?: unknown) {
           topicId: item.id
         })
       } else if (item.type === 'mono') {
-        await subjectStore.fetchMono(
-          {
-            monoId: item.id
-          },
-          true
-        )
+        await subjectStore.fetchMono({
+          monoId: item.id
+        })
       }
 
       await sleep()

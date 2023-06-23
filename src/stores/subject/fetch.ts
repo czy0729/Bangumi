@@ -22,8 +22,7 @@ import {
   HTML_SUBJECT_COMMENTS,
   HTML_SUBJECT_RATING,
   HTML_SUBJECT_WIKI_COVER,
-  HTML_SUBJECT_WIKI_EDIT,
-  LIMIT_LIST_COMMENTS
+  HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
 import { EpId, MonoId, PersonId, RatingStatus, SubjectId } from '@types'
 import Computed from './computed'
@@ -397,69 +396,37 @@ export default class Fetch extends Computed {
     return res
   }
 
-  /** 人物信息和吐槽箱 (为了提高体验, 吐槽箱做模拟分页加载效果, 逻辑与超展开回复一致) */
-  fetchMono = async (
-    args: {
-      monoId: MonoId
-    },
-    refresh?: boolean
-  ) => {
+  /** 人物信息和吐槽箱 */
+  fetchMono = async (args: { monoId: MonoId }) => {
     const { monoId } = args || {}
+    const data = await fetchMono({ monoId })
+    const { mono, monoComments } = data
 
-    let res
     const monoKey = 'mono'
     const commentsKey = 'monoComments'
     const stateKey = monoId
-
-    if (refresh) {
-      // 重新请求
-      res = fetchMono({ monoId })
-      const { mono, monoComments } = await res
-      const _loaded = getTimestamp()
-
-      // 缓存人物信息
-      this.setState({
-        [monoKey]: {
-          [stateKey]: {
-            ...mono,
-            _loaded
-          }
+    const _loaded = getTimestamp()
+    this.setState({
+      [monoKey]: {
+        [stateKey]: {
+          ...mono,
+          _loaded
         }
-      })
-      this.save(monoKey)
+      },
+      [commentsKey]: {
+        [stateKey]: {
+          list: monoComments,
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded
+        }
+      }
+    })
+    this.save(monoKey)
 
-      // 缓存吐槽箱
-      this.setState({
-        [commentsKey]: {
-          [stateKey]: {
-            list: monoComments.slice(0, LIMIT_LIST_COMMENTS),
-            pagination: {
-              page: 1,
-              pageTotal: Math.ceil(monoComments.length / LIMIT_LIST_COMMENTS)
-            },
-            _list: monoComments,
-            _loaded
-          }
-        }
-      })
-    } else {
-      // 加载下一页留言
-      const monoComments = this.monoComments(monoId)
-      const page = monoComments.pagination.page + 1
-      this.setState({
-        [commentsKey]: {
-          [stateKey]: {
-            ...monoComments,
-            list: monoComments._list.slice(0, LIMIT_LIST_COMMENTS * page),
-            pagination: {
-              ...monoComments.pagination,
-              page
-            }
-          }
-        }
-      })
-    }
-    return res
+    return data
   }
 
   /** CDN获取人物信息 */
