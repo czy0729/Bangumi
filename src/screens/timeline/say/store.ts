@@ -253,7 +253,7 @@ export default class ScreenSay extends store {
   doReply = (content: string, scrollView: any) => {
     t('吐槽.回复吐槽')
 
-    const { list = [] } = this.say
+    const { list = [] } = timelineStore.say(this.id)
     timelineStore.doReply(
       {
         id: String(this.id).split('#')[0],
@@ -279,12 +279,9 @@ export default class ScreenSay extends store {
 
         await this.fetchSay()
         feedback()
-
-        if (scrollView && scrollView.scrollToEnd) {
-          setTimeout(() => {
-            scrollView.scrollToEnd()
-          }, 0)
-        }
+        setTimeout(() => {
+          this.scrollToBottom(scrollView, true)
+        }, 80)
       }
     )
   }

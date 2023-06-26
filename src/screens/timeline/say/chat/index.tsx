@@ -18,6 +18,7 @@ function Chat({ forwardRef }: any, { $ }: Ctx) {
   const { list } = $.say
   return (
     <PaginationList2
+      key={list.length}
       forwardRef={forwardRef}
       style={_.container.screen}
       contentContainerStyle={styles.container}
