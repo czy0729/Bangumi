@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
-import { open } from '@utils'
+import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { HOST } from '@constants'
+import { HOST, URL_SPA } from '@constants'
 import IconCopy from '../icon-copy'
 import IconFavor from '../icon-favor'
 import { Ctx } from '../types'
@@ -28,11 +28,19 @@ function Header({ fixed }, { $, navigation }: Ctx) {
           <IconCopy $={$} navigation={navigation} />
           {!!(joinUrl || byeUrl) && <IconFavor $={$} />}
           <CompHeader.Popover
-            data={['浏览器查看']}
+            data={['浏览器查看', '网页版查看']}
             onSelect={key => {
+              t('目录详情.右上角菜单', {
+                key
+              })
+
               if (key === '浏览器查看') {
-                t('目录详情.右上角菜单', { key })
                 open(`${HOST}/index/${$.catalogId}`)
+              } else if (key === '网页版查看') {
+                const url = `${URL_SPA}/${getSPAParams('CatalogDetail', {
+                  catalogId: $.catalogId
+                })}`
+                open(url)
               }
             }}
           >

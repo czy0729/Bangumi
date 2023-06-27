@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
-import { copy, open } from '@utils'
+import { copy, getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { HOST, URL_SPA } from '@constants'
 import HeaderTitle from '../header-title'
 import IconFavor from '../icon/favor'
 import { Ctx } from '../types'
@@ -29,10 +29,10 @@ function Header({ fixed }, { $, navigation }: Ctx) {
         <Flex>
           <IconFavor $={$} />
           <CompHeader.Popover
-            data={['浏览器打开', '复制链接', '复制分享', '举报', `帖子 · ${$.topicId}`]}
+            data={[`帖子 · ${$.topicId}`, '网页版查看', '复制链接', '复制分享', '举报']}
             onSelect={key => {
               t('帖子.右上角菜单', {
-                key
+                key: key.includes('帖子') ? '浏览器查看' : key
               })
 
               switch (key) {
@@ -46,6 +46,14 @@ function Header({ fixed }, { $, navigation }: Ctx) {
 
                 case '举报':
                   open(`${HOST}/group/forum`)
+                  break
+
+                case '网页版查看':
+                  open(
+                    `${URL_SPA}/${getSPAParams('Topic', {
+                      topicId: $.topicId
+                    })}`
+                  )
                   break
 
                 default:

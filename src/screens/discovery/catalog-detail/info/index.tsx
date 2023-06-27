@@ -79,7 +79,7 @@ function Info(props, { $, navigation }: Ctx) {
             </Text>
             <Text type='sub' size={13} lineHeight={15} bold>
               {nickname ? ` · ` : ''}
-              {time}
+              {String(time).replace(/\n/g, '')}
             </Text>
           </Flex>
         )}

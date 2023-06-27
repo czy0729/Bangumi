@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:18:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:51:22
+ * @Last Modified time: 2023-06-27 10:53:22
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -15,10 +15,10 @@ function More(props, { $ }: Ctx) {
   return (
     <ToolBar.Popover
       data={[
-        `布局（${list ? '列表' : '网格'}）`,
-        `筛选（${fixed ? '固定' : '浮动'}）`,
-        `分页（${fixedPagination ? '固定' : '浮动'}）`,
-        `收藏（${collected ? '显示' : '隐藏'}）`
+        `选项 · ${fixed ? '锁定上方' : '浮动'}`,
+        `布局 · ${list ? '列表' : '网格'}`,
+        `收藏 · ${collected ? '显示' : '不显示'}`,
+        `分页 · ${fixedPagination ? '锁定下方' : '浮动'}`
       ]}
       icon='md-more-vert'
       iconColor={_.colorDesc}
@@ -26,10 +26,10 @@ function More(props, { $ }: Ctx) {
       type='desc'
       transparent
       onSelect={title => {
+        if (title.includes('选项')) return $.onToggleToolbar('fixed')
         if (title.includes('布局')) return $.onToggleList()
-        if (title.includes('筛选')) return $.onToggleToolbar('fixed')
-        if (title.includes('分页')) return $.onToggleToolbar('fixedPagination')
         if (title.includes('收藏')) return $.onToggleToolbar('collected')
+        if (title.includes('分页')) return $.onToggleToolbar('fixedPagination')
       }}
     />
   )

@@ -15,8 +15,8 @@ function More({ $ }: Ctx) {
   return (
     <ToolBar.Popover
       data={[
-        `筛选（${fixedFilter ? '固定' : '浮动'}）`,
-        `分页（${fixedPagination ? '固定' : '浮动'}）`
+        `选项 · ${fixedFilter ? '锁定上方' : '浮动'}`,
+        `分页 · ${fixedPagination ? '锁定下方' : '浮动'}`
       ]}
       icon='md-more-vert'
       iconColor={_.colorDesc}
@@ -24,7 +24,7 @@ function More({ $ }: Ctx) {
       type='desc'
       transparent
       onSelect={title => {
-        if (title.includes('筛选')) return $.onToggleFixed('fixedFilter')
+        if (title.includes('选项')) return $.onToggleFixed('fixedFilter')
         if (title.includes('分页')) return $.onToggleFixed('fixedPagination')
       }}
     />

@@ -13,14 +13,14 @@ import { Ctx } from '../types'
 function More({ onRefreshOffset }, { $ }: Ctx) {
   const { userPagination } = systemStore.setting
   const { list, showYear } = $.state
-  const paginationOption = `分页（${userPagination ? '开启' : '关闭'}）`
-  const yearOption = `年份（${showYear ? '显示' : '隐藏'}）`
+  const paginationOption = `分页 · ${userPagination ? '开启' : '关闭'}`
+  const yearOption = `年份 · ${showYear ? '显示' : '不显示'}`
   return (
     <ToolBar.Popover
       data={
         list
-          ? [`布局（列表）`, paginationOption]
-          : [`布局（网格）`, paginationOption, yearOption]
+          ? [`布局 · 列表`, paginationOption]
+          : [`布局 · 网格`, paginationOption, yearOption]
       }
       icon='md-more-vert'
       iconColor={_.colorDesc}

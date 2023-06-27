@@ -6,9 +6,10 @@
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
-import { open } from '@utils'
+import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { URL_SPA } from '@constants'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
@@ -19,11 +20,17 @@ function Header(props, { $ }: Ctx) {
       hm={[$.url, 'Tags']}
       headerRight={() => (
         <CompHeader.Popover
-          data={['浏览器查看']}
+          data={['浏览器查看', '网页版查看']}
           onSelect={key => {
+            t('标签索引.右上角菜单', {
+              key
+            })
+
             if (key === '浏览器查看') {
-              t('标签索引.右上角菜单', { key })
               open($.url)
+            } else if (key === '网页版查看') {
+              const url = `${URL_SPA}/${getSPAParams('Tags')}`
+              open(url)
             }
           }}
         >

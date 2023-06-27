@@ -15,9 +15,9 @@ function More(props, { $ }: Ctx) {
   return (
     <ToolBar.Popover
       data={[
-        `布局（${layout === 'list' ? '列表' : '网格'}）`,
-        `筛选（${fixed ? '固定' : '浮动'}）`,
-        `收藏（${collected ? '显示' : '隐藏'}）`
+        `选项 · ${fixed ? '锁定上方' : '浮动'}`,
+        `布局 · ${layout === 'list' ? '列表' : '网格'}`,
+        `收藏 · ${collected ? '显示' : '不显示'}`
       ]}
       icon='md-more-vert'
       iconColor={_.colorDesc}
@@ -25,8 +25,8 @@ function More(props, { $ }: Ctx) {
       type='desc'
       transparent
       onSelect={title => {
+        if (title.includes('选项')) return $.onToggleFixed()
         if (title.includes('布局')) return $.switchLayout()
-        if (title.includes('筛选')) return $.onToggleFixed()
         if (title.includes('收藏')) return $.onToggleCollected()
       }}
     />
