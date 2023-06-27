@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 03:48:46
+ * @Last Modified time: 2023-06-27 10:36:53
  */
 import React from 'react'
 import { View, Image as RNImage } from 'react-native'
@@ -22,12 +22,12 @@ import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, HOST_2, HOST_3 } from '@constants'
+import { HOST, HOST_2, HOST_3, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-const data = [HOST, HOST_2, HOST_3] as const
+const DATA = [HOST, HOST_2, HOST_3] as const
 
 class Form extends React.Component<Props> {
   static defaultProps = {
@@ -186,7 +186,9 @@ class Form extends React.Component<Props> {
   }
 
   renderConfig() {
-    const { isCommonUA, host, onSelect, onUAChange } = this.props
+    const { failed, isCommonUA, host, onSelect, onUAChange } = this.props
+    if (!failed) return null
+
     const { config } = this.state
     if (!config) {
       return (
@@ -207,7 +209,7 @@ class Form extends React.Component<Props> {
       <>
         <Flex style={[this.styles.touch, _.mt.sm]}>
           <Flex.Item>
-            <Popover style={this.styles.touch} data={data} onSelect={onSelect}>
+            <Popover style={this.styles.touch} data={DATA} onSelect={onSelect}>
               <Flex style={this.styles.content}>
                 <Text type='sub' size={12}>
                   使用 {host} 进行{i18n.login()}
@@ -290,7 +292,7 @@ class Form extends React.Component<Props> {
             <Mesume />
           </Flex>
           {this.renderForm()}
-          {this.renderConfig()}
+          {!STORYBOOK && this.renderConfig()}
           <Button
             style={_.mt.lg}
             type='main'

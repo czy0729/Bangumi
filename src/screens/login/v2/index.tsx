@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:18
+ * @Last Modified time: 2023-06-27 10:35:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import {
+  Flex,
+  Heatmap,
+  Iconfont,
   KeyboardSpacer,
   StatusBarEvents,
-  Touchable,
   Text,
-  Flex,
-  Iconfont,
-  UM,
-  Heatmap
+  Touchable,
+  UM
 } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _, userStore, usersStore, rakuenStore } from '@stores'
@@ -33,22 +33,33 @@ import {
 import { ob } from '@utils/decorators'
 import { xhrCustom, hm, t, queue } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
+import {
+  APP_ID,
+  APP_SECRET,
+  HOST,
+  STORYBOOK,
+  URL_OAUTH_REDIRECT,
+  URL_PRIVACY
+} from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
+import { HOST_PROXY } from '@/config'
 import Preview from './preview'
 import Form from './form'
+import {
+  TITLE,
+  NAMESPACE,
+  AUTH_RETRY_COUNT,
+  URL_TOURIST,
+  UA_EKIBUN_BANGUMI_APP
+} from './ds'
 import { memoStyles } from './styles'
-
-const title = '登录'
-const namespace = 'LoginV2'
-const AUTH_RETRY_COUNT = 10
 
 class LoginV2 extends React.Component<{
   navigation: Navigation
 }> {
   state = {
-    host: HOST,
+    host: STORYBOOK ? HOST_PROXY : HOST,
     clicked: false,
     email: '',
     password: '',
@@ -57,7 +68,8 @@ class LoginV2 extends React.Component<{
     isCommonUA: false,
     loading: false,
     info: '',
-    focus: false
+    focus: false,
+    failed: false
   }
 
   userAgent = ''
@@ -69,8 +81,7 @@ class LoginV2 extends React.Component<{
   code = ''
   accessToken = {}
   retryCount = 0
-
-  codeRef
+  codeRef = null
 
   async componentDidMount() {
     const state: {
@@ -80,16 +91,16 @@ class LoginV2 extends React.Component<{
       isCommonUA?: boolean
     } = {}
 
-    const host = await getStorage(`${namespace}|host`)
+    const host = await getStorage(`${NAMESPACE}|host`)
     if (host) state.host = host
 
-    const email = await getStorage(`${namespace}|email`)
+    const email = await getStorage(`${NAMESPACE}|email`)
     if (email) state.email = email
 
-    const password = await getStorage(`${namespace}|password`)
+    const password = await getStorage(`${NAMESPACE}|password`)
     if (password) state.password = password
 
-    const isCommonUA = await getStorage(`${namespace}|isCommonUA`)
+    const isCommonUA = await getStorage(`${NAMESPACE}|isCommonUA`)
     if (isCommonUA) state.isCommonUA = isCommonUA
 
     this.setState(state, () => {
@@ -107,7 +118,7 @@ class LoginV2 extends React.Component<{
       info('正在从github获取游客cookie...')
 
       const { _response } = await xhrCustom({
-        url: `https://gitee.com/a296377710/bangumi/raw/master/tourist.json?t=${getTimestamp()}`
+        url: URL_TOURIST
       })
       const { accessToken, userCookie } = JSON.parse(_response)
       userStore.updateAccessToken(accessToken)
@@ -126,7 +137,7 @@ class LoginV2 extends React.Component<{
       feedback()
       navigation.popToTop()
     } catch (error) {
-      console.error(namespace, 'onTour', error)
+      console.error(NAMESPACE, 'onTour', error)
       info(`${i18n.login()}状态过期, 请稍后再试`)
     }
   }
@@ -144,7 +155,8 @@ class LoginV2 extends React.Component<{
 
     this.setState({
       loading: false,
-      info
+      info,
+      failed: true
     })
     this.reset()
   }
@@ -164,10 +176,9 @@ class LoginV2 extends React.Component<{
         if (typeof this?.codeRef?.inputRef?.blur === 'function') {
           this.codeRef.inputRef.blur()
         }
-        setStorage(`${namespace}|email`, email)
+        setStorage(`${NAMESPACE}|email`, email)
 
         await this.login()
-
         if (!this.cookie.chii_auth) {
           this.loginFail(`验证码或密码错误，稍会再重试或前往授权${i18n.login()} →`)
           return
@@ -187,9 +198,10 @@ class LoginV2 extends React.Component<{
 
       await this.getAccessToken()
 
-      setStorage(`${namespace}|password`, password)
+      setStorage(`${NAMESPACE}|password`, password)
       this.inStore()
     } catch (ex) {
+      this.retryCount += 1
       if (this.retryCount >= AUTH_RETRY_COUNT) {
         this.loginFail(
           `[${String(
@@ -208,18 +220,39 @@ class LoginV2 extends React.Component<{
   getUA = async () => {
     const { isCommonUA } = this.state
     if (isCommonUA) {
-      // 与ekibun的bangumi一样的ua
-      const ua =
-        'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
+      // 与 ekibun 的 bangumi 一样的 ua
+      const ua = UA_EKIBUN_BANGUMI_APP
       this.userAgent = ua
       return ua
     }
 
-    const res = Constants.getWebViewUserAgentAsync()
-    const UA = await res
-    this.userAgent = `${UA} ${getTimestamp()}`
+    const UA = await Constants.getWebViewUserAgentAsync()
+    this.userAgent = STORYBOOK ? UA : `${UA} ${getTimestamp()}`
 
-    return res
+    return UA
+  }
+
+  getHeaders = (keys: string[] = []) => {
+    const headers: any = {}
+    if (keys.includes('User-Agent')) {
+      headers[STORYBOOK ? 'X-User-Agent' : 'User-Agent'] = this.userAgent
+    }
+
+    if (keys.includes('Cookie')) {
+      headers[STORYBOOK ? 'X-Cookie' : 'Cookie'] = this.cookieString
+    }
+
+    if (keys.includes('Content-Type')) {
+      headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    }
+
+    return headers
+  }
+
+  getCookies = (headers = {}) => {
+    this.updateCookie(
+      STORYBOOK ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0]
+    )
   }
 
   /** 获取表单 hash */
@@ -230,14 +263,13 @@ class LoginV2 extends React.Component<{
     axios.defaults.withCredentials = false
 
     // @ts-expect-error
-    const { data, headers } = await axios({
+    const res = await axios({
       method: 'get',
       url: `${host}/login`,
-      headers: {
-        'User-Agent': this.userAgent
-      }
+      headers: this.getHeaders(['User-Agent'])
     })
-    this.updateCookie(headers?.['set-cookie']?.[0])
+    const { data, headers } = res
+    this.getCookies(headers)
 
     const match = data.match(/<input type="hidden" name="formhash" value="(.+?)">/)
     if (match) this.formhash = match[1]
@@ -260,15 +292,19 @@ class LoginV2 extends React.Component<{
     const { request } = await axios({
       method: 'get',
       url: `${host}/signup/captcha?${getTimestamp()}`,
-      headers: {
-        Cookie: this.cookieString,
-        'User-Agent': this.userAgent
-      },
+      headers: this.getHeaders(['User-Agent', 'Cookie']),
       responseType: 'arraybuffer'
     })
 
+    let base64: string
+    if (STORYBOOK) {
+      base64 = btoa(String.fromCharCode.apply(null, new Uint8Array(request.response)))
+    } else {
+      base64 = request._response
+    }
+
     this.setState({
-      base64: `data:image/gif;base64,${request._response}`,
+      base64: `data:image/gif;base64,${base64}`,
       captcha: ''
     })
 
@@ -291,11 +327,7 @@ class LoginV2 extends React.Component<{
     const { data, headers } = await axios({
       method: 'post',
       url: `${host}/FollowTheRabbit`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Cookie: this.cookieString,
-        'User-Agent': this.userAgent
-      },
+      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
       data: urlStringify({
         formhash: this.formhash,
         referer: '',
@@ -306,12 +338,11 @@ class LoginV2 extends React.Component<{
         loginsubmit: '登录'
       })
     })
-    this.updateCookie(headers?.['set-cookie']?.[0])
 
     if (data.includes('分钟内您将不能登录本站')) {
       info(`累计 5 次错误尝试，15 分钟内您将不能${i18n.login()}本站。`)
     } else {
-      this.updateCookie(headers?.['set-cookie']?.[0])
+      this.getCookies(headers)
     }
 
     return true
@@ -332,12 +363,8 @@ class LoginV2 extends React.Component<{
     const { data } = await axios({
       method: 'get',
       url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: {
-        'User-Agent': this.userAgent,
-        Cookie: this.cookieString
-      }
+      headers: this.getHeaders(['User-Agent', 'Cookie'])
     })
-
     this.formhash = cheerio.load(data)('input[name=formhash]').attr('value')
 
     return true
@@ -360,11 +387,7 @@ class LoginV2 extends React.Component<{
       maxRedirects: 0,
       validateStatus: null,
       url: `${host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': this.userAgent,
-        Cookie: this.cookieString
-      },
+      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
       data: urlStringify({
         formhash: this.formhash,
         redirect_uri: '',
@@ -372,7 +395,6 @@ class LoginV2 extends React.Component<{
         submit: '授权'
       })
     })
-
     this.code = request?.responseURL?.split('=').slice(1).join('=')
 
     return true
@@ -395,10 +417,7 @@ class LoginV2 extends React.Component<{
       maxRedirects: 0,
       validateStatus: null,
       url: `${host}/oauth/access_token`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': this.userAgent
-      },
+      headers: this.getHeaders(['User-Agent', 'Content-Type']),
       data: urlStringify({
         grant_type: 'authorization_code',
         client_id: APP_ID,
@@ -408,12 +427,10 @@ class LoginV2 extends React.Component<{
         state: getTimestamp()
       })
     })
-
-    if (status !== 200) {
-      throw new TypeError(status)
-    }
+    if (status !== 200) throw new TypeError(status)
 
     this.accessToken = data
+
     return true
   }
 
@@ -430,9 +447,7 @@ class LoginV2 extends React.Component<{
     setCookieKeys.forEach(item => {
       const reg = new RegExp(`${item}=(.+?);`)
       const match = setCookie.match(reg)
-      if (match) {
-        this.cookie[item] = match[1]
-      }
+      if (match) this.cookie[item] = match[1]
     })
   }
 
@@ -471,8 +486,8 @@ class LoginV2 extends React.Component<{
     this.setState({
       base64: ''
     })
-
     this.retryCount = 0
+
     await this.getUA()
     await this.getFormHash()
     await this.getCaptcha()
@@ -504,7 +519,7 @@ class LoginV2 extends React.Component<{
 
   /** 切换登录域名 */
   onSelect = (host: string) => {
-    setStorage(`${namespace}|host`, host)
+    setStorage(`${NAMESPACE}|host`, host)
     this.setState(
       {
         host
@@ -524,7 +539,7 @@ class LoginV2 extends React.Component<{
     const { isCommonUA } = this.state
     const next = !isCommonUA
 
-    setStorage(`${namespace}|isCommonUA`, next)
+    setStorage(`${NAMESPACE}|isCommonUA`, next)
     this.setState({
       isCommonUA: next
     })
@@ -536,6 +551,7 @@ class LoginV2 extends React.Component<{
     return Object.keys(this.cookie)
       .map(item => `${item}=${this.cookie[item]}`)
       .join('; ')
+      .trim()
   }
 
   renderPreview() {
@@ -555,8 +571,17 @@ class LoginV2 extends React.Component<{
 
   renderForm() {
     const { navigation } = this.props
-    const { host, email, password, captcha, base64, isCommonUA, loading, info } =
-      this.state
+    const {
+      host,
+      email,
+      password,
+      captcha,
+      base64,
+      isCommonUA,
+      loading,
+      info,
+      failed
+    } = this.state
     return (
       <Form
         forwardRef={ref => (this.codeRef = ref)}
@@ -569,6 +594,7 @@ class LoginV2 extends React.Component<{
         loading={loading}
         info={info}
         host={host}
+        failed={failed}
         onGetCaptcha={this.getCaptcha}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
@@ -649,7 +675,7 @@ class LoginV2 extends React.Component<{
               </Flex>
               <Heatmap id='登陆.跳转' to='Privacy' alias='隐私保护政策' />
             </Touchable>
-            <Text
+            {/* <Text
               size={11}
               bold
               type='sub'
@@ -664,7 +690,7 @@ class LoginV2 extends React.Component<{
             >
               旧版{i18n.login()}
               <Heatmap id='登陆.跳转' to='Login' alias='旧版登录' />
-            </Text>
+            </Text> */}
             <Text
               size={11}
               bold
@@ -690,7 +716,7 @@ class LoginV2 extends React.Component<{
   render() {
     return (
       <View style={_.container.plain}>
-        <UM title={title} />
+        <UM title={TITLE} />
         <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         {this.renderContent()}
