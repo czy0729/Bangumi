@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-27 10:43:24
+ * @Last Modified time: 2023-06-28 10:56:38
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -184,6 +184,12 @@ export default class ScreenZone extends store {
       fixedHD(this.avatar || _image || avatar?.large),
       'bgm_poster_200'
     )
+  }
+
+  /** 用户昵称 */
+  @computed get nickname() {
+    const { nickname } = this.usersInfo
+    return HTMLDecode(nickname || this.params._name)
   }
 
   /** 小圣杯 / 用户资产 */

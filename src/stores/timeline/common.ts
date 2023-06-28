@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 12:35:20
+ * @Last Modified time: 2023-06-28 11:04:22
  */
 import { trim, getTimestamp, safeObject } from '@utils'
 import { cheerio, HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
@@ -32,7 +32,7 @@ export async function fetchTimeline(
 
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
-    url: HTML_TIMELINE(scope, type, userInfo?.username || userId, page)
+    url: HTML_TIMELINE(scope, type, userId || userInfo?.username, page)
   })
   const HTML = HTMLTrim(raw).match(/<div id="timeline">(.+?)<div id="tmlPager">/)
 
