@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-06 19:11:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 21:53:34
+ * @Last Modified time: 2023-06-28 14:47:32
  */
 export const TYPE_DS = ['不限', '动画', '书籍', '游戏', '音乐', '三次元'] as const
 
@@ -10,6 +10,7 @@ export const YEAR_DS = [
   '不限',
   '近1年',
   '近3年',
+  2023,
   2022,
   2021,
   2020,
