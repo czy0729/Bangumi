@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-10 03:36:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 04:07:12
+ * @Last Modified time: 2023-06-29 15:35:01
  */
 import { _ } from '@stores'
 
@@ -28,11 +28,17 @@ export const styles = _.create({
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   },
+  leftFocus: {
+    paddingLeft: _.sm
+  },
   right: {
     marginLeft: -_.hairlineWidth,
     borderLeftWidth: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
+  },
+  rightFocus: {
+    paddingRight: _.sm
   },
   open: {
     marginLeft: _.sm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-05 20:46:07
+ * @Last Modified time: 2023-06-29 16:30:55
  */
 import {
   _,
@@ -446,7 +446,7 @@ export default class Action extends Fetch {
 
   /** 自定义跳转点击回调 */
   onActionsPress = (title: string, navigation: Navigation) => {
-    if (title === '自定义跳转管理') {
+    if (title === '跳转管理') {
       navigation.push('Actions', {
         subjectId: this.subjectId,
         name: this.cn || this.jp

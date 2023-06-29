@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 17:25:22
+ * @Last Modified time: 2023-06-29 15:01:52
  */
 import { systemStore } from '@stores'
 import { StoreType as $ } from '../types'
@@ -19,6 +19,7 @@ export const DEFAULT_PROPS = {
   isDoing: false as boolean,
   showEpInput: true as typeof systemStore.setting.showEpInput,
   showCustomOnair: true as typeof systemStore.setting.showCustomOnair,
+  focusOrigin: false as typeof systemStore.setting.focusOrigin,
   onChangeText: (() => {}) as $['changeText'],
   onSelectOnAir: (() => {}) as $['onSelectOnAir'],
   onResetOnAirUser: (() => {}) as $['resetOnAirUser'],

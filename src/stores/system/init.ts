@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 17:46:47
+ * @Last Modified time: 2023-06-29 17:30:02
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -310,6 +310,12 @@ export const INIT_SETTING = {
 
   /** 条目标签是否展开 */
   subjectTagsExpand: true,
+
+  /** 突出显示源头按钮 */
+  focusOrigin: false,
+
+  /** 若有自定义跳转隐藏通用源头按钮 */
+  focusAction: false,
 
   /** 图片是否开启新本地缓存策略 (iOS) */
   iosImageCacheV2: IOS_IMAGE_CACHE_V2,

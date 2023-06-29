@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 09:50:10
+ * @Last Modified time: 2023-06-29 17:07:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ export default memo(
     subjectType,
     showTags,
     subjectTagsExpand,
+    focusOrigin,
     tag,
     tags,
     animeTags,
@@ -95,7 +96,13 @@ export default memo(
       >
         <SectionTitle
           style={_.container.wind}
-          right={showTags ? <IconGame /> : <IconHidden name='标签' value='showTags' />}
+          right={
+            showTags ? (
+              focusOrigin && <IconGame />
+            ) : (
+              <IconHidden name='标签' value='showTags' />
+            )
+          }
           icon={!showTags && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showTags')}
         >

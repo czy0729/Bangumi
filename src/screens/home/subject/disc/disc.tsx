@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:28:51
+ * @Last Modified time: 2023-06-29 17:13:11
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import IconSearchDisc from '../icon/search-disc'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
-  ({ navigation, styles, subjectId, disc, discTranslateResult }) => {
+  ({ navigation, styles, subjectId, disc, discTranslateResult, focusOrigin }) => {
     // global.rerender('Subject.Disc.Main')
 
     const [expand, setExpand] = useState(false)
@@ -30,7 +30,7 @@ export default memo(
         <SectionTitle
           right={
             <>
-              <IconSearchDisc />
+              {!focusOrigin && <IconSearchDisc />}
               {!discTranslateResult.length && <IconDisc />}
             </>
           }

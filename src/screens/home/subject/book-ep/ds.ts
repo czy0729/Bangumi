@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 14:42:56
+ * @Last Modified time: 2023-06-29 16:41:17
  */
+import { systemStore } from '@stores'
 import { StoreType as $ } from '../types'
 import { memoStyles } from './styles'
 
@@ -16,6 +17,7 @@ export const DEFAULT_PROPS = {
   status: {
     name: '未收藏'
   } as $['collection']['status'],
+  focusOrigin: false as typeof systemStore.setting.focusOrigin,
   onChangeText: (() => {}) as $['changeText'],
   onScrollIntoViewIfNeeded: (() => {}) as (y: number) => any,
   doUpdateBookEp: (() => {}) as $['doUpdateBookEp'],

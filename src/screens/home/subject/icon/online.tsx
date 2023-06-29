@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 21:35:08
+ * @Last Modified time: 2023-06-29 16:29:32
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -14,10 +14,10 @@ import { Ctx } from '../types'
 import IconActions from './actions'
 
 const ORIGINS_MANAGE = '源头管理'
-const ACTIONS_MANAGE = '自定义指令'
+const ACTIONS_MANAGE = '跳转管理'
 const ICS_MANAGE = '导出放送日程ICS'
 
-function IconOnline(props, { $, navigation }: Ctx) {
+function IconOnline({ children = null }, { $, navigation }: Ctx) {
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
   if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
 
@@ -27,7 +27,7 @@ function IconOnline(props, { $, navigation }: Ctx) {
   return (
     <>
       <Popover
-        style={styles.touch}
+        style={!children && styles.touch}
         data={data.map(item => (typeof item === 'object' ? item.name : item))}
         onSelect={(title: string) => {
           if (title === ORIGINS_MANAGE) {
@@ -51,12 +51,16 @@ function IconOnline(props, { $, navigation }: Ctx) {
           $.onlinePlaySelected(title)
         }}
       >
-        <Flex style={styles.btn} justify='center'>
-          <Iconfont name='md-airplay' size={18} />
-        </Flex>
-        <Heatmap right={55} bottom={-7} id='条目.搜索源' />
+        {children || (
+          <>
+            <Flex style={styles.btn} justify='center'>
+              <Iconfont name='md-airplay' size={18} />
+            </Flex>
+            <Heatmap right={55} bottom={-7} id='条目.搜索源' />
+          </>
+        )}
       </Popover>
-      {!!$.actions.length && <IconActions style={styles.actions} />}
+      {!children && !!$.actions.length && <IconActions style={styles.actions} />}
     </>
   )
 }

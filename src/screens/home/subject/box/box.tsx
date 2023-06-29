@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:25:44
+ * @Last Modified time: 2023-06-29 14:24:50
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Touchable, Heatmap } from '@components'
+import { Text, Touchable, Heatmap, Flex } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
+import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
+import { SHARE_MODE } from '@constants'
 import IconFolder from '../icon/folder'
 import IconClose from '../icon/close'
 import FlipBtn from './flip-btn'
+import Extra from './extra'
 import { DEFAULT_PROPS } from './ds'
-import { SHARE_MODE } from '@constants'
-import { appNavigate } from '@utils'
 
 export default memo(
   ({
@@ -55,11 +56,16 @@ export default memo(
         >
           收藏
         </SectionTitle>
-        <Touchable style={styles.btn} animate onPress={onPress}>
-          <FlipBtn />
-          <Heatmap id='条目.管理收藏' />
-          <Heatmap right={56} transparent id='条目.显示收藏管理' />
-        </Touchable>
+        <Flex style={styles.btn}>
+          <Flex.Item>
+            <Touchable animate onPress={onPress}>
+              <FlipBtn />
+              <Heatmap id='条目.管理收藏' />
+              <Heatmap right={56} transparent id='条目.显示收藏管理' />
+            </Touchable>
+          </Flex.Item>
+          <Extra />
+        </Flex>
         <View style={styles.bottom}>
           {showCount && !!status.length && (
             <View style={_.mt.md}>

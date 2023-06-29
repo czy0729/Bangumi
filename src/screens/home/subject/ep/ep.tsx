@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 18:24:31
+ * @Last Modified time: 2023-06-29 15:02:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ export default memo(
     isDoing,
     showEpInput,
     showCustomOnair,
+    focusOrigin,
     onChangeText,
     onSelectOnAir,
     onResetOnAirUser,
@@ -47,7 +48,7 @@ export default memo(
           right={
             <>
               <IconEpFilter />
-              <IconOnline />
+              {!focusOrigin && <IconOnline />}
               <IconEp />
               <IconReverse />
             </>

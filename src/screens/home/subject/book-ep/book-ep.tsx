@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 03:52:45
+ * @Last Modified time: 2023-06-29 16:41:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ export default memo(
     book,
     comicLength,
     status,
+    focusOrigin,
     onChangeText,
     onScrollIntoViewIfNeeded,
     doUpdateBookEp,
@@ -41,7 +42,7 @@ export default memo(
         <SectionTitle
           right={
             <>
-              <IconSearch />
+              {!focusOrigin && <IconSearch />}
               <IconManga />
               <IconWenku />
               <IconHD />

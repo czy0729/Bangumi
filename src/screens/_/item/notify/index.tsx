@@ -41,6 +41,7 @@ export const ItemNotify = ob(
       const say = timelineStore.say(notifyId)
       if (say.list.length) sayTitle = say.list[0]?.text
     }
+
     return (
       <Touchable
         animate

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 17:25:12
+ * @Last Modified time: 2023-06-29 15:01:36
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -25,6 +25,7 @@ export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
 
   if ($.type === '音乐') return <Disc />
 
+  const { showEpInput, showCustomOnair, focusOrigin } = systemStore.setting
   return (
     <Ep
       styles={memoStyles()}
@@ -33,8 +34,9 @@ export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
       onAirCustom={$.onAirCustom}
       status={$.collection.status}
       isDoing={$.collection?.status?.type === 'do'}
-      showEpInput={systemStore.setting.showEpInput}
-      showCustomOnair={systemStore.setting.showCustomOnair}
+      showEpInput={showEpInput}
+      showCustomOnair={showCustomOnair}
+      focusOrigin={focusOrigin}
       onChangeText={$.changeText}
       onSelectOnAir={$.onSelectOnAir}
       onResetOnAirUser={$.resetOnAirUser}

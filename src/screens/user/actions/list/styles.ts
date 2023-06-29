@@ -1,16 +1,12 @@
 /*
  * @Author: czy0729
- * @Date: 2022-08-19 07:15:39
+ * @Date: 2023-06-29 17:27:08
  * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-19 07:15:39
+ * @Last Modified time: 2023-06-29 17:27:08
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
-  container: {
-    paddingHorizontal: 0,
-    marginBottom: _.md
-  },
   setting: {
     marginVertical: _.md
   },
