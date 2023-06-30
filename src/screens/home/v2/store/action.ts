@@ -51,7 +51,7 @@ import {
 } from '@types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { STATE, EXCLUDE_STATE, NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -65,14 +65,14 @@ export default class Action extends Fetch {
 
     const state: {
       page: number
-      grid?: typeof EXCLUDE_STATE.grid
+      grid?: typeof STATE.grid
       renderedTabsIndex: number[]
     } = {
       page,
       renderedTabsIndex
     }
 
-    if (page === 4) state.grid = EXCLUDE_STATE.grid
+    if (page === 4) state.grid = STATE.grid
     this.setState(state)
     this.save()
   }
@@ -188,14 +188,14 @@ export default class Action extends Fetch {
   }
 
   /** 格子布局条目选择 */
-  selectGirdSubject = (subjectId: SubjectId, grid?: typeof EXCLUDE_STATE.grid) => {
+  selectGirdSubject = (subjectId: SubjectId, grid?: typeof STATE.grid) => {
     t('首页.格子布局条目选择', {
       subjectId
     })
 
     this.setState({
       current: subjectId,
-      grid: grid || EXCLUDE_STATE.grid
+      grid: grid || STATE.grid
     })
     this.fetchSubject(subjectId)
     this.fetchUserProgress(subjectId)
@@ -389,7 +389,26 @@ export default class Action extends Fetch {
   /** 观看下一章节 */
   doWatchedNextEp = async (subjectId: SubjectId) => {
     const state = this.$Item(subjectId)
-    if (state.doing) return
+    if (state.doing) {
+      /**
+       * 若干秒后没有状态变化强制还原, 以避免网络出错导致没有复原
+       * 也有可能是上次在请求时, 销毁了程序导致保存了错误的状态
+       */
+      setTimeout(() => {
+        const state = this.$Item(subjectId)
+        if (state.doing) {
+          this.setState({
+            item: {
+              [subjectId]: {
+                ...state,
+                doing: false
+              }
+            }
+          })
+        }
+      }, 2000)
+      return
+    }
 
     this.setState({
       item: {
@@ -405,7 +424,6 @@ export default class Action extends Fetch {
     t('首页.观看下一章节', {
       subjectId
     })
-
     this.prepareEpsFlip(subjectId)
 
     const { id } = this.nextWatchEp(subjectId)
@@ -423,7 +441,15 @@ export default class Action extends Fetch {
       }
     })
     userStore.fetchCollectionSingle(subjectId)
-    this.fetchUserProgress(subjectId)
+
+    // 震动反馈是使用翻转按钮触发的, 若没有展开则没有渲染按钮组件, 需要主动触发
+    if (state.expand) {
+      this.fetchUserProgress(subjectId)
+    } else {
+      await this.fetchUserProgress(subjectId)
+      feedback()
+    }
+
     webhookEp(
       {
         status: 'watched',

@@ -12,6 +12,7 @@ import { Ctx } from '../../types'
 function Progress({ epStatus, subjectId }, { $ }: Ctx) {
   return (
     <OnairProgress
+      key={String($.$Item(subjectId).doing)}
       epStatus={epStatus}
       current={$.currentOnAir(subjectId)}
       total={$.epsCount(subjectId)}
