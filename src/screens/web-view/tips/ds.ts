@@ -12,6 +12,10 @@ export const TABS = [
     key: 'mhhaa6ufuev051vu'
   },
   {
+    title: '源头和跳转',
+    key: 'qcgrso5g70d6gusf'
+  },
+  {
     title: '番剧推荐',
     key: 'hyrzz32whgurgg6t'
   },
