@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:08:55
+ * @Last Modified time: 2023-06-30 16:06:15
  */
 import { NativeModules } from 'react-native'
 import { DEV, IOS_IPA, LOG_LEVEL } from '@/config'
@@ -25,9 +25,9 @@ let currentQuery = ''
 export function hm(url?: string, screen?: string) {
   if (DEV || STORYBOOK) return
 
-  try {
-    // 保证这种低优先级的操作在UI响应之后再执行
-    runAfter(() => {
+  // 保证这种低优先级的操作在UI响应之后再执行
+  runAfter(() => {
+    try {
       if (screen) t('其他.查看', { screen })
 
       const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
@@ -57,28 +57,28 @@ export function hm(url?: string, screen?: string) {
       lastQuery = currentQuery
       currentQuery = queryStr
       currentUrl = u
-    })
-  } catch (error) {
-    console.error('[track] hm', error)
-  }
+    } catch (error) {
+      console.error('[track] hm', error)
+    }
+  })
 }
 
 /** UA */
 export function ua() {
   if (DEV || STORYBOOK) return
 
-  try {
-    runAfter(() => {
+  runAfter(() => {
+    try {
       const userStore = syncUserStore()
       if (!userStore.isWebLogin) return
 
       const si = SI_UV
       const u = `${syncUserStore().url}?v=${VERSION_GITHUB_RELEASE}`
       xhr(si, u)
-    })
-  } catch (error) {
-    console.error('[track] ua', error)
-  }
+    } catch (error) {
+      console.error('[track] ua', error)
+    }
+  })
 }
 
 /** Error 致命错误上报 */
@@ -131,9 +131,9 @@ export function t(
     return
   }
 
-  try {
-    // 保证这种低优先级的操作在UI响应之后再执行
-    runAfter(() => {
+  // 保证这种低优先级的操作在UI响应之后再执行
+  runAfter(() => {
+    try {
       const eventId = events[desc]
       if (eventId) {
         const _eventData = eventData || {}
@@ -152,8 +152,8 @@ export function t(
               }
         )
       }
-    })
-  } catch (error) {
-    console.error('[track] t', error)
-  }
+    } catch (error) {
+      console.error('[track] t', error)
+    }
+  })
 }

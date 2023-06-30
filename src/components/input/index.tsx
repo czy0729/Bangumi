@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 20:09:53
+ * @Last Modified time: 2023-06-30 15:51:50
  */
 import React from 'react'
 import {
@@ -122,9 +122,9 @@ export const Input = observer(
       const { onFocus, onScrollIntoViewIfNeeded } = this.props
       if (typeof onFocus === 'function') onFocus(evt)
 
-      try {
-        const node = evt.target || evt.currentTarget
-        setTimeout(() => {
+      const node = evt?.target || evt?.currentTarget
+      setTimeout(() => {
+        try {
           node.measureInWindow(
             (x: number, y: number, width: number, height: number) => {
               const inputBottomPosition = y + height
@@ -136,8 +136,8 @@ export const Input = observer(
               }
             }
           )
-        }, 640)
-      } catch (error) {}
+        } catch (error) {}
+      }, 640)
     }
 
     onChange = (evt: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {

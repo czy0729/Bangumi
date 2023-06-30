@@ -105,31 +105,31 @@ export default class ScreenSay extends store {
   // -------------------- page --------------------
   /** 滚动到底 */
   scrollToBottom = (scrollView: any, animated = false) => {
-    try {
-      if (scrollView?.scrollToIndex) {
-        setTimeout(() => {
+    if (scrollView?.scrollToIndex) {
+      setTimeout(() => {
+        try {
           scrollView.scrollToIndex({
             animated,
             index: 0,
             viewOffset: 0
           })
-        }, 160)
-      }
-    } catch (error) {}
+        } catch (error) {}
+      }, 160)
+    }
   }
 
   /** 滚动到顶 */
   scrollToTop = (scrollView: any, animated = false) => {
-    try {
-      if (scrollView?.scrollToEnd) {
-        setTimeout(() => {
+    if (scrollView?.scrollToEnd) {
+      setTimeout(() => {
+        try {
           scrollView.scrollToEnd({
             animated,
             duration: 640
           })
-        }, 160)
-      }
-    } catch (error) {}
+        } catch (error) {}
+      }, 160)
+    }
   }
 
   /** 收起评论框 */

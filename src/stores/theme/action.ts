@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 14:30:51
+ * @Last Modified time: 2023-06-30 16:02:47
  */
 import { StyleSheet } from 'react-native'
 import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -178,8 +178,8 @@ export default class Action extends Computed {
   changeNavigationBarColor = () => {
     if (IOS) return
 
-    try {
-      runAfter(() => {
+    runAfter(() => {
+      try {
         // @ts-expect-error
         changeNavigationBarColor(
           this.select(
@@ -191,25 +191,25 @@ export default class Action extends Computed {
           !this.isDark
         )
         androidDayNightToggle(this.isDark)
-      })
-    } catch (error) {
-      console.error('[ThemeStore] changeNavigationBarColor', error)
-    }
+      } catch (error) {
+        console.error('[ThemeStore] changeNavigationBarColor', error)
+      }
+    })
   }
 
   /** 小圣杯模块, 安卓改变底部菜单颜色 */
   changeNavigationBarColorTinygrail = () => {
     if (IOS) return
 
-    try {
-      runAfter(() => {
+    runAfter(() => {
+      try {
         // @ts-expect-error
         changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)
-      })
-    } catch (error) {
-      console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)
-    }
+      } catch (error) {
+        console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)
+      }
+    })
   }
 
   /**

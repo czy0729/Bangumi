@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:32
+ * @Last Modified time: 2023-06-30 16:00:29
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -84,32 +84,32 @@ export default class ScreenPM extends store {
   // -------------------- page --------------------
   /** 滚动到底 */
   scrollToBottom = (scrollView: any, animated = false) => {
-    try {
-      if (scrollView?.scrollToEnd) {
-        setTimeout(() => {
+    if (scrollView?.scrollToEnd) {
+      setTimeout(() => {
+        try {
           scrollView.scrollToEnd({
             animated,
             duration: 640
           })
-        }, 160)
-      }
-    } catch (error) {}
+        } catch (error) {}
+      }, 160)
+    }
   }
 
   /** 滚动到顶 */
   scrollToTop = (scrollView: any, animated = false) => {
-    try {
-      if (scrollView?.scrollTo) {
-        setTimeout(() => {
+    if (scrollView?.scrollTo) {
+      setTimeout(() => {
+        try {
           scrollView.scrollTo({
             x: 0,
             y: 0,
             animated,
             duration: 640
           })
-        }, 160)
-      }
-    } catch (error) {}
+        } catch (error) {}
+      }, 160)
+    }
   }
 
   /** 收起评论框 */

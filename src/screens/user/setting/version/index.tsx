@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 06:11:45
+ * @Last Modified time: 2023-06-30 16:00:53
  */
 import React from 'react'
 import { Text } from '@components'
@@ -14,7 +14,7 @@ import { URL_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
 import { getShows } from '../utils'
 import { TEXTS } from './ds'
 
-function Version({ navigation, filter }) {
+function Version({ filter }) {
   const shows = getShows(filter, TEXTS)
   if (!shows) return null
 

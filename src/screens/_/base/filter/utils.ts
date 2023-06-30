@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-01 20:41:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-01 20:42:08
+ * @Last Modified time: 2023-06-30 15:53:32
  */
 import { ScrollView } from 'react-native'
 
@@ -13,8 +13,8 @@ export function scrollToX(
   width = 50,
   mutiple = false
 ) {
-  try {
-    setTimeout(() => {
+  setTimeout(() => {
+    try {
       if (scrollView && value) {
         let index = 0
         if (mutiple) {
@@ -39,6 +39,6 @@ export function scrollToX(
           }, 80)
         }
       }
-    }, 160)
-  } catch (error) {}
+    } catch (error) {}
+  }, 160)
 }

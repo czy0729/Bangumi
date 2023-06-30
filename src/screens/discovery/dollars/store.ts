@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:25:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 17:33:29
+ * @Last Modified time: 2023-06-30 15:54:54
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -54,32 +54,32 @@ export default class ScreenDollars extends store {
 
   /** 滚动到顶 */
   scrollToTop = (animated = false) => {
-    try {
-      if (this.scrollViewRef?.scrollTo) {
-        setTimeout(() => {
+    if (this.scrollViewRef?.scrollTo) {
+      setTimeout(() => {
+        try {
           this.scrollViewRef.scrollTo({
             x: 0,
             y: 0,
             animated,
             duration: 640
           })
-        }, 160)
-      }
-    } catch (error) {}
+        } catch (error) {}
+      }, 160)
+    }
   }
 
   /** 滚动到底 */
   scrollToBottom = (animated = false) => {
-    try {
-      if (this.scrollViewRef?.scrollToEnd) {
-        setTimeout(() => {
+    if (this.scrollViewRef?.scrollToEnd) {
+      setTimeout(() => {
+        try {
           this.scrollViewRef.scrollToEnd({
             animated,
             duration: 640
           })
-        }, 160)
-      }
-    } catch (error) {}
+        } catch (error) {}
+      }, 160)
+    }
   }
 
   onToggleShow = (nickname?: string) => {

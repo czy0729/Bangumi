@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:28:56
+ * @Last Modified time: 2023-06-30 15:59:25
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
@@ -210,13 +210,13 @@ export default class ScreenActions extends store {
   go = ({ url }) => {
     if (!url) return
 
-    try {
-      setTimeout(() => {
+    setTimeout(() => {
+      try {
         open(url, true)
-      }, 1600)
-    } catch (error) {
-      info('跳转协议解析出错, 请检查')
-    }
+      } catch (error) {
+        info('跳转协议解析出错, 请检查')
+      }
+    }, 1600)
   }
 
   /** 数据提交到 store */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 16:45:38
+ * @Last Modified time: 2023-06-30 15:54:04
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -91,14 +91,16 @@ function scrollToX(
       const index = data.findIndex(i => i == value)
       if (index >= 5) {
         setTimeout(() => {
-          scrollView.scrollTo(
-            {
-              x: (index - 2) * width,
-              y: 0,
-              animated: true
-            },
-            1
-          )
+          try {
+            scrollView.scrollTo(
+              {
+                x: (index - 2) * width,
+                y: 0,
+                animated: true
+              },
+              1
+            )
+          } catch (error) {}
         }, 80)
       }
     }

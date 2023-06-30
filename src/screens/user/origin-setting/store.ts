@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 07:12:54
+ * @Last Modified time: 2023-06-30 16:00:10
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -282,21 +282,21 @@ export default class ScreenOriginSetting extends store {
   go = ({ type, url }) => {
     if (!type || !url) return
 
-    try {
-      const { test } = TYPES_DS.find(item => item.type === type)
-      const _url = replaceOriginUrl(url, test)
-      if (_url) {
-        const { openInfo } = systemStore.setting
-        if (openInfo) copy(_url, '已复制地址')
-        setTimeout(
-          () => {
+    const { test } = TYPES_DS.find(item => item.type === type)
+    const _url = replaceOriginUrl(url, test)
+    if (_url) {
+      const { openInfo } = systemStore.setting
+      if (openInfo) copy(_url, '已复制地址')
+      setTimeout(
+        () => {
+          try {
             open(_url)
-          },
-          openInfo ? 1600 : 0
-        )
-      }
-    } catch (error) {
-      info('网址解析出错, 请检查')
+          } catch (error) {
+            info('网址解析出错, 请检查')
+          }
+        },
+        openInfo ? 1600 : 0
+      )
     }
   }
 }
