@@ -38,6 +38,7 @@ function Chat(props, { $ }: Ctx) {
             name={item.name}
             text={item.content}
             id={item.userId}
+            time={item.time}
             format={false}
           />
         )

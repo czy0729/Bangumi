@@ -11,14 +11,25 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import decoder from '@utils/thirdParty/html-entities-decoder'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   const { list } = $.pmDetail
+
+  let title = ''
+  try {
+    title = list?.[0]?.content?.match(/<strong>(.*?)<\/strong>/)?.[1]
+    if (title) title = decoder(title)
+  } catch (error) {}
+
   return (
     <CompHeader
-      title='短信'
+      title={`短信${list.length ? ` (${list.length})` : ''}${
+        title ? ` · ${title}` : ''
+      }`}
       hm={['pm', 'PM']}
+      headerTitleAlign='left'
       headerRight={() => (
         <Flex>
           {list.length >= 10 && (

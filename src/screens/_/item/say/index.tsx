@@ -28,6 +28,7 @@ export const ItemSay = obc(
       name,
       text,
       id,
+      time,
       format = true,
       onLongPress = () => {}
     }: ItemSayProps,
@@ -42,6 +43,12 @@ export const ItemSay = obc(
             <Flex direction='column' align='end'>
               {showName && (
                 <Text style={_.mr.sm} size={11} type='title' bold>
+                  {!!time && (
+                    <Text type='sub' size={11} bold>
+                      {time}
+                      {' · '}
+                    </Text>
+                  )}
                   {name}
                 </Text>
               )}
@@ -107,7 +114,22 @@ export const ItemSay = obc(
         <Flex.Item style={styles.contentLeft}>
           <Flex direction='column' align='start'>
             {showName && (
-              <Name style={_.ml.sm} userId={id} showFriend size={11} type='title' bold>
+              <Name
+                style={_.ml.sm}
+                userId={id}
+                showFriend
+                size={11}
+                type='title'
+                bold
+                right={
+                  !!time && (
+                    <Text type='sub' size={11} bold>
+                      {' · '}
+                      {time}
+                    </Text>
+                  )
+                }
+              >
                 {name}
               </Name>
             )}

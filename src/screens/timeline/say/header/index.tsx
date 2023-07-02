@@ -16,11 +16,17 @@ import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   const { list } = $.say
+  const date = list[list.length - 1]?.date
   return (
     <CompHeader
-      title={$.isNew ? '新吐槽' : '吐槽'}
+      title={
+        $.isNew
+          ? '新吐槽'
+          : `吐槽 (${list.length})${date ? ` · ${date.split(' ')?.[0]}` : ''}`
+      }
       alias='吐槽'
       hm={[$.url, 'Say']}
+      headerTitleAlign='left'
       headerRight={() => {
         if ($.isNew) return null
 

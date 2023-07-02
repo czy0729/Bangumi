@@ -15,6 +15,7 @@ export type Props = {
   name?: string
   text?: string
   id?: UserId
+  time?: string
   format?: boolean
   onLongPress?: () => any
 }
