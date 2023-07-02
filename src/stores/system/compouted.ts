@@ -77,6 +77,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.hashSubjectOTALoaded
   }
 
+  /** 统计 */
+  @computed get t() {
+    return this.state.t
+  }
+
   // -------------------- computed --------------------
   /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
   @computed get isUGCAgree() {

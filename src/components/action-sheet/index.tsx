@@ -121,11 +121,13 @@ export const ActionSheet = ({
               ]}
               contentContainerStyle={_.container.bottom}
             >
-              {!!title && (
-                <Text style={_.mb.sm} size={12} bold type='sub' align='center'>
-                  {title}
-                </Text>
-              )}
+              {typeof title === 'string'
+                ? !!title && (
+                    <Text style={_.mb.sm} size={12} bold type='sub' align='center'>
+                      {title}
+                    </Text>
+                  )
+                : title}
               {children}
             </ScrollView>
             <Touchable onPress={onClose}>

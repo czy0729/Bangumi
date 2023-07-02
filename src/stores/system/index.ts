@@ -21,7 +21,8 @@ class SystemStore extends Action {
         'iosUGCAgree',
         'ota',
         'release',
-        'setting'
+        'setting',
+        't'
       ],
       NAMESPACE
     )

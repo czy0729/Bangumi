@@ -421,7 +421,10 @@ export const STATE = {
   rendered: false,
 
   /** 用于在 bangumi-oss ota hash 更新后, 强制刷新 APP 内所有封面 */
-  hashSubjectOTALoaded: 0
+  hashSubjectOTALoaded: 0,
+
+  /** 统计 */
+  t: {}
 }
 
 export const LOADED = {
@@ -432,5 +435,6 @@ export const LOADED = {
   iosUGCAgree: false,
   ota: false,
   release: false,
-  setting: false
+  setting: false,
+  t: true
 }

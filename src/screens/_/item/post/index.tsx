@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:20:03
+ * @Last Modified time: 2023-07-02 05:57:46
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -130,6 +130,7 @@ export const ItemPost = obc(
         likeType={$?.topic?.likeType}
         event={event}
         onToggleExpand={$?.toggleExpand}
+        onLikesLongPress={$?.showLikesUsers}
       />
     )
   }

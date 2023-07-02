@@ -381,4 +381,22 @@ export default class Actions extends Fetch {
     info('已取消')
     return true
   }
+
+  private _track = 0
+
+  /** 统计 */
+  track = (eventId: string) => {
+    const key = 't'
+    const value = this.state[key][eventId]
+    this.setState({
+      [key]: {
+        [eventId]: (value || 0) + 1
+      }
+    })
+
+    this._track += 1
+    if (this._track % 10 === 0) this.save(key)
+
+    console.info(this.state[key])
+  }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-24 06:28:55
+ * @Last Modified time: 2023-07-02 05:58:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,8 @@ export default memo(
     userName,
     formhash,
     likeType,
-    event
+    event,
+    onLikesLongPress
   }) => {
     // global.rerender('Topic.ItemSub.Main')
 
@@ -226,6 +227,7 @@ export default memo(
               id={id}
               formhash={formhash}
               likeType={likeType}
+              onLongPress={onLikesLongPress}
             />
           </View>
         </Flex.Item>

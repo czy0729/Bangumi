@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:19:38
+ * @Last Modified time: 2023-07-02 05:55:53
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -57,5 +57,6 @@ export const DEFAULT_PROPS = {
   formhash: '' as string,
   likeType: '' as string,
   event: EVENT as Props['event'],
-  onToggleExpand: (() => {}) as any
+  onToggleExpand: (() => {}) as any,
+  onLikesLongPress: (() => {}) as any
 } as const

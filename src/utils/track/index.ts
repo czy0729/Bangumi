@@ -21,11 +21,11 @@ let lastQuery = ''
 let currentUrl = ''
 let currentQuery = ''
 
-/** HM@6.0 浏览统计 */
+/** HM@6.0 */
 export function hm(url?: string, screen?: string) {
   if (DEV || STORYBOOK) return
 
-  // 保证这种低优先级的操作在UI响应之后再执行
+  // 保证这种低优先级的操作在 UI 响应之后再执行
   runAfter(() => {
     try {
       if (screen) t('其他.查看', { screen })
@@ -112,6 +112,13 @@ export function t(
     [key: string]: string | number | boolean
   }
 ) {
+  const eventId = events[desc]
+  if (eventId) {
+    runAfter(() => {
+      syncSystemStore().track(eventId)
+    })
+  }
+
   if (DEV || STORYBOOK || !desc || typeof desc !== 'string') return
 
   // fixed: 遗留问题, 显示为登录, 统计还是以前录入的登陆
@@ -134,7 +141,6 @@ export function t(
   // 保证这种低优先级的操作在UI响应之后再执行
   runAfter(() => {
     try {
-      const eventId = events[desc]
       if (eventId) {
         const _eventData = eventData || {}
         const userId = syncUserStore().myId || 0

@@ -133,6 +133,7 @@ class ScreenHomeV2 extends Action {
           h: _.headerHeight,
           t: _.tabBarHeight
         },
+        e: systemStore.t,
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA
       })

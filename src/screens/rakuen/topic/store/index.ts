@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:28:07
+ * @Last Modified time: 2023-07-02 10:17:51
  */
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -48,7 +48,13 @@ class ScreenTopic extends Action {
 
         // 本地帖子过来不主动请求
         const { _noFetch } = this.params
-        if (!_noFetch) return this.fetchTopic()
+        if (!_noFetch) {
+          await this.fetchTopic()
+          setTimeout(() => {
+            this.cacheAvatars()
+          }, 0)
+          return true
+        }
       }
 
       return true

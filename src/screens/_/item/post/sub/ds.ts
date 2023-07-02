@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-24 06:26:48
+ * @Last Modified time: 2023-07-02 05:58:18
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -43,7 +43,8 @@ export const DEFAULT_PROPS = {
   userName: '' as Props['userName'],
   formhash: '' as string,
   likeType: '' as string,
-  event: EVENT
+  event: EVENT,
+  onLikesLongPress: (() => {}) as any
 }
 
 export const REG_BGM =

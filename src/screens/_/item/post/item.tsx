@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 17:31:30
+ * @Last Modified time: 2023-07-02 05:57:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -59,7 +59,8 @@ const Item = memo(
     formhash,
     likeType,
     event,
-    onToggleExpand
+    onToggleExpand,
+    onLikesLongPress
   }) => {
     // global.rerender('Topic.Item.Main')
 
@@ -140,6 +141,7 @@ const Item = memo(
                 id={id}
                 formhash={formhash}
                 likeType={likeType}
+                onLongPress={onLikesLongPress}
               />
             </View>
             {!!translate && (
@@ -182,6 +184,7 @@ const Item = memo(
                       matchLink={matchLink}
                       showFixedTextare={showFixedTextare}
                       event={event}
+                      onLikesLongPress={onLikesLongPress}
                     />
                   ))}
               </Flex>

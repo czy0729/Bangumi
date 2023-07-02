@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:38:43
+ * @Last Modified time: 2023-07-02 10:17:20
  */
 import { rakuenStore } from '@stores'
 import {
@@ -16,6 +16,7 @@ import {
 import { t, baiduTranslate } from '@utils/fetch'
 import { update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import CacheManager from '@utils/cache-manager'
 import { IOS, HOST } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
 import { AnyObject } from '@types'
@@ -23,6 +24,20 @@ import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
+  /** 缓存用户头像关系 */
+  cacheAvatars = () => {
+    const { list } = this.comments
+    list.forEach(item => {
+      const key = `avatar|${item.userId}`
+      if (!CacheManager.has(key)) CacheManager.set(key, item.avatar)
+
+      item.sub.forEach(i => {
+        const key = `avatar|${i.userId}`
+        if (!CacheManager.has(key)) CacheManager.set(i.userId, i.avatar)
+      })
+    })
+  }
+
   /** 吐槽倒序 */
   toggleReverseComments = () => {
     const { reverse } = this.state
@@ -182,6 +197,40 @@ export default class Action extends Fetch {
       directFloor
     })
     this.save()
+  }
+
+  showLikesUsers = (list: any[], emoji: number) => {
+    this.setState({
+      likesUsers: {
+        list,
+        emoji
+      }
+    })
+
+    setTimeout(() => {
+      this.setState({
+        likesUsers: {
+          show: true
+        }
+      })
+    }, 0)
+  }
+
+  closeLikesUsers = () => {
+    this.setState({
+      likesUsers: {
+        show: false
+      }
+    })
+
+    setTimeout(() => {
+      this.setState({
+        likesUsers: {
+          list: [],
+          emoji: 0
+        }
+      })
+    }, 800)
   }
 
   /** 更新可视范围底部 y */

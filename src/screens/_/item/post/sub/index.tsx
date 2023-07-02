@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-24 06:25:49
+ * @Last Modified time: 2023-07-02 05:57:48
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -79,6 +79,7 @@ export default obc(
         formhash={$?.topic?.formhash}
         likeType={$?.topic?.likeType}
         event={event}
+        onLikesLongPress={$?.showLikesUsers}
       />
     )
   }

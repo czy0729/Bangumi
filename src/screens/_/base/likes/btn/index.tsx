@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 00:30:52
+ * @Last Modified time: 2023-07-02 06:37:02
  */
 import React from 'react'
 import { Touchable, Flex, BgmText, Text, Bgm } from '@components'
@@ -14,7 +14,7 @@ import { IOS, STORYBOOK } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { memoStyles } from './styles'
 
-function Btn({ topicId, id, formhash, ...item }) {
+function Btn({ topicId, id, formhash, onLongPress, ...item }) {
   const styles = memoStyles()
   const emoji = Number(item.emoji)
   return (
@@ -40,6 +40,14 @@ function Btn({ topicId, id, formhash, ...item }) {
           })
         }, 40)
       }}
+      onLongPress={
+        typeof onLongPress === 'function'
+          ? () => {
+              const users = item.users || []
+              onLongPress(users, emoji)
+            }
+          : undefined
+      }
     >
       <Flex
         style={stl(styles.item, item.selected && styles.itemActive)}

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 15:03:45
+ * @Last Modified time: 2023-07-02 05:53:24
  */
 import { rakuenStore } from '@stores'
-import { TopicId, ViewStyle } from '@types'
+import { Fn, TopicId, ViewStyle } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
 
@@ -26,6 +26,9 @@ export type Props = {
 
   /** 贴贴类型 */
   likeType: string
+
+  /** 长按按钮 */
+  onLongPress?: Fn
 
   /** Storybook 模拟数据 */
   storybook?: {
