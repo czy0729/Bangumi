@@ -396,7 +396,5 @@ export default class Actions extends Fetch {
 
     this._track += 1
     if (this._track % 10 === 0) this.save(key)
-
-    console.info(this.state[key])
   }
 }

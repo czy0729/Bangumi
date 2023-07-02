@@ -13,7 +13,7 @@ export const styles = _.create({
     minHeight: IMG_HEIGHT
   },
   inViewCompact: {
-    minWidth: IMG_WIDTH - 12,
-    minHeight: IMG_WIDTH - 12
+    minWidth: IMG_WIDTH - 14,
+    minHeight: IMG_WIDTH - 14
   }
 })

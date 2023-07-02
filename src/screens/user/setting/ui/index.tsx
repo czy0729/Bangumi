@@ -585,34 +585,6 @@ function UI({ filter }) {
               <Heatmap id='设置.切换' title='图片渐出动画' />
             </ItemSetting>
           )} */}
-
-          {/* 图片质量 */}
-          {/* <ItemSetting
-            hd='图片质量'
-            information='不建议修改，修改后不能享受图片CDN加速'
-            ft={
-              <SegmentedControl
-                style={commonStyles.segmentedControl}
-                size={12}
-                values={MODEL_SETTING_QUALITY.data.map(({ label }) => label)}
-                selectedIndex={MODEL_SETTING_QUALITY.data.findIndex(
-                  item => item.value === quality
-                )}
-                onValueChange={label => {
-                  if (label) {
-                    t('设置.切换', {
-                      title: '质量',
-                      label
-                    })
-
-                    systemStore.setQuality(label)
-                  }
-                }}
-              />
-            }
-          >
-            <Heatmap id='设置.切换' title='质量' />
-          </ItemSetting> */}
         </ActionSheet>
       </>
     )

@@ -7,7 +7,7 @@
 export const TEXTS = {
   cnFirst: {
     title: '优先中文',
-    information: '条目名称会尽可能匹配中文名'
+    information: 'APP 本地有历史番剧数据集合，条目名称会尽可能匹配中文名'
   },
   heatMap: {
     title: '章节讨论热力图',

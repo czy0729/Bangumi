@@ -89,6 +89,7 @@ function Content(props, { $, navigation }: Ctx) {
         id={$.topic?.id}
         formhash={$.topic?.formhash}
         likeType={$.topic?.likeType}
+        onLongPress={$.showLikesUsers}
       />
     </View>
   )

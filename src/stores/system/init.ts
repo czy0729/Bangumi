@@ -279,7 +279,7 @@ export const INIT_SETTING = {
   homeCountView: MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>('A'),
 
   /** 首页收藏排序 */
-  homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('APP'),
+  homeSorting: MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页'),
 
   /** 首页右上角自定义功能 (左) */
   homeTopLeftCustom: 'Calendar',

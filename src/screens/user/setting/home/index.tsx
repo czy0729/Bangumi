@@ -125,6 +125,10 @@ function Home({ filter }) {
               />
             }
             filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2023/png/386799/1688330856001-89109af5-3f19-4ab6-92f9-4658a1556b7c.png',
+              '0/2023/png/386799/1688330868988-1d338344-c951-4aef-b71f-ea7a996bbf1f.png'
+            ])}
             {...TEXTS.homeListCompact}
           >
             <Heatmap id='设置.切换' title='紧凑模式' />

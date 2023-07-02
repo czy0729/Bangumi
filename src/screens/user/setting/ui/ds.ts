@@ -67,7 +67,7 @@ export const TEXTS = {
   },
   transition: {
     hd: '切页动画',
-    information: '切换可能需要重新启动才能正确生效',
+    information: '不建议更改，切换可能需要重新启动才能正确生效',
     search: SETTING_TRANSITION.map(item => item.label).join()
   },
   vibration: {

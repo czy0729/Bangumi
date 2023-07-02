@@ -22,7 +22,7 @@ import {
   STORYBOOK
 } from '@constants'
 import { SettingCDNOrigin, SettingCDNOriginCn } from '@types'
-import { getShows } from '../utils'
+import { getShows, getYuqueThumbs } from '../utils'
 import commonStyles from '../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from './ds'
 import { Pings } from './types'
@@ -90,6 +90,10 @@ function CDN({ navigation, filter }) {
             show={!STORYBOOK && shows.cover}
             filter={filter}
             align='start'
+            thumb={getYuqueThumbs([
+              '0/2023/png/386799/1688331782002-1069824c-1d97-4695-901a-568d2b7d5ede.png',
+              '0/2023/png/386799/1688331803056-2fb3c208-865b-4d8f-8ed7-d17665b37d5a.png'
+            ])}
             {...TEXTS.cover.setting}
           >
             {/* lain */}

@@ -20,7 +20,8 @@ export const TEXTS = {
   cover: {
     setting: {
       title: '封面加速',
-      information: '使用特定 CDN 域名加速访问，切换后可能需要重新启动才能生效'
+      information:
+        '使用特定 CDN 域名加速访问\n切换后可能需要重新启动才能生效（仅支持国内流量）'
     },
     lain: {
       title: 'lain.bgm.tv',
@@ -55,7 +56,7 @@ export const TEXTS = {
   cdnAvatarV2: {
     hd: '头像加速',
     information:
-      '若你经常碰到部分用户头像一直加载不出来，可尝试启用此高速付费域，原理同封面加速'
+      '若你经常碰到部分用户头像一直加载不出来\n可尝试启用此高速付费域，原理与上面的封面加速一致'
   },
   iOSImageCache: {
     hd: 'iOS 使用系统默认图片缓存策略',

@@ -137,6 +137,7 @@ class ScreenHomeV2 extends Action {
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA
       })
+      console.info(systemStore.t)
     }, 8000)
   }
 

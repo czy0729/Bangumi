@@ -14,7 +14,7 @@ export const TEXTS = {
     },
     google: {
       title: '谷歌翻译',
-      information: '规划中暂不可用'
+      information: '因服务已退出国内\n故无限期搁置'
     }
   },
   katakana: {

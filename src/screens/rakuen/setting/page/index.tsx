@@ -42,7 +42,7 @@ class RakuenSetting extends React.Component<{
         {/* 贴贴模块 */}
         <ItemSetting
           hd='贴贴模块'
-          information={`近期新增的帖子回复上面贴表情的功能\n因在网页版随处可见，不建议关闭`}
+          information={`近期新增的帖子回复上面贴表情的功能\n长按数字按钮展开贴过的用户列表\n因在网页版随处可见，不建议关闭`}
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -57,7 +57,8 @@ class RakuenSetting extends React.Component<{
             />
           }
           thumb={getYuqueThumbs([
-            '0/2023/png/386799/1684389118526-fa7066b5-5c37-4280-abe0-0325e05aa4c7.png'
+            '0/2023/png/386799/1684389118526-fa7066b5-5c37-4280-abe0-0325e05aa4c7.png',
+            '0/2023/png/386799/1688332532626-a8958a19-e023-4cf8-bba6-4ca94f71752c.png'
           ])}
           withoutFeedback
         />
@@ -394,7 +395,7 @@ class RakuenSetting extends React.Component<{
         />
         <ItemSetting
           hd='屏蔽疑似广告姬'
-          information='屏蔽默认头像发布且回复数小于4的帖子'
+          information='屏蔽默认头像发布且回复数小于 4 的帖子'
           ft={
             <SwitchPro
               style={this.styles.switch}
@@ -411,7 +412,7 @@ class RakuenSetting extends React.Component<{
           withoutFeedback
         />
         <ItemSetting
-          information='标记发布时间大于1年的帖子'
+          information='标记发布时间大于 1 年的帖子'
           hd='标记坟贴'
           ft={
             <SwitchPro
