@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:35:59
+ * @Last Modified time: 2023-07-02 11:33:50
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, SegmentedControl, Heatmap, Text } from '@components'
@@ -45,6 +45,7 @@ function Home({ filter }) {
       homeGridEpAutoAdjust,
       homeGridTitle,
       homeLayout,
+      homeListCompact,
       homeOnAir,
       homeOrigin,
       homeSortSink,
@@ -105,6 +106,29 @@ function Home({ filter }) {
             />
             <Heatmap id='设置.切换' title='首页布局' />
           </ItemSettingBlock>
+
+          {/* 紧凑模式 */}
+          <ItemSetting
+            show={shows.homeListCompact && homeLayout === homeLayoutList}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={homeListCompact}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '紧凑模式',
+                    checked: !homeListCompact
+                  })
+
+                  systemStore.switchSetting('homeListCompact')
+                }}
+              />
+            }
+            filter={filter}
+            {...TEXTS.homeListCompact}
+          >
+            <Heatmap id='设置.切换' title='紧凑模式' />
+          </ItemSetting>
 
           {/* 封面形状 */}
           <ItemSetting

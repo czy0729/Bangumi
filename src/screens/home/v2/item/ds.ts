@@ -50,6 +50,7 @@ export const DEFAULT_PROPS = {
   /** 看到多少集 */
   epStatus: '' as string | number,
   heatMap: false as boolean,
+  homeListCompact: false as boolean,
   expand: false as boolean,
   epsCount: 0 as number,
   isTop: false as boolean,

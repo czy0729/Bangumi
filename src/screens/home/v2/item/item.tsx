@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 22:21:05
+ * @Last Modified time: 2023-07-02 11:27:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,6 +28,7 @@ const Item = memo(
     title,
     epStatus,
     heatMap,
+    homeListCompact,
     expand,
     epsCount,
     isTop,
@@ -43,7 +44,7 @@ const Item = memo(
           <Cover index={index} subjectId={subjectId} subject={subject} />
           <Flex.Item style={styles.content}>
             <Touchable
-              style={styles.title}
+              style={homeListCompact ? styles.titleCompact : styles.title}
               withoutFeedback
               hitSlop={TITLE_HIT_SLOPS}
               onPress={() => onItemPress(navigation, subjectId, subject)}
@@ -57,7 +58,7 @@ const Item = memo(
               </Flex>
             </Touchable>
             <View>
-              <Flex style={styles.info}>
+              <Flex style={homeListCompact ? styles.infoCompact : styles.info}>
                 <Count
                   subjectId={subjectId}
                   subject={subject}

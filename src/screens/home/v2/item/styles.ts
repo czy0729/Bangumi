@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 17:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:46:10
+ * @Last Modified time: 2023-07-02 11:27:52
  */
 import { _ } from '@stores'
 
@@ -35,8 +35,14 @@ export const memoStyles = _.memoStyles(() => {
     title: {
       minHeight: _.r(60)
     },
+    titleCompact: {
+      minHeight: _.r(28)
+    },
     info: {
       height: _.r(40)
+    },
+    infoCompact: {
+      height: _.r(32)
     },
     dot: {
       position: 'absolute',

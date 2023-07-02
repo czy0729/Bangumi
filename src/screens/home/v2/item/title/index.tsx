@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 07:26:22
+ * @Last Modified time: 2023-07-02 10:57:05
  */
 import React from 'react'
 import { Katakana, Highlight, Text } from '@components'
@@ -16,6 +16,7 @@ import { WEEK_DAY_MAP } from '../ds'
 import { Props } from './types'
 
 function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
+  const { homeListCompact } = systemStore.setting
   const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = type === '书籍' ? '读' : type === '游戏' ? '玩' : '看'
 
@@ -51,7 +52,7 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
           </Katakana>
         </Katakana.Provider>
       )}
-      {!!doing && (
+      {!homeListCompact && !!doing && (
         <Text style={_.mt.xs} type='sub' size={12}>
           {doing} 人在{action}
           {weekDayText}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 22:19:54
+ * @Last Modified time: 2023-07-02 10:55:37
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -19,7 +19,7 @@ export default obc(
   ) => {
     // global.rerender('Home.Item', subject.name_cn || subject.name)
 
-    const { heatMap } = systemStore.setting
+    const { heatMap, homeListCompact } = systemStore.setting
     const { top, progress } = $.state
     const { fetchingSubjectId1, fetchingSubjectId2 } = progress
     return (
@@ -32,6 +32,7 @@ export default obc(
         title={title}
         epStatus={epStatus}
         heatMap={heatMap}
+        homeListCompact={homeListCompact}
         expand={$.$Item(subjectId).expand}
         epsCount={$.epsCount(subjectId)}
         isTop={top.indexOf(subjectId) !== -1}

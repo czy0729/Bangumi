@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:48:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 19:00:33
+ * @Last Modified time: 2023-07-02 11:31:56
  */
 import { SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 
@@ -32,6 +32,10 @@ export const TEXTS = {
     grid: {
       title: '网格'
     }
+  },
+  homeListCompact: {
+    hd: '紧凑模式',
+    information: '缩小每项的高度以同时显示更多'
   },
   homeListLimit: {
     hd: '列表最大显示'

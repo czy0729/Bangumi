@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:30:02
+ * @Last Modified time: 2023-07-02 10:42:58
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -261,6 +261,9 @@ export const INIT_SETTING = {
 
   /** 首页收藏布局 */
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),
+
+  /** 首页收藏列表布局时, 是否紧凑显示列表项 */
+  homeListCompact: false,
 
   /** 首页收藏网格布局时, 条目封面形状 */
   homeGridCoverLayout:
