@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:34:05
+ * @Last Modified time: 2023-07-03 07:09:42
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -64,7 +64,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
               />
             </Block>
             <Block>
-              <Version navigation={navigation} filter={filter} />
+              <Version filter={filter} />
             </Block>
             <Block>
               <Tip>基本</Tip>

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:46:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 10:54:31
+ * @Last Modified time: 2023-07-03 07:08:03
  */
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import { Page, FixedTextarea, Input, Text, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import Chat from '../chat'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -75,6 +76,7 @@ class PM extends React.Component {
             ref={this.connectRefScrollView}
             style={_.container.screen}
             contentContainerStyle={_.container.bottom}
+            {...SCROLL_VIEW_RESET_PROPS}
           >
             <Chat />
           </ScrollView>

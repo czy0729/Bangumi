@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 22:00:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:39:55
+ * @Last Modified time: 2023-07-03 07:24:38
  */
 import { _ } from '@stores'
 
@@ -19,14 +19,5 @@ export const memoStyles = _.memoStyles(() => ({
   scrollView: {
     marginTop: _.md,
     marginBottom: -_.md
-  },
-  item: {
-    minWidth: 96,
-    marginRight: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  text: {
-    maxWidth: _.r(_.window.contentWidth * 0.24)
   }
 }))
