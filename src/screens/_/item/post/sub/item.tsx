@@ -68,14 +68,19 @@ export default memo(
 
     const msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)
-    if (filterDelete && rawMsg.includes('内容已被用户删除')) return null
+    const isDelete = rawMsg.includes('删除了回复')
+    if (filterDelete && isDelete) return null
 
     const isAuthor = authorId === userId
     const isLayer = !isAuthor && uid === userId
     const isFriend = myFriendsMap[userId]
 
     // +N 的楼层, 只有表情的楼层
-    if ((rawMsg.length <= 10 && REG_PLUS.test(rawMsg)) || REG_BGM.test(msg.trim())) {
+    if (
+      isDelete ||
+      (rawMsg.length <= 10 && REG_PLUS.test(rawMsg)) ||
+      REG_BGM.test(msg.trim())
+    ) {
       return (
         <PlusOne
           id={id}
@@ -84,6 +89,7 @@ export default memo(
           userName={userName}
           avatar={avatar}
           url={url}
+          directFloor={directFloor}
           isAuthor={isAuthor}
           isFriend={isFriend}
           isLayer={isLayer}
@@ -102,6 +108,7 @@ export default memo(
           userName={userName}
           avatar={avatar}
           url={url}
+          directFloor={directFloor}
           event={event}
         />
       )

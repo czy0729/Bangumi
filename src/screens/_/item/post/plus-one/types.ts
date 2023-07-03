@@ -13,8 +13,9 @@ export type Props = {
   userName: string
   avatar: string
   url: string
-  event: EventType
+  directFloor?: boolean
   isAuthor?: boolean
   isFriend?: boolean
   isLayer?: boolean
+  event: EventType
 }

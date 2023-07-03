@@ -22,5 +22,16 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: 8,
     backgroundColor: _.colorBg,
     borderRadius: _.radiusSm
+  },
+  direct: {
+    position: 'absolute',
+    top: -5,
+    right: 0,
+    bottom: -12,
+    left: -_._wind + 4,
+    borderWidth: 1,
+    borderColor: _.colorBorder,
+    borderRadius: _.radiusMd,
+    overflow: 'hidden'
   }
 }))

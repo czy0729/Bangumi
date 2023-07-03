@@ -25,10 +25,11 @@ function ItemPlusOne(
     userName,
     avatar,
     url,
-    event,
+    directFloor,
     isAuthor,
     isFriend,
-    isLayer
+    isLayer,
+    event
   }: Props,
   { navigation }
 ) {
@@ -70,6 +71,9 @@ function ItemPlusOne(
           onImageFallback={() => open(`${url}#post_${id}`)}
         />
       </Flex>
+
+      {/* 高亮 */}
+      {directFloor && <View style={styles.direct} pointerEvents='none' />}
     </View>
   )
 }

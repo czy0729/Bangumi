@@ -16,7 +16,7 @@ import { memoStyles } from './styles'
 const avatarWidth = 20
 
 function Mark(
-  { style = undefined, id, message, userId, userName, avatar, url, event },
+  { style = undefined, id, message, userId, userName, avatar, url, directFloor, event },
   { navigation }
 ) {
   const styles = memoStyles()
@@ -49,6 +49,9 @@ function Mark(
         onLinkPress={href => appNavigate(href, navigation, {}, event)}
         onImageFallback={() => open(`${url}#post_${id}`)}
       />
+
+      {/* 高亮 */}
+      {directFloor && <View style={styles.direct} pointerEvents='none' />}
     </Flex>
   )
 }

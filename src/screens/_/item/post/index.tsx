@@ -5,12 +5,14 @@
  * @Last Modified time: 2023-07-02 05:57:46
  */
 import React from 'react'
+import { View } from 'react-native'
 import { rakuenStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST } from '@constants'
 import Item from './item'
+import PlusOne from './plus-one'
 import { isBlockUser } from './utils'
 import { memoStyles } from './styles'
 import { Props as ItemPostProps } from './types'
@@ -56,16 +58,38 @@ export const ItemPost = obc(
     // 屏蔽内容删除
     const { filterDelete, blockKeywords, subExpand } = rakuenStore.setting
     let msg = decoder(message)
-    if (filterDelete) {
-      msg = decoder(message)
-      if (msg.includes('内容已被用户删除')) return null
+
+    const isDelete = msg.includes('删除了回复')
+    if (isDelete && filterDelete) return null
+
+    const styles = memoStyles()
+    const url = $?.params?._url || `${HOST}/rakuen/topic/${$?.topicId}`
+    const directFloor = $?.state?.directFloor === floor
+    const isAuthor = authorId === userId
+    const isFriend = $?.myFriendsMap?.[userId]
+    if (isDelete) {
+      return (
+        <View style={styles.item}>
+          <PlusOne
+            id={id}
+            message={message}
+            userId={userId}
+            userName={userName}
+            avatar={avatar}
+            url={url}
+            directFloor={directFloor}
+            isAuthor={isAuthor}
+            isFriend={isFriend}
+            event={event}
+          />
+        </View>
+      )
     }
 
     // 展开子楼层
     const { expands, translateResultFloor } = $?.state || {}
     const _expands = Number(expandNums || subExpand)
     let isExpand: boolean
-
     if (_expands !== undefined) {
       isExpand =
         sub.length <= _expands || (sub.length > _expands && expands?.includes(id))
@@ -77,15 +101,8 @@ export const ItemPost = obc(
     const readedTime = $?.readed?._time
     const isNew = !!readedTime && getTimestamp(time) > readedTime
 
-    // 作者
-    const isAuthor = authorId === userId
-
     // 跳转楼层标识
     const isJump = !!postId && postId === id
-
-    // 浏览器查看
-    const { _url } = $?.params || {}
-    const url = _url || `${HOST}/rakuen/topic/${$?.topicId}`
 
     // 屏蔽关键字命中
     if (blockKeywords.some(item => msg.includes(item))) {
@@ -97,7 +114,7 @@ export const ItemPost = obc(
         navigation={navigation}
         inViewY={inViewY}
         index={index}
-        styles={memoStyles()}
+        styles={styles}
         contentStyle={contentStyle}
         extraStyle={extraStyle}
         topicId={$?.topicId}
@@ -105,11 +122,11 @@ export const ItemPost = obc(
         avatar={avatar}
         erase={erase}
         floor={floor}
-        directFloor={$?.state?.directFloor === floor}
+        directFloor={directFloor}
         id={id}
         isAuthor={isAuthor}
         isExpand={isExpand}
-        isFriend={$?.myFriendsMap?.[userId]}
+        isFriend={isFriend}
         isJump={isJump}
         isNew={isNew}
         matchLink={matchLink === undefined ? rendered : matchLink}
