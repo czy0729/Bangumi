@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 19:19:02
+ * @Last Modified time: 2023-07-03 10:09:22
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -196,9 +196,10 @@ const Item = memo(
     )
   },
   DEFAULT_PROPS,
-  ({ style, styles }) => ({
+  ({ style, styles, time }) => ({
     style,
-    styles
+    styles,
+    time
   })
 )
 
