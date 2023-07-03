@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:28:26
+ * @Last Modified time: 2023-07-03 10:32:28
  */
 import React from 'react'
 import { ListView } from '@components'
 import { SectionHeader } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from '../item'
 import { Ctx } from '../types'
@@ -16,6 +17,7 @@ function SectionList(props, { $ }: Ctx) {
     <ListView
       key={$.sections.length}
       keyExtractor={keyExtractor}
+      style={_.mt.sm}
       sections={$.sections}
       scrollToTop
       renderSectionHeader={renderSectionHeader}

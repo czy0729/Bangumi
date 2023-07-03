@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:55:58
+ * @Last Modified time: 2023-07-03 11:01:46
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
-import { asc, desc, info } from '@utils'
+import { desc, info } from '@utils'
 import store from '@utils/store'
+import { gets } from '@utils/kv'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import { TopicId } from '@types'
-import { gets } from '@utils/kv'
+import { DS } from './ds'
 
 const NAMESPACE = 'ScreenRakuenHistory'
 
@@ -19,6 +20,7 @@ export default class ScreenRakuenHistory extends store {
   state = observable({
     favor: false,
     topics: {},
+    type: '小组' as (typeof DS)[number],
     _loaded: false
   })
 
@@ -50,12 +52,13 @@ export default class ScreenRakuenHistory extends store {
     const { topic, cloudTopic } = rakuenStore.state
     return Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
       .filter((topicId: TopicId) => {
-        // 不知道哪里有问题, 有时会出现undefined的key值, 过滤掉
+        // 不知道哪里有问题, 有时会出现 undefined 的 key 值, 过滤掉
         if (!topicId.includes('group/') || topicId.includes('undefined')) return false
+        if (!/^group\/(\d+)$/.test(topicId)) return false
         if (favor) return this.isFavor(topicId)
         return true
       })
-      .sort((a, b) => desc(b, a))
+      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1])))
   }
 
   @computed get sections() {
@@ -63,6 +66,8 @@ export default class ScreenRakuenHistory extends store {
     const map = {}
     this.keys.forEach(item => {
       const target = rakuenStore.state.topic[item] || rakuenStore.state.cloudTopic[item]
+      if (!target?.title || target?.title === 'undefined') return
+
       const title = (target.time || '').split(' ')[0]
       if (!(title in map)) {
         map[title] = sections.length
@@ -86,12 +91,21 @@ export default class ScreenRakuenHistory extends store {
 
   /** 收藏键值数组 */
   @computed get list(): string[] {
+    const { type } = this.state
     const { favorV2 } = rakuenStore.state
     const list = []
     Object.keys(favorV2).map(key => {
       if (favorV2[key]) list.push(key)
     })
-    return list.sort((a, b) => asc(a, b))
+
+    return list
+      .filter(item => {
+        if (type === '条目') return item.includes('subject/')
+        if (type === '章节') return item.includes('ep/')
+        if (type === '人物') return item.includes('crt/') || item.includes('prsn/')
+        return item.includes('group/')
+      })
+      .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1])))
   }
 
   /** 云端帖子数据 */
@@ -135,6 +149,14 @@ export default class ScreenRakuenHistory extends store {
     const datas = await gets(keys)
     this.setState({
       topics: datas
+    })
+    this.setStorage(NAMESPACE)
+  }
+
+  /** 切换类型 */
+  onChange = (title: string) => {
+    this.setState({
+      type: title
     })
     this.setStorage(NAMESPACE)
   }
