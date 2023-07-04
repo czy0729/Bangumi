@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Image } from '@components'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { Image } from '../../image'
 import { memoStyles } from './styles'
 
 function Catalog({
@@ -67,4 +67,4 @@ function Catalog({
   )
 }
 
-export default ob(Catalog)
+export default observer(Catalog)

@@ -6,10 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Image } from '@components'
+import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { Image } from '../../image'
 import { memoStyles } from './styles'
 
 function Disc({
@@ -65,4 +65,4 @@ function Disc({
   )
 }
 
-export default ob(Disc)
+export default observer(Disc)

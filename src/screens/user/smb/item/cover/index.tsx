@@ -8,6 +8,7 @@ import React from 'react'
 import { Image } from '@components'
 import { Cover as CoverComp } from '@_'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
 import { ICONS } from '../../ds'
 
@@ -32,6 +33,11 @@ function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
       shadow
       type={typeCn}
       onPress={() => {
+        t('SMB.跳转', {
+          to: 'Subject',
+          subjectId
+        })
+
         navigation.push('Subject', {
           subjectId,
           _jp: jp,

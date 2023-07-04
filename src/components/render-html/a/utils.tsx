@@ -14,8 +14,8 @@ import { Touchable } from '../../touchable'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { Iconfont } from '../../iconfont'
-import { Cover } from '../cover'
-import { Avatar } from '../avatar'
+import { Cover } from '../../cover'
+import { Avatar } from '../../avatar'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
 import Rank from './rank'
@@ -204,12 +204,7 @@ export function getTopic({ passProps, params, onLinkPress }) {
           <View style={styles.wrap}>
             <Touchable animate onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Avatar
-                  src={API_AVATAR(userId)}
-                  size={48}
-                  radius={_.radiusSm}
-                  textOnly={false}
-                />
+                <Avatar src={API_AVATAR(userId)} size={48} radius={_.radiusSm} />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
                     {text}{' '}

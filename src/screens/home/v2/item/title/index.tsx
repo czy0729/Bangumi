@@ -38,7 +38,7 @@ function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
   if ($.isFilter(tabLabel)) filterValue = getPinYinFilterValue(title, $.filter)
 
   const { length } = title
-  const size = length > 28 ? 12 : length > 20 ? 13 : 15
+  const size = length > 28 ? 12 : length > 18 ? 13 : 15
   return (
     <>
       {filterValue ? (

@@ -5,9 +5,10 @@
  * @Last Modified time: 2023-06-20 10:16:29
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { Flex } from '../../flex'
+import { Text } from '../../text'
 import { memoStyles } from './styles'
 
 function TextOnly({ width, height, radius, onPress }) {
@@ -31,4 +32,4 @@ function TextOnly({ width, height, radius, onPress }) {
   )
 }
 
-export default ob(TextOnly)
+export default observer(TextOnly)

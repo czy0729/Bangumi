@@ -63,6 +63,16 @@ export default class Fetch extends Computed {
          * @date 2023-03-30
          */
         if (comments?.list?.[0]?.floor) {
+          /**
+           * 历史遗漏问题, 观察到有倒序的快照, 需要自行反转
+           * @date 2023-07-04
+           */
+          if (
+            comments.list.length >= 2 &&
+            comments.list[0].floor.localeCompare(comments.list[1].floor)
+          ) {
+            comments.reverse()
+          }
           state.comments = {
             ...comments,
             _loaded: getTimestamp()
@@ -71,7 +81,7 @@ export default class Fetch extends Computed {
         this.setState(state)
       }
 
-      if (_loaded - ts >= 60 * 60 * 2) this.updateTopicThirdParty()
+      if (_loaded - ts >= 60 * 60 * 4) this.updateTopicThirdParty()
     } catch (error) {}
   }
 

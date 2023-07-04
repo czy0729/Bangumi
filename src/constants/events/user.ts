@@ -98,6 +98,7 @@ export default {
   '本地备份.同步': 'Backup.onSubmit',
 
   // SMB
+  'SMB.跳转': 'SMB.to',
   'SMB.扫描': 'SMB.connect',
   'SMB.请求条目': 'SMB.fetchSubjects',
   'SMB.编辑': 'SMB.onEdit',

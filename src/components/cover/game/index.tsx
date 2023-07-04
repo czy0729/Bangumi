@@ -6,10 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image } from '@components'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { ob } from '@utils/decorators'
+import { Flex } from '../../flex'
+import { Image } from '../../image'
 import { memoStyles } from './styles'
 
 function Game({
@@ -53,4 +54,4 @@ function Game({
   )
 }
 
-export default ob(Game)
+export default observer(Game)

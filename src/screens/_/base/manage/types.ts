@@ -9,7 +9,7 @@ import { Fn, SubjectId, SubjectTypeCn, ViewStyle } from '@types'
 export type Props = {
   style?: ViewStyle
 
-  subjectId: SubjectId
+  subjectId?: SubjectId
 
   /** 条目收藏状态 */
   collection: string
