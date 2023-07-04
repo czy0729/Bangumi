@@ -77,25 +77,29 @@ export default class ScreenCatalog extends store {
 
   /** 目录详情 */
   fetchCatalogDetail = async (id: Id) => {
-    if (
-      discoveryStore.catalogDetail(id)._loaded ||
-      discoveryStore.catalogDetailFromOSS(id)._loaded
-    ) {
-      return true
-    }
+    if (discoveryStore.catalogDetail(id)._loaded) return true
 
-    const result = await discoveryStore.fetchCatalogDetailFromOSS({
-      id
-    })
-    if (result) return true
+    const oss = discoveryStore.catalogDetailFromOSS(id)
+    if (oss?._loaded && oss?.list?.length) return true
+
+    if (!oss?._loaded) {
+      const result = await discoveryStore.fetchCatalogDetailFromOSS({
+        id
+      })
+      if (result) return true
+    }
 
     const data = await discoveryStore.fetchCatalogDetail({
       id
     })
-    this.updateCatalogDetail({
-      ...data,
-      id
-    })
+
+    // 因为新账号是访问不到带有 NSFW 条目的目录的, 没有数据的情况不能缓存快照
+    if (data?.list?.length) {
+      this.updateCatalogDetail({
+        ...data,
+        id
+      })
+    }
 
     return true
   }

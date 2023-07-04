@@ -160,12 +160,6 @@ export const INIT_SETTING = {
   /** 头像启用付费 CDN */
   cdnAvatarV2: false,
 
-  /** 封面使用 CDN */
-  cdnSubject: true,
-
-  /** 帖子预加载使用 CDN */
-  cdnRakuen: true,
-
   /** 是否中文优先 */
   cnFirst: true,
 

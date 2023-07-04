@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View, ViewProps } from 'react-native'
+import { stl } from '@utils'
 import { ReactNode } from '@types'
 import { styles } from './styles'
 
@@ -15,7 +16,7 @@ type Props = ViewProps & {
 
 function Li({ style, children, ...other }: Props) {
   return (
-    <View style={style ? [style, styles.li] : styles.li} {...other}>
+    <View style={stl(style, styles.li)} {...other}>
       {children}
     </View>
   )

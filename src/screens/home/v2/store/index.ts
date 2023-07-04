@@ -118,6 +118,24 @@ class ScreenHomeV2 extends Action {
       })
       this.save()
 
+      const {
+        avatarRound,
+        cdn,
+        cdnAvatarV2,
+        customFontFamily,
+        focusAction,
+        focusOrigin,
+        homeLayout,
+        homeListCompact,
+        homeSorting,
+        homeTopLeftCustom,
+        homeTopRightCustom,
+        katakana,
+        live2D,
+        onlineStatus,
+        vibration,
+        webhook
+      } = systemStore.setting
       update(`u_${this.userId}`, {
         b: Device.brand,
         y: Device.deviceYearClass,
@@ -129,9 +147,29 @@ class ScreenHomeV2 extends Action {
         a: systemStore.advance,
         n: boot,
         l: {
-          s: _.statusBarHeight,
-          h: _.headerHeight,
-          t: _.tabBarHeight
+          statusBar: _.statusBarHeight,
+          header: _.headerHeight,
+          tarBar: _.tabBarHeight,
+          isDark: _.isDark,
+          deepDark: _.deepDark
+        },
+        s: {
+          avatarRound,
+          cdn,
+          cdnAvatarV2,
+          customFontFamily,
+          focusAction,
+          focusOrigin,
+          homeLayout,
+          homeListCompact,
+          homeSorting,
+          homeTopLeftCustom,
+          homeTopRightCustom,
+          katakana,
+          live2D,
+          onlineStatus,
+          vibration,
+          webhook
         },
         e: systemStore.t,
         t: date('Y-m-d H:i:s', getTimestamp()),

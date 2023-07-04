@@ -5,12 +5,13 @@
  * @Last Modified time: 2023-01-16 08:39:05
  */
 import React from 'react'
+import { stl } from '@utils'
 import { Text, TextProps } from '../../text'
 import { styles } from './styles'
 
 function HiddenText({ style, children, ...other }: TextProps) {
   return (
-    <Text style={style ? [style, styles.hidden] : styles.hidden} selectable {...other}>
+    <Text style={stl(style, styles.hidden)} selectable {...other}>
       {children}
     </Text>
   )
