@@ -22,7 +22,9 @@ export const DEFAULT_PROPS = {
   time: '2359' as string,
   expand: false as boolean,
   collection: undefined as string,
+  rank: 0 as number,
   score: 0 as number,
+  total: 0 as number,
   sites: {} as ReturnType<$['sites']>,
   onToggleExpand: (() => {}) as $['onToggleExpand']
 }

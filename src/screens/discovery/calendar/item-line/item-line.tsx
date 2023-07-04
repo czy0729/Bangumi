@@ -7,8 +7,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable, Flex, Katakana, Text } from '@components'
-import { InView, Cover, Stars, Manage } from '@_'
-import { uiStore, _ } from '@stores'
+import { InView, Cover, Rank, Stars, Manage } from '@_'
+import { _, uiStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -34,7 +34,9 @@ const ItemLine = memo(
     time,
     expand,
     collection,
+    rank,
     score,
+    total,
     sites,
     onToggleExpand
   }) => {
@@ -118,7 +120,23 @@ const ItemLine = memo(
                       至第{air}话
                     </Text>
                   )}
-                  {showScore && <Stars simple value={score} type='desc' size={13} />}
+                  {showScore && (
+                    <>
+                      <Rank value={rank} />
+                      <Stars
+                        style={_.mr.xs}
+                        simple
+                        value={score}
+                        type='desc'
+                        size={13}
+                      />
+                      {!!total && (
+                        <Text type='sub' size={13} bold>
+                          ({total})
+                        </Text>
+                      )}
+                    </>
+                  )}
                 </Flex>
               </Flex>
             </Flex.Item>

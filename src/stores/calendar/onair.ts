@@ -5,6 +5,185 @@
  * @Last Modified time: 2023-04-06 06:23:09
  */
 export const ON_AIR = {
+  /** 2023S3 */
+  376106: {
+    weekDayCN: 1,
+    timeCN: '2030'
+  },
+  376433: {
+    weekDayCN: 1,
+    timeCN: '2200'
+  },
+  426531: {
+    weekDayCN: 1,
+    timeCN: '2300'
+  },
+  347942: {
+    weekDayCN: 2,
+    timeCN: '0030'
+  },
+  408351: {
+    weekDayCN: 2,
+    timeCN: '0100'
+  },
+  401301: {
+    weekDayCN: 1,
+    timeCN: '2300'
+  },
+  363026: {
+    weekDayCN: 2,
+    timeCN: '0005'
+  },
+  415182: {
+    weekDayCN: 2,
+    timeCN: '2200'
+  },
+  369784: {
+    weekDayCN: 3,
+    timeCN: '0029'
+  },
+  392973: {
+    weekDayCN: 3,
+    timeCN: '2100'
+  },
+  377125: {
+    weekDayCN: 3,
+    timeCN: '2230'
+  },
+  425591: {
+    weekDayCN: 3,
+    timeCN: '2355'
+  },
+  426815: {
+    weekDayCN: 3,
+    timeCN: '2200'
+  },
+  387822: {
+    weekDayCN: 3,
+    timeCN: '2330'
+  },
+  428735: {
+    weekDayCN: 4,
+    timeCN: '2100'
+  },
+  369304: {
+    weekDayCN: 4,
+    timeCN: '2256'
+  },
+  406307: {
+    weekDayCN: 4,
+    timeCN: '2300'
+  },
+  363102: {
+    weekDayCN: 4,
+    timeCN: '2355'
+  },
+  403741: {
+    weekDayCN: 5,
+    timeCN: '0100'
+  },
+  428418: {
+    weekDayCN: 4,
+    timeCN: '2130'
+  },
+  403225: {
+    weekDayCN: 4,
+    timeCN: '2230'
+  },
+  425916: {
+    weekDayCN: 5,
+    timeCN: '2030'
+  },
+  362006: {
+    weekDayCN: 5,
+    timeCN: '2330'
+  },
+  401783: {
+    weekDayCN: 6,
+    timeCN: '0023'
+  },
+  410203: {
+    weekDayCN: 6,
+    timeCN: '0053'
+  },
+  384672: {
+    weekDayCN: 6,
+    timeCN: '0123'
+  },
+  425992: {
+    weekDayCN: 6,
+    timeCN: '2230'
+  },
+  425236: {
+    weekDayCN: 6,
+    timeCN: '2300'
+  },
+  406171: {
+    weekDayCN: 7,
+    timeCN: '0000'
+  },
+  405198: {
+    weekDayCN: 7,
+    timeCN: '0030'
+  },
+  400215: {
+    weekDayCN: 7,
+    timeCN: '0100'
+  },
+  402835: {
+    weekDayCN: 6,
+    timeCN: '0700'
+  },
+  425969: {
+    weekDayCN: 6,
+    timeCN: '0900'
+  },
+  380582: {
+    weekDayCN: 6,
+    timeCN: '2100'
+  },
+  333979: {
+    weekDayCN: 6,
+    timeCN: '2130'
+  },
+  412916: {
+    weekDayCN: 6,
+    timeCN: '2200'
+  },
+  416019: {
+    weekDayCN: 6,
+    timeCN: '2300'
+  },
+  330054: {
+    weekDayCN: 6,
+    timeCN: '2330'
+  },
+  389772: {
+    weekDayCN: 7,
+    timeCN: '2200'
+  },
+  373247: {
+    weekDayCN: 7,
+    timeCN: '2300'
+  },
+  414461: {
+    weekDayCN: 7,
+    timeCN: '1600'
+  },
+  349319: {
+    weekDayCN: 7,
+    timeCN: '2100'
+  },
+  350523: {
+    weekDayCN: 7,
+    timeCN: '2200'
+  },
+  390794: {
+    weekDayCN: 1,
+    timeCN: '0005'
+  },
+
+  /** 2023S2 */
   366331: {
     weekDayCN: 1,
     timeCN: '2000'

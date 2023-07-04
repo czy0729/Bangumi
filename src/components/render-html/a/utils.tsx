@@ -131,10 +131,10 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                   headers={userStore.requestHeaders}
                 />
                 <View style={_.ml.sm}>
-                  <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
+                  <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
                     {top}{' '}
                     {!!air_date && (
-                      <Text size={9} lineHeight={12} type='sub' bold>
+                      <Text size={9} lineHeight={11} type='sub' bold>
                         {String(air_date).slice(0, 7)}
                       </Text>
                     )}
@@ -155,7 +155,7 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                           )}
                         </Flex>
                       )}
-                      {showBottom && (
+                      {/* {showBottom && (
                         <Text
                           style={styles.bottom}
                           type='sub'
@@ -167,7 +167,7 @@ export function getSubject({ passProps, params, href, onLinkPress }) {
                           {showScore && '· '}
                           {bottom}
                         </Text>
-                      )}
+                      )} */}
                     </Flex>
                   )}
                 </View>
@@ -206,10 +206,10 @@ export function getTopic({ passProps, params, onLinkPress }) {
               <Flex style={styles.body}>
                 <Avatar src={API_AVATAR(userId)} size={48} radius={_.radiusSm} />
                 <View style={_.ml.sm}>
-                  <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
+                  <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
                     {text}{' '}
                     {!!time && (
-                      <Text size={9} lineHeight={12} type='sub' bold>
+                      <Text size={9} lineHeight={11} type='sub' bold>
                         {String(time).split(' ')?.[0]}
                       </Text>
                     )}
@@ -224,7 +224,8 @@ export function getTopic({ passProps, params, onLinkPress }) {
                       numberOfLines={2}
                       selectable
                     >
-                      {reply} 回复 · {group} · {userName}
+                      {reply} 回复 · {group}
+                      {/* · {userName} */}
                     </Text>
                   </Flex>
                 </View>
@@ -262,7 +263,7 @@ export function getMono({ passProps, params, onLinkPress }) {
               <Flex style={styles.body}>
                 <Cover src={gCover} size={48} radius quality={false} />
                 <View style={_.ml.sm}>
-                  <Text style={styles.top} size={12} bold numberOfLines={2} selectable>
+                  <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
                     {text}
                   </Text>
                   {bottom !== text && (

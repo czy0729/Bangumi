@@ -13,7 +13,19 @@ import { memoStyles } from './styles'
 
 export default obc(
   (
-    { subjectId, images = {}, name, desc, air, time, score, section, index },
+    {
+      subjectId,
+      images = {},
+      name,
+      desc,
+      air,
+      time,
+      rank,
+      score,
+      total,
+      section,
+      index
+    },
     { $, navigation }: Ctx
   ) => {
     // global.rerender('Calendar.ItemLine')
@@ -38,7 +50,9 @@ export default obc(
         time={time}
         expand={expand}
         collection={collection}
+        rank={rank}
         score={score}
+        total={total}
         sites={sites}
         onToggleExpand={$.onToggleExpand}
       />

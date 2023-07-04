@@ -44,10 +44,10 @@ const Topic = (props, { $ }: Ctx) => {
 
   /** 滚动到指定楼层 */
   const scrollTo = useCallback((index = 0) => {
-    const { list } = $.comments
-    info(list[index]?.floor, 0.8)
-
     try {
+      const { list } = $.comments
+      info(list[index]?.floor, 0.8)
+
       forwardRef.current?.scrollToIndex({
         animated: false,
         index,
@@ -74,28 +74,28 @@ const Topic = (props, { $ }: Ctx) => {
 
   /** 滚动到指定楼层 (重复尝试) */
   const onScrollTo = useCallback((index = 0, animated = true, offset = 0) => {
-    t('帖子.楼层跳转', {
-      topicId: $.topicId,
-      index
-    })
-
-    const { sliderAnimated } = rakuenStore.setting
-    if (index === -1) {
-      if (animated) info('#1', 0.8)
-
-      forwardRef.current?.scrollToOffset({
-        animated: sliderAnimated ? true : animated,
-        offset: 0 - _.headerHeight
-      })
-      feedback(true)
-      $.updateDirection(-1, '')
-      return
-    }
-
-    const { list } = $.comments
-    if (animated) info(list[index]?.floor, 0.8)
-
     try {
+      t('帖子.楼层跳转', {
+        topicId: $.topicId,
+        index
+      })
+
+      const { sliderAnimated } = rakuenStore.setting
+      if (index === -1) {
+        if (animated) info('#1', 0.8)
+
+        forwardRef.current?.scrollToOffset({
+          animated: sliderAnimated ? true : animated,
+          offset: 0 - _.headerHeight
+        })
+        feedback(true)
+        $.updateDirection(-1, '')
+        return
+      }
+
+      const { list } = $.comments
+      if (animated) info(list[index]?.floor, 0.8)
+
       forwardRef.current?.scrollToIndex({
         animated: sliderAnimated ? true : animated,
         index,
@@ -127,13 +127,17 @@ const Topic = (props, { $ }: Ctx) => {
   /** 滚动失败后尝试使用保守的方法再次滚动 */
   const onScrollToIndexFailed = useCallback(
     ({ highestMeasuredFrameIndex, index }) => {
-      scrollTo(highestMeasuredFrameIndex)
+      try {
+        scrollTo(highestMeasuredFrameIndex)
 
-      setTimeout(() => {
-        if (scrollFailCount.current >= 8) return
-        scrollFailCount.current += 1
-        scrollTo(index)
-      }, 100)
+        setTimeout(() => {
+          if (scrollFailCount.current >= 8) return
+          scrollFailCount.current += 1
+          scrollTo(index)
+        }, 100)
+      } catch (error) {
+        console.error('topic/index.js', 'onScrollToIndexFailed', error)
+      }
     },
     [scrollTo]
   )
@@ -182,13 +186,17 @@ const Topic = (props, { $ }: Ctx) => {
   /** 楼层进度条点击 */
   const onPress = useCallback(
     (index = 0) => {
-      onScrollTo(index)
+      try {
+        onScrollTo(index)
 
-      const directIndex = $.directItems.findIndex(
-        item => item.floor === `#${index + 1}`
-      )
-      if (directIndex && directIndex !== -1) {
-        $.updateDirection(directIndex)
+        const directIndex = $.directItems.findIndex(
+          item => item.floor === `#${index + 1}`
+        )
+        if (directIndex && directIndex !== -1) {
+          $.updateDirection(directIndex)
+        }
+      } catch (error) {
+        console.error('topic/index.js', 'onPress', error)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -198,56 +206,66 @@ const Topic = (props, { $ }: Ctx) => {
   /** 导演模式, 按楼层回复顺序前进或者退后 */
   const onDirect = useCallback(
     (isNext: boolean = true, step: number = 1) => {
-      const { length } = $.directItems
-      if (!$.directItems.length) return
+      try {
+        const { length } = $.directItems
+        if (!$.directItems.length) return
 
-      const { directIndex } = $.state
-      const nextDirectIndex = Math.min(
-        length - 1,
-        Math.max(0, directIndex + (isNext ? 1 : -1) * step)
-      )
-      if (
-        (directIndex === 0 && nextDirectIndex === 0) ||
-        (directIndex === -1 && nextDirectIndex === 0 && !isNext)
-      ) {
-        onScrollTo(-1, false)
-        return
-      }
+        const { directIndex } = $.state
+        const nextDirectIndex = Math.min(
+          length - 1,
+          Math.max(0, directIndex + (isNext ? 1 : -1) * step)
+        )
+        if (
+          (directIndex === 0 && nextDirectIndex === 0) ||
+          (directIndex === -1 && nextDirectIndex === 0 && !isNext)
+        ) {
+          onScrollTo(-1, false)
+          return
+        }
 
-      const item = $.directItems[nextDirectIndex]
-      if (!item) return
+        const item = $.directItems[nextDirectIndex]
+        if (!item) return
 
-      const { index, floor } = item
-      let offset = PRE_OFFSET
-      if (index.length === 1) {
-        onScrollTo(index[0], false, offset)
-        if (step > 1) info(floor, 0.8)
-      } else {
-        // 假如子楼层折叠中, 需要先展开
-        const { subExpand } = rakuenStore.setting
-        const needExpand = index[1] > Number(subExpand) - 1
-        if (needExpand) $.onExpand(item.pid)
-
-        setTimeout(() => {
-          // 计算整个子楼层到此处的高度
-          const { pid, sibling } = item
-          offset += PRE_OFFSET
-          offset -= layoutHeightMap.get(pid) || 0
-          sibling.forEach(id => {
-            offset -= layoutHeightMap.get(id) || 0
-          })
-
+        const { index, floor } = item
+        let offset = PRE_OFFSET
+        if (index.length === 1) {
           onScrollTo(index[0], false, offset)
           if (step > 1) info(floor, 0.8)
-        }, 40)
+        } else {
+          // 假如子楼层折叠中, 需要先展开
+          const { subExpand } = rakuenStore.setting
+          const needExpand = index[1] > Number(subExpand) - 1
+          if (needExpand) $.onExpand(item.pid)
+
+          setTimeout(() => {
+            // 计算整个子楼层到此处的高度
+            const { pid, sibling } = item
+            offset += PRE_OFFSET
+            offset -= layoutHeightMap.get(pid) || 0
+            sibling.forEach(id => {
+              offset -= layoutHeightMap.get(id) || 0
+            })
+
+            onScrollTo(index[0], false, offset)
+            if (step > 1) info(floor, 0.8)
+          }, 40)
+        }
+        $.updateDirection(nextDirectIndex, floor)
+      } catch (error) {
+        console.error('topic/index.js', 'onDirect', error)
       }
-      $.updateDirection(nextDirectIndex, floor)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScrollTo]
   )
 
-  const onShowFixedTextarea = useCallback(() => fixedTextareaRef.current?.onFocus(), [])
+  const onShowFixedTextarea = useCallback(() => {
+    try {
+      fixedTextareaRef.current?.onFocus()
+    } catch (error) {
+      console.error('topic/index.js', 'onShowFixedTextarea', error)
+    }
+  }, [])
 
   const renderItem = useCallback(
     ({ item, index }) => {
