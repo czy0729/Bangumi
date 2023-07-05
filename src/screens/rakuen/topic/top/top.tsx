@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 15:36:53
+ * @Last Modified time: 2023-07-05 17:14:58
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,13 @@ import {
   Touchable,
   Flex,
   Text,
+  Avatar,
+  Cover,
   Divider,
   Loading,
   Heatmap,
   UserStatus
 } from '@components'
-import { Avatar } from '@_'
 import { _ } from '@stores'
 import { simpleTime, findSubjectCn, appNavigate, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
@@ -105,10 +106,11 @@ export default memo(
                   }}
                 >
                   <Flex>
-                    <Avatar
+                    <Cover
                       style={isEp ? _.mr.sm : _.mr.xs}
                       size={isEp ? 40 : 20}
                       src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
+                      radius={_.radiusXs}
                     />
                     <Text style={styles.group} size={13} numberOfLines={1}>
                       {HTMLDecode(findSubjectCn(group))}

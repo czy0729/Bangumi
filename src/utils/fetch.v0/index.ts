@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 13:50:56
+ * @Last Modified time: 2023-07-05 14:24:32
  */
 import dayjs from 'dayjs'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,7 +15,7 @@ import { request } from './utils'
 import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
 import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
 
-export { request }
+export { HOST_API_V0, request }
 
 /** 获取条目信息 */
 export async function fetchSubjectV0(config: { url: string }) {

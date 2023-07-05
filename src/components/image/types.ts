@@ -49,7 +49,7 @@ export type Props = Override<
     /** 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例 */
     autoSize?: number | boolean
 
-    /** 是否自动选择Bangumi图片质量 */
+    /** @deprecated 是否自动选择Bangumi图片质量 */
     quality?: boolean
 
     /** 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress */

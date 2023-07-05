@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 21:46:17
+ * @Last Modified time: 2023-07-05 17:31:31
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
-import { getCoverMedium, getTimestamp } from '@utils'
+import { getCover400, getCoverMedium, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
+import { syncUserStore } from '@utils/async'
+import axios from '@utils/thirdParty/axios'
 import {
   AVATAR_DEFAULT,
   HOST_CDN_AVATAR,
   IMG_DEFAULT,
+  UA,
   URL_DEFAULT_AVATAR,
   URL_DEFAULT_MONO
 } from '@constants'
+import { Fn } from '@types'
 import { Props } from './types'
 
 /** 判断是否自己的头像, 一周才变化一次 */
@@ -79,7 +83,7 @@ export function getAvatar(src: any) {
 }
 
 /** 判断是否使用 CDN */
-export function getCDNAvatar(
+function getCDNAvatar(
   src: any,
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
 ) {
@@ -163,7 +167,7 @@ export function getOnPress(
 }
 
 /** 强制使用 /l/ */
-export function fixedLarge(src: any) {
+function fixedLarge(src: any) {
   return typeof src !== 'string'
     ? src
     : src.replace(/\/\/lain.bgm.tv\/pic\/user\/(m|s)\//g, USER_LARGE)
@@ -191,4 +195,51 @@ export function fixedHD(src: any) {
   }
 
   return src.includes('?') ? `${src}&hd=1` : `${src}?hd=1`
+}
+
+/** 自动修复图片地址 */
+export function fixedAll(src: any, size: number) {
+  let _src = fixedLarge(src)
+  _src = fixedSize(_src)
+  _src = fixedHD(_src)
+  _src = getCDNAvatar(_src, size >= 100 ? 'bgm_poster_200' : 'bgm_poster_100')
+
+  // 有时候 Avatar 组件也会被条目封面传入使用, 需要避免使用大图
+  return getCover400(_src, size >= 100 ? 200 : 100)
+}
+
+/** 获取头像 API 跳转后的地址 */
+export async function head(url: string) {
+  const { accessToken } = syncUserStore()
+  let cancelToken: Fn
+
+  return new Promise(resolve => {
+    // @ts-expect-error
+    axios({
+      method: 'get',
+      url,
+      headers: {
+        Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
+        'User-Agent': UA
+      },
+      responseType: 'arraybuffer',
+      withCredentials: false,
+      timeout: 8000,
+      maxRedirects: 0,
+      // @ts-expect-error
+      cancelToken: new axios.CancelToken(function executor(c) {
+        cancelToken = c
+      })
+    })
+      .then((response: any) => {
+        cancelToken()
+
+        const { responseURL } = response.request
+        resolve(responseURL ? responseURL : AVATAR_DEFAULT)
+      })
+      .catch(() => {
+        cancelToken()
+        resolve(AVATAR_DEFAULT)
+      })
+  })
 }

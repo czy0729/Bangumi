@@ -11,11 +11,11 @@ export const memoStyles = _.memoStyles(() => ({
     opacity: _.select(1, 0.8)
   },
   new: {
-    width: 4,
-    height: 4,
+    width: 3,
+    height: 9,
     marginRight: 6,
     marginTop: 1,
     backgroundColor: _.colorMain,
-    borderRadius: 2
+    borderRadius: 1
   }
 }))
