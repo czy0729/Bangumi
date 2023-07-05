@@ -2,33 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:33
+ * @Last Modified time: 2023-07-06 07:43:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _, systemStore, subjectStore, rakuenStore, userStore } from '@stores'
-import { runAfter, HTMLDecode, navigationReference } from '@utils'
-import { IOS, API_COVER, API_AVATAR } from '@constants'
-import { ReactNode } from '@types'
+import { _, subjectStore, rakuenStore } from '@stores'
+import { runAfter, navigationReference } from '@utils'
+import { IOS, API_AVATAR } from '@constants'
+import { Fn, ReactNode } from '@types'
 import { Touchable } from '../../touchable'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
-import { Iconfont } from '../../iconfont'
 import { Cover } from '../../cover'
 import { Avatar } from '../../avatar'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
-import Rank from './rank'
+import Subject from './subject'
 import { memoStyles } from './styles'
 
-/** @todo 待优化, 安卓Text中一定要过滤非文字节点 */
+/** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
 export function filterChildren(
   children: ReactNode | ReactNode[]
 ): ReactNode | ReactNode[] {
   if (IOS) return children
 
   const childrens = React.Children.toArray(children)
-  const data = React.Children.toArray(children).filter(
+  const data = childrens.filter(
     item =>
       // @ts-expect-error
       item?.type?.displayName === 'Text'
@@ -45,7 +44,7 @@ export function filterChildren(
 }
 
 /** 获取 html 根节点文字 */
-export function getRawChildrenText(passProps) {
+export function getRawChildrenText(passProps: any) {
   try {
     const text = passProps?.rawChildren?.[0]?.data
     if (text) return text
@@ -85,103 +84,54 @@ export function getACSearch({ style, passProps, params, onPress }) {
 }
 
 /** 条目媒体块 */
-export function getSubject({ passProps, params, href, onLinkPress }) {
-  const text = getRawChildrenText(passProps)
-  if (text) {
+export async function getSubject(
+  { passProps, params, href, onLinkPress },
+  render?: Fn
+) {
+  try {
+    const text = getRawChildrenText(passProps)
+    if (!text) return
+
     const { subjectId } = params
-    const subject = subjectStore.subject(subjectId)
-    const {
-      images = {
-        common: undefined
-      },
-      name,
-      name_cn,
-      rating = {
-        score: undefined,
-        total: undefined
-      },
-      rank,
-      _loaded
-    } = subject
-    let { air_date } = subject
-    if (!_loaded) {
+    const subject = await subjectStore.getSubjectSnapshot(subjectId)
+
+    // 等待列队请求媒体信息
+    if (!subject?._loaded) {
       setTimeout(() => {
-        runAfter(() => fetchMediaQueue('subject', subjectId))
+        fetchMediaQueue('subject', subjectId, async result => {
+          // 主动渲染组件
+          if (result && typeof render === 'function') {
+            render(await getSubject({ passProps, params, href, onLinkPress }))
+          }
+        })
       }, 2000)
-    } else {
-      const { score } = rating
-      const image = images.common
-      if (image) {
-        const styles = memoStyles()
-        const top = HTMLDecode(name_cn || name || text || '')
-        const bottom = HTMLDecode(
-          text !== top && text !== href ? text : name || name_cn || ''
-        )
-        const showScore = !systemStore.setting.hideScore && !!score
-        const showBottom = bottom && bottom !== top
-        if (air_date === '0000-00-00') air_date = ''
-        return (
-          <View style={styles.wrap}>
-            <Touchable animate onPress={onLinkPress}>
-              <Flex style={styles.body}>
-                <Cover
-                  src={API_COVER(subjectId)}
-                  size={48}
-                  radius={_.radiusSm}
-                  headers={userStore.requestHeaders}
-                />
-                <View style={_.ml.sm}>
-                  <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
-                    {top}{' '}
-                    {!!air_date && (
-                      <Text size={9} lineHeight={11} type='sub' bold>
-                        {String(air_date).slice(0, 7)}
-                      </Text>
-                    )}
-                  </Text>
-                  {(showScore || showBottom) && (
-                    <Flex style={_.mt.sm}>
-                      {showScore && (
-                        <Flex style={_.mr.xs}>
-                          <Rank value={rank} />
-                          <Iconfont name='md-star' size={10} color={_.colorWarning} />
-                          <Text style={_.ml.xxs} type='sub' size={10} bold>
-                            {score}
-                          </Text>
-                          {!!rating.total && (
-                            <Text style={_.ml.xs} type='sub' size={10} bold>
-                              ({rating.total})
-                            </Text>
-                          )}
-                        </Flex>
-                      )}
-                      {/* {showBottom && (
-                        <Text
-                          style={styles.bottom}
-                          type='sub'
-                          size={10}
-                          bold
-                          numberOfLines={1}
-                          selectable
-                        >
-                          {showScore && '· '}
-                          {bottom}
-                        </Text>
-                      )} */}
-                    </Flex>
-                  )}
-                </View>
-              </Flex>
-            </Touchable>
-          </View>
-        )
-      }
+      return
     }
+
+    const { images, name, name_cn, rating, rank, air_date } = subject
+    const image = images?.common
+    if (!image) return
+
+    return (
+      <Subject
+        text={text}
+        href={href}
+        image={image}
+        name={name}
+        name_cn={name_cn}
+        rating={rating}
+        rank={rank}
+        air_date={air_date}
+        onLinkPress={onLinkPress}
+      />
+    )
+  } catch (error) {
+    console.error('render-html', 'a', 'utils', 'getSubject', error)
   }
 }
 
 /** 帖子媒体块 */
-export function getTopic({ passProps, params, onLinkPress }) {
+export async function getTopic({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { topicId } = params
@@ -239,7 +189,7 @@ export function getTopic({ passProps, params, onLinkPress }) {
 }
 
 /** 人物媒体块 */
-export function getMono({ passProps, params, onLinkPress }) {
+export async function getMono({ passProps, params, onLinkPress }) {
   const text = getRawChildrenText(passProps)
   if (text) {
     const { monoId } = params

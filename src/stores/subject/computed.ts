@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 13:33:32
+ * @Last Modified time: 2023-07-06 07:47:03
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -90,7 +90,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 条目 (CDN) */
+  /** @deprecated 条目 (CDN) */
   subjectFormCDN(subjectId: SubjectId) {
     return computed<SubjectFormCDN>(() => {
       return this.state.subjectFormCDN[subjectId] || INIT_SUBJECT_FROM_CDN_ITEM

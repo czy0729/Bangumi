@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:16:07
+ * @Last Modified time: 2023-07-06 07:24:31
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
@@ -216,7 +216,11 @@ const LOADED_IDS = []
 let loading = false
 
 /** 列队请求媒体信息 */
-export async function fetchMediaQueue(type?: string, id?: unknown) {
+export async function fetchMediaQueue(
+  type?: string,
+  id?: unknown,
+  onLoaded?: (result?: boolean) => void
+) {
   if (type && id) {
     if (
       IDS.length <= 16 &&
@@ -236,13 +240,12 @@ export async function fetchMediaQueue(type?: string, id?: unknown) {
     LOADED_IDS.push(item)
 
     try {
-      if (DEV) {
-        // console.info('fetchMediaQueue', IDS, item)
-      }
-      loading = true
+      if (DEV) console.info('fetchMediaQueue', IDS, item)
 
+      loading = true
       if (item.type === 'subject') {
-        await subjectStore.fetchSubject(item.id)
+        const result = await subjectStore.fetchSubjectSnapshot(item.id)
+        onLoaded(result)
       } else if (item.type === 'topic') {
         await rakuenStore.fetchTopic({
           topicId: item.id

@@ -218,7 +218,7 @@ const STATE = {
     0: INIT_SUBJECT
   },
 
-  /** 条目 (CDN) */
+  /** @deprecated 条目 (CDN) */
   subjectFormCDN: {
     0: INIT_SUBJECT_FROM_CDN_ITEM
   },

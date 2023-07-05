@@ -299,6 +299,22 @@ export type SubjectFormCDN = DeepPartial<{
   _loaded: Loaded
 }>
 
+/** 条目信息快照 */
+export type SubjectSnapshot = {
+  air_date: string
+  images: {
+    common: string
+  }
+  name: string
+  name_cn: string
+  rating: {
+    score: number
+    total: number
+  }
+  rank: number | ''
+  _loaded: number
+}
+
 /** 包含条目的目录 */
 export type SubjectCatalogs = ListEmpty<
   Partial<{

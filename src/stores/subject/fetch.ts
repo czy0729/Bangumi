@@ -14,6 +14,7 @@ import {
   API_SUBJECT_EP,
   CDN_MONO,
   CDN_SUBJECT,
+  DEV,
   HTML_EP,
   HTML_MONO_VOICES,
   HTML_MONO_WORKS,
@@ -218,7 +219,7 @@ export default class Fetch extends Computed {
     return false
   }
 
-  /** CDN 获取条目信息 */
+  /** @deprecated CDN 获取条目信息 */
   fetchSubjectFormCDN = async (subjectId: SubjectId) => {
     try {
       const { _response } = await xhrCustom({
@@ -239,6 +240,28 @@ export default class Fetch extends Computed {
     } catch (error) {
       return INIT_SUBJECT_FROM_CDN_ITEM
     }
+  }
+
+  /** 自动判断尽快条目快照数据 */
+  fetchSubjectSnapshot = async (subjectId: SubjectId) => {
+    let result = false
+    if (!result) {
+      if (DEV) console.info('fetchSubjectSnapshot.oss', subjectId)
+      result = await this.fetchSubjectFromOSS(subjectId)
+    }
+
+    if (!result) {
+      if (DEV) console.info('fetchSubjectSnapshot.v2', subjectId)
+      result = await this.fetchSubjectV2(subjectId)
+    }
+
+    if (!result) {
+      if (DEV) console.info('fetchSubjectSnapshot.subject', subjectId)
+      const data = await this.fetchSubject(subjectId)
+      result = !!(data._loaded && data.name)
+    }
+
+    return result
   }
 
   /** @deprecated 章节数据 */
