@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 07:43:18
+ * @Last Modified time: 2023-07-06 15:45:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _, subjectStore, rakuenStore } from '@stores'
+import { getInt } from '@stores/rakuen/utils'
 import { runAfter, navigationReference } from '@utils'
-import { IOS, API_AVATAR } from '@constants'
+import { IOS } from '@constants'
 import { Fn, ReactNode } from '@types'
 import { Touchable } from '../../touchable'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { Cover } from '../../cover'
-import { Avatar } from '../../avatar'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
 import Subject from './subject'
+import Topic from './topic'
 import { memoStyles } from './styles'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
@@ -131,60 +132,37 @@ export async function getSubject(
 }
 
 /** 帖子媒体块 */
-export async function getTopic({ passProps, params, onLinkPress }) {
-  const text = getRawChildrenText(passProps)
-  if (text) {
-    const { topicId } = params
-    const { userId, group, time, userName, _loaded } = rakuenStore.topic(topicId)
-    if (!_loaded) {
-      setTimeout(() => {
-        runAfter(() => fetchMediaQueue('topic', topicId))
-      }, 2000)
-    } else {
-      const styles = memoStyles()
-      const { list } = rakuenStore.comments(topicId)
-      if (userId && group && userName) {
-        let reply = 0
-        list.forEach(item => {
-          reply += 1
-          if (item?.sub?.length) reply += item.sub.length
-        })
+export async function getTopic({ passProps, params, onLinkPress }, render?: Fn) {
+  try {
+    const text = getRawChildrenText(passProps)
+    if (!text) return
 
-        return (
-          <View style={styles.wrap}>
-            <Touchable animate onPress={onLinkPress}>
-              <Flex style={styles.body}>
-                <Avatar src={API_AVATAR(userId)} size={48} radius={_.radiusSm} />
-                <View style={_.ml.sm}>
-                  <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
-                    {text}{' '}
-                    {!!time && (
-                      <Text size={9} lineHeight={11} type='sub' bold>
-                        {String(time).split(' ')?.[0]}
-                      </Text>
-                    )}
-                  </Text>
-                  <Flex style={_.mt.xs}>
-                    <Text
-                      style={styles.bottom}
-                      type='sub'
-                      size={9}
-                      lineHeight={10}
-                      bold
-                      numberOfLines={2}
-                      selectable
-                    >
-                      {reply} 回复 · {group}
-                      {/* · {userName} */}
-                    </Text>
-                  </Flex>
-                </View>
-              </Flex>
-            </Touchable>
-          </View>
-        )
-      }
+    const { topicId } = params
+    await rakuenStore.init('topic')
+
+    const last = getInt(topicId)
+    const key = `comments${last}` as const
+    await rakuenStore.init(key)
+
+    const topic = rakuenStore.topic(topicId)
+    if (!topic?._loaded) {
+      setTimeout(() => {
+        fetchMediaQueue('topic', topicId, async result => {
+          // 主动渲染组件
+          if (result && typeof render === 'function') {
+            render(await getTopic({ passProps, params, onLinkPress }))
+          }
+        })
+      }, 2000)
+      return
     }
+
+    const { userId, group, userName } = topic
+    if (!(userId && group && userName)) return
+
+    return <Topic topicId={topicId} text={text} onLinkPress={onLinkPress} />
+  } catch (error) {
+    console.error('render-html', 'a', 'utils', 'getTopic', error)
   }
 }
 

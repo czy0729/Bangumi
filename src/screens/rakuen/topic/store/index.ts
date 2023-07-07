@@ -35,8 +35,6 @@ class ScreenTopic extends Action {
       }
 
       if (needFetch) {
-        if (!this.state.topic._loaded) this.fetchTopicFromCDN()
-
         // 章节需要请求章节详情
         if (this.isEp) {
           this.fetchEpFormHTML()

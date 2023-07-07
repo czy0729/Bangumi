@@ -107,7 +107,7 @@ export default memo(
                 >
                   <Flex>
                     <Cover
-                      style={isEp ? _.mr.sm : _.mr.xs}
+                      style={_.mr.sm}
                       size={isEp ? 40 : 20}
                       src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
                       radius={_.radiusXs}

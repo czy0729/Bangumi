@@ -20,7 +20,7 @@ export const memoStyles = _.memoStyles(() => {
       marginLeft
     },
     html: {
-      paddingRight: _.md + 2,
+      paddingRight: _.sm,
       marginTop: _.xs
     },
     quoteUserRound: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 23:18:16
+ * @Last Modified time: 2023-07-06 13:52:37
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -190,7 +190,7 @@ const STATE = {
     0: {}
   },
 
-  /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
+  /** @deprecated 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
   topicFormCDN: {
     0: INIT_TOPIC
   },

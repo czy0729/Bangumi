@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 14:30:29
+ * @Last Modified time: 2023-07-06 15:05:41
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
+import { get } from '@utils/kv'
 import {
   CDN_RAKUEN,
   CDN_RAKUEN_USER_TOPICS,
+  DEV,
   HTML_BLOG,
   HTML_BOARD,
   HTML_GROUP,
@@ -155,8 +157,8 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** CDN 获取帖子信息 */
-  fetchTopicFormCDN = async (topicId: string | number) => {
+  /** @deprecated CDN 获取帖子信息 */
+  fetchTopicFromCDN = async (topicId: string | number) => {
     try {
       const { _response } = await xhrCustom({
         url: CDN_RAKUEN(topicId)
@@ -176,6 +178,84 @@ export default class Fetch extends Computed {
     } catch (error) {
       return INIT_TOPIC
     }
+  }
+
+  /** 装载云端帖子缓存数据 */
+  fetchTopicFromOSS = async (topicId: TopicId) => {
+    const now = getTimestamp()
+    const topic = this.topic(topicId)
+
+    // 帖子数据存在且比较新鲜, 不再请求, 应直接使用帖子数据
+    if (topic._loaded && now - Number(topic._loaded) <= 60 * 60 * 24) {
+      return true
+    }
+
+    try {
+      const data = await get(`topic_${topicId.replace('/', '_')}`)
+      if (!data) return false
+
+      const { ts, topic, comments } = data
+      if (typeof topic === 'object' && typeof comments === 'object') {
+        const stateKey = topicId
+        const topicKey = 'topic'
+        const last = getInt(topicId)
+        const commentsKey = `comments${last}` as const
+
+        if (comments?.list?.[0]?.floor) {
+          if (
+            comments.list.length >= 2 &&
+            comments.list[0].floor.localeCompare(comments.list[1].floor)
+          ) {
+            comments.list.reverse()
+          }
+        }
+
+        this.setState({
+          [topicKey]: {
+            [stateKey]: {
+              ...INIT_TOPIC,
+              ...topic,
+              _loaded: ts
+            }
+          },
+          [commentsKey]: {
+            [stateKey]: {
+              list: comments?.list || [],
+              pagination: {
+                page: 1,
+                pageTotal: 1
+              },
+              _list: [],
+              _loaded: ts
+            }
+          }
+        })
+        this.save(topicKey)
+        this.save(commentsKey)
+        return true
+      }
+    } catch (error) {}
+
+    return false
+  }
+
+  /** 自动判断尽快帖子快照数据 */
+  fetchTopicSnapshot = async (topicId: TopicId) => {
+    let result = false
+    if (!result) {
+      if (DEV) console.info('fetchTopicSnapshot.oss', topicId)
+      result = await this.fetchTopicFromOSS(topicId)
+    }
+
+    if (!result) {
+      if (DEV) console.info('fetchTopicSnapshot.topic', topicId)
+      const data = await this.fetchTopic({
+        topicId
+      })
+      if (data.topic?._loaded && data.topic?.title) result = true
+    }
+
+    return result
   }
 
   /**

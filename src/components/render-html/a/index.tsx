@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 07:33:47
+ * @Last Modified time: 2023-07-06 15:20:10
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -42,7 +42,7 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
         }
 
         if (route === 'Topic') {
-          if (params?.topicId !== 'group/350677') setEl(await getTopic(args))
+          if (params?.topicId !== 'group/350677') setEl(await getTopic(args, setEl))
           return
         }
 

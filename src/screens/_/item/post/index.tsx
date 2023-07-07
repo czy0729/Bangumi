@@ -69,7 +69,7 @@ export const ItemPost = obc(
     const isFriend = $?.myFriendsMap?.[userId]
     if (isDelete) {
       return (
-        <View style={styles.item}>
+        <View style={styles.itemDelete}>
           <PlusOne
             id={id}
             message={message}

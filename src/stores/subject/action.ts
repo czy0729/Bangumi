@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:38:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 07:32:28
+ * @Last Modified time: 2023-07-06 15:39:17
  */
 import CryptoJS from 'crypto-js'
 import { put, read } from '@utils/db'
@@ -22,6 +22,7 @@ export default class Action extends Fetch {
     let flag = false
     if (!flag) {
       await this.initSubjectV2([subjectId])
+
       const subjectV2 = this.subjectV2(subjectId)
       if (subjectV2._loaded && subjectV2.jp) {
         flag = true
@@ -41,6 +42,7 @@ export default class Action extends Fetch {
       const last = getInt(subjectId)
       const key = `subject${last}` as const
       await this.init(key)
+
       const subject = this.subject(subjectId)
       if (subject._loaded && subject.name) {
         flag = true
@@ -58,6 +60,7 @@ export default class Action extends Fetch {
 
     if (!flag) {
       await this.init('subjectFromOSS')
+
       const subjectFromOSS = this.subjectFromOSS(subjectId)
       if (subjectFromOSS._loaded && subjectFromOSS.name) {
         flag = true

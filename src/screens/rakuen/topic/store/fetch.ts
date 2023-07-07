@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 02:06:23
+ * @Last Modified time: 2023-07-06 15:04:19
  */
-import { systemStore, rakuenStore, subjectStore } from '@stores'
+import { rakuenStore, subjectStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -22,17 +22,6 @@ export default class Fetch extends Computed {
   fetchEpFormHTML = () => {
     const epId = this.topicId.replace('ep/', '')
     return subjectStore.fetchEpFormHTML(epId)
-  }
-
-  /** 私有 CDN 的帖子内容信息 */
-  fetchTopicFromCDN = () => {
-    if (!this.topicId.includes('group/')) return false
-
-    const { setting } = systemStore
-    const { _loaded } = this.topic
-    if (!setting.cdn || _loaded) return true
-
-    return rakuenStore.fetchTopicFormCDN(this.topicId.replace('group/', ''))
   }
 
   /** 装载云端帖子缓存数据 */
@@ -54,7 +43,7 @@ export default class Fetch extends Computed {
         const state: any = {
           topic: {
             ...topic,
-            _loaded: getTimestamp()
+            _loaded
           }
         }
 
@@ -64,20 +53,20 @@ export default class Fetch extends Computed {
          */
         if (comments?.list?.[0]?.floor) {
           /**
-           * 历史遗漏问题, 观察到有倒序的快照, 需要自行反转
+           * 历史遗漏问题, 观察到有倒序的快照, 暂不使用这种快照
            * @date 2023-07-04
            */
-          if (
+          const needReverse =
             comments.list.length >= 2 &&
-            comments.list[0].floor.localeCompare(comments.list[1].floor)
-          ) {
-            comments.reverse()
-          }
-          state.comments = {
-            ...comments,
-            _loaded: getTimestamp()
+            comments.list[0].floor.localeCompare(comments.list[1].floor) === 1
+          if (!needReverse) {
+            state.comments = {
+              ...comments,
+              _loaded
+            }
           }
         }
+
         this.setState(state)
       }
 

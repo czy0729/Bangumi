@@ -369,8 +369,12 @@ export default class Computed extends State {
 
   /** 帖子地址 */
   @computed get html() {
-    // ep带上章节详情
+    // ep 带上章节详情
     if (this.isEp) return this.epFormHTML || this.params._desc
-    return this.topic.message || this.topicFormCDN.message || ''
+
+    return (this.topic.message || this.topicFormCDN.message || '').replace(
+      /(<br>)+/g,
+      '<br>'
+    )
   }
 }

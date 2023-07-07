@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 07:24:31
+ * @Last Modified time: 2023-07-06 15:45:39
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
@@ -247,9 +247,8 @@ export async function fetchMediaQueue(
         const result = await subjectStore.fetchSubjectSnapshot(item.id)
         onLoaded(result)
       } else if (item.type === 'topic') {
-        await rakuenStore.fetchTopic({
-          topicId: item.id
-        })
+        const result = await rakuenStore.fetchTopicSnapshot(item.id)
+        onLoaded(result)
       } else if (item.type === 'mono') {
         await subjectStore.fetchMono({
           monoId: item.id

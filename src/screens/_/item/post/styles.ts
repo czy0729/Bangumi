@@ -12,6 +12,11 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.md,
     paddingHorizontal: _.wind
   },
+  itemDelete: {
+    width: _.window.width,
+    paddingBottom: _.sm,
+    paddingHorizontal: _.wind
+  },
   itemJump: {
     borderBottomWidth: 2,
     borderColor: _.colorSuccess
@@ -24,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.sm
   },
   html: {
-    paddingRight: _.md + 2,
+    paddingRight: _.sm,
     marginTop: _.sm
   },
   translate: {

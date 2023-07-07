@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 14:26:03
+ * @Last Modified time: 2023-07-06 13:52:50
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -94,7 +94,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
+  /** @deprecated 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
   topicFormCDN(topicId: string | number) {
     return computed<Topic>(() => {
       return this.state.topicFormCDN[topicId] || INIT_TOPIC
