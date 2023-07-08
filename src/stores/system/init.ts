@@ -181,8 +181,8 @@ export const INIT_SETTING = {
   /** 隐藏他人评分 */
   hideScore: false,
 
-  /** @deprecated 图片渐出 */
-  imageTransition: false,
+  /** 图片渐出 */
+  imageTransition: true,
 
   /** @deprecated iOS 风格弹出菜单 */
   iosMenu: false,

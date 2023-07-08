@@ -585,8 +585,8 @@ export const Image = observer(
       }
 
       return {
-        container,
-        image
+        container: _.flatten(container),
+        image: _.flatten(image)
       }
     }
 
@@ -660,9 +660,11 @@ export const Image = observer(
             <Remote
               {...other}
               style={this.computedStyle.image}
+              containerStyle={this.computedStyle.container}
               headers={this.headers}
               uri={uri}
               autoSize={autoSize}
+              fadeDuration={fadeDuration}
               onError={this.onError}
               onLoadEnd={this.onLoadEnd}
             />

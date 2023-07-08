@@ -43,16 +43,13 @@ function UI({ filter }) {
 
     const styles = memoStyles()
     const {
-      vibration,
-      coverThings,
-      coverRadius,
-      // ripple,
-      speech,
       avatarRound,
+      coverRadius,
+      coverThings,
+      customFontFamily,
+      speech,
       transition,
-      customFontFamily
-      // imageTransition
-      // quality
+      vibration
     } = systemStore.setting
     const avatar = userStore.usersInfo()?.avatar?.large || IMG_DEFAULT_AVATAR
     return (
@@ -561,30 +558,6 @@ function UI({ filter }) {
           >
             <Heatmap id='设置.切换' title='震动' />
           </ItemSetting>
-
-          {/* 图片渐出动画 */}
-          {/* {IOS && !IOS_IMAGE_CACHE_V2 && (
-            <ItemSetting
-              show={IOS}
-              hd='图片渐出动画'
-              ft={
-                <SwitchPro
-                  style={commonStyles.switch}
-                  value={imageTransition}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '图片渐出动画',
-                      checked: !imageTransition
-                    })
-
-                    systemStore.switchSetting('imageTransition')
-                  }}
-                />
-              }
-            >
-              <Heatmap id='设置.切换' title='图片渐出动画' />
-            </ItemSetting>
-          )} */}
         </ActionSheet>
       </>
     )

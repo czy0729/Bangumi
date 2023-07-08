@@ -21,7 +21,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
       ...this.state.setting,
 
       /** 版本迭代后的禁用设置覆盖 */
-      imageTransition: false,
       cdnAvatar: false,
       ripple: false
     }

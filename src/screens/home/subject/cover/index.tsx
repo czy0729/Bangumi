@@ -27,9 +27,14 @@ class Cover extends React.Component<Props> {
     const { $ }: Ctx = this.context
     if (typeof $.cover === 'string') SRC_LOADED[$.cover] = true
 
-    this.setState({
-      isLoaded: true
-    })
+    setTimeout(
+      () => {
+        this.setState({
+          isLoaded: true
+        })
+      },
+      systemStore.setting.imageTransition ? 880 : 0
+    )
   }
 
   get isLoaded() {
