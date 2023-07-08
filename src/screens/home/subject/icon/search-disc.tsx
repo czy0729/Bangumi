@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-08-31 18:58:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:14:03
+ * @Last Modified time: 2023-07-08 09:33:54
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
+import { HIT_SLOP, ORIGINS_MANAGE, ACTIONS_MANAGE } from './ds'
+import { IconProps } from './types'
 
-const ORIGINS_MANAGE = '源头管理'
-const ACTIONS_MANAGE = '跳转管理'
-
-function IconSearchDisc({ children = null }, { $, navigation }: Ctx) {
+function IconSearchDisc({ style, children }: IconProps, { $, navigation }: Ctx) {
   const data = [
     ...$.onlineDiscOrigins.map(item => (typeof item === 'object' ? item.name : item)),
     ORIGINS_MANAGE
@@ -24,8 +24,9 @@ function IconSearchDisc({ children = null }, { $, navigation }: Ctx) {
 
   return (
     <Popover
-      style={!children && styles.touch}
+      style={stl(!children && styles.touch, style)}
       data={data}
+      hitSlop={HIT_SLOP}
       onSelect={(title: string) => {
         if (title === ORIGINS_MANAGE) {
           navigation.push('OriginSetting')

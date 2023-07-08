@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-05 20:45:06
+ * @Last Modified time: 2023-07-08 10:06:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,6 @@ import { findADV } from '@utils/subject/adv'
 import { HENTAI_TAGS, findHentai } from '@utils/subject/hentai'
 import {
   HOST,
-  IMG_HEIGHT_LG,
   IMG_WIDTH_LG,
   MODEL_SUBJECT_TYPE,
   SITES,
@@ -58,7 +57,7 @@ export default class Computed extends State {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
   }
 
-  /** 条目唯一Id */
+  /** 条目唯一 id */
   @computed get subjectId() {
     const { subjectId } = this.params
     return subjectId
@@ -115,7 +114,7 @@ export default class Computed extends State {
     return userStore.isLogin
   }
 
-  /** 用户id */
+  /** 用户 id */
   @computed get userId() {
     return userStore.userInfo.id
   }
@@ -590,14 +589,15 @@ export default class Computed extends State {
 
   /** 封面图宽度 */
   @computed get imageWidth() {
-    return IMG_WIDTH_LG * (_.isPad ? 1.4 : 1.2) * (this.type === '音乐' ? 1.2 : 1)
+    const ratio = _.isPad ? 1.4 : 1.2
+    if (this.type === '音乐') return IMG_WIDTH_LG * ratio * 1.2
+    return (IMG_WIDTH_LG + 16) * ratio
   }
 
   /** 封面图高度, 音乐类型条目为正方形 */
   @computed get imageHeight() {
-    return this.type === '音乐'
-      ? this.imageWidth
-      : IMG_HEIGHT_LG * (_.isPad ? 1.4 : 1.2)
+    if (this.type === '音乐') return this.imageWidth
+    return this.imageWidth * 1.4
   }
 
   // -------------------- cdn fallback --------------------
@@ -699,7 +699,7 @@ export default class Computed extends State {
     return this.subjectFormCDN.eps || []
   }
 
-  /** 经过计算后传递到 <Eps> 的 data */
+  /** 经过计算后传递到 Eps 的 data */
   @computed get toEps() {
     const { epsReverse, filterEps } = this.state
 
@@ -782,10 +782,7 @@ export default class Computed extends State {
     if (this.subject._loaded && this.subject.rating) {
       const { staff } = this.subject
 
-      /**
-       * @fixed
-       * 敏感条目不再返回数据, 而旧接口staff也错乱, 改为使用网页的staff数据
-       */
+      /** @fixed 敏感条目不再返回数据, 而旧接口 staff 也错乱, 改为使用网页的 staff 数据 */
       if (staff?.[0]?.id == this.subjectId) {
         const persons = monoStore.persons(this.subjectId)
         return persons.list.map(item => ({
@@ -920,10 +917,7 @@ export default class Computed extends State {
     return this.subjectFromOSS.relations || []
   }
 
-  /**
-   * 关联: 前传和续集, 或系列: 若为单行本, relations第一项则为系列
-   * 前传
-   */
+  /** 关联: 前传和续集, 或系列: 若为单行本, relations 第一项则为系列前传 */
   @computed get subjectPrev() {
     return this.subjectRelations.find(item => item.type === '前传')
   }

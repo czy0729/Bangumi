@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-29 14:15:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:41:35
+ * @Last Modified time: 2023-07-08 09:34:31
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Button, Iconfont } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
@@ -23,7 +24,11 @@ function Extra(props, { $ }: Ctx) {
 
   // 设置的实现: [自定义跳转] 和 [若有自定义跳转隐藏通用源头按钮]
   const hasActions = !!$.actions.length
-  let Component: React.ComponentType
+  let Component:
+    | typeof IconOnline
+    | typeof IconSearch
+    | typeof IconGame
+    | typeof IconSearchDisc
   let elOrigin: React.ReactNode
   if (!(focusAction && hasActions)) {
     if ($.type === '动画' || $.type === '三次元') {
@@ -37,14 +42,16 @@ function Extra(props, { $ }: Ctx) {
     }
     if (Component)
       elOrigin = (
-        <Component>
-          <Flex style={stl(styles.extra, !hasActions && styles.extraLg)}>
-            <Button
-              style={styles.btn}
-              extra={<Iconfont name='md-airplay' size={17} />}
-            />
-          </Flex>
-        </Component>
+        <View style={styles.container}>
+          <Component>
+            <Flex style={stl(styles.extra, !hasActions && styles.extraLg)}>
+              <Button
+                style={styles.btn}
+                extra={<Iconfont name='md-airplay' size={17} />}
+              />
+            </Flex>
+          </Component>
+        </View>
       )
   }
 
@@ -52,14 +59,16 @@ function Extra(props, { $ }: Ctx) {
     <>
       {elOrigin}
       {hasActions && (
-        <IconActions>
-          <Flex style={[styles.extra, !elOrigin && styles.extraLg]}>
-            <Button
-              style={styles.btn}
-              extra={<Iconfont name='md-read-more' size={25} />}
-            />
-          </Flex>
-        </IconActions>
+        <View style={styles.container}>
+          <IconActions>
+            <Flex style={[styles.extra, !elOrigin && styles.extraLg]}>
+              <Button
+                style={styles.btn}
+                extra={<Iconfont name='md-read-more' size={25} />}
+              />
+            </Flex>
+          </IconActions>
+        </View>
       )}
     </>
   )

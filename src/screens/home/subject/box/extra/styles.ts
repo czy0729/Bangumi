@@ -7,10 +7,12 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  extra: {
-    width: 48,
+  container: {
     marginTop: -30,
     marginLeft: _.sm
+  },
+  extra: {
+    width: 48
   },
   extraLg: {
     width: 64

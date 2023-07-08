@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 11:14:07
+ * @Last Modified time: 2023-07-08 09:53:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 const ITEM_HEIGHT = 142
-const ITEM_HEIGHT_COMPACT = 122
+const ITEM_HEIGHT_COMPACT = 100
 
 function Cover({ index, subjectId, subject }, { $, navigation }: Ctx) {
   const { homeListCompact } = systemStore.setting

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:11:36
+ * @Last Modified time: 2023-07-08 09:49:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,7 @@ export default memo(
         <Flex align='start'>
           <View style={styles.avatar}>
             <UserStatus userId={userId}>
-              <InView key={index} style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+              <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
                 <Avatar avatar={avatar} userName={userName} userId={userId} />
               </InView>
             </UserStatus>

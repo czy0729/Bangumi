@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:49:21
+ * @Last Modified time: 2023-07-08 09:20:54
  */
 import { ViewStyle, ReactNode } from '@types'
 
@@ -22,6 +22,8 @@ export type Props = {
 
   /** 菜单 Node (iOS only) */
   overlay?: ReactNode
+
+  hitSlop?: Record<'top' | 'right' | 'bottom' | 'left', number>
 
   /** 菜单选择 */
   onSelect?: (title?: string) => any

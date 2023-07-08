@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-24 08:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:02:30
+ * @Last Modified time: 2023-07-08 09:33:43
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
+import { HIT_SLOP, ORIGINS_MANAGE, ACTIONS_MANAGE } from './ds'
+import { IconProps } from './types'
 
-const ORIGINS_MANAGE = '源头管理'
-const ACTIONS_MANAGE = '跳转管理'
-
-function IconGame({ children = null }, { $, navigation }: Ctx) {
+function IconGame({ style, children }: IconProps, { $, navigation }: Ctx) {
   if (!$.titleLabel.includes('游戏')) return null
 
   const data = [
@@ -26,8 +26,9 @@ function IconGame({ children = null }, { $, navigation }: Ctx) {
 
   return (
     <Popover
-      style={!children && styles.touch}
+      style={stl(!children && styles.touch, style)}
       data={data}
+      hitSlop={HIT_SLOP}
       onSelect={(title: string) => {
         if (title === ORIGINS_MANAGE) {
           navigation.push('OriginSetting')

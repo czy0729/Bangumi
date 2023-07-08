@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 20:40:51
+ * @Last Modified time: 2023-07-08 12:09:22
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { Loading, ListView, Text, Heatmap } from '@components'
+import { ScrollView, Loading, ListView, Text, Heatmap } from '@components'
 import { SectionHeader } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { SHARE_MODE, STORYBOOK } from '@constants'
@@ -70,11 +71,35 @@ class RakuenList extends React.Component<{
 
     const { $ }: Ctx = this.context
     const { timeout } = $.state
+    const { onScroll } = this.props
+    const _onScroll = STORYBOOK
+      ? undefined
+      : Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: $.scrollY
+                }
+              }
+            }
+          ],
+          {
+            useNativeDriver: true,
+            listener: onScroll
+          }
+        )
     if (!$.userTopicsFormCDN._loaded) {
       return (
-        <Loading style={styles.loading}>
-          {timeout && <Text style={_.mt.md}>查询超时，TA可能没有发过帖子</Text>}
-        </Loading>
+        <ScrollView
+          contentContainerStyle={styles.contentContainerStyle}
+          animated
+          onScroll={_onScroll}
+        >
+          <Loading style={styles.loading}>
+            {timeout && <Text style={_.mt.md}>查询超时，TA可能没有发过帖子</Text>}
+          </Loading>
+        </ScrollView>
       )
     }
 
@@ -95,11 +120,13 @@ class RakuenList extends React.Component<{
         </>
       ) : undefined
 
-    const { onScroll } = this.props
     return (
       <ListView
         ref={this.connectRef}
-        contentContainerStyle={!STORYBOOK && _.container.bottom}
+        contentContainerStyle={stl(
+          styles.contentContainerStyle,
+          !STORYBOOK && _.container.bottom
+        )}
         keyExtractor={keyExtractor}
         data={$.userTopicsFormCDN}
         sectionKey='date'
@@ -108,27 +135,9 @@ class RakuenList extends React.Component<{
         renderItem={this.renderItem}
         animated
         ListFooterComponent={ListFooterComponent}
+        onScroll={_onScroll}
         onFooterRefresh={$.fetchUsersTimeline}
         {...this.props}
-        onScroll={
-          STORYBOOK
-            ? undefined
-            : Animated.event(
-                [
-                  {
-                    nativeEvent: {
-                      contentOffset: {
-                        y: $.scrollY
-                      }
-                    }
-                  }
-                ],
-                {
-                  useNativeDriver: true,
-                  listener: onScroll
-                }
-              )
-        }
       />
     )
   }

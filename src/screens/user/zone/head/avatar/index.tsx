@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:46:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:17:35
+ * @Last Modified time: 2023-07-08 10:24:04
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, getUserStatus } from '@components'
+import { Image, getUserStatus } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -34,9 +34,7 @@ function Avatar(props, { $ }: Ctx) {
         fallbackSrc={avatar?.large}
       />
       {!!userStatus && (
-        <Flex style={styles.status} justify='center'>
-          <View style={[styles.online, styles[`online${userStatus}`]]} />
-        </Flex>
+        <View style={[styles.status, styles.online, styles[`online${userStatus}`]]} />
       )}
     </View>
   )

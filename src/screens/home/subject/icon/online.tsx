@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 16:29:32
+ * @Last Modified time: 2023-07-08 09:32:36
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 import IconActions from './actions'
+import { HIT_SLOP, ORIGINS_MANAGE, ACTIONS_MANAGE, ICS_MANAGE } from './ds'
+import { IconProps } from './types'
 
-const ORIGINS_MANAGE = '源头管理'
-const ACTIONS_MANAGE = '跳转管理'
-const ICS_MANAGE = '导出放送日程ICS'
-
-function IconOnline({ children = null }, { $, navigation }: Ctx) {
+function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
   if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
 
@@ -27,8 +26,9 @@ function IconOnline({ children = null }, { $, navigation }: Ctx) {
   return (
     <>
       <Popover
-        style={!children && styles.touch}
+        style={stl(!children && styles.touch, style)}
         data={data.map(item => (typeof item === 'object' ? item.name : item))}
+        hitSlop={HIT_SLOP}
         onSelect={(title: string) => {
           if (title === ORIGINS_MANAGE) {
             navigation.push('OriginSetting')

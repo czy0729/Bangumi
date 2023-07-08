@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:48:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 08:48:50
+ * @Last Modified time: 2023-07-08 10:24:30
  */
 import { _ } from '@stores'
 
@@ -24,8 +24,13 @@ export const styles = _.create({
     borderRadius: 18
   },
   online: {
-    width: 13,
-    height: 13,
-    borderRadius: 13
+    borderWidth: 2,
+    borderColor: _.__colorPlain__
+  },
+  onlineSuccess: {
+    backgroundColor: 'rgb(9, 241, 117)'
+  },
+  onlineWarning: {
+    backgroundColor: _.colorWarning
   }
 })
