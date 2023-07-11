@@ -28,9 +28,13 @@ export const memoStyles = _.memoStyles(() => ({
   },
   touch: {
     marginTop: -7,
-    marginHorizontal: _.xs,
+    marginRight: _.xs,
     borderRadius: 20,
     overflow: 'hidden'
+  },
+  cover: {
+    paddingRight: 8,
+    marginLeft: _.md
   },
   extra: {
     width: 36,

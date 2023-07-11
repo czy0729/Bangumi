@@ -129,8 +129,7 @@ export default memo(
     }
 
     if (blockKeywords.some(item => rawMsg.includes(item))) {
-      message =
-        '<span style="color:#999;font-size:12px">命中自定义关键字，已被屏蔽</span>'
+      message = '<span style="color:#999;font-size:12px">已屏蔽</span>'
     }
 
     const isNew = !!readedTime && getTimestamp(time) > readedTime
@@ -141,7 +140,9 @@ export default memo(
         style={styles.item}
         align='start'
         onLayout={e => {
-          layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
+          try {
+            layoutHeightMap.set(Number(id), Math.max(1, e.nativeEvent.layout.height))
+          } catch (error) {}
         }}
       >
         {/* 头像 */}

@@ -147,7 +147,7 @@ const Item = memo(
               {image.length === 1 && (
                 <InView key={index} y={y}>
                   <Touchable
-                    style={_.ml.md}
+                    style={styles.cover}
                     animate
                     onPress={() => {
                       onNavigate(!!p3Url.length && p3Url[0], {

@@ -47,7 +47,12 @@ export default memo(
         <Flex align='start'>
           <View style={styles.avatar}>
             <UserStatus userId={userId}>
-              <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
+              <InView
+                key={index}
+                style={styles.inView}
+                index={index}
+                y={ITEM_HEIGHT * index + 1}
+              >
                 <Avatar avatar={avatar} userName={userName} userId={userId} />
               </InView>
             </UserStatus>
