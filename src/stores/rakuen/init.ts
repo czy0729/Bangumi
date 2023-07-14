@@ -97,7 +97,7 @@ export const INIT_SETTING = {
   wide: false,
 
   /** 子楼层折叠 */
-  subExpand: '2',
+  subExpand: '4',
 
   /** 显示贴贴模块 */
   likes: true,

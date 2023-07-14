@@ -18,7 +18,7 @@ function FloorText({ time, floor, isNew }) {
       {isNew && <View style={styles.new} />}
       <Text style={styles.container} type='sub' size={11} lineHeight={12}>
         {simpleTime(time)}
-        {'   '}#{String(floor).replace('#', '')}
+        {'  '}#{String(floor).replace('#', '')}
       </Text>
     </Flex>
   )

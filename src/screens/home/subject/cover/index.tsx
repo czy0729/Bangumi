@@ -33,7 +33,7 @@ class Cover extends React.Component<Props> {
           isLoaded: true
         })
       },
-      systemStore.setting.imageTransition ? 880 : 0
+      systemStore.setting.imageFadeIn ? 880 : 0
     )
   }
 

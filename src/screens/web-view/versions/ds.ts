@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 05:54:27
+ * @Last Modified time: 2023-07-13 06:28:30
  */
 export const NAMESPACE = 'ScreenVersions'
 
 export const TABS = [
+  {
+    title: '7.16 - 7/4',
+    key: 'ric9srgg6sx9wakm'
+  },
   {
     title: '7.15 - 6/9',
     key: 'gaqpf9ugnl17gt38'

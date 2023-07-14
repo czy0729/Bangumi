@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:37:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-12 04:26:34
+ * @Last Modified time: 2023-07-13 07:19:33
  */
 import React, { useEffect } from 'react'
-import { Page, Header } from '@components'
+import { Page } from '@components'
 import { TapListener } from '@_'
 import { uiStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useIsFocused, useObserver, useRunAfter } from '@utils/hooks'
-import Setting from './setting'
+import Header from './header'
 import Cate from './cate'
 import List from './list'
 import Tips from './tips'
@@ -29,14 +29,9 @@ const Like = (props, { $ }: Ctx) => {
   }, [isFocused])
 
   return useObserver(() => {
-    const { type, list } = $.state
     return (
       <>
-        <Header
-          title='猜你喜欢'
-          hm={['like', 'Like']}
-          headerRight={() => <Setting length={list[type]?.length} />}
-        />
+        <Header />
         <Page>
           <Cate />
           <TapListener>

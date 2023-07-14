@@ -2,26 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-08 10:17:09
+ * @Last Modified time: 2023-07-13 07:40:31
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
-import { open } from '@utils'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { Ctx } from '../types'
 
-function Header() {
+function Header(props, { navigation }: Ctx) {
   return (
     <CompHeader
       title='自定义源头'
       hm={['origin-setting', 'OriginSetting']}
       headerRight={() => (
         <CompHeader.Popover
-          data={['说明文档']}
+          data={['说明']}
           onSelect={key => {
-            if (key === '说明文档') {
-              t('自定义源头.右上角菜单', { key })
-              open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/brbd33')
+            t('自定义源头.右上角菜单', {
+              key
+            })
+
+            if (key === '说明') {
+              navigation.push('Tips', {
+                key: 'qcgrso5g70d6gusf'
+              })
             }
           }}
         >
@@ -32,4 +37,4 @@ function Header() {
   )
 }
 
-export default ob(Header)
+export default obc(Header)

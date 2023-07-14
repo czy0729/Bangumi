@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:08:39
+ * @Last Modified time: 2023-07-13 07:03:24
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -39,6 +39,7 @@ export type NavigationPushType = RouteActions &
   RouteSubject &
   RouteTag &
   RouteTinygrail &
+  RouteTips &
   RouteTopic &
   RouteUser &
   RouteUserTimeline &
@@ -46,6 +47,13 @@ export type NavigationPushType = RouteActions &
   RouteWenku &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteTips = (
+  path: 'Tips',
+  params: {
+    key?: string
+  }
+) => any
 
 type RouteAuth = (path: 'Auth') => any
 

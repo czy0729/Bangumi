@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, RenderHtml, UserStatus } from '@components'
+import { Flex, RenderHtml, UserStatus, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { open, appNavigate, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
@@ -25,6 +25,7 @@ function ItemPlusOne(
     userName,
     avatar,
     url,
+    floor,
     directFloor,
     isAuthor,
     isFriend,
@@ -62,14 +63,22 @@ function ItemPlusOne(
             lineHeight={10}
           />
         </Flex>
-        <RenderHtml
-          style={_.ml.sm}
-          baseFontStyle={_.baseFontStyle.sm}
-          imagesMaxWidth={imagesMaxWidthSub}
-          html={message}
-          onLinkPress={href => appNavigate(href, navigation, {}, event)}
-          onImageFallback={() => open(`${url}#post_${id}`)}
-        />
+        <Flex align='end'>
+          <RenderHtml
+            style={_.ml.sm}
+            baseFontStyle={_.baseFontStyle.sm}
+            imagesMaxWidth={imagesMaxWidthSub}
+            html={message}
+            onLinkPress={href => appNavigate(href, navigation, {}, event)}
+            onImageFallback={() => open(`${url}#post_${id}`)}
+          />
+          {!!floor && (
+            <Text type='sub' size={11} lineHeight={14}>
+              {'  '}
+              {floor}
+            </Text>
+          )}
+        </Flex>
       </Flex>
 
       {/* 高亮 */}

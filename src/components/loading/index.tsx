@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:31:04
+ * @Last Modified time: 2023-07-13 12:11:33
  */
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
@@ -20,15 +20,21 @@ export { ILoading, ActivityIndicatorProps }
 const USED_SPINNER = !IOS || DEV
 
 const Raw = observer(
-  ({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) =>
-    USED_SPINNER ? (
-      <Spinner style={spinnerStyle ? [styles.spinner, spinnerStyle] : styles.spinner} />
+  ({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) => {
+    if (USED_SPINNER) {
+      return <ActivityIndicator color={_.colorIcon} size='large' />
+    }
+
+    // 因有无暂时法解决的平台 bug, 不使用此组件
+    return USED_SPINNER ? (
+      <Spinner style={stl(styles.spinner, spinnerStyle)} />
     ) : (
       <ActivityIndicator
         color={color || _.select(_.colorSub, _.colorDesc)}
         size={size}
       />
     )
+  }
 )
 
 const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (

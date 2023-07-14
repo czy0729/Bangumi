@@ -182,7 +182,7 @@ export const INIT_SETTING = {
   hideScore: false,
 
   /** 图片渐出 */
-  imageTransition: true,
+  imageFadeIn: true,
 
   /** @deprecated iOS 风格弹出菜单 */
   iosMenu: false,

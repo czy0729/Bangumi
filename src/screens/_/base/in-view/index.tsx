@@ -15,7 +15,7 @@ export const InView = obc(({ index, children, ...other }, { $ }) => {
   if (
     STORYBOOK ||
     $?.state?.visibleBottom === undefined ||
-    (typeof index === 'number' && index < 10)
+    (typeof index === 'number' && index < 8)
   ) {
     return <View {...other}>{children}</View>
   }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 18:13:21
+ * @Last Modified time: 2023-07-13 12:25:37
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
-import { date, feedback, getTimestamp, info } from '@utils'
+import { date, feedback, getTimestamp, info, sortObject } from '@utils'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import {
@@ -171,7 +171,7 @@ class ScreenHomeV2 extends Action {
           vibration,
           webhook
         },
-        e: systemStore.t,
+        e: sortObject(systemStore.t),
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA
       })

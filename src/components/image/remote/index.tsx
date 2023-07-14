@@ -54,7 +54,7 @@ function Remote({
       fadeDuration: 0,
       onLoadEnd
     }
-    if (!systemStore.setting.imageTransition) {
+    if (!systemStore.setting.imageFadeIn) {
       return <Image {...passProps} />
     }
 

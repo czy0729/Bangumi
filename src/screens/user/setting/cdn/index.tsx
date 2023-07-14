@@ -57,14 +57,8 @@ function CDN({ navigation, filter }) {
   return useObserver(() => {
     if (!shows) return null
 
-    const {
-      cdn,
-      cdnAvatarV2,
-      cdnOrigin,
-      imageSkeleton,
-      imageTransition,
-      iosImageCacheV2
-    } = systemStore.setting
+    const { cdn, cdnAvatarV2, cdnOrigin, imageSkeleton, imageFadeIn, iosImageCacheV2 } =
+      systemStore.setting
     const origin = MODEL_SETTING_CDN_ORIGIN.getLabel<SettingCDNOriginCn>(cdnOrigin)
     const label = []
     if (!cdn) label.push('关闭')
@@ -330,22 +324,22 @@ function CDN({ navigation, filter }) {
 
           {/* 图片渐出动画 */}
           <ItemSetting
-            show={shows.imageTransition}
+            show={shows.imageFadeIn}
             ft={
               <SwitchPro
                 style={commonStyles.switch}
-                value={imageTransition}
+                value={imageFadeIn}
                 onSyncPress={() => {
                   t('设置.切换', {
                     title: '图片渐出动画',
-                    checked: !imageTransition
+                    checked: !imageFadeIn
                   })
 
-                  systemStore.switchSetting('imageTransition')
+                  systemStore.switchSetting('imageFadeIn')
                 }}
               />
             }
-            {...TEXTS.imageTransition}
+            {...TEXTS.imageFadeIn}
           >
             <Heatmap id='设置.切换' title='图片渐出动画' />
           </ItemSetting>

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 18:51:55
+ * @Last Modified time: 2023-07-13 06:58:27
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, Header, Flex, Button } from '@components'
+import { Page, Flex, Button } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
+import Header from './header'
 import Category from './category'
 import SearchBar from './search-bar'
 import List from './list'
@@ -28,25 +29,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
     const styles = memoStyles()
     return (
       <>
-        <Header
-          title='AI 推荐'
-          hm={['recommend', 'Recommend']}
-          headerRight={() => {
-            if (STORYBOOK) return null
-
-            return (
-              <IconTouchable
-                name='md-info-outline'
-                color={_.colorDesc}
-                onPress={() => {
-                  navigation.push('Topic', {
-                    topicId: 'group/382655'
-                  })
-                }}
-              />
-            )
-          }}
-        />
+        <Header />
         <Page>
           <Flex style={styles.searchBar}>
             <Category />

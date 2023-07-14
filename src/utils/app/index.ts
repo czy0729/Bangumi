@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 06:07:57
+ * @Last Modified time: 2023-07-13 12:25:30
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -40,7 +40,7 @@ import {
   SubjectTypeCn,
   UserId
 } from '@types'
-import { getTimestamp, open, toLocal, urlStringify } from '../utils'
+import { asc, getTimestamp, open, toLocal, urlStringify } from '../utils'
 import { info, confirm, feedback } from '../ui'
 import { HTMLDecode, removeHTMLTag } from '../html'
 import { getStorage, setStorage } from '../storage'
@@ -1122,4 +1122,14 @@ export function getAvatarLocal(userId: string) {
   const avatar = `https://lain.bgm.tv/pic/user/l/000/${find.a}.jpg`
   GET_AVATAR_CACHE_MAP.set(userId, avatar)
   return avatar
+}
+
+export function sortObject(object: AnyObject) {
+  const newObject = {}
+  Object.keys(object)
+    .sort((a, b) => asc(a, b))
+    .forEach(key => {
+      newObject[key] = object[key]
+    })
+  return newObject
 }

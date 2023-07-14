@@ -67,7 +67,7 @@ export const TEXTS = {
     hd: '图片加载动画',
     information: '部分手机显示骨架屏动画卡顿，可尝试关闭提升流畅度'
   },
-  imageTransition: {
+  imageFadeIn: {
     hd: '图片渐出动画'
   }
 } as const

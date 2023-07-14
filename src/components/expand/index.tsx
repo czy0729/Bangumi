@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 18:13:30
+ * @Last Modified time: 2023-07-13 05:56:51
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -42,10 +42,10 @@ export const Expand = ({
           ? aHeight.current.interpolate({
               inputRange: [0, 1],
 
-              // 1个比例的最大高度
+              // 1 个比例的最大高度
               outputRange: [
-                Math.min(ratioHeight, checkLayout ? height : ratioHeight),
-                height
+                Math.max(1, Math.min(ratioHeight, checkLayout ? height : ratioHeight)),
+                Math.max(1, height)
               ]
             })
           : 'auto'
