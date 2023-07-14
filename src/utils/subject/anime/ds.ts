@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 02:47:52
+ * @Last Modified time: 2023-07-13 04:51:36
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
@@ -115,9 +115,9 @@ export const ANIME_TAGS = [
   '泡面番',
   '玄幻',
   '神魔',
+  '青春',
   '女性向',
   '战争',
-  '青春',
   '机战',
   '运动',
   '社会',
@@ -139,13 +139,14 @@ export const ANIME_TAGS = [
   '萝莉',
   '吸血鬼',
   '游戏',
-  '血腥',
   '美少女',
+  '血腥',
   '亲情',
   '猎奇',
   '少女',
   '穿越',
   '音乐',
+  '轻小说',
   '智斗',
   '都市',
   '动作',
@@ -158,7 +159,8 @@ export const ANIME_TAGS = [
   '古风',
   '伪娘',
   '异世界',
-  '乙女向'
+  '乙女向',
+  '战机'
 ] as const
 
 const ANIME_TAGS_MAP = {}
@@ -189,8 +191,8 @@ export const ANIME_OFFICIAL = [
   'OLM',
   '小丑社',
   'diomedéa',
-  'GONZO',
   'feel.',
+  'GONZO',
   'WIT STUDIO',
   'P.A.WORKS',
   'Lerche',
@@ -201,23 +203,23 @@ export const ANIME_OFFICIAL = [
   'BN Pictures',
   'WHITE FOX',
   'KINEMA CITRUS',
-  'david production',
-  '龙之子Production',
   'project No.9',
   'CloverWorks',
+  'david production',
+  '龙之子Production',
   'SEVEN・ARCS',
   'ufotable',
   'SANZIGEN',
+  '暂缺',
   'TNK',
   'AIC',
   '玄机科技',
   'Hoods Entertainment',
-  '暂缺',
   'GAINAX',
   'Manglobe',
+  'GoHands',
   '绘梦',
   'ZERO-G',
-  'GoHands',
   'Telecom Animation Film',
   'Seven',
   'Production IMS',
@@ -232,10 +234,10 @@ export const ANIME_OFFICIAL = [
   'Arms',
   'asread',
   'TROYCA',
+  'Studio 3Hz',
   '上海福煦影视文化投资有限公司',
   'Nippon Animation',
   'Bridge',
-  'Studio 3Hz',
   'Hal Film Maker',
   'Graphinica',
   'C-Station',
