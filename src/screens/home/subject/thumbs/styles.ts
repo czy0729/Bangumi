@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:25:37
+ * @Last Modified time: 2023-07-14 13:22:50
  */
 import { _ } from '@stores'
-import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
+import { IMAGE_HEIGHT } from './ds'
 
 export const styles = _.create({
   container: {
-    minHeight: 158,
+    minHeight: 210,
     marginTop: _.lg
   },
   image: {
-    height: THUMB_HEIGHT,
-    marginLeft: _.sm,
+    height: IMAGE_HEIGHT,
+    marginLeft: _.sm + 2,
     overflow: 'hidden'
   },
   imageSide: {
-    height: THUMB_HEIGHT,
+    height: IMAGE_HEIGHT,
     overflow: 'hidden'
   },
   play: {
@@ -30,8 +30,7 @@ export const styles = _.create({
     left: 0
   },
   touch: {
-    width: THUMB_WIDTH,
-    height: THUMB_HEIGHT,
+    height: IMAGE_HEIGHT,
     opacity: 0.92
   },
   icon: {
@@ -39,7 +38,6 @@ export const styles = _.create({
     lineHeight: _.ios(52, 56)
   },
   title: {
-    width: THUMB_WIDTH,
     padding: _.sm,
     opacity: 0.8
   }

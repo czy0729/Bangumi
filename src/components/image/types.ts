@@ -49,6 +49,9 @@ export type Props = Override<
     /** 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例 */
     autoSize?: number | boolean
 
+    /** 支持自动计算远端图片高度, 传递图片的高度, 宽度适应比例 */
+    autoHeight?: number
+
     /** @deprecated 是否自动选择Bangumi图片质量 */
     quality?: boolean
 

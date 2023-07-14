@@ -24,6 +24,7 @@ function Remote({
   headers,
   uri,
   autoSize,
+  autoHeight,
   fadeDuration,
   onLoadEnd,
   ...other

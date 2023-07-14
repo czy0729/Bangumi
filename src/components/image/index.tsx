@@ -131,14 +131,14 @@ export const Image = observer(
 
     /** 预加载的规则 */
     preCache = async () => {
-      const { src, autoSize } = this.props
+      const { src, autoSize, autoHeight } = this.props
       if (IOS) {
         await this.cache(src)
       } else {
         await this.cacheV2(src)
       }
 
-      if (autoSize) {
+      if (autoSize || autoHeight) {
         setTimeout(() => {
           this.getSize()
         }, 0)
@@ -303,22 +303,31 @@ export const Image = observer(
     getSize = () => {
       if (this._getSized) return
 
-      const { autoSize } = this.props
+      const { autoSize, autoHeight } = this.props
       const { uri } = this.state
-
-      if (typeof uri !== 'string' || typeof autoSize !== 'number') return
+      if (
+        typeof uri !== 'string' ||
+        (typeof autoSize !== 'number' && typeof autoHeight !== 'number')
+      ) {
+        return
+      }
 
       const cb = (width: number, height: number) => {
         let w: number
         let h: number
 
-        // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
-        if (width < autoSize) {
-          w = width
-          h = height
+        if (autoSize && typeof autoSize === 'number') {
+          // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
+          if (width < autoSize) {
+            w = width
+            h = height
+          } else {
+            w = autoSize
+            h = Math.floor((autoSize / width) * height)
+          }
         } else {
-          w = autoSize
-          h = Math.floor((autoSize / width) * height)
+          w = Math.floor((autoHeight / height) * width)
+          h = autoHeight
         }
 
         this._getSized = true
@@ -514,7 +523,8 @@ export const Image = observer(
         radius,
         shadow,
         placeholder,
-        autoSize
+        autoSize,
+        autoHeight
       } = this.props
       const { width: w, height: h } = this.state
       const container = []
@@ -525,6 +535,11 @@ export const Image = observer(
         image.push({
           width: w || 160,
           height: h || (STORYBOOK ? 'auto' : 160)
+        })
+      } else if (autoHeight) {
+        image.push({
+          width: w || (STORYBOOK ? 'auto' : 160),
+          height: h || 160
         })
       } else if (size) {
         image.push({
@@ -614,6 +629,7 @@ export const Image = observer(
         shadow,
         placeholder,
         autoSize,
+        autoHeight,
         quality,
         imageViewer,
         imageViewerSrc,
@@ -651,7 +667,10 @@ export const Image = observer(
 
         if (typeof uri === 'string') {
           // 获取图片的宽高中, 占位
-          if (!(IOS || STORYBOOK) && autoSize && !this.state.width) {
+          if (
+            !(IOS || STORYBOOK) &&
+            ((autoSize && !this.state.width) || (autoHeight && !this.state.height))
+          ) {
             return <Placeholder style={this.computedStyle.image} />
           }
 
@@ -664,6 +683,7 @@ export const Image = observer(
               headers={this.headers}
               uri={uri}
               autoSize={autoSize}
+              autoHeight={autoHeight}
               fadeDuration={fadeDuration}
               onError={this.onError}
               onLoadEnd={this.onLoadEnd}

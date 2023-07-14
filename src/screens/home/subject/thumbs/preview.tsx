@@ -6,12 +6,12 @@
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
-import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
+import { IMAGE_HEIGHT } from './ds'
 import { styles } from './styles'
 
 function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
@@ -36,9 +36,8 @@ function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
       <Image
         key={item}
         src={item}
-        size={THUMB_WIDTH}
-        height={THUMB_HEIGHT}
-        radius
+        autoHeight={IMAGE_HEIGHT}
+        radius={_.radiusXs}
         headers={epsThumbsHeader}
       />
     </Touchable>

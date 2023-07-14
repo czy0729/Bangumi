@@ -17,7 +17,6 @@ import IconHidden from '../icon/hidden'
 import { Ctx } from '../types'
 import Video from './video'
 import Preview from './preview'
-import { THUMB_WIDTH } from './ds'
 import { styles } from './styles'
 
 class Thumbs extends React.Component {
@@ -40,9 +39,7 @@ class Thumbs extends React.Component {
     const { scrolled } = this.state
     if (scrolled) return epsThumbs.slice()
 
-    const initialRenderNums = _.isPad
-      ? 5
-      : Math.floor(_.window.contentWidth / THUMB_WIDTH) + 1
+    const initialRenderNums = 5
     return epsThumbs.filter((item, index) => index < initialRenderNums)
   }
 
