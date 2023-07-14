@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-22 17:56:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-23 04:19:33
+ * @Last Modified time: 2023-07-14 14:14:05
  */
 
 /** 豆瓣条目 id */
@@ -18,7 +18,9 @@ export type SubType = 'o' | 'a'
 export type SearchItem = {
   id?: string
   title?: string
+  name?: string
   desc?: string
+  year?: string
 }
 
 /** 预告片结果 */

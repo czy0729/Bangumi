@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 23:43:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:13:40
+ * @Last Modified time: 2023-07-14 14:17:55
  */
 import { desc, similar, sleep } from '../utils'
 import { xhrCustom } from '../fetch'
@@ -74,10 +74,13 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
         .map((index: number, element) => {
           const $row = cheerio(element)
           const $a = $row.find('h3 a')
+          const cast = removeSpecial($row.find('.subject-cast').text().trim()) || ''
           return {
             id: $a.attr('onclick').match(/sid: (\d+)/)?.[1],
             title: removeSpecial($a.text().trim()),
-            desc: removeSpecial($row.find('p').text().trim())
+            name: cast.match(/原名:(.*?)\//)?.[1] || '',
+            desc: removeSpecial($row.find('p').text().trim()),
+            year: cast.match(/(\d{4})$/)?.[1] || ''
           }
         })
         .get() || []
@@ -96,16 +99,27 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
  * @param q
  * @param result
  */
-export function matchMovie(q: string, result: SearchItem[], jp?: string): DoubanId {
+export function matchMovie(
+  q: string,
+  result: SearchItem[],
+  jp?: string,
+  year?: string
+): DoubanId {
   const SIMILAR_RATE = 0.7
   const _q = removeSpecial(q)
   let doubanId: DoubanId = false
+
+  // 原名最优先
+  result.forEach(item => {
+    if (item.name && item.name === jp) doubanId = item.id
+  })
 
   // 先匹配标题
   result.forEach(item => {
     if (doubanId) return
     if (similar(item.title, _q) < SIMILAR_RATE) {
       if (!item.desc.includes('原名:')) return
+      if (year && item.year && year != item.year) return
 
       const _jp = item.desc.split(' / ')[0].replace('原名:', '')
       if (similar(_jp, jp || q) < 0.7) return

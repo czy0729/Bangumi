@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:21:09
+ * @Last Modified time: 2023-07-14 14:27:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -109,17 +109,12 @@ const ItemLine = memo(
                     </Flex.Item>
                   </Flex>
                 </View>
-                {!!s.length && (
-                  <Text type='sub' size={13} bold>
-                    {s.join('、')}
+                {!!air && (
+                  <Text type='sub' size={12} bold>
+                    至第 {air} 话 {s.length ? ` · ${s.join('、')}` : ''}
                   </Text>
                 )}
                 <Flex>
-                  {!!air && (
-                    <Text style={_.mr.sm} type='sub' size={13} bold>
-                      至第{air}话
-                    </Text>
-                  )}
                   {showScore && (
                     <>
                       <Rank value={rank} />
@@ -128,10 +123,10 @@ const ItemLine = memo(
                         simple
                         value={score}
                         type='desc'
-                        size={13}
+                        size={12}
                       />
                       {!!total && (
-                        <Text type='sub' size={13} bold>
+                        <Text type='sub' size={12} bold>
                           ({total})
                         </Text>
                       )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:28:30
+ * @Last Modified time: 2023-07-14 14:19:40
  */
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
@@ -406,8 +406,7 @@ export default class Fetch extends Computed {
     const q = cn || jp
     if (q) {
       const result = await search(q)
-      const doubanId = matchMovie(q, result, jp)
-
+      const doubanId = matchMovie(q, result, jp, this.year)
       const trailer = await getTrailer(doubanId)
       if (trailer.data.length) {
         this.setState({
@@ -498,7 +497,7 @@ export default class Fetch extends Computed {
         // 7 天更新一次
         getTimestamp() - ts >= 60 * 60 * 24 * 7 ||
         // 最后一次逻辑修正的时间戳
-        ts < 1682762759
+        ts < getTimestamp('2023-07-14 14:00:00')
       ) {
         return true
       }
