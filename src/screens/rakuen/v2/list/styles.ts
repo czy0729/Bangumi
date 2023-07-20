@@ -10,6 +10,6 @@ import { H_TABBAR } from '../ds'
 export const styles = _.create({
   contentContainerStyle: {
     paddingTop: _.ios(_.headerHeight + H_TABBAR, 0),
-    paddingBottom: _.bottom
+    paddingBottom: _.ios(_.bottom, 0)
   }
 })

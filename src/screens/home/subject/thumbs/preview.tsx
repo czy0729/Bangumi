@@ -35,10 +35,11 @@ function Preview({ item, index, thumbs, epsThumbsHeader }, { $ }: Ctx) {
     >
       <Image
         key={item}
-        src={item}
+        src={item.replace('img1.doubanio.com', 'img2.doubanio.com')}
         autoHeight={IMAGE_HEIGHT}
         radius={_.radiusXs}
         headers={epsThumbsHeader}
+        errorToHide
       />
     </Touchable>
   )

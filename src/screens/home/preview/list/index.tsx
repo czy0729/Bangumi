@@ -52,7 +52,7 @@ function List(props, { $ }: Ctx) {
               )
             }}
           >
-            <Image src={item} {...passProps} shadow headers={headers} />
+            <Image src={item} {...passProps} shadow headers={headers} errorToHide />
           </Touchable>
         </View>
       ))}

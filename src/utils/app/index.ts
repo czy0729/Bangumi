@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 12:25:30
+ * @Last Modified time: 2023-07-20 11:15:16
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -20,9 +20,9 @@ import {
 } from '@constants/constants'
 import {
   CDN_OSS_MAGMA_POSTER,
-  CDN_OSS_SUBJECT,
-  initHashAvatarOTA,
-  initHashSubjectOTA
+  CDN_OSS_SUBJECT
+  // initHashAvatarOTA,
+  // initHashSubjectOTA
 } from '@constants/cdn'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import x18Data from '@assets/json/18x.json'
@@ -108,8 +108,8 @@ export function bootApp() {
     global.console.assert = fn
   }
 
-  initHashSubjectOTA()
-  initHashAvatarOTA()
+  // initHashSubjectOTA()
+  // initHashAvatarOTA()
 }
 
 /** 处理屏蔽用户 */

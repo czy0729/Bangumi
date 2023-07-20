@@ -315,7 +315,6 @@ export const Image = observer(
       const cb = (width: number, height: number) => {
         let w: number
         let h: number
-
         if (autoSize && typeof autoSize === 'number') {
           // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
           if (width < autoSize) {
@@ -338,7 +337,9 @@ export const Image = observer(
       }
 
       setTimeout(() => {
-        RNImage.getSize(uri, cb)
+        RNImage.getSizeWithHeaders(uri, this.headers, cb, () => {
+          this.commitError()
+        })
       }, 0)
     }
 
@@ -378,8 +379,9 @@ export const Image = observer(
             request.open('get', src, true)
             request.send(null)
           } else {
-            RNImage.getSize(
+            RNImage.getSizeWithHeaders(
               src,
+              this.headers,
               () => {},
               error => {
                 // magma oss 若 status code 为 451 直接触发失败

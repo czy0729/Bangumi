@@ -68,7 +68,11 @@ class Thumbs extends React.Component {
     const { $ }: Ctx = this.context
     const { epsThumbs, epsThumbsHeader } = $.state
     return epsThumbs.map(item => ({
-      url: item.split('@')[0], // 参数: bilibili 为 @, youku 没有, iqiyi 看不懂不作处理
+      url:
+        // 参数: bilibili 为 @, youku 没有, iqiyi 看不懂不作处理
+        String(item.split('@')?.[0])
+          // 2023/07/14: 测试到 img1 经常失效
+          .replace('img1.doubanio.com', 'img2.doubanio.com'),
       headers: {
         ...epsThumbsHeader
       }

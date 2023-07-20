@@ -15,10 +15,12 @@ export const styles = _.create({
   image: {
     height: IMAGE_HEIGHT,
     marginLeft: _.sm + 2,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   imageSide: {
     height: IMAGE_HEIGHT,
+    borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   play: {

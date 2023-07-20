@@ -5,8 +5,8 @@
  * @Last Modified time: 2023-04-19 17:09:56
  */
 import React from 'react'
-import { Loading } from '@components'
-import { Login, PaginationList2 } from '@_'
+import { ListView, Loading } from '@components'
+import { Login } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import i18n from '@constants/i18n'
@@ -24,17 +24,16 @@ function List({ index }, { $ }: Ctx) {
     )
   }
 
-  const { list, _loaded } = $.rakuen(type)
-  if (!_loaded) return <Loading />
+  const rakuen = $.rakuen(type)
+  if (!rakuen._loaded) return <Loading />
 
   return (
-    <PaginationList2
+    <ListView
       key={type}
       keyExtractor={keyExtractor}
-      connectRef={ref => $.connectRef(ref, index)}
+      ref={ref => $.connectRef(ref, index)}
       contentContainerStyle={styles.contentContainerStyle}
-      data={list}
-      limit={40}
+      data={rakuen}
       progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
       renderItem={renderItem}
       scrollEventThrottle={16}
