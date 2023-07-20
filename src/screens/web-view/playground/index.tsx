@@ -5,35 +5,23 @@
  * @Last Modified time: 2023-02-19 17:57:44
  */
 import React from 'react'
-// import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
-// import { LinearGradient } from 'expo-linear-gradient'
 import { useObserver } from 'mobx-react-lite'
-import { Page, Header, Text } from '@components'
-// import { _ } from '@stores'
-
-// const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
+import { Page, Header, Flex, Text } from '@components'
 
 const Playground = () => {
   return useObserver(() => (
     <>
-      <Header title='Playground' />
+      <Header title=' ' />
       <Page>
-        <Text>Playground</Text>
-        {/* <ShimmerPlaceholder
+        <Flex
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
-            borderRadius: 8,
-            overflow: 'hidden'
+            flex: 1
           }}
-          visible={false}
-          shimmerColors={[
-            _._colorDarkModeLevel1,
-            _._colorDarkModeLevel2,
-            _._colorDarkModeLevel1
-          ]}
-          duration={1600}
+          justify='center'
         >
-          <Text>Wow, awesome here.</Text>
-        </ShimmerPlaceholder> */}
+          <Text>Bangumi番组计划</Text>
+        </Flex>
       </Page>
     </>
   ))
