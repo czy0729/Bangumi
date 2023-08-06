@@ -28,6 +28,8 @@ const ScrollToTop = observer(
     scrollToLocation,
     onPress
   }: ScrollToToProps) => {
+    return null
+
     if (IOS) return null
 
     if ((IOS || !isFocused) && !systemStore.dev) return null

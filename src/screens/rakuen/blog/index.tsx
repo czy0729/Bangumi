@@ -24,10 +24,10 @@ const Blog = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Header fixed={fixed} />
       <Page>
         <List onScroll={onScroll} />
       </Page>
+      <Header fixed={fixed} />
       <Heatmaps />
     </>
   ))

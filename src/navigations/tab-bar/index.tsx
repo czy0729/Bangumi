@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:48:33
+ * @Last Modified time: 2023-08-05 05:29:10
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -13,7 +13,7 @@ import { IOS, WSA } from '@constants'
 import { Navigation } from '@types'
 import { routesConfig } from './config'
 import { memoStyles } from './styles'
-import { Descriptors, Route, State } from './types'
+import { Descriptors, State } from './types'
 
 export const EVENT_APP_TAB_PRESS = 'appTabPress'
 
@@ -38,8 +38,9 @@ function TabBar({
   ]
   return (
     <Flex style={styles.tabBar} align='start'>
-      {IOS && <BlurView style={styles.blurView} />}
-      {state.routes.map((route: Route, index: number) => {
+      {/* {IOS && <BlurView style={_.absoluteFill} />} */}
+      <BlurView style={_.absoluteFill} />
+      {state.routes.map((route, index: number) => {
         const isHorizontal = WSA || _.isPad || _.isLandscape
         const isFocused = state.index === index
         const config = routesConfig[route.name]
@@ -57,7 +58,7 @@ function TabBar({
               })
 
               if (!isFocused && !event.defaultPrevented) {
-                navigation.navigate(route.name)
+                navigation.navigate(route.name as any)
               } else if (isFocused && !event.defaultPrevented) {
                 // 通知点击了底栏
                 navigation.emit({

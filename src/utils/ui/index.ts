@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 04:06:07
+ * @Last Modified time: 2023-08-05 05:09:50
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -28,7 +28,7 @@ export function loading(
   delay: number = 1000
 ) {
   let toastId: number
-  let timerId = setTimeout(() => {
+  let timerId: any = setTimeout(() => {
     timerId = null
     toastId = Toast.loading(s2tAsync(text), time, () => {
       if (toastId) Portal.remove(toastId)
@@ -175,14 +175,16 @@ export function showImageViewer(
 }
 
 /**
- * 调整键盘模式
+ * @deprecated 调整键盘模式
  * https://github.com/zubricky/react-native-android-keyboard-adjust
  */
 export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
-  if (IOS || STORYBOOK) return
+  return
 
-  const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
-  AndroidKeyboardAdjust[fn]()
+  // if (IOS || STORYBOOK) return
+
+  // const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
+  // AndroidKeyboardAdjust[fn]()
 }
 
 /** 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色 */

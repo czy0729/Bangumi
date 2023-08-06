@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 04:24:51
+ * @Last Modified time: 2023-08-05 05:32:44
  */
 import React from 'react'
+import { View } from 'react-native'
 import { TabView } from '@components'
 import { BlurView } from '@_'
 import { _ } from '@stores'
@@ -27,8 +28,15 @@ function Tab({ renderScene }, { $ }: Ctx) {
       // @ts-expect-error
       navigationState={$.navigationState}
       renderTabBar={renderTabBar}
-      renderSceneHeaderComponent={
-        IOS && <BlurView style={$.tabs.length === 5 ? styles.tabs5 : styles.tabs4} />
+      renderBackground={
+        <View
+          style={_.ios(
+            $.tabs.length === 5 ? styles.blurViewIOS5 : styles.blurViewIOS4,
+            styles.blurViewAndroid
+          )}
+        >
+          {IOS && <BlurView style={_.absoluteFill} />}
+        </View>
       }
       renderScene={renderScene}
       onIndexChange={$.onChange}

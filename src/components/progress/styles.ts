@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 15:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 18:27:31
+ * @Last Modified time: 2023-07-25 18:37:20
  */
 import { _ } from '@stores'
 
@@ -16,9 +16,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.sm + 4,
     paddingBottom: _.sm + 6,
     backgroundColor: _.select('#ffffff', _._colorDarkModeLevel2),
-    elevation: _.select(16, 0),
     borderRadius: _.radiusSm,
-    ..._.shadow
+    ..._.shadow,
+    elevation: _.select(16, 0)
   },
   bar: {
     position: 'absolute',

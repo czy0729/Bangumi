@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:58:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 08:59:49
+ * @Last Modified time: 2023-08-02 01:26:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,10 @@ import { Ctx } from '../../types'
 function Recent({ style }, { $ }: Ctx) {
   let activeText = '历史'
   if ($.usersTimeline.list.length && $.usersTimeline.list?.[0]?.time) {
-    activeText = `${$.usersTimeline.list[0]?.time.split(' ·')?.[0]}活跃`
+    activeText = `${String($.usersTimeline.list[0]?.time.split(' ·')?.[0]).replace(
+      '·',
+      ''
+    )}活跃`
   }
   return (
     <View style={style}>

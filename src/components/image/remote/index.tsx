@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:32:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 13:35:14
+ * @Last Modified time: 2023-08-02 01:10:29
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -14,9 +14,12 @@ import Animated, {
 } from 'react-native-reanimated'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { IOS } from '@constants'
+import { IOS, DOGE_CDN_IMG_DEFAULT } from '@constants'
 import { AnyObject } from '@types'
 import Image from '../image'
+
+const lazyloadedMap = new Map<string, boolean>()
+lazyloadedMap.set(DOGE_CDN_IMG_DEFAULT, true)
 
 function Remote({
   style,
@@ -55,7 +58,7 @@ function Remote({
       fadeDuration: 0,
       onLoadEnd
     }
-    if (!systemStore.setting.imageFadeIn) {
+    if (!systemStore.setting.imageFadeIn || lazyloadedMap.has(uri)) {
       return <Image {...passProps} />
     }
 
@@ -68,6 +71,11 @@ function Remote({
           onLoadEnd={() => {
             if (typeof onLoadEnd === 'function') onLoadEnd()
             activeRef.value = 1
+
+            // 标记已观察过, 延迟是为了防止页面同时出现这个图片多次而后面的不执行逻辑
+            setTimeout(() => {
+              lazyloadedMap.set(uri, true)
+            }, 800)
           }}
         />
       </Animated.View>

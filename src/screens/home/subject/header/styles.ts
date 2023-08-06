@@ -8,7 +8,6 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   content: {
-    zIndex: 1,
     backgroundColor: _.colorPlain
   },
   title: {

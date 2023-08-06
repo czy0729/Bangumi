@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0),
+    borderWidth: _.select(1, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

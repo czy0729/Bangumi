@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:20:10
+ * @Last Modified time: 2023-07-25 01:23:43
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { SceneMap } from 'react-native-tab-view'
-import TabBar from '@components/@/react-native-tab-view/TabBar'
-import TabView from '@components/@/react-native-tab-view/TabView'
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
+// import TabBar from '@components/@/react-native-tab-view/TabBar'
+// import TabView from '@components/@/react-native-tab-view/TabView'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'

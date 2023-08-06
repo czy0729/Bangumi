@@ -44,7 +44,7 @@ export default memo(
     const { id, images } = subject
 
     // 是否未上映
-    let showRelease: boolean
+    let showRelease: boolean = false
     const y = release.includes('年')
     const m = release.includes('月')
     const d = release.includes('日')
@@ -84,7 +84,6 @@ export default memo(
     const left = imageWidth + _.wind + _.device(12, 20)
     return (
       <View style={styles.container}>
-        <Cover image={images?.common} placeholder={coverPlaceholder} />
         {showRelease && (
           <Text
             style={[
@@ -179,6 +178,7 @@ export default memo(
             )}
           </Flex>
         </View>
+        <Cover image={images?.common} placeholder={coverPlaceholder} />
       </View>
     )
   },

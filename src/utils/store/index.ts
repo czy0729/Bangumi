@@ -1,16 +1,14 @@
-// @ts-nocheck
 /*
  * 状态公共继承
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 05:14:16
+ * @Last Modified time: 2023-08-03 01:46:15
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
-import AsyncStorage from '@components/@/react-native-async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LIST_EMPTY } from '@constants/constants'
 import { AnyObject } from '@types'
-// import { DEV } from '@/config'
 import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
 import fetch from '../fetch'
@@ -67,11 +65,14 @@ export default class Store {
    * @param {*} data 置换值
    */
   clearState = action((key: string, data: any = {}) => {
+    // @ts-expect-error
     if (typeof this.state[key] === 'undefined') {
+      // @ts-expect-error
       extendObservable(this.state, {
         [key]: data
       })
     } else {
+      // @ts-expect-error
       this.state[key] = data
     }
   })
@@ -99,7 +100,7 @@ export default class Store {
     } = {}
   ) => {
     const { list, storage, namespace } = otherConfig
-    let _fetchConfig = {}
+    let _fetchConfig: any = {}
     if (typeof fetchConfig === 'object') {
       _fetchConfig = {
         ...fetchConfig
@@ -150,6 +151,7 @@ export default class Store {
         }
       })
     } else if (stateKey) {
+      // @ts-expect-error
       const initState = this.state[stateKey]
       this.setState({
         [stateKey]: _data || initState
@@ -158,6 +160,8 @@ export default class Store {
 
     if (storage) {
       const key = Array.isArray(stateKey) ? stateKey[0] : stateKey
+
+      // @ts-expect-error
       this.setStorage(key, undefined, namespace)
     }
 
@@ -173,16 +177,21 @@ export default class Store {
   setStorage = (key: string, value?: any, namespace?: any) => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (value === undefined && namespace === undefined) {
+      // @ts-expect-error
       let _key = key || this.namespace
       _key += '|state'
+
+      // @ts-expect-error
       const data = this.state
       return setStorage(_key, data)
     }
 
+    // @ts-expect-error
     let _key = namespace || this.namespace
     if (key) _key += `|${key}`
     _key += '|state'
 
+    // @ts-expect-error
     const data = key ? value || this.state[key] : this.state
     return setStorage(_key, data)
   }
@@ -192,10 +201,14 @@ export default class Store {
    * 若传递了 excludeState, 还会排除不本地化的 key
    * */
   saveStorage = (namespace: string, excludeState?: AnyObject) => {
+    // @ts-expect-error
     if (!(namespace || this.namespace)) return false
 
     if (excludeState) {
+      // @ts-expect-error
       const key = `${namespace || this.namespace}|state`
+
+      // @ts-expect-error
       const data = omit(this.state, Object.keys(excludeState))
 
       // if (DEV) {
@@ -207,6 +220,7 @@ export default class Store {
       return setStorage(key, data)
     }
 
+    // @ts-expect-error
     return this.setStorage(undefined, undefined, namespace || this.namespace)
   }
 
@@ -223,6 +237,7 @@ export default class Store {
   ): Promise<any> => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (namespace === undefined && defaultValue === undefined) {
+      // @ts-expect-error
       let _key = key || this.namespace
       _key += '|state'
       return (
@@ -231,6 +246,7 @@ export default class Store {
       )
     }
 
+    // @ts-expect-error
     let _key = namespace || this.namespace
     if (key) _key += `|${key}`
     _key += '|state'
@@ -250,6 +266,7 @@ export default class Store {
     if (!config.length) return true
 
     const data = await Promise.all(
+      // @ts-expect-error
       config.map(key => this.getStorage(key, namespace, this.state[key]))
     )
     const state = Object.assign(
@@ -269,5 +286,6 @@ export default class Store {
    * @param  {String} key 保存值的键值
    * @return {Object}
    */
+  // @ts-expect-error
   toJS = (key: string): object => toJS(this.state[key] || this.state)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:59:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 18:00:06
+ * @Last Modified time: 2023-07-27 18:11:14
  */
 import { _ } from '@stores'
 
@@ -12,8 +12,13 @@ export const memoStyles = _.memoStyles(() => {
   const W_INDICATOR = _.r(16)
   return {
     tabBar: {
+      position: 'absolute',
+      zIndex: 2,
+      top: _.headerHeight,
+      right: 0,
+      left: 0,
       paddingLeft: W_TAB_BAR_LEFT,
-      backgroundColor: _.ios('transparent',  _.colorPlain),
+      backgroundColor: _.ios('transparent', _.colorPlain),
       borderBottomWidth: _.ios(
         0,
         _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))

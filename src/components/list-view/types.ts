@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-19 16:38:31
  */
 import { FlatListProps } from 'react-native'
-import { Override, Fn, ReactNode, ViewStyle, ListEmpty } from '@types'
+import { Override, Fn, ReactNode, ViewStyle, ListEmpty, AnyObject } from '@types'
 
 export type Props = Override<
   FlatListProps<any>,
@@ -13,7 +13,7 @@ export type Props = Override<
     style?: ViewStyle
 
     /** 此函数用于为给定的 item 生成一个不重复的 key */
-    keyExtractor?: (item?: object, index?: number) => string
+    keyExtractor?: (item: AnyObject, index?: number) => string
 
     /** 是否使用 Animated.ListView 渲染 */
     animated?: boolean

@@ -1,83 +1,64 @@
 package com.czy0729.bangumi;
 
 import android.app.Application;
-import android.content.Context;
-import android.net.Uri;
+import android.content.res.Configuration;
+import androidx.annotation.NonNull;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
+import com.facebook.react.config.ReactFeatureFlags;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import com.czy0729.bangumi.generated.BasePackageList;
-import org.unimodules.adapters.react.ReactAdapterPackage;
-import org.unimodules.adapters.react.ModuleRegistryAdapter;
-import org.unimodules.adapters.react.ReactModuleRegistryProvider;
-import org.unimodules.core.interfaces.Package;
-import org.unimodules.core.interfaces.SingletonModule;
-import expo.modules.constants.ConstantsPackage;
-import expo.modules.permissions.PermissionsPackage;
-import expo.modules.filesystem.FileSystemPackage;
-// import expo.modules.updates.UpdatesController;
+// import com.facebook.flipper.android.ReactNativeFlipper;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import expo.modules.ApplicationLifecycleDispatcher;
+import expo.modules.ReactNativeHostWrapper;
+
 import java.util.List;
-import javax.annotation.Nullable;
+
 import com.umeng.commonsdk.UMConfigure;
 import com.czy0729.bangumi.umeng.DplusReactPackage;
 import com.czy0729.bangumi.umeng.RNUMConfigure;
 import com.czy0729.bangumi.daynight.DayNightPackage;
-import com.czy0729.bangumi.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
-
-import com.facebook.react.bridge.JSIModulePackage;
-import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
 public class MainApplication extends Application implements ReactApplication {
-  private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
-    new BasePackageList().getPackageList()
-  );
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+  private final ReactNativeHost mReactNativeHost =
+    new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
+      @Override
+      public boolean getUseDeveloperSupport() {
+        return BuildConfig.DEBUG;
+      }
 
-    @Override
-    protected List<ReactPackage> getPackages() {
-      List<ReactPackage> packages = new PackageList(this).getPackages();
-      packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
-      packages.add(new DplusReactPackage());
-      packages.add(new DayNightPackage());
-      new AndroidKeyboardAdjustPackage();
-      // packages.add(new RNFSPackage());
-      // packages.add(new RNFetchBlobPackage());
-      // packages.add(new CameraRollPackage());
-      return packages;
-    }
+      @Override
+      protected List<ReactPackage> getPackages() {
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        List<ReactPackage> packages = new PackageList(this).getPackages();
+        // Packages that cannot be autolinked yet can be added manually here, for example:
+        // packages.add(new MyReactNativePackage());
+        packages.add(new DplusReactPackage());
+        packages.add(new DayNightPackage());
+        return packages;
+      }
 
-    @Override
-    protected JSIModulePackage getJSIModulePackage() {
-      return new ReanimatedJSIModulePackage();
-    }
+      @Override
+      protected String getJSMainModuleName() {
+        return ".expo/.virtual-metro-entry";
+      }
 
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
+      @Override
+      protected boolean isNewArchEnabled() {
+        return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+      }
 
-    @Override
-    protected @Nullable String getJSBundleFile() {
-      return super.getJSBundleFile();
-    }
-
-    @Override
-    protected @Nullable String getBundleAssetName() {
-      return super.getBundleAssetName();
-    }
-  };
+      @Override
+      protected Boolean isHermesEnabled() {
+        return BuildConfig.IS_HERMES_ENABLED;
+      }
+  });
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -88,42 +69,23 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-
-    if (!BuildConfig.DEBUG) {
-      // UpdatesController.initialize(this);
+    if (!BuildConfig.REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS) {
+      ReactFeatureFlags.unstable_useRuntimeSchedulerAlways = false;
+    }
+    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+      // If you opted-in for the New Architecture, we load the native entry point for this app.
+      DefaultNewArchitectureEntryPoint.load();
     }
 
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    // if (BuildConfig.DEBUG) {
+    //   ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    // }
+    ApplicationLifecycleDispatcher.onApplicationCreate(this);
   }
 
-  /**
-   * Loads Flipper in React Native templates. Call this in the onCreate method with something like
-   * initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-   *
-   * @param context
-   * @param reactInstanceManager
-   */
-  private static void initializeFlipper(
-    Context context, ReactInstanceManager reactInstanceManager) {
-    if (BuildConfig.DEBUG) {
-      try {
-        /*
-          We use reflection here to pick up the class that initializes Flipper,
-          since Flipper library is not available in release mode
-        */
-        Class<?> aClass = Class.forName("com.rndiffapp.ReactNativeFlipper");
-        aClass
-          .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
-          .invoke(null, context, reactInstanceManager);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (InvocationTargetException e) {
-        e.printStackTrace();
-      }
-    }
+  @Override
+  public void onConfigurationChanged(@NonNull Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig);
   }
 }

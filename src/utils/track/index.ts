@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 16:06:15
+ * @Last Modified time: 2023-07-24 15:59:14
  */
 import { NativeModules } from 'react-native'
 import { DEV, IOS_IPA, LOG_LEVEL } from '@/config'
@@ -144,19 +144,19 @@ export function t(
       if (eventId) {
         const _eventData = eventData || {}
         const userId = syncUserStore().myId || 0
-        UMAnalyticsModule.onEventWithMap(
-          eventId,
-          eventId === '其他.崩溃'
-            ? {
-                userId,
-                ..._eventData,
-                url: currentUrl
-              }
-            : {
-                userId,
-                ..._eventData
-              }
-        )
+        // UMAnalyticsModule.onEventWithMap(
+        //   eventId,
+        //   eventId === '其他.崩溃'
+        //     ? {
+        //         userId,
+        //         ..._eventData,
+        //         url: currentUrl
+        //       }
+        //     : {
+        //         userId,
+        //         ..._eventData
+        //       }
+        // )
       }
     } catch (error) {
       console.error('[track] t', error)

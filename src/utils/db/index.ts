@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 13:12:57
+ * @Last Modified time: 2023-07-24 15:39:12
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from '../fetch'
@@ -20,7 +20,7 @@ let ua = ''
  * https://gitee.com/api/v5/oauth_doc#/list-item-2
  */
 export async function oauth() {
-  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+  if (!ua) ua = (await Constants.getWebViewUserAgentAsync()) || ''
 
   const res = await xhr({
     method: 'POST',
@@ -49,7 +49,7 @@ export async function oauth() {
  */
 export async function read({ path }) {
   if (!FILE_CACHES[path]) {
-    if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+    if (!ua) ua = (await Constants.getWebViewUserAgentAsync()) || ''
 
     const res = await xhr({
       method: 'GET',
@@ -78,7 +78,7 @@ export async function read({ path }) {
  * https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
  */
 export async function add({ path, content, message }) {
-  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+  if (!ua) ua = (await Constants.getWebViewUserAgentAsync()) || ''
 
   const res = await xhr({
     method: 'POST',
@@ -116,7 +116,7 @@ export async function add({ path, content, message }) {
 export async function update({ path, content, sha, message }) {
   if (content === FILE_CACHES[path].content) return FILE_CACHES[path]
 
-  if (!ua) ua = await Constants.getWebViewUserAgentAsync()
+  if (!ua) ua = (await Constants.getWebViewUserAgentAsync()) || ''
 
   const res = await xhr({
     method: 'PUT',

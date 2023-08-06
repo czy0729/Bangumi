@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 09:13:59
+ * @Last Modified time: 2023-07-27 17:51:33
  */
 import { _ } from '@stores'
 import { PAD } from '@constants'
@@ -53,17 +53,17 @@ export const memoStyles = _.memoStyles(() => ({
   ghostMain: {
     backgroundColor: _.select(_.colorMainLight, _._colorDarkModeLevel2),
     borderColor: _.select(_.colorMainBorder, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0)
+    borderWidth: _.select(1, 0)
   },
   ghostPrimary: {
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel1),
-    borderWidth: _.select(_.hairlineWidth, 0)
+    borderWidth: _.select(1, 0)
   },
   ghostSuccess: {
     backgroundColor: _.select(_.colorSuccessLight, _._colorDarkModeLevel1),
     borderColor: _.select(_.colorSuccessBorder, _._colorDarkModeLevel1),
-    borderWidth: _.select(_.hairlineWidth, 0)
+    borderWidth: _.select(1, 0)
   },
   ghostPlain: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
@@ -126,14 +126,6 @@ export const memoStyles = _.memoStyles(() => ({
 
   // other
   shadow: {
-    // shadowColor: _.colorShadow,
-    // shadowOffset: {
-    //   width: 1,
-    //   height: 3
-    // },
-    // shadowOpacity: 0.16,
-    // shadowRadius: 3,
-    // elevation: 3
     borderWidth: 1,
     borderColor: _.colorBorder
   },

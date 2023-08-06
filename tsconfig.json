@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
+    "strict": false,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "types": ["react", "react-native"],
     "baseUrl": ".",
     "paths": {
       "@_": ["src/screens/_"],
@@ -26,21 +33,7 @@
       "@src/*": ["src/*"],
       "@": ["./"],
       "@/*": ["./*"]
-    },
-    "allowJs": true,
-    "esModuleInterop": true,
-    "jsx": "react-native",
-    "types": ["react", "react-native"],
-    "lib": ["DOM", "ESNext"],
-    "moduleResolution": "node",
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "target": "ESNext",
-    "useDefineForClassFields": true
+    }
   },
   "exclude": ["node_modules", "dist", "android", "src/assets", "web"],
   "extends": "expo/tsconfig.base"

@@ -5,53 +5,31 @@
  * @Last Modified time: 2023-06-03 16:16:17
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react-lite'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { syncThemeStore } from '@utils/async'
-import { IOS } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
 import { Props } from './types'
 
 export const BlurView = observer(({ style, children }: Props) => {
   const _ = syncThemeStore()
-  if (IOS || STORYBOOK) {
-    return (
-      <ExpoBlurView
-        style={[
-          style,
-          // eslint-disable-next-line react-native/no-inline-styles
-          {
-            backgroundColor: _.isDark
-              ? 'rgba(255, 255, 255, 0.08)'
-              : 'rgba(255, 255, 255, 0.4)',
-            borderRadius: _.radiusMd,
-            overflow: 'hidden'
-          }
-        ]}
-        tint={_.isDark ? 'dark' : 'light'}
-        intensity={64}
-      >
-        {children}
-      </ExpoBlurView>
-    )
-  }
-
   return (
-    <View
+    <ExpoBlurView
       style={[
         style,
         // eslint-disable-next-line react-native/no-inline-styles
         {
-          backgroundColor: _.isDark ? _._colorDarkModeLevel2 : _.colorPlain,
-          borderRadius: _.radiusSm,
-          borderWidth: _.isDark ? 0 : _.hairlineWidth,
-          borderColor: _.colorBorder,
+          marginBottom: _.window.height * 0.12,
+          backgroundColor: _.isDark
+            ? 'rgba(255, 255, 255, 0.08)'
+            : 'rgba(255, 255, 255, 0.4)',
+          borderRadius: _.radiusMd,
           overflow: 'hidden'
         }
       ]}
+      tint={_.isDark ? 'dark' : 'light'}
+      intensity={64}
     >
       {children}
-    </View>
+    </ExpoBlurView>
   )
 })

@@ -44,7 +44,8 @@ const defaultProps = {
   transparent: false,
   visible: false,
   blurView: false,
-  focus: false
+  focus: false,
+  children: null
 }
 
 class AntmModal extends React.Component<Partial<typeof defaultProps>> {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 05:29:29
+ * @Last Modified time: 2023-07-27 18:13:37
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
@@ -34,6 +34,7 @@ const List = memo(
         // iOS 因为头顶毛玻璃的问题, 不能懒加载 Tab, 所以在 Item 渲染的时候控制是否渲染
         // 安卓是懒加载, 所以可以一直显示
         if (!showItem) return null
+
         return renderItem({
           item,
           index,
@@ -50,9 +51,8 @@ const List = memo(
     return (
       <PaginationList2
         forwardRef={forwardRef}
-        style={styles.listView}
         contentContainerStyle={styles.contentContainerStyle}
-        progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
+        progressViewOffset={styles.contentContainerStyle.paddingTop}
         keyExtractor={keyExtractor}
         data={data.list}
         limit={20}

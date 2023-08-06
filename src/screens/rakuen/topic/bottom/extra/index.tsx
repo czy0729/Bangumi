@@ -2,21 +2,32 @@
  * @Author: czy0729
  * @Date: 2023-05-19 09:58:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-19 11:14:41
+ * @Last Modified time: 2023-07-30 18:30:14
  */
 import React from 'react'
 import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Touchable, Flex, Iconfont } from '@components'
 import { _, rakuenStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { stl } from '@utils'
+import { useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 import { memoStyles } from './styles'
 
 function Extra({ onDirect }) {
   const styles = memoStyles()
+  const { bottom } = useSafeAreaInsets()
   const { switchSlider } = rakuenStore.setting
-  return (
+  return useObserver(() => (
     <>
-      <View style={styles.left}>
+      <View
+        style={stl(
+          styles.left,
+          !IOS && {
+            bottom
+          }
+        )}
+      >
         <Touchable
           useRN
           onPress={() => onDirect(switchSlider ? true : false)}
@@ -31,12 +42,27 @@ function Extra({ onDirect }) {
           </Flex>
         </Touchable>
       </View>
-      <View style={styles.center} pointerEvents='none'>
+      <View
+        style={stl(
+          styles.center,
+          !IOS && {
+            bottom
+          }
+        )}
+        pointerEvents='none'
+      >
         <Flex style={styles.btn} justify='center'>
           <Iconfont name='md-edit' size={15} />
         </Flex>
       </View>
-      <View style={styles.right}>
+      <View
+        style={stl(
+          styles.right,
+          !IOS && {
+            bottom
+          }
+        )}
+      >
         <Touchable
           useRN
           onPress={() => onDirect(switchSlider ? false : true)}
@@ -52,7 +78,7 @@ function Extra({ onDirect }) {
         </Touchable>
       </View>
     </>
-  )
+  ))
 }
 
-export default ob(Extra)
+export default Extra

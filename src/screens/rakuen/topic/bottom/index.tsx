@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 21:21:40
+ * @Last Modified time: 2023-08-01 21:08:58
  */
 import React from 'react'
-import { FixedTextarea, Flex, Text } from '@components'
+import { SafeAreaBottom, FixedTextarea, Flex, Text } from '@components'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -20,21 +20,25 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   const { tip = '', close } = $.topic
   if (tip.includes('半公开')) {
     return (
-      <Flex style={styles.fixedBottom}>
-        <Text>半公开小组只有成员才能发言, </Text>
-        <Text type='main' onPress={() => appNavigate($.groupHref, navigation)}>
-          点击加入
-        </Text>
-      </Flex>
+      <SafeAreaBottom style={styles.fixedBottom} type='bottom'>
+        <Flex>
+          <Text>半公开小组只有成员才能发言, </Text>
+          <Text type='main' onPress={() => appNavigate($.groupHref, navigation)}>
+            点击加入
+          </Text>
+        </Flex>
+      </SafeAreaBottom>
     )
   }
 
   if (close) {
     return (
-      <Flex style={styles.fixedBottom}>
-        <Text>主题已被关闭: </Text>
-        <Text type='sub'>{close}</Text>
-      </Flex>
+      <SafeAreaBottom style={styles.fixedBottom} type='bottom'>
+        <Flex>
+          <Text>主题已被关闭</Text>
+          {!!close && <Text type='sub'>: {close}</Text>}
+        </Flex>
+      </SafeAreaBottom>
     )
   }
 

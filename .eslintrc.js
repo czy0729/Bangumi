@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 13:33:36
+ * @Last Modified time: 2023-08-05 05:21:04
  */
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
-  extends: ['@react-native-community', 'prettier'],
   ignorePatterns: [
     '/node_modules',
     '/components/@/*',

@@ -376,7 +376,7 @@ export function correctAgo(time = '') {
 }
 
 /** keyExtractor */
-export function keyExtractor(item = { id: '' }) {
+export function keyExtractor(item: AnyObject = { id: '' }) {
   return String(item.id)
 }
 

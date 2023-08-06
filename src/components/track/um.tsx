@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-26 20:10:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:32:08
+ * @Last Modified time: 2023-07-24 15:58:57
  */
 import React from 'react'
 import { NativeModules } from 'react-native'
@@ -25,10 +25,12 @@ export function UM({ title = '' }: Props) {
     <NavigationEvents
       onDidFocus={() => {
         // setTimeout是保证页面开始记录是在上个页面结束之后才执行
-        setTimeout(() => UMAnalyticsModule.onPageStart(title), 0)
+        setTimeout(() => {
+          // UMAnalyticsModule.onPageStart(title)
+        }, 0)
       }}
       onWillBlur={() => {
-        UMAnalyticsModule.onPageEnd(title)
+        // UMAnalyticsModule.onPageEnd(title)
       }}
     />
   )

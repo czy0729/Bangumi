@@ -2,9 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 22:01:14
+ * @Last Modified time: 2023-07-28 19:31:41
  */
-import { ViewStyle, TextStyle, IconfontNames, ColorValue, ReactNode } from '@types'
+import {
+  ColorValue,
+  Expand,
+  IconfontNames,
+  Navigation,
+  ReactNode,
+  TextStyle,
+  ViewStyle
+} from '@types'
 
 export type Props = {
   /** 模式 */
@@ -83,3 +91,20 @@ export interface IHeader {
   Popover?: (props: PopoverProps) => JSX.Element
   Placeholder?: (props: PlaceholderProps) => JSX.Element
 }
+
+export type UpdateHeaderProps = Expand<
+  {
+    navigation: Navigation
+  } & Pick<
+    Props,
+    | 'title'
+    | 'headerTitleAlign'
+    | 'headerTitleStyle'
+    | 'headerRight'
+    | 'mode'
+    | 'fixed'
+    | 'statusBarEventsType'
+  > & {
+      headerLeft?: any
+    }
+>

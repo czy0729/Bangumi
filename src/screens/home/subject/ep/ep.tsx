@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 15:02:07
+ * @Last Modified time: 2023-07-27 17:40:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -89,14 +89,16 @@ export default memo(
                       </Text>
                     )}
                   </View>
-                  <Button
-                    style={styles.btn}
-                    size='sm'
-                    type='ghostPrimary'
-                    onPress={canSubmit ? doUpdateSubjectEp : undefined}
-                  >
-                    更新
-                  </Button>
+                  <View style={_.ml.sm}>
+                    <Button
+                      style={styles.btn}
+                      size='sm'
+                      type='ghostPrimary'
+                      onPress={canSubmit ? doUpdateSubjectEp : undefined}
+                    >
+                      更新
+                    </Button>
+                  </View>
                 </Flex>
               )}
             </Flex.Item>
@@ -121,6 +123,7 @@ export default memo(
                   </Flex>
                 </Popover>
                 <Popover
+                  style={_.ml.sm}
                   data={HOUR_DS}
                   onSelect={title => {
                     onSelectOnAir(weekDay, `${title || '00'}${m || '00'}`)
@@ -133,6 +136,7 @@ export default memo(
                   </Flex>
                 </Popover>
                 <Popover
+                  style={_.ml.sm}
                   data={MINUTE_DS}
                   onSelect={title => {
                     onSelectOnAir(weekDay, `${h || '00'}${title || '00'}`)

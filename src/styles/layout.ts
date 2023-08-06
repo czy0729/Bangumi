@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:02:14
+ * @Last Modified time: 2023-07-25 17:47:22
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -116,7 +116,7 @@ export const tabsHeaderHeight = headerHeight + tabsHeight
  *  - iOS 8 以前的设备没有底部的黑横条 bar 高度, 需要减掉
  *  - 安卓没影响
  * */
-export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 0)
+export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 14)
 
 /** [待废弃] 底部留空 */
 export const bottom = tabBarHeight + lg

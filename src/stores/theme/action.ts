@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 16:02:47
+ * @Last Modified time: 2023-08-05 05:10:43
  */
 import { StyleSheet } from 'react-native'
-import changeNavigationBarColor from 'react-native-navigation-bar-color'
+// import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { androidDayNightToggle, runAfter } from '@utils'
 import { IOS, STORYBOOK, WSA } from '@constants'
 import _, { IS_IOS_5_6_7_8 } from '@styles'
@@ -180,16 +180,15 @@ export default class Action extends Computed {
 
     runAfter(() => {
       try {
-        // @ts-expect-error
-        changeNavigationBarColor(
-          this.select(
-            _.colorPlainHex,
-            this.deepDark
-              ? _._colorThemeDeepDark.colorPlainHex
-              : _._colorDarkModeLevel1Hex
-          ),
-          !this.isDark
-        )
+        // changeNavigationBarColor(
+        //   this.select(
+        //     _.colorPlainHex,
+        //     this.deepDark
+        //       ? _._colorThemeDeepDark.colorPlainHex
+        //       : _._colorDarkModeLevel1Hex
+        //   ),
+        //   !this.isDark
+        // )
         androidDayNightToggle(this.isDark)
       } catch (error) {
         console.error('[ThemeStore] changeNavigationBarColor', error)
@@ -203,8 +202,7 @@ export default class Action extends Computed {
 
     runAfter(() => {
       try {
-        // @ts-expect-error
-        changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
+        // changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)
       } catch (error) {
         console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)
@@ -215,7 +213,6 @@ export default class Action extends Computed {
   /**
    * 生成 APP 内能动态切换主题的, 记忆 styles 的核心函数
    *  - 所有需要动态切换的样式都应通过此函数包裹样式后导出到组件里面使用
-   *  - @deprecated 支持 key 名为 current (指 useRef) 的对象懒计算
    */
   memoStyles = <T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>>(
     styles: (currentThemeStore?: any) => T,

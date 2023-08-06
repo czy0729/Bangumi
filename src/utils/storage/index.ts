@@ -4,17 +4,13 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 02:57:18
+ * @Last Modified time: 2023-08-03 01:36:05
  */
-import AsyncStorage from '@components/@/react-native-async-storage'
-// import { DEV } from '@/config'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { queue } from '../utils'
-import { LAZY_SET_STORAGE_SIZE, LAZY_SET_STORAGE_INTERVAL } from './ds'
+import { CACHE_MAP, LAZY_SET_STORAGE_SIZE, LAZY_SET_STORAGE_INTERVAL } from './ds'
 
-/** 缓存过程中间值 */
-const cacheMap = new Map<string, any>()
-
-let setStorageInterval: number
+let setStorageInterval: any
 if (setStorageInterval) clearInterval(setStorageInterval)
 
 /** 读取数据 */
@@ -35,7 +31,7 @@ export async function setStorage(key: string, data: any) {
 
   const _data = JSON.stringify(data)
   if (_data.length >= LAZY_SET_STORAGE_SIZE) {
-    cacheMap.set(key, _data)
+    CACHE_MAP.set(key, _data)
     return
   }
 
@@ -44,13 +40,13 @@ export async function setStorage(key: string, data: any) {
 
 /** 数据较大的键, 合并没必要的多次写入 */
 setStorageInterval = setInterval(() => {
-  if (!cacheMap.size) return
+  if (!CACHE_MAP.size) return
 
   const setItems = []
-  cacheMap.forEach((value, key) => {
+  CACHE_MAP.forEach((value, key) => {
     setItems.push(async () => {
       await AsyncStorage.setItem(key, value)
-      cacheMap.delete(key)
+      CACHE_MAP.delete(key)
 
       // if (DEV) {
       //   const size = (String(value).length / 1000).toFixed(2)

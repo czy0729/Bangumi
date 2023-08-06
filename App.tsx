@@ -35,6 +35,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={_.container.flex}>
+      {/* @ts-expect-error */}
       <Provider theme={theme}>
         <HoldMenuProvider>
           <NavigationContainer>

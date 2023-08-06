@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-05-23 11:54:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-23 14:23:15
+ * @Last Modified time: 2023-08-03 05:26:52
  */
 import { LogBox } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export function ignoreAllLogs() {
   LogBox.ignoreAllLogs(true)

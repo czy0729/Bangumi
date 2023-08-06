@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 05:09:44
+ * @Last Modified time: 2023-08-03 01:17:19
  */
-import AsyncStorage from '@components/@/react-native-async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { confirm } from '@utils'
 import { DEV } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
+import { Navigation, SubjectId } from '@types'
 import calendarStore from './calendar'
 import collectionStore from './collection'
 import discoveryStore from './discovery'
@@ -82,7 +82,7 @@ class GlobalStores {
       /** ==================== subjectStoreKeys ==================== */
       const subjectStoreKeys: `subject${number}`[] = []
       userStore.collection.list.forEach(item => {
-        subjectStoreKeys.push(`subject${getInt(item.subject_id)}`)
+        subjectStoreKeys.push(`subject${getInt(item.subject_id as SubjectId)}`)
       })
       for (let i = 0; i < subjectStoreKeys.length; i += 1) {
         await subjectStore.init(subjectStoreKeys[i])

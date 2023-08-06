@@ -39,11 +39,11 @@ const Topic = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Header fixed={fixed} />
       <Page>
         <List renderItem={renderItem} onScroll={onScroll} />
         <Heatmap id='人物' screen='Mono' />
       </Page>
+      <Header fixed={fixed} />
     </>
   ))
 }

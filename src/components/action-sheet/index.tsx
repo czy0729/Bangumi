@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 20:17:44
+ * @Last Modified time: 2023-08-05 05:27:12
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Animated, View, StatusBar } from 'react-native'
@@ -13,6 +13,7 @@ import { useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Portal } from '../portal'
 import { ScrollView } from '../scroll-view'
+import { SafeAreaBottom } from '../safe-area-bottom'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
@@ -86,7 +87,7 @@ export const ActionSheet = ({
     const h = Math.min(height || _.window.height * 0.5, _.window.height * 0.88)
     return (
       <Portal>
-        <View style={styles.actionSheet}>
+        <SafeAreaBottom style={styles.actionSheet}>
           <Animated.View
             style={[
               styles.mask,
@@ -138,7 +139,7 @@ export const ActionSheet = ({
               </Flex>
             </Touchable>
           </Animated.View>
-        </View>
+        </SafeAreaBottom>
       </Portal>
     )
   })

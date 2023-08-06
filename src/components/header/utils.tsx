@@ -2,33 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 06:53:39
+ * @Last Modified time: 2023-07-28 20:20:56
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { IOS, SHARE_MODE } from '@constants'
-import { Expand, Navigation } from '@types'
+import { IOS } from '@constants'
 import Back from './back'
 import { colors, backgroundColors } from './styles'
-import { Props } from './types'
-
-type UpdateHeaderProps = Expand<
-  {
-    navigation: Navigation
-  } & Pick<
-    Props,
-    | 'title'
-    | 'headerTitleAlign'
-    | 'headerTitleStyle'
-    | 'headerRight'
-    | 'mode'
-    | 'fixed'
-    | 'statusBarEventsType'
-  > & {
-      headerLeft?: any
-    }
->
+import { UpdateHeaderProps } from './types'
 
 const HEADER_TRANSITION_HEIGHT = 32
 
@@ -46,15 +28,6 @@ export const updateHeader = ({
   fixed = false,
   statusBarEventsType
 }: UpdateHeaderProps) => {
-  if (SHARE_MODE) {
-    try {
-      const _title = systemStore.setting.s2t ? s2t(title) : title
-      if (typeof _title === 'string' && _title) {
-        // document.title = _title
-      }
-    } catch (error) {}
-  }
-
   if (!navigation) return
 
   const _title = systemStore.setting.s2t ? s2t(title) : title
@@ -64,7 +37,6 @@ export const updateHeader = ({
   const backgroundColor = backgroundColors[statusBarEventsType]
     ? backgroundColors[statusBarEventsType](fixed)
     : undefined
-
   const _headerTitleStyle = [
     {
       fontSize: 15,
@@ -80,24 +52,20 @@ export const updateHeader = ({
   if (!IOS) _headerTitleStyle.push(_.fontStyle)
 
   const options = {
-    // header
-    headerTransparent: false,
+    /** ==================== header ==================== */
     headerShown: true,
+    headerTransparent: false,
+    headerShadowVisible: false,
     headerStyle: {
       height: undefined,
+      paddingHorizontal: 0,
       backgroundColor: backgroundColor || (mode ? 'transparent' : _.colorPlain),
       borderBottomWidth: 0,
       shadowOpacity: 0,
       elevation: 0
     },
 
-    // headerTitle
-    headerTitle: mode ? '' : _title,
-    headerTitleAlign: headerTitleAlign || (mode ? 'left' : 'center'),
-    headerTitleStyle: _headerTitleStyle,
-    headerTintColor: color || _.colorTitle,
-
-    // headerBack
+    /** ==================== headerBack ==================== */
     headerBackTitleVisible: false,
     headerLeftContainerStyle: {
       paddingLeft: 5
@@ -109,9 +77,21 @@ export const updateHeader = ({
       </>
     ),
 
-    // headerRight
+    /** ==================== headerTitle ==================== */
+    headerTitle: mode ? '' : _title,
+    headerTitleAlign: headerTitleAlign || (mode ? 'left' : 'center'),
+    headerTitleStyle: _headerTitleStyle,
+    headerTintColor: color || _.colorTitle,
+
+    /** ==================== headerRight ==================== */
     headerRightContainerStyle: {},
-    headerRight: undefined
+    headerRight: undefined,
+
+    /** ==================== navigationBar ==================== */
+    navigationBarColor: _.select(
+      _.colorPlain,
+      _.deep(_._colorPlainHex, _._colorDarkModeLevel1Hex)
+    )
   }
 
   if (headerRight) {
@@ -135,8 +115,9 @@ export const updateHeader = ({
       backgroundColor: '#000000'
     }
 
-    // hack
+    /** @hack */
     if (!IOS) {
+      options.headerShown = false
       options.headerStyle.height = 0.5 // 别问为什么留 0.5, 我也想知道, 不给他留一点就是会出现页面重叠问题
     } else {
       if (mode) options.headerTransparent = true

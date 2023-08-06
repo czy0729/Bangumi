@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:36:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-11-30 06:44:58
+ * @Last Modified time: 2023-07-25 01:26:41
  */
 import { useState, useEffect } from 'react'
 import { Dimensions } from 'react-native'
@@ -28,9 +28,9 @@ export default function useDimensions() {
   }
 
   useEffect(() => {
-    Dimensions.addEventListener('change', onChange)
+    const dimensionsSubscription = Dimensions.addEventListener('change', onChange)
     return () => {
-      Dimensions.removeEventListener('change', onChange)
+      dimensionsSubscription.remove()
     }
   })
 

@@ -34,7 +34,6 @@ const RakuenGroup = (props, { $ }: Ctx) => {
     const { show } = $.state
     return (
       <>
-        <Header fixed={fixed} />
         <Page>
           <ScrollView scrollEventThrottle={16} scrollToTop onScroll={onScroll}>
             <Info />
@@ -61,6 +60,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
             onSearch={$.doSearch}
           />
         </Page>
+        <Header fixed={fixed} />
         <Heatmap id='小组' screen='Group' />
         <Heatmap right={72} bottom={_.bottom} id='小组.加入' />
         <Heatmap right={72} bottom={_.bottom - 34} id='小组.退出' />

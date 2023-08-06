@@ -24,7 +24,7 @@ class Cover extends React.Component<Props> {
   }
 
   onLoad = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (typeof $.cover === 'string') SRC_LOADED[$.cover] = true
 
     setTimeout(
@@ -38,7 +38,7 @@ class Cover extends React.Component<Props> {
   }
 
   get isLoaded() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (typeof $.cover === 'string') {
       return SRC_LOADED[$.cover] || this.state.isLoaded
     }
@@ -47,7 +47,7 @@ class Cover extends React.Component<Props> {
   }
 
   get event() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     return {
       id: '条目.封面图查看',
       data: {
@@ -60,7 +60,7 @@ class Cover extends React.Component<Props> {
     if (this.isLoaded) return null
 
     const { coverRadius } = systemStore.setting
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { placeholder } = this.props
     return (
       <CompCover
@@ -82,7 +82,7 @@ class Cover extends React.Component<Props> {
   }
 
   renderCover() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { image, placeholder } = this.props
     if (!image) return null
 

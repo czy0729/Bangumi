@@ -15,7 +15,7 @@ export type StoreType = typeof f
 
 export type Ctx = {
   $: StoreType
-  navigation?: Navigation
+  navigation: Navigation
 }
 
 export type ExcludeState = {

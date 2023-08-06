@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:59:25
+ * @Last Modified time: 2023-08-01 19:26:35
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Page, Loading } from '@components'
@@ -327,7 +327,6 @@ const Topic = (props, { $ }: Ctx) => {
   return useObserver(() => {
     return (
       <>
-        <Header fixed={fixed} />
         <TapListener>
           <Page>
             <List
@@ -337,9 +336,10 @@ const Topic = (props, { $ }: Ctx) => {
               onScrollToIndexFailed={onScrollToIndexFailed}
             />
             <TouchScroll onPress={onPress} />
-            <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
           </Page>
         </TapListener>
+        <Header fixed={fixed} />
+        <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
         <LikesUsers />
         <Heatmaps />
       </>

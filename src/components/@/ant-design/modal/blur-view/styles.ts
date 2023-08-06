@@ -16,10 +16,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   blurView: {
     paddingTop: 20,
-    backgroundColor: _.ios(
-      _.select('rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.08)'),
-      _.select(_.colorBg, _._colorDarkModeLevel1)
-    ),
+    backgroundColor: _.select('rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.08)'),
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   }

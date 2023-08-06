@@ -9,5 +9,6 @@ import { ViewStyle } from '@types'
 export type Props = {
   style?: ViewStyle
   topSpacing?: number
+  animate?: boolean
   onToggle?: (toggle?: boolean, keyboardSpace?: number) => any
 }

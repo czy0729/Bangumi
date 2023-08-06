@@ -8,7 +8,6 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
-    zIndex: 1,
     paddingTop: _.r(48),
     marginTop: _.ios(80, -80)
   },

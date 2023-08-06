@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:57:29
+ * @Last Modified time: 2023-08-01 19:35:39
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -50,6 +50,7 @@ export * from './popover'
 export * from './portal'
 export * from './progress'
 export * from './render-html'
+export * from './safe-area-bottom'
 export * from './scroll-to-top'
 export * from './scroll-view'
 export * from './segmented-control'

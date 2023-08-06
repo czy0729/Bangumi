@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-07 07:48:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 17:28:03
+ * @Last Modified time: 2023-08-03 01:17:03
  */
 import React, { useState, useCallback } from 'react'
-import AsyncStorage from '@components/@/react-native-async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ActionSheet, Text, Heatmap } from '@components'
 import { clearCache } from '@components/image/image'
 import { ItemSetting } from '@_'

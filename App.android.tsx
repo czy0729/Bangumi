@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 23:21:14
+ * @Last Modified time: 2023-07-28 17:11:23
  */
-import '@utils/thirdParty/stable-sort'
-import 'react-native-gesture-handler'
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { enableScreens } from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
 import Stacks from '@src/navigations'
-import { DEV, NavigationContainer, DeepLink, BackAndroid } from '@components'
+import { DEV, DeepLink, BackAndroid } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import { androidKeyboardAdjust } from '@utils'
@@ -29,6 +28,7 @@ import { WSA } from '@constants'
 import theme from '@styles/theme'
 import { ANDROID_DEV_MENU } from './config'
 
+enableScreens(true)
 LogBox.ignoreAllLogs(true)
 
 export default function App() {
@@ -49,34 +49,36 @@ export default function App() {
 
   // 键盘模式设置为不调整画面大小, 需要动态改变的在页面内自行设置
   useMount(() => {
-    enableScreens(false)
     androidKeyboardAdjust('setAdjustPan')
   })
 
-  // App启动稳定后统一做的操作
+  // App 启动稳定后统一做的操作
   useGlobalMount()
 
   // WSA 子系统窗口是可以随意改变大小的
   const { window } = useDimensions()
   useEffect(() => {
-    requestAnimationFrame(() => {
-      if (WSA) _.updateLayout()
-    })
+    if (WSA) {
+      requestAnimationFrame(() => {
+        _.updateLayout()
+      })
+    }
   }, [window])
 
   if (!isLoadingComplete) return null
 
   return (
-    <SafeAreaProvider style={_.container.flex}>
-      <Provider theme={theme}>
-        <NavigationContainer>
+    <GestureHandlerRootView style={_.container.flex}>
+      <SafeAreaProvider style={_.container.flex}>
+        {/* @ts-expect-error */}
+        <Provider theme={theme}>
           <Stacks />
-        </NavigationContainer>
-        <AppCommon />
-        <BackAndroid />
-        <DeepLink />
-        {ANDROID_DEV_MENU && <DEV />}
-      </Provider>
-    </SafeAreaProvider>
+          <AppCommon />
+          <BackAndroid />
+          <DeepLink />
+          {ANDROID_DEV_MENU && <DEV />}
+        </Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }

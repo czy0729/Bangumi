@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-08-26 11:21:38
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-26 11:21:38
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-07-27 17:40:07
  */
 import { _ } from '@stores'
 
@@ -33,17 +33,15 @@ export const memoStyles = _.memoStyles(() => ({
   btn: {
     width: _.r(44),
     height: _.r(32),
-    marginLeft: _.r(10),
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     overflow: 'hidden'
   },
   btnOnAir: {
     width: _.r(44),
     height: _.r(32),
-    marginLeft: _.r(10),
     backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
     borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0),
+    borderWidth: _.select(1, 0),
     borderRadius: _.radiusXs,
     overflow: _.ios(undefined, 'hidden')
   },

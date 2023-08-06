@@ -166,6 +166,7 @@
 }
 
 ##### react-native-reanimated #####
+-keep class com.swmansion.reanimated.** { *; }
 -keep class com.facebook.react.turbomodule.** { *; }
 
 ##### Segment #####
@@ -173,4 +174,4 @@
 -keep class androidx.lifecycle.DefaultLifecycleObserver
 
 ##### skia #####
--keep class com.shopify.reactnative.skia.** { *; }
+# -keep class com.shopify.reactnative.skia.** { *; }

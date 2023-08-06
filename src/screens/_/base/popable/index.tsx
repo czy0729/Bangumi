@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-02 23:20:27
+ * @Last Modified time: 2023-07-28 16:56:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,6 +45,8 @@ export const Popable = ({ subjectId, visible, portalKey, x, y }) => {
                 <Touchable
                   onPress={() => {
                     const navigation = navigationReference()
+                    console.log(navigation)
+
                     if (navigation) {
                       t('其他.缩略框跳转', {
                         to: 'Subject',

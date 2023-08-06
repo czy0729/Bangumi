@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-22 19:19:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-19 17:52:55
+ * @Last Modified time: 2023-07-24 14:16:43
  */
 import { registerRootComponent } from 'expo'
 import App from './App'

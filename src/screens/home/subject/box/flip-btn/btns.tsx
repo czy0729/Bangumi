@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 03:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 15:38:24
+ * @Last Modified time: 2023-07-27 17:56:37
  */
 import React from 'react'
 import { Flex, Button, Iconfont } from '@components'
@@ -14,7 +14,7 @@ import { RATE } from '../ds'
 import { styles } from './styles'
 
 function Btns({ btnText, rating, privacy, last }) {
-  const type = getType(btnText)
+  const type = getType(btnText, _.select('ghostPlain', 'plain'))
 
   // 自己的收藏状态
   const leftStyle = []

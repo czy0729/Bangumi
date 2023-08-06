@@ -54,7 +54,7 @@ export const BlurView = observer(
         <Image
           imageStyle={styles.image}
           src={_src}
-          fadeDuration={80}
+          fadeDuration={0}
           blurRadius={blurRadius}
           textOnly={false}
           fallback

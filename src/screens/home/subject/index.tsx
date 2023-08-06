@@ -41,7 +41,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
     }
   })
 
-  const scrollViewRef = useRef(undefined)
+  const scrollViewRef = useRef<any>(null)
   const forwardRef = useCallback(ref => {
     scrollViewRef.current = ref
   }, [])
@@ -71,7 +71,6 @@ const Subject = (props, { $, navigation }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Header fixed={fixed} index={navigation.getState().index} />
       <Page>
         {IOS && <Bg />}
         <List
@@ -81,6 +80,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
         />
         <Modal />
       </Page>
+      <Header fixed={fixed} index={navigation.getState().index} />
       <Heatmap id='条目' screen='Subject' />
     </>
   ))

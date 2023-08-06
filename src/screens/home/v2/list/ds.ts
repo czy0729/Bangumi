@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:57:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-09 11:31:05
+ * @Last Modified time: 2023-07-25 18:16:30
  */
 import { IOS, LIST_EMPTY } from '@constants'
 import { StoreType as $, TabLabel } from '../types'
@@ -17,5 +17,5 @@ export const DEFAULT_PROPS = {
   showItem: (IOS ? false : true) as boolean,
   onScroll: (() => {}) as $['onScroll'],
   onHeaderRefresh: (() => {}) as $['onHeaderRefresh'],
-  onFooterRefresh: undefined as $['onFooterRefresh']
+  onFooterRefresh: undefined as $['onFooterRefresh'] | undefined
 }

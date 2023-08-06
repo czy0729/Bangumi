@@ -37,34 +37,34 @@ export type IconfontNames =
 /** react-navigation 路由对象 */
 export type Navigation = {
   /** 前进 */
-  push?: NavigationPushType
+  push: NavigationPushType
 
   /** 跳转到 */
-  navigate?: NavigationPushType
+  navigate: NavigationPushType
 
   /** 替换 */
-  replace?: (path: Paths, params?: object) => any
+  replace: (path: Paths, params?: object) => any
 
   /** 后退 */
-  goBack?: (arg0?: any) => any
+  goBack: (arg0?: any) => any
 
   /** 出栈到顶 */
-  popToTop?: (arg0?: any) => any
+  popToTop: (arg0?: any) => any
 
   /** 获取根部路由状态 */
-  getRootState?: (arg0?: any) => any
+  getRootState: (arg0?: any) => any
 
   /** 获取路由状态 */
-  getState?: () => any
+  getState: () => any
 
   /** 动态设置路由参数 */
-  setOptions?: (params?: object) => any
+  setOptions: (params?: object) => any
 
   /** 订阅 */
-  addListener?: (eventType: string, callback: () => any) => any
+  addListener: (eventType: string, callback: (any) => any) => any
 
   /** 触发订阅事件 */
-  emit?: (params?: object) => any
+  emit: (params?: object) => any
 
   /** @deprecated 获取参数 */
   getParam?: (arg0?: any) => any

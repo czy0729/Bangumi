@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resources>
   <string name="app_name">Bangumi</string>
-  <string name="widget_today_description" translatable="false">Bangumi calendar widget</string>
 </resources>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:01:43
+ * @Last Modified time: 2023-07-24 15:36:36
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -145,7 +145,7 @@ export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${
 })` as const
 
 /** 是否安卓 10 之前 */
-export const IS_BEFORE_ANDROID_10 = !IOS && Platform.Version < 29
+export const IS_BEFORE_ANDROID_10 = !IOS && Number(Platform.Version) < 29
 
 /** @deprecated Bangumi 字眼在 App 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'

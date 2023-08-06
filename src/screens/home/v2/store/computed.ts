@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-05 20:41:11
+ * @Last Modified time: 2023-07-25 18:42:05
  */
 import { computed } from 'mobx'
 import {
@@ -365,9 +365,7 @@ export default class Computed extends State {
           if (homeEpStartAtLastWathed) {
             let lastIndex: number
 
-            // @ts-expect-error
             if (typeof eps.findLastIndex === 'function') {
-              // @ts-expect-error
               lastIndex = eps.findLastIndex(
                 (item: Ep) => userProgress[item.id] === '看过'
               )
@@ -641,5 +639,13 @@ export default class Computed extends State {
       const { isFocused, page } = this.state
       return isFocused && TABS_WITH_GAME[page].title === title
     }).get()
+  }
+
+  @computed get hm() {
+    return (
+      this.isLogin
+        ? [`?id=${this.userId}`, 'Home']
+        : [`?id=${this.userId}&login=0`, 'Home']
+    ) as [string, string]
   }
 }

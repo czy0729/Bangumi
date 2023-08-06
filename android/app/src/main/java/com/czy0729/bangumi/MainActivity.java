@@ -1,23 +1,26 @@
 package com.czy0729.bangumi;
 
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
+import android.os.Build;
 import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
-import com.facebook.react.ReactRootView;
-import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-import expo.modules.splashscreen.SplashScreen;
-import expo.modules.splashscreen.SplashScreenImageResizeMode;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactActivityDelegate;
+
+import expo.modules.ReactActivityDelegateWrapper;
+
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    // SplashScreen.show(...) has to be called after super.onCreate(...)
-    // Below line is handled by '@expo/configure-splash-screen' command and it's discouraged to modify it manually
-    SplashScreen.show(this, SplashScreenImageResizeMode.CONTAIN, false);
+    // Set the theme to AppTheme BEFORE onCreate to support
+    // coloring the background, status bar, and navigation bar.
+    // This is required for expo-splash-screen.
+    setTheme(R.style.AppTheme);
+    super.onCreate(null);
 
     // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
     // UMConfigure.setLogEnabled(true);
@@ -30,34 +33,56 @@ public class MainActivity extends ReactActivity {
     MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.LEGACY_MANUAL);
   }
 
+  /**
+   * Returns the name of the main component registered from JavaScript.
+   * This is used to schedule rendering of the component.
+   */
+  @Override
+  protected String getMainComponentName() {
+    return "main";
+  }
 
-    /**
-     * Returns the name of the main component registered from JavaScript.
-     * This is used to schedule rendering of the component.
-     */
-    @Override
-    protected String getMainComponentName() {
-        return "main";
-        // return "czy0729.bangumi";
+  /**
+   * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
+   * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React
+   * (aka React 18) with two boolean flags.
+   */
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, new DefaultReactActivityDelegate(
+        this,
+        getMainComponentName(),
+        // If you opted-in for the New Architecture, we enable the Fabric Renderer.
+        DefaultNewArchitectureEntryPoint.getFabricEnabled()));
+  }
+
+  /**
+   * Align the back button behavior with Android S
+   * where moving root activities to background instead of finishing activities.
+   * @see <a href="https://developer.android.com/reference/android/app/Activity#onBackPressed()">onBackPressed</a>
+   */
+  @Override
+  public void invokeDefaultOnBackPressed() {
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
+      if (!moveTaskToBack(false)) {
+        // For non-root activities, use the default implementation to finish them.
+        super.invokeDefaultOnBackPressed();
+      }
+      return;
     }
 
-    @Override
-    protected ReactActivityDelegate createReactActivityDelegate() {
-        return new ReactActivityDelegate(this, getMainComponentName()) {
-            @Override
-            protected ReactRootView createRootView() {
-                return new RNGestureHandlerEnabledRootView(MainActivity.this);
-            }
-        };
-    }
+    // Use the default back button implementation on Android S
+    // because it's doing more than {@link Activity#moveTaskToBack} in fact.
+    super.invokeDefaultOnBackPressed();
+  }
 
-    public void onResume() {
-      super.onResume();
-      MobclickAgent.onResume(this);
-    }
+  public void onResume() {
+    super.onResume();
+    MobclickAgent.onResume(this);
+  }
 
-    public void onPause() {
-      super.onPause();
-      MobclickAgent.onPause(this);
-    }
+  public void onPause() {
+    super.onPause();
+    MobclickAgent.onPause(this);
+  }
 }

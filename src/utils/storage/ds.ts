@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:48:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 20:44:01
+ * @Last Modified time: 2023-08-03 01:35:49
  */
 import { STORYBOOK } from '@constants/device'
 import { DEV } from '@/config'
@@ -12,3 +12,6 @@ export const LAZY_SET_STORAGE_SIZE = 1024
 
 /** 延迟写入间隔 */
 export const LAZY_SET_STORAGE_INTERVAL = STORYBOOK ? 1000 : DEV ? 6000 : 18000
+
+/** 缓存过程中间值 */
+export const CACHE_MAP = new Map<string, any>()

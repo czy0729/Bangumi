@@ -1,9 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2022-10-19 13:52:24
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-10-19 13:52:24
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-07-29 04:04:44
  */
+import { ReactNode } from '@types'
+
 export type Props = {
   /** 输入框值 */
   value?: string
@@ -21,6 +23,8 @@ export type Props = {
   marks?: string[] | readonly string[]
 
   extraComponent?: any
+
+  children?: ReactNode
 
   /** 关闭回调 */
   onClose?: (arg0?: any) => any
