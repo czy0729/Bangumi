@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-02 23:13:25
+ * @Last Modified time: 2023-08-07 17:51:46
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import {
   PanGestureHandler,
   PanGestureHandlerStateChangeEvent,

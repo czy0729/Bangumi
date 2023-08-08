@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 20:20:56
+ * @Last Modified time: 2023-08-07 17:21:18
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { _, systemStore } from '@stores'
@@ -85,13 +85,13 @@ export const updateHeader = ({
 
     /** ==================== headerRight ==================== */
     headerRightContainerStyle: {},
-    headerRight: undefined,
+    headerRight: undefined
 
     /** ==================== navigationBar ==================== */
-    navigationBarColor: _.select(
-      _.colorPlain,
-      _.deep(_._colorPlainHex, _._colorDarkModeLevel1Hex)
-    )
+    // navigationBarColor: _.select(
+    //   _.colorPlain,
+    //   _.deep(_._colorPlainHex, _._colorDarkModeLevel1Hex)
+    // ),
   }
 
   if (headerRight) {

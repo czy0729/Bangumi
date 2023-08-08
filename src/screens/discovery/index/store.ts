@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:52:48
+ * @Last Modified time: 2023-08-07 18:35:44
  */
 import { observable, computed } from 'mobx'
 import {
@@ -184,12 +184,11 @@ export default class ScreenDiscovery extends store {
   @computed get todayBangumi() {
     try {
       const time = date('Hi', getTimestamp())
-      const current = parseInt(`${new Date().getDay() || 7}${time}`)
-
+      const current = parseInt(`${new Date().getDay() || 7}${time || '0000'}`)
       const index = this.calendar.findIndex(
-        item => current >= parseInt(`${item.weekday}${item.timeCN}`)
+        item =>
+          current >= parseInt(`${item.weekDayLocal || 7}${item.timeLocal || '0000'}`)
       )
-      if (index === -1) return []
 
       // 在前面和后面拼接多一组数据, 可以实现循环每周, 补全数据
       const circle = [...this.calendar, ...this.calendar, ...this.calendar]

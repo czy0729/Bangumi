@@ -23,7 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   image: {
     marginTop: _.ios(-2, -1),
-    opacity: _.ios(1, 0.5)
+    opacity: _.ios(1, 0.64)
   },
   text: {
     marginLeft: 6

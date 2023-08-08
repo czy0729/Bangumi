@@ -22,6 +22,6 @@ export const styles = _.create({
   },
   bgm: {
     marginTop: _.ios(-3, -6),
-    opacity: _.ios(1, 0.5)
+    opacity: _.ios(1, 0.64)
   }
 })

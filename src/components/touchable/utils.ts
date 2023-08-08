@@ -25,7 +25,7 @@ export const styles = _.create({
 })
 
 let isCalled = false
-let timer: number
+let timer: any
 
 /**
  * 防止瞬间多次点击
@@ -40,8 +40,9 @@ export function callOnceInInterval(
     clearTimeout(timer)
     timer = setTimeout(() => (isCalled = false), interval)
 
+    functionTobeCalled()
     /** 把点击事件放在 requestAnimationFrame 里面, 在安卓上面是两个完全不同的体验 */
-    return setTimeout(() => functionTobeCalled(), 0)
+    // return setTimeout(() => functionTobeCalled(), 0)
   }
 
   return false

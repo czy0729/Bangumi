@@ -43,8 +43,7 @@ export const Touchable = observer(
       delayPressIn,
       delayPressOut,
       extraButtonProps: _.select(EXTRA_BUTTON_PROPS, EXTRA_BUTTON_PROPS_DARK),
-      // onPress: delay ? () => callOnceInInterval(onPress) : onPress,
-      onPress,
+      onPress: delay ? () => callOnceInInterval(onPress) : onPress,
       children,
       ...other
     }

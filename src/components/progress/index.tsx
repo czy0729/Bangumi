@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:45
+ * @Last Modified time: 2023-08-07 17:50:50
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,

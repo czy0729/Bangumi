@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 21:08:58
+ * @Last Modified time: 2023-08-07 16:42:52
  */
 import React from 'react'
 import { SafeAreaBottom, FixedTextarea, Flex, Text } from '@components'
@@ -15,6 +15,8 @@ import { memoStyles } from './styles'
 const MARKS = ['+1', 'mark', '(bgm38)'] as const
 
 function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
+  if (!$.isWebLogin || $.isLimit) return null
+
   const styles = memoStyles()
   const { placeholder, value } = $.state
   const { tip = '', close } = $.topic
@@ -41,8 +43,6 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
       </SafeAreaBottom>
     )
   }
-
-  if (!$.isWebLogin || $.isLimit) return null
 
   return (
     <FixedTextarea

@@ -3,11 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-02 23:18:57
+ * @Last Modified time: 2023-08-07 16:49:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
 import { getStorage, info, setStorage } from '@utils'
 import { IOS, STORYBOOK } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'
@@ -126,8 +125,6 @@ export const FixedTextarea = observer(
 
     /** Textarea.focus */
     refFocus = () => {
-      if (this._focused) return
-
       try {
         if (typeof this.ref?.textAreaRef?.focus === 'function') {
           this.ref.textAreaRef.focus()
@@ -168,7 +165,8 @@ export const FixedTextarea = observer(
 
       setTimeout(() => {
         this.refFocus()
-      }, 0)
+        // 延迟是为了等待键盘动画结束
+      }, 640)
     }
 
     /** 展开 / 收起键盘 */
@@ -265,7 +263,9 @@ export const FixedTextarea = observer(
     onMask = () => {
       const { simple } = this.props
       if (!simple) this.checkIsNeedToSaveDraft()
-      this.onBlur()
+      setTimeout(() => {
+        this.onBlur()
+      }, 0)
     }
 
     /** 提交, 之后保存历史 */

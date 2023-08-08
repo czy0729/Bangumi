@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 15:14:13
+ * @Last Modified time: 2023-08-07 17:50:44
  */
-import React, { useRef, useEffect } from 'react'
-import { useObserver } from 'mobx-react-lite'
+import React, { useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
+import { useObserver } from 'mobx-react'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
-import { _ } from '@stores'
 import { navigationReference } from '@utils'
 import { Navigation } from '@types'
 import { IOS_IPA } from '@/config'
@@ -19,8 +18,8 @@ if (IOS_IPA) {
   enableScreens(false)
 }
 
-const enabledLimit = 5
-let enabled = false
+// const enabledLimit = 5
+// let enabled = false
 
 export const NavigationContainer = ({ children }: Props) => {
   const navigationRef = useRef<Navigation>(null)

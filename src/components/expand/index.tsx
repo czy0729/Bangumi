@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 05:56:51
+ * @Last Modified time: 2023-08-07 17:50:07
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { useObserver } from 'mobx-react-lite'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Touchable } from '../touchable'

@@ -3,17 +3,17 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:27:12
+ * @Last Modified time: 2023-08-07 17:49:56
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Animated, View, StatusBar } from 'react-native'
-import { useObserver } from 'mobx-react-lite'
+import { Animated, View } from 'react-native'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Portal } from '../portal'
-import { ScrollView } from '../scroll-view'
 import { SafeAreaBottom } from '../safe-area-bottom'
+import { ScrollView } from '../scroll-view'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Text } from '../text'
@@ -34,12 +34,6 @@ export const ActionSheet = ({
 
   const _onShow = useCallback(() => {
     _setShow(true)
-
-    if (!IOS && !_.isDark) {
-      // 去除 StatusBar 的灰色背景
-      StatusBar.setBackgroundColor('rgba(255, 255, 255, 0)', false)
-    }
-
     setTimeout(() => {
       Animated.timing(y.current, {
         toValue: 1,
@@ -87,7 +81,7 @@ export const ActionSheet = ({
     const h = Math.min(height || _.window.height * 0.5, _.window.height * 0.88)
     return (
       <Portal>
-        <SafeAreaBottom style={styles.actionSheet}>
+        <View style={styles.actionSheet}>
           <Animated.View
             style={[
               styles.mask,
@@ -131,15 +125,17 @@ export const ActionSheet = ({
                 : title}
               {children}
             </ScrollView>
-            <Touchable onPress={onClose}>
-              <Flex style={styles.close} justify='center'>
-                <Text size={15} bold type='sub'>
-                  收起
-                </Text>
-              </Flex>
+            <Touchable style={styles.close} onPress={onClose}>
+              <SafeAreaBottom type='paddingBottom'>
+                <Flex style={styles.btn} justify='center'>
+                  <Text size={15} bold type='sub'>
+                    收起
+                  </Text>
+                </Flex>
+              </SafeAreaBottom>
             </Touchable>
           </Animated.View>
-        </SafeAreaBottom>
+        </View>
       </Portal>
     )
   })

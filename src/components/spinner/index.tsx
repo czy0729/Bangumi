@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:48
+ * @Last Modified time: 2023-08-07 17:51:01
  */
 import React, { useCallback, useEffect } from 'react'
 import { View, Image } from 'react-native'
@@ -15,7 +15,7 @@ import Animated, {
   withRepeat,
   withTiming
 } from 'react-native-reanimated'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { Flex } from '../flex'
 import { HALF_CIRCLE } from './ds'

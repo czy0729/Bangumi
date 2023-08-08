@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 14:12:48
+ * @Last Modified time: 2023-08-07 17:25:41
  */
 import React from 'react'
 import { View, BackHandler, StatusBar } from 'react-native'
@@ -34,7 +34,7 @@ class BonusModal extends React.Component<{
   }
 
   onBackAndroid = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { visible } = this.props
     if (visible) {
       $.onCloseModal()
@@ -45,7 +45,7 @@ class BonusModal extends React.Component<{
   }
 
   get imageWidth() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { bonus } = $.state
     if (bonus.length <= 4) {
       return Math.floor(
@@ -63,13 +63,13 @@ class BonusModal extends React.Component<{
   }
 
   get total() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { bonus } = $.state
     return bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
   }
 
   render() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { bonus, isBonus2, loadingBonus } = $.state
     const { visible } = this.props
     return (

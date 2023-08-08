@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Button, Iconfont } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import IconActions from '../../icon/actions'
@@ -47,6 +47,7 @@ function Extra(props, { $ }: Ctx) {
             <Flex style={stl(styles.extra, !hasActions && styles.extraLg)}>
               <Button
                 style={styles.btn}
+                type={_.select('ghostPlain', 'plain')}
                 extra={<Iconfont name='md-airplay' size={17} />}
               />
             </Flex>
@@ -64,6 +65,7 @@ function Extra(props, { $ }: Ctx) {
             <Flex style={[styles.extra, !elOrigin && styles.extraLg]}>
               <Button
                 style={styles.btn}
+                type={_.select('ghostPlain', 'plain')}
                 extra={<Iconfont name='md-read-more' size={25} />}
               />
             </Flex>

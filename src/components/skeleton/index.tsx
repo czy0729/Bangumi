@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-07 07:19:40
+ * @Last Modified time: 2023-08-07 17:50:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 import { LinearGradient } from 'expo-linear-gradient'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { styles } from './styles'
 import { Props as SkeletonProps } from './types'

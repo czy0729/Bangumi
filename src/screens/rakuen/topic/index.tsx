@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 19:26:35
+ * @Last Modified time: 2023-08-07 16:35:00
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Page, Loading } from '@components'
@@ -56,8 +56,6 @@ const Topic = (props, { $ }: Ctx) => {
     } catch (error) {
       console.error('topic/index.js', 'scrollTo', error)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   /** 滚动回调 */
@@ -68,7 +66,6 @@ const Topic = (props, { $ }: Ctx) => {
       uiStore.closePopableSubject()
       uiStore.closeLikesGrid()
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScroll]
   )
 
@@ -120,8 +117,6 @@ const Topic = (props, { $ }: Ctx) => {
         // eslint-disable-next-line no-catch-shadow
       } catch (error) {}
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   /** 滚动失败后尝试使用保守的方法再次滚动 */
@@ -179,8 +174,6 @@ const Topic = (props, { $ }: Ctx) => {
         console.error('topic/index.js', 'onJumpTo', error)
       }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollTo])
 
   /** 楼层进度条点击 */
@@ -199,7 +192,6 @@ const Topic = (props, { $ }: Ctx) => {
         console.error('topic/index.js', 'onPress', error)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScrollTo]
   )
 
@@ -255,7 +247,6 @@ const Topic = (props, { $ }: Ctx) => {
         console.error('topic/index.js', 'onDirect', error)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScrollTo]
   )
 
@@ -299,7 +290,6 @@ const Topic = (props, { $ }: Ctx) => {
       )
     },
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [rendered]
   )
 

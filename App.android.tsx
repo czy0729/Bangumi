@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 17:11:23
+ * @Last Modified time: 2023-08-07 21:31:02
  */
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
@@ -65,18 +65,20 @@ export default function App() {
     }
   }, [window])
 
-  if (!isLoadingComplete) return null
-
   return (
     <GestureHandlerRootView style={_.container.flex}>
       <SafeAreaProvider style={_.container.flex}>
         {/* @ts-expect-error */}
         <Provider theme={theme}>
-          <Stacks />
-          <AppCommon />
-          <BackAndroid />
-          <DeepLink />
-          {ANDROID_DEV_MENU && <DEV />}
+          <Stacks isLoadingComplete={isLoadingComplete} />
+          {isLoadingComplete && (
+            <>
+              <AppCommon />
+              <BackAndroid />
+              <DeepLink />
+              {ANDROID_DEV_MENU && <DEV />}
+            </>
+          )}
         </Provider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

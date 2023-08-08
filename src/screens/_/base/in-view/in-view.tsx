@@ -8,6 +8,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 
+/** 提前渲染的 y 轴距离 */
+const PRE_DISTANCE = 120
+
 export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
   const [top, setTop] = useState(y)
   const [show, setShow] = useState(false)
@@ -23,7 +26,7 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
 
   useEffect(() => {
     if (show) return
-    if (top && visibleBottom >= top) setShow(true)
+    if (top && visibleBottom + PRE_DISTANCE >= top) setShow(true)
   }, [show, visibleBottom, top])
 
   const Component = flex ? Flex : View

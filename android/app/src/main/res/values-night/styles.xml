@@ -4,9 +4,10 @@
     <item name="android:textCursorDrawable">@drawable/editext_cursor</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorPrimary">@color/colorPrimary</item>
-  </style>
-  <style name="Theme.App.SplashScreen" parent="Theme.AppCompat.DayNight.NoActionBar">
     <item name="android:windowBackground">@drawable/splashscreen</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowLightStatusBar">false</item>
     <item name="android:statusBarColor">@color/splashscreen_statusbar_color</item>
   </style>
 </resources>

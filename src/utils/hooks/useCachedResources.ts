@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:54:39
+ * @Last Modified time: 2023-08-07 21:31:33
  */
 import { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
@@ -62,7 +62,6 @@ export default function useCachedResources() {
       }
     }
     loadResourcesAndDataAsync()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return state

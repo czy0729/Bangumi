@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:29:10
+ * @Last Modified time: 2023-08-07 18:39:24
  */
 import React from 'react'
 import { Flex, Touchable, Iconfont, Text } from '@components'
@@ -38,8 +38,7 @@ function TabBar({
   ]
   return (
     <Flex style={styles.tabBar} align='start'>
-      {/* {IOS && <BlurView style={_.absoluteFill} />} */}
-      <BlurView style={_.absoluteFill} />
+      {IOS && <BlurView style={_.absoluteFill} />}
       {state.routes.map((route, index: number) => {
         const isHorizontal = WSA || _.isPad || _.isLandscape
         const isFocused = state.index === index
@@ -68,12 +67,6 @@ function TabBar({
                 })
               }
             }}
-            // onLongPress={() => {
-            //   navigation.emit({
-            //     type: 'tabLongPress',
-            //     target: route.key
-            //   })
-            // }}
           >
             <Flex
               style={styles.item}

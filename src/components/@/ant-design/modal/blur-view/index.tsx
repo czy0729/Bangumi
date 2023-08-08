@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-04 11:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:11:49
+ * @Last Modified time: 2023-08-07 17:49:42
  */
 import React from 'react'
-import { View } from 'react-native'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { IOS } from '@constants'
 import { memoStyles } from './styles'
 import { Props as BlurViewProps } from './types'
 

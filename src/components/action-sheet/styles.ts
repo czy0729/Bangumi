@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:22:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 20:03:45
+ * @Last Modified time: 2023-08-07 17:28:02
  */
 import { _ } from '@stores'
 
@@ -43,8 +43,10 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.wind - _._wind
   },
   close: {
-    paddingTop: _.md,
-    paddingBottom: _.ios(_.lg, _.md),
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+  },
+  btn: {
+    paddingTop: _.md,
+    paddingBottom: _.ios(_.lg, _.md)
   }
 }))

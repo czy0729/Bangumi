@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:39:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 19:24:52
+ * @Last Modified time: 2023-08-07 21:30:30
  */
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import * as Screens from '@screens'
 import { systemStore } from '@stores'
 import { urlStringify } from '@utils'
@@ -22,7 +22,7 @@ const defaultScreenOptions = {
 }
 
 const Stack = createStackNavigator()
-function Stacks() {
+function Stacks({ isLoadingComplete }) {
   const { initialRouteName, initialRouteParams } = navigationsParams
   return useObserver(() => {
     const { transition } = systemStore.setting
@@ -42,15 +42,18 @@ function Stacks() {
           initialRouteName={initialRouteName}
         >
           <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
-          {Object.keys(Screens).map(name => (
-            <Stack.Screen
-              key={name}
-              name={name}
-              component={Screens[name]}
-              initialParams={initialRouteName === name ? initialRouteParams : undefined}
-              getId={({ params }) => (params ? urlStringify(params) : undefined)}
-            />
-          ))}
+          {isLoadingComplete &&
+            Object.keys(Screens).map(name => (
+              <Stack.Screen
+                key={name}
+                name={name}
+                component={Screens[name]}
+                initialParams={
+                  initialRouteName === name ? initialRouteParams : undefined
+                }
+                getId={({ params }) => (params ? urlStringify(params) : undefined)}
+              />
+            ))}
         </Stack.Navigator>
       </NavigationContainer>
     )

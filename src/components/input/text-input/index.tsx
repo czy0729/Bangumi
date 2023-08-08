@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-11 13:09:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-11 13:40:55
+ * @Last Modified time: 2023-08-07 17:49:28
  */
 import React from 'react'
 import { TextInput as RNTextInput, TextInputProps } from 'react-native'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { Fn } from '@types'
 import { memoStyles } from './styles'

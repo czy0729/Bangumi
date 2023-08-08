@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 05:36:19
+ * @Last Modified time: 2023-08-07 17:49:52
  */
 import React from 'react'
 import { Text } from 'react-native'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import { syncThemeStore } from '@utils/async'
 import { Props } from './types'
 

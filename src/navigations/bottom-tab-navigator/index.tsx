@@ -2,14 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 15:28:49
+ * @Last Modified time: 2023-08-07 18:41:34
  */
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { Discovery, Timeline, Home, Rakuen, User } from '@screens'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import TabBar from '../tab-bar'
+
+const defaultScreenOptions = {
+  headerShown: false
+}
+const tabBar = props => <TabBar {...props} />
 
 const Tab = createBottomTabNavigator()
 function BottomTabNavigator() {
@@ -22,11 +27,8 @@ function BottomTabNavigator() {
     return (
       <Tab.Navigator
         initialRouteName={initialRouteName}
-        screenOptions={{
-          headerShown: false
-        }}
-        // @ts-expect-error
-        tabBar={props => <TabBar {...props} />}
+        screenOptions={defaultScreenOptions}
+        tabBar={tabBar}
       >
         {homeRenderTabs.includes('Discovery') && (
           <Tab.Screen name='Discovery' component={Discovery} />

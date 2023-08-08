@@ -2,15 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:33:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 20:06:25
+ * @Last Modified time: 2023-08-07 15:53:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
+import { Props as SafeAreaBottomProps } from './types'
 
-export const SafeAreaBottom = ({ style, type = 'bottom', children, ...other }) => {
+export { SafeAreaBottomProps }
+
+export const SafeAreaBottom = ({
+  style,
+  type = 'bottom',
+  children,
+  ...other
+}: SafeAreaBottomProps) => {
   const { bottom } = useSafeAreaInsets()
   return useObserver(() => {
     return (

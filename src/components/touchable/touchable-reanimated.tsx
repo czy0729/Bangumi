@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 16:25:15
+ * @Last Modified time: 2023-08-07 17:51:06
  */
 import React, { useRef, useCallback } from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Animated, {
   withTiming,
   Easing
 } from 'react-native-reanimated'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { stl } from '@utils'
 import { separateStyles } from './utils'
 

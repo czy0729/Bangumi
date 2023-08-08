@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 16:56:49
+ * @Last Modified time: 2023-08-07 17:51:42
  */
 import React from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { Popover } from 'react-native-popable'
 import { Portal, Flex, Text, Touchable, Skeleton } from '@components'
 import { _, subjectStore, systemStore, uiStore } from '@stores'

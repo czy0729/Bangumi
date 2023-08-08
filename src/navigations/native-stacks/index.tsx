@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:33:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:32:04
+ * @Last Modified time: 2023-08-07 21:39:57
  */
 import React from 'react'
 import { StackAnimationTypes } from 'react-native-screens'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { StatusBar } from 'expo-status-bar'
 import * as Screens from '@screens'
 import { _, systemStore } from '@stores'
@@ -17,17 +17,19 @@ import NavigationContainer from '../navigation-container'
 import BottomTabNavigator from '../bottom-tab-navigator'
 
 const defaultScreenOptions = {
+  statusBarColor: 'transparent',
   headerShown: false,
   headerShadowVisible: false,
   cardStyle: {
     backgroundColor: 'transparent',
     elevation: 0
   },
+  navigationBarColor: 'transparent',
   freezeOnBlur: true
 }
 
 const Stack = createNativeStackNavigator()
-function Stacks() {
+function Stacks({ isLoadingComplete }) {
   const { initialRouteName, initialRouteParams } = navigationsParams
   return useObserver(() => {
     const { transition } = systemStore.setting
@@ -38,31 +40,39 @@ function Stacks() {
       animation = 'default'
     }
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            ...defaultScreenOptions,
-            navigationBarColor: _.select(
-              _.colorPlain,
-              _.deep(_._colorPlainHex, _._colorDarkModeLevel1Hex)
-            ),
-            animation
-          }}
-          initialRouteName={initialRouteName}
-        >
-          <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
-          {Object.keys(Screens).map(name => (
-            <Stack.Screen
-              key={name}
-              name={name}
-              component={Screens[name]}
-              initialParams={initialRouteName === name ? initialRouteParams : undefined}
-              getId={({ params }) => (params ? urlStringify(params) : undefined)}
-            />
-          ))}
-        </Stack.Navigator>
-        <StatusBar style={_.select('dark', 'light')} />
-      </NavigationContainer>
+      <>
+        <StatusBar
+          style={_.select('dark', 'light')}
+          translucent
+          backgroundColor='transparent'
+        />
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              ...defaultScreenOptions,
+              contentStyle: {
+                backgroundColor: _.colorPlain
+              },
+              animation
+            }}
+            initialRouteName={initialRouteName}
+          >
+            <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
+            {isLoadingComplete &&
+              Object.keys(Screens).map(name => (
+                <Stack.Screen
+                  key={name}
+                  name={name}
+                  component={Screens[name]}
+                  initialParams={
+                    initialRouteName === name ? initialRouteParams : undefined
+                  }
+                  getId={({ params }) => (params ? urlStringify(params) : undefined)}
+                />
+              ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </>
     )
   })
 }

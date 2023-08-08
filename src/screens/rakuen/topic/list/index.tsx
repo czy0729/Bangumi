@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 19:52:12
+ * @Last Modified time: 2023-08-07 16:41:38
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -27,6 +27,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
     maxToRenderPerBatch: 120,
     updateCellsBatchingPeriod: 120,
     scrollToTop: true,
+    keyboardDismissMode: 'on-drag',
     ListHeaderComponent: <Top />,
     renderItem,
     onScroll,
@@ -34,7 +35,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
     onHeaderRefresh: $.fetchTopic,
     onFooterRefresh: $.fetchTopic,
     onEndReachedThreshold: 0.5
-  }
+  } as const
 
   if (list.length <= 64) {
     return (

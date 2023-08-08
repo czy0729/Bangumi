@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 15:33:30
+ * @Last Modified time: 2023-08-07 17:51:47
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated } from 'react-native'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { Iconfont } from '@components'
 import { _ } from '@stores'
 import { Props as IconExpandProps } from './types'

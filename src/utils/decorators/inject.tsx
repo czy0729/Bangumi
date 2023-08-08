@@ -3,15 +3,15 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:07:30
+ * @Last Modified time: 2023-08-07 18:29:29
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
-import { DEV } from '@/config'
 import { contextTypes } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import { AnyObject, Fn, Navigation } from '@types'
+import { DEV } from '@/config'
 import { urlStringify } from '../index'
 import observer from './observer'
 

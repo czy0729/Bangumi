@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:56:34
+ * @Last Modified time: 2023-08-07 17:15:59
  */
 import React from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, View, Text } from 'react-native'
 import PropTypes from 'prop-types'
-import { WithTheme } from '@ant-design/react-native/lib/style'
-import alert from '@ant-design/react-native/lib/modal/alert'
 import RCModal from '@ant-design/react-native/lib/modal/ModalView'
+import alert from '@ant-design/react-native/lib/modal/alert'
+import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import operation from '@ant-design/react-native/lib/modal/operation'
 import prompt from '@ant-design/react-native/lib/modal/prompt'
-import modalStyles from '@ant-design/react-native/lib/modal/style/index'
+import { WithTheme } from '@ant-design/react-native/lib/style'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { window } from '@styles'
 import { Flex } from '../../../flex'
 import { Touchable } from '../../../touchable'
@@ -27,6 +28,7 @@ const maxHeight = StyleSheet.create({
     maxHeight: window.height
   }
 }).maxHeight
+
 const defaultProps = {
   styles: {},
   style: undefined,
@@ -43,12 +45,11 @@ const defaultProps = {
   title: '' as any,
   transparent: false,
   visible: false,
-  blurView: false,
   focus: false,
   children: null
 }
 
-class AntmModal extends React.Component<Partial<typeof defaultProps>> {
+class AntmModal extends React.Component<typeof defaultProps> {
   static defaultProps = defaultProps
   static alert = alert
   static operation = operation
@@ -64,68 +65,59 @@ class AntmModal extends React.Component<Partial<typeof defaultProps>> {
       bodyStyle,
       animateAppear,
       animationType,
-      blurView,
-      children,
       closable,
       maskClosable,
       onAnimationEnd,
       onClose,
       title,
       visible,
-      focus
+      focus,
+      children
     } = this.props
     const IOS = Platform.OS === 'ios'
-    const wrapDom = (children: JSX.Element) => {
-      return blurView ? <BlurView>{children}</BlurView> : children
-    }
     return (
       <WithTheme styles={styles} themeStyles={modalStyles}>
-        {styles => {
-          return (
-            <RCModal
-              style={blurView ? [style, overideStyles.transparent] : style}
-              wrapStyle={overideStyles.center}
-              visible={visible}
-              maskClosable={maskClosable}
-              animationType={animationType}
-              animateAppear={animateAppear}
-              onAnimationEnd={onAnimationEnd}
-              onClose={onClose}
-            >
-              <Wrap focus={focus}>
-                {wrapDom(
-                  <View style={maxHeight}>
-                    <View style={overideStyles.title}>
-                      {title && (
-                        <Text
-                          style={
-                            IOS ? styles.header : [overideStyles.font, styles.header]
-                          }
-                          textBreakStrategy='simple'
-                          numberOfLines={0}
-                        >
-                          {title}
-                        </Text>
-                      )}
-                    </View>
-                    <View style={bodyStyle ? [styles.body, bodyStyle] : styles.body}>
-                      {children}
-                    </View>
-                    {closable && (
-                      <View style={[styles.closeWrap, overideStyles.close]}>
-                        <Touchable style={overideStyles.touch} onPress={onClose}>
-                          <Flex style={overideStyles.btn} justify='center'>
-                            <Iconfont name='md-close' color={_.colorIcon} />
-                          </Flex>
-                        </Touchable>
-                      </View>
+        {styles => (
+          // @ts-expect-error
+          <RCModal
+            style={stl(style, overideStyles.transparent)}
+            wrapStyle={overideStyles.center}
+            visible={visible}
+            maskClosable={maskClosable}
+            animationType={animationType}
+            animateAppear={animateAppear}
+            onAnimationEnd={onAnimationEnd}
+            onClose={onClose}
+          >
+            <Wrap focus={focus}>
+              <BlurView>
+                <View style={maxHeight}>
+                  <View style={overideStyles.title}>
+                    {title && (
+                      <Text
+                        style={stl(!IOS && overideStyles.font, styles.header)}
+                        textBreakStrategy='simple'
+                        numberOfLines={0}
+                      >
+                        {title}
+                      </Text>
                     )}
                   </View>
-                )}
-              </Wrap>
-            </RCModal>
-          )
-        }}
+                  <View style={stl(styles.body, bodyStyle)}>{children}</View>
+                  {closable && (
+                    <View style={[styles.closeWrap, overideStyles.close]}>
+                      <Touchable style={overideStyles.touch} onPress={onClose}>
+                        <Flex style={overideStyles.btn} justify='center'>
+                          <Iconfont name='md-close' color={_.colorIcon} />
+                        </Flex>
+                      </Touchable>
+                    </View>
+                  )}
+                </View>
+              </BlurView>
+            </Wrap>
+          </RCModal>
+        )}
       </WithTheme>
     )
   }

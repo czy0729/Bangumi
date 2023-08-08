@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-20 11:15:16
+ * @Last Modified time: 2023-08-07 22:43:39
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -970,9 +970,8 @@ export function getCalenderEventTitle(
   subjectTitle: string = ''
 ) {
   const { sort = '' } = item
-  let title = ''
-  if (sort) title += `[ep.${sort}] `
-  title += subjectTitle || ''
+  let title = `${subjectTitle || ''}`
+  if (sort) title += ` ep.${sort}`
   return title
 }
 

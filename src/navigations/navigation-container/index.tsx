@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 19:23:27
+ * @Last Modified time: 2023-08-07 17:51:32
  */
 import React, { useRef } from 'react'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver } from 'mobx-react'
 import { enableScreens } from 'react-native-screens'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
-import { _ } from '@stores'
 import { navigationReference } from '@utils'
 import { Navigation } from '@types'
 import { IOS_IPA } from '@/config'
