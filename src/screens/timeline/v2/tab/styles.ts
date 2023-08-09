@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:07:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-27 18:04:33
+ * @Last Modified time: 2023-08-09 01:05:54
  */
 import { _ } from '@stores'
 import { H_TABBAR, TABS } from '../ds'
@@ -32,10 +32,11 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     left: 0,
     height: _.headerHeight + H_TABBAR,
-    backgroundColor: _.ios(
-      'transparent',
-      _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
-    ),
+    // backgroundColor: _.ios(
+    //   'transparent',
+    //   _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
+    // ),
+    backgroundColor: _.select('transparent', 'rgba(0, 0, 0, 0.5)'),
     overflow: 'hidden'
   }
 }))

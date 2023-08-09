@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 15:23:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 20:16:40
+ * @Last Modified time: 2023-08-08 23:01:44
  */
 import React from 'react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
@@ -13,14 +13,19 @@ import { Props as BlurViewProps } from './types'
 
 export { BlurViewProps }
 
-export const BlurView = ob(({ style, intensity = 100, children }: BlurViewProps) => {
-  return (
-    <ExpoBlurView
-      style={style}
-      tint={_.isDark ? 'dark' : 'default'}
-      intensity={intensity}
-    >
-      {children}
-    </ExpoBlurView>
-  )
-})
+export const BlurView = ob(
+  ({ style, intensity = 100, children, ...other }: BlurViewProps) => {
+    return (
+      <ExpoBlurView
+        style={style}
+        tint={_.isDark ? 'dark' : 'default'}
+        intensity={intensity}
+        removeClippedSubviews
+        pointerEvents='none'
+        {...other}
+      >
+        {children}
+      </ExpoBlurView>
+    )
+  }
+)

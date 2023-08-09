@@ -13,10 +13,11 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     left: 0,
     height: _.tabBarHeight,
-    backgroundColor: _.ios(
-      'transparent',
-      _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
-    ),
+    // backgroundColor: _.ios(
+    //   'transparent',
+    //   _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
+    // ),
+    backgroundColor: 'transparent',
     borderTopWidth: 0,
     borderTopColor: 'transparent',
     elevation: 0,

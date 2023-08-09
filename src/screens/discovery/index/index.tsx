@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:09:36
+ * @Last Modified time: 2023-08-09 01:02:05
  */
 import React from 'react'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
@@ -35,14 +35,16 @@ const Discovery = ({ isFocused }, { $, navigation }: Ctx) => {
   return useObserver(() => {
     const { live2D } = systemStore.setting
     return (
-      <Page>
+      <>
+        <Page>
+          <List isFocused={isFocused} />
+          {live2D && <Mesume dragging={$.state.dragging} />}
+          <LinkModal />
+        </Page>
         <StatusBarEvents backgroundColor='transparent' />
-        <List isFocused={isFocused} />
-        {live2D && <Mesume dragging={$.state.dragging} />}
-        <LinkModal />
         <Track title={title} hm={['discovery', 'Discovery']} />
         <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
-      </Page>
+      </>
     )
   })
 }

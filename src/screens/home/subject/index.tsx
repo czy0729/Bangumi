@@ -52,7 +52,6 @@ const Subject = (props, { $, navigation }: Ctx) => {
       $.onScroll(evt)
       onScroll(evt)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScroll]
   )
   const onScrollIntoViewIfNeeded = useCallback(

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 13:20:40
+ * @Last Modified time: 2023-08-08 21:30:01
  */
 import { useEffect } from 'react'
 import { BackHandler } from 'react-native'
@@ -13,8 +13,7 @@ let lastBackPressed: number
 
 export const BackAndroid = (): null => {
   useEffect(() => {
-    // 这里不需要 remove, APP 整个生命周期只注册一次
-    BackHandler.addEventListener('hardwareBackPress', () => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       const navigation = navigationReference()
       if (!navigation) return false
 
@@ -35,7 +34,9 @@ export const BackAndroid = (): null => {
       return false
     })
 
-    return () => {}
+    return () => {
+      backHandler.remove()
+    }
   }, [])
 
   return null

@@ -569,14 +569,14 @@ export function matchBgmLink(url = ''):
 }
 
 /** 自动判断封面 CDN 地址 */
-export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string) {
+export function matchCoverUrl(src: any, noDefault?: boolean, prefix?: string) {
+  if (typeof src !== 'string') return src
+
   const { cdn, cdnOrigin } = getSetting()
   const fallback = noDefault ? '' : IMG_DEFAULT
 
   /** 有些情况图片地址分析错误, 排除掉 */
-  if (NO_IMGS.includes(src)) {
-    return IMG_DEFAULT || fallback
-  }
+  if (NO_IMGS.includes(src)) return IMG_DEFAULT || fallback
 
   /** magma 高级会员图片源 */
   if (
@@ -597,9 +597,7 @@ export function matchCoverUrl(src: string, noDefault?: boolean, prefix?: string)
   }
 
   /** 大图不替换成低质量图 */
-  if (typeof src === 'string' && src?.includes('/l/')) {
-    return src
-  }
+  if (typeof src === 'string' && src?.includes('/l/')) return src
 
   /** 保证至少为中质量图 */
   return getCoverMedium(src) || fallback

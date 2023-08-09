@@ -23,7 +23,6 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.subjectComments}
-      lazy={1}
       progressViewOffset={_.ios(_.statusBarHeight, 0)}
       scrollEventThrottle={16}
       scrollToTop

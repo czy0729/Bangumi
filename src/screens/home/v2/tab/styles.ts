@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 16:16:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:34:14
+ * @Last Modified time: 2023-08-09 01:05:45
  */
 import { _ } from '@stores'
 import { ViewStyle } from '@types'
@@ -34,6 +34,7 @@ export const memoStyles = _.memoStyles(() => {
       top: 0,
       left: 0,
       height: _.headerHeight + H_TABBAR,
+      backgroundColor: _.select('transparent', 'rgba(0, 0, 0, 0.5)'),
       overflow: 'hidden'
     },
     sceneContainerStyle: {

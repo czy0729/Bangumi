@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 15:56:27
+ * @Last Modified time: 2023-08-09 01:07:08
  */
 import React from 'react'
 import { View } from 'react-native'
-import { TabView } from '@components'
-import { BlurView } from '@_'
+import {
+  HardwareTextureRootBlurView,
+  HardwareTextureBlurView,
+  TabView
+} from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
 import TabBar from './tab-bar'
 import { Ctx } from '../types'
 import renderScene from './renderScene'
@@ -22,22 +24,50 @@ function Tab(props, { $ }: Ctx) {
 
   const styles = memoStyles()
   return (
-    <TabView
-      key={_.orientation}
-      style={_.mt._sm}
-      sceneContainerStyle={styles.sceneContainerStyle}
-      lazy
-      lazyPreloadDistance={0}
-      navigationState={$.navigationState}
-      renderTabBar={renderTabBar}
-      renderBackground={
-        <View style={_.ios(styles.blurViewIOS, styles.blurViewAndroid)}>
-          {IOS && <BlurView style={_.absoluteFill} />}
-        </View>
-      }
-      renderScene={renderScene}
-      onIndexChange={$.onChange}
-    />
+    <HardwareTextureRootBlurView style={_.container.flex}>
+      <TabView
+        key={_.orientation}
+        style={_.mt._sm}
+        sceneContainerStyle={styles.sceneContainerStyle}
+        lazy
+        lazyPreloadDistance={0}
+        navigationState={$.navigationState}
+        renderTabBar={renderTabBar}
+        renderBackground={
+          <HardwareTextureBlurView
+            style={_.ios(styles.blurViewIOS, styles.blurViewAndroid)}
+          />
+        }
+        renderScene={renderScene}
+        onIndexChange={$.onChange}
+      />
+      <HardwareTextureBlurView
+        style={{
+          position: 'absolute',
+          zIndex: 1,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          height: _.tabBarHeight,
+          backgroundColor: _.select('transparent', 'rgba(0, 0, 0, 0.5)'),
+          overflow: 'hidden'
+        }}
+        containerStyle={{
+          marginTop: -1
+        }}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          zIndex: 2,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          height: 1,
+          backgroundColor: _.select('#fff', '#000')
+        }}
+      />
+    </HardwareTextureRootBlurView>
   )
 }
 

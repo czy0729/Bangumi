@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 18:41:34
+ * @Last Modified time: 2023-08-08 23:05:32
  */
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -25,23 +25,25 @@ function BottomTabNavigator() {
       ? _initialPage
       : 'Home'
     return (
-      <Tab.Navigator
-        initialRouteName={initialRouteName}
-        screenOptions={defaultScreenOptions}
-        tabBar={tabBar}
-      >
-        {homeRenderTabs.includes('Discovery') && (
-          <Tab.Screen name='Discovery' component={Discovery} />
-        )}
-        {homeRenderTabs.includes('Timeline') && (
-          <Tab.Screen name='Timeline' component={Timeline} />
-        )}
-        <Tab.Screen name='Home' component={Home} />
-        {homeRenderTabs.includes('Rakuen') && (
-          <Tab.Screen name='Rakuen' component={Rakuen} />
-        )}
-        <Tab.Screen name='User' component={User} />
-      </Tab.Navigator>
+      <>
+        <Tab.Navigator
+          initialRouteName={initialRouteName}
+          screenOptions={defaultScreenOptions}
+          tabBar={tabBar}
+        >
+          {homeRenderTabs.includes('Discovery') && (
+            <Tab.Screen name='Discovery' component={Discovery} />
+          )}
+          {homeRenderTabs.includes('Timeline') && (
+            <Tab.Screen name='Timeline' component={Timeline} />
+          )}
+          <Tab.Screen name='Home' component={Home} />
+          {homeRenderTabs.includes('Rakuen') && (
+            <Tab.Screen name='Rakuen' component={Rakuen} />
+          )}
+          <Tab.Screen name='User' component={User} />
+        </Tab.Navigator>
+      </>
     )
   })
 }

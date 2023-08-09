@@ -237,7 +237,7 @@ export const ListView = observer(
         refreshControl: this.renderRefreshControl(),
         onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
         onEndReached: this.onEndReached,
-        onEndReachedThreshold: 0.5,
+        onEndReachedThreshold: 0.75,
 
         // 常用优化参数
         initialNumToRender: 48,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 14:46:56
+ * @Last Modified time: 2023-08-08 22:25:11
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
@@ -14,6 +14,8 @@ import { Props as NavigationBarEventsProps } from './types'
 export { NavigationBarEventsProps }
 
 export const NavigationBarEvents = ob(({ tinygrail }: NavigationBarEventsProps) => {
+  return null
+
   if (IOS) return null
 
   return (

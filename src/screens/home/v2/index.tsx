@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 20:02:50
+ * @Last Modified time: 2023-08-08 23:35:03
  */
 import React from 'react'
-import { Page } from '@components'
+import { Page, Track } from '@components'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { ic } from '@utils/decorators'
-import { useFocusEffect, useRunAfter, useObserver } from '@utils/hooks'
-import { Track } from '@components'
 import { Auth, LoginNotice } from '@_'
 import { _ } from '@stores'
+import { ic } from '@utils/decorators'
+import { useFocusEffect, useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
 import Tab from './tab'
 import Tips from './tips'

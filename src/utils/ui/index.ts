@@ -178,11 +178,10 @@ export function showImageViewer(
  * @deprecated 调整键盘模式
  * https://github.com/zubricky/react-native-android-keyboard-adjust
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
   return
-
   // if (IOS || STORYBOOK) return
-
   // const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
   // AndroidKeyboardAdjust[fn]()
 }

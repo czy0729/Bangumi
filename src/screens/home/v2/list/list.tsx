@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-27 18:13:37
+ * @Last Modified time: 2023-08-08 23:45:19
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import Filter from '../filter'
 import Empty from '../empty'

@@ -15,8 +15,6 @@ import { log } from '../dev'
 import { xhr } from './utils'
 import { SI_ANDROID, SI_ERROR, SI_IOS, SI_UV, SI_WSA } from './ds'
 
-const { UMAnalyticsModule } = NativeModules
-
 let lastQuery = ''
 let currentUrl = ''
 let currentQuery = ''
@@ -138,25 +136,25 @@ export function t(
     return
   }
 
-  // 保证这种低优先级的操作在UI响应之后再执行
+  // 保证这种低优先级的操作在 UI 响应之后再执行
   runAfter(() => {
     try {
       if (eventId) {
         const _eventData = eventData || {}
         const userId = syncUserStore().myId || 0
-        // UMAnalyticsModule.onEventWithMap(
-        //   eventId,
-        //   eventId === '其他.崩溃'
-        //     ? {
-        //         userId,
-        //         ..._eventData,
-        //         url: currentUrl
-        //       }
-        //     : {
-        //         userId,
-        //         ..._eventData
-        //       }
-        // )
+        NativeModules.UMAnalyticsModule.onEventWithMap(
+          eventId,
+          eventId === '其他.崩溃'
+            ? {
+                userId,
+                ..._eventData,
+                url: currentUrl
+              }
+            : {
+                userId,
+                ..._eventData
+              }
+        )
       }
     } catch (error) {
       console.error('[track] t', error)

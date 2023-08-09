@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:33:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 21:39:57
+ * @Last Modified time: 2023-08-08 23:06:03
  */
 import React from 'react'
 import { StackAnimationTypes } from 'react-native-screens'
@@ -25,7 +25,7 @@ const defaultScreenOptions = {
     elevation: 0
   },
   navigationBarColor: 'transparent',
-  freezeOnBlur: true
+  freezeOnBlur: false
 }
 
 const Stack = createNativeStackNavigator()
@@ -41,11 +41,7 @@ function Stacks({ isLoadingComplete }) {
     }
     return (
       <>
-        <StatusBar
-          style={_.select('dark', 'light')}
-          translucent
-          backgroundColor='transparent'
-        />
+        <StatusBar style={_.select('dark', 'light')} />
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
