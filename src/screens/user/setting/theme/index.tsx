@@ -11,7 +11,7 @@ import { ItemSetting, ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { IS_BEFORE_ANDROID_10, STORYBOOK } from '@constants'
+import { IOS, IS_BEFORE_ANDROID_10, STORYBOOK } from '@constants'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
@@ -23,13 +23,18 @@ function Theme({ navigation, filter }) {
   return useObserver(() => {
     if (STORYBOOK || !shows) return null
 
-    const { deepDark, autoColorScheme } = systemStore.setting
+    const { deepDark, autoColorScheme, androidBlur } = systemStore.setting
     return (
       <>
         {/* 主题 */}
         <ItemSetting hd='主题' arrow highlight filter={filter} onPress={setTrue} />
 
-        <ActionSheet show={state} title='主题' onClose={setFalse}>
+        <ActionSheet
+          show={state}
+          height={filter ? 400 : 560}
+          title='主题'
+          onClose={setFalse}
+        >
           {/* 主题 */}
           <ItemSettingBlock
             style={_.mt.sm}
@@ -157,6 +162,29 @@ function Theme({ navigation, filter }) {
             {...TEXTS.autoColorScheme}
           >
             <Heatmap id='设置.切换' title='跟随系统' />
+          </ItemSetting>
+
+          {/* 毛玻璃布局 */}
+          <ItemSetting
+            show={!IOS && shows.androidBlur && !IS_BEFORE_ANDROID_10}
+            ft={
+              <SwitchPro
+                style={styles.switch}
+                value={androidBlur}
+                onSyncPress={() => {
+                  t('设置.切换', {
+                    title: '毛玻璃布局',
+                    checked: !androidBlur
+                  })
+
+                  systemStore.switchSetting('androidBlur')
+                }}
+              />
+            }
+            filter={filter}
+            {...TEXTS.androidBlur}
+          >
+            <Heatmap id='设置.切换' title='毛玻璃布局' />
           </ItemSetting>
         </ActionSheet>
       </>

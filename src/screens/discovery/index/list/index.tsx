@@ -2,16 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-09 01:06:10
+ * @Last Modified time: 2023-08-10 06:52:59
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  HardwareTextureRootBlurView,
-  HardwareTextureBlurView,
-  ListView,
-  Heatmap
-} from '@components'
+import { ListView, Heatmap } from '@components'
+import { BlurViewRoot, BlurViewBottomTab } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { WSA, MODEL_SUBJECT_TYPE } from '@constants'
@@ -24,7 +20,7 @@ function List({ isFocused }, { $ }: Ctx) {
   const { live2D } = systemStore.setting
   const { home, dragging } = $.state
   return (
-    <HardwareTextureRootBlurView style={_.container.flex}>
+    <BlurViewRoot>
       <ListView
         ref={$.forwardRef}
         keyExtractor={keyExtractor}
@@ -39,33 +35,8 @@ function List({ isFocused }, { $ }: Ctx) {
         scrollEventThrottle={16}
         onScroll={$.onScroll}
       />
-      <HardwareTextureBlurView
-        style={{
-          position: 'absolute',
-          zIndex: 1,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          height: _.tabBarHeight,
-          backgroundColor: _.select('transparent', 'rgba(0, 0, 0, 0.5)'),
-          overflow: 'hidden'
-        }}
-        containerStyle={{
-          marginTop: -1
-        }}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          zIndex: 2,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          height: 1,
-          backgroundColor: _.select('#fff', '#000')
-        }}
-      />
-    </HardwareTextureRootBlurView>
+      <BlurViewBottomTab />
+    </BlurViewRoot>
   )
 }
 

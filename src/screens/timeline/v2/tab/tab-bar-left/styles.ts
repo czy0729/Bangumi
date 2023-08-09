@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 07:06:25
+ * @Last Modified time: 2023-08-10 05:58:39
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.r(_._wind),
     paddingRight: _.sm,
     marginTop: _.device(0, 2),
-    backgroundColor: _.ios('transparent', _.select('transparent', _.colorPlain))
+    backgroundColor: 'transparent'
   },
   btn: {
     width: _.r(48),

@@ -354,6 +354,9 @@ export const INIT_SETTING = {
   /** 猜你喜欢显示已收藏条目 */
   likeCollected: true,
 
+  /** 安卓端启用毛玻璃布局 */
+  androidBlur: false,
+
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT
 }

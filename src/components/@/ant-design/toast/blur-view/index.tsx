@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:49:48
+ * @Last Modified time: 2023-08-10 06:35:46
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,7 +17,6 @@ export const BlurView = observer(({ style, children }: Props) => {
       style={[
         style,
         {
-          marginBottom: _.window.height * 0.12,
           backgroundColor: _.isDark
             ? 'rgba(255, 255, 255, 0.08)'
             : 'rgba(255, 255, 255, 0.4)',

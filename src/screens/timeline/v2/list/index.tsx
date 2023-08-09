@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:32:28
+ * @Last Modified time: 2023-08-10 06:05:01
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -44,7 +44,7 @@ class List extends React.Component<{
   }
 
   forwardRef = (ref: any) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { title } = this.props
     const index = TABS.findIndex(item => item.title === title)
     return $.forwardRef(ref, index)
@@ -53,7 +53,7 @@ class List extends React.Component<{
   onScroll = evt => {
     uiStore.closePopableSubject()
 
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.onScroll(evt)
   }
 
@@ -63,7 +63,7 @@ class List extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { scope, page, isFocused } = $.state
     const { title } = this.props
     const label = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)

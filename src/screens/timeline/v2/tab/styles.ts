@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:07:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-09 01:05:54
+ * @Last Modified time: 2023-08-10 06:29:59
  */
 import { _ } from '@stores'
-import { H_TABBAR, TABS } from '../ds'
+import { H_TABBAR } from '../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   sceneContainerStyle: {
@@ -16,27 +16,5 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 3,
     top: _.headerHeight - _.sm + 2,
     left: 0
-  },
-  blurViewIOS: {
-    position: 'absolute',
-    zIndex: 1,
-    top: -_.statusBarHeight || 0,
-    right: 0,
-    left: -_.window.width * TABS.length,
-    height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0)
-  },
-  blurViewAndroid: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    left: 0,
-    height: _.headerHeight + H_TABBAR,
-    // backgroundColor: _.ios(
-    //   'transparent',
-    //   _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
-    // ),
-    backgroundColor: _.select('transparent', 'rgba(0, 0, 0, 0.5)'),
-    overflow: 'hidden'
   }
 }))

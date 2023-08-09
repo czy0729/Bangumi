@@ -1,10 +1,9 @@
 /*
  * 未登录页面
- *
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-25 17:15:29
+ * @Last Modified time: 2023-08-10 04:34:16
  */
 import React from 'react'
 import { View } from 'react-native'

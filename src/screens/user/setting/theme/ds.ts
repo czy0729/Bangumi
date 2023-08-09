@@ -24,5 +24,10 @@ export const TEXTS = {
   autoColorScheme: {
     hd: '跟随系统',
     information: '启动 App 时黑白主题是否跟随系统'
+  },
+  androidBlur: {
+    hd: '[实验性] 毛玻璃布局',
+    information:
+      '在首页顶部和底部 UI，启用仿 iOS 毛玻璃效果\n因在安卓里，毛玻璃的实现需要消耗大量资源，很有可能出现明显掉帧情况，仅建议最新型号的手机尝试开启'
   }
 } as const

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:53:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-03 01:12:50
+ * @Last Modified time: 2023-08-10 06:21:48
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -22,8 +22,9 @@ function Images({ type, image, p3Text, p3Url, onNavigate }) {
   const images = image.map((item: string, index: number) => {
     const isAvatar = !String(!!p3Url.length && p3Url[0]).includes('subject')
     return (
-      <View key={item || index} style={type ? _.mr.md : _.mr.sm}>
+      <View key={item || index}>
         <Touchable
+          style={type ? styles.type : styles.image}
           animate
           onPress={() => {
             const url = (!!p3Url.length && p3Url[index]) || ''

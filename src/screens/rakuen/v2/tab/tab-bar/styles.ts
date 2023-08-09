@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:59:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-27 18:11:14
+ * @Last Modified time: 2023-08-10 06:34:41
  */
 import { _ } from '@stores'
 
@@ -18,15 +18,8 @@ export const memoStyles = _.memoStyles(() => {
       right: 0,
       left: 0,
       paddingLeft: W_TAB_BAR_LEFT,
-      backgroundColor: _.ios('transparent', _.colorPlain),
-      borderBottomWidth: _.ios(
-        0,
-        _.select(_.hairlineWidth, _.deep(0, _.hairlineWidth))
-      ),
-      borderBottomColor: _.ios(
-        'transparent',
-        _.select(_.colorBorder, _.deep('transparent', 'rgba(0, 0, 0, 0.16)'))
-      ),
+      backgroundColor: 'transparent',
+      borderBottomWidth: 0,
       elevation: 0
     },
     tab: {
