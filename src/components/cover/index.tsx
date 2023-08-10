@@ -9,7 +9,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { getCover400, matchCoverUrl } from '@utils'
-import { STORYBOOK } from '@constants'
+import { STORYBOOK, IMG_DEFAULT } from '@constants'
 import { Image } from '../image'
 import TextOnly from './text-only'
 import Disc from './disc'
@@ -70,10 +70,12 @@ export const Cover = observer(
         coverSize = 200
       }
     }
-    const _src = getCover400(
-      cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src,
-      coverSize
-    )
+
+    const _src =
+      getCover400(
+        cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src,
+        coverSize
+      ) || IMG_DEFAULT
 
     // 相册模式强制大图
     let _imageViewerSrc = imageViewerSrc

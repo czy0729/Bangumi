@@ -18,12 +18,13 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
 
   return (
     <ListView
+      key={String($.subjectComments?.pagination?.pageTotal >= 2)}
       ref={forwardRef}
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.subjectComments}
-      progressViewOffset={_.ios(_.statusBarHeight, 0)}
+      progressViewOffset={_.statusBarHeight}
       scrollEventThrottle={16}
       scrollToTop
       keyboardDismissMode='on-drag'

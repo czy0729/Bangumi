@@ -41,7 +41,7 @@ function Item(
   } as const
 
   return (
-    <InView y={_.window.height * 1.5 + index * ITEM_HEIGHT}>
+    <InView key={userId} y={_.window.height + index * ITEM_HEIGHT}>
       <ItemComment
         navigation={navigation}
         event={event}

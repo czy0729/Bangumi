@@ -53,6 +53,8 @@ export const ListView = observer(
       showMesume: true,
       optimize: true,
       scrollToTop: false,
+
+      /** @deprecated */
       lazy: 0,
       scrollIndicatorInsets: {
         right: 1
@@ -63,7 +65,9 @@ export const ListView = observer(
 
     state = {
       refreshState: REFRESH_STATE.Idle,
-      rendered: STORYBOOK
+
+      /** @deprecated */
+      rendered: true // STORYBOOK
     }
 
     componentDidMount() {
@@ -149,7 +153,7 @@ export const ListView = observer(
 
       if (!_loaded) {
         refreshState = REFRESH_STATE.Idle
-      } else if (list.length === 0) {
+      } else if (!list.length) {
         refreshState = REFRESH_STATE.EmptyData
       } else if (pagination.page < pagination.pageTotal) {
         refreshState = REFRESH_STATE.Idle
@@ -237,7 +241,7 @@ export const ListView = observer(
         refreshControl: this.renderRefreshControl(),
         onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
         onEndReached: this.onEndReached,
-        onEndReachedThreshold: 0.75,
+        onEndReachedThreshold: 0.5,
 
         // 常用优化参数
         initialNumToRender: 48,

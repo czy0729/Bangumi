@@ -13,7 +13,7 @@ import { stl } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { useMount } from '@utils/hooks'
 import { HOST_API_V0 } from '@utils/fetch.v0'
-import { HOST_CDN, IOS, IMG_EMPTY_DARK, IMG_EMPTY } from '@constants'
+import { HOST_CDN, IOS, IMG_EMPTY_DARK, IMG_EMPTY, IMG_DEFAULT } from '@constants'
 import { Touchable } from '../touchable'
 import { Image } from '../image'
 import {
@@ -82,7 +82,7 @@ export const Avatar = observer(
 
     return useObserver(() => {
       const styles = memoStyles()
-      let _src = getAvatar(url)
+      let _src = getAvatar(url) || IMG_DEFAULT
       const _size = _.r(size)
       const _radius = getRadius(radius, round, _size)
       const _onPress = getOnPress(onPress, {

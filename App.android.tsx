@@ -73,14 +73,10 @@ export default function App() {
         {/* @ts-expect-error */}
         <Provider theme={theme}>
           <Stacks isLoadingComplete={isLoadingComplete} />
-          {isLoadingComplete && (
-            <>
-              <AppCommon />
-              <BackAndroid />
-              <DeepLink />
-              {ANDROID_DEV_MENU && <DEV />}
-            </>
-          )}
+          <AppCommon />
+          <BackAndroid />
+          <DeepLink />
+          {ANDROID_DEV_MENU && <DEV />}
         </Provider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
