@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:24:38
+ * @Last Modified time: 2023-08-10 21:20:24
  */
 import React from 'react'
-import { Modal, View } from 'react-native'
+import { Modal, View, StatusBar } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { open, showActionSheet, stl } from '@utils'
@@ -32,6 +32,19 @@ export const ImageViewer = observer(
       onCancel: () => {}
     }
 
+    componentDidUpdate() {
+      if (!IOS) {
+        const { visible } = this.props
+        if (visible) {
+          StatusBar.setHidden(true)
+        } else {
+          setTimeout(() => {
+            StatusBar.setHidden(false)
+          }, 400)
+        }
+      }
+    }
+
     onRequestClose = () => {
       const { onCancel } = this.props
       onCancel()
@@ -48,11 +61,7 @@ export const ImageViewer = observer(
       if (IOS) {
         // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
         showActionSheet(ACTION_SHEET_DS, (index: number) => {
-          if (index === 0) {
-            // const result = open(url)
-            // if (result) onCancel()
-            open(url)
-          }
+          if (index === 0) open(url)
         })
       } else {
         // @issue 安卓的 ActionSheet 在这个 Viewer 的下面

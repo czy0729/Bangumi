@@ -1,3 +1,9 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-08-10 19:45:16
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2023-08-10 19:45:16
+ */
 import React from 'react'
 import { ActionSheetIOS, Platform, Share } from 'react-native'
 import Portal from '@ant-design/react-native/lib/portal'

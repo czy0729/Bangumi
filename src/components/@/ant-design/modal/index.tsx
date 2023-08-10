@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:15:59
+ * @Last Modified time: 2023-08-10 19:46:26
  */
 import React from 'react'
 import { Platform, StyleSheet, View, Text } from 'react-native'
@@ -13,8 +13,8 @@ import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import operation from '@ant-design/react-native/lib/modal/operation'
 import prompt from '@ant-design/react-native/lib/modal/prompt'
 import { WithTheme } from '@ant-design/react-native/lib/style'
-import { _ } from '@stores'
-import { stl } from '@utils'
+import { syncThemeStore } from '@utils/async'
+import { stl } from '@utils/utils'
 import { window } from '@styles'
 import { Flex } from '../../../flex'
 import { Touchable } from '../../../touchable'
@@ -74,6 +74,7 @@ class AntmModal extends React.Component<typeof defaultProps> {
       focus,
       children
     } = this.props
+    const _ = syncThemeStore()
     const IOS = Platform.OS === 'ios'
     return (
       <WithTheme styles={styles} themeStyles={modalStyles}>

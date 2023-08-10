@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:28:40
+ * @Last Modified time: 2023-08-10 20:23:38
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
@@ -15,6 +15,8 @@ import { IOS, IS_BEFORE_ANDROID_10, STORYBOOK } from '@constants'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
 import { TEXTS } from './ds'
+
+const BLUR_SETTINGS = ['blurBottomTabs', 'blurToast', 'blurModal'] as const
 
 function Theme({ navigation, filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
@@ -31,7 +33,7 @@ function Theme({ navigation, filter }) {
 
         <ActionSheet
           show={state}
-          height={filter ? 400 : 560}
+          height={filter ? 440 : 760}
           title='主题'
           onClose={setFalse}
         >
@@ -166,7 +168,7 @@ function Theme({ navigation, filter }) {
 
           {/* 毛玻璃布局 */}
           <ItemSetting
-            show={!IOS && shows.androidBlur && !IS_BEFORE_ANDROID_10}
+            show={!IOS && !IS_BEFORE_ANDROID_10 && shows.androidBlur}
             ft={
               <SwitchPro
                 style={styles.switch}
@@ -186,6 +188,39 @@ function Theme({ navigation, filter }) {
           >
             <Heatmap id='设置.切换' title='毛玻璃布局' />
           </ItemSetting>
+
+          {/* 毛玻璃可选布局 */}
+          {!IOS &&
+            !IS_BEFORE_ANDROID_10 &&
+            androidBlur &&
+            BLUR_SETTINGS.map(item => {
+              const title = TEXTS[item].hd
+              const value = systemStore.setting[item]
+              return (
+                <ItemSetting
+                  style={_.ml.md}
+                  show={shows[item]}
+                  ft={
+                    <SwitchPro
+                      style={styles.switch}
+                      value={value}
+                      onSyncPress={() => {
+                        t('设置.切换', {
+                          title,
+                          checked: !value
+                        })
+
+                        systemStore.switchSetting(item)
+                      }}
+                    />
+                  }
+                  filter={filter}
+                  {...TEXTS[item]}
+                >
+                  <Heatmap id='设置.切换' title={title} />
+                </ItemSetting>
+              )
+            })}
         </ActionSheet>
       </>
     )

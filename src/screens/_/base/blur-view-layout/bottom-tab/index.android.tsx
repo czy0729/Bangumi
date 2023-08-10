@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 03:36:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 05:13:03
+ * @Last Modified time: 2023-08-10 19:24:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,8 +23,8 @@ import { memoStyles } from './styles'
  */
 export const BlurViewBottomTab = ob(() => {
   const styles = memoStyles()
-  const { androidBlur } = systemStore.setting
-  if (!androidBlur) {
+  const { androidBlur, blurBottomTabs } = systemStore.setting
+  if (!(androidBlur && blurBottomTabs)) {
     return (
       <View
         style={[styles.bottomTab, styles.view]}

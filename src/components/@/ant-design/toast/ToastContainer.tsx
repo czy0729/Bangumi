@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 15:43:45
+ * @Last Modified time: 2023-08-10 19:47:20
  */
 import React from 'react'
 import { ActivityIndicator, Animated, View, TouchableOpacity } from 'react-native'
@@ -89,7 +89,6 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
       <WithTheme styles={this.props.styles} themeStyles={ToastStyles}>
         {styles => {
           const _ = syncThemeStore()
-
           const iconType: {
             [key: string]: IconNames
           } = {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-01-25 18:11:05
+ * @Last Modified time: 2023-08-10 21:34:19
  */
 import { safeObject } from '@utils'
 import { cheerio, HTMLTrim } from '@utils/html'
@@ -98,7 +98,7 @@ export function cheerioUserSetting(HTML) {
 
 /** 分析我的标签 */
 export function cheerioTags(html: string): string[] {
-  html = html.split('<span class="tip_j ll">我的标签：</span>')?.[1] || ''
+  html = html.split('<span class="tip_j ll">我的标签 </span>')?.[1] || ''
   if (!html) return []
 
   try {

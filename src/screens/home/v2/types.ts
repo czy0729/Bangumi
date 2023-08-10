@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 23:04:12
+ * @Last Modified time: 2023-08-10 21:39:32
  */
 import { factory } from '@utils'
 import { Loaded, Navigation, Subject, SubjectId } from '@types'
@@ -19,6 +19,9 @@ export type Ctx = {
 }
 
 export type ExcludeState = {
+  /** Modal 可见性 */
+  visible: boolean
+
   visibleBottom: number
   modal: {
     title: string
@@ -40,19 +43,16 @@ export type ExcludeState = {
 }
 
 export type State = {
-  /** <Modal> 可见性 */
-  visible: boolean
-
-  /** <Modal> 当前使用的条目Id */
+  /** Modal 当前使用的条目Id */
   subjectId: SubjectId
 
-  /** <Tabs> 当前页数 */
+  /** Tabs 当前页数 */
   page: number
 
-  /** <Item> 置顶记录 */
+  /** Item 置顶记录 */
   top: SubjectId[]
 
-  /** 每个 <Item> 的状态 */
+  /** 每个 <Item 的状态 */
   item: {
     [subjectId: SubjectId]: InitItem
   }

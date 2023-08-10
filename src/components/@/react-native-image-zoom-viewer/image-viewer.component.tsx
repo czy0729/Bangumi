@@ -1,10 +1,9 @@
 /* eslint-disable no-self-compare */
-/* eslint-disable react-native/no-inline-styles */
 /*
  * @Author: czy0729
  * @Date: 2023-07-14 13:16:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-14 13:20:22
+ * @Last Modified time: 2023-08-10 21:11:21
  */
 import * as React from 'react'
 import {

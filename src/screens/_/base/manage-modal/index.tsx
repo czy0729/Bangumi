@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 20:14:11
+ * @Last Modified time: 2023-08-10 21:34:12
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -283,7 +283,7 @@ export const ManageModal = ob(
 
     get numberOfLines() {
       if (!_.isPad && _.isLandscape) return 2
-      return _.device(4, 6)
+      return 6
     }
 
     get type() {

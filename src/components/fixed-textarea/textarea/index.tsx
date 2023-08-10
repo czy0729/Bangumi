@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-07-29 04:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-02 00:35:14
+ * @Last Modified time: 2023-08-10 19:27:07
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'

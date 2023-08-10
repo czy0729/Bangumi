@@ -2,29 +2,62 @@
  * @Author: czy0729
  * @Date: 2022-11-04 11:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:49:42
+ * @Last Modified time: 2023-08-10 20:19:57
  */
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { _ } from '@stores'
-import { stl } from '@utils'
-import { memoStyles } from './styles'
+import { stl } from '@utils/utils'
+import { syncThemeStore, syncSystemStore } from '@utils/async'
+import { IOS } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import { Props as BlurViewProps } from './types'
 
 export { BlurViewProps }
 
 export const BlurView = observer(
   ({ style, intensity = 100, children }: BlurViewProps) => {
-    const styles = memoStyles()
-    return (
-      <ExpoBlurView
-        style={stl(styles.blurView, style)}
-        tint={_.isDark ? 'dark' : 'light'}
-        intensity={intensity}
-      >
-        {children}
-      </ExpoBlurView>
-    )
+    const _ = syncThemeStore()
+    const styles = _.create({
+      blurView: {
+        paddingTop: 20,
+        backgroundColor: _.select(
+          'rgba(255, 255, 255, 0.4)',
+          'rgba(255, 255, 255, 0.08)'
+        ),
+        borderRadius: _.radiusMd,
+        borderWidth: 0,
+        overflow: 'hidden'
+      },
+      view: {
+        paddingTop: 20,
+        backgroundColor: _.select(
+          _.colorPlain,
+          _.deep(_._colorDarkModeLevel1, _._colorPlain)
+        ),
+        borderRadius: _.radiusMd,
+        borderWidth: 0,
+        overflow: 'hidden'
+      }
+    })
+    const systemStore = syncSystemStore()
+    if (
+      IOS ||
+      STORYBOOK ||
+      (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurModal)
+    ) {
+      return (
+        <ExpoBlurView
+          style={stl(styles.blurView, style)}
+          tint={_.select('light', 'dark')}
+          intensity={intensity}
+        >
+          {children}
+        </ExpoBlurView>
+      )
+    }
+
+    return <View style={stl(style, styles.view)}>{children}</View>
   }
 )

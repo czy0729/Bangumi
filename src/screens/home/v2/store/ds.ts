@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:15:42
+ * @Last Modified time: 2023-08-10 21:38:36
  */
 import { _ } from '@stores'
 import { ExcludeState, State, InitItem } from '../types'
@@ -18,6 +18,8 @@ export const INIT_ITEM: InitItem = {
 
 /** 不参与本地化的 state */
 export const EXCLUDE_STATE: ExcludeState = {
+  visible: false,
+
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
   modal: {
@@ -41,7 +43,6 @@ export const EXCLUDE_STATE: ExcludeState = {
 
 /** state */
 export const STATE: State & ExcludeState = {
-  visible: false,
   subjectId: 0,
   page: 0,
   top: [],

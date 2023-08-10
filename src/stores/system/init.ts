@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:42:58
+ * @Last Modified time: 2023-08-10 20:23:08
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -152,7 +152,7 @@ export const INIT_SETTING = {
   cdn: false,
 
   /** CDN 源头 */
-  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('jsDelivr'),
+  cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma'),
 
   /** @deprecated 头像使用 CDN */
   cdnAvatar: false,
@@ -187,13 +187,13 @@ export const INIT_SETTING = {
   /** @deprecated iOS 风格弹出菜单 */
   iosMenu: false,
 
-  /** @deprecated [已废弃] 首页收藏阴影 */
+  /** @deprecated 首页收藏阴影 */
   itemShadow: false,
 
   /** 片假名终结者 */
   katakana: false,
 
-  /** 点击水纹效果 (android) */
+  /** @deprecated 点击水纹效果 (android) */
   ripple: false,
 
   /** Bangumi 娘话语 */
@@ -354,8 +354,17 @@ export const INIT_SETTING = {
   /** 猜你喜欢显示已收藏条目 */
   likeCollected: true,
 
-  /** 安卓端启用毛玻璃布局 */
+  /** 启用毛玻璃布局 (android) */
   androidBlur: false,
+
+  /** 毛玻璃: 首屏页面顶部和底部 (android) */
+  blurBottomTabs: true,
+
+  /** 毛玻璃: 轻提示 (android) */
+  blurToast: true,
+
+  /** 毛玻璃: 模态框 (android) */
+  blurModal: true,
 
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT

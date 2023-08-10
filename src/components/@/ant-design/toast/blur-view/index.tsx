@@ -2,32 +2,52 @@
  * @Author: czy0729
  * @Date: 2022-11-13 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:35:46
+ * @Last Modified time: 2023-08-10 19:50:38
  */
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { syncThemeStore } from '@utils/async'
+import { syncThemeStore, syncSystemStore } from '@utils/async'
+import { IOS } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import { Props } from './types'
 
 export const BlurView = observer(({ style, children }: Props) => {
   const _ = syncThemeStore()
-  return (
-    <ExpoBlurView
-      style={[
-        style,
-        {
-          backgroundColor: _.isDark
-            ? 'rgba(255, 255, 255, 0.08)'
-            : 'rgba(255, 255, 255, 0.4)',
-          borderRadius: _.radiusMd,
-          overflow: 'hidden'
-        }
-      ]}
-      tint={_.isDark ? 'dark' : 'light'}
-      intensity={64}
-    >
-      {children}
-    </ExpoBlurView>
-  )
+  const styles = _.create({
+    blurView: {
+      backgroundColor: _.select(
+        'rgba(255, 255, 255, 0.4)',
+        'rgba(255, 255, 255, 0.08)'
+      ),
+      borderRadius: _.radiusMd,
+      overflow: 'hidden'
+    },
+    view: {
+      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
+      borderRadius: _.radiusSm,
+      borderWidth: _.select(_.hairlineWidth, 0),
+      borderColor: _.colorBorder,
+      overflow: 'hidden'
+    }
+  })
+  const systemStore = syncSystemStore()
+  if (
+    IOS ||
+    STORYBOOK ||
+    (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurToast)
+  ) {
+    return (
+      <ExpoBlurView
+        style={[style, styles.blurView]}
+        tint={_.select('light', 'dark')}
+        intensity={64}
+      >
+        {children}
+      </ExpoBlurView>
+    )
+  }
+
+  return <View style={[style, styles.view]}>{children}</View>
 })
