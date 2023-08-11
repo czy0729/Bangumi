@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 19:22:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 04:40:01
+ * @Last Modified time: 2023-08-11 21:16:42
  */
 import { _ } from '@stores'
 
@@ -12,11 +12,14 @@ export const memoStyles = _.memoStyles(() => {
     container: {
       flex: 1,
       paddingTop: _.tabsHeaderHeight + _.xs,
-      backgroundColor: _.select(_.colorPlain, _.deep(_.colorPlain, _.colorBg))
+      overflow: 'hidden'
     },
     info: {
+      zIndex: 1000,
       width: '100%',
-      height
+      height,
+      backgroundColor: _.select(_.colorPlain, _.deep(_.colorPlain, _.colorBg)),
+      overflow: 'hidden'
     },
     gameInfo: {
       width: '100%',
@@ -29,7 +32,8 @@ export const memoStyles = _.memoStyles(() => {
     contentContainerStyle: {
       paddingTop: 16,
       paddingBottom: _.tabBarHeight + _.lg + height,
-      paddingLeft: _.wind - _.sm - 2
+      paddingLeft: _.wind - _.sm - 2,
+      overflow: 'hidden'
     }
   }
 })

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 05:17:50
+ * @Last Modified time: 2023-08-11 21:14:09
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { Heatmap, ListView } from '@components'
+import { _ } from '@stores'
 import { getKeyString, keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
@@ -27,6 +28,7 @@ const List = memo(
     userCollections,
     onScroll,
     onRefreshOffset,
+    onHeaderRefresh,
     onFooterRefresh
   }) => {
     // global.rerender('User.List')
@@ -96,6 +98,7 @@ const List = memo(
     if (userPagination) {
       passProps.ListFooterComponent = <Pagination />
     } else {
+      passProps.onHeaderRefresh = onHeaderRefresh
       passProps.onFooterRefresh = onFooterRefresh
     }
 
@@ -109,6 +112,7 @@ const List = memo(
         animated
         data={userCollections}
         numColumns={numColumns}
+        progressViewOffset={_.parallaxImageHeight + 32}
         lazy={12}
         keyboardDismissMode='on-drag'
         renderItem={renderItem}

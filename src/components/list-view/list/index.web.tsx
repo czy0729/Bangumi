@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:09:50
+ * @Last Modified time: 2023-08-11 17:31:26
  */
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { StorybookScroll } from '../storybook'
-import { Flex } from '../flex'
+import { StorybookScroll } from '../../storybook'
+import { Flex } from '../../flex'
 
 function List({
   contentContainerStyle,
@@ -26,7 +26,7 @@ function List({
   onFooterRefresh,
   onScroll
 }) {
-  let content: unknown
+  let content: ReactNode
   if (sections) {
     content = sections.map((section: any, index: number) => (
       <View key={`section-${index}`}>

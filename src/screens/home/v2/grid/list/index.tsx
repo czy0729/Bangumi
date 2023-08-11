@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 06:55:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:32:31
+ * @Last Modified time: 2023-08-11 21:16:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,9 +23,10 @@ function List({ title }, { $ }: Ctx) {
   return (
     <PaginationList2
       key={`${_.orientation}${numColumns}`}
-      contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
+      contentContainerStyle={styles.contentContainerStyle}
       data={$.currentCollection(title).list}
+      progressViewOffset={20}
       limit={homeGridCoverLayout === 'square' ? 20 : 16}
       numColumns={numColumns}
       footerNoMoreDataComponent={<View />}

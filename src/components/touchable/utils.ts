@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 19:40:13
+ * @Last Modified time: 2023-08-11 21:33:08
  */
 import { _ } from '@stores'
 
@@ -40,9 +40,11 @@ export function callOnceInInterval(
     clearTimeout(timer)
     timer = setTimeout(() => (isCalled = false), interval)
 
-    functionTobeCalled()
     /** 把点击事件放在 requestAnimationFrame 里面, 在安卓上面是两个完全不同的体验 */
-    // return setTimeout(() => functionTobeCalled(), 0)
+    requestAnimationFrame(() => {
+      functionTobeCalled()
+    })
+    return true
   }
 
   return false

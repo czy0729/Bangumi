@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:49:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:38:31
+ * @Last Modified time: 2023-08-11 17:53:38
  */
 import { FlatListProps } from 'react-native'
 import { Override, Fn, ReactNode, ViewStyle, ListEmpty, AnyObject } from '@types'
+import { REFRESH_STATE } from './ds'
 
 export type Props = Override<
   FlatListProps<any>,
@@ -109,6 +110,8 @@ export type Props = Override<
   }
 >
 
+export type RefreshState = (typeof REFRESH_STATE)[keyof typeof REFRESH_STATE]
+
 export type RenderListProps = Omit<
   Props,
   | 'style'
@@ -124,11 +127,3 @@ export type RenderListProps = Omit<
 >
 
 export type ScrollToFunction = (params?: object) => any
-
-export type ListProps = {
-  connectRef?: Fn
-  animated?: boolean
-  sections?: any
-  sectionKey?: string
-  data?: ListEmpty<any>
-}

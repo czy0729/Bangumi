@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:09:56
+ * @Last Modified time: 2023-08-11 21:02:05
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { Login } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import i18n from '@constants/i18n'
 import Item from '../item'
@@ -34,7 +33,7 @@ function List({ index }, { $ }: Ctx) {
       ref={ref => $.connectRef(ref, index)}
       contentContainerStyle={styles.contentContainerStyle}
       data={rakuen}
-      progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
+      progressViewOffset={styles.contentContainerStyle.paddingTop}
       renderItem={renderItem}
       scrollEventThrottle={16}
       onScroll={$.onScroll}

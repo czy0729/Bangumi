@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:05:01
+ * @Last Modified time: 2023-08-11 21:03:58
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
 import { Login, SectionHeader } from '@_'
-import { _, uiStore } from '@stores'
+import { uiStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
@@ -88,7 +88,7 @@ class List extends React.Component<{
         data={timeline}
         sectionKey='date'
         stickySectionHeadersEnabled={false}
-        progressViewOffset={_.ios(styles.contentContainerStyle.paddingTop - _.sm, 0)}
+        progressViewOffset={styles.contentContainerStyle.paddingTop}
         scrollToTop={isFocused && TABS[page].title === title}
         renderSectionHeader={renderSectionHeader}
         renderItem={this.renderItem}

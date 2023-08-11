@@ -4,67 +4,34 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 12:46:04
+ * @Last Modified time: 2023-08-11 20:18:42
  */
 import React from 'react'
-import { RefreshControl, FlatList } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { pick, omit, sleep, simpleTime, date, stl } from '@utils'
-import {
-  IOS,
-  LIST_EMPTY,
-  STORYBOOK,
-  TEXT_EMPTY,
-  TEXT_FAIL,
-  TEXT_NO_MORE,
-  TEXT_REFRESHING
-} from '@constants'
+import { pick, omit, sleep, simpleTime, date } from '@utils'
+import { LIST_EMPTY, STORYBOOK } from '@constants'
 import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
-import { ScrollToTop } from '../scroll-to-top'
 import List from './list'
 import Footer from './footer'
-import { REFRESH_STATE } from './ds'
-import { memoStyles } from './styles'
-import { Props as ListViewProps, RenderListProps, ScrollToFunction } from './types'
+import { DEFAULT_PROPS, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
+import {
+  Props as ListViewProps,
+  RefreshState,
+  RenderListProps,
+  ScrollToFunction
+} from './types'
 
 export { ListViewProps }
 
 export const ListView = observer(
   class ListViewComponent extends React.Component<ListViewProps> {
-    static defaultProps = {
-      style: undefined,
-      keyExtractor: undefined,
-      data: LIST_EMPTY,
-      sections: undefined,
-      sectionKey: '',
-      progressViewOffset: undefined,
-      refreshControlProps: {},
-      renderItem: undefined,
-      footerRefreshingText: TEXT_REFRESHING,
-      footerFailureText: TEXT_FAIL,
-      footerNoMoreDataText: TEXT_NO_MORE,
-      footerNoMoreDataComponent: undefined,
-      footerEmptyDataText: TEXT_EMPTY,
-      footerEmptyDataComponent: undefined,
-      footerTextType: 'sub',
-      showFooter: true,
-      showMesume: true,
-      optimize: true,
-      scrollToTop: false,
-
-      /** @deprecated */
-      lazy: 0,
-      scrollIndicatorInsets: {
-        right: 1
-      },
-      onHeaderRefresh: undefined,
-      onFooterRefresh: undefined
-    }
+    static defaultProps = DEFAULT_PROPS
 
     state = {
-      refreshState: REFRESH_STATE.Idle,
+      refreshState: REFRESH_STATE.Idle as RefreshState,
 
       /** @deprecated */
       rendered: true // STORYBOOK
@@ -91,15 +58,15 @@ export const ListView = observer(
       this.updateRefreshState(data)
     }
 
-    scrollToIndex: ScrollToFunction = () => {}
+    scrollToIndex: ScrollToFunction = SCROLL_CALLBACK
 
-    scrollToOffset: ScrollToFunction = () => {}
+    scrollToOffset: ScrollToFunction = SCROLL_CALLBACK
 
-    scrollToItem: ScrollToFunction = () => {}
+    scrollToItem: ScrollToFunction = SCROLL_CALLBACK
 
-    scrollToLocation: ScrollToFunction = () => {}
+    scrollToLocation: ScrollToFunction = SCROLL_CALLBACK
 
-    scrollToEnd: ScrollToFunction = () => {}
+    scrollToEnd: ScrollToFunction = SCROLL_CALLBACK
 
     connectRef = (ref: React.RefObject<FlatList>['current']) => {
       if (ref?.scrollToIndex) {
@@ -234,7 +201,7 @@ export const ListView = observer(
       } = this.props
       const { refreshState } = this.state
       return {
-        style: stl(this.styles.container, style),
+        style,
         connectRef: this.connectRef,
         ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
         refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
@@ -243,13 +210,13 @@ export const ListView = observer(
         onEndReached: this.onEndReached,
         onEndReachedThreshold: 0.5,
 
-        // 常用优化参数
+        /** 常用优化参数 */
         initialNumToRender: 48,
         windowSize: optimize ? 12 : undefined,
         maxToRenderPerBatch: optimize ? 48 : undefined,
         updateCellsBatchingPeriod: optimize ? 48 : undefined,
 
-        // 强制不显示滚动条
+        /** 强制不显示滚动条 */
         showsHorizontalScrollIndicator: false,
         showsVerticalScrollIndicator: false
       }
@@ -287,25 +254,27 @@ export const ListView = observer(
       return data.list
     }
 
+    /** 不要试图去单独封装这个组件, 不明原因会导致整个列表都不显示 */
     renderRefreshControl() {
       const { data, progressViewOffset, refreshControlProps, onHeaderRefresh } =
         this.props
       if (!onHeaderRefresh) return null
 
       const { refreshState } = this.state
-      const title = data._loaded
-        ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}`
-        : undefined
-
       return (
         <RefreshControl
           enabled={!!onHeaderRefresh}
-          title={title}
+          refreshing={refreshState === REFRESH_STATE.HeaderRefreshing}
+          title={
+            data._loaded
+              ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}`
+              : undefined
+          }
           colors={[_.colorMain]}
           titleColor={_.colorSub}
           tintColor={_.colorSub}
           progressViewOffset={progressViewOffset}
-          refreshing={refreshState === REFRESH_STATE.HeaderRefreshing}
+          progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
           onRefresh={this.onHeaderRefresh}
           {...refreshControlProps}
         />
@@ -372,29 +341,23 @@ export const ListView = observer(
       )
     }
 
+    /** @deprecated */
     renderScrollToTop() {
-      const { scrollToTop } = this.props
-      if (IOS || !scrollToTop) return null
+      return null
 
-      return (
-        <ScrollToTop
-          scrollToIndex={this.scrollToIndex}
-          scrollToLocation={this.scrollToLocation}
-        />
-      )
+      // const { scrollToTop } = this.props
+      // if (IOS || !scrollToTop) return null
+
+      // return (
+      //   <ScrollToTop
+      //     scrollToIndex={this.scrollToIndex}
+      //     scrollToLocation={this.scrollToLocation}
+      //   />
+      // )
     }
 
     render() {
-      return (
-        <ErrorBoundary>
-          {this.renderList()}
-          {this.renderScrollToTop()}
-        </ErrorBoundary>
-      )
-    }
-
-    get styles() {
-      return memoStyles()
+      return <ErrorBoundary>{this.renderList()}</ErrorBoundary>
     }
   }
 )

@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:35:58
+ * @Last Modified time: 2023-08-11 17:17:09
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { systemStore } from '@stores'
-import { Flex } from '../flex'
-import { Mesume } from '../mesume'
-import { randomSpeech } from '../mesume/utils'
-import { Text } from '../text'
-import { REFRESH_STATE } from './ds'
-import { foolterStyles as styles } from './styles'
+import { Flex } from '../../flex'
+import { Mesume } from '../../mesume'
+import { randomSpeech } from '../../mesume/utils'
+import { Text } from '../../text'
+import { REFRESH_STATE } from '../ds'
+import { styles } from './styles'
 
 function Footer({
   filterText,
