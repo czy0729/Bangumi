@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => {
   return {
     container: {
       flex: 1,
-      paddingTop: _.ios(_.tabsHeaderHeight, 0) + _.xs,
+      paddingTop: _.tabsHeaderHeight + _.xs,
       backgroundColor: _.select(_.colorPlain, _.deep(_.colorPlain, _.colorBg))
     },
     info: {
@@ -28,8 +28,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     contentContainerStyle: {
       paddingTop: 16,
-      paddingBottom:
-        _.ios(_.tabBarHeight + _.md, _.tabBarHeight + _.md - _.tabBarHeight) + height,
+      paddingBottom: _.tabBarHeight + _.lg + height,
       paddingLeft: _.wind - _.sm - 2
     }
   }
