@@ -40,6 +40,8 @@ export const PaginationList2 = ({
   })
 
   const onFooterRefresh = useCallback(() => {
+    console.log('onFooterRefresh')
+
     const { page, pageTotal } = list.pagination
     if (page >= pageTotal) return true
 

@@ -32,7 +32,7 @@ function List({ isFocused }, { $ }: Ctx) {
         renderItem={renderItem}
         scrollToTop={isFocused || WSA}
         scrollEnabled={!dragging}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={$.onScroll}
       />
       <BlurViewBottomTab />

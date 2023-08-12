@@ -25,7 +25,7 @@ function List(props, { $ }: Ctx) {
       limit={5}
       scrollToTop
       renderItem={renderItem}
-      scrollEventThrottle={16}
+      scrollEventThrottle={4}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
     />

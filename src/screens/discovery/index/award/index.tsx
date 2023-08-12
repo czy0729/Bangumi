@@ -34,7 +34,7 @@ function Award({ navigation }) {
         contentContainerStyle={styles.container}
         horizontal
         showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={scrolled ? undefined : onScroll}
       >
         <Award2022 navigation={navigation} />

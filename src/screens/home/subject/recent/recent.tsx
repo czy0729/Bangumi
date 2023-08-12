@@ -38,7 +38,7 @@ export default memo(
               contentContainerStyle={_.container.wind}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={16}
+              scrollEventThrottle={4}
               onScroll={onScroll}
             >
               {list.map(item => (

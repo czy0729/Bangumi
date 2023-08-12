@@ -374,7 +374,7 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
                 : styles.container,
               contentContainerStyle
             ]}
-            scrollEventThrottle={16}
+            scrollEventThrottle={4}
             onScroll={Animated.event([
               {
                 nativeEvent: {

@@ -29,7 +29,7 @@ function List({ onScroll }, { $ }: Ctx) {
       renderItem={renderItem}
       scrollToTop
       footerEmptyDataText={TEXT_18X}
-      scrollEventThrottle={16}
+      scrollEventThrottle={4}
       onScroll={onScroll}
       onHeaderRefresh={$.fetchCatalogDetail}
     />

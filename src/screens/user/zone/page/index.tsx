@@ -54,7 +54,7 @@ class Zone extends React.Component {
         <StatusBarEvents barStyle='light-content' backgroundColor='transparent' />
         <NavigationBarEvents />
         <Tab
-          scrollEventThrottle={16}
+          scrollEventThrottle={4}
           onScroll={this.onScroll}
           onSwipeStart={this.onSwipeStart}
           onIndexChange={this.onIndexChange}

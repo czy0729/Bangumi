@@ -85,7 +85,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
             contentContainerStyle={_.container.wind}
             horizontal
             {...SCROLL_VIEW_RESET_PROPS}
-            scrollEventThrottle={80}
+            scrollEventThrottle={8}
             onScroll={onScroll}
           >
             {list.map((item, index) => (

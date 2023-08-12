@@ -98,7 +98,7 @@ export const StorybookScroll = ({
       contentContainerStyle={contentContainerStyle}
       {...other}
       {...SCROLL_VIEW_RESET_PROPS}
-      scrollEventThrottle={16}
+      scrollEventThrottle={4}
       onScroll={_onScroll}
     >
       {children}

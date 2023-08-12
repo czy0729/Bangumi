@@ -21,7 +21,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
     keyExtractor,
     lazy: $.postId ? undefined : 4,
     progressViewOffset: _.ios(_.statusBarHeight, 0),
-    scrollEventThrottle: 16,
+    scrollEventThrottle: 4,
     // removeClippedSubviews: false,
     initialNumToRender: 120,
     maxToRenderPerBatch: 120,

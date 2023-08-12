@@ -81,7 +81,7 @@ export const HorizontalList = ob(
             contentContainerStyle={this.styles.contentContainerStyle}
             horizontal
             {...SCROLL_VIEW_RESET_PROPS}
-            scrollEventThrottle={80}
+            scrollEventThrottle={8}
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
           >
             {this.data.map((item, index) => (

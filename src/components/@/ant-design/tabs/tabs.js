@@ -172,7 +172,7 @@ export class Tabs extends React.PureComponent {
             }
           )}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
-          scrollEventThrottle={16}
+          scrollEventThrottle={4}
           scrollsToTop={false}
           showsHorizontalScrollIndicator={false}
           scrollEnabled={this.props.swipeable}
@@ -222,8 +222,7 @@ export class Tabs extends React.PureComponent {
       if (this.scrollView && this.scrollView._component) {
         const { scrollTo } = this.scrollView._component
         // tslint:disable-next-line:no-unused-expression
-        scrollTo &&
-          scrollTo.call(this.scrollView._component, { x: offset, animated })
+        scrollTo && scrollTo.call(this.scrollView._component, { x: offset, animated })
       }
     }
   }
@@ -307,8 +306,7 @@ export class Tabs extends React.PureComponent {
     return index < 0 ? 0 : index
   }
 
-  isTabVertical = (direction = this.props.tabDirection) =>
-    direction === 'vertical'
+  isTabVertical = (direction = this.props.tabDirection) => direction === 'vertical'
 
   shouldRenderTab = idx => {
     const { prerenderingSiblingsNumber = 0 } = this.props

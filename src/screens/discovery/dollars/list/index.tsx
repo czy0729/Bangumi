@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 17:04:47
+ * @Last Modified time: 2023-08-12 15:41:43
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -21,7 +21,7 @@ function List(props, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       {...SCROLL_VIEW_RESET_PROPS}
       keyboardDismissMode='on-drag'
-      scrollEventThrottle={32}
+      scrollEventThrottle={4}
       onScroll={$.onScroll}
     >
       {list.map((item, index) => (

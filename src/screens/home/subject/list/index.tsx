@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 21:25:00
+ * @Last Modified time: 2023-08-12 15:39:20
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -18,13 +18,12 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
 
   return (
     <ListView
-      key={String($.subjectComments?.pagination?.pageTotal >= 2)}
       ref={forwardRef}
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.subjectComments}
-      scrollEventThrottle={16}
+      scrollEventThrottle={4}
       scrollToTop
       keyboardDismissMode='on-drag'
       footerEmptyDataComponent={$.footerEmptyDataComponent}

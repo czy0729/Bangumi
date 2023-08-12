@@ -159,7 +159,7 @@ class Blog extends React.Component<{
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.comments}
-          scrollEventThrottle={16}
+          scrollEventThrottle={4}
           initialNumToRender={50}
           removeClippedSubviews={false}
           scrollToTop

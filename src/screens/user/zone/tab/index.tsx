@@ -41,42 +41,42 @@ class Tab extends React.Component<{
     bangumi: () => (
       <BangumiList
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={this.props.onScroll}
       />
     ),
     stats: () => (
       <Stats
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={this.props.onScroll}
       />
     ),
     timeline: () => (
       <TimelineList
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={this.props.onScroll}
       />
     ),
     rakuen: () => (
       <RakuenList
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={this.props.onScroll}
       />
     ),
     about: () => (
       <About
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={this.props.onScroll}
       />
     ),
     tinygrail: () => (
       <Tinygrail
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={this.props.onScroll}
       />
     )

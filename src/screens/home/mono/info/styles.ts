@@ -7,6 +7,9 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  info: {
+    minHeight: _.window.height * 1.2
+  },
   container: {
     minHeight: _.window.height * 0.56,
     ..._.container.inner

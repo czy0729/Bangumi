@@ -22,7 +22,7 @@ function List({
   const passProps: PassProps = {
     ref: connectRef,
     ...other,
-    overScrollMode: 'never',
+    overScrollMode: 'always',
     alwaysBounceHorizontal: false,
     alwaysBounceVertical: false,
     removeClippedSubviews: true

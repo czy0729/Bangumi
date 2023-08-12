@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 03:17:23
+ * @Last Modified time: 2023-08-12 15:40:10
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -58,7 +58,7 @@ export const HorizontalList = observer(
           style={style}
           contentContainerStyle={contentContainerStyle}
           horizontal
-          scrollEventThrottle={80}
+          scrollEventThrottle={8}
           {...SCROLL_VIEW_RESET_PROPS}
           onScroll={this.show ? undefined : this.onScroll}
         >

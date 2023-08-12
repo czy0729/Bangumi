@@ -41,7 +41,7 @@ export default memo(({ styles, showCatalog, catalog, onSwitchBlock }) => {
               contentContainerStyle={styles.contentContainerStyle}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={16}
+              scrollEventThrottle={4}
               onScroll={onScroll}
             >
               {list.map(item => (

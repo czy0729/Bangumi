@@ -47,7 +47,7 @@ function Info(props, { $, navigation }: Ctx) {
 
   const { _count } = $.params
   return (
-    <>
+    <View style={styles.info}>
       <HeaderPlaceholder />
       <View style={styles.container}>
         <Flex wrap='wrap'>
@@ -135,7 +135,7 @@ function Info(props, { $, navigation }: Ctx) {
           </Text>
         )}
       </SectionTitle>
-    </>
+    </View>
   )
 }
 

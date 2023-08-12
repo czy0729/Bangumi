@@ -18,11 +18,11 @@ function List({ renderItem, onScroll }, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.list}
-      scrollEventThrottle={16}
-      scrollToTop
       limit={20}
+      scrollEventThrottle={4}
+      scrollToTop
       ListHeaderComponent={<Info />}
-      progressViewOffset={_.ios(_.statusBarHeight, 0)}
+      progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
       removeClippedSubviews={$.list.length >= 100}
       renderItem={renderItem}
       onScroll={onScroll}

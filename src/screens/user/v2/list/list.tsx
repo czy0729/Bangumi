@@ -117,7 +117,7 @@ const List = memo(
         keyboardDismissMode='on-drag'
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={_onScroll}
         {...passProps}
       />

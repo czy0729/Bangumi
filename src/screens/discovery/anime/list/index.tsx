@@ -72,7 +72,7 @@ class List extends React.Component {
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
         scrollToTop
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={$.onScroll}
         onPage={otaStore.onAnimePage}
       />

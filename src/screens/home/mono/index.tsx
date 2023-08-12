@@ -25,7 +25,6 @@ const Topic = (props, { $ }: Ctx) => {
     $.setState({
       visibleBottom
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visibleBottom])
 
   const { fixed, onScroll: onUseOnScroll } = useOnScroll()

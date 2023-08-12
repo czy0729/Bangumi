@@ -22,7 +22,7 @@ function List(props, { $ }: Ctx) {
       <ScrollView
         contentContainerStyle={styles.scrollView}
         scrollToTop
-        scrollEventThrottle={16}
+        scrollEventThrottle={4}
         onScroll={$.onScroll}
       >
         {!fixed && <ToolBar />}

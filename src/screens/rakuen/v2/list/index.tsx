@@ -35,7 +35,7 @@ function List({ index }, { $ }: Ctx) {
       data={rakuen}
       progressViewOffset={styles.contentContainerStyle.paddingTop}
       renderItem={renderItem}
-      scrollEventThrottle={16}
+      scrollEventThrottle={4}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchRakuen}

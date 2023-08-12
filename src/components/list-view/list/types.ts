@@ -20,7 +20,7 @@ export type PassProps = {
   sections?: any
 
   /** https://reactnative.dev/blog/2021/09/01/preparing-your-app-for-iOS-15-and-android-12#overscroll-effect */
-  overScrollMode: 'never'
+  overScrollMode: 'never' | 'always'
 
   /** https://reactnative.dev/docs/scrollview#alwaysbouncehorizontal-ios */
   alwaysBounceHorizontal: false
