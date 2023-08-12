@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 17:53:34
+ * @Last Modified time: 2023-08-12 18:38:00
  */
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
 import { AnimatedSectionList, AnimatedFlatList } from './ds'
-import { ListProps, PassProps } from './types'
+import { ListProps } from './types'
 
 function List({
   connectRef,
@@ -18,14 +18,15 @@ function List({
   data,
   ...other
 }: ListProps) {
-  let Component
-  const passProps: PassProps = {
+  let Component: any
+  const passProps: any = {
     ref: connectRef,
     ...other,
     overScrollMode: 'always',
     alwaysBounceHorizontal: false,
     alwaysBounceVertical: false,
-    removeClippedSubviews: true
+    removeClippedSubviews: true,
+    legacyImplementation: false
   }
 
   if (sections) {

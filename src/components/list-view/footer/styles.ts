@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 04:00:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-16 08:35:51
+ * @Last Modified time: 2023-08-12 18:43:36
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const styles = _.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
+    minHeight: 40,
     paddingVertical: 8,
     paddingHorizontal: _.lg
   },

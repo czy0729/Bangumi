@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 14:08:44
+ * @Last Modified time: 2023-08-12 15:59:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ class Say extends React.Component {
   scrollView: any
 
   async componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     await $.init(this.scrollView)
 
     setTimeout(() => {
@@ -26,20 +26,20 @@ class Say extends React.Component {
   }
 
   componentWillUnmount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.scrollViewRef = null
   }
 
   connectRefScrollView = (ref: any) => {
     if (ref) {
-      const { $ }: Ctx = this.context
+      const { $ } = this.context as Ctx
       $.scrollViewRef = ref
       this.scrollView = ref
     }
   }
 
   renderTextarea(placeholder: string) {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { value } = $.state
     return (
       $.isWebLogin && (
@@ -68,7 +68,7 @@ class Say extends React.Component {
   }
 
   renderList() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded } = $.say
     if (!_loaded) {
       return (
@@ -87,7 +87,7 @@ class Say extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     return (
       <Page style={_.container.screen}>
         {$.isNew ? this.renderNew() : this.renderList()}

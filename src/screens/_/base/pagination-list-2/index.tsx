@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:53:36
+ * @Last Modified time: 2023-08-12 17:15:35
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
@@ -40,8 +40,6 @@ export const PaginationList2 = ({
   })
 
   const onFooterRefresh = useCallback(() => {
-    console.log('onFooterRefresh')
-
     const { page, pageTotal } = list.pagination
     if (page >= pageTotal) return true
 

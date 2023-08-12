@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 17:17:09
+ * @Last Modified time: 2023-08-12 18:47:05
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -134,7 +134,7 @@ function Footer({
       )
 
     default:
-      return null
+      return <View style={styles.container} />
   }
 }
 

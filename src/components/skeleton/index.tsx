@@ -34,13 +34,14 @@ export const Skeleton = observer(({ width, height }: SkeletonProps) => {
   }
 
   return (
-    <View style={styles.skeleton} pointerEvents='none'>
+    <View style={styles.skeleton} pointerEvents='none' removeClippedSubviews>
       <ShimmerPlaceholder
         visible={false}
         width={width}
         height={height}
         shimmerColors={_.select(shimmerColors, shimmerColorsDark)}
         duration={1600}
+        isInteraction={false}
       />
     </View>
   )

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 14:07:14
+ * @Last Modified time: 2023-08-12 18:09:58
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { ListView } from '@components'
@@ -60,9 +60,8 @@ export const PaginationList = ({
       },
       _loaded: getTimestamp()
     })
-    if (typeof onPage === 'function') onPage(list)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (typeof onPage === 'function') onPage(list)
   }, [data.length, onPage])
 
   return (

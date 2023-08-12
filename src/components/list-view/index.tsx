@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 20:18:42
+ * @Last Modified time: 2023-08-12 18:52:24
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -174,8 +174,18 @@ export const ListView = observer(
       }
     }
 
+    private _onEndReached = false
+
     onEndReached = () => {
-      if (this.shouldStartFooterRefreshing()) this.onFooterRefresh()
+      if (this._onEndReached) return
+
+      if (this.shouldStartFooterRefreshing()) {
+        this._onEndReached = true
+        this.onFooterRefresh()
+        setTimeout(() => {
+          this._onEndReached = false
+        }, 1000)
+      }
     }
 
     shouldStartHeaderRefreshing = () => {
@@ -197,7 +207,8 @@ export const ListView = observer(
         optimize,
         showFooter,
         ListFooterComponent = null,
-        onHeaderRefresh
+        onHeaderRefresh,
+        onFooterRefresh
       } = this.props
       const { refreshState } = this.state
       return {
@@ -207,7 +218,7 @@ export const ListView = observer(
         refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
         onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
-        onEndReached: this.onEndReached,
+        onEndReached: onFooterRefresh ? this.onEndReached : undefined,
         onEndReachedThreshold: 0.5,
 
         /** 常用优化参数 */
