@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { info } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import StatusBarEvents from '../_/status-bar-events'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
@@ -23,12 +22,12 @@ class TinygrailTree extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   onRefresh = async () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     this.setState({
       refreshing: true
     })
@@ -50,7 +49,7 @@ class TinygrailTree extends React.Component {
       id
     })
 
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     switch (title) {
       case '资产分析':
         navigation.push('TinygrailTree', {
@@ -74,12 +73,11 @@ class TinygrailTree extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { refreshing } = this.state
     const { loading, data } = $.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='前百首富'
           hm={['tinygrail/tree-rich', 'TinygrailTreeRich']}

@@ -19,7 +19,7 @@ const COVER_HEIGHT = _.r(IMG_HEIGHT * 1.28)
 
 class List extends React.Component {
   renderCovers() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { covers } = $.wiki
     if (!covers?.length) return null
 
@@ -83,7 +83,7 @@ class List extends React.Component {
   }
 
   renderEdits() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { edits } = $.wiki
     if (!edits?.length) return null
 

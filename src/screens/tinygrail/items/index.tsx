@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import Store from './store'
@@ -20,17 +19,17 @@ import { Ctx } from './types'
 
 class TinygrailItems extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   componentWillUnmount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.onCloseModal()
   }
 
   renderList() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { list } = $.items
     return (
       <ScrollView
@@ -106,7 +105,7 @@ class TinygrailItems extends React.Component {
   }
 
   renderModal() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { title, visible } = $.state
     return (
       <CharactersModal
@@ -121,7 +120,6 @@ class TinygrailItems extends React.Component {
   render() {
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='我的道具'
           hm={['tinygrail/items', 'TinygrailItems']}

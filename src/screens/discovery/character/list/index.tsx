@@ -35,7 +35,7 @@ class List extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { id } = this.props
     const list = $.list(id)
     if (!list._loaded) return <Loading />

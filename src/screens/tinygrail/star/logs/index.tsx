@@ -26,7 +26,7 @@ class Logs extends React.Component {
   }
 
   componentDidMount() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     navigation.setParams({
       extra: (
         <>
@@ -77,7 +77,7 @@ class Logs extends React.Component {
   renderItem = ({ item, index }) => <Log index={index} {...item} />
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { show, x } = this.state
     return (
       <>

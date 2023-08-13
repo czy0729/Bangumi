@@ -29,7 +29,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { ipt } = $.state
     const { focus } = this.state
     return (

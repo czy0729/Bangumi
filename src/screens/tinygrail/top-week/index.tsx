@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:42:28
+ * @Last Modified time: 2023-08-14 05:15:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,19 +13,18 @@ import { formatNumber, info, tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { M } from '@constants'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 class TinygrailTopWeek extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   renderItem = item => {
-    const { navigation }: Ctx = this.context
+    const { navigation } = this.context as Ctx
     let changeColor: TextType
     if (item.rankChange === 'new') {
       changeColor = 'warning'
@@ -158,11 +157,10 @@ class TinygrailTopWeek extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { list } = $.topWeek
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='每周萌王'
           hm={['tinygrail/top-week', 'TopWeek']}

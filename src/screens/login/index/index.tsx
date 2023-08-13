@@ -4,21 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:09
+ * @Last Modified time: 2023-08-14 05:06:43
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  StatusBarEvents,
-  WebView,
-  Flex,
-  Button,
-  Loading,
-  Text,
-  Mesume,
-  UM,
-  Heatmap
-} from '@components'
+import { Button, Flex, Heatmap, Loading, Mesume, Text, UM, WebView } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
@@ -286,7 +276,6 @@ class Login extends React.Component<{
     return (
       <View style={_.container.plain}>
         <UM title={title} />
-        <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}

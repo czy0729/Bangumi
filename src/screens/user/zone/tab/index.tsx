@@ -31,7 +31,7 @@ class Tab extends React.Component<{
   onSwipeStart: Fn
 }> {
   onIndexChange = (index: number) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { onIndexChange } = this.props
     onIndexChange(index)
     $.onTabChange(index)
@@ -83,7 +83,7 @@ class Tab extends React.Component<{
   })
 
   get navigationState() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { page } = $.state
     return {
       index: page,
@@ -92,7 +92,7 @@ class Tab extends React.Component<{
   }
 
   get transform() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     return {
       transform: [
         {
@@ -124,7 +124,7 @@ class Tab extends React.Component<{
   )
 
   renderTabBar = props => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const width = _.window.width / $.tabs.length
     return (
       <Animated.View style={[this.styles.tabBarWrap, this.transform]}>

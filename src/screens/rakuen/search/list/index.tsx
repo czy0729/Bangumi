@@ -16,7 +16,7 @@ class List extends React.Component {
   renderItem = ({ item, index }) => <Item index={index} {...item} />
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { searching } = $.state
     if (searching) return <Loading style={_.container.flex} />
 

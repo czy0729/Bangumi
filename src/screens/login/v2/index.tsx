@@ -13,7 +13,6 @@ import {
   Heatmap,
   Iconfont,
   KeyboardSpacer,
-  StatusBarEvents,
   Text,
   Touchable,
   UM
@@ -717,7 +716,6 @@ class LoginV2 extends React.Component<{
     return (
       <View style={_.container.plain}>
         <UM title={TITLE} />
-        <StatusBarEvents backgroundColor='transparent' />
         <StatusBarPlaceholder />
         {this.renderContent()}
         <KeyboardSpacer topSpacing={_.ios(-120, 0)} />

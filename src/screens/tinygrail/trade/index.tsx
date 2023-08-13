@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:35:02
+ * @Last Modified time: 2023-08-14 05:13:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
-import StatusBarEvents from '../_/status-bar-events'
 import Store from './store'
 import Header from './header'
 import Bar from './bar'
@@ -35,7 +34,7 @@ class TinygrailTrade extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
 
     hm(`tinygrail/trade/${$.monoId}`, 'TinygrailTrade')
@@ -48,7 +47,7 @@ class TinygrailTrade extends React.Component {
   }
 
   jump = (type: string) => {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     t('K线.跳转', {
       to: 'TinygrailDeal',
       type,
@@ -63,7 +62,7 @@ class TinygrailTrade extends React.Component {
   }
 
   goBack = () => {
-    const { navigation }: Ctx = this.context
+    const { navigation } = this.context as Ctx
     if (IOS) {
       this.setState(
         {
@@ -102,7 +101,6 @@ class TinygrailTrade extends React.Component {
       <SafeAreaView style={this.styles.dark}>
         <UM title={title} />
         {this.renderFocus()}
-        <StatusBarEvents />
         <StatusBarPlaceholder style={this.styles.dark} />
         <Header goBack={this.goBack} />
         <Bar />

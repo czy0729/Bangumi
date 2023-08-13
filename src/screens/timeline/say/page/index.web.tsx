@@ -24,7 +24,7 @@ class Say extends React.Component {
   }
 
   renderNew() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { value } = $.state
     return (
       <>
@@ -53,7 +53,7 @@ class Say extends React.Component {
   }
 
   renderList() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded } = $.say
     if (!_loaded) {
       return (
@@ -74,7 +74,7 @@ class Say extends React.Component {
   }
 
   renderTextarea() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { value } = $.state
     return (
       $.isWebLogin && (
@@ -91,7 +91,7 @@ class Say extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     return (
       <Page style={_.container.screen}>
         {$.isNew ? this.renderNew() : this.renderList()}

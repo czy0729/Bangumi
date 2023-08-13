@@ -13,7 +13,6 @@ import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { refreshControlProps } from '@tinygrail/styles'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Auth from './auth'
 import Menus from './menus'
 import Footer from './footer'
@@ -30,7 +29,7 @@ class Tinygrail extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
 
     hm('tinygrail', 'Tinygrail')
@@ -42,7 +41,7 @@ class Tinygrail extends React.Component {
         refreshing: true
       },
       async () => {
-        const { $ }: Ctx = this.context
+        const { $ } = this.context as Ctx
         await $.refresh()
 
         setTimeout(() => {
@@ -55,7 +54,7 @@ class Tinygrail extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { visible } = $.state
     const { refreshing } = this.state
     return (
@@ -74,7 +73,6 @@ class Tinygrail extends React.Component {
           {...SCROLL_VIEW_RESET_PROPS}
         >
           <UM title={title} />
-          <StatusBarEvents backgroundColor='transparent' />
           <StatusBarPlaceholder />
           <Auth />
           <Menus />

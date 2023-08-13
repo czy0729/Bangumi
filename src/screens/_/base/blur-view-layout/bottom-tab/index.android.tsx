@@ -24,7 +24,6 @@ import { memoStyles } from './styles'
  */
 export const BlurViewBottomTab = () => {
   const { bottom } = useSafeAreaInsets()
-
   return useObserver(() => {
     const styles = memoStyles()
     const { androidBlur, blurBottomTabs } = systemStore.setting

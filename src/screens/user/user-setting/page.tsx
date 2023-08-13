@@ -62,18 +62,18 @@ class UserSetting extends React.Component {
       })
     }
 
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.onRefresh()
   }
 
   get avatar() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { avatar } = $.usersInfo
     return avatar?.large
   }
 
   get previewAvatarSrc() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { avatar } = $.usersInfo
     if (!$.state.avatar) return avatar?.large
 
@@ -81,7 +81,7 @@ class UserSetting extends React.Component {
   }
 
   get previewBgSrc() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { avatar } = $.usersInfo
     if (!$.state.bg) return this.previewAvatarSrc
 
@@ -89,14 +89,14 @@ class UserSetting extends React.Component {
   }
 
   get blurRadius() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if ($.state.bg) return 0
 
     return IOS ? ($.state.bg === '' && $.state.avatar ? 48 : 10) : 8
   }
 
   renderPreview() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { nickname, id, username } = $.usersInfo
     return (
       <View style={_.mb.md}>
@@ -152,7 +152,7 @@ class UserSetting extends React.Component {
   }
 
   renderForm() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { nickname, sign_input, bg, avatar } = $.state
     const { expand } = this.state
     return (
@@ -247,7 +247,7 @@ class UserSetting extends React.Component {
   }
 
   renderTabs() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { selectedIndex } = $.state
     const values = ['预设背景', '随机头像']
     return (
@@ -262,7 +262,7 @@ class UserSetting extends React.Component {
   }
 
   renderOnlineBgs() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { bgs } = $.state
     const { more } = this.state
     return (
@@ -328,7 +328,7 @@ class UserSetting extends React.Component {
   }
 
   renderPixivs() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { pixivs } = $.state
     return (
       <>
@@ -361,7 +361,7 @@ class UserSetting extends React.Component {
   }
 
   renderAvatars = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { avatars } = $.state
     return (
       <>
@@ -424,7 +424,7 @@ class UserSetting extends React.Component {
   }
 
   renderRefresh() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { selectedIndex } = $.state
     if (selectedIndex !== 1) return null
 
@@ -440,7 +440,7 @@ class UserSetting extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { selectedIndex } = $.state
     return (
       <View style={_.container.plain}>

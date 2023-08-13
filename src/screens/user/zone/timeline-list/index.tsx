@@ -30,7 +30,7 @@ class TimelineList extends React.Component<{
   onScroll: Fn
 }> {
   connectRef = ref => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const index = TABS.findIndex(item => item.title === '时间线')
     return $.connectRef(ref, index)
   }
@@ -40,7 +40,7 @@ class TimelineList extends React.Component<{
   )
 
   renderItem = ({ item, index }) => {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     return (
       <ItemTimeline
         navigation={navigation}
@@ -53,7 +53,7 @@ class TimelineList extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (!$.usersTimeline._loaded) return <Loading style={styles.loading} />
 
     const { onScroll } = this.props

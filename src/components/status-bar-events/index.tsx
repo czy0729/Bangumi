@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:13:04
+ * @Last Modified time: 2023-08-14 05:05:31
  */
 import React from 'react'
 import { StatusBar, StatusBarStyle } from 'react-native'
@@ -17,6 +17,7 @@ import { Props as StatusBarEventsProps, PassProps } from './types'
 
 export { StatusBarEventsProps }
 
+/** @deprecated */
 export const StatusBarEvents = observer(
   ({
     tinygrail = false,
@@ -26,8 +27,6 @@ export const StatusBarEvents = observer(
     animated = IOS,
     action = 'onDidFocus'
   }: StatusBarEventsProps) => {
-    return null
-
     let _barStyle: StatusBarStyle
     if (tinygrail) {
       _barStyle = barStyle

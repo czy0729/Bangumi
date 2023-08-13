@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:07:01
+ * @Last Modified time: 2023-08-14 05:13:07
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { Page, ScrollView } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import { refreshControlProps } from '@tinygrail/styles'
 import Header from './header'
 import Info from './info'
@@ -29,7 +28,7 @@ class TinygrailSacrifice extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
@@ -39,7 +38,7 @@ class TinygrailSacrifice extends React.Component {
         refreshing: true
       },
       async () => {
-        const { $ }: Ctx = this.context
+        const { $ } = this.context as Ctx
         await $.refresh()
         setTimeout(() => {
           this.setState({
@@ -54,7 +53,6 @@ class TinygrailSacrifice extends React.Component {
     const { refreshing } = this.state
     return (
       <>
-        <StatusBarEvents />
         <Header />
         <Page style={_.container.tinygrail}>
           <ScrollView

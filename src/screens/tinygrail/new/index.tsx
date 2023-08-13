@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 19:35:50
+ * @Last Modified time: 2023-08-14 05:12:24
  */
 import React from 'react'
 import { Header, Page } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
 import IconGo from '@tinygrail/_/icon-go'
@@ -20,12 +19,12 @@ import { Ctx } from './types'
 
 class TinygrailNew extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   renderContentHeaderComponent() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { level, sort, direction } = $.state
     return (
       <ToolBar
@@ -41,11 +40,10 @@ class TinygrailNew extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded } = $.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='新番榜单'
           hm={['tinygrail/new', 'TinygrailNew']}

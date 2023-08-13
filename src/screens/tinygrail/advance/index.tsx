@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 05:00:23
+ * @Last Modified time: 2023-08-14 05:07:05
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import { Navigation } from '@types'
 import Menus from './menus'
 
@@ -22,7 +21,6 @@ class TinygrailAdvance extends React.Component<{
     const { navigation } = this.props
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='高级分析'
           hm={['tinygrail/advance', 'TinygrailAdvance']}

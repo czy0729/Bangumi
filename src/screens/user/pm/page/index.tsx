@@ -18,37 +18,37 @@ class PM extends React.Component {
   scrollView: any
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init(this.scrollView)
   }
 
   componentWillUnmount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.scrollViewRef = null
   }
 
   connectRefScrollView = (ref: any) => {
     if (ref) {
-      const { $ }: Ctx = this.context
+      const { $ } = this.context as Ctx
       $.scrollViewRef = ref
       this.scrollView = ref
     }
   }
 
   onTitleChange = evt => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { nativeEvent } = evt
     const { text } = nativeEvent
     $.onTitleChange(text)
   }
 
   onSubmit = value => {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     return $.doSubmit(value, this.scrollView, navigation)
   }
 
   renderNewForm() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { userId, userName } = $.params
     if (!userId) return null
 
@@ -67,7 +67,7 @@ class PM extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { value } = $.state
     return (
       <Page style={_.container.screen}>

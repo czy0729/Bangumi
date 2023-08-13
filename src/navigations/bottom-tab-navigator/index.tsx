@@ -8,7 +8,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useObserver } from 'mobx-react'
 import { Discovery, Timeline, Home, Rakuen, User } from '@screens'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import TabBar from '../tab-bar'
 
 const defaultScreenOptions = {
@@ -25,25 +25,26 @@ function BottomTabNavigator() {
       ? _initialPage
       : 'Home'
     return (
-      <>
-        <Tab.Navigator
-          initialRouteName={initialRouteName}
-          screenOptions={defaultScreenOptions}
-          tabBar={tabBar}
-        >
-          {homeRenderTabs.includes('Discovery') && (
-            <Tab.Screen name='Discovery' component={Discovery} />
-          )}
-          {homeRenderTabs.includes('Timeline') && (
-            <Tab.Screen name='Timeline' component={Timeline} />
-          )}
-          <Tab.Screen name='Home' component={Home} />
-          {homeRenderTabs.includes('Rakuen') && (
-            <Tab.Screen name='Rakuen' component={Rakuen} />
-          )}
-          <Tab.Screen name='User' component={User} />
-        </Tab.Navigator>
-      </>
+      <Tab.Navigator
+        initialRouteName={initialRouteName}
+        screenOptions={defaultScreenOptions}
+        sceneContainerStyle={{
+          backgroundColor: _.colorPlain
+        }}
+        tabBar={tabBar}
+      >
+        {homeRenderTabs.includes('Discovery') && (
+          <Tab.Screen name='Discovery' component={Discovery} />
+        )}
+        {homeRenderTabs.includes('Timeline') && (
+          <Tab.Screen name='Timeline' component={Timeline} />
+        )}
+        <Tab.Screen name='Home' component={Home} />
+        {homeRenderTabs.includes('Rakuen') && (
+          <Tab.Screen name='Rakuen' component={Rakuen} />
+        )}
+        <Tab.Screen name='User' component={User} />
+      </Tab.Navigator>
     )
   })
 }

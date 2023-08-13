@@ -36,7 +36,7 @@ class Filter extends React.Component<Props> {
   }
 
   get filter() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { filterPage } = $.state
     if (filterPage >= 0 && filterPage <= $.tabs.length) {
       const { filter } = $.state
@@ -51,7 +51,7 @@ class Filter extends React.Component<Props> {
 
     // global.rerender('Home.Filter')
 
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { progress } = $.state
     const { length } = this.props
     const { focus } = this.state

@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-08-10 20:49:45
  */
 import React, { useEffect } from 'react'
-import { LogBox } from 'react-native'
+import { LogBox, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { enableScreens } from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -30,6 +30,8 @@ import { ANDROID_DEV_MENU } from './config'
 
 enableScreens(true)
 LogBox.ignoreAllLogs(true)
+StatusBar.setBarStyle('dark-content')
+StatusBar.setBackgroundColor('transparent')
 
 export default function App() {
   // 加载图标等资源
@@ -72,7 +74,7 @@ export default function App() {
       <SafeAreaProvider style={_.container.flex}>
         {/* @ts-expect-error */}
         <Provider theme={theme}>
-          <Stacks isLoadingComplete={isLoadingComplete} />
+          <Stacks />
           <AppCommon />
           <BackAndroid />
           <DeepLink />

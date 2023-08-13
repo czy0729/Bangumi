@@ -22,7 +22,7 @@ const defaultScreenOptions = {
 }
 
 const Stack = createStackNavigator()
-function Stacks({ isLoadingComplete }) {
+function Stacks() {
   const { initialRouteName, initialRouteParams } = navigationsParams
   return useObserver(() => {
     const { transition } = systemStore.setting
@@ -42,18 +42,15 @@ function Stacks({ isLoadingComplete }) {
           initialRouteName={initialRouteName}
         >
           <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
-          {isLoadingComplete &&
-            Object.keys(Screens).map(name => (
-              <Stack.Screen
-                key={name}
-                name={name}
-                component={Screens[name]}
-                initialParams={
-                  initialRouteName === name ? initialRouteParams : undefined
-                }
-                getId={({ params }) => (params ? urlStringify(params) : undefined)}
-              />
-            ))}
+          {Object.keys(Screens).map(name => (
+            <Stack.Screen
+              key={name}
+              name={name}
+              component={Screens[name]}
+              initialParams={initialRouteName === name ? initialRouteParams : undefined}
+              getId={({ params }) => (params ? urlStringify(params) : undefined)}
+            />
+          ))}
         </Stack.Navigator>
       </NavigationContainer>
     )

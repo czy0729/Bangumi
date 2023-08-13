@@ -34,7 +34,7 @@ class Thumbs extends React.Component {
   }
 
   get data() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbs } = $.state
     const { scrolled } = this.state
     if (scrolled) return epsThumbs.slice()
@@ -44,20 +44,20 @@ class Thumbs extends React.Component {
   }
 
   get videos() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { videos } = $.state
     return videos.slice()
   }
 
   get title() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if ($.type === '音乐') return 'MV'
     if ($.type === '三次元') return '剧照'
     return '预览'
   }
 
   get reference() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbsHeader } = $.state
     if (epsThumbsHeader?.Referer?.includes('douban.com')) return 'douban.com'
     if (epsThumbsHeader?.Referer?.includes('bilibili.com')) return 'bilibili.com'
@@ -65,7 +65,7 @@ class Thumbs extends React.Component {
   }
 
   get thumbs() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbs, epsThumbsHeader } = $.state
     return epsThumbs.map(item => ({
       url:
@@ -81,7 +81,7 @@ class Thumbs extends React.Component {
 
   renderRight() {
     const { showThumbs } = systemStore.setting
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbsHeader } = $.state
     if (!showThumbs) return <IconHidden name={this.title} value='showThumbs' />
 
@@ -98,7 +98,7 @@ class Thumbs extends React.Component {
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return null
 
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { epsThumbs, epsThumbsHeader, videos } = $.state
     if (!epsThumbs.length && !videos.length) return null
 

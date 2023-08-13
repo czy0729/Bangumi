@@ -2,21 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-15 14:36:02
+ * @Last Modified time: 2023-08-14 05:14:25
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { computed } from 'mobx'
-import {
-  StatusBarEvents,
-  Popover,
-  Menu,
-  Flex,
-  Iconfont,
-  UM,
-  Heatmap
-} from '@components'
+import { Popover, Menu, Flex, Iconfont, UM, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { gradientColor } from '@utils'
 import { s2t } from '@utils/thirdParty/cn-char'
@@ -250,11 +242,6 @@ const withTransitionHeader =
           return (
             <>
               <UM screen={screen} />
-              <StatusBarEvents
-                barStyle={barStyle}
-                backgroundColor='transparent'
-                action='onWillFocus'
-              />
               <ComposedComponent
                 navigation={navigation}
                 onScroll={this.headerTransitionCallback}

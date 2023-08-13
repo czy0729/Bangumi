@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 01:30:26
+ * @Last Modified time: 2023-08-14 05:13:36
  */
 import React from 'react'
 import { Header, Page, Flex, Loading, Text } from '@components'
@@ -12,7 +12,6 @@ import { alert, info } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
@@ -24,7 +23,7 @@ class TinygrailTree extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
@@ -37,7 +36,7 @@ class TinygrailTree extends React.Component {
   }
 
   onRefresh = async () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     this.setState({
       refreshing: true
     })
@@ -59,7 +58,7 @@ class TinygrailTree extends React.Component {
       id
     })
 
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     switch (title) {
       case 'K线':
         navigation.push('TinygrailTrade', {
@@ -103,12 +102,11 @@ class TinygrailTree extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { loading, caculateType, data } = $.state
     const { refreshing } = this.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title={$.params?.name || '资产分析'}
           alias='资产分析'

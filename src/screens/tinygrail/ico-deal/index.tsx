@@ -10,7 +10,6 @@ import { Header, Page, ScrollView } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Info from './info'
 import Slider from './slider'
 import Initial from './initial'
@@ -23,7 +22,7 @@ class TinygrailICODeal extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
@@ -33,7 +32,7 @@ class TinygrailICODeal extends React.Component {
         refreshing: true
       },
       async () => {
-        const { $ }: Ctx = this.context
+        const { $ } = this.context as Ctx
         await $.refresh()
 
         setTimeout(() => {
@@ -46,11 +45,10 @@ class TinygrailICODeal extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { refreshing } = this.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='ICO'
           hm={[`tinygrail/ico/deal/${$.monoId}`, 'TinygrailICODeal']}

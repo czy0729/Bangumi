@@ -24,7 +24,7 @@ class BangumiList extends React.Component<{
   onScroll: Fn
 }> {
   connectRef = (ref: any) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const index = TABS.findIndex(item => item.title === '番剧')
     return $.connectRef(ref, index)
   }
@@ -42,7 +42,7 @@ class BangumiList extends React.Component<{
   }
 
   get sections() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     return $.userCollections.list.map(item => ({
       title: item.status,
       count: item.count,
@@ -55,7 +55,7 @@ class BangumiList extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (!$.userCollections._loaded) return <Loading style={this.styles.loading} />
 
     const { onScroll } = this.props

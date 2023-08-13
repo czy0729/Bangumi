@@ -1,14 +1,14 @@
 /*
- * 更沉浸的Bgm年鉴
+ * 更沉浸的 Bgm 年鉴
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-22 07:20:02
+ * @Last Modified time: 2023-08-14 05:06:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import WebView from '@components/@/web-view'
-import { Track, StatusBarEvents, Loading, Text, Heatmap } from '@components'
+import { Track, Loading, Text, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open, appNavigate, info, removeCF } from '@utils'
 import { ob } from '@utils/decorators'
@@ -171,11 +171,6 @@ class Award extends React.Component<{
     const { loading, redirectCount, html } = this.state
     return (
       <View style={styles.container}>
-        <StatusBarEvents
-          barStyle={this.barStyle}
-          backgroundColor='transparent'
-          action='onWillFocus'
-        />
         {loading && (
           <Loading style={styles.loading} color={_.__colorPlain__}>
             <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>

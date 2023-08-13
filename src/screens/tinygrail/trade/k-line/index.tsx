@@ -31,13 +31,13 @@ class KLine extends React.Component<{
   }
 
   onError = () => {
-    const { navigation }: Ctx = this.context
+    const { navigation } = this.context as Ctx
     info('网络似乎出了点问题')
     navigation.goBack()
   }
 
   onLoad = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { focus } = this.props
 
     if (focus) {
@@ -69,7 +69,7 @@ class KLine extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { loading, distance } = $.state
     const { _webview } = tinygrailStore.state
     return (

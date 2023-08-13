@@ -28,7 +28,7 @@ class Blog extends React.Component<{
 
   componentDidMount() {
     runAfter(async () => {
-      const { $ }: Ctx = this.context
+      const { $ } = this.context as Ctx
       await $.init()
 
       if ($.postId) this.jump()
@@ -40,7 +40,7 @@ class Blog extends React.Component<{
   connectFixedTextareaRef = ref => (this.fixedTextarea = ref)
 
   jump = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (!$.postId) return
 
     const { list, _loaded } = $.comments
@@ -71,7 +71,7 @@ class Blog extends React.Component<{
   }
 
   scrollTo = (index = 0) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { list } = $.comments
     info(list[index].floor, 0.8)
 
@@ -87,7 +87,7 @@ class Blog extends React.Component<{
   }
 
   scrollToThenFeedback = (index = 0) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     t('日志.楼层跳转', {
       blogId: $.blogId,
       index
@@ -128,7 +128,7 @@ class Blog extends React.Component<{
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
   renderItem = ({ item, index }) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const event = {
       id: '日志.跳转',
       data: {
@@ -148,7 +148,7 @@ class Blog extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { onScroll } = this.props
     const { placeholder, value } = $.state
     return (

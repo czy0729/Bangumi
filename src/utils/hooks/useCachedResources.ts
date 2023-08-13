@@ -56,9 +56,6 @@ export default function useCachedResources() {
         devLog(String(e))
       } finally {
         setTrue()
-
-        // 隐藏启动屏
-        SplashScreen.hideAsync()
       }
     }
     loadResourcesAndDataAsync()

@@ -24,13 +24,13 @@ class Temples extends React.Component<{
   style?: ViewStyle
 }> {
   get myTemple() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { list } = $.charaTemple
     return list.find(item => item.name === $.hash)
   }
 
   get levelMap() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { list } = $.charaTemple
     const levelMap = {
       1: 0,
@@ -50,7 +50,7 @@ class Temples extends React.Component<{
   }
 
   get list() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { expand } = $.state
     const { list } = $.charaTemple
     if (expand) {
@@ -86,7 +86,7 @@ class Temples extends React.Component<{
   }
 
   // onShowAlert = () => {
-  //   const { $ }: Ctx = this.context
+  //   const { $ } = this.context as Ctx
   //   const { rate } = $.chara
   //   const { amount } = $.userLogs
   //   t('资产重组.股息查看', {
@@ -108,7 +108,7 @@ class Temples extends React.Component<{
   // }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { style } = this.props
     const { showTemples, expand } = $.state
     const { rate, rank, stars } = $.chara

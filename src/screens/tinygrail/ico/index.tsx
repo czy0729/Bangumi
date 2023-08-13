@@ -8,7 +8,6 @@ import React from 'react'
 import { Header, Page } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import List from './list'
 import Store from './store'
@@ -17,16 +16,15 @@ import { Ctx } from './types'
 
 class TinygrailICO extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded } = $.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='ICO榜单'
           hm={['tinygrail/ico', 'TinygrailICO']}

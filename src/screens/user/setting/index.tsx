@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 07:09:42
+ * @Last Modified time: 2023-08-14 05:02:23
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
-import { IconTouchable, NavigationBarEvents } from '@_'
+import { IconTouchable } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { date } from '@utils'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -53,7 +53,6 @@ const Setting = ({ navigation, route }: NavigationProps) => {
       <>
         <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
         <Page style={_.select(_.container.bg, _.container.plain)}>
-          <NavigationBarEvents />
           <ScrollView contentContainerStyle={styles.container}>
             <Block>
               <Input

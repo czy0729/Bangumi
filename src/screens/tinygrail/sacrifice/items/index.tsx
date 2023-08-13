@@ -43,7 +43,7 @@ class Items extends React.Component<{
   }
 
   get text() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { amount = 0, sacrifices = 0 } = $.userLogs
     const { assets = 0 } = $.myTemple
     const max = parseInt(assets || sacrifices)
@@ -59,7 +59,7 @@ class Items extends React.Component<{
   }
 
   @computed get item() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { id, level, icon, name, rank, rate } = $.chara
     const { assets = 0 } = $.myTemple
     const { sacrifices = 0 } = $.userLogs
@@ -76,7 +76,7 @@ class Items extends React.Component<{
   }
 
   renderTop() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { showItems } = $.state
     return (
       <Flex>
@@ -100,7 +100,7 @@ class Items extends React.Component<{
   }
 
   renderList() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { showItems } = $.state
     const { sacrifices = 0 } = $.userLogs
     const { assets = 0 } = $.myTemple
@@ -236,7 +236,7 @@ class Items extends React.Component<{
   }
 
   renderModal() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { title, visible } = this.state
     const props: {
       leftItem?: unknown

@@ -16,7 +16,7 @@ import { Ctx } from '../types'
 
 class List extends React.Component {
   connectRef = (ref: { scrollToOffset: any }) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (ref && ref.scrollToOffset) $.scrollToOffset = ref.scrollToOffset
   }
 
@@ -25,7 +25,7 @@ class List extends React.Component {
   }
 
   renderItem = ({ item: pickIndex, index }) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { layout } = $.state
     if (layout === 'list') return <Item pickIndex={pickIndex} index={index} />
 
@@ -49,7 +49,7 @@ class List extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (

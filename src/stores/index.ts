@@ -5,6 +5,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-08-03 01:17:19
  */
+import { StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { confirm } from '@utils'
 import { DEV } from '@constants'
@@ -44,6 +45,8 @@ class GlobalStores {
       /** ========== systemStore.init 和 themeStore.init 维持旧逻辑 ========== */
       await systemStore.init()
       await themeStore.init()
+      StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
+
       await smbStore.init('data')
       await rakuenStore.init('blockedUsersTrack')
 

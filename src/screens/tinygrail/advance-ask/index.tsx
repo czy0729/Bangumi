@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:59:44
+ * @Last Modified time: 2023-08-14 05:07:06
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { alert } from '@utils/ui'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
@@ -19,16 +18,15 @@ import { Ctx } from './types'
 
 class TinygrailAdvanceAsk extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { level } = $.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='买入推荐'
           hm={['tinygrail/advance-ask', 'TinygrailAdvanceAsk']}

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 16:04:53
+ * @Last Modified time: 2023-08-14 05:11:51
  */
 import React from 'react'
 import { Page, Touchable, Flex, Iconfont, Text } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import Tabs from '@tinygrail/_/tabs-v2'
 import Header from './header'
@@ -20,7 +19,7 @@ import { Ctx } from './types'
 
 class TinygrailCharaAssets extends React.Component {
   async componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { form } = $.params
     if (form === 'lottery') {
       $.initFormLottery()
@@ -30,7 +29,7 @@ class TinygrailCharaAssets extends React.Component {
   }
 
   getCount = (route: { key: any }) => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     switch (route.key) {
       case 'chara':
         return $.myCharaAssets?.chara?.list?.length || 0
@@ -47,7 +46,7 @@ class TinygrailCharaAssets extends React.Component {
   }
 
   renderIncreaseBtn() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { editing } = $.state
     return (
       editing && (
@@ -61,7 +60,7 @@ class TinygrailCharaAssets extends React.Component {
   }
 
   renderContentHeaderComponent() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { page, level, sort, direction } = $.state
     if (page > 1) return undefined
 
@@ -98,11 +97,10 @@ class TinygrailCharaAssets extends React.Component {
   )
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded } = $.state
     return (
       <>
-        <StatusBarEvents />
         <Header />
         <Page
           style={_.container.tinygrail}

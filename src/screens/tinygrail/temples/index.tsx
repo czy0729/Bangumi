@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-12-23 13:55:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:38:24
+ * @Last Modified time: 2023-08-14 05:13:16
  */
 import React from 'react'
 import { Header, Page, ListView } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ItemTemple from '@tinygrail/_/item-temple'
 import Store from './store'
 import { memoStyles } from './styles'
@@ -21,16 +20,15 @@ const EVENT = {
 
 class TinygrailTemples extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.onHeaderRefresh()
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { _loaded } = $.templeLast
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='最新圣殿'
           hm={['tinygrail/temples', 'TinygrailTemples']}

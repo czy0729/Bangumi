@@ -49,7 +49,7 @@ class UsedModal extends React.Component<{
   }
 
   checkUsedName = async () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { id, username } = $.usersInfo
     const userId = username || id
     const data = {
@@ -78,7 +78,7 @@ class UsedModal extends React.Component<{
   }
 
   checkUserAvatar = async () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { avatar } = $.usersInfo
     const { medium } = avatar || {}
     let _src = String(medium || '').split('?')[0]
@@ -172,7 +172,7 @@ class UsedModal extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { visible } = this.props
     return (
       <Modal

@@ -33,7 +33,7 @@ const Home = (props, { $, navigation }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Page style={_.ios(_.container.bg, _.container.plain)}>
+      <Page style={_.ios(_.container.bg, _.container.plain)} loaded={$.state._loaded}>
         {$.isLogin ? (
           <>
             <Header />

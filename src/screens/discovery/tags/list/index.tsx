@@ -28,19 +28,19 @@ class List extends React.Component<{
   }
 
   onHeaderRefresh = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { id } = this.props
     return $.fetchList(id, true)
   }
 
   onFooterRefresh = () => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { id } = this.props
     return $.fetchList(id)
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { id } = this.props
     const { page } = $.state
     const list = $.list(id)

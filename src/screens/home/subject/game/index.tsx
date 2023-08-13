@@ -34,7 +34,7 @@ class Game extends React.Component {
   }
 
   get data() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const length = otaStore.game($.subjectId)?.l
     if (typeof length !== 'number' || !length) return []
 
@@ -42,7 +42,7 @@ class Game extends React.Component {
   }
 
   get data2() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const length = otaStore.game($.subjectId)?.l
     if (typeof length !== 'number' || !length) return []
 
@@ -52,7 +52,7 @@ class Game extends React.Component {
   }
 
   get isADV() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const isADV = $.gameInfo?.isADV
     return !!isADV
   }
@@ -60,7 +60,7 @@ class Game extends React.Component {
   renderThumbs() {
     if (!this.data?.length) return null
 
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { scrolled } = this.state
     return (
       <ScrollView
@@ -98,7 +98,7 @@ class Game extends React.Component {
   }
 
   renderDetails() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const {
       t: title,
       ta: tag = [],
@@ -175,7 +175,7 @@ class Game extends React.Component {
     // global.rerender('Subject.Game')
 
     const { showGameInfo } = systemStore.setting
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.i) return null
 
     return (

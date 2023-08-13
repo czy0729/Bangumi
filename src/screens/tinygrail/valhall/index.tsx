@@ -8,7 +8,6 @@ import React from 'react'
 import { Header, Page } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import ToolBar from '@tinygrail/_/tool-bar'
 import IconGo from '@tinygrail/_/icon-go'
 import { SORT_DS } from '@tinygrail/overview/ds'
@@ -18,12 +17,12 @@ import { Ctx } from './types'
 
 class TinygrailValhall extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   renderContentHeaderComponent() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { level, sort, direction } = $.state
     return (
       <ToolBar
@@ -40,10 +39,9 @@ class TinygrailValhall extends React.Component {
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='英灵殿'
           hm={['tinygrail/valhall', 'TinygrailValhall']}

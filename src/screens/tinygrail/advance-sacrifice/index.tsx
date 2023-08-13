@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:19:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:58:03
+ * @Last Modified time: 2023-08-14 05:10:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,6 @@ import { inject, withHeader, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { alert } from '@utils/ui'
 import { withHeaderParams } from '../styles'
-import StatusBarEvents from '../_/status-bar-events'
 import List from './list'
 import Store from './store'
 import { Ctx } from './types'
@@ -21,7 +20,7 @@ const title = '献祭推荐'
 
 class TinygrailAdvanceSacrifice extends React.Component {
   componentDidMount() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     $.init()
 
     navigation.setParams({
@@ -43,7 +42,6 @@ class TinygrailAdvanceSacrifice extends React.Component {
   render() {
     return (
       <View style={_.container.tinygrail}>
-        <StatusBarEvents />
         <List />
       </View>
     )

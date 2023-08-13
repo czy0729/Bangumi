@@ -12,7 +12,6 @@ import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Header from './header'
 import Form from './form'
 import Depth from './depth'
@@ -28,7 +27,7 @@ class TinygrailDeal extends React.Component {
   }
 
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
 
     hm(`tinygrail/deal/${$.monoId}`, 'TinygrailDeal')
@@ -40,7 +39,7 @@ class TinygrailDeal extends React.Component {
         refreshing: true
       },
       async () => {
-        const { $ }: Ctx = this.context
+        const { $ } = this.context as Ctx
         await $.refresh()
 
         setTimeout(() => {
@@ -57,7 +56,6 @@ class TinygrailDeal extends React.Component {
     return (
       <Page style={[_.container.flex, this.styles.dark]}>
         <UM title='交易' />
-        <StatusBarEvents />
         <StatusBarPlaceholder style={this.styles.dark} />
         <Header />
         <ScrollView

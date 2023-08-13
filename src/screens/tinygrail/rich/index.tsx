@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:29:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:53:04
+ * @Last Modified time: 2023-08-14 05:13:00
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -10,7 +10,6 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import StatusBarEvents from '@tinygrail/_/status-bar-events'
 import Tabs from '@tinygrail/_/tabs-v2'
 import List from './list'
 import Store from './store'
@@ -19,16 +18,15 @@ import { Ctx } from './types'
 
 class TinygrailRich extends React.Component {
   componentDidMount() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     $.init()
   }
 
   render() {
-    const { $, navigation }: Ctx = this.context
+    const { $, navigation } = this.context as Ctx
     const { _loaded } = $.state
     return (
       <>
-        <StatusBarEvents />
         <Header
           title='番市首富'
           hm={['tinygrail/rich', 'TinygrailRich']}

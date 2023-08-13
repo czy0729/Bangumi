@@ -19,7 +19,7 @@ class List extends React.Component<{
   type: SubjectType | 'all'
 }> {
   renderPagination() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { type } = this.props
     const { ipt } = $.state
     return (
@@ -36,7 +36,7 @@ class List extends React.Component<{
   }
 
   render() {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { type } = this.props
     const { show } = $.state
     const { list, _loaded } = $.blog(type)

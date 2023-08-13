@@ -32,13 +32,13 @@ class RakuenList extends React.Component<{
   onScroll: Fn
 }> {
   connectRef = ref => {
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const index = TABS.findIndex(item => item.title === '超展开')
     return $.connectRef(ref, index)
   }
 
   toQiafan = () => {
-    const { navigation }: Ctx = this.context
+    const { navigation } = this.context as Ctx
     t('空间.跳转', {
       from: '高级会员',
       to: 'Qiafan'
@@ -52,7 +52,7 @@ class RakuenList extends React.Component<{
   )
 
   renderItem = ({ item, index }) => {
-    const { navigation }: Ctx = this.context
+    const { navigation } = this.context as Ctx
     return (
       <RakuenItem navigation={navigation} index={index} event={EVENT} {...item}>
         {!index && <Heatmap id='空间.跳转' to='Topic' alias='帖子' />}
@@ -69,7 +69,7 @@ class RakuenList extends React.Component<{
       )
     }
 
-    const { $ }: Ctx = this.context
+    const { $ } = this.context as Ctx
     const { timeout } = $.state
     const { onScroll } = this.props
     const _onScroll = STORYBOOK
