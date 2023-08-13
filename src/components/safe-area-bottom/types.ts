@@ -10,7 +10,7 @@ export type Props = {
   style?: ViewStyle
 
   /** 复写的对应样式 */
-  type?: 'bottom' | 'paddingBottom'
+  type?: 'bottom' | 'paddingBottom' | 'height'
 
-  children: ReactNode
+  children?: ReactNode
 }

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:41:48
+ * @Last Modified time: 2023-08-13 22:13:04
  */
 import React from 'react'
 import { StatusBar, StatusBarStyle } from 'react-native'
@@ -22,10 +22,12 @@ export const StatusBarEvents = observer(
     tinygrail = false,
     backgroundColor = '#ffffff',
     barStyle = 'dark-content',
-    translucent = !IOS,
+    translucent = false,
     animated = IOS,
     action = 'onDidFocus'
   }: StatusBarEventsProps) => {
+    return null
+
     let _barStyle: StatusBarStyle
     if (tinygrail) {
       _barStyle = barStyle
@@ -33,6 +35,7 @@ export const StatusBarEvents = observer(
       // 黑暗模式可以一直设置为 light-content
       _barStyle = _.mode === 'light' ? barStyle : 'light-content'
     }
+
     const events = () => {
       if (!IOS) {
         StatusBar.setBackgroundColor(backgroundColor, animated)
@@ -43,9 +46,8 @@ export const StatusBarEvents = observer(
     const props: PassProps = {
       onDidFocus: () => events()
     }
-    if (action === 'onWillFocus') {
-      props.onWillFocus = () => events()
-    }
+    if (action === 'onWillFocus') props.onWillFocus = () => events()
+
     return (
       <>
         <StatusBar

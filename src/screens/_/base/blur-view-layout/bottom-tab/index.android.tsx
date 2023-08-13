@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-08-10 03:36:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 19:24:31
+ * @Last Modified time: 2023-08-13 21:19:00
  */
 import React from 'react'
 import { View } from 'react-native'
-import { HardwareTextureBlurView } from '@components'
-import { systemStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaBottom, HardwareTextureBlurView } from '@components'
+import { _, systemStore } from '@stores'
+import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 
 /**
@@ -21,26 +22,29 @@ import { memoStyles } from './styles'
  * - 这个 react-native-realtimeblurview 库有一个小问题, 就是底部 Tab 高度不够, 会导致他不够模糊,
  *   而距离底部 1pt, 这个问题又好了, 所以给底部增加 1pt 防止这个问题;
  */
-export const BlurViewBottomTab = ob(() => {
-  const styles = memoStyles()
-  const { androidBlur, blurBottomTabs } = systemStore.setting
-  if (!(androidBlur && blurBottomTabs)) {
-    return (
-      <View
-        style={[styles.bottomTab, styles.view]}
-        removeClippedSubviews
-        pointerEvents='none'
-      />
-    )
-  }
+export const BlurViewBottomTab = () => {
+  const { bottom } = useSafeAreaInsets()
 
-  return (
-    <>
-      <HardwareTextureBlurView
-        style={styles.bottomTab}
-        containerStyle={styles.container}
-      />
-      <View style={styles.placeholder} />
-    </>
-  )
-})
+  return useObserver(() => {
+    const styles = memoStyles()
+    const { androidBlur, blurBottomTabs } = systemStore.setting
+    if (!(androidBlur && blurBottomTabs)) {
+      return <SafeAreaBottom style={styles.bottomTabFill} type='height' />
+    }
+
+    return (
+      <View>
+        <HardwareTextureBlurView
+          style={[
+            styles.bottomTabBlur,
+            {
+              height: bottom + _.tabBarHeight
+            }
+          ]}
+          containerStyle={styles.container}
+        />
+        <View style={styles.placeholder} />
+      </View>
+    )
+  })
+}

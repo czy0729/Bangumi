@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 19:31:41
+ * @Last Modified time: 2023-08-13 21:31:07
  */
 import {
   ColorValue,
@@ -54,7 +54,7 @@ export type Props = {
   /** 是否变动状态栏主题 */
   statusBarEvents?: boolean
 
-  /** 预设的状态栏主题 */
+  /** @deprecated 预设的状态栏主题 */
   statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
 }
 

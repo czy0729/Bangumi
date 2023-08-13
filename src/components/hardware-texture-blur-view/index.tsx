@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-08 16:38:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:41:14
+ * @Last Modified time: 2023-08-13 21:18:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,7 @@ export const HardwareTextureBlurView = ({
         <View
           style={{
             // @ts-expect-error
-            height: style?.height || '100%',
+            height: _.flatten(style)?.height || '100%',
             ...containerStyle
           }}
           removeClippedSubviews

@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:51:53
+ * @Last Modified time: 2023-08-13 22:40:41
  */
 import React, { useCallback, useRef } from 'react'
+import { StatusBar } from 'react-native'
 import { Page, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
+import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useIsFocusedRef, useMount, useObserver, useRunAfter } from '@utils/hooks'
+import {
+  useFocusEffect,
+  useIsFocusedRef,
+  useMount,
+  useObserver,
+  useRunAfter
+} from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Header from './page-header'
@@ -19,6 +27,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 const Subject = (props, { $, navigation }: Ctx) => {
+  const { yRef, fixed, onScroll } = useOnScroll()
   const isFocused = useIsFocusedRef()
   useRunAfter(async () => {
     setTimeout(() => {
@@ -41,12 +50,19 @@ const Subject = (props, { $, navigation }: Ctx) => {
     }
   })
 
+  useFocusEffect(() => {
+    setTimeout(() => {
+      StatusBar.setBarStyle(
+        _.isDark ? 'light-content' : fixed ? 'dark-content' : 'light-content'
+      )
+    }, 80)
+  })
+
   const scrollViewRef = useRef<any>(null)
   const forwardRef = useCallback(ref => {
     scrollViewRef.current = ref
   }, [])
 
-  const { yRef, fixed, onScroll } = useOnScroll()
   const onScrollFn = useCallback(
     evt => {
       $.onScroll(evt)

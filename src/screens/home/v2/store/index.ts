@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 12:25:37
+ * @Last Modified time: 2023-08-13 20:06:27
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -175,7 +175,6 @@ class ScreenHomeV2 extends Action {
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA
       })
-      console.info(systemStore.t)
     }, 8000)
   }
 

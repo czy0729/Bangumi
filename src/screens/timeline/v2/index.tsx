@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:32:15
+ * @Last Modified time: 2023-08-13 22:24:55
  */
 import React, { useEffect } from 'react'
 import { Page, Track } from '@components'
-import { StatusBarEvents, NavigationBarEvents, TapListener } from '@_'
+import { TapListener } from '@_'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { uiStore } from '@stores'
 import { ic } from '@utils/decorators'
@@ -34,14 +34,12 @@ const Timeline = (props, { $, navigation }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <StatusBarEvents backgroundColor='transparent' />
       <TapListener>
         <Page>
           <Header />
           {$.state._loaded && <Tab />}
         </Page>
       </TapListener>
-      <NavigationBarEvents />
       <Track title='时间胶囊' hm={['timeline', 'Timeline']} />
       <Heatmaps />
     </>

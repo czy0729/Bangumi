@@ -4,19 +4,16 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 20:24:56
+ * @Last Modified time: 2023-08-13 22:03:13
  */
 import React, { useLayoutEffect } from 'react'
-import { _ } from '@stores'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { IOS, STORYBOOK } from '@constants'
-import { StatusBarEvents } from '../status-bar-events'
+import { STORYBOOK } from '@constants'
 import { Track } from '../track'
 import Popover from './popover'
 import Placeholder from './placeholder'
 import { updateHeader } from './utils'
 import HeaderComponent from './header-component'
-import { statusBarEventsTypes } from './styles'
 import { IHeader } from './types'
 
 const Header: IHeader = ({
@@ -30,7 +27,6 @@ const Header: IHeader = ({
   headerTitle = null,
   headerTitleAlign = 'center',
   headerTitleStyle,
-  statusBarEvents = true,
   statusBarEventsType
 }) => {
   const navigation = useNavigation()
@@ -59,23 +55,6 @@ const Header: IHeader = ({
   ])
 
   return useObserver(() => {
-    let statusBarEventsProps = {}
-    if (statusBarEvents) {
-      if (statusBarEventsType && statusBarEventsTypes[statusBarEventsType]) {
-        statusBarEventsProps = statusBarEventsTypes[statusBarEventsType](fixed)
-      } else if (mode) {
-        statusBarEventsProps = {
-          barStyle: fixed ? 'light-content' : 'dark-content',
-          backgroundColor: 'transparent',
-          action: 'onWillFocus'
-        }
-      } else if (!IOS && _.isDark) {
-        statusBarEventsProps = {
-          backgroundColor: _._colorPlainHex
-        }
-      }
-    }
-
     const passProps = {
       navigation,
       fixed,
@@ -95,7 +74,6 @@ const Header: IHeader = ({
             <HeaderComponent {...passProps} fixed />
           </>
         )}
-        {statusBarEvents && <StatusBarEvents {...statusBarEventsProps} />}
         <Track title={title} hm={hm} alias={alias} />
       </>
     )

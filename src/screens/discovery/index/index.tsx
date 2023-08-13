@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:53:02
+ * @Last Modified time: 2023-08-13 20:14:48
  */
 import React from 'react'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { Page, StatusBarEvents, Track, Heatmap } from '@components'
+import { Page, Track, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { androidDayNightToggle } from '@utils'
 import { ic } from '@utils/decorators'
@@ -36,7 +36,6 @@ const Discovery = ({ isFocused }, { $, navigation }: Ctx) => {
     const { live2D } = systemStore.setting
     return (
       <>
-        <StatusBarEvents backgroundColor='transparent' />
         <Page>
           <List isFocused={isFocused} />
           {live2D && <Mesume dragging={$.state.dragging} />}

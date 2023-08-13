@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:25:16
+ * @Last Modified time: 2023-08-13 22:13:25
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -26,6 +26,8 @@ export const StatusBarEvents = ob(
     animated = IOS,
     action = 'onDidFocus'
   }: StatusBarEventsProps) => {
+    return null
+
     let _barStyle
     if (tinygrail) {
       _barStyle = barStyle
@@ -39,6 +41,15 @@ export const StatusBarEvents = ob(
         StatusBar.setBackgroundColor(backgroundColor, animated)
         StatusBar.setTranslucent(translucent)
       }
+
+      console.log('======== warning =======')
+      console.log('StatusBar.setBackgroundColor', {
+        backgroundColor,
+        translucent
+      })
+      console.log('StatusBar.setBarStyle', {
+        _barStyle
+      })
       StatusBar.setBarStyle(_barStyle, animated)
     }
 

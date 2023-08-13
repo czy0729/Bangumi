@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 05:56:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:35:11
+ * @Last Modified time: 2023-08-13 21:07:57
  */
 import { _ } from '@stores'
 
@@ -13,10 +13,6 @@ export const memoStyles = _.memoStyles(() => ({
     bottom: 0,
     left: 0,
     height: _.tabBarHeight,
-    // backgroundColor: _.ios(
-    //   'transparent',
-    //   _.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
-    // ),
     backgroundColor: 'transparent',
     borderTopWidth: 0,
     borderTopColor: 'transparent',
