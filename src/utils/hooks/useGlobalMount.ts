@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-24 21:42:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 19:05:34
+ * @Last Modified time: 2023-08-24 12:05:38
  */
 import { _, userStore, calendarStore, systemStore, rakuenStore } from '@stores'
+import { DEV } from '@constants'
 import { arrGroup, getTimestamp, omit } from '../utils'
 import { t, ua } from '../fetch'
 import { setStorage, getStorage } from '../storage'
@@ -14,6 +15,8 @@ const CACHE_KEY = 'utils|hooks|useGlobalMountV2'
 
 export default function useGlobalMount() {
   useMount(() => {
+    if (DEV) return
+
     // 启动后的全局动作
     setTimeout(() => {
       calendarStore.fetchOnAir()

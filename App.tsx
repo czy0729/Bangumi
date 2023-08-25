@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 10:18:23
+ * @Last Modified time: 2023-08-24 12:11:10
  */
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
@@ -13,7 +13,7 @@ import { DeepLink, NavigationContainer, DEV } from '@components'
 import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
-import { useCachedResources, useOrientation, useGlobalMount } from '@utils/hooks'
+import { useCachedResources, useOrientation } from '@utils/hooks'
 import theme from '@styles/theme'
 
 LogBox.ignoreAllLogs(true)
@@ -27,9 +27,6 @@ export default function App() {
   useEffect(() => {
     _.toggleOrientation(orientation)
   }, [orientation])
-
-  // App启动稳定后统一做的操作
-  useGlobalMount()
 
   if (!isLoadingComplete) return null
 

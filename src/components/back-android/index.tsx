@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-08 21:30:01
+ * @Last Modified time: 2023-08-24 11:21:01
  */
-import { useEffect } from 'react'
 import { BackHandler } from 'react-native'
 import { navigationReference, info } from '@utils'
+import { useMount } from '@utils/hooks'
 
 let lastBackPressed: number
 
 export const BackAndroid = (): null => {
-  useEffect(() => {
+  useMount(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       const navigation = navigationReference()
       if (!navigation) return false
@@ -37,7 +37,7 @@ export const BackAndroid = (): null => {
     return () => {
       backHandler.remove()
     }
-  }, [])
+  })
 
   return null
 }

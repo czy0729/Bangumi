@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-14 04:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 04:27:05
+ * @Last Modified time: 2023-08-26 05:46:19
  */
 import { useEffect } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -31,7 +31,7 @@ export function useAutoHideSplashScreen(): boolean {
     setTimeout(() => {
       SplashScreen.hideAsync()
       hideSplashScreen = true
-    }, 1600)
+    }, 2000)
   })
 
   return bottom <= 20

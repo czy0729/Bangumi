@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-03 01:17:19
+ * @Last Modified time: 2023-08-24 13:22:22
  */
 import { StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -28,6 +28,14 @@ import tinygrailStore from './tinygrail'
 import uiStore from './ui'
 import userStore from './user'
 import usersStore from './users'
+import {
+  CALENDAR_STORE_KEYS,
+  COLLECTION_STORE_KEYS,
+  RAKUEN_STORE_KEYS,
+  SMB_STORE_KEYS,
+  USERS_STORE_KEYS,
+  USER_STORE_KEYS
+} from './ds'
 
 let inited = false
 
@@ -47,39 +55,24 @@ class GlobalStores {
       await themeStore.init()
       StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
 
-      await smbStore.init('data')
-      await rakuenStore.init('blockedUsersTrack')
-
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来
        * 会显著提高 APP 使用体验，实际上不取出来也不会影响使用
        */
       /** ==================== usersStore ==================== */
-      const usersStoreKeys = ['users'] as const
-      for (let i = 0; i < usersStoreKeys.length; i += 1) {
-        await usersStore.init(usersStoreKeys[i])
+      for (let i = 0; i < USERS_STORE_KEYS.length; i += 1) {
+        await usersStore.init(USERS_STORE_KEYS[i])
       }
 
       /** ==================== userStore ==================== */
-      const userStoreKeys = [
-        'accessToken',
-        'formhash',
-        'userInfo',
-        'usersInfo',
-        'userCookie', // userCookie 一定要在 userInfo 和 usersInfo 之后读取
-        'collection',
-        'userSetting'
-      ] as const
-      for (let i = 0; i < userStoreKeys.length; i += 1) {
-        await userStore.init(userStoreKeys[i])
+      for (let i = 0; i < USER_STORE_KEYS.length; i += 1) {
+        await userStore.init(USER_STORE_KEYS[i])
       }
       userStore.checkLogin()
 
       /** ==================== calendarStore ==================== */
-      // 把这些值提前取出来是为了防止首次首页列表多次计算渲染
-      const calendarStoreKeys = ['onAir', 'onAirUser'] as const
-      for (let i = 0; i < calendarStoreKeys.length; i += 1) {
-        await calendarStore.init(calendarStoreKeys[i])
+      for (let i = 0; i < CALENDAR_STORE_KEYS.length; i += 1) {
+        await calendarStore.init(CALENDAR_STORE_KEYS[i])
       }
 
       /** ==================== subjectStoreKeys ==================== */
@@ -92,11 +85,24 @@ class GlobalStores {
       }
 
       /** ==================== collectionStore ==================== */
-      await collectionStore.init('userCollectionsMap')
+      for (let i = 0; i < COLLECTION_STORE_KEYS.length; i += 1) {
+        await collectionStore.init(COLLECTION_STORE_KEYS[i])
+      }
+
       if (!DEV) {
         setTimeout(() => {
           collectionStore.fetchUserCollectionsQueue()
         }, 16000)
+      }
+
+      /** ==================== rakuenStore ==================== */
+      for (let i = 0; i < RAKUEN_STORE_KEYS.length; i += 1) {
+        await rakuenStore.init(RAKUEN_STORE_KEYS[i])
+      }
+
+      /** ==================== smbStore ==================== */
+      for (let i = 0; i < SMB_STORE_KEYS.length; i += 1) {
+        await smbStore.init(SMB_STORE_KEYS[i])
       }
 
       return systemStore.setting
