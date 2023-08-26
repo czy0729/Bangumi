@@ -41,7 +41,7 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
 
         // 处理 (+30) +10 样式
         const replyText = `+${replies}`
-        let replyAdd: {}
+        let replyAdd: string
         if (isReaded) {
           if (Number(replies) > readed.replies) {
             replyAdd = `+${Number(replies) - readed.replies}`
@@ -83,7 +83,7 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
               }
             }}
           >
-            <View style={stl(styles.wrap, !!index && !_.flat && styles.border)}>
+            <View style={styles.wrap}>
               <Text size={15}>
                 {HTMLDecode(title)}
                 <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15}>

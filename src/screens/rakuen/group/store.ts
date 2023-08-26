@@ -6,13 +6,14 @@
  * @Last Modified time: 2023-03-10 14:12:25
  */
 import { observable, computed } from 'mobx'
-import { rakuenStore, userStore } from '@stores'
+import { rakuenStore, userStore, systemStore } from '@stores'
 import { info, feedback, getTimestamp } from '@utils'
 import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { webhookGroup } from '@utils/webhooks'
-import { HOST, LIST_EMPTY } from '@constants'
+import { HOST_IMAGE } from '@utils/app/ds'
+import { CDN_OSS_MAGMA_PIC, HOST, LIST_EMPTY } from '@constants'
 import { TopicId } from '@types'
 import { Params } from './types'
 
@@ -154,13 +155,29 @@ export default class ScreenGroup extends store {
 
   /** 小组缩略图缓存 */
   @computed get groupThumb() {
+    let src = ''
+
     const { cover } = this.groupInfo
-    if (cover) return cover
+    if (cover) {
+      src = cover || ''
+    } else {
+      const { _title } = this.params
+      if (_title) {
+        src = rakuenStore.groupThumb(_title) || ''
+      }
+    }
 
-    const { _title } = this.params
-    if (_title) return rakuenStore.groupThumb(_title)
+    const { cdn, cdnOrigin } = systemStore.setting
+    if (
+      cdn &&
+      cdnOrigin === 'magma' &&
+      typeof src === 'string' &&
+      src.includes(HOST_IMAGE)
+    ) {
+      src = CDN_OSS_MAGMA_PIC(src)
+    }
 
-    return ''
+    return src
   }
 
   @computed get url() {

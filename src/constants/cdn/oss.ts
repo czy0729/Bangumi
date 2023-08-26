@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 19:17:55
+ * @Last Modified time: 2023-08-26 07:01:28
  */
 import { getTimestamp } from '@utils/utils'
 import { getStorage, setStorage } from '@utils/storage'
@@ -16,15 +16,25 @@ import { HOST_CDN } from '../constants'
 import { HOST_CDN_FASTLY, HOST_CDN_ONEDRIVE, VERSION_OSS } from './ds'
 import { hash, getOTA, getVersion } from './utils'
 
+/** @deprecated */
 const HOST_OSS = `${HOST_CDN}/gh/czy0729/Bangumi-OSS`
 
+/** @deprecated */
 const OTA_SUBJECT_HASH_VERSION = '@cdn|oss-subject-hash|version|210720'
+
+/** @deprecated */
 const OTA_SUBJECT_HASH_DATA = '@cdn|oss-subject-hash|data|210720'
+
+/** @deprecated */
 let cacheSubject = {}
+
+/** @deprecated */
 let hashSubjectOTA = hashSubject
+
+/** @deprecated */
 let hashSubjectLoaded = false
 
-/** [待废弃] 初始化所有云端条目封面 hash */
+/** @deprecated 初始化所有云端条目封面 hash */
 export const initHashSubjectOTA = async () => {
   if (hashSubjectLoaded) return
 
@@ -78,10 +88,10 @@ export const initHashSubjectOTA = async () => {
   cacheSubject = {}
 }
 
-/** [待废弃] 返回云端条目封面 hash */
+/** @deprecated 返回云端条目封面 hash */
 export const getHashSubjectOTA = () => hashSubjectOTA
 
-/** 条目封面 CDN */
+/** @deprecated 条目封面 CDN */
 export const CDN_OSS_SUBJECT = (src: any, cdnOrigin?: 'OneDrive' | 'fastly') => {
   if (typeof src !== 'string') return src
   if (cacheSubject[src]) return cacheSubject[src]
@@ -117,31 +127,54 @@ export const CDN_OSS_SUBJECT = (src: any, cdnOrigin?: 'OneDrive' | 'fastly') => 
   return src
 }
 
+/** CDN V2 */
 let CDN_MAGMA: string
 
-/** MAGMA CDN */
-export const CDN_OSS_MAGMA_POSTER = (
-  mediumSrc: any = '',
-  prefix: 'bgm_poster_100' | 'bgm_poster_200' | 'bgm_poster' | string = 'bgm_poster'
-) => {
-  if (
-    typeof mediumSrc !== 'string' ||
-    mediumSrc === '' ||
-    !mediumSrc.includes('/c/') ||
-    /\/(photo|user|icon)\/|_(crt|prsn)_/.test(mediumSrc)
-  ) {
-    return mediumSrc
-  }
-
-  const poster = mediumSrc.split('/c/')?.[1] || ''
-  if (!poster) return mediumSrc
-
+function initCDN() {
   if (!CDN_MAGMA) {
     CDN_MAGMA = Crypto.get(
       'U2FsdGVkX1+8XichzWKyMJq48Ovm7Py40o5JPSjNIH/MqOGILJbEY+ZBXG+d7TM5JHxxP0vuinOgBs4qCt7pyQ=='
     ) as string
   }
-  if (!CDN_MAGMA) return mediumSrc
+  return !!CDN_MAGMA
+}
+
+/** MAGMA CDN */
+export const CDN_OSS_MAGMA_POSTER = (
+  src: any = '',
+  prefix: 'bgm_poster_100' | 'bgm_poster_200' | 'bgm_poster' | string = 'bgm_poster'
+) => {
+  if (
+    typeof src !== 'string' ||
+    src === '' ||
+    !src.includes('/c/') ||
+    /\/(photo|user|icon)\/|_(crt|prsn)_/.test(src)
+  ) {
+    return src
+  }
+
+  const poster = src.split('/c/')?.[1] || ''
+  if (!poster || !initCDN()) return src
 
   return `${CDN_MAGMA}/pic/cover/l/${poster.split('?')[0]}${prefix ? `/${prefix}` : ''}`
+}
+
+/** MAGMA MONO CDN */
+export const CDN_OSS_MAGMA_MONO = (src: any = '') => {
+  if (typeof src !== 'string' || src === '') return src
+
+  const mono = (src.split('.jpg')?.[0] || '').split('/pic/')?.[1] || ''
+  if (!mono || !initCDN()) return src
+
+  return `${CDN_MAGMA}/pic/${mono.replace('/s/', '/g/')}.jpg`
+}
+
+/** MAGMA PIC CDN */
+export const CDN_OSS_MAGMA_PIC = (src: any = '') => {
+  if (typeof src !== 'string' || src === '' || !src.includes('/pic/')) return src
+
+  const pic = (src.split('.jpg')?.[0] || '').split('/pic/')?.[1] || ''
+  if (!pic || !initCDN()) return src
+
+  return `${CDN_MAGMA}/pic/${pic}.jpg`
 }

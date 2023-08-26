@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Image, Text, Heatmap } from '@components'
-import { InView, SectionTitle, Cover, Tag } from '@_'
+import { Flex, Touchable, Cover, Text, Heatmap } from '@components'
+import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -56,7 +56,7 @@ export default memo(({ navigation, styles, style, voices }) => {
                   }}
                 >
                   <Flex align='start'>
-                    <Image src={item.cover} size={IMAGE_WIDTH} radius shadow />
+                    <Cover src={item.cover} size={IMAGE_WIDTH} radius shadow />
                     <Flex.Item style={_.ml.sm}>
                       <Text style={_.mt.xxs} size={12} bold>
                         {nameTop}

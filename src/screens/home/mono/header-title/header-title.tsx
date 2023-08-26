@@ -8,7 +8,7 @@ import React from 'react'
 import { Flex, Text } from '@components'
 import { Cover } from '@_'
 import { _ } from '@stores'
-import { getMonoCoverSmall } from '@utils'
+import { getMonoCoverSmall, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
@@ -17,11 +17,7 @@ export default memo(({ tinygrail, cover, nameTop, nameBottom }) => {
   // global.rerender('Mono.HeaderTitle.Main')
 
   return (
-    <Flex
-      style={
-        tinygrail ? [styles.container, styles.containerTinygrail] : styles.container
-      }
-    >
+    <Flex style={stl(styles.container, tinygrail && styles.containerTinygrail)}>
       {!!cover && (
         <Cover size={styles.container.height} src={getMonoCoverSmall(cover)} radius />
       )}

@@ -8,14 +8,27 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { Cover } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { HOST_IMAGE } from '@utils/app/ds'
+import { CDN_OSS_MAGMA_PIC } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
   const styles = memoStyles()
+  const { cdn, cdnOrigin } = systemStore.setting
+  let src = cover
+  if (
+    cdn &&
+    cdnOrigin === 'magma' &&
+    typeof src === 'string' &&
+    src.includes(HOST_IMAGE)
+  ) {
+    src = CDN_OSS_MAGMA_PIC(src)
+  }
+
   return (
     <View style={styles.container}>
       <Touchable
@@ -32,7 +45,7 @@ function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
         }}
       >
         <Flex align='start'>
-          <Cover size={styles.body.height} src={cover} border radius shadow />
+          <Cover size={styles.body.height} src={src} border radius />
           <Flex.Item style={_.ml.sm}>
             <Flex style={styles.body} direction='column' align='start' justify='center'>
               <Text size={11} numberOfLines={2} bold>

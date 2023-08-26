@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Image, Text, Expand, Heatmap } from '@components'
-import { InView, SectionTitle, Cover, Tag } from '@_'
+import { Flex, Touchable, Cover, Text, Expand, Heatmap } from '@components'
+import { InView, SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate, getCoverMedium, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -94,7 +94,7 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
                         >
                           <Flex>
                             {!!item.castCover && (
-                              <Image
+                              <Cover
                                 style={_.mr.sm}
                                 size={_.r(24)}
                                 src={item.castCover}
@@ -130,7 +130,7 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
                             }
                           >
                             <Flex>
-                              <Image
+                              <Cover
                                 style={_.mr.xs}
                                 size={_.r(24)}
                                 src={item?.cast2?.castCover}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:33:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:09:15
+ * @Last Modified time: 2023-08-26 06:14:45
  */
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -10,7 +10,7 @@ import { useObserver } from 'mobx-react'
 import * as Screens from '@screens'
 import { _, systemStore } from '@stores'
 import { urlStringify } from '@utils'
-import { IOS } from '@constants'
+import { DEV, IOS } from '@constants'
 import { ColorValue } from '@types'
 import navigationsParams from '@/config'
 import NavigationContainer from '../navigation-container'
@@ -49,7 +49,7 @@ function Stacks({ isLoadingComplete }) {
             name='HomeTab'
             component={isLoadingComplete ? BottomTabNavigator : Placeholder}
           />
-          {isLoadingComplete &&
+          {((DEV && initialRouteName !== 'HomeTab') || isLoadingComplete) &&
             Object.keys(Screens).map(name => {
               let statusBarStyle: 'dark' | 'light' = _.select('dark', 'light')
               if (!_.isDark) {

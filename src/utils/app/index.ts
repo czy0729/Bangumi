@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 22:43:39
+ * @Last Modified time: 2023-08-26 07:03:26
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -19,6 +19,7 @@ import {
   URL_PRIVACY
 } from '@constants/constants'
 import {
+  CDN_OSS_MAGMA_MONO,
   CDN_OSS_MAGMA_POSTER,
   CDN_OSS_SUBJECT
   // initHashAvatarOTA,
@@ -585,6 +586,8 @@ export function matchCoverUrl(src: any, noDefault?: boolean, prefix?: string) {
     typeof src === 'string' &&
     src.includes(HOST_IMAGE)
   ) {
+    if (src.includes('/pic/crt/')) return CDN_OSS_MAGMA_MONO(src) || fallback
+
     return CDN_OSS_MAGMA_POSTER(getCoverMedium(src), prefix) || fallback
   }
 
@@ -788,10 +791,12 @@ export function getSubjectCoverCommon(url: string): string {
 }
 
 export function getMonoCoverSmall(url: string): string {
-  const _url = url.replace(
-    /\/\/lain.bgm.tv\/r\/\d+\/pic\/crt\/(g|m|c|l)\//,
-    '//lain.bgm.tv/pic/crt/s/'
-  )
+  const _url = url
+    .replace(
+      /\/\/lain.bgm.tv\/r\/\d+\/pic\/crt\/[gsmcl]\//g,
+      '//lain.bgm.tv/pic/crt/g/'
+    )
+    .replace(/\/[gsmcl]\//g, '/g/')
   if (_url.indexOf('//') === 0) return `https:${_url}`
   return _url.replace('http://', 'https://')
 }

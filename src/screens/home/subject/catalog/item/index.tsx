@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
+import { fixedAll } from '@components/avatar/utils'
 import { Cover } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
@@ -33,7 +34,13 @@ function Item({ item }, { navigation }: Ctx) {
       }}
     >
       <Flex>
-        <Cover src={item.avatar} size={_.r(40)} radius shadow type='目录' />
+        <Cover
+          src={fixedAll(item.avatar, _.r(40))}
+          size={_.r(40)}
+          radius
+          shadow
+          type='目录'
+        />
         <Flex.Item style={_.ml.md}>
           <Text style={styles.text} size={11} lineHeight={12} bold numberOfLines={1}>
             {HTMLDecode(item.title)}
