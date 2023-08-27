@@ -12,6 +12,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { open, info } from '@utils'
 import { useObserver } from '@utils/hooks'
+import { GITHUB_HOST } from '@constants'
 import { put } from '../db'
 import { doLogin, getConfig } from './utils'
 import { memoStyles } from './styles'
@@ -103,9 +104,7 @@ function UpdateTourist() {
             </Touchable>
             <Touchable
               style={_.ml.md}
-              onPress={() =>
-                open('https://gitee.com/a296377710/bangumi/commits/master/tourist.json')
-              }
+              onPress={() => open(`${GITHUB_HOST}/commits/master/tourist.json`)}
             >
               <Iconfont name='md-arrow-forward' />
             </Touchable>

@@ -41,6 +41,7 @@ import {
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
+  GITHUB_HOST,
   LIST_EMPTY,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
@@ -104,8 +105,7 @@ export default class Fetch extends Computed {
     if (!UserStore.myId) return false
     try {
       const { _response } = await xhrCustom({
-        // url: 'https://czy0729.github.io/Bangumi/web/advance.json'
-        url: `https://gitee.com/a296377710/bangumi/raw/master/advance.json?t=${getTimestamp()}`
+        url: `${GITHUB_HOST}/raw/master/advance.json?t=${getTimestamp()}`
       })
       const advanceUserMap = JSON.parse(_response)
 

@@ -10,10 +10,10 @@ import { getTimestamp, HTMLDecode, info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { randomAvatars } from '@utils/user-setting'
-import { API_SETU } from '@constants'
+import { API_SETU, GITHUB_HOST } from '@constants'
 
 const namespace = 'ScreenUserSetting'
-const onlineBgsUrl = 'https://gitee.com/a296377710/bangumi/raw/master/bg.json'
+const onlineBgsUrl = `${GITHUB_HOST}/raw/master/bg.json`
 const regBg = /\[bg\](.+?)\[\/bg\]/
 const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
 const regFixed =

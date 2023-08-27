@@ -8,15 +8,17 @@ import Constants from 'expo-constants'
 import Crypto from '@utils/crypto'
 import { xhrCustom as xhr } from '@utils/fetch'
 import Base64 from '@utils/thirdParty/base64'
+import { GITHUB_HOST } from '@constants'
 
 const oauthData = Crypto.get<object>(
   // eslint-disable-next-line max-len
   'U2FsdGVkX19fLWKIpcMloDjdAz++NCIuNnc4GAf/tZF9WpcAWWGZaXujErTngZ1aYg487rZ6AAR+ve0ayzlTvw5nl1m4VNVazEzJNFuJCEVYNYCl7UY93qrYaJft7uwzLOAiJyCdFSzgnmJQLKKQ8QZZf2iLaBrwqnginL/lpVY6puBnmBQyKPKT/e+LtNKjjxItXQXbK7eEpcilLK/vmVdWKTUfbaJARriu3zpIw2ARh5C61hZKcerUwzmpaBagv77hPhR0E9JaHP2lVDiE5JcvQ5eDoLGtsDVenRSuS88v1CDjPE3XEM0hm05oUa0AQB0FBKgUayOszrf8NjSSAjJESpSFiikapkYUhz6lYWoYOrx6ZCdgn2U2auwSBp8sJqYY+VeHRSfESxrd9cAgAQJcxMdmbW53OBUn2+Oz1h4='
 )
 
+const [, , , owner, repo] = GITHUB_HOST.split('/')
 const repoData = {
-  owner: 'a296377710',
-  repo: 'bangumi'
+  owner,
+  repo
 }
 
 let accessToken = ''

@@ -175,12 +175,13 @@ export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases`
 export const GITHUB_RELEASE_REPOS =
   'https://api.github.com/repos/czy0729/Bangumi/releases'
 
+export const GITHUB_HOST = 'https://gitee.com/a296377710/bangumi-pro'
+
 /** 热数据地址 */
 export const GITHUB_DATA = 'https://gitee.com/a296377710/bangumi/raw/master/data.json'
 
 /** 高级会员地址 */
-export const GITHUB_ADVANCE =
-  'https://gitee.com/a296377710/bangumi/raw/master/advance.json'
+export const GITHUB_ADVANCE = `${GITHUB_HOST}/raw/master/advance.json`
 
 /** 占位底图 */
 export const IMG_EMPTY = {

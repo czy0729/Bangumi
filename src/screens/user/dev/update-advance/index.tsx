@@ -16,7 +16,7 @@ import { read, put } from '../db'
 import { memoStyles } from './styles'
 
 function UpdateAdvance({ navigation }: NavigationProps) {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(true)
   const [uid, setUid] = useState('')
   const [val, setVal] = useState('')
   const [payType, setPayType] = useState('w')
