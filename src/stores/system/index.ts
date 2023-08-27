@@ -29,10 +29,9 @@ class SystemStore extends Action {
 
     // 优先度: 高
     if (!STORYBOOK) {
-      setTimeout(() => {
-        this.fetchOTA()
-        if (!DEV) this.fetchRelease()
-      }, 4000)
+      // setTimeout(() => {
+      //   this.fetchOTA()
+      // }, 8000)
 
       // 优先度: 中
       setTimeout(() => {
@@ -40,8 +39,10 @@ class SystemStore extends Action {
           rendered: true
         })
 
+        if (!DEV) this.fetchRelease()
+
         const now = getTimestamp()
-        if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24) {
+        if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24 * 7) {
           this.fetchAdvanceDetail()
         }
 

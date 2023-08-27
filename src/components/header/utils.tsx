@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-08-13 21:32:24
  */
 import React, { useState, useCallback, useRef } from 'react'
+import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
@@ -72,7 +73,13 @@ export const updateHeader = ({
     },
     headerLeft: () => (
       <>
-        <Back navigation={navigation} color={color} />
+        <View
+          style={{
+            marginLeft: _.ios(0, -8)
+          }}
+        >
+          <Back navigation={navigation} color={color} />
+        </View>
         {headerLeft}
       </>
     ),
@@ -144,7 +151,10 @@ export const useOnScroll = () => {
 
       const offset = HEADER_TRANSITION_HEIGHT
       if ((fixed && y > offset) || (!fixed && y <= offset)) return
-      setFixed(y > offset)
+
+      setTimeout(() => {
+        setFixed(y > offset)
+      }, 0)
     },
     [fixed]
   )

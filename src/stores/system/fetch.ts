@@ -17,7 +17,7 @@ import UserStore from '../user'
 import Computed from './compouted'
 
 export default class Fetch extends Computed {
-  /** 检查云端数据 */
+  /** @deprecated 检查云端数据 */
   fetchOTA = async () => {
     let res: Promise<any>
     try {
