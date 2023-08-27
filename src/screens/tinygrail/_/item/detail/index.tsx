@@ -121,7 +121,7 @@ function Detail({
     icoHighlight = Number(icoUser || 0) > 9 && Number(icoUser || 0) < 15
   }
 
-  let prevText: {}
+  let prevText: string
   if (TYPES.includes(type) && state) {
     prevText = `${state}股`
   } else if (type === 'ico') {

@@ -61,7 +61,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
             style={[
               this.styles.icoProcess,
               {
-                width: `${percent}%`,
+                width: `${Number(percent)}%`,
                 backgroundColor: BACKGROUND_COLOR_MAP[level] || _.colorAsk
               }
             ]}
@@ -137,7 +137,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
       >
         <Flex justify='end'>
           <Text
-            style={!hasNoChanged && this.styles.absolute}
+            // style={!hasNoChanged && this.styles.absolute}
             type='tinygrailPlain'
             size={13}
             lineHeight={14}

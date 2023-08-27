@@ -65,6 +65,7 @@ class Tinygrail extends React.Component {
           refreshControl={
             <RefreshControl
               {...refreshControlProps}
+              progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
               colors={[_.colorMain]}
               refreshing={refreshing}
               onRefresh={this.onRefresh}

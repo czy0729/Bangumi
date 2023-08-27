@@ -6,7 +6,7 @@
  * @Last Modified time: 2023-01-15 10:40:39
  */
 import React from 'react'
-import { Slider as RNSlider } from 'react-native'
+import RNSlider from '@react-native-community/slider'
 import { observer } from 'mobx-react'
 import { Props as SliderProps } from './types'
 

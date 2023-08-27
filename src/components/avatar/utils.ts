@@ -88,9 +88,10 @@ function getCDNAvatar(
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
 ) {
   if (
+    !systemStore.setting.cdn ||
     !systemStore.setting.cdnAvatarV2 ||
     typeof src !== 'string' ||
-    !src.includes(HOST_IMAGE)
+    !src.includes(`${HOST_IMAGE}/pic/user/`)
   ) {
     return src
   }

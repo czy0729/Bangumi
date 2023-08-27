@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { refreshControlProps } from '@tinygrail/styles'
 import Header from './header'
 import Form from './form'
 import Depth from './depth'
@@ -62,6 +63,8 @@ class TinygrailDeal extends React.Component {
           style={[_.container.flex, this.styles.dark]}
           refreshControl={
             <RefreshControl
+              {...refreshControlProps}
+              progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
               colors={[_.colorMain]}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
