@@ -52,7 +52,7 @@ export function TabView<T extends Route>({
   overScrollMode,
 
   /** @add */
-  renderBackground = null,
+  renderBackground = null
 }: Props<T>) {
   const [layout, setLayout] = React.useState({
     width: 0,
