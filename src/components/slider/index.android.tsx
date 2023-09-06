@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-12-13 11:08:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-04 17:21:11
+ * @Last Modified time: 2023-01-15 10:40:39
  */
 import React from 'react'
-import { Slider as RNSlider } from 'react-native'
+// @ts-ignore
+import RNSlider from '@react-native-community/slider'
 import { observer } from 'mobx-react'
 import { Props as SliderProps } from './types'
 

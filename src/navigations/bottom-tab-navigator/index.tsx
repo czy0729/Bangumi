@@ -27,6 +27,7 @@ function BottomTabNavigator() {
     return (
       <Tab.Navigator
         initialRouteName={initialRouteName}
+        // @ts-expect-error
         screenOptions={defaultScreenOptions}
         sceneContainerStyle={{
           backgroundColor: _.colorPlain

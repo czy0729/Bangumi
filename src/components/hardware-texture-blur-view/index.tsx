@@ -2,49 +2,39 @@
  * @Author: czy0729
  * @Date: 2023-08-08 16:38:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 21:18:33
+ * @Last Modified time: 2023-09-04 04:49:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { BlurRootView, BlurView } from 'react-native-realtimeblurview'
+import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps } from './type'
 
-const DEFAULT_NODE_NAME = 'HardwareTextureRootBlurView'
+export { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps }
 
 export const HardwareTextureRootBlurView = ({
   style = {},
-  name = DEFAULT_NODE_NAME,
   children
-}) => {
-  return (
-    // @ts-expect-error
-    <BlurRootView style={stl(_.container.flex, style)} name={name}>
-      {children}
-    </BlurRootView>
-  )
+}: HardwareTextureRootBlurViewProps) => {
+  return <View style={stl(_.container.flex, style)}>{children}</View>
 }
 
 export const HardwareTextureBlurView = ({
   style = {},
-  containerStyle = {},
-  name = DEFAULT_NODE_NAME
-}) => {
+  containerStyle = {}
+}: HardwareTextureBlurViewProps) => {
   return (
     <Animated.View style={style} pointerEvents='none' removeClippedSubviews>
-      {/* @ts-expect-error */}
-      <BlurView blurNode={name} radius={24}>
-        <View
-          style={{
-            // @ts-expect-error
-            height: _.flatten(style)?.height || '100%',
-            ...containerStyle
-          }}
-          removeClippedSubviews
-          pointerEvents='none'
-        />
-      </BlurView>
+      <BlurView
+        style={{
+          height: _.flatten(style)?.height || '100%',
+          ...containerStyle
+        }}
+        tint={_.select('light', 'dark')}
+        intensity={100}
+      />
     </Animated.View>
   )
 }

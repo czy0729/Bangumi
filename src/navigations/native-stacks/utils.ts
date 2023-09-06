@@ -14,6 +14,7 @@ let hideSplashScreen = false
 /** 自动判断时机隐藏启动屏, 并返回设备是否启用全面屏 */
 export function useAutoHideSplashScreen(): boolean {
   const { bottom } = useSafeAreaInsets()
+
   useEffect(() => {
     if (hideSplashScreen) return
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:33:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:14:45
+ * @Last Modified time: 2023-09-04 05:27:09
  */
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -27,7 +27,7 @@ function Stacks({ isLoadingComplete }) {
   return useObserver(() => {
     const { transition, androidBlur, blurBottomTabs } = systemStore.setting
     let navigationBarColor: ColorValue = _.colorPlain
-    if (isFullScreen || (!IOS && androidBlur && blurBottomTabs && _.isDark)) {
+    if (IOS || isFullScreen || (!IOS && androidBlur && blurBottomTabs && _.isDark)) {
       navigationBarColor = 'transparent'
     }
 

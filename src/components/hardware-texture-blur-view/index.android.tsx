@@ -19,7 +19,6 @@ export const HardwareTextureRootBlurView = ({
   children
 }) => {
   return (
-    // @ts-expect-error
     <BlurRootView style={stl(_.container.flex, style)} name={name}>
       {children}
     </BlurRootView>
@@ -33,7 +32,6 @@ export const HardwareTextureBlurView = ({
 }) => {
   return (
     <Animated.View style={style} pointerEvents='none' removeClippedSubviews>
-      {/* @ts-expect-error */}
       <BlurView blurNode={name} radius={24}>
         <View
           style={{

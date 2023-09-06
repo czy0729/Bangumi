@@ -58,7 +58,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={_.container.flex}>
       <SafeAreaProvider style={_.container.flex}>
-        {/* @ts-expect-error */}
+        {/* @ts-ignore */}
         <Provider theme={theme}>
           <Stacks isLoadingComplete={isLoadingComplete} />
           {isLoadingComplete && (

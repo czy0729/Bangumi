@@ -24,7 +24,6 @@ function Tab(props, { $ }: Ctx) {
       <TabView
         key={_.orientation}
         style={_.mt._sm}
-        sceneContainerStyle={styles.sceneContainerStyle}
         lazy
         lazyPreloadDistance={0}
         navigationState={$.navigationState}

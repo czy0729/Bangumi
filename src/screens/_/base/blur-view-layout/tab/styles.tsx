@@ -23,9 +23,7 @@ export const memoStyles = _.memoStyles(() => {
     backgroundColor
   }
   return {
-    ios: {
-      ...tabs
-    },
+    ios: tabs,
     android: {
       ...tabs,
       top: 0,

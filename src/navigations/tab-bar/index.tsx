@@ -37,8 +37,8 @@ function TabBar({
     }
   ]
   return (
-    <SafeAreaBottom>
-      <Flex style={styles.tabBar}>
+    <SafeAreaBottom style={_.ios(styles.tabBar, null)} type={_.ios('height', 'bottom')}>
+      <Flex style={styles.tabBar} align={_.ios('start', 'center')}>
         {IOS && <BlurView style={_.absoluteFill} />}
         {state.routes.map((route, index: number) => {
           const isHorizontal = WSA || _.isPad || _.isLandscape

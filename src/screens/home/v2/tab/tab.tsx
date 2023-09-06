@@ -11,18 +11,15 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import TabBar from './tab-bar'
-import { memoStyles } from './styles'
 
 function Tab({ renderScene }, { $ }: Ctx) {
   // global.rerender('Home.Tab.Main')
 
-  const styles = memoStyles()
   return (
     <BlurViewRoot>
       <TabView
         key={_.orientation}
         style={_.mt._sm}
-        sceneContainerStyle={styles.sceneContainerStyle}
         lazy
         lazyPreloadDistance={0}
         // @ts-expect-error

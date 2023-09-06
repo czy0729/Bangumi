@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-03 01:48:11
+ * @Last Modified time: 2023-06-23 14:46:29
  */
 import React, { useMemo } from 'react'
-import { SceneMap, TabBar } from 'react-native-tab-view'
+import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
-import { stl } from '@utils'
 import { TextStyle, ViewStyle } from '@types'
 import { TabView } from '../@/react-native-tab-view/TabView'
+import { TabBar } from '../@/react-native-tab-view/TabBar'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { W_INDICATOR, memoStyles } from './styles'
@@ -45,45 +45,44 @@ export const TabsV2 = ({
       ),
     [renderItem, routes]
   )
-  const tabWidth = useMemo(() => {
+
+  const W_TAB = useMemo(() => {
     const length = tabBarLength || routes.length
     if (length >= 10) return _.window.width / 3.6
     return _.window.width / length
   }, [tabBarLength, routes])
   const tabBarStyle = useMemo<ViewStyle>(
-    () =>
-      stl(
-        styles.tabBar,
-        backgroundColor && {
-          backgroundColor
-        },
-        borderBottomColor && {
-          borderBottomColor
-        }
-      ),
+    () => [
+      styles.tabBar,
+      backgroundColor && {
+        backgroundColor
+      },
+      borderBottomColor && {
+        borderBottomColor
+      }
+    ],
     [styles, backgroundColor, borderBottomColor]
   )
   const tabStyle = useMemo<ViewStyle>(
     () => [
       styles.tab,
       {
-        width: tabWidth
+        width: W_TAB
       }
     ],
-    [styles, tabWidth]
+    [styles, W_TAB]
   )
   const indicatorStyle = useMemo<ViewStyle>(
-    () =>
-      stl(
-        styles.indicator,
-        {
-          marginLeft: (tabWidth - W_INDICATOR) / 2
-        },
-        underlineColor && {
-          backgroundColor: underlineColor
-        }
-      ),
-    [styles, tabWidth, underlineColor]
+    () => [
+      styles.indicator,
+      {
+        marginLeft: (W_TAB - W_INDICATOR) / 2
+      },
+      underlineColor && {
+        backgroundColor: underlineColor
+      }
+    ],
+    [styles, W_TAB, underlineColor]
   )
   const textStyle = useMemo<TextStyle>(
     () =>

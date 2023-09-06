@@ -102,35 +102,40 @@ export const updateHeader = ({
     options.headerRight = headerRight
   }
 
-  /**
-   * @bug
-   * 这个应该是 react-navigation@5 或者 react-screens 的内部问题
-   * 部分 vivo 华为机型有非常诡异的 bug
-   * headerTransparent 不能为 true, height 不能为 0, position 不能为 absolute, backgroundColor 不能为透明
-   * 只要你试图用任何手段让 header 看不见, 就会触发当前页面背景色丢失, 看见前一个页面内容的 bug!
-   * 现在通过一些 hack 手段, 自己模拟一个 HeaderComponent 去避免这个问题
-   */
   if (mode) {
+    options.headerShown = false
+
+    // headerLeft 和headerRight 因为上面的问题迁移到了 HeaderComponent 里面实现
+    options.headerLeft = () => null
+    options.headerRight = () => null
+
     options.headerStyle = {
       ...options.headerStyle,
       backgroundColor: '#000000'
     }
 
-    /** @hack */
     if (!IOS) {
-      options.headerShown = false
-      options.headerStyle.height = 0.5 // 别问为什么留 0.5, 我也想知道, 不给他留一点就是会出现页面重叠问题
+      /**
+       * @hack
+       * 这个应该是 react-navigation@5 或者 react-screens 的内部问题
+       * 部分 vivo 华为机型有非常诡异的 bug
+       * headerTransparent 不能为 true, height 不能为 0, position 不能为 absolute, backgroundColor 不能为透明
+       * 只要你试图用任何手段让 header 看不见, 就会触发当前页面背景色丢失, 看见前一个页面内容的 bug!
+       * 现在通过一些 hack 手段, 自己模拟一个 HeaderComponent 去避免这个问题
+       *
+       * 别问为什么留 0.5 我也想知道,
+       * 不给他留一点就是会出现页面重叠问题
+       */
+      options.headerStyle.height = 0.5
     } else {
-      if (mode) options.headerTransparent = true
+      options.headerTransparent = true
     }
-
-    // headerLeft 和headerRight 因为上面的问题迁移到了 HeaderComponent 里面实现
-    options.headerLeft = () => null
-    options.headerRight = () => null
   }
 
-  // platform fixed
-  // 文字至少留一个 fontFamily, 不然可能会触发文字截断 bug
+  /**
+   * @fixed
+   * 文字至少留一个 fontFamily, 不然可能会触发文字截断 bug
+   */
   options.headerTitleStyle = [
     ...options.headerTitleStyle,
     {

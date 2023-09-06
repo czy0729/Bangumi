@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-24 12:11:10
+ * @Last Modified time: 2023-09-04 05:32:36
  */
 import React, { useEffect } from 'react'
 import { LogBox } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
-import Stacks from '@src/navigations'
-import { DeepLink, NavigationContainer, DEV } from '@components'
+import Stacks from '@src/navigations/native-stacks'
+import { DeepLink, DEV } from '@components'
 import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
@@ -20,7 +21,7 @@ LogBox.ignoreAllLogs(true)
 
 export default function App() {
   // 加载图标等资源
-  const isLoadingComplete = useCachedResources()
+  const loadingResult = useCachedResources()
 
   // 获取水平状态, 只有平板允许横屏, 手机锁竖屏
   const orientation = useOrientation()
@@ -28,21 +29,26 @@ export default function App() {
     _.toggleOrientation(orientation)
   }, [orientation])
 
-  if (!isLoadingComplete) return null
+  if (!loadingResult) return null
 
+  const isLoadingComplete = loadingResult >= 3
   return (
-    <SafeAreaProvider style={_.container.flex}>
-      {/* @ts-expect-error */}
-      <Provider theme={theme}>
-        <HoldMenuProvider>
-          <NavigationContainer>
-            <Stacks />
-          </NavigationContainer>
-        </HoldMenuProvider>
-        <DeepLink />
-        <AppCommon />
-      </Provider>
-      <DEV />
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={_.container.flex}>
+      <SafeAreaProvider style={_.container.flex}>
+        {/* @ts-ignore */}
+        <Provider theme={theme}>
+          <HoldMenuProvider>
+            <Stacks isLoadingComplete={isLoadingComplete} />
+          </HoldMenuProvider>
+          {isLoadingComplete && (
+            <>
+              <AppCommon />
+              <DeepLink />
+              <DEV />
+            </>
+          )}
+        </Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }

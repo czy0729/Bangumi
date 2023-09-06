@@ -68,7 +68,7 @@ type State = {
   tabWidths: { [key: string]: number }
 }
 
-export default class TabBar<T extends Route> extends React.Component<Props<T>, State> {
+class TabBar<T extends Route> extends React.Component<Props<T>, State> {
   static defaultProps = {
     getLabelText: ({ route }: Scene<Route>) =>
       typeof route.title === 'string' ? route.title.toUpperCase() : route.title,
@@ -374,7 +374,7 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
                 : styles.container,
               contentContainerStyle
             ]}
-            scrollEventThrottle={4}
+            scrollEventThrottle={16}
             onScroll={Animated.event([
               {
                 nativeEvent: {
@@ -452,6 +452,8 @@ export default class TabBar<T extends Route> extends React.Component<Props<T>, S
     )
   }
 }
+
+export { TabBar }
 
 const styles = StyleSheet.create({
   container: {

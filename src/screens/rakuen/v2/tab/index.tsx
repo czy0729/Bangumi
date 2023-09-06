@@ -13,19 +13,16 @@ import { TABS } from '../ds'
 import { Ctx } from '../types'
 import renderScene from './renderScene'
 import TabBar from './tab-bar'
-import { memoStyles } from './styles'
 
 function Tab(props, { $ }: Ctx) {
   const { _loaded } = $.state
   if (!_loaded) return null
 
-  const styles = memoStyles()
   return (
     <BlurViewRoot>
       <TabView
         key={_.orientation}
         style={_.mt._sm}
-        sceneContainerStyle={styles.sceneContainerStyle}
         lazy
         lazyPreloadDistance={0}
         navigationState={$.navigationState}
