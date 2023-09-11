@@ -34,7 +34,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
     const { show } = $.state
     return (
       <>
-        <Page>
+        <Page statusBarEvent={false}>
           <ScrollView scrollEventThrottle={4} scrollToTop onScroll={onScroll}>
             <Info />
             {show && (

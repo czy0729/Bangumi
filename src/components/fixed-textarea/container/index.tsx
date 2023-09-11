@@ -16,7 +16,11 @@ function Container({ children }) {
   const styles = memoStyles()
   if (IOS || STORYBOOK) {
     return (
-      <BlurView style={styles.container} tint={_.select('light', 'dark')}>
+      <BlurView
+        style={styles.container}
+        tint={_.select('light', 'dark')}
+        intensity={100}
+      >
         {children}
       </BlurView>
     )

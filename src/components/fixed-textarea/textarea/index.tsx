@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-08-10 19:27:07
  */
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
@@ -35,8 +36,9 @@ function Textarea({
   onToggleSourceText
 }) {
   const styles = memoStyles()
+  const Component = _.ios(View, SafeAreaBottom)
   return (
-    <SafeAreaBottom style={styles.container}>
+    <Component style={styles.container}>
       <Flex align='start'>
         <Flex.Item style={editing ? styles.body : styles.fixed}>
           <TextareaItem
@@ -76,7 +78,7 @@ function Textarea({
           onToggleSourceText={onToggleSourceText}
         />
       </Flex>
-    </SafeAreaBottom>
+    </Component>
   )
 }
 

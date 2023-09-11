@@ -95,6 +95,8 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
   }
 
   render() {
+    if (IOS) return null
+
     const { style } = this.props
     const { keyboardSpace } = this.state
     return (

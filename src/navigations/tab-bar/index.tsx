@@ -37,7 +37,10 @@ function TabBar({
     }
   ]
   return (
-    <SafeAreaBottom style={_.ios(styles.tabBar, null)} type={_.ios('height', 'bottom')}>
+    <SafeAreaBottom
+      style={_.ios(styles.tabBar, undefined)}
+      type={_.ios('height', 'bottom')}
+    >
       <Flex style={styles.tabBar} align={_.ios('start', 'center')}>
         {IOS && <BlurView style={_.absoluteFill} />}
         {state.routes.map((route, index: number) => {

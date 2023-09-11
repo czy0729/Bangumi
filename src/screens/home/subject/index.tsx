@@ -86,7 +86,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Page>
+      <Page statusBarEvent={false}>
         {IOS && <Bg />}
         <List
           forwardRef={forwardRef}

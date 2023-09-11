@@ -6,10 +6,7 @@
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
-// import TabBar from '@components/@/react-native-tab-view/TabBar'
-// import TabView from '@components/@/react-native-tab-view/TabView'
-import { Flex, Text } from '@components'
+import { Flex, Text, SceneMap, TabBar, TabView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Fn } from '@types'

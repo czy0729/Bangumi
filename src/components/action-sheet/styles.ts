@@ -45,6 +45,9 @@ export const memoStyles = _.memoStyles(() => ({
   close: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
   },
+  btnContainer: {
+    height: 44
+  },
   btn: {
     paddingTop: _.md,
     paddingBottom: _.ios(_.lg, _.md)

@@ -20,20 +20,18 @@ export const SafeAreaBottom = ({
   ...other
 }: SafeAreaBottomProps) => {
   const { bottom } = useSafeAreaInsets()
-  return useObserver(() => {
-    return (
-      <View
-        style={stl(style, {
-          [type]:
-            type === 'height'
-              ? // @ts-expect-error
-                bottom + style?.height || 0
-              : bottom
-        })}
-        {...other}
-      >
-        {children}
-      </View>
-    )
-  })
+  return useObserver(() => (
+    <View
+      style={stl(style, {
+        [type]:
+          type === 'height'
+            ? // @ts-expect-error
+              bottom + style?.height || 0
+            : bottom
+      })}
+      {...other}
+    >
+      {children}
+    </View>
+  ))
 }

@@ -126,7 +126,10 @@ export const ActionSheet = ({
               {children}
             </ScrollView>
             <Touchable style={styles.close} onPress={onClose}>
-              <SafeAreaBottom type='paddingBottom'>
+              <SafeAreaBottom
+                style={_.ios(styles.btnContainer, undefined)}
+                type={_.ios('height', 'paddingBottom')}
+              >
                 <Flex style={styles.btn} justify='center'>
                   <Text size={15} bold type='sub'>
                     收起

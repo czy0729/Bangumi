@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { SafeAreaBottom, FixedTextarea, Flex, Text } from '@components'
+import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -22,7 +23,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   const { tip = '', close } = $.topic
   if (tip.includes('半公开')) {
     return (
-      <SafeAreaBottom style={styles.fixedBottom} type='bottom'>
+      <SafeAreaBottom style={styles.fixedBottom} type={_.ios('height', 'bottom')}>
         <Flex>
           <Text>半公开小组只有成员才能发言, </Text>
           <Text type='main' onPress={() => appNavigate($.groupHref, navigation)}>
@@ -35,7 +36,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
 
   if (close) {
     return (
-      <SafeAreaBottom style={styles.fixedBottom} type='bottom'>
+      <SafeAreaBottom style={styles.fixedBottom} type={_.ios('height', 'bottom')}>
         <Flex>
           <Text>主题已被关闭</Text>
           {!!close && <Text type='sub'>: {close}</Text>}

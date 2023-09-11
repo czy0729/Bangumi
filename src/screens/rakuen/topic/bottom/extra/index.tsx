@@ -13,9 +13,10 @@ import { memoStyles } from './styles'
 function Extra({ onDirect }) {
   const styles = memoStyles()
   const { switchSlider } = rakuenStore.setting
+  const type = _.ios('height', 'bottom')
   return useObserver(() => (
     <>
-      <SafeAreaBottom style={styles.left}>
+      <SafeAreaBottom style={styles.left} type={type}>
         <Touchable
           useRN
           onPress={() => onDirect(switchSlider ? true : false)}
@@ -30,12 +31,12 @@ function Extra({ onDirect }) {
           </Flex>
         </Touchable>
       </SafeAreaBottom>
-      <SafeAreaBottom style={styles.center} pointerEvents='none'>
+      <SafeAreaBottom style={styles.center} type={type} pointerEvents='none'>
         <Flex style={styles.btn} justify='center'>
           <Iconfont name='md-edit' size={15} />
         </Flex>
       </SafeAreaBottom>
-      <SafeAreaBottom style={styles.right}>
+      <SafeAreaBottom style={styles.right} type={type}>
         <Touchable
           useRN
           onPress={() => onDirect(switchSlider ? false : true)}

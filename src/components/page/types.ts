@@ -19,6 +19,9 @@ export type Props = {
   /** 加载指示器背景颜色 */
   backgroundColor?: ColorValue
 
+  /** 是否自动触发默认 StatusBar 事件 */
+  statusBarEvent?: boolean
+
   /** 页面结构 */
   children?: any
 }

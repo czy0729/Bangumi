@@ -201,7 +201,7 @@ const Topic = (props, { $ }: Ctx) => {
       <>
         <Header fixed={fixed} />
         <TapListener>
-          <Page>
+          <Page statusBarEvent={false}>
             <List
               forwardRef={forwardRef}
               renderItem={renderItem}

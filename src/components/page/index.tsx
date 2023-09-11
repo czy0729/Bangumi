@@ -6,18 +6,34 @@
  * @Last Modified time: 2023-08-13 22:40:04
  */
 import React from 'react'
-import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { StatusBar, View } from 'react-native'
+import { useObserver } from 'mobx-react'
+import { useFocusEffect } from '@react-navigation/native'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { IOS } from '@constants'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
 import { Props as PageProps } from './types'
 
 export { PageProps }
 
-export const Page = observer(
-  ({ style, loaded, loadingColor, backgroundColor, children, ...other }: PageProps) => {
+export const Page = ({
+  style,
+  loaded,
+  loadingColor,
+  backgroundColor,
+  children,
+  statusBarEvent = true,
+  ...other
+}: PageProps) => {
+  useFocusEffect(() => {
+    if (IOS && statusBarEvent) {
+      StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
+    }
+  })
+
+  return useObserver(() => {
     const _style = stl(_.container.plain, style)
     if (loaded || loaded === undefined)
       return (
@@ -31,5 +47,5 @@ export const Page = observer(
     return (
       <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
     )
-  }
-)
+  })
+}

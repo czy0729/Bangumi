@@ -27,7 +27,6 @@ const CatalogDetail = (props, { $ }: Ctx) => {
       $.onScroll(evt)
       onScroll(evt)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [onScroll]
   )
 
@@ -36,7 +35,7 @@ const CatalogDetail = (props, { $ }: Ctx) => {
     return (
       <>
         <Header fixed={fixed} />
-        <Page>
+        <Page statusBarEvent={false}>
           <List onScroll={onScrollFn} />
           <Tips />
         </Page>

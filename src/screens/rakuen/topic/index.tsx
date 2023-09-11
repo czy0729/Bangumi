@@ -318,7 +318,7 @@ const Topic = (props, { $ }: Ctx) => {
     return (
       <>
         <TapListener>
-          <Page>
+          <Page statusBarEvent={false}>
             <List
               forwardRef={forwardRef}
               renderItem={renderItem}

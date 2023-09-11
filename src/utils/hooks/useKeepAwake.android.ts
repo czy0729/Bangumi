@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-08-24 12:14:44
  */
 import { useEffect } from 'react'
+// @ts-ignore
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake'
 import { DEV } from '@/config'
 

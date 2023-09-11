@@ -31,18 +31,28 @@ function Stacks({ isLoadingComplete }) {
       navigationBarColor = 'transparent'
     }
 
+    const screenOptions = {
+      ...DEFAULT_SCREEN_OPTIONS,
+      contentStyle: {
+        backgroundColor: _.colorPlain
+      },
+      animation: ANIMATIONS[transition],
+      navigationBarColor
+    }
+
+    /**
+     * IOS 13 以上需要修改 plist 才能使用 react-navigation 的修改 statusbar 特性
+     * 所以使用 react-native 的方式
+     */
+    if (!IOS) {
+      // @ts-ignore
+      screenOptions.statusBarStyle = _.select('dark', 'light')
+    }
+
     return (
       <NavigationContainer>
         <Stack.Navigator
-          screenOptions={{
-            ...DEFAULT_SCREEN_OPTIONS,
-            statusBarStyle: _.select('dark', 'light'),
-            contentStyle: {
-              backgroundColor: _.colorPlain
-            },
-            animation: ANIMATIONS[transition],
-            navigationBarColor
-          }}
+          screenOptions={screenOptions}
           initialRouteName={initialRouteName}
         >
           <Stack.Screen
@@ -66,9 +76,13 @@ function Stacks({ isLoadingComplete }) {
                   initialParams={
                     initialRouteName === name ? initialRouteParams : undefined
                   }
-                  options={{
-                    statusBarStyle
-                  }}
+                  options={
+                    IOS
+                      ? undefined
+                      : {
+                          statusBarStyle
+                        }
+                  }
                   getId={({ params }) => (params ? urlStringify(params) : undefined)}
                 />
               )

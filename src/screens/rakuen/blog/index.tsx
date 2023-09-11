@@ -24,7 +24,7 @@ const Blog = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Page>
+      <Page statusBarEvent={false}>
         <List onScroll={onScroll} />
       </Page>
       <Header fixed={fixed} />

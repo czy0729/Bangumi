@@ -38,7 +38,7 @@ const Topic = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Page>
+      <Page statusBarEvent={false}>
         <List renderItem={renderItem} onScroll={onScroll} />
         <Heatmap id='人物' screen='Mono' />
       </Page>

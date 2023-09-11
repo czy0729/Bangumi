@@ -9,11 +9,11 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   loginNotice: {
     position: 'absolute',
-    zIndex: 1001,
+    zIndex: 10001,
     right: 0,
     left: 0,
     bottom: _.tabBarHeight,
-    height: 40,
+    height: 48,
     backgroundColor: _.select('rgba(255, 244, 244, 0.64)', 'rgba(255, 244, 244, 0.32)'),
     overflow: 'hidden'
   },
@@ -25,7 +25,7 @@ export const memoStyles = _.memoStyles(() => ({
     left: 0
   },
   body: {
-    height: 40
+    height: 48
   },
   text: {
     paddingHorizontal: _.wind

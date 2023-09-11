@@ -14,13 +14,12 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 0,
     left: 0,
-    paddingVertical: 12,
+    height: _.ios(32, 'auto'),
+    paddingVertical: 16,
     paddingHorizontal: _.wind,
-    marginBottom: -4,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     ...(IOS
       ? {
-          paddingBottom: 32,
           shadowColor: _.colorShadow,
           shadowOffset: {
             width: 1,

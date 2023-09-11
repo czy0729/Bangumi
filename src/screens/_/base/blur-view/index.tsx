@@ -20,8 +20,6 @@ export const BlurView = ob(
         style={style}
         tint={_.isDark ? 'dark' : 'default'}
         intensity={intensity}
-        removeClippedSubviews
-        pointerEvents='none'
         {...other}
       >
         {children}

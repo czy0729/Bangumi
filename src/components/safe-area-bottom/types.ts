@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-08-07 15:53:51
  */
+import { ViewProps } from 'react-native'
 import { ReactNode, ViewStyle } from '@types'
 
-export type Props = {
+export type Props = ViewProps & {
   style?: ViewStyle
 
   /** 复写的对应样式 */
