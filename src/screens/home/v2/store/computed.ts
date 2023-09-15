@@ -365,7 +365,9 @@ export default class Computed extends State {
           if (homeEpStartAtLastWathed) {
             let lastIndex: number
 
+            // @ts-ignore
             if (typeof eps.findLastIndex === 'function') {
+              // @ts-ignore
               lastIndex = eps.findLastIndex(
                 (item: Ep) => userProgress[item.id] === '看过'
               )

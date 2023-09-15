@@ -571,7 +571,7 @@ export default class Action extends Fetch {
 
         // 多季度非 1 开始的番 (如巨人第三季) 不能直接使用 sort,
         // 需要把 sp 去除后使用当前 item.sort 查找 index
-        if (eps?.[0]?.sort < 10) {
+        if (eps?.[0]?.sort > 10) {
           sort = eps.findIndex(i => i.sort === item.sort)
         } else {
           // 正常的多章节番剧
