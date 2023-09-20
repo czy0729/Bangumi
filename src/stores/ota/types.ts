@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:23:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-23 06:41:42
+ * @Last Modified time: 2023-09-21 05:15:50
  */
 export type AnimeItem = {
   id: number
@@ -16,6 +16,8 @@ export type AnimeItem = {
   begin: string
   tags: string
   official: string
+  origin: string
+  summary: string
   score: number
   rank: number
   total: number

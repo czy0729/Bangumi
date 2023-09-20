@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:06:47
+ * @Last Modified time: 2023-09-21 06:02:42
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
-import { info, stl } from '@utils'
+import { info, stl, isArray } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
@@ -42,8 +42,11 @@ export const Filter = obc(
         <FilterSwitch title={title} name={name} />
         {filterDS
           .filter(item => {
+            let value = query[item.type]
+            if (isArray(value)) value = value.length
+
             // 配置永久展开 || 展开中 || 当前有选择
-            return item.always || expand || query[item.type]
+            return item.always || expand || value
           })
           .map(item => {
             const state = query[item.type]

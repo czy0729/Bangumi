@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:56:42
+ * @Last Modified time: 2023-09-21 05:45:42
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
@@ -66,6 +66,7 @@ export default class Fetch extends Computed {
             'begin',
             'tags',
             'official',
+            'origin',
             'score',
             'rank',
             'total'

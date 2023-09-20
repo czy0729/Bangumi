@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:54:07
+ * @Last Modified time: 2023-09-21 05:45:36
  */
 import React from 'react'
 import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
@@ -36,10 +36,12 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
     begin,
     tags,
     official,
+    origin,
     score,
     rank,
     total
   } = otaStore.anime(subjectId)
+
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -60,7 +62,8 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
     String(ep).replace(/\(完结\)|第|\[|\]/g, ''),
     status,
     begin,
-    official === '暂无' ? '' : official
+    official === '暂无' ? '' : official,
+    origin === '暂无' ? '' : origin
   ]
     .filter(item => !!item)
     .join(' / ')

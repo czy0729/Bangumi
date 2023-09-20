@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 21:32:24
+ * @Last Modified time: 2023-09-21 05:56:30
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
 import Back from './back'
-import { colors, backgroundColors } from './styles'
+import { colors, backgroundColors, styles } from './styles'
 import { UpdateHeaderProps } from './types'
 
 const HEADER_TRANSITION_HEIGHT = 32
@@ -73,11 +73,7 @@ export const updateHeader = ({
     },
     headerLeft: () => (
       <>
-        <View
-          style={{
-            marginLeft: _.ios(0, -8)
-          }}
-        >
+        <View style={styles.headerLeftContainerStyle}>
           <Back navigation={navigation} color={color} />
         </View>
         {headerLeft}
@@ -99,7 +95,9 @@ export const updateHeader = ({
     options.headerRightContainerStyle = {
       paddingRight: 6
     }
-    options.headerRight = headerRight
+    options.headerRight = () => (
+      <View style={styles.headerRightContainerStyle}>{headerRight()}</View>
+    )
   }
 
   if (mode) {

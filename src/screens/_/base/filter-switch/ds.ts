@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 18:19:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:18:54
+ * @Last Modified time: 2023-09-21 06:17:07
  */
 export const FLITER_SWITCH_LAST_PATH_KEY = '@screens|base|FilterSwitch'
 
@@ -25,7 +25,7 @@ export const PATH_MAP = {
 } as const
 
 export const TOTAL = {
-  番剧: 3268,
+  番剧: 4233,
   游戏: 2721,
   ADV: 673,
   漫画: 7868,

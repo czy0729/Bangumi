@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 05:00:10
+ * @Last Modified time: 2023-09-21 04:55:41
  */
 /** 加载 */
 export const TEXT_REFRESHING = '加载中...'
@@ -20,7 +20,7 @@ export const TEXT_EMPTY = '好像什么都没有'
 export const TEXT_18X = '什么都没找到\n敏感内容需要账号成年(注册2个月)才能显示哦'
 
 /** 找番剧静态数据最后更新时间 */
-export const TEXT_UPDATE_ANIME = '2023-07-13'
+export const TEXT_UPDATE_ANIME = '2023-09-21'
 
 /** 找游戏、ADV 静态数据最后更新时间 */
 export const TEXT_UPDATE_GAME = '2023-03-23'
