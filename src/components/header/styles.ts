@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:58:23
+ * @Last Modified time: 2023-09-22 03:26:38
  */
 import { _ } from '@stores'
 
@@ -16,10 +16,10 @@ export const styles = _.create({
     height: 36
   },
   headerLeftContainerStyle: {
-    marginLeft: _.ios(-4, -8)
+    marginLeft: _.ios(-4, -9)
   },
   headerRightContainerStyle: {
-    marginRight: _.ios(-13, 0)
+    marginRight: _.ios(-13, -10)
   }
 })
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 17:28:47
+ * @Last Modified time: 2023-09-22 03:21:55
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -19,8 +19,10 @@ import { queue, t } from '@utils/fetch'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
 import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
-import { smbList } from './utils'
+import { smbList, webDAVList } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
+
+const isWebDAV = true
 
 export default class ScreenSmb extends store {
   state = observable(STATE)
@@ -112,8 +114,8 @@ export default class ScreenSmb extends store {
   /** 扫描 */
   connectSmb = async () => {
     const { smb } = this.current
-    const list = await smbList(smb)
 
+    const list = await (isWebDAV ? webDAVList(smb) : smbList(smb))
     if (list.length) {
       const data = toJS(this.data)
       const { uuid } = this.state

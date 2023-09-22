@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:31:04
+ * @Last Modified time: 2023-09-22 03:34:17
  */
 import React from 'react'
 import { View, Linking } from 'react-native'
@@ -29,7 +29,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
         <Touchable onPress={() => setShowFolder(!showFolder)}>
           <Flex style={styles.folder}>
             <Flex.Item>
-              <Text size={12} bold numberOfLines={2}>
+              <Text size={10} lineHeight={12} bold numberOfLines={2}>
                 {path.join('/') || '/'}
               </Text>
             </Flex.Item>
@@ -54,7 +54,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
               resizeMode='contain'
             />
             <Flex.Item>
-              <Text size={12} bold>
+              <Text size={10} lineHeight={12} bold>
                 {path.join('/') || '/'}
               </Text>
             </Flex.Item>
@@ -94,17 +94,21 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
                       resizeMode='contain'
                     />
                     <Flex.Item style={_.ml.sm}>
-                      <Text size={12}>{item.name}</Text>
+                      <Text size={10} lineHeight={12}>
+                        {item.name}
+                      </Text>
                     </Flex.Item>
                   </Flex>
                 </Touchable>
               ))
           ) : (
-            <Text size={10}>(空)</Text>
+            <Text size={10} lineHeight={12}>
+              (空)
+            </Text>
           )}
 
           {!!folder.list.length && (
-            <Text style={_.mt.sm} size={10} type='sub' align='right'>
+            <Text style={_.mt.sm} size={10} lineHeight={12} type='sub' align='right'>
               点击复制地址，长按跳转
             </Text>
           )}
