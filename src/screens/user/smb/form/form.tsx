@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 13:21:14
+ * @Last Modified time: 2023-09-23 12:42:20
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
-import { Modal, Flex, Text, Input, Touchable } from '@components'
+import { Modal, Flex, SegmentedControl, Text, Input, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { alert, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { s2tAsync } from '@utils/async'
 import { DEFAULT_PROPS } from './ds'
+import { IOS } from '@constants'
 
 export default memo(
   ({
@@ -28,6 +29,7 @@ export default memo(
     path,
     workGroup,
     url,
+    webDAV,
     onClose,
     onChange,
     onSubmit
@@ -55,21 +57,53 @@ export default memo(
       }, 400)
     }, [visible, name])
 
+    const elType = (
+      <SegmentedControl
+        style={styles.segmentedControl}
+        size={11}
+        values={['SMB', 'webDAV']}
+        selectedIndex={webDAV ? 1 : 0}
+        enabled={!IOS}
+        onChange={() => onChange('webDAV', !webDAV)}
+      />
+    )
     return (
       <Modal
         style={styles.modal}
         visible={visible}
-        title='连接SMB服务'
+        title='连接本地服务'
         onClose={onClose}
       >
         <KeyboardAvoidingView style={styles.body} behavior='padding'>
           <Flex>
-            <Text style={styles.label}>别名</Text>
+            <Text style={styles.label} size={12}>
+              类型
+            </Text>
+            <Flex.Item>
+              {IOS ? (
+                <Touchable
+                  onPress={() => {
+                    alert('iOS 目前仅支持 webDAV 模式')
+                  }}
+                >
+                  {elType}
+                </Touchable>
+              ) : (
+                elType
+              )}
+            </Flex.Item>
+          </Flex>
+
+          {/* 别名 */}
+          <Flex style={_.mt.sm}>
+            <Text style={styles.label} size={12}>
+              别名
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (nameRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='选填，如2022S4'
+                placeholder='选填，如 2023S4'
                 defaultValue={name}
                 showClear
                 returnKeyType='next'
@@ -84,13 +118,17 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 主机 */}
           <Flex>
-            <Text style={styles.label}>主机</Text>
+            <Text style={styles.label} size={12}>
+              主机
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (ipRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='必填，内网IP，如192.168.1.1'
+                placeholder='必填，如内网 192.168.1.1'
                 defaultValue={ip}
                 showClear
                 returnKeyType='next'
@@ -105,13 +143,17 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 用户 */}
           <Flex>
-            <Text style={styles.label}>用户</Text>
+            <Text style={styles.label} size={12}>
+              用户
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (usernameRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='选填'
+                placeholder='必填'
                 defaultValue={username}
                 showClear
                 returnKeyType='next'
@@ -126,8 +168,12 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 密码 */}
           <Flex>
-            <Text style={styles.label}>密码</Text>
+            <Text style={styles.label} size={12}>
+              密码
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (passwordRef.current = ref?.inputRef)}
@@ -147,8 +193,12 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 路径 */}
           <Flex>
-            <Text style={styles.label}>路径</Text>
+            <Text style={styles.label} size={12}>
+              路径
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (sharedFolderRef.current = ref?.inputRef)}
@@ -168,13 +218,17 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 文件夹 */}
           <Flex>
-            <Text style={styles.label}>文件夹</Text>
+            <Text style={styles.label} size={12}>
+              文件夹
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (pathRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='通常不填，可填多个，英文逗号分割'
+                placeholder='通常不填，多个用英文逗号分割'
                 defaultValue={path}
                 showClear
                 returnKeyType='next'
@@ -189,8 +243,12 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 端口 */}
           <Flex>
-            <Text style={styles.label}>端口</Text>
+            <Text style={styles.label} size={12}>
+              端口
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (portRef.current = ref?.inputRef)}
@@ -210,8 +268,12 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 工作组 */}
           <Flex>
-            <Text style={styles.label}>工作组</Text>
+            <Text style={styles.label} size={12}>
+              工作组
+            </Text>
             <Flex.Item>
               <Input
                 ref={ref => (workGroupRef.current = ref?.inputRef)}
@@ -231,13 +293,15 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
-          <Flex align='start'>
-            <Flex style={[styles.label, _.mt.sm]}>
-              <Text lineHeight={15}>跳转</Text>
+
+          {/* 跳转 */}
+          <Flex style={_.mt.sm} align='start'>
+            <Flex style={styles.label}>
+              <Text size={12}>跳转</Text>
               <IconTouchable
                 style={_.ml._xs}
                 name='md-info-outline'
-                size={16}
+                size={14}
                 onPress={() => {
                   Alert.alert(
                     s2tAsync('自定义跳转'),
@@ -264,6 +328,7 @@ export default memo(
               <Input
                 ref={ref => (urlRef.current = ref?.inputRef)}
                 style={[styles.input, styles.inputMultiline]}
+                inputStyle={styles.multilineInputStyle}
                 defaultValue={url}
                 showClear
                 multiline
@@ -275,6 +340,8 @@ export default memo(
               />
             </Flex.Item>
           </Flex>
+
+          {/* 保存 */}
           <Flex justify='center'>
             <Touchable style={styles.touch} onPress={onSubmit}>
               <Text style={styles.btn} type='main'>
@@ -288,6 +355,8 @@ export default memo(
             </Touchable>
           </Flex>
         </KeyboardAvoidingView>
+
+        {/* 教程 */}
         <View style={styles.info}>
           <Touchable
             onPress={() => open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/rrb8zh')}

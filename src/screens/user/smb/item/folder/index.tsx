@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-22 03:34:17
+ * @Last Modified time: 2023-09-23 11:42:14
  */
 import React from 'react'
 import { View, Linking } from 'react-native'
@@ -13,6 +13,11 @@ import { useObserver } from '@utils/hooks'
 import { ICONS } from '../../ds'
 import { SORT_ORDER } from '../ds'
 import { memoStyles } from './styles'
+
+const textProps = {
+  size: 11,
+  lineHeight: 12
+}
 
 function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
   const path = []
@@ -29,7 +34,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
         <Touchable onPress={() => setShowFolder(!showFolder)}>
           <Flex style={styles.folder}>
             <Flex.Item>
-              <Text size={10} lineHeight={12} bold numberOfLines={2}>
+              <Text {...textProps} bold numberOfLines={1}>
                 {path.join('/') || '/'}
               </Text>
             </Flex.Item>
@@ -54,7 +59,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
               resizeMode='contain'
             />
             <Flex.Item>
-              <Text size={10} lineHeight={12} bold>
+              <Text {...textProps} bold>
                 {path.join('/') || '/'}
               </Text>
             </Flex.Item>
@@ -65,7 +70,12 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
           {folder.list.length ? (
             folder.list
               .slice()
-              .sort((a, b) => desc(SORT_ORDER[a.type] || 0, SORT_ORDER[b.type] || 0))
+              .sort((a, b) => {
+                const typeA = SORT_ORDER[a.type] || 0
+                const typeB = SORT_ORDER[b.type] || 0
+                if (typeA === typeB) return desc(a.name, b.name)
+                return desc(SORT_ORDER[a.type] || 0, SORT_ORDER[b.type] || 0)
+              })
               .map(item => (
                 <Touchable
                   key={item.name}
@@ -94,21 +104,32 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
                       resizeMode='contain'
                     />
                     <Flex.Item style={_.ml.sm}>
-                      <Text size={10} lineHeight={12}>
-                        {item.name}
-                      </Text>
+                      {item.name.length <= 20 ? (
+                        <Text {...textProps} numberOfLines={1}>
+                          {item.name}
+                        </Text>
+                      ) : (
+                        <Flex>
+                          <Flex.Item>
+                            <Text {...textProps} numberOfLines={1}>
+                              {item.name.slice(0, item.name.length - 12)}
+                            </Text>
+                          </Flex.Item>
+                          <Text {...textProps}>
+                            {item.name.slice(item.name.length - 12)}
+                          </Text>
+                        </Flex>
+                      )}
                     </Flex.Item>
                   </Flex>
                 </Touchable>
               ))
           ) : (
-            <Text size={10} lineHeight={12}>
-              (空)
-            </Text>
+            <Text {...textProps}>(空)</Text>
           )}
 
           {!!folder.list.length && (
-            <Text style={_.mt.sm} size={10} lineHeight={12} type='sub' align='right'>
+            <Text style={_.mt.sm} {...textProps} type='sub' align='right'>
               点击复制地址，长按跳转
             </Text>
           )}

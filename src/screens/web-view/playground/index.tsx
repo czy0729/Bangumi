@@ -6,36 +6,9 @@
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
-import { createClient, AuthType } from 'webdav'
 import { Page, Header, Flex, Text } from '@components'
-import { useMount } from '@utils/hooks'
-
-const url = ''
-const username = ''
-const password = ''
-
-async function webDAV() {
-  const client = createClient(url, {
-    authType: AuthType.Password,
-    username,
-    password
-  })
-  try {
-    console.log('getDirectoryContents')
-    const items = await client.getDirectoryContents('/')
-    console.log(items)
-    return [true, null]
-  } catch (err) {
-    console.log(err)
-    return [false, `WebDAV connection failed: ${err.message}`]
-  }
-}
 
 const Playground = () => {
-  useMount(() => {
-    webDAV()
-  })
-
   return useObserver(() => (
     <>
       <Header title=' ' />

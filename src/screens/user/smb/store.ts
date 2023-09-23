@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-22 03:21:55
+ * @Last Modified time: 2023-09-23 13:51:10
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -13,7 +13,7 @@ import {
   userStore
 } from '@stores'
 import { SMB } from '@stores/smb/types'
-import { getTimestamp, sleep, desc, info, confirm } from '@utils'
+import { getTimestamp, sleep, desc, info, confirm, cnjp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
@@ -21,8 +21,6 @@ import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
 import { smbList, webDAVList } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
-
-const isWebDAV = true
 
 export default class ScreenSmb extends store {
   state = observable(STATE)
@@ -46,7 +44,7 @@ export default class ScreenSmb extends store {
 
   memoList: any[] = []
 
-  memoTags: any[] = []
+  memoTags: string[] = []
 
   // -------------------- fetch --------------------
   /** 更新数据 */
@@ -72,10 +70,14 @@ export default class ScreenSmb extends store {
     const subjectFetchs = []
     const collectionFetchs = []
     this.subjectIds.forEach((subjectId, index) => {
-      const { _loaded } = this.subjectV2(subjectId)
-
-      if (refresh || !_loaded || now - Number(_loaded) >= 60 * 60) {
-        subjectFetchs.push(() => {
+      const subjectV2 = this.subjectV2(subjectId)
+      if (
+        refresh ||
+        !subjectV2.id ||
+        !subjectV2._loaded ||
+        now - Number(subjectV2._loaded) >= 60 * 60
+      ) {
+        subjectFetchs.push(async () => {
           if (!this.state.loading) return
 
           this.setState({
@@ -115,7 +117,7 @@ export default class ScreenSmb extends store {
   connectSmb = async () => {
     const { smb } = this.current
 
-    const list = await (isWebDAV ? webDAVList(smb) : smbList(smb))
+    const list = await (IOS || smb.webDAV ? webDAVList(smb) : smbList(smb))
     if (list.length) {
       const data = toJS(this.data)
       const { uuid } = this.state
@@ -307,6 +309,18 @@ export default class ScreenSmb extends store {
         })
     }
 
+    if (sort === '名称') {
+      return this.list()
+        .slice()
+        .sort((a, b) => {
+          const subjectA = this.subjectV2(a.subjectId || '')
+          const subjectB = this.subjectV2(b.subjectId || '')
+          const nameA = cnjp(subjectA.cn, subjectA.jp) || ''
+          const nameB = cnjp(subjectB.cn, subjectB.jp) || ''
+          return nameA.localeCompare(nameB)
+        })
+    }
+
     if (sort === '目录修改时间') {
       return this.list().sort((a, b) => {
         return desc(String(b.lastModified || ''), String(a.lastModified || ''))
@@ -369,7 +383,7 @@ export default class ScreenSmb extends store {
     })
   }
 
-  tagsCount() {
+  tagsCount(): Record<string, number> {
     const data = {
       条目: 0,
       文件夹: 0
@@ -442,13 +456,15 @@ export default class ScreenSmb extends store {
   }
 
   tagsActions() {
-    const { tags, more } = this.state
+    // const { tags, more } = this.state
     const tagsCount = this.tagsCount()
-    return Object.keys(tagsCount)
-      .filter(item => (more ? true : tagsCount[item] >= 10 || tags.includes(item)))
-      .sort((a, b) =>
-        desc(DICT_ORDER[a] || tagsCount[a] || 0, DICT_ORDER[b] || tagsCount[b] || 0)
-      )
+    return (
+      Object.keys(tagsCount)
+        // .filter(item => (more ? true : tagsCount[item] >= 10 || tags.includes(item)))
+        .sort((a, b) =>
+          desc(DICT_ORDER[a] || tagsCount[a] || 0, DICT_ORDER[b] || tagsCount[b] || 0)
+        )
+    )
   }
 
   onShow = () => {
@@ -478,7 +494,8 @@ export default class ScreenSmb extends store {
       sharedFolder: smb.sharedFolder || EXCLUDE_STATE.sharedFolder,
       workGroup: smb.workGroup || EXCLUDE_STATE.workGroup,
       path: smb.path || EXCLUDE_STATE.path,
-      url: smb.url || EXCLUDE_STATE.url
+      url: smb.url || EXCLUDE_STATE.url,
+      webDAV: smb.webDAV
     })
 
     t('SMB.编辑')
@@ -499,13 +516,14 @@ export default class ScreenSmb extends store {
       sharedFolder: smb.sharedFolder || EXCLUDE_STATE.sharedFolder,
       workGroup: smb.workGroup || EXCLUDE_STATE.workGroup,
       path: smb.path || EXCLUDE_STATE.path,
-      url: smb.url || EXCLUDE_STATE.url
+      url: smb.url || EXCLUDE_STATE.url,
+      webDAV: IOS ? true : smb.webDAV
     })
 
     t('SMB.复制')
   }
 
-  onChange = (key: string, val: string) => {
+  onChange = (key: string, val: any) => {
     this.setState({
       [key]: val
     })
@@ -522,7 +540,8 @@ export default class ScreenSmb extends store {
       sharedFolder,
       workGroup,
       path,
-      url
+      url,
+      webDAV
     } = this.state
 
     if (!ip || !username || !sharedFolder) {
@@ -548,7 +567,8 @@ export default class ScreenSmb extends store {
             path,
             port,
             workGroup,
-            url: url || EXCLUDE_STATE.url
+            url: url || EXCLUDE_STATE.url,
+            webDAV: IOS ? true : webDAV
           },
           list: []
         },
@@ -568,6 +588,7 @@ export default class ScreenSmb extends store {
       data[index].smb.port = port
       data[index].smb.workGroup = workGroup
       data[index].smb.url = url || EXCLUDE_STATE.url
+      data[index].smb.webDAV = IOS ? true : webDAV
       smbStore.updateData(data)
       this.setState({
         ...EXCLUDE_STATE
@@ -620,11 +641,9 @@ export default class ScreenSmb extends store {
   }
 
   onSelectTag = (title: string) => {
-    if (!title) return
-
     const { tags } = this.state
     this.setState({
-      tags: tags.includes(title) ? [] : [title]
+      tags: title ? (tags.includes(title) ? [] : [title]) : []
     })
     this.cacheList()
     this.setStorage(NAMESPACE)

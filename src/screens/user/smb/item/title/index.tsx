@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-21 01:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 20:52:36
+ * @Last Modified time: 2023-09-23 12:13:04
  */
 import React from 'react'
 import { Flex, Katakana } from '@components'
@@ -14,12 +14,14 @@ function Title({ name, nameCn }) {
   const left = HTMLDecode(cnjp(nameCn, name))
   const right = HTMLDecode(cnjp(name, nameCn))
 
+  const { length: lengthLeft } = left
   const { length: lengthRight } = right
+  const sizeLeft = lengthLeft >= 20 ? 13 : lengthLeft >= 12 ? 14 : 15
   const sizeRight = lengthRight >= 24 ? 9 : lengthRight >= 16 ? 10 : 11
   return (
     <Flex wrap='wrap' align='end'>
-      <Katakana.Provider size={15} numberOfLines={1}>
-        <Katakana size={15} bold>
+      <Katakana.Provider size={sizeLeft} numberOfLines={1}>
+        <Katakana size={sizeLeft} bold>
           {left}{' '}
         </Katakana>
       </Katakana.Provider>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-24 16:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 17:17:23
+ * @Last Modified time: 2023-09-23 10:16:38
  */
 import React from 'react'
 import { Flex, Touchable, Text } from '@components'
@@ -11,6 +11,8 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Tags(props, { $ }: Ctx) {
+  if (!$.memoTags.length) return null
+
   const styles = memoStyles()
   const { tags, more } = $.state
   const tagsCount = $.tagsCount()

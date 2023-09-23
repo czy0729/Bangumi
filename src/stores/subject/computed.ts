@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 07:47:03
+ * @Last Modified time: 2023-09-23 06:45:12
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import {
+  Cover,
   EpId,
   HTMLText,
   MonoId,
@@ -252,6 +253,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   // -------------------- computed --------------------
+  /** 尽量获取到条目封面 */
+  cover(subjectId: SubjectId) {
+    return computed(() => {
+      return (this.subjectV2(subjectId)?.image ||
+        this.subject(subjectId)?.images?.medium ||
+        this.subjectFromOSS(subjectId)?.images?.medium ||
+        '') as Cover<'m'>
+    }).get()
+  }
+
   /** 尽量获取到条目中文名 */
   cn(subjectId: SubjectId) {
     return computed<string>(() => {

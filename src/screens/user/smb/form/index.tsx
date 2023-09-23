@@ -22,7 +22,8 @@ export default obc((props, { $ }: Ctx) => {
     sharedFolder,
     path,
     workGroup,
-    url
+    url,
+    webDAV
   } = $.state
   return (
     <Form
@@ -38,6 +39,7 @@ export default obc((props, { $ }: Ctx) => {
       path={path}
       workGroup={workGroup}
       url={url}
+      webDAV={webDAV}
       onChange={$.onChange}
       onClose={$.onClose}
       onSubmit={$.onSubmit}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 16:50:06
+ * @Last Modified time: 2023-09-23 13:51:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,8 @@ import { Flex, Iconfont, Text, Loading } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Tags from '../tags'
-import { ACTIONS_SORT, ACTIONS_SMB } from '../ds'
+import ToolBar from '../tool-bar'
+import { ACTIONS_SMB } from '../ds'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
@@ -21,7 +21,7 @@ function Top(props, { $, navigation }: Ctx) {
 
   const styles = memoStyles()
   const { loading } = $.state
-  const { name, ip, port, sharedFolder } = smb
+  const { name, ip, port, sharedFolder, webDAV } = smb
   return (
     <>
       <Flex style={styles.container}>
@@ -35,16 +35,11 @@ function Top(props, { $, navigation }: Ctx) {
             </Flex>
           </Popover>
           <Text size={12} type='sub' bold lineHeight={18} numberOfLines={2}>
-            {ip}
+            [{webDAV ? 'webDAV' : 'SMB'}] {ip}
             {!!port && `:${port}`}
             {!!sharedFolder && `/${sharedFolder}`}
           </Text>
         </Flex.Item>
-        {!!$.list.length && (
-          <Popover style={styles.popover} data={ACTIONS_SORT} onSelect={$.onSelectSort}>
-            <Iconfont name='md-sort' color={_.colorDesc} />
-          </Popover>
-        )}
         <Popover
           style={[styles.popover, styles.more]}
           data={ACTIONS_SMB}
@@ -53,7 +48,7 @@ function Top(props, { $, navigation }: Ctx) {
           <Iconfont name='md-more-vert' color={_.colorDesc} />
         </Popover>
       </Flex>
-      <Tags />
+      <ToolBar />
       {!!loading && (
         <Flex style={_.mb.sm} justify='center'>
           <View style={styles.loading}>

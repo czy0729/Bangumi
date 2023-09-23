@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:10:44
+ * @Last Modified time: 2023-09-23 12:02:24
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -49,7 +49,7 @@ export default memo(
     return (
       <View style={styles.container}>
         <View style={styles.wrap}>
-          <Flex align={loaded ? 'start' : 'center'}>
+          <Flex align='start'>
             <Cover
               navigation={navigation}
               loaded={loaded}
@@ -98,10 +98,12 @@ export default memo(
                 )}
 
                 {!!folder.tags.length && (
-                  <Flex style={_.mt.sm} wrap='wrap'>
-                    {folder.tags.map(item => (
-                      <Tag key={item} style={styles.tag} value={item} />
-                    ))}
+                  <Flex style={_.mt.md}>
+                    {folder.tags
+                      .filter((item, index) => index < 5)
+                      .map(item => (
+                        <Tag key={item} style={styles.tag} value={item} />
+                      ))}
                   </Flex>
                 )}
 

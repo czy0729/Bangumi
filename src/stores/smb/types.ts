@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-21 00:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:36:28
+ * @Last Modified time: 2023-09-23 12:45:54
  */
 import { Loaded, SubjectId } from '@types'
 
@@ -18,6 +18,7 @@ export type SMB = {
     port: string
     workGroup: string
     url: string
+    webDAV?: boolean
     loaded: Loaded
   }
   list: {

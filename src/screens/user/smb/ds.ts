@@ -2,9 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-22 01:36:59
+ * @Last Modified time: 2023-09-23 12:36:46
  */
-export const ACTIONS_SORT = ['日期', '评分', '评分人数', '目录修改时间'] as const
+import { IOS } from '@constants'
+
+export const ACTIONS_SORT = [
+  '日期',
+  '评分',
+  '评分人数',
+  '名称',
+  '目录修改时间'
+] as const
 
 export const ACTIONS_SMB = ['扫描', '编辑', '复制配置新建', '创建目录', '删除'] as const
 
@@ -29,7 +37,8 @@ export const EXCLUDE_STATE = {
   sharedFolder: '',
   workGroup: '',
   path: '',
-  url: 'smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]'
+  url: `${IOS ? 'http' : 'smb'}://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]`,
+  webDAV: IOS
 }
 
 export const STATE = {

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-28 12:31:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 02:01:51
+ * @Last Modified time: 2023-09-23 10:29:28
  */
 import React from 'react'
-import { Header, Page } from '@components'
-import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
+import Header from './header'
 import List from './list'
 import Form from './form'
 import Store from './store'
@@ -22,18 +21,7 @@ const Smb = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Header
-        title='本地管理'
-        hm={['smb', 'Smb']}
-        headerRight={() => (
-          <IconTouchable
-            name='md-add'
-            color={_.colorTitle}
-            size={24}
-            onPress={$.onShow}
-          />
-        )}
-      />
+      <Header />
       <Page loaded={$.state._loaded}>
         <List />
         <Form />

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-02-22 02:21:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 02:25:57
+ * @Last Modified time: 2023-09-23 11:23:03
  */
 import React from 'react'
 import { Image } from '@components'
 import { Cover as CoverComp } from '@_'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_DEFAULT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 import { ICONS } from '../../ds'
 
 function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
@@ -17,7 +17,7 @@ function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
     return (
       <Image
         src={ICONS.folder}
-        size={IMG_WIDTH}
+        size={IMG_WIDTH_LG}
         placeholder={false}
         resizeMode='contain'
       />
@@ -27,8 +27,8 @@ function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
   return (
     <CoverComp
       src={image || IMG_DEFAULT}
-      width={IMG_WIDTH}
-      height={IMG_HEIGHT}
+      width={IMG_WIDTH_LG}
+      height={IMG_HEIGHT_LG}
       radius
       shadow
       type={typeCn}
