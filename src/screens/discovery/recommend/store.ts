@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 22:08:17
+ * @Last Modified time: 2023-09-27 06:43:49
  */
 import { computed, observable } from 'mobx'
 import { subjectStore, userStore } from '@stores'
@@ -257,7 +257,7 @@ export default class ScreenRecommend extends store {
 
   doSearchV2 = async () => {
     try {
-      const { cat, value, e } = this.state
+      const { cat, value } = this.state
       if (!value) return
 
       // if (cat === 'v1') return this.doSearch()
@@ -270,10 +270,20 @@ export default class ScreenRecommend extends store {
 
       // @ts-expect-error
       const { data } = await axios({
-        method: 'get',
-        url: `http://124.221.81.229/api/v3/rec/${value.trim()}/?type=${
-          subjectType || 0
-        }&e=${e === '' ? 0.1 : e}`
+        method: 'post',
+        url: `https://bangrecs.net/api/v4/rec/${value.trim()}`,
+        data: {
+          IsTagFilter: false,
+          IsTimeFilter: false,
+          // endDate: '2023-09-26T22:35:09.403Z',
+          popdays: 7,
+          // startDate: '1899-12-31T15:54:17.000Z',
+          strategy: 'pop',
+          tags: [[]],
+          topk: 40,
+          type: String(subjectType || 0),
+          update_f: false
+        }
       })
 
       t('推荐.刷新', {

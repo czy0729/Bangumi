@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 13:21:39
+ * @Last Modified time: 2023-09-27 06:44:13
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,7 @@ export const EXCLUDE_STATE = {
   visibleBottom: _.window.height,
 
   /** 类型 */
-  cat: '默认',
+  cat: '动画',
 
   /** 输入框聚焦中 */
   focus: false,
