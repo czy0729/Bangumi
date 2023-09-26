@@ -112,7 +112,8 @@ export const MENU_MAP = {
   Recommend: {
     key: 'Recommend',
     name: '推荐',
-    icon: 'md-favorite-outline'
+    icon: 'md-favorite-outline',
+    size: 21
   },
   Dollars: {
     key: 'Dollars',
@@ -155,9 +156,8 @@ export const MENU_MAP = {
   Smb: {
     key: 'Smb',
     name: '本地管理',
-    text: 'SMB',
-    size: 14,
-    ios: false,
+    icon: 'md-inbox',
+    size: 22,
     web: false
   },
   DoubanSync: {

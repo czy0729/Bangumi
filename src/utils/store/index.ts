@@ -61,7 +61,7 @@ export default class Store {
 
   /**
    * 清除一个 state
-   * @param {*} key state的键值
+   * @param {*} key state 的键值
    * @param {*} data 置换值
    */
   clearState = action((key: string, data: any = {}) => {

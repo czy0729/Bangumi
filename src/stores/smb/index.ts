@@ -68,6 +68,14 @@ class SMBStore extends store implements StoreConstructor<typeof STATE> {
     })
     this.save(key)
   }
+
+  replaceData = data => {
+    const key = 'data'
+    this.clearState(key, {
+      data
+    })
+    this.save(key)
+  }
 }
 
 const smbStore = new SMBStore()

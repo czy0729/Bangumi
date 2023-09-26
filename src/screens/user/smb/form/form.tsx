@@ -75,6 +75,7 @@ export default memo(
         onClose={onClose}
       >
         <KeyboardAvoidingView style={styles.body} behavior='padding'>
+          {/* 类型 */}
           <Flex>
             <Text style={styles.label} size={12}>
               类型
@@ -94,6 +95,62 @@ export default memo(
             </Flex.Item>
           </Flex>
 
+          {/* 例子 */}
+          <Flex style={_.mt.sm} align='start'>
+            <Text style={styles.label} size={12} lineHeight={13}>
+              例子
+            </Text>
+            <Flex.Item>
+              {webDAV ? (
+                <>
+                  <Text size={10} lineHeight={12} type='sub'>
+                    http://{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      192.168.1.1
+                    </Text>
+                    ① :{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      5081
+                    </Text>
+                    ② /{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      my_dav/anime
+                    </Text>
+                    ③
+                  </Text>
+                  <Text size={10} lineHeight={12} type='sub'>
+                    ①主机 ②端口 ③路径
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text size={10} lineHeight={12} type='sub'>
+                    smb://{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      192.168.1.1
+                    </Text>
+                    ① :{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      445
+                    </Text>
+                    ② /{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      my_smb
+                    </Text>
+                    ③ /{' '}
+                    <Text size={10} lineHeight={12} type='sub' underline>
+                      anime
+                    </Text>
+                    ④
+                  </Text>
+                  <Text size={10} lineHeight={12} type='sub'>
+                    ①主机 ②端口 ③路径 ④文件夹
+                  </Text>
+                </>
+              )}
+            </Flex.Item>
+          </Flex>
+
           {/* 别名 */}
           <Flex style={_.mt.sm}>
             <Text style={styles.label} size={12}>
@@ -103,7 +160,7 @@ export default memo(
               <Input
                 ref={ref => (nameRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='选填，如 2023S4'
+                placeholder='选填，用于区分，如 2023S4'
                 defaultValue={name}
                 showClear
                 returnKeyType='next'
@@ -133,6 +190,31 @@ export default memo(
                 showClear
                 returnKeyType='next'
                 onChangeText={text => onChange('ip', text)}
+                onSubmitEditing={() => {
+                  try {
+                    if (typeof portRef?.current?.focus === 'function') {
+                      portRef.current.focus()
+                    }
+                  } catch (error) {}
+                }}
+              />
+            </Flex.Item>
+          </Flex>
+
+          {/* 端口 */}
+          <Flex>
+            <Text style={styles.label} size={12}>
+              端口
+            </Text>
+            <Flex.Item>
+              <Input
+                ref={ref => (portRef.current = ref?.inputRef)}
+                style={styles.input}
+                placeholder='默认 445'
+                defaultValue={port}
+                showClear
+                returnKeyType='next'
+                onChangeText={text => onChange('port', text)}
                 onSubmitEditing={() => {
                   try {
                     if (typeof usernameRef?.current?.focus === 'function') {
@@ -203,7 +285,7 @@ export default memo(
               <Input
                 ref={ref => (sharedFolderRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='必填，通常为共享的顶层目录'
+                placeholder='选填，常为顶目录，头尾不要填斜杠'
                 defaultValue={sharedFolder}
                 showClear
                 returnKeyType='next'
@@ -235,31 +317,6 @@ export default memo(
                 onChangeText={text => onChange('path', text)}
                 onSubmitEditing={() => {
                   try {
-                    if (typeof portRef?.current?.focus === 'function') {
-                      portRef.current.focus()
-                    }
-                  } catch (error) {}
-                }}
-              />
-            </Flex.Item>
-          </Flex>
-
-          {/* 端口 */}
-          <Flex>
-            <Text style={styles.label} size={12}>
-              端口
-            </Text>
-            <Flex.Item>
-              <Input
-                ref={ref => (portRef.current = ref?.inputRef)}
-                style={styles.input}
-                placeholder='默认 445'
-                defaultValue={port}
-                showClear
-                returnKeyType='next'
-                onChangeText={text => onChange('port', text)}
-                onSubmitEditing={() => {
-                  try {
                     if (typeof workGroupRef?.current?.focus === 'function') {
                       workGroupRef.current.focus()
                     }
@@ -278,7 +335,7 @@ export default memo(
               <Input
                 ref={ref => (workGroupRef.current = ref?.inputRef)}
                 style={styles.input}
-                placeholder='默认空，通常不填'
+                placeholder='通常不填，默认空'
                 defaultValue={workGroup}
                 showClear
                 returnKeyType='next'
@@ -307,6 +364,7 @@ export default memo(
                     s2tAsync('自定义跳转'),
                     s2tAsync(`自定义第三方跳转规则。点击文件复制地址，长按跳转。
                     \n[IP] = 主机:端口\n[USERNAME] = 用户\n[PASSWORD] = 密码\n[PATH] = 目录路径\n[FILE] = 文件路径
+                    \n若使用 SMB 务必使用 smb:// 开头，webDAV 务必使用 http | https:// 开头
                     \n推荐播放安装 VLC，直接使用 smb:// 能播；其次推荐 nPlayer，支持 nplayer-smb:// 前缀的直接跳转。\n目前已知只有 smb 1.0 协议可以直接播放，2.0会被强制关闭连接，待解决。`),
                     [
                       {

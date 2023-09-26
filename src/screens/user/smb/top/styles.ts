@@ -19,10 +19,9 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   more: {
-    marginRight: -11
+    marginRight: -13
   },
   loading: {
-    marginTop: 5,
     marginLeft: -24,
     transform: [
       {

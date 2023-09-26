@@ -13,9 +13,11 @@ import {
   userStore
 } from '@stores'
 import { SMB } from '@stores/smb/types'
-import { getTimestamp, sleep, desc, info, confirm, cnjp } from '@utils'
+import { getTimestamp, sleep, desc, info, alert, confirm, cnjp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
+import { get, update } from '@utils/kv'
+import Crypto from '@utils/crypto'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
 import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
@@ -135,7 +137,8 @@ export default class ScreenSmb extends store {
     }
 
     t('SMB.扫描', {
-      length: list.length
+      length: list.length,
+      webDAV: smb.webDAV
     })
   }
 
@@ -694,6 +697,55 @@ export default class ScreenSmb extends store {
     if (title === '删除') {
       confirm('删除后无法恢复，确定？', this.onDelete)
     }
+  }
+
+  upload = () => {
+    const { myUserId } = userStore
+    if (!myUserId) {
+      info(`需要先${i18n.login()}`)
+      return
+    }
+
+    confirm(
+      `会将所有本地配置加密后上传到云，以便丢失的时候同步回来。若想清空云端数据，可以将本地的所有配置删除后再次上传。确定？`,
+      () => {
+        let configs = []
+        try {
+          configs = this.data.map(item => ({
+            list: [],
+            smb: item.smb
+          }))
+          update(`smb_${myUserId}`, Crypto.set(configs))
+        } catch (error) {
+          info('上传失败，请重试或联系作者')
+        }
+      }
+    )
+  }
+
+  download = () => {
+    const { myUserId } = userStore
+    if (!myUserId) {
+      info(`需要先${i18n.login()}`)
+      return
+    }
+
+    confirm(
+      `同步后会将云端配置数据覆盖掉本地所有配置数据，并会清空现有扫描列表，确定？`,
+      async () => {
+        try {
+          const data = await get(`smb_${myUserId}`)
+          const configs = Crypto.get(data)
+          if (Array.isArray(configs) && configs.length) {
+            smbStore.replaceData(configs)
+            info('已覆盖')
+            return
+          }
+        } catch (error) {}
+
+        alert('下载失败，可能没有数据或者数据格式出错')
+      }
+    )
   }
 
   /** 创建目录 */

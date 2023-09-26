@@ -30,7 +30,9 @@ export function webDAVList(
   return new Promise(async resolve => {
     webDAVClient = null
 
-    let host = `http://${config.ip}`
+    let host = String(config.ip)
+    if (host.indexOf('http') !== 0) host = `http://${host}`
+
     if (config.port) host += `:${config.port}`
     const url = [host, config.sharedFolder].filter(item => !!item).join('/')
 

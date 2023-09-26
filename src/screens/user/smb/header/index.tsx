@@ -6,8 +6,6 @@
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
-import { IconTouchable } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
@@ -17,11 +15,27 @@ function Header(props, { $ }: Ctx) {
       title='本地管理'
       hm={['smb', 'Smb']}
       headerRight={() => (
-        <IconTouchable
-          name='md-add'
-          color={_.colorTitle}
-          size={24}
-          onPress={$.onShow}
+        <CompHeader.Popover
+          name='md-menu'
+          data={['新增服务', '下载配置', '上传配置']}
+          onSelect={key => {
+            switch (key) {
+              case '新增服务':
+                $.onShow()
+                break
+
+              case '下载配置':
+                $.download()
+                break
+
+              case '上传配置':
+                $.upload()
+                break
+
+              default:
+                break
+            }
+          }}
         />
       )}
     />

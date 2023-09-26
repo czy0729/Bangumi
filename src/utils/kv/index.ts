@@ -14,7 +14,7 @@ import { HOST, UPDATE_CACHE_MAP } from './ds'
 import { Result, ResultTemp } from './type'
 
 /** 获取 */
-export async function get(key: string): Promise<Result> {
+export async function get(key: string): Promise<any> {
   // @ts-expect-error
   const { data } = await axios({
     method: 'get',
