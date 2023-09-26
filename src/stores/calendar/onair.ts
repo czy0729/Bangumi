@@ -5,6 +5,312 @@
  * @Last Modified time: 2023-04-06 06:23:09
  */
 export const ON_AIR = {
+  /** 2023S4 */
+  425601: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  416534: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  444634: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  422425: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  424453: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  434818: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  411427: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  424372: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  427329: {
+    weekDayCN: 2,
+    timeCN: ''
+  },
+  375512: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  425638: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  424892: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  442523: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  398949: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  360121: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  380792: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  418599: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  364252: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  217021: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  400602: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  374648: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  397808: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  348220: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  448114: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  418512: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  425990: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  400551: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  424379: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  403722: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  404115: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  413741: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  418494: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  403631: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  432651: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  435926: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  362255: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  411426: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  411106: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  412164: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  452511: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  453630: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  289907: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  419846: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  326867: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  363569: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  373787: {
+    weekDayCN: 2,
+    timeCN: ''
+  },
+  421174: {
+    weekDayCN: 0,
+    timeCN: ''
+  },
+  420628: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  400114: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  414214: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  410928: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  421643: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  398922: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  406736: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  419728: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  390980: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  406180: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  353819: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  362005: {
+    weekDayCN: 6,
+    timeCN: ''
+  },
+  400595: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  408361: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  402742: {
+    weekDayCN: 2,
+    timeCN: ''
+  },
+  407332: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  309807: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  404284: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  411268: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  402745: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  418289: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  385210: {
+    weekDayCN: 2,
+    timeCN: ''
+  },
+  426049: {
+    weekDayCN: 5,
+    timeCN: ''
+  },
+  320456: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+  443147: {
+    weekDayCN: 3,
+    timeCN: ''
+  },
+  427568: {
+    weekDayCN: 4,
+    timeCN: ''
+  },
+  368833: {
+    weekDayCN: 7,
+    timeCN: ''
+  },
+  451559: {
+    weekDayCN: 2,
+    timeCN: ''
+  },
+  451858: {
+    weekDayCN: 1,
+    timeCN: ''
+  },
+
   /** 2023S3 */
   376106: {
     weekDayCN: 1,
