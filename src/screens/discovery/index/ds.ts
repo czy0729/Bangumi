@@ -111,7 +111,7 @@ export const MENU_MAP = {
   },
   Recommend: {
     key: 'Recommend',
-    name: '推荐',
+    name: 'AI 推荐',
     icon: 'md-favorite-outline',
     size: 21
   },

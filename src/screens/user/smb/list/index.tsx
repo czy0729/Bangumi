@@ -24,8 +24,8 @@ function List(props, { $ }: Ctx) {
       renderItem={renderItem}
       footerEmptyDataText={
         $.smbs.length
-          ? `当前没有目录数据\n请先扫描点右上方菜单扫描目录`
-          : `当前没有服务器数据\n请先点击右上方 + 添加`
+          ? `当前没有目录数据\n请先点击右上方菜单扫描目录`
+          : `当前没有服务器数据\n请先点击右上方菜单新增服务`
       }
       onHeaderRefresh={$.onHeaderRefresh}
     />

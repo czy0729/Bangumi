@@ -699,6 +699,7 @@ export default class ScreenSmb extends store {
     }
   }
 
+  /** 上传配置 */
   upload = () => {
     const { myUserId } = userStore
     if (!myUserId) {
@@ -723,6 +724,7 @@ export default class ScreenSmb extends store {
     )
   }
 
+  /** 下载配置 */
   download = () => {
     const { myUserId } = userStore
     if (!myUserId) {
@@ -738,6 +740,13 @@ export default class ScreenSmb extends store {
           const configs = Crypto.get(data)
           if (Array.isArray(configs) && configs.length) {
             smbStore.replaceData(configs)
+
+            const { uuid } = configs?.[0]?.smb
+            this.setState({
+              uuid
+            })
+            this.setStorage(NAMESPACE)
+
             info('已覆盖')
             return
           }

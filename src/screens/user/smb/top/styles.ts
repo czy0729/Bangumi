@@ -19,7 +19,7 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   more: {
-    marginRight: -13
+    marginRight: _.ios(-13, -11)
   },
   loading: {
     marginLeft: -24,

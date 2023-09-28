@@ -19,7 +19,7 @@ export const styles = _.create({
     marginLeft: _.ios(-4, -9)
   },
   headerRightContainerStyle: {
-    marginRight: _.ios(-13, -10)
+    marginRight: _.ios(-13, -8)
   }
 })
 
