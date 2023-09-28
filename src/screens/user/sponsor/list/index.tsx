@@ -9,6 +9,7 @@ import { Text } from '@components'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { TEXT_UPDATE_SPONSOR } from '@constants'
 import ListItem from '../list-item'
 import { LIST } from '../ds'
 
@@ -22,7 +23,7 @@ function List() {
       limit={40}
       ListHeaderComponent={
         <Text style={[_.mt.sm, _.mb.md]} size={12} bold align='center'>
-          截止至 2023-06-09 共 {LIST.length} 人投食了，感谢你们的支持！
+          截止至 {TEXT_UPDATE_SPONSOR} 共 {LIST.length} 人投食了，感谢你们的支持！
         </Text>
       }
       renderItem={renderItem}
