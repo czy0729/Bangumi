@@ -414,12 +414,16 @@ export default class Computed extends State {
   /** 当前放送到的章节 */
   currentOnAir(subjectId: SubjectId) {
     try {
-      return (
-        this.epsNoSp(subjectId)
-          .slice()
-          .reverse()
-          .find(item => item.status === 'Air')?.sort || 0
-      )
+      const eps = this.epsNoSp(subjectId).slice().reverse()
+
+      // 若第一集为第 0 集, +1
+      let flagZero = false
+      if (eps.length && eps[eps.length - 1].sort === 0) {
+        flagZero = true
+      }
+
+      const current = eps.find(item => item.status === 'Air')?.sort || 0
+      return flagZero && current ? current + 1 : current
     } catch (error) {
       console.error(NAMESPACE, 'nextWatchEp', error)
       return 0
@@ -435,7 +439,11 @@ export default class Computed extends State {
         .reverse()
       const userProgress = this.userProgress(subjectId)
       const item = eps.find(item => userProgress[item.id] === '看过')
-      if (item) return item.sort
+      if (item) {
+        // 若第一集为第 0 集, +1
+        if (eps.length && eps[eps.length - 1].sort === 0) return item.sort + 1
+        return item.sort
+      }
 
       // 不能直接用 API 给的 epStatus, 会把 SP 都加上
       // 需要根据 userProgress 和 eps 排除掉 SP 算
@@ -604,14 +612,17 @@ export default class Computed extends State {
           right = `${current}`
           if (total !== current) right += ` (${total})`
           break
+
         case 'C':
           right = `${total}`
           if (total !== current) right += ` (${current})`
           break
+
         case 'D':
           right = `${current}`
           if (total !== current) right += ` / ${total}`
           break
+
         default:
           right = `${total}`
           break
