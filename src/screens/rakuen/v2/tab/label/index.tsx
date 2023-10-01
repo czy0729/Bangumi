@@ -8,16 +8,15 @@ import React from 'react'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
-import { Ctx } from '../../types'
 
-function Label({ focused, model, label, value }, { $ }: Ctx) {
+function Label({ focused, model, label, value, onSelect }) {
   return (
     <Popover
       style={_.container.block}
       data={model.data.map(item => item.label)}
-      onSelect={$.onGroupMenuPress}
+      onSelect={onSelect}
     >
       <Flex style={_.container.block} justify='center'>
         <Text type='title' size={13} bold={focused} noWrap>
@@ -34,4 +33,4 @@ function Label({ focused, model, label, value }, { $ }: Ctx) {
   )
 }
 
-export default obc(Label)
+export default ob(Label)

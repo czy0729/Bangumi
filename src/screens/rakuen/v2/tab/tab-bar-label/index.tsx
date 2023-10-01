@@ -22,6 +22,7 @@ function TabBarLabel({ route, focused }, { $ }: Ctx) {
         model={MODEL_RAKUEN_TYPE_GROUP}
         label='小组'
         value={group}
+        onSelect={$.onGroupMenuPress}
       />
     )
   }
@@ -33,6 +34,7 @@ function TabBarLabel({ route, focused }, { $ }: Ctx) {
         model={MODEL_RAKUEN_TYPE_MONO}
         label='人物'
         value={mono}
+        onSelect={$.onMonoMenuPress}
       />
     )
   }
