@@ -8,7 +8,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-07-14 14:22:11
  */
-import { collectionStore, otaStore, subjectStore, userStore } from '@stores'
+import {
+  collectionStore,
+  otaStore,
+  rakuenStore,
+  subjectStore,
+  userStore
+} from '@stores'
+import { ApiSubjectResponse } from '@stores/subject/types'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
 import { SHARE_MODE, STORYBOOK } from '@constants'
@@ -78,7 +85,9 @@ class ScreenSubject extends Action {
         () => this.fetchAnitabi(),
         () => {
           // 网页端走的反代, 很容易请求挂起, 需要第一时间回去云端缓存数据
-          if (STORYBOOK) return this.fetchCommentsFromOSS()
+          if (STORYBOOK) {
+            return this.fetchCommentsFromOSS()
+          }
 
           // APP 端可以延迟获取, 若正常数据获取到, 会取消获取云端数据
           setTimeout(() => {
@@ -92,14 +101,34 @@ class ScreenSubject extends Action {
         () => this.setRendered(),
         () => {
           // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
-          if (this.subject.eps?.length < 1000) return true
-          return subjectStore.fetchSubjectEpV2(this.subjectId)
+          if (this.subject.eps?.length >= 1000) {
+            return subjectStore.fetchSubjectEpV2(this.subjectId)
+          }
         },
         () => {
-          // nsfw 条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
+          // NSFW 条目不再返回数据, 而旧接口 staff 也错乱, 主动请求网页的 staff 数据
           // @ts-expect-error
-          if (data?.code === 404) return this.fetchPersons()
-          return true
+          if (data?.code === 404) {
+            return this.fetchPersons()
+          }
+        },
+        () => {
+          // NSFW 条目若从 v0 接口中返回了条目信息, 是没有日志短列表信息的
+          // 需要从单独的对应子页面里面获取一页信息
+          if ((data as ApiSubjectResponse)?.v0) {
+            return rakuenStore.fetchReviews({
+              subjectId: this.subjectId
+            })
+          }
+        },
+        () => {
+          // NSFW 条目若从 v0 接口中返回了条目信息, 是没有帖子短列表信息的
+          // 需要从单独的对应子页面里面获取一页信息
+          if ((data as ApiSubjectResponse)?.v0) {
+            return rakuenStore.fetchBoard({
+              subjectId: this.subjectId
+            })
+          }
         }
       ],
       2

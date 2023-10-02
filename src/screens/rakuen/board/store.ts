@@ -6,12 +6,12 @@
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_BOARD, LIST_EMPTY } from '@constants'
-import { Params } from './types'
 import { TopicId } from '@types'
-import { getTimestamp } from '@utils'
+import { Params } from './types'
 
 const NAMESPACE = 'ScreenBoard'
 

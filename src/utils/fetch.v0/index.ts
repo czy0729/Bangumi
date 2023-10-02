@@ -17,7 +17,10 @@ import { Collection, CollectionItem, UserCollection, UserCollectionItem } from '
 
 export { HOST_API_V0, request }
 
-/** 获取条目信息 */
+/**
+ * 获取条目信息, 测试中的新 API 接口
+ * 旧版接口不再返回 NSFW 条目信息, 但是新版也不返回用户相关信息
+ * */
 export async function fetchSubjectV0(config: { url: string }) {
   const subjectId = Number(config.url.split('/subject/')[1])
   const subject = await request<any>(`${HOST_API_V0}/subjects/${subjectId}`)
@@ -37,10 +40,21 @@ export async function fetchSubjectV0(config: { url: string }) {
     rank: subject?.rating?.rank,
     images: subject?.images,
     collection: subject?.collection,
+
+    /** 角色可以从 v0 接口里面获取 */
     crt: [],
+
+    /** 职员可以从 v0 接口里面获取 */
     staff: [],
+
+    /** 评论属于用户相关信息, v0 接口不再提供, 需要根据 v0 表示自行从别的地方获取 */
     blog: [],
-    topic: []
+
+    /** 讨论版属于用户相关信息, v0 接口不再提供, 需要根据 v0 表示自行从别的地方获取 */
+    topic: [],
+
+    /** 使用了兜底接口的标识 */
+    v0: true
   }
 
   try {

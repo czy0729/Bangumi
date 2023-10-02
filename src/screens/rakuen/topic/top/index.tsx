@@ -42,6 +42,7 @@ export default obc((props, { $, navigation }: Ctx) => {
       group={$.group}
       groupHref={$.groupHref}
       groupThumb={groupThumb}
+      groupThumbFallback={$.groupThumb}
       avatar={$.avatar}
       userId={$.userId}
       userName={$.userName}

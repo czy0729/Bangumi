@@ -19,6 +19,7 @@ export const DEFAULT_PROPS = {
   group: '' as $['group'],
   groupHref: '' as $['groupHref'],
   groupThumb: '' as $['groupThumb'],
+  groupThumbFallback: '' as $['groupThumb'],
   avatar: '' as $['avatar'],
   userId: '' as $['userId'],
   userName: '' as $['userName'],

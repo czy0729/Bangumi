@@ -40,6 +40,7 @@ export default memo(
     group,
     groupHref,
     groupThumb,
+    groupThumbFallback,
     avatar,
     userId,
     userName,
@@ -111,6 +112,8 @@ export default memo(
                       size={isEp ? 40 : 20}
                       src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
                       radius={_.radiusXs}
+                      fallback
+                      fallbackSrc={String(groupThumbFallback).replace('/r/100x100', '')}
                     />
                     <Text style={styles.group} size={13} numberOfLines={1}>
                       {HTMLDecode(findSubjectCn(group))}

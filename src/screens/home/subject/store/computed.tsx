@@ -25,10 +25,10 @@ import {
   findSubjectCn,
   getOnAir,
   getTimestamp,
-  x18,
-  removeHTMLTag,
   isArray,
-  matchCoverUrl
+  matchCoverUrl,
+  removeHTMLTag,
+  x18
 } from '@utils'
 import { findAnime, ANIME_TAGS } from '@utils/subject/anime'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
@@ -38,14 +38,14 @@ import { findADV } from '@utils/subject/adv'
 import { HENTAI_TAGS, findHentai } from '@utils/subject/hentai'
 import {
   HOST,
+  IMG_DEFAULT,
   IMG_WIDTH_LG,
   MODEL_SUBJECT_TYPE,
   SITES,
   SITES_DS,
-  URL_DEFAULT_AVATAR,
-  getOTA,
   STORYBOOK,
-  IMG_DEFAULT
+  URL_DEFAULT_AVATAR,
+  getOTA
 } from '@constants'
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
@@ -68,7 +68,7 @@ export default class Computed extends State {
     return `${NAMESPACE}|${this.subjectId}` as const
   }
 
-  /** 用于懒渲染 */
+  /** @deprecated 用于懒渲染 */
   @computed get rendered() {
     return STORYBOOK ? true : this.state.rendered
   }

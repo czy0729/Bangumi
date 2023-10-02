@@ -545,6 +545,9 @@ export type ApiSubjectResponse = {
   /** responseGroup: large */
   blog?: Blog
 
+  /** v0 mark */
+  v0?: true
+
   _loaded: Loaded
 }
 

@@ -5,7 +5,8 @@
  * @Last Modified time: 2022-07-09 16:40:58
  */
 import React from 'react'
-import { systemStore } from '@stores'
+import { rakuenStore, systemStore } from '@stores'
+import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { Ctx } from '../types'
@@ -26,6 +27,38 @@ export default obc((props, { $, navigation }: Ctx) => {
       return true
     })
   }
+
+  if (!_blog.length) {
+    try {
+      const reviews = rakuenStore.reviews($.subjectId)
+      if (reviews?.list?.length) {
+        // @ts-ignore
+        _blog = reviews.list.map(item => ({
+          dateline: item.time,
+          id: Number(item.id),
+          image: '',
+          replies: Number(item.replies.replace('+', '') || 0),
+          summary: item.content,
+          timestamp: getTimestamp(item.time),
+          title: item.title,
+          url: `//bgm.tv/blog/${item.id}`,
+          user: {
+            avatar: {
+              large: item.avatar,
+              medium: item.avatar,
+              small: item.avatar
+            },
+            id: item.userId,
+            nickname: item.userName,
+            sign: '',
+            url: `//bgm.tv/user/${item.userId}`,
+            username: item.userId
+          }
+        }))
+      }
+    } catch (error) {}
+  }
+
   if (!_blog.length) return null
 
   return (
