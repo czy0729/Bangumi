@@ -1109,7 +1109,7 @@ export default class Action extends Fetch {
           'TZID:Asia/Shanghai',
           `DTSTART:${DTSTART}`,
           `DTEND:${DTEND}`,
-          `SUMMARY:[ep.${item.sort}] ${cnjp(this.subject.name_cn, this.subject.name)}`,
+          `SUMMARY:${cnjp(this.subject.name_cn, this.subject.name)} ep.${item.sort}`,
           `DESCRIPTION:${desc}`,
           'TRANSP:OPAQUE',
           'END:VEVENT'
