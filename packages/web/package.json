@@ -32,7 +32,7 @@
     "axios": "^0.19.0",
     "bangumi-data": "^0.3.118",
     "cheerio-without-node-native": "0.20.2",
-    "crypto-js": "3.1.9-1",
+    "crypto-js": "3.2.1",
     "csvjson-csv2json": "^5.0.6",
     "dayjs": "1.10.8",
     "deepmerge": "4.2.2",
