@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-native-tab-view/src/TabBarItem.tsx b/node_modules/react-native-tab-view/src/TabBarItem.tsx
+index c1c0d77..1d73da9 100644
+--- a/node_modules/react-native-tab-view/src/TabBarItem.tsx
++++ b/node_modules/react-native-tab-view/src/TabBarItem.tsx
+@@ -244,7 +244,10 @@ const TabBarItemInternal = <T extends Route>({
+       onLongPress={onLongPress}
+       style={[styles.pressable, tabContainerStyle]}
+     >
+-      <View pointerEvents="none" style={[styles.item, tabStyle]}>
++      <View
++        // pointerEvents="none"
++        style={[styles.item, tabStyle]}
++      >
+         {icon}
+         {label}
+         {badge != null ? <View style={styles.badge}>{badge}</View> : null}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 06:57:54
+ * @Last Modified time: 2023-10-05 10:17:00
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -35,11 +35,12 @@ class ScreenHomeV2 extends Action {
       this.initUser()
       inited = true
 
-      await this.initStore()
       setTimeout(() => {
         this.initFetch()
       }, 4000)
     }
+
+    await this.initStore()
 
     return true
   }
