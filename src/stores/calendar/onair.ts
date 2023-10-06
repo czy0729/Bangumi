@@ -8,23 +8,23 @@ export const ON_AIR = {
   /** 2023S4 */
   425601: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2355'
   },
   416534: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '2100'
   },
   444634: {
-    weekDayCN: 6,
-    timeCN: ''
+    weekDayCN: 7,
+    timeCN: '0030'
   },
   422425: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2200'
   },
   424453: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '1725'
   },
   434818: {
     weekDayCN: 5,
@@ -32,15 +32,15 @@ export const ON_AIR = {
   },
   411427: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '2200'
   },
   424372: {
     weekDayCN: 4,
-    timeCN: ''
+    timeCN: '2130'
   },
   427329: {
     weekDayCN: 2,
-    timeCN: ''
+    timeCN: '2300'
   },
   375512: {
     weekDayCN: 4,
@@ -48,19 +48,19 @@ export const ON_AIR = {
   },
   425638: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '1630'
   },
   424892: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2300'
   },
   442523: {
     weekDayCN: 4,
-    timeCN: ''
+    timeCN: '2100'
   },
   398949: {
-    weekDayCN: 5,
-    timeCN: ''
+    weekDayCN: 6,
+    timeCN: '0123'
   },
   360121: {
     weekDayCN: 4,
@@ -68,7 +68,7 @@ export const ON_AIR = {
   },
   380792: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '1530'
   },
   418599: {
     weekDayCN: 5,
@@ -76,7 +76,7 @@ export const ON_AIR = {
   },
   364252: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '2300'
   },
   217021: {
     weekDayCN: 4,
@@ -84,79 +84,79 @@ export const ON_AIR = {
   },
   400602: {
     weekDayCN: 5,
-    timeCN: ''
+    timeCN: '2000'
   },
   374648: {
-    weekDayCN: 6,
-    timeCN: ''
+    weekDayCN: 7,
+    timeCN: '0000'
   },
   397808: {
-    weekDayCN: 5,
-    timeCN: ''
+    weekDayCN: 6,
+    timeCN: '0023'
   },
   348220: {
-    weekDayCN: 4,
-    timeCN: ''
+    weekDayCN: 5,
+    timeCN: '0028'
   },
   448114: {
     weekDayCN: 4,
     timeCN: ''
   },
   418512: {
-    weekDayCN: 5,
-    timeCN: ''
+    weekDayCN: 6,
+    timeCN: '0153'
   },
   425990: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '2300'
   },
   400551: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '2100'
   },
   424379: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '2130'
   },
   403722: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2300'
   },
   404115: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2100'
   },
   413741: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2330'
   },
   418494: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '1600'
   },
   403631: {
     weekDayCN: 4,
-    timeCN: ''
+    timeCN: '2330'
   },
   432651: {
     weekDayCN: 4,
-    timeCN: ''
+    timeCN: '2300'
   },
   435926: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '2230'
   },
   362255: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2100'
   },
   411426: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2130'
   },
   411106: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '1630'
   },
   412164: {
     weekDayCN: 4,
@@ -172,83 +172,83 @@ export const ON_AIR = {
   },
   289907: {
     weekDayCN: 5,
-    timeCN: ''
+    timeCN: '2000'
   },
   419846: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2130'
   },
   326867: {
     weekDayCN: 5,
-    timeCN: ''
+    timeCN: '2130'
   },
   363569: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '2100'
   },
   373787: {
     weekDayCN: 2,
-    timeCN: ''
+    timeCN: '2200'
   },
   421174: {
     weekDayCN: 0,
     timeCN: ''
   },
   420628: {
-    weekDayCN: 6,
-    timeCN: ''
+    weekDayCN: 7,
+    timeCN: '0005'
   },
   400114: {
-    weekDayCN: 6,
-    timeCN: ''
+    weekDayCN: 7,
+    timeCN: '0000'
   },
   414214: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '2130'
   },
   410928: {
     weekDayCN: 1,
-    timeCN: ''
+    timeCN: '2330'
   },
   421643: {
-    weekDayCN: 6,
-    timeCN: ''
+    weekDayCN: 7,
+    timeCN: '0100'
   },
   398922: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2100'
   },
   406736: {
     weekDayCN: 4,
-    timeCN: ''
+    timeCN: '2200'
   },
   419728: {
-    weekDayCN: 1,
-    timeCN: ''
+    weekDayCN: 2,
+    timeCN: '0000'
   },
   390980: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '1600'
   },
   406180: {
-    weekDayCN: 3,
-    timeCN: ''
+    weekDayCN: 4,
+    timeCN: '0030'
   },
   353819: {
-    weekDayCN: 1,
-    timeCN: ''
+    weekDayCN: 2,
+    timeCN: '0030'
   },
   362005: {
     weekDayCN: 6,
-    timeCN: ''
+    timeCN: '2330'
   },
   400595: {
     weekDayCN: 5,
-    timeCN: ''
+    timeCN: '2200'
   },
   408361: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2000'
   },
   402742: {
     weekDayCN: 2,
@@ -256,19 +256,19 @@ export const ON_AIR = {
   },
   407332: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2300'
   },
   309807: {
     weekDayCN: 7,
-    timeCN: ''
+    timeCN: '0900'
   },
   404284: {
     weekDayCN: 4,
     timeCN: ''
   },
   411268: {
-    weekDayCN: 5,
-    timeCN: ''
+    weekDayCN: 6,
+    timeCN: '0023'
   },
   402745: {
     weekDayCN: 4,
@@ -280,23 +280,23 @@ export const ON_AIR = {
   },
   385210: {
     weekDayCN: 2,
-    timeCN: ''
+    timeCN: '2200'
   },
   426049: {
     weekDayCN: 5,
-    timeCN: ''
+    timeCN: '2300'
   },
   320456: {
-    weekDayCN: 1,
-    timeCN: ''
+    weekDayCN: 2,
+    timeCN: '0100'
   },
   443147: {
     weekDayCN: 3,
-    timeCN: ''
+    timeCN: '2300'
   },
   427568: {
     weekDayCN: 4,
-    timeCN: ''
+    timeCN: '2230'
   },
   368833: {
     weekDayCN: 7,
