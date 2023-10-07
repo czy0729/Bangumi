@@ -6,10 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useObserver } from 'mobx-react'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
 import { _ } from '@stores'
-import { SafeAreaBottom } from '../../safe-area-bottom'
+import { IOS } from '@constants'
+import { SafeAreaBottom, SafeAreaBottomProps } from '../../safe-area-bottom'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Touchable } from '../../touchable'
@@ -35,51 +37,67 @@ function Textarea({
   onToggleSource,
   onToggleSourceText
 }) {
-  const styles = memoStyles()
-  const Component = _.ios(View, SafeAreaBottom)
-  return (
-    <Component style={styles.container}>
-      <Flex align='start'>
-        <Flex.Item style={editing ? styles.body : styles.fixed}>
-          <TextareaItem
-            ref={forwardRef}
-            style={styles.textarea}
+  const { bottom } = useSafeAreaInsets()
+
+  /** 是否安卓全面屏 */
+  const isFullScreen = !IOS && bottom <= 20
+
+  return useObserver(() => {
+    const styles = memoStyles()
+    const Component = _.ios(View, SafeAreaBottom)
+
+    const passProps: SafeAreaBottomProps = {
+      style: styles.container
+    }
+    if (!isFullScreen) {
+      passProps.style = editing ? styles.containerSpec : styles.containerSpecFixed
+      passProps.type = 'paddingBottom'
+    }
+
+    return (
+      <Component {...passProps}>
+        <Flex align='start'>
+          <Flex.Item style={editing ? styles.body : styles.fixed}>
+            <TextareaItem
+              ref={forwardRef}
+              style={styles.textarea}
+              value={value}
+              placeholder={simple || editing ? placeholder || '我要吐槽' : ''}
+              placeholderTextColor={_.colorDisabled}
+              rows={8}
+              selectionColor={_.colorMain}
+              clear
+              onFocus={onFocus}
+              onChange={onChange}
+              onSelectionChange={onSelectionChange}
+            />
+          </Flex.Item>
+          {editing && (
+            <Touchable style={styles.touch} onPress={onSubmit}>
+              <Flex style={styles.send} justify='center'>
+                <Iconfont
+                  name='md-send'
+                  size={16}
+                  color={value !== '' ? _.colorMain : _.colorSub}
+                />
+              </Flex>
+            </Touchable>
+          )}
+          <SourceText
+            source={source}
+            marks={marks}
             value={value}
-            placeholder={simple || editing ? placeholder || '我要吐槽' : ''}
-            placeholderTextColor={_.colorDisabled}
-            rows={8}
-            selectionColor={_.colorMain}
-            clear
-            onFocus={onFocus}
-            onChange={onChange}
-            onSelectionChange={onSelectionChange}
+            showTextarea={showTextarea}
+            showSource={showSource}
+            showSourceText={showSourceText}
+            onAddSymbolText={onAddSymbolText}
+            onToggleSource={onToggleSource}
+            onToggleSourceText={onToggleSourceText}
           />
-        </Flex.Item>
-        {editing && (
-          <Touchable style={styles.touch} onPress={onSubmit}>
-            <Flex style={styles.send} justify='center'>
-              <Iconfont
-                name='md-send'
-                size={16}
-                color={value !== '' ? _.colorMain : _.colorSub}
-              />
-            </Flex>
-          </Touchable>
-        )}
-        <SourceText
-          source={source}
-          marks={marks}
-          value={value}
-          showTextarea={showTextarea}
-          showSource={showSource}
-          showSourceText={showSourceText}
-          onAddSymbolText={onAddSymbolText}
-          onToggleSource={onToggleSource}
-          onToggleSourceText={onToggleSourceText}
-        />
-      </Flex>
-    </Component>
-  )
+        </Flex>
+      </Component>
+    )
+  })
 }
 
-export default observer(Textarea)
+export default Textarea

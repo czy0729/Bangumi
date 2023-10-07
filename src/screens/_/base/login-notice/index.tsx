@@ -5,8 +5,7 @@
  * @Last Modified time: 2023-07-25 18:11:44
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Touchable, Flex, Text } from '@components'
+import { SafeAreaBottom, Touchable, Flex, Text } from '@components'
 import { userStore } from '@stores'
 import { ob } from '@utils/decorators'
 import i18n from '@constants/i18n'
@@ -18,7 +17,7 @@ export const LoginNotice = ob(({ navigation }) => {
 
   const styles = memoStyles()
   return (
-    <View style={styles.loginNotice}>
+    <SafeAreaBottom style={styles.loginNotice} type='height'>
       <BlurView>
         <Touchable onPress={() => navigation.push('LoginV2')}>
           <Flex style={styles.body}>
@@ -28,6 +27,6 @@ export const LoginNotice = ob(({ navigation }) => {
           </Flex>
         </Touchable>
       </BlurView>
-    </View>
+    </SafeAreaBottom>
   )
 })

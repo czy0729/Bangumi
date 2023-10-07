@@ -12,6 +12,19 @@ export const memoStyles = _.memoStyles(() => ({
     border: 0,
     borderBottomColor: 'transparent'
   },
+  containerSpec: {
+    paddingHorizontal: _.wind,
+    marginBottom: -16,
+    border: 0,
+    borderBottomColor: 'transparent'
+  },
+  containerSpecFixed: {
+    paddingHorizontal: _.wind,
+    marginTop: -12,
+    marginBottom: -40,
+    border: 0,
+    borderBottomColor: 'transparent'
+  },
   body: {
     overflow: 'hidden'
   },

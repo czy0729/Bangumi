@@ -497,7 +497,8 @@ export const FixedTextarea = observer(
     }
 
     renderBody() {
-      const { placeholder, simple, source, marks, children } = this.props
+      const { placeholder, simple, source, marks, children, extraComponent } =
+        this.props
       const {
         value,
         showBgm,
@@ -526,7 +527,7 @@ export const FixedTextarea = observer(
           />
           <Textarea
             forwardRef={this.forwardRef}
-            simple={simple}
+            simple={simple || !extraComponent}
             marks={marks}
             source={source}
             placeholder={placeholder}
