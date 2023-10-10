@@ -12,15 +12,15 @@
 
 一个基于 `React-Native` 的 [Bangumi](https://bgm.tv) 第三方客户端
 
-安卓和 iOS 都做了兼容，并最大限度保持一致
+Bangumi 是一个用于管理追番进度（不限于动漫、音乐、日剧、游戏、AVG），发现和讨论番组的网站
+
+iOS 和安卓都做了兼容，并最大限度保持一致
 
 目前已开发不少于 100 个页面，基于移动端重新设计布局，几乎涵盖网站所有页面
 
-Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏、AVG），发现和讨论番组
-
 本人并没有原生开发经验，用于练手 React-Native，希望通过这个平台去学习更多
 
-更多涉及到本 App 的说明，可前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4) 查看
+更多涉及到本项目的说明，可前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4) 查看
 
 [ENGLISH](https://github.com/czy0729/Bangumi/blob/master/README.en.MD)
 
@@ -36,7 +36,6 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 - [免责](#免责)
 - [致谢](#致谢)
 - [投食](#投食)
-- [统计](#统计)
 
 # 下载
 
@@ -48,13 +47,13 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 [AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.dev/@bgmtv/bangumi-pro)
 
-- Google Play 被恶意举报已被暂停申诉无果，因为不同渠道包互斥，只能建议之前使用此渠道的用户卸载后使用其他渠道
+- Google Play 被恶意举报已搁置
 
-- 苹果 100 刀开发者账号已过期，期间没能过审，因为功能太多，而且会涉及到社区、版权敏感等问题，大概不会再送审
+- 苹果 100 刀开发者账号已过期，期间没能过审，因为功能太多而且会涉及到社区、版权敏感等问题，而且最近还有备案条件，不可能再送审了
 
 # 功能
 
-### 基本功能
+## 基本功能
 
 - 番组进度管理
 - 条目、角色详情
@@ -63,13 +62,13 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 - 时光机（个人中心）、用户空间
 - 不限于搜索、排行榜、索引、目录、每日放送、年鉴、标签
 
-### 特色功能
+## 特色功能
 
 - 其他站点同步到 bgm 功能（bilibili、豆瓣）
 - 封面图片和大部分脱敏静态数据覆盖到自费 CDN 中间层，访问高速化（大概是网页版挂掉了也能看）
 - 番剧、游戏截图预览
 - ~~当季番剧精准到单集网络播放源~~、漫画源查询，找番剧、文库、游戏、音乐
-- [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏, App 独立设计 UI 和交互）
+- [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏，App 独立设计 UI 和交互）
 
 # 版本
 
@@ -90,19 +89,15 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 # 在线
 
-基于 @storybook/react-native 生成的 iframe.html, 尽量少入侵原项目, 补全了一个完整的单页面应用
+基于 @storybook/react-native 生成的 iframe.html，尽量少入侵原项目，补全了一个完整的单页面应用
 
 ## Storybook 组件面板预览
 
-[国内部署访问快](https://bangumi-app.5t5.top)
+[国内部署](https://bangumi-app.5t5.top) | [gh-pages](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
 
-[gh-pages https://czy0729.github.io/Bangumi-Storybook/storybook-static](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
+## SPA 应用预览 (仍在开发中，已支持基本预览，移动端最佳)
 
-## SPA 应用预览 (仍在开发中, 已支持基本预览, 移动端最佳)
-
-[国内部署访问快](https://bangumi-app.5t5.top/iframe.html?viewMode=story&id=screens-discovery--discovery)
-
-[gh-pages https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)
+[国内部署](https://bangumi-app.5t5.top/iframe.html?viewMode=story&id=screens-discovery--discovery) | [gh-pages](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)
 
 # 预览
 
@@ -131,51 +126,35 @@ Bangumi 是用于管理追番进度（不限于动漫、音乐、日剧、游戏
 
 # 本地开发
 
-`项目最近变更`
+## 关于环境
 
 <details>
-<summary><b>点击查看详细</b></summary>
+<summary><b>详细</b></summary>
 
-最近在升级 react-navigation@3 到 @5.x 的版本，因为安卓的 react-native 包比较老旧，不升级前不能支持 @6.x 版本，而 @5.x 与 @6.x 其实相差不大
+本人一直在 mac 环境下开发，iOS 使用 expo 客户端调试，安卓跑真机 usb 调试。
 
-目前因安卓端基本适配完成，iOS 端尚未适配，所以想在 mac 上跑起来，请切换到上一个 tag 的版本再运行
+由于 4 年的迭代，不管是对于本项目，还是最初使用的 expo 来说，都已经大相径庭。iOS 目前只能跑在 expo 上，而安卓只能跑在 metro 上。
 
- </details>
+在 iOS 上想充分使用 expo 客户端简化调试流程，所以不会引入 expo 不支持的第三方库。而安卓上面想要最高的性能，所以后期已经从 expo 上面 eject 出来了，用上了很多第三方的性能优化库替代了原来的组件。
 
-`关于环境`
+若你想在本地调试，不要在根目录安装包，而请先到 ./packages/[目标环境]/ 下使用 yarn 安装包，然后使用命令 yarn env [xxx] 来切换到目标开发环境，最后请参考这个时候根目录的 package.json 中的命令开发。通常预置的本地调试命令是 yarn dev。
 
-<details>
-<summary><b>点击查看详细</b></summary>
-
-本人一直在 mac 环境下开发，iOS 跑 expo 客户端调试，安卓跑真机 usb 调试，window 用法不详，遇到跑不起来，不要太过折腾，window 和 mac 的环境差异还是比较大的，可以查阅 [Expo](https://github.com/expo/expo) 官方文档，您可以选择同一局域网真机扫码调试，需先下载 Expo App
-
-当前 iOS 和 android 是使用不同的包进行开发的，请使用正确的 package.json 进行包安装，配置在 ./web/package.[android | ios].json
-
- </details>
-
-`安卓开发`
-
-<details>
-<summary><b>点击查看详细</b></summary>
-
-请务必阅读 ./android/README.MD
+遇到跑不起来，不要太过折腾，推荐在运行本项目之前，就应该使用官方提供的工作流预先把所有环境需要的库都安装好了。window 和 mac 的环境差异还是比较大的，可以查阅 [Expo](https://github.com/expo/expo) 官方文档。
 
 </details>
 
-`关于 NPM`
+## 关于 NPM
 
 <details>
-<summary><b>点击查看详细</b></summary>
+<summary><b>详细</b></summary>
 
-不要使用 taobao 源头，可能会在跑环境时提示不允许代理
+不要使用 taobao 源头，可能会在跑环境时提示不允许代理。
 
 ```bash
 npm config set registry https://registry.npmjs.org
 ```
 
-国内环境，首次下载包有可能会异常地慢
-
-因用了很多旧的依赖包，里面的包版本依赖混乱，为了不出错请使用 yarn 安装
+国内环境，首次下载包有可能会异常地慢。因用了很多旧的依赖包，里面的包版本依赖混乱，为了不出错请使用 yarn 安装。
 
 ```bash
 git clone https://github.com/czy0729/Bangumi
@@ -185,49 +164,31 @@ yarn
 
 </details>
 
-`本地调试`
+## 安卓真机 usb 调试遇到的问题
 
 <details>
-<summary><b>点击查看详细</b></summary>
+<summary><b>详细</b></summary>
 
-```bash
-npm start // [iOS] 之后点击在浏览器打开的 Expo Developer Tools，点击 Run on iOS simulator
+不能安装请尝试在命令前添加 sudo。
 
-// or
+安卓系统请打开开发者调试模式，需要至少进行一次打开 Android Studio 的同时连接 usb 允许添加调试。
 
-react-native run-android // [android] 真机 usb 调试
+调试请保证给应用安装权限，允许悬浮窗权限。
 
-```
+遇到 spawnSync adb ENOENT，参考 [stackoverflow](https://stackoverflow.com/questions/38835931/react-native-adb-reverse-enoent)。
+
+第一次就遇到打包失败，看看是不是遇到 read timeout 等问题，表示需要科学上网。明明前一天还能打包成功，后一天就失败，也可能是依赖包无法获取的问题，因为 gradlew 依赖包只有 24 小时的缓存时间，尝试使用 --offline 命令。
 
 </details>
 
-`安卓真机 usb 调试遇到的问题`
+## 常见错误，包括 mac M1
 
 <details>
-<summary><b>点击查看详细</b></summary>
+<summary><b>详细</b></summary>
 
-- 不能安装请尝试在命令前添加 sudo
+已在 mac M1 上调试成功，最近购入了 M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
 
-- 安卓系统请打开开发者调试模式，需要至少进行一次打开 Android Studio 的同时连接 usb 允许添加调试
-
-- 调试请保证给应用安装权限，允许悬浮窗权限
-
-- 遇到 spawnSync adb ENOENT，参考 [stackoverflow](https://stackoverflow.com/questions/38835931/react-native-adb-reverse-enoent)
-
-- 第一次就遇到打包失败，看看是不是遇到 read timeout 等问题，表示需要科学上网。明明前一天还能打包成功，后一天就失败，也可能是依赖包无法获取的问题，因为 gradlew 依赖包只有 24 小时的缓存时间，尝试使用 --offline 命令
-
-</details>
-
-`常见错误，包括 mac M1`
-
-<details>
-<summary><b>点击查看详细</b></summary>
-
-已在 mac M1 上调试成功
-
-最近购入了 M1，尝试实用新环境，iOS expo 运行一路顺风，但是打包 apk 遇到很多问题，总结如下：
-
-- 一定要使用 JAVA jdk 8，不是 jre！[[jdk 8 下载地址]](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)，善用 `java -version` 和 `/usr/libexec/java_home -V` 命令查看正在使用的是不是 jdk1.8.0_281.jdk
+- 一定要使用正确的 JAVA jdk，不是 jre！
 
 - 打包前一定要安装 watchman，不然会遇到监听文件过多错误
 
@@ -235,12 +196,16 @@ react-native run-android // [android] 真机 usb 调试
 
 - 打包失败，看见错误提示上面有 node_modules 包的名字，请尝试把这个包下载补全
 
+- 若出现各种无法预料的问题，请一定要尝试重启机器
+
 </details>
 
 # 免责
 
 - 本项目所有数据信息均来自各种网站，不提供任何形式的媒体下载、直接播放和修改功能
+
 - 本项目承诺不保存任何第三方用户信息
+
 - 本项目代码仅供学习交流，不得用于商业用途，若侵权请联系
 
 # 致谢
@@ -255,10 +220,6 @@ react-native run-android // [android] 真机 usb 调试
 
 # 投食
 
-觉得 App 好用的
+开发迭代不易，觉得 App 好用的，有能力的请投喂一下，也可以给个星星
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
-
-# 统计
-
-![czy0729.bangumi](https://visitor-badge.glitch.me/badge?page_id=czy0729.bangumi)
