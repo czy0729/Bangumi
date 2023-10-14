@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-07-14 13:22:50
  */
 import { _ } from '@stores'
-import { IMAGE_HEIGHT } from './ds'
+import { IMAGE_HEIGHT, THUMB_WIDTH } from './ds'
 
 export const styles = _.create({
   container: {
@@ -22,6 +22,10 @@ export const styles = _.create({
     height: IMAGE_HEIGHT,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  video: {
+    width: THUMB_WIDTH,
+    marginRight: _.sm
   },
   play: {
     position: 'absolute',

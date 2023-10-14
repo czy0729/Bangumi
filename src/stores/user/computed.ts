@@ -8,12 +8,9 @@ import { computed } from 'mobx'
 import {
   APP_USERID_IOS_AUTH,
   APP_USERID_TOURIST,
-  getOTA,
   HOST,
-  IOS,
   LIST_EMPTY,
-  UA,
-  VERSION_GOOGLE
+  UA
 } from '@constants'
 import {
   CollectionStatusCn,
@@ -237,16 +234,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 是否限制内容展示, 用于审核 */
   @computed get isLimit() {
-    if (!VERSION_GOOGLE) return false
-    if (IOS || !VERSION_GOOGLE) return false
-
-    const { GOOGLE_AUTH } = getOTA()
-    if (!GOOGLE_AUTH) return false
-    if (!this.isLogin) return true
-
     const { id } = this.userInfo
-    if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) return true
-    return false
+    return !this.isLogin || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH
   }
 
   /** api.v0 需要使用的 headers */

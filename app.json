@@ -1,35 +1,29 @@
 {
   "expo": {
     "description": "A React Native App for https://bgm.tv, tinygrail plugin 4.5.1",
-    "version": "8.2.0",
+    "version": "8.2.1",
     "android": {
-      "versionCode": 82000,
+      "versionCode": 82010,
       "package": "com.czy0729.bangumi",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",
         "backgroundColor": "#000000"
       }
     },
+    "plugins": [
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
+        }
+      ]
+    ],
     "name": "Bangumi",
     "slug": "bangumi-pro",
+    "scheme": "bangumi",
     "privacy": "public",
     "platforms": ["ios", "android"],
-    "extra": {
-      "storybookEnabled": true
-    },
     "orientation": "default",
-    "scheme": "bangumi",
-    "icon": "./src/assets/images/icon.png",
-    "splash": {
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "enabled": false,
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "tv.bangumi.czy0729",
       "supportsTablet": true,
@@ -39,6 +33,20 @@
       "barStyle": "dark-content",
       "backgroundColor": "#ffffff"
     },
+    "icon": "./src/assets/images/icon.png",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "extra": {
+      "storybookEnabled": true
+    },
+    "updates": {
+      "enabled": false,
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
     "githubUrl": "https://github.com/czy0729/Bangumi"
   }
 }

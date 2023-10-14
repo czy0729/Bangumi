@@ -74,7 +74,7 @@ export default class ScreenHentai extends store {
   // -------------------- get --------------------
   /** 是否允许访问 */
   @computed get access() {
-    return !userStore.isLimit && systemStore?.ota?.HENTAI
+    return !userStore.isLimit
   }
 
   /** 是否登录 (api) */

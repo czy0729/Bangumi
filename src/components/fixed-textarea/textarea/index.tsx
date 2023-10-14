@@ -39,17 +39,15 @@ function Textarea({
 }) {
   const { bottom } = useSafeAreaInsets()
 
-  /** 是否安卓全面屏 */
-  const isFullScreen = !IOS && bottom <= 20
-
   return useObserver(() => {
     const styles = memoStyles()
     const Component = _.ios(View, SafeAreaBottom)
-
     const passProps: SafeAreaBottomProps = {
       style: styles.container
     }
-    if (!isFullScreen) {
+
+    // 安卓带虚拟按键布局
+    if (!IOS && bottom > 20) {
       passProps.style = editing ? styles.containerSpec : styles.containerSpecFixed
       passProps.type = 'paddingBottom'
     }

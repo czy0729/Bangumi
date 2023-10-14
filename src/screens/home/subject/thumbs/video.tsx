@@ -18,7 +18,7 @@ function Video({ item, epsThumbsHeader, showTitle }) {
   if (!showCharacter) return null
 
   return (
-    <View key={item.cover} style={_.mr.sm}>
+    <View key={item.cover} style={styles.video}>
       <Touchable animate onPress={() => open(item.src || item.href)}>
         <Image
           style={styles.image}
