@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 22:38:18
+ * @Last Modified time: 2023-10-17 06:35:59
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -178,7 +178,7 @@ export const GITHUB_RELEASE_REPOS =
 export const GITHUB_HOST = 'https://gitee.com/a296377710/bangumi-pro'
 
 /** 热数据地址 */
-export const GITHUB_DATA = 'https://gitee.com/a296377710/bangumi/raw/master/data.json'
+export const GITHUB_DATA = `${GITHUB_HOST}/raw/master/data.json`
 
 /** 高级会员地址 */
 export const GITHUB_ADVANCE = `${GITHUB_HOST}/raw/master/advance.json`
