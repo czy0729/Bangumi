@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2023-07-14 13:16:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 21:11:21
+ * @Last Modified time: 2023-10-20 06:42:18
  */
 import * as React from 'react'
 import {
@@ -209,30 +209,36 @@ export default class ImageViewer extends React.Component<Props, State> {
       return
     }
 
-    Image.getSizeWithHeaders(
-      image.url,
-      // @modify 2023/07/14
-      // @ts-expect-error
-      image.headers,
-      (width: number, height: number) => {
-        imageStatus.width = width
-        imageStatus.height = height
+    const successCallback = (width: number, height: number) => {
+      imageStatus.width = width
+      imageStatus.height = height
+      imageStatus.status = 'success'
+      saveImageSize()
+    }
+    const failCallback = () => {
+      try {
+        const data = (Image as any).resolveAssetSource(image.props.source)
+        imageStatus.width = data.width
+        imageStatus.height = data.height
         imageStatus.status = 'success'
         saveImageSize()
-      },
-      () => {
-        try {
-          const data = (Image as any).resolveAssetSource(image.props.source)
-          imageStatus.width = data.width
-          imageStatus.height = data.height
-          imageStatus.status = 'success'
-          saveImageSize()
-        } catch (newError) {
-          // Give up..
-          imageStatus.status = 'fail'
-          saveImageSize()
-        }
+      } catch (newError) {
+        // Give up..
+        imageStatus.status = 'fail'
+        saveImageSize()
       }
+    }
+    if (typeof Image.getSizeWithHeaders !== 'function') {
+      Image.getSize(image.url, successCallback, failCallback)
+      return
+    }
+
+    Image.getSizeWithHeaders(
+      image.url,
+      // @ts-expect-error
+      image.headers,
+      successCallback,
+      failCallback
     )
   }
 
