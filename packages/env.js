@@ -9,11 +9,11 @@
  * @Author: czy0729
  * @Date: 2023-10-04 19:53:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-05 10:39:17
+ * @Last Modified time: 2023-10-19 21:42:00
  */
 const fs = require('fs')
 
-const envs = ['android', 'ios']
+const envs = ['android', 'ios', 'web']
 const __packageJson = './package.json'
 const __nodeModules = './node_modules'
 
