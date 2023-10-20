@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-12 18:47:05
+ * @Last Modified time: 2023-10-21 02:12:37
  */
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -11,9 +11,9 @@ import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { systemStore } from '@stores'
 import { Flex } from '../../flex'
 import { Mesume } from '../../mesume'
-import { randomSpeech } from '../../mesume/utils'
 import { Text } from '../../text'
 import { REFRESH_STATE } from '../ds'
+import RandomText from './random-text'
 import { styles } from './styles'
 
 function Footer({
@@ -119,15 +119,7 @@ function Footer({
           <Flex style={styles.noMore} justify='center' direction='column'>
             <Mesume size={80} />
             {systemStore.setting.speech && (
-              <Text
-                style={styles.textMt}
-                type={footerTextType}
-                align='center'
-                size={13}
-                lineHeight={17}
-              >
-                {filterText ? `已过滤${filterText}个敏感条目` : randomSpeech()}
-              </Text>
+              <RandomText type={footerTextType} text={filterText} />
             )}
           </Flex>
         ) : null)
