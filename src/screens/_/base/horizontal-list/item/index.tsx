@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:46:33
+ * @Last Modified time: 2023-10-21 01:27:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,8 +47,9 @@ function Item({
   const title = findCn ? findSubjectCn(item.name, item.id) : item.name
   const { length } = title
   const size = length >= 12 ? 9 : length >= 5 ? 10 : 11
-
   const descSize = desc.length >= 6 ? 9 : 10
+
+  const numberOfLines = ellipsizeMode === 'middle' || typeCn === '音乐' ? 3 : 2
   return (
     <View
       style={stl(
@@ -78,7 +79,7 @@ function Item({
         <Text
           style={_.mt.sm}
           size={size}
-          numberOfLines={typeCn === '音乐' ? 3 : 2}
+          numberOfLines={numberOfLines}
           ellipsizeMode={ellipsizeMode}
           bold
         >

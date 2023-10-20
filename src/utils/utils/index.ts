@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 21:00:57
+ * @Last Modified time: 2023-10-21 00:25:55
  */
 import { ComponentType } from 'react'
 import {
@@ -543,4 +543,19 @@ export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
 
   const chineseRatio = chineseCharCount / totalCharCount
   return chineseRatio >= threshold
+}
+
+/** 文字中间省略 */
+export function truncateMiddle(
+  text: string = '',
+  maxLength: number = 20,
+  charsToShow: number = 4
+) {
+  if (text.length <= maxLength) return text
+
+  const startLength = Math.ceil((maxLength - charsToShow) / 2)
+  const endLength = Math.floor((maxLength - charsToShow) / 2)
+  return (
+    text.substring(0, startLength) + '...' + text.substring(text.length - endLength)
+  )
 }
