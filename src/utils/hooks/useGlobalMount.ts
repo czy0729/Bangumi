@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-24 21:42:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-24 12:05:38
+ * @Last Modified time: 2023-10-20 18:01:27
  */
-import { _, userStore, calendarStore, systemStore, rakuenStore } from '@stores'
+import { _, userStore, systemStore, rakuenStore } from '@stores'
 import { DEV } from '@constants'
 import { arrGroup, getTimestamp, omit } from '../utils'
 import { t, ua } from '../fetch'
@@ -19,7 +19,6 @@ export default function useGlobalMount() {
 
     // 启动后的全局动作
     setTimeout(() => {
-      calendarStore.fetchOnAir()
       ua()
       t('其他.启动', {
         userId: userStore?.userInfo?.username || userStore?.myUserId,

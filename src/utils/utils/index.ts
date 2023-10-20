@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-02 08:16:11
+ * @Last Modified time: 2023-10-20 21:00:57
  */
 import { ComponentType } from 'react'
 import {
@@ -528,4 +528,19 @@ export function findLastIndex(arr: any[], callback: any, thisArg?: any) {
     }
   }
   return -1
+}
+
+/** 段落是否中文语境 */
+export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
+  const chineseRegex = /[\u4e00-\u9fa5]/
+  const totalCharCount = text.length
+
+  let chineseCharCount = 0
+  for (let i = 0; i < totalCharCount; i += 1) {
+    const char = text.charAt(i)
+    if (chineseRegex.test(char)) chineseCharCount += 1
+  }
+
+  const chineseRatio = chineseCharCount / totalCharCount
+  return chineseRatio >= threshold
 }

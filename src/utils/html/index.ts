@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 04:36:14
+ * @Last Modified time: 2023-10-20 22:18:37
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './../thirdParty/html-parser'
@@ -235,4 +235,10 @@ export function cheerio(
   }
 
   return cheerioRN(target)
+}
+
+/** 去除字符串中所有链接 */
+export function removeURLs(str: string = '') {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  return str.replace(urlRegex, '')
 }
