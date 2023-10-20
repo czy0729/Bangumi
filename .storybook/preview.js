@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-31 17:36:10
+ * @Last Modified time: 2023-10-20 17:16:44
  */
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Provider from '@ant-design/react-native/lib/provider'
@@ -11,7 +11,10 @@ import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
 import { __FORCE_SET_NAVIGATING__ } from '@components/storybook/state'
 import { AppCommon } from '@_/base/app-common'
 import { _ } from '@stores'
+import { injectUtils } from '@utils/dom'
 import theme from '@styles/theme'
+
+injectUtils()
 
 // 监听 URL 变化
 window.addEventListener('popstate', e => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 08:45:31
+ * @Last Modified time: 2023-10-20 17:51:03
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -108,21 +108,31 @@ export function confirm(
 
 /** 提示 */
 export function alert(content: string, title: string = '提示') {
-  const params = [
+  const alertTitle = s2tAsync(title)
+  const alertContent = s2tAsync(content)
+  const alertParams = [
     {
       text: s2tAsync('确定'),
       onPress: () => {}
     }
   ]
 
-  // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
-  if (IOS) {
-    return setTimeout(() => {
-      Alert.alert(s2tAsync(title), s2tAsync(content), params)
+  if (STORYBOOK) {
+    setTimeout(() => {
+      window.alert(`${alertTitle}：${alertContent}`)
     }, 80)
+    return
   }
 
-  return Alert.alert(s2tAsync(title), s2tAsync(content), params)
+  // iOS 有时候在 popover 里面询问, 会触发屏幕假死, 需要延迟一下让菜单消失了再执行
+  if (IOS) {
+    setTimeout(() => {
+      Alert.alert(alertTitle, alertContent, alertParams)
+    }, 80)
+    return
+  }
+
+  Alert.alert(alertTitle, alertContent, alertParams)
 }
 
 /** 轻提示 */

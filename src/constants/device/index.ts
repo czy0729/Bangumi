@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 14:36:08
+ * @Last Modified time: 2023-10-20 07:50:03
  */
 import { Platform, Dimensions } from 'react-native'
 
@@ -30,9 +30,7 @@ if (
 }
 
 /** 是否平板 */
-export const PAD =
-  /** @ts-expect-error */
-  process.env.STORYBOOK === 'true' ? 0 : isPad
+export const PAD = process.env.STORYBOOK === 'true' ? 0 : isPad
 
 /** 是否 Storybook 环境, 也就是是否 Web SPA */
 export const STORYBOOK = false

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 22:25:08
+ * @Last Modified time: 2023-10-20 06:49:27
  */
 import dayjs from 'dayjs'
-import { WSA } from '@constants'
 import { desc, HTMLDecode } from '@utils'
+import { STORYBOOK, WSA } from '@constants'
 import { DEFAULT_PROPS } from './ds'
 
 const today = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
@@ -24,7 +24,7 @@ export function getPopoverData(
   )
 
   // 计算放送时间是否在今天以后
-  let canAddCalendar = !WSA && !userProgress[item.id] && !isSp
+  let canAddCalendar = !STORYBOOK && !WSA && !userProgress[item.id] && !isSp
   try {
     if (canAddCalendar && item?.airdate) {
       canAddCalendar = desc(String(item.airdate), today) !== -1
