@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 16:58:31
+ * @Last Modified time: 2023-10-20 17:52:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { STORYBOOK } from '@constants'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
@@ -48,7 +49,9 @@ export const Menu = observer(
             return (
               <View key={item} style={showBorder && styles.border}>
                 <Touchable style={styles.item} onPress={() => onSelect(item)}>
-                  <Text align='center'>{item}</Text>
+                  <Text align='center' size={STORYBOOK ? 13 : 14}>
+                    {item}
+                  </Text>
                 </Touchable>
               </View>
             )

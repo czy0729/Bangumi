@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:50:03
+ * @Last Modified time: 2023-10-20 22:57:46
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -88,13 +88,11 @@ function Collected(props, { $, navigation }: Ctx) {
               <UserStatus userId={item.userId}>
                 <Avatar name={item.name} src={item.avatar} />
               </UserStatus>
-              <View style={_.ml.sm}>
-                <Flex>
-                  <Text size={13} bold>
-                    {item.name}
-                  </Text>
-                </Flex>
-                <Text style={_.mt.xs} size={10} type='sub'>
+              <View style={styles.body}>
+                <Text size={13} bold numberOfLines={1}>
+                  {item.name}
+                </Text>
+                <Text style={_.mt.xs} size={10} type='sub' numberOfLines={1}>
                   {item.last}
                 </Text>
               </View>

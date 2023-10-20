@@ -8,8 +8,8 @@ import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
-import { memoStyles } from './styles'
 import Tags from './tags'
+import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
   // global.rerender('Subject.Tags')

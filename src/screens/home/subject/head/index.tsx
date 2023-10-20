@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 11:47:15
+ * @Last Modified time: 2023-10-20 23:50:07
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -33,6 +33,7 @@ export default obc((props, { $ }: Ctx) => {
       hideScore={$.hideScore}
       rating={$.rating}
       x18={$.x18}
+      hasSeries={$.hasSeries}
     />
   )
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 10:52:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:23:05
+ * @Last Modified time: 2023-10-20 18:26:34
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -14,7 +14,7 @@ export const memoStyles = _.memoStyles(() => {
       contentContainerStyle: {
         paddingHorizontal: _.wind,
         paddingTop: _.md,
-        paddingBottom: _.window.height / 2,
+        paddingBottom: _.bottom,
         minHeight: height,
         maxHeight: height
       }
