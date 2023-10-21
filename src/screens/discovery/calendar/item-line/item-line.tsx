@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-14 14:27:47
+ * @Last Modified time: 2023-10-21 05:09:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, uiStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { DEFAULT_PROPS } from './ds'
 
@@ -79,8 +79,8 @@ const ItemLine = memo(
               y={SECTION_HEIGHT * section + ITEM_HEIGHT * index + 1}
             >
               <Cover
-                width={IMG_WIDTH}
-                height={IMG_HEIGHT}
+                width={IMG_WIDTH_SM}
+                height={IMG_HEIGHT_SM}
                 src={images?.medium}
                 radius
                 shadow

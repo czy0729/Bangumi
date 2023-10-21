@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:10:38
+ * @Last Modified time: 2023-10-21 04:24:33
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, collectionStore, otaStore } from '@stores'
@@ -11,7 +11,8 @@ import { updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
+import { scrollToTop } from '@utils/dom'
+import { LIST_EMPTY, STORYBOOK } from '@constants'
 import { Params } from './types'
 import { ADVANCE_LIMIT } from './ds'
 
@@ -180,6 +181,11 @@ export default class ScreenAnime extends store {
 
   /** 到顶 */
   scrollToTop = () => {
+    if (STORYBOOK) {
+      scrollToTop()
+      return
+    }
+
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
         x: 0,

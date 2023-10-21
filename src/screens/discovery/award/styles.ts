@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:22:44
+ * @Last Modified time: 2023-10-21 17:32:51
  */
 import { _ } from '@stores'
 
@@ -10,7 +10,6 @@ const backgroundColor = 'rgb(0, 0, 0)'
 
 export const styles = _.create({
   container: {
-    flex: 1,
     backgroundColor
   },
   loading: {

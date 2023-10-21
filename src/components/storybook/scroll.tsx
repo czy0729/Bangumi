@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:21:41
+ * @Last Modified time: 2023-10-21 04:59:02
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -51,6 +51,8 @@ export const StorybookScroll = ({
   )
 
   useMount(() => {
+    ref.current.classList.add('component-scrollview')
+
     try {
       if (!StorybookState.navigating) return
 

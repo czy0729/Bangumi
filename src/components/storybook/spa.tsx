@@ -2,22 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 18:23:58
+ * @Last Modified time: 2023-10-21 05:03:01
  */
 import React, { useCallback } from 'react'
-import Stores from '@stores'
+import { View } from 'react-native'
+import Stores, { _ } from '@stores'
 import { useMount, useBoolean } from '@utils/hooks'
 import { StorybookPage } from './page'
+import { scrollToTop, useDoubleTap } from '@utils/dom'
 
 let inited = false
 
 export const StorybookSPA = ({ children }) => {
+  // 初始化全局 Stores
   const { state, setTrue } = useBoolean(inited)
   const init = useCallback(async () => {
     if (!inited) {
       try {
         await Stores.init()
-        console.info('stores inited')
       } catch (error) {
       } finally {
         setTrue()
@@ -29,5 +31,27 @@ export const StorybookSPA = ({ children }) => {
     init()
   })
 
-  return <StorybookPage>{state ? children : null}</StorybookPage>
+  // 全局的双击顶部区域滚动到顶
+  const handleDoubleTap = useDoubleTap(() => {
+    scrollToTop()
+  })
+
+  return (
+    <StorybookPage>
+      <View style={styles.scrollToTop} onTouchStart={handleDoubleTap} />
+      {state ? children : null}
+    </StorybookPage>
+  )
 }
+
+const styles = _.create({
+  scrollToTop: {
+    // @ts-ignore
+    position: 'fixed',
+    zIndex: 99999,
+    top: 0,
+    right: 40,
+    left: 40,
+    height: 16
+  }
+})

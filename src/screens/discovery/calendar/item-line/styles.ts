@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:21:00
+ * @Last Modified time: 2023-10-21 05:09:12
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
@@ -14,8 +14,8 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _._wind
   },
   inView: {
-    minWidth: IMG_WIDTH,
-    minHeight: IMG_HEIGHT
+    minWidth: IMG_WIDTH_SM,
+    minHeight: IMG_HEIGHT_SM
   },
   time: {
     width: _.r(72),
@@ -24,7 +24,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   body: {
     width: '100%',
-    height: IMG_HEIGHT - 4,
+    height: IMG_HEIGHT_SM - 4,
     paddingTop: 2
   },
   katakanas: {

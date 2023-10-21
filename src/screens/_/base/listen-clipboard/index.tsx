@@ -8,10 +8,8 @@
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'
-import { matchBgmUrl } from '@utils/match'
-import { navigationReference, appNavigate } from '@utils/app'
-import { confirm } from '@utils/ui'
-import { IOS } from '@constants'
+import { confirm, matchBgmUrl, navigationReference, appNavigate } from '@utils'
+import { IOS, STORYBOOK } from '@constants'
 
 let lastUrl = ''
 
@@ -21,8 +19,8 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   }
 
   componentDidMount() {
-    // 从 iOS14 开始会有粘贴板读取提示, 很烦人暂时屏蔽
-    if (IOS) return
+    // 从 iOS 14 开始会有粘贴板读取提示, 很烦人暂时屏蔽
+    if (IOS || STORYBOOK) return
 
     AppState.addEventListener('change', this.onAppStateChange)
     setTimeout(() => {
@@ -31,7 +29,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   }
 
   componentWillUnmount() {
-    if (IOS) return
+    if (IOS || STORYBOOK) return
 
     AppState.removeEventListener('change', this.onAppStateChange)
   }
