@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 23:57:22
+ * @Last Modified time: 2023-10-26 01:15:45
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -538,7 +538,7 @@ export function matchBgmLink(url = ''):
       return {
         route: 'Say',
         params: {
-          id: _id,
+          sayId: _id,
           userId: _userId
         }
       }

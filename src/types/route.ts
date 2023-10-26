@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 07:03:24
+ * @Last Modified time: 2023-10-26 01:19:21
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
@@ -103,7 +103,9 @@ type RouteUserTimeline = (
 type RouteSay = (
   path: 'Say',
   params: {
+    /** @deprecated */
     id?: Id
+    sayId: Id
     onNavigationCallback?: Fn
   }
 ) => any

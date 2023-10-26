@@ -11,7 +11,7 @@ import { HOST } from '@constants/constants'
 export const SHOW_LOG = true
 
 /** API 超时时间 */
-export const FETCH_TIMEOUT = 6400
+export const FETCH_TIMEOUT = STORYBOOK ? 12000 : 6400
 
 /** GET 请求失败自动重试次数 */
 export const FETCH_RETRY = STORYBOOK ? 0 : 4

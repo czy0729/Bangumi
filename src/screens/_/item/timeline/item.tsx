@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 10:09:22
+ * @Last Modified time: 2023-10-25 15:57:08
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -60,12 +60,10 @@ const Item = memo(
 
     const onNavigate = useCallback(
       (url, passParams?) => appNavigate(url, navigation, passParams, event),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       []
     )
     const onClear = useCallback(() => {
       confirm('确定删除?', () => onDelete(clearHref))
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clearHref])
 
     let type: SubjectTypeCn
@@ -131,13 +129,18 @@ const Item = memo(
                 }
               >
                 {!!replyCount && (
-                  <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
+                  <Touchable
+                    style={_.mr.sm}
+                    animate
+                    scale={0.9}
+                    onPress={() => onNavigate(replyUrl)}
+                  >
                     <Text type='primary' size={12}>
                       {replyCount}
                     </Text>
                   </Touchable>
                 )}
-                <Text style={_.mr.sm} type='sub' size={12}>
+                <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
                   {time}
                 </Text>
                 <Stars value={star} />
