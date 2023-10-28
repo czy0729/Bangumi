@@ -44,7 +44,7 @@ import {
   SubjectCatalogs,
   SubjectComments,
   SubjectFormCDN,
-  SubjectFormHTML,
+  SubjectFromHTML,
   SubjectV2,
   Wiki
 } from './types'
@@ -67,7 +67,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     const key = `subjectFormHTML${last}` as const
     this.init(key)
 
-    return computed<SubjectFormHTML>(() => {
+    return computed<SubjectFromHTML>(() => {
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_FROM_HTML_ITEM
     }).get()
   }

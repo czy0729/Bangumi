@@ -159,15 +159,26 @@ export type Subject = {
 }
 
 /** 条目 (HTML) */
-export type SubjectFormHTML = DeepPartial<{
-  type: SubjectTypeValue
+export type SubjectFromHTML = DeepPartial<{
+  /** 标题旁的子标题 */
+  type: string
+
+  /** 已收看集数 */
   watchedEps: string | number
+
+  /** 总集数 */
   totalEps: string | number
+
+  /** 详情 */
   info: string
+
+  /** 用户标签 */
   tags: {
     name: string
     count: string
   }[]
+
+  /** 关联系列 */
   relations: {
     id: Id
     image: Cover<'m'>
@@ -175,10 +186,14 @@ export type SubjectFormHTML = DeepPartial<{
     type: string
     url: UrlSubject
   }[]
+
+  /** 好友评分 */
   friend: {
     score: string
     total: string
   }
+
+  /** 曲目信息 */
   disc: {
     title: string
     disc: {
@@ -186,22 +201,30 @@ export type SubjectFormHTML = DeepPartial<{
       href: `/ep/${number}`
     }[]
   }[]
+
+  /** 书籍额外信息 */
   book: {
     chap: number
     vol: number
     totalChap: string
     totalVol: string
   }
+
+  /** 单行本 */
   comic: {
     id: SubjectId
     name: string
     image: Cover<'c'>
   }[]
+
+  /** 猜你喜欢 */
   like: {
     id: SubjectId
     name: string
     image: Cover<'m'>
   }[]
+
+  /** 谁收藏了 */
   who: {
     avatar: Avatar<'l'>
     name: string
@@ -209,6 +232,8 @@ export type SubjectFormHTML = DeepPartial<{
     star: string
     status: string
   }[]
+
+  /** 目录 */
   catalog: {
     avatar: Avatar<'l'>
     name: string
@@ -216,8 +241,14 @@ export type SubjectFormHTML = DeepPartial<{
     id: Id
     title: string
   }[]
+
+  /** 职员数 */
   crtCounts: Record<string, number>
+
+  /** 是否锁定 */
   lock: string
+
+  /** hash 比如删除等网页操作需要 */
   formhash: string
   _loaded: Loaded
 }>

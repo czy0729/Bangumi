@@ -10,6 +10,8 @@ import { Fn } from '@types'
 
 /** 是否手机环境 */
 export function isMobile() {
+  if (typeof window === 'undefined') return
+
   const ua = navigator.userAgent.toLowerCase()
   const keywords = ['android', 'iphone', 'ipod', 'ipad', 'windows phone', 'mqqbrowser']
   return keywords.some(keyword => ua.indexOf(keyword) !== -1)
@@ -17,8 +19,13 @@ export function isMobile() {
 
 /** 开发环境下, 将各种常用方法注入 dom */
 export function injectUtils() {
-  /** @ts-ignore */
-  if (!STORYBOOK && window?.CONFIG_TYPE !== 'DEVELOPMENT') return
+  if (
+    typeof window === 'undefined' ||
+    /** @ts-ignore */
+    (!STORYBOOK && window?.CONFIG_TYPE !== 'DEVELOPMENT')
+  ) {
+    return
+  }
 
   setTimeout(() => {
     /** @ts-ignore */
@@ -41,6 +48,8 @@ export function injectUtils() {
 
 /** 尝试把页面中唯一的列表滚动到顶 */
 export function scrollToTop() {
+  if (typeof window === 'undefined') return
+
   setTimeout(() => {
     try {
       document.querySelector('main.component-page div.component-scrollview').scrollTo({
@@ -79,4 +88,21 @@ export function useDoubleTap(callback: Fn = () => {}, delay: number = 300) {
   }
 
   return handleTouchStart
+}
+
+/** 测试性能 */
+export function measurePerformance(func: Fn, count: number = 10) {
+  if (typeof window === 'undefined') return
+
+  setTimeout(() => {
+    const startTime = performance.now()
+
+    for (let index = 0; index < count; index += 1) {
+      func()
+    }
+
+    const endTime = performance.now()
+    const executionTime = endTime - startTime
+    console.info(func, `函数执行耗时：${Math.floor(executionTime)} 毫秒`)
+  }, 0)
 }

@@ -10,6 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Cover } from '../../cover'
 import { HIT_SLOP } from './ds'
@@ -35,7 +36,7 @@ function Item({
     desc.includes('广播')
   ) {
     typeCn = '音乐'
-  } else if (desc.includes('书籍')) {
+  } else if (desc.includes('书籍') || desc.includes('画')) {
     typeCn = '书籍'
   } else if (desc.includes('游戏')) {
     typeCn = '游戏'
@@ -49,7 +50,9 @@ function Item({
   const size = length >= 12 ? 9 : length >= 5 ? 10 : 11
   const descSize = desc.length >= 6 ? 9 : 10
 
-  const numberOfLines = ellipsizeMode === 'middle' || typeCn === '音乐' ? 3 : 2
+  let numberOfLines = ellipsizeMode === 'middle' || typeCn === '音乐' ? 3 : 2
+  if (STORYBOOK) numberOfLines += 1
+
   return (
     <View
       style={stl(

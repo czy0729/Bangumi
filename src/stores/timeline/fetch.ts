@@ -70,7 +70,10 @@ export default class Fetch extends Computed {
     const stateKey = userId
     this.setState({
       [key]: {
-        [stateKey]: data
+        [stateKey]: {
+          ...data,
+          _loaded: getTimestamp()
+        }
       }
     })
 

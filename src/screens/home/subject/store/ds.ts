@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-20 18:14:30
  */
-import { Crt, Ep, Staff, SubjectFormHTML } from '@stores/subject/types'
+import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
 import {
   Collection,
@@ -71,7 +71,7 @@ export const EXCLUDE_STATE = {
   /** 云端缓存的条目信息 */
   subject: {} as Override<
     Omit<
-      SubjectFormHTML,
+      SubjectFromHTML,
       'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'
     >,
     {

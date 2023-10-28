@@ -36,7 +36,7 @@ import {
 } from './init'
 import {
   fetchMono,
-  cheerioSubjectFormHTML,
+  cheerioSubjectFromHTML,
   cheerioMonoWorks,
   cheerioMonoVoices,
   cheerioRating,
@@ -107,14 +107,13 @@ export default class Fetch extends Computed {
 
   /** 网页获取条目信息 */
   fetchSubjectFromHTML = async (subjectId: SubjectId) => {
-    const HTML = await fetchHTML({
+    const html = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
-
     const last = getInt(subjectId)
     const key = `subjectFormHTML${last}` as const
     const data = {
-      ...cheerioSubjectFormHTML(HTML),
+      ...cheerioSubjectFromHTML(html),
       _loaded: getTimestamp()
     }
     this.setState({
@@ -355,16 +354,15 @@ export default class Fetch extends Computed {
     const { subjectId } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
 
-    /** 下一页的页码 */
+    /**
+     * 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
+     * 倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
+     */
     let page: number
-
-    // 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
-    // 倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
     let isReverse = reverse
     if (!isReverse && !refresh) isReverse = _reverse
-
     if (isReverse) {
-      // @issue 官网某些条目留言不知道为什么会多出一页空白
+      /** @issue 官网某些条目留言不知道为什么会多出一页空白 */
       page = refresh ? pagination.pageTotal - 1 : pagination.page - 1
     } else if (refresh) {
       page = 1
@@ -376,15 +374,15 @@ export default class Fetch extends Computed {
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
 
-    const { pagination: _pagination, list: _list } = cheerioSubjectComments(html)
-    if (isReverse) _list.reverse()
+    const next = cheerioSubjectComments(html)
+    if (isReverse) next.list.reverse()
 
     const last = getInt(subjectId)
     const key = `subjectComments${last}` as const
     const data = {
       [subjectId]: {
-        list: refresh ? _list : [...list, ..._list],
-        pagination: _pagination,
+        list: refresh ? next.list : [...list, ...next.list],
+        pagination: next.pagination,
         _loaded: getTimestamp(),
         _reverse: isReverse
       }

@@ -75,6 +75,19 @@ export function HTMLTrim(str: any = '', deep?: boolean) {
     .replace(/> </g, '><')
 }
 
+/** 匹配指定范围 html, 若没有匹配到返回原 html */
+export function htmlMatch(html: string, start: string, end: string) {
+  if (!html || !start || !end) return html || ''
+
+  return (
+    html
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
+      .match(new RegExp(start + '[\\s\\S]+' + end, 'g'))?.[0] ||
+    html ||
+    ''
+  )
+}
+
 /**
  * @deprecated html 字符串转对象
  * @param {*} html
