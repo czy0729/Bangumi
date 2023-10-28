@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 08:24:00
+ * @Last Modified time: 2023-10-28 09:35:26
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -326,20 +326,20 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_SUBJECT_CATALOGS(subjectId, page)
     })
-    const { list: _list } = cheerioSubjectCatalogs(html)
+    const next = cheerioSubjectCatalogs(html)
+
     this.setState({
       [key]: {
         [subjectId]: {
-          list: refresh ? _list : [...list, ..._list],
+          list: refresh ? next.list : [...list, ...next.list],
           pagination: {
             page,
-            pageTotal: _list.length === limit ? 100 : page
+            pageTotal: next.list.length === limit ? 100 : page
           },
           _loaded: getTimestamp()
         }
       }
     })
-
     return this[key](subjectId)
   }
 
@@ -521,6 +521,7 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_MONO_VOICES(monoId, position)
     })
+
     const { list, filters } = cheerioMonoVoices(html)
     this.setState({
       [key]: {
@@ -563,16 +564,17 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_SUBJECT_RATING(subjectId, status, isFriend, page)
     })
-    const { list: _list, counts } = cheerioRating(html)
+    const next = cheerioRating(html)
+
     this.setState({
       [key]: {
         [stateKey]: {
-          list: refresh ? _list : [...list, ..._list],
+          list: refresh ? next.list : [...list, ...next.list],
           pagination: {
             page,
-            pageTotal: _list.length === limit ? 100 : page
+            pageTotal: next.list.length === limit ? 100 : page
           },
-          counts,
+          counts: next.counts,
           _loaded: getTimestamp()
         }
       }
@@ -588,12 +590,12 @@ export default class Fetch extends Computed {
     const htmlEdit = await fetchHTML({
       url: HTML_SUBJECT_WIKI_EDIT(subjectId)
     })
-    const { list: edits } = cheerioWikiEdits(htmlEdit)
+    const edits = cheerioWikiEdits(htmlEdit)
 
     const htmlCover = await fetchHTML({
       url: HTML_SUBJECT_WIKI_COVER(subjectId)
     })
-    const { list: covers } = cheerioWikiCovers(htmlCover)
+    const covers = cheerioWikiCovers(htmlCover)
 
     this.setState({
       [key]: {

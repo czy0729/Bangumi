@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 00:04:47
+ * @Last Modified time: 2023-10-28 09:37:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ class List extends React.Component {
         {edits.map(({ id, comment, sub, time, userId, userName }, index) => (
           <View key={id} style={_.mt.sm}>
             <Text lineHeight={15} bold>
-              〔{edits.length - index}〕{comment || 'N/A'}
+              [{edits.length - index}] {comment || 'N/A'}
               {!!sub && (
                 <Text size={13} lineHeight={15} bold>
                   {' '}

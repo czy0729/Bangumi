@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 22:18:37
+ * @Last Modified time: 2023-10-28 09:44:10
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './../thirdParty/html-parser'
@@ -237,6 +237,11 @@ export function cheerio(
   decodeEntities: boolean = false
 ) {
   if (typeof target === 'string') {
+    // 需要优化内容
+    if (target.indexOf('<!DOCTYPE html>') === 0) {
+      console.info('[cheerio] need match', target.match(/<title>(.*?)<\/title>/g)?.[0])
+    }
+
     if (remove) {
       return cheerioRN.load(removeCF(target), {
         decodeEntities

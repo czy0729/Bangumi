@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 08:17:53
+ * @Last Modified time: 2023-10-28 08:41:41
  */
-import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
   AnyObject,
   Avatar,
@@ -21,7 +20,10 @@ import {
   Loaded,
   Override,
   Rating as RatingType,
+  RatingStatus,
   SubjectId,
+  SubjectType,
+  SubjectTypeValue,
   UrlBlog,
   UrlEp,
   UrlMono,
@@ -518,14 +520,19 @@ export type MonoVoices = Override<
 >
 
 /** 好友评分列表 */
-export type Rating = ListEmpty<{
-  id: UserId
-  avatar: Avatar<'l'>
-  name: string
-  time: string
-  star: number
-  comment: string
-}>
+export type Rating = Override<
+  ListEmpty<{
+    id: UserId
+    avatar: Avatar<'l'>
+    name: string
+    time: string
+    star: number
+    comment: string
+  }>,
+  {
+    counts: Record<RatingStatus, number>
+  }
+>
 
 /** wiki修订历史 */
 export type Wiki = DeepPartial<{

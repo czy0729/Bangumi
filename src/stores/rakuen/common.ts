@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 13:01:09
+ * @Last Modified time: 2023-10-28 10:02:10
  */
 import {
   HTMLDecode,
@@ -11,7 +11,8 @@ import {
   cheerio,
   getCoverSmall,
   safeObject,
-  trim
+  trim,
+  htmlMatch
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { matchAvatar, matchUserId } from '@utils/match'
@@ -86,7 +87,9 @@ export function cheerioComments(html: string, reverse?: boolean) {
 
   try {
     const list =
-      cheerio(html)('.commentList .row_replyclearit')
+      cheerio(htmlMatch(html, '<div id="comment_list"', '<div id="footer">'))(
+        '.commentList .row_replyclearit'
+      )
         .map((index: number, element: any) => {
           const $row = cheerio(element)
           const info = $row.find('div.action small').text().trim().split(' - ')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 08:22:11
+ * @Last Modified time: 2023-10-28 10:11:45
  */
 import { htmlMatch, safeObject } from '@utils'
 import {
@@ -23,8 +23,17 @@ import { HOST, HTML_MONO } from '@constants'
 import { AnyObject, MonoId, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
-import { MonoWorks, SubjectComments, SubjectFromHTML } from './types'
+import {
+  MonoVoices,
+  MonoWorks,
+  Rating,
+  SubjectCatalogs,
+  SubjectComments,
+  SubjectFromHTML,
+  Wiki
+} from './types'
 
+/** 人物信息和吐槽箱 */
 export async function fetchMono({ monoId }: { monoId: MonoId }) {
   // -------------------- 请求HTML --------------------
   const raw = await fetchHTML({
@@ -43,7 +52,9 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
   let monoComments = [] // 人物吐槽箱
 
   if (HTML) {
-    const $ = cheerio(raw)
+    const $ = cheerio(
+      htmlMatch(raw, '<div class="subjectNav">', '<div class="mainWrapper">')
+    )
     mono.eraseCollectUrl = $('li.collect > span.collect > a.break').attr('href') || ''
     if (!mono.eraseCollectUrl) {
       mono.collectUrl = $('li.collect > span.collect > a').attr('href') || ''
@@ -523,12 +534,9 @@ export function cheerioMonoWorks(html: string): MonoWorks {
   }
 }
 
-/**
- * 分析人物角色
- * @param {*} HTML
- */
-export function cheerioMonoVoices(HTML) {
-  const $ = cheerio(HTML)
+/** 人物角色 */
+export function cheerioMonoVoices(html: string): MonoVoices {
+  const $ = cheerio(htmlMatch(html, '<div id="columnCrtB"', '<div id="footer">'))
   return {
     filters:
       $('div.subjectFilter > ul.grouped')
@@ -581,12 +589,11 @@ export function cheerioMonoVoices(HTML) {
   }
 }
 
-/**
- * 分析评分
- * @param {*} HTML
- */
-export function cheerioRating(HTML) {
-  const $ = cheerio(HTML)
+/** 条目评分 */
+export function cheerioRating(html: string): Rating {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+  )
   const counts = {
     wishes: 0,
     collections: 0,
@@ -641,12 +648,11 @@ export function cheerioRating(HTML) {
   }
 }
 
-/**
- * 分析评分
- * @param {*} HTML
- */
-export function cheerioSubjectCatalogs(HTML) {
-  const $ = cheerio(HTML)
+/** 包含条目的目录 */
+export function cheerioSubjectCatalogs(html: string): SubjectCatalogs {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+  )
   return {
     list:
       $('li.tml_item')
@@ -668,44 +674,48 @@ export function cheerioSubjectCatalogs(HTML) {
   }
 }
 
-export function cheerioWikiEdits(HTML) {
-  const $ = cheerio(HTML)
-  return {
-    list:
-      $('#pagehistory li')
-        .map((index: number, element: any) => {
-          const $li = cheerio(element)
-          const $a = $li.find('a')
-          const $time = $a.eq(0)
-          const $user = $a.eq(1)
-          return safeObject({
-            id: index,
-            time: $time.text().trim(),
-            userId: $user.attr('href').replace('/user/', ''),
-            userName: $user.text().trim(),
-            comment: $li.find('.comment').text().trim().replace(/\(|\)/g, ''),
-            sub: $li.find('.alarm').text().trim().replace(/\(|\)/g, '')
-          })
+/** wiki 修订历史 */
+export function cheerioWikiEdits(html: string): Wiki['edits'] {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"')
+  )
+  return (
+    $('#pagehistory li')
+      .map((index: number, element: any) => {
+        const $li = cheerio(element)
+        const $a = $li.find('a')
+        const $time = $a.eq(0)
+        const $user = $a.eq(1)
+        return safeObject({
+          id: index,
+          time: $time.text().trim(),
+          userId: $user.attr('href').replace('/user/', ''),
+          userName: $user.text().trim(),
+          comment: $li.find('.comment').text().trim().replace(/\(|\)/g, ''),
+          sub: $li.find('.alarm').text().trim().replace(/\(|\)/g, '')
         })
-        .get() || []
-  }
+      })
+      .get() || []
+  )
 }
 
-export function cheerioWikiCovers(HTML) {
-  const $ = cheerio(HTML)
-  return {
-    list:
-      $('.photoList li')
-        .map((index: number, element: any) => {
-          const $li = cheerio(element)
-          const $user = $li.find('.tip_j a.l')
-          return safeObject({
-            id: index,
-            cover: $li.find('img.grid').attr('src'),
-            userId: $user.attr('href').replace('/user/', ''),
-            userName: $user.text().trim()
-          })
+/** wiki 增改封面 */
+export function cheerioWikiCovers(html: string): Wiki['covers'] {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"')
+  )
+  return (
+    $('.photoList li')
+      .map((index: number, element: any) => {
+        const $li = cheerio(element)
+        const $user = $li.find('.tip_j a.l')
+        return safeObject({
+          id: index,
+          cover: $li.find('img.grid').attr('src'),
+          userId: $user.attr('href').replace('/user/', ''),
+          userName: $user.text().trim()
         })
-        .get() || []
-  }
+      })
+      .get() || []
+  )
 }
