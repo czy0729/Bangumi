@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 06:20:45
+ * @Last Modified time: 2023-10-28 08:24:00
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -494,15 +494,15 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_MONO_WORKS(monoId, position, order, page)
     })
-    const { list: _list, filters } = cheerioMonoWorks(html)
+    const next = cheerioMonoWorks(html)
 
     const data: MonoWorks = {
-      list: refresh ? _list : [...list, ..._list],
+      list: refresh ? next.list : [...list, ...next.list],
       pagination: {
         page,
-        pageTotal: _list.length === limit ? 100 : page
+        pageTotal: next.list.length === limit ? 100 : page
       },
-      filters,
+      filters: next.filters,
       _loaded: getTimestamp()
     }
     this.setState({

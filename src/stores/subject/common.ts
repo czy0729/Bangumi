@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 05:14:27
+ * @Last Modified time: 2023-10-28 08:22:11
  */
 import { htmlMatch, safeObject } from '@utils'
 import {
@@ -23,7 +23,7 @@ import { HOST, HTML_MONO } from '@constants'
 import { AnyObject, MonoId, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
 import { INIT_MONO } from './init'
-import { SubjectComments, SubjectFromHTML } from './types'
+import { MonoWorks, SubjectComments, SubjectFromHTML } from './types'
 
 export async function fetchMono({ monoId }: { monoId: MonoId }) {
   // -------------------- 请求HTML --------------------
@@ -460,19 +460,17 @@ export function cheerioSubjectComments(html: string): SubjectComments {
   }
 }
 
-/**
- * 分析人物作品
- * @param {*} HTML
- */
-const _type = {
+const TYPE = {
   1: 'book',
   2: 'anime',
   3: 'music',
   4: 'game',
   6: 'real'
-}
-export function cheerioMonoWorks(HTML) {
-  const $ = cheerio(HTML)
+} as const
+
+/** 人物作品 */
+export function cheerioMonoWorks(html: string): MonoWorks {
+  const $ = cheerio(htmlMatch(html, '<div id="columnCrtB"', '<div id="footer">'))
   return {
     filters:
       $('div.subjectFilter > ul.grouped')
@@ -483,7 +481,7 @@ export function cheerioMonoWorks(HTML) {
             data:
               $li
                 .find('a.l')
-                .map((idx, el) => {
+                .map((idx: number, el: any) => {
                   const $a = cheerio(el)
                   return safeObject({
                     title: $a.text().trim(),
@@ -507,13 +505,13 @@ export function cheerioMonoWorks(HTML) {
             position:
               $li
                 .find('span.badge_job')
-                .map((idx, el) => cheerio(el).text().trim())
+                .map((idx: number, el: any) => cheerio(el).text().trim())
                 .get() || [],
             score: $li.find('small.fade').text().trim(),
             total: $li.find('span.tip_j').text().trim(),
             rank: $li.find('span.rank').text().trim().replace('Rank ', ''),
             collected: !!$li.find('p.collectModify').text(),
-            type: _type[
+            type: TYPE[
               $li
                 .find('span.ico_subject_type')
                 .attr('class')
@@ -541,7 +539,7 @@ export function cheerioMonoVoices(HTML) {
             data:
               $li
                 .find('a.l')
-                .map((idx, el) => {
+                .map((idx: number, el: any) => {
                   const $a = cheerio(el)
                   return safeObject({
                     title: $a.text().trim(),
@@ -565,7 +563,7 @@ export function cheerioMonoVoices(HTML) {
             subject:
               $li
                 .find('ul.innerRightList > li')
-                .map((idx, el) => {
+                .map((idx: number, el: any) => {
                   const $l = cheerio(el)
                   const $a = $l.find('h3 > a.l')
                   return safeObject({

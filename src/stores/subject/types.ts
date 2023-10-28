@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:38:37
+ * @Last Modified time: 2023-10-28 08:17:53
  */
 import { SubjectType, SubjectTypeValue } from '@constants/model/types'
 import {
@@ -484,6 +484,7 @@ export type MonoWorks = Override<
     }>
   >,
   {
+    /** 可筛选项 */
     filters?: any
   }
 >
