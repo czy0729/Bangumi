@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:04:50
+ * @Last Modified time: 2023-10-28 10:59:21
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -24,6 +24,12 @@ function IconClose(props, { $ }: Ctx) {
       style={styles.touch}
       name='md-close'
       color={_.colorIcon}
+      hitSlop={{
+        top: 6,
+        right: _.device(2, 4),
+        bottom: 6,
+        left: _.device(2, 4)
+      }}
       onPress={() => {
         if (status.name === '未收藏') {
           info('当前未收藏')
