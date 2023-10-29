@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 21:03:58
+ * @Last Modified time: 2023-10-30 05:19:43
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
@@ -52,6 +52,7 @@ class List extends React.Component<{
 
   onScroll = evt => {
     uiStore.closePopableSubject()
+    uiStore.closeLikesGrid()
 
     const { $ } = this.context as Ctx
     $.onScroll(evt)

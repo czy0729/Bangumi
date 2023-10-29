@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:17:20
+ * @Last Modified time: 2023-10-30 05:06:50
  */
 import { rakuenStore } from '@stores'
 import {
@@ -197,40 +197,6 @@ export default class Action extends Fetch {
       directFloor
     })
     this.save()
-  }
-
-  showLikesUsers = (list: any[], emoji: number) => {
-    this.setState({
-      likesUsers: {
-        list,
-        emoji
-      }
-    })
-
-    setTimeout(() => {
-      this.setState({
-        likesUsers: {
-          show: true
-        }
-      })
-    }, 0)
-  }
-
-  closeLikesUsers = () => {
-    this.setState({
-      likesUsers: {
-        show: false
-      }
-    })
-
-    setTimeout(() => {
-      this.setState({
-        likesUsers: {
-          list: [],
-          emoji: 0
-        }
-      })
-    }, 800)
   }
 
   /** 更新可视范围底部 y */

@@ -196,9 +196,9 @@ export async function fetchTimeline(
             url: $reply.attr('href') || ''
           },
           like: {
-            type: String($like.data('like-type') || ''),
-            mainId: String($like.data('like-main-id') || ''),
-            relatedId: String($like.data('like-related-id') || '')
+            type: $like.data('like-type') || 40,
+            mainId: $like.data('like-main-id') || 0,
+            relatedId: $like.data('like-related-id') || 0
           },
           image,
           clearHref: ''

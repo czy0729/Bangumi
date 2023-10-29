@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-25 15:57:08
+ * @Last Modified time: 2023-10-30 05:17:49
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Iconfont, Touchable } from '@components'
-import { _, userStore } from '@stores'
+import { _, userStore, uiStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
@@ -130,7 +130,7 @@ const Item = memo(
                 id={like.relatedId}
                 likeType={like.type}
                 formhash={userStore.formhash}
-                // onLongPress={$.showLikesUsers}
+                onLongPress={uiStore.showLikesUsers}
               />
               <Flex
                 style={
@@ -138,12 +138,7 @@ const Item = memo(
                 }
               >
                 {!!replyCount && (
-                  <Touchable
-                    style={_.mr.sm}
-                    animate
-                    scale={0.9}
-                    onPress={() => onNavigate(replyUrl)}
-                  >
+                  <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
                     <Text type='primary' size={12}>
                       {replyCount}
                     </Text>

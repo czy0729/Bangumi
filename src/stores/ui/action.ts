@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-05 19:00:03
+ * @Last Modified time: 2023-10-30 05:17:06
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
@@ -92,7 +92,7 @@ export default class Action extends Computed {
     })
   }
 
-  /** ==================== likegGrid ==================== */
+  /** ==================== likesGrid ==================== */
   /** 显示回复表情选择弹出层 */
   showLikesGrid = (
     topicId: string,
@@ -138,6 +138,43 @@ export default class Action extends Computed {
         likeType: ''
       }
     })
+  }
+
+  /** ==================== likesUsers ==================== */
+  /** 显示贴贴用户列表弹出层 */
+  showLikesUsers = (list: any[], emoji: number) => {
+    this.setState({
+      likesUsers: {
+        list,
+        emoji
+      }
+    })
+
+    setTimeout(() => {
+      this.setState({
+        likesUsers: {
+          show: true
+        }
+      })
+    }, 0)
+  }
+
+  /** 关闭贴贴用户列表弹出层 */
+  closeLikesUsers = () => {
+    this.setState({
+      likesUsers: {
+        show: false
+      }
+    })
+
+    setTimeout(() => {
+      this.setState({
+        likesUsers: {
+          list: [],
+          emoji: 0
+        }
+      })
+    }, 800)
   }
 
   /** ==================== manageModal ==================== */

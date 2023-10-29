@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 06:37:02
+ * @Last Modified time: 2023-10-30 05:17:03
  */
 import React from 'react'
 import { Touchable, Flex, BgmText, Text, Bgm } from '@components'
-import { rakuenStore, uiStore } from '@stores'
+import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -17,6 +17,7 @@ import { memoStyles } from './styles'
 function Btn({ topicId, id, formhash, onLongPress, ...item }) {
   const styles = memoStyles()
   const emoji = Number(item.emoji)
+  const type = Number(item.type)
   return (
     <Touchable
       animate
@@ -26,6 +27,22 @@ function Btn({ topicId, id, formhash, onLongPress, ...item }) {
 
         uiStore.preFlipLikes(topicId, id)
         setTimeout(() => {
+          if (type === 40) {
+            timelineStore.doLike(item as any, id, formhash, () => {
+              // t('时间胶囊.贴贴', {
+              //   mainId: topicId,
+              //   relatedId: floorId,
+              //   value,
+              //   from: 'grid'
+              // })
+
+              setTimeout(() => {
+                uiStore.afterFlip()
+              }, 800)
+            })
+            return
+          }
+
           rakuenStore.doLike(item as any, id, formhash, topicId, () => {
             t('帖子.贴贴', {
               id,

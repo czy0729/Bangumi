@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:29:39
+ * @Last Modified time: 2023-10-30 05:00:02
  */
 import { RatingStatus } from '@types'
 
@@ -33,6 +33,13 @@ export const STATE = {
     formhash: '',
     value: '',
     likeType: ''
+  },
+
+  /** 贴贴具体用户 */
+  likesUsers: {
+    list: [],
+    emoji: 0,
+    show: false
   },
 
   /** 全局条目管理 Modal */

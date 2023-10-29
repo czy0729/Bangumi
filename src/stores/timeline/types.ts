@@ -48,9 +48,9 @@ export type Timeline = ListEmpty<
       url: string
     }
     like: {
-      type: string
-      mainId: string
-      relatedId: string
+      type: number
+      mainId: number
+      relatedId: number
     }
     image: Cover[]
     clearHref: string

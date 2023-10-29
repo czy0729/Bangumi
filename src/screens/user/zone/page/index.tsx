@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:03:02
+ * @Last Modified time: 2023-10-30 05:20:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ class Zone extends React.Component {
     const { $ } = this.context as Ctx
     $.onScroll(e)
     uiStore.closePopableSubject()
+    uiStore.closeLikesGrid()
   }
 
   render() {

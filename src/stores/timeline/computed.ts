@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 16:29:27
+ * @Last Modified time: 2023-10-30 00:57:45
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -34,15 +34,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 时间胶囊回复表情 */
   likes(id: Id) {
     return computed<Likes>(() => {
-      return this.state.likes[id] || {}
+      return {
+        [id]: this.state.likes[id] || {}
+      }
     }).get()
   }
 
   /** 时间胶囊回复表情 */
   likesList(id: Id) {
     return computed(() => {
-      const likes = this.likes(id)
-      if (!likes) return null
+      const likes = this.likes(id)?.[id]
+      if (!Object.keys(likes).length) return null
 
       return Object.entries(likes)
         .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))

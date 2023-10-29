@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 14:30:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 08:46:15
+ * @Last Modified time: 2023-10-29 23:33:21
  */
 import { IOS } from '@constants'
 import { _ } from '@stores'
@@ -16,7 +16,7 @@ type Style = {
   right?: number
 }
 
-/** 大概一行的高度 */
+/** 大概一行文字的高度 */
 const LINE_HEIGHT = 24
 
 /** 手机显示的左边距 */
@@ -25,22 +25,25 @@ const MOBILE_MARGIN_LEFT = _._wind
 /** 手机显示的右边距 */
 const MOBILE_MARGIN_RIGHT = _._wind + _.sm - 2
 
-/** 若可以优先用 top 效果最佳 */
+/** 若可以优先用 bottom 效果最佳 */
 export function getPosition(
   x: number,
-  y: number
+  y: number,
+  rows: number = 3
 ): {
   position: Position
   style: Style
+  height: number
 } {
   let position: Position
   const style: Style = {}
-
   const { container } = memoStyles()
-  if (y - container.height - LINE_HEIGHT * 3 >= 0) {
+  const height = container.width * rows * 0.25
+
+  if (y - height - LINE_HEIGHT * rows >= _.window.height * 0.64) {
     position = 'top'
 
-    style.top = y - container.height - LINE_HEIGHT + 8
+    style.top = y - height - LINE_HEIGHT + 8
     if (!IOS) style.top += 28
     if (_.isPad) style.top -= 32
   } else {
@@ -59,6 +62,7 @@ export function getPosition(
 
   return {
     position,
-    style
+    style,
+    height
   }
 }
