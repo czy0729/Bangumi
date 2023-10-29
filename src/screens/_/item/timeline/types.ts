@@ -34,6 +34,11 @@ export type Props = {
     url?: string
     content?: string
   }
+  like?: {
+    type: string
+    mainId: string
+    relatedId: string
+  }
   time?: string
   star?: string | number
   subject?: string

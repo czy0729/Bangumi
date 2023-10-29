@@ -7,12 +7,12 @@
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { InView, Cover, Stars, Popover } from '../../base'
+import { InView, Cover, Stars, Popover, Likes } from '../../base'
 import Avatar from './avatar'
 import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
 import P from './p'
@@ -35,6 +35,7 @@ const Item = memo(
     image,
     comment,
     reply,
+    like,
     time,
     star,
     subject,
@@ -60,11 +61,11 @@ const Item = memo(
 
     const onNavigate = useCallback(
       (url, passParams?) => appNavigate(url, navigation, passParams, event),
-      []
+      [event, navigation]
     )
     const onClear = useCallback(() => {
       confirm('确定删除?', () => onDelete(clearHref))
-    }, [clearHref])
+    }, [clearHref, onDelete])
 
     let type: SubjectTypeCn
     if (p2Text?.includes('读') || p4Text?.includes('书籍')) {
@@ -123,6 +124,14 @@ const Item = memo(
                   onNavigate={onNavigate}
                 />
               </InView>
+              <Likes
+                show
+                topicId={like.mainId}
+                id={like.relatedId}
+                likeType={like.type}
+                formhash={userStore.formhash}
+                // onLongPress={$.showLikesUsers}
+              />
               <Flex
                 style={
                   image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md

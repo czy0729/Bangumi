@@ -12,3 +12,5 @@ export const HIT_SLOP = {
   bottom: 12,
   left: 12
 } as const
+
+export const LIKE_TYPE_TIMELINE = '40'

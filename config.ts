@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:42:02
+ * @Last Modified time: 2023-10-28 10:32:05
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -23,7 +23,7 @@ export const ANDROID_DEV_MENU = true
 export const TEXT_ONLY = DEV ? DEV : false
 
 /** 反代地址 */
-export const HOST_PROXY = 'https://bangumi-app-webproxy.magmablock.top'
+export const HOST_PROXY = 'https://bangumi-app-webproxy.magmablock.top' // http://192.168.31.87:3000
 
 /** ==================== 默认路由 ==================== */
 /** 路由覆盖配置 */

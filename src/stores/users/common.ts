@@ -4,9 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-06 04:08:43
  */
-import { safeObject, trim } from '@utils'
-import { cheerio } from '@utils/html'
-import { matchAvatar } from '@utils/match'
+import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 
 /**
  * 分析好友列表
@@ -27,8 +25,8 @@ export function cheerioFriends(HTML) {
 }
 
 /** 分析用户 */
-export function cheerioUsers(HTML: string) {
-  const $ = cheerio(HTML)
+export function cheerioUsers(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="headerProfile"', '<div id="footer">'))
   const userId = (
     $('.inner small.grey')
       .text()
@@ -45,9 +43,7 @@ export function cheerioUsers(HTML: string) {
       const id = idPath.split('(')[1].replace(', ', '')
       disconnectUrl = `/disconnect/${id}?gh=${hash}`
     }
-    if (hash) {
-      formhash = hash
-    }
+    if (hash) formhash = hash
   }
 
   const $gridItems = $('.gridStats .item')

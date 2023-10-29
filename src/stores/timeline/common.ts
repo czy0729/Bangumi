@@ -7,7 +7,15 @@
 import { cheerio, getTimestamp, matchAvatar, safeObject, trim, htmlMatch } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY, HTML_TIMELINE, MODEL_TIMELINE_SCOPE } from '@constants'
-import { ListEmpty, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
+import {
+  ListEmpty,
+  Override,
+  TimeLineScope,
+  TimeLineScopeCn,
+  TimeLineType,
+  UserId
+} from '@types'
+import { Likes } from '../rakuen/types'
 import { Timeline } from './types'
 
 /** 请求时间胶囊 */
@@ -20,7 +28,14 @@ export async function fetchTimeline(
   refresh?: boolean,
   prevTimeline?: Timeline,
   userInfo?: any
-): Promise<ListEmpty<Timeline>> {
+): Promise<
+  Override<
+    ListEmpty<Timeline>,
+    {
+      likes: Likes
+    }
+  >
+> {
   const { scope, type, userId } = args || {}
   const oldData = prevTimeline || LIST_EMPTY
   const page = refresh ? 1 : oldData?.pagination.page + 1
@@ -41,6 +56,8 @@ export async function fetchTimeline(
         })
         const $card = $info.find('.card')
         const $reply = $info.find('a.tml_comment')
+        const $date = $row.find('.date')
+        const $like = $row.find('.like_dropdown')
         let $p1: any
 
         // 个人主页中的时间胶囊不存在位置 1
@@ -123,6 +140,19 @@ export async function fetchTimeline(
           )?.[1]
         }
 
+        /** 底部时间 */
+        const time = $date
+          .contents()
+          .filter(function () {
+            return this.nodeType === 3 && this.parent === $date[0]
+          })
+          .text()
+          .trim()
+          .split('·')
+          .filter((item: string) => !(item.includes('回复') || item.includes('web')))
+          .map((item: string) => item.trim())
+          .join(' · ')
+
         /** 右侧封面或人物头像 */
         const image = []
 
@@ -154,13 +184,7 @@ export async function fetchTimeline(
           p3,
           p4,
           ...subject,
-          time: $row
-            .find('.date')
-            .text()
-            .trim()
-            .split('·')
-            .filter(item => !(item.includes('回复') || item.includes('web')))
-            .join(' · '),
+          time,
           star: ($row.find('.comment .starlight').attr('class') || '').replace(
             'starlight stars',
             ''
@@ -171,6 +195,11 @@ export async function fetchTimeline(
             count: $reply.text().trim(),
             url: $reply.attr('href') || ''
           },
+          like: {
+            type: String($like.data('like-type') || ''),
+            mainId: String($like.data('like-main-id') || ''),
+            relatedId: String($like.data('like-related-id') || '')
+          },
           image,
           clearHref: ''
         })
@@ -178,12 +207,18 @@ export async function fetchTimeline(
     }
   )
 
+  let likes: Likes = {}
+  try {
+    likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+  } catch (error) {}
+
   return {
     list: page === 1 ? list : [...oldData.list, ...list],
     pagination: {
       page,
       pageTotal: scopeCn === '全站' ? 1 : 100
     },
+    likes,
     _loaded: getTimestamp()
   }
 }

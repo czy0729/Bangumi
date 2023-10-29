@@ -8,10 +8,10 @@ import React from 'react'
 import { toJS } from 'mobx'
 import { ScrollView, Touchable, Flex, Iconfont } from '@components'
 import { useObserver, useBoolean } from '@utils/hooks'
-import { rakuenStore, uiStore } from '@stores'
+import { rakuenStore, timelineStore, uiStore } from '@stores'
 import Flip from './flip'
 import Btn from './btn'
-import { LIMIT, HIT_SLOP } from './ds'
+import { LIMIT, HIT_SLOP, LIKE_TYPE_TIMELINE } from './ds'
 import { memoStyles } from './styles'
 import { Props as LikesProps } from './types'
 
@@ -30,10 +30,19 @@ export const Likes = ({
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
-    if (!rakuenStore.setting.likes || !topicId || !id) return null
-
     const showCreateBtn = !!formhash && show
-    const likesList = storybook?.likesList || rakuenStore.likesList(topicId, id) || []
+    const isTimeline = likeType === LIKE_TYPE_TIMELINE
+
+    let likesList: any[]
+    if (isTimeline) {
+      if (!topicId || !id) return null
+
+      likesList = storybook?.likesList || timelineStore.likesList(id) || []
+    } else {
+      if (!rakuenStore.setting.likes || !topicId || !id) return null
+
+      likesList = storybook?.likesList || rakuenStore.likesList(topicId, id) || []
+    }
 
     // 避免不可预料的结构错误
     if (!Array.isArray(toJS(likesList))) return null

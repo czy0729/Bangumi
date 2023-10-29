@@ -293,11 +293,11 @@ export default class Fetch extends Computed {
     const { list, pagination } = this[key]
     const page = refresh ? 1 : pagination.page + 1
 
-    const HTML = await fetchHTML({
+    const html = await fetchHTML({
       url: key === 'pmOut' ? HTML_PM_OUT(page) : HTML_PM(page)
     })
     const data = {
-      list: refresh ? cheerioPM(HTML) : [...list, ...cheerioPM(HTML)],
+      list: refresh ? cheerioPM(html) : [...list, ...cheerioPM(html)],
       pagination: {
         page,
         pageTotal: 100

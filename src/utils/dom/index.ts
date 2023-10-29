@@ -10,7 +10,7 @@ import { Fn } from '@types'
 
 /** 是否手机环境 */
 export function isMobile() {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined' || !STORYBOOK) return
 
   const ua = navigator.userAgent.toLowerCase()
   const keywords = ['android', 'iphone', 'ipod', 'ipad', 'windows phone', 'mqqbrowser']
@@ -48,7 +48,7 @@ export function injectUtils() {
 
 /** 尝试把页面中唯一的列表滚动到顶 */
 export function scrollToTop() {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined' || !STORYBOOK) return
 
   setTimeout(() => {
     try {
@@ -92,6 +92,7 @@ export function useDoubleTap(callback: Fn = () => {}, delay: number = 300) {
 
 /** 测试性能 */
 export function measurePerformance(func: Fn, count: number = 10) {
+  // 其实 react-native 环境也是有 window 和 performance 的
   if (typeof window === 'undefined') return
 
   setTimeout(() => {

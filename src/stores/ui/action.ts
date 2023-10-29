@@ -95,7 +95,7 @@ export default class Action extends Computed {
   /** ==================== likegGrid ==================== */
   /** 显示回复表情选择弹出层 */
   showLikesGrid = (
-    topicId: TopicId,
+    topicId: string,
     floorId: string | number,
     formhash: string,
     likeType: string = '8'

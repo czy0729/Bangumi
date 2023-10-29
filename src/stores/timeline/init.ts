@@ -30,6 +30,11 @@ export const STATE = {
     0: LIST_EMPTY
   },
 
+  /** 时间胶囊回复表情 */
+  likes: {
+    0: {}
+  },
+
   /** 吐槽 */
   say: {
     0: LIST_EMPTY

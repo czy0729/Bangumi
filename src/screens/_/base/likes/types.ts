@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-07-02 05:53:24
  */
 import { rakuenStore } from '@stores'
-import { Fn, TopicId, ViewStyle } from '@types'
+import { Fn, ViewStyle } from '@types'
 
 type LikesList = ReturnType<typeof rakuenStore.likesList>
 
@@ -15,11 +15,11 @@ export type Props = {
   /** 初始渲染是否显示全部 */
   show?: boolean
 
-  /** 帖子 ID */
-  topicId: TopicId
+  /** 帖子 ID | mainId */
+  topicId: string
 
-  /** 楼层 ID */
-  id: string | number
+  /** 楼层 ID | relatedId */
+  id: string
 
   /** 操作凭证 */
   formhash: string

@@ -32,6 +32,7 @@ export const DEFAULT_PROPS = {
   image: [] as Props['image'],
   comment: '' as Props['comment'],
   reply: {} as Props['reply'],
+  like: {} as Props['like'],
   time: '' as Props['time'],
   star: '' as Props['star'],
   subject: '' as Props['subject'],

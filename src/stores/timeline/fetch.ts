@@ -24,27 +24,30 @@ export default class Fetch extends Computed {
     refresh?: boolean
   ) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = args || {}
-    const timeline = this.timeline(scope, type)
-    const data = await fetchTimeline(
+    const data = this.timeline(scope, type)
+    const { likes, ...next } = await fetchTimeline(
       {
         scope,
         type,
         userId: userId || userStore.myId || userStore.myUserId
       },
       refresh,
-      timeline,
+      data,
       userStore.userInfo
     )
 
     const key = 'timeline'
     const stateKey = `${scope}|${type}`
+    const likesKey = 'likes'
+
     this.setState({
       [key]: {
-        [stateKey]: data
-      }
+        [stateKey]: next
+      },
+      [likesKey]: likes
     })
 
-    return data
+    return next
   }
 
   /** 获取他人视角的时间胶囊 */
@@ -59,7 +62,7 @@ export default class Fetch extends Computed {
 
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
-    const data = await fetchTimeline(
+    const { likes, ...next } = await fetchTimeline(
       { scope, type, userId },
       refresh,
       this.usersTimeline(userId),
@@ -68,16 +71,19 @@ export default class Fetch extends Computed {
 
     const key = 'usersTimeline'
     const stateKey = userId
+    const likesKey = 'likes'
+
     this.setState({
       [key]: {
         [stateKey]: {
-          ...data,
+          ...next,
           _loaded: getTimestamp()
         }
-      }
+      },
+      [likesKey]: likes
     })
 
-    return data
+    return next
   }
 
   /** 吐槽 */

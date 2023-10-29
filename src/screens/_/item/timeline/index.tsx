@@ -28,6 +28,7 @@ export const ItemTimeline = ob(
     image,
     comment,
     reply,
+    like,
     time,
     star,
     subject,
@@ -59,6 +60,7 @@ export const ItemTimeline = ob(
         image={image}
         comment={comment}
         reply={reply}
+        like={like}
         time={time}
         star={star}
         subject={subject}

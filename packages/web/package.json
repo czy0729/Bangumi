@@ -7,7 +7,8 @@
     "dev": "STORYBOOK=true start-storybook -p 6006",
     "build": "STORYBOOK=true build-storybook",
     "postinstall": "patch-package",
-    "env": "node ./packages/env.js"
+    "env": "node ./packages/env.js",
+    "k": "sudo purge"
   },
   "resolutions": {
     "@types/react": "17.0.2",
@@ -134,6 +135,7 @@
     "eslint-plugin-jest": "^24.5.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "isomorphic-unfetch": "^3.1.0",
     "prettier": "^2.6.2",
     "storybook-dark-mode": "^3.0.0",

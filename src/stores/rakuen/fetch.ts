@@ -263,35 +263,31 @@ export default class Fetch extends Computed {
    * @param {*} analysis 是否分析回复内容
    */
   fetchNotify = async (analysis: boolean = false) => {
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: HTML_NOTIFY(),
       raw: true
     })
-    const raw = await res
 
-    let setCookie
-    if (raw.headers && raw.headers.map && raw.headers.map['set-cookie']) {
-      setCookie = raw.headers.map['set-cookie']
-    }
-    const text = await raw.text()
-    const HTML = HTMLTrim(text)
+    let setCookie: string
+    if (raw?.headers?.map?.['set-cookie']) setCookie = raw.headers.map['set-cookie']
 
+    const html = HTMLTrim(await raw.text())
     const { _loaded } = this.notify
     let { unread, clearHref, list } = this.notify
 
     // 清除动作
-    const clearHTML = HTML.match(
+    const clearHTML = html.match(
       /<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/
     )
     if (clearHTML) clearHref = clearHTML[1]
 
     // 未读数
-    const countHTML = HTML.match(/<span id="notify_count">(.+?)<\/span>/)
+    const countHTML = html.match(/<span id="notify_count">(.+?)<\/span>/)
     if (countHTML) unread = parseInt(countHTML[1])
 
     // 回复内容
     if (analysis) {
-      const listHTML = HTML.match(
+      const listHTML = html.match(
         /<div id="comment_list">(.+?)<\/div><\/div><\/div><div id="footer"/
       )
       if (listHTML) list = cheerioNotify(listHTML[1])
@@ -310,7 +306,7 @@ export default class Fetch extends Computed {
 
     return {
       setCookie,
-      html: HTML
+      html
     }
   }
 
