@@ -9,6 +9,7 @@ import {
   EventType,
   Fn,
   Navigation,
+  SubjectId,
   UserId,
   ViewStyle
 } from '@types'
@@ -23,6 +24,8 @@ export type Props = {
   star?: string | number
   status?: CollectionStatusCn
   comment?: string
+  subjectId?: SubjectId
+  relatedId?: string | number
   event?: EventType
   popoverData?: string[]
   onSelect?: Fn

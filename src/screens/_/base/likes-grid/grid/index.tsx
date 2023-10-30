@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 15:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 01:05:35
+ * @Last Modified time: 2023-10-30 19:40:51
  */
 import React from 'react'
 import { Flex, Bgm, BgmText, Touchable } from '@components'
@@ -10,13 +10,12 @@ import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { t } from '@utils/fetch'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 
 function Grid({ data, value, topicId, floorId, formhash, likeType }) {
-  const isTimeline = likeType == 40
-
+  const isTimeline = likeType == LIKE_TYPE_TIMELINE
   return (
     <Flex wrap='wrap'>
       {data.map(item => (
@@ -59,7 +58,7 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
             rakuenStore.doLike(
               {
                 main_id: Number(String(topicId).split('/')?.[1]) || 0,
-                type: likeType || 8,
+                type: likeType || LIKE_TYPE_RAKUEN,
                 value
               },
               floorId,

@@ -26,6 +26,7 @@ import {
   HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
 import { EpId, MonoId, PersonId, RatingStatus, SubjectId } from '@types'
+import timelineStore from '../timeline'
 import Computed from './computed'
 import { getInt } from './utils'
 import {
@@ -374,9 +375,10 @@ export default class Fetch extends Computed {
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
 
-    const next = cheerioSubjectComments(html)
-    if (isReverse) next.list.reverse()
+    const { likes, ...next } = cheerioSubjectComments(html)
+    timelineStore.updateLikes(likes)
 
+    if (isReverse) next.list.reverse()
     const last = getInt(subjectId)
     const key = `subjectComments${last}` as const
     const data = {

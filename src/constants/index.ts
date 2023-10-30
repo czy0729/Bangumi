@@ -1,6 +1,5 @@
 /*
  * 公共变量
- *
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729

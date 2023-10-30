@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 00:26:36
+ * @Last Modified time: 2023-10-30 21:41:43
  */
 import React from 'react'
 import { toJS } from 'mobx'
 import { ScrollView, Touchable, Flex, Iconfont } from '@components'
-import { useObserver, useBoolean } from '@utils/hooks'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
+import { useObserver, useBoolean } from '@utils/hooks'
+import { LIKE_TYPE_TIMELINE } from '@constants'
 import Flip from './flip'
 import Btn from './btn'
-import { LIMIT, HIT_SLOP, LIKE_TYPE_TIMELINE } from './ds'
+import { LIMIT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 import { Props as LikesProps } from './types'
 
@@ -24,13 +25,14 @@ export const Likes = ({
   id,
   formhash,
   likeType,
+  offsets,
   storybook,
   onLongPress
 }: LikesProps) => {
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
-    const isTimeline = likeType === LIKE_TYPE_TIMELINE
+    const isTimeline = likeType == LIKE_TYPE_TIMELINE
     if (!topicId || !id || (!isTimeline && !rakuenStore.setting.likes)) return null
 
     const likesList: any[] =
@@ -57,7 +59,7 @@ export const Likes = ({
                 return
               }
 
-              uiStore.showLikesGrid(topicId, id, formhash, String(likeType))
+              uiStore.showLikesGrid(topicId, id, formhash, likeType, offsets)
             }}
           >
             <Flex style={styles.item} justify='center'>

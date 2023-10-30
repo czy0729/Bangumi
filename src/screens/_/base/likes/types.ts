@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:05:50
+ * @Last Modified time: 2023-10-30 21:31:09
  */
 import { rakuenStore } from '@stores'
 import { Fn, Id, ViewStyle } from '@types'
@@ -16,7 +16,7 @@ export type Props = {
   show?: boolean
 
   /** 帖子 ID | mainId */
-  topicId: string
+  topicId: Id
 
   /** 楼层 ID | relatedId */
   id: Id
@@ -26,6 +26,13 @@ export type Props = {
 
   /** 贴贴类型 */
   likeType: Id
+
+  /** 偏移值 */
+  offsets?: {
+    recommandPosition?: '' | 'top' | 'bottom'
+    x?: number
+    y?: number
+  }
 
   /** 长按按钮 */
   onLongPress?: Fn

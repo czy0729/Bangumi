@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 16:30:55
+ * @Last Modified time: 2023-10-30 21:35:38
  */
 import {
   _,
@@ -12,7 +12,8 @@ import {
   rakuenStore,
   systemStore,
   userStore,
-  usersStore
+  usersStore,
+  uiStore
 } from '@stores'
 import {
   appNavigate,
@@ -36,6 +37,7 @@ import { s2t } from '@utils/thirdParty/cn-char'
 import { download, temp } from '@utils/kv'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
+  LIKE_TYPE_TIMELINE,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
   SITES,
@@ -491,10 +493,23 @@ export default class Action extends Fetch {
       userId: UserId
       userName: string
     },
-    comment: string
+    comment: string,
+    relatedId: Id
   ) => {
     if (!userData?.userId) {
       return false
+    }
+
+    if (title === '贴贴') {
+      return uiStore.showLikesGrid(
+        this.subjectId,
+        relatedId,
+        userStore.formhash,
+        LIKE_TYPE_TIMELINE,
+        {
+          recommandPosition: 'top'
+        }
+      )
     }
 
     if (title === '复制评论') {

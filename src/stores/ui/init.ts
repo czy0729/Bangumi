@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-20 04:47:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:00:02
+ * @Last Modified time: 2023-10-30 21:32:56
  */
 import { RatingStatus } from '@types'
 
@@ -32,7 +32,12 @@ export const STATE = {
     floorId: '',
     formhash: '',
     value: '',
-    likeType: ''
+    likeType: '',
+    offsets: {
+      recommandPosition: '',
+      x: 0,
+      y: 0
+    }
   },
 
   /** 贴贴具体用户 */

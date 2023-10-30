@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 14:30:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-29 23:33:21
+ * @Last Modified time: 2023-10-30 21:40:56
  */
 import { IOS } from '@constants'
 import { _ } from '@stores'
@@ -29,7 +29,8 @@ const MOBILE_MARGIN_RIGHT = _._wind + _.sm - 2
 export function getPosition(
   x: number,
   y: number,
-  rows: number = 3
+  rows: number = 3,
+  recommandPosition: 'top' | 'bottom'
 ): {
   position: Position
   style: Style
@@ -38,17 +39,21 @@ export function getPosition(
   let position: Position
   const style: Style = {}
   const { container } = memoStyles()
+
+  /** 弹出层容器估计高度 */
   const height = container.width * rows * 0.25
 
-  if (y - height - LINE_HEIGHT * rows >= _.window.height * 0.64) {
-    position = 'top'
+  /** 判断方向 y 轴临界点 */
+  const limit =
+    (recommandPosition || 'bottom') === 'bottom' ? _.window.height * 0.64 : _.md
 
+  if (y - height - LINE_HEIGHT * rows >= limit) {
+    position = 'top'
     style.top = y - height - LINE_HEIGHT + 8
     if (!IOS) style.top += 28
     if (_.isPad) style.top -= 32
   } else {
     position = 'bottom'
-
     style.top = y
     if (!IOS) style.top += 16
     if (!_.isPad) style.top += LINE_HEIGHT * 1.2

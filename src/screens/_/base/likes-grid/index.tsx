@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-29 23:33:36
+ * @Last Modified time: 2023-10-30 21:37:46
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
 import { Portal } from '@components'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { LIKE_TYPE_TIMELINE } from '@constants'
 import { BlurView } from '../blur-view'
 import Grid from './grid'
 import { getPosition } from './utils'
@@ -16,14 +17,30 @@ import { DATA, DATA_TIMELINE } from './ds'
 import { memoStyles } from './styles'
 
 export const LikesGrid = ob(
-  ({ visible, portalKey, x, y, value, topicId, floorId, formhash, likeType }) => {
+  ({
+    visible,
+    portalKey,
+    x,
+    y,
+    value,
+    topicId,
+    floorId,
+    formhash,
+    likeType,
+    offsets
+  }) => {
     if (!rakuenStore.setting.likes) return null
 
     const styles = memoStyles()
-    const isTimeline = likeType == 40
+    const isTimeline = likeType == LIKE_TYPE_TIMELINE
     const data = isTimeline ? DATA_TIMELINE : DATA
     const rows = Math.ceil(data.length / 4)
-    const position = getPosition(x, y, rows)
+    const position = getPosition(x, y, rows, offsets?.recommandPosition)
+
+    // 应用偏移值
+    if (offsets?.x && position.style.left) position.style.left += offsets.x
+    if (offsets?.y && position.style.top) position.style.left += offsets.y
+
     return (
       <Portal key={String(portalKey)}>
         <Popover

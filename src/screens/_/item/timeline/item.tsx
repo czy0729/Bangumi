@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:17:49
+ * @Last Modified time: 2023-10-30 21:39:26
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { InView, Cover, Stars, Popover, Likes } from '../../base'
 import Avatar from './avatar'
-import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
+import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS, LIKES_OFFSETS } from './ds'
 import P from './p'
 import Desc from './desc'
 import Images from './images'
@@ -130,6 +130,7 @@ const Item = memo(
                 id={like.relatedId}
                 likeType={like.type}
                 formhash={userStore.formhash}
+                offsets={LIKES_OFFSETS}
                 onLongPress={uiStore.showLikesUsers}
               />
               <Flex

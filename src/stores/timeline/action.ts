@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 00:59:12
+ * @Last Modified time: 2023-10-30 21:08:08
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
@@ -109,24 +109,11 @@ export default class Action extends Fetch {
         try {
           const data = JSON.parse(responseText)
           if (data?.status === 'ok') {
-            const key = 'likes'
-
-            /** @issue 接口有严重 bug, 若返回是对象 { 0: {} } 这样的, 接口返回变成了数组 */
-            if (Array.isArray(data?.data?.[id])) {
-              this.setState({
-                [key]: {
-                  [id]: {
-                    0: data.data[id]?.[0] || {}
-                  }
-                }
-              })
-            } else {
-              this.setState({
-                [key]: data?.data || {
-                  [id]: {}
-                }
-              })
-            }
+            this.updateLikes(
+              data?.data || {
+                [id]: {}
+              }
+            )
 
             if (typeof callback === 'function') callback()
           }

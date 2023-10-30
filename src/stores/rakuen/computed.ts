@@ -74,7 +74,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 帖子回复表情 */
-  likes(topicId: string) {
+  likes(topicId: string | number) {
     this.init('likes')
     return computed<Likes>(() => {
       return this.state.likes[topicId] || {}
@@ -268,7 +268,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 帖子回复表情 */
-  likesList(topicId: string, floorId: string | number) {
+  likesList(topicId: string | number, floorId: string | number) {
     return computed(() => {
       const likes = this.likes(topicId)?.[floorId]
       if (!likes) return null

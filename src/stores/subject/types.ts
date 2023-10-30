@@ -372,6 +372,7 @@ type SubjectCommentsAttrs = {
   replySub: string
   message: string
   star: string | number
+  relatedId: string | number
 }
 
 /** 回复项 */

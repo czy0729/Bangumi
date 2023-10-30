@@ -35,16 +35,14 @@ export default class Fetch extends Computed {
       data,
       userStore.userInfo
     )
+    this.updateLikes(likes)
 
     const key = 'timeline'
     const stateKey = `${scope}|${type}`
-    const likesKey = 'likes'
-
     this.setState({
       [key]: {
         [stateKey]: next
-      },
-      [likesKey]: likes
+      }
     })
 
     return next

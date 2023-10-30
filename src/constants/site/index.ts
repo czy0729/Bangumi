@@ -13,14 +13,14 @@ export const SITE_AGEFANS = () => {
   return ota.SITE_AGEFANS || 'https://www.agemys.com/'
 }
 
-/** @deprecated [已废弃] 迅播动漫 */
+/** @deprecated 迅播动漫 */
 export const SITE_XUNBO = () => {
   const ota = getOTA()
   return ota.SITE_XUNBO || 'https://www.xbdm.org'
 }
 
 /* ==================== 三次元 ==================== */
-/** @deprecated [已废弃] 人人影视 */
+/** @deprecated 人人影视 */
 export const SITE_RRYS = () => {
   const ota = getOTA()
   return ota.SITE_RRYS || 'http://www.rrys2020.com'
@@ -34,13 +34,13 @@ export const SITE_WK8 = () => {
 }
 
 /* ==================== 漫画 ==================== */
-/** @deprecated [已废弃] */
+/** @deprecated */
 export const SITE_77MH = () => {
   const ota = getOTA()
   return ota.SITE_77MH || 'https://so.77mh.de'
 }
 
-/** @deprecated [已废弃] */
+/** @deprecated */
 export const SITE_COMIC123 = () => {
   const ota = getOTA()
   return ota.SITE_COMIC123 || 'https://m.comic123.net'
@@ -58,7 +58,7 @@ export const SITE_MANGABZ = () => {
   return ota.SITE_MANGABZ || 'https://www.mangabz.com'
 }
 
-/** @deprecated [已废弃] */
+/** @deprecated */
 export const SITE_MANHUA1234 = () => {
   const ota = getOTA()
   return ota.SITE_MANHUA1234 || 'https://m.mh1234.com'

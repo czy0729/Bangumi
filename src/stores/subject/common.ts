@@ -20,8 +20,9 @@ import {
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HOST, HTML_MONO } from '@constants'
-import { AnyObject, MonoId, SubjectTypeValue } from '@types'
+import { AnyObject, MonoId, Override, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
+import { Likes } from '../rakuen/types'
 import { INIT_MONO } from './init'
 import {
   MonoVoices,
@@ -436,7 +437,12 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
 }
 
 /** 条目留言 */
-export function cheerioSubjectComments(html: string): SubjectComments {
+export function cheerioSubjectComments(html: string): Override<
+  SubjectComments,
+  {
+    likes: Likes
+  }
+> {
   const $ = cheerio(
     htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
   )
@@ -445,6 +451,12 @@ export function cheerioSubjectComments(html: string): SubjectComments {
   const pageTotal = Number(
     pagination?.[1] || pagination?.[0] || $('.page_inner a.p').length || 1
   )
+
+  let likes: Likes = {}
+  try {
+    likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+  } catch (error) {}
+
   return {
     pagination: {
       page,
@@ -464,10 +476,13 @@ export function cheerioSubjectComments(html: string): SubjectComments {
               'starlight stars',
               ''
             ),
-            comment: $row.find('p').text().trim()
+            comment: $row.find('p').text().trim(),
+            relatedId:
+              ($row.find('.likes_grid').attr('id') || '').match(/\d+/g)?.[0] || ''
           }
         })
-        .get() || []
+        .get() || [],
+    likes
   }
 }
 

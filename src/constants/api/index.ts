@@ -1,17 +1,17 @@
 /*
  * 接口
  * https://github.com/bangumi/api
- *
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 07:49:28
+ * @Last Modified time: 2023-10-30 19:35:23
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST } from '../constants'
 import { EpStatus, SubjectType } from '../model/types'
 import { CollectionAction } from './types'
 
+export * from './enum'
 export * from './tinygrail'
 
 /** bgm api 域名 */

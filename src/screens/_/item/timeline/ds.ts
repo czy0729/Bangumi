@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 19:12:10
+ * @Last Modified time: 2023-10-30 21:39:17
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -42,4 +42,8 @@ export const DEFAULT_PROPS = {
   event: EVENT as Props['event'],
   onDelete: (() => {}) as Props['onDelete'],
   onHidden: (() => {}) as Props['onHidden']
+} as const
+
+export const LIKES_OFFSETS = {
+  x: 46
 } as const

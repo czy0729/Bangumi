@@ -23,6 +23,8 @@ export const ItemComment = ob(
     star,
     status,
     comment,
+    subjectId,
+    relatedId,
     event,
     popoverData,
     onSelect
@@ -38,6 +40,8 @@ export const ItemComment = ob(
       star={star}
       status={status}
       comment={comment}
+      subjectId={subjectId}
+      relatedId={relatedId}
       event={event}
       popoverData={popoverData}
       onSelect={onSelect}

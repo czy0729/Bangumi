@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:17:06
+ * @Last Modified time: 2023-10-30 21:37:09
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
-import { MODEL_COLLECTION_STATUS } from '@constants'
+import { LIKE_TYPE_RAKUEN, MODEL_COLLECTION_STATUS } from '@constants'
 import { RatingStatus, SubjectId, TopicId } from '@types'
 import collectionStore from '../collection'
 import rakuenStore from '../rakuen'
@@ -93,12 +93,26 @@ export default class Action extends Computed {
   }
 
   /** ==================== likesGrid ==================== */
-  /** 显示回复表情选择弹出层 */
+  /**  显示回复表情选择弹出层 */
   showLikesGrid = (
-    topicId: string,
+    /** 同 mainId, 主类型唯一编号 */
+    topicId: string | number,
+
+    /** 同 realatedId, 贴贴关联唯一编号 */
     floorId: string | number,
+
+    /** 授权参数 */
     formhash: string,
-    likeType: string = '8'
+
+    /** 贴贴类型 */
+    likeType: string | number = LIKE_TYPE_RAKUEN,
+
+    /** 偏移量 */
+    offsets?: {
+      recommandPosition?: '' | 'top' | 'bottom'
+      x?: number
+      y?: number
+    }
   ) => {
     setTimeout(() => {
       const likesList = rakuenStore.likesList(topicId, floorId) || []
@@ -118,7 +132,12 @@ export default class Action extends Computed {
           floorId,
           formhash,
           value,
-          likeType
+          likeType,
+          offsets: {
+            recommandPosition: offsets?.recommandPosition || '',
+            x: offsets?.x || 0,
+            y: offsets?.y || 0
+          }
         }
       })
     }, 80)
@@ -135,7 +154,12 @@ export default class Action extends Computed {
         floorId: '',
         formhash: '',
         value: '',
-        likeType: ''
+        likeType: '',
+        offsets: {
+          recommandPosition: '',
+          x: 0,
+          y: 0
+        }
       }
     })
   }

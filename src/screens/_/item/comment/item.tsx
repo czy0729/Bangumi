@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 15:07:47
+ * @Last Modified time: 2023-10-30 21:34:46
  */
 import React from 'react'
 import { Flex, Iconfont, Text, UserStatus } from '@components'
-import { _ } from '@stores'
+import { _, userStore, uiStore } from '@stores'
 import { stl, correctAgo } from '@utils'
 import { memo } from '@utils/decorators'
-import { SHARE_MODE } from '@constants'
-import { Popover, Avatar, Stars, Name } from '../../base'
+import { LIKE_TYPE_TIMELINE, SHARE_MODE } from '@constants'
+import { Popover, Avatar, Stars, Name, Likes } from '../../base'
 import { DEFAULT_PROPS } from './ds'
 
 const Item = memo(
@@ -25,6 +25,8 @@ const Item = memo(
     star,
     status,
     comment,
+    subjectId,
+    relatedId,
     event,
     popoverData,
     onSelect
@@ -66,7 +68,7 @@ const Item = memo(
                 key={userId}
                 style={styles.touch}
                 data={popoverData}
-                onSelect={title =>
+                onSelect={title => {
                   onSelect(
                     title,
                     {
@@ -74,9 +76,10 @@ const Item = memo(
                       userId,
                       userName
                     },
-                    comment
+                    comment,
+                    relatedId
                   )
-                }
+                }}
               >
                 <Flex style={styles.icon} justify='center'>
                   <Iconfont style={_.ml.md} name='md-more-vert' size={18} />
@@ -100,6 +103,13 @@ const Item = memo(
               {comment}
             </Text>
           )}
+          <Likes
+            topicId={subjectId}
+            id={relatedId}
+            likeType={LIKE_TYPE_TIMELINE}
+            formhash={userStore.formhash}
+            onLongPress={uiStore.showLikesUsers}
+          />
         </Flex.Item>
       </Flex>
     )

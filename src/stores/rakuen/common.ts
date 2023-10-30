@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 10:02:10
+ * @Last Modified time: 2023-10-30 07:16:38
  */
 import {
   HTMLDecode,
@@ -218,13 +218,13 @@ export function cheerioNotify(HTML) {
 }
 
 /** 分析帖子和留言 */
-export function cheerioTopic(HTML: string) {
+export function cheerioTopic(html: string) {
   let topic: Topic = INIT_TOPIC
   let comments: CommentsItem[] = []
   let likes: Likes = {}
 
   try {
-    const $ = cheerio(HTML)
+    const $ = cheerio(htmlMatch(html, '<div id="subject_info">', '</body>'))
 
     // 主楼
     const $group = $('#pageHeader a.avatar')
@@ -261,7 +261,7 @@ export function cheerioTopic(HTML: string) {
       userSign: HTMLDecode($('div.postTopic span.tip_j').text().trim()),
       tip: $('#reply_wrapper span.tip.rr').text().trim(),
       close: $('div.row_state span.tip_j').text().trim(),
-      delete: HTML.includes(
+      delete: html.includes(
         '<p class="text">数据库中没有查询到指定话题，话题可能正在审核或已被删除。</p>'
       )
     })
@@ -333,7 +333,7 @@ export function cheerioTopic(HTML: string) {
         .get() || []
 
     try {
-      likes = JSON.parse(HTML.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+      likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
     } catch (error) {}
   } catch (ex) {
     console.log(ex)

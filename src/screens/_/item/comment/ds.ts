@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:44:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:59:31
+ * @Last Modified time: 2023-10-30 21:34:42
  */
 import { EVENT } from '@constants'
 import {
@@ -10,6 +10,7 @@ import {
   EventType,
   Fn,
   Navigation,
+  SubjectId,
   UserId,
   ViewStyle
 } from '@types'
@@ -26,6 +27,8 @@ export const DEFAULT_PROPS = {
   star: '' as string | number,
   status: '' as CollectionStatusCn,
   comment: '' as string,
+  subjectId: 0 as SubjectId,
+  relatedId: '' as string | number,
   event: EVENT as EventType,
   popoverData: undefined as string[],
   onSelect: undefined as Fn
