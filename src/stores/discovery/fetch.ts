@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 16:05:16
+ * @Last Modified time: 2023-10-31 11:33:55
  */
 import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -24,9 +24,9 @@ import { Id, SubjectId, SubjectType } from '@types'
 import Computed from './computed'
 import { getInt } from './utils'
 import {
-  analysisCatalog,
-  analysisCatalogDetail,
-  analysisTags,
+  cheerioCatalog,
+  cheerioCatalogDetail,
+  cheerioTags,
   cheerioBlog,
   cheerioChannel,
   cheerioDollars,
@@ -210,7 +210,7 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_TAGS(type, page, filter)
     })
-    const data = analysisTags(html)
+    const data = cheerioTags(html)
 
     const key = 'tags'
     const tags = {
@@ -237,7 +237,7 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_CATALOG(type, page)
     })
-    const data = analysisCatalog(html)
+    const data = cheerioCatalog(html)
 
     const key = 'catalog'
     this.setState({
@@ -259,7 +259,7 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_CATALOG_DETAIL(id)
     })
-    const data = analysisCatalogDetail(html)
+    const data = cheerioCatalogDetail(html)
 
     const last = getInt(id)
     const key = `catalogDetail${last}` as const

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 15:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 07:23:08
+ * @Last Modified time: 2023-10-31 09:28:54
  */
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -19,7 +19,7 @@ export default class Fetch extends Computed {
       text: string
       cat?: SearchCat
 
-      /** legacy  1 为精准匹配 */
+      /** legacy = 1 为精准匹配 */
       legacy?: any
     },
     refresh?: boolean

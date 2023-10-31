@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-26 01:19:21
+ * @Last Modified time: 2023-10-31 09:36:20
  */
 import * as Screens from '@screens'
-import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
+import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
 import { Fn } from './utils'
 
@@ -21,6 +21,7 @@ export type NavigationPushType = RouteActions &
   RouteBlogs &
   RouteCatalogDetail &
   RouteCatalogs &
+  RouteChannel &
   RouteCharacter &
   RouteCharacters &
   RouteFriends &
@@ -47,6 +48,13 @@ export type NavigationPushType = RouteActions &
   RouteWenku &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteChannel = (
+  path: 'Channel',
+  params: {
+    type?: SubjectType
+  }
+) => any
 
 type RouteTips = (
   path: 'Tips',
