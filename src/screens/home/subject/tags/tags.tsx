@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:07:01
+ * @Last Modified time: 2023-11-01 05:23:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,12 @@ import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
 import IconHidden from '../icon/hidden'
 import IconGame from '../icon/game'
+import RecSegement from './rec-segment'
 import Block from './block'
+import Typerank from './typerank'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -26,6 +29,8 @@ export default memo(
     subjectType,
     showTags,
     subjectTagsExpand,
+    subjectTagsRec,
+    rank,
     focusOrigin,
     tag,
     tags,
@@ -55,7 +60,7 @@ export default memo(
                 })
 
                 navigation.push('Tag', {
-                  type: MODEL_SUBJECT_TYPE.getLabel(subjectType),
+                  type: MODEL_SUBJECT_TYPE.getLabel<SubjectTypeCn>(subjectType),
                   tag: name
                 })
               }}
@@ -68,15 +73,19 @@ export default memo(
                 >
                   {name}
                 </Text>
-                <Text
-                  type={_.select('sub', isSelected ? 'main' : 'sub')}
-                  size={12}
-                  lineHeight={13}
-                  bold
-                >
-                  {' '}
-                  {count}
-                </Text>
+                {!!rank && subjectTagsRec ? (
+                  <Typerank tag={name} />
+                ) : (
+                  <Text
+                    type={_.select('sub', isSelected ? 'main' : 'sub')}
+                    size={12}
+                    lineHeight={13}
+                    bold
+                  >
+                    {' '}
+                    {count}
+                  </Text>
+                )}
               </Flex>
             </Touchable>
           )
@@ -98,7 +107,10 @@ export default memo(
           style={_.container.wind}
           right={
             showTags ? (
-              focusOrigin && <IconGame />
+              <>
+                {focusOrigin && <IconGame />}
+                {!!rank && <RecSegement />}
+              </>
             ) : (
               <IconHidden name='标签' value='showTags' />
             )

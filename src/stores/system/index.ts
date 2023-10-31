@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:17:15
+ * @Last Modified time: 2023-10-31 13:13:33
  */
 import { getTimestamp } from '@utils'
 import { DEV, STORYBOOK } from '@constants'
@@ -29,10 +29,6 @@ class SystemStore extends Action {
 
     // 优先度: 高
     if (!STORYBOOK) {
-      // setTimeout(() => {
-      //   this.fetchOTA()
-      // }, 8000)
-
       // 优先度: 中
       setTimeout(() => {
         this.setState({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 18:08:29
+ * @Last Modified time: 2023-10-31 15:33:48
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -18,7 +18,7 @@ function Header(props, { $ }: Ctx) {
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   return (
     <CompHeader
-      title={tag ? `${typeCn !== '动画' ? `${typeCn} · ` : ''}${tag}` : `${typeCn}标签`}
+      title={tag ? `${typeCn} · ${tag}` : `${typeCn}标签`}
       alias='用户标签'
       hm={[$.url, 'Tag']}
       headerRight={() => (

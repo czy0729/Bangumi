@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 05:57:23
+ * @Last Modified time: 2023-11-01 05:34:17
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore } from '@stores'
@@ -24,7 +24,11 @@ export default class ScreenTag extends store {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const state: typeof STATE = (await this.getStorage(NAMESPACE)) || {}
+
+    // 这个标签页面的按排名排序已经毫无意义, 所以默认改为按标注数
+    if (state.order === 'rank') state.order = 'collects'
+
     const _state = {
       ...state,
       ...EXCLUDE_STATE,

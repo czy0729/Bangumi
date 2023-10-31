@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:37:42
+ * @Last Modified time: 2023-10-31 16:31:39
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
@@ -54,6 +54,8 @@ const SegmentedControlComp = ({
 
   const handleChange = useCallback(
     (index: number) => {
+      if (selectedIndex === index) return
+
       // mocks iOS's nativeEvent
       const event = {
         nativeEvent: {
@@ -65,9 +67,9 @@ const SegmentedControlComp = ({
       setTimeout(() => {
         onChange && onChange(event)
         onValueChange && onValueChange(values[index])
-      }, 0)
+      }, 300)
     },
-    [onChange, onValueChange, values]
+    [onChange, onValueChange, selectedIndex, values]
   )
 
   useEffect(() => {
