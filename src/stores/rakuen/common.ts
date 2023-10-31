@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 07:16:38
+ * @Last Modified time: 2023-10-31 12:16:48
  */
 import {
   HTMLDecode,
@@ -10,12 +10,13 @@ import {
   HTMLTrim,
   cheerio,
   getCoverSmall,
+  htmlMatch,
+  matchAvatar,
+  matchUserId,
   safeObject,
-  trim,
-  htmlMatch
+  trim
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { matchAvatar, matchUserId } from '@utils/match'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
@@ -81,7 +82,7 @@ export async function fetchRakuen(args: {
   return Promise.resolve(rakuen)
 }
 
-/** 分析留言层信息 */
+/** 留言层信息 */
 export function cheerioComments(html: string, reverse?: boolean) {
   if (!html) return []
 
@@ -134,16 +135,13 @@ export function cheerioComments(html: string, reverse?: boolean) {
   }
 }
 
-/**
- * 分析小组信息
- * @param {*} HTML
- */
-export function cheerioGroupInfo(HTML) {
-  const $ = cheerio(HTML)
+/** 小组信息 */
+export function cheerioGroupInfo(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div class="grp_box">', '<h2 class="title">'))
 
-  let joinUrl
-  let byeUrl
   const url = $('#groupJoinAction > a.chiiBtn').attr('href') || ''
+  let joinUrl: string
+  let byeUrl: string
   if (url.includes('/join?')) {
     joinUrl = url
   } else if (url.includes('/bye?')) {
@@ -151,24 +149,21 @@ export function cheerioGroupInfo(HTML) {
   }
 
   return safeObject({
-    title: $('.SecondaryNavTitle').text(),
+    title: $('.SecondaryNavTitle').text().trim(),
     cover: $('.port.ll').attr('src'),
     content: $('.line_detail .tip')
       .text()
       .replace(/\r\n\r\n|\r\n\r\n\r\n/g, '\r\n'),
-    create: $('div.grp_box > span.tip').text(),
+    create: $('div.grp_box > span.tip').text().trim(),
     joinUrl,
     byeUrl
   })
 }
 
-/**
- * 分析小组帖子列表
- * @param {*} HTML
- */
-export function analysisGroup(HTML) {
-  return cheerio(HTML)('tr.topic')
-    .map((index, element) => {
+/** 小组帖子列表 */
+export function cheerioGroup(html: string) {
+  return cheerio(htmlMatch(html, '<div id="columnA"', '<div id="footer">'))('tr.topic')
+    .map((index: number, element: any) => {
       const $tr = cheerio(element)
       const $title = $tr.find('.subject > a')
       const $user = $tr.find('.author > a')
@@ -184,19 +179,16 @@ export function analysisGroup(HTML) {
     .get()
 }
 
-/**
- * 分析电波提醒列表
- * @param {*} HTML
- */
-export function cheerioNotify(HTML) {
-  return cheerio(HTML)('div.tml_item')
-    .map((index, element) => {
+/** 电波提醒列表 */
+export function cheerioNotify(html: string) {
+  return cheerio(html)('div.tml_item')
+    .map((index: number, element: any) => {
       const $tr = cheerio(element)
       const $name = $tr.find('a.l')
       const $title = $tr.find('a.nt_link')
       const title = $title.text()
-      let message
-      let message2
+      let message: string
+      let message2: string
 
       if (title) {
         ;[message, message2] = $tr.find('div.reply_content').text().split(title)
@@ -217,7 +209,7 @@ export function cheerioNotify(HTML) {
     .get()
 }
 
-/** 分析帖子和留言 */
+/** 帖子和留言 */
 export function cheerioTopic(html: string) {
   let topic: Topic = INIT_TOPIC
   let comments: CommentsItem[] = []
@@ -346,18 +338,15 @@ export function cheerioTopic(html: string) {
   }
 }
 
-/**
- * 分析日志和留言
- * @param {*} HTML
- */
-export function cheerioBlog(HTML) {
+/** 日志和留言 */
+export function cheerioBlog(html: string) {
   let blog: any = INIT_BLOG
   let blogComments = []
 
   try {
-    const $ = cheerio(HTML)
+    const $ = cheerio(html)
     const titleText = $('#pageHeader > h1').text() || ''
-    let title
+    let title: string
     if (titleText.includes(' » ')) {
       title = String(titleText.split(' » ')[1]).replace('日志', '')
     } else {
@@ -366,7 +355,7 @@ export function cheerioBlog(HTML) {
     const $user = $('#pageHeader a.avatar')
     const related =
       $('ul#related_subject_list > li')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $row = cheerio(element)
           const $a = $row.find('> a.avatar')
           return safeObject({
@@ -393,7 +382,7 @@ export function cheerioBlog(HTML) {
     // 回复
     blogComments =
       $('#comment_list > div.row_reply')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $row = cheerio(element)
           const [floor, time] = (
             $row.find('> div.re_info small').text().trim() || ''
@@ -421,7 +410,7 @@ export function cheerioBlog(HTML) {
             sub:
               $row
                 .find('div.sub_reply_bg')
-                .map((index, element) => {
+                .map((index: number, element: any) => {
                   const $row = cheerio(element, {
                     decodeEntities: false
                   })
@@ -454,16 +443,13 @@ export function cheerioBlog(HTML) {
   }
 }
 
-/**
- * 分析我的小组
- * @param {*} HTML
- */
-export function cheerioMine(HTML) {
-  const $ = cheerio(HTML)
+/** 我的小组 */
+export function cheerioMine(html: string) {
+  const $ = cheerio(html)
   return {
     list:
       $('ul.browserMedium > li.user')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('a.avatar')
           return safeObject({
@@ -477,14 +463,13 @@ export function cheerioMine(HTML) {
   }
 }
 
-/**
- * 分析条目讨论版
- * @param {*} HTML
- */
-export function cheerioBoard(HTML) {
+/** 条目讨论版 */
+export function cheerioBoard(html: string) {
   return (
-    cheerio(HTML)('.topic_list tr')
-      .map((index, element) => {
+    cheerio(
+      htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+    )('.topic_list tr')
+      .map((index: number, element: any) => {
         const $tr = cheerio(element)
         const $title = $tr.find('.subject > a')
         const $user = $tr.find('td').eq(1).find('a')
@@ -501,14 +486,13 @@ export function cheerioBoard(HTML) {
   )
 }
 
-/**
- * 分析条目影评
- * @param {*} HTML
- */
-export function cheerioReviews(HTML) {
+/** 条目影评 */
+export function cheerioReviews(html: string) {
   return (
-    cheerio(HTML)('#entry_list .item')
-      .map((index, element) => {
+    cheerio(
+      htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+    )('#entry_list .item')
+      .map((index: number, element: any) => {
         const $tr = cheerio(element)
         const $title = $tr.find('.title > a')
         const $user = $tr.find('.tip_j a')
@@ -527,14 +511,11 @@ export function cheerioReviews(HTML) {
   )
 }
 
-/**
- * 分析超展开热门
- * @param {*} HTML
- */
-export function cheerioHot(HTML) {
+/** 超展开热门 */
+export function cheerioHot(html: string) {
   return (
-    cheerio(HTML)('.sideTpcList li')
-      .map((index, element) => {
+    cheerio(html)('.sideTpcList li')
+      .map((index: number, element: any) => {
         const $tr = cheerio(element)
         const $avatar = $tr.find('img')
         const $title = $tr.find('a.l')
@@ -552,5 +533,5 @@ export function cheerioHot(HTML) {
         }
       })
       .get() || []
-  ).filter(item => !!item.group)
+  ).filter((item: { group: any }) => !!item.group)
 }

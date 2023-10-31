@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 16:50:27
+ * @Last Modified time: 2023-10-31 11:51:35
  */
-import { safeObject } from '@utils'
-import { cheerio } from '@utils/html'
+import { cheerio, htmlMatch, safeObject } from '@utils'
 
-/** 分析更多角色 */
-export function cheerioCharacters(HTML: string) {
-  const $ = cheerio(HTML)
+/** 条目更多角色 */
+export function cheerioCharacters(html: string) {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+  )
   return (
     $('div.light_odd')
       .map((index: number, element: any) => {
@@ -51,12 +52,11 @@ export function cheerioCharacters(HTML: string) {
   )
 }
 
-/**
- * 分析更多制作人员
- * @param {*} HTML
- */
-export function cheerioPersons(HTML: string) {
-  const $ = cheerio(HTML)
+/** 条目更多制作人员 */
+export function cheerioPersons(html: string) {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+  )
   return (
     $('div.light_odd')
       .map((index: number, element: any) => {

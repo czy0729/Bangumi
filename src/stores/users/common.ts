@@ -2,17 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 04:08:43
+ * @Last Modified time: 2023-10-31 12:49:42
  */
 import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 
-/**
- * 分析好友列表
- * @param {*} HTML
- */
-export function cheerioFriends(HTML) {
-  return cheerio(HTML)('li.user')
-    .map((index, element) => {
+/** 好友列表 */
+export function cheerioFriends(html: string) {
+  return cheerio(html)('li.user')
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('a.avatar')
       return safeObject({
@@ -24,7 +21,7 @@ export function cheerioFriends(HTML) {
     .get()
 }
 
-/** 分析用户 */
+/** 用户 */
 export function cheerioUsers(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="headerProfile"', '<div id="footer">'))
   const userId = (
@@ -94,19 +91,16 @@ export function cheerioUsers(html: string) {
   })
 }
 
-/**
- * 分析用户收藏的人物
- * @param {*} HTML
- */
-export function cheerioCharacters(HTML) {
-  const $ = cheerio(HTML)
+/** 用户收藏的人物 */
+export function cheerioCharacters(html: string) {
+  const $ = cheerio(html)
   const pagination = {
     page: 1,
     pageTotal: $('div.page_inner > a.p').length
   }
 
   const list = $('ul.coversSmall > li.clearit')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('a[title]')
       return safeObject({
@@ -123,19 +117,16 @@ export function cheerioCharacters(HTML) {
   }
 }
 
-/**
- * 分析我收藏人物的最近作品
- * @param {*} HTML
- */
-export function cheerioRecents(HTML) {
-  const $ = cheerio(HTML)
+/** 我收藏人物的最近作品 */
+export function cheerioRecents(html: string) {
+  const $ = cheerio(html)
   const pagination = {
     page: 1,
     pageTotal: 100
   }
 
   const list = $('ul.browserFull > li.item')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('h3 > a.l')
       return safeObject({
@@ -156,7 +147,7 @@ export function cheerioRecents(HTML) {
         starInfo: $li.find('span.tip_j').text(),
         actors: $li
           .find('div.actorBadge')
-          .map((index, element) => {
+          .map((index: number, element: any) => {
             const $li = cheerio(element)
             return safeObject({
               id: ($li.find('a.avatar').attr('href') || '')
@@ -178,15 +169,12 @@ export function cheerioRecents(HTML) {
   }
 }
 
-/**
- * 分析用户日志列表
- * @param {*} HTML
- */
-export function cheerioBlogs(HTML) {
-  const $ = cheerio(HTML)
+/** 用户日志列表 */
+export function cheerioBlogs(html: string) {
+  const $ = cheerio(html)
   return (
     $('div#entry_list > div.item')
-      .map((index, element) => {
+      .map((index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('h2.title a')
         return safeObject({
@@ -212,17 +200,13 @@ export function cheerioBlogs(HTML) {
   )
 }
 
-/**
- * 分析用户目录列表
- * @param {*} HTML
- * @param {*} isCollect
- */
-export function cheerioCatalogs(HTML, isCollect) {
-  const $ = cheerio(HTML)
+/** 用户目录列表 */
+export function cheerioCatalogs(html: string, isCollect: boolean) {
+  const $ = cheerio(html)
   if (isCollect) {
     return (
       $('div#timeline li')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = cheerio(element)
           const $catalog = $li.find('h3 a.l')
           const $user = $li.find('span.tip_j a.l')
@@ -242,7 +226,7 @@ export function cheerioCatalogs(HTML, isCollect) {
 
   return (
     $('ul.line_list > li')
-      .map((index, element) => {
+      .map((index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('a')
         return safeObject({

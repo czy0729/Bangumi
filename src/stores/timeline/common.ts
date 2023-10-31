@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-26 03:13:37
+ * @Last Modified time: 2023-10-31 12:44:47
  */
 import { cheerio, getTimestamp, matchAvatar, safeObject, trim, htmlMatch } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -223,8 +223,8 @@ export async function fetchTimeline(
   }
 }
 
-/** 分析吐槽 */
-export function analysisSay(html: string) {
+/** 吐槽 */
+export function cheerioSay(html: string) {
   const $ = cheerio(html)
   const id = ($('div.statusHeader p.tip').text() || '').replace('@', '')
   const avatar = $('img.avatar').attr('src')
@@ -237,7 +237,7 @@ export function analysisSay(html: string) {
     formhash: $('input[name=formhash]').attr('value')
   })
   const sub = $('ul.subReply > li.reply_item')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $tr = cheerio(element)
       const subId = ($tr.find('a.cmt_reply').text() || '').replace('@', '')
       let tr = $tr.html().trim()
@@ -254,11 +254,8 @@ export function analysisSay(html: string) {
   return [main, ...sub]
 }
 
-/**
- * 分析吐槽表单授权码
- * @param {*} HTML
- */
-export function analysisFormHash(HTML) {
-  const $ = cheerio(HTML)
+/** 吐槽表单授权码 */
+export function cheerioFormHash(html: string) {
+  const $ = cheerio(html)
   return $('input[name=formhash]').attr('value') || ''
 }

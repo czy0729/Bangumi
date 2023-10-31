@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 21:34:19
+ * @Last Modified time: 2023-10-31 12:47:51
  */
 import { cheerio, htmlMatch, matchAvatar, safeObject } from '@utils'
 
@@ -62,22 +62,18 @@ export function cheerioPMDetail(html: string) {
   }
 }
 
-/**
- * @param {*} HTML
- */
-export function cheerioPMParams(HTML) {
-  const $ = cheerio(HTML)
+/** 新短信参数 */
+export function cheerioPMParams(html: string) {
+  const $ = cheerio(html)
   return {
     formhash: $('input[name=formhash]').attr('value'),
     msg_receivers: $('input[name=msg_receivers]').attr('value')
   }
 }
 
-/**
- * @param {*} HTML
- */
-export function cheerioUserSetting(HTML) {
-  const $ = cheerio(HTML)
+/** 个人设置 */
+export function cheerioUserSetting(html: string) {
+  const $ = cheerio(html)
   return {
     sign: $('#newbio').text().trim(),
     nickname: $('input[name=nickname]').attr('value'),
@@ -88,7 +84,7 @@ export function cheerioUserSetting(HTML) {
   }
 }
 
-/** 分析我的标签 */
+/** 我的标签 */
 export function cheerioTags(html: string): string[] {
   html = html.split('<span class="tip_j ll">我的标签 </span>')?.[1] || ''
   if (!html) return []

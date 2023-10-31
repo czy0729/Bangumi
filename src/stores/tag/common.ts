@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-28 15:45:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-05-23 22:47:44
+ * @Last Modified time: 2023-10-31 12:42:21
  */
-import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils/html'
+import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
 import { INIT_TAG_ITEM } from './init'
 
-/**
- * 分析标签
- * @param {*} HTML
- */
+/** 标签 */
 export function analysisTags(raw, page, pagination) {
   const HTML = HTMLTrim(raw)
 
@@ -105,10 +102,7 @@ export function analysisTags(raw, page, pagination) {
   }
 }
 
-/**
- * 分析排行榜
- * @param {*} HTML
- */
+/** 排行榜 */
 export function analysiRank(raw) {
   const HTML = HTMLTrim(raw)
 

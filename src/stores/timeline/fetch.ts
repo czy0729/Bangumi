@@ -10,7 +10,7 @@ import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import userStore from '../user'
 import Computed from './computed'
-import { analysisFormHash, analysisSay, fetchTimeline } from './common'
+import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 
 export default class Fetch extends Computed {
@@ -92,7 +92,7 @@ export default class Fetch extends Computed {
     })
 
     const data = {
-      list: analysisSay(html),
+      list: cheerioSay(html),
       pagination: {
         page: 1,
         pageTotal: 1
@@ -118,7 +118,7 @@ export default class Fetch extends Computed {
       url: `${HOST}/timeline?type=say`
     })
 
-    const formhash = analysisFormHash(html)
+    const formhash = cheerioFormHash(html)
     this.setState({
       formhash
     })

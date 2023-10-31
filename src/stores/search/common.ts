@@ -2,18 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-10-23 10:49:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-23 12:15:18
+ * @Last Modified time: 2023-10-31 12:22:36
  */
-import { cheerio, HTMLDecode } from '@utils/html'
+import { cheerio, HTMLDecode } from '@utils'
 
-/**
- * @param {*} HTML
- */
-export function cheerioSearchRakuen(HTML) {
-  const $ = cheerio(HTML)
+export function cheerioSearchRakuen(html: string) {
+  const $ = cheerio(html)
   const list =
     $('#hits-list .item')
-      .map((index, element) => {
+      .map((index: number, element: any) => {
         const $item = cheerio(element)
         const splits = $item.find('a.path').text().trim().split('/')
         return {

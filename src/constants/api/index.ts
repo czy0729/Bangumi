@@ -4,10 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 19:35:23
+ * @Last Modified time: 2023-10-31 12:15:32
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
-import { HOST } from '../constants'
+import { HOST, IMG_DEFAULT } from '../constants'
+import { STORYBOOK } from '../device'
 import { EpStatus, SubjectType } from '../model/types'
 import { CollectionAction } from './types'
 
@@ -132,7 +133,7 @@ export const API_COVER = (subjectId: SubjectId, type: string = 'common') =>
 
 /** v0 api: 用户头像 */
 export const API_AVATAR = (username: string | number) =>
-  `${API_HOST}/v0/users/${username}/avatar?type=large`
+  STORYBOOK ? IMG_DEFAULT : `${API_HOST}/v0/users/${username}/avatar?type=large`
 
 /** v0 api: 角色图  */
 export const API_MONO_COVER = (

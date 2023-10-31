@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 15:05:41
+ * @Last Modified time: 2023-10-31 12:12:48
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -36,7 +36,7 @@ import {
 import Computed from './computed'
 import { getInt } from './utils'
 import {
-  analysisGroup,
+  cheerioGroup,
   cheerioBlog,
   cheerioBoard,
   cheerioGroupInfo,
@@ -339,7 +339,7 @@ export default class Fetch extends Computed {
       url: HTML_GROUP(groupId, page)
     })
 
-    const list = analysisGroup(html)
+    const list = cheerioGroup(html)
     const data = {
       list: list || [],
       _loaded: getTimestamp()

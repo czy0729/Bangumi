@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 18:25:48
+ * @Last Modified time: 2023-10-31 11:43:45
  */
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -75,9 +75,7 @@ export default class Fetch extends Computed {
     }
 
     const todayHTML = HTML.match('<li class="tip">(.+?)</li>')
-    if (todayHTML) {
-      data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
-    }
+    if (todayHTML) data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
 
     const key = 'home'
     this.setState({
