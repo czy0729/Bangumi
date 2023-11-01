@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 09:56:52
+ * @Last Modified time: 2023-11-01 16:28:08
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -55,6 +55,7 @@ type RouteTyperank = (
   params: {
     type: SubjectType
     tag: string
+    subjectId?: SubjectId
   }
 ) => any
 

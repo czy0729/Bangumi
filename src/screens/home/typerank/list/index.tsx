@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 11:42:30
+ * @Last Modified time: 2023-11-01 16:36:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Empty, Loading, ScrollView, Touchable, Flex } from '@components'
 import { ItemSearch } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -55,7 +56,10 @@ function List(props, { $, navigation }: Ctx) {
           }
 
           return (
-            <View key={item} style={_.container.item}>
+            <View
+              key={item}
+              style={stl(_.container.item, $.subjectId == item && styles.active)}
+            >
               <ItemSearch
                 navigation={navigation}
                 index={index}

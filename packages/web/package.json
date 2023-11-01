@@ -103,7 +103,8 @@
     "recyclerlistview": "^4.0.1",
     "rn-fetch-blob": "^0.12.0",
     "stream-browserify": "^3.0.0",
-    "webdav": "4.11.3"
+    "webdav": "4.11.3",
+    "workbox-webpack-plugin": "^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

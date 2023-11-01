@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 09:58:47
+ * @Last Modified time: 2023-11-01 17:20:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,7 @@ import IconGame from '../icon/game'
 import RecSegement from './rec-segment'
 import Block from './block'
 import Typerank from './typerank'
+import { exist } from './typerank/utils'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -54,20 +55,37 @@ export default memo(
               animate
               scale={0.9}
               onPress={() => {
-                const to = showTyperank ? 'Typerank' : 'Tag'
+                if (
+                  showTyperank &&
+                  exist(MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType), name)
+                ) {
+                  t('条目.跳转', {
+                    to: 'Typerank',
+                    from: '标签',
+                    subjectId
+                  })
+
+                  navigation.push('Typerank', {
+                    type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
+                    tag: name,
+                    subjectId
+                  })
+                  return
+                }
+
                 t('条目.跳转', {
-                  to,
+                  to: 'Tag',
                   from: '标签',
                   subjectId
                 })
 
-                navigation.push(to, {
+                navigation.push('Tag', {
                   type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
                   tag: name
                 })
               }}
             >
-              <Flex style={isSelected ? [styles.item, styles.selected] : styles.item}>
+              <Flex style={stl(styles.item, isSelected && styles.selected)}>
                 <Text
                   type={_.select('desc', isSelected ? 'main' : 'desc')}
                   size={13}

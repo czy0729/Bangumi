@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 11:32:02
+ * @Last Modified time: 2023-11-01 16:29:05
  */
 import { computed, observable } from 'mobx'
 import { subjectStore } from '@stores'
@@ -148,6 +148,10 @@ export default class ScreenTyperank extends store {
 
   @computed get type() {
     return this.params.type || 'anime'
+  }
+
+  @computed get subjectId() {
+    return this.params.subjectId || 0
   }
 
   @computed get ids() {

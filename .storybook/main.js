@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 20:49:41
+ * @Last Modified time: 2023-11-01 22:58:07
  */
+const { GenerateSW } = require('workbox-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
@@ -29,6 +30,42 @@ module.exports = {
     }
   },
   webpackFinal: async (config, { configType }) => {
+    /** ========== Workbox ========== */
+    if (configType === 'PRODUCTION') {
+      config.plugins.push(
+        new GenerateSW({
+          swDest: 'service-worker.js',
+          clientsClaim: true,
+          skipWaiting: true,
+          runtimeCaching: [
+            {
+              urlPattern: /\.(png|jpe?g|gif|svg)$/,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'images',
+                expiration: {
+                  maxEntries: 1000,
+                  maxAgeSeconds: 60 * 60 * 24 * 30
+                }
+              }
+            },
+            {
+              urlPattern: /\.(ttf|woff|woff2|eot)$/,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'fonts',
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 30
+                }
+              }
+            }
+          ],
+          maximumFileSizeToCacheInBytes: 15 * 1024 * 1024
+        })
+      )
+    }
+
     /** ========== 压缩代码 ========== */
     if (configType === 'PRODUCTION') {
       // 搜索 existingUglifyPlugin
@@ -62,6 +99,7 @@ module.exports = {
         maxSize: 1024 * 1024
       }
     }
+
     return config
   },
   framework: '@storybook/react'

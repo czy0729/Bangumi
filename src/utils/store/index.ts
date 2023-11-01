@@ -7,6 +7,7 @@
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import { AnyObject } from '@types'
 import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
@@ -16,7 +17,7 @@ import { fetchSubjectV0 } from '../fetch.v0'
 
 configure({
   enforceActions: 'observed',
-  useProxies: 'never'
+  useProxies: STORYBOOK ? 'always' : 'never'
 })
 
 export default class Store {
