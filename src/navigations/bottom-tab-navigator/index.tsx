@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-08 23:05:32
+ * @Last Modified time: 2023-11-02 03:52:53
  */
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -27,7 +27,6 @@ function BottomTabNavigator() {
     return (
       <Tab.Navigator
         initialRouteName={initialRouteName}
-        // @ts-expect-error
         screenOptions={defaultScreenOptions}
         sceneContainerStyle={{
           backgroundColor: _.colorPlain

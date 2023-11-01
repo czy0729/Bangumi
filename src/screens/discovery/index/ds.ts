@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 19:06:31
+ * @Last Modified time: 2023-11-02 04:58:37
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -213,22 +213,22 @@ export const MENU_MAP = {
 export type MenuMapType = keyof typeof MENU_MAP
 
 export const MENU_MAP_STORYBOOK = {
-  Rakuen: {
-    key: 'Rakuen',
-    name: '超展开',
-    size: 20,
-    icon: 'md-chat-bubble-outline'
-  },
-  Timeline: {
-    key: 'Timeline',
-    name: '时间胶囊',
-    icon: 'md-access-time'
-  },
-  Setting: {
-    key: 'Setting',
-    name: '设置',
-    icon: 'setting'
-  }
+  // Rakuen: {
+  //   key: 'Rakuen',
+  //   name: '超展开',
+  //   size: 20,
+  //   icon: 'md-chat-bubble-outline'
+  // },
+  // Timeline: {
+  //   key: 'Timeline',
+  //   name: '时间胶囊',
+  //   icon: 'md-access-time'
+  // },
+  // Setting: {
+  //   key: 'Setting',
+  //   name: '设置',
+  //   icon: 'setting'
+  // }
 }
 
 /** 根据设置自定义菜单构造菜单数据 */

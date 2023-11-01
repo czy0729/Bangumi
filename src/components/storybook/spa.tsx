@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 05:03:01
+ * @Last Modified time: 2023-11-02 03:58:02
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import Stores, { _ } from '@stores'
 import { useMount, useBoolean } from '@utils/hooks'
-import { StorybookPage } from './page'
 import { scrollToTop, useDoubleTap } from '@utils/dom'
+import { StorybookPage } from './page'
+import { StorybookBottomTab } from './bottom-tab'
 
 let inited = false
 
@@ -40,6 +41,7 @@ export const StorybookSPA = ({ children }) => {
     <StorybookPage>
       <View style={styles.scrollToTop} onTouchStart={handleDoubleTap} />
       {state ? children : null}
+      <StorybookBottomTab />
     </StorybookPage>
   )
 }

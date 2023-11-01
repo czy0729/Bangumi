@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 12:58:14
+ * @Last Modified time: 2023-11-02 04:41:51
  */
 import React from 'react'
 import { StatusBar, Page, Track } from '@components'
@@ -35,7 +35,13 @@ const User = (props, { $, navigation }: Ctx) => {
   return useObserver(() => {
     // 自己并且没登录
     const { id } = $.usersInfo
-    if (!id && !userStore.isLogin) return <Login style={_.container.plain} />
+    if (!id && !userStore.isLogin) {
+      return (
+        <Page>
+          <Login style={_.container.plain} />
+        </Page>
+      )
+    }
 
     const { _loaded } = $.state
     return (
