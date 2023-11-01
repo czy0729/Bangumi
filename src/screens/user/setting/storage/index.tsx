@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-07 07:48:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-03 01:17:03
+ * @Last Modified time: 2023-11-01 14:13:28
  */
 import React, { useState, useCallback } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ActionSheet, Text, Heatmap } from '@components'
 import { clearCache } from '@components/image/image'
 import { ItemSetting } from '@_'
@@ -13,6 +12,7 @@ import Stores from '@stores'
 import { toFixed, confirm, info } from '@utils'
 import { t } from '@utils/fetch'
 import { useBoolean, useObserver, useMount } from '@utils/hooks'
+import { getAllKeys, multiGet } from '@utils/storage/utils'
 import i18n from '@constants/i18n'
 import { getShows } from '../utils'
 import { TEXTS } from './ds'
@@ -23,8 +23,8 @@ function Storage({ filter }) {
 
   const caculateStorageSize = useCallback(async () => {
     try {
-      const keys = await AsyncStorage.getAllKeys()
-      const storages = await AsyncStorage.multiGet(keys)
+      const keys = await getAllKeys()
+      const storages = await multiGet(keys)
 
       let storageSize = 0
       storages.forEach(item => {

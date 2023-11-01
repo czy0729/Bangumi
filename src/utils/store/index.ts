@@ -3,14 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-03 01:46:15
+ * @Last Modified time: 2023-11-01 14:25:57
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LIST_EMPTY } from '@constants/constants'
 import { AnyObject } from '@types'
 import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
+import { getItem } from '../storage/utils'
 import fetch from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
 
@@ -241,7 +241,7 @@ export default class Store {
       let _key = key || this.namespace
       _key += '|state'
       return (
-        JSON.parse(await AsyncStorage.getItem(_key)) ||
+        JSON.parse((await getItem(_key)) || null) ||
         (defaultValue === undefined ? {} : defaultValue)
       )
     }
@@ -250,9 +250,8 @@ export default class Store {
     let _key = namespace || this.namespace
     if (key) _key += `|${key}`
     _key += '|state'
-
     return (
-      JSON.parse(await AsyncStorage.getItem(_key)) ||
+      JSON.parse((await getItem(_key)) || null) ||
       (defaultValue === undefined ? {} : defaultValue)
     )
   }

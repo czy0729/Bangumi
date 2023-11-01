@@ -8,6 +8,7 @@
     "build": "STORYBOOK=true build-storybook",
     "postinstall": "patch-package",
     "env": "node ./packages/env.js",
+    "proxy": "cd ./web/test && node proxy-api.js",
     "k": "sudo purge"
   },
   "resolutions": {
@@ -53,6 +54,7 @@
     "expo-updates": "~0.15.6",
     "expo-web-browser": "~12.0.0",
     "hoist-non-react-statics": "2.5.0",
+    "idb": "^7.1.1",
     "json2csv": "^5.0.7",
     "lazy-aho-corasick": "^1.2.2",
     "lodash": "^4.17.4",
