@@ -16,7 +16,7 @@ function Typerank({ tag }, { $ }: Ctx) {
   if (!exist($.subjectTypeValue, tag)) {
     text = '--'
   } else {
-    text = `优于${calc(tag, $.subject.rank || 9999)}%`
+    text = `优于${calc($.subjectTypeValue, tag, $.subject.rank || 9999)}%`
   }
 
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 09:36:20
+ * @Last Modified time: 2023-11-01 09:56:52
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -42,12 +42,21 @@ export type NavigationPushType = RouteActions &
   RouteTinygrail &
   RouteTips &
   RouteTopic &
+  RouteTyperank &
   RouteUser &
   RouteUserTimeline &
   RouteWebBrowser &
   RouteWenku &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteTyperank = (
+  path: 'Typerank',
+  params: {
+    type: SubjectType
+    tag: string
+  }
+) => any
 
 type RouteChannel = (
   path: 'Channel',
@@ -136,7 +145,7 @@ type RouteCharacters = (
 type RouteTag = (
   path: 'Tag',
   params: {
-    type: string
+    type: SubjectType
     tag: string
   }
 ) => any

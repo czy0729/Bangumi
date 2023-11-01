@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 05:23:50
+ * @Last Modified time: 2023-11-01 09:58:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
+import { SubjectType } from '@types'
 import IconHidden from '../icon/hidden'
 import IconGame from '../icon/game'
 import RecSegement from './rec-segment'
@@ -47,20 +47,22 @@ export default memo(
       <>
         {tags.map(({ name, count }, index) => {
           const isSelected = tag.includes(name)
+          const showTyperank = !!rank && subjectTagsRec
           return (
             <Touchable
               key={index}
               animate
               scale={0.9}
               onPress={() => {
+                const to = showTyperank ? 'Typerank' : 'Tag'
                 t('条目.跳转', {
-                  to: 'Tag',
+                  to,
                   from: '标签',
                   subjectId
                 })
 
-                navigation.push('Tag', {
-                  type: MODEL_SUBJECT_TYPE.getLabel<SubjectTypeCn>(subjectType),
+                navigation.push(to, {
+                  type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
                   tag: name
                 })
               }}
@@ -73,7 +75,7 @@ export default memo(
                 >
                   {name}
                 </Text>
-                {!!rank && subjectTagsRec ? (
+                {showTyperank ? (
                   <Typerank tag={name} />
                 ) : (
                   <Text

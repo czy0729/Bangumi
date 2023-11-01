@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:40:04
+ * @Last Modified time: 2023-11-01 12:05:05
  */
 import React from 'react'
 import { StatusBar, View } from 'react-native'
@@ -11,7 +11,7 @@ import { useObserver } from 'mobx-react'
 import { useFocusEffect } from '@react-navigation/native'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
 import { Props as PageProps } from './types'
@@ -28,6 +28,8 @@ export const Page = ({
   ...other
 }: PageProps) => {
   useFocusEffect(() => {
+    if (STORYBOOK) return
+
     if (IOS && statusBarEvent) {
       StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
     }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:40:25
+ * @Last Modified time: 2023-11-01 12:05:36
  */
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -13,6 +13,7 @@ import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { _, userStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver, useFocusEffect } from '@utils/hooks'
+import { STORYBOOK } from '@constants'
 import Wrap from './wrap'
 import Heatmaps from './heatmaps'
 import Store from './store'
@@ -28,6 +29,8 @@ const User = (props, { $, navigation }: Ctx) => {
   })
 
   useFocusEffect(() => {
+    if (STORYBOOK) return
+
     setTimeout(() => {
       StatusBar.setBarStyle('light-content')
     }, 40)

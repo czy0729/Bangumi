@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:19:17
+ * @Last Modified time: 2023-11-01 12:20:02
  */
 import React, { useCallback, useRef } from 'react'
 import { StatusBar } from 'react-native'
@@ -19,7 +19,7 @@ import {
   useRunAfter
 } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import Header from './page-header'
 import Bg from './bg'
 import List from './list'
@@ -52,6 +52,8 @@ const Subject = (props, { $, navigation }: Ctx) => {
   })
 
   useFocusEffect(() => {
+    if (STORYBOOK) return
+
     setTimeout(() => {
       StatusBar.setBarStyle(
         _.isDark ? 'light-content' : fixed ? 'dark-content' : 'light-content'

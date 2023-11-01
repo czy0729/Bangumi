@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:37:42
+ * @Last Modified time: 2023-11-01 09:07:17
  */
 import { AnyObject, Fn } from '@types'
 import { urlStringify } from '@utils'
@@ -31,7 +31,10 @@ export const StorybookNavigation = {
     // console.info('Navigation: addListener', eventType)
     return () => {}
   },
-  setOptions() {}
+  setOptions() {},
+  popToTop() {},
+  getRootState() {},
+  emit() {}
 }
 
 /** Demo 展示用默认参数 */

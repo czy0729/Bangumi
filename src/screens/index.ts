@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 14:20:08
+ * @Last Modified time: 2023-11-01 09:05:53
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -58,6 +58,7 @@ export { default as Subject } from './home/subject'
 export { default as SubjectCatalogs } from './home/catalogs'
 export { default as SubjectWiki } from './home/wiki'
 export { default as Tag } from './home/tag'
+export { default as Typerank } from './home/typerank'
 export { default as Voices } from './home/voices'
 export { default as Works } from './home/works'
 

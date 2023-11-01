@@ -5,12 +5,12 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:05:31
+ * @Last Modified time: 2023-11-01 12:05:12
  */
 import React from 'react'
 import { StatusBar, StatusBarStyle } from 'react-native'
 import { observer } from 'mobx-react'
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { _ } from '@stores'
 import { NavigationEvents } from '../navigation/events'
 import { Props as StatusBarEventsProps, PassProps } from './types'
@@ -36,6 +36,8 @@ export const StatusBarEvents = observer(
     }
 
     const events = () => {
+      if (STORYBOOK) return
+
       if (!IOS) {
         StatusBar.setBackgroundColor(backgroundColor, animated)
         StatusBar.setTranslucent(translucent)
