@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 09:07:17
+ * @Last Modified time: 2023-11-01 16:24:10
  */
 import { AnyObject, Fn } from '@types'
 import { urlStringify } from '@utils'
@@ -10,9 +10,17 @@ import { SHARE_MODE } from '@constants'
 import { navigate, parseUrlParams } from './utils'
 
 export const StorybookNavigation = {
+  _history: {
+    length: 1
+  },
+  _updateHistory(value: 1 | -1) {
+    const { length } = this._history
+    if (length === 1 && value === -1) return
+    this._history.length += value
+  },
   getState() {
     return {
-      index: 1 // window.history.length
+      index: this._history.length
     }
   },
   navigate(routeName: string, params?: AnyObject) {
@@ -24,15 +32,22 @@ export const StorybookNavigation = {
   replace(routeName: string, params?: AnyObject) {
     navigate(routeName, params, true)
   },
+  popToTop() {
+    this._history.length = 1
+    navigate('Discovery', {}, true)
+  },
+
+  /**
+   * 这是主动调用 navigation.goBack 触发, 若直接点击浏览器的后退按钮是不会触发的
+   * 所以 history.length 还需要在 /Bangumi32/.storybook/preview.js 里的 window.addEventListener('popstate') 中主动维护
+   * */
   goBack() {
     navigate()
   },
   addListener(): Fn {
-    // console.info('Navigation: addListener', eventType)
     return () => {}
   },
   setOptions() {},
-  popToTop() {},
   getRootState() {},
   emit() {}
 }
