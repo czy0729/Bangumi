@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:25:41
+ * @Last Modified time: 2023-11-01 12:57:59
  */
 import React from 'react'
-import { View, BackHandler, StatusBar } from 'react-native'
-import { Modal, Touchable, Flex, Text, Image, Button } from '@components'
+import { View, BackHandler } from 'react-native'
+import { StatusBar, Modal, Touchable, Flex, Text, Image, Button } from '@components'
 import { _ } from '@stores'
 import { toFixed, tinygrailOSS, stl } from '@utils'
 import { obc } from '@utils/decorators'

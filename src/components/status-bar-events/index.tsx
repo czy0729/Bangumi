@@ -5,13 +5,14 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 12:05:12
+ * @Last Modified time: 2023-11-01 13:00:18
  */
 import React from 'react'
-import { StatusBar, StatusBarStyle } from 'react-native'
+import { StatusBarStyle } from 'react-native'
 import { observer } from 'mobx-react'
 import { IOS, STORYBOOK } from '@constants'
 import { _ } from '@stores'
+import { StatusBar } from '../status-bar'
 import { NavigationEvents } from '../navigation/events'
 import { Props as StatusBarEventsProps, PassProps } from './types'
 
@@ -27,6 +28,8 @@ export const StatusBarEvents = observer(
     animated = IOS,
     action = 'onDidFocus'
   }: StatusBarEventsProps) => {
+    if (STORYBOOK) return null
+
     let _barStyle: StatusBarStyle
     if (tinygrail) {
       _barStyle = barStyle
@@ -36,8 +39,6 @@ export const StatusBarEvents = observer(
     }
 
     const events = () => {
-      if (STORYBOOK) return
-
       if (!IOS) {
         StatusBar.setBackgroundColor(backgroundColor, animated)
         StatusBar.setTranslucent(translucent)

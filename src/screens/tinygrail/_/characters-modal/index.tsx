@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:01:04
+ * @Last Modified time: 2023-11-01 12:57:46
  */
 import React from 'react'
-import { BackHandler, View, StatusBar } from 'react-native'
+import { BackHandler, View } from 'react-native'
 import { computed } from 'mobx'
-import { Modal, Flex, Text, Button, Iconfont } from '@components'
+import { StatusBar, Modal, Flex, Text, Button, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import {
