@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-26 05:30:29
+ * @Last Modified time: 2023-11-02 16:40:09
  */
 
 /** Other */
@@ -56,7 +56,10 @@ export default {
   '漫画.搜索': 'Comic.onSearch',
 
   // HD
+  /** @deprecated */
   'HD.查看': 'HD.jump',
+
+  /** @deprecated */
   'HD.提示': 'HD.alert',
 
   // bilibili 同步

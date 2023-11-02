@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:20:37
+ * @Last Modified time: 2023-11-02 16:59:53
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -47,6 +47,7 @@ class TimelineList extends React.Component<{
         index={index}
         event={EVENT}
         {...item}
+        full
         onDelete={$.doDelete}
       />
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:39:17
+ * @Last Modified time: 2023-11-02 17:00:33
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -20,6 +20,7 @@ export const DEFAULT_PROPS = {
   navigation: {} as Props['navigation'],
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as Props['style'],
+  full: false as Props['full'],
   avatar: {} as Props['avatar'],
   userId: '' as UserId,
   p1: {} as Props['p1'],

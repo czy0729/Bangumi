@@ -1,12 +1,11 @@
 /*
- * Bangumi娘话语
- *
+ * Bangumi 娘话语
  * @Author: czy0729
  * @Date: 2019-06-09 20:04:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:57:00
+ * @Last Modified time: 2023-11-02 17:23:37
  */
-const speech = [
+const SPEECHS = [
   '"啊 欢迎回来 主人！"虽然想这么说，但这种做作的语气只会让我想用钢丝勒断说话人的脖子。',
   'All is fair in love and war.『恋爱和战争都要公平』哪门子话啊。',
   '『AUG』(陆军通用步枪)要念成『auge』。只有这点绝对不妥协。那才奇怪。',
@@ -163,13 +162,13 @@ const speech = [
   'A secret makes a woman woman～☆',
   'Picoooooooo～☆',
   '虽然我不聪明，但还是会望日观星的哟～☆'
-]
+] as const
 
 /** 随机得到一个 Bangumi 娘话语 */
 export const randomSpeech = (): string => {
-  const { length } = speech
+  const { length } = SPEECHS
   const index = Math.floor(Math.random() * (0 - length) + length)
-  return speech[index]
+  return SPEECHS[index]
 }
 
-export default speech
+export default SPEECHS

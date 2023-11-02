@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:39:26
+ * @Last Modified time: 2023-11-02 17:02:12
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ const Item = memo(
     navigation,
     styles,
     style,
+    full,
     avatar,
     userId,
     p1,
@@ -79,15 +80,19 @@ const Item = memo(
     const y = ITEM_HEIGHT * (index + 2)
     return (
       <Flex style={style} align='start'>
-        <InView key={index} style={styles.inView} y={y}>
-          <Avatar
-            navigation={navigation}
-            p1Text={p1Text}
-            userId={userId}
-            avatarSrc={avatarSrc}
-            event={event}
-          />
-        </InView>
+        {full ? (
+          <View style={_.mr.md} />
+        ) : (
+          <InView key={index} style={styles.inView} y={y}>
+            <Avatar
+              navigation={navigation}
+              p1Text={p1Text}
+              userId={userId}
+              avatarSrc={avatarSrc}
+              event={event}
+            />
+          </InView>
+        )}
         <Flex.Item style={stl(showImages ? styles.noPR : styles.content, _.ml.sm)}>
           <Flex align='start'>
             <Flex.Item>

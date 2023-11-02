@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 19:11:57
+ * @Last Modified time: 2023-11-02 17:00:20
  */
 import React from 'react'
 import { timelineStore } from '@stores'
@@ -20,6 +20,7 @@ export const ItemTimeline = ob(
   ({
     navigation,
     style,
+    full,
     avatar,
     p1,
     p2,
@@ -51,6 +52,7 @@ export const ItemTimeline = ob(
         navigation={navigation}
         styles={memoStyles()}
         style={style}
+        full={full}
         avatar={avatar}
         userId={userId}
         p1={p1}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 05:07:44
+ * @Last Modified time: 2023-11-02 22:16:52
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -16,7 +16,7 @@ import { Touchable } from '../../touchable'
 import { Iconfont } from '../../iconfont'
 import { Text } from '../../text'
 import { StorybookNavigation } from '../navigation'
-import { BOTTOM_TAB_DS } from './ds'
+import { BOTTOM_TAB_DS } from '../ds'
 import { memoStyles } from './styles'
 
 export const StorybookBottomTab = () => {

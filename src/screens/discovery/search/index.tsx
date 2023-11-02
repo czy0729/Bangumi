@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:26:44
+ * @Last Modified time: 2023-11-02 22:35:20
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Page, Flex } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
+import { STORYBOOK } from '@constants'
 import Header from './header'
 import Category from './category'
 import Legacy from './legacy'
@@ -29,7 +31,7 @@ const Search = (props, { $, navigation }: Ctx) => {
     const { cat, value } = $.state
     return (
       <>
-        <Header />
+        {STORYBOOK ? <View style={_.mt.md} /> : <Header />}
         <Page>
           <Flex style={styles.searchBar}>
             <Category />

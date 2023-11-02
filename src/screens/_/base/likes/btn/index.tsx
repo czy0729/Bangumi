@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:17:03
+ * @Last Modified time: 2023-11-02 16:47:41
  */
 import React from 'react'
 import { Touchable, Flex, BgmText, Text, Bgm } from '@components'
@@ -29,12 +29,12 @@ function Btn({ topicId, id, formhash, onLongPress, ...item }) {
         setTimeout(() => {
           if (type === 40) {
             timelineStore.doLike(item as any, id, formhash, () => {
-              // t('时间胶囊.贴贴', {
-              //   mainId: topicId,
-              //   relatedId: floorId,
-              //   value,
-              //   from: 'grid'
-              // })
+              t('时间胶囊.贴贴', {
+                mainId: topicId,
+                relatedId: id,
+                value: item.value,
+                from: 'grid'
+              })
 
               setTimeout(() => {
                 uiStore.afterFlip()

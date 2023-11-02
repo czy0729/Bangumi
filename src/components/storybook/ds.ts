@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 04:22:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 04:59:09
+ * @Last Modified time: 2023-11-02 17:34:30
  */
 export const BOTTOM_TAB_DS = [
   {
@@ -27,12 +27,19 @@ export const BOTTOM_TAB_DS = [
     label: '超展开'
   },
   {
-    id: 'Setting',
+    id: 'Search',
     params: {},
-    icon: 'setting',
-    size: 18,
-    label: '设置'
+    icon: 'md-search',
+    size: 22,
+    label: '搜索'
   }
+  // {
+  //   id: 'Setting',
+  //   params: {},
+  //   icon: 'setting',
+  //   size: 18,
+  //   label: '设置'
+  // }
   // {
   //   id: 'Zone',
   //   params: {
