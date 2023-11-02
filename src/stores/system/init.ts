@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 15:46:20
+ * @Last Modified time: 2023-11-03 04:12:14
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -103,33 +103,54 @@ export const INIT_SUBJECT_LAYOUT = {
 } as const
 
 /** 发现页自定义菜单 */
-export const INIT_DISCOVERY_MENU = [
-  'Rank',
-  'Anime',
-  'Browser',
-  'Catalog',
-  'Calendar',
-  'DiscoveryBlog',
-  'Tags',
-  'Staff',
-  'Anitama',
-  'Open',
-  'Search',
-  'Tinygrail',
-  'Guess',
-  'Wiki',
-  'Yearbook',
-  'UserTimeline',
-  'Netabare',
-  'Smb',
-  'BilibiliSync',
-  'DoubanSync',
-  'Series',
-  'Backup',
-  'Character',
-  'Catalogs',
-  'Link'
-] as const
+export const INIT_DISCOVERY_MENU = STORYBOOK
+  ? ([
+      'Rank',
+      'Anime',
+      'Browser',
+      'Catalog',
+      'Calendar',
+      'DiscoveryBlog',
+      'Tags',
+      'Staff',
+      'Smb',
+      'Netabare',
+      'Open',
+      'Like',
+      'Recommend',
+      'Wiki',
+      'UserTimeline',
+      'Series',
+      'Character',
+      'Catalogs'
+    ] as const)
+  : ([
+      'Rank',
+      'Anime',
+      'Browser',
+      'Catalog',
+      'Calendar',
+      'DiscoveryBlog',
+      'Tags',
+      'Staff',
+      'Anitama',
+      'Open',
+      'Search',
+      'Tinygrail',
+      'Guess',
+      'Wiki',
+      'Yearbook',
+      'UserTimeline',
+      'Netabare',
+      'Smb',
+      'BilibiliSync',
+      'DoubanSync',
+      'Series',
+      'Backup',
+      'Character',
+      'Catalogs',
+      'Link'
+    ] as const)
 
 /** 默认设置 */
 export const INIT_SETTING = {
@@ -309,10 +330,10 @@ export const INIT_SETTING = {
   subjectTagsExpand: true,
 
   /** 条目标签是否显示优于同类型百分比 */
-  subjectTagsRec: false,
+  subjectTagsRec: STORYBOOK,
 
   /** 突出显示源头按钮 */
-  focusOrigin: false,
+  focusOrigin: STORYBOOK,
 
   /** 若有自定义跳转隐藏通用源头按钮 */
   focusAction: false,

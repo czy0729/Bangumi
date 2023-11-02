@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:30:05
+ * @Last Modified time: 2023-11-03 02:40:14
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -95,7 +95,8 @@ export const MENU_MAP = {
   Search: {
     key: 'Search',
     name: '搜索',
-    icon: 'md-search'
+    icon: 'md-search',
+    web: false
   },
   Tinygrail: {
     key: 'Tinygrail',

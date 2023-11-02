@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 16:22:33
+ * @Last Modified time: 2023-11-03 03:16:47
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -53,7 +53,7 @@ const Item = memo(
     const subjectId = String(id).replace('/subject/', '')
 
     const width = isMono ? IMG_WIDTH : IMG_WIDTH_LG
-    const height = isMono ? IMG_WIDTH : IMG_HEIGHT_LG
+    const height = isMono ? IMG_WIDTH : isMusic ? IMG_WIDTH_LG : IMG_HEIGHT_LG
     return (
       <Touchable
         style={stl(styles.container, style)}

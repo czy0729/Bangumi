@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-03 15:18:11
+ * @Last Modified time: 2023-11-03 03:18:49
  */
 import { _ } from '@stores'
 import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
@@ -26,6 +26,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   musicContent: {
     height: 'auto',
-    minHeight: IMG_WIDTH_LG
+    minHeight: IMG_WIDTH_LG - 8
   }
 }))

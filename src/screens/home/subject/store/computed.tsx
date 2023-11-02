@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 23:17:43
+ * @Last Modified time: 2023-11-03 04:39:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -221,10 +221,10 @@ export default class Computed extends State {
     const { _loaded, type } = this.subject
     if (!_loaded) {
       const { _type = '' } = this.params
-      return _type
+      if (_type) return _type
     }
 
-    return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+    return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type || this.state?.subject?.type)
   }
 
   /** 条目类型 (数字) */

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 17:19:37
+ * @Last Modified time: 2023-11-03 02:49:27
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
@@ -27,15 +27,21 @@ export async function get(key: string): Promise<any> {
 }
 
 /** 批量获取 */
-export async function gets(keys: string[]): Promise<Result> {
-  // @ts-expect-error
-  const { data } = await axios({
+export async function gets(keys: string[], picker?: string[]): Promise<Result> {
+  const query = {
     method: 'post',
     url: `${HOST}/v1/get`,
     data: {
       keys
+    } as {
+      keys: string[]
+      picker?: string[]
     }
-  })
+  }
+  if (Array.isArray(picker)) query.data.picker = picker
+
+  // @ts-expect-error
+  const { data } = await axios(query)
 
   if (data?.code === 200) return data?.data
 

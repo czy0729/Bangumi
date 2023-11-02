@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 21:47:24
+ * @Last Modified time: 2023-11-03 04:15:32
  */
 
 /** Home */
@@ -118,5 +118,8 @@ export default {
   '用户评分.右上角菜单': 'Rating.topRightMenu',
 
   // 修订历史
-  '修订历史.右上角菜单': 'SubjectWiki.topRightMenu'
+  '修订历史.右上角菜单': 'SubjectWiki.topRightMenu',
+
+  // 分类排行
+  '分类排行.跳转': 'Typerank.to'
 }

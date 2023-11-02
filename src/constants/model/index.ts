@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-14 15:45:25
+ * @Last Modified time: 2023-11-03 04:29:01
  */
 import { Model } from './utils'
 
@@ -37,7 +37,10 @@ export const SUBJECT_TYPE = [
   }
 ] as const
 
-/** 条目类型 */
+/**
+ * 条目类型
+ *  - { label: 'anime', value: '2', title: '动画' }
+ * */
 export const MODEL_SUBJECT_TYPE = new Model(SUBJECT_TYPE, 'SUBJECT_TYPE')
 
 /** 章节状态 */
@@ -107,7 +110,10 @@ export const COLLECTION_STATUS = [
   }
 ] as const
 
-/** 收藏状态 */
+/**
+ * 收藏状态
+ *  - { label: '想看', value: 'wish', title: '1' }
+ * */
 export const MODEL_COLLECTION_STATUS = new Model(COLLECTION_STATUS, 'COLLECTION_STATUS')
 
 /** 打分状态 */

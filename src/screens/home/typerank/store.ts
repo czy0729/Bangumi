@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 16:29:05
+ * @Last Modified time: 2023-11-03 02:54:53
  */
 import { computed, observable } from 'mobx'
 import { subjectStore } from '@stores'
@@ -34,25 +34,6 @@ export default class ScreenTyperank extends store {
   fetchSubjects = async () => {
     // 这个接口太慢了, 而且不太依赖, 暂时屏蔽
     return true
-
-    // const ids = [...this.ids]
-    // if (!ids.length) return true
-
-    // await subjectStore.initSubjectV2(ids)
-    // const now = getTimestamp()
-    // const fetchs = []
-    // ids.forEach(id => {
-    //   const { _loaded } = subjectStore.subjectV2(id)
-    //   if (!_loaded || now - Number(_loaded) >= 60 * 60) {
-    //     fetchs.push(() => {
-    //       console.info('fetchSubjects', id)
-    //       return subjectStore.fetchSubjectV2(id)
-    //     })
-    //   }
-    // })
-    // if (!fetchs.length) return true
-
-    // return queue(fetchs)
   }
 
   fetchSubjectsFromOSS = async () => {
@@ -79,21 +60,21 @@ export default class ScreenTyperank extends store {
     try {
       console.info('fetchSubjectsFromOSS', fetchIds)
 
-      const data = await gets(fetchIds)
+      const picker = [
+        'name',
+        'name_cn',
+        'image',
+        'rank',
+        'rating',
+        'totalEps',
+        'info',
+        'staff',
+        'tags'
+      ]
+      const data = await gets(fetchIds, picker)
       Object.entries(data).forEach(([key, item]) => {
         try {
-          data[key] = pick(item, [
-            'name',
-            'name_cn',
-            'image',
-            'rank',
-            'rating',
-            'totalEps',
-            'info',
-            'staff',
-            'tags'
-          ])
-
+          data[key] = pick(item, picker)
           if (data[key].info) {
             data[key].date =
               data[key].info.match(
@@ -103,26 +84,28 @@ export default class ScreenTyperank extends store {
           delete data[key].info
 
           if (!data[key].date && Array.isArray(data[key].tags)) {
-            let find = data[key].tags.find(item => /^\d+年\d+月$/.test(item.name))
+            let find = data[key].tags.find((item: any) =>
+              /^\d+年\d+月$/.test(item.name)
+            )
             if (find) data[key].date = find.name
 
-            find = data[key].tags.find(item => /^\d{4}$/.test(item.name))
+            find = data[key].tags.find((item: any) => /^\d{4}$/.test(item.name))
             if (find) data[key].date = find.name
           }
           delete data[key].tags
 
           if (Array.isArray(data[key].staff)) {
             // 原作
-            const origin = data[key].staff.find(item => item.desc === '原作')
+            const origin = data[key].staff.find((item: any) => item.desc === '原作')
             data[key].origin = origin?.name || origin?.nameJP || ''
 
             // 导演
-            let director = data[key].staff.find(item => item.desc === '导演')
+            let director = data[key].staff.find((item: any) => item.desc === '导演')
             data[key].director = director?.name || director?.nameJP || ''
 
             if (!data[key].director) {
               director = data[key].staff.find(
-                item =>
+                (item: any) =>
                   item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
               )
               data[key].director = director?.name || director?.nameJP || ''

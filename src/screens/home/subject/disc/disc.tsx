@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:13:11
+ * @Last Modified time: 2023-11-03 02:16:35
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Text, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
+import { HTMLDecode, appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
-import { appNavigate } from '@utils/app'
 import IconDisc from '../icon/disc'
 import IconSearchDisc from '../icon/search-disc'
 import { DEFAULT_PROPS } from './ds'
@@ -79,7 +79,7 @@ export default memo(
                                 )
                               }
                             >
-                              {i.title}
+                              {HTMLDecode(i.title)}
                             </Text>
                             {!!translate && (
                               <Text style={styles.translate} type='sub' size={12}>

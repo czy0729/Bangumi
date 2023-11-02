@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 06:45:12
+ * @Last Modified time: 2023-11-03 04:33:30
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -295,6 +295,54 @@ export default class Computed extends State implements StoreConstructor<typeof S
         this.subject(subjectId)?.type ||
         this.subjectFromOSS(subjectId)?.type ||
         '2'
+      )
+    }).get()
+  }
+
+  /** 尽量获取到条目排名 */
+  ratingRank(subjectId: SubjectId) {
+    return computed<number | ''>(() => {
+      return (
+        this.subjectV2(subjectId)?.rank ||
+        this.subject(subjectId)?.rank ||
+        this.subjectFromOSS(subjectId)?.rank ||
+        ''
+      )
+    }).get()
+  }
+
+  /** 尽量获取到条目分数 */
+  ratingScore(subjectId: SubjectId) {
+    return computed<number | ''>(() => {
+      return (
+        this.subjectV2(subjectId)?.rating?.score ||
+        this.subject(subjectId)?.rating?.score ||
+        this.subjectFromOSS(subjectId)?.rating?.score ||
+        ''
+      )
+    }).get()
+  }
+
+  /** 尽量获取到条目打分人数 */
+  ratingTotal(subjectId: SubjectId) {
+    return computed<number | ''>(() => {
+      return (
+        this.subjectV2(subjectId)?.rating?.total ||
+        this.subject(subjectId)?.rating?.total ||
+        this.subjectFromOSS(subjectId)?.rating?.total ||
+        0
+      )
+    }).get()
+  }
+
+  /** 尽量获取到条目发送日 */
+  date(subjectId: SubjectId) {
+    return computed<string>(() => {
+      return (
+        this.subjectV2(subjectId)?.date ||
+        this.subject(subjectId)?.air_date ||
+        this.subjectFromOSS(subjectId)?.air_date ||
+        ''
       )
     }).get()
   }

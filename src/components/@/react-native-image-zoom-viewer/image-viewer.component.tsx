@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-14 13:16:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:44:20
+ * @Last Modified time: 2023-11-03 04:45:46
  */
 import * as React from 'react'
 import {
@@ -65,17 +65,18 @@ export default class ImageViewer extends React.Component<Props, State> {
           currentShowIndex: nextProps.index
         },
         () => {
-          // 立刻预加载要看的图
-          this.loadImage(nextProps.index || 0)
+          try {
+            // 立刻预加载要看的图
+            this.loadImage(nextProps.index || 0)
+            this.jumpToCurrentImage()
 
-          this.jumpToCurrentImage()
-
-          // 显示动画
-          Animated.timing(this.fadeAnim, {
-            toValue: 1,
-            duration: 200,
-            useNativeDriver: false
-          }).start()
+            // 显示动画
+            Animated.timing(this.fadeAnim, {
+              toValue: 1,
+              duration: 200,
+              useNativeDriver: false
+            }).start()
+          } catch (error) {}
         }
       )
     }
@@ -107,17 +108,19 @@ export default class ImageViewer extends React.Component<Props, State> {
         imageSizes
       },
       () => {
-        // 立刻预加载要看的图
-        this.loadImage(nextProps.index || 0)
+        try {
+          // 立刻预加载要看的图
+          this.loadImage(nextProps.index || 0)
 
-        this.jumpToCurrentImage()
+          this.jumpToCurrentImage()
 
-        // 显示动画
-        Animated.timing(this.fadeAnim, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: false
-        }).start()
+          // 显示动画
+          Animated.timing(this.fadeAnim, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: false
+          }).start()
+        } catch (error) {}
       }
     )
   }
