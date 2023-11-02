@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 05:06:06
+ * @Last Modified time: 2023-11-02 15:11:58
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
@@ -27,23 +27,21 @@ export function injectUtils() {
     return
   }
 
-  setTimeout(() => {
-    /** @ts-ignore */
-    window.app = {
-      constants: {
-        ...require('@constants')
-      },
-      utils: {
-        ...require('@utils')
-      },
-      styles: {
-        ...require('@styles')
-      },
-      stores: {
-        ...require('@stores')
-      }
+  /** @ts-ignore */
+  window.app = {
+    constants: {
+      ...require('@constants')
+    },
+    utils: {
+      ...require('@utils')
+    },
+    styles: {
+      ...require('@styles')
+    },
+    stores: {
+      ...require('@stores')
     }
-  }, 0)
+  }
 }
 
 /** 尝试把页面中唯一的列表滚动到顶 */

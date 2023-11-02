@@ -1,9 +1,8 @@
-/* eslint-disable no-self-compare */
 /*
  * @Author: czy0729
  * @Date: 2023-07-14 13:16:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 06:42:18
+ * @Last Modified time: 2023-11-02 14:44:20
  */
 import * as React from 'react'
 import {
@@ -200,7 +199,9 @@ export default class ImageViewer extends React.Component<Props, State> {
     // 如果已知源图片宽高，直接设置为 success
     if (image.width && image.height) {
       if (this.props.enablePreload && imageLoaded === false) {
-        Image.prefetch(image.url)
+        try {
+          Image.prefetch(image.url)
+        } catch (error) {}
       }
       imageStatus.width = image.width
       imageStatus.height = image.height
@@ -210,10 +211,12 @@ export default class ImageViewer extends React.Component<Props, State> {
     }
 
     const successCallback = (width: number, height: number) => {
-      imageStatus.width = width
-      imageStatus.height = height
-      imageStatus.status = 'success'
-      saveImageSize()
+      try {
+        imageStatus.width = width
+        imageStatus.height = height
+        imageStatus.status = 'success'
+        saveImageSize()
+      } catch (error) {}
     }
     const failCallback = () => {
       try {
@@ -222,24 +225,28 @@ export default class ImageViewer extends React.Component<Props, State> {
         imageStatus.height = data.height
         imageStatus.status = 'success'
         saveImageSize()
-      } catch (newError) {
+      } catch (error) {
         // Give up..
         imageStatus.status = 'fail'
         saveImageSize()
       }
     }
     if (typeof Image.getSizeWithHeaders !== 'function') {
-      Image.getSize(image.url, successCallback, failCallback)
+      try {
+        Image.getSize(image.url, successCallback, failCallback)
+      } catch (error) {}
       return
     }
 
-    Image.getSizeWithHeaders(
-      image.url,
-      // @ts-expect-error
-      image.headers,
-      successCallback,
-      failCallback
-    )
+    try {
+      Image.getSizeWithHeaders(
+        image.url,
+        // @ts-expect-error
+        image.headers,
+        successCallback,
+        failCallback
+      )
+    } catch (error) {}
   }
 
   /**

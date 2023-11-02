@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 05:49:47
+ * @Last Modified time: 2023-11-02 13:30:44
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Loading, ListView, Text, Heatmap } from '@components'
+import { Loading, ListView, Heatmap } from '@components'
+import { Notice } from '@_'
 import { _ } from '@stores'
 import { keyExtractor, x18s } from '@utils'
 import { obc } from '@utils/decorators'
@@ -15,7 +15,6 @@ import ToolBar from '../tool-bar'
 import { Ctx } from '../types'
 import ListItem from './list'
 import GridItem from './grid'
-import { styles } from './styles'
 
 function List(props, { $ }: Ctx) {
   const { hide, fixed } = $.state
@@ -44,12 +43,10 @@ function List(props, { $ }: Ctx) {
         <>
           {!fixed && <ToolBar />}
           {order === 'rank' && (
-            <View style={styles.notice}>
-              <Text size={12} type='sub'>
-                因标签为用户自行添加，
-                「按排名」排序在关联条目过多情况下可能毫无意义，推荐「按标注」排序。
-              </Text>
-            </View>
+            <Notice>
+              因标签为用户自行添加，
+              「按排名」排序在关联条目过多情况下可能毫无意义，推荐「按标注」排序。
+            </Notice>
           )}
         </>
       }

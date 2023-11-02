@@ -123,7 +123,7 @@ type RouteSay = (
   params: {
     /** @deprecated */
     id?: Id
-    sayId: Id
+    sayId?: Id
     onNavigationCallback?: Fn
   }
 ) => any

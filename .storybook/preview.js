@@ -2,20 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 16:23:58
+ * @Last Modified time: 2023-11-02 15:36:11
  */
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import Provider from '@ant-design/react-native/lib/provider'
 import { addons } from '@storybook/addons'
 import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
 import { __FORCE_SET_NAVIGATING__ } from '@components/storybook/state'
 import { StorybookNavigation } from '@components/storybook/navigation'
-import { AppCommon } from '@_/base/app-common'
-import { _ } from '@stores'
 import { injectUtils } from '@utils/dom'
-import theme from '@styles/theme'
+import { parseUrlParams } from './utils'
+import { parameters, decorators } from './ds'
 
-injectUtils()
+export { parameters, decorators }
 
 const historyStack = [window.location.href]
 
@@ -49,52 +46,39 @@ window.addEventListener('popstate', event => {
   }
 })
 
-export const parameters = {
-  options: {
-    title: 'Bangumi 番组计划'
-  },
-  darkMode: {
-    current: 'dark',
-    darkClass: 'dark',
-    classTarget: 'html',
-    stylePreview: true
-  },
-  actions: {
-    argTypesRegex: '^on[A-Z].*'
-  },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/
+// 监听宽度发生变化
+window.lastWidth = window.innerWidth
+window.onresize = function () {
+  if (
+    (window.innerWidth <= 480 || window.lastWidth <= 480) &&
+    window.innerWidth !== window.lastWidth
+  ) {
+    setTimeout(() => {
+      location.reload()
+    }, 800)
+  }
+}
+
+// 开发环境一些辅助代码
+;(() => {
+  setTimeout(() => {
+    injectUtils()
+
+    const originalConsoleError = window.console.error
+    window.console.error = function (...args) {
+      const errorMessage = args[0] || ''
+
+      // 检查警告消息是否以特定的开头文字开始
+      if (
+        // 这个是旧的代码库里面经常用的写法, 不影响实际运行, 可以忽视
+        String(errorMessage).startsWith('EventEmitter.removeListener')
+      ) {
+        // 忽略该警告，不做任何操作
+        return
+      }
+
+      // 其他情况下，调用原始的 console.error 方法
+      originalConsoleError.apply(console, args)
     }
-  }
-}
-
-function parseUrlParams() {
-  const params = new URLSearchParams(window.location.search)
-  const result = {}
-
-  for (const [key, value] of params) {
-    result[key] = value
-  }
-  return result
-}
-
-export const decorators = [
-  Story => (
-    <Provider theme={theme}>
-      <GestureHandlerRootView style={styles.container}>
-        <Story />
-      </GestureHandlerRootView>
-      <AppCommon />
-    </Provider>
-  )
-]
-
-const styles = _.create({
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+  }, 4000)
+})()

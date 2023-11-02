@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-07 07:48:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 14:13:28
+ * @Last Modified time: 2023-11-02 15:38:59
  */
 import React, { useState, useCallback } from 'react'
 import { ActionSheet, Text, Heatmap } from '@components'
@@ -13,6 +13,7 @@ import { toFixed, confirm, info } from '@utils'
 import { t } from '@utils/fetch'
 import { useBoolean, useObserver, useMount } from '@utils/hooks'
 import { getAllKeys, multiGet } from '@utils/storage/utils'
+import { STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { getShows } from '../utils'
 import { TEXTS } from './ds'
@@ -22,6 +23,8 @@ function Storage({ filter }) {
   const [storageSize, setStorageSize] = useState('')
 
   const caculateStorageSize = useCallback(async () => {
+    if (STORYBOOK) return
+
     try {
       const keys = await getAllKeys()
       const storages = await multiGet(keys)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 01:27:28
+ * @Last Modified time: 2023-11-02 14:46:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Item({
   const desc = String(item.desc || '')
   let typeCn: SubjectTypeCn | '' = ''
   if (
-    (!desc.includes('演出') && desc.includes('曲')) ||
+    (!desc.includes('演出') && desc.includes('曲') && desc !== '作曲') ||
     (!desc.includes('演出') && desc.includes('歌')) ||
     desc.includes('声') ||
     desc.includes('广播')

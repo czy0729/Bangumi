@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-27 10:35:49
+ * @Last Modified time: 2023-11-02 14:13:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import {
   Touchable,
   UM
 } from '@components'
-import { StatusBarPlaceholder } from '@_'
+import { Notice, StatusBarPlaceholder } from '@_'
 import { _, userStore, usersStore, rakuenStore } from '@stores'
 import {
   confirm,
@@ -623,35 +623,37 @@ class LoginV2 extends React.Component<{
           )
         ) : (
           <Flex style={this.styles.old} justify='around'>
-            <Touchable
-              onPress={() => {
-                t('登陆.跳转', {
-                  to: 'Signup'
-                })
+            {!STORYBOOK && (
+              <Touchable
+                onPress={() => {
+                  t('登陆.跳转', {
+                    to: 'Signup'
+                  })
 
-                confirm(
-                  // eslint-disable-next-line max-len
-                  '声明: 本APP的性质为第三方，只提供显示数据和简单的操作，没有修复和改变源站业务的能力。 \n\n在移动端浏览器注册会经常遇到验证码错误，碰到错误建议在浏览器里使用 [电脑版UA]，再不行推荐使用电脑Chrome注册。 \n\n注册后会有 [激活码] 发到邮箱，测试过只会发送一次，请务必在激活有效时间内激活，否则这个注册账号就废了。输入激活码前，看见下方的文字改变了再填入，提示服务不可用的请务必等到浏览器加载条完成，不然永远都会说激活码错误。\n\n作者只能帮大家到这里了。',
-                  () => open('https://bgm.tv/signup'),
-                  '提示',
-                  () => {},
-                  '前往注册'
-                )
-              }}
-            >
-              <Flex justify='center'>
-                <Text size={11} type='sub' bold>
-                  注册
-                </Text>
-                <Iconfont
-                  style={_.ml.xxs}
-                  name='md-open-in-new'
-                  color={_.colorSub}
-                  size={12}
-                />
-              </Flex>
-              <Heatmap id='登陆.跳转' to='Signup' alias='注册' />
-            </Touchable>
+                  confirm(
+                    // eslint-disable-next-line max-len
+                    '声明: 本APP的性质为第三方，只提供显示数据和简单的操作，没有修复和改变源站业务的能力。 \n\n在移动端浏览器注册会经常遇到验证码错误，碰到错误建议在浏览器里使用 [电脑版UA]，再不行推荐使用电脑Chrome注册。 \n\n注册后会有 [激活码] 发到邮箱，测试过只会发送一次，请务必在激活有效时间内激活，否则这个注册账号就废了。输入激活码前，看见下方的文字改变了再填入，提示服务不可用的请务必等到浏览器加载条完成，不然永远都会说激活码错误。\n\n作者只能帮大家到这里了。',
+                    () => open(`${HOST}/signup`),
+                    '提示',
+                    () => {},
+                    '前往注册'
+                  )
+                }}
+              >
+                <Flex justify='center'>
+                  <Text size={11} type='sub' bold>
+                    注册
+                  </Text>
+                  <Iconfont
+                    style={_.ml.xxs}
+                    name='md-open-in-new'
+                    color={_.colorSub}
+                    size={12}
+                  />
+                </Flex>
+                <Heatmap id='登陆.跳转' to='Signup' alias='注册' />
+              </Touchable>
+            )}
             <Touchable
               onPress={() => {
                 t('登陆.跳转', {
@@ -674,38 +676,24 @@ class LoginV2 extends React.Component<{
               </Flex>
               <Heatmap id='登陆.跳转' to='Privacy' alias='隐私保护政策' />
             </Touchable>
-            {/* <Text
-              size={11}
-              bold
-              type='sub'
-              onPress={() => {
-                t('登陆.跳转', {
-                  to: 'Login'
-                })
+            {!STORYBOOK && (
+              <Text
+                size={11}
+                bold
+                type='sub'
+                onPress={() => {
+                  t('登陆.跳转', {
+                    to: 'LoginAssist'
+                  })
 
-                const { navigation } = this.props
-                navigation.push('Login')
-              }}
-            >
-              旧版{i18n.login()}
-              <Heatmap id='登陆.跳转' to='Login' alias='旧版登录' />
-            </Text> */}
-            <Text
-              size={11}
-              bold
-              type='sub'
-              onPress={() => {
-                t('登陆.跳转', {
-                  to: 'LoginAssist'
-                })
-
-                const { navigation } = this.props
-                navigation.push('LoginAssist')
-              }}
-            >
-              辅助{i18n.login()}
-              <Heatmap id='登陆.跳转' to='LoginAssist' alias='辅助登录' />
-            </Text>
+                  const { navigation } = this.props
+                  navigation.push('LoginAssist')
+                }}
+              >
+                辅助{i18n.login()}
+                <Heatmap id='登陆.跳转' to='LoginAssist' alias='辅助登录' />
+              </Text>
+            )}
           </Flex>
         )}
       </>
@@ -717,6 +705,9 @@ class LoginV2 extends React.Component<{
       <View style={_.container.plain}>
         <UM title={TITLE} />
         <StatusBarPlaceholder />
+        <Notice style={_.mv.lg}>
+          当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用
+        </Notice>
         {this.renderContent()}
         <KeyboardSpacer topSpacing={_.ios(-120, 0)} />
         <Heatmap id='登陆.登陆' right={_.wind} bottom={_.bottom + 120} transparent />

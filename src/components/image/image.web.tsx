@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 00:55:31
+ * @Last Modified time: 2023-11-02 15:16:53
  */
 import React, { useState, useRef, useEffect } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -78,10 +78,9 @@ export default function Image({ style, source, autoSize, ...props }) {
       {...props}
       style={[
         style,
-        // eslint-disable-next-line react-native/no-inline-styles
         {
           opacity,
-          transition: 'opacity 0.32s ease-in-out'
+          transition: 'opacity 0.24s ease-in-out'
         }
       ]}
       source={
