@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 16:37:18
+ * @Last Modified time: 2023-11-03 01:12:44
  */
 import { HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
 import { Id, TimeLineScope, TimeLineType, UserId } from '@types'
@@ -66,19 +66,17 @@ export default class Fetch extends Computed {
       this.usersTimeline(userId),
       userStore.usersInfo(userId)
     )
+    this.updateLikes(likes)
 
     const key = 'usersTimeline'
     const stateKey = userId
-    const likesKey = 'likes'
-
     this.setState({
       [key]: {
         [stateKey]: {
           ...next,
           _loaded: getTimestamp()
         }
-      },
-      [likesKey]: likes
+      }
     })
 
     return next

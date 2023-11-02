@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 04:39:11
+ * @Last Modified time: 2023-11-02 22:41:15
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   bottomTab: {
-    // @ts-ignore
-    position: 'fixed',
+    position: 'absolute',
     zIndex: 99999,
     right: _.sm + 2,
     left: _.sm + 2,

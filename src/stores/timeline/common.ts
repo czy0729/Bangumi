@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 16:56:34
+ * @Last Modified time: 2023-11-03 01:19:16
  */
 import { cheerio, getTimestamp, matchAvatar, safeObject, trim, htmlMatch } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -65,7 +65,6 @@ export async function fetchTimeline(
           const $card = $info.find('.card')
           const $reply = $info.find('a.tml_comment')
           const $date = $row.find('.date')
-          const $like = $row.find('.like_dropdown')
           let $p1: any
 
           // 个人主页中的时间胶囊不存在位置 1
@@ -183,8 +182,9 @@ export async function fetchTimeline(
               })
           }
 
+          const id = `${page}|${($row.attr('id') || '').replace('tml_', '')}`
           list.push({
-            id: `${page}|${($row.attr('id') || '').replace('tml_', '')}`,
+            id,
             date,
             avatar,
             p1,
@@ -204,9 +204,12 @@ export async function fetchTimeline(
               url: $reply.attr('href') || ''
             },
             like: {
-              type: $like.data('like-type') || 40,
-              mainId: $like.data('like-main-id') || 0,
-              relatedId: $like.data('like-related-id') || 0
+              type: 40,
+              mainId: id,
+              relatedId: ($row.find('.likes_grid').attr('id') || '').replace(
+                'likes_grid_',
+                ''
+              )
             },
             image,
             clearHref: ''

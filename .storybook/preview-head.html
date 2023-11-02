@@ -48,6 +48,24 @@
   .component-header--normal + .component-page {
     max-height: calc(100vh - 56px) !important;
   }
+  .component-touchable-opacity,
+  .component-popover {
+    transition: filter 0.2s;
+  }
+  .component-touchable-opacity:hover,
+  .component-popover:hover {
+    filter: brightness(1.12);
+  }
+  .component-popover {
+    cursor: pointer;
+  }
+  .component-storybook-spa-top {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .component-storybook-spa-top:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
   @font-face {
     font-family: 'bgm';
     src: url('https://cdn.jsdelivr.net/gh/czy0729/Bangumi@master/src/assets/fonts/AppleColorEmoji.ttf')
