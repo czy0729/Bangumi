@@ -5,19 +5,24 @@
  * @Last Modified time: 2023-07-25 18:11:44
  */
 import React from 'react'
+import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useObserver } from 'mobx-react'
 import { SafeAreaBottom, Touchable, Flex, Text } from '@components'
 import { userStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { IOS } from '@constants'
 import i18n from '@constants/i18n'
 import { BlurView } from '../blur-view'
 import { memoStyles } from './styles'
 
-export const LoginNotice = ob(({ navigation }) => {
-  if (!userStore.outdate) return null
+export const LoginNotice = ({ navigation }) => {
+  const { bottom } = useSafeAreaInsets()
 
-  const styles = memoStyles()
-  return (
-    <SafeAreaBottom style={styles.loginNotice} type='height'>
+  return useObserver(() => {
+    if (!userStore.outdate) return null
+
+    const styles = memoStyles()
+    const content = (
       <BlurView>
         <Touchable onPress={() => navigation.push('LoginV2')}>
           <Flex style={styles.body}>
@@ -27,6 +32,17 @@ export const LoginNotice = ob(({ navigation }) => {
           </Flex>
         </Touchable>
       </BlurView>
-    </SafeAreaBottom>
-  )
-})
+    )
+
+    // 安卓虚拟按键布局
+    if (!IOS && bottom > 20) {
+      return (
+        <SafeAreaBottom style={styles.loginNotice} type='height'>
+          {content}
+        </SafeAreaBottom>
+      )
+    }
+
+    return <View style={styles.loginNotice}>{content}</View>
+  })
+}
