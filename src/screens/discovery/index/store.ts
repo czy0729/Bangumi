@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 18:35:44
+ * @Last Modified time: 2023-11-04 04:40:18
  */
 import { observable, computed } from 'mobx'
 import {
@@ -61,8 +61,15 @@ export default class ScreenDiscovery extends store {
         },
         async () => {
           await calendarStore.init('calendar')
-          const { _loaded } = calendarStore.calendar
-          if (getTimestamp() - Number(_loaded || 0) < 60 * 60 * 12) return true
+          const { list, _loaded } = calendarStore.calendar
+          if (getTimestamp() - Number(_loaded || 0) < 60 * 60 * 12) {
+            try {
+              // 出现过成功请求过数据, 但是里面全为空的奇怪情况
+              if (list.length && !list.every(item => item.items.length === 0)) {
+                return true
+              }
+            } catch (error) {}
+          }
 
           return calendarStore.fetchCalendar()
         },

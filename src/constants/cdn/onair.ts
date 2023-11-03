@@ -9,22 +9,14 @@ import { SubjectId } from '@types'
 import { getFolder } from './utils'
 import { HOST_DOGE, HOST_CDN_STATIC } from './ds'
 
-/**
- * 每日放送
- * ${HOST_DOGE}/bangumi-onair/calendar.json
- * */
+/** 每日放送 */
 export const CDN_ONAIR = () => {
   /** @deprecated https://github.com/ekibot/bangumi-onair */
-  // return `${HOST_CDN}/gh/ekibot/bangumi-link@master/calendar.json?t=${getTimestamp()}` as const
   return `${HOST_DOGE}/bangumi-onair/calendar.json?ts=${getTimestamp()}` as const
 }
 
-/** 单集数据源, https://github.com/ekibot/bangumi-onair */
+/** 单集数据源 */
 export const CDN_EPS = (subjectId: SubjectId) => {
-  // return `${HOST_CDN}/gh/ekibot/bangumi-onair@master/onair/${getFolder(
-  //   subjectId,
-  //   1000
-  // )}/${subjectId}.json?t=${getTimestamp()}` as const
   return `${HOST_DOGE}/bangumi-onair/onair/${getFolder(
     subjectId,
     1000
@@ -34,11 +26,11 @@ export const CDN_EPS = (subjectId: SubjectId) => {
 /** @deprecated */
 const HOST_ONAIR = `${HOST_CDN_STATIC}/bangumi-onair` as const
 
-/** @deprecated 每日放送, https://github.com/ekibot/bangumi-onair */
+/** @deprecated 每日放送 */
 export const _CDN_ONAIR = () =>
   `https://raw.githubusercontent.com/ekibot/bangumi-onair/master/calendar.json?t=${getTimestamp()}` as const
 
-/** @deprecated 单集数据源, https://github.com/ekibot/bangumi-onair */
+/** @deprecated 单集数据源 */
 export const _CDN_EPS = (subjectId: SubjectId) =>
   `${HOST_ONAIR}/onair/${getFolder(
     subjectId,

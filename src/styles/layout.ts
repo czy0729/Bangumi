@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 21:11:39
+ * @Last Modified time: 2023-11-04 05:21:38
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -106,7 +106,7 @@ export const headerHeight = Math.max(
 )
 
 /** 标签页的标签栏高度 */
-export const tabsHeight = 42
+export const tabsHeight = STORYBOOK ? 64 : 42
 
 /** 带标签栏的头部高度 */
 export const tabsHeaderHeight = headerHeight + tabsHeight

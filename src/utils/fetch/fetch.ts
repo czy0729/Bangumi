@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 02:10:05
+ * @Last Modified time: 2023-11-04 05:17:31
  */
 import { STORYBOOK } from '@constants/device'
 import { APP_ID, HOST, UA } from '@constants/constants'
@@ -208,7 +208,12 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
 
   if (SHOW_LOG) log(`⚡️ ${_url}`)
 
-  if (STORYBOOK && HOST_PROXY) _url = _url.replace(HOST, HOST_PROXY)
+  if (STORYBOOK && HOST_PROXY) {
+    _url = _url.replace(HOST, HOST_PROXY)
+
+    // 反代穿透
+    if (_config?.headers?.Cookie) _config.headers['X-Cookie'] = _config.headers.Cookie
+  }
 
   return fetch(_url, _config)
     .then(res => {

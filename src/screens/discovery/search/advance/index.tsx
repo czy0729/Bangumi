@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:53:03
+ * @Last Modified time: 2023-11-04 05:10:38
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -36,8 +36,8 @@ function Advance({ navigation, cat, value, onSubmit }) {
       } else if (value && !Object.keys(anime).length) {
         const bangumiDataMap = {}
         const bangumiData = require('@assets/json/thirdParty/bangumiData.min.json')
-        bangumiData.forEach(item => {
-          bangumiDataMap[item.c] = item.id
+        bangumiData.forEach((item: { j: string; c?: string; id: any }) => {
+          bangumiDataMap[item.c || item.j] = item.id
         })
 
         anime = {
@@ -66,9 +66,10 @@ function Advance({ navigation, cat, value, onSubmit }) {
 
       const _result = []
       cns.forEach(item => {
-        if (_result.length >= 8) return
+        if (_result.length >= 10) return
         if (item.toLocaleUpperCase().includes(_value)) _result.push(item)
       })
+
       setResult(_result)
       searchMap.set(_value, _result)
     } catch (error) {}
@@ -92,7 +93,7 @@ function Advance({ navigation, cat, value, onSubmit }) {
                   }}
                 >
                   <Highlight
-                    size={item.length >= 12 ? 13 : 15}
+                    size={item.length >= 20 ? 11 : item.length >= 12 ? 12 : 14}
                     bold
                     value={value}
                     numberOfLines={2}
@@ -102,7 +103,7 @@ function Advance({ navigation, cat, value, onSubmit }) {
                 </Touchable>
               </Flex.Item>
               <Touchable style={styles.search} onPress={() => onSubmit(item)}>
-                <Iconfont name='md-search' />
+                <Iconfont name='md-search' size={20} />
               </Touchable>
               <Touchable
                 style={styles.open}
@@ -117,7 +118,7 @@ function Advance({ navigation, cat, value, onSubmit }) {
                   })
                 }}
               >
-                <Iconfont name='md-open-in-new' size={19} />
+                <Iconfont name='md-open-in-new' size={17} />
               </Touchable>
             </Flex>
           </View>

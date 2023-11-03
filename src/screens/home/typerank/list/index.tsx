@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 04:14:36
+ * @Last Modified time: 2023-11-04 05:42:28
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Empty, Loading, ScrollView } from '@components'
+import { Empty, Flex, Loading, Mesume, ScrollView } from '@components'
+import RandomText from '@components/list-view/footer/random-text'
 import { ItemSubject } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { styles } from './styles'
@@ -43,6 +44,10 @@ function List(props, { $, navigation }: Ctx) {
             active={$.subjectId == item}
           />
         ))}
+        <Flex style={styles.noMore} justify='center' direction='column'>
+          <Mesume size={80} />
+          {systemStore.setting.speech && <RandomText />}
+        </Flex>
       </View>
     </ScrollView>
   )

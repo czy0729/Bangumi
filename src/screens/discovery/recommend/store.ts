@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-27 06:43:49
+ * @Last Modified time: 2023-11-04 05:44:19
  */
 import { computed, observable } from 'mobx'
 import { subjectStore, userStore } from '@stores'
@@ -86,20 +86,21 @@ export default class ScreenRecommend extends store {
     try {
       console.info('fetchSubjectsFromOSS', fetchIds)
 
-      const data = await gets(fetchIds)
+      const picker = [
+        'name',
+        'name_cn',
+        'image',
+        'rank',
+        'rating',
+        'totalEps',
+        'info',
+        'staff',
+        'tags'
+      ]
+      const data = await gets(fetchIds, picker)
       Object.entries(data).forEach(([key, item]) => {
         try {
-          data[key] = pick(item, [
-            'name',
-            'name_cn',
-            'image',
-            'rank',
-            'rating',
-            'totalEps',
-            'info',
-            'staff',
-            'tags'
-          ])
+          data[key] = pick(item, picker)
 
           if (data[key].info) {
             data[key].date =

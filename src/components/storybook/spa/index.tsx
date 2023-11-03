@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 23:58:17
+ * @Last Modified time: 2023-11-04 04:32:03
  */
 import React, { useCallback, useRef } from 'react'
 import { View } from 'react-native'
-import Stores, { _ } from '@stores'
+import Stores from '@stores'
 import { useMount, useBoolean } from '@utils/hooks'
 import { scrollToTop } from '@utils/dom'
-import { StorybookPage } from './page'
-import { StorybookBottomTab } from './bottom-tab'
+import { Page } from '../../page'
+import { StorybookPage } from '../page'
+import { StorybookBottomTab } from '../bottom-tab'
+import { styles } from './styles'
 
 let inited = false
 
@@ -49,23 +51,8 @@ export const StorybookSPA = ({ children }) => {
         // @ts-ignore 电脑端只点击一下就生效
         onClick={scrollToTop}
       />
-      {state ? children : null}
+      {state ? children : <Page style={styles.placeholder} />}
       <StorybookBottomTab />
     </StorybookPage>
   )
 }
-
-const styles = _.create({
-  scrollToTop: {
-    position: 'absolute',
-    zIndex: 99999,
-    top: 0,
-    right: 40,
-    left: 40,
-    height: 20,
-    borderBottomRightRadius: _.radiusMd,
-    borderBottomLeftRadius: _.radiusMd,
-    overflow: 'hidden',
-    cursor: 'pointer'
-  }
-})
