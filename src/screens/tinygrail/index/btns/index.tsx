@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 14:05:28
+ * @Last Modified time: 2023-10-26 01:28:25
  */
 import React from 'react'
 import { Button } from '@components'
@@ -90,7 +90,7 @@ function Btns(props, { $, navigation }: Ctx) {
 
               case '意见反馈':
                 navigation.push('Say', {
-                  id: APP_ID_SAY_TINYGRAIL
+                  sayId: APP_ID_SAY_TINYGRAIL
                 })
                 break
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 19:12:10
+ * @Last Modified time: 2023-11-02 17:00:33
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
@@ -20,6 +20,7 @@ export const DEFAULT_PROPS = {
   navigation: {} as Props['navigation'],
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as Props['style'],
+  full: false as Props['full'],
   avatar: {} as Props['avatar'],
   userId: '' as UserId,
   p1: {} as Props['p1'],
@@ -32,6 +33,7 @@ export const DEFAULT_PROPS = {
   image: [] as Props['image'],
   comment: '' as Props['comment'],
   reply: {} as Props['reply'],
+  like: {} as Props['like'],
   time: '' as Props['time'],
   star: '' as Props['star'],
   subject: '' as Props['subject'],
@@ -41,4 +43,8 @@ export const DEFAULT_PROPS = {
   event: EVENT as Props['event'],
   onDelete: (() => {}) as Props['onDelete'],
   onHidden: (() => {}) as Props['onHidden']
+} as const
+
+export const LIKES_OFFSETS = {
+  x: 46
 } as const

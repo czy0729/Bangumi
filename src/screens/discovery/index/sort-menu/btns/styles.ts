@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:34:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:37:05
+ * @Last Modified time: 2023-11-02 17:32:38
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'fixed',
     zIndex: 1,
     right: _.wind,
-    bottom: _.sm,
+    bottom: _.lg,
     left: _.wind
   },
   btns: {

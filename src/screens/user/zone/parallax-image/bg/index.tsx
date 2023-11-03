@@ -9,6 +9,9 @@ import { Animated } from 'react-native'
 import { fixedHD } from '@_/base/avatar/utils'
 import { getBlurRadius } from '@utils'
 import { obc } from '@utils/decorators'
+import { TEXT_ONLY } from '@/config'
+import { IMG_EMPTY_DARK } from '@constants'
+import { Source } from '@types'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
 
@@ -16,28 +19,32 @@ function Bg({ style }, { $ }: Ctx) {
   const styles = memoStyles()
   const { _image } = $.params
   const { avatar } = $.usersInfo
-
-  let uri: any = avatar?.large
-  if (typeof _image === 'string') {
-    if (_image?.indexOf('http') === 0) {
-      uri = _image
-    } else {
-      uri = `https:${_image}`
-    }
+  let source: Source = {
+    uri: avatar?.large
   }
 
-  uri = fixedHD($.bg || $.avatar || uri)
-  if (typeof uri === 'string') {
-    uri = uri.replace('http://', 'https://')
+  if (TEXT_ONLY) {
+    source = IMG_EMPTY_DARK
+  } else {
+    if (typeof _image === 'string') {
+      if (_image?.indexOf('http') === 0) {
+        source.uri = _image
+      } else {
+        source.uri = `https:${_image}`
+      }
+    }
+
+    source.uri = fixedHD($.bg || $.avatar || source.uri)
+    if (typeof source.uri === 'string') {
+      source.uri = source.uri.replace('http://', 'https://')
+    }
   }
 
   return (
     <Animated.Image
       style={[styles.parallaxImage, style]}
-      source={{
-        uri
-      }}
-      blurRadius={getBlurRadius(uri, $.bg, avatar?.large)}
+      source={source}
+      blurRadius={getBlurRadius(source.uri, $.bg, avatar?.large)}
     />
   )
 }

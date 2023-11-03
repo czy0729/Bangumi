@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 20:30:11
+ * @Last Modified time: 2023-10-20 18:12:04
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { userStore } from '@stores'
 import Filter from '../filter'
 import { Ctx } from '../types'
 import { styles } from './styles'
@@ -23,7 +24,7 @@ function Header(props, { $ }: Ctx) {
       hm={[$.url, 'Rating']}
       headerRight={() => (
         <Flex>
-          <Filter $={$} />
+          {userStore.isLogin && <Filter $={$} />}
           <CompHeader.Popover
             data={['浏览器查看']}
             onSelect={key => {

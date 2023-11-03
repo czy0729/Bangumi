@@ -1,24 +1,21 @@
 /*
  * @Author: czy0729
- * @Date: 2023-07-02 05:34:34
+ * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:23:08
+ * @Last Modified time: 2023-10-30 05:13:43
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ActionSheet, Touchable, Flex, Text, BgmText, Bgm } from '@components'
-import { Avatar } from '@_'
+import { useObserver } from 'mobx-react'
+import { ActionSheet, Avatar, Touchable, Flex, Text, BgmText, Bgm } from '@components'
 import { _ } from '@stores'
-import { desc } from '@utils'
-import { obc } from '@utils/decorators'
+import { desc, navigationReference } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { IOS } from '@constants'
-import { Ctx } from '../types'
 import { styles } from './styles'
 
-function LikesUsers(props, { $, navigation }: Ctx) {
-  const { show, list, emoji } = $.state.likesUsers
-  return (
+export const LikesUsers = ({ show, list, emoji, onClose }) => {
+  return useObserver(() => (
     <ActionSheet
       show={show}
       height={list.length < 10 ? 480 : 640}
@@ -39,7 +36,7 @@ function LikesUsers(props, { $, navigation }: Ctx) {
           </Text>
         </Flex>
       }
-      onClose={$.closeLikesUsers}
+      onClose={onClose}
     >
       <View style={_.container.wind}>
         {list
@@ -57,13 +54,16 @@ function LikesUsers(props, { $, navigation }: Ctx) {
                 key={item.username}
                 style={_.mt.md}
                 onPress={() => {
-                  $.closeLikesUsers()
+                  onClose()
 
                   setTimeout(() => {
-                    navigation.push('Zone', {
-                      userId: item.username,
-                      _name: item.nickname
-                    })
+                    const navigation = navigationReference()
+                    if (navigation) {
+                      navigation.push('Zone', {
+                        userId: item.username,
+                        _name: item.nickname
+                      })
+                    }
                   }, 240)
                 }}
               >
@@ -81,7 +81,5 @@ function LikesUsers(props, { $, navigation }: Ctx) {
           })}
       </View>
     </ActionSheet>
-  )
+  ))
 }
-
-export default obc(LikesUsers)

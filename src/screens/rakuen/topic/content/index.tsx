@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 11:43:08
+ * @Last Modified time: 2023-10-30 05:06:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, RenderHtml, Loading, Text, Heatmap } from '@components'
 import { IconTouchable, Likes } from '@_'
-import { _ } from '@stores'
-import { appNavigate } from '@utils'
+import { _, uiStore } from '@stores'
+import { appNavigate, isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { styles } from './styles'
@@ -50,7 +50,7 @@ function Content(props, { $, navigation }: Ctx) {
       ) : (
         !!$.html && (
           <>
-            {$.isEp && (
+            {$.isEp && !isChineseParagraph(removeURLs(removeHTMLTag($.html))) && (
               <View style={styles.iconTranslate}>
                 <IconTouchable
                   name='md-g-translate'
@@ -89,7 +89,7 @@ function Content(props, { $, navigation }: Ctx) {
         id={$.topic?.id}
         formhash={$.topic?.formhash}
         likeType={$.topic?.likeType}
-        onLongPress={$.showLikesUsers}
+        onLongPress={uiStore.showLikesUsers}
       />
     </View>
   )

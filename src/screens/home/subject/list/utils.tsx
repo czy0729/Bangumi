@@ -23,6 +23,7 @@ export function renderItem({ item, index }) {
       userName={item.userName}
       star={item.star}
       comment={item.comment}
+      relatedId={item.relatedId}
     />
   )
 }

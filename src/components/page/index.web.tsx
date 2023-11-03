@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-31 17:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-01 01:28:08
+ * @Last Modified time: 2023-11-01 13:15:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,13 +10,20 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
-import { styles } from './styles'
 import { Props as PageProps } from './types'
 
 export { PageProps }
 
 export const Page = observer(
-  ({ style, loaded, loadingColor, backgroundColor, children, ...other }: PageProps) => {
+  ({
+    style,
+    loaded,
+    loadingColor,
+    backgroundColor,
+    statusBarEvent,
+    children,
+    ...other
+  }: PageProps) => {
     const _style = stl(_.container.plain, styles.page, style)
     if (loaded || loaded === undefined)
       return (
@@ -32,3 +39,12 @@ export const Page = observer(
     )
   }
 )
+
+const styles = _.create({
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '100vh',
+    minHeight: `calc(100vh - ${_.appBarHeight}px)`
+  }
+})

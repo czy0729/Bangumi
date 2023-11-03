@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:23:08
+ * @Last Modified time: 2023-10-31 15:46:20
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -307,6 +307,9 @@ export const INIT_SETTING = {
 
   /** 条目标签是否展开 */
   subjectTagsExpand: true,
+
+  /** 条目标签是否显示优于同类型百分比 */
+  subjectTagsRec: false,
 
   /** 突出显示源头按钮 */
   focusOrigin: false,

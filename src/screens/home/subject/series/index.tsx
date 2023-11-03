@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 19:11:22
+ * @Last Modified time: 2023-10-20 23:18:06
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -14,9 +14,7 @@ import { memoStyles } from './styles'
 export default obc(({ size }: { size: number }, { $, navigation }: Ctx) => {
   // global.rerender('Subject.Series')
 
-  if (!($.subjectPrev || $.subjectAfter || $.subjectSeries || $.subjectAnime)) {
-    return null
-  }
+  if (!$.hasSeries) return null
 
   return (
     <Series

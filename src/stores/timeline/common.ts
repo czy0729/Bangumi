@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 11:04:22
+ * @Last Modified time: 2023-11-02 16:56:34
  */
-import { trim, getTimestamp, safeObject } from '@utils'
-import { cheerio, HTMLTrim, HTMLToTree, findTreeNode, HTMLDecode } from '@utils/html'
+import { cheerio, getTimestamp, matchAvatar, safeObject, trim, htmlMatch } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { HOST, HOST_NAME, LIST_EMPTY } from '@constants'
-import { HTML_TIMELINE } from '@constants/html'
-import { MODEL_TIMELINE_SCOPE } from '@constants/model'
-import { TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
+import { LIST_EMPTY, HTML_TIMELINE, MODEL_TIMELINE_SCOPE } from '@constants'
+import {
+  ListEmpty,
+  Override,
+  TimeLineScope,
+  TimeLineScopeCn,
+  TimeLineType,
+  UserId
+} from '@types'
+import { Likes } from '../rakuen/types'
 import { Timeline } from './types'
 
 /** 请求时间胶囊 */
@@ -23,266 +28,212 @@ export async function fetchTimeline(
   refresh?: boolean,
   prevTimeline?: Timeline,
   userInfo?: any
-) {
+): Promise<
+  Override<
+    ListEmpty<Timeline>,
+    {
+      likes: Likes
+    }
+  >
+> {
   const { scope, type, userId } = args || {}
-  const { list, pagination } = prevTimeline || LIST_EMPTY
+  const oldData = prevTimeline || LIST_EMPTY
+  const page = refresh ? 1 : oldData?.pagination.page + 1
+  const scopeCn = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)
+  const isSelf = scopeCn === '自己'
 
-  // 计算下一页的页码
-  const page = refresh ? 1 : pagination.page + 1
-
-  // -------------------- 请求HTML --------------------
-  const raw = await fetchHTML({
+  const html = await fetchHTML({
     url: HTML_TIMELINE(scope, type, userId || userInfo?.username, page)
   })
-  const HTML = HTMLTrim(raw).match(/<div id="timeline">(.+?)<div id="tmlPager">/)
+  const list = []
+  const $ = cheerio(htmlMatch(html, '<div id="timeline">', '<div id="tmlPager">'))
 
-  // -------------------- 分析HTML --------------------
-  const timeline = []
-  if (HTML) {
-    const isSelf = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope) === '自己'
-    const tree = HTMLToTree(HTML[1])
+  $('h4').each((index: number, element: any) => {
+    const $row = cheerio(element)
+    const date = $row.text().trim()
 
-    let node
+    $row
+      .next()
+      .find('li')
+      .each((index: number, element: any) => {
+        try {
+          const $row = cheerio(element)
+          const $info = $row.find('.info, .info_full')
+          const $texts = $info.contents().filter(function () {
+            return this.nodeType === 3 && this.parent === $info[0]
+          })
+          const $card = $info.find('.card')
+          const $reply = $info.find('a.tml_comment')
+          const $date = $row.find('.date')
+          const $like = $row.find('.like_dropdown')
+          let $p1: any
 
-    // 日期分组
-    const dates = findTreeNode(tree.children, 'h4', []).map(item => item.text[0])
+          // 个人主页中的时间胶囊不存在位置 1
+          if (!isSelf) {
+            $p1 = $info.find('> a.l:not(.rr)')
 
-    // 项
-    findTreeNode(tree.children, 'ul', []).forEach((item, index) => {
-      findTreeNode(item.children, 'li', []).forEach((i, idx) => {
-        const { children } = i
-
-        /**
-         * @issue 所有人的场景下, 数据变化非常快, 而且又没有任何手段去保证数据唯一
-         * 所以每次获取id时, 先跟历史比较, 假如发现存在, 直接return
-         */
-        // id
-        // @todo 暂时用把page也作为key的一部分排除相同的列
-        const id = `${page}|${i.attrs.id.replace('tml_', '')}`
-
-        // 位置1, 通常是用户信息
-        const p1 = {
-          text: '',
-          url: ''
-        }
-
-        // 位置2, 通常是动作
-        const p2 = {
-          text: ''
-        }
-
-        // 位置3, 通常是条目
-        const p3 = {
-          text: [],
-          url: []
-        }
-
-        // 位置4, 通常是动作补充
-        const p4 = {
-          text: ''
-        }
-
-        // 头像
-        const avatar = {
-          src: '',
-          url: ''
-        }
-
-        if (isSelf) {
-          if (idx === 0) {
-            // 一分组只有第一个才显示头像
-            const {
-              id,
-              avatar: { small }
-            } = userInfo
-            avatar.src = small
-            avatar.url = `${HOST}/user/${id}`
-          }
-        } else {
-          node = findTreeNode(children, 'a > span|style~background')
-          avatar.src = node
-            ? node[0].attrs.style.replace(/background-image:url\('|'\)/g, '')
-            : ''
-          node = findTreeNode(children, 'a|class=avatar&href')
-          avatar.url = node ? node[0].attrs.href : ''
-        }
-
-        // 位置1
-        if (!isSelf) {
-          node = findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/user/`)
-          if (node) {
-            p1.text = node[0].text[0]
-            p1.url = node[0].attrs.href
-          }
-        }
-
-        // 位置2, 位置4
-        node = findTreeNode(children, 'span|text&class=info_full clearit')
-        if (node) {
-          p2.text = trim(node[0].text[0])
-        }
-        if (!p2.text) {
-          const text = i.text.filter(item => item !== '、')
-          p2.text = trim(text[0])
-          p4.text = trim(text[1])
-        }
-
-        // fixed: 20201005 范围(自己) 完成了 x of x 集形式文字丢失问题
-        if (!p4.text) {
-          const texts = item?.children?.[idx]?.text || []
-          const text = trim(texts[texts.length - 1] || '')
-          if (text !== p1.text && text !== p2.text) {
-            p4.text = text
-          }
-        }
-
-        // 位置3: case 1 (条目, 角色, 人物, 小组, 目录, 天窗)
-        node =
-          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/subject/`) ||
-          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/character/`) ||
-          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/person/`) ||
-          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/group/`) ||
-          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/index/`) ||
-          findTreeNode(children, `a|text&class=l&href~://${HOST_NAME}/blog/`) ||
-          findTreeNode(
-            children,
-            `a|text&class=l&href~://doujin.${HOST_NAME}/subject/`
-          ) ||
-          []
-        node.forEach(item => {
-          if (item.text[0]) {
-            p3.text.push(HTMLDecode(item.text[0]))
-            p3.url.push(item.attrs.href)
-          }
-        })
-
-        // 位置3: case 2 添加为好友
-        // @issue 因为有2个一样结构的a造成混淆
-        // 因部分吐槽只有p1用户名, 所以重复则跳过
-        if (!node.length) {
-          node = findTreeNode(
-            children.reverse(),
-            `a|text&class=l&href~://${HOST_NAME}/user/`
-          )
-          if (node && node[0].attrs.href !== p1.url) {
-            p3.text.push(HTMLDecode(node[0].text[0]))
-            p3.url.push(node[0].attrs.href)
-          }
-        }
-
-        // 条目
-        node = findTreeNode(
-          children,
-          `div > a|text&class=tip&href~://${HOST_NAME}/subject/`
-        )
-        const subject = node ? HTMLDecode(node[0].text[0]) : ''
-        const subjectId = node ? node[0].attrs.href.replace(`${HOST}/subject/`, '') : 0
-
-        // 时间
-        node = findTreeNode(children, 'p|text&class=date')
-        const time = node
-          ? String(node[0].text[0])
-              .replace('小时', '时')
-              .replace('分钟', '分')
-              .replace('· web', '')
-          : ''
-        // if (time && time.includes('· ') && !time.includes('mobile')) {
-        //   time += 'onAir'
-        // }
-
-        // 评分
-        node = findTreeNode(children, 'div > span|class=starstop-s > span')
-        const star = node ? node[0].attrs.class.replace(/starlight stars/g, '') : ''
-
-        // 评论 | 小组描述
-        node =
-          findTreeNode(children, 'div > div > q|text') ||
-          findTreeNode(children, 'div > span|text&class=tip_j')
-        const comment = node ? HTMLDecode(node[0].text[0]) : ''
-
-        // 留言
-        const reply = {
-          content: '',
-          count: '',
-          url: ''
-        }
-        node = findTreeNode(children, 'p|text&class=status')
-        if (node) {
-          reply.content = HTMLDecode(node[0].text[0])
-
-          // add 2021/11/03
-          if (node[0]?.children?.[0]?.text?.[0]) {
-            reply.content = `${HTMLDecode(node[0].children[0].text[0])} ${
-              reply.content
-            }`
-          }
-
-          // 把改名信息也纳入留言
-          if (trim(node[0].text[1]) === '改名为') {
-            node = findTreeNode(children, 'p > strong|text')
-            if (node) {
-              const name1 = node[0] ? HTMLDecode(node[0].text[0]) : ''
-              const name2 = node[1] ? HTMLDecode(node[1].text[0]) : ''
-              reply.content = `从 ${name1} 改名为 ${name2}`
+            // 小组分类下, 网页结构没发现唯一性, 对具体 href 判断
+            if (($p1.eq(0).attr('href') || '').includes('/group/')) {
+              $p1 = $p1.eq(1)
+            } else {
+              $p1 = $p1.eq(0)
             }
           }
-        }
-        node = findTreeNode(children, 'p > a|text&class=tml_comment l')
-        if (node) {
-          // 回复数
-          reply.count = node[0].text[0]
-          reply.url = node[0].attrs.href
-        }
 
-        // 图片
-        const image = (
-          findTreeNode(children, 'a > img|class=rr') ||
-          findTreeNode(children, 'div > a > img|class=grid') ||
-          []
-        ).map(item => item.attrs.src)
+          /** 位置 1, 通常是用户信息 */
+          const p1 = {
+            text: '',
+            url: ''
+          }
+          if ($p1) {
+            p1.text = $p1.text().trim()
+            p1.url = $p1.attr('href') || ''
+          }
 
-        // 删除动作
-        node = findTreeNode(children, 'a|href&title=删除这条时间线')
-        const clearHref = node ? node[0].attrs.href : ''
+          /** 位置 2, 通常是动作 */
+          const p2 = {
+            text: $texts.eq(0).text().trim()
+          }
 
-        const data = {
-          date: dates[index],
-          id,
-          avatar,
-          p1,
-          p2,
-          p3,
-          p4,
-          subject,
-          subjectId,
-          time: trim(time),
-          star,
-          comment,
-          reply,
-          image,
-          clearHref
-        }
-        timeline.push(data)
+          /** 位置 3, 通常是条目 */
+          const p3 = {
+            text: [],
+            url: []
+          }
+          $info.find('> a').each((index: number, element: any) => {
+            const $row = cheerio(element)
+            const text = $row.text().trim()
+            const href = $row.attr('href')
+            if (text && href && href !== p1.url) {
+              // 在个人主页中第一个 a 并不存在用户名字
+              // 全局下第一个 a 通常是用户名字, 需要排除
+              if (!isSelf && !index) return
+
+              p3.text.push(text)
+              p3.url.push(href)
+            }
+          })
+
+          /** 位置 4, 通常是动作补充 */
+          const p4 = {
+            text: $texts.eq(1).text().trim()
+          }
+          if (p4.text === '、') {
+            p4.text = $texts.last().text().trim()
+
+            // 收藏了多个人物的情况
+            if (!p4.text) {
+              p4.text = $texts
+                .eq($texts.length - 3)
+                .text()
+                .trim()
+            }
+          }
+
+          /** 头像 */
+          const avatar = {
+            src: matchAvatar($row.find('.avatarNeue').attr('style')) || '',
+            url: $row.find('a.avatar').attr('href') || ''
+          }
+
+          /** 主条目文字 (只有 ep 才显示) */
+          const subject = {
+            subject: '',
+            subjectId: ''
+          }
+          if (p3.text?.[0]?.includes('ep.')) {
+            subject.subject = $card.find('.title').text().trim()
+            subject.subjectId = ($card.find('a').attr('href') || '').split(
+              '/subject/'
+            )?.[1]
+          }
+
+          /** 底部时间 */
+          const time = $date
+            .contents()
+            .filter(function () {
+              return this.nodeType === 3 && this.parent === $date[0]
+            })
+            .text()
+            .trim()
+            .split('·')
+            .filter((item: string) => !(item.includes('回复') || item.includes('web')))
+            .map((item: string) => item.trim())
+            .join(' · ')
+
+          /** 右侧封面或人物头像 */
+          const image = []
+
+          // 大卡片
+          if ($card) {
+            if (($card.attr('class') || '').trim() === 'card') {
+              const src = $card.find('img').attr('src')
+              if (src) image.push(src)
+            }
+          }
+
+          // 多条目, 人物, 好友
+          if (!image.length) {
+            $row
+              .find('.imgs img, img.rr, .rr img')
+              .each((index: number, element: any) => {
+                const $row = cheerio(element)
+                const src = $row.attr('src')
+                if (src) image.push(src)
+              })
+          }
+
+          list.push({
+            id: `${page}|${($row.attr('id') || '').replace('tml_', '')}`,
+            date,
+            avatar,
+            p1,
+            p2,
+            p3,
+            p4,
+            ...subject,
+            time,
+            star: ($row.find('.comment .starlight').attr('class') || '').replace(
+              'starlight stars',
+              ''
+            ),
+            comment: $row.find('.comment').text().trim(),
+            reply: {
+              content: $row.find('.status').text().trim(),
+              count: $reply.text().trim(),
+              url: $reply.attr('href') || ''
+            },
+            like: {
+              type: $like.data('like-type') || 40,
+              mainId: $like.data('like-main-id') || 0,
+              relatedId: $like.data('like-related-id') || 0
+            },
+            image,
+            clearHref: ''
+          })
+        } catch (error) {}
       })
-    })
-  }
+  })
 
-  return Promise.resolve({
-    list: page === 1 ? timeline : [...list, ...timeline],
+  let likes: Likes = {}
+  try {
+    likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+  } catch (error) {}
+
+  return {
+    list: page === 1 ? list : [...oldData.list, ...list],
     pagination: {
       page,
-      pageTotal: timeline.length ? 100 : page // 页面没有分页信息
+      pageTotal: scopeCn === '全站' ? 1 : 100
     },
+    likes,
     _loaded: getTimestamp()
-  })
+  }
 }
 
-/**
- * 分析吐槽
- * @param {*} HTML
- */
-export function analysisSay(HTML) {
-  const $ = cheerio(HTML)
+/** 吐槽 */
+export function cheerioSay(html: string) {
+  const $ = cheerio(html)
   const id = ($('div.statusHeader p.tip').text() || '').replace('@', '')
   const avatar = $('img.avatar').attr('src')
   const main = safeObject({
@@ -294,7 +245,7 @@ export function analysisSay(HTML) {
     formhash: $('input[name=formhash]').attr('value')
   })
   const sub = $('ul.subReply > li.reply_item')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $tr = cheerio(element)
       const subId = ($tr.find('a.cmt_reply').text() || '').replace('@', '')
       let tr = $tr.html().trim()
@@ -311,11 +262,8 @@ export function analysisSay(HTML) {
   return [main, ...sub]
 }
 
-/**
- * 分析吐槽表单授权码
- * @param {*} HTML
- */
-export function analysisFormHash(HTML) {
-  const $ = cheerio(HTML)
+/** 吐槽表单授权码 */
+export function cheerioFormHash(html: string) {
+  const $ = cheerio(html)
   return $('input[name=formhash]').attr('value') || ''
 }

@@ -1,6 +1,5 @@
 /*
  * 公共变量
- *
  * @Author: czy0729
  * @Date: 2019-02-22 01:25:31
  * @Last Modified by: czy0729
@@ -11,6 +10,7 @@ import { DEV, LOG_LEVEL, TEXT_ONLY } from '@/config'
 export { DEV, LOG_LEVEL, TEXT_ONLY }
 
 export * from './api'
+export * from './assets'
 export * from './cdn'
 export * from './constants'
 export * from './device'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-29 14:44:56
+ * @Last Modified time: 2023-11-01 14:37:54
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -25,6 +25,8 @@ function Header({ fixed, index }, { $, navigation }: Ctx) {
   const color = _.isDark || !fixed ? '#fff' : '#000'
   const data = [`浏览器打开 · ${$.subjectId}`, TEXT_COPY, TEXT_SHARE, TEXT_LAYOUT]
   if (STORYBOOK) data.push(TEXT_APP)
+
+  const showHomeIcon = !fixed && index >= 4
   return (
     <CompHeader
       mode='transition'
@@ -33,8 +35,7 @@ function Header({ fixed, index }, { $, navigation }: Ctx) {
       title='条目'
       hm={[$.url, 'Subject']}
       headerLeft={
-        !fixed &&
-        index >= 4 && (
+        showHomeIcon && (
           <IconTouchable
             name='icon-home'
             size={19}

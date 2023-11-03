@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 05:05:11
+ * @Last Modified time: 2023-11-01 05:34:17
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore } from '@stores'
@@ -11,8 +11,8 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { MODEL_TAG_ORDERBY, HTML_TAG, LIST_EMPTY } from '@constants'
-import { SubjectId, TagOrder } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE, DEFAULT_ORDER } from './ds'
+import { SubjectId } from '@types'
+import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
@@ -24,15 +24,13 @@ export default class ScreenTag extends store {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
+    const state: typeof STATE = (await this.getStorage(NAMESPACE)) || {}
+
+    // 这个标签页面的按排名排序已经毫无意义, 所以默认改为按标注数
+    if (state.order === 'rank') state.order = 'collects'
+
     const _state = {
       ...state,
-
-      // order 慎用排名排序, 不然列表数据几乎没区别
-      order:
-        state.order === MODEL_TAG_ORDERBY.getValue<TagOrder>('排名')
-          ? DEFAULT_ORDER
-          : state.order,
       ...EXCLUDE_STATE,
       _loaded: true
     }

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 07:03:26
+ * @Last Modified time: 2023-11-02 04:26:34
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -69,26 +69,33 @@ import {
   YEAR
 } from './ds'
 
+/**
+ * 获取 APP 网页版页面对应 StoryId
+ *  - CatalogDetail -> catalogdetail--catalog-detail
+ *  - LoginV2 -> loginv2--login-v-2
+ * */
+export function getSPAId(routeName: string) {
+  return `screens-${routeName.toLowerCase()}--${routeName
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/(\d+)/g, '-$1')
+    .toLowerCase()}`
+}
+
 /** 获取 APP 网页版参数 */
 export function getSPAParams(routeName: string, params?: AnyObject) {
   return `iframe.html?${urlStringify({
+    id: getSPAId(routeName),
     viewMode: 'story',
 
-    // params
+    /** params */
     ...Object.entries(params || {})
       // .filter(([key]) => !key.startsWith('_'))
+      .filter(([key]) => key !== 'id')
       .filter(([, value]) => value)
       .reduce((obj, [key, value]) => {
         obj[key] = value
         return obj
-      }, {}),
-
-    // CatalogDetail -> catalogdetail--catalog-detail
-    // LoginV2 -> loginv2--login-v-2
-    id: `screens-${routeName.toLowerCase()}--${routeName
-      .replace(/([a-z])([A-Z])/g, '$1-$2')
-      .replace(/(\d+)/g, '-$1')
-      .toLowerCase()}`
+      }, {})
   })}`
 }
 
@@ -535,7 +542,7 @@ export function matchBgmLink(url = ''):
       return {
         route: 'Say',
         params: {
-          id: _id,
+          sayId: _id,
           userId: _userId
         }
       }

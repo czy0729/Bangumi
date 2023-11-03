@@ -2,19 +2,26 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:29:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:10:34
+ * @Last Modified time: 2023-10-20 21:13:03
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
+import { isChineseParagraph } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function IconTranslate(props, { $ }: Ctx) {
+function IconTranslate({ content = '' }, { $ }: Ctx) {
   const { showSummary } = systemStore.setting
   const { translateResult } = $.state
-  if (!showSummary || translateResult.length) return null
+  if (
+    !showSummary ||
+    translateResult.length ||
+    (content && isChineseParagraph(content))
+  ) {
+    return null
+  }
 
   return (
     <IconTouchable

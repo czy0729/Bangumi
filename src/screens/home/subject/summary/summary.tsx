@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:27:05
+ * @Last Modified time: 2023-10-20 21:05:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ export default memo(
         <SectionTitle
           right={
             showSummary ? (
-              <IconTranslate />
+              <IconTranslate content={content} />
             ) : (
               <IconHidden name='简介' value='showSummary' />
             )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:44:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:45:22
+ * @Last Modified time: 2023-10-30 04:59:58
  */
 import { computed } from 'mobx'
 import { StoreConstructor } from '@types'
@@ -20,6 +20,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   @computed get likesGrid() {
     return this.state.likesGrid
+  }
+
+  @computed get likesUsers() {
+    return this.state.likesUsers
   }
 
   @computed get manageModal() {

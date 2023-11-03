@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 20:38:01
+ * @Last Modified time: 2023-10-31 16:26:51
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -668,7 +668,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
       },
       windMtSm: {
         paddingHorizontal: this.wind,
-        marginTop: _.sm
+        marginTop: _.md
       },
       windMtMd: {
         paddingHorizontal: this.wind,

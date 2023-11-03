@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 10:06:18
+ * @Last Modified time: 2023-10-20 23:17:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -953,6 +953,17 @@ export default class Computed extends State {
   /** 不同演绎 */
   @computed get subjectDiff() {
     return this.subjectRelations.find(item => item.type === '不同演绎')
+  }
+
+  /** 是否有相关系列 */
+  @computed get hasSeries() {
+    return !!(
+      this.subjectPrev ||
+      this.subjectAfter ||
+      this.subjectSeries ||
+      this.subjectAnime ||
+      this.subjectDiff
+    )
   }
 
   /** @deprecated 高清资源 */

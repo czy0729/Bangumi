@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-24 01:18:38
+ * @Last Modified time: 2023-11-02 17:19:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { systemStore } from '@stores'
 import { useIsFocused, useObserver } from '@utils/hooks'
 import { c } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, TEXT_ONLY } from '@constants'
+import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
@@ -184,7 +184,7 @@ function Award2021(props, { $, navigation }: Ctx) {
             ))} */}
           {!TEXT_ONLY && (
             <Image
-              src={require('@assets/images/static/2021.png')}
+              src={ASSETS_AWARDS[2021]}
               size={styles.body.width}
               height={styles.body.height}
               placeholder={false}

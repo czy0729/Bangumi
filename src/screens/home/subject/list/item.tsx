@@ -12,17 +12,17 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 const POPOVER_DATA = {
-  动画: ['复制评论', '特别关注TA的动画评论', '屏蔽用户'],
-  书籍: ['复制评论', '特别关注TA的书籍评论', '屏蔽用户'],
-  游戏: ['复制评论', '特别关注TA的游戏评论', '屏蔽用户'],
-  音乐: ['复制评论', '特别关注TA的音乐评论', '屏蔽用户'],
-  三次元: ['复制评论', '特别关注TA的三次元评论', '屏蔽用户']
+  动画: ['贴贴', '复制评论', '特别关注TA的动画评论', '屏蔽用户'],
+  书籍: ['贴贴', '复制评论', '特别关注TA的书籍评论', '屏蔽用户'],
+  游戏: ['贴贴', '复制评论', '特别关注TA的游戏评论', '屏蔽用户'],
+  音乐: ['贴贴', '复制评论', '特别关注TA的音乐评论', '屏蔽用户'],
+  三次元: ['贴贴', '复制评论', '特别关注TA的三次元评论', '屏蔽用户']
 } as const
 
 const ITEM_HEIGHT = 100
 
 function Item(
-  { index, time, avatar, userId, userName, star, comment },
+  { index, time, avatar, userId, userName, star, comment, relatedId },
   { $, navigation }: Ctx
 ) {
   if (!$.rendered) return null
@@ -51,6 +51,8 @@ function Item(
         userName={userName}
         star={$.hideScore ? undefined : star}
         comment={comment}
+        subjectId={$.subjectId}
+        relatedId={relatedId}
         popoverData={POPOVER_DATA[$.type]}
         onSelect={$.onTrackUsersCollection}
       />

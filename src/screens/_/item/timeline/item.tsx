@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 10:09:22
+ * @Last Modified time: 2023-11-02 17:02:12
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, userStore, uiStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { InView, Cover, Stars, Popover } from '../../base'
+import { InView, Cover, Stars, Popover, Likes } from '../../base'
 import Avatar from './avatar'
-import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS } from './ds'
+import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS, LIKES_OFFSETS } from './ds'
 import P from './p'
 import Desc from './desc'
 import Images from './images'
@@ -26,6 +26,7 @@ const Item = memo(
     navigation,
     styles,
     style,
+    full,
     avatar,
     userId,
     p1,
@@ -35,6 +36,7 @@ const Item = memo(
     image,
     comment,
     reply,
+    like,
     time,
     star,
     subject,
@@ -60,13 +62,11 @@ const Item = memo(
 
     const onNavigate = useCallback(
       (url, passParams?) => appNavigate(url, navigation, passParams, event),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      []
+      [event, navigation]
     )
     const onClear = useCallback(() => {
       confirm('确定删除?', () => onDelete(clearHref))
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [clearHref])
+    }, [clearHref, onDelete])
 
     let type: SubjectTypeCn
     if (p2Text?.includes('读') || p4Text?.includes('书籍')) {
@@ -80,15 +80,19 @@ const Item = memo(
     const y = ITEM_HEIGHT * (index + 2)
     return (
       <Flex style={style} align='start'>
-        <InView key={index} style={styles.inView} y={y}>
-          <Avatar
-            navigation={navigation}
-            p1Text={p1Text}
-            userId={userId}
-            avatarSrc={avatarSrc}
-            event={event}
-          />
-        </InView>
+        {full ? (
+          <View style={_.mr.md} />
+        ) : (
+          <InView key={index} style={styles.inView} y={y}>
+            <Avatar
+              navigation={navigation}
+              p1Text={p1Text}
+              userId={userId}
+              avatarSrc={avatarSrc}
+              event={event}
+            />
+          </InView>
+        )}
         <Flex.Item style={stl(showImages ? styles.noPR : styles.content, _.ml.sm)}>
           <Flex align='start'>
             <Flex.Item>
@@ -125,6 +129,15 @@ const Item = memo(
                   onNavigate={onNavigate}
                 />
               </InView>
+              <Likes
+                show
+                topicId={like.mainId}
+                id={like.relatedId}
+                likeType={like.type}
+                formhash={userStore.formhash}
+                offsets={LIKES_OFFSETS}
+                onLongPress={uiStore.showLikesUsers}
+              />
               <Flex
                 style={
                   image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
@@ -137,7 +150,7 @@ const Item = memo(
                     </Text>
                   </Touchable>
                 )}
-                <Text style={_.mr.sm} type='sub' size={12}>
+                <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
                   {time}
                 </Text>
                 <Stars value={star} />

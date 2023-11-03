@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:51:42
+ * @Last Modified time: 2023-10-26 01:57:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,8 +45,6 @@ export const Popable = ({ subjectId, visible, portalKey, x, y }) => {
                 <Touchable
                   onPress={() => {
                     const navigation = navigationReference()
-                    console.log(navigation)
-
                     if (navigation) {
                       t('其他.缩略框跳转', {
                         to: 'Subject',
@@ -104,9 +102,11 @@ export const Popable = ({ subjectId, visible, portalKey, x, y }) => {
                             size={10}
                           />
                           {!!rating?.total && (
-                            <Text style={!hideScore && _.ml.xs} type='sub' size={10}>
-                              ({rating.total}人评分)
-                            </Text>
+                            <Flex.Item style={!hideScore && _.ml.xs}>
+                              <Text type='sub' size={10} numberOfLines={1}>
+                                ({rating.total}人评分)
+                              </Text>
+                            </Flex.Item>
                           )}
                         </Flex>
                       </Flex>

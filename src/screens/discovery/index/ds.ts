@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 19:06:31
+ * @Last Modified time: 2023-11-02 17:30:05
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -130,21 +130,20 @@ export const MENU_MAP = {
   Yearbook: {
     key: 'Yearbook',
     name: '年鉴',
-    icon: 'md-whatshot'
+    icon: 'md-whatshot',
+    web: false
   },
   UserTimeline: {
     key: 'UserTimeline',
     name: '时间线',
     icon: 'md-timeline',
-    login: true,
-    web: false
+    login: true
   },
   Netabare: {
     key: 'Netabare',
     name: 'netaba.re',
     text: 'N',
-    size: 18,
-    web: false
+    size: 18
   },
   Anitama: {
     key: 'Anitama',
@@ -157,8 +156,7 @@ export const MENU_MAP = {
     key: 'Smb',
     name: '本地管理',
     icon: 'md-inbox',
-    size: 22,
-    web: false
+    size: 22
   },
   DoubanSync: {
     key: 'DoubanSync',
@@ -185,22 +183,19 @@ export const MENU_MAP = {
     key: 'Series',
     name: '关联系列',
     icon: 'md-workspaces-outline',
-    login: true,
-    web: false
+    login: true
   },
   Character: {
     key: 'Character',
     name: '我的人物',
     icon: 'md-folder-shared',
-    login: true,
-    web: false
+    login: true
   },
   Catalogs: {
     key: 'Catalogs',
     name: '我的目录',
     icon: 'md-folder-special',
-    login: true,
-    web: false
+    login: true
   },
   Link: {
     key: 'Link',
@@ -213,17 +208,17 @@ export const MENU_MAP = {
 export type MenuMapType = keyof typeof MENU_MAP
 
 export const MENU_MAP_STORYBOOK = {
-  Rakuen: {
-    key: 'Rakuen',
-    name: '超展开',
-    size: 20,
-    icon: 'md-chat-bubble-outline'
-  },
-  Timeline: {
-    key: 'Timeline',
-    name: '时间胶囊',
-    icon: 'md-access-time'
-  },
+  // Rakuen: {
+  //   key: 'Rakuen',
+  //   name: '超展开',
+  //   size: 20,
+  //   icon: 'md-chat-bubble-outline'
+  // },
+  // Timeline: {
+  //   key: 'Timeline',
+  //   name: '时间胶囊',
+  //   icon: 'md-access-time'
+  // },
   Setting: {
     key: 'Setting',
     name: '设置',

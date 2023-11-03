@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-08-10 06:22:43
  */
 import { _ } from '@stores'
+import { STORYBOOK } from '@constants'
 
 export const styles = _.create({
   scrollView: {
@@ -13,7 +14,7 @@ export const styles = _.create({
   },
   images: {
     paddingTop: _.sm,
-    paddingRight: _.sm,
+    paddingRight: STORYBOOK ? _.sm + 40 : _.sm,
     paddingBottom: _.md
   },
   type: {

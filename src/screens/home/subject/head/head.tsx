@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 02:24:13
+ * @Last Modified time: 2023-10-20 23:24:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,8 @@ export default memo(
     titleLabel,
     hideScore,
     rating,
-    x18
+    x18,
+    hasSeries
   }) => {
     // global.rerender('Subject.Head.Main')
 
@@ -142,12 +143,12 @@ export default memo(
                   itemStyle={styles.katakana}
                   type='sub'
                   size={topSize}
-                  numberOfLines={2}
+                  numberOfLines={hasSeries ? 2 : 4}
                 >
                   <Katakana
                     type='sub'
                     size={topSize}
-                    numberOfLines={2}
+                    numberOfLines={hasSeries ? 2 : 4}
                     onLongPress={() => {
                       t('条目.复制标题', {
                         subjectId: id

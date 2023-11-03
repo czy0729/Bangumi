@@ -10,7 +10,7 @@ import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import userStore from '../user'
 import Computed from './computed'
-import { analysisFormHash, analysisSay, fetchTimeline } from './common'
+import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 
 export default class Fetch extends Computed {
@@ -24,27 +24,28 @@ export default class Fetch extends Computed {
     refresh?: boolean
   ) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE, userId } = args || {}
-    const timeline = this.timeline(scope, type)
-    const data = await fetchTimeline(
+    const data = this.timeline(scope, type)
+    const { likes, ...next } = await fetchTimeline(
       {
         scope,
         type,
         userId: userId || userStore.myId || userStore.myUserId
       },
       refresh,
-      timeline,
+      data,
       userStore.userInfo
     )
+    this.updateLikes(likes)
 
     const key = 'timeline'
     const stateKey = `${scope}|${type}`
     this.setState({
       [key]: {
-        [stateKey]: data
+        [stateKey]: next
       }
     })
 
-    return data
+    return next
   }
 
   /** 获取他人视角的时间胶囊 */
@@ -59,7 +60,7 @@ export default class Fetch extends Computed {
 
     // 范围是自己返回的是某个人的请求地址
     const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
-    const data = await fetchTimeline(
+    const { likes, ...next } = await fetchTimeline(
       { scope, type, userId },
       refresh,
       this.usersTimeline(userId),
@@ -68,13 +69,19 @@ export default class Fetch extends Computed {
 
     const key = 'usersTimeline'
     const stateKey = userId
+    const likesKey = 'likes'
+
     this.setState({
       [key]: {
-        [stateKey]: data
-      }
+        [stateKey]: {
+          ...next,
+          _loaded: getTimestamp()
+        }
+      },
+      [likesKey]: likes
     })
 
-    return data
+    return next
   }
 
   /** 吐槽 */
@@ -85,7 +92,7 @@ export default class Fetch extends Computed {
     })
 
     const data = {
-      list: analysisSay(html),
+      list: cheerioSay(html),
       pagination: {
         page: 1,
         pageTotal: 1
@@ -111,7 +118,7 @@ export default class Fetch extends Computed {
       url: `${HOST}/timeline?type=say`
     })
 
-    const formhash = analysisFormHash(html)
+    const formhash = cheerioFormHash(html)
     this.setState({
       formhash
     })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:20:23
+ * @Last Modified time: 2023-10-30 05:07:01
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
@@ -49,14 +49,7 @@ export const EXCLUDE_STATE = {
     },
     _list: [],
     _loaded: 0
-  } as Comments,
-
-  /** 贴贴具体用户 */
-  likesUsers: {
-    list: [],
-    emoji: 0,
-    show: false
-  }
+  } as Comments
 }
 
 export const STATE = {

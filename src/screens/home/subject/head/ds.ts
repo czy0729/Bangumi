@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:34:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-16 11:45:34
+ * @Last Modified time: 2023-10-20 23:18:48
  */
 import { systemStore } from '@stores'
 import { StoreType as $ } from '../types'
@@ -25,5 +25,6 @@ export const DEFAULT_PROPS = {
   titleLabel: '' as $['titleLabel'],
   hideScore: false as $['hideScore'],
   rating: {} as $['rating'],
-  x18: false as $['x18']
+  x18: false as $['x18'],
+  hasSeries: false as $['hasSeries']
 }

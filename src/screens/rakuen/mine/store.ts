@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:14:38
+ * @Last Modified time: 2023-10-31 11:56:21
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import { desc } from '@utils'
 import store from '@utils/store'
+import { STORYBOOK } from '@constants'
 
 const namespace = 'ScreenMine'
 const excludeState = {
@@ -19,7 +20,7 @@ const excludeState = {
 export default class ScreenMine extends store {
   state = observable({
     /** mine | all */
-    type: 'mine',
+    type: STORYBOOK ? 'all' : 'mine',
     ...excludeState,
     _loaded: false
   })

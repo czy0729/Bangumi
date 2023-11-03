@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 15:56:46
+ * @Last Modified time: 2023-10-20 22:47:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ import {
   Heatmap,
   Touchable
 } from '@components'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { getCoverLarge, appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -153,10 +153,12 @@ function Info(props, { $, navigation }: Ctx) {
               </Touchable>
             </Flex>
           </Flex.Item>
-          <Text type='sub' size={12} bold>
-            完成度{'  '}
-            {progress.replace('/', ' / ')}
-          </Text>
+          {userStore.isLogin && (
+            <Text type='sub' size={12} bold>
+              完成度{'  '}
+              {progress.replace('/', ' / ')}
+            </Text>
+          )}
         </Flex>
         <Flex style={_.mt.lg}>
           <Flex.Item>

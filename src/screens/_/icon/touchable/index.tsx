@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 19:19:01
+ * @Last Modified time: 2023-10-28 10:58:54
  */
 import React from 'react'
 import { Touchable, Flex, Iconfont, Text } from '@components'
@@ -22,6 +22,7 @@ export const IconTouchable = ob(
     color,
     count = 0,
     withoutFeedback,
+    hitSlop,
     children,
     onPress
   }: IconTouchableProps) => {
@@ -31,6 +32,7 @@ export const IconTouchable = ob(
           style={stl(styles.icon, style)}
           withoutFeedback={withoutFeedback}
           scale={0.8}
+          hitSlop={hitSlop}
           onPress={onPress}
         >
           <Flex align='end'>
@@ -49,6 +51,7 @@ export const IconTouchable = ob(
         style={stl(styles.icon, style)}
         withoutFeedback={withoutFeedback}
         scale={0.8}
+        hitSlop={hitSlop}
         onPress={onPress}
       >
         <Iconfont name={name} size={size} color={color} />

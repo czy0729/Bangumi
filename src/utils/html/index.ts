@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-31 04:36:14
+ * @Last Modified time: 2023-10-28 09:44:10
  */
 import cheerioRN from 'cheerio-without-node-native'
 import HTMLParser from './../thirdParty/html-parser'
@@ -73,6 +73,19 @@ export function HTMLTrim(str: any = '', deep?: boolean) {
     .replace(/\n+|\s\s\s*|\t/g, '')
     .replace(/"class="/g, '" class="')
     .replace(/> </g, '><')
+}
+
+/** 匹配指定范围 html, 若没有匹配到返回原 html */
+export function htmlMatch(html: string, start: string, end: string) {
+  if (!html || !start || !end) return html || ''
+
+  return (
+    html
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
+      .match(new RegExp(start + '[\\s\\S]+' + end, 'g'))?.[0] ||
+    html ||
+    ''
+  )
 }
 
 /**
@@ -224,6 +237,11 @@ export function cheerio(
   decodeEntities: boolean = false
 ) {
   if (typeof target === 'string') {
+    // 需要优化内容
+    if (target.indexOf('<!DOCTYPE html>') === 0) {
+      console.info('[cheerio] need match', target.match(/<title>(.*?)<\/title>/g)?.[0])
+    }
+
     if (remove) {
       return cheerioRN.load(removeCF(target), {
         decodeEntities
@@ -235,4 +253,10 @@ export function cheerio(
   }
 
   return cheerioRN(target)
+}
+
+/** 去除字符串中所有链接 */
+export function removeURLs(str: string = '') {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  return str.replace(urlRegex, '')
 }

@@ -1,9 +1,10 @@
 /*
- * 触摸反馈整合 (因封装前并未有官方的 Pressable，没必要前不会考虑重新整合)
+ * 触摸反馈整合
+ *  - 因封装前并未有官方的 Pressable，没必要前不会考虑重新整合
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 18:00:09
+ * @Last Modified time: 2023-10-31 06:45:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'

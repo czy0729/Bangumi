@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-10 06:20:45
+ * @Last Modified time: 2023-10-28 09:35:26
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -26,6 +26,7 @@ import {
   HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
 import { EpId, MonoId, PersonId, RatingStatus, SubjectId } from '@types'
+import timelineStore from '../timeline'
 import Computed from './computed'
 import { getInt } from './utils'
 import {
@@ -36,7 +37,7 @@ import {
 } from './init'
 import {
   fetchMono,
-  cheerioSubjectFormHTML,
+  cheerioSubjectFromHTML,
   cheerioMonoWorks,
   cheerioMonoVoices,
   cheerioRating,
@@ -107,14 +108,13 @@ export default class Fetch extends Computed {
 
   /** 网页获取条目信息 */
   fetchSubjectFromHTML = async (subjectId: SubjectId) => {
-    const HTML = await fetchHTML({
+    const html = await fetchHTML({
       url: HTML_SUBJECT(subjectId)
     })
-
     const last = getInt(subjectId)
     const key = `subjectFormHTML${last}` as const
     const data = {
-      ...cheerioSubjectFormHTML(HTML),
+      ...cheerioSubjectFromHTML(html),
       _loaded: getTimestamp()
     }
     this.setState({
@@ -327,20 +327,20 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_SUBJECT_CATALOGS(subjectId, page)
     })
-    const { list: _list } = cheerioSubjectCatalogs(html)
+    const next = cheerioSubjectCatalogs(html)
+
     this.setState({
       [key]: {
         [subjectId]: {
-          list: refresh ? _list : [...list, ..._list],
+          list: refresh ? next.list : [...list, ...next.list],
           pagination: {
             page,
-            pageTotal: _list.length === limit ? 100 : page
+            pageTotal: next.list.length === limit ? 100 : page
           },
           _loaded: getTimestamp()
         }
       }
     })
-
     return this[key](subjectId)
   }
 
@@ -355,16 +355,15 @@ export default class Fetch extends Computed {
     const { subjectId } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
 
-    /** 下一页的页码 */
+    /**
+     * 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
+     * 倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
+     */
     let page: number
-
-    // 倒序的实现逻辑: 默认第一次是顺序, 所以能拿到总页数
-    // 倒序根据上次数据的总页数开始递减请求, 处理数据时再反转入库
     let isReverse = reverse
     if (!isReverse && !refresh) isReverse = _reverse
-
     if (isReverse) {
-      // @issue 官网某些条目留言不知道为什么会多出一页空白
+      /** @issue 官网某些条目留言不知道为什么会多出一页空白 */
       page = refresh ? pagination.pageTotal - 1 : pagination.page - 1
     } else if (refresh) {
       page = 1
@@ -376,15 +375,16 @@ export default class Fetch extends Computed {
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
 
-    const { pagination: _pagination, list: _list } = cheerioSubjectComments(html)
-    if (isReverse) _list.reverse()
+    const { likes, ...next } = cheerioSubjectComments(html)
+    timelineStore.updateLikes(likes)
 
+    if (isReverse) next.list.reverse()
     const last = getInt(subjectId)
     const key = `subjectComments${last}` as const
     const data = {
       [subjectId]: {
-        list: refresh ? _list : [...list, ..._list],
-        pagination: _pagination,
+        list: refresh ? next.list : [...list, ...next.list],
+        pagination: next.pagination,
         _loaded: getTimestamp(),
         _reverse: isReverse
       }
@@ -496,15 +496,15 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_MONO_WORKS(monoId, position, order, page)
     })
-    const { list: _list, filters } = cheerioMonoWorks(html)
+    const next = cheerioMonoWorks(html)
 
     const data: MonoWorks = {
-      list: refresh ? _list : [...list, ..._list],
+      list: refresh ? next.list : [...list, ...next.list],
       pagination: {
         page,
-        pageTotal: _list.length === limit ? 100 : page
+        pageTotal: next.list.length === limit ? 100 : page
       },
-      filters,
+      filters: next.filters,
       _loaded: getTimestamp()
     }
     this.setState({
@@ -523,6 +523,7 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_MONO_VOICES(monoId, position)
     })
+
     const { list, filters } = cheerioMonoVoices(html)
     this.setState({
       [key]: {
@@ -565,16 +566,17 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_SUBJECT_RATING(subjectId, status, isFriend, page)
     })
-    const { list: _list, counts } = cheerioRating(html)
+    const next = cheerioRating(html)
+
     this.setState({
       [key]: {
         [stateKey]: {
-          list: refresh ? _list : [...list, ..._list],
+          list: refresh ? next.list : [...list, ...next.list],
           pagination: {
             page,
-            pageTotal: _list.length === limit ? 100 : page
+            pageTotal: next.list.length === limit ? 100 : page
           },
-          counts,
+          counts: next.counts,
           _loaded: getTimestamp()
         }
       }
@@ -590,12 +592,12 @@ export default class Fetch extends Computed {
     const htmlEdit = await fetchHTML({
       url: HTML_SUBJECT_WIKI_EDIT(subjectId)
     })
-    const { list: edits } = cheerioWikiEdits(htmlEdit)
+    const edits = cheerioWikiEdits(htmlEdit)
 
     const htmlCover = await fetchHTML({
       url: HTML_SUBJECT_WIKI_COVER(subjectId)
     })
-    const { list: covers } = cheerioWikiCovers(htmlCover)
+    const covers = cheerioWikiCovers(htmlCover)
 
     this.setState({
       [key]: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 07:33:04
+ * @Last Modified time: 2023-10-31 09:34:24
  */
 import React from 'react'
 import { Touchable, Flex, Text, Iconfont } from '@components'
@@ -35,7 +35,7 @@ function SectionTitle({ title, type }, { navigation }: Ctx) {
           }}
         >
           <Flex>
-            <Text>频道</Text>
+            <Text>　　</Text>
             <Iconfont name='md-navigate-next' color={_.colorTitle} />
           </Flex>
         </Touchable>

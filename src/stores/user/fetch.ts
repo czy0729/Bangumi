@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 21:34:18
+ * @Last Modified time: 2023-10-31 08:45:01
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, HTMLTrim } from '@utils'
@@ -115,12 +115,23 @@ export default class Fetch extends Computed {
   }
 
   /** 获取并更新单个在看收藏 */
-  fetchCollectionSingle = async (subjectId: SubjectId, userId: UserId = this.myId) => {
+  fetchCollectionSingle = async (
+    subjectId: SubjectId,
+    userId: UserId = this.myId,
+
+    /**
+     * 在某些观看完第一集章节的情况下, 接口依然返回 ep_status: 0,
+     * 若为 true 会强制把 ep_status 修改为 1 后再进行更新
+     * */
+    fixedEpStatus: boolean = false
+  ) => {
     const data = await fetchCollectionSingleV0({
       userId,
       subjectId
     })
     if (!data) return false
+
+    if (fixedEpStatus && data?.ep_status === 0) data.ep_status = 1
 
     const index = this.collection.list.findIndex(
       item => item.subject_id === data.subject_id
@@ -293,11 +304,11 @@ export default class Fetch extends Computed {
     const { list, pagination } = this[key]
     const page = refresh ? 1 : pagination.page + 1
 
-    const HTML = await fetchHTML({
+    const html = await fetchHTML({
       url: key === 'pmOut' ? HTML_PM_OUT(page) : HTML_PM(page)
     })
     const data = {
-      list: refresh ? cheerioPM(HTML) : [...list, ...cheerioPM(HTML)],
+      list: refresh ? cheerioPM(html) : [...list, ...cheerioPM(html)],
       pagination: {
         page,
         pageTotal: 100

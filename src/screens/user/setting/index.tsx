@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:02:23
+ * @Last Modified time: 2023-11-02 17:35:20
  */
 import React, { useState } from 'react'
 import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
@@ -10,6 +10,7 @@ import { IconTouchable } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { date } from '@utils'
 import { useRunAfter, useObserver } from '@utils/hooks'
+import { DEVICE_MODEL_NAME } from '@constants'
 import i18n from '@constants/i18n'
 import { NavigationProps } from '@types'
 import Block from './block'
@@ -38,7 +39,6 @@ import System from './system'
 import Timezone from './timezone'
 import DangerZone from './danger-zone'
 import { styles } from './styles'
-import { DEVICE_MODEL_NAME } from '@constants'
 
 const Setting = ({ navigation, route }: NavigationProps) => {
   const [filter, setFilter] = useState('')

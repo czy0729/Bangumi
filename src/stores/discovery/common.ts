@@ -2,33 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 19:28:04
+ * @Last Modified time: 2023-10-31 11:35:37
  */
-import { safeObject, cheerio, HTMLDecode } from '@utils'
-import { getCoverMedium } from '@utils/app'
-import { matchUserId } from '@utils/match'
+import {
+  HTMLDecode,
+  cheerio,
+  getCoverMedium,
+  htmlMatch,
+  matchUserId,
+  safeObject
+} from '@utils'
+import { SubjectTypeCn } from '@types'
 
-/**
- * 分析标签
- * @param {*} HTML
- */
-export function analysisTags(HTML) {
-  const $ = cheerio(HTML)
+/** 标签 */
+export function cheerioTags(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="tagList">', '<hr class="board"'))
   const tags = $('#tagList a.l')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       return $li.text().trim() || ''
     })
     .get()
   const nums = $('#tagList small.grey')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       return ($li.text().trim() || '').replace(/\(|\)/g, '')
     })
     .get()
 
   return {
-    list: tags.map((item, index) =>
+    list: tags.map((item: string, index: number) =>
       safeObject({
         name: item,
         nums: nums[index]
@@ -41,14 +44,11 @@ export function analysisTags(HTML) {
   }
 }
 
-/**
- * 分析目录
- * @param {*} HTML
- */
-export function analysisCatalog(HTML) {
-  const $ = cheerio(HTML)
+/** 目录 */
+export function cheerioCatalog(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
   return $('li.tml_item')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       const $tip = $li.find('span.tip_i > a.l')
       const $title = $li.find('h3 > a.l')
@@ -70,18 +70,16 @@ export function analysisCatalog(HTML) {
     .get()
 }
 
-/**
- * 分析目录详情
- * @param {*} HTML
- */
-export function analysisCatalogDetail(HTML) {
-  const $ = cheerio(HTML)
+/** 目录详情 */
+export function cheerioCatalogDetail(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="header">', '<div id="footer">'))
   const list = $('li.item')
-    .map((index, element) => {
+    .map((index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('a.l')
-      const _type = $li.find('span.ico_subject_type').attr('class')
-      let type
+
+      const _type = $li.find('span.ico_subject_type').attr('class') || ''
+      let type: SubjectTypeCn
       if (_type.includes('subject_type_2')) {
         type = '动画'
       } else if (_type.includes('subject_type_1')) {
@@ -97,6 +95,7 @@ export function analysisCatalogDetail(HTML) {
       const _idTemp = _id.split('?')[0].split('/')
       const id = _idTemp[_idTemp.length - 1]
       const $modify = $li.find('.tb_idx_rlt')
+
       return safeObject({
         id,
         image: $li.find('img.cover').attr('src'),
@@ -144,15 +143,14 @@ export function analysisCatalogDetail(HTML) {
   }
 }
 
-/**
- * 分析全站日志
- * @param {*} HTML
- */
-export function cheerioBlog(HTML) {
-  const $ = cheerio(HTML)
+/** 全站日志 */
+export function cheerioBlog(html: string) {
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
+  )
   return (
     $('div#news_list > div.item')
-      .map((index, element) => {
+      .map((index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('h2.title a')
         const times = $li.find('div.time').text().trim().split('/ ')
@@ -178,19 +176,20 @@ export function cheerioBlog(HTML) {
         })
       })
       .get() || []
-  ).filter(item => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg')
+  ).filter(
+    (item: { cover: string }) => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg'
+  )
 }
 
-/**
- * 分析频道聚合
- * @param {*} HTML
- */
-export function cheerioChannel(HTML) {
-  const $ = cheerio(HTML)
+/** 频道聚合 */
+export function cheerioChannel(html: string) {
+  const $ = cheerio(
+    htmlMatch(html, '<div class="columns clearit">', '<div id="footer">')
+  )
   return {
     rankTop:
       $('table.mediumImageChart tr')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('span.subject a')
           return safeObject({
@@ -203,7 +202,7 @@ export function cheerioChannel(HTML) {
         .get() || [],
     rank:
       $('div#chl_subitem li')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('strong a')
           return safeObject({
@@ -216,7 +215,7 @@ export function cheerioChannel(HTML) {
         .get() || [],
     friends:
       $('ul.coversSmall > li')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = cheerio(element)
           const $subject = $li.find('> a')
           const $user = $li.find('a.l')
@@ -232,17 +231,15 @@ export function cheerioChannel(HTML) {
         .get() || [],
     tags:
       $('a.level8')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $a = cheerio(element)
           return $a.text().trim()
         })
         .get() || [],
     discuss: (
       $('table.topic_list tr')
-        .map((index, element) => {
-          if (index === 0) {
-            return {}
-          }
+        .map((index: number, element: any) => {
+          if (index === 0) return {}
 
           const $li = cheerio(element)
           const $a = $li.find(' > td > a.l')
@@ -264,10 +261,10 @@ export function cheerioChannel(HTML) {
           })
         })
         .get() || []
-    ).filter(item => !!item.id),
+    ).filter((item: { id: any }) => !!item.id),
     blog:
       $('div#news_list > div.item')
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('h2.title a')
           const times = $li.find('div.time').text().trim().split('/ ')
@@ -287,16 +284,13 @@ export function cheerioChannel(HTML) {
   }
 }
 
-/**
- * 分析维基人
- * @param {*} HTML
- */
-export function cheerioWiki(HTML) {
-  const $ = cheerio(HTML)
-  const getList = selector =>
+/** 维基人 */
+export function cheerioWiki(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
+  const getList = (selector: any) =>
     (
       $(selector)
-        .map((index, element) => {
+        .map((index: number, element: any) => {
           const $li = $(element)
           const $a = $li.find('> a')
           const $small = $li.find('small')
@@ -314,12 +308,12 @@ export function cheerioWiki(HTML) {
           }
         })
         .get() || []
-    ).filter((item, index) => index < 50)
+    ).filter((item: any, index: number) => index < 50)
 
   return {
     counts:
       $('.wikiStats .num')
-        .map((index, element) => $(element).text())
+        .map((index: number, element: any) => $(element).text())
         .get() || [],
     timeline: {
       all: getList('#wiki_wiki-all li'),
@@ -343,7 +337,7 @@ export function cheerioWiki(HTML) {
   }
 }
 
-/** 分析 Dollars */
+/** Dollars */
 export function cheerioDollars(html: string) {
   const $ = cheerio(html)
   return {

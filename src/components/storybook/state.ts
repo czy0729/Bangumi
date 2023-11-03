@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-13 18:28:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 06:21:40
+ * @Last Modified time: 2023-11-01 14:50:24
  */
 import { STORYBOOK } from '@constants'
 
@@ -28,7 +28,7 @@ export function setNavigating(navigateAction: NavigateAction) {
   }, 800)
 }
 
-/** HACK: 因不符合流程规范, 请勿随意使用 */
+/** @hack 因不符合流程规范, 请勿随意使用 */
 export function __FORCE_SET_NAVIGATING__() {
   StorybookState.navigating = true
 }

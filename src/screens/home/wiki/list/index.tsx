@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:56:20
+ * @Last Modified time: 2023-10-28 09:37:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Avatar, Cover } from '@_'
 import { _ } from '@stores'
 import { simpleTime, getCoverLarge, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { IMG_WIDTH, IMG_HEIGHT, API_AVATAR } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT, API_AVATAR, STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 
 const COVER_WIDTH = _.r(IMG_WIDTH * 1.28)
@@ -54,12 +54,14 @@ class List extends React.Component {
               }}
             />
             <Flex style={_.mt.sm}>
-              <Avatar
-                navigation={navigation}
-                userId={userId}
-                src={API_AVATAR(userId)}
-                size={20}
-              />
+              {!STORYBOOK && (
+                <Avatar
+                  navigation={navigation}
+                  userId={userId}
+                  src={API_AVATAR(userId)}
+                  size={20}
+                />
+              )}
               <Flex.Item style={_.ml.sm}>
                 <Text
                   size={11}
@@ -92,7 +94,7 @@ class List extends React.Component {
         {edits.map(({ id, comment, sub, time, userId, userName }, index) => (
           <View key={id} style={_.mt.sm}>
             <Text lineHeight={15} bold>
-              〔{edits.length - index}〕{comment || '-'}
+              [{edits.length - index}] {comment || 'N/A'}
               {!!sub && (
                 <Text size={13} lineHeight={15} bold>
                   {' '}
@@ -108,13 +110,15 @@ class List extends React.Component {
                 <Text style={_.ml.xs} type='sub' size={12} lineHeight={13}>
                   by
                 </Text>
-                <Avatar
-                  style={_.ml.sm}
-                  navigation={navigation}
-                  userId={userId}
-                  src={API_AVATAR(userId)}
-                  size={20}
-                />
+                {!STORYBOOK && (
+                  <Avatar
+                    style={_.ml.sm}
+                    navigation={navigation}
+                    userId={userId}
+                    src={API_AVATAR(userId)}
+                    size={20}
+                  />
+                )}
                 <Text
                   style={_.ml.sm}
                   size={12}

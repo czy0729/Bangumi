@@ -4,6 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-08-24 13:22:14
  */
+import { getStorage, getTimestamp, setStorage } from '@utils'
+
+const NAMESPACE = 'Global'
+
+/** App 相关辅助数据 */
+export const APP_PARAMS = {
+  /** 上一次启动时间戳 */
+  lastBoot: 0
+}
+;(async () => {
+  const KEY_LAST_BOOT = `${NAMESPACE}|lastBoot`
+  APP_PARAMS.lastBoot = (await getStorage(KEY_LAST_BOOT)) || 0
+  setStorage(KEY_LAST_BOOT, getTimestamp())
+})()
+
 /** 显示 state init */
 export const LOG_INIT = false
 

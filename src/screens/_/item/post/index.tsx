@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:57:46
+ * @Last Modified time: 2023-10-30 05:15:51
  */
 import React from 'react'
 import { View } from 'react-native'
-import { rakuenStore } from '@stores'
+import { rakuenStore, uiStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
@@ -152,7 +152,7 @@ export const ItemPost = obc(
         likeType={$?.topic?.likeType}
         event={event}
         onToggleExpand={$?.toggleExpand}
-        onLikesLongPress={$?.showLikesUsers}
+        onLikesLongPress={uiStore.showLikesUsers}
       />
     )
   }

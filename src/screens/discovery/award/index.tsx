@@ -3,27 +3,24 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:06:18
+ * @Last Modified time: 2023-10-21 17:32:54
  */
 import React from 'react'
-import { View } from 'react-native'
-import WebView from '@components/@/web-view'
-import { Track, Loading, Text, Heatmap } from '@components'
+import { Track, Loading, Text, Heatmap, Page } from '@components'
 import { _ } from '@stores'
-import { open, appNavigate, info, removeCF } from '@utils'
+import { open, appNavigate, info, removeCF, getStorage, setStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { fetchHTML } from '@utils/fetch'
-import { HOST } from '@constants'
+import { HOST, STORYBOOK } from '@constants'
 import { Navigation } from '@types'
+import WebView from './web-view'
 import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
 import { styles } from './styles'
 
-const originWhitelist = ['*'] as const
-
-const lightContentYears = ['2022', '2020', '2016', '2015', '2012', '2011'] as const
-
-const htmlCache = {}
+const NAMESPACE = 'ScreenAward'
+const LIGHT_CONTENT_YEARS = ['2022', '2020', '2016', '2015', '2012', '2011'] as const
+const HTML_CACHE = {}
 
 class Award extends React.Component<{
   navigation: Navigation
@@ -45,15 +42,29 @@ class Award extends React.Component<{
   /** 跳转次数 */
   redirectCount = 0
 
-  componentDidMount() {
-    if (htmlCache[this.year]) {
+  async componentDidMount() {
+    const html = HTML_CACHE[this.year]
+    if (html) {
       this.setState({
-        html: htmlCache[this.year]
+        html
       })
-    } else {
-      this.fetch()
+      this.onLoad()
+      return
     }
 
+    // 网页版通常都是没登录的, 为了减少大请求, 直接缓存网页结果
+    if (STORYBOOK) {
+      const cache: string = (await getStorage(`${NAMESPACE}|html|${this.year}`)) || ''
+      if (cache) {
+        this.setState({
+          html: cache
+        })
+        this.onLoad()
+        return
+      }
+    }
+
+    this.fetch()
     setTimeout(() => {
       this.onLoad()
     }, 3000)
@@ -84,13 +95,19 @@ class Award extends React.Component<{
         .replace(
           /<div id="main" class="png_bg"><div id="footer">(.+?)<\/div><div class="homeBg">/g,
           '</div><div class="homeBg">'
-        )}<style>${
+        )
+        .replace(/\/r\/400\/pic/g, '/r/200/pic')}<style>${
         resetStyle[this.year]
-      }</style><script>${injectedStaticJavaScript}</script>`
-      htmlCache[this.year] = html
+      }</style><script>${injectedStaticJavaScript}</script>`.replace(
+        /\/r\/400\/pic/g,
+        '/r/200/pic'
+      )
+      HTML_CACHE[this.year] = html
       this.setState({
         html
       })
+
+      if (STORYBOOK) setStorage(`${NAMESPACE}|html|${this.year}`, html)
     } catch (error) {
       this.onError()
     }
@@ -154,7 +171,7 @@ class Award extends React.Component<{
     const { loading } = this.state
 
     // @ts-expect-error
-    if (!loading && lightContentYears.includes(this.year)) return 'dark-content'
+    if (!loading && LIGHT_CONTENT_YEARS.includes(this.year)) return 'dark-content'
 
     return 'light-content'
   }
@@ -170,7 +187,7 @@ class Award extends React.Component<{
   render() {
     const { loading, redirectCount, html } = this.state
     return (
-      <View style={styles.container}>
+      <Page style={styles.container}>
         {loading && (
           <Loading style={styles.loading} color={_.__colorPlain__}>
             <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
@@ -188,10 +205,6 @@ class Award extends React.Component<{
         )}
         {!!html && (
           <WebView
-            style={styles.webview}
-            useWebKit
-            thirdPartyCookiesEnabled={false}
-            originWhitelist={originWhitelist}
             source={this.source}
             onLoad={this.onLoad}
             onError={this.onError}
@@ -201,7 +214,7 @@ class Award extends React.Component<{
         <Track title='年鉴' hm={[`award/${this.year}`, 'Award']} />
         <Heatmap id='年鉴' screen='Award' />
         <Heatmap right={80} bottom={40} id='年鉴.跳转' transparent />
-      </View>
+      </Page>
     )
   }
 }

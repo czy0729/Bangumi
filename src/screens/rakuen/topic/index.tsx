@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:19:05
+ * @Last Modified time: 2023-10-30 05:07:16
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Page, Loading } from '@components'
@@ -25,7 +25,6 @@ import List from './list'
 import TouchScroll from './touch-scroll'
 import Heatmaps from './heatmaps'
 import Bottom from './bottom'
-import LikesUsers from './likes-users'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -330,7 +329,6 @@ const Topic = (props, { $ }: Ctx) => {
         </TapListener>
         <Header fixed={fixed} />
         <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
-        <LikesUsers />
         <Heatmaps />
       </>
     )

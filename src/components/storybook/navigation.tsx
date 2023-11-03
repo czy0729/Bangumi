@@ -2,36 +2,74 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:37:42
+ * @Last Modified time: 2023-11-02 22:30:23
  */
 import { AnyObject, Fn } from '@types'
-import { urlStringify } from '@utils'
+import { getSPAId, urlStringify } from '@utils'
 import { SHARE_MODE } from '@constants'
-import { navigate, parseUrlParams } from './utils'
+import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
+import { BOTTOM_TAB_DS } from './ds'
+
+const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
+  id: item.id,
+  storyId: getSPAId(item.id)
+}))
 
 export const StorybookNavigation = {
+  /** ==================== private ==================== */
+  _history: {
+    length: 1,
+    lastBottomTab:
+      BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id ||
+      BOTTOM_TAB_DS[0].id
+  },
+  _updateHistory(value: 1 | -1) {
+    const { length } = this._history
+    if (length === 1 && value === -1) return
+    this._history.length += value
+  },
+  _updateBottomTabCurrent(routeName: string) {
+    if (BOTTOM_TAB_IDS.find(item => item.id === routeName)) {
+      this._history.lastBottomTab = routeName
+    }
+  },
+
+  /** ==================== method ==================== */
   getState() {
     return {
-      index: 1 // window.history.length
+      index: this._history.length
     }
   },
   navigate(routeName: string, params?: AnyObject) {
+    this._updateBottomTabCurrent(routeName)
     navigate(routeName, params)
   },
   push(routeName: string, params?: AnyObject) {
+    this._updateBottomTabCurrent(routeName)
     navigate(routeName, params)
   },
   replace(routeName: string, params?: AnyObject) {
+    this._updateBottomTabCurrent(routeName)
     navigate(routeName, params, true)
   },
+  popToTop() {
+    this._history.length = 1
+    navigate(this._history.lastBottomTab, {}, true)
+  },
+
+  /**
+   * 这是主动调用 navigation.goBack 触发, 若直接点击浏览器的后退按钮是不会触发的
+   * 所以 history.length 还需要在 /Bangumi32/.storybook/preview.js 里的 window.addEventListener('popstate') 中主动维护
+   * */
   goBack() {
     navigate()
   },
   addListener(): Fn {
-    // console.info('Navigation: addListener', eventType)
     return () => {}
   },
-  setOptions() {}
+  setOptions() {},
+  getRootState() {},
+  emit() {}
 }
 
 /** Demo 展示用默认参数 */

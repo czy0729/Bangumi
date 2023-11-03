@@ -1,41 +1,16 @@
-/* eslint-disable max-len */
 /*
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 15:45:39
+ * @Last Modified time: 2023-11-02 14:31:48
  */
 import { _, systemStore, subjectStore, rakuenStore } from '@stores'
 import { sleep, HTMLDecode } from '@utils'
 import { acSearch, getSubStrings } from '@utils/ac-search'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { DEV, IOS, PAD } from '@constants'
-
-/** 平板设备字体固定放大字号 */
-export const PAD_FONT_ZISE_INCREASE = PAD === 2 ? 3 : 2
-
-/** 平板设备字体固定放大行高 */
-export const PAD_LINE_HEIGHT_INCREASE = PAD === 2 ? 10 : 4
-
-/** 标签匹配规则 */
-export const REGS = {
-  a: /<a (.+?)<\/a>/g,
-  bgm: /\(bgm|\)/g,
-  divQ: /<div class="quote"><q>/g,
-  fixedQ: /<\/(.+?)\.\.\.<\/span>$/,
-  img: /<img/g,
-  imgBr: /<br><img/g,
-  media:
-    /<a href="(https|http):\/\/(bgm|bangumi)\.tv\/(subject|group\/topic|rakuen\/topic\/group|character|person)\/(.+?)" target="_blank" rel="nofollow external noopener noreferrer" class="l">(.+?)<\/a>/g,
-  pre: /<pre>/g,
-  preR: /<\/pre>/g,
-  q: /<q>(.+?)<\/q>/g,
-  quote: /<div class="quote"><q(.+?)<\/q><\/div>/g,
-  ruby: /<ruby>(.+?)<\/ruby>/g,
-  whiteTags:
-    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
-} as const
+import { DEV, IOS } from '@constants'
+import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 
 /** 获取最后字体渲染字号大小 */
 export function getIncreaseFontSize(fontSize: number) {
@@ -66,16 +41,6 @@ export function fixedBaseFontStyle(baseFontStyle = {}) {
 
   return _baseFontStyle
 }
-
-/** 给纯文字包上 span, 否则安卓不能自由复制 */
-// function wrapSpanToRawText(html: string) {
-//   html = `<div>${html}</div>`
-//   const match = html.match(/>[^<>]+?</g)
-//   if (match) {
-//     match.forEach((item: string) => (html = html.replace(item, `><span${item}/span><`)))
-//   }
-//   return html
-// }
 
 /** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓 Text 里面不能包含其他元素) */
 function removeQuote(html: string) {

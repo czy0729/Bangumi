@@ -4,13 +4,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-16 09:56:17
+ * @Last Modified time: 2023-11-02 14:33:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { open, cheerio, HTMLDecode } from '@utils'
+import { STORYBOOK } from '@constants'
 import { TextStyle } from '@types'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
@@ -26,15 +27,12 @@ import Li from './li'
 import A from './a'
 import ToggleImage from './toggle-image'
 import {
-  PAD_FONT_ZISE_INCREASE,
-  PAD_LINE_HEIGHT_INCREASE,
-  REGS,
   getIncreaseFontSize,
   fixedBaseFontStyle,
   hackFixedHTMLTags,
   hackMatchMediaLink
 } from './utils'
-import { SPAN_MARK } from './ds'
+import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS, SPAN_MARK } from './ds'
 import { Props as RenderHtmlProps } from './types'
 
 export { RenderHtmlProps }
@@ -94,7 +92,7 @@ export const RenderHtml = observer(
       },
       tagsStyles: {
         a: {
-          paddingRight: _.sm,
+          paddingRight: STORYBOOK ? 0 : _.sm,
           color: _.colorMain,
           textDecorationColor: _.colorMain,
           ...linkStyle

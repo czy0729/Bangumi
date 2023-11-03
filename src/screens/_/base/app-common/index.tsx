@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-24 12:15:24
+ * @Last Modified time: 2023-10-30 05:00:08
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -12,6 +12,7 @@ import { systemStore, uiStore } from '@stores'
 import { useGlobalMount, useKeepAwake, useObserver } from '@utils/hooks'
 import { Popable } from '../popable'
 import { LikesGrid } from '../likes-grid'
+import { LikesUsers } from '../likes-users'
 import { ManageModal } from '../manage-modal'
 import { ListenClipboard } from '../listen-clipboard'
 
@@ -31,6 +32,7 @@ export const AppCommon = () => {
       />
       <Popable {...uiStore.popableSubject} />
       <LikesGrid {...uiStore.likesGrid} />
+      <LikesUsers {...uiStore.likesUsers} onClose={uiStore.closeLikesUsers} />
       <ManageModal
         {...uiStore.manageModal}
         onSubmit={uiStore.submitManageModal}

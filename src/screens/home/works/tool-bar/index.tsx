@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-31 18:27:15
+ * @Last Modified time: 2023-10-28 08:27:25
  */
 import React from 'react'
 import { ToolBar as CompToolBar } from '@components'
@@ -44,9 +44,9 @@ function ToolBar(props, { $ }: Ctx) {
       })}
       <CompToolBar.Popover
         data={[
-          `布局（${list ? '列表' : '网格'}）`,
-          `筛选（${fixed ? '固定' : '浮动'}）`,
-          `收藏（${collected ? '显示' : '隐藏'}）`
+          `选项 · ${fixed ? '锁定上方' : '浮动'}`,
+          `布局 · ${list ? '列表' : '网格'}`,
+          `收藏 · ${collected ? '显示' : '不显示'}`
         ]}
         icon='md-more-vert'
         iconColor={_.colorDesc}
@@ -54,8 +54,8 @@ function ToolBar(props, { $ }: Ctx) {
         type='desc'
         transparent
         onSelect={title => {
+          if (title.includes('选项')) return $.onToggleToolbar('fixed')
           if (title.includes('布局')) return $.onToggleList()
-          if (title.includes('筛选')) return $.onToggleToolbar('fixed')
           if (title.includes('收藏')) return $.onToggleToolbar('collected')
         }}
       />

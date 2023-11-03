@@ -44,21 +44,31 @@ export default class ScreenDiscovery extends store {
       queue([
         () => {
           if (STORYBOOK) return true
+
           return this.fetchOnline()
         },
         () => {
           if (userStore.isWebLogin) return this.fetchChannel()
+
           return true
         },
         async () => {
           await calendarStore.init('onAir')
           const { _loaded } = this.onAir
           if (getTimestamp() - Number(_loaded || 0) < 60 * 60 * 24) return true
+
           return calendarStore.fetchOnAir()
         },
-        () => calendarStore.fetchCalendar(),
+        async () => {
+          await calendarStore.init('calendar')
+          const { _loaded } = calendarStore.calendar
+          if (getTimestamp() - Number(_loaded || 0) < 60 * 60 * 12) return true
+
+          return calendarStore.fetchCalendar()
+        },
         () => {
           if (STORYBOOK) return true
+
           return usersStore.fetchUsers()
         }
       ])
@@ -236,6 +246,7 @@ export default class ScreenDiscovery extends store {
     this.save()
   }
 
+  /** 刷新到顶函数引用 */
   scrollToIndex: any
 
   /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
@@ -338,7 +349,7 @@ export default class ScreenDiscovery extends store {
   }
 
   /** 更新菜单的自定义配置 */
-  saveDiscoveryMenu = discoveryMenu => {
+  saveDiscoveryMenu = (discoveryMenu: typeof systemStore.setting.discoveryMenu) => {
     systemStore.setSetting('discoveryMenu', discoveryMenu)
   }
 

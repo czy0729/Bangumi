@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 21:47:28
+ * @Last Modified time: 2023-11-02 22:25:53
  */
 import { appNavigate, getSPAParams } from '@utils'
 import { AnyObject } from '@types'
@@ -11,8 +11,6 @@ import { setNavigating } from './state'
 export function parseUrlParams() {
   const params = new URLSearchParams(window.location.search)
   const result = {}
-
-  // @ts-expect-error
   for (const [key, value] of params) {
     result[key] = value
   }
@@ -42,4 +40,9 @@ export function navigate(
     getSPAParams(routeName, params)
   )
   window.dispatchEvent(new PopStateEvent('popstate'))
+}
+
+export function getCurrentStoryId() {
+  const params = new URLSearchParams(window.location.search)
+  return params.get('id')
 }

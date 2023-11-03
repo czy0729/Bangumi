@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-18 16:03:16
+ * @Last Modified time: 2023-10-30 21:42:05
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -50,7 +50,9 @@ function IconExtra(
         }
 
         if (title === '贴贴') {
-          return uiStore.showLikesGrid(topicId, id, formhash, likeType)
+          return uiStore.showLikesGrid(topicId, id, formhash, likeType, {
+            recommandPosition: 'top'
+          })
         }
 
         if (title === '回复') {

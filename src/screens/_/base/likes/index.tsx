@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:53:29
+ * @Last Modified time: 2023-10-30 21:41:43
  */
 import React from 'react'
 import { toJS } from 'mobx'
 import { ScrollView, Touchable, Flex, Iconfont } from '@components'
+import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
-import { rakuenStore, uiStore } from '@stores'
+import { LIKE_TYPE_TIMELINE } from '@constants'
 import Flip from './flip'
 import Btn from './btn'
 import { LIMIT, HIT_SLOP } from './ds'
@@ -24,20 +25,25 @@ export const Likes = ({
   id,
   formhash,
   likeType,
+  offsets,
   storybook,
   onLongPress
 }: LikesProps) => {
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
-    if (!rakuenStore.setting.likes || !topicId || !id) return null
+    const isTimeline = likeType == LIKE_TYPE_TIMELINE
+    if (!topicId || !id || (!isTimeline && !rakuenStore.setting.likes)) return null
 
-    const showCreateBtn = !!formhash && show
-    const likesList = storybook?.likesList || rakuenStore.likesList(topicId, id) || []
+    const likesList: any[] =
+      storybook?.likesList ||
+      (isTimeline ? timelineStore.likesList(id) : rakuenStore.likesList(topicId, id)) ||
+      []
 
     // 避免不可预料的结构错误
     if (!Array.isArray(toJS(likesList))) return null
 
+    const showCreateBtn = !!formhash && show
     if (!showCreateBtn && !likesList.length) return null
 
     const styles = memoStyles()
@@ -53,7 +59,7 @@ export const Likes = ({
                 return
               }
 
-              uiStore.showLikesGrid(topicId, id, formhash, likeType)
+              uiStore.showLikesGrid(topicId, id, formhash, likeType, offsets)
             }}
           >
             <Flex style={styles.item} justify='center'>

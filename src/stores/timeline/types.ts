@@ -47,6 +47,11 @@ export type Timeline = ListEmpty<
       count: string
       url: string
     }
+    like: {
+      type: number
+      mainId: number
+      relatedId: number
+    }
     image: Cover[]
     clearHref: string
   }>

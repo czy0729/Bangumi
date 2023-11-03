@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:50:06
+ * @Last Modified time: 2023-11-02 13:30:44
  */
 import React from 'react'
 import { Loading, ListView, Heatmap } from '@components'
+import { Notice } from '@_'
 import { _ } from '@stores'
 import { keyExtractor, x18s } from '@utils'
 import { obc } from '@utils/decorators'
@@ -27,7 +28,7 @@ function List(props, { $ }: Ctx) {
     )
   }
 
-  const { list } = $.state
+  const { order, list } = $.state
   const numColumns = list ? undefined : _.portrait(3, 5)
   return (
     <ListView
@@ -38,7 +39,17 @@ function List(props, { $ }: Ctx) {
       data={$.list}
       scrollToTop
       footerEmptyDataText={x18s($.params.tag) ? TEXT_18X : undefined}
-      ListHeaderComponent={!fixed && <ToolBar />}
+      ListHeaderComponent={
+        <>
+          {!fixed && <ToolBar />}
+          {order === 'rank' && (
+            <Notice>
+              因标签为用户自行添加，
+              「按排名」排序在关联条目过多情况下可能毫无意义，推荐「按标注」排序。
+            </Notice>
+          )}
+        </>
+      }
       renderItem={({ item, index }) => {
         if (list)
           return (

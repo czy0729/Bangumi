@@ -4,15 +4,16 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 21:20:24
+ * @Last Modified time: 2023-11-01 12:53:18
  */
 import React from 'react'
-import { Modal, View, StatusBar } from 'react-native'
+import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { open, showActionSheet, stl } from '@utils'
 import { HOST_DOGE, IOS } from '@constants'
 import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
+import { StatusBar } from '../status-bar'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
 import { Text } from '../text'

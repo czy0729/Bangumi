@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:50:22
+ * @Last Modified time: 2023-11-02 17:27:13
  */
 import React from 'react'
 import { Header, Page, ScrollView, Touchable, Image, Flex, Text } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { ASSETS_AWARDS, HOST } from '@constants'
 import Award2022 from '../index/award-2022'
 import { YEARS } from './ds'
 import { memoStyles } from './styles'
@@ -45,7 +45,7 @@ const Yearbook = ({ navigation }) => {
                 }}
               >
                 <Image
-                  src={require('@assets/images/static/2021.png')}
+                  src={ASSETS_AWARDS[2021]}
                   size={styles.item2021.width}
                   height={styles.item2021.height}
                   placeholder={false}
@@ -67,7 +67,7 @@ const Yearbook = ({ navigation }) => {
                 }}
               >
                 <Image
-                  src={require('@assets/images/static/2020.png')}
+                  src={ASSETS_AWARDS[2020]}
                   size={styles.item2020.width}
                   height={styles.item2020.height}
                   placeholder={false}
@@ -90,7 +90,7 @@ const Yearbook = ({ navigation }) => {
               >
                 <Flex justify='center'>
                   <Image
-                    src={require('@assets/images/static/2019.png')}
+                    src={ASSETS_AWARDS[2019]}
                     size={styles.item2019.width - 32}
                     height={styles.item2019.height}
                     placeholder={false}
@@ -113,7 +113,7 @@ const Yearbook = ({ navigation }) => {
                 }}
               >
                 <Image
-                  src={require('@assets/images/static/2018.png')}
+                  src={ASSETS_AWARDS[2018]}
                   size={styles.item2018.width}
                   height={styles.item2018.height}
                   placeholder={false}

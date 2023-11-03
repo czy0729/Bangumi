@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 16:29:27
+ * @Last Modified time: 2023-10-30 00:57:45
  */
 import { computed } from 'mobx'
+import { desc } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { Id, StoreConstructor, TimeLineScope, TimeLineType, UserId } from '@types'
 import userStore from '../user'
+import { Likes } from '../rakuen/types'
 import State from './state'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, STATE } from './init'
 import { Hidden, Say, Timeline } from './types'
@@ -26,6 +28,27 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return computed<Timeline>(() => {
       const key = userId || userStore.myUserId
       return this.state.usersTimeline[key] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 时间胶囊回复表情 */
+  likes(id: Id) {
+    return computed<Likes>(() => {
+      return {
+        [id]: this.state.likes[id] || {}
+      }
+    }).get()
+  }
+
+  /** 时间胶囊回复表情 */
+  likesList(id: Id) {
+    return computed(() => {
+      const likes = this.likes(id)?.[id]
+      if (!Object.keys(likes).length) return null
+
+      return Object.entries(likes)
+        .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
+        .map(item => item[1])
     }).get()
   }
 

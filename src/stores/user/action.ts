@@ -23,6 +23,7 @@ import {
   URL_OAUTH_REDIRECT
 } from '@constants'
 import { EpId, EpStatus, SubjectId } from '@types'
+import { APP_PARAMS } from '../ds'
 import RakuenStore from '../rakuen'
 import Fetch from './fetch'
 import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO } from './init'
@@ -359,19 +360,21 @@ export default class Action extends Fetch {
   /** 检查登录状态 */
   checkLogin = () => {
     if (this.isWebLogin) {
-      const { _loaded } = this.userInfo
+      // 用户信息被动刷新, 间隔 5 分钟
+      if (!APP_PARAMS.lastBoot || getTimestamp() - APP_PARAMS.lastBoot > 60 * 5) {
+        setTimeout(() => {
+          try {
+            this.doCheckCookie()
+          } catch (error) {}
+        }, 4000)
+      }
 
-      // 用户信息被动刷新, 距离上次 4 小时候后才请求
+      // 用户信息被动刷新, 间隔 4 小时
+      const { _loaded } = this.userInfo
       if (!_loaded || getTimestamp() - _loaded > 60 * 60 * 4) {
         this.fetchUserInfo()
         this.fetchUsersInfo()
       }
-
-      setTimeout(() => {
-        try {
-          this.doCheckCookie()
-        } catch (error) {}
-      }, 4000)
     }
   }
 }

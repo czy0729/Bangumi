@@ -3,13 +3,13 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:52:41
+ * @Last Modified time: 2023-10-20 21:15:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { getCover400, matchCoverUrl } from '@utils'
-import { STORYBOOK, IMG_DEFAULT } from '@constants'
+import { IMG_DEFAULT } from '@constants'
 import { Image } from '../image'
 import TextOnly from './text-only'
 import Disc from './disc'
@@ -53,22 +53,12 @@ export const Cover = observer(
     const width = other.width || size
     let prefix = 'bgm_poster_100'
     let coverSize: 100 | 200 | 400 = 100
-    if (STORYBOOK) {
-      if (width > 200) {
-        prefix = 'bgm_poster'
-        coverSize = 400
-      } else if (width > 100) {
-        prefix = 'bgm_poster_200'
-        coverSize = 200
-      }
-    } else {
-      if (width > 134) {
-        prefix = 'bgm_poster'
-        coverSize = 400
-      } else if (width > 67) {
-        prefix = 'bgm_poster_200'
-        coverSize = 200
-      }
+    if (width > 134) {
+      prefix = 'bgm_poster'
+      coverSize = 400
+    } else if (width > 67) {
+      prefix = 'bgm_poster_200'
+      coverSize = 200
     }
 
     const _src =

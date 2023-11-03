@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-02 08:16:11
+ * @Last Modified time: 2023-10-21 00:25:55
  */
 import { ComponentType } from 'react'
 import {
@@ -528,4 +528,34 @@ export function findLastIndex(arr: any[], callback: any, thisArg?: any) {
     }
   }
   return -1
+}
+
+/** 段落是否中文语境 */
+export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
+  const chineseRegex = /[\u4e00-\u9fa5]/
+  const totalCharCount = text.length
+
+  let chineseCharCount = 0
+  for (let i = 0; i < totalCharCount; i += 1) {
+    const char = text.charAt(i)
+    if (chineseRegex.test(char)) chineseCharCount += 1
+  }
+
+  const chineseRatio = chineseCharCount / totalCharCount
+  return chineseRatio >= threshold
+}
+
+/** 文字中间省略 */
+export function truncateMiddle(
+  text: string = '',
+  maxLength: number = 20,
+  charsToShow: number = 4
+) {
+  if (text.length <= maxLength) return text
+
+  const startLength = Math.ceil((maxLength - charsToShow) / 2)
+  const endLength = Math.floor((maxLength - charsToShow) / 2)
+  return (
+    text.substring(0, startLength) + '...' + text.substring(text.length - endLength)
+  )
 }

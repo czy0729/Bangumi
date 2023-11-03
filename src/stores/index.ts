@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-24 13:22:22
+ * @Last Modified time: 2023-11-01 12:06:14
  */
 import { StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { confirm } from '@utils'
-import { DEV } from '@constants'
+import { DEV, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation, SubjectId } from '@types'
 import calendarStore from './calendar'
@@ -53,7 +53,9 @@ class GlobalStores {
       /** ========== systemStore.init 和 themeStore.init 维持旧逻辑 ========== */
       await systemStore.init()
       await themeStore.init()
-      StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
+      if (!STORYBOOK) {
+        StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
+      }
 
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来

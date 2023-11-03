@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:40:41
+ * @Last Modified time: 2023-11-01 12:57:29
  */
 import React, { useCallback, useRef } from 'react'
-import { StatusBar } from 'react-native'
-import { Page, Heatmap } from '@components'
+import { Page, StatusBar, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
-import { _ } from '@stores'
+import { TapListener } from '@_'
+import { _, uiStore } from '@stores'
 import { ic } from '@utils/decorators'
 import {
   useFocusEffect,
@@ -67,6 +67,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
     evt => {
       $.onScroll(evt)
       onScroll(evt)
+      uiStore.closeLikesGrid()
     },
     [onScroll]
   )
@@ -86,15 +87,17 @@ const Subject = (props, { $, navigation }: Ctx) => {
 
   return useObserver(() => (
     <>
-      <Page statusBarEvent={false}>
-        {IOS && <Bg />}
-        <List
-          forwardRef={forwardRef}
-          onScroll={onScrollFn}
-          onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
-        />
-        <Modal />
-      </Page>
+      <TapListener>
+        <Page statusBarEvent={false}>
+          {IOS && <Bg />}
+          <List
+            forwardRef={forwardRef}
+            onScroll={onScrollFn}
+            onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+          />
+          <Modal />
+        </Page>
+      </TapListener>
       <Header fixed={fixed} index={navigation.getState().index} />
       <Heatmap id='条目' screen='Subject' />
     </>

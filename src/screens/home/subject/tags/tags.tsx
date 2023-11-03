@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:07:01
+ * @Last Modified time: 2023-11-01 17:20:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,13 @@ import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectType } from '@types'
 import IconHidden from '../icon/hidden'
 import IconGame from '../icon/game'
+import RecSegement from './rec-segment'
 import Block from './block'
+import Typerank from './typerank'
+import { exist } from './typerank/utils'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -26,6 +30,8 @@ export default memo(
     subjectType,
     showTags,
     subjectTagsExpand,
+    subjectTagsRec,
+    rank,
     focusOrigin,
     tag,
     tags,
@@ -42,12 +48,31 @@ export default memo(
       <>
         {tags.map(({ name, count }, index) => {
           const isSelected = tag.includes(name)
+          const showTyperank = !!rank && subjectTagsRec
           return (
             <Touchable
               key={index}
               animate
               scale={0.9}
               onPress={() => {
+                if (
+                  showTyperank &&
+                  exist(MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType), name)
+                ) {
+                  t('条目.跳转', {
+                    to: 'Typerank',
+                    from: '标签',
+                    subjectId
+                  })
+
+                  navigation.push('Typerank', {
+                    type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
+                    tag: name,
+                    subjectId
+                  })
+                  return
+                }
+
                 t('条目.跳转', {
                   to: 'Tag',
                   from: '标签',
@@ -55,12 +80,12 @@ export default memo(
                 })
 
                 navigation.push('Tag', {
-                  type: MODEL_SUBJECT_TYPE.getLabel(subjectType),
+                  type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
                   tag: name
                 })
               }}
             >
-              <Flex style={isSelected ? [styles.item, styles.selected] : styles.item}>
+              <Flex style={stl(styles.item, isSelected && styles.selected)}>
                 <Text
                   type={_.select('desc', isSelected ? 'main' : 'desc')}
                   size={13}
@@ -68,15 +93,19 @@ export default memo(
                 >
                   {name}
                 </Text>
-                <Text
-                  type={_.select('sub', isSelected ? 'main' : 'sub')}
-                  size={12}
-                  lineHeight={13}
-                  bold
-                >
-                  {' '}
-                  {count}
-                </Text>
+                {showTyperank ? (
+                  <Typerank tag={name} />
+                ) : (
+                  <Text
+                    type={_.select('sub', isSelected ? 'main' : 'sub')}
+                    size={12}
+                    lineHeight={13}
+                    bold
+                  >
+                    {' '}
+                    {count}
+                  </Text>
+                )}
               </Flex>
             </Touchable>
           )
@@ -98,7 +127,10 @@ export default memo(
           style={_.container.wind}
           right={
             showTags ? (
-              focusOrigin && <IconGame />
+              <>
+                {focusOrigin && <IconGame />}
+                {!!rank && <RecSegement />}
+              </>
             ) : (
               <IconHidden name='标签' value='showTags' />
             )

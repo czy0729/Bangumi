@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-05 20:41:17
+ * @Last Modified time: 2023-10-31 08:49:15
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -440,7 +440,7 @@ export default class Action extends Fetch {
         }
       }
     })
-    userStore.fetchCollectionSingle(subjectId)
+    userStore.fetchCollectionSingle(subjectId, undefined, true)
 
     // 震动反馈是使用翻转按钮触发的, 若没有展开则没有渲染按钮组件, 需要主动触发
     if (state.expand) {
@@ -537,8 +537,9 @@ export default class Action extends Fetch {
         id: item.id,
         status
       })
-      userStore.fetchCollectionSingle(subjectId)
+      userStore.fetchCollectionSingle(subjectId, undefined, value === '看过')
       this.fetchUserProgress(subjectId)
+
       webhookEp(
         {
           ...item,

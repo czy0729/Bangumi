@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 07:03:24
+ * @Last Modified time: 2023-11-01 16:28:08
  */
 import * as Screens from '@screens'
-import { RatingStatus, SubjectTypeCn } from '@constants/model/types'
+import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
 import { Fn } from './utils'
 
@@ -21,6 +21,7 @@ export type NavigationPushType = RouteActions &
   RouteBlogs &
   RouteCatalogDetail &
   RouteCatalogs &
+  RouteChannel &
   RouteCharacter &
   RouteCharacters &
   RouteFriends &
@@ -41,12 +42,29 @@ export type NavigationPushType = RouteActions &
   RouteTinygrail &
   RouteTips &
   RouteTopic &
+  RouteTyperank &
   RouteUser &
   RouteUserTimeline &
   RouteWebBrowser &
   RouteWenku &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteTyperank = (
+  path: 'Typerank',
+  params: {
+    type: SubjectType
+    tag: string
+    subjectId?: SubjectId
+  }
+) => any
+
+type RouteChannel = (
+  path: 'Channel',
+  params: {
+    type?: SubjectType
+  }
+) => any
 
 type RouteTips = (
   path: 'Tips',
@@ -103,7 +121,9 @@ type RouteUserTimeline = (
 type RouteSay = (
   path: 'Say',
   params: {
+    /** @deprecated */
     id?: Id
+    sayId?: Id
     onNavigationCallback?: Fn
   }
 ) => any
@@ -126,7 +146,7 @@ type RouteCharacters = (
 type RouteTag = (
   path: 'Tag',
   params: {
-    type: string
+    type: SubjectType
     tag: string
   }
 ) => any
