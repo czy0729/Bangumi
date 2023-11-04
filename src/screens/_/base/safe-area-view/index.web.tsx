@@ -1,11 +1,11 @@
 /*
  * @Author: czy0729
- * @Date: 2020-04-21 10:09:14
+ * @Date: 2023-11-04 05:51:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:51:09
+ * @Last Modified time: 2023-11-04 05:52:47
  */
 import React from 'react'
-import { SafeAreaView as RNSafeAreaView } from 'react-navigation'
+import { View } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -13,21 +13,17 @@ import { Props as SafeAreaViewProps } from './types'
 
 export { SafeAreaViewProps }
 
+/** @todo */
 export const SafeAreaView = ob(
   ({
     style,
-    forceInset = {
-      top: 'never'
-    },
+    /** @todo */
+    forceInset,
     children,
     ...other
   }: SafeAreaViewProps) => (
-    <RNSafeAreaView
-      style={stl(_.container.screen, style)}
-      forceInset={forceInset}
-      {...other}
-    >
+    <View style={stl(_.container.screen, style)} {...other}>
       {children}
-    </RNSafeAreaView>
+    </View>
   )
 )

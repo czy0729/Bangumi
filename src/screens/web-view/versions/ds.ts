@@ -2,57 +2,75 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 06:28:30
+ * @Last Modified time: 2023-11-04 06:23:48
  */
 export const NAMESPACE = 'ScreenVersions'
 
 export const TABS = [
   {
-    title: '7.16 - 7/4',
+    title: '8.3 - 23/11/5',
+    key: 'lfqgis2fat1tyrnp'
+  },
+  {
+    title: '8.2 - 23/10/2',
+    key: 'itgg9g5vv4bvlf9l'
+  },
+  {
+    title: '8.1 - 23/8/27',
+    key: 'fcy8syh34t76t0i4'
+  },
+  {
+    title: '8.0 - 23/8/13',
+    key: 'io0nkkukoaxztf45'
+  },
+
+  // 7.X
+  {
+    title: '7.16 - 23/7/4',
     key: 'ric9srgg6sx9wakm'
   },
   {
-    title: '7.15 - 6/9',
+    title: '7.15 - 23/6/9',
     key: 'gaqpf9ugnl17gt38'
   },
   {
-    title: '7.14 - 5/19',
+    title: '7.14 - 23/5/19',
     key: 'sxqp62tybfww8ehw'
   },
   {
-    title: '7.13 - 4/29',
+    title: '7.13 - 23/4/29',
     key: 'nt61pb04opftxany'
   },
   {
-    title: '7.12 - 4/20',
+    title: '7.12 - 23/4/20',
     key: 'ypnsacpkn4kukqtg'
   },
   {
-    title: '7.11 - 4/2',
+    title: '7.11 - 23/4/2',
     key: 'rgqtvd27o1o7x8lz'
   },
   {
-    title: '7.10 - 3/17',
+    title: '7.10 - 23/3/17',
     key: 'ilbk1t5pv060eqvp'
   },
   {
-    title: '7.9 - 3/3',
+    title: '7.9 - 23/3/3',
     key: 'ia218hdgptzlfnrt'
   },
   {
-    title: '7.8 - 2/15',
+    title: '7.8 - 23/2/15',
     key: 'ww1hgenu9g6kb1gs'
   },
   {
-    title: '7.7 - 2/6',
+    title: '7.7 - 23/2/6',
     key: 'uymn10kytroups5m'
   },
   {
-    title: '7.6 - 1/23',
+    title: '7.6 - 23/1/23',
     key: 'csleloiptpy496h8'
   },
   {
-    title: '7.5 - 1/7',
+    title: '7.5 - 23/1/7',
     key: 'gldi9rhwbnn163pk'
   },
   {

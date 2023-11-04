@@ -1,19 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2023-06-23 03:58:08
+ * @Date: 2023-11-04 05:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:50:28
+ * @Last Modified time: 2023-11-04 06:07:02
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Loading } from '@components'
-import WebView from '@components/@/web-view'
 import { SafeAreaView } from '@_'
 import { _ } from '@stores'
 import { useBoolean } from '@utils/hooks'
-import { injectedJavaScript } from './utils'
 
 function Web({ uri }) {
   const { state, setTrue } = useBoolean(false)
+
   return (
     <SafeAreaView
       style={[
@@ -24,26 +24,24 @@ function Web({ uri }) {
       ]}
     >
       {!state && <Loading style={_.mt.lg} />}
-      <WebView
+      <View
         style={{
+          flex: 1,
           backgroundColor: _.colorPlain,
           opacity: state ? 1 : 0
         }}
-        originWhitelist={['*']}
-        source={{
-          uri: `https://www.yuque.com/chenzhenyu-k0epm/znygb4/${uri}?singleDoc`
+        onLayout={() => {
+          setTrue()
         }}
-        // androidHardwareAccelerationDisabled
-        // androidLayerType='software'
-        javaScriptEnabled
-        injectedJavaScript={injectedJavaScript()}
-        bounces={false}
-        onLoadEnd={() => {
-          setTimeout(() => {
-            setTrue()
-          }, 1000)
-        }}
-      />
+      >
+        <iframe
+          style={{
+            height: '100%',
+            border: 'none'
+          }}
+          src={`https://www.yuque.com/chenzhenyu-k0epm/znygb4/${uri}?singleDoc`}
+        />
+      </View>
     </SafeAreaView>
   )
 }

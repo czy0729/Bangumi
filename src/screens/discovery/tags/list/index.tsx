@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 18:54:48
+ * @Last Modified time: 2023-11-04 16:08:00
  */
 import React from 'react'
 import { Loading, ListView } from '@components'
+import { Notice } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { SubjectType } from '@types'
@@ -42,7 +43,7 @@ class List extends React.Component<{
   render() {
     const { $ } = this.context as Ctx
     const { id } = this.props
-    const { page } = $.state
+    const { page, rec } = $.state
     const list = $.list(id)
     const numColumns = _.num(4)
     return (
@@ -58,6 +59,14 @@ class List extends React.Component<{
             numColumns={numColumns}
             scrollToTop={TABS[page].key === id}
             keyboardDismissMode='on-drag'
+            ListHeaderComponent={
+              rec && (
+                <Notice style={_.mb.md}>
+                  「排名」为作者整理的对应标签下评分最高的前 100
+                  个条目。若没有足够数据则跳转到正常的标签页面。
+                </Notice>
+              )
+            }
             renderItem={this.renderItem}
             onHeaderRefresh={this.onHeaderRefresh}
             onFooterRefresh={this.onFooterRefresh}

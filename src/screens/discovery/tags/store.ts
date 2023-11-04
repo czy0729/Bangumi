@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:03:46
+ * @Last Modified time: 2023-11-04 15:58:30
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -158,6 +158,13 @@ export default class ScreenTags extends store {
       page
     })
     this.tabChangeCallback(page)
+    this.setStorage(NAMESPACE)
+  }
+
+  onValueChange = (title: string) => {
+    this.setState({
+      rec: title === '排名'
+    })
     this.setStorage(NAMESPACE)
   }
 

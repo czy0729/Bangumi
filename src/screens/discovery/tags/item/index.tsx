@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 18:53:09
+ * @Last Modified time: 2023-11-04 16:11:47
  */
 import React from 'react'
 import { Touchable, Text, Flex, Heatmap, Highlight } from '@components'
@@ -12,14 +12,19 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
+import { getTyperankNums } from './utils'
 
 function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting
-  const { filter } = $.state
+  const { filter, rec } = $.state
 
   let numsText = nums
-  if (nums > 10000) numsText = `${formatNumber(nums / 10000, 1)}w`
+  if (rec) {
+    numsText = getTyperankNums(type, name)
+  } else {
+    if (nums > 10000) numsText = `${formatNumber(nums / 10000, 1)}w`
+  }
 
   const num = _.num(4)
   const tag = HTMLDecode(name)
@@ -35,6 +40,19 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
       animate
       scale={0.85}
       onPress={() => {
+        if (rec && numsText) {
+          t('标签索引.跳转', {
+            to: 'Typerank',
+            type,
+            tag
+          })
+          navigation.push('Typerank', {
+            type,
+            tag
+          })
+          return
+        }
+
         t('标签索引.跳转', {
           to: 'Tag',
           type,
@@ -51,7 +69,7 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
           {tag}
         </Highlight>
         <Text style={_.mt.xs} type='sub' align='center' size={10}>
-          {numsText}
+          {numsText || '--'}
         </Text>
       </Flex>
       {index === 0 && <Heatmap id='标签索引.跳转' />}

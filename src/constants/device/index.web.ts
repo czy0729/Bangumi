@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-13 20:40:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-14 17:38:04
+ * @Last Modified time: 2023-11-04 06:14:57
  */
 import { isMobile } from '@utils/dom'
 
@@ -33,7 +33,7 @@ export const STORYBOOK_IFRAME = window.self !== window.top
 export const STORYBOOK_GRID = STORYBOOK_IFRAME || !isMobile()
 
 /** Storybook 窗口宽度 */
-export const STORYBOOK_WIDTH = STORYBOOK_GRID ? 440 : clientWidth
+export const STORYBOOK_WIDTH = STORYBOOK_GRID ? 480 : clientWidth
 
 /** Storybook 窗口高度 */
 export const STORYBOOK_HEIGHT = STORYBOOK_GRID ? 640 : clientHeight
