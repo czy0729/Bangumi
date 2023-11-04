@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 22:30:23
+ * @Last Modified time: 2023-11-05 03:41:55
  */
 import { AnyObject, Fn } from '@types'
 import { getSPAId, urlStringify } from '@utils'
-import { SHARE_MODE } from '@constants'
+import { SHARE_MODE, STORYBOOK } from '@constants'
 import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
 import { BOTTOM_TAB_DS } from './ds'
 
@@ -19,9 +19,10 @@ export const StorybookNavigation = {
   /** ==================== private ==================== */
   _history: {
     length: 1,
-    lastBottomTab:
-      BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id ||
-      BOTTOM_TAB_DS[0].id
+    lastBottomTab: STORYBOOK
+      ? BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id ||
+        BOTTOM_TAB_DS[0].id
+      : 'Discovery'
   },
   _updateHistory(value: 1 | -1) {
     const { length } = this._history

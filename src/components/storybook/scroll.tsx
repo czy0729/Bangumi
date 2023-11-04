@@ -26,7 +26,7 @@ export const StorybookScroll = ({
   const _onScroll = useCallback(
     async e => {
       StorybookState.scrollTopMap.set(
-        window.location.search,
+        window?.location?.search,
         e.nativeEvent.contentOffset.y
       )
       if (typeof onScroll === 'function') {
@@ -56,7 +56,7 @@ export const StorybookScroll = ({
     try {
       if (!StorybookState.navigating) return
 
-      const y = StorybookState.scrollTopMap.get(window.location.search)
+      const y = StorybookState.scrollTopMap.get(window?.location?.search)
       if (y) {
         const scrollTo = () => {
           if (

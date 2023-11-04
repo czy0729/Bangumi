@@ -17,7 +17,7 @@ const cacheMap = new Map<string, number>()
  * */
 export default function useRunAfter(fn = () => {}) {
   return useMount(() => {
-    const key = hash(`${window.location.pathname}${window.location.search}`)
+    const key = hash(`${window.location.pathname}${window?.location?.search}`)
     if (!cacheMap.has(key) || getTimestamp() - cacheMap.get(key) >= 60 * 30) {
       setTimeout(() => {
         cacheMap.set(key, getTimestamp())

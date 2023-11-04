@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 18:47:53
+ * @Last Modified time: 2023-11-05 03:46:28
  */
 import { computed, observable } from 'mobx'
-import { subjectStore } from '@stores'
+import { collectionStore, subjectStore } from '@stores'
 import { getTimestamp, pick, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { gets } from '@utils/kv'
@@ -118,6 +118,8 @@ export default class ScreenTyperank extends store {
       })
       this.setStorage(NAMESPACE)
     } catch (error) {}
+
+    collectionStore.fetchCollectionStatusQueue(ids)
   }
 
   // -------------------- get --------------------

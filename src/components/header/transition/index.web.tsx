@@ -17,7 +17,7 @@ function Transition({ fixed, title, headerTitle }: TransitionProps) {
   // 避免页面退后也触发了渐出动画
   const _fixed =
     (StorybookState.navigateAction === 'POP' &&
-      StorybookState.scrollTopMap.get(window.location.search)) >= 80
+      StorybookState.scrollTopMap.get(window?.location?.search)) >= 80
       ? true
       : fixed
   const wrapStyles = useAnimatedStyle(() => ({

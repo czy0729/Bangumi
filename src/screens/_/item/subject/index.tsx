@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-03 03:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 04:51:08
+ * @Last Modified time: 2023-11-05 03:52:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Touchable, Flex } from '@components'
-import { _, subjectStore } from '@stores'
+import { _, subjectStore, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -78,6 +78,7 @@ export const ItemSubject = ob(
               .filter(item => !!item)
               .join(' / ') || '-'
           }
+          collection={collectionStore.collect(subjectId)}
           event={event}
         />
       </View>

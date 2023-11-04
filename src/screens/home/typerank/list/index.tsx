@@ -2,53 +2,33 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 18:43:07
+ * @Last Modified time: 2023-11-05 03:56:44
  */
 import React from 'react'
-import { Empty, Loading, ScrollView } from '@components'
-import { PaginationList2, ItemSubject } from '@_'
+import { Empty, Loading } from '@components'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { SubjectId } from '@types'
+import Item from '../item'
 import { Ctx } from '../types'
 
-const EVENT = {
-  id: '分类排行.跳转'
-} as const
-
-function List(props, { $, navigation }: Ctx) {
+function List(props, { $ }: Ctx) {
   if (!$.ids.length) return <Empty text='此标签没有足够的列表数据' />
 
   const { searching } = $.state
   if (searching) return <Loading style={_.container.flex} />
 
   return (
-    <ScrollView
+    <PaginationList2
       contentContainerStyle={_.container.bottom}
-      keyboardDismissMode='on-drag'
+      keyExtractor={keyExtractor}
+      data={$.ids}
+      limit={12}
+      renderItem={renderItem}
       onScroll={$.onScroll}
-    >
-      <PaginationList2
-        contentContainerStyle={_.container.bottom}
-        keyExtractor={keyExtractor}
-        data={$.ids}
-        limit={12}
-        renderItem={({ item, index }) => (
-          <ItemSubject
-            navigation={navigation}
-            event={EVENT}
-            index={index}
-            subjectId={item}
-            type={$.type}
-            subject={$.subject(item)}
-            oss={$.subjectOSS(item)}
-            active={$.subjectId == item}
-          />
-        )}
-        onPage={$.fetchSubjectsFromOSS}
-        onNextPage={$.fetchSubjectsFromOSS}
-      />
-    </ScrollView>
+      onPage={$.fetchSubjectsFromOSS}
+    />
   )
 }
 
@@ -56,4 +36,8 @@ export default obc(List)
 
 function keyExtractor(item: SubjectId) {
   return String(item)
+}
+
+function renderItem({ item, index }) {
+  return <Item subjectId={item} index={index} />
 }

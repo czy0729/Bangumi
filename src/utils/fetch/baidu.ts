@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 20:25:29
+ * @Last Modified time: 2023-11-05 03:16:22
  */
+import { STORYBOOK } from '@constants/device'
 import { asc, urlStringify } from '../utils'
 import { get, update } from '../kv'
 import Crypto from '../crypto'
 import md5 from '../thirdParty/md5'
 import hash from '../thirdParty/hash'
 import { xhrCustom } from './xhr'
-import { STORYBOOK } from '@constants'
 
 const s = new Date().getSeconds()
 
