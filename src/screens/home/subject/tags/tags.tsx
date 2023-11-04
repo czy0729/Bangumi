@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 17:20:45
+ * @Last Modified time: 2023-11-04 19:46:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { SectionTitle, PreventTouchPlaceholder } from '@_'
-import { systemStore, _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -128,7 +128,7 @@ export default memo(
           right={
             showTags ? (
               <>
-                {focusOrigin && <IconGame />}
+                {!focusOrigin && <IconGame />}
                 {!!rank && <RecSegement />}
               </>
             ) : (

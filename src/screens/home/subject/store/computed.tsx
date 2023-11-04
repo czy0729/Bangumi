@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 04:39:48
+ * @Last Modified time: 2023-11-04 18:32:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -236,6 +236,16 @@ export default class Computed extends State {
   /** 条目类型值 */
   @computed get subjectTypeValue() {
     return MODEL_SUBJECT_TYPE.getLabel<SubjectType>(this.subjectType)
+  }
+
+  /** 尽量找到排名 */
+  @computed get rank() {
+    return (
+      this.subject.rank ||
+      subjectStore.ratingRank(this.subjectId) ||
+      this.subjectFromOSS?.rating?.rank ||
+      0
+    )
   }
 
   /** @deprecated Ep 偏移 */

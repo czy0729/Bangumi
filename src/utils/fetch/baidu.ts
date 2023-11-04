@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 02:12:49
+ * @Last Modified time: 2023-11-04 20:25:29
  */
 import { asc, urlStringify } from '../utils'
 import { get, update } from '../kv'
@@ -10,6 +10,7 @@ import Crypto from '../crypto'
 import md5 from '../thirdParty/md5'
 import hash from '../thirdParty/hash'
 import { xhrCustom } from './xhr'
+import { STORYBOOK } from '@constants'
 
 const s = new Date().getSeconds()
 
@@ -52,6 +53,9 @@ export async function baiduTranslate(query: string, to = 'zh') {
         })
       }
     }
+
+    // 网页版暂时不允许直接调用百度翻译
+    if (STORYBOOK) throw new Error('Denied')
 
     const appid = APP_BAIDU_ID
     const salt = new Date().getTime()

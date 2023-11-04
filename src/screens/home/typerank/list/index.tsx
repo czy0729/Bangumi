@@ -2,17 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:42:28
+ * @Last Modified time: 2023-11-04 18:43:07
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Empty, Flex, Loading, Mesume, ScrollView } from '@components'
-import RandomText from '@components/list-view/footer/random-text'
-import { ItemSubject } from '@_'
-import { _, systemStore } from '@stores'
+import { Empty, Loading, ScrollView } from '@components'
+import { PaginationList2, ItemSubject } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { SubjectId } from '@types'
 import { Ctx } from '../types'
-import { styles } from './styles'
 
 const EVENT = {
   id: '分类排行.跳转'
@@ -30,10 +28,13 @@ function List(props, { $, navigation }: Ctx) {
       keyboardDismissMode='on-drag'
       onScroll={$.onScroll}
     >
-      <View style={styles.list}>
-        {$.ids.map((item, index) => (
+      <PaginationList2
+        contentContainerStyle={_.container.bottom}
+        keyExtractor={keyExtractor}
+        data={$.ids}
+        limit={12}
+        renderItem={({ item, index }) => (
           <ItemSubject
-            key={item}
             navigation={navigation}
             event={EVENT}
             index={index}
@@ -43,14 +44,16 @@ function List(props, { $, navigation }: Ctx) {
             oss={$.subjectOSS(item)}
             active={$.subjectId == item}
           />
-        ))}
-        <Flex style={styles.noMore} justify='center' direction='column'>
-          <Mesume size={80} />
-          {systemStore.setting.speech && <RandomText />}
-        </Flex>
-      </View>
+        )}
+        onPage={$.fetchSubjectsFromOSS}
+        onNextPage={$.fetchSubjectsFromOSS}
+      />
     </ScrollView>
   )
 }
 
 export default obc(List)
+
+function keyExtractor(item: SubjectId) {
+  return String(item)
+}

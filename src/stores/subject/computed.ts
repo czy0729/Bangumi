@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 04:33:30
+ * @Last Modified time: 2023-11-04 18:18:40
  */
 import { computed } from 'mobx'
 import { x18 } from '@utils'
@@ -301,12 +301,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 尽量获取到条目排名 */
   ratingRank(subjectId: SubjectId) {
-    return computed<number | ''>(() => {
+    return computed<number>(() => {
       return (
         this.subjectV2(subjectId)?.rank ||
         this.subject(subjectId)?.rank ||
         this.subjectFromOSS(subjectId)?.rank ||
-        ''
+        0
       )
     }).get()
   }

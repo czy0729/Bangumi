@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 17:31:26
+ * @Last Modified time: 2023-11-04 17:01:29
  */
 import React, { ReactNode } from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { StorybookScroll } from '../../storybook'
 import { Flex } from '../../flex'
+import { AnyObject, Fn } from '@types'
 
 function List({
   contentContainerStyle,
@@ -18,14 +19,20 @@ function List({
   data,
   pagination,
   numColumns,
+  showFooter,
   ListHeaderComponent,
   renderSectionHeader,
   renderItem,
   renderFooter,
-  showFooter,
   onFooterRefresh,
   onScroll
-}) {
+}: AnyObject<{
+  data: any[]
+  renderItem: Fn
+  renderSectionHeader?: Fn
+  onFooterRefresh?: Fn
+  onScroll?: Fn
+}>) {
   let content: ReactNode
   if (sections) {
     content = sections.map((section: any, index: number) => (

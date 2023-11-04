@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 15:33:48
+ * @Last Modified time: 2023-11-04 18:34:51
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   const { type, tag } = $.params
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type) || '动画'
   return (
     <CompHeader
       title={tag ? `${typeCn} · ${tag}` : `${typeCn}标签`}

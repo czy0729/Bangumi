@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-17 06:35:59
+ * @Last Modified time: 2023-11-04 20:22:01
  */
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
@@ -115,9 +115,9 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
  * - [2020] 19945783
  * - [2021] 23045125,25475042
  * - [2022] 27168016,29260639,29987675,31072870
- * - [2023] 32279369,33457566,35103537,35103537,36237364,36996426
+ * - [2023] 32279369,33457566,35103537,35103537,36237364,36996426,37896791
  * */
-export const APP_ID_SAY_DEVELOP = '36996426'
+export const APP_ID_SAY_DEVELOP = '37896791'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'

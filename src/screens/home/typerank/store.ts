@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 02:54:53
+ * @Last Modified time: 2023-11-04 18:47:53
  */
 import { computed, observable } from 'mobx'
 import { subjectStore } from '@stores'
@@ -26,9 +26,6 @@ export default class ScreenTyperank extends store {
       ...EXCLUDE_STATE,
       _loaded: true
     })
-
-    await this.fetchSubjects()
-    this.fetchSubjectsFromOSS()
   }
 
   fetchSubjects = async () => {
@@ -36,8 +33,7 @@ export default class ScreenTyperank extends store {
     return true
   }
 
-  fetchSubjectsFromOSS = async () => {
-    const ids = [...this.ids]
+  fetchSubjectsFromOSS = async (ids: SubjectId[]) => {
     if (!ids.length) return true
 
     const { subjects } = this.state
