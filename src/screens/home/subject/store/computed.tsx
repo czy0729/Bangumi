@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 18:32:05
+ * @Last Modified time: 2023-11-04 20:38:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -588,6 +588,16 @@ export default class Computed extends State {
         )?.[2] || ''
       ).match(/(\d{4})/)?.[0] || ''
     )
+  }
+
+  /** 发布时间 (用于显示在 title label) */
+  @computed get end() {
+    // 连载开始为最优先
+    const year =
+      (
+        this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || ''
+      ).match(/(\d{4})/)?.[0] || ''
+    return year
   }
 
   /** 艺术家 */

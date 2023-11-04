@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 23:50:07
+ * @Last Modified time: 2023-11-04 20:43:15
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -13,6 +13,12 @@ import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
   // global.rerender('Subject.Head')
+
+  // 书籍显示连载时间段
+  let year = $.year
+  if (year && $.subjectTypeValue === 'book' && $.end && $.end !== $.year) {
+    year = `${$.year} - ${$.end}`
+  }
 
   return (
     <Head
@@ -25,7 +31,7 @@ export default obc((props, { $ }: Ctx) => {
       cn={$.cn}
       jp={$.jp}
       release={$.release}
-      year={$.year}
+      year={year}
       coverPlaceholder={$.coverPlaceholder}
       imageWidth={$.imageWidth}
       imageHeight={$.imageHeight}
