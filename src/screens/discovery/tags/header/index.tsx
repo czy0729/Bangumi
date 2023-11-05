@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-04 15:39:13
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as CompHeader, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
@@ -19,14 +19,16 @@ const DATA = [TEXT_BROWSER]
 if (!STORYBOOK) DATA.push(TEXT_SPA)
 
 function Header(props, { $ }: Ctx) {
+  const { rec } = $.state
   return (
     <CompHeader
       title='标签'
       alias='标签索引'
       hm={[$.url, 'Tags']}
+      headerTitleAlign='left'
       headerRight={() => (
-        <>
-          <RecSegement />
+        <Flex>
+          <RecSegement value={rec} onValueChange={$.onValueChange} />
           <CompHeader.Popover
             data={DATA}
             onSelect={key => {
@@ -44,7 +46,7 @@ function Header(props, { $ }: Ctx) {
           >
             <Heatmap id='标签索引.右上角菜单' />
           </CompHeader.Popover>
-        </>
+        </Flex>
       )}
     />
   )

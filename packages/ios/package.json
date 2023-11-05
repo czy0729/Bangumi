@@ -14,7 +14,8 @@
     "top": "top -s 4 -o rsize",
     "mv": "sudo yarn k && mv ios ios_ && mv android android_",
     "pub": "sudo expo publish",
-    "re": "sudo mv ios_ ios && mv android_ android && yarn k"
+    "re": "sudo mv ios_ ios && mv android_ android && yarn k",
+    "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\"
   },
   "resolutions": {
     "@types/react": "17.0.2",

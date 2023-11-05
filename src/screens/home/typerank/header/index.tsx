@@ -18,6 +18,7 @@ function Header(props, { $ }: Ctx) {
         $.tag
       } (${$.ids.length})`}
       hm={['typerank', 'Typerank']}
+      headerTitleAlign='left'
     />
   )
 }
