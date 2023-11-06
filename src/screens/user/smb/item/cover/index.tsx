@@ -9,14 +9,13 @@ import { Image } from '@components'
 import { Cover as CoverComp } from '@_'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_DEFAULT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
-import { ICONS } from '../../ds'
+import { ASSETS_ICONS, IMG_DEFAULT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
 
 function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
   if (!loaded) {
     return (
       <Image
-        src={ICONS.folder}
+        src={ASSETS_ICONS.folder}
         size={IMG_WIDTH_LG}
         placeholder={false}
         resizeMode='contain'

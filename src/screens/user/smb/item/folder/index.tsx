@@ -10,7 +10,7 @@ import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { copy, desc } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { ICONS } from '../../ds'
+import { ASSETS_ICONS } from '@constants'
 import { SORT_ORDER } from '../ds'
 import { memoStyles } from './styles'
 
@@ -53,7 +53,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
           <Flex align='start'>
             <Image
               style={_.mr.sm}
-              src={ICONS.open}
+              src={ASSETS_ICONS.open}
               size={16}
               placeholder={false}
               resizeMode='contain'
@@ -93,12 +93,13 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
                       folder.name,
                       item.name
                     )
+                    console.log(link)
                     Linking.openURL(link)
                   }}
                 >
                   <Flex align='start'>
                     <Image
-                      src={ICONS[item.type]}
+                      src={ASSETS_ICONS[item.type]}
                       size={16}
                       placeholder={false}
                       resizeMode='contain'

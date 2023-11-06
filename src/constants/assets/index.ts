@@ -50,3 +50,31 @@ export const ASSETS_MUSUMES = {
     ? `${HOST_DOGE}/assets/musume/musume7.png`
     : require('@assets/images/musume/musume7.png')
 } as const
+
+/** 本地管理图标 */
+export const ASSETS_ICONS = {
+  file: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/file.png`
+    : require('@assets/cloud/file.png'),
+  open: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/folder.png`
+    : require('@assets/cloud/folder.png'),
+  folder: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/folder.png`
+    : require('@assets/cloud/folder.png'),
+  music: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/music.png`
+    : require('@assets/cloud/music.png'),
+  pic: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/pic.png`
+    : require('@assets/cloud/pic.png'),
+  video: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/video.png`
+    : require('@assets/cloud/video.png'),
+  zip: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/zip.png`
+    : require('@assets/cloud/zip.png'),
+  origin: ENV_STORYBOOK_DEV
+    ? `${HOST_DOGE}/assets/cloud/origin.png`
+    : require('@assets/cloud/origin.png')
+} as const

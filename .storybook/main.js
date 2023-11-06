@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 22:58:07
+ * @Last Modified time: 2023-11-06 06:19:49
  */
 const { GenerateSW } = require('workbox-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -30,6 +30,11 @@ module.exports = {
     }
   },
   webpackFinal: async (config, { configType }) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      stream: require.resolve('stream-browserify')
+    }
+
     /** ========== Workbox ========== */
     if (configType === 'PRODUCTION') {
       config.plugins.push(

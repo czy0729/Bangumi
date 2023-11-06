@@ -79,7 +79,6 @@ class AntmModal extends React.Component<typeof defaultProps> {
     return (
       <WithTheme styles={styles} themeStyles={modalStyles}>
         {styles => (
-          // @ts-expect-error
           <RCModal
             style={stl(style, overideStyles.transparent)}
             wrapStyle={overideStyles.center}

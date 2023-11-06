@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 12:36:46
+ * @Last Modified time: 2023-11-06 06:44:32
  */
-import { IOS } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 
 export const ACTIONS_SORT = [
   '日期',
@@ -37,14 +37,19 @@ export const EXCLUDE_STATE = {
   sharedFolder: '',
   workGroup: '',
   path: '',
-  url: `${IOS ? 'http' : 'smb'}://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]`,
-  webDAV: IOS
+  url: `${
+    IOS || STORYBOOK ? 'http' : 'smb'
+  }://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]`,
+  webDAV: IOS || STORYBOOK
 }
 
 export const STATE = {
   uuid: '',
   sort: ACTIONS_SORT[0] as (typeof ACTIONS_SORT)[number],
   filter: '',
+
+  /** 缓存条目快照 */
+  subjects: {},
   ...EXCLUDE_STATE,
   _loaded: false
 }
@@ -194,15 +199,4 @@ export const DICT_ORDER = {
   剧场版: 73,
   OVA: 72,
   SP: 71
-} as const
-
-export const ICONS = {
-  file: require('@assets/cloud/file.png'),
-  open: require('@assets/cloud/folder-open.png'),
-  folder: require('@assets/cloud/folder.png'),
-  music: require('@assets/cloud/music.png'),
-  pic: require('@assets/cloud/pic.png'),
-  video: require('@assets/cloud/video.png'),
-  zip: require('@assets/cloud/zip.png'),
-  origin: require('@assets/cloud/origin.png')
 } as const

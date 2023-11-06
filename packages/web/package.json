@@ -8,7 +8,8 @@
     "build": "STORYBOOK=true build-storybook",
     "postinstall": "patch-package",
     "env": "node ./packages/env.js",
-    "proxy": "cd ./web/test && node proxy-api.js",
+    "proxy": "cd ./web/tools && node proxy-api.js",
+    "proxy:webdav": "cd ./web/tools && node proxy-webdav.js",
     "k": "sudo purge"
   },
   "resolutions": {
