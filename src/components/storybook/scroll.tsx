@@ -51,7 +51,7 @@ export const StorybookScroll = ({
   )
 
   useMount(() => {
-    ref.current.classList.add('component-scrollview')
+    ref.current.classList.add('component-storybook-scrollview')
 
     try {
       if (!StorybookState.navigating) return

@@ -66,6 +66,17 @@
   .component-storybook-spa-top:hover {
     background-color: rgba(255, 255, 255, 0.16);
   }
+  .base-scrollview-horizontal {
+    /* scroll-snap-type: x mandatory;
+    scroll-behavior: smooth; */
+    cursor: grab;
+  }
+  .base-scrollview-horizontal > div {
+    /* scroll-snap-align: start; */
+  }
+  .base-scrollview-horizontal--grabbing > div * {
+    pointer-events: none !important;
+  }
   @font-face {
     font-family: 'bgm';
     src: url('https://cdn.jsdelivr.net/gh/czy0729/Bangumi@master/src/assets/fonts/AppleColorEmoji.ttf')

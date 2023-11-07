@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 07:04:19
+ * @Last Modified time: 2023-11-08 00:53:43
  */
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
+import ScrollViewHorizontal from './scroll-view-horizontal'
 import Item from './item'
-import { memoStyles } from './styles'
 import { Props as HorizontalListProps } from './types'
 
 export { HorizontalListProps }
@@ -76,12 +75,8 @@ export const HorizontalList = ob(
       const { scrolled } = this.state
       return (
         <View>
-          <ScrollView
+          <ScrollViewHorizontal
             style={style}
-            contentContainerStyle={this.styles.contentContainerStyle}
-            horizontal
-            {...SCROLL_VIEW_RESET_PROPS}
-            scrollEventThrottle={8}
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
           >
             {this.data.map((item, index) => (
@@ -99,14 +94,10 @@ export const HorizontalList = ob(
                 onSubPress={onSubPress}
               />
             ))}
-          </ScrollView>
+          </ScrollViewHorizontal>
           <PreventTouchPlaceholder />
         </View>
       )
-    }
-
-    get styles() {
-      return memoStyles()
     }
   }
 )

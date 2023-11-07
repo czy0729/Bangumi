@@ -50,12 +50,14 @@ export function scrollToTop() {
 
   setTimeout(() => {
     try {
-      document.querySelector('main.component-page div.component-scrollview').scrollTo({
-        // @ts-ignore
-        x: 0,
-        y: 0,
-        animated: true
-      })
+      document
+        .querySelector('main.component-page div.component-storybook-scrollview')
+        .scrollTo({
+          // @ts-ignore
+          x: 0,
+          y: 0,
+          animated: true
+        })
     } catch (error) {}
   }, 0)
 }
