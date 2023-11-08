@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 00:53:43
+ * @Last Modified time: 2023-11-08 14:18:38
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Component } from '@components'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
@@ -74,7 +74,7 @@ export const HorizontalList = ob(
       } = this.props
       const { scrolled } = this.state
       return (
-        <View>
+        <Component id='horizontal-list'>
           <ScrollViewHorizontal
             style={style}
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}
@@ -96,7 +96,7 @@ export const HorizontalList = ob(
             ))}
           </ScrollViewHorizontal>
           <PreventTouchPlaceholder />
-        </View>
+        </Component>
       )
     }
   }

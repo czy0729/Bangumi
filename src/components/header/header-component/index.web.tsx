@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-01 01:33:58
+ * @Last Modified time: 2023-11-08 23:14:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { Component } from '../../component'
 import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
@@ -28,9 +29,9 @@ function HeaderComponent({
     ? colors[statusBarEventsType](fixed)
     : undefined
   return (
-    <header
-      className={`component-header component-header--${mode || 'normal'}`}
-      // eslint-disable-next-line react-native/no-inline-styles
+    <Component
+      id='component-header'
+      data-mode={mode || 'normal'}
       style={{
         ...styles.header,
         display: 'flex',
@@ -42,7 +43,7 @@ function HeaderComponent({
       {headerLeft}
       <Flex.Item />
       {!!headerRight && headerRight()}
-    </header>
+    </Component>
   )
 }
 

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 04:59:02
+ * @Last Modified time: 2023-11-08 22:16:39
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
-import { _ } from '@stores'
 import { stl } from '@utils'
 import { useMount } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { StorybookState } from './state'
-import { StorybookScrollProps } from './types'
+import { Component } from '../../component'
+import { StorybookState } from '../state'
+import { styles } from './styles'
+import { Props as StorybookScrollProps } from './types'
 
 export const StorybookScroll = ({
   style,
@@ -51,8 +52,6 @@ export const StorybookScroll = ({
   )
 
   useMount(() => {
-    ref.current.classList.add('component-storybook-scrollview')
-
     try {
       if (!StorybookState.navigating) return
 
@@ -94,22 +93,18 @@ export const StorybookScroll = ({
   })
 
   return (
-    <ScrollView
-      ref={ref}
-      style={stl(styles.scrollView, style)}
-      contentContainerStyle={contentContainerStyle}
-      {...other}
-      {...SCROLL_VIEW_RESET_PROPS}
-      scrollEventThrottle={4}
-      onScroll={_onScroll}
-    >
-      {children}
-    </ScrollView>
+    <Component id='component-storybook-scroll' style={styles.scroll}>
+      <ScrollView
+        ref={ref}
+        style={stl(styles.scrollView, style)}
+        contentContainerStyle={contentContainerStyle}
+        {...other}
+        {...SCROLL_VIEW_RESET_PROPS}
+        scrollEventThrottle={4}
+        onScroll={_onScroll}
+      >
+        {children}
+      </ScrollView>
+    </Component>
   )
 }
-
-const styles = _.create({
-  scrollView: {
-    flexGrow: 1
-  }
-})

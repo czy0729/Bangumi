@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 13:51:10
+ * @Last Modified time: 2023-11-06 19:29:50
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -13,12 +13,12 @@ import {
   userStore
 } from '@stores'
 import { SMB } from '@stores/smb/types'
-import { getTimestamp, sleep, desc, info, alert, confirm, cnjp } from '@utils'
+import { getTimestamp, sleep, desc, info, alert, confirm, cnjp, pick } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { get, update } from '@utils/kv'
+import { get, gets, update } from '@utils/kv'
 import Crypto from '@utils/crypto'
-import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
+import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
 import { smbList, webDAVList } from './utils'
@@ -29,9 +29,13 @@ export default class ScreenSmb extends store {
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}
+    const extraState: Partial<typeof EXCLUDE_STATE> = {}
+    if (STORYBOOK) extraState.tags = state.tags || EXCLUDE_STATE.tags
+
     this.setState({
       ...state,
       ...EXCLUDE_STATE,
+      ...extraState,
       _loaded: false
     })
 
@@ -65,6 +69,8 @@ export default class ScreenSmb extends store {
 
   /** 批量请求条目和收藏 */
   fetchInfos = async (refresh: boolean = false) => {
+    if (STORYBOOK) return this.fetchInfosWeb()
+
     const { loading } = this.state
     if (loading) return
 
@@ -113,6 +119,80 @@ export default class ScreenSmb extends store {
       loading: false
     })
     return queue(collectionFetchs)
+  }
+
+  /** 批量请求条目和收藏 (网页版) */
+  fetchInfosWeb = async () => {
+    const { loading } = this.state
+    if (loading) return
+
+    const { subjects } = this.state
+    const now = getTimestamp()
+    const fetchIds = []
+    this.subjectIds.forEach(id => {
+      // maybe nsfw
+      if (!this.subjectV2(id).id) {
+        const { _loaded } = subjects[id] || {}
+        if (!_loaded || now - Number(_loaded) >= 60 * 60 * 24) {
+          const { _loaded } = this.subjectOSS(id)
+          if (!_loaded || now - Number(_loaded) >= 60 * 60 * 24) {
+            fetchIds.push(`subject_${id}`)
+          }
+        }
+      }
+    })
+    if (!fetchIds.length) return true
+
+    this.setState({
+      loading: true
+    })
+    try {
+      console.info('fetchSubjectsFromOSS', fetchIds)
+
+      const picker = [
+        'id',
+        'name',
+        'name_cn',
+        'image',
+        'rank',
+        'rating',
+        'totalEps',
+        'info',
+        'type'
+      ]
+      const data = await gets(fetchIds, picker)
+      Object.entries(data).forEach(([key, item]) => {
+        try {
+          data[key] = pick(item, picker)
+
+          data[key].jp = data[key].name
+          delete data[key].name
+
+          data[key].cn = data[key].name_cn
+          delete data[key].name_cn
+
+          if (data[key].info) {
+            data[key].date =
+              data[key].info.match(
+                /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
+              )?.[2] || ''
+          }
+          delete data[key].info
+
+          data[key]._loaded = getTimestamp()
+        } catch (error) {}
+      })
+
+      this.setState({
+        subjects: data
+      })
+      this.setStorage(NAMESPACE)
+    } catch (error) {}
+
+    this.setState({
+      loading: false
+    })
+    return true
   }
 
   /** 扫描 */
@@ -191,7 +271,15 @@ export default class ScreenSmb extends store {
   }
 
   subjectV2(subjectId: SubjectId) {
-    return computed(() => subjectStore.subjectV2(subjectId)).get()
+    return computed(() => {
+      if (STORYBOOK) return this.subjectOSS(subjectId)
+
+      return subjectStore.subjectV2(subjectId)
+    }).get()
+  }
+
+  subjectOSS(id: SubjectId) {
+    return computed(() => this.state.subjects[`subject_${id}`] || {}).get()
   }
 
   collection(subjectId: SubjectId) {

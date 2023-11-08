@@ -1,0 +1,23 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 12:57:23
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-08 14:11:25
+ */
+horizontal-list {
+  .scroll-view-horizontal {
+    // scroll-snap-type: x mandatory;
+    // scroll-behavior: smooth;
+
+    // & > div {
+    //   scroll-snap-align: start;
+    // }
+    &--grabbing {
+      cursor: grab;
+
+      & > div * {
+        pointer-events: none !important;
+      }
+    }
+  }
+}

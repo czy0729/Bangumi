@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import PopoverComp from './popover.web'
+import PopoverComp from './popover'
 
 export const Popover = observer(props => {
   return <PopoverComp {...props} />

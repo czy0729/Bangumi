@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 15:11:58
+ * @Last Modified time: 2023-11-08 19:35:11
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
@@ -51,7 +51,7 @@ export function scrollToTop() {
   setTimeout(() => {
     try {
       document
-        .querySelector('main.component-page div.component-storybook-scrollview')
+        .querySelector('component-page component-storybook-scroll > div')
         .scrollTo({
           // @ts-ignore
           x: 0,

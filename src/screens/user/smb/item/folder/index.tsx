@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 11:42:14
+ * @Last Modified time: 2023-11-06 19:35:38
  */
 import React from 'react'
 import { View, Linking } from 'react-native'
@@ -13,6 +13,9 @@ import { useObserver } from '@utils/hooks'
 import { ASSETS_ICONS } from '@constants'
 import { SORT_ORDER } from '../ds'
 import { memoStyles } from './styles'
+
+/** 文件名截取位置 */
+const SLICE_INDEX = 12
 
 const textProps = {
   size: 11,
@@ -83,7 +86,7 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
                   onPress={() =>
                     copy(
                       url(smb.sharedFolder, folder.path, folder.name, item.name),
-                      '已复制smb地址'
+                      '已复制地址'
                     )
                   }
                   onLongPress={async () => {
@@ -113,11 +116,11 @@ function Folder({ showFolder, setShowFolder, subjectId, folder, smb, url }) {
                         <Flex>
                           <Flex.Item>
                             <Text {...textProps} numberOfLines={1}>
-                              {item.name.slice(0, item.name.length - 12)}
+                              {item.name.slice(0, item.name.length - SLICE_INDEX)}
                             </Text>
                           </Flex.Item>
                           <Text {...textProps}>
-                            {item.name.slice(item.name.length - 12)}
+                            {item.name.slice(item.name.length - SLICE_INDEX)}
                           </Text>
                         </Flex>
                       )}

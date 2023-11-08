@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:34:04
+ * @Last Modified time: 2023-11-08 22:12:00
  */
 import React, { useState, useMemo, useCallback } from 'react'
 import { View } from 'react-native'
@@ -96,7 +96,7 @@ export default memo(
     }
 
     return (
-      <View>
+      <View style={dragging && styles.dragging}>
         {isPortrait && dragging && (
           <Text style={styles.text} size={13} bold>
             按住拖拽排序，拖动到分割线左侧显示，右侧隐藏

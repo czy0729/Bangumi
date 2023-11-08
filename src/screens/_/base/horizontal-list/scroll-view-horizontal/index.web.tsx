@@ -2,27 +2,27 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 01:44:47
+ * @Last Modified time: 2023-11-08 14:10:54
  */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { useObserver } from 'mobx-react'
+import { useDom } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
+import './index.scss'
 
-const cls = 'base-scrollview-horizontal'
+const cls = 'scroll-view-horizontal'
 
 function ScrollViewHorizontal({ children, ...other }) {
-  const containerRef = useRef(null)
-  useEffect(() => {
-    containerRef.current.classList.add(cls)
-  }, [])
-
+  const ref = useDom(cls)
   const [isDown, setIsDown] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
   useEffect(() => {
-    const container = containerRef.current
+    const container = ref.current
+    const activeCls = `${cls}--grabbing`
+
     const handleMouseDown = (e: { pageX: number }) => {
       setIsDown(true)
       container.style.cursor = 'grabbing'
@@ -31,24 +31,25 @@ function ScrollViewHorizontal({ children, ...other }) {
     }
     const handleMouseLeave = () => {
       setIsDown(false)
-      container.classList.remove(`${cls}--grabbing`)
+      container.classList.remove(activeCls)
       container.style.cursor = 'grab'
     }
     const handleMouseUp = () => {
       setIsDown(false)
-      container.classList.remove(`${cls}--grabbing`)
+      container.classList.remove(activeCls)
       container.style.cursor = 'grab'
     }
     const handleMouseMove = (e: { preventDefault: () => void; pageX: number }) => {
       if (!isDown) return
+
       e.preventDefault()
       const x = e.pageX - container.offsetLeft
       const walk = x - startX // 拖动速度调整
       container.scrollLeft = scrollLeft - walk
 
+      // 如果移动距离大于阈值，设置拖动状态，用于主动禁用内部点击事件
       if (Math.abs(walk) > 10) {
-        // 如果移动距离大于阈值，设置拖动状态，用于主动禁用内部点击事件
-        container.classList.add(`${cls}--grabbing`)
+        container.classList.add(activeCls)
       }
     }
 
@@ -63,13 +64,13 @@ function ScrollViewHorizontal({ children, ...other }) {
       container.removeEventListener('mouseup', handleMouseUp)
       container.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [isDown, startX, scrollLeft])
+  }, [isDown, startX, scrollLeft, ref])
 
   return useObserver(() => {
     const styles = memoStyles()
     return (
       <ScrollView
-        ref={containerRef}
+        ref={ref}
         contentContainerStyle={styles.contentContainerStyle}
         scrollEventThrottle={8}
         {...SCROLL_VIEW_RESET_PROPS}

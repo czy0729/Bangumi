@@ -6,17 +6,21 @@
  */
 import React from 'react'
 import { ToolBar as CompToolBar } from '@components'
-import { ob } from '@utils/decorators'
+import { IconTouchable } from '@_'
+import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
+import { Ctx } from '../types'
 import Sort from './sort'
 import Type from './type'
 
-function ToolBar() {
+function ToolBar(props, { $ }: Ctx) {
   return (
     <CompToolBar>
       <Sort />
       <Type />
+      {STORYBOOK && <IconTouchable name='md-refresh' onPress={$.onHeaderRefresh} />}
     </CompToolBar>
   )
 }
 
-export default ob(ToolBar)
+export default obc(ToolBar)

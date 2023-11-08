@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 02:31:40
+ * @Last Modified time: 2023-11-06 19:41:42
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
@@ -12,8 +12,9 @@ import { Flex, Image, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { copy, desc, alert } from '@utils'
 import { obc } from '@utils/decorators'
+import { ASSETS_ICONS } from '@constants'
 import { getUrl } from './utils'
-import { ICONS_ASSETS, SORT_ORDER } from './ds'
+import { SORT_ORDER } from './ds'
 import { memoStyles } from './styles'
 import { Props as FolderSMBProps } from './types'
 
@@ -34,7 +35,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
         <Flex align='start'>
           <Image
             style={_.mr.sm}
-            src={ICONS_ASSETS.open}
+            src={ASSETS_ICONS.open}
             size={16}
             placeholder={false}
             resizeMode='contain'
@@ -77,7 +78,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
                 >
                   <Flex align='start'>
                     <Image
-                      src={ICONS_ASSETS[item.type]}
+                      src={ASSETS_ICONS[item.type]}
                       size={16}
                       placeholder={false}
                       resizeMode='contain'

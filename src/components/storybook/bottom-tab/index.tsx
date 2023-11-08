@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-05 03:42:27
+ * @Last Modified time: 2023-11-08 20:55:19
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { getSPAId } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { STORYBOOK } from '@constants'
+import { Component } from '../../component'
 import { Flex } from '../../flex'
 import { Touchable } from '../../touchable'
 import { Iconfont } from '../../iconfont'
@@ -29,45 +30,47 @@ export const StorybookBottomTab = () => {
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <BlurView
-        style={styles.bottomTab}
-        tint={_.select('light', 'dark')}
-        intensity={100}
-      >
-        <Flex>
-          {BOTTOM_TAB_DS.map(item => {
-            const storyId = getSPAId(item.id)
-            const isActive = currentStoryId === storyId
-            return (
-              <Flex.Item key={item.id}>
-                <Touchable
-                  onPress={() => {
-                    if (isActive) {
-                      scrollToTop()
-                      return
-                    }
+      <Component id='component-storybook-bottom-tab' style={styles.bottomTab}>
+        <BlurView
+          style={styles.blurView}
+          tint={_.select('light', 'dark')}
+          intensity={100}
+        >
+          <Flex>
+            {BOTTOM_TAB_DS.map(item => {
+              const storyId = getSPAId(item.id)
+              const isActive = currentStoryId === storyId
+              return (
+                <Flex.Item key={item.id}>
+                  <Touchable
+                    onPress={() => {
+                      if (isActive) {
+                        scrollToTop()
+                        return
+                      }
 
-                    StorybookNavigation.replace(item.id, item.params)
-                  }}
-                >
-                  <Flex style={styles.item} direction='column'>
-                    <Flex style={styles.icon}>
-                      <Iconfont
-                        name={item.icon}
-                        size={item.size}
-                        color={isActive ? _.colorMain : _.colorIcon}
-                      />
+                      StorybookNavigation.replace(item.id, item.params)
+                    }}
+                  >
+                    <Flex style={styles.item} direction='column'>
+                      <Flex style={styles.icon}>
+                        <Iconfont
+                          name={item.icon}
+                          size={item.size}
+                          color={isActive ? _.colorMain : _.colorIcon}
+                        />
+                      </Flex>
+                      <Text size={12} type={isActive ? 'main' : 'icon'}>
+                        {item.label}
+                      </Text>
                     </Flex>
-                    <Text size={12} type={isActive ? 'main' : 'icon'}>
-                      {item.label}
-                    </Text>
-                  </Flex>
-                </Touchable>
-              </Flex.Item>
-            )
-          })}
-        </Flex>
-      </BlurView>
+                  </Touchable>
+                </Flex.Item>
+              )
+            })}
+          </Flex>
+        </BlurView>
+      </Component>
     )
   })
 }

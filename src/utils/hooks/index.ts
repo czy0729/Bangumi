@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:32:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-20 14:43:51
+ * @Last Modified time: 2023-11-08 14:03:16
  */
 export { default as useAppState } from './useAppState'
 export { default as useBackHandler } from './useBackHandler'
 export { default as useBoolean } from './useBoolean'
 export { default as useCachedResources } from './useCachedResources'
 export { default as useDimensions } from './useDimensions'
+export { default as useDom } from './useDom'
 export { default as useErrorHandlerAndroid } from './useErrorHandlerAndroid'
 export { default as useExpandLazy } from './useExpandLazy'
 export { default as useFocusEffect } from './useFocusEffect'

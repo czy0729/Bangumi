@@ -7,7 +7,6 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { useObserver } from 'mobx-react'
-import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
 
@@ -28,4 +27,4 @@ function ScrollViewHorizontal({ children, ...other }) {
   })
 }
 
-export default ob(ScrollViewHorizontal)
+export default ScrollViewHorizontal

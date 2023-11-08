@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 13:51:43
+ * @Last Modified time: 2023-11-06 18:52:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Iconfont, Text, Loading } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import ToolBar from '../tool-bar'
 import { ACTIONS_SMB } from '../ds'
 import { Ctx } from '../types'
@@ -34,7 +35,13 @@ function Top(props, { $, navigation }: Ctx) {
               <Iconfont name='md-arrow-drop-down' color={_.colorDesc} />
             </Flex>
           </Popover>
-          <Text size={12} type='sub' bold lineHeight={18} numberOfLines={2}>
+          <Text
+            size={12}
+            type='sub'
+            bold
+            lineHeight={18}
+            numberOfLines={STORYBOOK ? 1 : 2}
+          >
             [{webDAV ? 'webDAV' : 'SMB'}] {ip}
             {!!port && `:${port}`}
             {!!sharedFolder && `/${sharedFolder}`}

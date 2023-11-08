@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 06:19:49
+ * @Last Modified time: 2023-11-08 14:21:21
  */
+const sass = require('node-sass')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
@@ -29,7 +30,23 @@ module.exports = {
       lazyCompilation: true
     }
   },
+  framework: '@storybook/react',
   webpackFinal: async (config, { configType }) => {
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        // 如果需要将样式注入到编译后的组件中，取消注释此行
+        'style-loader',
+        'css-loader',
+        {
+          loader: 'sass-loader',
+          options: {
+            implementation: sass
+          }
+        }
+      ]
+    })
+
     config.resolve.alias = {
       ...config.resolve.alias,
       stream: require.resolve('stream-browserify')
@@ -106,6 +123,5 @@ module.exports = {
     }
 
     return config
-  },
-  framework: '@storybook/react'
+  }
 }

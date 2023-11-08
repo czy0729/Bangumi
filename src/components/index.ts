@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 12:52:32
+ * @Last Modified time: 2023-11-08 14:17:26
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -14,6 +14,7 @@ export * from './bgm-text'
 export * from './blur-view'
 export * from './button'
 export * from './collapsible'
+export * from './component'
 export * from './count-down'
 export * from './cover'
 export * from './deep-link'
@@ -59,7 +60,6 @@ export * from './skeleton'
 export * from './slider'
 export * from './spinner'
 export * from './status-bar'
-// export * from './status-bar-events'
 export * from './storybook'
 export * from './switch'
 export * from './switch-pro'

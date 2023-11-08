@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 12:42:20
+ * @Last Modified time: 2023-11-06 18:51:03
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView, View, Alert } from 'react-native'
@@ -12,8 +12,8 @@ import { _ } from '@stores'
 import { alert, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { s2tAsync } from '@utils/async'
+import { IOS, STORYBOOK } from '@constants'
 import { DEFAULT_PROPS } from './ds'
-import { IOS } from '@constants'
 
 export default memo(
   ({
@@ -302,54 +302,58 @@ export default memo(
           </Flex>
 
           {/* 文件夹 */}
-          <Flex>
-            <Text style={styles.label} size={12}>
-              文件夹
-            </Text>
-            <Flex.Item>
-              <Input
-                ref={ref => (pathRef.current = ref?.inputRef)}
-                style={styles.input}
-                placeholder='通常不填，多个用英文逗号分割'
-                defaultValue={path}
-                showClear
-                returnKeyType='next'
-                onChangeText={text => onChange('path', text)}
-                onSubmitEditing={() => {
-                  try {
-                    if (typeof workGroupRef?.current?.focus === 'function') {
-                      workGroupRef.current.focus()
-                    }
-                  } catch (error) {}
-                }}
-              />
-            </Flex.Item>
-          </Flex>
+          {!STORYBOOK && (
+            <Flex>
+              <Text style={styles.label} size={12}>
+                文件夹
+              </Text>
+              <Flex.Item>
+                <Input
+                  ref={ref => (pathRef.current = ref?.inputRef)}
+                  style={styles.input}
+                  placeholder='通常不填，多个用英文逗号分割'
+                  defaultValue={path}
+                  showClear
+                  returnKeyType='next'
+                  onChangeText={text => onChange('path', text)}
+                  onSubmitEditing={() => {
+                    try {
+                      if (typeof workGroupRef?.current?.focus === 'function') {
+                        workGroupRef.current.focus()
+                      }
+                    } catch (error) {}
+                  }}
+                />
+              </Flex.Item>
+            </Flex>
+          )}
 
           {/* 工作组 */}
-          <Flex>
-            <Text style={styles.label} size={12}>
-              工作组
-            </Text>
-            <Flex.Item>
-              <Input
-                ref={ref => (workGroupRef.current = ref?.inputRef)}
-                style={styles.input}
-                placeholder='通常不填，默认空'
-                defaultValue={workGroup}
-                showClear
-                returnKeyType='next'
-                onChangeText={text => onChange('workGroup', text)}
-                onSubmitEditing={() => {
-                  try {
-                    if (typeof urlRef?.current?.focus === 'function') {
-                      urlRef.current.focus()
-                    }
-                  } catch (error) {}
-                }}
-              />
-            </Flex.Item>
-          </Flex>
+          {!STORYBOOK && (
+            <Flex>
+              <Text style={styles.label} size={12}>
+                工作组
+              </Text>
+              <Flex.Item>
+                <Input
+                  ref={ref => (workGroupRef.current = ref?.inputRef)}
+                  style={styles.input}
+                  placeholder='通常不填，默认空'
+                  defaultValue={workGroup}
+                  showClear
+                  returnKeyType='next'
+                  onChangeText={text => onChange('workGroup', text)}
+                  onSubmitEditing={() => {
+                    try {
+                      if (typeof urlRef?.current?.focus === 'function') {
+                        urlRef.current.focus()
+                      }
+                    } catch (error) {}
+                  }}
+                />
+              </Flex.Item>
+            </Flex>
+          )}
 
           {/* 跳转 */}
           <Flex style={_.mt.sm} align='start'>

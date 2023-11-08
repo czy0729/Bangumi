@@ -1,0 +1,12 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 22:50:58
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-08 23:01:09
+ */
+component-page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 100px);
+  max-height: 100vh;
+}

@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-15 05:01:20
+ * @Last Modified time: 2023-11-08 22:54:22
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
+import { Component } from '../component'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Input } from '../input'
@@ -35,7 +36,7 @@ export const Pagination = ({
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <>
+      <Component id='component-pagination'>
         <Flex style={stl(styles.container, style)}>
           <Flex.Item>
             <Touchable style={styles.touch} onPress={onPrev}>
@@ -93,7 +94,7 @@ export const Pagination = ({
           </Flex.Item>
         </Flex>
         <KeyboardSpacer />
-      </>
+      </Component>
     )
   })
 }
