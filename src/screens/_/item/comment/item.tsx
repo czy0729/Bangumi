@@ -9,7 +9,7 @@ import { Flex, Iconfont, Text, UserStatus } from '@components'
 import { _, userStore, uiStore } from '@stores'
 import { stl, correctAgo } from '@utils'
 import { memo } from '@utils/decorators'
-import { LIKE_TYPE_TIMELINE, SHARE_MODE } from '@constants'
+import { LIKE_TYPE_TIMELINE } from '@constants'
 import { Popover, Avatar, Stars, Name, Likes } from '../../base'
 import { DEFAULT_PROPS } from './ds'
 
@@ -63,7 +63,7 @@ const Item = memo(
                 {userName}
               </Name>
             </Flex.Item>
-            {!SHARE_MODE && !!popoverData && typeof onSelect === 'function' && (
+            {!!popoverData && typeof onSelect === 'function' && (
               <Popover
                 key={userId}
                 style={styles.touch}

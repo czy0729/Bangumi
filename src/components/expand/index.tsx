@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:50:07
+ * @Last Modified time: 2023-11-09 08:44:57
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -11,6 +11,7 @@ import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../component'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -88,36 +89,38 @@ export const Expand = ({
   }, [expand])
 
   return useObserver(() => (
-    <Animated.View style={animatedStyles}>
-      <View style={styles.layout} onLayout={onLayout}>
-        {children}
-      </View>
-      {!expand && (
-        <>
-          {linearGradient && (
-            <LinearGradient
-              style={styles.linear}
-              colors={[
-                `rgba(${_.colorPlainRaw.join()}, 0)`,
-                `rgba(${_.colorPlainRaw.join()}, 0.32)`,
-                `rgba(${_.colorPlainRaw.join()}, 0.8)`,
-                `rgba(${_.colorPlainRaw.join()}, 1)`
-              ]}
-            />
-          )}
-          <View style={stl(styles.more, moreStyle)}>
-            <Touchable onPress={onExpand}>
-              <Flex justify='center'>
-                <Iconfont
-                  name='md-keyboard-arrow-down'
-                  color={iconColor}
-                  size={_.device(24, 32)}
-                />
-              </Flex>
-            </Touchable>
-          </View>
-        </>
-      )}
-    </Animated.View>
+    <Component id='component-expand'>
+      <Animated.View style={animatedStyles}>
+        <View style={styles.layout} onLayout={onLayout}>
+          {children}
+        </View>
+        {!expand && (
+          <>
+            {linearGradient && (
+              <LinearGradient
+                style={styles.linear}
+                colors={[
+                  `rgba(${_.colorPlainRaw.join()}, 0)`,
+                  `rgba(${_.colorPlainRaw.join()}, 0.32)`,
+                  `rgba(${_.colorPlainRaw.join()}, 0.8)`,
+                  `rgba(${_.colorPlainRaw.join()}, 1)`
+                ]}
+              />
+            )}
+            <View style={stl(styles.more, moreStyle)}>
+              <Touchable onPress={onExpand}>
+                <Flex justify='center'>
+                  <Iconfont
+                    name='md-keyboard-arrow-down'
+                    color={iconColor}
+                    size={_.device(24, 32)}
+                  />
+                </Flex>
+              </Touchable>
+            </View>
+          </>
+        )}
+      </Animated.View>
+    </Component>
   ))
 }

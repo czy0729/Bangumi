@@ -15,7 +15,7 @@
  * @Last Modified time: 2023-06-20 20:31:00
  */
 import React from 'react'
-import { View, Image as RNImage } from 'react-native'
+import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
@@ -23,6 +23,7 @@ import { getCover400, getTimestamp } from '@utils'
 import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
 import { AnyObject, Fn, Source } from '@types'
 import { IOS_IPA } from '@/config'
+import { Component } from '../component'
 import { Touchable } from '../touchable'
 import { devLog } from '../dev'
 import Error from './error'
@@ -720,7 +721,7 @@ export const Image = observer(
       } = this.props
       const { loaded } = this.state
       return (
-        <View style={this.computedStyle.container}>
+        <Component id='component-image' style={this.computedStyle.container}>
           <Touchable
             delay={delay}
             scale={scale}
@@ -760,7 +761,7 @@ export const Image = observer(
               loaded={loaded}
             />
           )}
-        </View>
+        </Component>
       )
     }
 
@@ -796,7 +797,7 @@ export const Image = observer(
       }
 
       return (
-        <View style={this.computedStyle.container}>
+        <Component id='component-image' style={this.computedStyle.container}>
           {this.renderImage()}
           {!IOS_IPA && skeleton && (
             <Skeleton
@@ -806,7 +807,7 @@ export const Image = observer(
               loaded={loaded}
             />
           )}
-        </View>
+        </Component>
       )
     }
 

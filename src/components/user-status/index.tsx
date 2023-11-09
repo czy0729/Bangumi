@@ -10,6 +10,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { getTimestamp, stl } from '@utils'
 import { systemStore, userStore } from '@stores'
+import { Component } from '../component'
 import { Flex } from '../flex'
 import { getUserStatus } from './utils'
 import { D1_TS, D3_TS, D7_TS } from './ds'
@@ -30,7 +31,7 @@ export const UserStatus = observer(
 
     const styles = memoStyles()
     return (
-      <View>
+      <Component id='component-user-status'>
         {children}
         <Flex
           style={stl(styles.wrap, mini && styles.wrapMini, style)}
@@ -47,7 +48,7 @@ export const UserStatus = observer(
             )}
           />
         </Flex>
-      </View>
+      </Component>
     )
   }
 )

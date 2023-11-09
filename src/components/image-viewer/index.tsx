@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 12:53:18
+ * @Last Modified time: 2023-11-09 08:55:58
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -13,6 +13,7 @@ import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { open, showActionSheet, stl } from '@utils'
 import { HOST_DOGE, IOS } from '@constants'
 import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
+import { Component } from '../component'
 import { StatusBar } from '../status-bar'
 import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
@@ -95,38 +96,40 @@ export const ImageViewer = observer(
     render() {
       const { index, visible, imageUrls, mini, onCancel, ...other } = this.props
       return (
-        <Modal
-          visible={visible}
-          transparent
-          hardwareAccelerated={false}
-          animationType='fade'
-          statusBarTranslucent
-          // presentationStyle='fullScreen'
-          onRequestClose={this.onRequestClose}
-        >
-          <View style={styles.container}>
-            <View style={styles.activityIndicator}>
-              <ActivityIndicator />
+        <Component id='component-image-viewer'>
+          <Modal
+            visible={visible}
+            transparent
+            hardwareAccelerated={false}
+            animationType='fade'
+            statusBarTranslucent
+            // presentationStyle='fullScreen'
+            onRequestClose={this.onRequestClose}
+          >
+            <View style={styles.container}>
+              <View style={styles.activityIndicator}>
+                <ActivityIndicator />
+              </View>
+              <View style={stl(styles.viewerContainer, mini && styles.viewerMini)}>
+                <RNImageViewer
+                  style={styles.viewer}
+                  index={index}
+                  imageUrls={imageUrls}
+                  backgroundColor='transparent'
+                  enableSwipeDown={!mini}
+                  enableImageZoom={!mini}
+                  menus={this.onMenus}
+                  renderIndicator={this.renderIndicator}
+                  onCancel={onCancel}
+                  {...other}
+                />
+              </View>
+              <Touchable style={styles.close} useRN onPress={onCancel}>
+                <Iconfont style={styles.iconfont} name='md-close' />
+              </Touchable>
             </View>
-            <View style={stl(styles.viewerContainer, mini && styles.viewerMini)}>
-              <RNImageViewer
-                style={styles.viewer}
-                index={index}
-                imageUrls={imageUrls}
-                backgroundColor='transparent'
-                enableSwipeDown={!mini}
-                enableImageZoom={!mini}
-                menus={this.onMenus}
-                renderIndicator={this.renderIndicator}
-                onCancel={onCancel}
-                {...other}
-              />
-            </View>
-            <Touchable style={styles.close} useRN onPress={onCancel}>
-              <Iconfont style={styles.iconfont} name='md-close' />
-            </Touchable>
-          </View>
-        </Modal>
+          </Modal>
+        </Component>
       )
     }
   }

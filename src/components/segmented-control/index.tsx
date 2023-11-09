@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 16:31:39
+ * @Last Modified time: 2023-11-09 08:59:56
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../component'
 import { SegmentedControlTab } from './segmented-control-tab'
 import { styles } from './styles'
 import { Props as SegmentedControlProps } from './types'
@@ -24,11 +25,13 @@ export const SegmentedControl = observer(
     backgroundColor,
     ...other
   }: SegmentedControlProps) => (
-    <SegmentedControlComp
-      tintColor={tintColor || _.select(_.colorPlain, _._colorDarkModeLevel2)}
-      backgroundColor={backgroundColor || _.colorBg}
-      {...other}
-    />
+    <Component id='component-segmented-control'>
+      <SegmentedControlComp
+        tintColor={tintColor || _.select(_.colorPlain, _._colorDarkModeLevel2)}
+        backgroundColor={backgroundColor || _.colorBg}
+        {...other}
+      />
+    </Component>
   )
 )
 

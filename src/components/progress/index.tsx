@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:50:50
+ * @Last Modified time: 2023-11-09 14:12:26
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
   Easing
 } from 'react-native-reanimated'
+import { Component } from '../component'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { memoStyles } from './styles'
@@ -46,25 +47,27 @@ export const Progress = ({
 
     const styles = memoStyles()
     return (
-      <Flex
-        style={[
-          styles.progress,
-          {
-            width
-          }
-        ]}
-      >
-        <Text size={13}>
-          <Text size={13}>{message}</Text>
-          <Text type='sub' size={11} lineHeight={13}>
-            {' '}
-            {current} / {total}
+      <Component id='component-progress'>
+        <Flex
+          style={[
+            styles.progress,
+            {
+              width
+            }
+          ]}
+        >
+          <Text size={13}>
+            <Text size={13}>{message}</Text>
+            <Text type='sub' size={11} lineHeight={13}>
+              {' '}
+              {current} / {total}
+            </Text>
           </Text>
-        </Text>
-        <View style={styles.bar}>
-          <Animated.View style={[styles.barActive, barStyle]} />
-        </View>
-      </Flex>
+          <View style={styles.bar}>
+            <Animated.View style={[styles.barActive, barStyle]} />
+          </View>
+        </Flex>
+      </Component>
     )
   })
 }

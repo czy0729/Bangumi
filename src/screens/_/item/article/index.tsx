@@ -5,11 +5,9 @@
  * @Last Modified time: 2023-04-05 04:06:41
  */
 import React from 'react'
-import { Flex, Text, Touchable, UserStatus } from '@components'
+import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
-import { date } from '@utils'
-import { appNavigate } from '@utils/app'
-import { HTMLDecode } from '@utils/html'
+import { date, appNavigate, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar, Name } from '../../base'
@@ -39,41 +37,43 @@ export const ItemArticle = ob(
     let time = date('y-m-d', timestamp)
     if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
     return (
-      <Touchable
-        style={style}
-        animate
-        onPress={() => appNavigate(url, navigation, {}, event)}
-      >
-        <Flex align='start'>
-          <UserStatus userId={userId}>
-            <Avatar
-              style={styles.image}
-              userId={userId}
-              name={nickname}
-              src={avatar}
-              event={event}
-              navigation={navigation}
-            />
-          </UserStatus>
-          <Flex.Item style={styles.item}>
-            <Text bold>{HTMLDecode(title)}</Text>
-            <Flex style={_.mt.xs}>
-              <Name userId={userId} showFriend size={12} bold>
-                {HTMLDecode(nickname)}
-              </Name>
-              <Text type='sub' style={_.ml.xs} size={12}>
-                / {time}
-                {replies ? ` / +${replies}` : ''}
-              </Text>
-            </Flex>
-            {!!summary && (
-              <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={3}>
-                {HTMLDecode(summary.replace(/\r\n\r\n/g, '\r\n'))}
-              </Text>
-            )}
-          </Flex.Item>
-        </Flex>
-      </Touchable>
+      <Component id='item-article'>
+        <Touchable
+          style={style}
+          animate
+          onPress={() => appNavigate(url, navigation, {}, event)}
+        >
+          <Flex align='start'>
+            <UserStatus userId={userId}>
+              <Avatar
+                style={styles.image}
+                userId={userId}
+                name={nickname}
+                src={avatar}
+                event={event}
+                navigation={navigation}
+              />
+            </UserStatus>
+            <Flex.Item style={styles.item}>
+              <Text bold>{HTMLDecode(title)}</Text>
+              <Flex style={_.mt.xs}>
+                <Name userId={userId} showFriend size={12} bold>
+                  {HTMLDecode(nickname)}
+                </Name>
+                <Text type='sub' style={_.ml.xs} size={12}>
+                  / {time}
+                  {replies ? ` / +${replies}` : ''}
+                </Text>
+              </Flex>
+              {!!summary && (
+                <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={3}>
+                  {HTMLDecode(summary.replace(/\r\n\r\n/g, '\r\n'))}
+                </Text>
+              )}
+            </Flex.Item>
+          </Flex>
+        </Touchable>
+      </Component>
     )
   }
 )

@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { getCover400, matchCoverUrl } from '@utils'
 import { IMG_DEFAULT } from '@constants'
+import { Component } from '../component'
 import { Image } from '../image'
 import TextOnly from './text-only'
 import Disc from './disc'
@@ -40,12 +41,14 @@ export const Cover = observer(
   }: CoverProps) => {
     if (textOnly) {
       return (
-        <TextOnly
-          width={other.width || size}
-          height={height || size}
-          radius={other.radius}
-          onPress={other.onPress}
-        />
+        <Component id='component-cover'>
+          <TextOnly
+            width={other.width || size}
+            height={height || size}
+            radius={other.radius}
+            onPress={other.onPress}
+          />
+        </Component>
       )
     }
 
@@ -87,51 +90,63 @@ export const Cover = observer(
     if (coverThings || useType) {
       if (type === '音乐') {
         return (
-          <Disc
-            {...other}
-            {...passProps}
-            imageStyle={style}
-            angleStyle={angleStyle}
-            width={other.width}
-            radius={other.radius}
-          />
+          <Component id='component-cover'>
+            <Disc
+              {...other}
+              {...passProps}
+              imageStyle={style}
+              angleStyle={angleStyle}
+              width={other.width}
+              radius={other.radius}
+            />
+          </Component>
         )
       }
 
       if (type === '书籍') {
         return (
-          <Book
-            {...other}
-            {...passProps}
-            containerStyle={containerStyle}
-            bodyStyle={bodyStyle}
-            imageStyle={style}
-            width={other.width}
-          />
+          <Component id='component-cover'>
+            <Book
+              {...other}
+              {...passProps}
+              containerStyle={containerStyle}
+              bodyStyle={bodyStyle}
+              imageStyle={style}
+              width={other.width}
+            />
+          </Component>
         )
       }
 
       if (type === '游戏') {
         return (
-          <Game
-            {...other}
-            {...passProps}
-            containerStyle={containerStyle}
-            bodyStyle={bodyStyle}
-            angleStyle={angleStyle}
-            imageStyle={style}
-            width={other.width}
-          />
+          <Component id='component-cover'>
+            <Game
+              {...other}
+              {...passProps}
+              containerStyle={containerStyle}
+              bodyStyle={bodyStyle}
+              angleStyle={angleStyle}
+              imageStyle={style}
+              width={other.width}
+            />
+          </Component>
         )
       }
 
       if (type === '目录') {
         return (
-          <Catalog {...other} {...passProps} imageStyle={style} width={other.width} />
+          <Component id='component-cover'>
+            <Catalog {...other} {...passProps} imageStyle={style} width={other.width} />
+          </Component>
         )
       }
     }
 
-    return <Image {...other} {...passProps} style={style} />
+    return (
+      <Component id='component-cover'>
+        <Image {...other} {...passProps} style={style} />
+      </Component>
+    )
   }
 )

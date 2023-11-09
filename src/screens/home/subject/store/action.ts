@@ -502,6 +502,11 @@ export default class Action extends Fetch {
     }
 
     if (title === '贴贴') {
+      if (!this.isLogin) {
+        info('请先登录')
+        return false
+      }
+
       return uiStore.showLikesGrid(
         this.subjectId,
         relatedId,

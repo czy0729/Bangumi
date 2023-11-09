@@ -12,6 +12,7 @@ import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
 import { matchCoverUrl } from '@utils'
 import { IOS } from '@constants'
+import { Component } from '../component'
 import { Image } from '../image'
 import { styles } from './styles'
 import { Props as BlurViewProps } from './types'
@@ -32,7 +33,7 @@ export const BlurView = observer(
     const _src = matchCoverUrl(src)
     if (IOS) {
       return (
-        <View style={style}>
+        <Component id='component-blur-view' style={style}>
           <Image
             imageStyle={styles.image}
             src={_src}
@@ -45,12 +46,12 @@ export const BlurView = observer(
             intensity={intensity}
           />
           {children}
-        </View>
+        </Component>
       )
     }
 
     return (
-      <View style={style}>
+      <Component id='component-blur-view' style={style}>
         <Image
           imageStyle={styles.image}
           src={_src}
@@ -61,7 +62,7 @@ export const BlurView = observer(
         />
         <View style={styles.mask} />
         {children}
-      </View>
+      </Component>
     )
   }
 )

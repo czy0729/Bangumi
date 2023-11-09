@@ -1,13 +1,12 @@
 /*
- * <ScrollView> 的 section 标题
- *
+ * ScrollView 的 section 标题
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-08 06:23:45
  */
 import React from 'react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Component, Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { isObject } from '@utils'
 import { memo } from '@utils/decorators'
@@ -21,28 +20,30 @@ export const SectionTitle = memo(
     // global.rerender('Component.SectionTitle')
 
     return (
-      <Flex style={style}>
-        <Flex.Item style={_.mr.sm}>
-          <Flex>
-            {onPress ? (
-              <Touchable style={styles.touch} onPress={onPress}>
-                <Flex>
-                  <Text type='title' size={20} bold>
-                    {children}
-                  </Text>
-                  {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
-                </Flex>
-              </Touchable>
-            ) : (
-              <Text type='title' size={20} bold>
-                {children}
-              </Text>
-            )}
-            {left}
-          </Flex>
-        </Flex.Item>
-        {right}
-      </Flex>
+      <Component id='section-title'>
+        <Flex style={style}>
+          <Flex.Item style={_.mr.sm}>
+            <Flex>
+              {onPress ? (
+                <Touchable style={styles.touch} onPress={onPress}>
+                  <Flex>
+                    <Text type='title' size={20} bold>
+                      {children}
+                    </Text>
+                    {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
+                  </Flex>
+                </Touchable>
+              ) : (
+                <Text type='title' size={20} bold>
+                  {children}
+                </Text>
+              )}
+              {left}
+            </Flex>
+          </Flex.Item>
+          {right}
+        </Flex>
+      </Component>
     )
   },
   {

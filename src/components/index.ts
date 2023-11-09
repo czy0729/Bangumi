@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 14:17:26
+ * @Last Modified time: 2023-11-09 14:06:19
  */
 export * from './accordion'
 export * from './action-sheet'
 export * from './activity'
+export * from './animated'
 export * from './avatar'
 export * from './back-android'
 export * from './bgm'

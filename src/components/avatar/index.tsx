@@ -6,7 +6,6 @@
  * @Last Modified time: 2023-07-05 17:30:52
  */
 import React, { useState } from 'react'
-import { View } from 'react-native'
 import { observer, useObserver } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
@@ -14,6 +13,7 @@ import CacheManager from '@utils/cache-manager'
 import { useMount } from '@utils/hooks'
 import { HOST_API_V0 } from '@utils/fetch.v0'
 import { HOST_CDN, IOS, IMG_EMPTY_DARK, IMG_EMPTY, IMG_DEFAULT } from '@constants'
+import { Component } from '../component'
 import { Touchable } from '../touchable'
 import { Image } from '../image'
 import {
@@ -100,7 +100,8 @@ export const Avatar = observer(
        */
       if (!IOS && typeof src === 'string' && src.includes('/icon.jpg')) {
         return (
-          <View
+          <Component
+            id='component-avatar'
             style={stl(
               styles.avatar,
               {
@@ -124,7 +125,7 @@ export const Avatar = observer(
               onPress={_onPress}
               onLongPress={onLongPress}
             />
-          </View>
+          </Component>
         )
       }
 
@@ -148,13 +149,20 @@ export const Avatar = observer(
 
       if (_onPress || onLongPress) {
         return (
-          <Touchable animate scale={0.88} onPress={_onPress} onLongPress={onLongPress}>
-            {el}
-          </Touchable>
+          <Component id='component-avatar'>
+            <Touchable
+              animate
+              scale={0.88}
+              onPress={_onPress}
+              onLongPress={onLongPress}
+            >
+              {el}
+            </Touchable>
+          </Component>
         )
       }
 
-      return el
+      return <Component id='component-avatar'>{el}</Component>
     })
   }
 )

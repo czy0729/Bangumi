@@ -7,7 +7,7 @@
  * @Last Modified time: 2023-05-24 18:15:43
  */
 import React, { useState, useCallback } from 'react'
-import { Text } from '@components'
+import { Component, Text } from '@components'
 import { usersStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Props as NameProps } from './types'
@@ -37,26 +37,28 @@ export const Name = ({
     friendsMap[userId]?.lastUserName?.trim() !== friendsMap[userId]?.userName?.trim()
 
   return useObserver(() => (
-    <Text
-      size={size}
-      lineHeight={lineHeight}
-      numberOfLines={lines}
-      onPress={disabled ? undefined : setLines2}
-      {...other}
-    >
-      {children}
-      {hasChangedName && (
-        <Text type='sub' size={11} lineHeight={lineHeight || size}>
-          ({friendsMap[userId].lastUserName}){' '}
-        </Text>
-      )}
-      {showFriend && isFriend && (
-        <Text type='warning' size={11} lineHeight={lineHeight || size}>
-          {' '}
-          好友
-        </Text>
-      )}
-      {right}
-    </Text>
+    <Component id='name'>
+      <Text
+        size={size}
+        lineHeight={lineHeight}
+        numberOfLines={lines}
+        onPress={disabled ? undefined : setLines2}
+        {...other}
+      >
+        {children}
+        {hasChangedName && (
+          <Text type='sub' size={11} lineHeight={lineHeight || size}>
+            ({friendsMap[userId].lastUserName}){' '}
+          </Text>
+        )}
+        {showFriend && isFriend && (
+          <Text type='warning' size={11} lineHeight={lineHeight || size}>
+            {' '}
+            好友
+          </Text>
+        )}
+        {right}
+      </Text>
+    </Component>
   ))
 }

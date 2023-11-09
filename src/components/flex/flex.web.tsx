@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-01 01:50:21
+ * @Last Modified time: 2023-11-09 09:14:57
  */
 import React from 'react'
 import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
+import { stl } from '@utils'
 import { Props as FlexProps } from './types'
 
 export default class Flex extends React.Component<FlexProps, any> {
@@ -55,7 +56,7 @@ export default class Flex extends React.Component<FlexProps, any> {
     }
 
     const inner = (
-      <View style={[flexStyle, style]} {...restProps}>
+      <View style={stl(flexStyle, style)} {...restProps}>
         {children}
       </View>
     )

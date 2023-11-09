@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-01 12:57:29
  */
 import React, { useCallback, useRef } from 'react'
-import { Page, StatusBar, Heatmap } from '@components'
+import { Component, Page, StatusBar, Heatmap } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { TapListener } from '@_'
 import { _, uiStore } from '@stores'
@@ -86,7 +86,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
   )
 
   return useObserver(() => (
-    <>
+    <Component id='screen-subject'>
       <TapListener>
         <Page statusBarEvent={false}>
           {IOS && <Bg />}
@@ -100,7 +100,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
       </TapListener>
       <Header fixed={fixed} index={navigation.getState().index} />
       <Heatmap id='条目' screen='Subject' />
-    </>
+    </Component>
   ))
 }
 

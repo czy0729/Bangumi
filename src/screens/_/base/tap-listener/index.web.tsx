@@ -5,7 +5,8 @@
  * @Last Modified time: 2023-06-02 23:16:17
  */
 import { useEffect } from 'react'
-import { uiStore } from '@stores'
+import { Component } from '@components'
+import { _, uiStore } from '@stores'
 
 export const TapListener = ({ children }) => {
   useEffect(() => {
@@ -20,5 +21,9 @@ export const TapListener = ({ children }) => {
     }
   }, [])
 
-  return children
+  return (
+    <Component id='tap-listener' style={_.container.flex}>
+      {children}
+    </Component>
+  )
 }

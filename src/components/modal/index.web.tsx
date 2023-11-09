@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 07:25:15
+ * @Last Modified time: 2023-11-09 14:10:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../component'
 import { Text } from '../text'
 import { Props as ModalProps } from './types'
 
@@ -20,7 +21,7 @@ export const Modal = observer(
     if (!visible) return null
 
     return (
-      <>
+      <Component id='component-modal'>
         <View
           style={styles.mask}
           // @ts-ignore
@@ -32,7 +33,7 @@ export const Modal = observer(
           </Text>
           <View>{children}</View>
         </View>
-      </>
+      </Component>
     )
   }
 )

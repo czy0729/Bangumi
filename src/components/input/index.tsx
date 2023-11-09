@@ -20,6 +20,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { IOS } from '@constants'
+import { Component } from '../component'
 import TextInput from './text-input'
 import Clear from './clear'
 import { memoStyles } from './styles'
@@ -225,7 +226,7 @@ export const Input = observer(
       if (multiline) {
         const containerHeight = INPUT_LINE_HEIGHT * numberOfLines + 18
         return (
-          <View style={_.container.block}>
+          <Component id='component-input' style={_.container.block}>
             <TouchableWithoutFeedback onPress={this.onTouch}>
               <View
                 style={stl(
@@ -243,12 +244,12 @@ export const Input = observer(
             {showClear && !!this.state.value && (
               <Clear color={colorClear} onPress={this.onClear} />
             )}
-          </View>
+          </Component>
         )
       }
 
       return (
-        <View style={_.container.block}>
+        <Component id='component-input' style={_.container.block}>
           <TextInput
             style={stl(
               {
@@ -264,7 +265,7 @@ export const Input = observer(
           {showClear && !!this.state.value && (
             <Clear color={colorClear} onPress={this.onClear} />
           )}
-        </View>
+        </Component>
       )
     }
 

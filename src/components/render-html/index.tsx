@@ -4,10 +4,9 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:33:50
+ * @Last Modified time: 2023-11-09 08:39:30
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { open, cheerio, HTMLDecode } from '@utils'
@@ -15,6 +14,7 @@ import { STORYBOOK } from '@constants'
 import { TextStyle } from '@types'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
+import { Component } from '../component'
 import { ErrorBoundary } from '../error-boundary'
 import { BgmText, bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana/utils'
@@ -327,7 +327,7 @@ export const RenderHtml = observer(
 
       return (
         <ErrorBoundary style={style}>
-          <View style={style}>
+          <Component id='component-render-html' style={style}>
             <HTML
               html={this.formatHTML()}
               onLinkPress={this.onLinkPress}
@@ -339,7 +339,7 @@ export const RenderHtml = observer(
               )}
               {...other}
             />
-          </View>
+          </Component>
         </ErrorBoundary>
       )
     }

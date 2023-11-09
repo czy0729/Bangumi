@@ -8,6 +8,7 @@
  */
 import React from 'react'
 import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
+import { stl } from '@utils'
 import { Props as FlexProps } from './types'
 
 export default class Flex extends React.Component<FlexProps, any> {
@@ -54,7 +55,7 @@ export default class Flex extends React.Component<FlexProps, any> {
     }
 
     const inner = (
-      <View style={[flexStyle, style]} {...restProps}>
+      <View style={stl(flexStyle, style)} {...restProps}>
         {children}
       </View>
     )

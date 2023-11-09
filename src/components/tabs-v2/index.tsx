@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 14:46:29
+ * @Last Modified time: 2023-11-09 14:15:07
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { TextStyle, ViewStyle } from '@types'
 import { TabView } from '../@/react-native-tab-view/TabView'
 import { TabBar } from '../@/react-native-tab-view/TabBar'
+import { Component } from '../component'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { W_INDICATOR, memoStyles } from './styles'
@@ -95,39 +96,41 @@ export const TabsV2 = ({
   )
 
   return (
-    <TabView
-      lazy={lazy}
-      lazyPreloadDistance={0}
-      navigationState={{
-        index: page,
-        // @ts-expect-error
-        routes
-      }}
-      renderTabBar={props => (
-        <TabBar
-          {...props}
-          style={tabBarStyle}
-          tabStyle={tabStyle}
-          labelStyle={styles.label}
-          indicatorStyle={indicatorStyle}
-          pressOpacity={1}
-          pressColor='transparent'
-          scrollEnabled
-          renderLabel={
-            renderLabel ||
-            (({ route, focused }) => (
-              <Flex style={styles.labelText} justify='center'>
-                <Text style={textStyle} type='title' size={13} bold={focused}>
-                  {route.title}
-                </Text>
-              </Flex>
-            ))
-          }
-        />
-      )}
-      renderScene={renderScene}
-      onIndexChange={onChange}
-      {...other}
-    />
+    <Component id='component-tabs'>
+      <TabView
+        lazy={lazy}
+        lazyPreloadDistance={0}
+        navigationState={{
+          index: page,
+          // @ts-expect-error
+          routes
+        }}
+        renderTabBar={props => (
+          <TabBar
+            {...props}
+            style={tabBarStyle}
+            tabStyle={tabStyle}
+            labelStyle={styles.label}
+            indicatorStyle={indicatorStyle}
+            pressOpacity={1}
+            pressColor='transparent'
+            scrollEnabled
+            renderLabel={
+              renderLabel ||
+              (({ route, focused }) => (
+                <Flex style={styles.labelText} justify='center'>
+                  <Text style={textStyle} type='title' size={13} bold={focused}>
+                    {route.title}
+                  </Text>
+                </Flex>
+              ))
+            }
+          />
+        )}
+        renderScene={renderScene}
+        onIndexChange={onChange}
+        {...other}
+      />
+    </Component>
   )
 }

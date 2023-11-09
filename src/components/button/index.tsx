@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-18 18:54:41
+ * @Last Modified time: 2023-11-09 09:04:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { titleCase, stl } from '@utils'
 import { ViewStyle, TextStyle } from '@types'
+import { Component } from '../component'
 import { Activity } from '../activity'
 import { Flex } from '../flex'
 import { Text } from '../text'
@@ -97,16 +98,20 @@ export const Button = observer(
 
     if (!loading && onPress) {
       return (
-        <Touchable animate={animate} onPress={onPress} {...other}>
-          <View style={wrapStyle}>{content}</View>
-        </Touchable>
+        <Component id='component-button'>
+          <Touchable animate={animate} onPress={onPress} {...other}>
+            <View style={wrapStyle}>{content}</View>
+          </Touchable>
+        </Component>
       )
     }
 
     return (
-      <View style={wrapStyle} {...other}>
-        {content}
-      </View>
+      <Component id='component-button'>
+        <View style={wrapStyle} {...other}>
+          {content}
+        </View>
+      </Component>
     )
   }
 )

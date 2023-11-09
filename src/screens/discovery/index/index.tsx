@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { Page, Track, Heatmap } from '@components'
+import { Component, Page, Track, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { androidDayNightToggle } from '@utils'
 import { ic } from '@utils/decorators'
@@ -35,7 +35,7 @@ const Discovery = ({ isFocused }, { $, navigation }: Ctx) => {
   return useObserver(() => {
     const { live2D } = systemStore.setting
     return (
-      <>
+      <Component id='screen-discovery'>
         <Page>
           <List isFocused={isFocused} />
           {live2D && <Mesume dragging={$.state.dragging} />}
@@ -43,7 +43,7 @@ const Discovery = ({ isFocused }, { $, navigation }: Ctx) => {
         </Page>
         <Track title={title} hm={['discovery', 'Discovery']} />
         <Heatmap bottom={_.bottom} id='发现' screen='Discovery' />
-      </>
+      </Component>
     )
   })
 }

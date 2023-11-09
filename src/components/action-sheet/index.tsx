@@ -6,12 +6,13 @@
  * @Last Modified time: 2023-08-07 17:49:56
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Animated, View } from 'react-native'
+import { Animated } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Portal } from '../portal'
+import { Component } from '../component'
 import { SafeAreaBottom } from '../safe-area-bottom'
 import { ScrollView } from '../scroll-view'
 import { Touchable } from '../touchable'
@@ -81,7 +82,7 @@ export const ActionSheet = ({
     const h = Math.min(height || _.window.height * 0.5, _.window.height * 0.88)
     return (
       <Portal>
-        <View style={styles.actionSheet}>
+        <Component id='component-action-sheet' style={styles.actionSheet}>
           <Animated.View
             style={[
               styles.mask,
@@ -138,7 +139,7 @@ export const ActionSheet = ({
               </SafeAreaBottom>
             </Touchable>
           </Animated.View>
-        </View>
+        </Component>
       </Portal>
     )
   })

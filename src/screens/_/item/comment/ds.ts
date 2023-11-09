@@ -30,6 +30,6 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as SubjectId,
   relatedId: '' as string | number,
   event: EVENT as EventType,
-  popoverData: undefined as string[],
+  popoverData: undefined as string[] | readonly string[],
   onSelect: undefined as Fn
 }

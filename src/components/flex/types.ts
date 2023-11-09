@@ -6,10 +6,12 @@
  */
 import { FlexPropsType } from '@ant-design/react-native/lib/flex/PropsType'
 import { Fn, Override, ViewStyle } from '@types'
+import { ComponentProps } from '../component'
 
 export type Props = Override<
   FlexPropsType,
   {
+    id?: ComponentProps['id']
     style?: ViewStyle
     flex?: number
     pointerEvents?: any

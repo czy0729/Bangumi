@@ -14,6 +14,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { feedback, urlStringify } from '@utils'
 import { useObserver } from '@utils/hooks'
+import { Component } from '../component'
 import { Props as FlipProps } from './types'
 
 export { FlipProps }
@@ -110,7 +111,7 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
       }
     }
     return (
-      <View style={style}>
+      <Component id='component-flip' style={style}>
         <View style={styles.container}>
           <Animated.View style={[styles.animated, beforeStyle]}>
             <View style={styles.placeholder} />
@@ -126,7 +127,7 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
             marginTop: -height
           }}
         />
-      </View>
+      </Component>
     )
   })
 }

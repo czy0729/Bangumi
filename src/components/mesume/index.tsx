@@ -3,11 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:24:02
+ * @Last Modified time: 2023-11-09 14:09:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ASSETS_MUSUMES } from '@constants'
+import { Component } from '../component'
 import { Image } from '../image'
 import { Props as MesumeProps } from './types'
 
@@ -18,13 +19,15 @@ export const Mesume = observer(({ style, size = 96, index }: MesumeProps) => {
   const key = Math.floor(Math.random() * 7) + 1
   const currentIndex = index || key
   return (
-    <Image
-      style={style}
-      src={ASSETS_MUSUMES[currentIndex]}
-      resizeMode='contain'
-      size={size}
-      placeholder={false}
-      fadeDuration={0}
-    />
+    <Component id='component-mesume'>
+      <Image
+        style={style}
+        src={ASSETS_MUSUMES[currentIndex]}
+        resizeMode='contain'
+        size={size}
+        placeholder={false}
+        fadeDuration={0}
+      />
+    </Component>
   )
 })

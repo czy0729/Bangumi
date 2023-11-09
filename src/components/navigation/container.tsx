@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:50:44
+ * @Last Modified time: 2023-11-09 14:11:34
  */
 import React, { useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
@@ -11,6 +11,7 @@ import { NavigationContainer as NavigationNativeContainer } from '@react-navigat
 import { navigationReference } from '@utils'
 import { Navigation } from '@types'
 import { IOS_IPA } from '@/config'
+import { Component } from '../component'
 import { Props } from './types'
 
 // iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化
@@ -47,16 +48,18 @@ export const NavigationContainer = ({ children }: Props) => {
   // }, [])
 
   return useObserver(() => (
-    <NavigationNativeContainer
-      // @ts-expect-error
-      ref={navigationRef}
-      onReady={() => {
-        if (navigationRef.current) {
-          navigationReference(navigationRef.current)
-        }
-      }}
-    >
-      {children}
-    </NavigationNativeContainer>
+    <Component id='component-navigation'>
+      <NavigationNativeContainer
+        // @ts-expect-error
+        ref={navigationRef}
+        onReady={() => {
+          if (navigationRef.current) {
+            navigationReference(navigationRef.current)
+          }
+        }}
+      >
+        {children}
+      </NavigationNativeContainer>
+    </Component>
   ))
 }

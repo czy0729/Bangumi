@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
-import Component from './in-view'
+import InViewComp from './in-view'
 
 export const InView = obc(({ index, children, ...other }, { $ }) => {
   // 若页面没有管理的 y 轴数值, 或者传递了 index
@@ -21,8 +21,8 @@ export const InView = obc(({ index, children, ...other }, { $ }) => {
   }
 
   return (
-    <Component {...other} visibleBottom={$?.state?.visibleBottom}>
+    <InViewComp {...other} visibleBottom={$?.state?.visibleBottom}>
       {children}
-    </Component>
+    </InViewComp>
   )
 })

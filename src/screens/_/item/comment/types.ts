@@ -27,6 +27,6 @@ export type Props = {
   subjectId?: SubjectId
   relatedId?: string | number
   event?: EventType
-  popoverData?: string[]
+  popoverData?: string[] | readonly string[]
   onSelect?: Fn
 }
