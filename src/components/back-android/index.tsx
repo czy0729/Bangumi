@@ -1,17 +1,18 @@
 /*
- * 安卓退后拦截器
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-24 11:21:01
+ * @Last Modified time: 2023-11-10 01:02:08
  */
 import { BackHandler } from 'react-native'
+import { Component } from '../component'
 import { navigationReference, info } from '@utils'
 import { useMount } from '@utils/hooks'
 
 let lastBackPressed: number
 
-export const BackAndroid = (): null => {
+/** 安卓退后拦截器 */
+export const BackAndroid = () => {
   useMount(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       const navigation = navigationReference()
@@ -39,5 +40,5 @@ export const BackAndroid = (): null => {
     }
   })
 
-  return null
+  return <Component id='component-back-android' />
 }

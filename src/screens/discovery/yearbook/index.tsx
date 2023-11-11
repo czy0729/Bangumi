@@ -2,10 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:27:13
+ * @Last Modified time: 2023-11-09 22:14:51
  */
 import React from 'react'
-import { Header, Page, ScrollView, Touchable, Image, Flex, Text } from '@components'
+import {
+  Component,
+  Flex,
+  Header,
+  Image,
+  Page,
+  ScrollView,
+  Text,
+  Touchable
+} from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -20,7 +29,7 @@ const Yearbook = ({ navigation }) => {
     const styles = memoStyles()
     const num = _.portrait(2, 4)
     return (
-      <>
+      <Component id='screen-yearbook'>
         <Header title='Bangumi年鉴' hm={['discovery/yearbook', 'Yearbook']} />
         <Page>
           <ScrollView contentContainerStyle={styles.container} scrollToTop>
@@ -151,7 +160,7 @@ const Yearbook = ({ navigation }) => {
             </Flex>
           </ScrollView>
         </Page>
-      </>
+      </Component>
     )
   })
 }

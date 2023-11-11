@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-27 20:10:29
  */
 import React, { useRef } from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver, useMount } from '@utils/hooks'
 import Header from './header'
@@ -33,13 +33,13 @@ const Dollars = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-dollars'>
       <Header />
       <Page loaded={$.dollars._loaded}>
         <Textarea />
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

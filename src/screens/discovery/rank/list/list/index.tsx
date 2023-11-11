@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:02:08
+ * @Last Modified time: 2023-11-10 04:06:34
  */
 import React from 'react'
 import { Empty, Heatmap } from '@components'
@@ -26,26 +26,24 @@ function List(props, { $, navigation }: Ctx) {
           const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
           const collection = collectionStore.collect(id, typeCn)
           return (
-            <>
-              <ItemSearch
-                key={item.id}
-                style={_.container.item}
-                navigation={navigation}
-                index={index}
-                collection={collection}
-                typeCn={typeCn}
-                event={EVENT_LIST}
-                {...item}
-                cover={item.cover || $.cover(item.id)}
-              />
-              {index === 1 && <Heatmap id='排行榜.跳转' />}
-            </>
+            <ItemSearch
+              key={item.id}
+              style={_.container.item}
+              navigation={navigation}
+              index={index}
+              collection={collection}
+              typeCn={typeCn}
+              event={EVENT_LIST}
+              {...item}
+              cover={item.cover || $.cover(item.id)}
+            />
           )
         })
       ) : (
         <Empty />
       )}
       {!!_filter && <FilterText value={_filter} />}
+      <Heatmap id='排行榜.跳转' />
     </>
   )
 }

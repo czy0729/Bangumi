@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-14 17:52:56
  */
 import React from 'react'
-import { Page, Text } from '@components'
+import { Component, Page, Text } from '@components'
 import { FilterSwitch } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
@@ -21,7 +21,7 @@ const Hentai = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-hentai'>
       <Header title='找番剧' alias='Hentai' hm={['hentai', 'Hentai']} />
       <Page loaded={$.state._loaded}>
         {!$.access ? (
@@ -35,7 +35,7 @@ const Hentai = (props, { $ }: Ctx) => {
           <List />
         )}
       </Page>
-    </>
+    </Component>
   ))
 }
 

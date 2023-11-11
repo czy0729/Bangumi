@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-28 15:38:10
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from '../anime/header'
@@ -19,12 +19,12 @@ const Game = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-game'>
       <Header title='找游戏' alias='游戏' hm={['game', 'Game']} />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

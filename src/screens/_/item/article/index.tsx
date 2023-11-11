@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:06:41
+ * @Last Modified time: 2023-11-10 04:33:42
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
@@ -37,7 +37,7 @@ export const ItemArticle = ob(
     let time = date('y-m-d', timestamp)
     if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
     return (
-      <Component id='item-article'>
+      <Component id='item-article' data-key={url}>
         <Touchable
           style={style}
           animate

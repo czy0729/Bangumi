@@ -1,12 +1,11 @@
 /*
- * 自动分页的长列表
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 17:01:26
+ * @Last Modified time: 2023-11-10 03:22:00
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { ListView } from '@components'
+import { Component, ListView } from '@components'
 import { getTimestamp } from '@utils'
 import { STORYBOOK } from '@constants'
 import { ListEmpty } from '@types'
@@ -14,6 +13,7 @@ import { Props as PaginationList2Props } from './types'
 
 export { PaginationList2Props }
 
+/** 支持分页的长列表 */
 export const PaginationList2 = ({
   forwardRef,
   connectRef,
@@ -84,11 +84,13 @@ export const PaginationList2 = ({
   }, [data, limit, onPage, onNextPage])
 
   return (
-    <ListView
-      ref={forwardRef || connectRef}
-      data={list}
-      {...other}
-      onFooterRefresh={onFooterRefresh}
-    />
+    <Component id='base-pagination-list-2'>
+      <ListView
+        ref={forwardRef || connectRef}
+        data={list}
+        {...other}
+        onFooterRefresh={onFooterRefresh}
+      />
+    </Component>
   )
 }

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-16 10:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 06:34:24
+ * @Last Modified time: 2023-11-10 01:06:02
  */
 import React, { useCallback, useState } from 'react'
-import { Expand, RenderHtml } from '@components'
+import { Component, Expand, RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate, open } from '@utils'
 
+/** 初始带截断的渲染 html, 用于优化渲染过长的 html */
 export const HTML = ({
   navigation,
   style = undefined,
@@ -42,11 +43,17 @@ export const HTML = ({
   // 若文本超长, 配合 Expand 组件减少首屏显示范围和渲染文字长度
   if (msg.length >= 1000) {
     return (
-      <Expand checkLayout={false} onExpand={onExpand}>
-        <RenderHtml {...passProps} html={expand ? html : html.slice(0, 200)} />
-      </Expand>
+      <Component id='base-html' data-type='split'>
+        <Expand checkLayout={false} onExpand={onExpand}>
+          <RenderHtml {...passProps} html={expand ? html : html.slice(0, 200)} />
+        </Expand>
+      </Component>
     )
   }
 
-  return <RenderHtml {...passProps} html={html} />
+  return (
+    <Component id='base-html' data-type='all'>
+      <RenderHtml {...passProps} html={html} />
+    </Component>
+  )
 }

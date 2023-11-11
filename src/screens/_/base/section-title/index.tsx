@@ -1,9 +1,8 @@
 /*
- * ScrollView 的 section 标题
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-08 06:23:45
+ * @Last Modified time: 2023-11-10 00:14:55
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable, Iconfont } from '@components'
@@ -15,12 +14,13 @@ import { Props as SectionTitleProps } from './types'
 
 export { SectionTitleProps }
 
+/** 块(章节) 标题 */
 export const SectionTitle = memo(
   ({ style, icon, left, right, children, onPress }: SectionTitleProps) => {
     // global.rerender('Component.SectionTitle')
 
     return (
-      <Component id='section-title'>
+      <Component id='base-section-title'>
         <Flex style={style}>
           <Flex.Item style={_.mr.sm}>
             <Flex>

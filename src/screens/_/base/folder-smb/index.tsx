@@ -1,14 +1,12 @@
 /*
- * SMB 管理弹窗
- *
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 19:41:42
+ * @Last Modified time: 2023-11-09 23:13:52
  */
 import React, { useState } from 'react'
 import { View, Linking } from 'react-native'
-import { Flex, Image, Text, Touchable, Iconfont } from '@components'
+import { Flex, Image, Text, Touchable, Iconfont, Component } from '@components'
 import { _ } from '@stores'
 import { copy, desc, alert } from '@utils'
 import { obc } from '@utils/decorators'
@@ -27,7 +25,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
   if (folder.path) path.push(folder.path)
   path.push(folder.name)
   return (
-    <View style={[styles.folder, styles.folderList]}>
+    <Component id='base-folder-smb' style={[styles.folder, styles.folderList]}>
       <Touchable
         onPress={() => setShowFolder(!showFolder)}
         onLongPress={() => copy(path.join('/'), '已复制smb地址')}
@@ -99,10 +97,11 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
           )}
         </View>
       )}
-    </View>
+    </Component>
   )
 }
 
+/** SMB 管理弹窗 */
 export const FolderSMB = obc(
   ({
     smb = {

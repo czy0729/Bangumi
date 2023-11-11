@@ -1,18 +1,18 @@
 /*
- * 监听剪贴板疑似 bgm 链接
- *
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-13 13:47:58
+ * @Last Modified time: 2023-11-09 23:35:12
  */
 import React from 'react'
 import { AppState, Clipboard } from 'react-native'
+import { Component } from '@components'
 import { confirm, matchBgmUrl, navigationReference, appNavigate } from '@utils'
 import { IOS, STORYBOOK } from '@constants'
 
 let lastUrl = ''
 
+/** 监听剪贴板疑似 bgm 链接 */
 export const ListenClipboard = class ListenClipboardComponent extends React.Component {
   state = {
     appState: AppState.currentState
@@ -64,6 +64,6 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   }
 
   render() {
-    return null
+    return <Component id='base-listen-clipboard' />
   }
 }

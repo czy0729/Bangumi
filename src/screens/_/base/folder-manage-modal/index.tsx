@@ -1,13 +1,12 @@
 /*
- * 目录管理弹窗
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 16:28:44
+ * @Last Modified time: 2023-11-09 23:12:16
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
-import { Modal, Divider, Empty } from '@components'
+import { Modal, Divider, Empty, Component } from '@components'
 import { _, userStore, usersStore, discoveryStore } from '@stores'
 import {
   asc,
@@ -37,6 +36,7 @@ export { FolderManageModalProps }
 
 let loaded = false
 
+/** 目录管理弹窗 */
 export const FolderManageModal = ob(
   class FolderManageModalComponent extends React.Component<
     FolderManageModalProps,
@@ -701,15 +701,17 @@ export const FolderManageModal = ob(
       const { title, onClose } = this.props
       const { visible } = this.state
       return (
-        <Modal
-          style={this.styles.modal}
-          visible={visible}
-          title={title}
-          onClose={onClose}
-        >
-          {this.renderBtnCreate()}
-          {this.renderList()}
-        </Modal>
+        <Component id='base-folder-manage-modal'>
+          <Modal
+            style={this.styles.modal}
+            visible={visible}
+            title={title}
+            onClose={onClose}
+          >
+            {this.renderBtnCreate()}
+            {this.renderList()}
+          </Modal>
+        </Component>
       )
     }
 

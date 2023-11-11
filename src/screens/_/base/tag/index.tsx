@@ -1,9 +1,8 @@
 /*
- * 标签
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 08:21:09
+ * @Last Modified time: 2023-11-10 01:13:33
  */
 import React from 'react'
 import { Component, Flex, Text, TextType } from '@components'
@@ -15,6 +14,7 @@ import { Props as TagProps } from './types'
 
 export { TagProps }
 
+/** 标签 */
 export const Tag = ob(
   ({ style, type, value, size = 10, align = 'center', children }: TagProps) => {
     if (!value && !children) return null
@@ -28,7 +28,7 @@ export const Tag = ob(
     _styles.push(style)
 
     return (
-      <Component id='tag'>
+      <Component id='base-tag'>
         <Flex style={_styles} justify='center'>
           {value !== undefined && (
             <Text

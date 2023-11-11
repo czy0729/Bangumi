@@ -6,7 +6,7 @@
  * @Last Modified time: 2023-10-21 17:32:54
  */
 import React from 'react'
-import { Track, Loading, Text, Heatmap, Page } from '@components'
+import { Track, Loading, Text, Heatmap, Page, Component } from '@components'
 import { _ } from '@stores'
 import { open, appNavigate, info, removeCF, getStorage, setStorage } from '@utils'
 import { ob } from '@utils/decorators'
@@ -187,34 +187,36 @@ class Award extends React.Component<{
   render() {
     const { loading, redirectCount, html } = this.state
     return (
-      <Page style={styles.container}>
-        {loading && (
-          <Loading style={styles.loading} color={_.__colorPlain__}>
-            <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
-              {redirectCount ? `第${redirectCount}次重试` : '网页加载中, 请稍等'}
-            </Text>
-            <Text
-              style={styles.extra}
-              size={10}
-              type={_.select('plain', 'title')}
-              onPress={this.onOpen}
-            >
-              或点这里使用浏览器打开
-            </Text>
-          </Loading>
-        )}
-        {!!html && (
-          <WebView
-            source={this.source}
-            onLoad={this.onLoad}
-            onError={this.onError}
-            onMessage={this.onMessage}
-          />
-        )}
-        <Track title='年鉴' hm={[`award/${this.year}`, 'Award']} />
-        <Heatmap id='年鉴' screen='Award' />
-        <Heatmap right={80} bottom={40} id='年鉴.跳转' transparent />
-      </Page>
+      <Component id='screen-award'>
+        <Page style={styles.container}>
+          {loading && (
+            <Loading style={styles.loading} color={_.__colorPlain__}>
+              <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
+                {redirectCount ? `第${redirectCount}次重试` : '网页加载中, 请稍等'}
+              </Text>
+              <Text
+                style={styles.extra}
+                size={10}
+                type={_.select('plain', 'title')}
+                onPress={this.onOpen}
+              >
+                或点这里使用浏览器打开
+              </Text>
+            </Loading>
+          )}
+          {!!html && (
+            <WebView
+              source={this.source}
+              onLoad={this.onLoad}
+              onError={this.onError}
+              onMessage={this.onMessage}
+            />
+          )}
+          <Track title='年鉴' hm={[`award/${this.year}`, 'Award']} />
+          <Heatmap id='年鉴' screen='Award' />
+          <Heatmap right={80} bottom={40} id='年鉴.跳转' transparent />
+        </Page>
+      </Component>
     )
   }
 }

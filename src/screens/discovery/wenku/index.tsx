@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-12 16:15:31
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from '../anime/header'
@@ -19,12 +19,12 @@ const Wenku = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-wenku'>
       <Header title='找文库' alias='文库' hm={['wenku', 'Wenku']} />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

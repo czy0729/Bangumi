@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-12 05:01:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:27:04
+ * @Last Modified time: 2023-11-10 02:07:09
  */
 import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../component'
 import { PlaceholderProps } from './types'
 
 function Placeholder({ style }: PlaceholderProps) {
   return (
-    <View
+    <Component
+      id='component-header-placeholder'
       style={stl(
         {
           height: _.headerHeight

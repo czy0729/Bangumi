@@ -1,13 +1,12 @@
 /*
- * 筛选组
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 06:02:42
+ * @Last Modified time: 2023-11-10 03:11:42
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
+import { Flex, Text, Touchable, Iconfont, Heatmap, Component } from '@components'
 import { _ } from '@stores'
 import { info, stl, isArray } from '@utils'
 import { obc } from '@utils/decorators'
@@ -20,6 +19,7 @@ import { HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterProps } from './types'
 
+/** 筛选组 */
 export const Filter = obc(
   (
     {
@@ -38,7 +38,7 @@ export const Filter = obc(
     const total = $?.total || length
     const eventId = `${type}.选择` as EventKeys
     return (
-      <View style={layout === 'grid' ? styles.grid : styles.list}>
+      <Component id='base-filter' style={layout === 'grid' ? styles.grid : styles.list}>
         <FilterSwitch title={title} name={name} />
         {filterDS
           .filter(item => {
@@ -60,7 +60,12 @@ export const Filter = obc(
               >
                 <View>
                   <View>
-                    <Text style={multiple && styles.multipleTitle} size={12} bold>
+                    <Text
+                      style={multiple && styles.multipleTitle}
+                      size={12}
+                      bold
+                      noWrap
+                    >
                       {item.title}
                     </Text>
                     {multiSelect && (
@@ -69,7 +74,7 @@ export const Filter = obc(
                         useRN
                         onPress={() => info('长按标签多选类型')}
                       >
-                        <Text size={12} lineHeight={12} type='icon' bold>
+                        <Text size={12} lineHeight={12} type='icon' bold noWrap>
                           多选
                         </Text>
                       </Touchable>
@@ -92,7 +97,9 @@ export const Filter = obc(
                       hitSlop={HIT_SLOP}
                       onPress={() => $?.onSelect(item.type, '')}
                     >
-                      <Text size={11}>{item.type === 'sort' ? '默认' : '全部'}</Text>
+                      <Text size={11} noWrap>
+                        {item.type === 'sort' ? '默认' : '全部'}
+                      </Text>
                     </Touchable>
                     <ScrollView
                       ref={scrollView => {
@@ -133,7 +140,7 @@ export const Filter = obc(
                                         : undefined
                                     }
                                   >
-                                    <Text size={11}>
+                                    <Text size={11} noWrap>
                                       {tag}
                                       {!!item.nums && item.nums[tag] && (
                                         <Text
@@ -141,6 +148,7 @@ export const Filter = obc(
                                           size={9}
                                           lineHeight={11}
                                           bold
+                                          noWrap
                                         >{` ${item.nums[tag]}`}</Text>
                                       )}
                                     </Text>
@@ -170,7 +178,7 @@ export const Filter = obc(
                                 hitSlop={HIT_SLOP}
                                 onPress={() => $?.onSelect(item.type, i)}
                               >
-                                <Text size={11}>
+                                <Text size={11} noWrap>
                                   {i}
                                   {!!item.nums && item.nums[i] && (
                                     <Text
@@ -178,6 +186,7 @@ export const Filter = obc(
                                       size={9}
                                       lineHeight={11}
                                       bold
+                                      noWrap
                                     >{` ${item.nums[i]}`}</Text>
                                   )}
                                 </Text>
@@ -195,7 +204,7 @@ export const Filter = obc(
           })}
         <Flex style={_.mt.sm} justify='center'>
           <Touchable style={styles.more} onPress={$?.onExpand}>
-            <Text size={11} lineHeight={12} type='icon' bold>
+            <Text size={11} lineHeight={12} type='icon' bold noWrap>
               {expand ? '收起' : '更多'}选项
             </Text>
           </Touchable>
@@ -226,7 +235,7 @@ export const Filter = obc(
             </Flex>
           </Touchable>
         </Flex>
-      </View>
+      </Component>
     )
   }
 )

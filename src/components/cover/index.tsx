@@ -1,9 +1,8 @@
 /*
- * 封面
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 21:15:30
+ * @Last Modified time: 2023-11-10 01:04:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,6 +20,7 @@ import { Props as CoverProps } from './types'
 
 export { CoverProps }
 
+/** 封面 */
 export const Cover = observer(
   ({
     style,
@@ -41,7 +41,7 @@ export const Cover = observer(
   }: CoverProps) => {
     if (textOnly) {
       return (
-        <Component id='component-cover'>
+        <Component id='component-cover' data-type='text-only'>
           <TextOnly
             width={other.width || size}
             height={height || size}
@@ -90,7 +90,7 @@ export const Cover = observer(
     if (coverThings || useType) {
       if (type === '音乐') {
         return (
-          <Component id='component-cover'>
+          <Component id='component-cover' data-type='music'>
             <Disc
               {...other}
               {...passProps}
@@ -105,7 +105,7 @@ export const Cover = observer(
 
       if (type === '书籍') {
         return (
-          <Component id='component-cover'>
+          <Component id='component-cover' data-type='book'>
             <Book
               {...other}
               {...passProps}
@@ -120,7 +120,7 @@ export const Cover = observer(
 
       if (type === '游戏') {
         return (
-          <Component id='component-cover'>
+          <Component id='component-cover' data-type='game'>
             <Game
               {...other}
               {...passProps}
@@ -136,7 +136,7 @@ export const Cover = observer(
 
       if (type === '目录') {
         return (
-          <Component id='component-cover'>
+          <Component id='component-cover' data-type='catalog'>
             <Catalog {...other} {...passProps} imageStyle={style} width={other.width} />
           </Component>
         )
@@ -144,7 +144,7 @@ export const Cover = observer(
     }
 
     return (
-      <Component id='component-cover'>
+      <Component id='component-cover' data-type='subject'>
         <Image {...other} {...passProps} style={style} />
       </Component>
     )

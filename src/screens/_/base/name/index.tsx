@@ -1,10 +1,8 @@
 /*
- * 自动添加好友和好友曾用名
- *
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 18:15:43
+ * @Last Modified time: 2023-11-09 23:43:25
  */
 import React, { useState, useCallback } from 'react'
 import { Component, Text } from '@components'
@@ -14,6 +12,7 @@ import { Props as NameProps } from './types'
 
 export { NameProps }
 
+/** 自动添加好友和好友曾用名 */
 export const Name = ({
   style,
   size,
@@ -37,7 +36,7 @@ export const Name = ({
     friendsMap[userId]?.lastUserName?.trim() !== friendsMap[userId]?.userName?.trim()
 
   return useObserver(() => (
-    <Component id='name'>
+    <Component id='base-name'>
       <Text
         size={size}
         lineHeight={lineHeight}

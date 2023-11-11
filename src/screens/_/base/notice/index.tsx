@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-02 13:28:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 13:34:24
+ * @Last Modified time: 2023-11-09 23:50:27
  */
-import { View } from 'react-native'
-import { Text } from '@components'
+import React from 'react'
+import { Component, Text } from '@components'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
@@ -13,13 +13,14 @@ import { Props as NoticeProps } from './types'
 
 export { NoticeProps }
 
+/** 轻提示 */
 export const Notice = ob(({ style, children }) => {
   const styles = memoStyles()
   return (
-    <View style={stl(styles.notice, style)}>
+    <Component id='base-notice' style={stl(styles.notice, style)}>
       <Text size={12} type='sub'>
         {children}
       </Text>
-    </View>
+    </Component>
   )
 })

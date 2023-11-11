@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 03:26:17
+ * @Last Modified time: 2023-11-09 23:42:13
  */
 import React from 'react'
-import { Touchable, Flex } from '@components'
+import { Touchable, Flex, Component } from '@components'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import Flip from './flip'
@@ -21,8 +21,9 @@ const HIT_SLOP = {
   right: 20,
   bottom: 20,
   left: 20
-}
+} as const
 
+/** 打开全局条目管理框的按钮 */
 export const Manage = ob(
   ({
     style,
@@ -72,19 +73,21 @@ export const Manage = ob(
       horizontal
     }
     return (
-      <Flex style={styles.manage} justify='end' align='start'>
-        <Touchable
-          style={stl(styles.touch, style)}
-          animate
-          scale={0.9}
-          hitSlop={HIT_SLOP}
-          onPress={onPress}
-        >
-          <Flip subjectId={subjectId} height={40} {...passProps}>
-            <Content {...passProps} />
-          </Flip>
-        </Touchable>
-      </Flex>
+      <Component id='base-manage'>
+        <Flex style={styles.manage} justify='end' align='start'>
+          <Touchable
+            style={stl(styles.touch, style)}
+            animate
+            scale={0.9}
+            hitSlop={HIT_SLOP}
+            onPress={onPress}
+          >
+            <Flip subjectId={subjectId} height={40} {...passProps}>
+              <Content {...passProps} />
+            </Flip>
+          </Touchable>
+        </Flex>
+      </Component>
     )
   }
 )

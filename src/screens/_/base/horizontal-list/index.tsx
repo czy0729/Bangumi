@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 14:18:38
+ * @Last Modified time: 2023-11-09 23:14:50
  */
 import React from 'react'
 import { Component } from '@components'
@@ -15,6 +15,7 @@ import { Props as HorizontalListProps } from './types'
 
 export { HorizontalListProps }
 
+/** 水平列表 */
 export const HorizontalList = ob(
   class HorizontalListComponent extends React.Component<HorizontalListProps> {
     static defaultProps = {
@@ -74,7 +75,7 @@ export const HorizontalList = ob(
       } = this.props
       const { scrolled } = this.state
       return (
-        <Component id='horizontal-list'>
+        <Component id='base-horizontal-list'>
           <ScrollViewHorizontal
             style={style}
             onScroll={!initialRenderNums || scrolled ? undefined : this.onScroll}

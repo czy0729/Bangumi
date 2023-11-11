@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-11 16:59:16
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from '../anime/header'
@@ -19,12 +19,12 @@ const Manga = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-manga'>
       <Header title='找漫画' alias='Manga' hm={['manga', 'Manga']} />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

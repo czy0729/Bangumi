@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 10:35:58
+ * @Last Modified time: 2023-11-09 23:51:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,11 @@ import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { useObserver } from '@utils/hooks'
 import { memoStyles } from './styles'
 import { Props as OnairProgressProps } from './types'
+import { Component } from '@components'
 
 export { OnairProgressProps }
 
+/** 放送进度条 */
 export const OnairProgress = ({
   epStatus = 0,
   current = 0,
@@ -37,7 +39,8 @@ export const OnairProgress = ({
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <View
+      <Component
+        id='base-onair-progress'
         style={[
           styles.progress,
           {
@@ -63,7 +66,7 @@ export const OnairProgress = ({
             }
           ]}
         />
-      </View>
+      </Component>
     )
   })
 }

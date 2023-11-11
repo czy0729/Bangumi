@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-03 13:04:20
  */
 import React from 'react'
-import { Page, Heatmap } from '@components'
+import { Page, Heatmap, Component } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -20,7 +20,7 @@ const Tags = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-tags'>
       <Header />
       <Page loaded={$.state._loaded}>
         <Tabs />
@@ -31,7 +31,7 @@ const Tags = (props, { $ }: Ctx) => {
           transparent
         />
       </Page>
-    </>
+    </Component>
   ))
 }
 

@@ -1,0 +1,19 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-10 02:02:44
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-10 03:23:09
+ */
+/** ========== 以下为特殊情况覆盖的样式 ========== */
+/** 直接包裹滚动列表的组件 */
+component-tabs,
+base-pagination-list,
+base-pagination-list-2 {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+/** 直接包裹文字的组件 */
+base-rank {
+  display: flex;
+}

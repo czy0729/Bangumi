@@ -1,14 +1,11 @@
 /*
- * 提示登录块
- *
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:43:05
+ * @Last Modified time: 2023-11-09 23:37:05
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Text, Button } from '@components'
+import { Text, Button, Component } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
@@ -18,12 +15,16 @@ import { Props as LoginProps } from './types'
 
 export { LoginProps }
 
+/** 提示登录块 */
 export const Login = obc(
   (
     { style, text = '', btnText = `重新${i18n.login()}` }: LoginProps,
     { navigation }
   ) => (
-    <View style={stl(_.container.column, _.container._plain, style)}>
+    <Component
+      id='base-login'
+      style={stl(_.container.column, _.container._plain, style)}
+    >
       {!!text && (
         <Text style={_.mb.md} type='sub' size={16}>
           {text}
@@ -32,6 +33,6 @@ export const Login = obc(
       <Button style={styles.btn} shadow onPress={() => navigation.push('LoginV2')}>
         {btnText}
       </Button>
-    </View>
+    </Component>
   )
 )

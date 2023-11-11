@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 13:56:17
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -22,13 +22,13 @@ const Browser = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { fixed } = $.state
     return (
-      <>
+      <Component id='screen-browser'>
         <Header />
         <Page>
           {fixed && <ToolBar />}
           {$.state._loaded && <List />}
         </Page>
-      </>
+      </Component>
     )
   })
 }

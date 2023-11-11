@@ -1,25 +1,25 @@
 /*
- * 评分
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 12:28:24
+ * @Last Modified time: 2023-11-10 02:26:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { fontSize } from '@styles'
 import { styles } from './styles'
 import { Props as StarsProps } from './types'
-import { stl } from '@utils'
 
 export { StarsProps }
 
 const NUMS = [1, 2, 3, 4, 5] as const
 
+/** 评分 */
 export const Stars = ob(
   ({ style, simple = false, value = 0, size = 11, type = 'sub' }: StarsProps) => {
     if (systemStore.setting.hideScore || !value) return null
@@ -28,7 +28,7 @@ export const Stars = ob(
     const webStyle = transform && fontSize(size, size, true)
     if (simple) {
       return (
-        <Component id='stars'>
+        <Component id='base-stars' data-simple={simple}>
           <Flex style={style}>
             <Iconfont
               style={webStyle}
@@ -45,7 +45,7 @@ export const Stars = ob(
     }
 
     return (
-      <Component id='stars'>
+      <Component id='base-stars' data-simple={simple}>
         <Flex style={style} align={transform ? 'start' : 'center'}>
           {NUMS.map(item => {
             if (Number(value) / 2 >= item) {

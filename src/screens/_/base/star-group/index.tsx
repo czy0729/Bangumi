@@ -1,21 +1,20 @@
 /*
- * 评分按钮组
- *
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 19:30:01
+ * @Last Modified time: 2023-11-10 00:23:18
  */
 import React from 'react'
-import { Text, Touchable, Iconfont, Flex } from '@components'
+import { Text, Touchable, Iconfont, Flex, Component } from '@components'
 import { _ } from '@stores'
-import { getRating } from '@utils'
+import { getRating, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { styles } from './styles'
 import { Props as StarGroupProps } from './types'
 
 export { StarGroupProps }
 
+/** 评分按钮组 */
 export const StarGroup = ob(
   class StarGroupComponent extends React.Component<StarGroupProps> {
     static defaultProps = {
@@ -83,8 +82,8 @@ export const StarGroup = ob(
       const { style } = this.props
       const { value, text } = this.state
       return (
-        <>
-          <Flex style={style ? [styles.desc, style] : styles.desc}>
+        <Component id='base-star-group'>
+          <Flex style={stl(styles.desc, style)}>
             {value !== 0 && (
               <>
                 <Text type='warning' size={16}>
@@ -128,7 +127,7 @@ export const StarGroup = ob(
               )
             })}
           </Flex>
-        </>
+        </Component>
       )
     }
   }

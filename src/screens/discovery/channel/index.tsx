@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-02 14:23:35
  */
 import React from 'react'
-import { Page, ScrollView } from '@components'
+import { Component, Page, ScrollView } from '@components'
 import { ic } from '@utils/decorators'
 import { _ } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -24,7 +24,7 @@ const Channel = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-channel'>
       <Header />
       <Page loaded={$.channel._loaded}>
         <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
@@ -35,7 +35,7 @@ const Channel = (props, { $ }: Ctx) => {
           <Tags />
         </ScrollView>
       </Page>
-    </>
+    </Component>
   ))
 }
 

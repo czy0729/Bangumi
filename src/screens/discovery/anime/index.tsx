@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 16:53:49
+ * @Last Modified time: 2023-11-09 14:50:51
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -19,12 +19,12 @@ const Anime = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-anime'>
       <Header />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

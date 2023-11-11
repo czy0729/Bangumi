@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-03-28 16:18:47
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -19,12 +19,12 @@ const Calendar = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-calendar'>
       <Header />
       <Page loaded={$.calendar._loaded}>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

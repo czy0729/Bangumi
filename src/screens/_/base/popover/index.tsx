@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:13:26
+ * @Last Modified time: 2023-11-10 00:03:08
  */
 import React from 'react'
-import { Popover as CompPopover, PopoverProps, Menu } from '@components'
+import { Popover as CompPopover, PopoverProps, Menu, Component } from '@components'
 import { Popover as CompPopoverOld } from '@components/popover/old'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
@@ -28,14 +28,16 @@ const Popover = ob(
         }
 
     return (
-      <CompPopover
-        key={String(data.length)}
-        placement='bottom'
-        {...popoverProps}
-        {...other}
-      >
-        {children}
-      </CompPopover>
+      <Component id='base-popover'>
+        <CompPopover
+          key={String(data.length)}
+          placement='bottom'
+          {...popoverProps}
+          {...other}
+        >
+          {children}
+        </CompPopover>
+      </Component>
     )
   }
 )

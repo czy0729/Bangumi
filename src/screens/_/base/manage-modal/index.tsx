@@ -1,16 +1,15 @@
 /*
- * 条目收藏管理弹窗
- *
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 21:34:12
+ * @Last Modified time: 2023-11-09 23:42:58
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import {
   Button,
+  Component,
   Flex,
   Iconfont,
   Input,
@@ -33,6 +32,7 @@ import { Props as ManageModalProps, State } from './types'
 
 export { ManageModalProps }
 
+/** 条目收藏管理弹窗 */
 export const ManageModal = ob(
   class ManageModalComponent extends React.Component<ManageModalProps, State> {
     static defaultProps: ManageModalProps = {
@@ -501,7 +501,7 @@ export const ManageModal = ob(
       const { visible, title, desc, onClose } = this.props
       const { focus, loading, rating } = this.state
       return (
-        <>
+        <Component id='base-manage-modal'>
           <Modal
             style={this.styles.modal}
             visible={visible}
@@ -527,7 +527,7 @@ export const ManageModal = ob(
               )}
             </Flex>
           </Modal>
-        </>
+        </Component>
       )
     }
 

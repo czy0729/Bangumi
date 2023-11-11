@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 12:19:30
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -23,7 +23,7 @@ const Anitama = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { _loaded, show } = $.state
     return (
-      <>
+      <Component id='screen-anitama'>
         <Header />
         <Page
           style={_.select(_.container.bg, _.container.plain)}
@@ -32,7 +32,7 @@ const Anitama = (props, { $ }: Ctx) => {
           <List />
           <Pagination />
         </Page>
-      </>
+      </Component>
     )
   })
 }

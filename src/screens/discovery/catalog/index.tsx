@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-11 15:45:01
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -23,14 +23,14 @@ const Catalog = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { fixedFilter, fixedPagination } = $.state
     return (
-      <>
+      <Component id='screen-catalog'>
         <Header />
         <Page loaded={$.state._loaded}>
           {fixedFilter && <Filter />}
           <List />
           {fixedPagination && <Pagination />}
         </Page>
-      </>
+      </Component>
     )
   })
 }

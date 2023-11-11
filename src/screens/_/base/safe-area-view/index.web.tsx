@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-04 05:51:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:52:47
+ * @Last Modified time: 2023-11-10 00:11:32
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Component } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -22,8 +22,12 @@ export const SafeAreaView = ob(
     children,
     ...other
   }: SafeAreaViewProps) => (
-    <View style={stl(_.container.screen, style)} {...other}>
+    <Component
+      id='base-safe-area-view'
+      style={stl(_.container.screen, style)}
+      {...other}
+    >
       {children}
-    </View>
+    </Component>
   )
 )

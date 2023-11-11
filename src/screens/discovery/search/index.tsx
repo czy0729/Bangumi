@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, Flex } from '@components'
+import { Page, Flex, Component } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -30,7 +30,7 @@ const Search = (props, { $, navigation }: Ctx) => {
   return useObserver(() => {
     const { cat, value } = $.state
     return (
-      <>
+      <Component id='screen-search'>
         {STORYBOOK ? <View style={_.mt.md} /> : <Header />}
         <Page>
           <Flex style={styles.searchBar}>
@@ -52,7 +52,7 @@ const Search = (props, { $, navigation }: Ctx) => {
           <History />
           <List />
         </Page>
-      </>
+      </Component>
     )
   })
 }

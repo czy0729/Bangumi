@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-07-13 07:19:33
  */
 import React, { useEffect } from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { TapListener } from '@_'
 import { uiStore } from '@stores'
 import { ic } from '@utils/decorators'
@@ -30,7 +30,7 @@ const Like = (props, { $ }: Ctx) => {
 
   return useObserver(() => {
     return (
-      <>
+      <Component id='screen-like'>
         <Header />
         <Page>
           <Cate />
@@ -39,7 +39,7 @@ const Like = (props, { $ }: Ctx) => {
           </TapListener>
           <Tips />
         </Page>
-      </>
+      </Component>
     )
   })
 }

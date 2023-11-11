@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-02 22:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-02 23:16:17
+ * @Last Modified time: 2023-11-10 01:14:42
  */
 import { useEffect } from 'react'
 import { Component } from '@components'
@@ -22,7 +22,7 @@ export const TapListener = ({ children }) => {
   }, [])
 
   return (
-    <Component id='tap-listener' style={_.container.flex}>
+    <Component id='base-tap-listener' style={_.container.flex}>
       {children}
     </Component>
   )

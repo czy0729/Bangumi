@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-25 02:49:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 18:11:44
+ * @Last Modified time: 2023-11-10 01:08:45
  */
 import React from 'react'
-import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useObserver } from 'mobx-react'
-import { SafeAreaBottom, Touchable, Flex, Text } from '@components'
+import { SafeAreaBottom, Touchable, Flex, Text, Component } from '@components'
 import { userStore } from '@stores'
 import { IOS } from '@constants'
 import i18n from '@constants/i18n'
 import { BlurView } from '../blur-view'
 import { memoStyles } from './styles'
 
+/** 重新登录轻提示 */
 export const LoginNotice = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets()
 
@@ -37,12 +37,18 @@ export const LoginNotice = ({ navigation }) => {
     // 安卓虚拟按键布局
     if (!IOS && bottom > 20) {
       return (
-        <SafeAreaBottom style={styles.loginNotice} type='height'>
-          {content}
-        </SafeAreaBottom>
+        <Component id='base-login-notice' style={styles.loginNotice} data-type='true'>
+          <SafeAreaBottom style={styles.loginNotice} type='height'>
+            {content}
+          </SafeAreaBottom>
+        </Component>
       )
     }
 
-    return <View style={styles.loginNotice}>{content}</View>
+    return (
+      <Component id='base-login-notice' style={styles.loginNotice} data-type='false'>
+        {content}
+      </Component>
+    )
   })
 }

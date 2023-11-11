@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 13:47:55
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -20,13 +20,13 @@ const DiscoveryBlog = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-discovery-blog'>
       <Header />
       <Page loaded={$.state._loaded}>
         <Tabs />
         <Heatmaps />
       </Page>
-    </>
+    </Component>
   ))
 }
 

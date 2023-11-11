@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-20 14:07:26
  */
 import React, { useCallback } from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { FolderManageModal } from '@_'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -27,13 +27,13 @@ const CatalogDetail = (props, { $ }: Ctx) => {
       $.onScroll(evt)
       onScroll(evt)
     },
-    [onScroll]
+    [$, onScroll]
   )
 
   return useObserver(() => {
     const { visible, defaultEditItem } = $.state
     return (
-      <>
+      <Component id='screen-catalog-detail'>
         <Header fixed={fixed} />
         <Page statusBarEvent={false}>
           <List onScroll={onScrollFn} />
@@ -46,7 +46,7 @@ const CatalogDetail = (props, { $ }: Ctx) => {
           defaultEditItem={defaultEditItem}
           onClose={$.onClose}
         />
-      </>
+      </Component>
     )
   })
 }

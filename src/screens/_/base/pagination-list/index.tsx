@@ -1,13 +1,11 @@
 /*
- * 更新频率极低 (只认data.length) 的自动分页的长列表
- *
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-12 18:09:58
+ * @Last Modified time: 2023-11-10 03:22:09
  */
 import React, { useState, useEffect, useCallback } from 'react'
-import { ListView } from '@components'
+import { Component, ListView } from '@components'
 import { getTimestamp } from '@utils'
 import { STORYBOOK } from '@constants'
 import { ListEmpty } from '@types'
@@ -15,6 +13,7 @@ import { Props as PaginationListProps } from './types'
 
 export { PaginationListProps }
 
+/** @deprecated 更新频率极低 (只认 data.length) 的自动分页的长列表 */
 export const PaginationList = ({
   forwardRef,
   data,
@@ -62,14 +61,17 @@ export const PaginationList = ({
     })
 
     if (typeof onPage === 'function') onPage(list)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.length, onPage])
 
   return (
-    <ListView
-      ref={forwardRef}
-      data={list}
-      {...other}
-      onFooterRefresh={onFooterRefresh}
-    />
+    <Component id='base-pagination-list'>
+      <ListView
+        ref={forwardRef}
+        data={list}
+        {...other}
+        onFooterRefresh={onFooterRefresh}
+      />
+    </Component>
   )
 }

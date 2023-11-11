@@ -1,13 +1,11 @@
 /*
- * Logo
- *
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:17:52
+ * @Last Modified time: 2023-11-09 23:40:02
  */
 import React from 'react'
-import { Touchable, Flex, Iconfont } from '@components'
+import { Touchable, Flex, Iconfont, Component } from '@components'
 import { _ } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
@@ -18,47 +16,50 @@ import { Props as LogoProps } from './types'
 
 export { LogoProps }
 
+/** bgm.tv Logo */
 export const Logo = obc(
   ({ forceUpdate, path = 'Setting' }: LogoProps, { navigation }) => (
-    <Touchable
-      style={styles.radius}
-      onPress={() => {
-        if (STORYBOOK) {
-          if (navigation) navigation.push('Discovery')
-          return
-        }
-
-        t('其他.切换主题', {
-          isDark: !_.isDark
-        })
-
-        info('主题切换中', 1.2)
-        setTimeout(() => {
-          _.toggleMode()
-          if (typeof forceUpdate === 'function') {
-            // 安卓端触发重渲染
-            setTimeout(() => {
-              forceUpdate()
-            }, 0)
+    <Component id='base-logo'>
+      <Touchable
+        style={styles.radius}
+        onPress={() => {
+          if (STORYBOOK) {
+            if (navigation) navigation.push('Discovery')
+            return
           }
 
+          t('其他.切换主题', {
+            isDark: !_.isDark
+          })
+
+          info('主题切换中', 1.2)
           setTimeout(() => {
-            if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+            _.toggleMode()
+            if (typeof forceUpdate === 'function') {
+              // 安卓端触发重渲染
+              setTimeout(() => {
+                forceUpdate()
+              }, 0)
+            }
+
+            setTimeout(() => {
+              if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+            }, 40)
           }, 40)
-        }, 40)
-      }}
-      onLongPress={() => {
-        if (navigation) navigation.push(path)
-      }}
-    >
-      <Flex style={styles.logo} justify='center'>
-        <Iconfont
-          style={styles.ios}
-          size={22}
-          name='bgm'
-          color={_.select(_.colorTitle, _.colorDesc)}
-        />
-      </Flex>
-    </Touchable>
+        }}
+        onLongPress={() => {
+          if (navigation) navigation.push(path)
+        }}
+      >
+        <Flex style={styles.logo} justify='center'>
+          <Iconfont
+            style={styles.ios}
+            size={22}
+            name='bgm'
+            color={_.select(_.colorTitle, _.colorDesc)}
+          />
+        </Flex>
+      </Touchable>
+    </Component>
   )
 )

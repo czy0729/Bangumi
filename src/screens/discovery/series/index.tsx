@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-27 22:12:59
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { PaginationList } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
@@ -25,7 +25,7 @@ const Series = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { fixed } = $.state
     return (
-      <>
+      <Component id='screen-series'>
         <Header />
         <Page loaded={$.state._loaded}>
           {fixed && <ToolBar />}
@@ -40,7 +40,7 @@ const Series = (props, { $ }: Ctx) => {
           />
           <Tips />
         </Page>
-      </>
+      </Component>
     )
   })
 }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:37:46
+ * @Last Modified time: 2023-11-09 23:32:42
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
-import { Portal } from '@components'
+import { Component, Portal } from '@components'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { LIKE_TYPE_TIMELINE } from '@constants'
@@ -16,6 +16,7 @@ import { getPosition } from './utils'
 import { DATA, DATA_TIMELINE } from './ds'
 import { memoStyles } from './styles'
 
+/** 贴贴浮出选择框 */
 export const LikesGrid = ob(
   ({
     visible,
@@ -42,36 +43,38 @@ export const LikesGrid = ob(
     if (offsets?.y && position.style.top) position.style.left += offsets.y
 
     return (
-      <Portal key={String(portalKey)}>
-        <Popover
-          style={[styles.subject, position.style]}
-          position={position.position}
-          visible={visible}
-          caret={false}
-          backgroundColor='transparent'
-        >
-          {!!topicId && (
-            <BlurView
-              style={[
-                styles.container,
-                {
-                  height: position.height
-                }
-              ]}
-              intensity={_.select(64, 80)}
-            >
-              <Grid
-                data={data}
-                value={value}
-                topicId={topicId}
-                floorId={floorId}
-                formhash={formhash}
-                likeType={likeType}
-              />
-            </BlurView>
-          )}
-        </Popover>
-      </Portal>
+      <Component id='base-likes-grid'>
+        <Portal key={String(portalKey)}>
+          <Popover
+            style={[styles.subject, position.style]}
+            position={position.position}
+            visible={visible}
+            caret={false}
+            backgroundColor='transparent'
+          >
+            {!!topicId && (
+              <BlurView
+                style={[
+                  styles.container,
+                  {
+                    height: position.height
+                  }
+                ]}
+                intensity={_.select(64, 80)}
+              >
+                <Grid
+                  data={data}
+                  value={value}
+                  topicId={topicId}
+                  floorId={floorId}
+                  formhash={formhash}
+                  likeType={likeType}
+                />
+              </BlurView>
+            )}
+          </Popover>
+        </Portal>
+      </Component>
     )
   }
 )

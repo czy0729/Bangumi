@@ -1,9 +1,8 @@
 /*
- * 头像
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-05 17:30:52
+ * @Last Modified time: 2023-11-10 00:59:17
  */
 import React, { useState } from 'react'
 import { observer, useObserver } from 'mobx-react'
@@ -30,6 +29,7 @@ import { Props as AvatarProps } from './types'
 
 export { AvatarProps }
 
+/** 头像 */
 export const Avatar = observer(
   ({
     style,
@@ -102,6 +102,7 @@ export const Avatar = observer(
         return (
           <Component
             id='component-avatar'
+            data-type='default'
             style={stl(
               styles.avatar,
               {
@@ -149,7 +150,7 @@ export const Avatar = observer(
 
       if (_onPress || onLongPress) {
         return (
-          <Component id='component-avatar'>
+          <Component id='component-avatar' data-type='press'>
             <Touchable
               animate
               scale={0.88}

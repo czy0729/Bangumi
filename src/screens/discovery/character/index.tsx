@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-03-12 22:48:50
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -19,13 +19,13 @@ const Character = (props, { $ }) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-character'>
       <Header />
       <Page>
         {!!$.state._loaded && <Tabs />}
         <Heatmaps />
       </Page>
-    </>
+    </Component>
   ))
 }
 

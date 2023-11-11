@@ -1,13 +1,12 @@
 /*
- * iOS 和 android 公用逻辑
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:00:08
+ * @Last Modified time: 2023-11-09 22:55:27
  */
 import React from 'react'
 import { toJS } from 'mobx'
-import { ImageViewer, Heatmap } from '@components'
+import { ImageViewer, Heatmap, Component } from '@components'
 import { systemStore, uiStore } from '@stores'
 import { useGlobalMount, useKeepAwake, useObserver } from '@utils/hooks'
 import { Popable } from '../popable'
@@ -16,6 +15,7 @@ import { LikesUsers } from '../likes-users'
 import { ManageModal } from '../manage-modal'
 import { ListenClipboard } from '../listen-clipboard'
 
+/** 全局公用逻辑 */
 export const AppCommon = () => {
   // App 启动稳定后统一做的操作
   useGlobalMount()
@@ -24,7 +24,7 @@ export const AppCommon = () => {
   useKeepAwake()
 
   return useObserver(() => (
-    <>
+    <Component id='base-app-common'>
       <ImageViewer
         {...systemStore.imageViewer}
         imageUrls={toJS(systemStore.imageViewer.imageUrls)}
@@ -41,6 +41,6 @@ export const AppCommon = () => {
       <ListenClipboard />
       {/* @ts-expect-error */}
       <Heatmap.Control />
-    </>
+    </Component>
   ))
 }

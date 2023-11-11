@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, Flex, Button } from '@components'
+import { Page, Flex, Button, Component } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
@@ -28,7 +28,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <>
+      <Component id='screen-recommend'>
         <Header />
         <Page>
           <Flex style={styles.searchBar}>
@@ -59,7 +59,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
             />
           </View>
         )}
-      </>
+      </Component>
     )
   })
 }

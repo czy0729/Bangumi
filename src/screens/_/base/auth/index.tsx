@@ -1,13 +1,11 @@
 /*
- * 未登录页面
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 04:34:16
+ * @Last Modified time: 2023-11-09 22:55:03
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Touchable, Flex, Button, Iconfont, Text } from '@components'
+import { Touchable, Flex, Button, Iconfont, Text, Component } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -17,8 +15,9 @@ import { StatusBarPlaceholder } from '../status-bar-placeholder'
 import { IconTouchable } from '../../icon/touchable'
 import { styles } from './styles'
 
+/** 未登录页面 */
 export const Auth = obc((props, { navigation }) => (
-  <View style={_.container.plain}>
+  <Component id='base-auth' style={_.container.plain}>
     <StatusBarPlaceholder />
     <Flex style={styles.toolbar}>
       <Touchable style={styles.zhinan} onPress={() => open(URL_ZHINAN)}>
@@ -65,5 +64,5 @@ export const Auth = obc((props, { navigation }) => (
         {i18n.login()}后管理进度
       </Button>
     </Flex>
-  </View>
+  </Component>
 ))
