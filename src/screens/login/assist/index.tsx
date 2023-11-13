@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:01
+ * @Last Modified time: 2023-11-13 20:17:35
  */
 import React from 'react'
 import { View } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import {
+  Button,
+  Component,
   Header,
+  Heatmap,
+  Input,
+  KeyboardSpacer,
   Page,
   ScrollView,
-  Text,
-  Input,
-  Button,
-  KeyboardSpacer,
-  Heatmap
+  Text
 } from '@components'
 import { _, userStore } from '@stores'
 import { copy, getTimestamp, info, feedback } from '@utils'
@@ -283,7 +284,7 @@ class LoginAssist extends React.Component<{
   render() {
     const { loading, info } = this.state
     return (
-      <>
+      <Component id='screen-login-assist'>
         <Header
           title={`电脑辅助${i18n.login()}`}
           alias={`辅助${i18n.login()}`}
@@ -357,7 +358,7 @@ class LoginAssist extends React.Component<{
             <KeyboardSpacer />
           </ScrollView>
         </Page>
-      </>
+      </Component>
     )
   }
 

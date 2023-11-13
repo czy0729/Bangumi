@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:53:49
+ * @Last Modified time: 2023-11-13 21:15:41
  */
 import React from 'react'
-import { Page, Heatmap } from '@components'
+import { Page, Heatmap, Component } from '@components'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
@@ -22,7 +22,7 @@ const Friends = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-friends'>
       <Header />
       <Page>
         <Filter />
@@ -35,7 +35,7 @@ const Friends = (props, { $ }: Ctx) => {
         />
       </Page>
       <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
-    </>
+    </Component>
   ))
 }
 

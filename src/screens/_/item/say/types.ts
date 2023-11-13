@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:06:42
+ * @Last Modified time: 2023-11-14 00:20:58
  */
 import { EventType, UserId } from '@types'
 
 export type Props = {
   event?: EventType
-  index?: number
   position?: 'left' | 'right'
   avatar?: string
   showName?: boolean

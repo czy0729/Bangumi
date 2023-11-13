@@ -9,7 +9,8 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   item: {
     width: _.window.width,
-    paddingVertical: _.md,
+    paddingTop: _.sm,
+    paddingBottom: _.md,
     paddingHorizontal: _.wind
   },
   itemDelete: {
@@ -58,8 +59,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: _.md
   },
   expand: {
-    paddingTop: _.sm,
-    paddingBottom: _.md,
+    paddingVertical: _.sm,
     marginLeft: 44
   }
 }))

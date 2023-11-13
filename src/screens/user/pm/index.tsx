@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 11:17:57
+ * @Last Modified time: 2023-11-13 21:16:21
  */
 import React from 'react'
+import { Component } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver, useKeyboardAdjustResize } from '@utils/hooks'
 import Header from './header'
@@ -20,11 +21,11 @@ const PM = (props, { $ }: Ctx) => {
   useKeyboardAdjustResize()
 
   return useObserver(() => (
-    <>
+    <Component id='screen-pm'>
       <Header />
       <Page />
       <Heatmaps />
-    </>
+    </Component>
   ))
 }
 

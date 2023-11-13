@@ -4,11 +4,21 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:06:43
+ * @Last Modified time: 2023-11-13 20:18:06
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Flex, Heatmap, Loading, Mesume, Text, UM, WebView } from '@components'
+import {
+  Button,
+  Component,
+  Flex,
+  Heatmap,
+  Loading,
+  Mesume,
+  Text,
+  UM,
+  WebView
+} from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
@@ -274,7 +284,7 @@ class Login extends React.Component<{
   render() {
     const { clicked } = this.state
     return (
-      <View style={_.container.plain}>
+      <Component id='screen-login' style={_.container.plain}>
         <UM title={title} />
         <StatusBarPlaceholder />
         <View style={_.container.flex}>
@@ -295,7 +305,7 @@ class Login extends React.Component<{
         <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登陆.错误' transparent />
         <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登陆.乱逛' transparent />
         <Heatmap id='授权登陆' screen='LoginV1' />
-      </View>
+      </Component>
     )
   }
 

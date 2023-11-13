@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 07:48:27
+ * @Last Modified time: 2023-11-13 20:34:25
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, Header, Flex, Button, Heatmap } from '@components'
+import { Page, Header, Flex, Button, Heatmap, Component } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
@@ -25,7 +25,7 @@ const RakuenSearch = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <>
+      <Component id='screen-rakuen-search'>
         <Header title='小组搜索' hm={['rakuenSearch', 'RakuenSearch']} />
         <Page>
           <Flex style={styles.searchBar}>
@@ -47,7 +47,7 @@ const RakuenSearch = (props, { $ }: Ctx) => {
           <History style={_.mt.sm} />
           <List />
         </Page>
-      </>
+      </Component>
     )
   })
 }

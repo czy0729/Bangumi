@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-20 11:54:26
  */
 import React from 'react'
-import { Loading, ListView, Heatmap } from '@components'
+import { Loading, ListView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils'
@@ -48,12 +48,8 @@ function List(props, { $ }: Ctx) {
 export default obc(List)
 
 function renderListItem({ item, index }) {
-  return (
-    <>
-      <ListItem item={item} index={index} />
-      {!index && <Heatmap id='作品.跳转' />}
-    </>
-  )
+  // {!index && <Heatmap id='作品.跳转' />}
+  return <ListItem item={item} index={index} />
 }
 
 function renderGridItem({ item, index }) {

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:20:57
+ * @Last Modified time: 2023-11-13 21:27:33
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Track } from '@components'
+import { Component, Track } from '@components'
 import { uiStore, _ } from '@stores'
 import { obc } from '@utils/decorators'
 import ParallaxImage from '../parallax-image'
@@ -50,7 +50,7 @@ class Zone extends React.Component {
 
     const { visible } = $.state
     return (
-      <View style={_.container.plain}>
+      <Component id='screen-zone' style={_.container.plain}>
         <Tab
           scrollEventThrottle={4}
           onScroll={this.onScroll}
@@ -61,7 +61,7 @@ class Zone extends React.Component {
         <UsedModal visible={visible} defaultAvatar={$.src} />
         <Track title={title} hm={[`user/${$.params.userId}?route=zone`, 'Zone']} />
         <Heatmaps />
-      </View>
+      </Component>
     )
   }
 }

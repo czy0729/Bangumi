@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-08-13 21:19:58
  */
 import React from 'react'
-import { Page, Track } from '@components'
+import { Component, Page, Track } from '@components'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { Auth, LoginNotice } from '@_'
 import { _ } from '@stores'
@@ -32,7 +32,7 @@ const Home = (props, { $, navigation }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-home'>
       <Page style={_.ios(_.container.bg, _.container.plain)} loaded={$.state._loaded}>
         {$.isLogin ? (
           <>
@@ -47,7 +47,7 @@ const Home = (props, { $, navigation }: Ctx) => {
       </Page>
       <Track title='首页' hm={$.hm} />
       <LoginNotice navigation={navigation} />
-    </>
+    </Component>
   ))
 }
 

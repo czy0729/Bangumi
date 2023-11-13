@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 15:40:16
+ * @Last Modified time: 2023-11-14 01:11:34
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Component } from '@components'
 import { rakuenStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
@@ -42,7 +43,7 @@ export const IconNotify = ob(
       const hasNewNotify = !!rakuenStore.notify.unread
       const { hasNewPM } = userStore
       return (
-        <View>
+        <Component id='item-notify'>
           {(hasNewNotify || hasNewPM) && (
             <View style={this.styles.dot} pointerEvents='none' />
           )}
@@ -66,7 +67,7 @@ export const IconNotify = ob(
           >
             {children}
           </IconTabsHeader>
-        </View>
+        </Component>
       )
     }
 

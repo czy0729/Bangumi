@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:35:20
+ * @Last Modified time: 2023-11-13 21:22:43
  */
 import React, { useState } from 'react'
-import { Header, Page, ScrollView, Flex, Input, Text } from '@components'
+import { Header, Page, ScrollView, Flex, Input, Text, Component } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { date } from '@utils'
@@ -50,7 +50,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
     const ts = String(userStore.userCookie.userAgent).match(/(\d{10})/g)
     const open = route?.params?.open || ''
     return (
-      <>
+      <Component id='screen-setting'>
         <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
         <Page style={_.select(_.container.bg, _.container.plain)}>
           <ScrollView contentContainerStyle={styles.container}>
@@ -113,7 +113,7 @@ const Setting = ({ navigation, route }: NavigationProps) => {
             </Flex>
           </ScrollView>
         </Page>
-      </>
+      </Component>
     )
   })
 }

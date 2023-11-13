@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 04:13:31
+ * @Last Modified time: 2023-11-13 22:06:30
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Touchable, Text } from '@components'
+import { Touchable, Text, Component } from '@components'
 import { _ } from '@stores'
 import { stl, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
@@ -30,7 +29,11 @@ export const ItemBangumiList = ob(
   }: ItemBangumiListProps) => {
     const styles = memoStyles()
     return (
-      <View style={stl(styles.item, style)}>
+      <Component
+        id='item-bangumi-list'
+        data-key={subjectId}
+        style={stl(styles.item, style)}
+      >
         <Touchable
           animate
           scale={0.9}
@@ -54,7 +57,7 @@ export const ItemBangumiList = ob(
             {HTMLDecode(name)}
           </Text>
         </Touchable>
-      </View>
+      </Component>
     )
   }
 )

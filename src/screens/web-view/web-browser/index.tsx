@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-12-30 20:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-17 01:49:00
+ * @Last Modified time: 2023-11-13 21:30:39
  */
 import React, { useState } from 'react'
-import { Flex, Header, Text } from '@components'
+import { Component, Flex, Header, Text } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable } from '@_'
 import { _, userStore } from '@stores'
@@ -29,7 +29,7 @@ const WebBrowser = ({ route }) => {
   if (!url) return null
 
   return (
-    <>
+    <Component id='screen-web-browser'>
       <Header
         title={title || '浏览器'}
         headerRight={() => (
@@ -81,7 +81,7 @@ const WebBrowser = ({ route }) => {
         userAgent={userStore.userCookie.userAgent || undefined}
         injectedJavaScript={injectedViewport ? SCRIPTS.injectedViewport : undefined}
       />
-    </>
+    </Component>
   )
 }
 

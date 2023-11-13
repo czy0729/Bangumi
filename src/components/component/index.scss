@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-10 03:23:09
  */
 /** ========== 以下为特殊情况覆盖的样式 ========== */
-/** 直接包裹滚动列表的组件 */
+/** 因为直接包裹滚动列表的组件 */
 component-tabs,
 base-pagination-list,
 base-pagination-list-2 {
@@ -13,7 +13,17 @@ base-pagination-list-2 {
   flex-direction: column;
   min-height: 0;
 }
-/** 直接包裹文字的组件 */
+/** 因为直接包裹额外组件 */
+component-cover {
+  display: flex;
+}
+/** 因为直接包裹文字组件 */
 base-rank {
   display: flex;
+}
+/** 因为直接包裹文字组件 */
+base-name {
+  & > div {
+    display: inline-block !important;
+  }
 }

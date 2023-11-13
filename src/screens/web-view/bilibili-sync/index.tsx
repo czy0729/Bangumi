@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 18:39:08
+ * @Last Modified time: 2023-11-13 21:27:52
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { runAfter } from '@utils'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
@@ -23,7 +23,7 @@ const BilibiliSync = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-bilibili-sync'>
       <Header />
       <Page loaded={$.state._loaded}>
         <Login
@@ -34,7 +34,7 @@ const BilibiliSync = (props, { $ }: Ctx) => {
         />
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

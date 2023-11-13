@@ -107,10 +107,14 @@ class Cover extends React.Component<Props> {
   render() {
     // global.rerender('Subject.Cover')
 
+    const { $ } = this.context as Ctx
     const { coverRadius } = systemStore.setting
     return (
       <View
         style={stl(this.styles.container, this.isLoaded && this.styles.shadow, {
+          minWidth: $.imageWidth,
+          minHeight: $.imageHeight,
+          overflow: 'hidden',
           borderRadius: coverRadius + 2
         })}
       >

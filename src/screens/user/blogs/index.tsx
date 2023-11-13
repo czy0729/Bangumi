@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:49:02
+ * @Last Modified time: 2023-11-13 20:41:24
  */
 import React from 'react'
-import { Page, ListView, Heatmap } from '@components'
+import { Page, ListView, Heatmap, Component } from '@components'
 import { ItemBlog } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
@@ -25,7 +25,7 @@ const UserBlogs = (props, { $, navigation }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-user-blogs'>
       <Header />
       <Page>
         <ListView
@@ -46,7 +46,7 @@ const UserBlogs = (props, { $, navigation }: Ctx) => {
         />
       </Page>
       <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
-    </>
+    </Component>
   ))
 }
 

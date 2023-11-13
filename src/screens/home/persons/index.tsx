@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 10:14:24
  */
 import React from 'react'
-import { Page, Heatmap } from '@components'
+import { Component, Page, Heatmap } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -20,13 +20,13 @@ const Persons = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-persons'>
       <Header />
       <Page loaded={$.persons._loaded}>
         <List />
         <Heatmap bottom={_.bottom} id='制作人员' screen='Persons' />
       </Page>
-    </>
+    </Component>
   ))
 }
 

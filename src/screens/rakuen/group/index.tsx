@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 18:20:57
+ * @Last Modified time: 2023-11-13 20:24:51
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, ScrollView, Pagination, Heatmap } from '@components'
+import { Page, ScrollView, Pagination, Heatmap, Component } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
@@ -33,7 +33,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { show } = $.state
     return (
-      <>
+      <Component id='screen-rakuen-group'>
         <Page statusBarEvent={false}>
           <ScrollView scrollEventThrottle={4} scrollToTop onScroll={onScroll}>
             <Info />
@@ -64,7 +64,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
         <Heatmap id='小组' screen='Group' />
         <Heatmap right={72} bottom={_.bottom} id='小组.加入' />
         <Heatmap right={72} bottom={_.bottom - 34} id='小组.退出' />
-      </>
+      </Component>
     )
   })
 }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 15:42:05
+ * @Last Modified time: 2023-11-13 20:40:52
  */
 import React from 'react'
-import { ScrollView, Page } from '@components'
+import { ScrollView, Page, Component } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -23,7 +23,7 @@ const Actions = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <>
+      <Component id='screen-actions'>
         <Header />
         <Page loaded={$.state._loaded}>
           <ScrollView contentContainerStyle={styles.scrollView}>
@@ -31,7 +31,7 @@ const Actions = (props, { $ }: Ctx) => {
             <Create />
           </ScrollView>
         </Page>
-      </>
+      </Component>
     )
   })
 }

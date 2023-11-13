@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:24:55
+ * @Last Modified time: 2023-11-13 20:39:30
  */
 import React, { useEffect } from 'react'
-import { Page, Track } from '@components'
+import { Component, Page, Track } from '@components'
 import { TapListener } from '@_'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { uiStore } from '@stores'
@@ -33,7 +33,7 @@ const Timeline = (props, { $, navigation }: Ctx) => {
   }, [isFocused])
 
   return useObserver(() => (
-    <>
+    <Component id='screen-timeline'>
       <TapListener>
         <Page>
           <Header />
@@ -42,7 +42,7 @@ const Timeline = (props, { $, navigation }: Ctx) => {
       </TapListener>
       <Track title='时间胶囊' hm={['timeline', 'Timeline']} />
       <Heatmaps />
-    </>
+    </Component>
   ))
 }
 

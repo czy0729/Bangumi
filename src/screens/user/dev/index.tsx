@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-13 04:47:08
+ * @Last Modified time: 2023-11-13 21:15:25
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Header } from '@components'
+import { ScrollView, Header, Component } from '@components'
 import { _, userStore } from '@stores'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import { initXsbRelationOTA } from '@constants/cdn'
@@ -28,7 +28,7 @@ const DEV = ({ navigation }: NavigationProps) => {
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <>
+      <Component id='screen-dev'>
         <Header title='开发菜单' hm={['dev', 'DEV']} />
         <ScrollView
           style={_.container.plain}
@@ -49,7 +49,7 @@ const DEV = ({ navigation }: NavigationProps) => {
           </View>
           <Detail />
         </ScrollView>
-      </>
+      </Component>
     )
   })
 }

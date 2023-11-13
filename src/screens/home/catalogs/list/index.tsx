@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 20:55:53
+ * @Last Modified time: 2023-11-12 07:18:52
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -21,7 +21,7 @@ function List(props, { $ }: Ctx) {
       lazy={4}
       renderItem={renderItem}
       scrollToTop
-      onHeaderRefresh={() => $.fetchSubjectCatalogs(true)}
+      onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectCatalogs}
     />
   )

@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 00:13:00
+ * @Last Modified time: 2023-11-14 00:48:46
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Flex, Text, Component } from '@components'
 import { _ } from '@stores'
 import { cnjp, stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -40,7 +39,9 @@ const Item = memo(
     // global.rerender('Component.ItemCollectionsGrid.Main')
 
     return (
-      <View
+      <Component
+        id='item-collections-grid'
+        data-key={id}
         style={stl(
           {
             width: gridStyles.width,
@@ -115,7 +116,7 @@ const Item = memo(
             </Flex>
           )}
         </Touchable>
-      </View>
+      </Component>
     )
   },
   DEFAULT_PROPS

@@ -24,7 +24,6 @@ function Remote({ style, headers, uri, onError, onLoadEnd, ...other }) {
       {...other}
       style={style}
       source={source}
-      fadeDuration={0}
       onError={onError}
       onLoadEnd={onLoadEnd}
     />

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:13:29
+ * @Last Modified time: 2023-11-13 20:18:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
 import {
+  Component,
   Flex,
   Heatmap,
   Iconfont,
@@ -702,7 +703,7 @@ class LoginV2 extends React.Component<{
 
   render() {
     return (
-      <View style={_.container.plain}>
+      <Component id='screen-login-v2' style={_.container.plain}>
         <UM title={TITLE} />
         <StatusBarPlaceholder />
         <Notice style={_.mv.lg}>
@@ -714,7 +715,7 @@ class LoginV2 extends React.Component<{
         <Heatmap id='登陆.成功' right={_.wind} bottom={_.bottom + 86} transparent />
         <Heatmap id='登陆.错误' right={_.wind} bottom={_.bottom + 52} transparent />
         <Heatmap id='登陆' screen='Login' />
-      </View>
+      </Component>
     )
   }
 

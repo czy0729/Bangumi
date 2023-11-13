@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 20:14:17
+ * @Last Modified time: 2023-11-14 01:15:22
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Touchable, Iconfont, Text } from '@components'
+import { Touchable, Iconfont, Text, Component } from '@components'
 import { IOS } from '@constants'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -37,27 +36,33 @@ export const IconTabsHeader = ob(
 
     if (!onPress) {
       return (
-        <View style={stl(styles.icon, styles[position], IOS && styles.ios, style)}>
+        <Component
+          id='icon-tabs-header'
+          data-type='press'
+          style={stl(styles.icon, styles[position], IOS && styles.ios, style)}
+        >
           {top}
           {children}
-        </View>
+        </Component>
       )
     }
 
     return (
-      <Touchable
-        style={stl(
-          styles.icon,
-          styles.touch,
-          styles[position],
-          IOS && styles.ios,
-          style
-        )}
-        onPress={onPress}
-      >
-        {top}
-        {children}
-      </Touchable>
+      <Component id='icon-tabs-header'>
+        <Touchable
+          style={stl(
+            styles.icon,
+            styles.touch,
+            styles[position],
+            IOS && styles.ios,
+            style
+          )}
+          onPress={onPress}
+        >
+          {top}
+          {children}
+        </Touchable>
+      </Component>
     )
   }
 )

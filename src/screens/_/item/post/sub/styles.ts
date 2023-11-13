@@ -16,7 +16,8 @@ export const memoStyles = _.memoStyles(() => {
       paddingLeft: _.sm
     },
     content: {
-      paddingVertical: _.md,
+      paddingTop: _.sm,
+      paddingBottom: _.md,
       marginLeft
     },
     html: {

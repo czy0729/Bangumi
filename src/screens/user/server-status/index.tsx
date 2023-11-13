@@ -2,11 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 11:21:40
+ * @Last Modified time: 2023-11-13 21:22:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Header, ScrollView, Flex, Text, Button, Activity, Heatmap } from '@components'
+import {
+  Activity,
+  Button,
+  Component,
+  Flex,
+  Header,
+  Heatmap,
+  ScrollView,
+  Text
+} from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t, ping } from '@utils/fetch'
@@ -113,7 +122,7 @@ class ServerStatus extends React.Component {
     const msDesc =
       '绿色 < 150ms，黄色 < 1000ms，红色 (或超时) > 1000ms (5000ms)，若必要服务为红色则严重影响 App 的正常使用'
     return (
-      <>
+      <Component id='screen-server-status'>
         <Header title='网络探针' hm={['server-status', 'ServerStatus']} />
         <ScrollView
           style={_.container.plain}
@@ -177,7 +186,7 @@ class ServerStatus extends React.Component {
           </Button>
           <Heatmap right={80} id='网络探针.全部检测' />
         </View>
-      </>
+      </Component>
     )
   }
 

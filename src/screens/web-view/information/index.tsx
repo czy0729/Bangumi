@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-02-02 08:17:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:21:09
+ * @Last Modified time: 2023-11-13 21:28:28
  */
 import React from 'react'
-import { Page, Header, ScrollView, Text } from '@components'
+import { Page, Header, ScrollView, Text, Component } from '@components'
 import { _ } from '@stores'
 
 const Information = ({ navigation, route }) => {
   const { title = '', message = [], advance = false } = route.params
   return (
-    <>
+    <Component id='screen-information'>
       <Header title='' />
       <Page>
         <ScrollView style={_.container.wind} contentContainerStyle={_.container.bottom}>
@@ -44,7 +44,7 @@ const Information = ({ navigation, route }) => {
           )}
         </ScrollView>
       </Page>
-    </>
+    </Component>
   )
 }
 

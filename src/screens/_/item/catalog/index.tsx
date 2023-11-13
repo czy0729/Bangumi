@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:11:18
+ * @Last Modified time: 2023-11-12 07:27:14
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Highlight, Touchable, UserStatus } from '@components'
+import { Component, Flex, Text, Highlight, Touchable, UserStatus } from '@components'
 import { _, discoveryStore } from '@stores'
 import { lastDate, getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
@@ -83,81 +83,87 @@ export const ItemCatalog = obc(
     }
 
     return (
-      <Touchable
-        style={styles.container}
-        animate
-        onPress={() => {
-          const { id: eventId, data: eventData } = event
-          t(eventId, {
-            to: 'CatalogDetail',
-            catalogId: id,
-            ...eventData
-          })
+      <Component id='item-catalog' data-key={id}>
+        <Touchable
+          style={styles.container}
+          animate
+          onPress={() => {
+            const { id: eventId, data: eventData } = event
+            t(eventId, {
+              to: 'CatalogDetail',
+              catalogId: id,
+              ...eventData
+            })
 
-          navigation.push('CatalogDetail', {
-            catalogId: id,
-            _hideScore: hideScore
-          })
-        }}
-      >
-        <Flex style={styles.wrap} align='start'>
-          <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-            <Covers list={list} total={oss?.total} />
-          </InView>
-          <Flex.Item>
-            <Flex
-              style={styles.content}
-              direction='column'
-              justify='between'
-              align='start'
-            >
-              <View>
-                <Highlight bold numberOfLines={3} value={filter} t2s={false}>
-                  {_title}
-                </Highlight>
-                {!!_desc && _desc !== _title && (
-                  <Text style={_.mt.sm} size={11} numberOfLines={_collect ? 2 : 3}>
-                    {_desc}
-                  </Text>
-                )}
-                {!!_collect && (
-                  <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
-                    {_collect} 人收藏
-                  </Text>
-                )}
-              </View>
-              <Flex style={_.mt.md}>
-                <View style={_.mr.sm}>
-                  <UserStatus userId={_userId}>
-                    <Avatar
-                      key={_avatar}
-                      navigation={navigation}
-                      size={AVATAR_WIDTH}
-                      userId={_userId}
-                      name={_name}
-                      src={_avatar}
-                      event={event}
-                    />
-                  </UserStatus>
+            navigation.push('CatalogDetail', {
+              catalogId: id,
+              _hideScore: hideScore
+            })
+          }}
+        >
+          <Flex style={styles.wrap} align='start'>
+            <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+              <Covers list={list} total={oss?.total} />
+            </InView>
+            <Flex.Item>
+              <Flex
+                style={styles.content}
+                direction='column'
+                justify='between'
+                align='start'
+              >
+                <View>
+                  <Highlight bold numberOfLines={3} value={filter} t2s={false}>
+                    {_title}
+                  </Highlight>
+                  {!!_desc && _desc !== _title && (
+                    <Text
+                      style={_.mt.sm}
+                      size={11}
+                      numberOfLines={(_collect ? 2 : 3) - (_title.length >= 40 ? 1 : 0)}
+                    >
+                      {_desc}
+                    </Text>
+                  )}
+                  {!!_collect && (
+                    <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
+                      {_collect} 人收藏
+                    </Text>
+                  )}
                 </View>
-                <Flex.Item>
-                  {!!_name && (
-                    <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>
-                      {_name}
-                    </Text>
-                  )}
-                  {!!dateText && (
-                    <Text size={10} type='sub'>
-                      {dateText}
-                    </Text>
-                  )}
-                </Flex.Item>
+                <Flex style={_.mt.md}>
+                  <View style={_.mr.sm}>
+                    <UserStatus userId={_userId}>
+                      <Avatar
+                        key={_avatar}
+                        navigation={navigation}
+                        size={AVATAR_WIDTH}
+                        userId={_userId}
+                        name={_name}
+                        src={_avatar}
+                        event={event}
+                      />
+                    </UserStatus>
+                  </View>
+                  <Flex.Item>
+                    {!!_name && (
+                      <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>
+                        {_name}
+                      </Text>
+                    )}
+                    {!!dateText && (
+                      <Text size={10} type='sub'>
+                        {dateText}
+                      </Text>
+                    )}
+                  </Flex.Item>
+                </Flex>
               </Flex>
-            </Flex>
-          </Flex.Item>
-        </Flex>
-        {children}
-      </Touchable>
+            </Flex.Item>
+          </Flex>
+          {children}
+        </Touchable>
+      </Component>
     )
   }
 )

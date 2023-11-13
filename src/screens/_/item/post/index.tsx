@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:15:51
+ * @Last Modified time: 2023-11-12 10:32:07
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Component } from '@components'
 import { rakuenStore, uiStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
@@ -73,7 +73,7 @@ export const ItemPost = obc(
       (msg.toLocaleLowerCase().includes('mark') || msg.includes('+1'))
     if (isDelete || isBadge) {
       return (
-        <View style={styles.itemDelete}>
+        <Component id='item-post' data-type='plus-one' style={styles.itemDelete}>
           <PlusOne
             id={id}
             message={message}
@@ -87,7 +87,7 @@ export const ItemPost = obc(
             isFriend={isFriend}
             event={event}
           />
-        </View>
+        </Component>
       )
     }
 

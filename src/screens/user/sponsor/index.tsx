@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:07:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 21:42:44
+ * @Last Modified time: 2023-11-13 21:23:08
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import { ic } from '@utils/decorators'
 import Header from './header'
@@ -22,10 +22,12 @@ const Sponsor = (props, { $, navigation }: Ctx) => {
   return useObserver(() => {
     const { list } = $.state
     return (
-      <Page>
-        <Header />
-        {list ? <List /> : <Chart navigation={navigation} />}
-      </Page>
+      <Component id='screen-sponsor'>
+        <Page>
+          <Header />
+          {list ? <List /> : <Chart navigation={navigation} />}
+        </Page>
+      </Component>
     )
   })
 }

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 14:19:57
+ * @Last Modified time: 2023-11-13 23:40:25
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Highlight, Iconfont, Touchable } from '@components'
+import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
-import { showImageViewer } from '@utils'
+import { showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import Item from './item'
 import { memoStyles } from './styles'
@@ -37,7 +36,11 @@ const ItemSettingBlock: IItemSettingBlock = ob(
 
     const styles = memoStyles()
     return (
-      <View style={style ? [styles.container, style] : styles.container}>
+      <Component
+        id='item-setting-block'
+        data-key={title}
+        style={stl(styles.container, style)}
+      >
         {!!title && (
           <Flex>
             <Highlight type='title' size={size} bold value={filter}>
@@ -67,7 +70,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
         <Flex style={_.mt.md} align={align}>
           {children}
         </Flex>
-      </View>
+      </Component>
     )
   }
 )

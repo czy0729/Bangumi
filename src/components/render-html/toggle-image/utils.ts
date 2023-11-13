@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-09-27 16:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:00:46
+ * @Last Modified time: 2023-11-12 07:51:38
  */
 import axios from '@utils/thirdParty/axios'
+import { STORYBOOK } from '@constants'
 
 const CACHE = {}
 
 /** 获取远程图片的大小 */
-export function getSize(url: string): Promise<number> {
+export function getSize(url: string): Promise<number> | number {
+  if (STORYBOOK) return 0
+
   return new Promise(resolve => {
     if (url in CACHE) {
       resolve(CACHE[url])

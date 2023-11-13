@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-08 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 02:38:57
+ * @Last Modified time: 2023-11-12 08:52:59
  */
 import React from 'react'
-import { transformStyles } from './utils'
+import { parseUrlParams } from '../storybook/utils'
+import { convertToDashCase, transformStyles } from './utils'
 import { Props as ComponentProps } from './types'
 import './index.scss'
 
@@ -18,17 +19,20 @@ export { ComponentProps }
  * */
 export const Component = ({ id, children, ...props }: ComponentProps) => {
   const { style, ...otherProps } = props
+  const passProps = {
+    ...otherProps,
+    style: transformStyles(
+      style,
+      // @ts-ignore
+      children?.type
+    )
+  }
 
-  return React.createElement(
-    id || 'div',
-    {
-      ...otherProps,
-      style: transformStyles(
-        style,
-        // @ts-ignore
-        children?.type
-      )
-    },
-    children
-  )
+  if (id.startsWith('screen-')) {
+    Object.entries(parseUrlParams()).forEach(([key, value]) => {
+      passProps[`data-${convertToDashCase(key)}`] = value
+    })
+  }
+
+  return React.createElement(id || 'div', passProps, children)
 }

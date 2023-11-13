@@ -11,7 +11,7 @@ import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 const lazyloadedMap = new Map<string, boolean>()
 lazyloadedMap.set(DOGE_CDN_IMG_DEFAULT, true)
 
-export default function Image({ style, source, autoSize, ...props }) {
+export default function Image({ style, source, autoSize, fadeDuration, ...props }) {
   const ref = useRef(null)
   const { uri } = source
   const lazyloaded = lazyloadedMap.has(uri)
@@ -80,7 +80,7 @@ export default function Image({ style, source, autoSize, ...props }) {
         style,
         {
           opacity,
-          transition: 'opacity 0.24s ease-in-out'
+          transition: fadeDuration === 0 ? undefined : 'opacity 0.24s ease-in-out'
         }
       ]}
       source={

@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 10:54:37
  */
 import React from 'react'
-import { Page, Heatmap } from '@components'
+import { Component, Page, Heatmap } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -20,13 +20,13 @@ const Rating = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-rating'>
       <Header />
       <Page loaded={$.state._loaded}>
         <Tab />
         <Heatmap bottom={_.bottom} id='用户评分' screen='Rating' />
       </Page>
-    </>
+    </Component>
   ))
 }
 

@@ -11,18 +11,18 @@ import { STORYBOOK } from '@constants'
 import InViewComp from './in-view'
 
 /** 由于 react-native 没有原生的懒渲染, 根据滚动 y 轴控制懒渲染 */
-export const InView = obc(({ index, children, ...other }, { $ }) => {
+export const InView = obc(({ index, y, children, ...other }, { $ }) => {
   // web 或者若页面没有管理的 y 轴数值, 或者传递了 index
   if (
     STORYBOOK ||
     $?.state?.visibleBottom === undefined ||
     (typeof index === 'number' && index < 8)
   ) {
-    return <View {...other}>{children}</View>
+    return Object.keys(other).length ? <View {...other}>{children}</View> : children
   }
 
   return (
-    <InViewComp {...other} visibleBottom={$?.state?.visibleBottom}>
+    <InViewComp {...other} y={y} visibleBottom={$?.state?.visibleBottom}>
       {children}
     </InViewComp>
   )

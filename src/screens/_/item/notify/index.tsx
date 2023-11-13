@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:41:46
+ * @Last Modified time: 2023-11-14 00:46:42
  */
 import React from 'react'
-import { Flex, Text, Touchable, UserStatus } from '@components'
+import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
@@ -43,60 +43,62 @@ export const ItemNotify = ob(
     }
 
     return (
-      <Touchable
-        animate
-        onPress={() => {
-          appNavigate(
-            href,
-            navigation,
-            {
-              _title: title
-            },
-            event
-          )
-        }}
-      >
-        <Flex style={styles.container} align='start'>
-          <UserStatus userId={userId}>
-            <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-              <Avatar
-                key={String(avatar)}
-                style={styles.image}
-                navigation={navigation}
-                userId={userId}
-                name={userName}
-                src={avatar}
-                event={event}
-              />
-            </InView>
-          </UserStatus>
-          <Flex.Item style={styles.item}>
-            <Name userId={userId} showFriend size={13} type='title' bold>
-              {userName}
-            </Name>
-            <Flex style={styles.message} align='start'>
-              <Flex.Item>
-                <Text lineHeight={18}>
-                  {message}
-                  <Text lineHeight={18} type='main' bold>
-                    {title}
+      <Component id='item-notify' data-key={notifyId}>
+        <Touchable
+          animate
+          onPress={() => {
+            appNavigate(
+              href,
+              navigation,
+              {
+                _title: title
+              },
+              event
+            )
+          }}
+        >
+          <Flex style={styles.container} align='start'>
+            <UserStatus userId={userId}>
+              <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+                <Avatar
+                  key={String(avatar)}
+                  style={styles.image}
+                  navigation={navigation}
+                  userId={userId}
+                  name={userName}
+                  src={avatar}
+                  event={event}
+                />
+              </InView>
+            </UserStatus>
+            <Flex.Item style={styles.item}>
+              <Name userId={userId} showFriend size={13} type='title' bold>
+                {userName}
+              </Name>
+              <Flex style={styles.message} align='start'>
+                <Flex.Item>
+                  <Text lineHeight={18}>
+                    {message}
+                    <Text lineHeight={18} type='main' bold>
+                      {title}
+                    </Text>
+                    {message2}
                   </Text>
-                  {message2}
-                </Text>
-                {!!sayTitle && (
-                  <Text type='sub' size={11} lineHeight={18} numberOfLines={1} bold>
-                    描述：{sayTitle}
-                  </Text>
-                )}
-              </Flex.Item>
-              <Flex style={styles.tag} justify='end'>
-                {!!repeat && <Tag value={`x${repeat + 1}`} />}
+                  {!!sayTitle && (
+                    <Text type='sub' size={11} lineHeight={18} numberOfLines={1} bold>
+                      描述：{sayTitle}
+                    </Text>
+                  )}
+                </Flex.Item>
+                <Flex style={styles.tag} justify='end'>
+                  {!!repeat && <Tag value={`x${repeat + 1}`} />}
+                </Flex>
               </Flex>
-            </Flex>
-          </Flex.Item>
-          {children}
-        </Flex>
-      </Touchable>
+            </Flex.Item>
+            {children}
+          </Flex>
+        </Touchable>
+      </Component>
     )
   }
 )

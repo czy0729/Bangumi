@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:51:47
+ * @Last Modified time: 2023-11-14 01:00:48
  */
 import React, { useRef, useEffect, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { useObserver } from 'mobx-react'
-import { Iconfont } from '@components'
+import { Component, Iconfont } from '@components'
 import { _ } from '@stores'
 import { Props as IconExpandProps } from './types'
 
@@ -42,8 +42,11 @@ export const IconExpand = ({ style, expand = false, color }: IconExpandProps) =>
   }, [expand])
 
   return useObserver(() => (
-    <Animated.View style={styles}>
-      <Iconfont name='md-navigate-next' size={22} color={color || _.colorIcon} />
-    </Animated.View>
+    <Component id='icon-expand'>
+      {/* @ts-expect-error */}
+      <Animated.View style={styles}>
+        <Iconfont name='md-navigate-next' size={22} color={color || _.colorIcon} />
+      </Animated.View>
+    </Component>
   ))
 }

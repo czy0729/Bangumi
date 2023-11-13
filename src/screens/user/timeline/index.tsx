@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:49:07
+ * @Last Modified time: 2023-11-13 21:23:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, ListView } from '@components'
+import { Page, ListView, Component } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -21,7 +21,7 @@ const UserTimeline = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-user-timeline'>
       <Header />
       <Page>
         <ListView
@@ -38,7 +38,7 @@ const UserTimeline = (props, { $ }: Ctx) => {
           onFooterRefresh={$.fetchTimeline}
         />
       </Page>
-    </>
+    </Component>
   ))
 }
 

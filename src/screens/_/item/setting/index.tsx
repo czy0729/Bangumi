@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 05:33:58
+ * @Last Modified time: 2023-11-13 23:47:42
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Highlight, Iconfont } from '@components'
+import { Touchable, Flex, Text, Highlight, Iconfont, Component } from '@components'
 import { _ } from '@stores'
 import { stl, showImageViewer } from '@utils'
 import { ob } from '@utils/decorators'
@@ -82,20 +82,18 @@ export const ItemSetting = ob(
 
     if (onPress) {
       return (
-        <Touchable
-          style={style ? [styles.touchable, style] : styles.touchable}
-          onPress={onPress}
-          {...other}
-        >
-          {content}
-        </Touchable>
+        <Component id='item-setting' data-type='press'>
+          <Touchable style={stl(styles.touchable, style)} onPress={onPress} {...other}>
+            {content}
+          </Touchable>
+        </Component>
       )
     }
 
     return (
-      <View style={style ? [styles.touchable, style] : styles.touchable} {...other}>
+      <Component id='item-setting' style={stl(styles.touchable, style)} {...other}>
         {content}
-      </View>
+      </Component>
     )
   }
 )

@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 12:10:34
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -19,12 +19,12 @@ const SubjectWiki = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-subject-wiki'>
       <Header />
       <Page>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

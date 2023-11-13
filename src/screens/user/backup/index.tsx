@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:16:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-08 15:41:41
+ * @Last Modified time: 2023-11-13 20:41:09
  */
 import React from 'react'
-import { Page, Loading } from '@components'
+import { Page, Loading, Component } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -24,7 +24,7 @@ const Backup = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { progress } = $.state
     return (
-      <>
+      <Component id='screen-backup'>
         <Header />
         <Page>
           <Upload />
@@ -32,7 +32,7 @@ const Backup = (props, { $ }: Ctx) => {
           {progress.fetching ? <Loading /> : <List />}
         </Page>
         <Tips />
-      </>
+      </Component>
     )
   })
 }

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 09:15:29
+ * @Last Modified time: 2023-11-12 07:31:16
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, discoveryStore } from '@stores'
+import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
 import { Id } from '@types'
 import { Params } from './types'
-import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
@@ -29,6 +29,10 @@ export default class ScreenSubjectCatalogs extends store {
     return this.fetchSubjectCatalogs(true)
   }
 
+  onHeaderRefresh = () => {
+    return this.fetchSubjectCatalogs(true)
+  }
+
   // -------------------- get --------------------
   @computed get subjectId() {
     const { subjectId } = this.params
@@ -39,10 +43,13 @@ export default class ScreenSubjectCatalogs extends store {
     return HTML_SUBJECT_CATALOGS(this.subjectId)
   }
 
+  @computed get subjectCatalogs() {
+    return subjectStore.subjectCatalogs(this.subjectId)
+  }
+
   /** 包含条目的目录 */
   @computed get list() {
-    const subjectCatalogs = subjectStore.subjectCatalogs(this.subjectId)
-    if (!subjectCatalogs._loaded) {
+    if (!this.subjectCatalogs._loaded) {
       return this.ota
         ? {
             ...this.ota,
@@ -54,7 +61,7 @@ export default class ScreenSubjectCatalogs extends store {
         : LIST_EMPTY
     }
 
-    return subjectCatalogs
+    return this.subjectCatalogs
   }
 
   /** 目录详情 */

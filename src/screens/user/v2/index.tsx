@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 04:41:51
+ * @Last Modified time: 2023-11-13 21:24:00
  */
 import React from 'react'
-import { StatusBar, Page, Track } from '@components'
+import { StatusBar, Page, Track, Component } from '@components'
 import { BlurViewRoot, BlurViewBottomTab, Login } from '@_'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { _, userStore } from '@stores'
@@ -45,7 +45,7 @@ const User = (props, { $, navigation }: Ctx) => {
 
     const { _loaded } = $.state
     return (
-      <>
+      <Component id='screen-user'>
         <Page>
           <BlurViewRoot>
             {!!_loaded && <Wrap />}
@@ -54,7 +54,7 @@ const User = (props, { $, navigation }: Ctx) => {
         </Page>
         <Track title='时光机' hm={[`user/${$.myUserId}?route=user`, 'User']} />
         <Heatmaps />
-      </>
+      </Component>
     )
   })
 }

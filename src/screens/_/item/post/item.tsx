@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:57:34
+ * @Last Modified time: 2023-11-12 10:33:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, UserStatus } from '@components'
+import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -65,7 +65,7 @@ const Item = memo(
     // global.rerender('Topic.Item.Main')
 
     return (
-      <View style={styles.item}>
+      <Component id='item-post' data-key={id} style={styles.item}>
         <Flex
           style={stl(_.container.item, isJump && styles.itemJump)}
           align='start'
@@ -204,7 +204,7 @@ const Item = memo(
             </Flex.Item>
           </Flex>
         )}
-      </View>
+      </Component>
     )
   },
   DEFAULT_PROPS,

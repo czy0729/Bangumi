@@ -148,7 +148,7 @@ export default memo(
         {/* 头像 */}
         <UserStatus userId={userId}>
           <Avatar
-            style={_.mt.md}
+            style={_.mt.sm}
             navigation={navigation}
             userId={userId}
             name={userName}

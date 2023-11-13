@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:07:16
+ * @Last Modified time: 2023-11-13 20:36:49
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import { Page, Loading } from '@components'
+import { Page, Loading, Component } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { ItemPost, TapListener } from '@_'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -42,20 +42,23 @@ const Topic = (props, { $ }: Ctx) => {
   const scrollFailCount = useRef(0)
 
   /** 滚动到指定楼层 */
-  const scrollTo = useCallback((index = 0) => {
-    try {
-      const { list } = $.comments
-      info(list[index]?.floor, 0.8)
+  const scrollTo = useCallback(
+    (index = 0) => {
+      try {
+        const { list } = $.comments
+        info(list[index]?.floor, 0.8)
 
-      forwardRef.current?.scrollToIndex({
-        animated: false,
-        index,
-        viewOffset: 0
-      })
-    } catch (error) {
-      console.error('topic/index.js', 'scrollTo', error)
-    }
-  }, [])
+        forwardRef.current?.scrollToIndex({
+          animated: false,
+          index,
+          viewOffset: 0
+        })
+      } catch (error) {
+        console.error('topic/index.js', 'scrollTo', error)
+      }
+    },
+    [$.comments]
+  )
 
   /** 滚动回调 */
   const onScrollFn = useCallback(
@@ -65,58 +68,61 @@ const Topic = (props, { $ }: Ctx) => {
       uiStore.closePopableSubject()
       uiStore.closeLikesGrid()
     },
-    [onScroll]
+    [$, onScroll]
   )
 
   /** 滚动到指定楼层 (重复尝试) */
-  const onScrollTo = useCallback((index = 0, animated = true, offset = 0) => {
-    try {
-      t('帖子.楼层跳转', {
-        topicId: $.topicId,
-        index
-      })
+  const onScrollTo = useCallback(
+    (index = 0, animated = true, offset = 0) => {
+      try {
+        t('帖子.楼层跳转', {
+          topicId: $.topicId,
+          index
+        })
 
-      const { sliderAnimated } = rakuenStore.setting
-      if (index === -1) {
-        if (animated) info('#1', 0.8)
+        const { sliderAnimated } = rakuenStore.setting
+        if (index === -1) {
+          if (animated) info('#1', 0.8)
 
-        forwardRef.current?.scrollToOffset({
+          forwardRef.current?.scrollToOffset({
+            animated: sliderAnimated ? true : animated,
+            offset: 0 - _.headerHeight
+          })
+          feedback(true)
+          $.updateDirection(-1, '')
+          return
+        }
+
+        const { list } = $.comments
+        if (animated) info(list[index]?.floor, 0.8)
+
+        forwardRef.current?.scrollToIndex({
           animated: sliderAnimated ? true : animated,
-          offset: 0 - _.headerHeight
+          index,
+          viewOffset: 0 + _.headerHeight + offset
         })
         feedback(true)
-        $.updateDirection(-1, '')
-        return
+      } catch (error) {
+        console.error('topic/index.js', 'onScrollTo', error)
+
+        // 使用了分页 PaginationList 的情况下, 只能先去到最底层
+        try {
+          const str = String(error)
+          const maximum = str.match(/but maximum is (\d+)/)?.[1]
+          if (maximum) {
+            if (animated) info(`#${maximum}`, 0.5)
+            forwardRef.current?.scrollToIndex({
+              animated,
+              index: Number(maximum),
+              viewOffset: 0 + _.headerHeight
+            })
+          }
+          // eslint-disable-next-line no-catch-shadow
+        } catch (error) {}
       }
-
-      const { list } = $.comments
-      if (animated) info(list[index]?.floor, 0.8)
-
-      forwardRef.current?.scrollToIndex({
-        animated: sliderAnimated ? true : animated,
-        index,
-        viewOffset: 0 + _.headerHeight + offset
-      })
-      feedback(true)
-    } catch (error) {
-      console.error('topic/index.js', 'onScrollTo', error)
-
-      // 使用了分页 PaginationList 的情况下, 只能先去到最底层
-      try {
-        const str = String(error)
-        const maximum = str.match(/but maximum is (\d+)/)?.[1]
-        if (maximum) {
-          if (animated) info(`#${maximum}`, 0.5)
-          forwardRef.current?.scrollToIndex({
-            animated,
-            index: Number(maximum),
-            viewOffset: 0 + _.headerHeight
-          })
-        }
-        // eslint-disable-next-line no-catch-shadow
-      } catch (error) {}
-    }
-  }, [])
+    },
+    [$]
+  )
 
   /** 滚动失败后尝试使用保守的方法再次滚动 */
   const onScrollToIndexFailed = useCallback(
@@ -173,7 +179,7 @@ const Topic = (props, { $ }: Ctx) => {
         console.error('topic/index.js', 'onJumpTo', error)
       }
     }
-  }, [scrollTo])
+  }, [$.comments, $.postId, scrollTo])
 
   /** 楼层进度条点击 */
   const onPress = useCallback(
@@ -191,7 +197,7 @@ const Topic = (props, { $ }: Ctx) => {
         console.error('topic/index.js', 'onPress', error)
       }
     },
-    [onScrollTo]
+    [$, onScrollTo]
   )
 
   /** 导演模式, 按楼层回复顺序前进或者退后 */
@@ -246,7 +252,7 @@ const Topic = (props, { $ }: Ctx) => {
         console.error('topic/index.js', 'onDirect', error)
       }
     },
-    [onScrollTo]
+    [$, onScrollTo]
   )
 
   const onShowFixedTextarea = useCallback(() => {
@@ -289,7 +295,7 @@ const Topic = (props, { $ }: Ctx) => {
       )
     },
 
-    [rendered]
+    [$.postId, $.topic.userId, $.topicId, onShowFixedTextarea, rendered]
   )
 
   useRunAfter(async () => {
@@ -315,7 +321,7 @@ const Topic = (props, { $ }: Ctx) => {
 
   return useObserver(() => {
     return (
-      <>
+      <Component id='screen-topic'>
         <TapListener>
           <Page statusBarEvent={false}>
             <List
@@ -330,7 +336,7 @@ const Topic = (props, { $ }: Ctx) => {
         <Header fixed={fixed} />
         <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
         <Heatmaps />
-      </>
+      </Component>
     )
   })
 }

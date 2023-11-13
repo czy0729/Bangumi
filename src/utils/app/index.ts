@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 04:26:34
+ * @Last Modified time: 2023-11-12 07:35:25
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -35,6 +35,7 @@ import {
   Cover,
   EventType,
   Id,
+  ListEmpty,
   Navigation,
   Paths,
   SubjectId,
@@ -118,6 +119,21 @@ export function bootApp() {
 
   // initHashSubjectOTA()
   // initHashAvatarOTA()
+}
+
+/** 猜测数据中大概有多少项 */
+export function guessTotalCount(list: ListEmpty, limit: number = 10) {
+  if (
+    !list?._loaded ||
+    !list?.list?.length ||
+    typeof list?.pagination?.pageTotal !== 'number'
+  ) {
+    return 0
+  }
+
+  if (list.pagination.pageTotal <= 1) return list.list.length
+
+  return list.pagination.pageTotal * limit
 }
 
 /** 处理屏蔽用户 */

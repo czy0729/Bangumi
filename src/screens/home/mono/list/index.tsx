@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:42:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-25 04:17:23
+ * @Last Modified time: 2023-11-12 10:24:10
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -10,9 +10,10 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import Info from '../info'
+import Item from '../item'
 import { Ctx } from '../types'
 
-function List({ renderItem, onScroll }, { $ }: Ctx) {
+function List({ onScroll }, { $ }: Ctx) {
   return (
     <PaginationList2
       contentContainerStyle={_.container.bottom}
@@ -32,3 +33,7 @@ function List({ renderItem, onScroll }, { $ }: Ctx) {
 }
 
 export default obc(List)
+
+function renderItem({ item, index }) {
+  return <Item item={item} index={index} />
+}

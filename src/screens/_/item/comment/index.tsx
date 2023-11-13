@@ -30,7 +30,7 @@ export const ItemComment = ob(
     popoverData,
     onSelect
   }: ItemCommentProps) => (
-    <Component id='item-comment'>
+    <Component id='item-comment' data-key={userId}>
       <Item
         navigation={navigation}
         styles={memoStyles()}

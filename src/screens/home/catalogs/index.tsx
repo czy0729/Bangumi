@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 09:23:30
+ * @Last Modified time: 2023-11-12 07:16:54
  */
 import React from 'react'
-import { Page, Heatmap } from '@components'
+import { Page, Heatmap, Component } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
@@ -20,13 +20,13 @@ const Catalogs = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-subject-catalogs'>
       <Header />
       <Page loaded={$.list._loaded}>
         <List />
         <Heatmap bottom={_.bottom} id='条目目录' screen='SubjectCatalogs' />
       </Page>
-    </>
+    </Component>
   ))
 }
 

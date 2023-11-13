@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-01 08:59:56
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -21,10 +21,10 @@ const Typerank = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { _loaded } = $.state
     return (
-      <>
+      <Component id='screen-typerank'>
         <Header />
         <Page>{_loaded && <List />}</Page>
-      </>
+      </Component>
     )
   })
 }

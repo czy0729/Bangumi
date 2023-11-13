@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-02 13:30:44
  */
 import React from 'react'
-import { Loading, ListView, Heatmap } from '@components'
+import { Loading, ListView } from '@components'
 import { Notice } from '@_'
 import { _ } from '@stores'
 import { keyExtractor, x18s } from '@utils'
@@ -51,13 +51,8 @@ function List(props, { $ }: Ctx) {
         </>
       }
       renderItem={({ item, index }) => {
-        if (list)
-          return (
-            <>
-              <ListItem item={item} index={index} />
-              {!index && <Heatmap id='用户标签.跳转' />}
-            </>
-          )
+        // {!index && <Heatmap id='用户标签.跳转' />}
+        if (list) return <ListItem item={item} index={index} />
         return <GridItem item={item} index={index} numColumns={numColumns} />
       }}
       scrollEventThrottle={4}

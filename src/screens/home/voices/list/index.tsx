@@ -10,8 +10,8 @@ import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
 import Item from '../item'
+import { Ctx } from '../types'
 
 function List(props, { $ }: Ctx) {
   const { _loaded } = $.monoVoices

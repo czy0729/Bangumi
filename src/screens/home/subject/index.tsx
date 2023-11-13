@@ -69,7 +69,7 @@ const Subject = (props, { $, navigation }: Ctx) => {
       onScroll(evt)
       uiStore.closeLikesGrid()
     },
-    [onScroll]
+    [$, onScroll]
   )
   const onScrollIntoViewIfNeeded = useCallback(
     (y: number) => {

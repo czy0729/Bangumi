@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-31 17:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 22:52:09
+ * @Last Modified time: 2023-11-12 07:43:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,17 +27,20 @@ export const Page = observer(
     ...other
   }: PageProps) => {
     const _style = stl(_.container.plain, style)
-    if (loaded || loaded === undefined)
-      return (
-        <ErrorBoundary style={_style}>
-          <Component id='component-page' style={_.flatten(_style)} {...other}>
-            {children}
-          </Component>
-        </ErrorBoundary>
-      )
-
     return (
-      <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
+      <ErrorBoundary style={_style}>
+        <Component id='component-page' style={_.flatten(_style)} {...other}>
+          {loaded || loaded === undefined ? (
+            children
+          ) : (
+            <Loading
+              style={_style}
+              color={loadingColor}
+              backgroundColor={backgroundColor}
+            />
+          )}
+        </Component>
+      </ErrorBoundary>
     )
   }
 )

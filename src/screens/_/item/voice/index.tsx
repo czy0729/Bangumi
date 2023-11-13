@@ -5,8 +5,7 @@
  * @Last Modified time: 2023-04-20 12:06:04
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Expand, Flex, Text, Image, Touchable } from '@components'
+import { Expand, Flex, Text, Image, Touchable, Component } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { t } from '@utils/fetch'
@@ -142,12 +141,18 @@ export const ItemVoice = ({
 
     if (list.length >= 4) {
       return (
-        <Expand style={style} ratio={1.8} onExpand={onExpand}>
-          {content}
-        </Expand>
+        <Component id='item-voice' data-key={id} data-type='expand'>
+          <Expand style={style} ratio={1.8} onExpand={onExpand}>
+            {content}
+          </Expand>
+        </Component>
       )
     }
 
-    return <View style={style}>{content}</View>
+    return (
+      <Component id='item-voice' data-key={id} style={style}>
+        {content}
+      </Component>
+    )
   })
 }

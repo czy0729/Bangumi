@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-06 19:56:03
+ * @Last Modified time: 2023-11-13 21:29:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Header } from '@components'
+import { Component, Header } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
@@ -120,7 +120,7 @@ class WebViewShare extends React.Component<{
     const { captured, dark } = this.state
     const backgroundColor = dark ? '#000' : '#fff'
     return (
-      <>
+      <Component id='screen-webview-share'>
         <Header
           title={IOS ? 'iOS暂请自行截屏' : '长按保存图片'}
           alias='条目分享'
@@ -138,7 +138,6 @@ class WebViewShare extends React.Component<{
         <SafeAreaView
           style={[
             _.container.flex,
-            // eslint-disable-next-line react-native/no-inline-styles
             {
               backgroundColor: '#000'
             }
@@ -161,7 +160,7 @@ class WebViewShare extends React.Component<{
             />
           )}
         </SafeAreaView>
-      </>
+      </Component>
     )
   }
 }

@@ -44,3 +44,8 @@ export function transformStyles(style: ViewStyle = {}, Component?: any) {
 
   return _style
 }
+
+/** 将驼峰式命名的字符串转换为短横线连接的形式 */
+export function convertToDashCase(input: string) {
+  return input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+}

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-22 16:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 07:24:23
+ * @Last Modified time: 2023-11-13 21:16:06
  */
 import React from 'react'
-import { Page, ScrollView } from '@components'
+import { Component, Page, ScrollView } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -24,7 +24,7 @@ const OriginSetting = (props, { $ }: Ctx) => {
     const styles = memoStyles()
     const { _loaded, active } = $.state
     return (
-      <>
+      <Component id='screen-origin-setting'>
         <Header />
         <Page loaded={_loaded}>
           <ScrollView contentContainerStyle={styles.scrollView}>
@@ -32,7 +32,7 @@ const OriginSetting = (props, { $ }: Ctx) => {
             <List />
           </ScrollView>
         </Page>
-      </>
+      </Component>
     )
   })
 }

@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 11:11:34
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -20,13 +20,13 @@ const Voices = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-voices'>
       <Header />
       <Page>
         <ToolBar />
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

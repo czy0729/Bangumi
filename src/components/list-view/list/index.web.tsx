@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 17:01:29
+ * @Last Modified time: 2023-11-12 07:23:43
  */
 import React, { ReactNode } from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,7 @@ function List({
       <View key={`section-${index}`}>
         {renderSectionHeader({ section })}
         {(section.data || [])
-          .map(item => {
+          .map((item: any) => {
             const element = renderItem({
               item,
               section
@@ -57,7 +57,7 @@ function List({
             }
             return null
           })
-          .filter(item => !!item)}
+          .filter((item: any) => !!item)}
       </View>
     ))
   } else {

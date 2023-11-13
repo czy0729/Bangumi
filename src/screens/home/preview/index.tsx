@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-10-22 13:15:50
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -19,12 +19,12 @@ const Preview = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-preview'>
       <Header />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>
-    </>
+    </Component>
   ))
 }
 

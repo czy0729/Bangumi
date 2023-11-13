@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:24:24
+ * @Last Modified time: 2023-11-13 20:25:22
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useRunAfter, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -22,10 +22,10 @@ const Mine = (props, { $ }: Ctx) => {
   return useObserver(() => {
     const { type } = $.state
     return (
-      <>
+      <Component id='screen-mine'>
         <Header />
         <Page>{type === 'mine' ? <List /> : <ListAll />}</Page>
-      </>
+      </Component>
     )
   })
 }

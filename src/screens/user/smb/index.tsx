@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-28 12:31:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 10:29:28
+ * @Last Modified time: 2023-11-13 21:22:52
  */
 import React from 'react'
-import { Page } from '@components'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Header from './header'
@@ -20,13 +20,13 @@ const Smb = (props, { $ }: Ctx) => {
   })
 
   return useObserver(() => (
-    <>
+    <Component id='screen-smb'>
       <Header />
       <Page loaded={$.state._loaded}>
         <List />
         <Form />
       </Page>
-    </>
+    </Component>
   ))
 }
 

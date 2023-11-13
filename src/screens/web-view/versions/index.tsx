@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:37:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 12:10:53
+ * @Last Modified time: 2023-11-13 21:30:24
  */
 import React from 'react'
-import { Page, Header } from '@components'
+import { Page, Header, Component } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -23,7 +23,7 @@ const Versions = (props, { $ }: Ctx) => {
 
   return useObserver(() => {
     return (
-      <>
+      <Component id='screen-versions'>
         <Header
           title='更新内容'
           hm={['versions', 'Versions']}
@@ -43,7 +43,7 @@ const Versions = (props, { $ }: Ctx) => {
           )}
         />
         <Page>{!!$.state._loaded && <Tabs routes={TABS} />}</Page>
-      </>
+      </Component>
     )
   })
 }

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-05 03:42:39
+ * @Last Modified time: 2023-11-12 09:04:12
  */
 import { appNavigate, getSPAParams } from '@utils'
 import { AnyObject } from '@types'
 import { setNavigating } from './state'
 
+/** 获取所有网页参数并返回对象 */
 export function parseUrlParams() {
   const params = new URLSearchParams(window?.location?.search)
   const result = {}

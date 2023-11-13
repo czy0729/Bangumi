@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 01:15:11
+ * @Last Modified time: 2023-11-13 23:13:48
  */
 import React from 'react'
 import { timelineStore } from '@stores'
@@ -13,6 +13,7 @@ import { HOST } from '@constants'
 import Item from './item'
 import { memoStyles } from './styles'
 import { Props as ItemTimelineProps } from './types'
+import { Component } from '@components'
 
 export { ItemTimelineProps }
 
@@ -48,31 +49,33 @@ export const ItemTimeline = ob(
     }
 
     return (
-      <Item
-        navigation={navigation}
-        styles={memoStyles()}
-        style={style}
-        full={full}
-        avatar={avatar}
-        userId={userId}
-        p1={p1}
-        p2={p2}
-        p3={p3}
-        p4={p4}
-        image={image}
-        comment={comment}
-        reply={reply}
-        like={like}
-        time={time}
-        star={star}
-        subject={subject}
-        subjectId={subjectId}
-        clearHref={clearHref}
-        index={index}
-        event={event}
-        onDelete={onDelete}
-        onHidden={onHidden}
-      />
+      <Component id='item-timeline' data-key={`${p1?.url}|${time}`}>
+        <Item
+          navigation={navigation}
+          styles={memoStyles()}
+          style={style}
+          full={full}
+          avatar={avatar}
+          userId={userId}
+          p1={p1}
+          p2={p2}
+          p3={p3}
+          p4={p4}
+          image={image}
+          comment={comment}
+          reply={reply}
+          like={like}
+          time={time}
+          star={star}
+          subject={subject}
+          subjectId={subjectId}
+          clearHref={clearHref}
+          index={index}
+          event={event}
+          onDelete={onDelete}
+          onHidden={onHidden}
+        />
+      </Component>
     )
   }
 )

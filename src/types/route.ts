@@ -31,6 +31,7 @@ export type NavigationPushType = RouteActions &
   RouteInformation &
   RouteManga &
   RouteMono &
+  RouteNotify &
   RoutePM &
   RouteRating &
   RouteSay &
@@ -49,6 +50,13 @@ export type NavigationPushType = RouteActions &
   RouteWenku &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteNotify = (
+  path: 'Notify',
+  params: {
+    type: 'pm' | 'notify'
+  }
+) => any
 
 type RouteTyperank = (
   path: 'Typerank',

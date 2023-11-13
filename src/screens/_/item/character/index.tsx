@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:01:39
+ * @Last Modified time: 2023-11-12 07:45:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text } from '@components'
+import { Touchable, Flex, Text, Component } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils/html'
+import { HTMLDecode, cnjp } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -16,7 +16,6 @@ import { InView, Tag, Cover } from '../../base'
 import { IMG_WIDTH } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCharacterProps } from './types'
-import { cnjp } from '@utils'
 
 export { ItemCharacterProps }
 
@@ -61,7 +60,7 @@ export const ItemCharacter = obc(
     const y = ITEM_HEIGHT * index + 1
 
     return (
-      <View style={styles.container}>
+      <Component id='item-character' data-key={id} style={styles.container}>
         <Flex style={styles.wrap} align='start'>
           <InView style={styles.inViewCover} y={y}>
             {!!cover && (
@@ -151,7 +150,7 @@ export const ItemCharacter = obc(
           </Flex.Item>
         </Flex>
         {children}
-      </View>
+      </Component>
     )
   }
 )

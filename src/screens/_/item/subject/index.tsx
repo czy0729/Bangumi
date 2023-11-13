@@ -5,8 +5,7 @@
  * @Last Modified time: 2023-11-05 03:52:04
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Text, Touchable, Flex } from '@components'
+import { Text, Touchable, Flex, Component } from '@components'
 import { _, subjectStore, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -45,7 +44,11 @@ export const ItemSubject = ob(
     }
 
     return (
-      <View style={stl(_.container.item, active && styles.active)}>
+      <Component
+        id='item-subject'
+        data-key={subjectId}
+        style={stl(_.container.item, active && styles.active)}
+      >
         <ItemSearch
           navigation={navigation}
           index={index}
@@ -81,7 +84,7 @@ export const ItemSubject = ob(
           collection={collectionStore.collect(subjectId)}
           event={event}
         />
-      </View>
+      </Component>
     )
   }
 )
