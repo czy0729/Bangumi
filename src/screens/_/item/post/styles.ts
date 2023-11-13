@@ -13,6 +13,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.md,
     paddingHorizontal: _.wind
   },
+  itemWithSub: {
+    paddingBottom: _.sm
+  },
   itemDelete: {
     width: _.window.width,
     paddingBottom: _.sm,
@@ -43,9 +46,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   direct: {
     position: 'absolute',
-    top: -_.md + 1,
+    top: -_.sm - 1,
     right: 0,
-    bottom: -_.md,
+    bottom: -_.sm,
     left: -_._wind + 4,
     borderWidth: 2,
     borderColor: _.colorBorder,
@@ -57,6 +60,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   sub: {
     paddingTop: _.md
+  },
+  expandContainer: {
+    marginTop: -_.sm
   },
   expand: {
     paddingVertical: _.sm,

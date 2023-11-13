@@ -16,7 +16,7 @@ const EVENT = {
 
 function Avatar({ avatar, userName, userId }, { navigation }) {
   return (
-    <View style={_.mt.md}>
+    <View style={styles.avatar}>
       <CompAvatar
         navigation={navigation}
         src={avatar}
@@ -29,3 +29,9 @@ function Avatar({ avatar, userName, userId }, { navigation }) {
 }
 
 export default obc(Avatar)
+
+const styles = _.create({
+  avatar: {
+    marginTop: _.md - 5
+  }
+})

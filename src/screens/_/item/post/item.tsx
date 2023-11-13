@@ -65,7 +65,11 @@ const Item = memo(
     // global.rerender('Topic.Item.Main')
 
     return (
-      <Component id='item-post' data-key={id} style={styles.item}>
+      <Component
+        id='item-post'
+        data-key={id}
+        style={stl(styles.item, sub.length && styles.itemWithSub)}
+      >
         <Flex
           style={stl(_.container.item, isJump && styles.itemJump)}
           align='start'
@@ -189,7 +193,10 @@ const Item = memo(
                   ))}
               </Flex>
               {sub.length > expandNums && (
-                <Touchable onPress={() => onToggleExpand(id)}>
+                <Touchable
+                  style={styles.expandContainer}
+                  onPress={() => onToggleExpand(id)}
+                >
                   <Text
                     style={styles.expand}
                     type={isExpand ? 'sub' : 'main'}

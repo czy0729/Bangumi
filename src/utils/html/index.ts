@@ -219,10 +219,7 @@ export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
   return _find
 }
 
-/**
- * 干掉 cloudfare 乱插的 dom
- * @param {*} HTML
- */
+/** 去除 cloudfare 乱插的 dom */
 export function removeCF(HTML: string = ''): string {
   return HTML.replace(
     /<script[^>]*>([\s\S](?!<script))*?<\/script>|<noscript[^>]*>([\s\S](?!<script))*?<\/noscript>|style="display:none;visibility:hidden;"/g,

@@ -42,7 +42,7 @@ export default obc(Content)
 
 const styles = _.create({
   item: {
-    paddingVertical: _.md,
+    paddingVertical: _.md - 4,
     paddingLeft: _.sm,
     borderRadius: _.radiusXs,
     overflow: 'hidden'

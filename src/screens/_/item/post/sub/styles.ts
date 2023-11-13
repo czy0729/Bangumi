@@ -16,7 +16,6 @@ export const memoStyles = _.memoStyles(() => {
       paddingLeft: _.sm
     },
     content: {
-      paddingTop: _.sm,
       paddingBottom: _.md,
       marginLeft
     },
@@ -55,9 +54,9 @@ export const memoStyles = _.memoStyles(() => {
     },
     direct: {
       position: 'absolute',
-      top: 6,
+      top: -8,
       right: 0,
-      bottom: 2,
+      bottom: 8,
       left: -2,
       borderWidth: 2,
       borderColor: _.colorBorder,

@@ -13,7 +13,7 @@ import { correctAgo } from '@utils/app'
 
 function Detail({ time, groupCn, userName, userId }) {
   return (
-    <Text style={_.mt.sm} size={11} numberOfLines={1}>
+    <Text style={_.mt.xs} size={11} numberOfLines={1}>
       <Text type='sub' size={11}>
         {time ? correctAgo(time) : ''}
         {groupCn && time ? ' / ' : ''}

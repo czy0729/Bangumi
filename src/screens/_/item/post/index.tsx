@@ -73,7 +73,12 @@ export const ItemPost = obc(
       (msg.toLocaleLowerCase().includes('mark') || msg.includes('+1'))
     if (isDelete || isBadge) {
       return (
-        <Component id='item-post' data-type='plus-one' style={styles.itemDelete}>
+        <Component
+          id='item-post'
+          data-key={id}
+          data-type='plus-one'
+          style={styles.itemDelete}
+        >
           <PlusOne
             id={id}
             message={message}

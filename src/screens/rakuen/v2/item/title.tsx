@@ -29,22 +29,22 @@ function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }: Ctx) {
   }
 
   return (
-    <Text size={15} bold>
+    <Text bold>
       {title}
       {!!replyCount && (
-        <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={15} bold>
+        <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={14} bold>
           {' '}
           {replyText}
         </Text>
       )}
       {!!replyAdd && (
-        <Text type='main' size={11} lineHeight={15} bold>
+        <Text type='main' size={11} lineHeight={14} bold>
           {' '}
           {replyAdd}
         </Text>
       )}
       {isOldTopic && (
-        <Text size={11} lineHeight={15} type='warning'>
+        <Text size={11} lineHeight={14} type='warning'>
           {' '}
           旧帖
         </Text>

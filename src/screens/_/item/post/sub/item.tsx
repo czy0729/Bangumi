@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, UserStatus } from '@components'
+import { Component, Flex, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import {
   HTMLDecode,
@@ -82,35 +82,39 @@ export default memo(
       REG_BGM.test(msg.trim())
     ) {
       return (
-        <PlusOne
-          id={id}
-          message={message}
-          userId={userId}
-          userName={userName}
-          avatar={avatar}
-          url={url}
-          directFloor={directFloor}
-          isAuthor={isAuthor}
-          isFriend={isFriend}
-          isLayer={isLayer}
-          event={event}
-        />
+        <Component id='item-post-sub' data-key={id} data-type='plus-one'>
+          <PlusOne
+            id={id}
+            message={message}
+            userId={userId}
+            userName={userName}
+            avatar={avatar}
+            url={url}
+            directFloor={directFloor}
+            isAuthor={isAuthor}
+            isFriend={isFriend}
+            isLayer={isLayer}
+            event={event}
+          />
+        </Component>
       )
     }
 
     // mark 的楼层
     if (rawMsg.length <= 8 && REG_MARK.test(rawMsg)) {
       return (
-        <Mark
-          id={id}
-          message={msg}
-          userId={userId}
-          userName={userName}
-          avatar={avatar}
-          url={url}
-          directFloor={directFloor}
-          event={event}
-        />
+        <Component id='item-post-sub' data-key={id} data-type='mark'>
+          <Mark
+            id={id}
+            message={msg}
+            userId={userId}
+            userName={userName}
+            avatar={avatar}
+            url={url}
+            directFloor={directFloor}
+            event={event}
+          />
+        </Component>
       )
     }
 
@@ -136,117 +140,118 @@ export default memo(
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
-      <Flex
-        style={styles.item}
-        align='start'
-        onLayout={e => {
-          try {
-            layoutHeightMap.set(Number(id), Math.max(1, e.nativeEvent.layout.height))
-          } catch (error) {}
-        }}
-      >
-        {/* 头像 */}
-        <UserStatus userId={userId}>
-          <Avatar
-            style={_.mt.sm}
-            navigation={navigation}
-            userId={userId}
-            name={userName}
-            src={avatar}
-            size={36}
-            event={event}
-          />
-        </UserStatus>
-
-        {/* 主楼层 */}
-        <Flex.Item style={styles.content}>
-          <Flex align='start'>
-            <Flex.Item>
-              <Name
-                userId={userId}
-                size={userName.length > 10 ? 12 : 14}
-                lineHeight={14}
-                bold
-                right={
-                  <UserLabel
-                    isAuthor={isAuthor}
-                    isFriend={isFriend}
-                    isLayer={isLayer}
-                  />
-                }
-              >
-                {HTMLDecode(userName)}
-              </Name>
-            </Flex.Item>
-            <IconExtra
-              style={extraStyle}
-              topicId={topicId}
-              id={id}
-              formhash={formhash}
-              likeType={likeType}
-              replySub={replySub}
-              erase={erase}
-              userId={userId}
-              userName={userName}
-              message={message}
-              msg={msg}
-              showFixedTextare={showFixedTextare}
-            />
-          </Flex>
-          <FloorText time={time} floor={floor} isNew={isNew} />
-          <View style={styles.html}>
-            <HTML
+      <Component id='item-post-sub' data-key={id}>
+        <Flex
+          style={styles.item}
+          align='start'
+          onLayout={e => {
+            try {
+              layoutHeightMap.set(Number(id), Math.max(1, e.nativeEvent.layout.height))
+            } catch (error) {}
+          }}
+        >
+          {/* 头像 */}
+          <UserStatus userId={userId}>
+            <Avatar
               navigation={navigation}
-              style={wide && styles.wide}
-              id={id}
-              msg={msg}
-              url={url}
-              imagesMaxWidth={IMAGES_MAX_WIDTH_SUB}
-              matchLink={matchLink}
+              userId={userId}
+              name={userName}
+              src={avatar}
+              size={36}
               event={event}
             />
-            {!!translate && (
-              <Text style={styles.translate} size={11}>
-                {translate}
-              </Text>
-            )}
-            {showQuoteAvatar && (
-              <Flex
-                style={stl(styles.quoteUserRound, wide && styles.quoteUserRoundWide)}
-              >
-                <Avatar
-                  navigation={navigation}
-                  size={13}
-                  userId={quoteUser.userId}
-                  name={quoteUser.userName}
-                  src={quoteUser.avatar}
-                  radius={systemStore.setting.avatarRound ? undefined : 4}
-                  event={event}
-                />
-                <Text type={_.select('desc', 'sub')} size={12} bold>
-                  {' '}
-                  {quoteUser.userName}:
-                </Text>
-              </Flex>
-            )}
-            <Likes
-              style={wide && styles.likesWide}
-              topicId={topicId}
-              id={id}
-              formhash={formhash}
-              likeType={likeType}
-              onLongPress={onLikesLongPress}
-            />
-          </View>
-        </Flex.Item>
+          </UserStatus>
 
-        {/* 高亮 */}
-        {directFloor ? (
-          <View style={styles.direct} pointerEvents='none' />
-        ) : isJump ? (
-          <View style={[styles.direct, styles.directJump]} pointerEvents='none' />
-        ) : null}
-      </Flex>
+          {/* 主楼层 */}
+          <Flex.Item style={styles.content}>
+            <Flex align='start'>
+              <Flex.Item>
+                <Name
+                  userId={userId}
+                  size={userName.length > 10 ? 12 : 14}
+                  lineHeight={14}
+                  bold
+                  right={
+                    <UserLabel
+                      isAuthor={isAuthor}
+                      isFriend={isFriend}
+                      isLayer={isLayer}
+                    />
+                  }
+                >
+                  {HTMLDecode(userName)}
+                </Name>
+              </Flex.Item>
+              <IconExtra
+                style={extraStyle}
+                topicId={topicId}
+                id={id}
+                formhash={formhash}
+                likeType={likeType}
+                replySub={replySub}
+                erase={erase}
+                userId={userId}
+                userName={userName}
+                message={message}
+                msg={msg}
+                showFixedTextare={showFixedTextare}
+              />
+            </Flex>
+            <FloorText time={time} floor={floor} isNew={isNew} />
+            <View style={styles.html}>
+              <HTML
+                navigation={navigation}
+                style={wide && styles.wide}
+                id={id}
+                msg={msg}
+                url={url}
+                imagesMaxWidth={IMAGES_MAX_WIDTH_SUB}
+                matchLink={matchLink}
+                event={event}
+              />
+              {!!translate && (
+                <Text style={styles.translate} size={11}>
+                  {translate}
+                </Text>
+              )}
+              {showQuoteAvatar && (
+                <Flex
+                  style={stl(styles.quoteUserRound, wide && styles.quoteUserRoundWide)}
+                >
+                  <Avatar
+                    navigation={navigation}
+                    size={13}
+                    userId={quoteUser.userId}
+                    name={quoteUser.userName}
+                    src={quoteUser.avatar}
+                    radius={systemStore.setting.avatarRound ? undefined : 4}
+                    event={event}
+                  />
+                  <Text type={_.select('desc', 'sub')} size={12} bold>
+                    {' '}
+                    {quoteUser.userName}:
+                  </Text>
+                </Flex>
+              )}
+              <Likes
+                style={wide && styles.likesWide}
+                topicId={topicId}
+                id={id}
+                formhash={formhash}
+                likeType={likeType}
+                onLongPress={onLikesLongPress}
+              />
+            </View>
+          </Flex.Item>
+
+          {/* 高亮 */}
+          {directFloor ? (
+            <View style={styles.direct} pointerEvents='none' />
+          ) : isJump ? (
+            <View style={[styles.direct, styles.directJump]} pointerEvents='none' />
+          ) : null}
+        </Flex>
+      </Component>
     )
   },
   DEFAULT_PROPS

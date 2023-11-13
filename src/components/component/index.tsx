@@ -20,7 +20,12 @@ export const Component = ({
   children,
   ...props
 }: ComponentProps): JSX.Element | null => {
-  if (!Object.keys(props).length) return children as JSX.Element | null
+  const filteredProps = Object.keys(props).reduce((acc, key) => {
+    if (!key.startsWith('data-')) acc[key] = props[key]
+    return acc
+  }, {})
 
-  return <View {...props}>{children}</View>
+  if (!Object.keys(filteredProps).length) return children as JSX.Element | null
+
+  return <View {...filteredProps}>{children}</View>
 }
