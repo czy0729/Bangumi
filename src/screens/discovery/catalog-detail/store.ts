@@ -132,6 +132,11 @@ export default class ScreenCatalogDetail extends store {
     return discoveryStore.catalogDetail(this.catalogId)
   }
 
+  /** 目录详情 (云缓存) */
+  @computed get catalogDetailFromOSS() {
+    return discoveryStore.catalogDetailFromOSS(this.catalogId)
+  }
+
   /** 目录详情列表 */
   @computed get list(): List {
     const key = `${NAMESPACE}|${this.catalogId}`
@@ -141,7 +146,13 @@ export default class ScreenCatalogDetail extends store {
     }
 
     const { sort } = this.state
-    const list = this.catalogDetail.list.map(item => {
+    let list = []
+    if (this.catalogDetail.list.length) {
+      list = this.catalogDetail.list
+    } else if (this.catalogDetailFromOSS.list.length) {
+      list = this.catalogDetailFromOSS.list
+    }
+    list = list.map(item => {
       const { id } = item
       return {
         ...item,

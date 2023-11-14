@@ -34,6 +34,7 @@ const SORT_DS = ['默认', '时间', '评分'] as const
 function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { sort } = $.state
+  const catalogDetail = $.catalogDetail.title ? $.catalogDetail : $.catalogDetailFromOSS
   const {
     title,
     avatar,
@@ -44,7 +45,7 @@ function Info(props, { $, navigation }: Ctx) {
     time,
     replyCount,
     _loaded
-  } = $.catalogDetail
+  } = catalogDetail
   const replyText = replyCount == 5 ? `5+` : replyCount
   return (
     <View style={styles.container}>

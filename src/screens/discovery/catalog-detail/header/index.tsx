@@ -21,7 +21,8 @@ const DATA = [TEXT_BROWSER]
 if (!STORYBOOK) DATA.push(TEXT_SPA)
 
 function Header({ fixed }, { $, navigation }: Ctx) {
-  const { title, joinUrl, byeUrl } = $.catalogDetail
+  const catalogDetail = $.catalogDetail.title ? $.catalogDetail : $.catalogDetailFromOSS
+  const { title, joinUrl, byeUrl } = catalogDetail
   return (
     <CompHeader
       mode='float'

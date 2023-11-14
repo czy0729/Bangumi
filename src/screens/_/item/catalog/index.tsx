@@ -52,9 +52,8 @@ export const ItemCatalog = obc(
     const styles = memoStyles()
     const _detail = detail || discoveryStore.catalogDetail(id)
     const oss = discoveryStore.catalogDetailFromOSS(id)
-
     let data: any
-    if (_detail._loaded) {
+    if (_detail._loaded && _detail.list.length) {
       data = _detail
     } else if (oss._loaded) {
       data = oss

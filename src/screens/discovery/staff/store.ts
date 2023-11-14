@@ -41,8 +41,9 @@ export default class ScreenStaff extends store {
 
   /** 目录详情 */
   fetchCatalogDetail = async (id: Id) => {
+    const catalogDetail = discoveryStore.catalogDetail(id)
     if (
-      discoveryStore.catalogDetail(id)._loaded ||
+      (catalogDetail._loaded && catalogDetail.list.length) ||
       discoveryStore.catalogDetailFromOSS(id)._loaded
     ) {
       return true
