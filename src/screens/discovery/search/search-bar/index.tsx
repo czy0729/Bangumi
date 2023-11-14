@@ -15,12 +15,12 @@ import { memoStyles } from './styles'
 
 function SearchBar(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { cat, value } = $.state
+  const { cat, _value } = $.state
   const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(cat)
   return (
     <Input
       style={stl(styles.searchIpt, ['人物', '用户'].includes(label) && styles.radius)}
-      value={value}
+      value={_value}
       returnKeyType='search'
       returnKeyLabel='搜索'
       placeholder={$.isUser ? '输入完整的用户Id' : '输入关键字'}

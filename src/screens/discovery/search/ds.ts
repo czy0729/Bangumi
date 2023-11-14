@@ -19,6 +19,9 @@ export const EXCLUDE_STATE = {
   visibleBottom: _.window.height,
 
   /** 输入框值 */
+  _value: '',
+
+  /** 确认的输入框值 */
   value: '',
 
   /** 输入框聚焦中 */

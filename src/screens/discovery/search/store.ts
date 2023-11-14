@@ -6,7 +6,7 @@
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
-import { info, updateVisibleBottom, x18 } from '@utils'
+import { debounce, info, updateVisibleBottom, x18 } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY, HTML_SEARCH } from '@constants'
@@ -145,15 +145,21 @@ export default class ScreenSearch extends store {
 
   /** 输入框改变 */
   onChangeText = (text: string) => {
-    const state: {
-      value: string
-      focus?: boolean
-    } = {
-      value: text
+    const state: Partial<typeof EXCLUDE_STATE> = {
+      _value: text
     }
     if (text) state.focus = true
     this.setState(state)
+    this.onChangeTextConfirm(text)
   }
+
+  /** 输入框值提交, 反应数据 */
+  onChangeTextConfirm = debounce((text: string) => {
+    const state: Partial<typeof EXCLUDE_STATE> = {
+      value: text
+    }
+    this.setState(state)
+  })
 
   /** 选择历史 */
   selectHistory = (value: string) => {

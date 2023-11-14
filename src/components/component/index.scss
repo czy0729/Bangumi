@@ -13,14 +13,25 @@ base-pagination-list-2 {
   flex-direction: column;
   min-height: 0;
 }
+
 /** 因为直接包裹额外组件 */
 component-cover {
   display: flex;
 }
+
+/** 输入框 */
+component-input {
+  input {
+    caret-color: rgb(254, 138, 149);
+    caret-width: 2px;
+  }
+}
+
 /** 因为直接包裹文字组件 */
 base-rank {
   display: flex;
 }
+
 /** 因为直接包裹文字组件 */
 base-name {
   & > div {
