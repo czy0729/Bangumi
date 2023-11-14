@@ -11,11 +11,11 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPlain
   },
   image: {
-    marginTop: _.md,
+    marginTop: _.md - 4,
     marginLeft: _.wind
   },
   content: {
-    paddingVertical: _.md,
+    paddingVertical: _.md - 4,
     paddingRight: _.wind,
     marginLeft: _.sm
   },

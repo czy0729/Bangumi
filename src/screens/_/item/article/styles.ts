@@ -8,10 +8,10 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   image: {
-    marginTop: _.md
+    marginTop: _.md - 4
   },
   item: {
-    paddingVertical: _.md,
+    paddingVertical: _.md - 4,
     paddingRight: _.wind,
     marginLeft: _.sm
   }

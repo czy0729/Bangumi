@@ -9,7 +9,7 @@ import { Flex, Iconfont, Text, UserStatus } from '@components'
 import { _, userStore, uiStore } from '@stores'
 import { stl, correctAgo } from '@utils'
 import { memo } from '@utils/decorators'
-import { LIKE_TYPE_TIMELINE } from '@constants'
+import { LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
 import { Popover, Avatar, Stars, Name, Likes } from '../../base'
 import { DEFAULT_PROPS } from './ds'
 
@@ -99,7 +99,7 @@ const Item = memo(
             </Flex>
           )}
           {!!comment && (
-            <Text style={_.mt.xs} size={15} lineHeight={20} selectable={false}>
+            <Text style={_.mt.xs} lineHeight={18} selectable={STORYBOOK}>
               {comment}
             </Text>
           )}
