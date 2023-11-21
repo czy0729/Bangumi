@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-04 04:43:11
  */
+import { STORYBOOK } from '../device'
+
 /** 加载 */
 export const TEXT_REFRESHING = '加载中...'
 
@@ -30,3 +32,6 @@ export const TEXT_UPDATE_MANGA = '2023-04-18'
 
 /** 赞助者最后更新时间 */
 export const TEXT_UPDATE_SPONSOR = '2023-09-29'
+
+/** 空格 */
+export const TEXT_SPACE = STORYBOOK ? '\u00A0' : ' '

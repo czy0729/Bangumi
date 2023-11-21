@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 17:51:03
+ * @Last Modified time: 2023-11-17 09:20:29
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -227,4 +227,5 @@ export function copy(val: any, message: boolean | string = true, ms?: number) {
   }
 
   feedback()
+  if (STORYBOOK) console.info(string)
 }

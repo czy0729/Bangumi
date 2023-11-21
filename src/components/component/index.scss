@@ -2,10 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 03:23:09
+ * @Last Modified time: 2023-11-17 08:19:45
  */
-/** ========== 以下为特殊情况覆盖的样式 ========== */
-/** 因为直接包裹滚动列表的组件 */
+// [data-key]::after {
+//   content: attr(data-key);
+//   position: absolute;
+//   top: 0;
+//   right: 6px;
+//   padding: 2px;
+//   font-size: 12px;
+//   color: rgba(255, 255, 255, 0.8);
+//   background-color: rgba(255, 255, 255, 0.1);
+//   border-radius: 3px;
+//   pointer-events: none;
+// }
+
 component-tabs,
 base-pagination-list,
 base-pagination-list-2 {
@@ -14,16 +25,21 @@ base-pagination-list-2 {
   min-height: 0;
 }
 
-/** 因为直接包裹额外组件 */
 component-cover {
   display: flex;
 }
 
-/** 输入框 */
 component-input {
-  input {
+  input,
+  textarea {
     caret-color: rgb(254, 138, 149);
     caret-width: 2px;
+  }
+}
+
+component-popover {
+  component-button {
+    flex: 1;
   }
 }
 

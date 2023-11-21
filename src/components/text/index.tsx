@@ -3,13 +3,14 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 20:14:05
+ * @Last Modified time: 2023-11-18 11:02:55
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
+import { STORYBOOK } from '@constants'
 import {
   PAD_INCREASE,
   setComponentsDefaultProps,
@@ -34,7 +35,7 @@ function CompText(
     bold = false,
     underline = false,
     shadow = false,
-    selectable = false,
+    selectable = STORYBOOK,
     noWrap = false,
     s2t = true,
     children,

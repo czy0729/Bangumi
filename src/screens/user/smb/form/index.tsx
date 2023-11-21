@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 08:51:44
+ * @Last Modified time: 2023-11-17 05:15:22
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -13,7 +13,6 @@ import { memoStyles } from './styles'
 export default obc((props, { $ }: Ctx) => {
   const {
     visible,
-    id,
     name,
     ip,
     username,
@@ -22,14 +21,12 @@ export default obc((props, { $ }: Ctx) => {
     sharedFolder,
     path,
     workGroup,
-    url,
-    webDAV
+    url
   } = $.state
   return (
     <Form
       styles={memoStyles()}
       visible={visible}
-      id={id}
       name={name}
       ip={ip}
       username={username}
@@ -39,10 +36,7 @@ export default obc((props, { $ }: Ctx) => {
       path={path}
       workGroup={workGroup}
       url={url}
-      webDAV={webDAV}
-      onChange={$.onChange}
       onClose={$.onClose}
-      onSubmit={$.onSubmit}
     />
   )
 })

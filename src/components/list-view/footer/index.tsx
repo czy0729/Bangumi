@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 02:12:37
+ * @Last Modified time: 2023-11-17 07:31:03
  */
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { systemStore } from '@stores'
@@ -26,11 +26,8 @@ function Footer({
   footerRefreshingComponent,
   footerRefreshingText,
   footerTextType,
-  length,
   refreshState,
-  showMesume,
-  onHeaderRefresh,
-  onFooterRefresh
+  showMesume
 }) {
   switch (refreshState) {
     case REFRESH_STATE.Idle:
@@ -38,60 +35,37 @@ function Footer({
 
     case REFRESH_STATE.Failure:
       return (
-        <TouchableOpacity
-          onPress={() => {
-            if (length === 0) {
-              if (typeof onHeaderRefresh === 'function') {
-                onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
-              }
-              return
-            }
-
-            if (typeof onFooterRefresh === 'function') {
-              onFooterRefresh(REFRESH_STATE.FooterRefreshing)
-            }
-          }}
-        >
-          {footerFailureComponent || (
-            <View style={styles.container}>
-              <Text
-                style={styles.text}
-                type={footerTextType}
-                size={13}
-                lineHeight={17}
-                align='center'
-              >
-                {footerFailureText}
-              </Text>
-            </View>
-          )}
-        </TouchableOpacity>
+        footerFailureComponent || (
+          <View style={styles.container}>
+            <Text
+              style={styles.text}
+              type={footerTextType}
+              size={13}
+              lineHeight={17}
+              align='center'
+            >
+              {footerFailureText}
+            </Text>
+          </View>
+        )
       )
 
     case REFRESH_STATE.EmptyData:
       return (
-        <TouchableOpacity
-          onPress={() => {
-            if (typeof onHeaderRefresh === 'function') {
-              onHeaderRefresh(REFRESH_STATE.HeaderRefreshing)
-            }
-          }}
-        >
-          {footerEmptyDataComponent || (
-            <Flex style={styles.empty} direction='column' justify='center'>
-              {showMesume && <Mesume size={80} />}
-              <Text
-                style={styles.textMt}
-                type={footerTextType}
-                size={13}
-                lineHeight={17}
-                align='center'
-              >
-                {footerEmptyDataText}
-              </Text>
-            </Flex>
-          )}
-        </TouchableOpacity>
+        footerEmptyDataComponent || (
+          <Flex style={styles.empty} direction='column' justify='center'>
+            {showMesume && <Mesume size={80} />}
+            <Text
+              style={styles.textMt}
+              type={footerTextType}
+              size={13}
+              lineHeight={17}
+              align='center'
+            >
+              {footerEmptyDataText}
+            </Text>
+          </Flex>
+        )
       )
 
     case REFRESH_STATE.FooterRefreshing:

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 19:29:50
+ * @Last Modified time: 2023-11-21 13:15:21
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -13,7 +13,7 @@ import {
   userStore
 } from '@stores'
 import { SMB } from '@stores/smb/types'
-import { getTimestamp, sleep, desc, info, alert, confirm, cnjp, pick } from '@utils'
+import { alert, cnjp, confirm, desc, getTimestamp, info, pick, sleep } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { get, gets, update } from '@utils/kv'
@@ -22,7 +22,8 @@ import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
 import { smbList, webDAVList } from './utils'
-import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER } from './ds'
+import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER, LIMIT } from './ds'
+import { SMBListItem, SubjectOSS } from './types'
 
 export default class ScreenSmb extends store {
   state = observable(STATE)
@@ -48,6 +49,12 @@ export default class ScreenSmb extends store {
     })
   }
 
+  save = () => {
+    this.setStorage(NAMESPACE)
+  }
+
+  memoDirectory: SMBListItem[] = []
+
   memoList: any[] = []
 
   memoTags: string[] = []
@@ -57,9 +64,6 @@ export default class ScreenSmb extends store {
   cacheList = () => {
     this.memoList = this.filterList()
     this.cacheTags()
-    this.setState({
-      listComponentKey: this.state.listComponentKey + 1
-    })
   }
 
   /** 更新标签数据 */
@@ -171,6 +175,9 @@ export default class ScreenSmb extends store {
           data[key].cn = data[key].name_cn
           delete data[key].name_cn
 
+          data[key].eps = Number(data[key].totalEps) || ''
+          delete data[key].totalEps
+
           if (data[key].info) {
             data[key].date =
               data[key].info.match(
@@ -186,7 +193,7 @@ export default class ScreenSmb extends store {
       this.setState({
         subjects: data
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     } catch (error) {}
 
     this.setState({
@@ -195,10 +202,9 @@ export default class ScreenSmb extends store {
     return true
   }
 
-  /** 扫描 */
+  /** smb 扫描 */
   connectSmb = async () => {
     const { smb } = this.current
-
     const list = await (IOS || smb.webDAV ? webDAVList(smb) : smbList(smb))
     if (list.length) {
       const data = toJS(this.data)
@@ -211,8 +217,13 @@ export default class ScreenSmb extends store {
         smbStore.updateData(data)
 
         await this.fetchInfos()
+        this.setState({
+          _page: '1',
+          page: 1,
+          tags: []
+        })
         this.cacheList()
-        this.setStorage(NAMESPACE)
+        this.save()
       }
     }
 
@@ -220,6 +231,38 @@ export default class ScreenSmb extends store {
       length: list.length,
       webDAV: smb.webDAV
     })
+  }
+
+  /** 文件夹上传扫描 */
+  connectWebDirectory = async () => {
+    const { smb } = this.current
+    const list = this.memoDirectory
+    if (list.length) {
+      const data = toJS(this.data)
+      const { uuid } = this.state
+      const index = data.findIndex(item => item.smb.uuid === uuid)
+
+      if (index !== -1) {
+        data[index].smb.loaded = getTimestamp()
+        data[index].list = list
+        smbStore.updateData(data)
+
+        await this.fetchInfos()
+        this.setState({
+          _page: '1',
+          page: 1,
+          tags: []
+        })
+        this.cacheList()
+        this.save()
+      }
+    }
+
+    t('SMB.扫描', {
+      length: list.length,
+      webDAV: smb.webDAV
+    })
+    this.memoDirectory = []
   }
 
   /** 下拉刷新条目信息 */
@@ -270,6 +313,14 @@ export default class ScreenSmb extends store {
     })
   }
 
+  /** 当前分页数据 */
+  @computed get pageList() {
+    const { page } = this.state
+    if (!page) return []
+    return this.memoList.slice((page - 1) * LIMIT, page * LIMIT)
+  }
+
+  /** 条目接口数据 */
   subjectV2(subjectId: SubjectId) {
     return computed(() => {
       if (STORYBOOK) return this.subjectOSS(subjectId)
@@ -278,14 +329,19 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
+  /** 条目云端快照 */
   subjectOSS(id: SubjectId) {
-    return computed(() => this.state.subjects[`subject_${id}`] || {}).get()
+    return computed(
+      () => this.state.subjects[`subject_${id}`] || ({} as SubjectOSS)
+    ).get()
   }
 
+  /** 条目收藏状态 */
   collection(subjectId: SubjectId) {
     return computed(() => collectionStore.collection(subjectId)).get()
   }
 
+  /** 猜测发售日 */
   airDate(subjectId: SubjectId) {
     return computed(() => {
       const subject = this.subjectV2(subjectId)
@@ -305,6 +361,7 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
+  /** 构造目标链接 */
   url = (
     sharedFolder: string = '',
     folderPath: string = '',
@@ -321,20 +378,35 @@ export default class ScreenSmb extends store {
         if (sharedFolder) path.push(sharedFolder)
         if (folderPath) path.push(folderPath)
         if (folderName) path.push(folderName)
-        return smb.url
+
+        const { isWindows } = this.state
+        let url = smb.url
           .replace(/\[USERNAME\]/g, smb.username)
           .replace(/\[PASSWORD\]/g, smb.password)
           .replace(/\[IP\]/g, smb.port ? `${smb.ip}:${smb.port}` : smb.ip)
           .replace(/\[PATH\]/g, path.join('/'))
           .replace(/\[FILE\]/g, fileName)
+        if (isWindows) url = url.replace(/\//g, '\\').replace(/\\\\/g, '//')
+
+        return url
       } catch (error) {
         return ''
       }
     }).get()
   }
 
+  /** 文件夹是否显示文件全名列表 */
+  isFiles = (folderName: string) => {
+    return computed(() => !!this.state.files[folderName]).get()
+  }
+
+  /** 文件夹是否展开 */
+  isExpanded = (folderName: string) => {
+    return computed(() => !!this.state.expands[folderName]).get()
+  }
+
   // -------------------- page --------------------
-  list() {
+  list = () => {
     const list = []
     if (this.current?.list?.length) {
       this.current.list
@@ -364,7 +436,7 @@ export default class ScreenSmb extends store {
     return list
   }
 
-  sortList() {
+  sortList = () => {
     const { sort } = this.state
     if (sort === '评分') {
       return this.list()
@@ -429,7 +501,7 @@ export default class ScreenSmb extends store {
       })
   }
 
-  filterList() {
+  filterList = () => {
     const { tags } = this.state
     if (!tags.length) return this.sortList()
 
@@ -474,8 +546,8 @@ export default class ScreenSmb extends store {
     })
   }
 
-  tagsCount(): Record<string, number> {
-    const data = {
+  tagsCount = () => {
+    const data: Record<string, number> = {
       条目: 0,
       文件夹: 0
     }
@@ -546,7 +618,7 @@ export default class ScreenSmb extends store {
     return data
   }
 
-  tagsActions() {
+  tagsActions = () => {
     // const { tags, more } = this.state
     const tagsCount = this.tagsCount()
     return (
@@ -558,18 +630,22 @@ export default class ScreenSmb extends store {
     )
   }
 
+  /** 展开表单 */
   onShow = () => {
     this.setState({
       visible: true
     })
   }
 
+  /** 关闭表单 */
   onClose = () => {
     this.setState({
       ...EXCLUDE_STATE
     })
+    this.memoDirectory = []
   }
 
+  /** 展开当前服务编辑表单 */
   onEdit = () => {
     if (!this.current) return
 
@@ -592,6 +668,7 @@ export default class ScreenSmb extends store {
     t('SMB.编辑')
   }
 
+  /** 复制当前服务配置并新建一个服务 */
   onCopy = () => {
     if (!this.current) return
 
@@ -614,12 +691,14 @@ export default class ScreenSmb extends store {
     t('SMB.复制')
   }
 
+  /** 表单编辑 */
   onChange = (key: string, val: any) => {
     this.setState({
       [key]: val
     })
   }
 
+  /** 新增服务或者编辑当前服务 */
   onSubmit = () => {
     const {
       id,
@@ -635,9 +714,11 @@ export default class ScreenSmb extends store {
       webDAV
     } = this.state
 
-    if (!ip || !username || !sharedFolder) {
-      info('请填写所有必填项')
-      return
+    if (!STORYBOOK) {
+      if (!ip || !username || !sharedFolder) {
+        info('请填写所有必填项')
+        return
+      }
     }
 
     const data = toJS(this.data)
@@ -686,13 +767,19 @@ export default class ScreenSmb extends store {
       })
     }
 
-    this.setStorage(NAMESPACE)
-
+    this.save()
     t('SMB.保存', {
       create: index === -1
     })
+
+    if (STORYBOOK) {
+      setTimeout(() => {
+        this.connectWebDirectory()
+      }, 1000)
+    }
   }
 
+  /** 删除当前服务 */
   onDelete = () => {
     if (!this.current) return
 
@@ -703,11 +790,12 @@ export default class ScreenSmb extends store {
       uuid: data?.[0]?.smb?.uuid || ''
     })
 
-    this.setStorage(NAMESPACE)
+    this.save()
 
     t('SMB.删除')
   }
 
+  /** 切换不同服务 */
   onSwitch = (title: string, index?: number) => {
     const smb = this.smbs[index]
     this.setState({
@@ -715,47 +803,55 @@ export default class ScreenSmb extends store {
       uuid: smb.uuid
     })
     this.cacheList()
-    this.setStorage(NAMESPACE)
+    this.save()
 
     t('SMB.切换')
   }
 
+  /** @deprecated */
   onToggleTags = () => {
     const { more } = this.state
     this.setState({
       more: !more
     })
     this.cacheTags()
-    this.setStorage(NAMESPACE)
+    this.save()
 
     t('SMB.更多标签')
   }
 
+  /** 选择标签 */
   onSelectTag = (title: string) => {
     const { tags } = this.state
     this.setState({
-      tags: title ? (tags.includes(title) ? [] : [title]) : []
+      tags: title ? (tags.includes(title) ? [] : [title]) : [],
+      _page: '1',
+      page: 1
     })
     this.cacheList()
-    this.setStorage(NAMESPACE)
+    this.save()
 
     t('SMB.选择标签', {
       title
     })
   }
 
+  /** 排序 */
   onSelectSort = (title: string) => {
     this.setState({
-      sort: title
+      sort: title,
+      _page: '1',
+      page: 1
     })
     this.cacheList()
-    this.setStorage(NAMESPACE)
+    this.save()
 
     t('SMB.排序', {
       title
     })
   }
 
+  /** 当前服务菜单选择 */
   onSelectSMB = (title: string, navigation?: Navigation) => {
     if (title === '扫描') {
       this.connectSmb()
@@ -787,6 +883,112 @@ export default class ScreenSmb extends store {
     }
   }
 
+  /** 上一页 */
+  onPrev = () => {
+    const { page } = this.state
+    if (page === 1) {
+      info('已经是第一页了')
+      return
+    }
+
+    const value = page - 1
+    this.setState({
+      _page: String(value),
+      page: value
+    })
+    this.save()
+  }
+
+  /** 下一页 */
+  onNext = () => {
+    const { page } = this.state
+    if (page >= Math.ceil(this.memoList.length / LIMIT)) {
+      info('已经是最后一页了')
+      return
+    }
+
+    const value = page + 1
+    this.setState({
+      _page: String(value),
+      page: value
+    })
+    this.save()
+  }
+
+  /** 分页中间输入框文字改变 */
+  onPaginationInputChange = ({ nativeEvent }) => {
+    const { text } = nativeEvent
+    this.setState({
+      _page: text
+    })
+  }
+
+  /** 分页中间输入框提交 */
+  onPaginationInputSubmit = () => {
+    const { _page } = this.state
+    let value = Number(_page) || 1
+    const max = Math.ceil(this.memoList.length / LIMIT) || 1
+    if (value >= max) {
+      info(`最大 ${max} 页`)
+      value = max
+    }
+
+    this.setState({
+      _page: String(value),
+      page: value
+    })
+    this.save()
+  }
+
+  /** 文件夹切换显示类型 */
+  onFile = (folderName: string) => {
+    const { files } = this.state
+    const value = !files[folderName]
+    this.setState({
+      files: {
+        [folderName]: value
+      }
+    })
+    this.save()
+  }
+
+  /** 文件夹展开收起 */
+  onExpand = (folderName: string) => {
+    const { expands } = this.state
+    const value = !expands[folderName]
+    this.setState({
+      expands: {
+        [folderName]: value
+      }
+    })
+    this.save()
+  }
+
+  /** 展开当前页面所有文件夹 */
+  onOpenCurrentPage = () => {
+    const expands = {}
+    this.pageList.forEach(item => {
+      expands[item.name] = true
+    })
+    this.setState({
+      expands
+    })
+    this.save()
+  }
+
+  /** 关闭当前页面所有文件夹 */
+  onCloseCurrentPage = () => {
+    const expands = {}
+    this.pageList.forEach(item => {
+      expands[item.name] = false
+    })
+    this.setState({
+      expands
+    })
+    this.save()
+  }
+
+  // -------------------- action --------------------
   /** 上传配置 */
   upload = () => {
     const { myUserId } = userStore
@@ -833,7 +1035,7 @@ export default class ScreenSmb extends store {
             this.setState({
               uuid
             })
-            this.setStorage(NAMESPACE)
+            this.save()
 
             info('已覆盖')
             return

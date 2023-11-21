@@ -26,27 +26,29 @@ export const StorybookScroll = ({
   const [fetching, setFetching] = useState(false)
   const _onScroll = useCallback(
     async e => {
-      StorybookState.scrollTopMap.set(
-        window?.location?.search,
-        e.nativeEvent.contentOffset.y
-      )
-      if (typeof onScroll === 'function') {
-        onScroll(e)
-      }
-
-      // 到底
-      if (
-        ref.current.scrollTop + ref.current.clientHeight >=
-        ref.current.scrollHeight - 32
-      ) {
-        if (typeof onFooterRefresh === 'function') {
-          if (fetching) return
-
-          setFetching(true)
-          await onFooterRefresh()
-          setFetching(false)
+      try {
+        StorybookState.scrollTopMap.set(
+          window?.location?.search,
+          e.nativeEvent.contentOffset.y
+        )
+        if (typeof onScroll === 'function') {
+          onScroll(e)
         }
-      }
+
+        // 到底
+        if (
+          ref.current.scrollTop + ref.current.clientHeight >=
+          ref.current.scrollHeight - 32
+        ) {
+          if (typeof onFooterRefresh === 'function') {
+            if (fetching) return
+
+            setFetching(true)
+            await onFooterRefresh()
+            setFetching(false)
+          }
+        }
+      } catch (error) {}
     },
     [fetching, onFooterRefresh, onScroll]
   )

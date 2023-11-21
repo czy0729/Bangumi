@@ -7,6 +7,7 @@
 import { StyleSheet } from 'react-native'
 import { ViewStyle } from '@types'
 import { Text } from '../text'
+import { Props } from './types'
 
 /** React.createElement 有部分 react-native 中的样式写法不支持, 需要转换 */
 export function transformStyles(style: ViewStyle = {}, Component?: any) {
@@ -48,4 +49,29 @@ export function transformStyles(style: ViewStyle = {}, Component?: any) {
 /** 将驼峰式命名的字符串转换为短横线连接的形式 */
 export function convertToDashCase(input: string) {
   return input.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+}
+
+/** 获取组件在 vscode 的路径 */
+export function getVscodeFullPathToFile(id: Props['id']) {
+  let fullPathToFile = `vscode://file/Users/chen/Bangumi32/src`
+  const pathMapping = {
+    'component-': '/component/',
+    'base-': '/screens/_/base/',
+    'item-': '/screens/_/item/',
+    'icon-': '/screens/_/icon/'
+  }
+
+  for (const prefix in pathMapping) {
+    if (id.startsWith(prefix)) {
+      fullPathToFile += id.replace(prefix, pathMapping[prefix])
+      fullPathToFile += '/index.tsx'
+      return fullPathToFile
+    }
+  }
+
+  if (id.startsWith('screen-')) {
+    fullPathToFile += id.replace('screen-', '/screens/')
+  }
+
+  return fullPathToFile
 }

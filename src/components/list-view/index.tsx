@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-12 18:52:24
+ * @Last Modified time: 2023-11-17 07:31:03
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -336,20 +336,11 @@ export const ListView = observer(
         'footerNoMoreDataComponent',
         'footerRefreshingText',
         'footerTextType',
-        'showMesume',
-        'onHeaderRefresh',
-        'onFooterRefresh'
+        'showMesume'
       ]) as any
-      const { list, _filter } = data
+      const { _filter } = data
 
-      return (
-        <Footer
-          refreshState={refreshState}
-          length={list.length}
-          filterText={_filter}
-          {...other}
-        />
-      )
+      return <Footer refreshState={refreshState} filterText={_filter} {...other} />
     }
 
     /** @deprecated */

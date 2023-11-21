@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-08 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 08:52:59
+ * @Last Modified time: 2023-11-18 16:17:41
  */
 import React from 'react'
+import { AnyObject } from '@types'
 import { parseUrlParams } from '../storybook/utils'
 import { convertToDashCase, transformStyles } from './utils'
 import { Props as ComponentProps } from './types'
@@ -18,8 +19,8 @@ export { ComponentProps }
  *  - Web 环境会渲染成自定义 html 标签
  * */
 export const Component = ({ id, children, ...props }: ComponentProps) => {
-  const { style, ...otherProps } = props
-  const passProps = {
+  const { style, 'data-title': dataTitle, ...otherProps } = props
+  const passProps: AnyObject = {
     ...otherProps,
     style: transformStyles(
       style,
@@ -27,6 +28,7 @@ export const Component = ({ id, children, ...props }: ComponentProps) => {
       children?.type
     )
   }
+  if (dataTitle) passProps.title = dataTitle
 
   if (id.startsWith('screen-')) {
     Object.entries(parseUrlParams()).forEach(([key, value]) => {

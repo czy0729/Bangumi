@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 08:55:58
+ * @Last Modified time: 2023-11-17 08:38:56
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -119,6 +119,7 @@ export const ImageViewer = observer(
                   enableSwipeDown={!mini}
                   enableImageZoom={!mini}
                   menus={this.onMenus}
+                  saveToLocalByLongPress={false}
                   renderIndicator={this.renderIndicator}
                   onCancel={onCancel}
                   {...other}

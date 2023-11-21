@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:56:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 23:00:01
+ * @Last Modified time: 2023-11-18 15:33:48
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -21,7 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 0,
     ..._.fontSize14,
     textAlign: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: STORYBOOK ? 'rgba(255, 255, 255, 0.16)' : 'transparent',
     borderWidth: 0
   },
   touch: {

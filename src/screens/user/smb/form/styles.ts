@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 12:43:25
+ * @Last Modified time: 2023-11-17 05:29:25
  */
 import { _ } from '@stores'
 
@@ -19,42 +19,5 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     paddingHorizontal: 6,
     paddingTop: _.md
-  },
-  label: {
-    width: 60
-  },
-  segmentedControl: {
-    width: 144,
-    height: 30
-  },
-  input: {
-    height: 36,
-    paddingVertical: 0,
-    paddingRight: 32,
-    paddingLeft: 0,
-    ..._.fontSize12,
-    backgroundColor: 'transparent'
-  },
-  inputMultiline: {
-    height: 100
-  },
-  multilineInputStyle: {
-    ..._.fontSize12
-  },
-  touch: {
-    marginHorizontal: _.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  btn: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md
-  },
-  info: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 20,
-    marginTop: -20
   }
 }))

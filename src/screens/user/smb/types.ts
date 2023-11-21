@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:26:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-22 01:38:09
+ * @Last Modified time: 2023-11-19 10:49:11
  */
 import { factory } from '@utils'
-import { Navigation, SubjectId } from '@types'
+import { Cover, Navigation, Rating, SubjectId, SubjectTypeValue } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -48,4 +48,18 @@ export type SMBListItem = {
   }[]
   ids: SubjectId[]
   tags: string[]
+}
+
+export type SubjectOSS = {
+  id: SubjectId
+  jp: string
+  cn: string
+  date: string
+  image: Cover<'c'>
+  rank: number
+  rating: Rating
+  eps: number | ''
+  info: string
+  type: SubjectTypeValue
+  _loaded: number
 }

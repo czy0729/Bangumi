@@ -41,6 +41,7 @@ export const Tag = ob(
               shadow={isActive}
               bold
               align={align}
+              noWrap
             >
               {value}
             </Text>

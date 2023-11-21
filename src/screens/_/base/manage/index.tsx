@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:42:13
+ * @Last Modified time: 2023-11-20 06:37:52
  */
 import React from 'react'
 import { Touchable, Flex, Component } from '@components'
-import { stl } from '@utils'
+import { IconTouchable } from '@_'
+import { _ } from '@stores'
+import { open, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { HOST, SHARE_MODE } from '@constants'
 import Flip from './flip'
 import Content from './content'
 import { styles } from './styles'
 import { Props as ManageProps } from './types'
-import { SHARE_MODE } from '@constants'
 
 export { ManageProps }
 
@@ -33,9 +35,24 @@ export const Manage = ob(
     horizontal,
     onPress
   }: ManageProps) => {
-    if (SHARE_MODE) return null
+    if (SHARE_MODE) {
+      if (!subjectId) return null
 
-    let icon
+      return (
+        <Component id='base-manage' data-type='open-new' style={styles.openInNew}>
+          <IconTouchable
+            name='md-open-in-new'
+            color={_.colorSub}
+            size={20}
+            onPress={() => {
+              open(`${HOST}/subject/${subjectId}`)
+            }}
+          />
+        </Component>
+      )
+    }
+
+    let icon: string
     let type: any = 'icon'
     let size = 20
     if (collection.includes('过')) {

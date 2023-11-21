@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:10:22
+ * @Last Modified time: 2023-11-15 11:55:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { stl } from '@utils'
 import { Component } from '../component'
 import { Text } from '../text'
 import { Props as ModalProps } from './types'
+import './index.scss'
 
 export { ModalProps }
 

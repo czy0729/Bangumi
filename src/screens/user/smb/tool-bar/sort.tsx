@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-09-23 10:53:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 11:04:21
+ * @Last Modified time: 2023-11-18 10:24:16
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -20,7 +20,11 @@ function Sort(props, { $ }: Ctx) {
       iconColor={_.colorDesc}
       text={sort}
       type='desc'
-      onSelect={$.onSelectSort}
+      onSelect={title => {
+        setTimeout(() => {
+          $.onSelectSort(title)
+        }, 0)
+      }}
     />
   )
 }

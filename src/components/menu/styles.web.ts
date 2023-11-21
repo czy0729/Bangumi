@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 17:47:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 22:22:53
+ * @Last Modified time: 2023-11-20 05:16:50
  */
 import { _ } from '@stores'
 
@@ -14,7 +14,8 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: 'rgba(48, 48, 48, 0.64)',
     backdropFilter: 'blur(24px)',
     borderRadius: _.radiusMd,
-    overflow: 'scroll'
+    overflow: 'scroll',
+    ..._.shadow
   },
   title: {
     width: '100%',

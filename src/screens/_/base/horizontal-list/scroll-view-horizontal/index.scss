@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-11-08 12:57:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 14:11:25
+ * @Last Modified time: 2023-11-17 08:28:18
  */
-horizontal-list {
+base-horizontal-list {
   .scroll-view-horizontal {
     // scroll-snap-type: x mandatory;
     // scroll-behavior: smooth;
@@ -13,7 +13,7 @@ horizontal-list {
     //   scroll-snap-align: start;
     // }
     &--grabbing {
-      cursor: grab;
+      cursor: grab !important;
 
       & > div * {
         pointer-events: none !important;

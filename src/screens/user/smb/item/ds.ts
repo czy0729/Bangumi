@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:18:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 05:41:25
+ * @Last Modified time: 2023-11-18 14:48:55
  */
 import { Navigation, SubjectId } from '@types'
-import { StoreType as $ } from '../types'
+import { SMBListItem, StoreType as $ } from '../types'
 import { memoStyles } from './styles'
 
 type Subject = ReturnType<$['subjectV2']>
@@ -24,9 +24,9 @@ export const DEFAULT_PROPS = {
   rank: 0 as Subject['rank'],
   rating: {} as Subject['rating'],
   collection: '' as string,
-  folder: {} as any,
-  smb: {} as any,
-  url: (() => {}) as $['url']
+  folder: {} as SMBListItem,
+  isExpanded: false,
+  smb: {} as any
 }
 
 export const SORT_ORDER = {

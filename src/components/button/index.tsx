@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 09:04:18
+ * @Last Modified time: 2023-11-18 16:15:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,9 +32,12 @@ export const Button = observer(
     loading = false,
     bold = false,
     animate = true,
+    noWrap = true,
     children,
     extra,
     onPress,
+    onLongPress,
+    'data-title': dataTitle,
     ...other
   }: ButtonProps) => {
     const styles = memoStyles()
@@ -87,6 +90,7 @@ export const Button = observer(
               align='center'
               bold={textBold || bold}
               selectable={false}
+              noWrap={noWrap}
             >
               {children}
             </Text>
@@ -97,9 +101,18 @@ export const Button = observer(
     )
 
     if (!loading && onPress) {
+      const passProps = {
+        id: 'component-button' as const
+      }
+      if (dataTitle) passProps['data-title'] = dataTitle
       return (
-        <Component id='component-button'>
-          <Touchable animate={animate} onPress={onPress} {...other}>
+        <Component {...passProps}>
+          <Touchable
+            animate={animate}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            {...other}
+          >
             <View style={wrapStyle}>{content}</View>
           </Touchable>
         </Component>

@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 06:44:32
+ * @Last Modified time: 2023-11-20 07:21:39
  */
 import { IOS, STORYBOOK } from '@constants'
+import { SubjectId } from '@types'
+import { SubjectOSS } from './types'
 
+/** 数据分页项数 */
+export const LIMIT = 20
+
+/** 排序菜单 */
 export const ACTIONS_SORT = [
   '日期',
   '评分',
@@ -14,47 +20,116 @@ export const ACTIONS_SORT = [
   '目录修改时间'
 ] as const
 
-export const ACTIONS_SMB = ['扫描', '编辑', '复制配置新建', '创建目录', '删除'] as const
+/** 服务菜单 */
+export const ACTIONS_SMB = STORYBOOK
+  ? (['编辑', '删除'] as const)
+  : (['扫描', '编辑', '复制配置新建', '创建目录', '删除'] as const)
 
 export const NAMESPACE = 'ScreenSmb'
 
-export const EXCLUDE_STATE = {
-  data: [],
-  tags: [],
-  loading: false,
-  expand: false,
-  more: false,
-  listComponentKey: 0,
+/** 文件夹服务默认跳转 */
+export const URL_DIRECTORY_DEFAULT = 'ddplay:[PATH]/[FILE]'
 
-  // form
+/** smb 服务默认跳转 */
+export const URL_SMB_DEFAULT = 'smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]'
+
+/** webDAV 服务默认跳转 */
+export const URL_WEBDAV_DEFAULT = 'smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]'
+
+/** 排除本地化的状态 */
+export const EXCLUDE_STATE = {
+  /** @todo */
+  data: [],
+
+  /** 当前选择的标签 */
+  tags: [],
+
+  /** 是否请求中 */
+  loading: false,
+
+  /** @todo */
+  expand: false,
+
+  /** @todo */
+  more: false,
+
+  /** [表单] 是否显示 */
   visible: false,
+
+  /** [表单] uuid */
   id: '',
+
+  /** [表单] 服务别名 */
   name: '',
+
+  /** [表单] ip */
   ip: '',
+
+  /** [表单] 端口 */
   port: '',
+
+  /** [表单] 用户名 */
   username: '',
+
+  /** [表单] 密码 */
   password: '',
+
+  /** [表单] 路径 */
   sharedFolder: '',
+
+  /** [表单] 工作组 */
   workGroup: '',
+
+  /** [表单] 文件夹 */
   path: '',
-  url: `${
-    IOS || STORYBOOK ? 'http' : 'smb'
-  }://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]`,
-  webDAV: IOS || STORYBOOK
+
+  /** [表单] 跳转 */
+  url: STORYBOOK ? URL_DIRECTORY_DEFAULT : IOS ? URL_WEBDAV_DEFAULT : URL_SMB_DEFAULT,
+
+  /** [表单] 服务类型是否 webDAV */
+  webDAV: IOS
 }
 
+/** 本地化的状态 */
 export const STATE = {
+  /** 当前选择的服务 uuid */
   uuid: '',
+
+  /** 排序 */
   sort: ACTIONS_SORT[0] as (typeof ACTIONS_SORT)[number],
+
+  /** 过滤输入框 */
+  _filter: '',
+
+  /** 当前过滤 */
   filter: '',
 
+  /** 记录文件夹是否默认显示文件全名列表 */
+  files: {} as Record<string, boolean>,
+
+  /** 记录文件夹是否默认展开 */
+  expands: {} as Record<string, boolean>,
+
+  /** 是否 windows 环境, 需要对路径中斜杠进行转换 */
+  isWindows: true,
+
+  /** 分页输入框 */
+  _page: '1',
+
+  /** 分页当前页码 */
+  page: 1,
+
   /** 缓存条目快照 */
-  subjects: {},
+  subjects: {} as Record<`subject_${SubjectId}`, SubjectOSS>,
+
   ...EXCLUDE_STATE,
   _loaded: false
 }
 
-/** https://github.com/MagmaBlock/LavaAnimeWeb/blob/main/assets/dict.json */
+/**
+ * 视频文件常用标识
+ * https://github.com/MagmaBlock/LavaAnimeWeb/blob/main/assets/dict.json
+ * */
 export const DICT = [
   {
     reg: /(1080(P|p)|1920(X|×)1080)/,
@@ -124,10 +199,6 @@ export const DICT = [
     reg: /(dvdrip|DVD)/,
     val: 'DVDRip'
   },
-  // {
-  //   reg: /(AT-X)/,
-  //   val: 'AT-X'
-  // },
   {
     reg: /(剧场版|movie|MOVIE)/,
     val: '剧场版'
@@ -158,6 +229,7 @@ export const DICT = [
   }
 ] as const
 
+/** 标签排序规则 */
 export const DICT_ORDER = {
   条目: 1101,
   文件夹: 1100,

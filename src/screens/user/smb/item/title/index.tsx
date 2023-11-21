@@ -8,6 +8,7 @@ import React from 'react'
 import { Flex, Katakana } from '@components'
 import { cnjp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
+import { TEXT_SPACE } from '@constants'
 
 function Title({ name, nameCn }) {
   const hasName = !!name
@@ -22,7 +23,8 @@ function Title({ name, nameCn }) {
     <Flex wrap='wrap' align='end'>
       <Katakana.Provider size={sizeLeft} numberOfLines={1}>
         <Katakana size={sizeLeft} bold>
-          {left}{' '}
+          {left}
+          {TEXT_SPACE}
         </Katakana>
       </Katakana.Provider>
       {hasName && right !== left && (
