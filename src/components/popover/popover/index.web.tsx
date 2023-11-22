@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-26 08:53:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 17:24:11
+ * @Last Modified time: 2023-11-22 05:10:31
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -31,9 +31,9 @@ function Popover({ children, ...other }) {
         title={menuTitle.length ? menuTitle : undefined}
         data={data}
         desc={date}
-        onSelect={title => {
+        onSelect={(title, index) => {
           if (typeof onSelect === 'function') {
-            setTimeout(() => onSelect(title), 0)
+            setTimeout(() => onSelect(title, index), 0)
           }
           setVisible(false)
         }}

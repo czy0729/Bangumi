@@ -16,7 +16,7 @@ let smbClient: {
   disconnect: (arg0: { (): void; (): void }) => void
 }
 
-/** 使用 smb 服务获取目录信息 */
+/** 使用 smb 服务获取文件夹信息 */
 export function smbList(
   config: {
     ip?: any
@@ -108,7 +108,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
             tags: []
           }))
 
-        const hide = loading('扫描目录中...')
+        const hide = loading('扫描文件夹中...')
         await queue(
           list.map(
             item => () =>

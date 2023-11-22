@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 22:54:22
+ * @Last Modified time: 2023-11-22 06:08:16
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
@@ -24,6 +24,7 @@ export { PaginationProps }
 
 export const Pagination = ({
   style,
+  inputStyle,
   input,
   heatmaps = {},
   onPrev = () => {},
@@ -50,7 +51,7 @@ export const Pagination = ({
             <Flex>
               <Input
                 ref={ref => (inputRef.current = ref)}
-                style={styles.input}
+                style={stl(styles.input, inputStyle)}
                 value={input}
                 keyboardType='number-pad'
                 placeholder='页'

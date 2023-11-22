@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 08:19:45
+ * @Last Modified time: 2023-11-22 07:35:19
  */
 // [data-key]::after {
 //   content: attr(data-key);
@@ -43,14 +43,18 @@ component-popover {
   }
 }
 
-/** 因为直接包裹文字组件 */
 base-rank {
   display: flex;
 }
 
-/** 因为直接包裹文字组件 */
 base-name {
   & > div {
     display: inline-block !important;
+  }
+}
+
+screen-smb {
+  component-storybook-scroll {
+    flex: 1;
   }
 }

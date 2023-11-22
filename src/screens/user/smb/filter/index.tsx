@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2021-12-31 02:37:07
+ * @Date: 2023-11-22 05:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 05:37:00
+ * @Last Modified time: 2023-11-22 06:16:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,24 +30,24 @@ class Filter extends React.Component {
 
   render() {
     const { $ } = this.context as Ctx
-    const { ipt } = $.state
+    const { _filter } = $.state
     const { focus } = this.state
     return (
       <View style={this.styles.filter}>
         <Input
           style={this.styles.input}
           clearButtonMode='never'
-          value={ipt}
+          value={_filter}
           returnKeyType='search'
           returnKeyLabel='搜索'
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          onChangeText={$.onFilterChange}
-          onSubmitEditing={$.onSubmitEditing}
+          onChange={$.onFilterInputChange}
+          onSubmitEditing={$.onFilterInputSubmit}
         />
-        {!focus && !ipt && (
+        {!focus && !_filter && (
           <Flex style={this.styles.icon} justify='center' pointerEvents='none'>
-            <Iconfont name='md-search' size={18} />
+            <Iconfont name='md-search' size={16} />
           </Flex>
         )}
       </View>

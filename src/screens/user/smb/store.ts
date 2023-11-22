@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-21 13:15:21
+ * @Last Modified time: 2023-11-22 09:52:16
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -20,9 +20,22 @@ import { get, gets, update } from '@utils/kv'
 import Crypto from '@utils/crypto'
 import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
-import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
+import { InferArray, Navigation, Override, SubjectId, SubjectTypeCn } from '@types'
 import { smbList, webDAVList } from './utils'
-import { NAMESPACE, STATE, EXCLUDE_STATE, DICT_ORDER, LIMIT } from './ds'
+import {
+  NAMESPACE,
+  STATE,
+  EXCLUDE_STATE,
+  DICT_ORDER,
+  LIMIT,
+  ACTION_CONNECT,
+  ACTION_EDIT,
+  ACTION_COPY_AND_CREATE,
+  ACTION_COPY_AND_CREATE_FOLDER,
+  ACTION_DELETE,
+  ACTION_OPEN_DIRECTORY,
+  ACTION_CLOSE_DIRECTORY
+} from './ds'
 import { SMBListItem, SubjectOSS } from './types'
 
 export default class ScreenSmb extends store {
@@ -55,7 +68,12 @@ export default class ScreenSmb extends store {
 
   memoDirectory: SMBListItem[] = []
 
-  memoList: any[] = []
+  memoList: Override<
+    SMBListItem,
+    {
+      subjectId: SubjectId
+    }
+  >[] = []
 
   memoTags: string[] = []
 
@@ -218,9 +236,9 @@ export default class ScreenSmb extends store {
 
         await this.fetchInfos()
         this.setState({
+          ...EXCLUDE_STATE,
           _page: '1',
-          page: 1,
-          tags: []
+          page: 1
         })
         this.cacheList()
         this.save()
@@ -249,9 +267,9 @@ export default class ScreenSmb extends store {
 
         await this.fetchInfos()
         this.setState({
+          ...EXCLUDE_STATE,
           _page: '1',
-          page: 1,
-          tags: []
+          page: 1
         })
         this.cacheList()
         this.save()
@@ -263,6 +281,10 @@ export default class ScreenSmb extends store {
       webDAV: smb.webDAV
     })
     this.memoDirectory = []
+
+    this.setState({
+      refreshKey: this.state.refreshKey + 1
+    })
   }
 
   /** 下拉刷新条目信息 */
@@ -283,13 +305,13 @@ export default class ScreenSmb extends store {
     return userStore.isLogin
   }
 
-  /** 当前的 SMB 目录 */
+  /** 当前的 SMB 文件夹 */
   @computed get current() {
     const { uuid } = this.state
     return this.data.find(item => item.smb.uuid === uuid) as InferArray<SMB>
   }
 
-  /** 当前的 SMB 目录匹配到的所有条目 id */
+  /** 当前的 SMB 文件夹匹配到的所有条目 id */
   @computed get subjectIds() {
     const ids = []
     if (this.current?.list) {
@@ -315,9 +337,20 @@ export default class ScreenSmb extends store {
 
   /** 当前分页数据 */
   @computed get pageList() {
-    const { page } = this.state
+    const { page, filter } = this.state
     if (!page) return []
-    return this.memoList.slice((page - 1) * LIMIT, page * LIMIT)
+
+    let list = this.memoList
+    if (filter) {
+      list = list.filter(item => {
+        if (!item.subjectId) return false
+
+        const { cn = '', jp = '' } = this.subjectV2(item.subjectId)
+        return cn.includes(filter) || jp.includes(filter)
+      })
+    }
+
+    return list.slice((page - 1) * LIMIT, page * LIMIT)
   }
 
   /** 条目接口数据 */
@@ -366,27 +399,29 @@ export default class ScreenSmb extends store {
     sharedFolder: string = '',
     folderPath: string = '',
     folderName: string = '',
-    fileName: string = ''
+    fileName: string = '',
+    urlTemplate?: string
   ) => {
     return computed(() => {
       try {
         if (!this.current) return ''
 
-        // smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]
+        /** smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE] */
         const { smb } = this.current
         const path = []
         if (sharedFolder) path.push(sharedFolder)
         if (folderPath) path.push(folderPath)
         if (folderName) path.push(folderName)
 
-        const { isWindows } = this.state
-        let url = smb.url
+        let url = (urlTemplate || smb.url)
           .replace(/\[USERNAME\]/g, smb.username)
           .replace(/\[PASSWORD\]/g, smb.password)
           .replace(/\[IP\]/g, smb.port ? `${smb.ip}:${smb.port}` : smb.ip)
           .replace(/\[PATH\]/g, path.join('/'))
           .replace(/\[FILE\]/g, fileName)
-        if (isWindows) url = url.replace(/\//g, '\\').replace(/\\\\/g, '//')
+
+        const { isWindows } = this.state
+        if (isWindows) url = url.replace(/\//g, '\\').replace(/:\\\\/g, '://')
 
         return url
       } catch (error) {
@@ -484,7 +519,7 @@ export default class ScreenSmb extends store {
         })
     }
 
-    if (sort === '目录修改时间') {
+    if (sort === '文件夹修改时间') {
       return this.list().sort((a, b) => {
         return desc(String(b.lastModified || ''), String(a.lastModified || ''))
       })
@@ -714,7 +749,12 @@ export default class ScreenSmb extends store {
       webDAV
     } = this.state
 
-    if (!STORYBOOK) {
+    if (STORYBOOK) {
+      if (!sharedFolder) {
+        info('请填写路径，如 D:')
+        return
+      }
+    } else {
       if (!ip || !username || !sharedFolder) {
         info('请填写所有必填项')
         return
@@ -787,9 +827,12 @@ export default class ScreenSmb extends store {
     const data = toJS(this.data).filter(item => item.smb.uuid !== smb.uuid)
     smbStore.updateData(data)
     this.setState({
-      uuid: data?.[0]?.smb?.uuid || ''
+      uuid: data?.[0]?.smb?.uuid || '',
+      ...EXCLUDE_STATE,
+      _page: '1',
+      page: 1
     })
-
+    this.cacheList()
     this.save()
 
     t('SMB.删除')
@@ -853,24 +896,24 @@ export default class ScreenSmb extends store {
 
   /** 当前服务菜单选择 */
   onSelectSMB = (title: string, navigation?: Navigation) => {
-    if (title === '扫描') {
+    if (title === ACTION_CONNECT) {
       this.connectSmb()
       return
     }
 
-    if (title === '编辑') {
+    if (title === ACTION_EDIT) {
       this.onEdit()
       return
     }
 
-    if (title === '复制配置新建') {
+    if (title === ACTION_COPY_AND_CREATE) {
       this.onCopy()
       return
     }
 
-    if (title === '创建目录') {
+    if (title === ACTION_COPY_AND_CREATE_FOLDER) {
       confirm(
-        `以 ${this.current?.smb?.name} 为名字, 用当前筛选的条目来创建目录, 确定?`,
+        `以 ${this.current?.smb?.name} 为名字, 用当前筛选的条目来创建用户目录, 确定?`,
         () => {
           this.doCreateCatalog(navigation)
         }
@@ -878,8 +921,19 @@ export default class ScreenSmb extends store {
       return
     }
 
-    if (title === '删除') {
+    if (title === ACTION_DELETE) {
       confirm('删除后无法恢复，确定？', this.onDelete)
+      return
+    }
+
+    if (title === ACTION_OPEN_DIRECTORY) {
+      this.onOpenCurrentPage()
+      return
+    }
+
+    if (title === ACTION_CLOSE_DIRECTORY) {
+      this.onCloseCurrentPage()
+      return
     }
   }
 
@@ -988,6 +1042,25 @@ export default class ScreenSmb extends store {
     this.save()
   }
 
+  /** 筛选输入框文字改变 */
+  onFilterInputChange = ({ nativeEvent }) => {
+    const { text } = nativeEvent
+    this.setState({
+      _filter: text
+    })
+  }
+
+  /** 筛选输入框提交 */
+  onFilterInputSubmit = () => {
+    const { _filter } = this.state
+    const value = _filter.trim()
+    this.setState({
+      _filter: value,
+      filter: value
+    })
+    this.save()
+  }
+
   // -------------------- action --------------------
   /** 上传配置 */
   upload = () => {
@@ -1047,11 +1120,11 @@ export default class ScreenSmb extends store {
     )
   }
 
-  /** 创建目录 */
+  /** 创建用户目录 */
   doCreateCatalog = async (navigation: Navigation) => {
     const { formhash } = userStore
     if (!formhash) {
-      info(`目录创建失败, 请检查${i18n.login()}状态`)
+      info(`文件夹创建失败, 请检查${i18n.login()}状态`)
       return
     }
 
@@ -1061,11 +1134,11 @@ export default class ScreenSmb extends store {
       return
     }
 
-    // 创建目录
+    // 创建用户目录
     discoveryStore.doCatalogCreate(
       {
         formhash,
-        title: this.current?.smb?.name || '目录',
+        title: this.current?.smb?.name || '文件夹',
         desc: `由 Bangumi for ${IOS ? 'iOS' : 'android'} SMB 功能自动创建`
       },
       (response, request) => {
@@ -1106,14 +1179,14 @@ export default class ScreenSmb extends store {
                 1
               )
 
-              // 跳转到创建后的目录
+              // 跳转到创建后的文件夹
               navigation.push('CatalogDetail', {
                 catalogId
               })
               info('已完成')
             }, 400)
           } else {
-            info(`目录创建失败, 请检查${i18n.login()}状态`)
+            info(`文件夹创建失败, 请检查${i18n.login()}状态`)
           }
         }
       }

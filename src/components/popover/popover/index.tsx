@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 19:23:05
+ * @Last Modified time: 2023-11-22 05:16:11
  */
 import React, { useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -22,7 +22,7 @@ function Popover({ children, ...other }) {
   const eventId = useRef((id += 1))
   const eventType = `${EVENT_TYPE}|${eventId.current}`
   const items = useMemo(() => {
-    const _items = (data || []).map(item => ({
+    const _items = (data || []).map((item: any) => ({
       text: item,
       eventType
     }))
@@ -34,10 +34,15 @@ function Popover({ children, ...other }) {
     }
     return _items
   }, [title, data, eventType])
+
   useMount(() => {
-    const subscription = DeviceEventEmitter.addListener(eventType, value =>
-      onSelect(value)
-    )
+    const subscription = DeviceEventEmitter.addListener(eventType, value => {
+      let index = -1
+      try {
+        index = data.findIndex((item: any) => item === value)
+      } catch (error) {}
+      return onSelect(value, index)
+    })
     return () => subscription.remove()
   })
 

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-21 16:33:26
+ * @Last Modified time: 2023-11-22 09:39:49
  */
 import React from 'react'
 import { Header as CompHeader, Flex } from '@components'
-import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
@@ -18,23 +17,9 @@ function Header(props, { $ }: Ctx) {
       hm={['smb', 'Smb']}
       headerRight={() => (
         <Flex>
-          <IconTouchable
-            style={_.mr.sm}
-            name='md-folder-open'
-            size={20}
-            color={_.colorDesc}
-            onPress={$.onOpenCurrentPage}
-          />
-          <IconTouchable
-            style={_.mr.sm}
-            name='md-folder'
-            size={20}
-            color={_.colorDesc}
-            onPress={$.onCloseCurrentPage}
-          />
           <CompHeader.Popover
             name='md-menu'
-            data={['新增服务', '清空所有数据']}
+            data={['新增服务', '通用配置', '清空所有数据']}
             onSelect={key => {
               switch (key) {
                 case '新增服务':
@@ -42,6 +27,7 @@ function Header(props, { $ }: Ctx) {
                   break
 
                 case '清空所有数据':
+                  info('待开发')
                   break
 
                 default:

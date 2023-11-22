@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 18:52:05
+ * @Last Modified time: 2023-11-22 07:16:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import { Flex, Iconfont, Text, Loading } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
 import ToolBar from '../tool-bar'
 import { ACTIONS_SMB } from '../ds'
 import { Ctx } from '../types'
@@ -22,40 +21,41 @@ function Top(props, { $, navigation }: Ctx) {
 
   const styles = memoStyles()
   const { loading } = $.state
-  const { name, ip, port, sharedFolder, webDAV } = smb
+  const { name, ip, sharedFolder } = smb
   return (
     <>
       <Flex style={styles.container}>
-        <Flex.Item>
-          <Popover data={$.smbs.map(item => item.name)} onSelect={$.onSwitch}>
+        <Flex.Item flex={0.5}>
+          <Popover
+            data={$.smbs.map((item, index) => item.name || `未命名服务 ${index + 1}`)}
+            onSelect={$.onSwitch}
+          >
             <Flex>
-              <Text size={18} bold>
-                {name || ip}
+              <Text bold numberOfLines={1}>
+                {name || ip || '未命名服务'}
               </Text>
               <Iconfont name='md-arrow-drop-down' color={_.colorDesc} />
             </Flex>
           </Popover>
-          <Text
-            size={12}
-            type='sub'
-            bold
-            lineHeight={18}
-            numberOfLines={STORYBOOK ? 1 : 2}
-          >
-            [{webDAV ? 'webDAV' : 'SMB'}] {ip}
-            {!!port && `:${port}`}
-            {!!sharedFolder && `/${sharedFolder}`}
+          <Text size={12} type='sub' bold lineHeight={14} numberOfLines={1}>
+            {sharedFolder}
           </Text>
         </Flex.Item>
-        <Popover
-          style={[styles.popover, styles.more]}
-          data={ACTIONS_SMB}
-          onSelect={title => $.onSelectSMB(title, navigation)}
-        >
-          <Iconfont name='md-more-vert' color={_.colorDesc} />
-        </Popover>
+        <Flex.Item>
+          <ToolBar />
+        </Flex.Item>
+        <Flex.Item flex={0.5}>
+          <Flex justify='end'>
+            <Popover
+              style={[styles.popover, styles.more]}
+              data={ACTIONS_SMB}
+              onSelect={title => $.onSelectSMB(title, navigation)}
+            >
+              <Iconfont name='md-more-vert' color={_.colorDesc} />
+            </Popover>
+          </Flex>
+        </Flex.Item>
       </Flex>
-      <ToolBar />
       {!!loading && (
         <Flex style={_.mb.sm} justify='center'>
           <View style={styles.loading}>

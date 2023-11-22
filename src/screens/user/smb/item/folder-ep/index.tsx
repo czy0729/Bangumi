@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-19 11:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 06:28:19
+ * @Last Modified time: 2023-11-22 09:27:39
  */
 import React, { useState } from 'react'
 import { Linking } from 'react-native'
@@ -19,10 +19,15 @@ import { getEp } from './utils'
 import { styles } from './styles'
 import {
   ACTION_COPY_LINK,
+  ACTION_COPY_PATH,
+  ACTION_DDPLAY,
   ACTION_LINKING,
+  ACTION_MPV,
   ACTION_OPEN_DIRECTORY,
+  ACTION_POTPLAYER,
+  ACTION_VLC,
   EPS_TYPE_COUNT,
-  EP_ACTIONS
+  URL_TEMPLATES
 } from './ds'
 
 function FolderEp(
@@ -51,6 +56,17 @@ function FolderEp(
     const epsType = {
       ...EPS_TYPE_COUNT
     }
+
+    const { sharedFolder, url } = $.current.smb
+    const actions = [
+      ACTION_COPY_PATH,
+      ACTION_DDPLAY,
+      ACTION_POTPLAYER,
+      ACTION_VLC,
+      ACTION_MPV
+    ]
+    if (url) actions.unshift(ACTION_LINKING, ACTION_COPY_LINK)
+
     return (
       <>
         <Flex style={styles.btns} wrap='wrap'>
@@ -74,11 +90,12 @@ function FolderEp(
             ) {
               return (
                 <Popover
+                  key={item.name}
                   // @ts-expect-error
                   title={[item.name]}
-                  data={EP_ACTIONS}
+                  data={actions}
                   onSelect={title => {
-                    const { sharedFolder } = $.current.smb
+                    const { isWindows } = $.state
                     if (title === ACTION_LINKING) {
                       const link = $.url(sharedFolder, folder.path, name, item.name)
                       Linking.openURL(link)
@@ -91,8 +108,8 @@ function FolderEp(
                       return
                     }
 
+                    // browser not allowed
                     if (title === ACTION_OPEN_DIRECTORY) {
-                      const { isWindows } = $.state
                       let link = [sharedFolder, folder.path, name]
                         .filter(item => item)
                         .join('/')
@@ -100,10 +117,30 @@ function FolderEp(
                       window.open(link)
                       return
                     }
+
+                    if (title === ACTION_COPY_PATH) {
+                      let link = [sharedFolder, folder.path, name, item.name]
+                        .filter(item => item)
+                        .join('/')
+                      if (isWindows) link = link.replace(/\//g, '\\')
+                      copy(link, '已复制')
+                      return
+                    }
+
+                    if (Object.keys(URL_TEMPLATES).includes(title)) {
+                      const link = $.url(
+                        sharedFolder,
+                        folder.path,
+                        name,
+                        item.name,
+                        URL_TEMPLATES[title]
+                      )
+                      Linking.openURL(link)
+                      return
+                    }
                   }}
                 >
                   <Button
-                    key={item.name}
                     style={styles.btn}
                     styleText={styles.btnText}
                     type={btnType}

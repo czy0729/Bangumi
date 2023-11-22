@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-21 13:48:54
+ * @Last Modified time: 2023-11-22 07:18:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,22 +11,22 @@ import { Manage, Tag } from '@_'
 import { _, uiStore, collectionStore } from '@stores'
 import { cnjp } from '@utils'
 import { memo } from '@utils/decorators'
-import {
-  cleaned,
-  cleaned2,
-  cleaned3,
-  cleaned4,
-  cleaned5,
-  findJA
-} from '@utils/thirdParty/ja'
+// import {
+//   cleaned,
+//   cleaned2,
+//   cleaned3,
+//   cleaned4,
+//   cleaned5,
+//   findJA
+// } from '@utils/thirdParty/ja'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+// import { extractAnimeName } from '../utils/directory'
 import Title from './title'
 import Bottom from './bottom'
 import Cover from './cover'
 import Folder from './folder'
 import { DEFAULT_PROPS } from './ds'
-import { extractAnimeName } from '../utils/directory'
 
 export default memo(
   ({
@@ -53,18 +53,18 @@ export default memo(
     if (typeCn === '音乐') action = '听'
     if (typeCn === '游戏') action = '玩'
 
-    const ja = extractAnimeName(folder.name)
-    const elDev = (
-      <>
-        <Text type='main'>{ja}</Text>
-        <Text type='warning'>- {cleaned(ja)}</Text>
-        <Text type='warning'>- {cleaned2(ja)}</Text>
-        <Text type='warning'>- {cleaned3(ja)}</Text>
-        <Text type='warning'>- {cleaned4(ja)}</Text>
-        <Text type='warning'>- {cleaned5(ja)}</Text>
-        <Text type='primary'>{findJA(ja)}</Text>
-      </>
-    )
+    // const ja = extractAnimeName(folder.name)
+    // const elDev = (
+    //   <>
+    //     <Text type='main'>{ja}</Text>
+    //     <Text type='warning'>- {cleaned(ja)}</Text>
+    //     <Text type='warning'>- {cleaned2(ja)}</Text>
+    //     <Text type='warning'>- {cleaned3(ja)}</Text>
+    //     <Text type='warning'>- {cleaned4(ja)}</Text>
+    //     <Text type='warning'>- {cleaned5(ja)}</Text>
+    //     <Text type='primary'>{findJA(ja)}</Text>
+    //   </>
+    // )
 
     return (
       <View style={styles.container}>
@@ -90,7 +90,6 @@ export default memo(
                         {air_date || '-'}
                       </Text>
                       <Bottom rank={rank} rating={rating} />
-                      {elDev}
                     </Flex.Item>
                     <Manage
                       collection={collection}
@@ -118,7 +117,7 @@ export default memo(
                     <Text size={15} bold>
                       {folder.name}
                     </Text>
-                    {elDev}
+                    {/* {elDev} */}
                   </>
                 )}
 

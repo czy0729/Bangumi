@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:20:57
+ * @Last Modified time: 2023-11-22 05:09:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,12 +45,12 @@ export const Menu = observer(
               {desc}
             </Text>
           )}
-          {data.map((item, index) => {
+          {data.map((item: string | { title: string; type: string }, index: number) => {
             const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
             if (typeof item === 'string') {
               return (
                 <View key={item} style={showBorder && styles.border}>
-                  <Touchable style={styles.item} onPress={() => onSelect(item)}>
+                  <Touchable style={styles.item} onPress={() => onSelect(item, index)}>
                     <Text align='center' size={STORYBOOK ? 13 : 14}>
                       {item}
                     </Text>
@@ -59,12 +59,16 @@ export const Menu = observer(
               )
             }
 
-            if (item.type === 'divider')
+            if (item.type === 'divider') {
               return <View key={index} style={styles.border} />
+            }
 
             return (
               <View key={item.title} style={showBorder && styles.border}>
-                <Touchable style={styles.item} onPress={() => onSelect(item.title)}>
+                <Touchable
+                  style={styles.item}
+                  onPress={() => onSelect(item.title, index)}
+                >
                   {item.title}
                 </Touchable>
               </View>

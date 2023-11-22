@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 07:16:16
+ * @Last Modified time: 2023-11-22 06:59:14
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
@@ -54,7 +54,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         {STORYBOOK && <DirectoryItem />}
         <InputItem
           label='别名'
-          placeholder='选填，用于区分，如 2023S4'
+          placeholder='选填，区分不同服务，如 Anime'
           name='name'
           connectRef={(ref: { inputRef: any }) => (nameRef.current = ref?.inputRef)}
           onSubmitEditing={() => {
@@ -125,7 +125,11 @@ export default memo(({ styles, visible, name, onClose }) => {
         )}
         <InputItem
           label='路径'
-          placeholder='选填，常为顶目录，头尾不要填斜杠'
+          placeholder={
+            STORYBOOK
+              ? '必填，硬盘名，如 D:、D:/Anime，头尾不需要斜杠'
+              : '选填，常为顶文件夹，头尾不需要斜杠'
+          }
           name='sharedFolder'
           connectRef={(ref: { inputRef: any }) =>
             (sharedFolderRef.current = ref?.inputRef)

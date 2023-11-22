@@ -57,7 +57,7 @@ function FolderList(
               <Flex align='start'>
                 <Image
                   src={ASSETS_ICONS[item.type]}
-                  size={16}
+                  size={14}
                   placeholder={false}
                   resizeMode='contain'
                 />

@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-11-17 04:55:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 06:14:04
+ * @Last Modified time: 2023-11-22 06:55:29
  */
 import React from 'react'
 import { Alert } from 'react-native'
 import { Flex, Text, Input } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { alert, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { s2tAsync } from '@utils/async'
-import { Ctx } from '../../types'
-import { styles } from './styles'
 import { STORYBOOK } from '@constants'
+import { Ctx } from '../../types'
+import { CONTENT_DIRECTORY, CONTENT_SMB, TITLE } from './ds'
+import { styles } from './styles'
 
 function UrlItem({ connectRef }, { $ }: Ctx) {
   const { url } = $.state
@@ -27,25 +28,23 @@ function UrlItem({ connectRef }, { $ }: Ctx) {
           name='md-info-outline'
           size={14}
           onPress={() => {
-            Alert.alert(
-              s2tAsync('自定义跳转'),
-              s2tAsync(`自定义第三方跳转规则。点击文件复制地址，长按跳转。
-                    \n[IP] = 主机:端口\n[USERNAME] = 用户\n[PASSWORD] = 密码\n[PATH] = 目录路径\n[FILE] = 文件路径
-                    \n若使用 SMB 务必使用 smb:// 开头，webDAV 务必使用 http | https:// 开头
-                    \n推荐播放安装 VLC，直接使用 smb:// 能播；其次推荐 nPlayer，支持 nplayer-smb:// 前缀的直接跳转。\n目前已知只有 smb 1.0 协议可以直接播放，2.0会被强制关闭连接，待解决。`),
-              [
-                {
-                  text: s2tAsync('已知问题和详细教程'),
-                  onPress: () => {
-                    open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/rrb8zh')
-                  }
-                },
-                {
-                  text: s2tAsync('确定'),
-                  onPress: () => {}
+            if (STORYBOOK) {
+              alert(s2tAsync(CONTENT_DIRECTORY), s2tAsync(TITLE))
+              return
+            }
+
+            Alert.alert(s2tAsync(TITLE), s2tAsync(CONTENT_SMB), [
+              {
+                text: s2tAsync('已知问题和详细教程'),
+                onPress: () => {
+                  open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/rrb8zh')
                 }
-              ]
-            )
+              },
+              {
+                text: s2tAsync('确定'),
+                onPress: () => {}
+              }
+            ])
           }}
         />
       </Flex>
@@ -55,6 +54,7 @@ function UrlItem({ connectRef }, { $ }: Ctx) {
             ref={connectRef}
             style={styles.input}
             defaultValue={url}
+            placeholder='选填，[PATH]=路径，[FILE]=文件，头尾不需要斜杠'
             showClear
             returnKeyType='done'
             returnKeyLabel='新增'

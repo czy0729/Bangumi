@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 07:21:39
+ * @Last Modified time: 2023-11-22 09:51:47
  */
 import { IOS, STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
@@ -17,18 +17,44 @@ export const ACTIONS_SORT = [
   '评分',
   '评分人数',
   '名称',
-  '目录修改时间'
+  '文件夹修改时间'
 ] as const
+
+export const ACTION_EDIT = '编辑'
+
+export const ACTION_OPEN_DIRECTORY = '展开文件夹'
+
+export const ACTION_CLOSE_DIRECTORY = '收起文件夹'
+
+export const ACTION_DELETE = '删除'
+
+export const ACTION_CONNECT = '扫描'
+
+export const ACTION_COPY_AND_CREATE = '复制配置新建'
+
+export const ACTION_COPY_AND_CREATE_FOLDER = '创建用户目录'
 
 /** 服务菜单 */
 export const ACTIONS_SMB = STORYBOOK
-  ? (['编辑', '删除'] as const)
-  : (['扫描', '编辑', '复制配置新建', '创建目录', '删除'] as const)
+  ? ([
+      ACTION_EDIT,
+      ACTION_OPEN_DIRECTORY,
+      ACTION_CLOSE_DIRECTORY,
+      ACTION_DELETE
+    ] as const)
+  : ([
+      ACTION_CONNECT,
+      ACTION_EDIT,
+      ACTION_COPY_AND_CREATE,
+      ACTION_COPY_AND_CREATE_FOLDER,
+      ACTION_DELETE
+    ] as const)
 
+/** 本地化保存空间 */
 export const NAMESPACE = 'ScreenSmb'
 
 /** 文件夹服务默认跳转 */
-export const URL_DIRECTORY_DEFAULT = 'ddplay:[PATH]/[FILE]'
+export const URL_DIRECTORY_DEFAULT = ''
 
 /** smb 服务默认跳转 */
 export const URL_SMB_DEFAULT = 'smb://[USERNAME]:[PASSWORD]@[IP]/[PATH]/[FILE]'
@@ -52,6 +78,9 @@ export const EXCLUDE_STATE = {
 
   /** @todo */
   more: false,
+
+  /** 用于强制刷新组件 */
+  refreshKey: 0,
 
   /** [表单] 是否显示 */
   visible: false,

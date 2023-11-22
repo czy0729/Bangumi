@@ -38,8 +38,8 @@ function Example(props, { $ }: Ctx) {
         </Text>
         <Text style={_.mt.sm} size={10} lineHeight={12} type='sub'>
           上面例子为你选择了 D:/Anime/2023S4 文件夹，你需要在路径里面填
-          D:/Anime。同时支持读取所有子目录，若你直接选择了 D:/Anime，那路径应该填 D:
-          就可以了。当然不建议读取太深的目录，否则可能会崩溃。
+          D:/Anime。同时支持读取所有子文件夹，若你直接选择了 D:/Anime，那路径应该填 D:
+          就可以了。当然不建议读取太深的文件夹，否则可能会崩溃。
         </Text>
       </>
     )

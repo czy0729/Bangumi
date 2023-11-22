@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-03 15:48:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 04:34:48
+ * @Last Modified time: 2023-11-22 06:02:39
  */
 import { ViewStyle, EventKeys, Fn } from '@types'
 
 export type Props = {
   /** 样式 */
   style: ViewStyle
+
+  /** Input 样式 */
+  inputStyle?: ViewStyle
 
   /** Input 页码 */
   input: string

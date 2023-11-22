@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 14:02:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 16:49:04
+ * @Last Modified time: 2023-11-22 05:08:57
  */
 import { ViewStyle, ReactNode } from '@types'
 
@@ -26,5 +26,5 @@ export type Props = {
   title?: TitleItemType[]
   desc?: string
   data?: DataItemType[] | readonly DataItemType[]
-  onSelect?: (title?: string) => any
+  onSelect?: (title?: string, index?: number) => any
 }

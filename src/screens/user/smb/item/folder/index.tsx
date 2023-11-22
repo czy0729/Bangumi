@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 06:50:20
+ * @Last Modified time: 2023-11-22 07:37:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,14 +64,14 @@ function Folder(
           $.onExpand(folder.name)
         }}
         onLongPress={() => {
-          copy(path.join('/'), '已复制地址')
+          copy(path.join('/'), '已复制文件夹路径')
         }}
       >
         <Flex align='start'>
           <Image
             style={_.mr.sm}
             src={ASSETS_ICONS.open}
-            size={16}
+            size={14}
             placeholder={false}
             resizeMode='contain'
           />

@@ -14,7 +14,7 @@ import { matchTags, getFileMediaType } from './utils'
 let webDAVClient: WebDAVClient
 
 /**
- * 使用 webDAV 服务获取目录信息
+ * 使用 webDAV 服务获取文件夹信息
  * 直接把原始数据转换为 SMB 模式的数据, 走相同的逻辑
  * */
 export function webDAVList(
@@ -71,7 +71,7 @@ function _webDAVList(path = ''): Promise<SMBListItem[] | false> {
       if (!items?.length) {
         webDAVClient = null
 
-        alert('读取目录失败')
+        alert('读取文件夹失败')
         resolve(false)
         return
       }
@@ -93,7 +93,7 @@ function _webDAVList(path = ''): Promise<SMBListItem[] | false> {
           tags: []
         }))
 
-      const hide = loading('扫描目录中...')
+      const hide = loading('扫描文件夹中...')
       await queue(
         list.map(
           item => () =>

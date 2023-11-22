@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-02-21 01:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 12:13:04
+ * @Last Modified time: 2023-11-22 06:35:31
  */
 import React from 'react'
-import { Flex, Katakana } from '@components'
+import { Flex, Highlight } from '@components'
 import { cnjp, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { TEXT_SPACE } from '@constants'
+import { Ctx } from '../../types'
 
-function Title({ name, nameCn }) {
+function Title({ name, nameCn }, { $ }: Ctx) {
+  const { filter } = $.state
   const hasName = !!name
   const left = HTMLDecode(cnjp(nameCn, name))
   const right = HTMLDecode(cnjp(name, nameCn))
@@ -21,26 +23,23 @@ function Title({ name, nameCn }) {
   const sizeRight = lengthRight >= 24 ? 9 : lengthRight >= 16 ? 10 : 11
   return (
     <Flex wrap='wrap' align='end'>
-      <Katakana.Provider size={sizeLeft} numberOfLines={1}>
-        <Katakana size={sizeLeft} bold>
-          {left}
-          {TEXT_SPACE}
-        </Katakana>
-      </Katakana.Provider>
+      <Highlight size={sizeLeft} bold numberOfLines={1} value={filter}>
+        {`${left}${TEXT_SPACE}`}
+      </Highlight>
       {hasName && right !== left && (
-        <Katakana.Provider
+        <Highlight
+          type='sub'
           size={sizeRight}
-          lineHeight={sizeRight + 2}
+          lineHeight={24 - sizeRight}
           bold
           numberOfLines={1}
+          value={filter}
         >
-          <Katakana type='sub' size={sizeRight} lineHeight={24 - sizeRight} bold>
-            {right}
-          </Katakana>
-        </Katakana.Provider>
+          {right}
+        </Highlight>
       )}
     </Flex>
   )
 }
 
-export default ob(Title)
+export default obc(Title)
