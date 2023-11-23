@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 09:51:47
+ * @Last Modified time: 2023-11-24 07:26:33
  */
 import { IOS, STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
@@ -115,8 +115,8 @@ export const EXCLUDE_STATE = {
   /** [表单] 跳转 */
   url: STORYBOOK ? URL_DIRECTORY_DEFAULT : IOS ? URL_WEBDAV_DEFAULT : URL_SMB_DEFAULT,
 
-  /** [表单] 服务类型是否 webDAV */
-  webDAV: IOS
+  /** [通用配置表单] 是否显示 */
+  configVisible: false
 }
 
 /** 本地化的状态 */
@@ -139,8 +139,23 @@ export const STATE = {
   /** 记录文件夹是否默认展开 */
   expands: {} as Record<string, boolean>,
 
+  /** 通用配置 */
+  configs: {
+    layoutList: true,
+    showDDPlay: true,
+    showPotPlayer: true,
+    showVLC: true,
+    showMPV: false
+  },
+
   /** 是否 windows 环境, 需要对路径中斜杠进行转换 */
   isWindows: true,
+
+  /** [表单] 服务类型是否 webDAV */
+  webDAV: IOS,
+
+  /** [表单] 提交表单时时候进行自动刮削条目信息 */
+  autoJA: true,
 
   /** 分页输入框 */
   _page: '1',
@@ -301,3 +316,7 @@ export const DICT_ORDER = {
   OVA: 72,
   SP: 71
 } as const
+
+/** 匹配发售日 */
+export const REG_AIRDATE =
+  /<li><span>(发售日|放送开始|上映年度|上映时间|开始|开始时间|发行日期|连载时间|连载期间|连载日期|连载开始|発表期間|发表期间|発表号): <\/span>(.+?)<\/li>/

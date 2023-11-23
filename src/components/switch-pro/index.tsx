@@ -4,17 +4,18 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:38:08
+ * @Last Modified time: 2023-11-22 13:58:26
  */
-import React, { Component } from 'react'
+import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../component'
 
 const SCALE = 6 / 5
 
-class SwitchProComp extends Component<any, any> {
+class SwitchProComp extends React.Component<any, any> {
   // static propTypes = {
   //   style: ViewPropTypes.style,
   //   circleStyle: ViewPropTypes.style,
@@ -294,12 +295,14 @@ export const SwitchPro = observer(
     backgroundInactive = undefined,
     ...other
   }) => (
-    <SwitchProComp
-      backgroundActive={backgroundActive || _.colorSuccess}
-      backgroundInactive={
-        backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)
-      }
-      {...other}
-    />
+    <Component id='component-switch-pro'>
+      <SwitchProComp
+        backgroundActive={backgroundActive || _.colorSuccess}
+        backgroundInactive={
+          backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)
+        }
+        {...other}
+      />
+    </Component>
   )
 )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 09:52:16
+ * @Last Modified time: 2023-11-24 07:32:58
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -20,7 +20,7 @@ import { get, gets, update } from '@utils/kv'
 import Crypto from '@utils/crypto'
 import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
-import { InferArray, Navigation, Override, SubjectId, SubjectTypeCn } from '@types'
+import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
 import { smbList, webDAVList } from './utils'
 import {
   NAMESPACE,
@@ -34,9 +34,10 @@ import {
   ACTION_COPY_AND_CREATE_FOLDER,
   ACTION_DELETE,
   ACTION_OPEN_DIRECTORY,
-  ACTION_CLOSE_DIRECTORY
+  ACTION_CLOSE_DIRECTORY,
+  REG_AIRDATE
 } from './ds'
-import { SMBListItem, SubjectOSS } from './types'
+import { ListItem, SMBListItem, SubjectOSS } from './types'
 
 export default class ScreenSmb extends store {
   state = observable(STATE)
@@ -66,15 +67,13 @@ export default class ScreenSmb extends store {
     this.setStorage(NAMESPACE)
   }
 
+  /** 临时存放读取的文件夹结构列表 */
   memoDirectory: SMBListItem[] = []
 
-  memoList: Override<
-    SMBListItem,
-    {
-      subjectId: SubjectId
-    }
-  >[] = []
+  /** 临时存放当前应该显示的管理列表 */
+  memoList: ListItem[] = []
 
+  /** 临时存放当前管理列表的标签 */
   memoTags: string[] = []
 
   // -------------------- fetch --------------------
@@ -169,8 +168,6 @@ export default class ScreenSmb extends store {
       loading: true
     })
     try {
-      console.info('fetchSubjectsFromOSS', fetchIds)
-
       const picker = [
         'id',
         'name',
@@ -197,10 +194,7 @@ export default class ScreenSmb extends store {
           delete data[key].totalEps
 
           if (data[key].info) {
-            data[key].date =
-              data[key].info.match(
-                /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
-              )?.[2] || ''
+            data[key].date = data[key].info.match(REG_AIRDATE)?.[2] || ''
           }
           delete data[key].info
 
@@ -316,7 +310,9 @@ export default class ScreenSmb extends store {
     const ids = []
     if (this.current?.list) {
       this.current.list.forEach(item => {
-        ids.push(...item.ids)
+        item.ids.forEach(id => {
+          if (!ids.includes(id)) ids.push(id)
+        })
       })
     }
 
@@ -384,9 +380,7 @@ export default class ScreenSmb extends store {
 
       const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
       if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info === 'string') {
-        const match = subjectFormHTML.info.match(
-          /<li><span>(发售日|开始|开始时间|发行日期|连载时间|连载期间|连载日期|连载开始|発表期間|发表期间|発表号): <\/span>(.+?)<\/li>/
-        )
+        const match = subjectFormHTML.info.match(REG_AIRDATE)
         return match?.[2] || ''
       }
 
@@ -430,9 +424,13 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
-  /** 文件夹是否显示文件全名列表 */
+  /** 文件夹是否显示文件全名列表, 若从来没操作过, 返回 null */
   isFiles = (folderName: string) => {
-    return computed(() => !!this.state.files[folderName]).get()
+    return computed<boolean | null>(() => {
+      const { files } = this.state
+      if (!(folderName in files)) return null
+      return !!files[folderName]
+    }).get()
   }
 
   /** 文件夹是否展开 */
@@ -441,6 +439,7 @@ export default class ScreenSmb extends store {
   }
 
   // -------------------- page --------------------
+  /** 获取基础列表 */
   list = () => {
     const list = []
     if (this.current?.list?.length) {
@@ -471,6 +470,7 @@ export default class ScreenSmb extends store {
     return list
   }
 
+  /** 对基础列表进行排序 */
   sortList = () => {
     const { sort } = this.state
     if (sort === '评分') {
@@ -536,6 +536,7 @@ export default class ScreenSmb extends store {
       })
   }
 
+  /** 对排序列表进行标签筛选 */
   filterList = () => {
     const { tags } = this.state
     if (!tags.length) return this.sortList()
@@ -581,6 +582,7 @@ export default class ScreenSmb extends store {
     })
   }
 
+  /** 统计标签数目 */
   tagsCount = () => {
     const data: Record<string, number> = {
       条目: 0,
@@ -653,6 +655,7 @@ export default class ScreenSmb extends store {
     return data
   }
 
+  /** 对标签进行排序 */
   tagsActions = () => {
     // const { tags, more } = this.state
     const tagsCount = this.tagsCount()
@@ -1048,6 +1051,14 @@ export default class ScreenSmb extends store {
     this.setState({
       _filter: text
     })
+
+    if (text.trim() === '') {
+      this.setState({
+        _filter: '',
+        filter: ''
+      })
+      this.save()
+    }
   }
 
   /** 筛选输入框提交 */
@@ -1057,6 +1068,38 @@ export default class ScreenSmb extends store {
     this.setState({
       _filter: value,
       filter: value
+    })
+    this.save()
+  }
+
+  /** 展开通用配置表单 */
+  onShowConfig = () => {
+    this.setState({
+      configVisible: true
+    })
+  }
+
+  /** 关闭通用配置表单 */
+  onCloseConfig = () => {
+    this.setState({
+      configVisible: false
+    })
+  }
+
+  /** 切换通用配置 */
+  onSwitchConfig = (key: keyof typeof STATE.configs) => {
+    this.setState({
+      configs: {
+        [key]: !this.state.configs[key]
+      }
+    })
+    this.save()
+  }
+
+  /** 切换是否自动刮削 */
+  onSwitchAutoJA = () => {
+    this.setState({
+      autoJA: !this.state.autoJA
     })
     this.save()
   }

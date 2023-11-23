@@ -2,10 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:26:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-19 10:49:11
+ * @Last Modified time: 2023-11-23 09:28:49
  */
 import { factory } from '@utils'
-import { Cover, Navigation, Rating, SubjectId, SubjectTypeValue } from '@types'
+import {
+  Cover,
+  Expand,
+  Navigation,
+  Override,
+  Rating,
+  SubjectId,
+  SubjectTypeValue
+} from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,7 +25,7 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type SMBRawItem = {
+export type SMBRawItem = Expand<{
   createTime: string
   hidden: boolean
   isDirectory: boolean
@@ -26,18 +34,18 @@ export type SMBRawItem = {
   readOnly: boolean
   shortName: string
   size: string
-}
+}>
 
-export type WebDAVRawItem = {
+export type WebDAVRawItem = Expand<{
   basename: string
   etag: string
   filename: string
   lastmod: string
   size: number
   type: string
-}
+}>
 
-export type SMBListItem = {
+export type SMBListItem = Expand<{
   name: string
   lastModified: string
   path: string
@@ -48,9 +56,9 @@ export type SMBListItem = {
   }[]
   ids: SubjectId[]
   tags: string[]
-}
+}>
 
-export type SubjectOSS = {
+export type SubjectOSS = Expand<{
   id: SubjectId
   jp: string
   cn: string
@@ -62,4 +70,18 @@ export type SubjectOSS = {
   info: string
   type: SubjectTypeValue
   _loaded: number
-}
+}>
+
+export type ListItem = Override<
+  SMBListItem,
+  {
+    subjectId: SubjectId
+  }
+>
+
+export type MergeListItem = Override<
+  ListItem,
+  {
+    merge?: ListItem[]
+  }
+>

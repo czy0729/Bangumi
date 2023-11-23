@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 06:59:14
+ * @Last Modified time: 2023-11-23 13:39:50
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
@@ -14,6 +14,7 @@ import Example from './example'
 import DirectoryItem from './directory-item'
 import InputItem from './input-item'
 import UrlItem from './url-item'
+import SwitchItem from './switch-item'
 import SaveItem from './save-item'
 import Information from './information'
 import { DEFAULT_PROPS } from './ds'
@@ -172,6 +173,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         <UrlItem
           connectRef={(ref: { inputRef: any }) => (urlRef.current = ref?.inputRef)}
         />
+        {STORYBOOK && <SwitchItem />}
         <SaveItem />
       </KeyboardAvoidingView>
       <Information />

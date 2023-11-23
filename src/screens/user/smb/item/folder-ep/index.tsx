@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-19 11:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 09:27:39
+ * @Last Modified time: 2023-11-24 06:43:49
  */
 import React, { useState } from 'react'
 import { Linking } from 'react-native'
@@ -13,7 +13,7 @@ import { copy, desc } from '@utils'
 import { c } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import { Ctx, SMBListItem } from '../../types'
-import { timeAgo } from '../utils'
+import LastModified from '../last-modified'
 import { SORT_ORDER } from '../ds'
 import { getEp } from './utils'
 import { styles } from './styles'
@@ -39,7 +39,6 @@ function FolderEp(
   { $ }: Ctx
 ) {
   const [filter, setFilter] = useState('')
-  const [fulltime, setFulltime] = useState(false)
 
   return useObserver(() => {
     const { name, lastModified, list: folderList } = folder
@@ -52,109 +51,115 @@ function FolderEp(
         return desc(SORT_ORDER[a.type] || 0, SORT_ORDER[b.type] || 0)
       })
 
+    const { configs } = $.state
+    const actions = [ACTION_COPY_PATH]
+    if (configs.showDDPlay) actions.push(ACTION_DDPLAY)
+    if (configs.showPotPlayer) actions.push(ACTION_POTPLAYER)
+    if (configs.showVLC) actions.push(ACTION_VLC)
+    if (configs.showMPV) actions.push(ACTION_MPV)
+
+    const { sharedFolder, url } = $.current.smb
+    if (url) actions.unshift(ACTION_LINKING, ACTION_COPY_LINK)
+
     const epsRepeat = {}
     const epsType = {
       ...EPS_TYPE_COUNT
     }
 
-    const { sharedFolder, url } = $.current.smb
-    const actions = [
-      ACTION_COPY_PATH,
-      ACTION_DDPLAY,
-      ACTION_POTPLAYER,
-      ACTION_VLC,
-      ACTION_MPV
-    ]
-    if (url) actions.unshift(ACTION_LINKING, ACTION_COPY_LINK)
-
     return (
       <>
         <Flex style={styles.btns} wrap='wrap'>
-          {list.map((item, index) => {
-            const [ep, type] = getEp(item.name)
-            let epText = ep === null ? `[${index}]` : ep
-            if (type) epText = ep === null ? type : `${type}\n${epText}`
-            if (type) {
-              epsType[type in epsType ? type : 'other'] += 1
-            } else {
-              epsType.ep += 1
-            }
+          {list.length ? (
+            list.map((item, index) => {
+              const [ep, type] = getEp(item.name)
+              let epText = ep === null ? `[${index}]` : ep
+              if (type) epText = ep === null ? type : `${type}\n${epText}`
+              if (type) {
+                epsType[type in epsType ? type : 'other'] += 1
+              } else {
+                epsType.ep += 1
+              }
 
-            const btnType = epsRepeat[epText] ? 'disabled' : 'ghostPlain'
-            epsRepeat[epText] = true
-            if (
-              !filter ||
-              filter === type ||
-              (filter === 'ep' && !type) ||
-              (filter === 'other' && type && !(type in epsType))
-            ) {
-              return (
-                <Popover
-                  key={item.name}
-                  // @ts-expect-error
-                  title={[item.name]}
-                  data={actions}
-                  onSelect={title => {
-                    const { isWindows } = $.state
-                    if (title === ACTION_LINKING) {
-                      const link = $.url(sharedFolder, folder.path, name, item.name)
-                      Linking.openURL(link)
-                      return
-                    }
+              const btnType = epsRepeat[epText] ? 'disabled' : 'ghostPlain'
+              epsRepeat[epText] = true
+              if (
+                !filter ||
+                filter === type ||
+                (filter === 'ep' && !type) ||
+                (filter === 'other' && type && !(type in epsType))
+              ) {
+                return (
+                  <Popover
+                    key={item.name}
+                    // @ts-expect-error
+                    title={[item.name]}
+                    data={actions}
+                    onSelect={title => {
+                      const { isWindows } = $.state
+                      if (title === ACTION_LINKING) {
+                        const link = $.url(sharedFolder, folder.path, name, item.name)
+                        Linking.openURL(link)
+                        return
+                      }
 
-                    if (title === ACTION_COPY_LINK) {
-                      const link = $.url(sharedFolder, folder.path, name, item.name)
-                      copy(link, '已复制')
-                      return
-                    }
+                      if (title === ACTION_COPY_LINK) {
+                        const link = $.url(sharedFolder, folder.path, name, item.name)
+                        copy(link, '已复制')
+                        return
+                      }
 
-                    // browser not allowed
-                    if (title === ACTION_OPEN_DIRECTORY) {
-                      let link = [sharedFolder, folder.path, name]
-                        .filter(item => item)
-                        .join('/')
-                      if (isWindows) link = link.replace(/\//g, '\\')
-                      window.open(link)
-                      return
-                    }
+                      // browser not allowed
+                      if (title === ACTION_OPEN_DIRECTORY) {
+                        let link = [sharedFolder, folder.path, name]
+                          .filter(item => item)
+                          .join('/')
+                        if (isWindows) link = link.replace(/\//g, '\\')
+                        window.open(link)
+                        return
+                      }
 
-                    if (title === ACTION_COPY_PATH) {
-                      let link = [sharedFolder, folder.path, name, item.name]
-                        .filter(item => item)
-                        .join('/')
-                      if (isWindows) link = link.replace(/\//g, '\\')
-                      copy(link, '已复制')
-                      return
-                    }
+                      if (title === ACTION_COPY_PATH) {
+                        let link = [sharedFolder, folder.path, name, item.name]
+                          .filter(item => item)
+                          .join('/')
+                        if (isWindows) link = link.replace(/\//g, '\\')
+                        copy(link, '已复制')
+                        return
+                      }
 
-                    if (Object.keys(URL_TEMPLATES).includes(title)) {
-                      const link = $.url(
-                        sharedFolder,
-                        folder.path,
-                        name,
-                        item.name,
-                        URL_TEMPLATES[title]
-                      )
-                      Linking.openURL(link)
-                      return
-                    }
-                  }}
-                >
-                  <Button
-                    style={styles.btn}
-                    styleText={styles.btnText}
-                    type={btnType}
-                    size='sm'
-                    noWrap={false}
+                      if (Object.keys(URL_TEMPLATES).includes(title)) {
+                        const link = $.url(
+                          sharedFolder,
+                          folder.path,
+                          name,
+                          item.name,
+                          URL_TEMPLATES[title]
+                        )
+                        Linking.openURL(link)
+                        return
+                      }
+                    }}
                   >
-                    {epText}
-                  </Button>
-                </Popover>
-              )
-            }
+                    <Button
+                      style={styles.btn}
+                      styleText={styles.btnText}
+                      type={btnType}
+                      size='sm'
+                      noWrap={false}
+                    >
+                      {epText}
+                    </Button>
+                  </Popover>
+                )
+              }
 
-            return null
-          })}
+              return null
+            })
+          ) : (
+            <Text size={11} lineHeight={12}>
+              (空)
+            </Text>
+          )}
         </Flex>
         <Flex style={_.mt.sm}>
           <Flex.Item>
@@ -186,15 +191,7 @@ function FolderEp(
               [视频]
             </Text>
           </Touchable>
-          <Touchable
-            onPress={() => {
-              setFulltime(!fulltime)
-            }}
-          >
-            <Text size={11} lineHeight={12} type='icon'>
-              [{fulltime ? lastModified : timeAgo(lastModified)}]
-            </Text>
-          </Touchable>
+          <LastModified value={lastModified} />
         </Flex>
       </>
     )

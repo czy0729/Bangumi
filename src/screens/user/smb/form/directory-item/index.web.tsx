@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-15 22:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 14:43:09
+ * @Last Modified time: 2023-11-24 06:57:29
  */
 import React, { useRef, useState } from 'react'
 import { Flex, Button, Text } from '@components'
@@ -43,7 +43,9 @@ const DirectoryItem = (props, { $ }: Ctx) => {
         webkitRelativePath: file.webkitRelativePath
       })
     }
-    $.memoDirectory = transformData(folders)
+
+    const { autoJA } = $.state
+    $.memoDirectory = transformData(folders, autoJA)
     setNum(files.length)
   }
 
@@ -75,7 +77,7 @@ const DirectoryItem = (props, { $ }: Ctx) => {
           </Button>
           <Flex.Item style={_.ml.sm}>
             <Text size={12} type='sub'>
-              {num || !uploading ? `已选择 ${num} 个文件` : '读取中请等待'}
+              {num || !uploading ? `已读取 ${num} 个文件` : '读取文件夹结构中，请等待'}
             </Text>
           </Flex.Item>
         </Flex>

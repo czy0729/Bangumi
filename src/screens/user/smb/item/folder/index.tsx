@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 07:37:19
+ * @Last Modified time: 2023-11-23 07:56:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,16 +18,17 @@ import { memoStyles } from './styles'
 
 function Folder(
   {
-    showFolder,
     subjectId,
-    folder,
-    smb
+    folder
   }: AnyObject<{
     folder: SMBListItem
   }>,
   { $ }: Ctx
 ) {
   const styles = memoStyles()
+  const showFolder = $.isExpanded(folder.name)
+  const { smb } = $.current
+
   const path = []
   if (smb.ip && smb.port) {
     path.push(`${smb.ip}:${smb.port}`)
@@ -64,7 +65,10 @@ function Folder(
           $.onExpand(folder.name)
         }}
         onLongPress={() => {
-          copy(path.join('/'), '已复制文件夹路径')
+          let url = path.join('/')
+          const { isWindows } = $.state
+          if (isWindows) url = url.replace(/\//g, '\\').replace(/:\\\\/g, '://')
+          copy(url, '已复制文件夹路径')
         }}
       >
         <Flex align='start'>

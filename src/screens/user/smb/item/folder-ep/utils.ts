@@ -36,7 +36,7 @@ export function getEp(input: string) {
 
   if (cacheMap.has(input)) return cacheMap.get(input)
 
-  const name = input.toLowerCase().replace(' end ', '')
+  const name = input.toLocaleLowerCase().replace(' end ', '')
   const ep = aniep(name) as number
 
   let type = ''

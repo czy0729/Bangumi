@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:22:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-15 22:21:43
+ * @Last Modified time: 2023-11-24 07:18:01
  */
 import { desc } from '@utils'
 import { DICT, DICT_ORDER } from '../ds'
@@ -25,7 +25,7 @@ export function getFileMediaType(filename: any) {
   if (/\.(mp4|m4v|mkv|avi|rmvb|mov|flv)$/.test(_filename)) return 'video'
   if (/\.(mp3|m4a|aac|flac|ape|wav)$/.test(_filename)) return 'music'
   if (/\.(jpg|jpeg|png|gif|bmp|webp)$/.test(_filename)) return 'pic'
-  if (/\.(zip|rar|7z)$/.test(_filename)) return 'zip'
+  if (/\.(zip|rar|7z)(\.\d+)?$/.test(_filename)) return 'zip'
   if (/((\.bgm)|(\.bgm\.txt))$/.test(_filename)) return 'origin'
   return 'file'
 }

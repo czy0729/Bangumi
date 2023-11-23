@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-11-22 06:46:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 07:41:54
+ * @Last Modified time: 2023-11-22 14:14:13
  */
+import { ACTION_COPY_LINK, ACTION_LINKING } from '../../item/folder-ep/ds'
 import { URL_DDPLAY, URL_MPV, URL_POTPLAYRER, URL_VLC } from '../ds'
 
 export const TITLE = '自定义跳转'
@@ -15,4 +16,4 @@ export const CONTENT_SMB = `自定义第三方跳转规则。点击文件复制�
 
 export const CONTENT_DIRECTORY = `自定义第三方跳转规则，点击文件复制地址，长按跳转。\n[PATH] = 文件夹路径\n[FILE] = 文件路径
 \n内置外部跳转播放协议：\n弹弹Play：${URL_DDPLAY}\nPotPlayer：${URL_POTPLAYRER}\nVLC：${URL_VLC}\nMPV：${URL_MPV}
-\n当然你可以自定义跳转协议。`
+\n当此处有值时，菜单中才会显示 [${ACTION_LINKING}] 和 [${ACTION_COPY_LINK}]。`

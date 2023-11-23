@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 07:35:19
+ * @Last Modified time: 2023-11-22 13:59:10
  */
 // [data-key]::after {
 //   content: attr(data-key);
@@ -41,6 +41,10 @@ component-popover {
   component-button {
     flex: 1;
   }
+}
+
+component-switch-pro {
+  cursor: pointer;
 }
 
 base-rank {

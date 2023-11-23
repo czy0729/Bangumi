@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 09:39:49
+ * @Last Modified time: 2023-11-22 13:35:04
  */
 import React from 'react'
 import { Header as CompHeader, Flex } from '@components'
@@ -24,6 +24,10 @@ function Header(props, { $ }: Ctx) {
               switch (key) {
                 case '新增服务':
                   $.onShow()
+                  break
+
+                case '通用配置':
+                  $.onShowConfig()
                   break
 
                 case '清空所有数据':

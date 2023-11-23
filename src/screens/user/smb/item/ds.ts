@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:18:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-18 14:48:55
+ * @Last Modified time: 2023-11-23 07:01:24
  */
 import { Navigation, SubjectId } from '@types'
 import { SMBListItem, StoreType as $ } from '../types'
@@ -25,8 +25,7 @@ export const DEFAULT_PROPS = {
   rating: {} as Subject['rating'],
   collection: '' as string,
   folder: {} as SMBListItem,
-  isExpanded: false,
-  smb: {} as any
+  merge: [] as SMBListItem[]
 }
 
 export const SORT_ORDER = {

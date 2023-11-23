@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 09:54:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-19 11:39:57
+ * @Last Modified time: 2023-11-22 14:21:45
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const styles = _.create({
   },
   btn: {
     marginRight: _.sm,
-    marginBottom: _.sm
+    marginVertical: _.sm / 2
   },
   btnText: {
     marginTop: -2,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-21 16:59:04
+ * @Last Modified time: 2023-11-24 06:53:34
  */
 import jdData from '@assets/json/thirdParty/ja.min.json'
 import jdDataAddon from '@assets/json/thirdParty/ja.addon.json'
@@ -48,22 +48,32 @@ export function findJA(input: string) {
     return subjectId
   }
 
+  /**
+   * 基于 input1 尝试只保留中文字
+   *  - '[DBD-Raws][4K_HDR][天气之子][2160P][BDRip][HEVC-10bit][中日外挂][FLAC][MKV]'
+   *    => 'dbdrawshdr天气之子中日flac' => '天气之子'
+   * */
+  const _input1 = input1.replace(/ |劇場版|剧场版|·/g, '')
+  const inputCn = _input1.replace(/[^\u4e00-\u9fa5]/g, '')
+  subjectId = jdData[inputCn] || jdDataAddon[inputCn]
+  if (subjectId) {
+    CACHE_MAP.set(input, subjectId)
+    return subjectId
+  }
+
   // 在 bangumi-data 中找
-  if (input1 || input2 || input3) {
+  if (_input1 || input2 || input3 || inputCn) {
     const find = bangumiData.find(item => {
-      const c = (item.c || '').toLowerCase().replace(/ |劇場版|剧场版|·/g, '')
-      const j = (item.j || '').toLowerCase().replace(/ |劇場版|剧场版|·/g, '')
-
-      const _input1 = input1.replace(/ |劇場版|剧场版|·/g, '')
-      let result = _input1 && (_input1 === c || _input1 === j)
-      if (result) return result
-
-      result = input2 && (input2 === c || input2 === j)
-      if (result) return result
-
-      result = input3 && (input3 === c || input3 === j)
-      return result
+      const c = (item.c || '').toLocaleLowerCase().replace(/ |劇場版|剧场版|·/g, '')
+      const j = (item.j || '').toLocaleLowerCase().replace(/ |劇場版|剧场版|·/g, '')
+      return (
+        (_input1 && (_input1 === c || _input1 === j)) ||
+        (input2 && (input2 === c || input2 === j)) ||
+        (input3 && (input3 === c || input3 === j)) ||
+        (inputCn && (inputCn === c || inputCn === j))
+      )
     })
+
     if (find) {
       CACHE_MAP.set(input, find.id)
       return find.id
@@ -114,7 +124,7 @@ export function findJA(input: string) {
 export function cleaned(input: string) {
   return (
     input
-      .toLowerCase()
+      .toLocaleLowerCase()
 
       /** https://github.com/soruly/aniep/blob/master/src/index.js#L3 */
       .replace(/[\r\n]$/, '') // remove extra newlines from end of string
@@ -137,7 +147,7 @@ export function cleaned(input: string) {
 
       /** 自己的 */
       .replace(
-        /(^\d+\.)|\+sp|mp4|mkv|bdrip|hevc|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|外挂|压制|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,
+        /(^\d+\.)|\+sp|mp4|mkv|bdrip|hevc|flac|hdr|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|中日|中英|日英|外挂|压制|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,
         ''
       ) // 常见 tag
       .replace(/\d+-\d+/g, '') // 1-26

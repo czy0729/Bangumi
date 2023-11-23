@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-15 21:28:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-21 15:55:41
+ * @Last Modified time: 2023-11-24 07:13:53
  */
 import { findJA } from '@utils/thirdParty/ja'
 import { SMBListItem } from '../types'
@@ -17,7 +17,8 @@ export function transformData(
     size: number
     type: string
     webkitRelativePath: string
-  }[]
+  }[],
+  autoJA: boolean
 ) {
   const result: SMBListItem[] = []
   const map = new Map()
@@ -25,7 +26,6 @@ export function transformData(
   inputData
     .filter(item => !item.webkitRelativePath.startsWith('.'))
     .forEach(item => {
-      const match = item.webkitRelativePath.match(/bangumi-(\d+)/)
       const folderName = item.webkitRelativePath.split('/').slice(0, -1).join('/')
 
       if (!map.has(folderName)) {
@@ -39,16 +39,37 @@ export function transformData(
         })
       }
 
+      // 1. 文件名 [bangumi-数字] 组合
+      const match = item.webkitRelativePath.match(/bangumi-(\d+)/)
       if (match) {
-        const id = match[1]
-        if (!map.get(folderName).ids.includes(id)) {
+        const id = Number(match[1])
+        if (id && !map.get(folderName).ids.includes(id)) {
           map.get(folderName).ids.push(id)
         }
       }
 
+      // 2. 文件夹内部有 [数字.bgm] 或者 [数字.bgm.txt] 的文件
       if (!map.get(folderName).ids.length) {
+        const id = Number(item.name.toLocaleLowerCase().replace(/(\.bgm)|(\.txt)/g, ''))
+        if (id && !map.get(folderName).ids.includes(id)) {
+          map.get(folderName).ids.push(id)
+        }
+      }
+
+      // 3. 文件名结尾 [空格 + 数字] 组合
+      if (!map.get(folderName).ids.length) {
+        const id = Number(folderName.match(/ \d+$/g)?.[0])
+        if (id >= 10 && !map.get(folderName).ids.includes(id)) {
+          map.get(folderName).ids.push(id)
+        }
+      }
+
+      // 4. 文件名刮削
+      if (autoJA && !map.get(folderName).ids.length) {
         const id = findJA(extractAnimeName(removeLeftText(folderName)))
-        if (id) map.get(folderName).ids.push(id)
+        if (id && !map.get(folderName).ids.includes(id)) {
+          map.get(folderName).ids.push(id)
+        }
       }
 
       map.get(folderName).list.push({
@@ -75,12 +96,12 @@ export function extractAnimeName(input: string) {
     .replace(/\b\d{2}-\d{2}\b/g, '')
     .replace(/_/g, ' ')
     .trim()
-  if (match && match.toLowerCase().replace(specReg, '').length >= 3) {
+  if (match && match.toLocaleLowerCase().replace(specReg, '').length >= 3) {
     return match
   }
 
   match = splits[splits.length - 1]
-  if (match && match.toLowerCase().replace(specReg, '').length >= 3) {
+  if (match && match.toLocaleLowerCase().replace(specReg, '').length >= 3) {
     return match
   }
 

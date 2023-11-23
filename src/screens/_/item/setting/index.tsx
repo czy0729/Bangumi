@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 23:47:42
+ * @Last Modified time: 2023-11-23 16:56:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +20,7 @@ export const ItemSetting = ob(
     style,
     show = true,
     hd,
+    hdSize = 16,
     ft,
     arrow,
     arrowStyle,
@@ -41,7 +42,7 @@ export const ItemSetting = ob(
         <Flex>
           <Flex.Item>
             <Flex>
-              <Highlight type='title' size={16} bold value={filter}>
+              <Highlight type='title' size={hdSize} bold value={filter}>
                 {hd}
               </Highlight>
               {!!thumb && (
