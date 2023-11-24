@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-23 06:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 09:26:38
+ * @Last Modified time: 2023-11-24 16:40:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,17 @@ import { styles } from './styles'
 
 function Folders(
   {
+    fixedStyle = true,
     subjectId,
     folder,
-    merge
+    merge,
+    defaultShow = false
   }: {
+    fixedStyle?: boolean
     subjectId: SubjectId
     folder: SMBListItem
     merge?: SMBListItem[]
+    defaultShow?: boolean
   },
   { $ }: Ctx
 ) {
@@ -29,9 +33,9 @@ function Folders(
   const hasExpanded = folderNames.some(item => $.isExpanded(item))
 
   return (
-    <View style={!hasExpanded && styles.folders} pointerEvents='none'>
+    <View style={fixedStyle && !hasExpanded && styles.folders} pointerEvents='none'>
       <View pointerEvents='auto'>
-        <Folder subjectId={subjectId} folder={folder} />
+        <Folder subjectId={subjectId} folder={folder} defaultShow={defaultShow} />
         {!!merge?.length &&
           merge.map(item => <Folder subjectId={subjectId} folder={item} />)}
       </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 03:47:45
+ * @Last Modified time: 2023-11-24 10:10:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Cover as CompCover } from '@_'
 import { systemStore } from '@stores'
 import { getCoverLarge, stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { IMG_DEFAULT } from '@constants'
+import { IMG_DEFAULT, STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -27,14 +27,16 @@ class Cover extends React.Component<Props> {
     const { $ } = this.context as Ctx
     if (typeof $.cover === 'string') SRC_LOADED[$.cover] = true
 
-    setTimeout(
-      () => {
-        this.setState({
-          isLoaded: true
-        })
-      },
-      systemStore.setting.imageFadeIn ? 880 : 0
-    )
+    try {
+      setTimeout(
+        () => {
+          this.setState({
+            isLoaded: true
+          })
+        },
+        systemStore.setting.imageFadeIn ? 880 : 0
+      )
+    } catch (error) {}
   }
 
   get isLoaded() {
@@ -57,7 +59,7 @@ class Cover extends React.Component<Props> {
   }
 
   renderPlaceholder() {
-    if (this.isLoaded) return null
+    if (!STORYBOOK && this.isLoaded) return null
 
     const { coverRadius } = systemStore.setting
     const { $ } = this.context as Ctx
@@ -68,7 +70,8 @@ class Cover extends React.Component<Props> {
           this.styles.placeholder,
           this.styles.shadow,
           {
-            borderRadius: coverRadius
+            borderRadius: coverRadius,
+            opacity: this.isLoaded ? 0 : 1
           }
         ]}
         src={placeholder || IMG_DEFAULT}
@@ -95,10 +98,10 @@ class Cover extends React.Component<Props> {
         imageViewer
         imageViewerSrc={getCoverLarge(image || placeholder)}
         fadeDuration={0}
-        event={this.event}
-        noDefault
         skeleton={false}
+        noDefault
         sync
+        event={this.event}
         onLoad={this.onLoad}
       />
     )
@@ -118,8 +121,17 @@ class Cover extends React.Component<Props> {
           borderRadius: coverRadius + 2
         })}
       >
-        {this.renderCover()}
-        {this.renderPlaceholder()}
+        {STORYBOOK ? (
+          <>
+            {this.renderPlaceholder()}
+            {this.renderCover()}
+          </>
+        ) : (
+          <>
+            {this.renderCover()}
+            {this.renderPlaceholder()}
+          </>
+        )}
         <Heatmap id='条目.封面图查看' />
       </View>
     )

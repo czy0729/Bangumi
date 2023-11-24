@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 07:56:07
+ * @Last Modified time: 2023-11-24 16:39:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { copy } from '@utils'
 import { obc } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
-import { AnyObject } from '@types'
+import { SubjectId } from '@types'
 import { Ctx, SMBListItem } from '../../types'
 import FolderList from '../folder-list'
 import { memoStyles } from './styles'
@@ -19,15 +19,19 @@ import { memoStyles } from './styles'
 function Folder(
   {
     subjectId,
-    folder
-  }: AnyObject<{
+    folder,
+    defaultShow = false
+  }: {
+    subjectId: SubjectId
     folder: SMBListItem
-  }>,
+    defaultShow?: boolean
+  },
   { $ }: Ctx
 ) {
   const styles = memoStyles()
-  const showFolder = $.isExpanded(folder.name)
   const { smb } = $.current
+  let showFolder = $.isExpanded(folder.name)
+  if (showFolder === null && defaultShow) showFolder = true
 
   const path = []
   if (smb.ip && smb.port) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-22 13:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 16:55:09
+ * @Last Modified time: 2023-11-24 09:41:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,6 +48,20 @@ function Config(props, { $ }: Ctx) {
                   $.onSwitchConfig('layoutList')
                 }
               }}
+            />
+          }
+        />
+        <ItemSetting
+          show={!configs.layoutList}
+          hd='列数'
+          hdSize={14}
+          ft={
+            <SegmentedControl
+              style={styles.segmentedControl}
+              size={12}
+              values={['2', '3', '4']}
+              selectedIndex={Number(configs.layoutGridNums - 2)}
+              onValueChange={$.onSwitchLayoutGridNums}
             />
           }
         />

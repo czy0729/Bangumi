@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 06:28:18
+ * @Last Modified time: 2023-11-24 16:23:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -20,9 +20,11 @@ export const Modal = observer(
       visible={visible}
       focus={focus}
       title={
-        <Text type={type} size={16}>
-          {title}
-        </Text>
+        !!title && (
+          <Text type={type} size={16}>
+            {title}
+          </Text>
+        )
       }
       transparent
       closable

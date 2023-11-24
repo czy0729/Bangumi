@@ -1,0 +1,19 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-24 08:53:10
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-24 08:58:21
+ */
+component-hover {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: 0.16s opacity 0s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+}

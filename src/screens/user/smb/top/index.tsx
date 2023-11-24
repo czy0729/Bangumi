@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 07:16:29
+ * @Last Modified time: 2023-11-24 10:48:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,7 +23,7 @@ function Top(props, { $, navigation }: Ctx) {
   const { loading } = $.state
   const { name, ip, sharedFolder } = smb
   return (
-    <>
+    <View style={styles.top}>
       <Flex style={styles.container}>
         <Flex.Item flex={0.5}>
           <Popover
@@ -66,7 +66,7 @@ function Top(props, { $, navigation }: Ctx) {
           </Text>
         </Flex>
       )}
-    </>
+    </View>
   )
 }
 

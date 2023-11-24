@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 15:51:50
+ * @Last Modified time: 2023-11-24 17:53:05
  */
 import React from 'react'
 import {
@@ -222,11 +222,16 @@ export const Input = observer(
     }
 
     render() {
-      const { style, multiline, numberOfLines, showClear, colorClear } = this.props
+      const { style, multiline, numberOfLines, showClear, colorClear, editable } =
+        this.props
       if (multiline) {
         const containerHeight = INPUT_LINE_HEIGHT * numberOfLines + 18
         return (
-          <Component id='component-input' style={_.container.block}>
+          <Component
+            id='component-input'
+            data-editable={editable}
+            style={_.container.block}
+          >
             <TouchableWithoutFeedback onPress={this.onTouch}>
               <View
                 style={stl(
@@ -249,7 +254,11 @@ export const Input = observer(
       }
 
       return (
-        <Component id='component-input' style={_.container.block}>
+        <Component
+          id='component-input'
+          data-editable={editable}
+          style={_.container.block}
+        >
           <TextInput
             style={stl(
               {

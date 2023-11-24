@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 13:35:04
+ * @Last Modified time: 2023-11-24 11:06:53
  */
 import React from 'react'
 import { Header as CompHeader, Flex } from '@components'
 import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
+import './index.scss'
 
 function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title='本地管理'
+      mode='float'
+      fixed
       hm={['smb', 'Smb']}
       headerRight={() => (
         <Flex>

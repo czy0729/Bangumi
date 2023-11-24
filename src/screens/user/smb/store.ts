@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 07:32:58
+ * @Last Modified time: 2023-11-24 17:29:26
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -262,6 +262,8 @@ export default class ScreenSmb extends store {
         await this.fetchInfos()
         this.setState({
           ...EXCLUDE_STATE,
+          _filter: '',
+          filter: '',
           _page: '1',
           page: 1
         })
@@ -276,9 +278,11 @@ export default class ScreenSmb extends store {
     })
     this.memoDirectory = []
 
-    this.setState({
-      refreshKey: this.state.refreshKey + 1
-    })
+    setTimeout(() => {
+      this.setState({
+        refreshKey: this.state.refreshKey + 1
+      })
+    }, 0)
   }
 
   /** 下拉刷新条目信息 */
@@ -345,7 +349,6 @@ export default class ScreenSmb extends store {
         return cn.includes(filter) || jp.includes(filter)
       })
     }
-
     return list.slice((page - 1) * LIMIT, page * LIMIT)
   }
 
@@ -433,9 +436,13 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
-  /** 文件夹是否展开 */
+  /** 文件夹是否展开, 若从来没操作过, 返回 null */
   isExpanded = (folderName: string) => {
-    return computed(() => !!this.state.expands[folderName]).get()
+    return computed(() => {
+      const { expands } = this.state
+      if (!(folderName in expands)) return null
+      return !!expands[folderName]
+    }).get()
   }
 
   // -------------------- page --------------------
@@ -846,7 +853,11 @@ export default class ScreenSmb extends store {
     const smb = this.smbs[index]
     this.setState({
       loading: false,
-      uuid: smb.uuid
+      uuid: smb.uuid,
+      _filter: '',
+      filder: '',
+      _page: '1',
+      page: 1
     })
     this.cacheList()
     this.save()
@@ -1055,7 +1066,9 @@ export default class ScreenSmb extends store {
     if (text.trim() === '') {
       this.setState({
         _filter: '',
-        filter: ''
+        filter: '',
+        _page: '1',
+        page: 1
       })
       this.save()
     }
@@ -1067,7 +1080,9 @@ export default class ScreenSmb extends store {
     const value = _filter.trim()
     this.setState({
       _filter: value,
-      filter: value
+      filter: value,
+      _page: '1',
+      page: 1
     })
     this.save()
   }
@@ -1096,12 +1111,41 @@ export default class ScreenSmb extends store {
     this.save()
   }
 
+  /** 切换通用配置列数 */
+  onSwitchLayoutGridNums = (label: string) => {
+    this.setState({
+      configs: {
+        layoutGridNums: Number(label)
+      }
+    })
+    this.save()
+  }
+
   /** 切换是否自动刮削 */
   onSwitchAutoJA = () => {
     this.setState({
       autoJA: !this.state.autoJA
     })
     this.save()
+  }
+
+  /** 显示文件夹结构弹窗 */
+  onShowModalFolders = (folders: Omit<typeof EXCLUDE_STATE.folders, 'visible'>) => {
+    this.setState({
+      folders: {
+        ...folders,
+        visible: true
+      }
+    })
+  }
+
+  /** 关闭文件夹结构弹窗 */
+  onCloseModalFolders = () => {
+    this.setState({
+      folders: {
+        visible: false
+      }
+    })
   }
 
   // -------------------- action --------------------

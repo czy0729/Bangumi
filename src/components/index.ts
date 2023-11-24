@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:06:19
+ * @Last Modified time: 2023-11-24 08:52:19
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -33,6 +33,7 @@ export * from './header-placeholder'
 export * from './heatmap'
 export * from './highlight'
 export * from './horizontal-list'
+export * from './hover'
 export * from './iconfont'
 export * from './image'
 export * from './image-viewer'

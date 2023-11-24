@@ -2,17 +2,28 @@
  * @Author: czy0729
  * @Date: 2023-11-08 23:05:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 23:19:29
+ * @Last Modified time: 2023-11-24 10:48:01
  */
+$header-height: 56px;
+$container-vertical-margin: 32px;
+
 component-storybook-spa {
   &[data-mobile='true'] {
     component-header[data-mode='normal'] + component-page {
-      max-height: calc(100vh - 56px) !important;
+      max-height: calc(100vh - #{$header-height}) !important;
+    }
+    component-header[data-mode='float'] + component-page {
+      max-height: 100vh !important;
     }
   }
   &[data-mobile='false'] {
     component-header[data-mode='normal'] + component-page {
-      max-height: calc(100vh - 56px - 32px) !important;
+      max-height: calc(
+        100vh - #{$header-height} - #{$container-vertical-margin}
+      ) !important;
+    }
+    component-header[data-mode='float'] + component-page {
+      max-height: calc(100vh - #{$container-vertical-margin}) !important;
     }
   }
 }

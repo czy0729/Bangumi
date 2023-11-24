@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:18:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 07:01:24
+ * @Last Modified time: 2023-11-24 16:34:51
  */
 import { Navigation, SubjectId } from '@types'
 import { SMBListItem, StoreType as $ } from '../types'
@@ -19,11 +19,6 @@ export const DEFAULT_PROPS = {
   cn: '' as Subject['cn'],
   image: '' as Subject['image'],
   type: '' as Subject['type'],
-  eps: '' as number | '',
-  air_date: '' as ReturnType<$['airDate']>,
-  rank: 0 as Subject['rank'],
-  rating: {} as Subject['rating'],
-  collection: '' as string,
   folder: {} as SMBListItem,
   merge: [] as SMBListItem[]
 }

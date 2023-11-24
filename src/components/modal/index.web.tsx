@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-15 11:55:46
+ * @Last Modified time: 2023-11-24 17:18:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,9 +29,11 @@ export const Modal = observer(
           onClick={onClose}
         />
         <View style={stl(style, styles.modal)}>
-          <Text type={type} size={16}>
-            {title}
-          </Text>
+          {!!title && (
+            <Text type={type} size={16}>
+              {title}
+            </Text>
+          )}
           <View>{children}</View>
         </View>
       </Component>
@@ -54,13 +56,13 @@ const styles = _.create({
     zIndex: 1001,
     top: '50%',
     left: '50%',
-    maxWidth: '92%',
-    maxHeight: '92%',
+    maxWidth: '94%',
+    maxHeight: '94%',
     paddingTop: _.md,
     paddingRight: _.md,
     paddingBottom: _.md,
     paddingLeft: _.md,
-    marginTop: 0,
+    marginTop: -16,
     transform: [
       {
         // @ts-ignore

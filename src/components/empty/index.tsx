@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 09:10:09
+ * @Last Modified time: 2023-11-24 16:53:50
  */
 import React, { useRef } from 'react'
 import { useObserver } from 'mobx-react'
@@ -21,7 +21,7 @@ export { EmptyProps }
 export const Empty = ({ text }: EmptyProps) => {
   const random = useRef(randomSpeech())
   return useObserver(() => (
-    <Component id='component-page'>
+    <Component id='component-empty'>
       <Flex style={styles.empty} direction='column' justify='center'>
         <Mesume size={80} />
         <Text style={_.mt.sm} type='sub' align='center'>

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 07:26:33
+ * @Last Modified time: 2023-11-24 17:32:39
  */
 import { IOS, STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
 import { SubjectOSS } from './types'
 
 /** 数据分页项数 */
-export const LIMIT = 20
+export const LIMIT = 24
 
 /** 排序菜单 */
 export const ACTIONS_SORT = [
@@ -116,7 +116,23 @@ export const EXCLUDE_STATE = {
   url: STORYBOOK ? URL_DIRECTORY_DEFAULT : IOS ? URL_WEBDAV_DEFAULT : URL_SMB_DEFAULT,
 
   /** [通用配置表单] 是否显示 */
-  configVisible: false
+  configVisible: false,
+
+  /** 网格布局, 显示文件夹结构弹窗 */
+  folders: {
+    visible: false,
+    title: '',
+    subjectId: 0 as SubjectId,
+    folder: {
+      name: '',
+      lastModified: '',
+      path: '',
+      list: [],
+      ids: [],
+      tags: []
+    },
+    merge: []
+  }
 }
 
 /** 本地化的状态 */
@@ -141,10 +157,11 @@ export const STATE = {
 
   /** 通用配置 */
   configs: {
-    layoutList: true,
+    layoutList: false,
+    layoutGridNums: 3 as 2 | 3 | 4,
     showDDPlay: true,
-    showPotPlayer: true,
-    showVLC: true,
+    showPotPlayer: false,
+    showVLC: false,
     showMPV: false
   },
 

@@ -1,14 +1,14 @@
 /*
  * @Author: czy0729
- * @Date: 2022-10-30 06:57:19
+ * @Date: 2023-11-24 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 16:36:37
+ * @Last Modified time: 2023-11-24 16:49:14
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   modal: {
-    width: _.r(_.window.contentWidth),
+    width: _.r(_.window.contentWidth) + 2,
     marginTop: -_.window.height * 0.22,
     maxWidth: _.device(408, 560),
     paddingTop: _.device(_.md + 2, 28),
@@ -17,19 +17,10 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   body: {
-    paddingHorizontal: 6,
-    paddingTop: _.md
+    minHeight: _.window.height * 0.24,
+    maxHeight: _.window.height * 0.72
   },
-  switch: {
-    marginRight: -4,
-    transform: [
-      {
-        scale: 0.72
-      }
-    ]
-  },
-  segmentedControl: {
-    width: 160,
-    height: 28
+  folders: {
+    marginTop: -12
   }
 }))

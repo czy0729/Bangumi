@@ -2,25 +2,37 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:20:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 09:16:41
+ * @Last Modified time: 2023-11-24 17:31:42
  */
 import React from 'react'
-import { Empty, ScrollView } from '@components'
+import { View } from 'react-native'
+import { Empty, Flex, ScrollView } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
 import Top from '../top'
 import Filter from '../filter'
 import Item from '../item'
+import ItemGrid from '../item-grid'
 import Pagination from '../pagination'
 import { Ctx, MergeListItem } from '../types'
+import { styles } from './styles'
 
 function List(props, { $ }: Ctx) {
-  if (!$.pageList.length) {
+  const { uuid, sort, tags, page, refreshKey, configs } = $.state
+  if (
+    `${uuid}|${sort}|${JSON.stringify(tags)}|${page}|${refreshKey}` &&
+    !$.pageList.length
+  ) {
     return (
       <>
-        <Top />
-        <Filter />
+        {!!$.smbs.length && (
+          <>
+            <Top />
+            <Filter />
+          </>
+        )}
         <Empty
           text={
             $.smbs.length
@@ -59,15 +71,38 @@ function List(props, { $ }: Ctx) {
     }
   })
 
-  const { uuid, sort, tags, page, refreshKey } = $.state
+  const { layoutGridNums } = configs
   return (
     <>
       <Top />
-      <ScrollView key={`${uuid}|${sort}|${JSON.stringify(tags)}|${page}|${refreshKey}`}>
+      <ScrollView
+        key={`${uuid}|${sort}|${JSON.stringify(tags)}|${page}|${refreshKey}`}
+        contentContainerStyle={styles.scrollView}
+      >
         <Filter />
-        {mergeList.map((item, index) => (
-          <Item key={String(item?.name || index)} {...item} />
-        ))}
+        {configs.layoutList ? (
+          mergeList.map((item, index) => (
+            <Item key={String(item?.name || index)} {...item} />
+          ))
+        ) : (
+          <Flex style={styles.grids} justify='between' wrap='wrap'>
+            {mergeList.map((item, index) => (
+              <ItemGrid key={String(item?.name || index)} {...item} />
+            ))}
+            {Array(layoutGridNums - 1)
+              .fill('')
+              .map((item, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width:
+                      (_.window.contentWidth - _.md * (layoutGridNums - 1)) /
+                      layoutGridNums
+                  }}
+                />
+              ))}
+          </Flex>
+        )}
       </ScrollView>
       <Pagination />
     </>

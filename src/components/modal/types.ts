@@ -17,7 +17,7 @@ export type Props = {
   focus?: boolean
 
   /** 标题 */
-  title: string
+  title?: string
 
   /** 文字颜色 */
   type?: TextType
