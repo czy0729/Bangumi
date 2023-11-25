@@ -2,42 +2,65 @@
  * @Author: czy0729
  * @Date: 2023-11-23 06:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 16:40:27
+ * @Last Modified time: 2023-11-25 20:36:55
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Flex, Touchable, Text } from '@components'
+import { desc } from '@utils'
 import { obc } from '@utils/decorators'
-import { SubjectId } from '@types'
 import { Ctx, SMBListItem } from '../../types'
 import Folder from '../folder'
 import { styles } from './styles'
 
+const LIMIT = 3
+
 function Folders(
   {
     fixedStyle = true,
-    subjectId,
     folder,
     merge,
     defaultShow = false
   }: {
     fixedStyle?: boolean
-    subjectId: SubjectId
     folder: SMBListItem
     merge?: SMBListItem[]
     defaultShow?: boolean
   },
   { $ }: Ctx
 ) {
+  const { layoutList } = $.state.configs
   const folderNames = [folder.name]
   if (merge?.length) merge.forEach(item => folderNames.push(item.name))
   const hasExpanded = folderNames.some(item => $.isExpanded(item))
 
+  const folders = [folder, ...(merge || [])]
+  const foldersExpanded = layoutList ? $.isFoldersExpanded(folder.name) : true
   return (
     <View style={fixedStyle && !hasExpanded && styles.folders} pointerEvents='none'>
       <View pointerEvents='auto'>
-        <Folder subjectId={subjectId} folder={folder} defaultShow={defaultShow} />
-        {!!merge?.length &&
-          merge.map(item => <Folder subjectId={subjectId} folder={item} />)}
+        {folders
+          .sort((a, b) => desc(a.name, b.name))
+          .filter((item, index) => (foldersExpanded ? true : index < LIMIT))
+          .map((item, index) => (
+            <Folder
+              key={item.name}
+              folder={item}
+              defaultShow={index === 0 ? defaultShow : undefined}
+            />
+          ))}
+        {layoutList && folders.length > LIMIT && (
+          <Flex justify='center'>
+            <Touchable
+              style={styles.expand}
+              onPress={() => $.onFoldersExpand(folder.name)}
+            >
+              <Text type='sub' size={12} bold>
+                {foldersExpanded ? '收起' : `展开 ${folders.length - LIMIT} 个文件夹`}
+              </Text>
+            </Touchable>
+          </Flex>
+        )}
       </View>
     </View>
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 06:53:34
+ * @Last Modified time: 2023-11-25 16:59:04
  */
 import jdData from '@assets/json/thirdParty/ja.min.json'
 import jdDataAddon from '@assets/json/thirdParty/ja.addon.json'
@@ -53,7 +53,7 @@ export function findJA(input: string) {
    *  - '[DBD-Raws][4K_HDR][天气之子][2160P][BDRip][HEVC-10bit][中日外挂][FLAC][MKV]'
    *    => 'dbdrawshdr天气之子中日flac' => '天气之子'
    * */
-  const _input1 = input1.replace(/ |劇場版|剧场版|·/g, '')
+  const _input1 = input1.replace(/ |劇場版|剧场版|简|繁|·/g, '')
   const inputCn = _input1.replace(/[^\u4e00-\u9fa5]/g, '')
   subjectId = jdData[inputCn] || jdDataAddon[inputCn]
   if (subjectId) {
@@ -147,7 +147,7 @@ export function cleaned(input: string) {
 
       /** 自己的 */
       .replace(
-        /(^\d+\.)|\+sp|mp4|mkv|bdrip|hevc|flac|hdr|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|中日|中英|日英|外挂|压制|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,
+        /(^\d+\.)|\+sp|mp4|mkv|bdrip|hevc|flac|hdr|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|中日|中英|日英|外挂|压制|全集|特典|映像|双语|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,
         ''
       ) // 常见 tag
       .replace(/\d+-\d+/g, '') // 1-26

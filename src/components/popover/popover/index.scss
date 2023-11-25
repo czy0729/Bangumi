@@ -2,13 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-11-08 19:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 19:23:04
+ * @Last Modified time: 2023-11-25 13:27:53
  */
-component-popover {
-  transition: filter 0.2s;
-  cursor: pointer;
+#root {
+  component-popover {
+    transition: filter 0.2s;
 
-  &:hover {
-    filter: brightness(1.12);
+    &:hover {
+      filter: brightness(1.12);
+    }
   }
+
+  component-modal {
+    component-popover {
+      transition: unset !important;
+    }
+  }
+}
+
+component-popover {
+  cursor: pointer;
 }

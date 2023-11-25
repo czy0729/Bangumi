@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-16 22:38:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 07:12:21
+ * @Last Modified time: 2023-11-25 11:57:18
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -37,9 +37,8 @@ function Example(props, { $ }: Ctx) {
           ①调用协议 ②路径[PATH] ③文件[FILE]
         </Text>
         <Text style={_.mt.sm} size={10} lineHeight={12} type='sub'>
-          上面例子为你选择了 D:/Anime/2023S4 文件夹，你需要在路径里面填
-          D:/Anime。同时支持读取所有子文件夹，若你直接选择了 D:/Anime，那路径应该填 D:
-          就可以了。当然不建议读取太深的文件夹，否则可能会崩溃。
+          上面例子为选择了 D:/Anime/2023S4 文件夹，你需要在路径里面填
+          D:/Anime。不建议读取太深文件夹，否则可能会崩溃。
         </Text>
       </>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 16:39:47
+ * @Last Modified time: 2023-11-25 16:53:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,18 +11,16 @@ import { _ } from '@stores'
 import { copy } from '@utils'
 import { obc } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
-import { SubjectId } from '@types'
+import { fixedUrl } from '../../utils'
 import { Ctx, SMBListItem } from '../../types'
 import FolderList from '../folder-list'
 import { memoStyles } from './styles'
 
 function Folder(
   {
-    subjectId,
     folder,
     defaultShow = false
   }: {
-    subjectId: SubjectId
     folder: SMBListItem
     defaultShow?: boolean
   },
@@ -40,10 +38,11 @@ function Folder(
     path.push(smb.ip)
   }
   if (showFolder && smb.sharedFolder) path.push(smb.sharedFolder)
-  if (folder.path) path.push(folder.path)
-  if (subjectId || showFolder) path.push(folder.name)
+  if (showFolder && folder.path) path.push(folder.path)
+  if (folder.name) path.push(folder.name)
 
   if (!showFolder) {
+    const splits = path.join('/').split('/')
     return (
       <Touchable
         onPress={() => {
@@ -53,7 +52,7 @@ function Folder(
         <Flex style={styles.folder}>
           <Flex.Item>
             <Text size={11} lineHeight={12} bold numberOfLines={1}>
-              {path.join('/') || '/'}
+              {splits?.[splits.length - 1] || '/'}
             </Text>
           </Flex.Item>
           <Iconfont style={_.ml.xs} name='md-navigate-next' />
@@ -69,10 +68,7 @@ function Folder(
           $.onExpand(folder.name)
         }}
         onLongPress={() => {
-          let url = path.join('/')
-          const { isWindows } = $.state
-          if (isWindows) url = url.replace(/\//g, '\\').replace(/:\\\\/g, '://')
-          copy(url, '已复制文件夹路径')
+          copy(fixedUrl(path.join('/')), '已复制路径')
         }}
       >
         <Flex align='start'>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 16:34:55
+ * @Last Modified time: 2023-11-25 16:54:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ export default memo(
               )} */}
             </Flex.Item>
           </Flex>
-          <Folders subjectId={subjectId} folder={folder} merge={merge} />
+          <Folders folder={folder} merge={merge} />
         </View>
       </View>
     )

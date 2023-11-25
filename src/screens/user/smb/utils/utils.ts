@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:22:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 07:18:01
+ * @Last Modified time: 2023-11-25 16:13:28
  */
 import { desc } from '@utils'
+import { isWindows } from '@utils/dom'
 import { DICT, DICT_ORDER } from '../ds'
 
 /** 根据文件名匹配相关标签 */
@@ -28,4 +29,26 @@ export function getFileMediaType(filename: any) {
   if (/\.(zip|rar|7z)(\.\d+)?$/.test(_filename)) return 'zip'
   if (/((\.bgm)|(\.bgm\.txt))$/.test(_filename)) return 'origin'
   return 'file'
+}
+
+/** 格式化文件大小 */
+export function formatFileSize(size: number) {
+  if (!size || typeof size !== 'number') return ''
+
+  if (size >= 1024 * 1024 * 1024) {
+    return `${(size / (1024 * 1024 * 1024)).toFixed(1)} GB`
+  }
+
+  if (size >= 1024 * 1024) {
+    return `${Math.floor(size / (1024 * 1024))} MB`
+  }
+
+  return `${Math.floor(size / 1024)} KB`
+}
+
+/** 根据平台信息修正链接 */
+export function fixedUrl(link: string) {
+  if (!isWindows()) return link
+
+  return String(link).replace(/\//g, '\\').replace(/:\\\\/g, '://')
 }

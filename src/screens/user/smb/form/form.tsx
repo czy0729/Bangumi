@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:24:41
+ * @Last Modified time: 2023-11-25 11:58:24
  */
 import React, { useRef, useEffect } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
@@ -126,9 +126,14 @@ export default memo(({ styles, visible, name, onClose }) => {
         )}
         <InputItem
           label='路径'
+          information={
+            STORYBOOK
+              ? `同时支持读取所有子文件夹，若你直接选择了 D:/Anime，那路径应该填 D: 就可以了，可能不同版本浏览器之间有差异。若填入后在结果列表中出现了 D:/D:/ 这种不寻常的情况，可能你并不需要填写此项，可以随时修改。`
+              : ''
+          }
           placeholder={
             STORYBOOK
-              ? '必填，硬盘名，如 D:、D:/Anime，头尾不需要斜杠'
+              ? '选填，硬盘名，如 D:、D:/Anime，头尾不需要斜杠'
               : '选填，常为顶文件夹，头尾不需要斜杠'
           }
           name='sharedFolder'

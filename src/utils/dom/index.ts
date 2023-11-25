@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 19:35:11
+ * @Last Modified time: 2023-11-25 13:49:09
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
@@ -15,6 +15,17 @@ export function isMobile() {
   const ua = navigator.userAgent.toLowerCase()
   const keywords = ['android', 'iphone', 'ipod', 'ipad', 'windows phone', 'mqqbrowser']
   return keywords.some(keyword => ua.indexOf(keyword) !== -1)
+}
+
+/** 是否 windows */
+export function isWindows() {
+  if (typeof window === 'undefined' || !STORYBOOK) return false
+
+  try {
+    return navigator.platform.indexOf('Win') !== -1
+  } catch (error) {
+    return false
+  }
 }
 
 /** 开发环境下, 将各种常用方法注入 dom */

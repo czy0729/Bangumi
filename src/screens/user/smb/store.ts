@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:29:26
+ * @Last Modified time: 2023-11-25 20:31:55
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -21,7 +21,7 @@ import Crypto from '@utils/crypto'
 import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
-import { smbList, webDAVList } from './utils'
+import { fixedUrl, smbList, webDAVList } from './utils'
 import {
   NAMESPACE,
   STATE,
@@ -37,7 +37,7 @@ import {
   ACTION_CLOSE_DIRECTORY,
   REG_AIRDATE
 } from './ds'
-import { ListItem, SMBListItem, SubjectOSS } from './types'
+import { ListItem, MergeListItem, SMBListItem, SubjectOSS } from './types'
 
 export default class ScreenSmb extends store {
   state = observable(STATE)
@@ -79,7 +79,7 @@ export default class ScreenSmb extends store {
   // -------------------- fetch --------------------
   /** 更新数据 */
   cacheList = () => {
-    this.memoList = this.filterList()
+    this.memoList = this.mergeList()
     this.cacheTags()
   }
 
@@ -294,6 +294,22 @@ export default class ScreenSmb extends store {
   }
 
   // -------------------- get --------------------
+  /** 因为性能, 列表没有参与反应, 自己维护了一个值用于监控更新 */
+  @computed get refreshKey() {
+    const { uuid, sort, tags, page, filter, refreshKey, configs } = this.state
+    const { layoutList } = configs
+    return JSON.stringify({
+      uuid,
+      sort,
+      tags,
+      page,
+      filter,
+      refreshKey,
+      layoutList
+    })
+  }
+
+  /** SMB 服务列表 */
   @computed get data() {
     return smbStore.data
   }
@@ -337,19 +353,10 @@ export default class ScreenSmb extends store {
 
   /** 当前分页数据 */
   @computed get pageList() {
-    const { page, filter } = this.state
+    const { page } = this.state
     if (!page) return []
 
-    let list = this.memoList
-    if (filter) {
-      list = list.filter(item => {
-        if (!item.subjectId) return false
-
-        const { cn = '', jp = '' } = this.subjectV2(item.subjectId)
-        return cn.includes(filter) || jp.includes(filter)
-      })
-    }
-    return list.slice((page - 1) * LIMIT, page * LIMIT)
+    return this.memoList.slice((page - 1) * LIMIT, page * LIMIT)
   }
 
   /** 条目接口数据 */
@@ -410,17 +417,13 @@ export default class ScreenSmb extends store {
         if (folderPath) path.push(folderPath)
         if (folderName) path.push(folderName)
 
-        let url = (urlTemplate || smb.url)
+        const url = (urlTemplate || smb.url || '[PATH]/[FILE]')
           .replace(/\[USERNAME\]/g, smb.username)
           .replace(/\[PASSWORD\]/g, smb.password)
           .replace(/\[IP\]/g, smb.port ? `${smb.ip}:${smb.port}` : smb.ip)
           .replace(/\[PATH\]/g, path.join('/'))
           .replace(/\[FILE\]/g, fileName)
-
-        const { isWindows } = this.state
-        if (isWindows) url = url.replace(/\//g, '\\').replace(/:\\\\/g, '://')
-
-        return url
+        return fixedUrl(url)
       } catch (error) {
         return ''
       }
@@ -445,10 +448,19 @@ export default class ScreenSmb extends store {
     }).get()
   }
 
+  /** 是否折叠展开文件夹列表, 若从来没操作过, 返回 null */
+  isFoldersExpanded = (folderName: string) => {
+    return computed(() => {
+      const { foldersExpands } = this.state
+      if (!(folderName in foldersExpands)) return null
+      return !!foldersExpands[folderName]
+    }).get()
+  }
+
   // -------------------- page --------------------
-  /** 获取基础列表 */
+  /** [1] 获取基础列表 */
   list = () => {
-    const list = []
+    const list: ListItem[] = []
     if (this.current?.list?.length) {
       this.current.list
         .slice()
@@ -468,7 +480,8 @@ export default class ScreenSmb extends store {
             })
           } else {
             list.push({
-              ...item
+              ...item,
+              subjectId: 0
             })
           }
         })
@@ -477,7 +490,7 @@ export default class ScreenSmb extends store {
     return list
   }
 
-  /** 对基础列表进行排序 */
+  /** [2] 基于 [1] 进行排序 */
   sortList = () => {
     const { sort } = this.state
     if (sort === '评分') {
@@ -543,8 +556,8 @@ export default class ScreenSmb extends store {
       })
   }
 
-  /** 对排序列表进行标签筛选 */
-  filterList = () => {
+  /** [3] 基于 [2] 进行标签筛选 */
+  tagList = () => {
     const { tags } = this.state
     if (!tags.length) return this.sortList()
 
@@ -587,6 +600,46 @@ export default class ScreenSmb extends store {
 
       return flag
     })
+  }
+
+  /** [4] 基于 [3] 进行搜索 */
+  filterList = () => {
+    const { filter } = this.state
+    if (!filter) return this.tagList()
+
+    return this.tagList().filter(item => {
+      // 文件夹
+      if (!item.subjectId) return item.name.includes(filter)
+
+      const { cn = '', jp = '' } = this.subjectV2(item.subjectId)
+      return cn.includes(filter) || jp.includes(filter)
+    })
+  }
+
+  /** [5] 基于 [4] 合并同条目项 */
+  mergeList = () => {
+    const indexMap: Record<SubjectId, number> = {}
+    const list: MergeListItem[] = []
+    this.filterList().forEach(item => {
+      const { subjectId } = item
+      if (!subjectId || !(subjectId in indexMap)) {
+        list.push(item)
+        indexMap[subjectId] = list.length - 1
+        return
+      }
+
+      // 使用新的 merge 归并同类项
+      const index = indexMap[subjectId]
+      if (list[index].merge) {
+        list[index].merge.push(item)
+      } else {
+        list[index] = {
+          ...list[index],
+          merge: [item]
+        }
+      }
+    })
+    return list
   }
 
   /** 统计标签数目 */
@@ -760,10 +813,10 @@ export default class ScreenSmb extends store {
     } = this.state
 
     if (STORYBOOK) {
-      if (!sharedFolder) {
-        info('请填写路径，如 D:')
-        return
-      }
+      // if (!sharedFolder) {
+      //   info('请填写路径，如 D:')
+      //   return
+      // }
     } else {
       if (!ip || !username || !sharedFolder) {
         info('请填写所有必填项')
@@ -850,14 +903,17 @@ export default class ScreenSmb extends store {
 
   /** 切换不同服务 */
   onSwitch = (title: string, index?: number) => {
+    this.setState({
+      _filter: '',
+      filter: '',
+      _page: '1',
+      page: 1
+    })
+
     const smb = this.smbs[index]
     this.setState({
       loading: false,
-      uuid: smb.uuid,
-      _filter: '',
-      filder: '',
-      _page: '1',
-      page: 1
+      uuid: smb.uuid
     })
     this.cacheList()
     this.save()
@@ -1070,6 +1126,7 @@ export default class ScreenSmb extends store {
         _page: '1',
         page: 1
       })
+      this.cacheList()
       this.save()
     }
   }
@@ -1084,6 +1141,7 @@ export default class ScreenSmb extends store {
       _page: '1',
       page: 1
     })
+    this.cacheList()
     this.save()
   }
 
@@ -1146,6 +1204,18 @@ export default class ScreenSmb extends store {
         visible: false
       }
     })
+  }
+
+  /** 当一个条目下关联到过多文件夹时, 折叠展开文件夹列表 */
+  onFoldersExpand = (folderName: string) => {
+    const { foldersExpands } = this.state
+    const value = !foldersExpands[folderName]
+    this.setState({
+      foldersExpands: {
+        [folderName]: value
+      }
+    })
+    this.save()
   }
 
   // -------------------- action --------------------

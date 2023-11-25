@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-19 11:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 06:43:49
+ * @Last Modified time: 2023-11-25 16:24:06
  */
 import React, { useState } from 'react'
 import { Linking } from 'react-native'
@@ -29,6 +29,7 @@ import {
   EPS_TYPE_COUNT,
   URL_TEMPLATES
 } from './ds'
+import { fixedUrl } from '../../utils'
 
 function FolderEp(
   {
@@ -92,50 +93,58 @@ function FolderEp(
                   <Popover
                     key={item.name}
                     // @ts-expect-error
-                    title={[item.name]}
+                    title={[item.size ? `${item.name} (${item.size})` : item.name]}
                     data={actions}
                     onSelect={title => {
-                      const { isWindows } = $.state
                       if (title === ACTION_LINKING) {
-                        const link = $.url(sharedFolder, folder.path, name, item.name)
-                        Linking.openURL(link)
+                        Linking.openURL(
+                          $.url(sharedFolder, folder.path, name, item.name)
+                        )
                         return
                       }
 
                       if (title === ACTION_COPY_LINK) {
-                        const link = $.url(sharedFolder, folder.path, name, item.name)
-                        copy(link, '已复制')
+                        copy(
+                          $.url(sharedFolder, folder.path, name, item.name),
+                          '已复制路径'
+                        )
                         return
                       }
 
                       // browser not allowed
                       if (title === ACTION_OPEN_DIRECTORY) {
-                        let link = [sharedFolder, folder.path, name]
-                          .filter(item => item)
-                          .join('/')
-                        if (isWindows) link = link.replace(/\//g, '\\')
-                        window.open(link)
+                        window.open(
+                          fixedUrl(
+                            [sharedFolder, folder.path, name]
+                              .filter(item => item)
+                              .join('/')
+                          )
+                        )
                         return
                       }
 
                       if (title === ACTION_COPY_PATH) {
-                        let link = [sharedFolder, folder.path, name, item.name]
-                          .filter(item => item)
-                          .join('/')
-                        if (isWindows) link = link.replace(/\//g, '\\')
-                        copy(link, '已复制')
+                        copy(
+                          fixedUrl(
+                            [sharedFolder, folder.path, name, item.name]
+                              .filter(item => item)
+                              .join('/')
+                          ),
+                          '已复制路径'
+                        )
                         return
                       }
 
                       if (Object.keys(URL_TEMPLATES).includes(title)) {
-                        const link = $.url(
-                          sharedFolder,
-                          folder.path,
-                          name,
-                          item.name,
-                          URL_TEMPLATES[title]
+                        Linking.openURL(
+                          $.url(
+                            sharedFolder,
+                            folder.path,
+                            name,
+                            item.name,
+                            URL_TEMPLATES[title]
+                          )
                         )
-                        Linking.openURL(link)
                         return
                       }
                     }}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:26:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 09:28:49
+ * @Last Modified time: 2023-11-25 16:10:05
  */
 import { factory } from '@utils'
 import {
@@ -53,6 +53,7 @@ export type SMBListItem = Expand<{
     name: string
     type: string
     lastModified: string
+    size?: string
   }[]
   ids: SubjectId[]
   tags: string[]

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-15 21:28:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 07:13:53
+ * @Last Modified time: 2023-11-25 18:07:48
  */
 import { findJA } from '@utils/thirdParty/ja'
 import { SMBListItem } from '../types'
-import { getFileMediaType, matchTags } from './utils'
+import { formatFileSize, getFileMediaType, matchTags } from './utils'
 
 /** input 选择文件夹的结果转换为 smb 一样的输入数据 */
 export function transformData(
@@ -70,12 +70,21 @@ export function transformData(
         if (id && !map.get(folderName).ids.includes(id)) {
           map.get(folderName).ids.push(id)
         }
+
+        // 尝试对再上一层文件夹名字进行刮削
+        if (!id) {
+          const id = findJA(extractAnimeName(getSecondLastPathComponent(folderName)))
+          if (id && !map.get(folderName).ids.includes(id)) {
+            map.get(folderName).ids.push(id)
+          }
+        }
       }
 
       map.get(folderName).list.push({
         lastModified: item.lastModifiedDate,
         name: item.name,
-        type: getFileMediaType(item.name)
+        type: getFileMediaType(item.name),
+        size: formatFileSize(item.size)
       })
     })
 
@@ -113,4 +122,13 @@ function removeLeftText(input: string) {
   const index = input.indexOf('/')
   if (index !== -1) return input.substring(index + 1)
   return input
+}
+
+/** 获取倒数第二个斜杠的内容 */
+function getSecondLastPathComponent(input: string) {
+  const pathComponents = input.split('/')
+  if (pathComponents.length >= 2) {
+    return pathComponents[pathComponents.length - 2]
+  }
+  return ''
 }
