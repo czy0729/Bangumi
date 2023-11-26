@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:59:04
+ * @Last Modified time: 2023-11-26 15:59:36
  */
 import jdData from '@assets/json/thirdParty/ja.min.json'
 import jdDataAddon from '@assets/json/thirdParty/ja.addon.json'
@@ -22,6 +22,8 @@ const REPLACEMENTS = {
   9: 'ix',
   10: 'x'
 } as const
+
+let jdDataKeys: string[] = []
 
 /** 尝试查找罗马音 */
 export function findJA(input: string) {
@@ -96,6 +98,7 @@ export function findJA(input: string) {
     }
   }
 
+  // 从 cleaned5 开始, 都是属于非常模糊的饱和尝试匹配
   const input5 = cleaned5(input)
   subjectId = jdData[input5] || jdDataAddon[input5]
   if (subjectId) {
@@ -117,10 +120,49 @@ export function findJA(input: string) {
     return subjectId
   }
 
+  const input8 = cleaned8(input)
+  subjectId = jdData[input8] || jdDataAddon[input8]
+  if (subjectId) {
+    CACHE_MAP.set(input, subjectId)
+    return subjectId
+  }
+
+  const input9 = input2.replace(/s$/g, '')
+  if (input9.length >= 8) {
+    if (!jdDataKeys.length) {
+      jdDataKeys = Object.keys(jdData).filter(
+        item => item.length >= 8 && !/[\u4e00-\u9fa5]/.test(item)
+      )
+    }
+
+    const find = jdDataKeys.find(item => item.includes(input9))
+    if (find) {
+      subjectId = jdData[find]
+      if (subjectId) {
+        CACHE_MAP.set(input, subjectId)
+        return subjectId
+      }
+    }
+  }
+
+  const input10 = input9.replace(/the/g, '')
+  if (input10.length >= 8) {
+    const find = jdDataKeys.find(item => item.includes(input10))
+    if (find) {
+      subjectId = jdData[find]
+      if (subjectId) {
+        CACHE_MAP.set(input, subjectId)
+        return subjectId
+      }
+    }
+  }
+
   CACHE_MAP.set(input, 0)
 }
 
-/** 移除各种常见特殊符号 */
+/**
+ * 移除各种常见特殊符号
+ * */
 export function cleaned(input: string) {
   return (
     input
@@ -147,7 +189,7 @@ export function cleaned(input: string) {
 
       /** 自己的 */
       .replace(
-        /(^\d+\.)|\+sp|mp4|mkv|bdrip|hevc|flac|hdr|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|中日|中英|日英|外挂|压制|全集|特典|映像|双语|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,
+        /(^\d+\.)|\+sp|mp4|mkv|bdrip|avc|chs|hevc|flac|hdr|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|中日|中英|日英|外挂|压制|全集|特典|映像|双语|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,
         ''
       ) // 常见 tag
       .replace(/\d+-\d+/g, '') // 1-26
@@ -158,7 +200,8 @@ export function cleaned(input: string) {
 
 /**
  * 只保留罗马音
- *  - '化物语 Bakemonogatari' => 'Bakemonogatari'
+ *  - '化物语 Bakemonogatari'
+ *  → 'Bakemonogatari'
  * */
 export function cleaned2(input: string) {
   return cleaned(input.replace(/[^a-zA-Z]/g, ''))
@@ -166,8 +209,10 @@ export function cleaned2(input: string) {
 
 /**
  * 中文后面紧跟着的英文也移除
- *  - '魔装学园H×H Masou Gakuen HxH' => 'Masou Gakuen HxH'
- *  - 'Re：从零开始的异世界生活 Re：Zero Kara Hajimeru Isekai Seikatsu' => 'Re：Zero Kara Hajimeru Isekai Seikatsu'
+ *  - '魔装学园H×H Masou Gakuen HxH'
+ *  → 'Masou Gakuen HxH'
+ *  - 'Re：从零开始的异世界生活 Re：Zero Kara Hajimeru Isekai Seikatsu'
+ *  → 'Re：Zero Kara Hajimeru Isekai Seikatsu'
  * */
 export function cleaned3(input: string) {
   const paragraphs = input.split(' ')
@@ -177,50 +222,84 @@ export function cleaned3(input: string) {
   return cleaned(filteredParagraphs.join(' '))
 }
 
-const specReg =
+/**
+ * 尝试忽视类似 S0X 字段
+ *  - 'Peter Grill to Kenja no Jikan Super Extra S02'
+ *  → 'petergrilltokenjanojikansuperextra'
+ */
+export function cleaned4(input: string) {
+  return cleaned3(removeFirstBracketContent(input))
+    .replace(
+      /s1|movies?|specials?|ova|oad|chs|cht|jap|chinese|subbed|series|bdbox|opus|bd/g,
+      ''
+    )
+    .replace(
+      /^eiga|gekijouban|(the)?animation|(the|movies?|specials?|tv|sp)$|s0?[1-9]$/g,
+      ''
+    )
+    .replace(/@/g, 'a')
+}
+
+const SPEC_REG =
   /^eiga|gekijouban|(the)?animation|(the|movies?|extras?|specials?|tv|sp)$/g
 
 /**
  * 匹配条目名也被括号包起来的情况
- *  - 'Yahari Ore [BD 1920x1080 HEVC-10bit OPUS]S2' => 'yahariore2'
+ *  - 'Yahari Ore [BD 1920x1080 HEVC-10bit OPUS]S2'
+ *  → 'yahariore2'
  * */
-export function cleaned4(input: string) {
+export function cleaned5(input: string) {
   return cleaned3(removeFirstBracketContent(input))
     .replace(
       /s1|movies?|extras?|specials?|ova|oad|chs|cht|jap|chinese|subbed|series|bdbox|opus|bd/g,
       ''
     )
-    .replace(specReg, '')
+    .replace(SPEC_REG, '')
+    .replace(/@/g, 'a')
     .replace(/s(\d+)$/, '$1') // 匹配以s开头，后面跟着数字的部分，并保留数字部分
 }
 
 /**
  * 匹配条目名也被括号包起来的情况 2
- *  - '[SUB][轻音少女 K-ON!][S1+S2+MOVIE+OVA+SP][BDRIP][720P][X264-10bit_AACx3]' => 'kon'
+ *  - '[SUB][轻音少女 K-ON!][S1+S2+MOVIE+OVA+SP][BDRIP][720P][X264-10bit_AACx3]'
+ *  → 'kon'
  * */
-export function cleaned5(input: string) {
+export function cleaned6(input: string) {
   return cleaned3(removeFirstBracketContent(input))
     .replace(
-      /s[1-9]|movies?|extras?|specials?|ova|oad|chs|cht|jap|chinese|subbed|series|bdbox|opus|bd/g,
+      /s0?[0-9]|movies?|extras?|specials?|ova|oad|chs|cht|jap|chinese|subbed|series|bdbox|opus|bd/g,
       ''
     )
-    .replace(specReg, '')
+    .replace(SPEC_REG, '')
+    .replace(/@/g, 'a')
 }
 
 /**
  * 尝试特殊情况, 'wo' => 'o'
- *  - 'Kono Subarashii Sekai ni Shukufuku wo! Kurenai Densetsu' => 'konosubarashiisekainishukufukuokurenaidensetsu
+ *  - 'konosubarashiisekainishukufuku[wo]kurenaidensetsu'
+ *  → 'konosubarashiisekainishukufuku[o]kurenaidensetsu
  */
-export function cleaned6(input: string) {
-  return cleaned4(input).replace(/wo/g, 'o')
+export function cleaned7(input: string) {
+  return cleaned5(input).replace(/wo/g, 'o')
 }
 
 /**
  * 尝试特殊情况, 'tsu' => 'zu'
- *  - 'kubikiricycleaoirosavanttozaregototsukai' => 'kubikiricycleaoirosavanttozaregotozukai'
+ *  - 'kubikiricycleaoirosavanttozaregoto[tsu]kai'
+ *  → 'kubikiricycleaoirosavanttozaregoto[zu]kai'
  */
-export function cleaned7(input: string) {
-  return cleaned4(input).replace(/tsu/g, 'zu')
+export function cleaned8(input: string) {
+  return cleaned5(input).replace(/tsu/g, 'zu')
+}
+
+/**
+ * 最终情况, 只有这种情况是以少推多的
+ * 若罗马音大于 8 位, 且包含于现有的 Object.keys(jaData) 中
+ *  - '[inuninattaras]'
+ *  → '[inuninattaras]ukinahitonihirowareta'
+ */
+export function cleaned9(input: string) {
+  return cleaned2(input)
 }
 
 /** 去除第一个中括号内容, 通常都会是字幕组 */

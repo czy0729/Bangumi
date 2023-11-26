@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-15 21:28:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 18:07:48
+ * @Last Modified time: 2023-11-26 12:14:23
  */
 import { findJA } from '@utils/thirdParty/ja'
 import { SMBListItem } from '../types'
@@ -24,7 +24,10 @@ export function transformData(
   const map = new Map()
 
   inputData
-    .filter(item => !item.webkitRelativePath.startsWith('.'))
+    // 排除标点.开头的文件夹和文件
+    .filter(
+      item => !item.webkitRelativePath.startsWith('.') && !item.name.startsWith('.')
+    )
     .forEach(item => {
       const folderName = item.webkitRelativePath.split('/').slice(0, -1).join('/')
 

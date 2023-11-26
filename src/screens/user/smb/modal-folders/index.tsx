@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:58:56
+ * @Last Modified time: 2023-11-26 09:24:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,13 +45,7 @@ function ModalFolders(props, { $, navigation }: Ctx) {
       )}
       <ScrollView style={styles.body}>
         <View style={styles.folders}>
-          <Folders
-            fixedStyle={false}
-            subjectId={subjectId}
-            folder={folder}
-            merge={merge}
-            defaultShow
-          />
+          <Folders fixedStyle={false} folder={folder} merge={merge} defaultShow />
         </View>
       </ScrollView>
     </Modal>

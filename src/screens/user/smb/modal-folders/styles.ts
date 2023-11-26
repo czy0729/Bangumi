@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 14:49:26
+ * @Last Modified time: 2023-11-26 09:26:37
  */
 import { _ } from '@stores'
 
@@ -17,7 +17,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   body: {
-    maxHeight: _.window.height * 0.72
+    maxHeight: _.window.height * 0.64
   },
   folders: {
     marginTop: -12

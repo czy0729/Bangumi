@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:22:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:13:28
+ * @Last Modified time: 2023-11-26 11:51:04
  */
+import { Linking } from 'react-native'
 import { desc } from '@utils'
 import { isWindows } from '@utils/dom'
 import { DICT, DICT_ORDER } from '../ds'
@@ -51,4 +52,9 @@ export function fixedUrl(link: string) {
   if (!isWindows()) return link
 
   return String(link).replace(/\//g, '\\').replace(/:\\\\/g, '://')
+}
+
+/** @todo 带异常处理的打开链接 */
+export function openURL(url: string) {
+  Linking.openURL(url)
 }

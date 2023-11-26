@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:53:04
+ * @Last Modified time: 2023-11-26 12:38:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable, Iconfont } from '@components'
+import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { copy } from '@utils'
 import { obc } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
-import { fixedUrl } from '../../utils'
+import { fixedUrl, openURL } from '../../utils'
 import { Ctx, SMBListItem } from '../../types'
 import FolderList from '../folder-list'
 import { memoStyles } from './styles'
@@ -41,6 +42,28 @@ function Folder(
   if (showFolder && folder.path) path.push(folder.path)
   if (folder.name) path.push(folder.name)
 
+  const { showOpenLocalFolder } = $.state.configs
+  const elOpenLocalFolder = showOpenLocalFolder ? (
+    <IconTouchable
+      style={styles.folderOpen}
+      name='md-folder-open'
+      size={16}
+      onPress={() => {
+        const url = fixedUrl(
+          [
+            smb.ip && smb.port ? `${smb.ip}:${smb.port}` : smb.ip,
+            smb.sharedFolder,
+            folder.path,
+            folder.name
+          ]
+            .filter(item => !!item)
+            .join('/')
+        )
+        openURL(`localexplorer:${url}`)
+      }}
+    />
+  ) : null
+
   if (!showFolder) {
     const splits = path.join('/').split('/')
     return (
@@ -55,7 +78,10 @@ function Folder(
               {splits?.[splits.length - 1] || '/'}
             </Text>
           </Flex.Item>
-          <Iconfont style={_.ml.xs} name='md-navigate-next' />
+          {/* {!!elOpenLocalFolder && (
+            <View style={styles.folderOpenFixed}>{elOpenLocalFolder}</View>
+          )} */}
+          <Iconfont style={styles.next} name='md-navigate-next' />
         </Flex>
       </Touchable>
     )
@@ -84,6 +110,7 @@ function Folder(
               {path.join('/') || '/'}
             </Text>
           </Flex.Item>
+          {elOpenLocalFolder}
           <Iconfont style={styles.up} name='md-keyboard-arrow-up' />
         </Flex>
       </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 16:56:56
+ * @Last Modified time: 2023-11-26 10:33:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ export const ItemSetting = ob(
     thumb,
     filter,
     children,
+    onInfoPress,
     onPress,
     ...other
   }: ItemSettingProps) => {
@@ -50,6 +51,11 @@ export const ItemSetting = ob(
                   style={_.ml.xs}
                   onPress={() => showImageViewer(thumb, 0, true)}
                 >
+                  <Iconfont name='md-info-outline' size={16} />
+                </Touchable>
+              )}
+              {!!onInfoPress && (
+                <Touchable style={_.ml.xs} onPress={onInfoPress}>
                   <Iconfont name='md-info-outline' size={16} />
                 </Touchable>
               )}

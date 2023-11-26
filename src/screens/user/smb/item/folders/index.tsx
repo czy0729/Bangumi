@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-23 06:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 20:36:55
+ * @Last Modified time: 2023-11-26 12:44:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,7 +40,12 @@ function Folders(
     <View style={fixedStyle && !hasExpanded && styles.folders} pointerEvents='none'>
       <View pointerEvents='auto'>
         {folders
-          .sort((a, b) => desc(a.name, b.name))
+          .sort((a, b) => {
+            if (a.name.startsWith('[') && b.name.startsWith('[')) {
+              return a.name.localeCompare(b.name)
+            }
+            return desc(a.name, b.name)
+          })
           .filter((item, index) => (foldersExpanded ? true : index < LIMIT))
           .map((item, index) => (
             <Folder

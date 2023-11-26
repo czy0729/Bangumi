@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 09:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:33:24
+ * @Last Modified time: 2023-11-26 12:14:38
  */
 import React from 'react'
 import { View, Linking } from 'react-native'
@@ -36,7 +36,6 @@ function FolderList(
     return (
       <View>
         {list
-          // .filter(item => !item?.name?.startsWith('.'))
           .slice()
           .sort((a, b) => desc(a.type === 'video' ? 1 : 0, b.type === 'video' ? 1 : 0))
           .map(item => (

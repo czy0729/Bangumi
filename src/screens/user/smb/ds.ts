@@ -171,7 +171,8 @@ export const STATE = {
     showDDPlay: true,
     showPotPlayer: false,
     showVLC: false,
-    showMPV: false
+    showMPV: false,
+    showOpenLocalFolder: false
   },
 
   /** [表单] 服务类型是否 webDAV */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 20:31:55
+ * @Last Modified time: 2023-11-26 12:54:41
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -71,7 +71,7 @@ export default class ScreenSmb extends store {
   memoDirectory: SMBListItem[] = []
 
   /** 临时存放当前应该显示的管理列表 */
-  memoList: ListItem[] = []
+  memoList: MergeListItem[] = []
 
   /** 临时存放当前管理列表的标签 */
   memoTags: string[] = []
@@ -1093,6 +1093,9 @@ export default class ScreenSmb extends store {
     const expands = {}
     this.pageList.forEach(item => {
       expands[item.name] = true
+      item?.merge?.forEach(i => {
+        expands[i.name] = true
+      })
     })
     this.setState({
       expands
@@ -1105,6 +1108,9 @@ export default class ScreenSmb extends store {
     const expands = {}
     this.pageList.forEach(item => {
       expands[item.name] = false
+      item?.merge?.forEach(i => {
+        expands[i.name] = false
+      })
     })
     this.setState({
       expands

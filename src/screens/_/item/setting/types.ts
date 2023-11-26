@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 16:49:57
+ * @Last Modified time: 2023-11-26 10:31:38
  */
 import { TouchableProps, TextType } from '@components'
-import { Override, ViewStyle, ReactNode, TextStyle, IconfontNames } from '@types'
+import { Override, ViewStyle, ReactNode, TextStyle, IconfontNames, Fn } from '@types'
 
 export type Props = Override<
   TouchableProps,
@@ -30,6 +30,7 @@ export type Props = Override<
           headers?: object
         }[]
     children?: any
-    onPress?: (event?: any) => any
+    onInfoPress?: Fn
+    onPress?: Fn
   }
 >
