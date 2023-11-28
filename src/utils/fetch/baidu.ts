@@ -55,7 +55,10 @@ export async function baiduTranslate(query: string, to = 'zh') {
     }
 
     // 网页版暂时不允许直接调用百度翻译
-    if (STORYBOOK) throw new Error('Denied')
+    if (STORYBOOK) {
+      console.info('[@utils/baidu]', 'baiduTranslate denied')
+      return ''
+    }
 
     const appid = APP_BAIDU_ID
     const salt = new Date().getTime()

@@ -1,13 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-26 09:25:41
  */
-import React from 'react'
-import { View } from 'react-native'
-import { observer } from 'mobx-react'
+import React, { useEffect } from 'react'
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming
+} from 'react-native-reanimated'
+import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Component } from '../component'
@@ -19,26 +22,50 @@ import './index.scss'
 
 export { ModalProps }
 
-export const Modal = observer(
-  ({ style, visible, title, type = 'title', focus, onClose, children }: ModalProps) => {
+export const Modal = ({
+  style,
+  visible,
+  title,
+  type = 'title',
+  animated,
+  onClose,
+  children
+}: ModalProps) => {
+  const activeRef = useSharedValue(visible ? 1 : 0)
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(activeRef.value, {
+        duration: 80
+      })
+    }
+  })
+  useEffect(() => {
+    if (!animated) return
+
+    setTimeout(() => {
+      activeRef.value = visible ? 1 : 0
+    }, 0)
+  }, [activeRef, animated, visible])
+
+  return useObserver(() => {
     if (!visible) return null
 
     return (
       <Component id='component-modal'>
-        <View
-          style={styles.mask}
+        <Animated.View
+          style={stl(styles.mask, animated && animatedStyle)}
           // @ts-ignore
           onClick={onClose}
         />
-        <View style={stl(style, styles.modal)}>
+        <Animated.View style={stl(style, styles.modal, animated && animatedStyle)}>
           {!!title && (
             <Text style={_.mb.md} type={type} size={16}>
               {title}
             </Text>
           )}
           <ScrollView style={styles.body}>{children}</ScrollView>
-        </View>
+        </Animated.View>
       </Component>
     )
-  }
-)
+  })
+}

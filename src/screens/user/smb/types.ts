@@ -70,6 +70,7 @@ export type SubjectOSS = Expand<{
   eps: number | ''
   info: string
   type: SubjectTypeValue
+  tags?: string[]
   _loaded: number
 }>
 

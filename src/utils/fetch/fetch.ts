@@ -7,6 +7,7 @@
  */
 import { STORYBOOK } from '@constants/device'
 import { APP_ID, HOST, UA } from '@constants/constants'
+import { API_HOST, API_V0 } from '@constants/api'
 import { AnyObject } from '@types'
 import { HOST_PROXY } from '@/config'
 import fetch from '../thirdParty/fetch-polyfill'
@@ -34,13 +35,27 @@ export async function fetchAPI(args: FetchAPIArgs) {
   const userStore = syncUserStore()
   const config: AnyObject = {
     method: isGet ? 'GET' : 'POST',
-    headers: STORYBOOK
-      ? {}
-      : {
-          Authorization: `${userStore.accessToken.token_type} ${userStore.accessToken.access_token}`,
-          'User-Agent': UA
-        },
+    headers: {},
     timeout: FETCH_TIMEOUT
+  }
+
+  if (!STORYBOOK) {
+    config.headers['User-Agent'] = UA
+  }
+
+  /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
+  if (STORYBOOK && !isGet) {
+    console.info('[@utils/fetch]', 'fetchAPI denied:', url)
+    return Promise.reject('denied')
+  }
+
+  if (userStore.accessToken.access_token) {
+    /** @todo [网页端] 旧 API 不支持新的 token, 需要重构相关部分的逻辑代码 */
+    if (STORYBOOK && url.includes(API_HOST) && !url.includes(API_V0)) {
+      console.info('[@utils/fetch]', 'fetchAPI ignored token:', url)
+    } else {
+      config.headers.Authorization = `${userStore.accessToken.token_type} ${userStore.accessToken.access_token}`
+    }
   }
 
   const body: AnyObject = {
@@ -122,6 +137,12 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     raw = false
   } = args || {}
   const isGet = method === 'GET'
+
+  /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
+  if (STORYBOOK && !isGet) {
+    console.info('[@utils/fetch]', 'fetchHTML denied:', url)
+    return Promise.reject('denied')
+  }
 
   // 拦截瞬间多次完全同样的请求
   if (isGet) {

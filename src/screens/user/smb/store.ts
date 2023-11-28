@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 12:54:41
+ * @Last Modified time: 2023-11-27 10:42:58
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -39,6 +39,11 @@ import {
 } from './ds'
 import { ListItem, MergeListItem, SMBListItem, SubjectOSS } from './types'
 
+/**
+ * SMB 页面状态
+ *  - 因持续迭代开发，相关服务现已支持 webDAV 和文件夹选择
+ *  - 为了数据结构一致，依然叫 SMB 罢了
+ */
 export default class ScreenSmb extends store {
   state = observable(STATE)
 
@@ -57,6 +62,7 @@ export default class ScreenSmb extends store {
     await smbStore.init('data')
     await subjectStore.initSubjectV2(this.subjectIds)
     await collectionStore.init('collection')
+    await collectionStore.init('collectionStatus')
     this.cacheList()
     this.setState({
       _loaded: true
@@ -76,16 +82,27 @@ export default class ScreenSmb extends store {
   /** 临时存放当前管理列表的标签 */
   memoTags: string[] = []
 
+  /** 临时存放当前管理列表相关条目的标签 */
+  memoSubjectTags: string[] = []
+
   // -------------------- fetch --------------------
   /** 更新数据 */
   cacheList = () => {
     this.memoList = this.mergeList()
     this.cacheTags()
+    this.cacheSubjectTags()
+
+    if (STORYBOOK) this.fetchCollectionsWeb()
   }
 
   /** 更新标签数据 */
   cacheTags = () => {
     this.memoTags = this.tagsActions()
+  }
+
+  /** 更新条目标签数据 */
+  cacheSubjectTags = () => {
+    this.memoSubjectTags = this.tagsSubjectActions()
   }
 
   /** 批量请求条目和收藏 */
@@ -142,23 +159,21 @@ export default class ScreenSmb extends store {
     return queue(collectionFetchs)
   }
 
-  /** 批量请求条目和收藏 (网页版) */
+  /** [网页版] 批量请求条目 */
   fetchInfosWeb = async () => {
     const { loading } = this.state
     if (loading) return
 
     const { subjects } = this.state
-    const now = getTimestamp()
     const fetchIds = []
+    const now = getTimestamp()
+    const distance = 60 * 60 * 12
     this.subjectIds.forEach(id => {
-      // maybe nsfw
-      if (!this.subjectV2(id).id) {
-        const { _loaded } = subjects[id] || {}
-        if (!_loaded || now - Number(_loaded) >= 60 * 60 * 24) {
-          const { _loaded } = this.subjectOSS(id)
-          if (!_loaded || now - Number(_loaded) >= 60 * 60 * 24) {
-            fetchIds.push(`subject_${id}`)
-          }
+      const { _loaded } = subjects[id] || {}
+      if (!_loaded || now - Number(_loaded) >= distance) {
+        const { _loaded } = this.subjectOSS(id)
+        if (!_loaded || now - Number(_loaded) >= distance) {
+          fetchIds.push(`subject_${id}`)
         }
       }
     })
@@ -177,7 +192,8 @@ export default class ScreenSmb extends store {
         'rating',
         'totalEps',
         'info',
-        'type'
+        'type',
+        'tags'
       ]
       const data = await gets(fetchIds, picker)
       Object.entries(data).forEach(([key, item]) => {
@@ -198,6 +214,19 @@ export default class ScreenSmb extends store {
           }
           delete data[key].info
 
+          if (Array.isArray(data[key]?.tags)) {
+            data[key].tags = (
+              data[key].tags as {
+                name: string
+                count?: string
+              }[]
+            )
+              .filter(item => Number(item?.count) >= 25)
+              .map(item => item.name)
+          } else {
+            delete data[key].tags
+          }
+
           data[key]._loaded = getTimestamp()
         } catch (error) {}
       })
@@ -211,6 +240,21 @@ export default class ScreenSmb extends store {
     this.setState({
       loading: false
     })
+    this.fetchCollectionsThenCacheTagsWeb()
+    return true
+  }
+
+  /** [网页版] 批量请求收藏 */
+  fetchCollectionsWeb = () => {
+    return collectionStore.fetchCollectionStatusQueue(
+      this.pageList.map(item => item.subjectId)
+    )
+  }
+
+  /** [网页版] 批量请求收藏后, 因涉及条目状态, 需要重新计算标签 */
+  fetchCollectionsThenCacheTagsWeb = async () => {
+    await collectionStore.fetchCollectionStatusQueue(this.subjectIds)
+    this.cacheTags()
     return true
   }
 
@@ -296,12 +340,14 @@ export default class ScreenSmb extends store {
   // -------------------- get --------------------
   /** 因为性能, 列表没有参与反应, 自己维护了一个值用于监控更新 */
   @computed get refreshKey() {
-    const { uuid, sort, tags, page, filter, refreshKey, configs } = this.state
+    const { uuid, sort, tags, subjectTags, page, filter, refreshKey, configs } =
+      this.state
     const { layoutList } = configs
     return JSON.stringify({
       uuid,
       sort,
       tags,
+      subjectTags,
       page,
       filter,
       refreshKey,
@@ -327,7 +373,7 @@ export default class ScreenSmb extends store {
 
   /** 当前的 SMB 文件夹匹配到的所有条目 id */
   @computed get subjectIds() {
-    const ids = []
+    const ids: SubjectId[] = []
     if (this.current?.list) {
       this.current.list.forEach(item => {
         item.ids.forEach(id => {
@@ -357,6 +403,31 @@ export default class ScreenSmb extends store {
     if (!page) return []
 
     return this.memoList.slice((page - 1) * LIMIT, page * LIMIT)
+  }
+
+  /** 扩展刮削词 */
+  @computed get extendsJA(): Record<string, SubjectId> {
+    try {
+      const { value } = this.state.extendsJA
+      const data = {}
+      value
+        .split('\n')
+        .filter(item => !!item)
+        .map(item => item.trim())
+        .forEach(item => {
+          try {
+            let [key, value]: any[] = item.split(',')
+            key = (key || '').trim()
+            value = Number((value || '').trim())
+            if (key && value) {
+              data[key.toLocaleLowerCase()] = value
+            }
+          } catch (error) {}
+        })
+      return data
+    } catch (error) {
+      return {}
+    }
   }
 
   /** 条目接口数据 */
@@ -574,23 +645,20 @@ export default class ScreenSmb extends store {
         flag = item.tags.some(tag => tags.includes(tag))
       }
 
-      // if (!flag) {
-      //   const { tags: subjectTags } = this.subjectV2(subjectId)
-      //   flag = subjectTags.some(item => item.name === tags[0])
-      // }
-
       if (!flag) {
         const { type } = this.subjectV2(subjectId)
         const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
-        flag = tags.includes(typeCn)
+        flag = !!subjectId && tags.includes(typeCn)
       }
 
       if (!flag) {
-        flag = tags.includes(
-          collectionStore.collect(subjectId) ||
-            this.collection(subjectId)?.status?.name ||
-            '未收藏'
-        )
+        flag =
+          !!subjectId &&
+          tags.includes(
+            collectionStore.collect(subjectId) ||
+              this.collection(subjectId)?.status?.name ||
+              '未收藏'
+          )
       }
 
       if (!flag && /\d{4}/.test(tags[0])) {
@@ -602,12 +670,39 @@ export default class ScreenSmb extends store {
     })
   }
 
-  /** [4] 基于 [3] 进行搜索 */
-  filterList = () => {
-    const { filter } = this.state
-    if (!filter) return this.tagList()
+  /** [4] 基于 [3] 进行条目标签筛选 */
+  subjectTagList = () => {
+    const { subjectTags } = this.state
+    if (!subjectTags.length) return this.tagList()
 
     return this.tagList().filter(item => {
+      const { subjectId } = item
+      if (!subjectId) return false
+
+      const { tags } = this.subjectV2(subjectId)
+      return tags.some(
+        (
+          tag:
+            | string
+            | {
+                name: string
+                count: number
+              }
+        ) => {
+          if (typeof tag === 'string') return subjectTags.includes(tag)
+          if (tag?.name) return subjectTags.includes(tag?.name)
+          return false
+        }
+      )
+    })
+  }
+
+  /** [5] 基于 [4] 进行搜索 */
+  filterList = () => {
+    const { filter } = this.state
+    if (!filter) return this.subjectTagList()
+
+    return this.subjectTagList().filter(item => {
       // 文件夹
       if (!item.subjectId) return item.name.includes(filter)
 
@@ -616,7 +711,7 @@ export default class ScreenSmb extends store {
     })
   }
 
-  /** [5] 基于 [4] 合并同条目项 */
+  /** [6] 基于 [5] 合并同条目项 */
   mergeList = () => {
     const indexMap: Record<SubjectId, number> = {}
     const list: MergeListItem[] = []
@@ -677,29 +772,14 @@ export default class ScreenSmb extends store {
           }
         }
 
-        // tags.forEach(item => {
-        //   if (
-        //     ['动画', '漫画', '书籍', '音乐', '三次元', '条目', '未收藏'].includes(
-        //       item.name
-        //     )
-        //   ) {
-        //     return
-        //   }
-
-        //   if (!data[item.name]) {
-        //     data[item.name] = 1
-        //   } else {
-        //     data[item.name] += 1
-        //   }
-        // })
-
-        const { status = { name: '未收藏' } } = this.collection(subjectId)
-        if (status.name) {
-          if (!data[status.name]) {
-            data[status.name] = 1
-          } else {
-            data[status.name] += 1
-          }
+        const statusName =
+          collectionStore.collect(subjectId) ||
+          this.collection(subjectId)?.status?.name ||
+          '未收藏'
+        if (!data[statusName]) {
+          data[statusName] = 1
+        } else {
+          data[statusName] += 1
         }
 
         item.tags.forEach(i => {
@@ -711,20 +791,61 @@ export default class ScreenSmb extends store {
         })
       }
     })
-
     return data
   }
 
   /** 对标签进行排序 */
   tagsActions = () => {
-    // const { tags, more } = this.state
     const tagsCount = this.tagsCount()
-    return (
-      Object.keys(tagsCount)
-        // .filter(item => (more ? true : tagsCount[item] >= 10 || tags.includes(item)))
-        .sort((a, b) =>
-          desc(DICT_ORDER[a] || tagsCount[a] || 0, DICT_ORDER[b] || tagsCount[b] || 0)
-        )
+    return Object.keys(tagsCount).sort((a, b) =>
+      desc(DICT_ORDER[a] || tagsCount[a] || 0, DICT_ORDER[b] || tagsCount[b] || 0)
+    )
+  }
+
+  /** 统计条目标签数目 */
+  tagsSubjectCount = () => {
+    const temp: Record<SubjectId, boolean> = {}
+    const data: Record<string, number> = {}
+    this.list().forEach(item => {
+      const { subjectId } = item
+      if (subjectId && !(subjectId in temp)) {
+        temp[subjectId] = true
+
+        const { tags } = this.subjectV2(subjectId)
+        if (typeof tags?.forEach === 'function') {
+          tags.forEach(
+            (
+              item:
+                | string
+                | {
+                    name: string
+                    count: number
+                  }
+            ) => {
+              let tag = ''
+              if (typeof item === 'string') {
+                tag = item
+              } else {
+                tag = item?.name
+              }
+
+              if (tag) {
+                if (!data[tag]) data[tag] = 0
+                data[tag] += 1
+              }
+            }
+          )
+        }
+      }
+    })
+    return data
+  }
+
+  /** 对标签进行排序 */
+  tagsSubjectActions = () => {
+    const tagsCount = this.tagsSubjectCount()
+    return Object.keys(tagsCount).sort((a, b) =>
+      desc(tagsCount[a] || 0, tagsCount[b] || 0)
     )
   }
 
@@ -928,6 +1049,7 @@ export default class ScreenSmb extends store {
       more: !more
     })
     this.cacheTags()
+    this.cacheSubjectTags()
     this.save()
 
     t('SMB.更多标签')
@@ -938,6 +1060,22 @@ export default class ScreenSmb extends store {
     const { tags } = this.state
     this.setState({
       tags: title ? (tags.includes(title) ? [] : [title]) : [],
+      _page: '1',
+      page: 1
+    })
+    this.cacheList()
+    this.save()
+
+    t('SMB.选择标签', {
+      title
+    })
+  }
+
+  /** 选择条目标签 */
+  onSelectSubjectTag = (title: string) => {
+    const { subjectTags } = this.state
+    this.setState({
+      subjectTags: title ? (subjectTags.includes(title) ? [] : [title]) : [],
       _page: '1',
       page: 1
     })
@@ -1021,6 +1159,8 @@ export default class ScreenSmb extends store {
       page: value
     })
     this.save()
+
+    if (STORYBOOK) this.fetchCollectionsWeb()
   }
 
   /** 下一页 */
@@ -1037,6 +1177,8 @@ export default class ScreenSmb extends store {
       page: value
     })
     this.save()
+
+    if (STORYBOOK) this.fetchCollectionsWeb()
   }
 
   /** 分页中间输入框文字改变 */
@@ -1062,6 +1204,8 @@ export default class ScreenSmb extends store {
       page: value
     })
     this.save()
+
+    if (STORYBOOK) this.fetchCollectionsWeb()
   }
 
   /** 文件夹切换显示类型 */
@@ -1220,6 +1364,21 @@ export default class ScreenSmb extends store {
       foldersExpands: {
         [folderName]: value
       }
+    })
+    this.save()
+  }
+
+  /** 展开扩展刮削词表单 */
+  onShowExtendsJA = () => {
+    this.setState({
+      extendsJAVisible: true
+    })
+  }
+
+  /** 关闭扩展刮削词表单 */
+  onCloseExtendsJA = () => {
+    this.setState({
+      extendsJAVisible: false
     })
     this.save()
   }

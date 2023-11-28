@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 08:55:04
+ * @Last Modified time: 2023-11-28 23:43:16
  */
 import React from 'react'
+import { collectionStore } from '@stores'
 import { date } from '@utils'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { Ctx } from '../../types'
 import FlipBtn from './flip-btn'
 
@@ -21,7 +23,9 @@ export default obc((props, { $ }: Ctx) => {
     lasttouch,
     _loaded
   } = $.collection
-  const btnText = _loaded
+  const btnText = STORYBOOK
+    ? collectionStore.collect($.subjectId) || '未收藏'
+    : _loaded
     ? collectionStatus.name
     : $.params._collection || collectionStatus.name
 

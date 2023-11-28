@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 05:10:47
+ * @Last Modified time: 2023-11-29 01:50:57
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -77,6 +77,14 @@ export default class Action extends Fetch {
       hmCookie
     })
     this.save('hmCookie')
+  }
+
+  /** 手动更新登录用户信息 */
+  updateUserInfo = (userInfo: typeof this.userInfo) => {
+    this.setState({
+      userInfo
+    })
+    this.save('userInfo')
   }
 
   /** 打印游客登录 sercet */

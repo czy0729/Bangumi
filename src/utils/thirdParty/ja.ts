@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 15:59:36
+ * @Last Modified time: 2023-11-26 18:01:55
  */
-import jdData from '@assets/json/thirdParty/ja.min.json'
-import jdDataAddon from '@assets/json/thirdParty/ja.addon.json'
+import jaData from '@assets/json/thirdParty/ja.min.json'
+import jaDataAddon from '@assets/json/thirdParty/ja.addon.json'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 
 const CACHE_MAP = new Map<string, number>()
@@ -23,28 +23,28 @@ const REPLACEMENTS = {
   10: 'x'
 } as const
 
-let jdDataKeys: string[] = []
+let jaDataKeys: string[] = []
 
 /** 尝试查找罗马音 */
 export function findJA(input: string) {
   if (CACHE_MAP.has(input)) return CACHE_MAP.get(input)
 
   const input1 = cleaned(input)
-  let subjectId = jdData[input1] || jdDataAddon[input1]
+  let subjectId = jaData[input1] || jaDataAddon[input1]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
   }
 
   const input2 = cleaned2(input)
-  subjectId = jdData[input2] || jdDataAddon[input2]
+  subjectId = jaData[input2] || jaDataAddon[input2]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
   }
 
   const input3 = cleaned3(input)
-  subjectId = jdData[input3] || jdDataAddon[input3]
+  subjectId = jaData[input3] || jaDataAddon[input3]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
@@ -57,7 +57,7 @@ export function findJA(input: string) {
    * */
   const _input1 = input1.replace(/ |劇場版|剧场版|简|繁|·/g, '')
   const inputCn = _input1.replace(/[^\u4e00-\u9fa5]/g, '')
-  subjectId = jdData[inputCn] || jdDataAddon[inputCn]
+  subjectId = jaData[inputCn] || jaDataAddon[inputCn]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
@@ -83,7 +83,7 @@ export function findJA(input: string) {
   }
 
   let input4 = cleaned4(input)
-  subjectId = jdData[input4] || jdDataAddon[input4]
+  subjectId = jaData[input4] || jaDataAddon[input4]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
@@ -91,7 +91,7 @@ export function findJA(input: string) {
 
   if (/(\d)$/.test(input4)) {
     input4 = input4.replace(/(\d)$/g, (match, number) => REPLACEMENTS[number] || match)
-    subjectId = jdData[input4] || jdDataAddon[input4]
+    subjectId = jaData[input4] || jaDataAddon[input4]
     if (subjectId) {
       CACHE_MAP.set(input, subjectId)
       return subjectId
@@ -100,28 +100,28 @@ export function findJA(input: string) {
 
   // 从 cleaned5 开始, 都是属于非常模糊的饱和尝试匹配
   const input5 = cleaned5(input)
-  subjectId = jdData[input5] || jdDataAddon[input5]
+  subjectId = jaData[input5] || jaDataAddon[input5]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
   }
 
   const input6 = cleaned6(input)
-  subjectId = jdData[input6] || jdDataAddon[input6]
+  subjectId = jaData[input6] || jaDataAddon[input6]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
   }
 
   const input7 = cleaned7(input)
-  subjectId = jdData[input7] || jdDataAddon[input7]
+  subjectId = jaData[input7] || jaDataAddon[input7]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
   }
 
   const input8 = cleaned8(input)
-  subjectId = jdData[input8] || jdDataAddon[input8]
+  subjectId = jaData[input8] || jaDataAddon[input8]
   if (subjectId) {
     CACHE_MAP.set(input, subjectId)
     return subjectId
@@ -129,15 +129,15 @@ export function findJA(input: string) {
 
   const input9 = input2.replace(/s$/g, '')
   if (input9.length >= 8) {
-    if (!jdDataKeys.length) {
-      jdDataKeys = Object.keys(jdData).filter(
+    if (!jaDataKeys.length) {
+      jaDataKeys = Object.keys(jaData).filter(
         item => item.length >= 8 && !/[\u4e00-\u9fa5]/.test(item)
       )
     }
 
-    const find = jdDataKeys.find(item => item.includes(input9))
+    const find = jaDataKeys.find(item => item.includes(input9))
     if (find) {
-      subjectId = jdData[find]
+      subjectId = jaData[find]
       if (subjectId) {
         CACHE_MAP.set(input, subjectId)
         return subjectId
@@ -145,14 +145,16 @@ export function findJA(input: string) {
     }
   }
 
-  const input10 = input9.replace(/the/g, '')
-  if (input10.length >= 8) {
-    const find = jdDataKeys.find(item => item.includes(input10))
-    if (find) {
-      subjectId = jdData[find]
-      if (subjectId) {
-        CACHE_MAP.set(input, subjectId)
-        return subjectId
+  if (input9.includes('the')) {
+    const input10 = input9.replace(/the/g, '')
+    if (input10.length >= 8) {
+      const find = jaDataKeys.find(item => item.includes(input10))
+      if (find) {
+        subjectId = jaData[find]
+        if (subjectId) {
+          CACHE_MAP.set(input, subjectId)
+          return subjectId
+        }
       }
     }
   }

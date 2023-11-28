@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 09:05:53
+ * @Last Modified time: 2023-11-27 16:30:34
  */
 // Login
 export { default as Login } from './login/index/index'
 export { default as LoginAssist } from './login/assist'
 export { default as LoginV2 } from './login/v2'
+export { default as LoginToken } from './login/token'
 
 // Discovery
 export { default as ADV } from './discovery/adv'

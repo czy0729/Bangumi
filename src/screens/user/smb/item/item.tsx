@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:54:02
+ * @Last Modified time: 2023-11-27 16:02:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,18 +44,6 @@ export default memo(
                   <DevJA folderName={folder.name} />
                 </>
               )}
-
-              {/* {!!folder.tags.length && (
-                <Flex style={_.mt.sm}>
-                  {folder.tags
-                    .filter((item, index) => index < 5)
-                    .map(item => (
-                      <Text key={item} style={_.mr.sm} size={12} type='sub'>
-                        {item}
-                      </Text>
-                    ))}
-                </Flex>
-              )} */}
             </Flex.Item>
           </Flex>
           <Folders folder={folder} merge={merge} />

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-11-15 21:28:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 12:14:23
+ * @Last Modified time: 2023-11-26 17:58:52
  */
 import { findJA } from '@utils/thirdParty/ja'
+import { SubjectId } from '@types'
 import { SMBListItem } from '../types'
 import { formatFileSize, getFileMediaType, matchTags } from './utils'
 
 /** input 选择文件夹的结果转换为 smb 一样的输入数据 */
 export function transformData(
+  /** 浏览器目录结构 */
   inputData: {
     lastModified: string
     lastModifiedDate: string
@@ -18,7 +20,12 @@ export function transformData(
     type: string
     webkitRelativePath: string
   }[],
-  autoJA: boolean
+
+  /** 是否自动刮削 */
+  autoJA?: boolean,
+
+  /** 用户的扩展刮削词 */
+  extendsJA?: Record<string, SubjectId>
 ) {
   const result: SMBListItem[] = []
   const map = new Map()
@@ -81,6 +88,20 @@ export function transformData(
             map.get(folderName).ids.push(id)
           }
         }
+      }
+
+      // 5. 扩展刮削词
+      if (typeof extendsJA === 'object') {
+        try {
+          const name = folderName.toLocaleLowerCase()
+          const find = Object.entries(extendsJA).find(([key]) => name.includes(key))
+          if (find) {
+            const id = find?.[1]
+            if (id && !map.get(folderName).ids.includes(id)) {
+              map.get(folderName).ids.push(id)
+            }
+          }
+        } catch (error) {}
       }
 
       map.get(folderName).list.push({

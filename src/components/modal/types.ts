@@ -22,6 +22,9 @@ export type Props = {
   /** 文字颜色 */
   type?: TextType
 
+  /** [网页] 是否显示渐出动画 */
+  animated?: boolean
+
   /** 关闭回调 */
   onClose: () => void
   children: any

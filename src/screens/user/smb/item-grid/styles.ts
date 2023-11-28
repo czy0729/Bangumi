@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 08:05:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:48:35
+ * @Last Modified time: 2023-11-29 03:09:15
  */
 import { _ } from '@stores'
 
@@ -24,14 +24,20 @@ export const memoStyles = _.memoStyles(() => {
       left: 0,
       opacity: 0.88
     },
+    manage: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      right: 0,
+      opacity: 0.88
+    },
     folderContent: {
       bottom: 32
     },
     title: {
       minHeight: 48,
       paddingHorizontal: 10,
-      paddingBottom: 10,
-      opacity: 0.88
+      paddingVertical: 10
     },
     folderTitle: {
       marginBottom: -24

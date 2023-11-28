@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 03:08:40
+ * @Last Modified time: 2023-11-29 02:14:10
  */
 import {
   findTreeNode,
@@ -25,7 +25,8 @@ import {
   COLLECTION_STATUS,
   HTML_USER_COLLECTIONS,
   MODEL_COLLECTION_STATUS,
-  MODEL_SUBJECT_TYPE
+  MODEL_SUBJECT_TYPE,
+  STORYBOOK
 } from '@constants'
 import {
   CollectionsOrder,
@@ -267,6 +268,8 @@ export default class Fetch extends Computed {
     showLoading?: boolean
   ) => {
     try {
+      if (!userStore.isWebLogin) return false
+
       const { username } = userStore.usersInfo(userStore.myUserId)
       const userId = username || userStore.myUserId
       if (!userId) return false
@@ -383,9 +386,19 @@ export default class Fetch extends Computed {
    *  - [4] 批量请求时, 若条件通过, 条目重请求依然有 12 小时的间隔
    * */
   fetchCollectionStatusQueue = async (subjectIds: SubjectId[] = []) => {
-    if (!userStore.isLogin || !subjectIds.length) return {} // [1]
+    const keyCollectionStatus = 'collectionStatus'
+    const keyLastFetchMS = '_collectionStatusLastFetchMS'
+    await this.init(keyCollectionStatus)
+    await this.init(keyLastFetchMS)
 
-    const collectionStatusLastFetchMS = {}
+    if (STORYBOOK) {
+      /** @todo 目前在网页端中 userStore.isLogin 一定返回 false */
+      if (!userStore.accessToken.access_token || !subjectIds.length) return {} // [1]
+    } else {
+      if (!userStore.isLogin || !subjectIds.length) return {} // [1]
+    }
+
+    const lastFetchMS = {}
     const results: UserCollectionItem[] = []
     const fetchs = []
     const now = getTimestamp()
@@ -396,14 +409,12 @@ export default class Fetch extends Computed {
           now - this._collectionStatusLastFetchMS(subjectId) >= 60 * 60 * 12) // [4]
       ) {
         fetchs.push(async () => {
-          console.info('fetchCollectionStatusQueue', subjectId)
           const collection = await fetchCollectionSingleV0({
             subjectId,
             userId: userStore.myId
           })
           if (collection) results.push(collection)
-
-          collectionStatusLastFetchMS[subjectId] = getTimestamp()
+          lastFetchMS[subjectId] = getTimestamp()
         })
       }
     })
@@ -418,14 +429,12 @@ export default class Fetch extends Computed {
       }
     })
 
-    const key = 'collectionStatus'
     this.setState({
-      [key]: data,
-      _collectionStatusLastFetchMS: collectionStatusLastFetchMS
+      [keyCollectionStatus]: data,
+      [keyLastFetchMS]: lastFetchMS
     })
-
-    this.save(key)
-    this.save('_collectionStatusLastFetchMS')
+    this.save(keyCollectionStatus)
+    this.save(keyLastFetchMS)
     return data
   }
 

@@ -94,7 +94,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 在线
 
-基于 @storybook/react-native 生成的 iframe.html，尽量少入侵原项目，补全了一个完整的单页面应用
+基于 @storybook/react-native 生成的 iframe.html，尽量少入侵原项目，自己开发了一个完整的单页面流程
 
 ## Storybook 组件面板预览
 

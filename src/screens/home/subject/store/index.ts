@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-14 14:22:11
+ * @Last Modified time: 2023-11-29 02:41:09
  */
 import {
   collectionStore,
@@ -69,6 +69,10 @@ class ScreenSubject extends Action {
           if (!SHARE_MODE) return this.fetchCollection()
         },
         () => {
+          if (userStore.isStorybookLogin) {
+            return userStore.fetchUserProgressV0(this.subjectId)
+          }
+
           // 用户收藏状态
           if (!SHARE_MODE) return userStore.fetchUserProgress(this.subjectId)
         }

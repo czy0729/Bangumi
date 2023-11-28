@@ -111,14 +111,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 获取指定条目收藏状态 */
-  collect(subjectId: SubjectId, type?: SubjectTypeCn) {
+  /** 获取指定条目收藏状态, 若传递了 type 会自动转换对应动作 */
+  collect(subjectId: SubjectId, typeCn?: SubjectTypeCn) {
     return computed<CollectActions | ''>(() => {
       const value = this.collectionStatus(subjectId) || ''
-      if (!value || !type || type === '动画' || type === '三次元') return value
-      if (type === '书籍') return value.replace('看', '读') as CollectActions
-      if (type === '游戏') return value.replace('看', '玩') as CollectActions
-      if (type === '音乐') return value.replace('看', '听') as CollectActions
+      if (!value || !typeCn || typeCn === '动画' || typeCn === '三次元') return value
+      if (typeCn === '书籍') return value.replace('看', '读') as CollectActions
+      if (typeCn === '游戏') return value.replace('看', '玩') as CollectActions
+      if (typeCn === '音乐') return value.replace('看', '听') as CollectActions
       return value
     }).get()
   }

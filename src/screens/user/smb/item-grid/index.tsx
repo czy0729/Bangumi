@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:47:42
+ * @Last Modified time: 2023-11-29 03:15:17
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Touchable, Flex, Image, Cover, Text, Hover } from '@components'
-import { _ } from '@stores'
+import { _, collectionStore } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { ASSETS_ICONS, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx, MergeListItem } from '../types'
 import { memoStyles } from './styles'
-import { stl } from '@utils'
 
 const colors = [
   'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.12)',
-  'rgba(0, 0, 0, 0.5)',
+  'rgba(0, 0, 0, 0.24)',
+  'rgba(0, 0, 0, 0.72)',
   'rgba(0, 0, 0, 0.92)'
 ]
 
@@ -29,6 +29,9 @@ function ItemGrid(
 ) {
   const styles = memoStyles()
   const { jp, cn, image, type } = $.subjectV2(subjectId)
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+  const collect = collectionStore.collect(subjectId, typeCn)
+
   const { layoutGridNums } = $.state.configs
   const width = (_.window.contentWidth - _.md * (layoutGridNums - 1)) / layoutGridNums
   const height = Math.floor(width * 1.4)
@@ -54,6 +57,7 @@ function ItemGrid(
           <Flex style={styles.title} align='end'>
             <Text size={!subjectId ? 12 : title.length >= 16 ? 14 : 15} bold>
               {title}
+              {collect ? ` [${collect}]` : ''}
             </Text>
           </Flex>
         </Touchable>
@@ -76,7 +80,7 @@ function ItemGrid(
             _jp: jp,
             _cn: cn,
             _image: image,
-            _type: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+            _type: typeCn
           })
           return
         }

@@ -20,6 +20,9 @@ export type Props = {
   /** 水平布局 */
   horizontal?: boolean
 
+  /** [网页] 是否使用跳转到 bgm.tv 代替收藏管理按钮 */
+  showRedirect?: boolean
+
   /** 点击 */
   onPress: Fn
 }

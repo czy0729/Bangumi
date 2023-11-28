@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 08:45:01
+ * @Last Modified time: 2023-11-29 02:41:54
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, HTMLTrim } from '@utils'
 import fetch, { fetchHTML } from '@utils/fetch'
-import { fetchCollectionSingleV0, fetchCollectionV0 } from '@utils/fetch.v0'
+import {
+  fetchCollectionSingleV0,
+  fetchCollectionV0,
+  fetchUserProgressV0
+} from '@utils/fetch.v0'
 import { onlines, report } from '@utils/kv'
 import {
   API_ACCESS_TOKEN,
@@ -26,9 +30,17 @@ import {
   HTML_USERS,
   HTML_USER_SETTING,
   LIST_EMPTY,
+  MODEL_COLLECTION_STATUS,
   URL_OAUTH_REDIRECT
 } from '@constants'
-import { Id, SubjectId, SubjectType, UserId } from '@types'
+import {
+  CollectionStatusCn,
+  CollectionStatusValue,
+  Id,
+  SubjectId,
+  SubjectType,
+  UserId
+} from '@types'
 import Computed from './computed'
 import {
   cheerioPM,
@@ -160,10 +172,9 @@ export default class Fetch extends Computed {
     }
     if (subjectId) config.data.subject_id = subjectId
 
-    const res = fetch(config)
-    const data = await res
+    const data = await fetch(config)
 
-    // @issue 当用户没有收视进度, API_USER_PROGRESS接口服务器直接返回null
+    // @issue 当用户没有收视进度, API_USER_PROGRESS 接口服务器直接返回 null
     // 注意请求单个返回对象, 多个返回数组
     if (data) {
       // 统一结构
@@ -195,7 +206,40 @@ export default class Fetch extends Computed {
     }
     this.save('userProgress')
 
-    return res
+    return data
+  }
+
+  /** 获取登录用户条目章节收藏状态 */
+  fetchUserProgressV0 = async (subjectId: SubjectId) => {
+    const data: any = await fetchUserProgressV0({
+      subjectId
+    })
+
+    const userProgress = {
+      _loaded: getTimestamp()
+    }
+
+    if (Array.isArray(data?.data)) {
+      ;(
+        data.data as {
+          episode: {
+            id: number
+          }
+          type: CollectionStatusValue
+        }[]
+      ).forEach(item => {
+        userProgress[item.episode.id] =
+          MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type)
+      })
+    }
+
+    this.setState({
+      userProgress: {
+        [subjectId]: userProgress
+      }
+    })
+    this.save('userProgress')
+    return userProgress
   }
 
   /** 获取用户收藏概览 */

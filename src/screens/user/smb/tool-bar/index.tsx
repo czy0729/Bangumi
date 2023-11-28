@@ -8,14 +8,16 @@ import React from 'react'
 import { ToolBar as CompToolBar } from '@components'
 import { ob } from '@utils/decorators'
 import Sort from './sort'
-import { styles } from './styles'
 import Type from './type'
+import Tag from './tag'
+import { styles } from './styles'
 
 function ToolBar() {
   return (
     <CompToolBar style={styles.toolBar}>
       <Sort />
       <Type />
+      <Tag />
     </CompToolBar>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 04:21:01
+ * @Last Modified time: 2023-11-27 15:54:04
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -50,7 +50,7 @@ export const ToolBarPopover = observer(
             />
           )}
           {!!text && (
-            <Text size={12} type={type} bold noWrap>
+            <Text size={12} type={type} bold noWrap selectable={false}>
               {text}
             </Text>
           )}

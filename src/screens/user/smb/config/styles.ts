@@ -17,8 +17,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   body: {
-    paddingHorizontal: 6,
-    marginTop: -8
+    paddingHorizontal: 6
   },
   switch: {
     marginRight: -4,

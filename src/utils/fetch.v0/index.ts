@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-05 14:24:32
+ * @Last Modified time: 2023-11-29 02:41:28
  */
 import dayjs from 'dayjs'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -12,7 +12,13 @@ import { getTimestamp } from '@utils'
 import { Subject as BaseSubject, SubjectId, UserId } from '@types'
 import { syncSystemStore } from '../async'
 import { request } from './utils'
-import { API_COLLECTIONS, API_COLLECTION, HOST_API_V0 } from './ds'
+import {
+  API_COLLECTIONS,
+  API_COLLECTION,
+  HOST_API_V0,
+  API_EPS_COLLECTION,
+  API_ME
+} from './ds'
 import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
 
 export { HOST_API_V0, request }
@@ -265,6 +271,25 @@ export async function fetchCollectionSingleV0(args: {
       lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,
       subject
     }
+  } catch (error) {
+    return null
+  }
+}
+
+/** 获取登录用户信息 */
+export async function fetchMeV0() {
+  try {
+    return request(API_ME())
+  } catch (error) {
+    return null
+  }
+}
+
+/** 获取登录用户条目章节收藏状态 */
+export async function fetchUserProgressV0(args: { subjectId: SubjectId }) {
+  const { subjectId } = args || {}
+  try {
+    return request(API_EPS_COLLECTION(subjectId))
   } catch (error) {
     return null
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 06:37:52
+ * @Last Modified time: 2023-11-28 22:44:21
  */
 import React from 'react'
 import { Touchable, Flex, Component } from '@components'
@@ -10,20 +10,14 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { HOST, SHARE_MODE } from '@constants'
+import { HOST, STORYBOOK } from '@constants'
 import Flip from './flip'
 import Content from './content'
+import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 import { Props as ManageProps } from './types'
 
 export { ManageProps }
-
-const HIT_SLOP = {
-  top: 20,
-  right: 20,
-  bottom: 20,
-  left: 20
-} as const
 
 /** 打开全局条目管理框的按钮 */
 export const Manage = ob(
@@ -33,23 +27,26 @@ export const Manage = ob(
     collection = '',
     typeCn = '动画',
     horizontal,
+    showRedirect,
     onPress
   }: ManageProps) => {
-    if (SHARE_MODE) {
+    if (STORYBOOK) {
       if (!subjectId) return null
 
-      return (
-        <Component id='base-manage' data-type='open-new' style={styles.openInNew}>
-          <IconTouchable
-            name='md-open-in-new'
-            color={_.colorSub}
-            size={20}
-            onPress={() => {
-              open(`${HOST}/subject/${subjectId}`)
-            }}
-          />
-        </Component>
-      )
+      if (showRedirect) {
+        return (
+          <Component id='base-manage' data-type='open-new' style={styles.openInNew}>
+            <IconTouchable
+              name='md-open-in-new'
+              color={_.colorSub}
+              size={20}
+              onPress={() => {
+                open(`${HOST}/subject/${subjectId}`)
+              }}
+            />
+          </Component>
+        )
+      }
     }
 
     let icon: string
@@ -97,7 +94,14 @@ export const Manage = ob(
             animate
             scale={0.9}
             hitSlop={HIT_SLOP}
-            onPress={onPress}
+            onPress={() => {
+              if (STORYBOOK) {
+                open(`${HOST}/subject/${subjectId}`)
+                return
+              }
+
+              onPress()
+            }}
           >
             <Flip subjectId={subjectId} height={40} {...passProps}>
               <Content {...passProps} />

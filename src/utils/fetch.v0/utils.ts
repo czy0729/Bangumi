@@ -2,19 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:08:26
+ * @Last Modified time: 2023-11-27 15:56:29
  */
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { STORYBOOK } from '@constants/device'
 import { APP_ID, UA } from '@constants/constants'
 import { syncUserStore } from '../async'
 import { Config } from './types'
+import { STORYBOOK } from '@constants'
 
 export async function request<T>(url: string, data?: object): Promise<T> {
-  if (STORYBOOK) return {} as T
-
   // @ts-expect-error
   axios.defaults.withCredentials = false
 
@@ -30,16 +28,21 @@ export async function request<T>(url: string, data?: object): Promise<T> {
       state: getTimestamp()
     })}`
 
-    const method = typeof data === 'object' ? 'post' : 'get'
     const config: Config = {
-      method,
+      method: typeof data === 'object' ? 'post' : 'get',
       url,
-      headers: {
-        Authorization: `${accessToken.token_type} ${accessToken.access_token}`,
-        'User-Agent': UA
-      }
+      headers: {}
     }
-    if (method === 'post') {
+
+    if (!STORYBOOK) {
+      config.headers['User-Agent'] = UA
+    }
+
+    if (accessToken.access_token) {
+      config.headers.Authorization = `${accessToken.token_type} ${accessToken.access_token}`
+    }
+
+    if (config.method === 'post') {
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
       config.data = urlStringify(data)
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-22 16:34:26
+ * @Last Modified time: 2023-11-28 23:05:00
  */
 import { computed } from 'mobx'
 import {
@@ -10,6 +10,7 @@ import {
   APP_USERID_TOURIST,
   HOST,
   LIST_EMPTY,
+  STORYBOOK,
   UA
 } from '@constants'
 import {
@@ -222,14 +223,22 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.myUserId == 456208
   }
 
-  /** 是否登录 (api) */
+  /** 是否登录 (APP 内是否获得了 api 鉴权) */
   @computed get isLogin() {
+    if (STORYBOOK) return false
     return !!this.accessToken.access_token
   }
 
-  /** 是否登录 (web) */
+  /** 是否登录 (APP 内是否获得了网页 cookie) */
   @computed get isWebLogin() {
+    if (STORYBOOK) return false
     return !!this.userCookie.cookie
+  }
+
+  /** 是否登录 (网页版是否进行了用户令牌设置) */
+  @computed get isStorybookLogin() {
+    if (!STORYBOOK) return false
+    return !!this.accessToken.access_token
   }
 
   /** 是否限制内容展示, 用于审核 */

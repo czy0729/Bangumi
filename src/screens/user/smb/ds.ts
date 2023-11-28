@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 19:42:28
+ * @Last Modified time: 2023-11-26 17:37:37
  */
 import { IOS, STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
@@ -68,7 +68,10 @@ export const EXCLUDE_STATE = {
   data: [],
 
   /** 当前选择的标签 */
-  tags: [],
+  tags: [] as string[],
+
+  /** 当前选择的条目标签 */
+  subjectTags: [] as string[],
 
   /** 是否请求中 */
   loading: false,
@@ -117,6 +120,9 @@ export const EXCLUDE_STATE = {
 
   /** [通用配置表单] 是否显示 */
   configVisible: false,
+
+  /** [扩展刮削词表单] 是否显示 */
+  extendsJAVisible: false,
 
   /** 网格布局, 显示文件夹结构弹窗 */
   folders: {
@@ -173,6 +179,11 @@ export const STATE = {
     showVLC: false,
     showMPV: false,
     showOpenLocalFolder: false
+  },
+
+  /** 扩展刮削词 */
+  extendsJA: {
+    value: ''
   },
 
   /** [表单] 服务类型是否 webDAV */

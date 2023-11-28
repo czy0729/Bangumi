@@ -20,8 +20,8 @@ export type Config = {
   method: 'get' | 'post'
   url: string
   headers: {
-    Authorization: string
-    'User-Agent': string
+    Authorization?: string
+    'User-Agent'?: string
     'Content-Type'?: string
   }
   data?: string

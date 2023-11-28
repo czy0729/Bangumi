@@ -32,6 +32,9 @@ function Config(props, { $ }: Ctx) {
       onClose={$.onCloseConfig}
     >
       <View style={styles.body}>
+        <Text style={_.mt.sm} type='sub' size={12} bold>
+          UI
+        </Text>
         <ItemSetting
           hd='布局'
           hdSize={14}
@@ -66,8 +69,12 @@ function Config(props, { $ }: Ctx) {
             />
           }
         />
-        <Text style={_.mt.sm} size={12} bold type='sub'>
-          视频默认菜单
+        <Text style={_.mt.md} type='sub' size={12} bold>
+          视频菜单
+          <Text type='sub' size={12}>
+            {' '}
+            (目前貌似只有弹弹Play是可用的)
+          </Text>
         </Text>
         <ItemSetting
           hd={ACTION_DDPLAY}
@@ -120,7 +127,7 @@ function Config(props, { $ }: Ctx) {
             />
           }
         />
-        <Text style={_.mt.sm} size={12} bold type='sub'>
+        <Text style={_.mt.md} type='sub' size={12} bold>
           浏览器插件
         </Text>
         <ItemSetting

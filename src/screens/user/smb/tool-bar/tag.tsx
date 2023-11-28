@@ -10,26 +10,31 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Type(props, { $ }: Ctx) {
-  const { tags } = $.state
-  const tagsCount = $.tagsCount()
+function Tag(props, { $ }: Ctx) {
+  const { subjectTags } = $.state
+  const tagsCount = $.tagsSubjectCount()
   return (
     <ToolBar.Popover
-      data={['全部', ...$.memoTags.map(item => `${item} (${tagsCount[item]})`)]}
-      icon='md-filter-list'
+      data={[
+        '全部',
+        ...$.memoSubjectTags
+          .filter((item, index) => index < 100)
+          .map(item => `${item} (${tagsCount[item]})`)
+      ]}
+      icon='md-bookmark-outline'
       iconSize={17}
       iconColor={_.colorDesc}
-      text={tags.length ? tags[0] : '类型'}
+      text={subjectTags.length ? subjectTags[0] : '标签'}
       type='desc'
       onSelect={title => {
         setTimeout(() => {
           let tag = ''
           if (title !== '全部') tag = title.split(' ')?.[0] || ''
-          $.onSelectTag(tag)
+          $.onSelectSubjectTag(tag)
         }, 0)
       }}
     />
   )
 }
 
-export default obc(Type)
+export default obc(Tag)

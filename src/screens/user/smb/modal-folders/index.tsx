@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 09:24:28
+ * @Last Modified time: 2023-11-29 02:59:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,9 +36,13 @@ function ModalFolders(props, { $, navigation }: Ctx) {
                 _cn: cn,
                 _image: image
               })
+
+              setTimeout(() => {
+                $.onCloseModalFolders()
+              }, 40)
             }}
           />
-          <Flex.Item style={_.mt.xs}>
+          <Flex.Item style={styles.subject}>
             <Subject subjectId={subjectId} />
           </Flex.Item>
         </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-23 06:17:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:17:42
+ * @Last Modified time: 2023-11-26 16:39:52
  */
 import React from 'react'
 import { Text } from '@components'
@@ -18,7 +18,7 @@ import {
 import { extractAnimeName } from '../../utils/directory'
 
 function DevJA({ folderName }: { folderName: string }) {
-  // return null
+  return null
 
   const ja = extractAnimeName(folderName)
   return (

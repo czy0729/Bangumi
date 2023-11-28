@@ -22,7 +22,7 @@ function List(props, { $ }: Ctx) {
     <>
       <Top />
       <ScrollView key={$.refreshKey} contentContainerStyle={styles.scrollView}>
-        <Filter />
+        {!!$.smbs.length && <Filter />}
         {$.pageList.length ? layoutList ? <Lists /> : <Grids /> : <Empty />}
       </ScrollView>
       {!!$.pageList.length && <Pagination />}
