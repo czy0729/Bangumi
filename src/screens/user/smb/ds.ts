@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 17:37:37
+ * @Last Modified time: 2023-11-29 15:59:30
  */
 import { IOS, STORYBOOK } from '@constants'
 import { SubjectId } from '@types'
@@ -75,6 +75,9 @@ export const EXCLUDE_STATE = {
 
   /** 是否请求中 */
   loading: false,
+
+  /** 是否批量请求收藏信息中 */
+  fetchingCollections: false,
 
   /** @deprecated */
   expand: false,

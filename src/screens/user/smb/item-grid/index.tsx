@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 03:15:17
+ * @Last Modified time: 2023-11-29 15:29:03
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Touchable, Flex, Image, Cover, Text, Hover } from '@components'
+import { Touchable, Flex, Image, Cover, Text, Hover, HoverProps } from '@components'
 import { _, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
@@ -31,6 +31,18 @@ function ItemGrid(
   const { jp, cn, image, type } = $.subjectV2(subjectId)
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const collect = collectionStore.collect(subjectId, typeCn)
+  let hoverType: HoverProps['type'] = ''
+  if (collect.includes('过')) {
+    hoverType = 'warning'
+  } else if (collect.includes('在')) {
+    hoverType = 'primary'
+  } else if (collect.includes('想')) {
+    hoverType = 'main'
+  } else if (collect.includes('搁置')) {
+    hoverType = 'desc'
+  } else if (collect.includes('抛弃')) {
+    hoverType = 'desc'
+  }
 
   const { layoutGridNums } = $.state.configs
   const width = (_.window.contentWidth - _.md * (layoutGridNums - 1)) / layoutGridNums
@@ -57,7 +69,6 @@ function ItemGrid(
           <Flex style={styles.title} align='end'>
             <Text size={!subjectId ? 12 : title.length >= 16 ? 14 : 15} bold>
               {title}
-              {collect ? ` [${collect}]` : ''}
             </Text>
           </Flex>
         </Touchable>
@@ -99,7 +110,7 @@ function ItemGrid(
           resizeMode='contain'
         />
       )}
-      {subjectId ? <Hover>{elTitle}</Hover> : elTitle}
+      {subjectId ? <Hover type={hoverType}>{elTitle}</Hover> : elTitle}
     </Touchable>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 03:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-27 17:56:37
+ * @Last Modified time: 2023-11-29 13:16:48
  */
 import React from 'react'
 import { Flex, Button, Iconfont } from '@components'
@@ -13,7 +13,7 @@ import { ReactNode } from '@types'
 import { RATE } from '../ds'
 import { styles } from './styles'
 
-function Btns({ btnText, rating, privacy, last }) {
+function Btns({ btnText, rating, privacy, last, onPress }) {
   const type = getType(btnText, _.select('ghostPlain', 'plain'))
 
   // 自己的收藏状态
@@ -34,7 +34,7 @@ function Btns({ btnText, rating, privacy, last }) {
 
       elRating = (
         <Flex.Item flex={0.75}>
-          <Button style={rightStyle} type={type}>
+          <Button style={rightStyle} type={type} onPress={onPress}>
             {rate}
             {'  '}
             <Iconfont name='ios-star' size={16} color={_.__colorPlain__} /> {rating}
@@ -44,7 +44,7 @@ function Btns({ btnText, rating, privacy, last }) {
     } else {
       elRating = (
         <Flex.Item>
-          <Button style={rightStyle} type={type}>
+          <Button style={rightStyle} type={type} onPress={onPress}>
             {rate}{' '}
             {RATE.map(item => {
               let type: 'ios-star' | 'ios-star-half' | 'ios-star-outline'
@@ -83,6 +83,7 @@ function Btns({ btnText, rating, privacy, last }) {
               )}
             </>
           }
+          onPress={onPress}
         >
           {btnText}
           {!!last && ` · ${focusOrigin ? last.slice(2) : last}`}

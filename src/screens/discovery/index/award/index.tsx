@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:25:51
+ * @Last Modified time: 2023-11-29 18:02:27
  */
 import React, { useCallback, useState } from 'react'
-import { ScrollView } from 'react-native'
 import { Touchable, Image, Text, Flex } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
+import ScrollViewHorizontal from './scroll-view-horizontal'
 import Award2022 from '../award-2022'
 import Award2021 from '../award-2021'
 import { memoStyles } from './styles'
-
-// const YEARS = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010] as const
 
 function Award({ navigation }) {
   // global.rerender('Discovery.Award')
@@ -30,11 +28,8 @@ function Award({ navigation }) {
     const styles = memoStyles()
     const { coverRadius } = systemStore.setting
     return (
-      <ScrollView
+      <ScrollViewHorizontal
         contentContainerStyle={styles.container}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={4}
         onScroll={scrolled ? undefined : onScroll}
       >
         <Award2022 navigation={navigation} />
@@ -156,50 +151,9 @@ function Award({ navigation }) {
                 </Text>
               </Flex>
             </Touchable>
-            {/* {YEARS.map(item => (
-              <Touchable
-                key={item}
-                style={[
-                  _.container.touch,
-                  _.ml.md,
-                  {
-                    borderRadius: coverRadius
-                  }
-                ]}
-                animate
-                onPress={() => {
-                  t('发现.跳转', {
-                    to: 'Award',
-                    year: item
-                  })
-
-                  navigation.push('Award', {
-                    uri: `${HOST}/award/${item}`
-                  })
-                }}
-              >
-                <Flex
-                  style={[
-                    styles.item,
-                    {
-                      borderRadius: coverRadius
-                    }
-                  ]}
-                  justify='center'
-                  direction='column'
-                >
-                  <Text size={18} type={_.select('plain', 'title')} bold>
-                    {item}
-                  </Text>
-                  <Text size={18} type={_.select('plain', 'title')} bold>
-                    年鉴
-                  </Text>
-                </Flex>
-              </Touchable>
-            ))} */}
           </>
         )}
-      </ScrollView>
+      </ScrollViewHorizontal>
     )
   })
 }

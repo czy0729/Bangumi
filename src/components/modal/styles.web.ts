@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2023-11-26 09:00:38
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-11-26 09:00:38
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-29 16:43:00
  */
 import { _ } from '@stores'
 
@@ -21,13 +21,13 @@ export const styles = _.create({
     zIndex: 1001,
     top: '50%',
     left: '50%',
-    maxWidth: '94%',
-    maxHeight: '94%',
+    maxWidth: '95%',
+    maxHeight: '86%',
     paddingTop: _.md,
     paddingRight: _.md,
     paddingBottom: _.md,
     paddingLeft: _.md,
-    marginTop: -16,
+    marginTop: 0,
     transform: [
       {
         // @ts-ignore

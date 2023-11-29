@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:03:13
+ * @Last Modified time: 2023-11-29 16:52:39
  */
 import React, { useLayoutEffect } from 'react'
 import { useNavigation, useObserver } from '@utils/hooks'
@@ -27,7 +27,8 @@ const Header: IHeader = ({
   headerTitle = null,
   headerTitleAlign = 'center',
   headerTitleStyle,
-  statusBarEventsType
+  statusBarEventsType,
+  onBackPress
 }) => {
   const navigation = useNavigation()
   useLayoutEffect(() => {
@@ -40,7 +41,8 @@ const Header: IHeader = ({
       headerRight,
       headerTitleAlign,
       headerTitleStyle,
-      statusBarEventsType
+      statusBarEventsType,
+      onBackPress
     })
   }, [
     navigation,
@@ -51,7 +53,8 @@ const Header: IHeader = ({
     headerRight,
     headerTitleAlign,
     headerTitleStyle,
-    statusBarEventsType
+    statusBarEventsType,
+    onBackPress
   ])
 
   return useObserver(() => {
@@ -63,7 +66,8 @@ const Header: IHeader = ({
       statusBarEventsType,
       headerTitle,
       headerLeft,
-      headerRight
+      headerRight,
+      onBackPress
     }
     return (
       <>

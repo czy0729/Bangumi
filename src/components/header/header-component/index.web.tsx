@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 23:14:50
+ * @Last Modified time: 2023-11-29 16:50:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,7 +22,8 @@ function HeaderComponent({
   statusBarEventsType,
   headerTitle,
   headerLeft,
-  headerRight
+  headerRight,
+  onBackPress
 }: Props) {
   const styles = memoStyles()
   const color = colors[statusBarEventsType]
@@ -39,7 +40,7 @@ function HeaderComponent({
       }}
     >
       <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
-      <Back navigation={navigation} color={color} />
+      <Back navigation={navigation} color={color} onPress={onBackPress} />
       {headerLeft}
       <Flex.Item />
       {!!headerRight && headerRight()}

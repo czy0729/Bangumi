@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-15 21:28:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 17:58:52
+ * @Last Modified time: 2023-11-29 18:12:24
  */
 import { findJA } from '@utils/thirdParty/ja'
 import { SubjectId } from '@types'
@@ -81,11 +81,29 @@ export function transformData(
           map.get(folderName).ids.push(id)
         }
 
-        // 尝试对再上一层文件夹名字进行刮削
+        // 尝试对再上一层文件夹名字, 再进行 [1] [3] [4] 逻辑刮削
         if (!id) {
-          const id = findJA(extractAnimeName(getSecondLastPathComponent(folderName)))
-          if (id && !map.get(folderName).ids.includes(id)) {
-            map.get(folderName).ids.push(id)
+          const forwardFolderName = getSecondLastPathComponent(folderName)
+          const match = forwardFolderName.match(/bangumi-(\d+)/)
+          if (match) {
+            const id = Number(match[1])
+            if (id && !map.get(folderName).ids.includes(id)) {
+              map.get(folderName).ids.push(id)
+            }
+          }
+
+          if (!map.get(folderName).ids.length) {
+            const id = Number(forwardFolderName.match(/ \d+$/g)?.[0])
+            if (id >= 10 && !map.get(folderName).ids.includes(id)) {
+              map.get(folderName).ids.push(id)
+            }
+          }
+
+          if (!map.get(folderName).ids.length) {
+            const id = findJA(extractAnimeName(forwardFolderName))
+            if (id && !map.get(folderName).ids.includes(id)) {
+              map.get(folderName).ids.push(id)
+            }
           }
         }
       }

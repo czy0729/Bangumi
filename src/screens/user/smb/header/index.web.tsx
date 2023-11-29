@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 17:45:05
+ * @Last Modified time: 2023-11-29 16:50:47
  */
 import React from 'react'
-import { Header as CompHeader, Flex } from '@components'
-import { open } from '@utils'
+import { Header as CompHeader, Flex, Touchable, Activity } from '@components'
+import { open, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
+import { styles } from './styles'
 import './index.scss'
 
 function Header(props, { $, navigation }: Ctx) {
+  const { fetchingCollections } = $.state
   return (
     <CompHeader
       title='本地管理'
@@ -20,9 +22,17 @@ function Header(props, { $, navigation }: Ctx) {
       hm={['smb', 'Smb']}
       headerRight={() => (
         <Flex>
+          {fetchingCollections && (
+            <Touchable
+              style={styles.activity}
+              onPress={() => info('批量请求收藏状态中')}
+            >
+              <Activity />
+            </Touchable>
+          )}
           <CompHeader.Popover
             name='md-menu'
-            data={['新增服务', '通用配置', '扩展刮削词', '用户令牌', '教程']}
+            data={['新增服务', '通用配置', '扩展刮削词', '用户令牌', '功能说明']}
             onSelect={key => {
               switch (key) {
                 case '新增服务':
@@ -41,7 +51,7 @@ function Header(props, { $, navigation }: Ctx) {
                   navigation.push('LoginToken')
                   break
 
-                case '教程':
+                case '功能说明':
                   open(
                     'https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt?singleDoc'
                   )
@@ -54,6 +64,9 @@ function Header(props, { $, navigation }: Ctx) {
           />
         </Flex>
       )}
+      onBackPress={() => {
+        navigation.push('Discovery')
+      }}
     />
   )
 }

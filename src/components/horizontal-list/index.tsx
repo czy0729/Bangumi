@@ -3,13 +3,12 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:07:35
+ * @Last Modified time: 2023-11-29 17:57:44
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import ScrollViewHorizontal from './scroll-view-horizontal'
 import { Component } from '../component'
 import { Props as HorizontalListProps } from './types'
 
@@ -56,12 +55,9 @@ export const HorizontalList = observer(
       const { style, contentContainerStyle, renderItem, renderNums } = this.props
       return (
         <Component id='component-horizontal-list'>
-          <ScrollView
+          <ScrollViewHorizontal
             style={style}
             contentContainerStyle={contentContainerStyle}
-            horizontal
-            scrollEventThrottle={8}
-            {...SCROLL_VIEW_RESET_PROPS}
             onScroll={this.show ? undefined : this.onScroll}
           >
             {this.data.map((item, index) => {
@@ -74,7 +70,7 @@ export const HorizontalList = observer(
               return null
             })}
             {typeof renderNums === 'function' && renderNums()}
-          </ScrollView>
+          </ScrollViewHorizontal>
         </Component>
       )
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:56:30
+ * @Last Modified time: 2023-11-29 16:49:08
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,8 @@ export const updateHeader = ({
   // 非必要
   mode,
   fixed = false,
-  statusBarEventsType
+  statusBarEventsType,
+  onBackPress
 }: UpdateHeaderProps) => {
   if (!navigation) return
 
@@ -74,7 +75,7 @@ export const updateHeader = ({
     headerLeft: () => (
       <>
         <View style={styles.headerLeftContainerStyle}>
-          <Back navigation={navigation} color={color} />
+          <Back navigation={navigation} color={color} onPress={onBackPress} />
         </View>
         {headerLeft}
       </>

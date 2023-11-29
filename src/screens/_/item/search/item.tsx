@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 03:16:47
+ * @Last Modified time: 2023-11-29 14:31:51
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
-import { appNavigate, cnjp, getAction, stl } from '@utils'
+import { appNavigate, cnjp, getAction, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import {
   IMG_WIDTH,
@@ -130,7 +130,7 @@ const Item = memo(
                 lineHeight={13}
                 numberOfLines={isMusic ? 2 : 3}
               >
-                {tip}
+                {HTMLDecode(tip)}
               </Text>
             )}
             {!!position.length && (

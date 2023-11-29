@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 01:04:45
+ * @Last Modified time: 2023-11-29 17:10:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { getCover400, matchCoverUrl } from '@utils'
-import { IMG_DEFAULT } from '@constants'
+import { IMG_DEFAULT, STORYBOOK } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
 import TextOnly from './text-only'
@@ -55,8 +55,11 @@ export const Cover = observer(
     // 对部分尺寸过少的图片, 强制使用缩略图
     const width = other.width || size
     let prefix = 'bgm_poster_100'
-    let coverSize: 100 | 200 | 400 = 100
-    if (width > 134) {
+    let coverSize: 100 | 200 | 400 | 600 = 100
+    if (STORYBOOK && width > 400) {
+      prefix = 'bgm_poster'
+      coverSize = 600
+    } else if (width > 134) {
       prefix = 'bgm_poster'
       coverSize = 400
     } else if (width > 67) {

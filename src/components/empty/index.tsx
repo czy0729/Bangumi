@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 16:53:50
+ * @Last Modified time: 2023-11-29 13:35:35
  */
 import React, { useRef } from 'react'
 import { useObserver } from 'mobx-react'
@@ -18,7 +18,7 @@ import { Props as EmptyProps } from './types'
 
 export { EmptyProps }
 
-export const Empty = ({ text }: EmptyProps) => {
+export const Empty = ({ text, children }: EmptyProps) => {
   const random = useRef(randomSpeech())
   return useObserver(() => (
     <Component id='component-empty'>
@@ -27,6 +27,7 @@ export const Empty = ({ text }: EmptyProps) => {
         <Text style={_.mt.sm} type='sub' align='center'>
           {text || random.current}
         </Text>
+        {children}
       </Flex>
     </Component>
   ))

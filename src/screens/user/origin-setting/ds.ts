@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 01:02:19
+ * @Last Modified time: 2023-11-29 13:05:19
  */
 export const NAMESPACE = 'ScreenOriginSetting'
 
@@ -216,9 +216,9 @@ export const SITES_GAME = [
     active: 1
   },
   {
-    id: 'game|xxxx520',
-    name: '[DL] xxxx520',
-    url: 'https://xxxxx525.com/?s=[CN]',
+    id: 'game|switch520',
+    name: '[DL] switch520',
+    url: 'https://www.gamer520.com/?s=[CN]',
     sort: 0,
     active: 1
   },

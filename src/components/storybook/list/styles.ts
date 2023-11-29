@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-08 21:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 21:07:27
+ * @Last Modified time: 2023-11-29 17:08:30
  */
 import { _ } from '@stores'
 import { STORYBOOK_WIDTH, STORYBOOK_GRID } from '@constants'
@@ -15,7 +15,7 @@ export const styles = _.create({
           height: '96vh',
           borderWidth: 2,
           borderColor: 'rgba(255, 255, 255, 0.64)',
-          borderRadius: _.radiusMd
+          borderRadius: 16
         }
       : {
           width: STORYBOOK_WIDTH,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-28 22:44:21
+ * @Last Modified time: 2023-11-29 15:51:13
  */
 import React from 'react'
 import { Touchable, Flex, Component } from '@components'
@@ -33,7 +33,7 @@ export const Manage = ob(
     if (STORYBOOK) {
       if (!subjectId) return null
 
-      if (showRedirect) {
+      if (showRedirect || !collection) {
         return (
           <Component id='base-manage' data-type='open-new' style={styles.openInNew}>
             <IconTouchable

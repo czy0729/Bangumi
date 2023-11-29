@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-09-23 07:04:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-18 10:24:26
+ * @Last Modified time: 2023-11-29 03:18:18
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -16,7 +16,7 @@ function Type(props, { $ }: Ctx) {
   return (
     <ToolBar.Popover
       data={['全部', ...$.memoTags.map(item => `${item} (${tagsCount[item]})`)]}
-      icon='md-filter-list'
+      icon='md-folder-open'
       iconSize={17}
       iconColor={_.colorDesc}
       text={tags.length ? tags[0] : '类型'}

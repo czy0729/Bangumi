@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 01:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 08:46:48
+ * @Last Modified time: 2023-11-29 13:16:21
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ const config = {
   easing: Easing.inOut(Easing.ease)
 }
 
-function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated }) {
+function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress }) {
   // global.rerender('Subject.Box.FlipBtn.Main')
 
   const height = _.device(44, 50)
@@ -104,11 +104,11 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated }) {
       <View style={styles.container}>
         <Animated.View style={[styles.animated, beforeStyle]}>
           <View style={styles.placeholder} />
-          <Btns {...beforeProps} />
+          <Btns {...beforeProps} onPress={onPress} />
         </Animated.View>
         <Animated.View style={[styles.animated, afterStyle]}>
           <View style={styles.placeholder} />
-          <Btns {...afterProps} />
+          <Btns {...afterProps} onPress={onPress} />
         </Animated.View>
       </View>
     )

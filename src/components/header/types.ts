@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 21:31:07
+ * @Last Modified time: 2023-11-29 16:49:44
  */
 import {
   ColorValue,
   Expand,
+  Fn,
   IconfontNames,
   Navigation,
   ReactNode,
@@ -56,6 +57,9 @@ export type Props = {
 
   /** @deprecated 预设的状态栏主题 */
   statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
+
+  /** 覆写后退点击回调 */
+  onBackPress?: Fn
 }
 
 export type PopoverProps = {
@@ -106,5 +110,6 @@ export type UpdateHeaderProps = Expand<
     | 'statusBarEventsType'
   > & {
       headerLeft?: any
+      onBackPress?: Fn
     }
 >

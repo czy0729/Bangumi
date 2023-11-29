@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:56:32
+ * @Last Modified time: 2023-11-29 17:20:30
  */
 // [data-key]::after {
 //   content: attr(data-key);
@@ -16,6 +16,13 @@
 //   border-radius: 3px;
 //   pointer-events: none;
 // }
+
+span {
+  text-underline-offset: 0.28em;
+}
+a[data-href] {
+  cursor: pointer;
+}
 
 component-tabs,
 base-pagination-list,

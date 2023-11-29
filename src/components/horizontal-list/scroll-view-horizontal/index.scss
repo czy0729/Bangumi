@@ -1,0 +1,17 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-11-08 12:57:23
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-11-29 18:00:07
+ */
+component-horizontal-list {
+  .scroll-view-horizontal {
+    &--grabbing {
+      cursor: grab !important;
+
+      & > div * {
+        pointer-events: none !important;
+      }
+    }
+  }
+}

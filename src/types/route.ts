@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 16:28:08
+ * @Last Modified time: 2023-11-29 13:44:31
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -162,7 +162,13 @@ type RouteTag = (
 type RouteSearch = (
   path: 'Search',
   params: {
+    type?: string
+    value?: string
+
+    /** 若使用 _type 而不使用 type, 会导致页面可能不刷新 */
     _type?: string
+
+    /** 若使用 _value 而不使用 value, 会导致页面可能不刷新 */
     _value?: string
   }
 ) => any

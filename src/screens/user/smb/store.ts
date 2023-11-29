@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-27 10:42:58
+ * @Last Modified time: 2023-11-29 16:17:00
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -245,15 +245,44 @@ export default class ScreenSmb extends store {
   }
 
   /** [网页版] 批量请求收藏 */
-  fetchCollectionsWeb = () => {
-    return collectionStore.fetchCollectionStatusQueue(
+  fetchCollectionsWeb = async () => {
+    let flag = true
+    setTimeout(() => {
+      if (!flag) return
+
+      this.setState({
+        fetchingCollections: true
+      })
+    }, 1600)
+
+    await collectionStore.fetchCollectionStatusQueue(
       this.pageList.map(item => item.subjectId)
     )
+    this.setState({
+      fetchingCollections: false
+    })
+    flag = false
+
+    return true
   }
 
   /** [网页版] 批量请求收藏后, 因涉及条目状态, 需要重新计算标签 */
   fetchCollectionsThenCacheTagsWeb = async () => {
+    let flag = true
+    setTimeout(() => {
+      if (!flag) return
+
+      this.setState({
+        fetchingCollections: true
+      })
+    }, 1600)
+
     await collectionStore.fetchCollectionStatusQueue(this.subjectIds)
+    this.setState({
+      fetchingCollections: false
+    })
+    flag = false
+
     this.cacheTags()
     return true
   }

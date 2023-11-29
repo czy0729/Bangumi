@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 10:53:47
+ * @Last Modified time: 2023-11-29 13:17:48
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Touchable, Heatmap, Flex } from '@components'
+import { Text, Heatmap, Flex } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
@@ -17,13 +17,6 @@ import IconClose from '../icon/close'
 import FlipBtn from './flip-btn'
 import Extra from './extra'
 import { DEFAULT_PROPS } from './ds'
-
-const HIT_SLOP = {
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0
-} as const
 
 export default memo(
   ({
@@ -65,11 +58,9 @@ export default memo(
         </SectionTitle>
         <Flex style={styles.btn}>
           <Flex.Item>
-            <Touchable hitSlop={HIT_SLOP} animate onPress={onPress}>
-              <FlipBtn />
-              <Heatmap id='条目.管理收藏' />
-              <Heatmap right={56} transparent id='条目.显示收藏管理' />
-            </Touchable>
+            <FlipBtn onPress={onPress} />
+            <Heatmap id='条目.管理收藏' />
+            <Heatmap right={56} transparent id='条目.显示收藏管理' />
           </Flex.Item>
           <Extra />
         </Flex>

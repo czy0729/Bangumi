@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 18:25:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 06:35:35
+ * @Last Modified time: 2023-11-29 16:19:16
  */
 import { _ } from '@stores'
 
@@ -26,6 +26,6 @@ export const styles = _.create({
   },
   openInNew: {
     marginTop: -8,
-    marginRight: -10
+    marginRight: -8
   }
 })

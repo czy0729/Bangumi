@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 20:56:22
+ * @Last Modified time: 2023-11-29 17:05:49
  */
 import { _ } from '@stores'
+import { isMobile } from '@utils/dom'
 
 export const memoStyles = _.memoStyles(() => ({
   bottomTab: {
@@ -12,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 99999,
     right: _.sm + 2,
     left: _.sm + 2,
-    bottom: _.sm,
+    bottom: isMobile() ? _.sm : _.sm + 4,
     ..._.shadow
   },
   blurView: {
