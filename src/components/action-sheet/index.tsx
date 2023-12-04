@@ -1,9 +1,8 @@
 /*
- * 动作面板
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:49:56
+ * @Last Modified time: 2023-12-04 20:14:43
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Animated } from 'react-native'
@@ -23,6 +22,7 @@ import { Props as ActionSheetProps } from './types'
 
 export { ActionSheetProps }
 
+/** 动作面板 */
 export const ActionSheet = ({
   show = false,
   height = 440,
@@ -83,6 +83,7 @@ export const ActionSheet = ({
     return (
       <Portal>
         <Component id='component-action-sheet' style={styles.actionSheet}>
+          {/* @ts-ignore */}
           <Animated.View
             style={[
               styles.mask,
@@ -92,6 +93,7 @@ export const ActionSheet = ({
             ]}
           />
           <Touchable style={styles.wrap} useRN ripple={false} onPress={onClose} />
+          {/* @ts-ignore */}
           <Animated.View
             style={[
               styles.content,

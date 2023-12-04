@@ -1,9 +1,8 @@
 /*
- * 通用水平移动列表
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 17:57:44
+ * @Last Modified time: 2023-12-04 21:35:05
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,6 +13,7 @@ import { Props as HorizontalListProps } from './types'
 
 export { HorizontalListProps }
 
+/** 通用水平移动列表 */
 export const HorizontalList = observer(
   class HorizontalListComponent extends React.Component<HorizontalListProps> {
     static defaultProps = {

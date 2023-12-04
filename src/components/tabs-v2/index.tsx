@@ -1,9 +1,8 @@
 /*
- * 通用选项卡
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:15:07
+ * @Last Modified time: 2023-12-04 22:55:24
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -19,6 +18,7 @@ import { Props as TabsV2Props } from './types'
 
 export { TabsV2Props, TabView, TabBar, SceneMap }
 
+/** 通用选项卡 */
 export const TabsV2 = ({
   routes = [],
   tabBarLength,

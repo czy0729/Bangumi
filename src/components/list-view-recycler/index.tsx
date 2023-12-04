@@ -1,9 +1,8 @@
 /*
- * @Doc: https://github.com/Flipkart/recyclerlistview
  * @Author: czy0729
  * @Date: 2022-07-07 21:07:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-19 14:01:08
+ * @Last Modified time: 2023-12-04 21:51:55
  */
 import React, { useCallback } from 'react'
 import { RecyclerListView } from 'recyclerlistview'
@@ -14,6 +13,10 @@ import { ListViewRecyclerProps } from './types'
 
 export { ListViewRecyclerProps }
 
+/**
+ * 未实装
+ * @doc https://github.com/Flipkart/recyclerlistview
+ */
 function ListViewRecycler({
   data,
   keyExtractor,
@@ -21,7 +24,6 @@ function ListViewRecycler({
   ListHeaderComponent,
   onScroll,
   onFooterRefresh,
-  onHeaderRefresh,
 
   // footer
   footerEmptyDataComponent,
@@ -48,7 +50,6 @@ function ListViewRecycler({
     () => (
       <Footer
         refreshState={refreshState}
-        length={data.list.length}
         filterText={data._filter}
         footerEmptyDataComponent={footerEmptyDataComponent}
         footerEmptyDataText={footerEmptyDataText}
@@ -59,13 +60,10 @@ function ListViewRecycler({
         footerRefreshingText={footerRefreshingText}
         footerTextType={footerTextType}
         showMesume={showMesume}
-        onHeaderRefresh={onHeaderRefresh}
-        onFooterRefresh={onFooterRefresh}
       />
     ),
     [
       data._filter,
-      data.list.length,
       footerEmptyDataComponent,
       footerEmptyDataText,
       footerFailureComponent,
@@ -74,8 +72,6 @@ function ListViewRecycler({
       footerRefreshingComponent,
       footerRefreshingText,
       footerTextType,
-      onFooterRefresh,
-      onHeaderRefresh,
       refreshState,
       showMesume
     ]

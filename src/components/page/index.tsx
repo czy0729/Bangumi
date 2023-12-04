@@ -1,9 +1,8 @@
 /*
- * 页面容器
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 13:03:49
+ * @Last Modified time: 2023-12-04 22:03:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +18,7 @@ import { Props as PageProps } from './types'
 
 export { PageProps }
 
+/** 页面容器 */
 export const Page = ({
   style,
   loaded,

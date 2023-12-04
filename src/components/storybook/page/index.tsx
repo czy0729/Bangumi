@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 09:10:51
+ * @Last Modified time: 2023-12-04 22:18:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { Flex } from '../../flex'
 import { styles } from './styles'
 import { Props as StorybookPageProps } from './types'
 
+/** [WEB] 单页面页面容器 */
 export const StorybookPage = ({
   style,
   container,

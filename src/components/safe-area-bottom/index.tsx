@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:33:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 20:40:09
+ * @Last Modified time: 2023-12-04 22:08:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { Props as SafeAreaBottomProps } from './types'
 
 export { SafeAreaBottomProps }
 
+/** 只针对底部设置的安全区域 */
 export const SafeAreaBottom = ({
   style,
   type = 'bottom',

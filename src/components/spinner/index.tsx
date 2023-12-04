@@ -1,9 +1,8 @@
 /*
- * Loading 指示器 (新)
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:51:01
+ * @Last Modified time: 2023-12-04 22:13:18
  */
 import React, { useCallback, useEffect } from 'react'
 import { View, Image } from 'react-native'
@@ -24,6 +23,7 @@ import { Props as SpinnerProps } from './types'
 
 export { SpinnerProps }
 
+/** Loading 指示器 (新) */
 export const Spinner = ({ style, backgroundColor = 'transparent' }: SpinnerProps) => {
   const rotation = useSharedValue(0)
   const startAnimation = useCallback(() => {

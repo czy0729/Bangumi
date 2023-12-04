@@ -1,9 +1,8 @@
 /*
- * 开发用，事件热力区域可视化
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:27:47
+ * @Last Modified time: 2023-12-04 21:34:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +21,7 @@ export { HeatmapProps }
 
 const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 
+/** [DEV] 事件热力区域可视化 */
 const Heatmap = observer(
   ({
     right = 1,

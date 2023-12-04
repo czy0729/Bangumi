@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-28 04:54:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 06:58:54
+ * @Last Modified time: 2023-12-04 21:17:05
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ const config = {
 }
 let feedbacked = false
 
+/** 翻转动画 */
 export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProps) => {
   const animate = true
   const activeRef = useSharedValue(0)

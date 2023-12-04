@@ -1,11 +1,8 @@
 /*
- * 通用输入框
- * @Doc: https://www.react-native.cn/docs/textinput
- * @Doc: https://lefkowitz.me/visual-guide-to-react-native-textinput-keyboardtype-options
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:53:05
+ * @Last Modified time: 2023-12-04 21:47:50
  */
 import React from 'react'
 import {
@@ -31,6 +28,11 @@ export { InputProps }
 /** 一行的大概高度 */
 const INPUT_LINE_HEIGHT = 18
 
+/**
+ * 通用输入框
+ * @doc https://www.react-native.cn/docs/textinput
+ * @tutorial https://lefkowitz.me/visual-guide-to-react-native-textinput-keyboardtype-options
+ */
 export const Input = observer(
   class InputComponent extends React.Component<InputProps, State> {
     static defaultProps = {

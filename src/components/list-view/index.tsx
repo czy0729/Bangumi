@@ -1,10 +1,8 @@
 /*
- * 通用长列表，整合了 FlatList 和 SectionList
- * @Doc: https://www.react-native.cn/docs/flatlist
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 07:31:03
+ * @Last Modified time: 2023-12-04 21:51:10
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -26,6 +24,10 @@ import {
 
 export { ListViewProps }
 
+/**
+ * 通用长列表，整合了 FlatList 和 SectionList
+ * @doc https://www.react-native.cn/docs/flatlist
+ */
 export const ListView = observer(
   class ListViewComponent extends React.Component<ListViewProps> {
     static defaultProps = DEFAULT_PROPS

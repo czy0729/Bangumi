@@ -1,9 +1,8 @@
 /*
- * 给用户头像包裹，显示用户最近的在线状态
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:58:25
+ * @Last Modified time: 2023-12-04 22:58:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +18,7 @@ import { Props as UserStatusProps } from './types'
 
 export { UserStatusProps, getUserStatus }
 
+/** 给用户头像包裹，显示用户最近的在线状态 */
 export const UserStatus = observer(
   ({ style, last, userId, mini = false, children }: UserStatusProps) => {
     const { onlineStatus } = systemStore.setting

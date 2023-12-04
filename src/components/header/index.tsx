@@ -1,21 +1,23 @@
 /*
- * 适配 react-navigation@5
- * 完全替代 @utils/decorators/withHeader.js
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:52:39
+ * @Last Modified time: 2023-12-04 19:17:47
  */
 import React, { useLayoutEffect } from 'react'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import { Track } from '../track'
+import HeaderComponent from './header-component'
 import Popover from './popover'
 import Placeholder from './placeholder'
 import { updateHeader } from './utils'
-import HeaderComponent from './header-component'
 import { IHeader } from './types'
 
+/**
+ * 适配 react-navigation@6
+ *  - 完全替代 @utils/decorators/withHeader.js
+ */
 const Header: IHeader = ({
   mode,
   fixed = false,
@@ -71,13 +73,14 @@ const Header: IHeader = ({
     }
     return (
       <>
-        {!!mode && <HeaderComponent {...passProps} />}
-        {STORYBOOK && !mode && (
+        {mode ? (
+          <HeaderComponent {...passProps} />
+        ) : STORYBOOK ? (
           <>
             <Placeholder />
             <HeaderComponent {...passProps} fixed />
           </>
-        )}
+        ) : null}
         <Track title={title} hm={hm} alias={alias} />
       </>
     )

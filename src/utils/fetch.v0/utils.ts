@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-27 15:56:29
+ * @Last Modified time: 2023-12-04 01:14:13
  */
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
+import { STORYBOOK } from '@constants'
 import { APP_ID, UA } from '@constants/constants'
 import { syncUserStore } from '../async'
+import { isDevtoolsOpen } from '../dom'
 import { Config } from './types'
-import { STORYBOOK } from '@constants'
 
 export async function request<T>(url: string, data?: object): Promise<T> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   axios.defaults.withCredentials = false
 

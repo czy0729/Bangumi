@@ -1,9 +1,8 @@
 /*
- * 通用模态框
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 16:23:41
+ * @Last Modified time: 2023-12-04 22:02:06
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,6 +12,7 @@ import { Props as ModalProps } from './types'
 
 export { ModalProps }
 
+/** 通用模态框 */
 export const Modal = observer(
   ({ style, visible, title, type = 'title', focus, onClose, children }: ModalProps) => (
     <AntdModal

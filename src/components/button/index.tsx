@@ -1,9 +1,8 @@
 /*
- * 自定义按钮
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-18 16:15:10
+ * @Last Modified time: 2023-12-04 20:25:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +20,7 @@ import { Props as ButtonProps } from './types'
 
 export { ButtonProps }
 
+/** 自定义按钮 */
 export const Button = observer(
   ({
     style,

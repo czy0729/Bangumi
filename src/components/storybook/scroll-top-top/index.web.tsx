@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-08 20:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 20:48:08
+ * @Last Modified time: 2023-12-04 22:18:35
  */
 import React from 'react'
 import { scrollToTop } from '@utils/dom'
@@ -10,6 +10,7 @@ import { Component } from '../../component'
 import { styles } from './styles'
 import './index.scss'
 
+/** [WEB] 单页面滚动到顶块 */
 export const StorybookScrollToTop = () => {
   // 全局的双击顶部区域滚动到顶
   // const handleDoubleTap = useDoubleTap(() => {

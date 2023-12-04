@@ -1,15 +1,8 @@
 /*
- * 在片假名上方显示英文
- *  - 可匹配嵌套 <Text> 内的片假名
- *  - 百度翻译得到英文
- *  - 容器 <Provider> 统一管理英文需要插入的具体位置
- *  - 本地缓存片假名=>英文的结果
- *  - 短时间合并多个翻译请求
- *  - 富文本内文字支持
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-07 06:43:05
+ * @Last Modified time: 2023-12-04 21:52:38
  */
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -25,6 +18,15 @@ let inited: boolean
   inited = true
 })()
 
+/**
+ * [实验性] 在片假名上方显示英文
+ *  - 可匹配嵌套 Text 内的片假名
+ *  - 百度翻译得到英文
+ *  - 容器 Provider 统一管理英文需要插入的具体位置
+ *  - 本地缓存片假名 => 英文的结果
+ *  - 短时间合并多个翻译请求
+ *  - 富文本内文字支持
+ */
 const Katakana = observer(
   class KatakanaComponent extends React.Component<TextProps> {
     static contextTypes = {

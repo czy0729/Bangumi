@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { Touchable, Flex, Component } from '@components'
-import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { HOST, STORYBOOK } from '@constants'
+import { IconTouchable } from '../../icon/touchable'
 import Flip from './flip'
 import Content from './content'
 import { HIT_SLOP } from './ds'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-08 16:38:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-04 04:49:11
+ * @Last Modified time: 2023-12-04 21:18:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps } from '
 
 export { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps }
 
+/** 对各个平台高斯模糊层的一个写法、用途、性能的取舍的统合组件 */
 export const HardwareTextureRootBlurView = ({
   style = {},
   children

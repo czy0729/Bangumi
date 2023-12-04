@@ -1,10 +1,8 @@
 /*
- * Ionicons Icons
- * @Doc: https://icons.expo.fyi/
  * @Author: czy0729
  * @Date: 2019-03-15 08:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:28:37
+ * @Last Modified time: 2023-12-04 21:44:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,6 +19,10 @@ type PropsIonicons = Override<
   }
 >
 
+/**
+ * Ionicons Icons
+ * @doc https://icons.expo.fyi
+ */
 export const Ionicons = observer(
   ({ style, name, size = 20, lineHeight, color, ...other }: PropsIonicons) => (
     <ExpoIcon

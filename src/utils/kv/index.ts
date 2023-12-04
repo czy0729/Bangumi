@@ -3,18 +3,21 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 02:49:27
+ * @Last Modified time: 2023-12-04 01:16:18
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
 import { DEV } from '@/config'
 import { getTimestamp } from '../utils'
+import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { HOST, UPDATE_CACHE_MAP } from './ds'
 import { Result, ResultTemp } from './type'
 
 /** 获取 */
 export async function get(key: string): Promise<any> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'get',
@@ -28,6 +31,8 @@ export async function get(key: string): Promise<any> {
 
 /** 批量获取 */
 export async function gets(keys: string[], picker?: string[]): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   const query = {
     method: 'post',
     url: `${HOST}/v1/get`,
@@ -55,6 +60,8 @@ export async function update(
   updateTS: boolean = true,
   test?: boolean
 ): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   if (STORYBOOK && !test) return
 
   const finger = hash(
@@ -95,6 +102,8 @@ export async function update(
 
 /** 查询在线 */
 export async function onlines(): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'get',
@@ -108,6 +117,8 @@ export async function onlines(): Promise<Result> {
 
 /** 在线上报 */
 export async function report(userID: string | number): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'post',
@@ -122,6 +133,8 @@ export async function report(userID: string | number): Promise<Result> {
 
 /** 是否收藏 */
 export async function is(userID: string | number, topicID: string): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'get',
@@ -137,6 +150,8 @@ export async function collect(
   topicID: string,
   value: boolean = true
 ): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'post',
@@ -153,6 +168,8 @@ export async function collect(
 
 /** 所有收藏 */
 export async function collectList(userID: string | number): Promise<Result> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'get',
@@ -168,6 +185,8 @@ export async function temp(
   fileContent: string,
   fileExpire?: -1 | undefined
 ): Promise<ResultTemp> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'post',
@@ -184,11 +203,15 @@ export async function temp(
 
 /** 下载文件 */
 export function download(downloadKey: string) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   return `${HOST}/v1/temp/download/${downloadKey}`
 }
 
 /** 搜索 */
 export async function search(q: string, withMessage: boolean = false) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   // @ts-expect-error
   const { data } = await axios({
     method: 'post',

@@ -1,9 +1,8 @@
 /*
- * 滑动输入条
  * @Author: czy0729
  * @Date: 2019-12-13 11:08:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-04 17:21:11
+ * @Last Modified time: 2023-12-04 22:13:09
  */
 import React from 'react'
 import { Slider as RNSlider } from 'react-native'
@@ -12,6 +11,7 @@ import { Props as SliderProps } from './types'
 
 export { SliderProps }
 
+/** 滑动输入条 */
 export const Slider = observer(
   ({
     defaultValue = 0,

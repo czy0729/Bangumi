@@ -1,9 +1,8 @@
 /*
- * 5 个竖条的 Loading
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:09:01
+ * @Last Modified time: 2023-12-04 22:01:20
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -20,6 +19,7 @@ export { ILoading, ActivityIndicatorProps }
 
 const USED_SPINNER = !IOS || DEV
 
+/** Loading (原始) */
 const Raw = observer(
   ({ spinnerStyle, color, size = 'small' }: ActivityIndicatorProps) => {
     if (USED_SPINNER) {
@@ -38,22 +38,26 @@ const Raw = observer(
   }
 )
 
+/** Loading (中) */
 const Normal = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
 ))
 
+/** Loading (中) */
 const Medium = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <Component id='component-loading' style={styles.medium}>
     <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
   </Component>
 ))
 
+/** Loading (小) */
 const Mini = observer(({ color, size = 'small' }: ActivityIndicatorProps) => (
   <Component id='component-loading' style={styles.mini}>
     <ActivityIndicator color={color || _.select(_.colorSub, _.colorDesc)} size={size} />
   </Component>
 ))
 
+/** Loading */
 const Loading: ILoading = observer(
   ({ style, spinnerStyle, color, size = 'small', children }) => (
     <Component

@@ -1,9 +1,8 @@
 /*
- * bgm 表情已通过本地工具转换成一种字体，此组件为封装调用字体
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 07:44:30
+ * @Last Modified time: 2023-12-04 20:20:33
  */
 import React from 'react'
 import { Text } from 'react-native'
@@ -16,6 +15,7 @@ import { Props as BgmTextProps } from './types'
 
 export { BgmTextProps, bgmMap }
 
+/** bgm 表情已通过本地工具转换成一种字体，此组件为封装调用字体 */
 export const BgmText = observer(
   ({
     style,

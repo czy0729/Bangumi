@@ -3,18 +3,19 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 02:14:24
+ * @Last Modified time: 2023-12-04 01:12:23
  */
 import { STORYBOOK } from '@constants/device'
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { Fn } from '@types'
+import { HOST_PROXY } from '@/config'
 import { urlStringify } from '../utils'
 import { syncUserStore } from '../async'
 import { loading } from '../ui'
+import { isDevtoolsOpen } from '../dom'
 import { log } from '../dev'
 import { SHOW_LOG } from './ds'
 import { XHRArgs, XHRCustomArgs } from './types'
-import { HOST_PROXY } from '@/config'
 
 /** @deprecated 带登录信息的 XMLHttpRequest */
 export function xhr(
@@ -22,6 +23,8 @@ export function xhr(
   success: (responseText?: string, request?: any) => any = () => {},
   fail: Fn = () => {}
 ) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   const { method = 'POST', url, data = {}, noConsole } = args || {}
   const userStore = syncUserStore()
   const { cookie: userCookie, userAgent } = userStore.userCookie
@@ -52,6 +55,8 @@ export function xhr(
 export function xhrCustom(args: XHRCustomArgs): Promise<{
   _response: string
 }> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   const {
     method = 'GET',
     url,

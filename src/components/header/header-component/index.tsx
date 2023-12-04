@@ -13,6 +13,7 @@ import { colors } from '../styles'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
+/** component-header */
 function HeaderComponent({
   navigation,
   fixed,

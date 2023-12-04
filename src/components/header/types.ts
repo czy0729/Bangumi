@@ -2,18 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:49:44
+ * @Last Modified time: 2023-12-04 15:46:43
  */
-import {
-  ColorValue,
-  Expand,
-  Fn,
-  IconfontNames,
-  Navigation,
-  ReactNode,
-  TextStyle,
-  ViewStyle
-} from '@types'
+import { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
+import { Props as PopoverProps } from './popover/types'
+import { Props as PlaceholderProps } from './placeholder/types'
 
 export type Props = {
   /** 模式 */
@@ -60,34 +53,6 @@ export type Props = {
 
   /** 覆写后退点击回调 */
   onBackPress?: Fn
-}
-
-export type PopoverProps = {
-  style?: ViewStyle
-
-  /** 图标名字 */
-  name?: IconfontNames
-
-  /** 图标大小 */
-  size?: number
-
-  /** 图标颜色 */
-  color?: ColorValue
-
-  /** Popover data */
-  data?: string[] | readonly string[]
-
-  /** 菜单样式 */
-  menuStyle?: ViewStyle
-
-  /** Popover onSelect */
-  onSelect?: (title?: string) => any
-
-  children?: ReactNode
-}
-
-export type PlaceholderProps = {
-  style?: ViewStyle
 }
 
 export interface IHeader {

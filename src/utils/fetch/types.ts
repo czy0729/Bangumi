@@ -2,9 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:14:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 12:52:15
+ * @Last Modified time: 2023-12-04 01:06:31
  */
 import { AnyObject } from '@types'
+
+export type Config = {
+  method?: 'GET' | 'POST'
+  headers?: {
+    [key: string]: any
+  }
+  timeout?: number
+  body?: string
+}
+
+export type Body = {
+  app_id: string
+  state?: number
+}
 
 export type FetchAPIArgs = {
   method?: 'GET' | 'POST'

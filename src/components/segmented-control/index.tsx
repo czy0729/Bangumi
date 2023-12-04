@@ -1,9 +1,8 @@
 /*
- * @Doc: https://github.com/react-native-community/segmented-control/tree/master/js
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 08:59:56
+ * @Last Modified time: 2023-12-04 22:09:53
  */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Animated, Easing, View } from 'react-native'
@@ -17,6 +16,10 @@ import { Props as SegmentedControlProps } from './types'
 
 export { SegmentedControlProps }
 
+/**
+ * 分段选择器
+ * @doc https://github.com/react-native-community/segmented-control/tree/master/js
+ */
 export const SegmentedControl = observer(
   ({
     tintColor,
@@ -108,6 +111,7 @@ const SegmentedControlComp = ({
       }}
     >
       {_selectedIndex != null && segmentWidth ? (
+        // @ts-expect-error
         <Animated.View
           style={stl(
             styles.slider,

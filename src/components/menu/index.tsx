@@ -1,9 +1,8 @@
 /*
- * iOS 风格菜单
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 05:09:28
+ * @Last Modified time: 2023-12-04 22:01:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +18,7 @@ import { Props as MenuProps } from './types'
 
 export { MenuProps }
 
+/** iOS 风格菜单 */
 export const Menu = observer(
   ({ style, title = [], desc = '', data = [], onSelect = () => {} }: MenuProps) => {
     const styles = memoStyles()

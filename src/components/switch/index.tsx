@@ -1,9 +1,8 @@
 /*
- * 开关
  * @Author: czy0729
  * @Date: 2019-12-13 11:22:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:42:12
+ * @Last Modified time: 2023-12-04 22:54:06
  */
 import React from 'react'
 import { Switch as RNSwitch } from 'react-native'
@@ -13,6 +12,7 @@ import { Props as SwitchProps } from './types'
 
 export { SwitchProps }
 
+/** @deprecated 开关 */
 export const Switch = observer(
   ({
     style,

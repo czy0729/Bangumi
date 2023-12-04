@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 11:29:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 11:05:24
+ * @Last Modified time: 2023-12-04 22:04:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,6 +11,7 @@ import { Props as PopoverProps } from './types'
 
 export { PopoverProps }
 
+/** 点击位置弹出层 */
 export const Popover = observer(
   ({
     style,

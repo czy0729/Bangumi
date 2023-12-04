@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 17:55:54
+ * @Last Modified time: 2023-12-04 19:24:16
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
@@ -10,9 +10,9 @@ import { useObserver } from '@utils/hooks'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
-import { TransitionProps } from './types'
+import { Props } from './types'
 
-function Transition({ fixed, title, headerTitle }: TransitionProps) {
+function Transition({ fixed, title, headerTitle }: Props) {
   const wrapStyles = useAnimatedStyle(() => ({
     opacity: withTiming(fixed ? 1 : 0, {
       duration: 160

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-05 03:16:22
+ * @Last Modified time: 2023-12-04 00:51:50
  */
 import { STORYBOOK } from '@constants/device'
 import { asc, urlStringify } from '../utils'
@@ -15,16 +15,18 @@ import { xhrCustom } from './xhr'
 const s = new Date().getSeconds()
 
 /** 百度翻译 App ID */
-export const APP_BAIDU_ID =
+export const APP_BAIDU_ID = Crypto.get(
   s % 2
-    ? Crypto.get('U2FsdGVkX1/PgfGcvWiRli4uwkj4v2Zo5B8sxnVSCxZiKQt+z9eDURCS+EEvIomH')
-    : Crypto.get('U2FsdGVkX19bwyf/ZvZiDMdnB4nRHPF554e9ZN93Shthw9bUszYQFzU1qJ0WasgF')
+    ? 'U2FsdGVkX1/PgfGcvWiRli4uwkj4v2Zo5B8sxnVSCxZiKQt+z9eDURCS+EEvIomH'
+    : 'U2FsdGVkX19bwyf/ZvZiDMdnB4nRHPF554e9ZN93Shthw9bUszYQFzU1qJ0WasgF'
+) as string
 
 /** 百度翻译 App Key */
-export const APP_BAIDU_KEY =
+export const APP_BAIDU_KEY = Crypto.get(
   s % 2
-    ? Crypto.get('U2FsdGVkX1+4+Bn6mVxpU2dYn05udk5XYq0OBQraqtuD7IpYvPtxCT9MaSIbga6c')
-    : Crypto.get('U2FsdGVkX19ba4ukVC6zTHsld0T9vUEVF3uPRuM9FsN4SWhMY/BiHywAMXfHvRIW')
+    ? 'U2FsdGVkX1+4+Bn6mVxpU2dYn05udk5XYq0OBQraqtuD7IpYvPtxCT9MaSIbga6c'
+    : 'U2FsdGVkX19ba4ukVC6zTHsld0T9vUEVF3uPRuM9FsN4SWhMY/BiHywAMXfHvRIW'
+) as string
 
 const CACHE_CHECK_LENGTH = 12
 

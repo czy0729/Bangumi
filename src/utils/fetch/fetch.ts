@@ -3,26 +3,31 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:17:31
+ * @Last Modified time: 2023-12-04 01:12:32
  */
 import { STORYBOOK } from '@constants/device'
 import { APP_ID, HOST, UA } from '@constants/constants'
 import { API_HOST, API_V0 } from '@constants/api'
-import { AnyObject } from '@types'
 import { HOST_PROXY } from '@/config'
 import fetch from '../thirdParty/fetch-polyfill'
 import { urlStringify, sleep, getTimestamp } from '../utils'
 import { loading } from '../ui'
 import { syncUserStore } from '../async'
+import { isDevtoolsOpen } from '../dom'
 import { log } from '../dev'
 import { safe } from './utils'
 import { SHOW_LOG, FETCH_TIMEOUT, FETCH_RETRY, HEADERS_DEFAULT } from './ds'
-import { FetchAPIArgs, FetchHTMLArgs } from './types'
+import { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
 
 const RETRY_CACHE = {}
 
-/** 统一请求方法 (若 GET 请求异常, 默认一段时间后重试 retryCb, 直到成功) */
-export async function fetchAPI(args: FetchAPIArgs) {
+/**
+ * 统一请求方法
+ *  - 若 GET 请求异常, 默认一段时间后重试 retryCb, 直到成功
+ **/
+export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   const {
     method = 'GET',
     url,
@@ -32,8 +37,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
     noConsole = false
   } = args || {}
   const isGet = method === 'GET'
-  const userStore = syncUserStore()
-  const config: AnyObject = {
+  const config: Config = {
     method: isGet ? 'GET' : 'POST',
     headers: {},
     timeout: FETCH_TIMEOUT
@@ -49,51 +53,54 @@ export async function fetchAPI(args: FetchAPIArgs) {
     return Promise.reject('denied')
   }
 
-  if (userStore.accessToken.access_token) {
+  const { accessToken } = syncUserStore()
+  if (accessToken.access_token) {
     /** @todo [网页端] 旧 API 不支持新的 token, 需要重构相关部分的逻辑代码 */
     if (STORYBOOK && url.includes(API_HOST) && !url.includes(API_V0)) {
       console.info('[@utils/fetch]', 'fetchAPI ignored token:', url)
     } else {
-      config.headers.Authorization = `${userStore.accessToken.token_type} ${userStore.accessToken.access_token}`
+      config.headers.Authorization = `${accessToken.token_type} ${accessToken.access_token}`
     }
   }
 
-  const body: AnyObject = {
+  const body: Body = {
     app_id: APP_ID,
     ...data
   }
-
   let _url = url
-  let hide: () => void
+  let hideCb: () => void
+
   if (isGet) {
     body.state = getTimestamp() // 随机数防止接口 CDN 缓存
     _url += `${_url.includes('?') ? '&' : '?'}${urlStringify(body)}`
   } else {
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     config.body = urlStringify(body)
-    if (!noConsole) hide = loading()
+    if (!noConsole) hideCb = loading()
   }
-
-  if (SHOW_LOG) log(`🌐 ${info} ${_url}`)
+  if (SHOW_LOG) log(`${info} ${_url}`)
 
   return fetch(_url, config)
     .then(response => {
-      if (hide) hide()
+      if (hideCb) hideCb()
 
       // @ts-expect-error
       return response.json()
     })
     .then(json => {
-      // 成功后清除失败计数
       if (isGet) {
         const key = `${url}|${urlStringify(data)}`
+
+        // 成功后清除失败计数
         if (RETRY_CACHE[key]) RETRY_CACHE[key] = 0
       }
 
       // @issue 由于 Bangumi 提供的 API 没有统一返回数据
       // 正常情况没有 code, 错误情况例如空的时候, 返回 { code: 400, err: '...' }
       if (json?.error) {
-        if (json.error === 'invalid_token') userStore.setOutdate()
+        if (json.error === 'invalid_token') {
+          syncUserStore().setOutdate()
+        }
 
         return Promise.resolve({
           code: json.code,
@@ -106,7 +113,7 @@ export async function fetchAPI(args: FetchAPIArgs) {
       return Promise.resolve(safe(json))
     })
     .catch(async err => {
-      if (hide) hide()
+      if (hideCb) hideCb()
 
       // @issue Bangumi 提供的 API 频繁请求非常容易报错, 也就只能一直请求到成功为止了
       if (isGet && typeof retryCb === 'function') {
@@ -124,10 +131,12 @@ export async function fetchAPI(args: FetchAPIArgs) {
 const LAST_FETCH_HTML = {}
 
 /**
- * 请求获取 HTML (携带授权信息)
- *  - 2021/01/17 拦截瞬间多次完全同样的请求
+ * 请求获取 html (携带授权信息)
+ *  - 拦截瞬间多次完全同样的请求
  */
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
   const {
     method = 'GET',
     url,
@@ -172,18 +181,11 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     setCookie,
     userAgent
   } = userStore.userCookie
-  const _config: {
-    method?: FetchHTMLArgs['method']
-    timeout: typeof FETCH_TIMEOUT
-    headers: {
-      [key: string]: any
-    }
-    body?: string
-  } = {
+  const _config: Config = {
     timeout: FETCH_TIMEOUT,
     headers: {}
   }
-  const body = {
+  const body: Body = {
     ...data
   }
 
@@ -210,7 +212,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     }
   }
 
-  let hide: () => void
+  let hideCb: () => void
   if (isGet) {
     _config.method = 'GET'
     _config.headers = {
@@ -224,7 +226,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     _config.method = 'POST'
     _config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     _config.body = urlStringify(body)
-    hide = loading('Loading...', 8)
+    hideCb = loading('Loading...', 8)
   }
 
   if (SHOW_LOG) log(`⚡️ ${_url}`)
@@ -239,14 +241,14 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   return fetch(_url, _config)
     .then(res => {
       if (!isGet) log(method, 'success', _url, _config, res)
-      if (hide) hide()
+      if (hideCb) hideCb()
 
       // @ts-expect-error
       return Promise.resolve(raw ? res : res.text())
     })
     .catch(error => {
       console.error('[utils/fetch] fetchHTML', url, error)
-      if (hide) hide()
+      if (hideCb) hideCb()
       return Promise.reject(error)
     })
 }

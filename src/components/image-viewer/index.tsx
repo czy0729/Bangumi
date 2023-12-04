@@ -1,10 +1,8 @@
 /*
- * 图片相册查看器
- * @Doc: https://github.com/ascoders/react-native-image-viewer
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 08:38:56
+ * @Last Modified time: 2023-12-04 21:46:43
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -25,6 +23,10 @@ export { ImageViewerProps }
 
 const ACTION_SHEET_DS = ['浏览器打开图片', '取消'] as const
 
+/**
+ * 图片相册查看器
+ * @doc https://github.com/ascoders/react-native-image-viewer
+ */
 export const ImageViewer = observer(
   class ImageViewerComponent extends React.Component<ImageViewerProps> {
     static defaultProps = {

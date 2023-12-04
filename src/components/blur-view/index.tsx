@@ -1,10 +1,10 @@
 /*
- * 图片毛玻璃化，非毛玻璃容器
+ *
  * @Doc: https://docs.expo.io/versions/latest/sdk/blur-view/
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-13 21:53:24
+ * @Last Modified time: 2023-12-04 20:24:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -19,6 +19,10 @@ import { Props as BlurViewProps } from './types'
 
 export { BlurViewProps }
 
+/**
+ * 图片毛玻璃化，非毛玻璃容器
+ * @doc https://docs.expo.io/versions/latest/sdk/blur-view
+ * */
 export const BlurView = observer(
   ({
     style,

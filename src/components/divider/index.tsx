@@ -1,9 +1,8 @@
 /*
- * 分割线
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:56:48
+ * @Last Modified time: 2023-12-04 20:27:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +15,7 @@ import { Props as DividerProps } from './types'
 
 export { DividerProps }
 
+/** 分割线 */
 export const Divider = observer(({ style }: DividerProps) => {
   const styles = memoStyles()
   return (

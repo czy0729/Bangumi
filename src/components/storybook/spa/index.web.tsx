@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 23:06:29
+ * @Last Modified time: 2023-12-04 22:16:08
  */
 import React, { useCallback } from 'react'
 import Stores from '@stores'
@@ -18,6 +18,7 @@ import './index.scss'
 
 let inited = false
 
+/** [WEB] 单页面根容器 */
 export const StorybookSPA = ({ children }) => {
   // 初始化全局 Stores
   const { state, setTrue } = useBoolean(inited)

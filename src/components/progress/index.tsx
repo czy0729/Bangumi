@@ -1,9 +1,8 @@
 /*
- * 进度条
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:12:26
+ * @Last Modified time: 2023-12-04 22:05:44
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -22,6 +21,7 @@ import { Props as ProgressProps } from './types'
 
 export { ProgressProps }
 
+/** 进度条 */
 export const Progress = ({
   width = 200,
   show = false,

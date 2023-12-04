@@ -1,9 +1,8 @@
 /*
- * 开发用：主动热更新按钮
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 19:39:51
+ * @Last Modified time: 2023-12-04 20:26:56
  */
 import React from 'react'
 import { View, DevSettings } from 'react-native'
@@ -22,6 +21,7 @@ import { memoStyles } from './styles'
 
 export { devLog, devLogs, devLogLimit }
 
+/** [DEV] 主动热更新按钮 */
 export const DEV = observer(() => {
   if (!dev && !syncSystemStore().state.dev) return null
 

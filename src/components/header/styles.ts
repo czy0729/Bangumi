@@ -2,19 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-22 03:26:38
+ * @Last Modified time: 2023-12-04 19:25:48
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 36,
-    height: 36
-  },
   headerLeftContainerStyle: {
     marginLeft: _.ios(-4, -9)
   },

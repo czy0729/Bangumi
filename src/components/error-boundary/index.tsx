@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 10:10:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:56:55
+ * @Last Modified time: 2023-12-04 20:29:01
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -13,6 +13,7 @@ import { Text } from '../text'
 import { styles } from './styles'
 import { State, Props as ErrorBoundaryProps } from './types'
 
+/** 捕捉错误异常 */
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   state: State = {
     error: this.props.error || null
@@ -45,6 +46,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   }
 }
 
+/** 捕捉错误异常组件包裹组件 */
 function renderWithErrorBoundary(
   data: any | [any, string[]],
   index?: number,

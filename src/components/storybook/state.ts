@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-13 18:28:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 14:50:24
+ * @Last Modified time: 2023-12-04 22:18:11
  */
 import { STORYBOOK } from '@constants'
 
 type NavigateAction = 'PUSH' | 'REPLACE' | 'POP'
 
+/** [WEB] 单页面内部私有状态 */
 export const StorybookState = {
   /** 是否跳转过程中 */
   navigating: false,

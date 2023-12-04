@@ -1,9 +1,8 @@
 /*
- * 手风琴
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-25 16:18:33
+ * @Last Modified time: 2023-12-04 19:50:59
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -15,6 +14,7 @@ export { AccordionProps }
 
 const MIN_HEIGHT = 48
 
+/** 手风琴 */
 export const Accordion = ({
   style,
   expand = false,
@@ -72,6 +72,7 @@ export const Accordion = ({
   if (!expanded.current && lazy && !show) return null
 
   return (
+    // @ts-ignore
     <Animated.View style={animatedStyles}>
       <View onLayout={onLayout}>{children}</View>
     </Animated.View>

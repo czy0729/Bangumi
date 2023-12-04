@@ -1,9 +1,8 @@
 /*
- * 文字高亮
  * @Author: czy0729
  * @Date: 2022-07-30 17:33:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:02:46
+ * @Last Modified time: 2023-12-04 21:34:55
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,6 +13,7 @@ import { Props as HighlightProps } from './types'
 
 export { HighlightProps }
 
+/** 文字高亮 */
 export const Highlight = observer(
   ({
     style,

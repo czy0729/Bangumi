@@ -1,10 +1,8 @@
-/* eslint-disable no-bitwise */
 /*
- * 倒数
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-15 10:24:43
+ * @Last Modified time: 2023-12-04 20:26:26
  */
 import React, { useState, useEffect } from 'react'
 import { getTimestamp } from '@utils'
@@ -13,6 +11,7 @@ import { Props as CountDownProps } from './types'
 
 export { CountDownProps }
 
+/** 倒数 */
 export const CountDown = ({ end, ...other }: CountDownProps) => {
   const [now, setNow] = useState(getTimestamp())
   useEffect(() => {

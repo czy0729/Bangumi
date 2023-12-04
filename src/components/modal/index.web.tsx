@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 09:25:41
+ * @Last Modified time: 2023-12-04 22:02:10
  */
 import React, { useEffect } from 'react'
 import Animated, {
@@ -22,6 +22,7 @@ import './index.scss'
 
 export { ModalProps }
 
+/** 通用模态框 */
 export const Modal = ({
   style,
   visible,

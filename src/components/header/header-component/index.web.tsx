@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:50:30
+ * @Last Modified time: 2023-12-04 19:22:06
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,6 +14,7 @@ import { colors } from '../styles'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
+/** component-header */
 function HeaderComponent({
   navigation,
   fixed,

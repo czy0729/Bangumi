@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 21:09:18
+ * @Last Modified time: 2023-12-04 22:18:24
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -12,6 +12,7 @@ import { Component } from '../../component'
 import { styles } from './styles'
 import { Props as StorybookListProps } from './types'
 
+/** [WEB] 单页面列表容器 */
 export const StorybookList = ({
   style,
   wind,

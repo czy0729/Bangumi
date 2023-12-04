@@ -1,10 +1,8 @@
 /*
- * RN 渲染 HTML v2
- * @Doc https://github.com/archriss/react-native-render-html
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 08:39:30
+ * @Last Modified time: 2023-12-04 22:06:26
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -37,6 +35,10 @@ import { Props as RenderHtmlProps } from './types'
 
 export { RenderHtmlProps }
 
+/**
+ * react-native 中渲染 html
+ * @doc https://github.com/archriss/react-native-render-html
+ */
 export const RenderHtml = observer(
   class RenderHtmlComponent extends React.Component<RenderHtmlProps> {
     static defaultProps = {

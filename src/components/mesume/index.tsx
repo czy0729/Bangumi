@@ -1,9 +1,8 @@
 /*
- * Bangumi 娘
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:09:56
+ * @Last Modified time: 2023-12-04 22:01:56
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,6 +13,7 @@ import { Props as MesumeProps } from './types'
 
 export { MesumeProps }
 
+/** Bangumi 看板娘 */
 export const Mesume = observer(({ style, size = 96, index }: MesumeProps) => {
   // 获取 1-7 之间的随机数
   const key = Math.floor(Math.random() * 7) + 1

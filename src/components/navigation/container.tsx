@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:11:34
+ * @Last Modified time: 2023-12-04 22:03:42
  */
 import React, { useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
@@ -22,6 +22,7 @@ if (IOS_IPA) {
 // const enabledLimit = 5
 // let enabled = false
 
+/** navigation context */
 export const NavigationContainer = ({ children }: Props) => {
   const navigationRef = useRef<Navigation>(null)
 

@@ -1,10 +1,8 @@
 /*
- * 弹出的键盘占位
- * @Doc https://github.com/Andr3wHur5t/react-native-keyboard-spacer/blob/master/KeyboardSpacer.js
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-02 22:59:55
+ * @Last Modified time: 2023-12-04 21:50:49
  */
 import React, { Component } from 'react'
 import { UIManager, Keyboard, LayoutAnimation, View, Dimensions } from 'react-native'
@@ -21,6 +19,10 @@ if (UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
+/**
+ * 弹出的键盘占位
+ * @doc https://github.com/Andr3wHur5t/react-native-keyboard-spacer/blob/master/KeyboardSpacer.js
+ */
 export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<KeyboardSpacerProps> {
   static defaultProps = {
     topSpacing: 0,

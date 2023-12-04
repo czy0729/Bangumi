@@ -1,10 +1,8 @@
 /*
- * 开关 V2
- * @Doc: https://github.com/poberwong/react-native-switch-pro/blob/master/lib/index.js
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 13:58:26
+ * @Last Modified time: 2023-12-04 22:55:10
  */
 import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
@@ -15,6 +13,10 @@ import { Component } from '../component'
 
 const SCALE = 6 / 5
 
+/**
+ * 开关 v2
+ * @doc https://github.com/poberwong/react-native-switch-pro/blob/master/lib/index.js
+ * */
 class SwitchProComp extends React.Component<any, any> {
   // static propTypes = {
   //   style: ViewPropTypes.style,
@@ -246,6 +248,7 @@ class SwitchProComp extends React.Component<any, any> {
     })
 
     return (
+      // @ts-expect-error
       <Animated.View
         {...rest}
         {...this._panResponder.panHandlers}
@@ -261,6 +264,7 @@ class SwitchProComp extends React.Component<any, any> {
           style
         )}
       >
+        {/* @ts-expect-error */}
         <Animated.View
           style={stl(
             {

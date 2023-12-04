@@ -1,11 +1,8 @@
 /*
- * tabbar 前面几个页面不会二次渲染
- * 需要使用 NavigationEvents 的订阅来改变 StatusBar 的颜色
- * @Doc: https://reactnavigation.org/docs/en/navigation-events.html
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 13:00:18
+ * @Last Modified time: 2023-12-04 22:14:22
  */
 import React from 'react'
 import { StatusBarStyle } from 'react-native'
@@ -18,7 +15,10 @@ import { Props as StatusBarEventsProps, PassProps } from './types'
 
 export { StatusBarEventsProps }
 
-/** @deprecated */
+/**
+ * @deprecated tabbar 前面几个页面不会二次渲染, 需要使用 NavigationEvents 的订阅来改变 StatusBar 的颜色
+ * @doc https://reactnavigation.org/docs/en/navigation-events.html
+ * */
 export const StatusBarEvents = observer(
   ({
     tinygrail = false,

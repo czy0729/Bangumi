@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-05 03:41:55
+ * @Last Modified time: 2023-12-04 22:18:39
  */
 import { AnyObject, Fn } from '@types'
 import { getSPAId, urlStringify } from '@utils'
@@ -15,6 +15,7 @@ const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
   storyId: getSPAId(item.id)
 }))
 
+/** [WEB] 单页面仿 react-natigation 的路由对象 context */
 export const StorybookNavigation = {
   /** ==================== private ==================== */
   _history: {

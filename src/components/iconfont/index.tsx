@@ -1,9 +1,8 @@
 /*
- * Iconfont 自定义图标
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:28:13
+ * @Last Modified time: 2023-12-04 21:36:19
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -17,6 +16,7 @@ import { Props, MaterialIconsNames, IoniconsIconsNames, AppIconsNames } from './
 
 const PAD_INCREASE = PAD === 2 ? 4 : 2
 
+/** Iconfont 自定义项目图标 */
 export const Iconfont = observer(
   ({ style, name = '', size = 22, lineHeight, color, ...other }: Props) => {
     const _size = size + _.fontSizeAdjust + _.device(0, PAD_INCREASE)

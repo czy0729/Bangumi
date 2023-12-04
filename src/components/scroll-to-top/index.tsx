@@ -1,9 +1,8 @@
 /*
- * 安卓用，仿 iOS 点击头部列表滚动到顶
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:08:23
+ * @Last Modified time: 2023-12-04 22:08:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,6 +19,7 @@ import { Props as ScrollToToProps } from './types'
 
 export { ScrollToToProps, scrollToTopCallback }
 
+/** [Android] 仿 iOS 点击头部列表滚动到顶 */
 const ScrollToTop = observer(
   ({
     isFocused = true,

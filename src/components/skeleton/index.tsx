@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:50:55
+ * @Last Modified time: 2023-12-04 22:13:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ const shimmerColorsDark = [
   _._colorDarkModeLevel1
 ]
 
+/** 骨架屏动画 */
 export const Skeleton = observer(({ width, height }: SkeletonProps) => {
   if (
     typeof width !== 'number' ||

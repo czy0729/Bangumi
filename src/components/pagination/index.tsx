@@ -1,9 +1,8 @@
 /*
- * 分页器
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 06:08:16
+ * @Last Modified time: 2023-12-04 22:04:02
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
@@ -22,6 +21,7 @@ import { Props as PaginationProps } from './types'
 
 export { PaginationProps }
 
+/** 分页器 */
 export const Pagination = ({
   style,
   inputStyle,

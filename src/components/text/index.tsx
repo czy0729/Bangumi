@@ -1,9 +1,8 @@
 /*
- * 统一封装文字
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-18 11:02:55
+ * @Last Modified time: 2023-12-04 22:56:30
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -22,6 +21,7 @@ import { TextType, Props as TextProps, Context } from './types'
 
 export { setComponentsDefaultProps, TextType, TextProps }
 
+/** 统一封装文字 */
 function CompText(
   {
     forwardRef,

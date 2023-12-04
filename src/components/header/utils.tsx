@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:49:08
+ * @Last Modified time: 2023-12-04 15:44:27
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { UpdateHeaderProps } from './types'
 
 const HEADER_TRANSITION_HEIGHT = 32
 
+/** 动态更新头参数 */
 export const updateHeader = ({
   // 必要
   navigation,

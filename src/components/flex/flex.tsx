@@ -1,6 +1,4 @@
 /*
- * Flex 布局
- * @Doc: https://github.com/ant-design/ant-design-mobile-rn/blob/3.1.3/components/flex/Flex.tsx
  * @Author: czy0729
  * @Date: 2019-04-04 05:24:27
  * @Last Modified by: czy0729
@@ -11,6 +9,10 @@ import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
 import { stl } from '@utils'
 import { Props as FlexProps } from './types'
 
+/**
+ * Flex 布局
+ * @doc https://github.com/ant-design/ant-design-mobile-rn/blob/3.1.3/components/flex/Flex.tsx
+ */
 export default class Flex extends React.Component<FlexProps, any> {
   static Item: any
 

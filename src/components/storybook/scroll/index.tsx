@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 22:16:39
+ * @Last Modified time: 2023-12-04 22:18:31
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -14,6 +14,7 @@ import { StorybookState } from '../state'
 import { styles } from './styles'
 import { Props as StorybookScrollProps } from './types'
 
+/** [WEB] 单页面滑动容器 */
 export const StorybookScroll = ({
   style,
   contentContainerStyle,

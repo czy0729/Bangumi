@@ -1,9 +1,8 @@
 /*
- * 带标签的回复框
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:18:18
+ * @Last Modified time: 2023-12-04 20:29:40
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -29,6 +28,7 @@ export { FixedTextareaProps }
 /** 内置键盘切换中、英文高度会变化, 因为各种原因，后续就一直用最大的那个值作为高度 */
 let maxKeyboardHeight = 0
 
+/** 带表情的回复框 */
 export const FixedTextarea = observer(
   class FixedTextareaComponent extends React.Component<FixedTextareaProps> {
     static defaultProps: FixedTextareaProps = {

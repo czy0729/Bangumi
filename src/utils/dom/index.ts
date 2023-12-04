@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 13:49:09
+ * @Last Modified time: 2023-12-03 21:43:12
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
 import { Fn } from '@types'
+import { isDevtoolsOpen } from './devtools'
+
+export { isDevtoolsOpen }
 
 /** 是否手机环境 */
 export function isMobile() {

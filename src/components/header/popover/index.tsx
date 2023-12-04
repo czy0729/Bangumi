@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:56:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 22:01:31
+ * @Last Modified time: 2023-12-04 15:43:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { IOS } from '@constants'
-import { Flex } from '../flex'
-import { Iconfont } from '../iconfont'
-import { Popover as CompPopover } from '../popover'
-import { Menu } from '../menu'
+import { Flex } from '../../flex'
+import { Iconfont } from '../../iconfont'
+import { Popover as CompPopover } from '../../popover'
+import { Menu } from '../../menu'
 import { styles } from './styles'
-import { PopoverProps } from './types'
+import { Props } from './types'
 
 function Popover({
   style,
@@ -26,7 +26,7 @@ function Popover({
   onSelect = () => {},
   children,
   ...other
-}: PopoverProps) {
+}: Props) {
   const popoverProps = IOS
     ? {
         overlay: (

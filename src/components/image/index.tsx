@@ -1,18 +1,8 @@
 /*
- * 图片
- * 1. 支持各种样式设置
- * 2. 支持本地和远端图片
- * 3. 图片缓存到本地
- * 4. 远端图片自动获取高度
- * 5. 错误处理
- * 6. 自动选择 Bangumi 图片质量
- * 7. 联动 ImageViewer
- * 8. 支持 @magma 提供的 [bgm_poster] 后缀
- * 9. iOS 环境下, Expo 浏览暂时不使用 cacheV2
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 20:31:00
+ * @Last Modified time: 2023-12-04 21:45:46
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -58,6 +48,18 @@ import { Props as ImageProps, State } from './types'
 
 export { ImageProps }
 
+/**
+ * 图片
+ *  - 支持各种样式设置
+ *  - 支持本地和远端图片
+ *  - 图片缓存到本地
+ *  - 远端图片自动获取高度
+ *  - 错误处理
+ *  - 自动选择 Bangumi 图片质量
+ *  - 联动 ImageViewer
+ *  - 支持 @magma 提供的 [bgm_poster] 后缀
+ *  - iOS 环境下, Expo 浏览暂时不使用 cacheV2
+ */
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
     static defaultProps: ImageProps = DEFAULT_PROPS

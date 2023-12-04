@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-15 03:47:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-12 15:41:34
+ * @Last Modified time: 2023-12-04 22:09:04
  */
 import React from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
@@ -13,6 +13,7 @@ import { Props as ScrollViewProps } from './types'
 
 export { ScrollViewProps }
 
+/** 通用 ScrollView */
 export const ScrollView = ({
   style,
   contentContainerStyle,

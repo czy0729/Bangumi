@@ -1,9 +1,8 @@
 /*
- * 收缩与展开框
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 08:44:57
+ * @Last Modified time: 2023-12-04 20:29:16
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { View, Animated } from 'react-native'
@@ -20,6 +19,7 @@ import { Props as ExpandProps } from './types'
 
 export { ExpandProps }
 
+/** 收缩与展开框 */
 export const Expand = ({
   style,
   moreStyle,
@@ -90,6 +90,7 @@ export const Expand = ({
 
   return useObserver(() => (
     <Component id='component-expand'>
+      {/* @ts-ignore */}
       <Animated.View style={animatedStyles}>
         <View style={styles.layout} onLayout={onLayout}>
           {children}
