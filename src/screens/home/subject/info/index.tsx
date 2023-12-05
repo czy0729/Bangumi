@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Info from './info'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Info')
+  rerender('Subject.Info')
 
   const { showInfo } = systemStore.setting
   if (showInfo === -1) return null

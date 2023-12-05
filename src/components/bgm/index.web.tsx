@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-08 23:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:20:00
+ * @Last Modified time: 2023-12-05 03:21:26
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -31,6 +31,7 @@ let bgm: {
 }
 
 function init() {
+  bgm = {}
   for (let i = 1; i <= 102; i++) {
     bgm[i.toString()] = `https://bgm.tv/img/smiles/tv/${i
       .toString()

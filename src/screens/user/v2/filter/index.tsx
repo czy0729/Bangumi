@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 import Filter from './filter'
 import { memoStyles } from './styles'
 
 export default obc(({ page }, { $ }: Ctx) => {
-  // global.rerender('User.Filter')
+  rerender('User.Filter')
 
   const { subjectType, showFilter, fliterInputText } = $.state
   const { key: type } = TABS[page]

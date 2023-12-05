@@ -7,13 +7,14 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { Ctx } from '../types'
 import Catalog from './catalog'
 import { memoStyles } from './styles'
 
-export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Catalog')
+export default obc((props, { $ }: Ctx) => {
+  rerender('Subject.Catalog')
 
   const { showCatalog } = systemStore.setting
   if (showCatalog === -1) return null
@@ -26,7 +27,6 @@ export default obc((props, { $, navigation }: Ctx) => {
 
   return (
     <Catalog
-      navigation={navigation}
       styles={memoStyles()}
       showCatalog={showCatalog}
       catalog={_catalog}

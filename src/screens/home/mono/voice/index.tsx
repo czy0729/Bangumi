@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Voice from './voice'
 import { memoStyles } from './styles'
 
 export default obc(({ style }, { $, navigation }: Ctx) => {
-  // global.rerender('Mono.Voice')
+  rerender('Mono.Voice')
 
   if (!$.voices.length) return null
 

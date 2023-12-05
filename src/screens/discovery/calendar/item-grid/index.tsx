@@ -7,13 +7,14 @@
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Item from './item'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 export default obc(
   ({ style, subjectId, name, images, score, air, time }, { $, navigation }: Ctx) => {
-    // global.rerender('Calendar.Item')
+    rerender('Calendar.Item')
 
     const { type } = $.state
     const collection = collectionStore.collect(subjectId)

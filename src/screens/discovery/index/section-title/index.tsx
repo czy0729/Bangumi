@@ -10,11 +10,12 @@ import { SectionTitle as CompSectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function SectionTitle({ title, type }, { navigation }: Ctx) {
-  // global.rerender('Discovery.SectionTitle')
+  rerender('Discovery.SectionTitle')
 
   const styles = memoStyles()
   return (

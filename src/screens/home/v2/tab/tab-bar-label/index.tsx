@@ -8,9 +8,10 @@ import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 
 function TabBarLabel({ focused, route }) {
-  // global.rerender('Home.Tab.TabBarLabel')
+  rerender('Home.Tab.TabBarLabel')
 
   return (
     <Flex style={_.container.block} justify='center'>

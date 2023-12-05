@@ -8,13 +8,14 @@ import React from 'react'
 import { rakuenStore, systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { Ctx } from '../types'
 import Blog from './blog'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Blog')
+  rerender('Subject.Blog')
 
   const { showBlog } = systemStore.setting
   if (showBlog === -1) return null

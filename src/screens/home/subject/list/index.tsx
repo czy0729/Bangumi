@@ -9,12 +9,13 @@ import { ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Header from '../header'
 import { Ctx } from '../types'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
 
 function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
-  // global.rerender('Subject.List')
+  rerender('Subject.List')
 
   return (
     <ListView

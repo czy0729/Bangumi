@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 export default memo(
@@ -28,7 +29,7 @@ export default memo(
     air,
     time
   }) => {
-    // global.rerender('Calendar.Item.Main')
+    rerender('Calendar.Item.Main')
 
     const showScore = !hideScore && !!score
 

@@ -11,12 +11,13 @@ import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import SectionRight from '../section-right'
 import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
 import { DEFAULT_PROPS, EVENT, IMAGE_WIDTH } from './ds'
 
 export default memo(({ navigation, styles, style, voices }) => {
-  // global.rerender('Mono.Voice.Main')
+  rerender('Mono.Voice.Main')
 
   return (
     <InView style={stl(styles.container, style)}>

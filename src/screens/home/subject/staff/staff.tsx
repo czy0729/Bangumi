@@ -11,13 +11,14 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import IconStaff from '../icon/staff'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock }) => {
-  // global.rerender('Subject.Staff.Main')
+  rerender('Subject.Staff.Main')
 
   return (
     <InView style={stl(styles.container, !showStaff && _.short)}>

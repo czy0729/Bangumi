@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Tags from './tags'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Tags')
+  rerender('Subject.Tags')
 
   const { showTags, subjectTagsExpand, subjectTagsRec, focusOrigin } =
     systemStore.setting

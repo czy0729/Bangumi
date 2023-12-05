@@ -13,13 +13,14 @@ import { _, systemStore } from '@stores'
 import { getCoverMedium, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { linearColor } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 import { AVATAR_SIZE } from './styles'
 
 export default memo(
   ({ navigation, styles, imageWidth, avatarRound, title, avatar, data }) => {
-    // global.rerender('Discovery.CoverXs.Main')
+    rerender('Discovery.CoverXs.Main')
 
     const { coverRadius } = systemStore.setting
     const isMusic = title === '音乐'

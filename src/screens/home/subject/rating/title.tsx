@@ -11,10 +11,11 @@ import { SectionTitle, Rank } from '@_'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 
 function Title({ showScore }, { $, navigation }: Ctx) {
-  // global.rerender('Subject.Rating.Title')
+  rerender('Subject.Rating.Title')
 
   const { showRating } = systemStore.setting
   const { rank } = $.subject

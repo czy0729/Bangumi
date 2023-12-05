@@ -10,6 +10,7 @@ import { IconNotify, IconTinygrail, IconTabsHeader } from '@_'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { styles } from './styles'
 
 const EVENT = {
@@ -17,7 +18,7 @@ const EVENT = {
 } as const
 
 function Icons(props, { navigation }) {
-  // global.rerender('Home.Icons')
+  rerender('Home.Icons')
 
   const { tinygrail } = systemStore.setting
   return (

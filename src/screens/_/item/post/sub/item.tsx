@@ -17,6 +17,7 @@ import {
 } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { rerender } from '@utils/dev'
 import { Avatar, Name, HTML, Likes } from '../../../base'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
@@ -64,7 +65,7 @@ export default memo(
     event,
     onLikesLongPress
   }) => {
-    // global.rerender('Topic.ItemSub.Main')
+    rerender('Topic.ItemSub.Main')
 
     const msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)

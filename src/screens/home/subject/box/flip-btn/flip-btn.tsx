@@ -15,6 +15,7 @@ import Animated, {
 import { _ } from '@stores'
 import { feedback, urlStringify } from '@utils'
 import { useObserver } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import Btns from './btns'
 import { memoStyles } from './styles'
 
@@ -25,7 +26,7 @@ const config = {
 }
 
 function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress }) {
-  // global.rerender('Subject.Box.FlipBtn.Main')
+  rerender('Subject.Box.FlipBtn.Main')
 
   const height = _.device(44, 50)
   const activeRef = useSharedValue(0)

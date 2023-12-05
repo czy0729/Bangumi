@@ -7,6 +7,7 @@
 import React from 'react'
 import { systemStore, subjectStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import BookEp from '../book-ep'
@@ -16,7 +17,7 @@ import Ep from './ep'
 import { memoStyles } from './styles'
 
 export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
-  // global.rerender('Subject.Ep')
+  rerender('Subject.Ep')
   const typeCn =
     $.type || MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectStore.type($.subjectId))
 

@@ -11,12 +11,13 @@ import { _ } from '@stores'
 import { truncateMiddle } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { IOS } from '@constants'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ navigation, subjectId, comic }) => {
-  // global.rerender('Subject.Comic.Main')
+  rerender('Subject.Comic.Main')
 
   return (
     <InView style={styles.container}>

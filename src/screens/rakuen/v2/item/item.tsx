@@ -10,6 +10,7 @@ import { Touchable, Flex, UserStatus } from '@components'
 import { InView } from '@_'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Avatar from './avatar'
 import Content from './content'
 import BtnPopover from './btn-popover'
@@ -36,7 +37,7 @@ export default memo(
     isGroup,
     onPress
   }) => {
-    // global.rerender('Rakuen.Item.Main')
+    rerender('Rakuen.Item.Main')
 
     return (
       <Touchable

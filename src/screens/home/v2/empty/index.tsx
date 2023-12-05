@@ -9,6 +9,7 @@ import { Flex, Text, Mesume, Button } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
@@ -21,7 +22,7 @@ const FOOTER_EMPTY_TEXT = {
 } as const
 
 function Empty({ title, length }, { $, navigation }: Ctx) {
-  // global.rerender('Home.Empty')
+  rerender('Home.Empty')
 
   const styles = memoStyles()
   const { filter } = $.state

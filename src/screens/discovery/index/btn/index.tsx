@@ -10,12 +10,13 @@ import { getLastPath } from '@screens/_/base/filter-switch'
 import { info, matchBgmUrl, appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
 import Btn from './btn'
 
 export default obc(({ item }, { $, navigation }: Ctx) => {
-  // global.rerender('Discovery.Btn')
+  rerender('Discovery.Btn')
 
   const { dragging } = $.state
   const { username, id } = $.userInfo

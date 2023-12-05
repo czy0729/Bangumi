@@ -8,6 +8,7 @@ import React from 'react'
 import { NavigationEvents } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SETTING_INITIAL_PAGE } from '@constants'
 import { SettingInitialPage } from '@types'
 import { Ctx } from '../types'
@@ -15,7 +16,7 @@ import { Ctx } from '../types'
 let rendered = false
 
 function CheckLogin(props, { $, navigation }: Ctx) {
-  // global.rerender('Home.CheckLogin')
+  rerender('Home.CheckLogin')
 
   const { initialPage } = systemStore.setting
   return (

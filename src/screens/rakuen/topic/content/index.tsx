@@ -11,11 +11,12 @@ import { IconTouchable, Likes } from '@_'
 import { _, uiStore } from '@stores'
 import { appNavigate, isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Content(props, { $, navigation }: Ctx) {
-  // global.rerender('Topic.Content')
+  rerender('Topic.Content')
 
   const event = {
     id: '帖子.跳转',

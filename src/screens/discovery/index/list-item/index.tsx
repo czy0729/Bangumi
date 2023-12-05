@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import ListItem from './list-item'
 import { memoStyles } from './styles'
@@ -13,7 +14,7 @@ import { memoStyles } from './styles'
 const LIST_CACHE = {}
 
 export default obc(({ style, index, type = 'anime' }, { $ }: Ctx) => {
-  // global.rerender('Discovery.ListItem')
+  rerender('Discovery.ListItem')
 
   const { dragging } = $.state
   if (dragging) return null

@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Item from './item'
 import { memoStyles } from './styles'
 import { Props as ItemCollectionsProps } from './types'
@@ -47,7 +48,7 @@ export const ItemCollections = ob(
     showManage,
     onEdit
   }: ItemCollectionsProps) => {
-    // global.rerender('Component.ItemCollections')
+    rerender('Component.ItemCollections')
 
     return (
       <Item

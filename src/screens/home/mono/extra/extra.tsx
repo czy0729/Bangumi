@@ -11,10 +11,11 @@ import { _ } from '@stores'
 import { confirm } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, monoId, canICO, icoUsers, doICO }) => {
-  // global.rerender('Mono.Extra.Main')
+  rerender('Mono.Extra.Main')
 
   if (canICO) {
     return (

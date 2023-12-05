@@ -9,13 +9,14 @@ import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Chart from '../chart'
 import IconHidden from '../icon/hidden'
 import Title from './title'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ styles, hideScore, showRating }) => {
-  // global.rerender('Subject.Rating.Main')
+  rerender('Subject.Rating.Main')
 
   const [showScore, setShowScore] = useState(!hideScore)
   return (

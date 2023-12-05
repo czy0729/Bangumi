@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 15:46:43
+ * @Last Modified time: 2023-12-05 03:19:39
  */
 import { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
 import { Props as PopoverProps } from './popover/types'
@@ -20,6 +20,9 @@ export type Props = {
 
   /** 标题 */
   title?: string
+
+  /** [WEB] 若有此值, 页面标题以此优先 */
+  domTitle?: string
 
   /** 统计参数: [url地址, 对应页面key] */
   hm?: [string] | [string, string]

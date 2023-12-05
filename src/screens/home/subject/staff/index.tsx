@@ -7,11 +7,12 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Staff from './staff'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Staff')
+  rerender('Subject.Staff')
 
   const { showStaff } = systemStore.setting
   if (showStaff === -1 || !$.staff.length) return null

@@ -21,6 +21,7 @@ import {
 import { _ } from '@stores'
 import { simpleTime, findSubjectCn, appNavigate, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { HOST, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
 import Content from '../content'
 import Ep from '../ep'
@@ -51,7 +52,7 @@ export default memo(
     isMono,
     delete: topicDelete
   }) => {
-    // global.rerender('Topic.Top.Main')
+    rerender('Topic.Top.Main')
 
     const [lines, setLines] = useState(1)
     const setLines2 = useCallback(() => setLines(2), [])

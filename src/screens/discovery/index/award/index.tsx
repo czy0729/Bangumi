@@ -9,6 +9,7 @@ import { Touchable, Image, Text, Flex } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import Award2022 from '../award-2022'
@@ -16,7 +17,7 @@ import Award2021 from '../award-2021'
 import { memoStyles } from './styles'
 
 function Award({ navigation }) {
-  // global.rerender('Discovery.Award')
+  rerender('Discovery.Award')
 
   const [scrolled, setScrolled] = useState(_.isPad)
   const onScroll = useCallback(evt => {

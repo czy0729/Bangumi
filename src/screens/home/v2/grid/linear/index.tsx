@@ -8,10 +8,11 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { styles } from './styles'
 
 function Linear() {
-  // global.rerender('Home.Grid.Linear')
+  rerender('Home.Grid.Linear')
 
   if (!_.isDark) return null
 

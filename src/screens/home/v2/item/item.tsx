@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { Flex, Touchable, Collapsible, Heatmap, Loading } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Cover from './cover'
 import Title from './title'
 import OnAir from './onair'
@@ -35,7 +36,7 @@ const Item = memo(
     isRefreshing,
     onItemPress
   }) => {
-    // global.rerender('Home.Item.Main', subject.name_cn || subject.name)
+    rerender('Home.Item.Main', subject.name_cn || subject.name)
 
     const isFirst = index === 0
     return (

@@ -10,6 +10,7 @@ import { rakuenStore, uiStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { rerender } from '@utils/dev'
 import { HOST } from '@constants'
 import Item from './item'
 import PlusOne from './plus-one'
@@ -47,7 +48,7 @@ export const ItemPost = obc(
     }: ItemPostProps,
     { $, navigation }
   ) => {
-    // global.rerender('Topic.Item')
+    rerender('Topic.Item')
 
     // 屏蔽脏数据
     if (!userId) return null

@@ -9,6 +9,7 @@ import { Flex, Button, Heatmap } from '@components'
 import { Popover } from '@_'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IOS, MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
@@ -17,7 +18,7 @@ import { memoStyles } from './styles'
 const DATA = SUBJECT_TYPE.map(item => item.title)
 
 function TabBarLeft({ onSelect }, { $ }: Ctx) {
-  // global.rerender('User.TabBarLeft')
+  rerender('User.TabBarLeft')
 
   const styles = memoStyles()
   const { subjectType } = $.state

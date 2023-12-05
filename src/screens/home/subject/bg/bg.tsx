@@ -8,10 +8,11 @@ import React from 'react'
 import { BlurView } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ style, src }) => {
-  // global.rerender('Subject.Bg.Main')
+  rerender('Subject.Bg.Main')
 
   return (
     <BlurView

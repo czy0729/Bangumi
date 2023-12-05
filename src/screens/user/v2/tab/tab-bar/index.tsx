@@ -8,12 +8,13 @@ import React from 'react'
 import { TabBar as TabViewTabBar, Heatmap } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import FixedToolBar from '../../fixed-tool-bar'
 import Label from '../label'
 import { memoStyles } from './styles'
 
 function TabBar(props) {
-  // global.rerender('User.TabBar')
+  rerender('User.TabBar')
 
   const styles = memoStyles()
   return (

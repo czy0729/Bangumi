@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Anitabi from './anitabi'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  // global.rerender('Subject.Anitabi')
+  rerender('Subject.Anitabi')
 
   const { showAnitabi } = systemStore.setting
   const { anitabi } = $.state

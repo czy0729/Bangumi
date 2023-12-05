@@ -7,11 +7,12 @@
 import React from 'react'
 import { Flex, Touchable, Iconfont } from '@components'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function BookNextBtn({ subjectId, epStatus, volStatus }, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.BookNextBtn')
+  rerender('Home.GridInfo.BookNextBtn')
 
   return (
     <Touchable

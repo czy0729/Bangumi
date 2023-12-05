@@ -11,12 +11,13 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import IconHidden from '../icon/hidden'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ navigation, showLike, subjectId, like, onSwitchBlock }) => {
-  // global.rerender('Subject.Like.Main')
+  rerender('Subject.Like.Main')
 
   return (
     <InView style={stl(styles.container, !showLike && _.short)}>

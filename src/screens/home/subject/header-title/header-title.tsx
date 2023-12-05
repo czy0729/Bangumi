@@ -10,11 +10,12 @@ import { Cover, Stars } from '@_'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMAGE_WIDTH, IMAGE_HEIGHT, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ common, score, type, cn, jp, titleLabel }) => {
-  // global.rerender('Subject.HeaderTitle.Main')
+  rerender('Subject.HeaderTitle.Main')
 
   return (
     <Flex style={styles.container}>

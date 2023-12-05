@@ -10,6 +10,7 @@ import { InView, ItemComment } from '@_'
 import { _, systemStore, collectionStore, usersStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusCn, UserId } from '@types'
 import { Ctx } from '../types'
@@ -23,7 +24,7 @@ const POPOVER_DATA = {
 } as const
 
 function TrackComment(props, { $, navigation }: Ctx) {
-  // global.rerender('Subject.TrackComment')
+  rerender('Subject.TrackComment')
 
   if (!$.subjectTypeValue) return null
 

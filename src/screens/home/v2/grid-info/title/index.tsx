@@ -8,10 +8,11 @@ import React from 'react'
 import { Text } from '@components'
 import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../../types'
 
 function Title({ subjectId, subject = {} }: any, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.Title')
+  rerender('Home.GridInfo.Title')
 
   const _subject = $.subject(subjectId)
   const title = HTMLDecode(

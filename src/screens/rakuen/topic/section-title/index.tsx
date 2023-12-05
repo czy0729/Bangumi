@@ -9,12 +9,13 @@ import { Text, Heatmap } from '@components'
 import { SectionTitle as CompSectionTitle, IconReverse } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Segment from '../segment'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function SectionTitle(props, { $ }: Ctx) {
-  // global.rerender('Topic.SectionTitle')
+  rerender('Topic.SectionTitle')
 
   const styles = memoStyles()
   const { list = [] } = $.comments

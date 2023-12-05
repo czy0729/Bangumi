@@ -8,11 +8,12 @@ import React from 'react'
 import { Cover as CompCover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { memoStyles as gridItemMemoStyles } from '../../grid-item/styles'
 import { Ctx } from '../../types'
 
 function Cover({ subjectId, subject = {}, onPress }: any, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.Cover')
+  rerender('Home.GridInfo.Cover')
 
   const _subject = $.subject(subjectId)
   const itemStyles = gridItemMemoStyles()

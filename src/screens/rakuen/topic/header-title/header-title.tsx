@@ -9,11 +9,12 @@ import { Flex, Text, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMG_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ navigation, avatar, userId, userName, title, group }) => {
-  // global.rerender('Topic.HeaderTitle.Main')
+  rerender('Topic.HeaderTitle.Main')
 
   const texts = [userName || group, group].filter(item => !!item).join(' · ')
   return (

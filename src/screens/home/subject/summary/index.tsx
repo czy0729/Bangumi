@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Summary from './summary'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  // global.rerender('Subject.Summary')
+  rerender('Subject.Summary')
 
   const { showSummary } = systemStore.setting
   if (showSummary === -1 || ($.subject._loaded && !$.summary)) return null

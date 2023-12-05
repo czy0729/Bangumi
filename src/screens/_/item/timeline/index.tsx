@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { timelineStore } from '@stores'
-import { getTimestamp } from '@utils'
-import { matchUserId } from '@utils/match'
+import { getTimestamp, matchUserId } from '@utils'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { HOST } from '@constants'
 import Item from './item'
 import { memoStyles } from './styles'
@@ -41,7 +41,7 @@ export const ItemTimeline = ob(
     onDelete,
     onHidden
   }: ItemTimelineProps) => {
-    // global.rerender('Component.ItemTimeline')
+    rerender('Component.ItemTimeline')
 
     const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
     if (userId in timelineStore.hidden) {

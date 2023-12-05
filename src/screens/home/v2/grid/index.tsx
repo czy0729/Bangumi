@@ -8,6 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Loading } from '@components'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Info from './info'
 import List from './list'
@@ -18,7 +19,7 @@ import { Props } from './types'
 const RENDERED = {}
 
 function Grid({ title = '全部' }: Props, { $ }: Ctx) {
-  // global.rerender('Home.Grid')
+  rerender('Home.Grid')
 
   if ($.tabsLabel === title) RENDERED[title] = true
   if ($.tabsLabel !== title && !RENDERED[title]) return null

@@ -10,6 +10,7 @@ import { LogoHeader, IconNotify, IconTabsHeader } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { MENU_MAP } from '../../../discovery/index/ds'
 import { styles } from './styles'
 
@@ -18,7 +19,7 @@ const EVENT = {
 } as const
 
 function Header(props, { navigation }) {
-  // global.rerender('Home.Header')
+  rerender('Home.Header')
 
   const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
   const left = MENU_MAP[homeTopLeftCustom]

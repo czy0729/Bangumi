@@ -8,12 +8,13 @@ import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 
 function Label({ title, focused }, { $ }: Ctx) {
-  // global.rerender('User.Label')
+  rerender('User.Label')
 
   const { subjectType } = $.state
   const count = $.counts[MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)][title]

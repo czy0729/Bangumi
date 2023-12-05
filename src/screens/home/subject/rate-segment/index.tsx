@@ -8,13 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 const SCORES_DS = ['全部', '9-10', '7-8', '4-6', '1-3'] as const
 
 function RateSegement(props, { $ }: Ctx) {
-  // global.rerender('Subject.RateSegement')
+  rerender('Subject.RateSegement')
 
   const { filterScores } = $.state
   return (

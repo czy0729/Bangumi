@@ -8,12 +8,13 @@ import React from 'react'
 import { collectionStore } from '@stores'
 import { date } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../../types'
 import FlipBtn from './flip-btn'
 
 export default obc(({ onPress }, { $ }: Ctx) => {
-  // global.rerender('Subject.Box.FlipBtn')
+  rerender('Subject.Box.FlipBtn')
 
   const { flip, flipKey } = $.state
   const {

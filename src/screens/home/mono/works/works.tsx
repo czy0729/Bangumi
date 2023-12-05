@@ -11,6 +11,7 @@ import { InView, SectionTitle, Cover, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import SectionRight from '../section-right'
@@ -18,7 +19,7 @@ import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
 import { EVENT, DEFAULT_PROPS } from './ds'
 
 export default memo(({ navigation, styles, style, works }) => {
-  // global.rerender('Mono.Works.Main')
+  rerender('Mono.Works.Main')
 
   return (
     <InView style={stl(styles.container, style)}>

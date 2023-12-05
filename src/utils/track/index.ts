@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 00:49:29
+ * @Last Modified time: 2023-12-05 04:05:10
  */
 // import { NativeModules } from 'react-native'
 import { DEV, IOS_IPA } from '@/config'
@@ -23,8 +23,6 @@ let currentTitle = ''
 
 /** PV */
 export function hm(url?: string, screen?: string, title?: string) {
-  if (DEV || STORYBOOK || isDevtoolsOpen()) return
-
   // 保证这种低优先级的操作在 UI 响应之后再执行
   runAfter(() => {
     try {
@@ -50,7 +48,8 @@ export function hm(url?: string, screen?: string, title?: string) {
 
       const queryStr = urlStringify(query)
       const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${queryStr}`
-      umami(u, title)
+
+      if (!isDevtoolsOpen()) umami(u, title)
 
       lastQuery = currentQuery
       currentQuery = queryStr
@@ -62,7 +61,7 @@ export function hm(url?: string, screen?: string, title?: string) {
 
 /** UV */
 export function ua() {
-  if (DEV || STORYBOOK || isDevtoolsOpen()) return
+  if (STORYBOOK || isDevtoolsOpen()) return
 
   runAfter(() => {
     try {
@@ -108,7 +107,7 @@ export function t(desc: EventKeys, eventData?: EventData) {
     })
   }
 
-  if (DEV || !desc || typeof desc !== 'string' || isDevtoolsOpen()) return
+  if (!desc || typeof desc !== 'string' || isDevtoolsOpen()) return
 
   // fixed: 遗留问题, 显示为登录, 统计还是以前录入的登陆
   desc = desc.replace(/登录/g, '登陆') as EventKeys
@@ -124,17 +123,9 @@ export function t(desc: EventKeys, eventData?: EventData) {
               ...(eventData || {})
             }
           : eventData || {}
-
-        if (STORYBOOK) {
-          // @ts-ignore
-          window.umami.track(desc, eventData)
-          return
-        }
-
         umamiEvent(desc, eventData, currentUrl, currentTitle)
-        return
 
-        /** @deprecated */
+        /** @deprecated 2023/12/05 */
         // if (eventId === '其他.崩溃') eventData.url = currentUrl
         // NativeModules.UMAnalyticsModule.onEventWithMap(eventId, eventData)
       }

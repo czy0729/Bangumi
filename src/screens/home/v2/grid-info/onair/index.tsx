@@ -8,10 +8,11 @@ import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../../types'
 
 function Onair({ subjectId }, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.Onair')
+  rerender('Home.GridInfo.Onair')
 
   const style = _.isMobileLanscape ? _.mt.xs : _.mt.md
   if ($.isToday(subjectId)) {

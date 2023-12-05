@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
 import { TabView, SceneMap } from '@components'
 import { _ } from '@stores'
+import { rerender } from '@utils/dev'
 import List from '../list'
 import { H_HEADER, TABS } from '../ds'
 import TabBar from './tab-bar'
@@ -23,7 +24,7 @@ function Tab({
   onSwipeStart,
   onRefreshOffset
 }) {
-  // global.rerender('User.Tab')
+  rerender('User.Tab')
 
   const renderScene = useRef(
     SceneMap(
@@ -77,6 +78,7 @@ function Tab({
   const renderTabBar = useCallback(
     props => {
       return (
+        // @ts-expect-error
         <Animated.View style={[styles.tabBarWrap, transform]}>
           <TabBar {...props} />
         </Animated.View>
@@ -103,6 +105,7 @@ function Tab({
         onSwipeStart={onSwipeStart}
         onIndexChange={onIndexChange}
       />
+      {/* @ts-expect-error */}
       <Animated.View style={[styles.tabBarLeft, transform]}>
         <TabBarLeft onSelect={onSelect} />
       </Animated.View>

@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Head from './head'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  // global.rerender('Subject.Head')
+  rerender('Subject.Head')
 
   // 书籍显示连载时间段
   let year = $.year

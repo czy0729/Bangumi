@@ -8,6 +8,7 @@ import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
@@ -15,7 +16,7 @@ import BookNextBtn from '../book-next-btn'
 import { styles } from './styles'
 
 function Count({ subjectId, subject = {}, epStatus, tip }: any, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.Count')
+  rerender('Home.GridInfo.Count')
 
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(

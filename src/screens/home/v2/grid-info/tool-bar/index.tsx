@@ -9,6 +9,7 @@ import { _ } from '@stores'
 import { Flex, Iconfont, Touchable } from '@components'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import BtnOrigin from '../../item/btn-origin'
@@ -17,7 +18,7 @@ import BtnNextEp from '../btn-next-ep'
 import { styles } from './styles'
 
 function ToolBar({ subjectId, subject = {} }: any, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.ToolBar')
+  rerender('Home.GridInfo.ToolBar')
 
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(

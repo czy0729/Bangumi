@@ -7,12 +7,13 @@
 import React from 'react'
 import { Flex, Text } from '@components'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { _ } from '@stores'
 import CenterAvatar from '../center-avatar'
 import { Ctx } from '../types'
 
 function Head({ style }, { $ }: Ctx) {
-  // global.rerender('User.Head')
+  rerender('User.Head')
 
   const { nickname, id, username } = $.usersInfo
   return (

@@ -9,12 +9,13 @@ import { View } from 'react-native'
 import { Flex, HorizontalList, Text } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { INITIAL_RENDER_NUMS_XS } from '../ds'
 import CoverToday from '../cover-today'
 import { DEFAULTP_ROPS } from './ds'
 
 export default memo(({ styles, todayBangumi }) => {
-  // global.rerender('Discovery.Today.Main')
+  rerender('Discovery.Today.Main')
 
   return (
     <HorizontalList

@@ -12,13 +12,14 @@ import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, HTMLDecode, cnjp } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { linearColor } from '../ds'
 import { Ctx } from '../types'
 import { WEEKDAY_CN } from './ds'
 import { memoStyles } from './styles'
 
 function CoverToday({ data }, { navigation }: Ctx) {
-  // global.rerender('Discovery.CoverToday')
+  rerender('Discovery.CoverToday')
 
   const styles = memoStyles()
   return (

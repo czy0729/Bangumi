@@ -10,6 +10,7 @@ import { autorun } from 'mobx'
 import { Modal, ActionSheet, Flex, Touchable, Text, Input, Iconfont } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { memoStyles } from './styles'
 import { LINKS } from './ds'
 
@@ -151,7 +152,7 @@ export default obc(
     }
 
     render() {
-      // global.rerender('Discovery.LinkModal')
+      rerender('Discovery.LinkModal')
 
       return (
         <>

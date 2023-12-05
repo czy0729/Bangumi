@@ -11,6 +11,7 @@ import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { SHARE_MODE } from '@constants'
 import IconFolder from '../icon/folder'
 import IconClose from '../icon/close'
@@ -30,7 +31,7 @@ export default memo(
     toRating,
     outdate
   }) => {
-    // global.rerender('Subject.Box.Main')
+    rerender('Subject.Box.Main')
 
     const onPress = isLogin
       ? showManageModel

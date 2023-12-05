@@ -7,6 +7,7 @@
 import React from 'react'
 import { rakuenStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { isBlockUser } from '../utils'
 import ItemSub from './item'
 import { memoStyles } from './styles'
@@ -35,7 +36,7 @@ export default obc(
     },
     { $, navigation }
   ) => {
-    // global.rerender('Topic.ItemSub')
+    rerender('Topic.ItemSub')
 
     // 屏蔽脏数据
     if (!userId) return null

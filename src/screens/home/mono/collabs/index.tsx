@@ -12,12 +12,13 @@ import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Collabs(props, { $, navigation }: Ctx) {
-  // global.rerender('Mono.Collabs')
+  rerender('Mono.Collabs')
 
   const { collabs } = $.mono
   if (!collabs?.length) return null

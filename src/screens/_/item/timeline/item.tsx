@@ -10,6 +10,7 @@ import { Flex, Text, Iconfont, Touchable } from '@components'
 import { _, userStore, uiStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { InView, Cover, Stars, Popover, Likes } from '../../base'
@@ -47,7 +48,7 @@ const Item = memo(
     onDelete,
     onHidden
   }) => {
-    // global.rerender('Component.ItemTimeline.Main')
+    rerender('Component.ItemTimeline.Main')
 
     const { src: avatarSrc } = avatar
     const { count: replyCount, url: replyUrl, content: replyContent } = reply

@@ -8,14 +8,15 @@ import React from 'react'
 import { View } from 'react-native'
 import { PaginationList2 } from '@_'
 import { systemStore } from '@stores'
-import { keyExtractor, renderItem } from './utils'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
+import { keyExtractor, renderItem } from './utils'
 import { Ctx } from '../../types'
 import { memoStyles } from '../styles'
 
 function List({ title }, { $ }: Ctx) {
-  // global.rerender('Home.Grid.List')
+  rerender('Home.Grid.List')
 
   const styles = memoStyles()
   const { homeGridCoverLayout } = systemStore.setting

@@ -7,6 +7,7 @@
 import React from 'react'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Item from './item'
 import { Props as ItemCollectionsGridProps } from './types'
 
@@ -35,7 +36,7 @@ export const ItemCollectionsGrid = ob(
     isRectangle,
     event
   }: ItemCollectionsGridProps) => {
-    // global.rerender('Component.ItemCollectionsGrid')
+    rerender('Component.ItemCollectionsGrid')
 
     return (
       <Item

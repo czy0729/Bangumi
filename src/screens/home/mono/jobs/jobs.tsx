@@ -11,13 +11,14 @@ import { InView, SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate, getCoverMedium, cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { COVER_WIDTH, COVER_HEIGHT } from '../ds'
 import { DEFAULT_PROPS, EVENT } from './ds'
 
 const Jobs = memo(({ navigation, styles, style, jobs }) => {
-  // global.rerender('Mono.Jobs.Main')
+  rerender('Mono.Jobs.Main')
 
   const { avatarRound } = systemStore.setting
   const radius = avatarRound ? COVER_WIDTH : _.radiusSm

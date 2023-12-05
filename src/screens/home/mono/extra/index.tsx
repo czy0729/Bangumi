@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Favor from '../favor'
 import { Ctx } from '../types'
 import Extra from './extra'
 
 export default ob(({ $, navigation }: Ctx) => {
-  // global.rerender('Mono.Extra')
+  rerender('Mono.Extra')
 
   return (
     <>

@@ -12,6 +12,7 @@ import { _, systemStore, otaStore } from '@stores'
 import { open, showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS, CDN_GAME } from '@constants'
 import IconPS from '../icon/ps'
 import IconHidden from '../icon/hidden'
@@ -172,7 +173,7 @@ class Game extends React.Component {
   }
 
   render() {
-    // global.rerender('Subject.Game')
+    rerender('Subject.Game')
 
     const { showGameInfo } = systemStore.setting
     const { $ } = this.context as Ctx

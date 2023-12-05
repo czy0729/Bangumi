@@ -10,16 +10,16 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Touchable, Text } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { getCoverMedium, stl } from '@utils'
+import { getCoverMedium, stl, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTMLDecode } from '@utils/html'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { linearColor } from '../ds'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
-  // global.rerender('Discovery.CoverSm')
+  rerender('Discovery.CoverSm')
 
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting

@@ -7,6 +7,7 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Item from './item'
 import { Props } from './ds'
@@ -17,7 +18,7 @@ export default obc(
     { index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props,
     { $, navigation }: Ctx
   ) => {
-    // global.rerender('Home.Item', subject.name_cn || subject.name)
+    rerender('Home.Item', subject.name_cn || subject.name)
 
     const { heatMap, homeListCompact } = systemStore.setting
     const { top, progress } = $.state

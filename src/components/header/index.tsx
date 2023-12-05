@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 19:17:47
+ * @Last Modified time: 2023-12-05 03:18:49
  */
 import React, { useLayoutEffect } from 'react'
 import { useNavigation, useObserver } from '@utils/hooks'
@@ -22,6 +22,7 @@ const Header: IHeader = ({
   mode,
   fixed = false,
   title,
+  domTitle,
   hm,
   alias,
   headerLeft = null,
@@ -81,7 +82,7 @@ const Header: IHeader = ({
             <HeaderComponent {...passProps} fixed />
           </>
         ) : null}
-        <Track title={title} hm={hm} alias={alias} />
+        <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
       </>
     )
   })

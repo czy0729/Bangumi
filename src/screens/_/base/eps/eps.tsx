@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { _ } from '@stores'
 import { arrGroup, asc } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_EP_TYPE, WSA } from '@constants'
 import { EpTypeCn } from '@types'
 import { NormalButtons } from './normal-buttons'
@@ -36,12 +37,12 @@ export default memo(
     onFliped,
     onSelect
   }: Props) => {
-    // global.rerender('Eps.Main')
+    rerender('Eps.Main')
 
     const [width, setWidth] = useState(layoutWidth - marginRight)
 
     const btnStyle = useMemo(() => {
-      // global.rerender('Eps.btnStyle')
+      rerender('Eps.btnStyle')
 
       if (WSA || _.isPad) {
         return {
@@ -65,7 +66,7 @@ export default memo(
     }, [width, numbersOfLine, grid])
 
     const passProps = useMemo(() => {
-      // global.rerender('Eps.passProps')
+      rerender('Eps.passProps')
 
       const { width, margin } = btnStyle
       return {
@@ -95,7 +96,7 @@ export default memo(
     ])
 
     const pages = useMemo(() => {
-      // global.rerender('Eps.pages')
+      rerender('Eps.pages')
 
       let _eps = eps || []
       const hasSp = _eps.some(item => item.type == 1) // 是否有 SP

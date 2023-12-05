@@ -7,6 +7,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Filter from '../filter'
 import Empty from '../empty'
 import { keyExtractor, renderItem } from './utils'
@@ -24,7 +25,7 @@ const List = memo(
     onHeaderRefresh,
     onFooterRefresh
   }) => {
-    // global.rerender('Home.List.Main')
+    rerender('Home.List.Main')
 
     const { length } = data.list
     const emptyComponent = <Empty title={title} length={length} />

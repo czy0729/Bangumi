@@ -11,6 +11,7 @@ import { Flex, Text, Input, Button, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import IconSearch from '../icon/search'
 import IconManga from '../icon/manga'
 import IconWenku from '../icon/wenku'
@@ -31,7 +32,7 @@ export default memo(
     doUpdateBookEp,
     doUpdateNext
   }) => {
-    // global.rerender('Subject.BookEp.Main')
+    rerender('Subject.BookEp.Main')
 
     let textVol = book.totalVol
     if (textVol === '??' && comicLength) textVol = `?${comicLength}`

@@ -7,11 +7,12 @@
 import React from 'react'
 import { ManageModal } from '@_'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ visible, disabled, subjectId, name, nameCn, action, onSubmit, onClose }) => {
-    // global.rerender('Subject.Modal.Main')
+    rerender('Subject.Modal.Main')
 
     return (
       <ManageModal

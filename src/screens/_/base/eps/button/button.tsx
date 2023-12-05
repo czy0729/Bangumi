@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { Popover, Menu, Button } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IOS, WSA } from '@constants'
 import FlipButton from '../flip-button'
 import { getType, getPopoverData, getComment, customCompare } from './utils'
@@ -16,7 +17,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ styles, heatMap, props, item, eps, isSp, num }) => {
-    // global.rerender('Eps.Button.Main')
+    rerender('Eps.Button.Main')
 
     const {
       subjectId,

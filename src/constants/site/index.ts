@@ -10,7 +10,7 @@ import { getOTA } from '../cdn'
 /** Age动漫 */
 export const SITE_AGEFANS = () => {
   const ota = getOTA()
-  return ota.SITE_AGEFANS || 'https://www.agemys.com/'
+  return ota.SITE_AGEFANS || 'https://www.agedm.org'
 }
 
 /** @deprecated 迅播动漫 */

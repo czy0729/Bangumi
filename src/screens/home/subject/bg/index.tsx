@@ -8,13 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { getCover400 } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IOS, TEXT_ONLY } from '@constants'
 import { Ctx } from '../types'
 import Bg from './bg'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }: Ctx) => {
-  // global.rerender('Subject.Bg')
+  rerender('Subject.Bg')
 
   const styles = memoStyles()
   if (TEXT_ONLY) {

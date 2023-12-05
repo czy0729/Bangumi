@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { Flex, Text, Heatmap } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Award from '../award'
 import Today from '../today'
 import SortMenu from '../sort-menu'
@@ -16,7 +17,7 @@ import { memoStyles } from './styles'
 import { Ctx } from '../types'
 
 function Header(props, { $, navigation }: Ctx) {
-  // global.rerender('Discovery.Header')
+  rerender('Discovery.Header')
 
   const styles = memoStyles()
   const { dragging } = $.state

@@ -7,12 +7,13 @@
 import React from 'react'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import CoverXs from './cover-xs'
 import { memoStyles } from './styles'
 
 export default obc(({ title, avatar, data }, { navigation }: Ctx) => {
-  // global.rerender('Discovery.CoverXs')
+  rerender('Discovery.CoverXs')
 
   const { avatarRound } = systemStore.setting
   return (

@@ -11,13 +11,14 @@ import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode, appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import IconDisc from '../icon/disc'
 import IconSearchDisc from '../icon/search-disc'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, subjectId, disc, discTranslateResult, focusOrigin }) => {
-    // global.rerender('Subject.Disc.Main')
+    rerender('Subject.Disc.Main')
 
     const [expand, setExpand] = useState(false)
     const onExpand = useCallback(() => {

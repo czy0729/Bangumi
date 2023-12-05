@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 14:37:54
+ * @Last Modified time: 2023-12-05 03:24:06
  */
 import React from 'react'
 import { Header as CompHeader, Flex, Heatmap } from '@components'
@@ -33,6 +33,7 @@ function Header({ fixed, index }, { $, navigation }: Ctx) {
       statusBarEventsType='Subject'
       fixed={fixed}
       title='条目'
+      domTitle={$.jp || $.cn}
       hm={[$.url, 'Subject']}
       headerLeft={
         showHomeIcon && (

@@ -11,11 +11,12 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { appNavigate, isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Content(props, { $, navigation }: Ctx) {
-  // global.rerender('Mono.Content')
+  rerender('Mono.Content')
 
   if (!$.info) return null
 

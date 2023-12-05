@@ -9,13 +9,14 @@ import { View } from 'react-native'
 import { Flex, Loading, Mesume, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import GridInfo from '../../grid-info'
 import { Ctx } from '../../types'
 import { memoStyles } from '../styles'
 import { PREV_TEXT } from './ds'
 
 function Info({ title }, { $ }: Ctx) {
-  // global.rerender('Home.Grid.Info')
+  rerender('Home.Grid.Info')
 
   if (!$.collection._loaded) return <Loading />
 

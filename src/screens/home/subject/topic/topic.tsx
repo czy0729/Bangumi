@@ -11,13 +11,14 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import IconTopic from '../icon/topic'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, showTopic, subjectId, topic, onSwitchBlock }) => {
-    // global.rerender('Subject.Topic.Main')
+    rerender('Subject.Topic.Main')
 
     const { list, onExpand } = useExpandLazy(topic, 4)
     return (

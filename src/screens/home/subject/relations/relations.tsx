@@ -10,13 +10,14 @@ import { InView, SectionTitle, HorizontalList } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import IconHidden from '../icon/hidden'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(
   ({ navigation, showRelations, subjectId, relations, onSwitchBlock }) => {
-    // global.rerender('Subject.Relations.Main')
+    rerender('Subject.Relations.Main')
 
     return (
       <InView style={showRelations ? styles.container : styles.hide}>

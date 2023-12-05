@@ -9,6 +9,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import {
   IMG_WIDTH,
   IMG_WIDTH_LG,
@@ -44,7 +45,7 @@ const Item = memo(
     showManage,
     event
   }) => {
-    // global.rerender('Component.ItemSearch.Main')
+    rerender('Component.ItemSearch.Main')
 
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !String(id).includes('/subject/')

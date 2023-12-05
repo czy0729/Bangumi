@@ -10,6 +10,7 @@ import { _, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { InView, Cover, Manage } from '../../base'
@@ -54,7 +55,7 @@ const Item = memo(
     showManage,
     onEdit
   }) => {
-    // global.rerender('Component.ItemCollections.Main')
+    rerender('Component.ItemCollections.Main')
 
     const typeCn = type
 

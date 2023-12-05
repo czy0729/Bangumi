@@ -11,6 +11,7 @@ import { Cover as CompCover } from '@_'
 import { systemStore } from '@stores'
 import { getCoverLarge, stl } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMG_DEFAULT, STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -108,7 +109,7 @@ class Cover extends React.Component<Props> {
   }
 
   render() {
-    // global.rerender('Subject.Cover')
+    rerender('Subject.Cover')
 
     const { $ } = this.context as Ctx
     const { coverRadius } = systemStore.setting

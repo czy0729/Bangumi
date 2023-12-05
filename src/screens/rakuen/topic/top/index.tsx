@@ -8,13 +8,14 @@ import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { HOST_IMAGE } from '@utils/app/ds'
+import { rerender } from '@utils/dev'
 import { CDN_OSS_MAGMA_PIC } from '@constants'
 import { Ctx } from '../types'
 import Top from './top'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Topic.Top')
+  rerender('Topic.Top')
 
   const { _replies } = $.params
   const { _loaded } = $.comments

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-03 00:44:01
+ * @Last Modified time: 2023-12-05 04:16:49
  */
 import Constants from 'expo-constants'
+import { STORYBOOK } from '@constants/device'
 import { HOST } from '@constants/constants'
-import { EventKeys } from '@types'
+import { AnyObject, EventKeys } from '@types'
 import { urlStringify, getTimestamp, randomn } from '../utils'
 import { API_UMAMI, API_XHR, SCREEN, TIMEOUT, TITLE, WEBSITE } from './ds'
 import { EventData } from './type'
@@ -31,28 +32,26 @@ export function xhr(si: string, u: string) {
 }
 
 export async function umami(url: string = '', title: string = '') {
+  const _url = url.replace(HOST, '')
+
+  if (STORYBOOK) {
+    // @ts-ignore
+    window.umami.track((props: any) => ({
+      ...props,
+      website: WEBSITE,
+      url: _url.split('?')?.[0],
+      title,
+      referrer: ''
+    }))
+    return
+  }
+
   if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
 
-  const request = new XMLHttpRequest()
-  request.open('POST', API_UMAMI)
-  request.setRequestHeader('Content-Type', 'application/json')
-  request.setRequestHeader('User-Agent', userAgent)
-  request.timeout = TIMEOUT
-  request.withCredentials = false
-  request.send(
-    JSON.stringify({
-      payload: {
-        website: WEBSITE,
-        hostname: 'bgm.tv',
-        screen: SCREEN,
-        language: 'zh-CN',
-        title: title || TITLE,
-        url: url.replace(HOST, ''),
-        referrer: ''
-      },
-      type: 'event'
-    })
-  )
+  umamiXhr({
+    title: title || TITLE,
+    url: _url
+  })
 }
 
 export async function umamiEvent(
@@ -61,8 +60,38 @@ export async function umamiEvent(
   url: string = '',
   title: string = ''
 ) {
+  const _url = url.replace(HOST, '')
+
+  if (STORYBOOK) {
+    // @ts-ignore
+    window.umami.track((props: any) => ({
+      ...props,
+      website: WEBSITE,
+      url: _url.split('?')?.[0],
+      title,
+      name: eventId,
+      data,
+      referrer: ''
+    }))
+    return
+  }
+
   if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
 
+  umamiXhr({
+    title: title || TITLE,
+    url: _url,
+    name: eventId,
+    data
+  })
+}
+
+function umamiXhr(payload: {
+  title: string
+  url: string
+  name?: string
+  data?: AnyObject
+}) {
   const request = new XMLHttpRequest()
   request.open('POST', API_UMAMI)
   request.setRequestHeader('Content-Type', 'application/json')
@@ -72,14 +101,11 @@ export async function umamiEvent(
   request.send(
     JSON.stringify({
       payload: {
-        name: eventId,
-        data,
+        ...payload,
         website: WEBSITE,
         hostname: 'bgm.tv',
         screen: SCREEN,
         language: 'zh-CN',
-        title: title || TITLE,
-        url: url.replace(HOST, ''),
         referrer: ''
       },
       type: 'event'

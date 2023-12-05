@@ -8,13 +8,14 @@ import React from 'react'
 import { ListView, Loading } from '@components'
 import { Login } from '@_'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import i18n from '@constants/i18n'
 import Item from '../item'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function List({ index }, { $ }: Ctx) {
-  // global.rerender('Rakuen.List')
+  rerender('Rakuen.List')
 
   const type = $.type(index)
   if (type === 'hot' && !$.isWebLogin) {

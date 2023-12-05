@@ -9,11 +9,12 @@ import { View } from 'react-native'
 import { SegmentedControl, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Segement(props, { $ }: Ctx) {
-  // global.rerender('Topic.Segement')
+  rerender('Topic.Segement')
 
   const { filterMe, filterFriends } = $.state
   const hasLogin = !!$.myId

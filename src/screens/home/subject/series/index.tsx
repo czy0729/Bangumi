@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Series from './series'
 import { memoStyles } from './styles'
 
 export default obc(({ size }: { size: number }, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Series')
+  rerender('Subject.Series')
 
   if (!$.hasSeries) return null
 

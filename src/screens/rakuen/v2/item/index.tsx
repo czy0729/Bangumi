@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { appNavigate, confirm, findSubjectCn, getIsBlockUser, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import Item from './item'
 import { Ctx } from '../types'
@@ -29,7 +30,7 @@ export default obc(
     { index, avatar, userId, userName, group, groupHref, href, title, time, replies },
     { $, navigation }: Ctx
   ) => {
-    // global.rerender('Rakuen.Item')
+    rerender('Rakuen.Item')
 
     const { _mounted } = $.state
     if (index >= LIMIT_HEAVY && !_mounted) {

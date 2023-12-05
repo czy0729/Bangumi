@@ -10,6 +10,7 @@ import { Cover as CompCover, IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import Item from './item'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 
@@ -26,7 +27,7 @@ export default memo(
     subjectAnime,
     subjectDiff
   }) => {
-    // global.rerender('Subject.Series.Main')
+    rerender('Subject.Series.Main')
 
     if (subjectPrev || subjectAfter || subjectAnime || subjectDiff) {
       let i = 0

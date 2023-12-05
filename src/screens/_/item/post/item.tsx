@@ -10,6 +10,7 @@ import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { InView, Avatar, Name, HTML, Likes } from '../../base'
 import UserLabel from './user-label'
 import FloorText from './floor-text'
@@ -62,7 +63,7 @@ const Item = memo(
     onToggleExpand,
     onLikesLongPress
   }) => {
-    // global.rerender('Topic.Item.Main')
+    rerender('Topic.Item.Main')
 
     return (
       <Component

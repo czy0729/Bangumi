@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Cover from './cover'
 import Onair from './onair'
@@ -25,7 +26,7 @@ function GridInfo(
   { subjectId = 0, subject = {}, epStatus = '', tip = '' }: Props,
   { $, navigation }: Ctx
 ) {
-  // global.rerender('Home.GridInfo')
+  rerender('Home.GridInfo')
   const styles = memoStyles()
   const isTop = $.state.top.indexOf(subjectId) !== -1
   return (

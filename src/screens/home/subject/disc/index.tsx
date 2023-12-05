@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Disc from './disc'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Disc')
+  rerender('Subject.Disc')
 
   const { focusOrigin } = systemStore.setting
   return (

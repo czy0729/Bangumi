@@ -9,6 +9,7 @@ import { Flex, Iconfont, Text, UserStatus } from '@components'
 import { _, userStore, uiStore } from '@stores'
 import { stl, correctAgo } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
 import { Popover, Avatar, Stars, Name, Likes } from '../../base'
 import { DEFAULT_PROPS } from './ds'
@@ -31,7 +32,7 @@ const Item = memo(
     popoverData,
     onSelect
   }) => {
-    // global.rerender('Item.ItemComment.Main', userName)
+    rerender('Item.ItemComment.Main', userName)
 
     return (
       <Flex style={stl(styles.item, style)} align='start'>

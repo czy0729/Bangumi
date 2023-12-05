@@ -11,6 +11,7 @@ import { OnairProgress } from '@_'
 import { _, systemStore } from '@stores'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
 import Opacity from './opacity'
@@ -20,7 +21,7 @@ import { Props } from './types'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 
 function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) {
-  // global.rerender('Home.GridItem')
+  rerender('Home.GridItem')
 
   const styles = memoStyles()
   const { homeGridTitle } = systemStore.setting

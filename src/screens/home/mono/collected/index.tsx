@@ -11,12 +11,13 @@ import { InView, Avatar, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Collected(props, { $, navigation }: Ctx) {
-  // global.rerender('Mono.Collected')
+  rerender('Mono.Collected')
 
   const { collected } = $.mono
   if (!collected?.length) return null

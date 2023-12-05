@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import BookEp from './book-ep'
 import { memoStyles } from './styles'
 
 export default obc(({ onScrollIntoViewIfNeeded }, { $ }: Ctx) => {
-  // global.rerender('Subject.BookEp')
+  rerender('Subject.BookEp')
 
   return (
     <BookEp

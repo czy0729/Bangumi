@@ -10,6 +10,7 @@ import { InView } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn, getCoverLarge } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMG_DEFAULT, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import SectionTitle from '../section-title'
@@ -25,7 +26,7 @@ const ITEM_HEIGHT = 800
 
 export default memo(
   ({ styles, style, index, type, list, friendsChannel, friendsMap }) => {
-    // global.rerender('Discovery.ListItem.Main')
+    rerender('Discovery.ListItem.Main')
 
     const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     return (

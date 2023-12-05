@@ -8,13 +8,14 @@ import React from 'react'
 import { Text, Heatmap } from '@components'
 import { SectionTitle } from '@_'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import RateSegement from '../rate-segment'
 import IconComment from '../icon/comment'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ styles, showComment, pageTotal, total, onSwitchBlock }) => {
-  // global.rerender('Subject.Comment.Main')
+  rerender('Subject.Comment.Main')
 
   const comment =
     pageTotal <= 1 ? total : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)

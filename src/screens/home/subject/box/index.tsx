@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore, userStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Box from './box'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Box')
+  rerender('Subject.Box')
 
   return (
     <Box

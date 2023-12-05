@@ -9,13 +9,14 @@ import { Touchable } from '@components'
 import { Cover as CompCover } from '@_'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 import { SettingHomeGridCoverLayoutCn } from '@types'
 import { Ctx } from '../../types'
 import { memoStyles } from '../styles'
 
 function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
-  // global.rerender('Home.GridItem.Cover')
+  rerender('Home.GridItem.Cover')
 
   const styles = memoStyles()
   const { homeGridCoverLayout } = systemStore.setting

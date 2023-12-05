@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import IconCharacter from '../icon/character'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
@@ -18,7 +19,7 @@ import { styles } from './styles'
 
 export default memo(
   ({ navigation, showCharacter, subjectId, crt, crtCounts, onSwitchBlock }) => {
-    // global.rerender('Subject.Character.Main')
+    rerender('Subject.Character.Main')
 
     return (
       <InView style={stl(styles.container, !showCharacter && _.short)}>

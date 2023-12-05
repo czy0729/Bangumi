@@ -11,6 +11,7 @@ import { ScoreTag, Tag } from '@_'
 import { _ } from '@stores'
 import { toFixed, cnjp, getTimestamp, copy } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { PAD } from '@constants'
 import Cover from '../cover'
 import Series from '../series'
@@ -38,7 +39,7 @@ export default memo(
     x18,
     hasSeries
   }) => {
-    // global.rerender('Subject.Head.Main')
+    rerender('Subject.Head.Main')
 
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)

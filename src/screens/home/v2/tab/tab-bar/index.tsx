@@ -8,11 +8,12 @@ import React from 'react'
 import { TabBar as TabViewTabBar } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import TabBarLabel from '../tab-bar-label'
 import { memoStyles } from './styles'
 
 function TabBar(props) {
-  // global.rerender('Home.Tab.TabBar')
+  rerender('Home.Tab.TabBar')
 
   const styles = memoStyles()
   const W_TAB = _.window.width / props.navigationState.routes.length

@@ -11,13 +11,14 @@ import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import IconWiki from '../icon/wiki'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, styles, subjectId, showInfo, info, onSwitchBlock }) => {
-    // global.rerender('Subject.Info.Main')
+    rerender('Subject.Info.Main')
 
     const [expand, setExpand] = useState(false)
     const onExpand = useCallback(() => {

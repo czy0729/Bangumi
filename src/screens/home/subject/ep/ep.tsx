@@ -10,6 +10,7 @@ import { Text, Flex, Input, Button, Heatmap } from '@components'
 import { SectionTitle, Popover, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { SHARE_MODE } from '@constants'
 import Eps from '../eps'
 import IconEpFilter from '../icon/ep-filter'
@@ -35,7 +36,7 @@ export default memo(
     onScrollIntoViewIfNeeded,
     doUpdateSubjectEp
   }) => {
-    // global.rerender('Subject.Ep.Main')
+    rerender('Subject.Ep.Main')
 
     const _showEpInput = showEpInput && !SHARE_MODE
     const canSubmit = !!status.name && status.name !== '未收藏'

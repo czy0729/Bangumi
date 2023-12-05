@@ -13,12 +13,13 @@ import { _, systemStore } from '@stores'
 import { matchCoverUrl, getCoverLarge, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { linearColor } from '../ds'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
-  // global.rerender('Discovery.CoverLg')
+  rerender('Discovery.CoverLg')
 
   const styles = memoStyles()
   const { coverRadius, cdnOrigin } = systemStore.setting

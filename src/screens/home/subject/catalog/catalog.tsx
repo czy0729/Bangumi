@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconCatalog from '../icon/catalog'
 import IconHidden from '../icon/hidden'
@@ -19,7 +20,7 @@ import Item from './item'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ styles, showCatalog, catalog, onSwitchBlock }) => {
-  // global.rerender('Subject.Catalog.Main')
+  rerender('Subject.Catalog.Main')
 
   const { list, onScroll } = useHorizontalLazy(catalog)
   return (

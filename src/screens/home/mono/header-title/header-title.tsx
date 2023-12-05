@@ -10,11 +10,12 @@ import { Cover } from '@_'
 import { _ } from '@stores'
 import { getMonoCoverSmall, stl } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 export default memo(({ tinygrail, cover, nameTop, nameBottom }) => {
-  // global.rerender('Mono.HeaderTitle.Main')
+  rerender('Mono.HeaderTitle.Main')
 
   return (
     <Flex style={stl(styles.container, tinygrail && styles.containerTinygrail)}>

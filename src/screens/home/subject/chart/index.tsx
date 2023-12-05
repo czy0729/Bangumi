@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Chart from './chart'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Rating.Chart')
+  rerender('Subject.Rating.Chart')
 
   const { total, count, score } = $.rating
   return (

@@ -7,12 +7,13 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { Ctx } from '../types'
 import Recent from './recent'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Recent')
+  rerender('Subject.Recent')
 
   const { showRecent } = systemStore.setting
   if (showRecent === -1) return null

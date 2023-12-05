@@ -10,6 +10,7 @@ import { ToolBar as CompToolBar } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Filter from '../filter'
 import { Ctx } from '../types'
 import Sort from './sort'
@@ -20,7 +21,7 @@ import More from './more'
 import { memoStyles } from './styles'
 
 function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset }, { $ }: Ctx) {
-  // global.rerender('User.ToolBar')
+  rerender('User.ToolBar')
 
   const styles = memoStyles()
   const { list } = $.state

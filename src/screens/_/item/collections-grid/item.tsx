@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { cnjp, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Cover, Stars, Rank } from '../../base'
 import Collection from './collection'
 import { HIT_SLOP, DEFAULT_PROPS } from './ds'
@@ -36,7 +37,7 @@ const Item = memo(
     isRectangle,
     event
   }) => {
-    // global.rerender('Component.ItemCollectionsGrid.Main')
+    rerender('Component.ItemCollectionsGrid.Main')
 
     return (
       <Component

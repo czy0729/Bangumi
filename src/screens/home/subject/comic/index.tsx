@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Comic from './comic'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Comic')
+  rerender('Subject.Comic')
 
   if (!$.comic.length) return null
 

@@ -8,6 +8,7 @@ import React from 'react'
 import { Loading } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { SettingHomeLayout } from '@types'
 import Grid from '../grid'
@@ -16,7 +17,7 @@ import List from './list'
 import { memoStyles } from './styles'
 
 export default obc(({ title = '全部' }, { $ }: Ctx) => {
-  // global.rerender('Home.List')
+  rerender('Home.List')
 
   if (!$.collection._loaded) return <Loading />
 

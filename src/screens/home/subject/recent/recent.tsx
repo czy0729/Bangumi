@@ -11,6 +11,7 @@ import { InView, SectionTitle, Avatar, Stars, PreventTouchPlaceholder } from '@_
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
 import { styles } from './styles'
@@ -18,7 +19,7 @@ import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ navigation, subjectId, showRecent, who, hideScore, onSwitchBlock }) => {
-    // global.rerender('Subject.Recent.Main')
+    rerender('Subject.Recent.Main')
 
     const { list, onScroll } = useHorizontalLazy(who)
     return (

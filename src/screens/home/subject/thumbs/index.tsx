@@ -9,8 +9,9 @@ import { ScrollView } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
 import { InView, SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
 import { open, stl } from '@utils'
+import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
 import IconPreview from '../icon/preview'
 import IconHidden from '../icon/hidden'
@@ -91,7 +92,7 @@ class Thumbs extends React.Component {
   }
 
   render() {
-    // global.rerender('Subject.Thumbs')
+    rerender('Subject.Thumbs')
 
     if (STORYBOOK) return null
 

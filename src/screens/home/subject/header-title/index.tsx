@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import HeaderTitle from './header-title'
 
 export default ob(({ $ }: Ctx) => {
-  // global.rerender('Subject.HeaderTitle')
+  rerender('Subject.HeaderTitle')
 
   return (
     <HeaderTitle

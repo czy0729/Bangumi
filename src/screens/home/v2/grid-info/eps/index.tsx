@@ -9,12 +9,13 @@ import { View } from 'react-native'
 import { Eps as CompEps } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { InferArray } from '@types'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function Eps({ subjectId }, { $, navigation }: Ctx) {
-  // global.rerender('Home.GridInfo.Eps')
+  rerender('Home.GridInfo.Eps')
 
   const { homeGridEpAutoAdjust } = systemStore.setting
   const { flip } = $.state

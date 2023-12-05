@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-03 00:46:17
  */
-import { IOS_IPA } from '@/config'
+import { DEV, IOS_IPA } from '@/config'
 import { WSA, STORYBOOK } from '@constants/device'
 import { IOS } from '@constants/constants'
 import { window } from '../../styles/layout'
@@ -37,9 +37,12 @@ export const SI = WSA ? SI_WSA : IOS ? SI_IOS : SI_ANDROID
 
 export const SI_UV = 'a69e268f29c60e0429a711037f9c48b0'
 
+/** @deprecated */
 export const SI_ERROR = '00da9670516311c9b9014c067022f55c'
 
 /** ==================== umami ==================== */
+const WEBSITE_DEV = '6cd641bc-0fc3-494a-b772-dc6235b3ff9d'
+
 const WEBSITE_ANDROID = 'ce929b24-f54b-4f82-9559-88261b437ba6'
 
 const WEBSITE_IOS = 'e12e0585-df54-41ce-88c9-3a7da747f90d'
@@ -50,7 +53,9 @@ const WEBSITE_WEB = '5ab772a6-b40d-44c4-ad6c-c241b425ed33'
 
 const WEBSITE_WSA = '5df0b010-8042-4e39-9586-7b6e4050313f'
 
-export const WEBSITE = STORYBOOK
+export const WEBSITE = DEV
+  ? WEBSITE_DEV
+  : STORYBOOK
   ? WEBSITE_WEB
   : WSA
   ? WEBSITE_WSA

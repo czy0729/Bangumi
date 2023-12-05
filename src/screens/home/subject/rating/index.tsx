@@ -7,11 +7,12 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Rating from './rating'
 import { memoStyles } from './styles'
 
 export default ob(() => {
-  // global.rerender('Subject.Rating')
+  rerender('Subject.Rating')
 
   const { showRating } = systemStore.setting
   if (showRating === -1) return null

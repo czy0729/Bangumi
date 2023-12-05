@@ -8,13 +8,14 @@ import React from 'react'
 import { rakuenStore, systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { URL_DEFAULT_AVATAR } from '@constants'
 import { Ctx } from '../types'
 import Topic from './topic'
 import { memoStyles } from './styles'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Topic')
+  rerender('Subject.Topic')
 
   const { showTopic } = systemStore.setting
   if (showTopic === -1) return null

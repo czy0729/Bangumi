@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { getKeyString, keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import FixedToolBar from '../fixed-tool-bar'
 import Item from './item'
 import Pagination from './pagination'
@@ -31,7 +32,7 @@ const List = memo(
     onHeaderRefresh,
     onFooterRefresh
   }) => {
-    // global.rerender('User.List')
+    rerender('User.List')
 
     const { page: pageCurrent, pageTotal } = userCollections.pagination
     const ListHeaderComponent = useMemo(

@@ -13,12 +13,13 @@ import { date, open, showImageViewer, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useHorizontalLazy } from '@utils/hooks'
+import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
 export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) => {
-  // global.rerender('Subject.Anitabi.Main')
+  rerender('Subject.Anitabi.Main')
 
   const { city, pointsLength, imagesLength, litePoints } = data
   const { list, onScroll } = useHorizontalLazy(

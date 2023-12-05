@@ -8,11 +8,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Iconfont, Text } from '@components'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function BtnNextEp({ subjectId }, { $ }: Ctx) {
-  // global.rerender('Home.GridInfo.BtnNextEp')
+  rerender('Home.GridInfo.BtnNextEp')
 
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null

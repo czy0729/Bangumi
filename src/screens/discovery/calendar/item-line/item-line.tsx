@@ -12,6 +12,7 @@ import { _, uiStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { DEFAULT_PROPS } from './ds'
@@ -40,7 +41,7 @@ const ItemLine = memo(
     sites,
     onToggleExpand
   }) => {
-    // global.rerender('Calendar.ItemLine.Main')
+    rerender('Calendar.ItemLine.Main')
 
     const title = HTMLDecode(name)
     const size = title.length >= 20 ? 12 : title.length >= 14 ? 13 : 14

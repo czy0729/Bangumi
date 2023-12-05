@@ -7,11 +7,12 @@
 import React from 'react'
 import { View } from 'react-native'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function Opacity({ subjectId, children }, { $ }: Ctx) {
-  // global.rerender('Home.GridItem.Opacity')
+  rerender('Home.GridItem.Opacity')
 
   const { grid } = $.state
   const { subject_id: current } = grid || {}

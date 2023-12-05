@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { Flex, Text, Input, Iconfont, Loading } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -49,7 +50,7 @@ class Filter extends React.Component<Props> {
   render() {
     if (!this.show) return null
 
-    // global.rerender('Home.Filter')
+    rerender('Home.Filter')
 
     const { $ } = this.context as Ctx
     const { progress } = $.state
@@ -66,12 +67,7 @@ class Filter extends React.Component<Props> {
           onChangeText={$.onFilterChange}
         />
         {!focus && !this.filter && (
-          <Flex
-            style={this.styles.icon}
-            justify='center'
-            // @ts-expect-error
-            pointerEvents='none'
-          >
+          <Flex style={this.styles.icon} justify='center' pointerEvents='none'>
             {progress.fetching && (
               <View style={this.styles.loading}>
                 <Loading.Medium color={_.colorSub} size={16} />

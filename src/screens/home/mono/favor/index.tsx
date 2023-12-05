@@ -8,11 +8,12 @@ import React from 'react'
 import { Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Favor({ $ }: Ctx) {
-  // global.rerender('Mono.Favor')
+  rerender('Mono.Favor')
 
   const { collectUrl, eraseCollectUrl } = $.mono
   if (collectUrl) {

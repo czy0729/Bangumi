@@ -9,13 +9,14 @@ import { Eps as CompEps } from '@_'
 import { _ } from '@stores'
 import { window, wind } from '@styles'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { InferArray } from '@types'
 import { Ctx } from '../types'
 
 const LAYOUT_WIDTH = Math.floor(window.width - wind) - 1
 
 function Eps(props, { $, navigation }: Ctx) {
-  // global.rerender('Subject.Eps')
+  rerender('Subject.Eps')
 
   const canPlay = $.onlinePlayActionSheetData.length >= 2
   const showPlay = !$.isLimit && canPlay

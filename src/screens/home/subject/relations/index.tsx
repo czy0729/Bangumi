@@ -7,11 +7,12 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Relations from './relations'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Relations')
+  rerender('Subject.Relations')
 
   const { showRelations } = systemStore.setting
   if (showRelations === -1 || !$.relations.length) return null

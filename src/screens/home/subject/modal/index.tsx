@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Modal from './modal'
 
 export default obc((props, { $ }: Ctx) => {
-  // global.rerender('Subject.Modal')
+  rerender('Subject.Modal')
 
   if (!$.isLogin) return null
 

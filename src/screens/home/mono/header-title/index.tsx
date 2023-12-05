@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import HeaderTitle from './header-title'
 
 export default obc(({ $ }: Ctx) => {
-  // global.rerender('Mono.HeaderTitle')
+  rerender('Mono.HeaderTitle')
 
   return (
     <HeaderTitle

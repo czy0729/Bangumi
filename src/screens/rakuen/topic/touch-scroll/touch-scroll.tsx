@@ -10,6 +10,7 @@ import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, stl, titleCase } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IOS, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
 import { DEFAULT_PROPS, HIT_SLOP } from './ds'
@@ -22,7 +23,7 @@ type PassProps = {
 
 export const TouchScroll = memo(
   ({ styles, list, readedTime, scrollDirection, directFloor, isWebLogin, onPress }) => {
-    // global.rerender('Topic.TouchScroll.Main')
+    rerender('Topic.TouchScroll.Main')
 
     const currentFloor = directFloor ? Number(directFloor.match(/\d+/)?.[0] || 0) : 0
     const showFloor = [

@@ -9,6 +9,7 @@ import { Component, Flex, Text, Touchable, Iconfont } from '@components'
 import { _ } from '@stores'
 import { isObject } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { styles } from './styles'
 import { Props as SectionTitleProps } from './types'
 
@@ -17,7 +18,7 @@ export { SectionTitleProps }
 /** 块(章节) 标题 */
 export const SectionTitle = memo(
   ({ style, icon, left, right, children, onPress }: SectionTitleProps) => {
-    // global.rerender('Component.SectionTitle')
+    rerender('Component.SectionTitle')
 
     return (
       <Component id='base-section-title'>

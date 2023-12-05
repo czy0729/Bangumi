@@ -7,6 +7,7 @@
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import ItemLine from './item-line'
 import { memoStyles } from './styles'
@@ -28,7 +29,7 @@ export default obc(
     },
     { $, navigation }: Ctx
   ) => {
-    // global.rerender('Calendar.ItemLine')
+    rerender('Calendar.ItemLine')
 
     const { type, expand } = $.state
     const collection = collectionStore.collect(subjectId)

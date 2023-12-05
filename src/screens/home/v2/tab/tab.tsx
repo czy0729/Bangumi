@@ -9,11 +9,12 @@ import { TabView } from '@components'
 import { BlurViewRoot, BlurViewTab, BlurViewBottomTab } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import TabBar from './tab-bar'
 
 function Tab({ renderScene }, { $ }: Ctx) {
-  // global.rerender('Home.Tab.Main')
+  rerender('Home.Tab.Main')
 
   return (
     <BlurViewRoot>

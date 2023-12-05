@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import { Ctx } from '../types'
 import HeaderTitle from './header-title'
 
 export default ob(({ $, navigation }: Ctx) => {
-  // global.rerender('Topic.HeaderTitle')
+  rerender('Topic.HeaderTitle')
 
   return (
     <HeaderTitle

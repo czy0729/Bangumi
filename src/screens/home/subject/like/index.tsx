@@ -7,11 +7,12 @@
 import React from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import Like from './like'
 
 export default obc((props, { $, navigation }: Ctx) => {
-  // global.rerender('Subject.Like')
+  rerender('Subject.Like')
 
   const { showLike } = systemStore.setting
   if (showLike === -1 || !$.like.length) return null

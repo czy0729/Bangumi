@@ -8,11 +8,12 @@ import React from 'react'
 import { Flex, Text, Touchable, Iconfont } from '@components'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function SectionRight({ event, text, to }, { $, navigation }: Ctx) {
-  // global.rerender('Mono.SectionRight')
+  rerender('Mono.SectionRight')
 
   return (
     <Touchable

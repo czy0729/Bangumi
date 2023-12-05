@@ -8,11 +8,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import Comment from './comment'
 import { memoStyles } from './styles'
 
 export default obc((props, { $ }) => {
-  // global.rerender('Subject.Comment')
+  rerender('Subject.Comment')
 
   const { showComment } = systemStore.setting
   if (showComment === -1) return <View style={_.mt.lg} />

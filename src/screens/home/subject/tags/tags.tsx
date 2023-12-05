@@ -12,6 +12,7 @@ import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectType } from '@types'
 import IconHidden from '../icon/hidden'
@@ -42,7 +43,7 @@ export default memo(
     wenkuTags,
     onSwitchBlock
   }) => {
-    // global.rerender('Subject.Tags.Main')
+    rerender('Subject.Tags.Main')
 
     const elTags = (
       <>

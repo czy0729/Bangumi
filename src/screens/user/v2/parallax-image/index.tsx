@@ -7,12 +7,13 @@
 import React from 'react'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 import ParallaxImage from './parallax-image'
 import { memoStyles } from './styles'
 
 export default obc(({ scrollY, fixed }, { $, navigation }: Ctx) => {
-  // global.rerender('User.ParallaxImage')
+  rerender('User.ParallaxImage')
 
   const { id, avatar, nickname, username } = $.usersInfo
   return (

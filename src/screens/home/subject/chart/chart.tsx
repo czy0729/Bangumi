@@ -10,12 +10,13 @@ import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { stl, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { getHeight, getDeviation, getDispute } from './utils'
 import { DEFAULT_PROPS, DEFAULT_RATES } from './ds'
 
 export default memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
-    // global.rerender('Subject.Rating.Chart.Main')
+    rerender('Subject.Rating.Chart.Main')
 
     const deviation = getDeviation(total, count, score)
     const _count = Object.keys(count).length ? count : DEFAULT_RATES

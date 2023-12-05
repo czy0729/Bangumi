@@ -10,13 +10,14 @@ import { Expand, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import IconTranslate from '../icon/translate'
 import IconHidden from '../icon/hidden'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
   ({ styles, showSummary, translateResult, content, onSwitchBlock }) => {
-    // global.rerender('Subject.Summary.Main')
+    rerender('Subject.Summary.Main')
 
     return (
       <View style={showSummary ? styles.container : styles.hide}>

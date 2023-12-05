@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { open, HTMLDecode, getBlurRadius } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { IOS, TEXT_ONLY } from '@constants'
 import { UserId, ViewStyle } from '@types'
 import Head from '../head'
@@ -38,7 +39,7 @@ export default memo(
     userId,
     username
   }) => {
-    // global.rerender('User.ParallaxImage.Main')
+    rerender('User.ParallaxImage.Main')
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const parallaxStyle: {
@@ -128,7 +129,7 @@ export default memo(
     )
 
     const AnimatedView = useMemo(() => {
-      // global.rerender('User.ParallaxImage.AnimatedView')
+      rerender('User.ParallaxImage.AnimatedView')
 
       let uri = bg || bgAvatar || avatar.large
       if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
@@ -136,8 +137,10 @@ export default memo(
       return (
         <>
           {TEXT_ONLY ? (
+            // @ts-expect-error
             <Animated.View style={[themeStyles.parallaxImage, parallaxStyle]} />
           ) : (
+            // @ts-expect-error
             <Animated.Image
               style={[themeStyles.parallaxImage, parallaxStyle]}
               source={{
@@ -146,6 +149,7 @@ export default memo(
               blurRadius={getBlurRadius(uri, bg, avatar?.large)}
             />
           )}
+          {/* @ts-expect-error */}
           <Animated.View
             style={[
               styles.parallaxWrap,
@@ -164,6 +168,7 @@ export default memo(
               }
             ]}
           />
+          {/* @ts-expect-error */}
           <Animated.View
             style={[
               styles.parallaxMask,
@@ -200,7 +205,9 @@ export default memo(
               </Text>
             </Flex>
           </Animated.View>
+          {/* @ts-expect-error */}
           <Animated.View style={[styles.parallaxWrap, parallaxStyle as ViewStyle]}>
+            {/* @ts-expect-error */}
             <Animated.View
               style={{
                 opacity: scrollY.interpolate({
@@ -234,7 +241,7 @@ export default memo(
     ])
 
     const Content = useMemo(() => {
-      // global.rerender('User.ParallaxImage.Content')
+      rerender('User.ParallaxImage.Content')
 
       const isMe = !!id && myUserId === id
       const data = isMe ? DATA_ME : DATA_OTHER

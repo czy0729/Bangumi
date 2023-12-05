@@ -6,6 +6,7 @@
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
+import { rerender } from '@utils/dev'
 import List from '../list'
 import Tab from './tab'
 
@@ -14,7 +15,7 @@ import Tab from './tab'
  * 所以只能在上面把 routes 的 length 传下来监听刷新
  */
 export default ({ length }) => {
-  // global.rerender('Home.Tab')
+  rerender('Home.Tab')
 
   const renderScene = useMemo(() => {
     const routes: Record<string, React.ComponentType> = {

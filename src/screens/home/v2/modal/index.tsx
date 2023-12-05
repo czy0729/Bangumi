@@ -7,10 +7,11 @@
 import React from 'react'
 import { ManageModal } from '@_'
 import { obc } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { Ctx } from '../types'
 
 function Modal(props, { $ }: Ctx) {
-  // global.rerender('Home.Modal')
+  rerender('Home.Modal')
 
   const { visible, subjectId, modal } = $.state
   const { name, name_cn: nameCn } = $.subject(subjectId)

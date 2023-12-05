@@ -21,6 +21,7 @@ import { _ } from '@stores'
 import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { rerender } from '@utils/dev'
 import { IOS, API_MONO_COVER } from '@constants'
 import { TopicId } from '@types'
 import Content from '../content'
@@ -34,7 +35,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Info(props, { $, navigation }: Ctx) {
-  // global.rerender('Mono.Info')
+  rerender('Mono.Info')
 
   const styles = memoStyles()
   const maxSize = _.r(_.window.contentWidth * 0.5)

@@ -9,6 +9,7 @@ import { Animated, View } from 'react-native'
 import { Flex, Input, Loading } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { rerender } from '@utils/dev'
 import { DEFAULT_PROPS } from './ds'
 
 const Filter = memo(
@@ -20,7 +21,7 @@ const Filter = memo(
     isFiltering,
     onFilterChange
   }) => {
-    // global.rerender('User.Filter.Main')
+    rerender('User.Filter.Main')
 
     const inputRef = useRef(null)
     const aHeight = useRef(new Animated.Value(0))
