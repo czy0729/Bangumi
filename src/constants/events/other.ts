@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 16:40:09
+ * @Last Modified time: 2023-12-07 03:51:54
  */
 
 /** Other */
@@ -27,6 +27,7 @@ export default {
   '其他.自定义跳转': 'Other.onAction',
   '其他.Webhooks': 'Other.webhooks',
 
+  // AC搜索
   'AC搜索.缩略框': 'ACSearch.popable',
   'AC搜索.跳转': 'ACSearch.to',
 
@@ -79,5 +80,10 @@ export default {
   '豆瓣同步.同步': 'DoubanSync.onSubmit',
   '豆瓣同步.置底': 'DoubanSync.onBottom',
   '豆瓣同步.详情': 'DoubanSync.onDetail',
-  '豆瓣同步.搜索': 'DoubanSync.onSearch'
+  '豆瓣同步.搜索': 'DoubanSync.onSearch',
+
+  // SPA
+  'SPA.底部菜单': 'SPA.onBottomTab',
+  'SPA.底部到顶': 'SPA.onBottomTabScrollToTop',
+  'SPA.到顶': 'SPA.onScrollToTop'
 }

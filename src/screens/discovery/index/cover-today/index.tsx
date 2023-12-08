@@ -12,6 +12,7 @@ import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, HTMLDecode, cnjp } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
 import { linearColor } from '../ds'
 import { Ctx } from '../types'
@@ -33,6 +34,12 @@ function CoverToday({ data }, { navigation }: Ctx) {
         ]}
         animate
         onPress={() => {
+          t('发现.跳转', {
+            to: 'Subject',
+            subjectId: data.id,
+            from: 'CoverToday'
+          })
+
           navigation.push('Subject', {
             subjectId: data.id,
             _jp: data.name,

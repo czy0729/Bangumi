@@ -37,9 +37,8 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
         onPress={() => {
           t('发现.跳转', {
             to: 'Subject',
-            from: title,
-            type: 'sm',
-            subjectId: data.subjectId
+            subjectId: data.subjectId,
+            from: `CoverSm|${title}`
           })
 
           navigation.push('Subject', {

@@ -71,6 +71,7 @@ export default {
   // 发现
   '发现.跳转': 'Discovery.to',
   '发现.剪贴板': 'Discovery.linkModal',
+  '发现.更新菜单': 'Discovery.saveMenus',
 
   // 随便看看
   '随便看看.跳转': 'Random.to',

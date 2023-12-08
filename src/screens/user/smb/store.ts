@@ -314,13 +314,12 @@ export default class ScreenSmb extends store {
 
     t('SMB.扫描', {
       length: list.length,
-      webDAV: smb.webDAV
+      type: this.eventType
     })
   }
 
   /** 文件夹上传扫描 */
   connectWebDirectory = async () => {
-    const { smb } = this.current
     const list = this.memoDirectory
     if (list.length) {
       const data = toJS(this.data)
@@ -347,7 +346,7 @@ export default class ScreenSmb extends store {
 
     t('SMB.扫描', {
       length: list.length,
-      webDAV: smb.webDAV
+      type: this.eventType
     })
     this.memoDirectory = []
 
@@ -555,6 +554,11 @@ export default class ScreenSmb extends store {
       if (!(folderName in foldersExpands)) return null
       return !!foldersExpands[folderName]
     }).get()
+  }
+
+  /** 事件类型 */
+  @computed get eventType() {
+    return STORYBOOK ? 'directory' : this.state.webDAV ? 'webDAV' : 'smb'
   }
 
   // -------------------- page --------------------
@@ -883,6 +887,10 @@ export default class ScreenSmb extends store {
     this.setState({
       visible: true
     })
+
+    t('SMB.显示表单', {
+      type: this.eventType
+    })
   }
 
   /** 关闭表单 */
@@ -913,7 +921,9 @@ export default class ScreenSmb extends store {
       webDAV: smb.webDAV
     })
 
-    t('SMB.编辑')
+    t('SMB.编辑', {
+      type: this.eventType
+    })
   }
 
   /** 复制当前服务配置并新建一个服务 */
@@ -1003,6 +1013,10 @@ export default class ScreenSmb extends store {
         uuid,
         ...EXCLUDE_STATE
       })
+
+      t('SMB.新增', {
+        type: this.eventType
+      })
     } else {
       data[index].smb.name = name
       data[index].smb.ip = ip
@@ -1018,12 +1032,12 @@ export default class ScreenSmb extends store {
       this.setState({
         ...EXCLUDE_STATE
       })
-    }
 
+      t('SMB.保存', {
+        type: this.eventType
+      })
+    }
     this.save()
-    t('SMB.保存', {
-      create: index === -1
-    })
 
     if (STORYBOOK) {
       setTimeout(() => {
@@ -1111,7 +1125,7 @@ export default class ScreenSmb extends store {
     this.cacheList()
     this.save()
 
-    t('SMB.选择标签', {
+    t('SMB.选择条目标签', {
       title
     })
   }
@@ -1190,6 +1204,8 @@ export default class ScreenSmb extends store {
     this.save()
 
     if (STORYBOOK) this.fetchCollectionsWeb()
+
+    t('SMB.上一页')
   }
 
   /** 下一页 */
@@ -1208,6 +1224,8 @@ export default class ScreenSmb extends store {
     this.save()
 
     if (STORYBOOK) this.fetchCollectionsWeb()
+
+    t('SMB.下一页')
   }
 
   /** 分页中间输入框文字改变 */
@@ -1235,6 +1253,8 @@ export default class ScreenSmb extends store {
     this.save()
 
     if (STORYBOOK) this.fetchCollectionsWeb()
+
+    t('SMB.页码跳转')
   }
 
   /** 文件夹切换显示类型 */
@@ -1259,6 +1279,8 @@ export default class ScreenSmb extends store {
       }
     })
     this.save()
+
+    t(value ? 'SMB.展开文件夹' : 'SMB.收起文件夹')
   }
 
   /** 展开当前页面所有文件夹 */
@@ -1274,6 +1296,8 @@ export default class ScreenSmb extends store {
       expands
     })
     this.save()
+
+    t('SMB.展开本页文件夹')
   }
 
   /** 关闭当前页面所有文件夹 */
@@ -1289,6 +1313,8 @@ export default class ScreenSmb extends store {
       expands
     })
     this.save()
+
+    t('SMB.收起本页文件夹')
   }
 
   /** 筛选输入框文字改变 */
@@ -1322,12 +1348,20 @@ export default class ScreenSmb extends store {
     })
     this.cacheList()
     this.save()
+
+    t('SMB.筛选', {
+      value
+    })
   }
 
   /** 展开通用配置表单 */
   onShowConfig = () => {
     this.setState({
       configVisible: true
+    })
+
+    t('SMB.显示配置', {
+      type: this.eventType
     })
   }
 
@@ -1340,12 +1374,18 @@ export default class ScreenSmb extends store {
 
   /** 切换通用配置 */
   onSwitchConfig = (key: keyof typeof STATE.configs) => {
+    const value = !this.state.configs[key]
     this.setState({
       configs: {
-        [key]: !this.state.configs[key]
+        [key]: value
       }
     })
     this.save()
+
+    t('SMB.切换配置', {
+      key,
+      value
+    })
   }
 
   /** 切换通用配置列数 */
@@ -1374,6 +1414,10 @@ export default class ScreenSmb extends store {
         visible: true
       }
     })
+
+    t('SMB.显示文件夹弹窗', {
+      subjectId: folders.subjectId
+    })
   }
 
   /** 关闭文件夹结构弹窗 */
@@ -1401,6 +1445,10 @@ export default class ScreenSmb extends store {
   onShowExtendsJA = () => {
     this.setState({
       extendsJAVisible: true
+    })
+
+    t('SMB.显示刮削词表单', {
+      type: this.eventType
     })
   }
 

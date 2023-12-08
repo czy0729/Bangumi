@@ -38,9 +38,8 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
         onPress={() => {
           t('发现.跳转', {
             to: 'Subject',
-            from: title,
-            type: 'lg',
-            subjectId: data.subjectId
+            subjectId: data.subjectId,
+            from: `CoverLg|${title}`
           })
 
           navigation.push('Subject', {

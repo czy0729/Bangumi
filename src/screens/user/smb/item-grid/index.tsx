@@ -11,6 +11,7 @@ import { Touchable, Flex, Image, Cover, Text, Hover, HoverProps } from '@compone
 import { _, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { ASSETS_ICONS, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx, MergeListItem } from '../types'
@@ -92,6 +93,12 @@ function ItemGrid(
             _cn: cn,
             _image: image,
             _type: typeCn
+          })
+
+          t('SMB.跳转', {
+            to: 'Subject',
+            subjectId,
+            from: 'ItemGrid'
           })
           return
         }

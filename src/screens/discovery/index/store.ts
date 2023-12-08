@@ -358,6 +358,10 @@ export default class ScreenDiscovery extends store {
   /** 更新菜单的自定义配置 */
   saveDiscoveryMenu = (discoveryMenu: typeof systemStore.setting.discoveryMenu) => {
     systemStore.setSetting('discoveryMenu', discoveryMenu)
+
+    t('发现.更新菜单', {
+      length: discoveryMenu.length
+    })
   }
 
   /** 更新可视范围底部 y */

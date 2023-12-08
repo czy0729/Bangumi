@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 20:55:19
+ * @Last Modified time: 2023-12-07 03:53:25
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -10,6 +10,7 @@ import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { getSPAId } from '@utils'
 import { scrollToTop } from '@utils/dom'
+import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
 import { Component } from '../../component'
 import { Flex } from '../../flex'
@@ -45,9 +46,17 @@ export const StorybookBottomTab = () => {
                   <Touchable
                     onPress={() => {
                       if (isActive) {
+                        t('SPA.底部到顶', {
+                          id: item.id
+                        })
+
                         scrollToTop()
                         return
                       }
+
+                      t('SPA.底部菜单', {
+                        id: item.id
+                      })
 
                       StorybookNavigation.replace(item.id, item.params)
                     }}

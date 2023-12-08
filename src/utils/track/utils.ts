@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-05 04:16:49
+ * @Last Modified time: 2023-12-06 04:39:35
  */
 import Constants from 'expo-constants'
 import { STORYBOOK } from '@constants/device'
 import { HOST } from '@constants/constants'
 import { AnyObject, EventKeys } from '@types'
+import { DEV } from '@/config'
 import { urlStringify, getTimestamp, randomn } from '../utils'
 import { API_UMAMI, API_XHR, SCREEN, TIMEOUT, TITLE, WEBSITE } from './ds'
 import { EventData } from './type'
-
-let userAgent = ''
 
 export function xhr(si: string, u: string) {
   const url = `${API_XHR}?${urlStringify({
@@ -31,18 +30,24 @@ export function xhr(si: string, u: string) {
   request.send(null)
 }
 
+let userAgent = ''
+
 export async function umami(url: string = '', title: string = '') {
   const _url = url.replace(HOST, '')
 
   if (STORYBOOK) {
+    const url = _url.split('?')?.[0]
+
     // @ts-ignore
     window.umami.track((props: any) => ({
       ...props,
       website: WEBSITE,
-      url: _url.split('?')?.[0],
+      url,
       title,
       referrer: ''
     }))
+
+    if (DEV) console.info('umami', url)
     return
   }
 
@@ -60,19 +65,26 @@ export async function umamiEvent(
   url: string = '',
   title: string = ''
 ) {
+  // 由于已经合并了页面浏览量的计算, 所以此旧事件忽略
+  if (/\.查看$/g.test(eventId)) return
+
   const _url = url.replace(HOST, '')
 
   if (STORYBOOK) {
+    const url = _url.split('?')?.[0]
+
     // @ts-ignore
     window.umami.track((props: any) => ({
       ...props,
       website: WEBSITE,
-      url: _url.split('?')?.[0],
+      url,
       title,
       name: eventId,
       data,
       referrer: ''
     }))
+
+    if (DEV) console.info('umamiEvent', url, eventId, data)
     return
   }
 

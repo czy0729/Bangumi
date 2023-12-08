@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-08 20:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:18:35
+ * @Last Modified time: 2023-12-07 03:54:20
  */
 import React from 'react'
 import { scrollToTop } from '@utils/dom'
+import { t } from '@utils/fetch'
 import { Component } from '../../component'
 import { styles } from './styles'
 import './index.scss'
@@ -23,7 +24,11 @@ export const StorybookScrollToTop = () => {
       style={styles.scrollToTop}
       // onTouchStart={handleDoubleTap}
       // @ts-ignore 电脑端只点击一下就生效
-      onClick={scrollToTop}
+      onClick={() => {
+        t('SPA.到顶')
+
+        scrollToTop()
+      }}
     />
   )
 }

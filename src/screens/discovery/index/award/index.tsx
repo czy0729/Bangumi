@@ -48,7 +48,8 @@ function Award({ navigation }) {
               onPress={() => {
                 t('发现.跳转', {
                   to: 'Award',
-                  year: 2020
+                  year: 2020,
+                  from: 'Award'
                 })
 
                 navigation.push('Award', {
@@ -75,7 +76,8 @@ function Award({ navigation }) {
               onPress={() => {
                 t('发现.跳转', {
                   to: 'Award',
-                  year: 2019
+                  year: 2019,
+                  from: 'Award'
                 })
 
                 navigation.push('Award', {
@@ -102,7 +104,8 @@ function Award({ navigation }) {
               onPress={() => {
                 t('发现.跳转', {
                   to: 'Award',
-                  year: 2018
+                  year: 2018,
+                  from: 'Award'
                 })
 
                 navigation.push('Award', {
@@ -128,7 +131,8 @@ function Award({ navigation }) {
               animate
               onPress={() => {
                 t('发现.跳转', {
-                  to: 'Yearbook'
+                  to: 'Yearbook',
+                  from: 'Award'
                 })
 
                 navigation.push('Yearbook')

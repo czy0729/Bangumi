@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:21:38
+ * @Last Modified time: 2023-12-06 04:06:29
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'
@@ -119,7 +119,7 @@ export const tabsHeaderHeight = headerHeight + tabsHeight
 export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 6)
 
 /** [待废弃] 底部留空 */
-export const bottom = tabBarHeight + lg
+export const bottom = STORYBOOK ? 128 : tabBarHeight + lg
 
 /** 计算 App 布局参数 */
 export function getAppLayout() {

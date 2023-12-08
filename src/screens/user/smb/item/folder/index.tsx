@@ -11,6 +11,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { copy } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { ASSETS_ICONS } from '@constants'
 import { fixedUrl, openURL } from '../../utils'
 import { Ctx, SMBListItem } from '../../types'
@@ -60,6 +61,8 @@ function Folder(
             .join('/')
         )
         openURL(`localexplorer:${url}`)
+
+        t('SMB.打开本地')
       }}
     />
   ) : null
@@ -78,9 +81,6 @@ function Folder(
               {splits?.[splits.length - 1] || '/'}
             </Text>
           </Flex.Item>
-          {/* {!!elOpenLocalFolder && (
-            <View style={styles.folderOpenFixed}>{elOpenLocalFolder}</View>
-          )} */}
           <Iconfont style={styles.next} name='md-navigate-next' />
         </Flex>
       </Touchable>

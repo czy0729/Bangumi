@@ -41,7 +41,8 @@ function Award2021(props, { $, navigation }: Ctx) {
           onPress={() => {
             t('发现.跳转', {
               to: 'Award',
-              year: 2021
+              year: 2021,
+              from: 'Award2021'
             })
 
             navigation.push('Award', {

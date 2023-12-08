@@ -33,7 +33,6 @@ function Award2022({
       <View
         style={[
           styles.container,
-          // eslint-disable-next-line react-native/no-inline-styles
           {
             height: height || styles.container.height,
             marginRight: height ? 0 : styles.container.marginRight,
@@ -53,7 +52,8 @@ function Award2022({
           onPress={() => {
             t('发现.跳转', {
               to: 'Award',
-              year: 2022
+              year: 2022,
+              from: 'Award2022'
             })
 
             navigation.push('Award', {

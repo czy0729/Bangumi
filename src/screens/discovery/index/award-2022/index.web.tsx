@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { useMount } from '@utils/hooks'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Navigation } from '@types'
 import { memoStyles } from './styles'
@@ -196,7 +197,6 @@ function Award2022({
     <View
       style={[
         styles.container,
-        // eslint-disable-next-line react-native/no-inline-styles
         {
           height: height || styles.container.height,
           marginRight: height ? 0 : styles.container.marginRight,
@@ -214,6 +214,12 @@ function Award2022({
         ]}
         animate
         onPress={() => {
+          t('发现.跳转', {
+            to: 'Award',
+            year: 2022,
+            from: 'Award2022'
+          })
+
           navigation.push('Award', {
             uri: `${HOST}/award/2022`
           })

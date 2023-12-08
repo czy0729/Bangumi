@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { ScrollView, Modal, Flex, Cover } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import Subject from '../subject'
 import Folders from '../item/folders'
@@ -35,6 +36,12 @@ function ModalFolders(props, { $, navigation }: Ctx) {
                 _jp: jp,
                 _cn: cn,
                 _image: image
+              })
+
+              t('SMB.跳转', {
+                to: 'Subject',
+                subjectId,
+                from: 'ModalFolders'
               })
 
               setTimeout(() => {

@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
@@ -53,6 +54,11 @@ const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
       <Touchable
         style={_.mt.sm}
         onPress={() => {
+          t('发现.跳转', {
+            to: 'Setting',
+            from: 'SortMenu'
+          })
+
           navigation.push('Setting', {
             open: 'Discovery'
           })

@@ -34,7 +34,8 @@ function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
       onPress={() => {
         t('SMB.跳转', {
           to: 'Subject',
-          subjectId
+          subjectId,
+          from: 'Item'
         })
 
         navigation.push('Subject', {

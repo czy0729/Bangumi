@@ -28,12 +28,19 @@ export default obc(({ item }, { $, navigation }: Ctx) => {
         dragging
           ? undefined
           : async () => {
-              if (login && !username && !id) return info(`请先${i18n.login()}`)
+              if (login && !username && !id) {
+                info(`请先${i18n.login()}`)
+                return
+              }
 
-              if (key === 'Open') return $.toggleDragging()
+              if (key === 'Open') {
+                $.toggleDragging()
+                return
+              }
 
               t('发现.跳转', {
-                to: key
+                to: key,
+                from: 'Btn'
               })
 
               if (key === 'Anime') {

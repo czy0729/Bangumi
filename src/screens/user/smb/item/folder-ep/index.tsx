@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { copy, desc } from '@utils'
 import { c } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
+import { t } from '@utils/fetch'
 import { Ctx, SMBListItem } from '../../types'
 import LastModified from '../last-modified'
 import { SORT_ORDER } from '../ds'
@@ -96,6 +97,10 @@ function FolderEp(
                     title={[item.size ? `${item.name} (${item.size})` : item.name]}
                     data={actions}
                     onSelect={title => {
+                      t('SMB.章节菜单', {
+                        title
+                      })
+
                       if (title === ACTION_LINKING) {
                         Linking.openURL(
                           $.url(sharedFolder, folder.path, name, item.name)

@@ -8,6 +8,7 @@ import React from 'react'
 import { Header as CompHeader, Flex, Touchable, Activity } from '@components'
 import { open, info } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { styles } from './styles'
 import './index.scss'
@@ -49,12 +50,19 @@ function Header(props, { $, navigation }: Ctx) {
 
                 case '用户令牌':
                   navigation.push('LoginToken')
+
+                  t('SMB.跳转', {
+                    to: 'LoginToken',
+                    from: 'Header'
+                  })
                   break
 
                 case '功能说明':
                   open(
                     'https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt?singleDoc'
                   )
+
+                  t('SMB.功能说明')
                   break
 
                 default:

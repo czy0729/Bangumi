@@ -39,9 +39,8 @@ export default memo(
             onPress={() => {
               t('发现.跳转', {
                 to: 'Subject',
-                from: title,
-                type: 'xs',
-                subjectId: data.id
+                subjectId: data.id,
+                from: `CoverXs|${title}`
               })
 
               navigation.push('Subject', {

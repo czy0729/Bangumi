@@ -27,7 +27,8 @@ function SectionTitle({ title, type }, { navigation }: Ctx) {
           onPress={() => {
             t('发现.跳转', {
               to: 'Channel',
-              title
+              title,
+              from: 'SectionTitle'
             })
 
             navigation.push('Channel', {
