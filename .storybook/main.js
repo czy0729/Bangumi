@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 14:21:21
+ * @Last Modified time: 2023-12-08 08:02:12
  */
+const path = require('path')
 const sass = require('node-sass')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   title: 'Bangumi 番组计划',
@@ -51,6 +53,21 @@ module.exports = {
       ...config.resolve.alias,
       stream: require.resolve('stream-browserify')
     }
+
+    /** ========== Public ========== */
+    config.plugins.push(
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, '../src/assets/proto'),
+            to: 'assets/proto',
+            filter: resourcePath => {
+              return /\.(bin|proto)$/.test(resourcePath) // 只复制 .bin 和 .proto 文件
+            }
+          }
+        ]
+      })
+    )
 
     /** ========== Workbox ========== */
     if (configType === 'PRODUCTION') {

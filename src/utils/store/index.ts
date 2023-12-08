@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 14:25:57
+ * @Last Modified time: 2023-12-09 01:11:13
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
@@ -20,13 +20,9 @@ configure({
   useProxies: STORYBOOK ? 'always' : 'never'
 })
 
-export default class Store {
-  /**
-   * 统一 setState 方法
-   * @version 190226 v1.0
-   * @param {*} state
-   */
-  setState = action((state: any, stateKey: string = 'state') => {
+export default class Store<T extends object> {
+  /** 同步的增量 setState 方法 */
+  setState = action((state: Partial<T>, stateKey: string = 'state') => {
     Object.entries(state).forEach(([key, item]) => {
       const observerTarget = this[stateKey]
 
@@ -88,7 +84,7 @@ export default class Store {
    */
   fetch = async (
     fetchConfig: any,
-    stateKey?: string | number | (string | number)[],
+    stateKey?: keyof T | (keyof T)[],
     otherConfig: {
       /** 本地化空间 */
       namespace?: string
@@ -146,6 +142,7 @@ export default class Store {
     }
 
     if (Array.isArray(stateKey)) {
+      // @ts-expect-error
       this.setState({
         [stateKey[0]]: {
           [stateKey[1]]: _data
@@ -154,6 +151,8 @@ export default class Store {
     } else if (stateKey) {
       // @ts-expect-error
       const initState = this.state[stateKey]
+
+      // @ts-expect-error
       this.setState({
         [stateKey]: _data || initState
       })

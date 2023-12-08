@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-26 04:31:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:10:54
+ * @Last Modified time: 2023-12-09 01:14:42
  */
 import { _ } from '@stores'
 
@@ -10,20 +10,24 @@ export const NAMESPACE = 'ScreenCalendar'
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height
+  visibleBottom: _.window.height,
+
+  /** 是否加载 bangumi-data */
+  loadedBangumiData: false
 }
 
 export const STATE = {
-  /** 布局 list | grid */
-  layout: 'list',
+  /** 布局 */
+  layout: 'list' as 'list' | 'grid',
 
-  /** 筛选 all | collect */
-  type: 'all',
+  /** 筛选 */
+  type: 'all' as 'all' | 'collect',
 
   /** 是否展开所有 */
   expand: false,
 
+  /** 上次请求全局管理单独条目的收藏状态 */
+  _lastQueue: 0 as number,
   ...EXCLUDE_STATE,
-  _lastQueue: 0,
-  _loaded: false
+  _loaded: false as boolean
 }

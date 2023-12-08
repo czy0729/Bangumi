@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-22 02:18:02
+ * @Last Modified time: 2023-12-09 01:44:24
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
@@ -11,7 +11,7 @@ import Stores from '@stores'
 import { contextTypes } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import { AnyObject, Fn, Navigation } from '@types'
-import { DEV } from '@/config'
+// import { DEV } from '@/config'
 import { urlStringify } from '../index'
 import observer from './observer'
 
@@ -61,7 +61,8 @@ const Inject = (Store, config?: Config) => {
           this.$ = Stores.get(key)
 
           // DEV 环境下也需要每次新建, 保证热更新能获取到最新的 store 代码
-          if (!this.$ || DEV) {
+          // if (!this.$ || DEV) {
+          if (!this.$) {
             this.$ = new Store()
 
             // 把 navigation 的页面参数插入 store 方便使用

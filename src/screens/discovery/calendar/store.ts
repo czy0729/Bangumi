@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:31:19
+ * @Last Modified time: 2023-12-09 01:54:29
  */
 import { observable, computed } from 'mobx'
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { calendarStore, subjectStore, collectionStore } from '@stores'
 import { desc, getTimestamp, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { BangumiData, SubjectId } from '@types'
+import { decode, get } from '@utils/protobuf'
+import { SubjectId } from '@types'
 import { getTime } from './utils'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
-export default class ScreenCalendar extends store {
+export default class ScreenCalendar extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
@@ -25,7 +25,11 @@ export default class ScreenCalendar extends store {
       _loaded: true
     })
 
-    await queue([() => calendarStore.fetchOnAir(), () => calendarStore.fetchCalendar()])
+    await queue([
+      () => calendarStore.fetchOnAir(),
+      () => calendarStore.fetchCalendar(),
+      () => this.fetchBangumiData()
+    ])
     this.fetchCollectionsQueue()
   }
 
@@ -52,6 +56,17 @@ export default class ScreenCalendar extends store {
     }, 2000)
   }
 
+  /** 加载 bangumi-data */
+  fetchBangumiData = async () => {
+    if (this.state.loadedBangumiData) return
+
+    await decode('bangumi-data')
+    this.setState({
+      loadedBangumiData: true
+    })
+  }
+
+  /** 本地化 */
   save = () => {
     return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
@@ -97,7 +112,9 @@ export default class ScreenCalendar extends store {
   /** 放送站点 */
   sites(subjectId: SubjectId) {
     return computed(() => {
-      return (bangumiData as BangumiData).find(item => item.id == subjectId)?.s || {}
+      if (!this.state.loadedBangumiData) return {}
+
+      return get('bangumi-data')?.find(item => item.id == subjectId)?.s || {}
     }).get()
   }
 
@@ -116,7 +133,7 @@ export default class ScreenCalendar extends store {
   }
 
   /** 切换类型 */
-  onToggleType = label => {
+  onToggleType = (label: string) => {
     const { type } = this.state
     const isAll = type === 'all'
     if (label) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 07:47:04
+ * @Last Modified time: 2023-12-09 01:53:55
  */
 module.exports = {
   root: true,
@@ -26,16 +26,13 @@ module.exports = {
     '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/no-unused-vars': [2, { ignoreRestSiblings: true }],
     'max-len': ['error', 200],
-
-    /** 允许相同变量名 */
-    'no-shadow': 0,
+    'no-shadow': 0, // 允许相同变量名
     'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
     'react/no-did-mount-set-state': 0,
     'react/no-unstable-nested-components': 0,
     eqeqeq: 0,
-
-    /** parseInt 允许不填进制 */
-    radix: 0,
+    radix: 0, // parseInt 允许不填进制
+    'max-depth': ['warn', 2], // 设置最大嵌套深度
     'react-hooks/exhaustive-deps': 'warn'
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 05:09:52
+ * @Last Modified time: 2023-12-09 00:11:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,11 @@ import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { DEFAULT_PROPS } from './ds'
 
 const SECTION_HEIGHT = _.window.height * 0.64
-const ITEM_HEIGHT = 138
 
 const ItemLine = memo(
   ({
@@ -77,11 +76,11 @@ const ItemLine = memo(
           <>
             <InView
               style={styles.inView}
-              y={SECTION_HEIGHT * section + ITEM_HEIGHT * index + 1}
+              y={SECTION_HEIGHT * section + styles.inView.minHeight * index + 1}
             >
               <Cover
-                width={IMG_WIDTH_SM}
-                height={IMG_HEIGHT_SM}
+                width={styles.inView.minWidth}
+                height={styles.inView.minHeight}
                 src={images?.medium}
                 radius
                 shadow
@@ -110,11 +109,15 @@ const ItemLine = memo(
                     </Flex.Item>
                   </Flex>
                 </View>
-                {!!air && (
+                {!!air ? (
                   <Text type='sub' size={12} bold>
                     至第 {air} 话 {s.length ? ` · ${s.join('、')}` : ''}
                   </Text>
-                )}
+                ) : s.length ? (
+                  <Text type='sub' size={12} bold>
+                    {s.join('、')}
+                  </Text>
+                ) : null}
                 <Flex>
                   {showScore && (
                     <>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-05 05:10:43
+ * @Last Modified time: 2023-12-08 23:39:32
  */
 import { StyleSheet } from 'react-native'
 // import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -24,6 +24,11 @@ export default class Action extends Computed {
   /** 平台选择, 安卓平台使用第二个值 */
   ios: SelectFn = (iosValue, androidValue) => {
     return IOS ? iosValue : androidValue
+  }
+
+  /** 平台选择, 网页平台使用第一个值 */
+  web: SelectFn = (webValue, otherValue) => {
+    return STORYBOOK ? webValue : otherValue
   }
 
   /** 主题选择, 黑暗模式使用第二个值 */
