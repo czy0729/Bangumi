@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 04:33:42
+ * @Last Modified time: 2023-12-10 03:27:03
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
@@ -13,6 +13,7 @@ import { EVENT } from '@constants'
 import { Avatar, Name } from '../../base'
 import { memoStyles } from './styles'
 import { Props as ItemArticleProps } from './types'
+import { View } from 'react-native'
 
 export { ItemArticleProps }
 
@@ -44,16 +45,17 @@ export const ItemArticle = ob(
           onPress={() => appNavigate(url, navigation, {}, event)}
         >
           <Flex align='start'>
-            <UserStatus userId={userId}>
-              <Avatar
-                style={styles.image}
-                userId={userId}
-                name={nickname}
-                src={avatar}
-                event={event}
-                navigation={navigation}
-              />
-            </UserStatus>
+            <View style={styles.cover}>
+              <UserStatus userId={userId}>
+                <Avatar
+                  userId={userId}
+                  name={nickname}
+                  src={avatar}
+                  event={event}
+                  navigation={navigation}
+                />
+              </UserStatus>
+            </View>
             <Flex.Item style={styles.item}>
               <Text bold>{HTMLDecode(title)}</Text>
               <Flex style={_.mt.xs}>

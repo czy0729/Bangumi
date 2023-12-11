@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 00:11:57
+ * @Last Modified time: 2023-12-09 15:41:36
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Katakana, Text } from '@components'
-import { InView, Cover, Rank, Stars, Manage } from '@_'
+import { Touchable, Flex, Cover, Katakana, Text } from '@components'
+import { InView, Rank, Stars, Manage } from '@_'
 import { _, uiStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
@@ -42,6 +42,7 @@ const ItemLine = memo(
   }) => {
     rerender('Calendar.ItemLine.Main')
 
+    const { minWidth: width, minHeight: height } = styles.inView
     const title = HTMLDecode(name)
     const size = title.length >= 20 ? 12 : title.length >= 14 ? 13 : 14
 
@@ -76,15 +77,9 @@ const ItemLine = memo(
           <>
             <InView
               style={styles.inView}
-              y={SECTION_HEIGHT * section + styles.inView.minHeight * index + 1}
+              y={SECTION_HEIGHT * section + height * index + 1}
             >
-              <Cover
-                width={styles.inView.minWidth}
-                height={styles.inView.minHeight}
-                src={images?.medium}
-                radius
-                shadow
-              />
+              <Cover width={width} height={height} src={images?.medium} radius />
             </InView>
             <Flex.Item style={_.ml.md}>
               <Flex

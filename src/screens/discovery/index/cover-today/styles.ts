@@ -13,9 +13,6 @@ export const memoStyles = _.memoStyles(() => {
     item: {
       marginRight: margin
     },
-    touch: {
-      overflow: 'hidden'
-    },
     cover: {
       width,
       height: width * 1.38

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-06 04:39:35
+ * @Last Modified time: 2023-12-09 20:29:34
  */
 import Constants from 'expo-constants'
 import { STORYBOOK } from '@constants/device'
 import { HOST } from '@constants/constants'
 import { AnyObject, EventKeys } from '@types'
 import { DEV } from '@/config'
-import { urlStringify, getTimestamp, randomn } from '../utils'
+import { urlStringify, getTimestamp, randomn, interceptor } from '../utils'
 import { API_UMAMI, API_XHR, SCREEN, TIMEOUT, TITLE, WEBSITE } from './ds'
 import { EventData } from './type'
 
@@ -33,8 +33,9 @@ export function xhr(si: string, u: string) {
 let userAgent = ''
 
 export async function umami(url: string = '', title: string = '') {
-  const _url = url.replace(HOST, '')
+  if (interceptor('umami', arguments)) return
 
+  const _url = url.replace(HOST, '')
   if (STORYBOOK) {
     const url = _url.split('?')?.[0]
 
@@ -51,8 +52,6 @@ export async function umami(url: string = '', title: string = '') {
     return
   }
 
-  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
-
   umamiXhr({
     title: title || TITLE,
     url: _url
@@ -66,10 +65,9 @@ export async function umamiEvent(
   title: string = ''
 ) {
   // 由于已经合并了页面浏览量的计算, 所以此旧事件忽略
-  if (/\.查看$/g.test(eventId)) return
+  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments)) return
 
   const _url = url.replace(HOST, '')
-
   if (STORYBOOK) {
     const url = _url.split('?')?.[0]
 
@@ -88,8 +86,6 @@ export async function umamiEvent(
     return
   }
 
-  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
-
   umamiXhr({
     title: title || TITLE,
     url: _url,
@@ -98,12 +94,14 @@ export async function umamiEvent(
   })
 }
 
-function umamiXhr(payload: {
+async function umamiXhr(payload: {
   title: string
   url: string
   name?: string
   data?: AnyObject
 }) {
+  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
+
   const request = new XMLHttpRequest()
   request.open('POST', API_UMAMI)
   request.setRequestHeader('Content-Type', 'application/json')

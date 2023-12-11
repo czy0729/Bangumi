@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-11 10:44:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 16:40:35
+ * @Last Modified time: 2023-12-10 22:54:22
  */
 import React, { useRef } from 'react'
 import { View } from 'react-native'
-import { Touchable } from '@components'
+import { Touchable, Squircle } from '@components'
 import { systemStore } from '@stores'
 import { useMount } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Navigation } from '@types'
+import { getHtml } from './utils'
 import { memoStyles } from './styles'
 
 function Award2022({
@@ -27,206 +28,48 @@ function Award2022({
   const { coverRadius } = systemStore.setting
   const ref = useRef(null)
   useMount(() => {
-    ref.current.innerHTML = `
-    <style>
-      .award2022 * {
-        padding: 0;
-        margin: 0;
-      }
-      .award2022 {
-        box-sizing: border-box;
-        position: relative;
-        width: ${width || styles.body.width}px;
-        height: ${height || styles.body.height}px;
-        padding: 0;
-        margin: 0 0 10px 0;
-        line-height: 100%;
-        background: #fff;
-        border: none;
-      }
-      .award2022 .wrap {
-        position: absolute;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        color: #fff;
-        background-color: transparent;
-      }
-      .award2022 .header {
-        margin: 30px auto;
-        text-indent: -9999px;
-        font-size: 0;
-        line-height: 100%;
-        background: url(https://bgm.tv/img/event/2022/title.png);
-        width: 80%;
-        max-width: 860px;
-        max-height: 120px;
-        aspect-ratio: 860 / 120;
-        background-size: 100% auto;
-        background-repeat: no-repeat;
-        z-index: 3;
-        position: relative;
-      }
-      .award2022 .heroes {
-        position: absolute;
-        width: 168px;
-        height: 85px;
-        background-image: url(https://bgm.tv/img/event/2022/heroes_s.png);
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        bottom: 0;
-        z-index: 2;
-      }
-      .award2022 .oceanCanvas {
-        position: absolute;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-      }
-      .award2022 .oceanCanvas div {
-        position: absolute;
-        overflow: hidden;
-      }
-      .award2022 .oceanCanvas .sea {
-        height: 30%;
-        width: 200%;
-        left: -50%;
-        top: 40%;
-        border-radius: 0 0 50% 50%;
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 1) 0%,
-          rgba(255, 255, 255, 1) 75%,
-          rgba(235, 233, 234, 1) 100%
-        );
-        animation: waveanim ease-in-out 10s;
-        animation-iteration-count: infinite;
-        transform-origin: 50% 0%;
-        overflow: hidden;
-      }
-      .award2022 .oceanCanvas .sand {
-        height: 35%;
-        width: 100%;
-        background: rgb(248, 247, 245);
-        top: 65%;
-        border-radius: 0 0 15px 15px;
-      }
-      .award2022 .oceanCanvas .sand-front {
-        height: 10%;
-        width: 100%;
-        background: rgb(248, 247, 245);
-        top: 90%;
-        border-radius: 0 0 15px 15px;
-      }
-      .award2022 .oceanCanvas .wet-sand {
-        height: 37.5%;
-        width: 200%;
-        left: -50%;
-        top: 40%;
-        border-radius: 0 0 50% 50%;
-        background: rgb(237, 233, 227);
-        box-shadow: 0 10px 10px 0 rgb(241, 238, 234);
-        animation: wetsandanim ease-in-out 10s;
-        animation-iteration-count: infinite;
-      }
-      .award2022 @keyframes waveanim {
-        0% {
-          transform: scaleY(1);
-        }
-        35% {
-          transform: scaleY(1.3);
-        }
-        69% {
-          transform: scaleY(1);
-        }
-        100% {
-          transform: scaleY(1);
-        }
-      }
-      .award2022 @keyframes wetsandanim {
-        0% {
-          opacity: 0.2;
-        }
-        34% {
-          opacity: 0.2;
-        }
-        35% {
-          opacity: 0.7;
-        }
-        100% {
-          opacity: 0.2;
-        }
-      }
-      .award2022 @keyframes seafoamanim {
-        0% {
-          opacity: 0;
-        }
-        30% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 0;
-        }
-      }
-    </style>
-    <div class="award2022">
-      <div class="wrap">
-        <div class="oceanCanvas">
-          <div class="sand"></div>
-          <div class="wet-sand"></div>
-          <div class="sea">
-            <div class="seafoam"></div>
-          </div>
-          <div class="seafoam"></div>
-          <div class="sea">
-            <div class="seafoam"></div>
-          </div>
-          <div class="sand-front"></div>
-        </div>
-        <div class="heroes"></div>
-        <div class="header"></div>
-      </div>
-    </div>`
+    ref.current.innerHTML = getHtml(
+      width || styles.body.width,
+      height || styles.body.height
+    )
   })
 
+  const h = height || styles.item2022.height
   return (
     <View
       style={[
         styles.container,
         {
           height: height || styles.container.height,
-          marginRight: height ? 0 : styles.container.marginRight,
-          borderRadius: coverRadius
+          marginRight: height ? 0 : styles.container.marginRight
         }
       ]}
     >
-      <Touchable
-        style={[
-          styles.item2022,
-          {
-            width: width || styles.item2022.width,
-            height: height || styles.item2022.height
-          }
-        ]}
-        animate
-        onPress={() => {
-          t('发现.跳转', {
-            to: 'Award',
-            year: 2022,
-            from: 'Award2022'
-          })
+      <Squircle width={h} radius={coverRadius}>
+        <Touchable
+          style={[
+            styles.item2022,
+            {
+              width: width || styles.item2022.width,
+              height: h
+            }
+          ]}
+          animate
+          onPress={() => {
+            t('发现.跳转', {
+              to: 'Award',
+              year: 2022,
+              from: 'Award2022'
+            })
 
-          navigation.push('Award', {
-            uri: `${HOST}/award/2022`
-          })
-        }}
-      >
-        <View ref={ref} />
-      </Touchable>
+            navigation.push('Award', {
+              uri: `${HOST}/award/2022`
+            })
+          }}
+        >
+          <View ref={ref} />
+        </Touchable>
+      </Squircle>
     </View>
   )
 }

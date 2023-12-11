@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-20 10:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 10:59:18
+ * @Last Modified time: 2023-12-09 16:44:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { Component } from '../../component'
 import { Image } from '../../image'
 import { memoStyles } from './styles'
 
@@ -38,7 +39,7 @@ function Book({
     borderBottomLeftRadius: _.radiusSm
   }
   return (
-    <View style={_style}>
+    <Component id='component-cover' data-type='book' style={_style}>
       <View style={[styles.book, _style]} />
       <View style={[styles.mask, _style]} />
       <Image
@@ -55,7 +56,7 @@ function Book({
         radius={_.radiusXs}
       />
       <View style={styles.line} />
-    </View>
+    </Component>
   )
 }
 

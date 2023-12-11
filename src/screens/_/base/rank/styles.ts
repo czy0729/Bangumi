@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 04:42:27
+ * @Last Modified time: 2023-12-10 04:33:05
  */
 import { _ } from '@stores'
 
@@ -24,6 +24,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   fit: {
     width: 'fit-content',
+    paddingBottom: 2,
     borderRadius: 4
   }
 }))

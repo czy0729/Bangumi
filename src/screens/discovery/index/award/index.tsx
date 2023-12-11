@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 18:02:27
+ * @Last Modified time: 2023-12-09 23:20:13
  */
 import React, { useCallback, useState } from 'react'
-import { Touchable, Image, Text, Flex } from '@components'
+import { View } from 'react-native'
+import { Touchable, Squircle, Image, Text, Flex } from '@components'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -15,6 +16,8 @@ import ScrollViewHorizontal from './scroll-view-horizontal'
 import Award2022 from '../award-2022'
 import Award2021 from '../award-2021'
 import { memoStyles } from './styles'
+
+const YEARS = [2020, 2019, 2018] as const
 
 function Award({ navigation }) {
   rerender('Discovery.Award')
@@ -37,97 +40,41 @@ function Award({ navigation }) {
         <Award2021 />
         {!TEXT_ONLY && scrolled && (
           <>
-            <Touchable
-              style={[
-                styles.item2020,
-                {
-                  borderRadius: coverRadius
-                }
-              ]}
-              animate
-              onPress={() => {
-                t('发现.跳转', {
-                  to: 'Award',
-                  year: 2020,
-                  from: 'Award'
-                })
+            {YEARS.map(year => {
+              const { width, height } = styles.item
+              return (
+                <Touchable
+                  key={year}
+                  style={styles.item}
+                  animate
+                  onPress={() => {
+                    t('发现.跳转', {
+                      to: 'Award',
+                      year: year,
+                      from: 'Award'
+                    })
 
-                navigation.push('Award', {
-                  uri: `${HOST}/award/2020`
-                })
-              }}
-            >
-              <Image
-                src={ASSETS_AWARDS[2020]}
-                size={styles.item2020.width}
-                height={styles.item2020.height}
-                placeholder={false}
-                resizeMode='contain'
-              />
-            </Touchable>
+                    navigation.push('Award', {
+                      uri: `${HOST}/award/${year}`
+                    })
+                  }}
+                >
+                  <Squircle width={width} height={height} radius={coverRadius}>
+                    <View style={styles[`item${year}`]}>
+                      <Image
+                        src={ASSETS_AWARDS[year]}
+                        size={width - (year === 2019 ? 32 : 0)}
+                        height={height}
+                        placeholder={false}
+                        resizeMode={year !== 2018 ? 'contain' : 'cover'}
+                      />
+                    </View>
+                  </Squircle>
+                </Touchable>
+              )
+            })}
             <Touchable
-              style={[
-                styles.item2019,
-                {
-                  borderRadius: coverRadius
-                }
-              ]}
-              animate
-              onPress={() => {
-                t('发现.跳转', {
-                  to: 'Award',
-                  year: 2019,
-                  from: 'Award'
-                })
-
-                navigation.push('Award', {
-                  uri: `${HOST}/award/2019`
-                })
-              }}
-            >
-              <Image
-                src={ASSETS_AWARDS[2019]}
-                size={styles.item2020.width - 32}
-                height={styles.item2020.height}
-                placeholder={false}
-                resizeMode='contain'
-              />
-            </Touchable>
-            <Touchable
-              style={[
-                styles.item2018,
-                {
-                  borderRadius: coverRadius
-                }
-              ]}
-              animate
-              onPress={() => {
-                t('发现.跳转', {
-                  to: 'Award',
-                  year: 2018,
-                  from: 'Award'
-                })
-
-                navigation.push('Award', {
-                  uri: `${HOST}/award/2018`
-                })
-              }}
-            >
-              <Image
-                src={ASSETS_AWARDS[2018]}
-                size={styles.item2018.width}
-                height={styles.item2020.height}
-                placeholder={false}
-              />
-            </Touchable>
-            <Touchable
-              style={[
-                _.container.touch,
-                _.ml.md,
-                {
-                  borderRadius: coverRadius
-                }
-              ]}
+              style={_.container.touch}
               animate
               onPress={() => {
                 t('发现.跳转', {
@@ -138,23 +85,16 @@ function Award({ navigation }) {
                 navigation.push('Yearbook')
               }}
             >
-              <Flex
-                style={[
-                  styles.item,
-                  {
-                    borderRadius: coverRadius
-                  }
-                ]}
-                justify='center'
-                direction='column'
-              >
-                <Text size={18} type={_.select('plain', 'title')} bold>
-                  更多
-                </Text>
-                <Text size={18} type={_.select('plain', 'title')} bold>
-                  年鉴
-                </Text>
-              </Flex>
+              <Squircle width={styles.itemMore.height} radius={coverRadius}>
+                <Flex style={styles.itemMore} justify='center' direction='column'>
+                  <Text size={18} type={_.select('plain', 'title')} bold>
+                    更多
+                  </Text>
+                  <Text size={18} type={_.select('plain', 'title')} bold>
+                    年鉴
+                  </Text>
+                </Flex>
+              </Squircle>
             </Touchable>
           </>
         )}

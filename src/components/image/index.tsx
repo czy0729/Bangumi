@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:45:46
+ * @Last Modified time: 2023-12-09 19:15:48
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -618,7 +618,7 @@ export const Image = observer(
 
     /** 开发模式 */
     get dev() {
-      return systemStore.state.dev
+      return systemStore.dev
     }
 
     renderImage() {

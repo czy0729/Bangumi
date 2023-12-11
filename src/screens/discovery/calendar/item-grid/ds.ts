@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 14:07:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 16:03:11
+ * @Last Modified time: 2023-12-09 15:32:26
  */
 import { systemStore, _ } from '@stores'
 import { Images, Navigation, SubjectId, ViewStyle } from '@types'
@@ -18,7 +18,6 @@ export const DEFAULT_PROPS = {
   images: {} as Images,
   score: '' as string | number,
   collection: '' as string,
-  air: '' as string | number,
   time: '2359' as string
 }
 

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:37:17
+ * @Last Modified time: 2023-12-11 17:56:01
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Heatmap, Iconfont, Image, Text, Touchable } from '@components'
+import { Flex, Heatmap, Iconfont, Squircle, Image, Text, Touchable } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { date, open, showImageViewer, stl } from '@utils'
@@ -91,27 +91,28 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
           >
             {list.map((item, index) => (
               <View key={item.id} style={_.mr.sm}>
-                {item.image ? (
-                  <Image
-                    style={styles.image}
-                    src={item.image}
-                    size={THUMB_WIDTH}
-                    height={THUMB_HEIGHT}
-                    radius
-                    onPress={() => {
-                      showImageViewer(thumbs, Math.min(index, thumbs.length - 1))
-                    }}
-                  />
-                ) : (
-                  <Flex style={styles.void} direction='column' justify='center'>
-                    <Text type='sub' size={16} bold>
-                      {index + 1}
-                    </Text>
-                    <Text style={_.mt.xs} type='sub' size={11} bold>
-                      尚无截图
-                    </Text>
-                  </Flex>
-                )}
+                <Squircle width={THUMB_WIDTH} height={THUMB_HEIGHT} radius={_.radiusXs}>
+                  {item.image ? (
+                    <Image
+                      style={styles.image}
+                      src={item.image}
+                      size={THUMB_WIDTH}
+                      height={THUMB_HEIGHT}
+                      onPress={() => {
+                        showImageViewer(thumbs, Math.min(index, thumbs.length - 1))
+                      }}
+                    />
+                  ) : (
+                    <Flex style={styles.void} direction='column' justify='center'>
+                      <Text type='sub' size={16} bold>
+                        {index + 1}
+                      </Text>
+                      <Text style={_.mt.xs} type='sub' size={11} bold>
+                        尚无截图
+                      </Text>
+                    </Flex>
+                  )}
+                </Squircle>
                 <Text style={styles.title} size={11} bold numberOfLines={2}>
                   {item.cn || item.name}
                 </Text>

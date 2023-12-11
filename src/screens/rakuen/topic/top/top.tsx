@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-05 17:14:58
+ * @Last Modified time: 2023-12-10 04:12:59
  */
 import React, { useState, useCallback } from 'react'
 import { View } from 'react-native'
@@ -76,8 +76,7 @@ export default memo(
             {title}
             {!!replies && (
               <Text type='main' size={12} lineHeight={26} bold>
-                {'  '}
-                {replies}
+                {`  ${replies.includes('+') ? '' : '+'}${replies.trim()}`}
               </Text>
             )}
           </Text>
@@ -109,7 +108,6 @@ export default memo(
                 >
                   <Flex>
                     <Cover
-                      style={_.mr.sm}
                       size={isEp ? 40 : 20}
                       src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
                       radius={_.radiusXs}

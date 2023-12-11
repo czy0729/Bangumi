@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:35:29
+ * @Last Modified time: 2023-12-11 17:52:47
  */
 import { _ } from '@stores'
 import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
@@ -13,14 +13,11 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: _.lg
   },
   image: {
-    height: THUMB_HEIGHT,
-    overflow: 'hidden'
+    height: THUMB_HEIGHT
   },
   void: {
     height: THUMB_HEIGHT,
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
+    backgroundColor: _.colorBg
   },
   title: {
     width: THUMB_WIDTH,
@@ -32,8 +29,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   touch: {
     paddingLeft: _.xs,
-    marginRight: -_.sm,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
+    marginRight: -_.sm
   }
 }))

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 06:56:08
+ * @Last Modified time: 2023-12-11 04:33:36
  */
 import React from 'react'
 import { _, systemStore } from '@stores'
@@ -20,7 +20,7 @@ export default obc(({ title, avatar, data }, { navigation }: Ctx) => {
     <CoverXs
       navigation={navigation}
       styles={memoStyles()}
-      imageWidth={_.windowSm.contentWidth * _.device(0.34, 0.4) * 0.5625}
+      imageWidth={_.windowSm.contentWidth * 0.2}
       avatarRound={avatarRound}
       title={title}
       avatar={avatar}

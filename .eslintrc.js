@@ -32,7 +32,7 @@ module.exports = {
     'react/no-unstable-nested-components': 0,
     eqeqeq: 0,
     radix: 0, // parseInt 允许不填进制
-    'max-depth': ['warn', 2], // 设置最大嵌套深度
+    'max-depth': ['warn', 3], // 设置最大嵌套深度
     'react-hooks/exhaustive-deps': 'warn'
   }
 }

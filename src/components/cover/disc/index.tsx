@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-20 10:11:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 12:46:40
+ * @Last Modified time: 2023-12-09 16:42:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../../component'
 import { Image } from '../../image'
 import { memoStyles } from './styles'
 
@@ -36,7 +37,7 @@ function Disc({
     borderRadius: radius === true ? coverRadius : radius || _.radiusXs
   }
   return (
-    <View style={_style}>
+    <Component id='component-cover' data-type='music' style={_style}>
       <View
         style={stl([
           styles.disc,
@@ -61,7 +62,7 @@ function Disc({
         width={w}
         height={w}
       />
-    </View>
+    </Component>
   )
 }
 

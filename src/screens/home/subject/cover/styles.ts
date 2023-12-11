@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 21:10:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 10:07:52
+ * @Last Modified time: 2023-12-11 17:43:12
  */
 import { _ } from '@stores'
 
@@ -19,17 +19,5 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0,
     left: 0,
     pointerEvents: 'none'
-  },
-  shadow: {
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusXs,
-    shadowColor: _.colorShadow,
-    shadowOffset: {
-      width: 1,
-      height: 4
-    },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 12
   }
 }))

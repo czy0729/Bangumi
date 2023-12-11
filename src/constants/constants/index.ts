@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 20:22:01
+ * @Last Modified time: 2023-12-09 17:55:09
  */
-import { Platform } from 'react-native'
+import { Platform, ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
 import * as Device from 'expo-device'
 import { PAD, RATIO, STORYBOOK, STORYBOOK_IFRAME } from '../device'
@@ -202,12 +202,12 @@ export const DOGE_CDN_IMG_DEFAULT =
 /** 默认图 */
 export const IMG_DEFAULT = STORYBOOK
   ? DOGE_CDN_IMG_DEFAULT
-  : require('@assets/images/default.png')
+  : (require('@assets/images/default.png') as ImageRequireSource)
 
 /** 默认头像 */
 export const AVATAR_DEFAULT = STORYBOOK
   ? 'https://lain.bgm.tv/pic/user/l/icon.jpg'
-  : require('@assets/images/l.png')
+  : (require('@assets/images/l.png') as ImageRequireSource)
 
 const h = (w: any) => parseInt(String(w * 1.4))
 

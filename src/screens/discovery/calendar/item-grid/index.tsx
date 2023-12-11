@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 16:03:13
+ * @Last Modified time: 2023-12-09 15:32:34
  */
 import React from 'react'
 import { systemStore, collectionStore } from '@stores'
@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 export default obc(
-  ({ style, subjectId, name, images, score, air, time }, { $, navigation }: Ctx) => {
+  ({ style, subjectId, name, images, score, time }, { $, navigation }: Ctx) => {
     rerender('Calendar.Item')
 
     const { type } = $.state
@@ -31,7 +31,6 @@ export default obc(
         images={images}
         score={score}
         collection={collection}
-        air={air}
         time={time}
       />
     )

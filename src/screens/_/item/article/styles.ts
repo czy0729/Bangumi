@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  image: {
+  cover: {
     marginTop: _.md - 4
   },
   item: {

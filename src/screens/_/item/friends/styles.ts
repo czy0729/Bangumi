@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-06-17 13:07:19
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-06-17 13:07:19
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-10 03:29:51
  */
 import { _ } from '@stores'
 
@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.md,
     backgroundColor: _.colorPlain
   },
-  image: {
+  avatar: {
     marginTop: 2,
     marginLeft: _.wind
   },

@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 17:10:27
+ * @Last Modified time: 2023-12-11 05:24:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
-import { getCover400, matchCoverUrl } from '@utils'
-import { IMG_DEFAULT, STORYBOOK } from '@constants'
 import { Component } from '../component'
+import { Squircle } from '../squircle'
 import { Image } from '../image'
 import TextOnly from './text-only'
 import Disc from './disc'
 import Book from './book'
 import Game from './game'
 import Catalog from './catalog'
+import { getCoverSrc, getImageViewerSrc } from './utils'
 import { Props as CoverProps } from './types'
 
 export { CoverProps }
@@ -39,116 +39,89 @@ export const Cover = observer(
     fallback,
     ...other
   }: CoverProps) => {
+    const { width, radius, onPress } = other
+    const coverWidth = width || size
+    const coverHeight = height || size
     if (textOnly) {
       return (
-        <Component id='component-cover' data-type='text-only'>
-          <TextOnly
-            width={other.width || size}
-            height={height || size}
-            radius={other.radius}
-            onPress={other.onPress}
-          />
-        </Component>
+        <TextOnly
+          width={coverWidth}
+          height={coverHeight}
+          radius={radius}
+          onPress={onPress}
+        />
       )
     }
 
-    // 对部分尺寸过少的图片, 强制使用缩略图
-    const width = other.width || size
-    let prefix = 'bgm_poster_100'
-    let coverSize: 100 | 200 | 400 | 600 = 100
-    if (STORYBOOK && width > 400) {
-      prefix = 'bgm_poster'
-      coverSize = 600
-    } else if (width > 134) {
-      prefix = 'bgm_poster'
-      coverSize = 400
-    } else if (width > 67) {
-      prefix = 'bgm_poster_200'
-      coverSize = 200
-    }
-
-    const _src =
-      getCover400(
-        cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src,
-        coverSize
-      ) || IMG_DEFAULT
-
-    // 相册模式强制大图
-    let _imageViewerSrc = imageViewerSrc
-    if (_imageViewerSrc && typeof _src === 'string' && _src.includes('/bgm_poster')) {
-      _imageViewerSrc = _src.replace(/\/bgm_poster_(100|200)/g, '/bgm_poster')
-    }
-
     const { coverThings } = systemStore.setting
+    const coverSrc = getCoverSrc(src, coverWidth, cdn, noDefault)
     const passProps = {
-      src: _src,
-      imageViewerSrc,
-      textOnly,
-      fallback,
+      ...other,
+      src: coverSrc,
+      imageViewerSrc: getImageViewerSrc(imageViewerSrc, coverSrc),
       size,
-      height
+      height,
+      textOnly,
+      fallback
     }
 
     // 封面拟物
     if (coverThings || useType) {
       if (type === '音乐') {
         return (
-          <Component id='component-cover' data-type='music'>
-            <Disc
-              {...other}
-              {...passProps}
-              imageStyle={style}
-              angleStyle={angleStyle}
-              width={other.width}
-              radius={other.radius}
-            />
-          </Component>
+          <Disc
+            {...passProps}
+            imageStyle={style}
+            angleStyle={angleStyle}
+            width={width}
+            radius={radius}
+          />
         )
       }
 
       if (type === '书籍') {
         return (
-          <Component id='component-cover' data-type='book'>
-            <Book
-              {...other}
-              {...passProps}
-              containerStyle={containerStyle}
-              bodyStyle={bodyStyle}
-              imageStyle={style}
-              width={other.width}
-            />
-          </Component>
+          <Book
+            {...passProps}
+            containerStyle={containerStyle}
+            bodyStyle={bodyStyle}
+            imageStyle={style}
+            width={width}
+          />
         )
       }
 
       if (type === '游戏') {
         return (
-          <Component id='component-cover' data-type='game'>
-            <Game
-              {...other}
-              {...passProps}
-              containerStyle={containerStyle}
-              bodyStyle={bodyStyle}
-              angleStyle={angleStyle}
-              imageStyle={style}
-              width={other.width}
-            />
-          </Component>
+          <Game
+            {...passProps}
+            containerStyle={containerStyle}
+            bodyStyle={bodyStyle}
+            angleStyle={angleStyle}
+            imageStyle={style}
+            width={width}
+          />
         )
       }
 
       if (type === '目录') {
-        return (
-          <Component id='component-cover' data-type='catalog'>
-            <Catalog {...other} {...passProps} imageStyle={style} width={other.width} />
-          </Component>
-        )
+        return <Catalog {...passProps} imageStyle={style} width={width} />
       }
+    }
+
+    if (radius) {
+      return (
+        <Component id='component-cover' data-type='subject'>
+          <Squircle width={coverWidth} height={coverHeight} radius={radius}>
+            <Image {...passProps} style={style} radius={0} />
+          </Squircle>
+        </Component>
+      )
     }
 
     return (
       <Component id='component-cover' data-type='subject'>
-        <Image {...other} {...passProps} style={style} />
+        <Image {...passProps} style={style} />
       </Component>
     )
   }

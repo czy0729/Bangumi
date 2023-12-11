@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 00:46:42
+ * @Last Modified time: 2023-12-10 03:31:22
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
-import { timelineStore } from '@stores'
+import { _, timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -58,19 +59,20 @@ export const ItemNotify = ob(
           }}
         >
           <Flex style={styles.container} align='start'>
-            <UserStatus userId={userId}>
-              <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-                <Avatar
-                  key={String(avatar)}
-                  style={styles.image}
-                  navigation={navigation}
-                  userId={userId}
-                  name={userName}
-                  src={avatar}
-                  event={event}
-                />
-              </InView>
-            </UserStatus>
+            <View style={_.mt.md}>
+              <UserStatus userId={userId}>
+                <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+                  <Avatar
+                    key={String(avatar)}
+                    navigation={navigation}
+                    userId={userId}
+                    name={userName}
+                    src={avatar}
+                    event={event}
+                  />
+                </InView>
+              </UserStatus>
+            </View>
             <Flex.Item style={styles.item}>
               <Name userId={userId} showFriend size={13} type='title' bold>
                 {userName}

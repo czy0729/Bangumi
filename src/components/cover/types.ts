@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 07:01:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-05 17:13:30
+ * @Last Modified time: 2023-12-09 17:26:20
  */
 import { Override, ViewStyle, ImageStyle, SubjectTypeCn, Source } from '@types'
 import { ImageProps } from '../image'
@@ -50,3 +50,7 @@ export type Props = Override<
     fallback?: boolean
   }
 >
+
+export type CoverSize = 100 | 200 | 400 | 600
+
+export type CoverPrefix = 'bgm_poster' | `bgm_poster_${100 | 200 | 400}`

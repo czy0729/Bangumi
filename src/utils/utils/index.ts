@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 00:25:55
+ * @Last Modified time: 2023-12-09 21:47:29
  */
 import { ComponentType } from 'react'
 import {
@@ -220,6 +220,31 @@ export function omit<T extends Record<string, any>, K extends keyof T>(
 
     return { ...acc, [key]: obj[key] }
   }, {} as Omit<T, K>)
+}
+
+const INTERCEPTOR_FINGERPRINTS: Record<string, true> = {}
+
+/** 拦截器, 若拦截中返回 true */
+export function interceptor(
+  key: string = '',
+  obj: AnyObject = {},
+  distance: number = 1200
+) {
+  const fingerprint = `${key}|${JSON.stringify(obj)}`
+
+  // 检查指纹是否存在于记录中
+  if (INTERCEPTOR_FINGERPRINTS[fingerprint]) {
+    console.info('[@utils]', 'interceptor denied:', key)
+    return true
+  }
+
+  // 记录指纹，并在若干秒后清除
+  INTERCEPTOR_FINGERPRINTS[fingerprint] = true
+  setTimeout(() => {
+    delete INTERCEPTOR_FINGERPRINTS[fingerprint]
+  }, distance)
+
+  return false
 }
 
 /** 安全 toFixed */

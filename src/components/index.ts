@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 08:52:19
+ * @Last Modified time: 2023-12-09 14:41:53
  */
 export * from './accordion'
 export * from './action-sheet'
@@ -61,6 +61,7 @@ export * from './segmented-control'
 export * from './skeleton'
 export * from './slider'
 export * from './spinner'
+export * from './squircle'
 export * from './status-bar'
 export * from './storybook'
 export * from './switch'

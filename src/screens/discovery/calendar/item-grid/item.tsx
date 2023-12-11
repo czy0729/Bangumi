@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 15:58:09
+ * @Last Modified time: 2023-12-09 15:42:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Text } from '@components'
-import { Cover, Stars } from '@_'
+import { Flex, Touchable, Cover, Text } from '@components'
+import { Stars } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -26,11 +26,10 @@ export default memo(
     images,
     score,
     collection,
-    air,
     time
   }) => {
     rerender('Calendar.Item.Main')
-
+    const { width, height } = styles.cover
     const showScore = !hideScore && !!score
 
     let middle: any = []
@@ -58,28 +57,18 @@ export default memo(
             })
           }}
         >
-          <Cover
-            width={styles.cover.width}
-            height={styles.cover.height}
-            src={images?.medium}
-            radius
-            shadow
-          />
+          <Cover width={width} height={height} src={images?.medium} radius />
           <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={2} bold>
             {HTMLDecode(name)}
           </Text>
-          {!!middle && (
-            <Text style={_.mt.xs} size={11} lineHeight={12} type='sub' bold>
-              {middle}
-            </Text>
-          )}
-          <Flex style={_.mt.sm}>
-            {!!air && (
-              <Text style={_.mr.xs} size={11} bold>
-                第{air}话
+          <Flex style={_.mt.xs}>
+            {showScore && <Stars value={score} simple />}
+            {!!middle && (
+              <Text size={11} type='sub' bold>
+                {showScore && score ? ' · ' : ''}
+                {middle}
               </Text>
             )}
-            {showScore && <Stars value={score} simple />}
           </Flex>
         </Touchable>
       </View>

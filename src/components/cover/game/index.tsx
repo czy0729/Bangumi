@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-20 12:10:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 12:16:56
+ * @Last Modified time: 2023-12-09 16:45:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { Component } from '../../component'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
 import { memoStyles } from './styles'
@@ -33,24 +34,30 @@ function Game({
   const w = width || size
   const h = height || size
   return (
-    <Flex style={stl(styles.game, containerStyle)} direction='column' justify='center'>
-      <View style={[styles.head, bodyStyle]} />
-      <Image
-        style={imageStyle}
-        src={src}
-        imageViewerSrc={imageViewerSrc}
-        textOnly={textOnly}
-        fallback={fallback}
-        {...other}
-        radius={_.radiusXs}
-        size={w - 8}
-        width={w - 8}
-        height={Math.max(h - 20, w - 12)}
-        shadow={false}
-        border={false}
-      />
-      <View style={[styles.angle, angleStyle]} />
-    </Flex>
+    <Component id='component-cover' data-type='game'>
+      <Flex
+        style={stl(styles.game, containerStyle)}
+        direction='column'
+        justify='center'
+      >
+        <View style={[styles.head, bodyStyle]} />
+        <Image
+          style={imageStyle}
+          src={src}
+          imageViewerSrc={imageViewerSrc}
+          textOnly={textOnly}
+          fallback={fallback}
+          {...other}
+          radius={_.radiusXs}
+          size={w - 8}
+          width={w - 8}
+          height={Math.max(h - 20, w - 12)}
+          shadow={false}
+          border={false}
+        />
+        <View style={[styles.angle, angleStyle]} />
+      </Flex>
+    </Component>
   )
 }
 

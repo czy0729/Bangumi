@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-29 14:18:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 16:19:30
+ * @Last Modified time: 2023-12-10 03:46:20
  */
 import { _ } from '@stores'
 
@@ -18,6 +18,6 @@ export const styles = _.create({
     width: 64
   },
   btn: {
-    height: 46
+    height: 44
   }
 })

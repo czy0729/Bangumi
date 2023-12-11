@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:34:46
+ * @Last Modified time: 2023-12-10 03:25:36
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Iconfont, Text, UserStatus } from '@components'
 import { _, userStore, uiStore } from '@stores'
-import { stl, correctAgo } from '@utils'
+import { stl, correctAgo, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import { LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
@@ -36,16 +37,17 @@ const Item = memo(
 
     return (
       <Flex style={stl(styles.item, style)} align='start'>
-        <UserStatus userId={userId}>
-          <Avatar
-            navigation={navigation}
-            style={styles.image}
-            userId={userId}
-            name={userName}
-            src={avatar}
-            event={event}
-          />
-        </UserStatus>
+        <View style={styles.avatar}>
+          <UserStatus userId={userId}>
+            <Avatar
+              navigation={navigation}
+              userId={userId}
+              name={userName}
+              src={avatar}
+              event={event}
+            />
+          </UserStatus>
+        </View>
         <Flex.Item style={styles.content}>
           <Flex>
             <Flex.Item>
@@ -101,7 +103,7 @@ const Item = memo(
           )}
           {!!comment && (
             <Text style={_.mt.xs} lineHeight={18} selectable={STORYBOOK}>
-              {comment}
+              {HTMLDecode(comment)}
             </Text>
           )}
           <Likes

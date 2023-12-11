@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 20:24:44
+ * @Last Modified time: 2023-12-11 04:51:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Touchable, Text } from '@components'
+import { Touchable, Squircle, Text } from '@components'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, stl, HTMLDecode } from '@utils'
@@ -24,39 +24,33 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
   const styles = memoStyles()
   const { coverRadius } = systemStore.setting
   const isMusic = title === '音乐'
-  return (
-    <View style={styles.item}>
-      <Touchable
-        style={[
-          styles.touch,
-          {
-            borderRadius: coverRadius
-          }
-        ]}
-        animate
-        onPress={() => {
-          t('发现.跳转', {
-            to: 'Subject',
-            subjectId: data.subjectId,
-            from: `CoverSm|${title}`
-          })
 
-          navigation.push('Subject', {
-            subjectId: data.subjectId,
-            _jp: data.title,
-            _cn: cn,
-            _type: title,
-            _image: src,
-            _imageForce: src
-          })
-        }}
-      >
-        <Cover
-          src={getCoverMedium(src)}
-          size={styles.cover.width}
-          height={isMusic ? styles.cover.width : styles.cover.height}
-          radius
-        />
+  const { width, height: h } = styles.cover
+  const height = isMusic ? width : h
+
+  return (
+    <Touchable
+      style={styles.item}
+      animate
+      onPress={() => {
+        t('发现.跳转', {
+          to: 'Subject',
+          subjectId: data.subjectId,
+          from: `CoverSm|${title}`
+        })
+
+        navigation.push('Subject', {
+          subjectId: data.subjectId,
+          _jp: data.title,
+          _cn: cn,
+          _type: title,
+          _image: src,
+          _imageForce: src
+        })
+      }}
+    >
+      <Squircle width={width} height={height} radius={coverRadius}>
+        <Cover src={getCoverMedium(src)} size={width} height={height} />
         <LinearGradient
           style={stl(styles.linear, isMusic && styles.linearMusic)}
           // @ts-expect-error
@@ -70,15 +64,15 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
           <Text
             style={_.mt.xs}
             type={_.select('plain', 'title')}
-            size={12}
+            size={11}
             numberOfLines={2}
             bold
           >
             {HTMLDecode(cn)}
           </Text>
         </View>
-      </Touchable>
-    </View>
+      </Squircle>
+    </Touchable>
   )
 }
 

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 07:36:49
+ * @Last Modified time: 2023-12-10 04:06:57
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { matchBgmLink } from '@utils'
+import { STORYBOOK } from '@constants'
 import { Text } from '../../text'
 import { getACSearch, getSubject, getTopic, getMono, filterChildren } from './utils'
 import { Props } from './types'
@@ -61,7 +62,7 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
       <Text
         style={style}
         selectable
-        underline
+        underline={!STORYBOOK}
         {...other}
         onPress={() => onPress(null, href)}
       >

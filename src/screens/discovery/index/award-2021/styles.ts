@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-09 22:31:08
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-09 22:31:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-11 04:04:44
  */
 import { _ } from '@stores'
 
@@ -17,9 +17,7 @@ export const memoStyles = _.memoStyles(() => {
     item2021: {
       width: _.device(128, 164) * 2 + 16,
       height: _.device(128, 164),
-      backgroundColor: '#ebf3ec',
-      borderRadius: _.radiusMd,
-      overflow: 'hidden'
+      backgroundColor: '#ebf3ec'
     },
     body: {
       width,

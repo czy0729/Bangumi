@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
+import { Component } from '../../component'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
@@ -14,21 +15,23 @@ import { memoStyles } from './styles'
 function TextOnly({ width, height, radius, onPress }) {
   const styles = memoStyles()
   return (
-    <Flex
-      style={stl(
-        styles.textOnly,
-        {
-          width,
-          height
-        },
-        radius && styles.radius
-      )}
-      justify='center'
-    >
-      <Text type='sub' bold onPress={onPress}>
-        text-only
-      </Text>
-    </Flex>
+    <Component id='component-cover' data-type='text-only'>
+      <Flex
+        style={stl(
+          styles.textOnly,
+          {
+            width,
+            height
+          },
+          radius && styles.radius
+        )}
+        justify='center'
+      >
+        <Text type='sub' bold onPress={onPress}>
+          text-only
+        </Text>
+      </Flex>
+    </Component>
   )
 }
 

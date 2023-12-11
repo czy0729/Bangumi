@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-08 23:40:55
+ * @Last Modified time: 2023-12-09 15:40:18
  */
 import { _ } from '@stores'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM, IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
 
 export const memoStyles = _.memoStyles(() => {
-  const height = _.web(IMG_HEIGHT, IMG_HEIGHT_SM)
+  const height = IMG_HEIGHT
   return {
     item: {
       width: '100%',
@@ -16,7 +16,7 @@ export const memoStyles = _.memoStyles(() => {
       paddingRight: _._wind
     },
     inView: {
-      minWidth: _.web(IMG_WIDTH, IMG_WIDTH_SM),
+      minWidth: IMG_WIDTH,
       minHeight: height
     },
     time: {

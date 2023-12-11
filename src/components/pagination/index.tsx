@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:04:02
+ * @Last Modified time: 2023-12-11 05:31:31
  */
 import React, { useState, useRef } from 'react'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { feedback, stl } from '@utils'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Component } from '../component'
@@ -40,7 +40,13 @@ export const Pagination = ({
       <Component id='component-pagination'>
         <Flex style={stl(styles.container, style)}>
           <Flex.Item>
-            <Touchable style={styles.touch} onPress={onPrev}>
+            <Touchable
+              style={styles.touch}
+              onPress={() => {
+                onPrev()
+                feedback(true)
+              }}
+            >
               <Flex style={styles.pagination} justify='center'>
                 <Iconfont name='md-navigate-before' size={22} color={_.colorDesc} />
               </Flex>
@@ -65,6 +71,7 @@ export const Pagination = ({
                 onSubmitEditing={() => {
                   onSearch()
                   inputRef.current.onBlur()
+                  feedback(true)
                 }}
                 onFocus={() => setShow(true)}
                 onBlur={() => setShow(false)}
@@ -77,6 +84,7 @@ export const Pagination = ({
                     setShow(false)
                     onSearch()
                     inputRef.current.onBlur()
+                    feedback(true)
                   }}
                 >
                   <Iconfont name='md-arrow-forward' size={16} color={_.colorDesc} />
@@ -86,7 +94,13 @@ export const Pagination = ({
             {!!heatmaps.search && <Heatmap id={heatmaps.search} />}
           </Flex.Item>
           <Flex.Item style={_.ml.lg}>
-            <Touchable style={styles.touch} onPress={onNext}>
+            <Touchable
+              style={styles.touch}
+              onPress={() => {
+                onNext()
+                feedback(true)
+              }}
+            >
               <Flex style={styles.pagination} justify='center'>
                 <Iconfont name='md-navigate-next' size={22} color={_.colorDesc} />
               </Flex>

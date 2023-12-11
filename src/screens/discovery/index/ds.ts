@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 02:40:14
+ * @Last Modified time: 2023-12-11 04:54:07
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -270,6 +270,6 @@ export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
 
 export const linearColor = [
   'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.56)',
-  'rgba(0, 0, 0, 0.8)'
+  'rgba(0, 0, 0, 0.64)',
+  'rgba(0, 0, 0, 0.84)'
 ] as const

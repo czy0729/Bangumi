@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 13:20:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 13:20:55
+ * @Last Modified time: 2023-12-10 04:11:06
  */
 import { _ } from '@stores'
 
@@ -26,7 +26,8 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusXs
   },
   group: {
-    maxWidth: _.window.contentWidth * 0.6
+    maxWidth: _.window.contentWidth * 0.6,
+    marginLeft: _.sm
   },
   userWrap: {
     height: _.r(42),

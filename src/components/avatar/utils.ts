@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-05 17:31:31
+ * @Last Modified time: 2023-12-11 16:55:10
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp } from '@utils'
@@ -45,11 +45,9 @@ function checkSelf(src: any) {
 
       // 为自己
       if (a[1] && b[1] && a[1] === b[1]) {
-        if (medium.includes(URL_DEFAULT_AVATAR)) {
-          value = `${medium}?r=${TS}`
-        } else {
-          value = usersStore.customAvatar || `${medium}?r=${TS}`
-        }
+        value =
+          (medium.includes(URL_DEFAULT_AVATAR) ? '' : usersStore.customAvatar) ||
+          `${medium}?r=${TS}`
       }
     }
   }
@@ -113,17 +111,17 @@ export function getRadius(
   round: Props['round'],
   size: Props['size']
 ) {
-  // 默认带圆角, 若大小的一半比设置的圆角还小, 为避免方形头像变成原型, 则覆盖成sm
-  let _radius: boolean | number = true
-  if (radius) {
-    _radius = radius
+  let value: number
+  if (radius === false) {
+    value = 0
   } else if (round || systemStore.setting.avatarRound) {
-    _radius = size / 2
-  } else if (size / 2 <= systemStore.setting.coverRadius) {
-    _radius = _.radiusSm
+    value = size
+  } else if (typeof radius === 'boolean') {
+    value = _.radiusSm
+  } else {
+    value = radius
   }
-
-  return _radius
+  return value
 }
 
 /** 计算点击回调函数 */

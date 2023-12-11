@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 00:47:37
+ * @Last Modified time: 2023-12-10 03:29:52
  */
 import React from 'react'
+import { View } from 'react-native'
 import Progress from '@ant-design/react-native/lib/progress'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
@@ -60,15 +61,16 @@ export const ItemFriends = ob(
           }}
         >
           <Flex>
-            <UserStatus userId={userId}>
-              <Avatar
-                navigation={navigation}
-                style={styles.image}
-                name={userName}
-                userId={userId}
-                src={avatar}
-              />
-            </UserStatus>
+            <View style={styles.avatar}>
+              <UserStatus userId={userId}>
+                <Avatar
+                  navigation={navigation}
+                  name={userName}
+                  userId={userId}
+                  src={avatar}
+                />
+              </UserStatus>
+            </View>
             <Flex.Item style={styles.item}>
               <Flex>
                 <Flex.Item>

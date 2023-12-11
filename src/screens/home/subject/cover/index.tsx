@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 10:10:28
+ * @Last Modified time: 2023-12-11 17:45:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Heatmap } from '@components'
-import { Cover as CompCover } from '@_'
+import { Squircle, Cover as CompCover, Heatmap } from '@components'
 import { systemStore } from '@stores'
-import { getCoverLarge, stl } from '@utils'
+import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import { IMG_DEFAULT, STORYBOOK } from '@constants'
@@ -29,24 +28,18 @@ class Cover extends React.Component<Props> {
     if (typeof $.cover === 'string') SRC_LOADED[$.cover] = true
 
     try {
-      setTimeout(
-        () => {
-          this.setState({
-            isLoaded: true
-          })
-        },
-        systemStore.setting.imageFadeIn ? 880 : 0
-      )
+      const duration = systemStore.setting.imageFadeIn ? 880 : 0
+      setTimeout(() => {
+        this.setState({
+          isLoaded: true
+        })
+      }, duration)
     } catch (error) {}
   }
 
   get isLoaded() {
     const { $ } = this.context as Ctx
-    if (typeof $.cover === 'string') {
-      return SRC_LOADED[$.cover] || this.state.isLoaded
-    }
-
-    return this.state.isLoaded
+    return (typeof $.cover === 'string' && SRC_LOADED[$.cover]) || this.state.isLoaded
   }
 
   get event() {
@@ -62,24 +55,21 @@ class Cover extends React.Component<Props> {
   renderPlaceholder() {
     if (!STORYBOOK && this.isLoaded) return null
 
-    const { coverRadius } = systemStore.setting
     const { $ } = this.context as Ctx
     const { placeholder } = this.props
     return (
       <CompCover
         style={[
           this.styles.placeholder,
-          this.styles.shadow,
           {
-            borderRadius: coverRadius,
             opacity: this.isLoaded ? 0 : 1
           }
         ]}
         src={placeholder || IMG_DEFAULT}
         size={$.imageWidth}
         height={$.imageHeight}
-        radius
         noDefault
+        radius={false}
         skeleton={false}
       />
     )
@@ -95,12 +85,12 @@ class Cover extends React.Component<Props> {
         src={$.cover}
         size={$.imageWidth}
         height={$.imageHeight}
-        radius
+        noDefault
+        radius={false}
+        skeleton={false}
         imageViewer
         imageViewerSrc={getCoverLarge(image || placeholder)}
         fadeDuration={0}
-        skeleton={false}
-        noDefault
         sync
         event={this.event}
         onLoad={this.onLoad}
@@ -113,28 +103,27 @@ class Cover extends React.Component<Props> {
 
     const { $ } = this.context as Ctx
     const { coverRadius } = systemStore.setting
+    const width = $.imageWidth
+    const height = $.imageHeight
     return (
-      <View
-        style={stl(this.styles.container, this.isLoaded && this.styles.shadow, {
-          minWidth: $.imageWidth,
-          minHeight: $.imageHeight,
-          overflow: 'hidden',
-          borderRadius: coverRadius + 2
-        })}
+      <Squircle
+        style={this.styles.container}
+        width={width}
+        height={height}
+        radius={coverRadius}
       >
-        {STORYBOOK ? (
-          <>
-            {this.renderPlaceholder()}
-            {this.renderCover()}
-          </>
-        ) : (
-          <>
-            {this.renderCover()}
-            {this.renderPlaceholder()}
-          </>
-        )}
-        <Heatmap id='条目.封面图查看' />
-      </View>
+        <View
+          style={{
+            minWidth: width,
+            minHeight: height
+          }}
+        >
+          {STORYBOOK && this.renderPlaceholder()}
+          {this.renderCover()}
+          {!STORYBOOK && this.renderPlaceholder()}
+          <Heatmap id='条目.封面图查看' />
+        </View>
+      </Squircle>
     )
   }
 
