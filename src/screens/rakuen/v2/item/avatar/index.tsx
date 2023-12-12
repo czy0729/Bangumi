@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:02:53
+ * @Last Modified time: 2023-12-11 20:24:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar as CompAvatar } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { styles } from './styles'
 
 const EVENT = {
   id: '超展开.跳转'
@@ -29,9 +29,3 @@ function Avatar({ avatar, userName, userId }, { navigation }) {
 }
 
 export default obc(Avatar)
-
-const styles = _.create({
-  avatar: {
-    marginTop: _.md - 5
-  }
-})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 16:44:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 01:55:28
+ * @Last Modified time: 2023-12-12 22:32:09
  */
 import { computed, observable } from 'mobx'
 import { info } from '@utils'
@@ -10,14 +10,12 @@ import store from '@utils/store'
 import DS from '@assets/json/advance.json'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { devGetUsersInfo } from './utils'
+import { STATE } from './ds'
 
 const NAMESPACE = 'ScreeSponsor'
 
-export default class ScreeSponsor extends store {
-  state = observable({
-    list: true,
-    _loaded: false
-  })
+export default class ScreeSponsor extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}

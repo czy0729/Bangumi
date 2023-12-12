@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 13:49:16
+ * @Last Modified time: 2023-12-12 05:26:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,10 +44,11 @@ function UI({ filter }) {
     const styles = memoStyles()
     const {
       avatarRound,
-      coverRadius,
+      // coverRadius,
       coverThings,
       customFontFamily,
       speech,
+      squircle,
       transition,
       vibration
     } = systemStore.setting
@@ -144,7 +145,7 @@ function UI({ filter }) {
                 Abc ばんぐみ 123
               </Text>
             </ItemSettingBlock.Item>
-            <Heatmap id='设置.切换' title='看板娘吐槽' />
+            <Heatmap id='设置.切换' title='字体' />
           </ItemSettingBlock>
 
           {/* 封面拟物 */}
@@ -243,8 +244,8 @@ function UI({ filter }) {
             <Heatmap id='设置.切换' title='封面拟物' />
           </ItemSettingBlock>
 
-          {/* 图片圆角 */}
-          <ItemSettingBlock
+          {/* @deprecated 图片圆角 */}
+          {/* <ItemSettingBlock
             show={shows.coverRadius}
             style={_.mt.sm}
             filter={filter}
@@ -333,6 +334,108 @@ function UI({ filter }) {
               </View>
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='图片圆角' />
+          </ItemSettingBlock> */}
+
+          {/* 头像 */}
+          <ItemSettingBlock
+            show={shows.avatarRound}
+            style={_.mt.sm}
+            filter={filter}
+            thumb={getYuqueThumbs([
+              '0/2022/png/386799/1661073314717-f67e17c1-0ae4-4e19-b61a-4fdaf2eb4bdd.png',
+              '0/2022/png/386799/1661073326148-8687046a-026a-4217-a3b3-1209dc3470e2.png'
+            ])}
+            {...TEXTS.avatarRound.setting}
+          >
+            <ItemSettingBlock.Item
+              active={avatarRound}
+              filter={filter}
+              onPress={() => {
+                if (avatarRound) return
+
+                t('设置.切换', {
+                  title: '圆形头像',
+                  checked: !avatarRound
+                })
+
+                systemStore.switchSetting('avatarRound')
+              }}
+              {...TEXTS.avatarRound.round}
+            >
+              <View style={_.mt.sm}>
+                <Avatar size={28} src={avatar} round />
+              </View>
+            </ItemSettingBlock.Item>
+            <ItemSettingBlock.Item
+              style={_.ml.md}
+              active={!avatarRound}
+              filter={filter}
+              onPress={() => {
+                if (!avatarRound) return
+
+                t('设置.切换', {
+                  title: '圆形头像',
+                  checked: !avatarRound
+                })
+
+                systemStore.switchSetting('avatarRound')
+              }}
+              {...TEXTS.avatarRound.square}
+            >
+              <View style={_.mt.sm}>
+                <Avatar size={28} src={avatar} radius={_.radiusSm} />
+              </View>
+            </ItemSettingBlock.Item>
+            <Heatmap id='设置.切换' title='圆形头像' />
+          </ItemSettingBlock>
+
+          {/* 圆角过渡 */}
+          <ItemSettingBlock
+            show={shows.squircle}
+            style={_.mt.sm}
+            filter={filter}
+            // thumb={getYuqueThumbs([
+            //   '0/2022/png/386799/1661073314717-f67e17c1-0ae4-4e19-b61a-4fdaf2eb4bdd.png',
+            //   '0/2022/png/386799/1661073326148-8687046a-026a-4217-a3b3-1209dc3470e2.png'
+            // ])}
+            {...TEXTS.squircle}
+          >
+            <ItemSettingBlock.Item
+              title='开启'
+              active={squircle}
+              filter={filter}
+              onPress={async () => {
+                if (squircle) return
+
+                t('设置.切换', {
+                  title: '圆角过渡',
+                  checked: !squircle
+                })
+
+                systemStore.switchSetting('squircle')
+              }}
+            >
+              {/*  */}
+            </ItemSettingBlock.Item>
+            <ItemSettingBlock.Item
+              style={_.ml.md}
+              title='系统默认'
+              active={!squircle}
+              filter={filter}
+              onPress={() => {
+                if (!squircle) return
+
+                t('设置.切换', {
+                  title: '圆角过渡',
+                  checked: !squircle
+                })
+
+                systemStore.switchSetting('squircle')
+              }}
+            >
+              {/*  */}
+            </ItemSettingBlock.Item>
+            <Heatmap id='设置.切换' title='圆角过渡' />
           </ItemSettingBlock>
 
           {/* 看板娘吐槽 */}
@@ -389,55 +492,6 @@ function UI({ filter }) {
               <Mesume style={_.mt.xxs} size={40} />
             </ItemSettingBlock.Item>
             <Heatmap id='设置.切换' title='看板娘吐槽' />
-          </ItemSettingBlock>
-
-          {/* 头像 */}
-          <ItemSettingBlock
-            show={shows.avatarRound}
-            style={_.mt.sm}
-            filter={filter}
-            thumb={getYuqueThumbs([
-              '0/2022/png/386799/1661073314717-f67e17c1-0ae4-4e19-b61a-4fdaf2eb4bdd.png',
-              '0/2022/png/386799/1661073326148-8687046a-026a-4217-a3b3-1209dc3470e2.png'
-            ])}
-            {...TEXTS.avatarRound.setting}
-          >
-            <ItemSettingBlock.Item
-              active={avatarRound}
-              filter={filter}
-              onPress={() => {
-                if (avatarRound) return
-
-                t('设置.切换', {
-                  title: '圆形头像',
-                  checked: !avatarRound
-                })
-
-                systemStore.switchSetting('avatarRound')
-              }}
-              {...TEXTS.avatarRound.round}
-            >
-              <Avatar style={_.mt.sm} size={28} src={avatar} round />
-            </ItemSettingBlock.Item>
-            <ItemSettingBlock.Item
-              style={_.ml.md}
-              active={!avatarRound}
-              filter={filter}
-              onPress={() => {
-                if (!avatarRound) return
-
-                t('设置.切换', {
-                  title: '圆形头像',
-                  checked: !avatarRound
-                })
-
-                systemStore.switchSetting('avatarRound')
-              }}
-              {...TEXTS.avatarRound.square}
-            >
-              <Avatar style={_.mt.sm} size={28} src={avatar} radius={_.radiusSm} />
-            </ItemSettingBlock.Item>
-            <Heatmap id='设置.切换' title='圆形头像' />
           </ItemSettingBlock>
 
           {/* 字号 */}

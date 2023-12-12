@@ -16,10 +16,8 @@ export const memoStyles = _.memoStyles(() => ({
   catalog: {
     position: 'absolute',
     right: 0,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: 1,
-    borderRadius: _.radiusXs,
-    borderColor: _.colorBorder
+    backgroundColor: _.select('rgba(80, 80, 80, 0.12)', 'rgba(255, 255, 255, 0.12)'),
+    borderRadius: _.radiusSm
   },
   catalogLevel1: {
     zIndex: 2,

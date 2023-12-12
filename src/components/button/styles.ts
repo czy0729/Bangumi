@@ -130,7 +130,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorBorder
   },
   radius: {
-    borderRadius: _.radiusSm,
+    borderRadius: _.radiusSm + 2,
     overflow: _.ios(undefined, 'hidden')
   },
   scale: {

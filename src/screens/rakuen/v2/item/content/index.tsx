@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:55:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 17:02:18
+ * @Last Modified time: 2023-12-11 20:27:05
  */
 import React from 'react'
 import { Flex } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Title from './title'
-import Detail from './detail'
+import Title from '../title'
+import Detail from '../detail'
+import { styles } from './styles'
 
 function Content({
   groupCn,
@@ -39,12 +39,3 @@ function Content({
 }
 
 export default obc(Content)
-
-const styles = _.create({
-  item: {
-    paddingVertical: _.md - 4,
-    paddingLeft: _.sm,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  }
-})

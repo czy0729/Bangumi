@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 01:11:13
+ * @Last Modified time: 2023-12-12 19:45:29
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { AnyObject } from '@types'
+import { AnyObject, DeepPartial } from '@types'
 import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
 import { getItem } from '../storage/utils'
@@ -22,7 +22,7 @@ configure({
 
 export default class Store<T extends object> {
   /** 同步的增量 setState 方法 */
-  setState = action((state: Partial<T>, stateKey: string = 'state') => {
+  setState = action((state: DeepPartial<T>, stateKey: string = 'state') => {
     Object.entries(state).forEach(([key, item]) => {
       const observerTarget = this[stateKey]
 

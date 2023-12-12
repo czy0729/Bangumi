@@ -7,15 +7,6 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  mask: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
-  },
   image: {
     position: 'absolute',
     zIndex: 2,
@@ -26,8 +17,8 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     top: 0,
-    right: 0,
-    marginRight: -8,
+    right: -2,
+    marginRight: -6,
     backgroundColor: _.select(_.colorTitle, _.colorSub)
   }
 }))

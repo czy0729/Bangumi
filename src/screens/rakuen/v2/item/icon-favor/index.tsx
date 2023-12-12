@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:41:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:11:20
+ * @Last Modified time: 2023-12-11 20:10:52
  */
 import React from 'react'
 import { Iconfont } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { styles } from './styles'
 
 function IconFavor({ topicId }, { $ }: Ctx) {
   if (!$.isFavor(topicId)) return null
@@ -17,11 +18,3 @@ function IconFavor({ topicId }, { $ }: Ctx) {
 }
 
 export default obc(IconFavor)
-
-const styles = _.create({
-  icon: {
-    position: 'absolute',
-    right: 15,
-    bottom: 17
-  }
-})

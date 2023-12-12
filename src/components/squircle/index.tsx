@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:10:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 17:39:23
+ * @Last Modified time: 2023-12-12 05:26:24
  */
 import React from 'react'
 import Svg, { Defs, ClipPath, Path } from 'react-native-svg'
 import MaskedView from '@react-native-masked-view/masked-view'
-import { _ } from '@stores'
-import { IOS } from '@constants'
+import { systemStore } from '@stores'
 import { Component } from '../component'
-import { Flex } from '../flex'
+import Radius from './radius'
 import { getMaskPath, getRadius } from './utils'
 import { Props as SquircleProps } from './types'
 
@@ -38,25 +37,11 @@ export const Squircle = ({
     )
   }
 
-  if (IOS && false) {
-    const borderRadius = radius
-      ? Math.max(
-          Math.min(
-            Math.floor(Math.min(width || height, height || width) * 0.08),
-            _.radiusLg
-          ),
-          _.radiusXs
-        )
-      : 0
+  if (!systemStore.setting.squircle) {
     return (
-      <Flex
-        style={{
-          borderRadius,
-          overflow: 'hidden'
-        }}
-      >
+      <Radius style={style} width={width} height={height} radius={radius}>
         {children}
-      </Flex>
+      </Radius>
     )
   }
 

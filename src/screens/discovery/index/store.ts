@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 04:40:18
+ * @Last Modified time: 2023-12-11 20:47:31
  */
 import { observable, computed } from 'mobx'
 import {
@@ -29,7 +29,7 @@ import { STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { Navigation, SubjectType } from '@types'
 import { NAMESPACE, EXCLUDE_STATE, STATE, MenuMapType } from './ds'
 
-export default class ScreenDiscovery extends store {
+export default class ScreenDiscovery extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

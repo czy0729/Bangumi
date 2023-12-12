@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 15:36:11
+ * @Last Modified time: 2023-12-12 17:28:12
  */
 import { addons } from '@storybook/addons'
 import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
@@ -14,9 +14,10 @@ import { parameters, decorators } from './ds'
 
 export { parameters, decorators }
 
+/** ========== 监听 URL 变化 ========== */
+/** 简单维护路由历史 */
 const historyStack = [window.location.href]
 
-// 监听 URL 变化
 window.addEventListener('popstate', event => {
   const params = parseUrlParams()
   const args = {
@@ -46,7 +47,7 @@ window.addEventListener('popstate', event => {
   }
 })
 
-// 监听宽度发生变化
+/** ========== 监听宽度发生变化 ========== */
 window.lastWidth = window.innerWidth
 window.onresize = function () {
   if (
@@ -59,7 +60,7 @@ window.onresize = function () {
   }
 }
 
-// 开发环境一些辅助代码
+/** ========== 开发环境一些辅助代码 ========== */
 ;(() => {
   setTimeout(() => {
     injectUtils()

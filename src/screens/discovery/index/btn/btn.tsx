@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 07:24:02
+ * @Last Modified time: 2023-12-11 20:53:13
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Text, Iconfont, Heatmap } from '@components'
+import { Flex, Touchable, Squircle, Text, Iconfont, Heatmap } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -16,7 +16,7 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
   const styles = memoStyles()
   const { key, name, text, icon, size } = item
 
-  const isSm = $.discoveryMenuNum === 5
+  const isSm = $.discoveryMenuNum >= 5
   const wrapStyle = isSm ? styles.wrapSm : styles.wrap
   const itemStyle = isSm ? styles.itemSm : styles.item
 
@@ -34,13 +34,14 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
 
   const iconWrapStyle = isSm ? styles.iconWrapSm : styles.iconWrap
   const iconStyle = isSm ? styles.iconSm : styles.icon
+  const { width } = iconStyle
   const iconTextSize = (size || 16) - (isSm ? 2 : 0)
   const iconSize = (size || 24) - (isSm ? 2 : 0)
-  const textSize = 13 - (isSm ? 1 : 0)
+  const textSize = 12
   const content = (
     <Flex style={wrapStyle} justify='center'>
       <Flex style={itemStyle} direction='column' justify='center'>
-        <View style={iconWrapStyle}>
+        <Squircle style={iconWrapStyle} width={width} height={width} radius={width}>
           <Flex style={iconStyle} justify='center'>
             {text ? (
               <Text type='__plain__' size={iconTextSize} bold>
@@ -50,7 +51,7 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
               <Iconfont name={icon} size={iconSize} color={_.__colorPlain__} />
             )}
           </Flex>
-        </View>
+        </Squircle>
         <Text style={_.mt.sm} size={textSize} align='center' bold numberOfLines={1}>
           {name}
         </Text>

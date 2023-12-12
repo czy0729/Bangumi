@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 22:06:59
+ * @Last Modified time: 2023-12-12 22:37:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { ViewStyle } from '@types'
 import { USERS_MAP } from '../ds'
 import { memoStyles } from './styles'
 
@@ -24,7 +25,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
     (w * h) / (_.window.width * _.window.height) > 0.016
   const avatarSize = Math.min(64, parseInt(String(ratioHeight * 240)))
 
-  let backgroundStyle
+  let backgroundStyle: ViewStyle
   if (price >= 200) {
     backgroundStyle = styles.l4
   } else if (price >= 50) {
@@ -45,7 +46,14 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
         }
       ]}
     >
-      <Touchable onPress={onPress} onLongPress={onLongPress}>
+      <Touchable
+        style={{
+          width: w,
+          height: h
+        }}
+        onPress={onPress}
+        onLongPress={onLongPress}
+      >
         <Flex
           style={[
             styles.body,

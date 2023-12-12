@@ -33,7 +33,12 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
       }
     }
 
-    if (lazyloaded) return
+    if (lazyloaded) {
+      setTimeout(() => {
+        if (!opacity) setOpacity(1)
+      }, 0)
+      return
+    }
 
     if (ref.current) {
       const observer = new IntersectionObserver(
@@ -70,7 +75,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
         observer.disconnect()
       }
     }
-  }, [autoSize, lazyloaded, uri])
+  }, [autoSize, lazyloaded, opacity, uri])
 
   return (
     <RNImage

@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-27 06:44:13
+ * @Last Modified time: 2023-12-12 19:47:02
  */
 import { _ } from '@stores'
+import { STORYBOOK } from '@constants'
+import { HOST_PROXY } from '@/config'
 
 export const NAMESPACE = 'ScreenRecommend'
+
+export const HOST_REC = STORYBOOK ? HOST_PROXY : 'https://bangrecs.net'
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

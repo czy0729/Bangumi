@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-10 07:22:33
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-10 07:22:33
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-11 20:49:34
  */
 import { _ } from '@stores'
 
@@ -33,14 +33,14 @@ export const memoStyles = _.memoStyles(() => {
     icon: {
       width: size,
       height: size,
-      backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-      borderRadius: size
+      backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1)
+      // borderRadius: size
     },
     iconSm: {
       width: size - 4,
       height: size - 4,
-      backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1),
-      borderRadius: size - 4
+      backgroundColor: _.select(_.colorDesc, _._colorDarkModeLevel1)
+      // borderRadius: size - 4
     },
     split: {
       width: 3,

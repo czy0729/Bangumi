@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 09:49:43
+ * @Last Modified time: 2023-12-11 20:37:27
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Touchable, Flex, UserStatus } from '@components'
 import { InView } from '@_'
 import { stl } from '@utils'
@@ -17,7 +16,7 @@ import BtnPopover from './btn-popover'
 import IconFavor from './icon-favor'
 import { DEFAULT_PROPS } from './ds'
 
-const ITEM_HEIGHT = 72
+const ITEM_HEIGHT = 60
 
 export default memo(
   ({
@@ -46,18 +45,16 @@ export default memo(
         onPress={onPress}
       >
         <Flex align='start'>
-          <View style={styles.avatar}>
-            <UserStatus userId={userId}>
-              <InView
-                key={index}
-                style={styles.inView}
-                index={index}
-                y={ITEM_HEIGHT * index + 1}
-              >
-                <Avatar avatar={avatar} userName={userName} userId={userId} />
-              </InView>
-            </UserStatus>
-          </View>
+          <UserStatus userId={userId}>
+            <InView
+              key={index}
+              style={styles.inView}
+              index={index}
+              y={ITEM_HEIGHT * index + 1}
+            >
+              <Avatar avatar={avatar} userName={userName} userId={userId} />
+            </InView>
+          </UserStatus>
           <Flex.Item style={styles.wrap}>
             <Flex align='start'>
               <Flex.Item>

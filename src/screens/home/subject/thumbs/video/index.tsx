@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 18:03:13
+ * @Last Modified time: 2023-12-11 19:37:01
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Squircle, Image, Flex, Touchable, Text } from '@components'
+import { Image, Flex, Touchable, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -20,14 +20,13 @@ function Video({ item, epsThumbsHeader, showTitle }) {
   return (
     <View style={styles.video}>
       <Touchable animate onPress={() => open(item.src || item.href)}>
-        <Squircle width={THUMB_WIDTH} height={THUMB_HEIGHT} radius={_.radiusXs}>
-          <Image
-            src={item.cover}
-            size={THUMB_WIDTH}
-            height={THUMB_HEIGHT}
-            headers={epsThumbsHeader}
-          />
-        </Squircle>
+        <Image
+          src={item.cover}
+          size={THUMB_WIDTH}
+          height={THUMB_HEIGHT}
+          headers={epsThumbsHeader}
+          radius={_.radiusMd}
+        />
         <View style={styles.play}>
           <View style={styles.touch}>
             <Flex style={styles.touch} justify='center'>

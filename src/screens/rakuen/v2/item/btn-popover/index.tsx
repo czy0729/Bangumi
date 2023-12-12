@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:57:24
+ * @Last Modified time: 2023-12-11 20:14:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { styles } from './styles'
 
 function BtnPopover(
   { groupCn, groupHref, href, topicId, userId, userName, isGroup },
@@ -38,11 +38,12 @@ function BtnPopover(
   } else {
     popoverData.push(`屏蔽${type}`)
   }
+
   return (
     <Popover
       style={styles.touch}
       data={popoverData}
-      onSelect={title =>
+      onSelect={title => {
         $.onExtraSelect(
           title,
           {
@@ -55,7 +56,7 @@ function BtnPopover(
           },
           navigation
         )
-      }
+      }}
     >
       <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-more-vert' size={18} />
@@ -68,19 +69,3 @@ function BtnPopover(
 }
 
 export default obc(BtnPopover)
-
-const styles = _.create({
-  placeholder: {
-    minWidth: _._wind
-  },
-  touch: {
-    marginRight: 4,
-    marginTop: 8,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 36,
-    height: 36
-  }
-})

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 15:58:30
+ * @Last Modified time: 2023-12-12 18:02:28
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -17,7 +17,7 @@ import { EXCLUDE_STATE, NAMESPACE, STATE, TABS } from './ds'
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenTags extends store {
+export default class ScreenTags extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

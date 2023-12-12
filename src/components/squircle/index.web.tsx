@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-12-09 13:53:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 03:55:59
+ * @Last Modified time: 2023-12-12 05:22:57
  */
 import React from 'react'
 import { Squircle as SquircleComp } from 'react-ios-corners'
+import { observer } from 'mobx-react'
+import { systemStore } from '@stores'
 import { Component } from '../component'
-import { getRadius } from './utils'
+import Radius from './radius'
+import { getRadius, getRoundness } from './utils'
 import { Props as SquircleProps } from './types'
 import './index.scss'
 
@@ -19,18 +22,37 @@ export { SquircleProps }
  *  - android 使用 masked-view 配合 svg 做遮罩效果
  *  - web 使用 react-ios-corners 实现
  * */
-export const Squircle = ({
-  width = 0,
-  height = 0,
-  radius,
-  children
-}: SquircleProps) => {
-  if (!radius) return children
+export const Squircle = observer(
+  ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
+    if (!radius) {
+      return (
+        <Component style={style} id='component-squircle'>
+          {children}
+        </Component>
+      )
+    }
 
-  const _radius = getRadius(Math.min(width || height, height || width), radius)
-  return (
-    <Component id='component-squircle' data-radius={_radius} data-width={width}>
-      <SquircleComp radius={_radius}>{children}</SquircleComp>
-    </Component>
-  )
-}
+    if (!systemStore.setting.squircle) {
+      return (
+        <Radius style={style} width={width} height={height} radius={radius}>
+          {children}
+        </Radius>
+      )
+    }
+
+    const size = Math.min(width || height, height || width)
+    const squircleRadius = getRadius(size, radius)
+    return (
+      <Component
+        id='component-squircle'
+        data-radius={squircleRadius}
+        data-width={width}
+        style={style}
+      >
+        <SquircleComp radius={squircleRadius} ratio={getRoundness(size, radius)}>
+          {children}
+        </SquircleComp>
+      </Component>
+    )
+  }
+)

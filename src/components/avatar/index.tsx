@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 16:51:51
+ * @Last Modified time: 2023-12-12 05:35:34
  */
 import React from 'react'
 import { observer, useObserver } from 'mobx-react'
@@ -31,7 +31,7 @@ export const Avatar = observer(
     size = 40,
     placeholder,
     round,
-    radius,
+    radius = true,
     borderWidth,
     borderColor = _.colorBorder,
     fallbackSrc,

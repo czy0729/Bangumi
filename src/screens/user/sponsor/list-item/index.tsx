@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 21:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 22:07:05
+ * @Last Modified time: 2023-12-12 22:48:03
  */
 import React from 'react'
 import { Flex, Text, UserStatus } from '@components'
@@ -28,6 +28,9 @@ function ListItem({ item }, { navigation }) {
       <Flex.Item style={_.ml.sm}>
         <Text size={12} bold>
           {data?.n}
+        </Text>
+        <Text size={10} type='sub'>
+          @{userId}
         </Text>
       </Flex.Item>
     </Flex>

@@ -166,8 +166,11 @@ export const INIT_SETTING = {
   /** 头像是否圆形 */
   avatarRound: false,
 
-  /** 默认的封面圆角大小 */
+  /** @deprecated 默认的封面圆角大小 */
   coverRadius: radiusMd,
+
+  /* 圆角过渡 */
+  squircle: STORYBOOK,
 
   /** 使用 CDN 加速 */
   cdn: false,

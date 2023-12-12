@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:44:19
+ * @Last Modified time: 2023-12-12 20:24:24
  */
 import { computed, observable } from 'mobx'
 import { subjectStore, userStore } from '@stores'
@@ -13,9 +13,9 @@ import { gets } from '@utils/kv'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import { SubjectId, SubjectTypeValue } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { NAMESPACE, STATE, EXCLUDE_STATE, HOST_REC } from './ds'
 
-export default class ScreenRecommend extends store {
+export default class ScreenRecommend extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
@@ -270,15 +270,15 @@ export default class ScreenRecommend extends store {
       const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(cat)
 
       // @ts-expect-error
-      const { data } = await axios({
-        method: 'post',
-        url: `https://bangrecs.net/api/v4/rec/${value.trim()}`,
+      let { data } = await axios({
+        method: 'POST',
+        url: `${HOST_REC}/api/v4/rec/${value.trim()}`,
         data: {
           IsTagFilter: false,
           IsTimeFilter: false,
           // endDate: '2023-09-26T22:35:09.403Z',
-          popdays: 7,
           // startDate: '1899-12-31T15:54:17.000Z',
+          popdays: 7,
           strategy: 'pop',
           tags: [[]],
           topk: 40,
@@ -286,6 +286,7 @@ export default class ScreenRecommend extends store {
           update_f: false
         }
       })
+      if (data?.data) data = data.data
 
       t('推荐.刷新', {
         value: value.trim(),

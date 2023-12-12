@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 16:18:47
+ * @Last Modified time: 2023-12-12 17:44:59
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -21,7 +21,7 @@ const Calendar = (props, { $ }: Ctx) => {
   return useObserver(() => (
     <Component id='screen-calendar'>
       <Header />
-      <Page loaded={$.calendar._loaded}>
+      <Page loaded={!!($.state._loaded && $.calendar._loaded)}>
         <List />
       </Page>
     </Component>

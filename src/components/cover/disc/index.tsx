@@ -7,9 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { stl } from '@utils'
 import { Component } from '../../component'
+import { Squircle } from '../../squircle'
 import { Image } from '../../image'
 import { memoStyles } from './styles'
 
@@ -27,41 +28,45 @@ function Disc({
   ...other
 }) {
   const styles = memoStyles()
-  const { coverRadius } = systemStore.setting
 
   // 音乐为矩形唱片装, 长宽取短的
-  const w = Math.min(size || 1000, width || 1000, height || 1000) - 8
-  const _style = {
-    width: w,
-    height: w,
-    borderRadius: radius === true ? coverRadius : radius || _.radiusXs
+  const discSize = Math.min(size || 1000, width || 1000, height || 1000) - 8
+  const discStyle = {
+    width: discSize,
+    height: discSize
   }
   return (
-    <Component id='component-cover' data-type='music' style={_style}>
+    <Component id='component-cover' data-type='music' style={discStyle}>
       <View
         style={stl([
           styles.disc,
-          _style,
+          discStyle,
           {
-            borderRadius: w / 2
+            borderRadius: discSize / 2
           },
           angleStyle
         ])}
       />
-      <View style={[styles.mask, _style]} />
-      <Image
-        style={[imageStyle, styles.image]}
-        src={src}
-        imageViewerSrc={imageViewerSrc}
-        border
-        textOnly={textOnly}
-        fallback={fallback}
-        radius={_style.borderRadius}
-        {...other}
-        size={w}
-        width={w}
-        height={w}
-      />
+      <Squircle
+        style={styles.image}
+        width={discSize}
+        height={discSize}
+        radius={_.radiusSm}
+      >
+        <Image
+          style={imageStyle}
+          src={src}
+          imageViewerSrc={imageViewerSrc}
+          textOnly={textOnly}
+          fallback={fallback}
+          // radius={discStyle.borderRadius}
+          {...other}
+          size={discSize}
+          width={discSize}
+          height={discSize}
+          border={0}
+        />
+      </Squircle>
     </Component>
   )
 }

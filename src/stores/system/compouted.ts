@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-07-02 11:28:38
  */
 import { computed } from 'mobx'
+import { radiusMd } from '@styles'
 import { AnyObject, StoreConstructor, UserId } from '@types'
 import State from './state'
 import { STATE } from './init'
@@ -20,8 +21,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return {
       ...this.state.setting,
 
-      /** 版本迭代后的禁用设置覆盖 */
+      /** 版本迭代后废弃的设置覆盖 */
       cdnAvatar: false,
+      coverRadius: radiusMd,
       ripple: false
     }
   }

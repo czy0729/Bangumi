@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:07:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:17:35
+ * @Last Modified time: 2023-12-12 05:11:49
  */
 import {
   IMG_HEIGHT_SM,
@@ -41,6 +41,10 @@ export const TEXTS = {
     lg: {
       title: '大'
     }
+  },
+  squircle: {
+    title: '[实验性] 圆角过渡',
+    information: '对图片使用另一种曲率渲染圆角'
   },
   speech: {
     title: '看板娘吐槽',

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-15 19:21:30
+ * @Last Modified time: 2023-12-11 20:29:11
  */
 import React from 'react'
 import { Text } from '@components'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 /** 少于这个数字的, 为坟贴 */
 const OLD_GROUP_ID = 374218

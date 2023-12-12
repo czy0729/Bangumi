@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:07:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:23:08
+ * @Last Modified time: 2023-12-12 22:32:33
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,10 +20,10 @@ const Sponsor = (props, { $, navigation }: Ctx) => {
   })
 
   return useObserver(() => {
-    const { list } = $.state
+    const { list, _loaded } = $.state
     return (
       <Component id='screen-sponsor'>
-        <Page>
+        <Page loaded={_loaded}>
           <Header />
           {list ? <List /> : <Chart navigation={navigation} />}
         </Page>

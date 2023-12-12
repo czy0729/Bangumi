@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 17:20:30
+ * @Last Modified time: 2023-12-12 22:20:34
  */
+
+/** 网页端全局样式 */
 // [data-key]::after {
 //   content: attr(data-key);
 //   position: absolute;
@@ -58,6 +60,17 @@ component-popover {
 
 component-switch-pro {
   cursor: pointer;
+}
+
+component-mask {
+  & > component-touchable-opacity {
+    position: absolute !important;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 base-rank {

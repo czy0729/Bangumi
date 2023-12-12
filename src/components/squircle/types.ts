@@ -19,7 +19,7 @@ export type Props = {
   radius: number | boolean
 
   /** 子组件 */
-  children: any
+  children?: any
 }
 
 export type getMaskPathInput = {

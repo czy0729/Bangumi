@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 17:33:26
+ * @Last Modified time: 2023-12-12 22:22:22
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,10 @@ import { info, confirm } from '@utils'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t, ping } from '@utils/fetch'
 import {
-  MODEL_SETTING_CDN_ORIGIN,
-  CDN_OSS_MAGMA_POSTER,
   ADVANCE_CDN,
+  CDN_OSS_MAGMA_POSTER,
   IOS,
+  MODEL_SETTING_CDN_ORIGIN,
   STORYBOOK
 } from '@constants'
 import DS from '@assets/json/advance.json'
@@ -82,7 +82,7 @@ function CDN({ navigation, filter }) {
         <ActionSheet
           show={state}
           title='图片'
-          height={filter ? 400 : 640}
+          height={filter || STORYBOOK ? 400 : 640}
           onClose={setFalse}
         >
           {/* 封面加速 */}

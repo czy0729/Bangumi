@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-08 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-18 16:17:41
+ * @Last Modified time: 2023-12-12 22:17:31
  */
 import React from 'react'
 import { AnyObject } from '@types'
 import { parseUrlParams } from '../storybook/utils'
 import { convertToDashCase, transformStyles } from './utils'
 import { Props as ComponentProps } from './types'
-import './index.scss'
+import '../../styles/index.scss'
 
 export { ComponentProps }
 

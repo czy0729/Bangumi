@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Component } from '../../component'
+import { Squircle } from '../../squircle'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
 import { memoStyles } from './styles'
@@ -31,30 +32,41 @@ function Game({
   const styles = memoStyles()
 
   // 游戏为 NS 卡带状
-  const w = width || size
-  const h = height || size
+  const containerWidth = width || size
+  const containerHeight = height || size
+  const gameWidth = containerWidth - 12
+  const gameHeight = Math.max(containerHeight - 28, gameWidth)
   return (
-    <Component id='component-cover' data-type='game'>
+    <Component
+      id='component-cover'
+      data-type='game'
+      style={{
+        width: containerWidth,
+        height: containerHeight
+      }}
+    >
       <Flex
         style={stl(styles.game, containerStyle)}
         direction='column'
         justify='center'
       >
         <View style={[styles.head, bodyStyle]} />
-        <Image
-          style={imageStyle}
-          src={src}
-          imageViewerSrc={imageViewerSrc}
-          textOnly={textOnly}
-          fallback={fallback}
-          {...other}
-          radius={_.radiusXs}
-          size={w - 8}
-          width={w - 8}
-          height={Math.max(h - 20, w - 12)}
-          shadow={false}
-          border={false}
-        />
+        <Squircle width={gameWidth} height={gameHeight} radius={_.radiusXs}>
+          <Image
+            style={imageStyle}
+            src={src}
+            imageViewerSrc={imageViewerSrc}
+            textOnly={textOnly}
+            fallback={fallback}
+            {...other}
+            size={gameWidth}
+            width={gameWidth}
+            height={gameHeight}
+            radius={0}
+            shadow={false}
+            border={false}
+          />
+        </Squircle>
         <View style={[styles.angle, angleStyle]} />
       </Flex>
     </Component>

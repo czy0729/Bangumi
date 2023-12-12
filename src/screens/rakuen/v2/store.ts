@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:56:46
+ * @Last Modified time: 2023-12-11 20:08:02
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, rakuenStore, userStore } from '@stores'
@@ -34,7 +34,7 @@ import {
   TABS
 } from './ds'
 
-export default class ScreenRakuen extends store {
+export default class ScreenRakuen extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

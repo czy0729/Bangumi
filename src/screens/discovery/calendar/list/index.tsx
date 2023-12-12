@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:12:09
+ * @Last Modified time: 2023-12-12 17:51:55
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -39,17 +39,9 @@ function List(props, { $ }: Ctx) {
 export default obc(List)
 
 function renderSectionHeader({ section: { title } }) {
+  const styles = memoStyles()
   return (
-    <SectionHeader
-      style={[
-        _.container.plain,
-        {
-          paddingVertical: _.md,
-          paddingLeft: _._wind
-        }
-      ]}
-      size={14}
-    >
+    <SectionHeader style={styles.section} size={14}>
       {title}
     </SectionHeader>
   )

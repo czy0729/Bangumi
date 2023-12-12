@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:14:43
+ * @Last Modified time: 2023-12-12 21:26:54
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Animated } from 'react-native'
@@ -13,6 +13,7 @@ import { IOS } from '@constants'
 import { Portal } from '../portal'
 import { Component } from '../component'
 import { SafeAreaBottom } from '../safe-area-bottom'
+import { Mask } from '../mask'
 import { ScrollView } from '../scroll-view'
 import { Touchable } from '../touchable'
 import { Flex } from '../flex'
@@ -83,16 +84,12 @@ export const ActionSheet = ({
     return (
       <Portal>
         <Component id='component-action-sheet' style={styles.actionSheet}>
-          {/* @ts-ignore */}
-          <Animated.View
-            style={[
-              styles.mask,
-              {
-                opacity: y.current
-              }
-            ]}
+          <Mask
+            style={{
+              opacity: y.current
+            }}
+            onPress={onClose}
           />
-          <Touchable style={styles.wrap} useRN ripple={false} onPress={onClose} />
           {/* @ts-ignore */}
           <Animated.View
             style={[

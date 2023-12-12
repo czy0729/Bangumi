@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 14:00:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 14:10:32
+ * @Last Modified time: 2023-12-12 22:25:47
  */
 export const TEXTS = {
   tinygrail: {
@@ -19,3 +19,5 @@ export const TEXTS = {
     information: 'v7.3.2 后不再默认配置小圣杯入口\n若需要请手动设置'
   }
 } as const
+
+export const DS = ['绿涨红跌', '红涨绿跌'] as const

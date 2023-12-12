@@ -12,20 +12,20 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
     borderWidth: 5,
     borderBottomWidth: 1,
-    borderRadius: 6,
-    borderBottomLeftRadius: 16
+    borderRadius: _.radiusSm,
+    borderBottomLeftRadius: _.radiusLg
   },
   head: {
     width: 24,
-    height: 2,
-    marginBottom: 2,
+    height: 3,
+    marginBottom: 3,
     backgroundColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2)
   },
   angle: {
-    width: 6,
-    height: 4,
-    marginTop: 2,
-    borderWidth: 4,
+    width: 8,
+    height: 6,
+    marginTop: 3,
+    borderWidth: 6,
     borderColor: 'transparent',
     borderTopColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2)
   }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-08 08:02:12
+ * @Last Modified time: 2023-12-12 17:30:50
  */
 const path = require('path')
 const sass = require('node-sass')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   title: 'Bangumi 番组计划',
@@ -34,6 +34,7 @@ module.exports = {
   },
   framework: '@storybook/react',
   webpackFinal: async (config, { configType }) => {
+    /** ========== SASS ========== */
     config.module.rules.push({
       test: /\.scss$/,
       use: [
@@ -54,7 +55,7 @@ module.exports = {
       stream: require.resolve('stream-browserify')
     }
 
-    /** ========== Public ========== */
+    /** ========== Public Assets ========== */
     config.plugins.push(
       new CopyWebpackPlugin({
         patterns: [
@@ -69,7 +70,7 @@ module.exports = {
       })
     )
 
-    /** ========== Workbox ========== */
+    /** ========== ServiceWorker Workbox ========== */
     if (configType === 'PRODUCTION') {
       config.plugins.push(
         new GenerateSW({
@@ -105,8 +106,8 @@ module.exports = {
       )
     }
 
-    /** ========== 压缩代码 ========== */
     if (configType === 'PRODUCTION') {
+      /** ========== 压缩代码 ========== */
       // 搜索 existingUglifyPlugin
       const existingUglifyPluginIndex = config.optimization.minimizer.findIndex(
         plugin =>
@@ -126,13 +127,7 @@ module.exports = {
         config.optimization.minimizer.push(new UglifyJsPlugin())
       }
 
-      // config.performance = {
-      //   hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
-      //   maxAssetSize: 1024 * 1024, // 限制单个文件大小为 1MB
-      //   maxEntrypointSize: 1024 * 1024 // 限制整体打包后的文件大小为 1MB
-      // }
-
-      // 设置 optimization 分割代码
+      /** ========== 分割代码 ========== */
       config.optimization.splitChunks = {
         chunks: 'all',
         maxSize: 1024 * 1024

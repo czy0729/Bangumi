@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 04:54:07
+ * @Last Modified time: 2023-12-12 19:17:32
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -108,7 +108,8 @@ export const MENU_MAP = {
   Like: {
     key: 'Like',
     name: '猜你喜欢',
-    icon: 'md-looks'
+    icon: 'md-looks',
+    web: false
   },
   Recommend: {
     key: 'Recommend',

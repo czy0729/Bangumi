@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 15:14:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-18 15:06:47
+ * @Last Modified time: 2023-12-12 22:26:25
  */
 import React from 'react'
 import { ActionSheet, SegmentedControl, Text, SwitchPro, Heatmap } from '@components'
@@ -10,18 +10,18 @@ import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver, useBoolean } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { STORYBOOK } from '@constants'
 import CustomBtn from '../home/custom-btn'
 import { getShows, getYuqueThumbs } from '../utils'
 import styles from '../styles'
-import { TEXTS } from './ds'
+import { DS, TEXTS } from './ds'
 
 function Tinygrail({ filter }) {
   const { state, setTrue, setFalse } = useBoolean(false)
-  const tinygrailModeDS = ['绿涨红跌', '红涨绿跌']
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (!shows) return null
+    if (STORYBOOK || !shows) return null
 
     const { tinygrail } = systemStore.setting
     return (
@@ -78,13 +78,13 @@ function Tinygrail({ filter }) {
               <SegmentedControl
                 style={styles.segmentedControl}
                 size={12}
-                values={tinygrailModeDS}
+                values={DS}
                 selectedIndex={_.isWeb ? 2 : _.isGreen ? 0 : 1}
                 onValueChange={value => {
                   if (
-                    (_.isGreen && value === tinygrailModeDS[0]) ||
-                    (!_.isGreen && value === tinygrailModeDS[1]) ||
-                    (_.isWeb && value === tinygrailModeDS[2])
+                    (_.isGreen && value === DS[0]) ||
+                    (!_.isGreen && value === DS[1])
+                    // || (_.isWeb && value === DS[2])
                   ) {
                     return
                   }
@@ -94,7 +94,7 @@ function Tinygrail({ filter }) {
                     label: _.isWeb ? '网页一致' : _.isGreen ? '红涨绿跌' : '绿涨红跌'
                   })
 
-                  if (value === tinygrailModeDS[2]) return _.toggleTinygrailMode('web')
+                  // if (value === DS[2]) return _.toggleTinygrailMode('web')
 
                   _.toggleTinygrailMode()
                 }}

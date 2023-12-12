@@ -32,22 +32,24 @@ export const UserStatus = observer(
     const styles = memoStyles()
     return (
       <Component id='component-user-status'>
-        {children}
-        <Flex
-          style={stl(styles.wrap, mini && styles.wrapMini, style)}
-          justify='center'
-          pointerEvents='none'
-        >
-          <View
-            style={stl(
-              styles.badge,
-              mini && styles.badgeMini,
-              distance >= D3_TS
-                ? styles.badgeDisabled
-                : distance >= D1_TS && styles.badgeWarning
-            )}
-          />
-        </Flex>
+        <View>
+          {children}
+          <Flex
+            style={stl(styles.wrap, mini && styles.wrapMini, style)}
+            justify='center'
+            pointerEvents='none'
+          >
+            <View
+              style={stl(
+                styles.badge,
+                mini && styles.badgeMini,
+                distance >= D3_TS
+                  ? styles.badgeDisabled
+                  : distance >= D1_TS && styles.badgeWarning
+              )}
+            />
+          </Flex>
+        </View>
       </Component>
     )
   }

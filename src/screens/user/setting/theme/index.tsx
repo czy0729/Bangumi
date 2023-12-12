@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:23:38
+ * @Last Modified time: 2023-12-11 19:44:19
  */
 import React from 'react'
 import { ActionSheet, SwitchPro, Heatmap } from '@components'
@@ -33,7 +33,7 @@ function Theme({ navigation, filter }) {
 
         <ActionSheet
           show={state}
-          height={filter ? 440 : 760}
+          height={filter ? 440 : IOS ? 440 : 760}
           title='主题'
           onClose={setFalse}
         >
