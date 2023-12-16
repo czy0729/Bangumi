@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:58:59
+ * @Last Modified time: 2023-12-17 06:44:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -68,12 +68,9 @@ function History({
           <View key={item} style={styles.item}>
             <Flex style={styles.content}>
               {showAvatar && !!userId && (
-                <Avatar
-                  style={_.mr.sm}
-                  src={API_AVATAR(userId)}
-                  size={28}
-                  onPress={onPress}
-                />
+                <View style={_.mr.sm}>
+                  <Avatar src={API_AVATAR(userId)} size={28} onPress={onPress} />
+                </View>
               )}
               <Flex.Item>
                 <Text size={blockCount ? 13 : 14} bold onPress={onPress}>

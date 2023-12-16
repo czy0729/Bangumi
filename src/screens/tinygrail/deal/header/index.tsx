@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-11-08 20:36:36
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, TextType } from '@components'
 import { Avatar, IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
@@ -40,24 +41,25 @@ function Header(props, { $, navigation }: Ctx) {
             color={_.colorTinygrailPlain}
           />
           {!!icon && (
-            <Avatar
-              style={styles.avatar}
-              src={tinygrailOSS(icon)}
-              size={40}
-              borderColor='transparent'
-              name={name}
-              onPress={() => {
-                t('交易.跳转', {
-                  to: 'Mono',
-                  monoId: $.monoId
-                })
+            <View style={styles.avatar}>
+              <Avatar
+                src={tinygrailOSS(icon)}
+                size={40}
+                borderColor='transparent'
+                name={name}
+                onPress={() => {
+                  t('交易.跳转', {
+                    to: 'Mono',
+                    monoId: $.monoId
+                  })
 
-                navigation.push('Mono', {
-                  monoId: `character/${$.monoId}`,
-                  _name: name
-                })
-              }}
-            />
+                  navigation.push('Mono', {
+                    monoId: `character/${$.monoId}`,
+                    _name: name
+                  })
+                }}
+              />
+            </View>
           )}
           <Flex.Item style={_.ml.sm}>
             <Flex>

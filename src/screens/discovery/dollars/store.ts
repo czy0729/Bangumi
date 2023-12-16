@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:25:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 15:54:54
+ * @Last Modified time: 2023-12-17 06:37:03
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -11,7 +11,7 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenDollars extends store {
+export default class ScreenDollars extends store<typeof EXCLUDE_STATE> {
   state = observable(EXCLUDE_STATE)
 
   scrollViewRef = null
@@ -115,8 +115,8 @@ export default class ScreenDollars extends store {
   }
 
   onSubmit = () => {
-    const { fething, text } = this.state
-    if (fething) return
+    const { fetching, text } = this.state
+    if (fetching) return
 
     if (!text) {
       info('请输入内容')

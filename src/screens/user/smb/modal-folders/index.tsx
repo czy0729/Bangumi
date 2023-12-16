@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:59:15
+ * @Last Modified time: 2023-12-17 07:05:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,30 +25,31 @@ function ModalFolders(props, { $, navigation }: Ctx) {
     <Modal style={styles.modal} visible={visible} onClose={$.onCloseModalFolders}>
       {!!subjectId && (
         <Flex style={_.mb.md}>
-          <Cover
-            style={_.mr.md}
-            src={image}
-            size={IMG_WIDTH_SM / 1.2}
-            height={IMG_HEIGHT_SM / 1.2}
-            onPress={() => {
-              navigation.push('Subject', {
-                subjectId,
-                _jp: jp,
-                _cn: cn,
-                _image: image
-              })
+          <View style={_.mr.md}>
+            <Cover
+              src={image}
+              size={IMG_WIDTH_SM / 1.2}
+              height={IMG_HEIGHT_SM / 1.2}
+              onPress={() => {
+                navigation.push('Subject', {
+                  subjectId,
+                  _jp: jp,
+                  _cn: cn,
+                  _image: image
+                })
 
-              t('SMB.跳转', {
-                to: 'Subject',
-                subjectId,
-                from: 'ModalFolders'
-              })
+                t('SMB.跳转', {
+                  to: 'Subject',
+                  subjectId,
+                  from: 'ModalFolders'
+                })
 
-              setTimeout(() => {
-                $.onCloseModalFolders()
-              }, 40)
-            }}
-          />
+                setTimeout(() => {
+                  $.onCloseModalFolders()
+                }, 40)
+              }}
+            />
+          </View>
           <Flex.Item style={styles.subject}>
             <Subject subjectId={subjectId} />
           </Flex.Item>

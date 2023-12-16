@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 03:27:03
+ * @Last Modified time: 2023-12-17 06:31:26
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
@@ -48,11 +48,11 @@ export const ItemArticle = ob(
             <View style={styles.cover}>
               <UserStatus userId={userId}>
                 <Avatar
+                  navigation={navigation}
                   userId={userId}
                   name={nickname}
                   src={avatar}
                   event={event}
-                  navigation={navigation}
                 />
               </UserStatus>
             </View>

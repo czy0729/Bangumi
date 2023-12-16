@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:30:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:31:46
+ * @Last Modified time: 2023-12-17 07:00:18
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -23,7 +23,7 @@ import {
 } from './ds'
 import { DoubanStatus, DoubanCollection, StateData } from './types'
 
-export default class ScreenBilibiliSync extends store {
+export default class ScreenBilibiliSync extends store<typeof STATE> {
   state = observable(STATE)
 
   collections: StateData['list'] = []

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:07:24
+ * @Last Modified time: 2023-12-17 06:42:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,28 +91,30 @@ function Item(
               </Text>
               <Flex style={_.mt.sm}>
                 {!!icons && (
-                  <Avatar
-                    style={[styles.avatar, _.mr.sm]}
-                    src={tinygrailOSS(icons)}
-                    size={28}
-                    borderColor='transparent'
-                    onPress={() => {
-                      // ICO的记录没有人物id
-                      if (!onPress) {
-                        return
-                      }
+                  <View style={_.mr.sm}>
+                    <Avatar
+                      style={styles.avatar}
+                      src={tinygrailOSS(icons)}
+                      size={28}
+                      borderColor='transparent'
+                      onPress={() => {
+                        // ICO的记录没有人物id
+                        if (!onPress) {
+                          return
+                        }
 
-                      t('资金日志.跳转', {
-                        to: 'Mono',
-                        monoId: charaId
-                      })
+                        t('资金日志.跳转', {
+                          to: 'Mono',
+                          monoId: charaId
+                        })
 
-                      navigation.push('Mono', {
-                        monoId: `character/${charaId}`,
-                        _name: desc
-                      })
-                    }}
-                  />
+                        navigation.push('Mono', {
+                          monoId: `character/${charaId}`,
+                          _name: desc
+                        })
+                      }}
+                    />
+                  </View>
                 )}
                 <Text type='tinygrailPlain' size={12}>
                   {desc}

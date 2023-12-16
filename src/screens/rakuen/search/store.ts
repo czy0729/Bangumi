@@ -2,27 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 07:28:29
+ * @Last Modified time: 2023-12-17 06:49:03
  */
 import { observable, computed } from 'mobx'
 import { searchStore, systemStore } from '@stores'
 import { info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
-const NAMESPACE = 'ScreenRakuenSearch'
-const EXCLUDE_STATE = {
-  value: '',
-  searching: false,
-  cache: {}
-} as const
-
-export default class ScreenRakuenSearch extends store {
-  state = observable({
-    history: [],
-    ...EXCLUDE_STATE,
-    _loaded: false
-  })
+export default class ScreenRakuenSearch extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

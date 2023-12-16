@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:46:01
+ * @Last Modified time: 2023-12-17 07:26:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,14 +96,7 @@ function Item({
             onPress={() => (onSubPress || onPress)(item, typeCn)}
           >
             <Flex>
-              {!!item.actorCover && (
-                <Cover
-                  style={this.styles.actor}
-                  src={item.actorCover}
-                  size={16}
-                  radius
-                />
-              )}
+              {!!item.actorCover && <Cover src={item.actorCover} size={16} radius />}
               <Flex.Item>
                 <Text type='sub' size={descSize} numberOfLines={2} bold>
                   {desc}

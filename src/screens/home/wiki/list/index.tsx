@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 09:37:36
+ * @Last Modified time: 2023-12-17 06:56:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -111,13 +111,14 @@ class List extends React.Component {
                   by
                 </Text>
                 {!STORYBOOK && (
-                  <Avatar
-                    style={_.ml.sm}
-                    navigation={navigation}
-                    userId={userId}
-                    src={API_AVATAR(userId)}
-                    size={20}
-                  />
+                  <View style={_.ml.sm}>
+                    <Avatar
+                      navigation={navigation}
+                      userId={userId}
+                      src={API_AVATAR(userId)}
+                      size={20}
+                    />
+                  </View>
                 )}
                 <Text
                   style={_.ml.sm}

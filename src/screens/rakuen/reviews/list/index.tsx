@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 18:31:34
+ * @Last Modified time: 2023-12-17 06:45:33
  */
 import React from 'react'
+import { View } from 'react-native'
 import { ScrollView, Touchable, Flex, Text, Mesume, Heatmap } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
@@ -41,13 +42,14 @@ function List(props, { $, navigation }: Ctx) {
           }}
         >
           <Flex style={styles.wrap} align='start'>
-            <Avatar
-              style={_.mr.sm}
-              navigation={navigation}
-              userId={userId}
-              name={userName}
-              src={avatar}
-            />
+            <View style={_.mr.sm}>
+              <Avatar
+                navigation={navigation}
+                userId={userId}
+                name={userName}
+                src={avatar}
+              />
+            </View>
             <Flex.Item>
               <Text size={15}>
                 {HTMLDecode(title)}

@@ -2,26 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 18:25:04
+ * @Last Modified time: 2023-12-17 04:53:13
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, userStore, systemStore } from '@stores'
 import { getTimestamp, info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { Params } from './types'
 import { Id } from '@types'
+import { STATE } from './ds'
+import { Params } from './types'
 
-export default class ScreenTinygrailICODeal extends store {
+export default class ScreenTinygrailICODeal extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    loading: false,
-
-    /** 只能是整数 */
-    amount: 5000,
-    _loaded: 0
-  })
+  state = observable(STATE)
 
   prev: any
 

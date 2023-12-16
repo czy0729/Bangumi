@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-03 15:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:58:54
+ * @Last Modified time: 2023-12-17 04:34:12
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -10,15 +10,12 @@ import { Avatar } from '@_'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
-import { memoStyles } from './styles'
 
 function ItemBottom({ src, name, level, change, type, onPress }) {
-  const styles = memoStyles()
   return (
     <Touchable onPress={onPress}>
       <Flex>
         <Avatar
-          style={styles.avatar}
           src={tinygrailOSS(src)}
           size={40}
           name={name}

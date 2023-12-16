@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:45:38
+ * @Last Modified time: 2023-12-17 07:21:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -93,14 +93,15 @@ export default memo(({ navigation, styles, style, voices }) => {
                       )}
                     </Flex.Item>
                     {!!item.subjectCover && (
-                      <Cover
-                        style={_.ml.sm}
-                        src={item.subjectCover}
-                        size={COVER_WIDTH * 0.88}
-                        height={COVER_HEIGHT * 0.88}
-                        radius
-                        shadow
-                      />
+                      <View style={_.ml.sm}>
+                        <Cover
+                          src={item.subjectCover}
+                          size={COVER_WIDTH * 0.88}
+                          height={COVER_HEIGHT * 0.88}
+                          radius
+                          shadow
+                        />
+                      </View>
                     )}
                   </Flex>
                 </Touchable>

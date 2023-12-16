@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:34:13
+ * @Last Modified time: 2023-12-17 04:58:20
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,21 +10,10 @@ import { info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { MonoId, Navigation } from '@types'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
-const NAMESPACE = 'ScreenTinygrailSearch'
-
-const EXCLUDE_STATE = {
-  value: '',
-  list: [],
-  searching: false
-}
-
-export default class ScreenTinygrailSearch extends store {
-  state = observable({
-    history: [],
-    ...EXCLUDE_STATE,
-    _loaded: false
-  })
+export default class ScreenTinygrailSearch extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

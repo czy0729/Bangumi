@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-28 11:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 05:39:22
+ * @Last Modified time: 2023-12-17 07:02:46
  */
+import { Loaded } from '@types'
+
 export const NAMESPACE = 'ScreenBilibili'
 
 export const STATE = {
@@ -39,7 +41,7 @@ export const STATE = {
   /** 收藏是否可见 */
   privacy: false,
 
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 export const HOST_API = 'https://api.bgm.tv'

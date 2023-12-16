@@ -14,10 +14,6 @@ export const memoStyles = _.memoStyles(() => ({
   active: {
     backgroundColor: _.colorTinygrailActive
   },
-  avatar: {
-    marginTop: _.md,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
   item: {
     paddingVertical: _.md,
     paddingRight: _.wind,

@@ -41,6 +41,7 @@ export type Props<T extends Route> = PagerCommonProps & {
   renderPager: (props: ChildProps<T>) => React.ReactNode
 
   /** @add */
+  renderContentHeaderComponent?: React.ReactNode
   renderBackground?: React.ReactNode
 }
 
@@ -119,6 +120,7 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
       renderPager,
 
       /** @add */
+      renderContentHeaderComponent,
       renderBackground
     } = this.props
     const { layout } = this.state
@@ -162,6 +164,7 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
                     ...sceneRendererProps,
                     navigationState
                   })}
+                {renderContentHeaderComponent}
                 {!IOS && renderBackground}
                 {render(
                   routes.map((route, i) => (

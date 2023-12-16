@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-26 21:24:46
+ * @Last Modified time: 2023-12-17 06:47:09
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
@@ -11,23 +11,16 @@ import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_REVIEWS, LIST_EMPTY } from '@constants'
 import { TopicId } from '@types'
+import { NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-
-const NAMESPACE = 'ScreenBoard'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenBoard extends store {
+export default class ScreenBoard extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    history: [],
-
-    /** 云快照 */
-    ota: {},
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(this.key)

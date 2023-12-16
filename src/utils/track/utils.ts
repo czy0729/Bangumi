@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 13:45:45
+ * @Last Modified time: 2023-12-17 03:53:05
  */
 import Constants from 'expo-constants'
 import { STORYBOOK } from '@constants/device'
@@ -10,7 +10,15 @@ import { HOST } from '@constants/constants'
 import { AnyObject, EventKeys } from '@types'
 import { DEV } from '@/config'
 import { urlStringify, getTimestamp, randomn, interceptor } from '../utils'
-import { API_UMAMI, API_XHR, SCREEN, TIMEOUT, TITLE, WEBSITE } from './ds'
+import {
+  API_UMAMI,
+  API_XHR,
+  SCREEN,
+  TIMEOUT,
+  TITLE,
+  WEBSITE,
+  WEBSITE_TINGRAIL
+} from './ds'
 import { EventData } from './type'
 
 export function xhr(si: string, u: string) {
@@ -42,7 +50,7 @@ export async function umami(url: string = '', title: string = '') {
     // @ts-ignore
     window.umami.track((props: any) => ({
       ...props,
-      website: WEBSITE,
+      website: url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
       url,
       title,
       referrer: ''
@@ -74,7 +82,7 @@ export async function umamiEvent(
     // @ts-ignore
     window.umami.track((props: any) => ({
       ...props,
-      website: WEBSITE,
+      website: url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
       url,
       title,
       name: eventId,
@@ -92,6 +100,7 @@ export async function umamiEvent(
     name: eventId,
     data
   })
+  log('umamiEvent', eventId, data)
 }
 
 async function umamiXhr(payload: {
@@ -112,7 +121,7 @@ async function umamiXhr(payload: {
     JSON.stringify({
       payload: {
         ...payload,
-        website: WEBSITE,
+        website: payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
         hostname: 'bgm.tv',
         screen: SCREEN,
         language: 'zh-CN',

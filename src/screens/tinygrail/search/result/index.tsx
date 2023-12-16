@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:10:39
+ * @Last Modified time: 2023-12-17 04:58:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,23 +24,24 @@ function Result({ style }, { $, navigation }: Ctx) {
         <View key={index} style={styles.item}>
           <Flex style={stl(styles.wrap, index !== 0 && !_.flat && styles.border)}>
             {!!item.icon && (
-              <Avatar
-                style={styles.avatar}
-                src={tinygrailOSS(item.icon)}
-                size={28}
-                borderColor='transparent'
-                onPress={() => {
-                  t('人物直达.跳转', {
-                    to: 'Mono',
-                    monoId: item.id
-                  })
+              <View style={_.mr.sm}>
+                <Avatar
+                  src={tinygrailOSS(item.icon)}
+                  size={28}
+                  borderColor='transparent'
+                  onPress={() => {
+                    t('人物直达.跳转', {
+                      to: 'Mono',
+                      monoId: item.id
+                    })
 
-                  navigation.push('Mono', {
-                    monoId: `character/${item.id}`,
-                    _name: item.name
-                  })
-                }}
-              />
+                    navigation.push('Mono', {
+                      monoId: `character/${item.id}`,
+                      _name: item.name
+                    })
+                  }}
+                />
+              </View>
             )}
             <Flex.Item>
               <Touchable

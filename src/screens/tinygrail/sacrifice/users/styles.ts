@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-11 06:09:55
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-11 06:09:55
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-17 06:28:32
  */
 import { _ } from '@stores'
 
@@ -13,10 +13,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   userStatus: {
     backgroundColor: _.colorTinygrailContainer
-  },
-  avatar: {
-    marginTop: 2,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   },
   expand: {
     paddingVertical: _.sm

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:11:51
+ * @Last Modified time: 2023-12-17 04:16:36
  */
 import React from 'react'
 import { Page, Touchable, Flex, Iconfont, Text } from '@components'
@@ -48,6 +48,7 @@ class TinygrailCharaAssets extends React.Component {
   renderIncreaseBtn() {
     const { $ } = this.context as Ctx
     const { editing } = $.state
+    console.log('renderIncreaseBtn', editing)
     return (
       editing && (
         <Touchable onPress={$.increaseBatchSelect}>

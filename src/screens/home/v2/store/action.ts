@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 08:49:15
+ * @Last Modified time: 2023-12-17 07:27:27
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -172,18 +172,6 @@ export default class Action extends Fetch {
     t('首页.全部关闭')
 
     this.clearState('item')
-    this.save()
-  }
-
-  /** @deprecated 选择布局 */
-  selectLayout = (title: string) => {
-    t('首页.选择布局', {
-      title
-    })
-
-    this.setState({
-      grid: title === '方格布局'
-    })
     this.save()
   }
 

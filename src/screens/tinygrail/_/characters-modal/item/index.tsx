@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:01:16
+ * @Last Modified time: 2023-12-17 04:33:52
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -19,7 +19,7 @@ function Item({ type, src, id, level, rank, name, extra, disabled, item, onPress
     <Touchable onPress={() => onPress(item)}>
       <Flex style={stl(styles.item, !disabled && styles[type])}>
         {src ? (
-          <Avatar style={styles.avatar} src={tinygrailOSS(src)} size={40} />
+          <Avatar src={tinygrailOSS(src)} size={40} />
         ) : (
           <Text type='tinygrailPlain' size={9} lineHeight={10} bold numberOfLines={1}>
             #{id}{' '}

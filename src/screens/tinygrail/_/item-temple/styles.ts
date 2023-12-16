@@ -18,9 +18,6 @@ export const memoStyles = _.memoStyles(() => {
       marginBottom: _.sm + 2,
       marginLeft
     },
-    avatar: {
-      backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-    },
     wrap: {
       width,
       height: imageHeight,

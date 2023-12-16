@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:26:56
+ * @Last Modified time: 2023-12-17 06:55:11
  */
 import { observable, computed } from 'mobx'
 import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
@@ -13,38 +13,16 @@ import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { TopicId } from '@types'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-
-const NAMESPACE = 'ScreenBlog'
-
-const EXCLUDE_STATE = {
-  /** 回复框 placeholder */
-  placeholder: '',
-
-  /** 回复框 value */
-  value: '',
-
-  /** 存放 bgm 特有的子回复配置字符串 */
-  replySub: '',
-
-  /** 存放子回复 html */
-  message: '',
-
-  /** 云快照 */
-  ota: {},
-  showHeaderTitle: false
-}
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenBlog extends store {
+export default class ScreenBlog extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    ...EXCLUDE_STATE,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(this.namespace)) || {}

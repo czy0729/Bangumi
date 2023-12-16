@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:34:00
+ * @Last Modified time: 2023-12-17 06:31:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,7 +79,11 @@ export const LikesUsers = ({ show, list, emoji, onClose }) => {
                   }}
                 >
                   <Flex>
-                    {!!avatar && <Avatar style={_.mr.sm} size={32} src={avatar} />}
+                    {!!avatar && (
+                      <View style={_.mr.sm}>
+                        <Avatar size={32} src={avatar} />
+                      </View>
+                    )}
                     <Text size={13} bold>
                       {item.nickname}{' '}
                       <Text type='sub' size={10} lineHeight={13} bold>

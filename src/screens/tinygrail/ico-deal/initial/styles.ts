@@ -17,9 +17,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.md,
     marginRight: '3%'
   },
-  avatar: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
-  },
   rank: {
     minWidth: 24
   }

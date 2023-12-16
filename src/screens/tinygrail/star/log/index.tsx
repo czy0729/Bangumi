@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 07:04:42
+ * @Last Modified time: 2023-12-17 06:41:32
  */
 import React from 'react'
 import { Touchable, Flex, Text } from '@components'
@@ -22,17 +22,16 @@ function Item(
   return (
     <Flex style={styles.container}>
       <Avatar
-        style={styles.avatar}
         src={tinygrailOSS(icon)}
         size={36}
         name={name}
         borderColor='transparent'
-        onPress={() =>
+        onPress={() => {
           navigation.push('Mono', {
             monoId: `character/${monoId}`,
             _name: name
           })
-        }
+        }}
       />
       <Flex.Item style={_.ml.sm}>
         <Touchable
@@ -54,7 +53,6 @@ function Item(
             <Text
               style={[
                 styles.rank,
-                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   backgroundColor: rank <= 500 ? '#ffc107' : '#aaa'
                 }

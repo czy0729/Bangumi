@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-07 17:18:18
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-07 17:18:18
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-17 03:58:57
  */
 import { _ } from '@stores'
 
@@ -17,7 +17,7 @@ export const memoStyles = _.memoStyles(() => ({
     },
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.48)',
-    borderRadius: _.radiusXs,
+    borderRadius: 4,
     overflow: 'hidden'
   }
 }))

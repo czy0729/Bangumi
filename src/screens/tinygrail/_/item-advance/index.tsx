@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:55:41
+ * @Last Modified time: 2023-12-17 04:34:51
  */
 import React from 'react'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -46,24 +47,25 @@ function Item(props, { navigation }) {
   const isTop = index === 0
   return (
     <Flex style={styles.container} align='start'>
-      <Avatar
-        style={styles.avatar}
-        src={tinygrailOSS(icon)}
-        name={name}
-        borderColor='transparent'
-        onPress={() => {
-          t(eventId, {
-            to: 'Mono',
-            monoId: id,
-            ...eventData
-          })
+      <View style={_.mt.md}>
+        <Avatar
+          src={tinygrailOSS(icon)}
+          name={name}
+          borderColor='transparent'
+          onPress={() => {
+            t(eventId, {
+              to: 'Mono',
+              monoId: id,
+              ...eventData
+            })
 
-          navigation.push('Mono', {
-            monoId: `character/${id}`,
-            _name: name
-          })
-        }}
-      />
+            navigation.push('Mono', {
+              monoId: `character/${id}`,
+              _name: name
+            })
+          }}
+        />
+      </View>
       <Flex.Item style={!isTop && !_.flat && styles.border}>
         <Touchable
           style={styles.item}

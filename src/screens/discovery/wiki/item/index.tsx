@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:57:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 21:41:25
+ * @Last Modified time: 2023-12-17 07:22:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,14 +24,15 @@ function Item({ id, name, detail, userName, userId }, { navigation }: Ctx) {
     <View style={styles.item}>
       <Flex align='start'>
         {!!subjectId && (
-          <Cover
-            style={_.mr.md}
-            size={IMG_WIDTH_SM}
-            height={IMG_HEIGHT_SM}
-            src={API_COVER(subjectId)}
-            radius
-            headers={userStore.requestHeaders}
-          />
+          <View style={_.mr.md}>
+            <Cover
+              size={IMG_WIDTH_SM}
+              height={IMG_HEIGHT_SM}
+              src={API_COVER(subjectId)}
+              radius
+              headers={userStore.requestHeaders}
+            />
+          </View>
         )}
         <Flex.Item>
           <Touchable style={styles.touch} onPress={() => appNavigate(id, navigation)}>

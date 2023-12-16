@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:41:36
+ * @Last Modified time: 2023-12-17 04:13:44
  */
 import React from 'react'
 import { TabsV2 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
-function Tabs({ routes, ...other }, { $ }) {
+function Tabs({ routes, renderItem, ...other }, { $ }) {
   const { page } = $.state
   return (
     <TabsV2
@@ -21,6 +21,7 @@ function Tabs({ routes, ...other }, { $ }) {
       backgroundColor={_.colorTinygrailContainer}
       borderBottomColor={_.colorTinygrailBorder}
       underlineColor={_.colorWarning}
+      renderItem={renderItem}
       onChange={$.onChange}
       {...other}
     />

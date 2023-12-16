@@ -62,6 +62,7 @@ export default {
   '小圣杯.授权失败': 'TIndex.authFail',
   '小圣杯.预测股息': 'TIndex.test',
   '小圣杯.刮刮乐': 'TIndex.lottery',
+  '小圣杯.幻想乡刮刮乐': 'TIndex.lottery2',
   '小圣杯.每周分红': 'TIndex.bonusWeek',
   '小圣杯.每日签到': 'TIndex.bonusDaily',
   '小圣杯.节日福利': 'TIndex.bonusHoliday',

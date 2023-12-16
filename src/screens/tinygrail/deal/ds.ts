@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-08 19:59:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:45:04
+ * @Last Modified time: 2023-12-17 04:51:13
  */
 export const NAMESPACE = 'ScreenTinygrailDeal'
 
@@ -13,7 +13,7 @@ export const EXCLUDE_STATE = {
   type: DEFAULT_TYPE,
 
   /** 只能到一位小数 */
-  value: 0,
+  value: 0 as string | number,
 
   /** 只能是整数 */
   amount: 0,

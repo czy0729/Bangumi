@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:49:12
+ * @Last Modified time: 2023-12-17 07:21:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -95,13 +95,14 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
                         >
                           <Flex>
                             {!!item.castCover && (
-                              <Cover
-                                style={_.mr.sm}
-                                size={_.r(24)}
-                                src={item.castCover}
-                                radius={radius}
-                                shadow
-                              />
+                              <View style={_.mr.sm}>
+                                <Cover
+                                  size={_.r(24)}
+                                  src={item.castCover}
+                                  radius={radius}
+                                  shadow
+                                />
+                              </View>
                             )}
                             <Text size={11} bold>
                               {item.cast}
@@ -131,13 +132,14 @@ const Jobs = memo(({ navigation, styles, style, jobs }) => {
                             }
                           >
                             <Flex>
-                              <Cover
-                                style={_.mr.xs}
-                                size={_.r(24)}
-                                src={item?.cast2?.castCover}
-                                radius={radius}
-                                shadow
-                              />
+                              <View style={_.mr.xs}>
+                                <Cover
+                                  size={_.r(24)}
+                                  src={item?.cast2?.castCover}
+                                  radius={radius}
+                                  shadow
+                                />
+                              </View>
                               <Text size={11} bold>
                                 {item?.cast2?.cast}
                                 {!!item?.cast2?.castTag && (

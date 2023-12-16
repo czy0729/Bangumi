@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:03:04
+ * @Last Modified time: 2023-12-17 04:49:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,6 @@ function ItemTemple(
       <View
         style={[
           styles.wrap,
-          // eslint-disable-next-line react-native/no-inline-styles
           {
             borderColor: colorLevel,
             borderWidth: colorLevel ? _.tSelect(2, 3) : 0
@@ -99,7 +98,6 @@ function ItemTemple(
             <Flex
               style={[
                 styles.fixed,
-                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   borderRadius: avatarRound ? 36 : coverRadius + 2
                 }
@@ -107,7 +105,6 @@ function ItemTemple(
               justify='center'
             >
               <Avatar
-                style={styles.avatar}
                 navigation={navigation}
                 size={31}
                 src={avatar}
@@ -145,7 +142,6 @@ function ItemTemple(
             <Flex
               style={[
                 styles.fixed,
-                // eslint-disable-next-line react-native/no-inline-styles
                 {
                   borderRadius: avatarRound ? 36 : coverRadius + 2
                 }
@@ -153,7 +149,6 @@ function ItemTemple(
               justify='center'
             >
               <Avatar
-                style={styles.avatar}
                 navigation={navigation}
                 size={31}
                 src={avatar}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:31:21
+ * @Last Modified time: 2023-12-17 07:02:30
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -16,7 +16,7 @@ import i18n from '@constants/i18n'
 import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { NAMESPACE, STATE, HOST_API, MEDIA_SUBJECT, LOADED } from './ds'
 
-export default class ScreenBilibiliSync extends store {
+export default class ScreenBilibiliSync extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

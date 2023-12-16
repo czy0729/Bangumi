@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 00:25:30
+ * @Last Modified time: 2023-12-17 06:34:39
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
@@ -57,16 +58,17 @@ export const ItemPM = ob(
           }}
         >
           <Flex style={styles.container} align='start'>
-            <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-              <Avatar
-                style={styles.image}
-                navigation={navigation}
-                userId={userId}
-                name={name}
-                src={avatar}
-                event={event}
-              />
-            </InView>
+            <View style={_.mt.md}>
+              <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+                <Avatar
+                  navigation={navigation}
+                  userId={userId}
+                  name={name}
+                  src={avatar}
+                  event={event}
+                />
+              </InView>
+            </View>
             <Flex.Item style={styles.item}>
               <Flex>
                 <Flex.Item>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:07:38
+ * @Last Modified time: 2023-12-17 04:55:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -80,10 +80,9 @@ function Item(
   return (
     <View style={styles.container}>
       <Flex align='start'>
-        <View>
+        <View style={_.mt.md}>
           <UserStatus style={styles.userStatus} last={lastActiveTS}>
             <Avatar
-              style={styles.avatar}
               src={tinygrailOSS(avatar)}
               size={36}
               borderColor='transparent'

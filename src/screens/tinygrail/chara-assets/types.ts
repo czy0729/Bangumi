@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-08 15:19:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:50:23
+ * @Last Modified time: 2023-12-17 04:00:57
  */
 import { factory } from '@utils'
 import { Navigation, UserId } from '@types'
@@ -23,3 +23,5 @@ export type Params = {
   message?: string
   form?: 'lottery' | undefined
 }
+
+export type Direction = '' | 'down' | 'up'

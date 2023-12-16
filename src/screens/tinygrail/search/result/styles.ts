@@ -18,9 +18,5 @@ export const memoStyles = _.memoStyles(() => ({
   border: {
     borderTopColor: _.colorTinygrailBorder,
     borderTopWidth: _.hairlineWidth
-  },
-  avatar: {
-    marginRight: _.sm,
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

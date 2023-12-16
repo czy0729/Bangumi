@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:05:15
+ * @Last Modified time: 2023-12-17 04:52:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,6 @@ function Initial({ style }, { $, navigation }: Ctx) {
         {list.map((item, index) => (
           <Flex key={index} style={styles.item}>
             <Avatar
-              style={styles.avatar}
               navigation={navigation}
               src={tinygrailOSS(item.avatar)}
               size={32}

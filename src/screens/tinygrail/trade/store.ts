@@ -2,37 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:32:11
+ * @Last Modified time: 2023-12-17 06:23:24
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
-import { Params } from './types'
 import { MonoId } from '@types'
+import { STATE, m1, m5, m15, h1, h4, h12, d1, w1, month1, NAMESPACE } from './ds'
+import { Params } from './types'
 
-export const m1 = 60 * 1000
-export const m5 = m1 * 5
-export const m15 = m1 * 15
-export const h1 = m1 * 60
-export const h4 = h1 * 4
-export const h12 = h1 * 12
-export const d1 = h1 * 24
-export const w1 = d1 * 7
-export const month1 = d1 * 30
+export { m1, m5, m15, h1, h4, h12, d1, w1, month1 }
 
-const NAMESPACE = 'ScreenTinygrailTrade'
-
-export default class ScreenTinygrailTrade extends store {
+export default class ScreenTinygrailTrade extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    /** K 线是否加载中 */
-    loading: true,
-    distance: d1,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state

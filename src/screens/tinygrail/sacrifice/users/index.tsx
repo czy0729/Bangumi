@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:14:45
+ * @Last Modified time: 2023-12-17 06:28:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,21 +43,22 @@ function Users(props, { $, navigation }: Ctx) {
         <Flex style={_.mt.sm} wrap='wrap'>
           {list.map((item, index) => (
             <Flex key={index} style={styles.item}>
-              <UserStatus
-                style={styles.userStatus}
-                last={getTimestamp((item.lastActiveDate || '').replace('T', ' '))}
-              >
-                <Avatar
-                  style={styles.avatar}
-                  navigation={navigation}
-                  src={item.avatar}
-                  size={32}
-                  userId={item.name}
-                  name={item.nickName}
-                  event={EVENT}
-                  params={PARAMS}
-                />
-              </UserStatus>
+              <View style={_.mt.xxs}>
+                <UserStatus
+                  style={styles.userStatus}
+                  last={getTimestamp((item.lastActiveDate || '').replace('T', ' '))}
+                >
+                  <Avatar
+                    navigation={navigation}
+                    src={item.avatar}
+                    size={32}
+                    userId={item.name}
+                    name={item.nickName}
+                    event={EVENT}
+                    params={PARAMS}
+                  />
+                </UserStatus>
+              </View>
               <Flex.Item style={_.ml.sm}>
                 <Flex style={!!item.balance && _.mt.xs}>
                   <Rank style={styles.rank} value={item.lastIndex} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:49:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:43:36
+ * @Last Modified time: 2023-12-17 04:51:31
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -10,11 +10,11 @@ import { toFixed, getTimestamp, info, confirm, feedback } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { getXsbRelationOTA } from '@constants'
+import { MonoId } from '@types'
 import { Params } from './types'
 import { NAMESPACE, DEFAULT_TYPE, STATE, EXCLUDE_STATE } from './ds'
-import { MonoId } from '@types'
 
-export default class ScreenTinygrailDeal extends store {
+export default class ScreenTinygrailDeal extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)
@@ -98,7 +98,7 @@ export default class ScreenTinygrailDeal extends store {
     const { value } = this.state
     const { balance } = this.assets
     const { amount } = this.userLogs
-    if (this.isBid) return value == 0 ? 0 : Math.floor(balance / value)
+    if (this.isBid) return value == 0 ? 0 : Math.floor(balance / Number(value))
     return amount
   }
 
@@ -132,7 +132,7 @@ export default class ScreenTinygrailDeal extends store {
       return
     }
 
-    if (this.isBid && value * amount > 20000) {
+    if (this.isBid && Number(value) * amount > 20000) {
       confirm(
         `金额较大, 当前买入${amount}股 * ${value}, 确定?`,
         this.doSubmitConfirm,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 21:39:32
+ * @Last Modified time: 2023-12-17 07:19:51
  */
 import { factory } from '@utils'
 import { Loaded, Navigation, Subject, SubjectId } from '@types'
@@ -58,7 +58,7 @@ export type State = {
   }
 
   /** 格子布局当前选中的条目Id */
-  current: number
+  current: SubjectId
 
   grid: {
     subject_id: SubjectId

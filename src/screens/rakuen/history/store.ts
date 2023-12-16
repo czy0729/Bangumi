@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 11:01:46
+ * @Last Modified time: 2023-12-17 06:51:25
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore } from '@stores'
@@ -12,17 +12,11 @@ import { gets } from '@utils/kv'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import { TopicId } from '@types'
-import { DS } from './ds'
+import { NAMESPACE, STATE } from './ds'
+import { Types } from './types'
 
-const NAMESPACE = 'ScreenRakuenHistory'
-
-export default class ScreenRakuenHistory extends store {
-  state = observable({
-    favor: false,
-    topics: {},
-    type: '小组' as (typeof DS)[number],
-    _loaded: false
-  })
+export default class ScreenRakuenHistory extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
@@ -154,7 +148,7 @@ export default class ScreenRakuenHistory extends store {
   }
 
   /** 切换类型 */
-  onChange = (title: string) => {
+  onChange = (title: Types) => {
     this.setState({
       type: title
     })

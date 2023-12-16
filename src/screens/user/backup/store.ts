@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:14:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 01:34:14
+ * @Last Modified time: 2023-12-17 07:10:15
  */
 import { computed, observable, toJS } from 'mobx'
 import { Parser } from 'json2csv'
@@ -29,23 +29,12 @@ import {
   SubjectTypeCn,
   SubjectTypeValue
 } from '@types'
-import { NAMESPACE, LIMIT, EXCLUDE_STATE, CSV_HEADS, HOST_API } from './ds'
 import { actionStatus } from './utils'
+import { NAMESPACE, LIMIT, EXCLUDE_STATE, CSV_HEADS, HOST_API, STATE } from './ds'
 import { Item } from './types'
 
-export default class ScreenActions extends store {
-  state = observable({
-    anime: [] as Item[],
-    book: [] as Item[],
-    music: [] as Item[],
-    game: [] as Item[],
-    real: [] as Item[],
-    last: 0,
-    includeUrl: false,
-    includeImage: false,
-    ...EXCLUDE_STATE,
-    _loaded: false
-  })
+export default class ScreenActions extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}

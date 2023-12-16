@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-03 00:46:17
+ * @Last Modified time: 2023-12-16 17:09:51
  */
 import { DEV, IOS_IPA } from '@/config'
 import { WSA, STORYBOOK } from '@constants/device'
@@ -64,5 +64,7 @@ export const WEBSITE = DEV
   : IOS
   ? WEBSITE_IOS
   : WEBSITE_ANDROID
+
+export const WEBSITE_TINGRAIL = '945f4ab5-424b-4bd6-89f6-7735380396cd'
 
 export const WEBSITE_FATAL_ERROR = 'a8d71a9c-3333-45ca-b223-59600d84b76a'

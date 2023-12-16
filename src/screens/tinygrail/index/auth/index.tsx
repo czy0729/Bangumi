@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-12 05:20:09
+ * @Last Modified time: 2023-12-17 04:55:03
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable, Avatar } from '@_'
 import { _ } from '@stores'
@@ -26,14 +27,15 @@ function Auth(props, { $, navigation }: Ctx) {
         navigation={navigation}
         color={_.colorTinygrailPlain}
       />
-      <Avatar
-        key={tinygrailOSS(avatar?.large)}
-        style={styles.avatar}
-        src={tinygrailOSS(avatar?.large)}
-        size={36}
-        name={nickname}
-        borderColor='transparent'
-      />
+      <View style={_.ml.xs}>
+        <Avatar
+          key={tinygrailOSS(avatar?.large)}
+          src={tinygrailOSS(avatar?.large)}
+          size={36}
+          name={nickname}
+          borderColor='transparent'
+        />
+      </View>
       <Flex.Item>
         <Flex>
           <Touchable style={styles.touch} onPress={() => navigation.push('Qiafan')}>

@@ -2,22 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 05:41:49
+ * @Last Modified time: 2023-12-17 06:43:35
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { NAMESPACE } from './ds'
 import { MonoId } from '@types'
+import { NAMESPACE, STATE } from './ds'
 
-export default class ScreenTinygrailLogs extends store {
-  state = observable({
-    page: 0,
-    go: '卖出',
-    _loaded: false
-  })
+export default class ScreenTinygrailLogs extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state

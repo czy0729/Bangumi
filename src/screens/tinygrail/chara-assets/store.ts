@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:45:17
+ * @Last Modified time: 2023-12-17 04:02:04
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,9 +11,9 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { relation, levelList, sortList, SORT_HYD } from '@tinygrail/_/utils'
 import { NAMESPACE, PER_BATCH_COUNT, STATE, EXCLUDE_STATE } from './ds'
-import { Params } from './types'
+import { Direction, Params } from './types'
 
-export default class ScreenTinygrailCharaAssets extends store {
+export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)
@@ -287,7 +287,7 @@ export default class ScreenTinygrailCharaAssets extends store {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
-      let nextDirection = 'down'
+      let nextDirection: Direction = 'down'
       if (direction === 'down') {
         nextDirection = 'up'
       } else if (direction === 'up') {

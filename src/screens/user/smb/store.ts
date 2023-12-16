@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:17:00
+ * @Last Modified time: 2023-12-17 07:05:01
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -44,7 +44,7 @@ import { ListItem, MergeListItem, SMBListItem, SubjectOSS } from './types'
  *  - 因持续迭代开发，相关服务现已支持 webDAV 和文件夹选择
  *  - 为了数据结构一致，依然叫 SMB 罢了
  */
-export default class ScreenSmb extends store {
+export default class ScreenSmb extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

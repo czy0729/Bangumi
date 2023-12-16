@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:42:14
+ * @Last Modified time: 2023-12-17 04:55:53
  */
 import { observable, computed } from 'mobx'
 import { tinygrailStore, systemStore } from '@stores'
@@ -31,7 +31,7 @@ import {
 } from './ds'
 import { Params } from './types'
 
-export default class ScreenTinygrailSacrifice extends store {
+export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

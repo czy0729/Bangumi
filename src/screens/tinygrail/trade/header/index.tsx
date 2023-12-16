@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:22:11
+ * @Last Modified time: 2023-12-17 06:27:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,7 +45,6 @@ function Header({ goBack = () => {} }, { $, navigation }: Ctx) {
               onPress={goBack}
             />
             <Avatar
-              style={styles.avatar}
               src={tinygrailOSS(icon)}
               borderColor='transparent'
               name={name}

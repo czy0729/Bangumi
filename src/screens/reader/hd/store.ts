@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 00:47:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 06:33:19
+ * @Last Modified time: 2023-12-17 07:15:34
  */
 import { observable, computed } from 'mobx'
 import { open, copy, info } from '@utils'
@@ -10,15 +10,13 @@ import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { HOST_MANGA, CDN_HD } from '@constants'
 import { systemStore } from '@stores'
+import { STATE } from './ds'
 import { Params } from './types'
 
-export default class ScreenHD extends store {
+export default class ScreenHD extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    data: [],
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     try {

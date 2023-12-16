@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:53
+ * @Last Modified time: 2023-12-17 03:49:37
  */
 import cheerio from 'cheerio-without-node-native'
 import { observable, computed } from 'mobx'
@@ -34,29 +34,10 @@ import {
 import i18n from '@constants/i18n'
 import { ListKey } from '@stores/tinygrail/types'
 import { Navigation } from '@types'
+import { ERROR_STR, EXCLUDE_STATE, MAX_ERROR_COUNT, NAMESPACE, STATE } from './ds'
 
-const NAMESPACE = 'ScreenTinygrail'
-const ERROR_STR = '/false'
-const MAX_ERROR_COUNT = 3
-const EXCLUDE_STATE = {
-  loading: false,
-  visible: false,
-  count: 0,
-  bonus: [],
-  isBonus2: false
-}
-
-export default class ScreenTinygrail extends store {
-  state = observable({
-    loadingAssets: false,
-    loadingBonus: false,
-    currentBalance: 0,
-    currentTotal: 0,
-    lastBalance: 0,
-    lastTotal: 0,
-    ...EXCLUDE_STATE,
-    _loaded: false
-  })
+export default class ScreenTinygrail extends store<typeof STATE> {
+  state = observable(STATE)
 
   formhash = ''
 
@@ -130,15 +111,17 @@ export default class ScreenTinygrail extends store {
   }
 
   refresh = async () => {
-    const res = Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
-    await res
+    const results = await Promise.all([
+      tinygrailStore.fetchAssets(),
+      this.fetchCharaAssets()
+    ])
     this.caculateChange()
 
     setTimeout(() => {
       this.fetchCount(true)
     }, 400)
 
-    return res
+    return results
   }
 
   // -------------------- get --------------------
@@ -175,6 +158,7 @@ export default class ScreenTinygrail extends store {
     return assets
   }
 
+  /** 幻想乡刮刮乐下一次的价格 (每次翻倍) */
   @computed get nextPrice() {
     const { count = 0, isBonus2 } = this.state
     return isBonus2 ? 2000 * 2 ** count : 1000
@@ -283,13 +267,17 @@ export default class ScreenTinygrail extends store {
   }
 
   /** 刮刮乐 */
-  doLottery = async (navigation: Navigation, isBonus2: boolean = false) => {
+  doLottery = async (
+    navigation: Navigation,
+
+    /** 是否幻想乡 */
+    isBonus2: boolean = false
+  ) => {
     if (!tinygrailStore.cookie) {
       info('请先授权')
       return
     }
 
-    t('小圣杯.刮刮乐')
     try {
       this.setState({
         loadingBonus: true
@@ -302,11 +290,18 @@ export default class ScreenTinygrail extends store {
       feedback()
 
       if (State === 0) {
+        if (isBonus2) {
+          t('小圣杯.幻想乡刮刮乐', {
+            nextPrice: this.nextPrice
+          })
+        } else {
+          t('小圣杯.刮刮乐')
+        }
+
         this.setState({
           bonus: Value,
-          isBonus2 // 是否幻想乡
+          isBonus2
         })
-
         this.onShowModal()
         this.checkCount()
       } else {

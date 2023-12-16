@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:56:38
+ * @Last Modified time: 2023-12-17 06:38:21
  */
 import { Animated } from 'react-native'
 import { observable, computed } from 'mobx'
@@ -47,7 +47,7 @@ import { Params } from './types'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
 
-export default class ScreenZone extends store {
+export default class ScreenZone extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)
