@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 17:55:09
+ * @Last Modified time: 2023-12-16 16:10:52
  */
 import { Platform, ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -275,6 +275,7 @@ export const EVENT = {
 /** 时间数组 */
 export const DATA_AIRTIME = [
   '全部',
+  '2024',
   '2023',
   '2022',
   '2021',

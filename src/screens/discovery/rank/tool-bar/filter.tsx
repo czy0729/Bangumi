@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-22 15:49:33
+ * @Last Modified time: 2023-12-16 16:06:48
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -43,6 +43,7 @@ function Filter(props, { $ }: Ctx) {
   return (
     typeCn !== '音乐' && (
       <ToolBar.Popover
+        key={typeCn}
         data={filterData.data.map(item => item.label)}
         text={filterCn === '全部' ? '类型' : filterCn}
         type={filter === '' ? undefined : 'desc'}

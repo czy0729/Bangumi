@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 04:29:01
+ * @Last Modified time: 2023-12-16 16:27:40
  */
 import { Model } from './utils'
 
@@ -872,6 +872,14 @@ export const RANK_BOOK_FILTER = [
     value: 'illustration'
   },
   {
+    label: '系列',
+    value: 'series'
+  },
+  {
+    label: '单行本',
+    value: 'offprint'
+  },
+  {
     label: '其他',
     value: 'misc'
   }
@@ -885,6 +893,22 @@ export const RANK_GAME_FILTER = [
   {
     label: '全部',
     value: ''
+  },
+  {
+    label: '游戏',
+    value: 'games'
+  },
+  {
+    label: '扩展包',
+    value: 'dlc'
+  },
+  {
+    label: '软件',
+    value: 'software'
+  },
+  {
+    label: '桌游',
+    value: 'tabletop'
   },
   {
     label: 'PC',
@@ -992,6 +1016,22 @@ export const RANK_REAL_FILTER = [
   {
     label: '华语剧',
     value: 'cn'
+  },
+  {
+    label: '电视剧',
+    value: 'tv'
+  },
+  {
+    label: '电影',
+    value: 'movie'
+  },
+  {
+    label: '演出',
+    value: 'live'
+  },
+  {
+    label: '综艺',
+    value: 'show'
   },
   {
     label: '其他',
