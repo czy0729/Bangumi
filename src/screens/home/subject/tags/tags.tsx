@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 19:46:16
+ * @Last Modified time: 2023-12-16 07:52:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectType } from '@types'
 import IconHidden from '../icon/hidden'
 import IconGame from '../icon/game'
+import { TITLE_TAGS } from '../ds'
 import RecSegement from './rec-segment'
 import Block from './block'
 import Typerank from './typerank'
@@ -62,7 +63,7 @@ export default memo(
                 ) {
                   t('条目.跳转', {
                     to: 'Typerank',
-                    from: '标签',
+                    from: TITLE_TAGS,
                     subjectId
                   })
 
@@ -76,7 +77,7 @@ export default memo(
 
                 t('条目.跳转', {
                   to: 'Tag',
-                  from: '标签',
+                  from: TITLE_TAGS,
                   subjectId
                 })
 
@@ -133,20 +134,20 @@ export default memo(
                 {!!rank && <RecSegement />}
               </>
             ) : (
-              <IconHidden name='标签' value='showTags' />
+              <IconHidden name={TITLE_TAGS} value='showTags' />
             )
           }
           icon={!showTags && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showTags')}
         >
-          标签
+          {TITLE_TAGS}
         </SectionTitle>
         {show && (
           <>
             {subjectTagsExpand ? (
               <View style={_.container.windMtSm}>
                 <Flex wrap='wrap'>{elTags}</Flex>
-                <Heatmap id='条目.跳转' from='标签' />
+                <Heatmap id='条目.跳转' from={TITLE_TAGS} />
               </View>
             ) : (
               <ScrollView

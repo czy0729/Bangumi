@@ -2,25 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 19:30:06
+ * @Last Modified time: 2023-12-16 08:44:37
  */
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { Flex, Text, Iconfont, Heatmap } from '@components'
 import { InView, SectionTitle, PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
-import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconPreview from '../icon/preview'
 import IconHidden from '../icon/hidden'
+import { TITLE_THUMBS } from '../ds'
 import { Ctx } from '../types'
 import Video from './video'
 import Preview from './preview'
 import { styles } from './styles'
 
-class Thumbs extends React.Component {
+class Thumbs extends React.Component<{
+  onBlockRef: any
+}> {
   state = {
     scrolled: false
   }
@@ -94,77 +97,77 @@ class Thumbs extends React.Component {
   render() {
     rerender('Subject.Thumbs')
 
-    if (STORYBOOK) return null
+    const { $ } = this.context as Ctx
+    if (!$.showThumbs[1]) return null
 
     const { showThumbs } = systemStore.setting
-    if (showThumbs === -1) return null
-
-    const { $ } = this.context as Ctx
-    const { epsThumbs, epsThumbsHeader, videos } = $.state
-    if (!epsThumbs.length && !videos.length) return null
-
+    const { epsThumbsHeader } = $.state
+    const { onBlockRef } = this.props
     const { scrolled } = this.state
     return (
-      <InView style={stl(styles.container, !showThumbs && _.short)}>
-        <SectionTitle
-          style={_.container.wind}
-          right={this.renderRight()}
-          icon={!showThumbs && 'md-navigate-next'}
-          onPress={() => $.onSwitchBlock('showThumbs')}
-        >
-          {this.title}
-        </SectionTitle>
-        {showThumbs && (
-          <ScrollView
-            style={_.mt.md}
-            contentContainerStyle={_.container.wind}
-            horizontal
-            {...SCROLL_VIEW_RESET_PROPS}
-            scrollEventThrottle={8}
-            onScroll={scrolled ? undefined : this.onScroll}
+      <>
+        <View ref={ref => onBlockRef(ref, TITLE_THUMBS)} />
+        <InView style={stl(styles.container, !showThumbs && _.short)}>
+          <SectionTitle
+            style={_.container.wind}
+            right={this.renderRight()}
+            icon={!showThumbs && 'md-navigate-next'}
+            onPress={() => $.onSwitchBlock('showThumbs')}
           >
-            {this.videos.map(item => (
-              <Video
-                key={item.cover}
-                item={item}
-                epsThumbsHeader={epsThumbsHeader}
-                showTitle={$.type === '音乐'}
-              />
-            ))}
-            {this.data
-              .filter((item, index) => index <= 12)
-              .map((item, index) => (
-                <Preview
-                  key={item}
+            {this.title}
+          </SectionTitle>
+          {showThumbs && (
+            <ScrollView
+              style={_.mt.md}
+              contentContainerStyle={_.container.wind}
+              horizontal
+              {...SCROLL_VIEW_RESET_PROPS}
+              scrollEventThrottle={8}
+              onScroll={scrolled ? undefined : this.onScroll}
+            >
+              {this.videos.map(item => (
+                <Video
+                  key={item.cover}
                   item={item}
-                  index={index}
-                  thumbs={this.thumbs}
                   epsThumbsHeader={epsThumbsHeader}
+                  showTitle={$.type === '音乐'}
                 />
               ))}
-          </ScrollView>
-        )}
-        {showThumbs && !!this.reference && (
-          <Flex style={[_.container.wind, _.mt.md]} justify='end'>
-            <Text
-              size={10}
-              type='icon'
-              align='right'
-              onPress={() => open(epsThumbsHeader.Referer)}
-            >
-              数据来源自 {this.reference}
-            </Text>
-            <Iconfont
-              style={_.ml.xs}
-              name='md-open-in-new'
-              size={10}
-              color={_.colorIcon}
-            />
-          </Flex>
-        )}
-        <PreventTouchPlaceholder />
-        <Heatmap id='条目.预览' />
-      </InView>
+              {this.data
+                .filter((item, index) => index <= 12)
+                .map((item, index) => (
+                  <Preview
+                    key={item}
+                    item={item}
+                    index={index}
+                    thumbs={this.thumbs}
+                    epsThumbsHeader={epsThumbsHeader}
+                  />
+                ))}
+            </ScrollView>
+          )}
+          {showThumbs && !!this.reference && (
+            <Flex style={[_.container.wind, _.mt.md]} justify='end'>
+              <Text
+                size={10}
+                type='icon'
+                align='right'
+                onPress={() => open(epsThumbsHeader.Referer)}
+              >
+                数据来源自 {this.reference}
+              </Text>
+              <Iconfont
+                style={_.ml.xs}
+                name='md-open-in-new'
+                size={10}
+                color={_.colorIcon}
+              />
+            </Flex>
+          )}
+          <PreventTouchPlaceholder />
+          <Heatmap id='条目.预览' />
+        </InView>
+      </>
     )
   }
 }

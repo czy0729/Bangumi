@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-27 17:40:55
+ * @Last Modified time: 2023-12-16 06:30:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import IconEpFilter from '../icon/ep-filter'
 import IconOnline from '../icon/online'
 import IconEp from '../icon/ep'
 import IconReverse from '../icon/reverse'
+import { TITLE_EP } from '../ds'
 import { DEFAULT_PROPS, WEEK_DAY_DS, WEEK_DAY_MAP, HOUR_DS, MINUTE_DS } from './ds'
 
 export default memo(
@@ -55,7 +56,7 @@ export default memo(
             </>
           }
         >
-          章节
+          {TITLE_EP}
         </SectionTitle>
         <View style={_.mt.md}>
           <Eps />

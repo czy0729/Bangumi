@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-06 12:54:53
+ * @Last Modified time: 2023-12-15 14:18:11
  */
 import pLimit from 'p-limit'
+import { DEV } from '@/config'
 
 /**
  * 接口某些字段为空返回null, 影响到es6函数初始值的正常使用, 统一处理成空字符串
@@ -25,4 +26,9 @@ export async function queue(fetchs: any[] = [], num: any = 2) {
 
   const limit = pLimit(num)
   return Promise.all(fetchs.map(fetch => limit(fetch)))
+}
+
+/** [DEV] */
+export function log(method: string, ...others: any[]) {
+  if (DEV) console.info(`[@utils/fetch/${method}]`, ...others)
 }

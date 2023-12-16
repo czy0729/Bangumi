@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 21:05:57
+ * @Last Modified time: 2023-12-16 07:50:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import IconTranslate from '../icon/translate'
 import IconHidden from '../icon/hidden'
+import { TITLE_SUMMARY } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -26,13 +27,13 @@ export default memo(
             showSummary ? (
               <IconTranslate content={content} />
             ) : (
-              <IconHidden name='简介' value='showSummary' />
+              <IconHidden name={TITLE_SUMMARY} value='showSummary' />
             )
           }
           icon={!showSummary && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showSummary')}
         >
-          简介
+          {TITLE_SUMMARY}
         </SectionTitle>
         {showSummary && (
           <View>

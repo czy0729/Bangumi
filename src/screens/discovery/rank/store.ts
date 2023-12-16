@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:25:32
+ * @Last Modified time: 2023-12-13 00:30:03
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
@@ -18,7 +18,7 @@ import { StoreRank, ToolBarKeys } from './types'
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenRank extends store {
+export default class ScreenRank extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

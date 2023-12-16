@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 09:20:29
+ * @Last Modified time: 2023-12-15 13:41:08
  */
 import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
-import { DEV } from '@/config'
 import Portal from '@ant-design/react-native/lib/portal'
 import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
@@ -14,6 +13,7 @@ import { STORYBOOK } from '@constants/device'
 import { IOS } from '@constants/constants'
 import { Fn } from '@types'
 import { syncSystemStore, s2tAsync } from '../async'
+import { log } from './utils'
 
 /**
  * Loading 指示器
@@ -48,7 +48,7 @@ export function feedback(light?: boolean) {
   const { vibration } = syncSystemStore().setting
   if (!vibration) return
 
-  if (DEV) console.info('vibration')
+  log('feedback', 'vibration')
 
   if (IOS) {
     if (light) {
@@ -227,5 +227,5 @@ export function copy(val: any, message: boolean | string = true, ms?: number) {
   }
 
   feedback()
-  if (STORYBOOK) console.info(string)
+  log('copy', string)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 04:33:44
+ * @Last Modified time: 2023-12-16 06:31:54
  */
 import React from 'react'
 import { Expand, Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { useExpandLazy } from '@utils/hooks'
 import { rerender } from '@utils/dev'
 import IconBlog from '../icon/blog'
 import IconHidden from '../icon/hidden'
+import { TITLE_BLOG } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -25,11 +26,13 @@ export default memo(
       <InView style={stl(styles.container, !showBlog && _.short)}>
         <SectionTitle
           style={styles.sectionTitle}
-          right={showBlog ? <IconBlog /> : <IconHidden name='日志' value='showBlog' />}
+          right={
+            showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />
+          }
           icon={!showBlog && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showBlog')}
         >
-          日志
+          {TITLE_BLOG}
         </SectionTitle>
         {showBlog && (
           <>

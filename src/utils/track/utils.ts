@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 20:29:34
+ * @Last Modified time: 2023-12-15 13:45:45
  */
 import Constants from 'expo-constants'
 import { STORYBOOK } from '@constants/device'
@@ -48,7 +48,7 @@ export async function umami(url: string = '', title: string = '') {
       referrer: ''
     }))
 
-    if (DEV) console.info('umami', url)
+    log('umami', url)
     return
   }
 
@@ -82,7 +82,7 @@ export async function umamiEvent(
       referrer: ''
     }))
 
-    if (DEV) console.info('umamiEvent', url, eventId, data)
+    log('umamiEvent', url, eventId, data)
     return
   }
 
@@ -121,4 +121,9 @@ async function umamiXhr(payload: {
       type: 'event'
     })
   )
+}
+
+/** [DEV] */
+function log(method: string, ...others: any[]) {
+  if (DEV) console.info(`[@utils/track/${method}]`, ...others)
 }

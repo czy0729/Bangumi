@@ -2,16 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 01:55:12
+ * @Last Modified time: 2023-12-15 14:16:55
  */
 import protobuf, { Reader } from 'protobufjs'
-import { Decode, Get } from './types'
+import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
+import { Decode } from './types'
 
-/** 缓存结果 */
-const cacheMap = new Map<string, any>()
-
-/** 锁定 */
-const lockMap = new Map<string, boolean>()
+export { get }
 
 /**
  * 解码数据
@@ -19,23 +16,8 @@ const lockMap = new Map<string, boolean>()
  *  - 请求过的结果会缓存
  * */
 export const decode: Decode = name => {
-  if (name !== 'bangumi-data') return null
-
-  if (cacheMap.has(name)) return cacheMap.get(name)
-
-  if (!lockMap.has(name)) {
-    lockMap.set(name, true)
-  } else {
-    const waitingPromise = new Promise(resolve => {
-      const interval = setInterval(() => {
-        if (!lockMap.get(name)) {
-          clearInterval(interval)
-          resolve(cacheMap.get(name))
-        }
-      }, 800)
-    })
-    return waitingPromise
-  }
+  const result = checkCache(name)
+  if (isPromise(result) || result !== true) return result
 
   return new Promise((resolve, reject) => {
     const protoFile = `assets/proto/${name}/index.proto`
@@ -59,23 +41,20 @@ export const decode: Decode = name => {
 
             cacheMap.set(name, payload)
             lockMap.set(name, false)
+
+            log('decode', name, payload?.length)
             resolve(payload)
           })
           .catch(() => {
-            reject('Error loading binary file')
+            reject('Error loading bin file')
           })
           .finally(() => {
             lockMap.set(name, false)
           })
       })
       .catch(() => {
-        reject('Error loading proto file:')
+        reject('Error loading proto file')
         lockMap.set(name, false)
       })
   })
-}
-
-/** 获取数据 */
-export const get: Get = name => {
-  return cacheMap.get(name)
 }

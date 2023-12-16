@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 20:38:17
+ * @Last Modified time: 2023-12-16 15:38:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,8 @@ import {
   subjectStore,
   systemStore,
   userStore,
-  usersStore
+  usersStore,
+  rakuenStore
 } from '@stores'
 import {
   HTMLDecode,
@@ -49,6 +50,26 @@ import {
 } from '@constants'
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
+import {
+  TITLE_BLOG,
+  TITLE_CATALOG,
+  TITLE_CHARACTER,
+  TITLE_COMIC,
+  TITLE_COMMENT,
+  TITLE_DISC,
+  TITLE_EP,
+  TITLE_GAME,
+  TITLE_INFO,
+  TITLE_LIKE,
+  TITLE_RATING,
+  TITLE_RECENT,
+  TITLE_RELATIONS,
+  TITLE_STAFF,
+  TITLE_SUMMARY,
+  TITLE_TAGS,
+  TITLE_THUMBS,
+  TITLE_TOPIC
+} from '../ds'
 import State from './state'
 import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC, EXCLUDE_STATE } from './ds'
 
@@ -1019,5 +1040,285 @@ export default class Computed extends State {
       if (list.some(i => i.id == this.subjectId)) num += 1
     })
     return num
+  }
+
+  /** 过滤后的目录 */
+  @computed get filterCatalog() {
+    let catalog = this.catalog
+    if (this.filterDefault || this.isLimit) {
+      catalog = catalog.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+    }
+    return catalog
+  }
+
+  /** 过滤后的日志 */
+  @computed get filterBlog() {
+    let blog = this.subject.blog || []
+    if (this.filterDefault || this.isLimit) {
+      blog = blog.filter(item => {
+        if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) return false
+        return true
+      })
+    }
+
+    if (!blog.length) {
+      try {
+        const reviews = rakuenStore.reviews(this.subjectId)
+        if (reviews?.list?.length) {
+          // @ts-ignore
+          blog = reviews.list.map(item => ({
+            dateline: item.time,
+            id: Number(item.id),
+            image: '',
+            replies: Number(item.replies.replace('+', '') || 0),
+            summary: item.content,
+            timestamp: getTimestamp(item.time),
+            title: item.title,
+            url: `//bgm.tv/blog/${item.id}`,
+            user: {
+              avatar: {
+                large: item.avatar,
+                medium: item.avatar,
+                small: item.avatar
+              },
+              id: item.userId,
+              nickname: item.userName,
+              sign: '',
+              url: `//bgm.tv/user/${item.userId}`,
+              username: item.userId
+            }
+          }))
+        }
+      } catch (error) {}
+    }
+
+    return blog
+  }
+
+  /** 过滤后的帖子 */
+  @computed get filterTopic() {
+    let topic = this.subject.topic || []
+    if (this.filterDefault || this.isLimit) {
+      topic = topic.filter(item => {
+        if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) return false
+        return true
+      })
+    }
+
+    if (!topic.length) {
+      try {
+        const board = rakuenStore.board(this.subjectId)
+        if (board?.list?.length) {
+          // @ts-ignore
+          topic = board.list.map(item => ({
+            id: Number(item.href.replace('/subject/topic/', '')),
+            lastpost: 0,
+            main_id: this.subjectId,
+            replies: Number(item.replies.replace(' replies', '')),
+            timestamp: getTimestamp(item.time),
+            title: item.title,
+            url: item.href,
+            user: {
+              avatar: {
+                large: '',
+                medium: '',
+                small: ''
+              },
+              id: item.userId,
+              nickname: item.userName,
+              sign: '',
+              url: `//bgm.tv/user/${item.userId}`,
+              username: item.userId
+            }
+          }))
+        }
+      } catch (error) {}
+    }
+
+    return topic
+  }
+
+  /** 过滤后的动态 */
+  @computed get filterRecent() {
+    let who = this.subjectFormHTML.who || []
+    if (this.filterDefault || this.isLimit) {
+      who = who.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+    }
+    return who
+  }
+
+  /** 吐槽数量 */
+  @computed get commentLength() {
+    const {
+      list,
+      pagination: { pageTotal = 0 }
+    } = this.subjectComments
+    const { length } = list
+    return pageTotal <= 1 ? length : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)
+  }
+
+  /**
+   * 是否显示章节
+   *  - 第一个结果为是否显示菜单
+   *  - 第二个结果为是否渲染组件
+   * */
+  @computed get showEp() {
+    // 游戏没有 ep
+    const show = this.type !== '游戏'
+    return [show, show] as const
+  }
+
+  /** 是否显示标签 */
+  @computed get showTags() {
+    const { showTags } = systemStore.setting
+    return [showTags === true, showTags !== -1] as const
+  }
+
+  /** 是否显示简介 */
+  @computed get showSummary() {
+    if (this.subject._loaded && !this.summary) return [false, false] as const
+
+    const { showSummary } = systemStore.setting
+    return [showSummary === true, showSummary !== -1] as const
+  }
+
+  /** 是否显示预览 */
+  @computed get showThumbs() {
+    if (STORYBOOK) return [false, false] as const
+
+    const { showThumbs } = systemStore.setting
+    if (showThumbs === -1) return [false, false] as const
+
+    const { epsThumbs, videos } = this.state
+    if (!epsThumbs.length && !videos.length) return [false, false] as const
+
+    return [showThumbs === true, true] as const
+  }
+
+  /** 是否显示详情 */
+  @computed get showInfo() {
+    const { showInfo } = systemStore.setting
+    return [showInfo === true, showInfo !== -1] as const
+  }
+
+  /** 是否显示游戏 */
+  @computed get showGame() {
+    const { showGameInfo } = systemStore.setting
+    if (showGameInfo === -1 || !this.gameInfo?.i) {
+      return [false, false] as const
+    }
+
+    return [showGameInfo === true, true] as const
+  }
+
+  /** 是否显示评分 */
+  @computed get showRating() {
+    const { showRating } = systemStore.setting
+    return [showRating === true, showRating !== -1] as const
+  }
+
+  /** 是否显示角色 */
+  @computed get showCharacter() {
+    if (!this.crt.length) return [false, false] as const
+
+    const { showCharacter } = systemStore.setting
+    return [showCharacter === true, showCharacter !== -1] as const
+  }
+
+  /** 是否显示制作人员 */
+  @computed get showStaff() {
+    if (!this.staff.length) return [false, false] as const
+
+    const { showStaff } = systemStore.setting
+    return [showStaff === true, showStaff !== -1] as const
+  }
+
+  /** 是否显示关联 */
+  @computed get showRelations() {
+    if (!this.relations.length) return [false, false] as const
+
+    const { showRelations } = systemStore.setting
+    return [showRelations === true, showRelations !== -1] as const
+  }
+
+  /** 是否显示单行本 */
+  @computed get showComic() {
+    if (!this.comic.length) return [false, false] as const
+
+    return [true, true] as const
+  }
+
+  /** 是否显示目录 */
+  @computed get showCalalog() {
+    const { showCatalog } = systemStore.setting
+    if (showCatalog === -1 || !this.filterCatalog.length) return [false, false] as const
+
+    return [showCatalog === true, true] as const
+  }
+
+  /** 是否显示猜你喜欢 */
+  @computed get showLike() {
+    if (!this.like.length) return [false, false] as const
+
+    const { showLike } = systemStore.setting
+    return [showLike === true, showLike !== -1] as const
+  }
+
+  /** 是否显示日志 */
+  @computed get showBlog() {
+    const { showBlog } = systemStore.setting
+    if (showBlog === -1 || !this.filterBlog.length) return [false, false] as const
+
+    return [showBlog === true, true] as const
+  }
+
+  /** 是否显示帖子 */
+  @computed get showTopic() {
+    const { showTopic } = systemStore.setting
+    if (showTopic === -1 || !this.filterTopic.length) return [false, false] as const
+
+    return [showTopic === true, true] as const
+  }
+
+  /** 是否显示动态 */
+  @computed get showRecent() {
+    const { showRecent } = systemStore.setting
+    if (showRecent === -1 || !this.filterRecent.length) return [false, false] as const
+
+    return [showRecent === true, true] as const
+  }
+
+  /** 右上角跳转到目标块菜单 */
+  @computed get locationDS() {
+    const data = [TITLE_COMMENT]
+    if (this.showEp[0]) data.push(this.type === '音乐' ? TITLE_DISC : TITLE_EP)
+    if (this.showTags[0]) data.push(TITLE_TAGS)
+    if (this.showSummary[0]) data.push(TITLE_SUMMARY)
+    if (this.showThumbs[0]) {
+      const { epsThumbs, videos } = this.state
+      data.push(`${TITLE_THUMBS} (${epsThumbs.length + videos.length})`)
+    }
+    if (this.showInfo[0]) data.push(TITLE_INFO)
+    if (this.showGame[0]) data.push(TITLE_GAME)
+    if (this.showRating[0]) data.push(TITLE_RATING)
+    if (this.showCharacter[0]) data.push(TITLE_CHARACTER)
+    if (this.showStaff[0]) data.push(TITLE_STAFF)
+    if (this.showRelations[0]) {
+      data.push(`${TITLE_RELATIONS} (${this.relations.length})`)
+    }
+    if (this.showComic[0]) {
+      data.push(`${TITLE_COMIC} (${this.comic.length})`)
+    }
+    if (this.showCalalog[0]) data.push(TITLE_CATALOG)
+    if (this.showLike[0]) data.push(TITLE_LIKE)
+    if (this.showBlog[0]) {
+      data.push(`${TITLE_BLOG} (${this.filterBlog.length})`)
+    }
+    if (this.showTopic[0]) {
+      data.push(`${TITLE_TOPIC} (${this.filterTopic.length})`)
+    }
+    if (this.showRecent[0]) data.push(TITLE_RECENT)
+    data.push(`${TITLE_COMMENT} (${this.commentLength}+)`)
+    return data
   }
 }

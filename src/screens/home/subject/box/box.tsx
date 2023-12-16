@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 13:17:48
+ * @Last Modified time: 2023-12-16 06:37:03
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { rerender } from '@utils/dev'
 import { SHARE_MODE } from '@constants'
 import IconFolder from '../icon/folder'
 import IconClose from '../icon/close'
+import { TITLE_BOX } from '../ds'
 import FlipBtn from './flip-btn'
 import Extra from './extra'
 import { DEFAULT_PROPS } from './ds'
@@ -55,7 +56,7 @@ export default memo(
             </>
           }
         >
-          收藏
+          {TITLE_BOX}
         </SectionTitle>
         <Flex style={styles.btn}>
           <Flex.Item>

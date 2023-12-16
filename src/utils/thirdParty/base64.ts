@@ -1,13 +1,17 @@
 /*
- * @Doc: https://github.com/davidchambers/Base64.js/blob/master/base64.js
  * @Author: czy0729
  * @Date: 2022-08-03 08:54:08
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-03 08:54:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-14 11:47:49
  */
-const chars =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
+
+/**
+ * Base64
+ * @doc https://github.com/davidchambers/Base64.js/blob/master/base64.js
+ * */
 const Base64 = {
+  /** 将原始数据的字符串解码为 base64 编码*/
   btoa: (input: string = '') => {
     let str = input
     let output = ''
@@ -31,6 +35,7 @@ const Base64 = {
     return output
   },
 
+  /** 将 base64 编码的字符串解码为原始数据 */
   atob: (input: string = '') => {
     let str = input.replace(/=+$/, '')
     let output = ''

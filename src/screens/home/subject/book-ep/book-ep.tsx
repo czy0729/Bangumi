@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 16:41:20
+ * @Last Modified time: 2023-12-16 06:35:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,6 +16,7 @@ import IconSearch from '../icon/search'
 import IconManga from '../icon/manga'
 import IconWenku from '../icon/wenku'
 import IconHD from '../icon/hd'
+import { TITLE_EP } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -50,7 +51,7 @@ export default memo(
             </>
           }
         >
-          章节
+          {TITLE_EP}
         </SectionTitle>
         <Flex style={_.mt.md} align='start'>
           <Flex.Item>

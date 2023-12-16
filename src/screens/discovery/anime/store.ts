@@ -3,65 +3,42 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 04:24:33
+ * @Last Modified time: 2023-12-14 13:03:02
  */
 import { observable, computed } from 'mobx'
-import { _, systemStore, collectionStore, otaStore } from '@stores'
+import { systemStore, collectionStore, otaStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
 import { scrollToTop } from '@utils/dom'
-import { LIST_EMPTY, STORYBOOK } from '@constants'
+import { STORYBOOK } from '@constants'
+import { ADVANCE_LIMIT, EXCLUDE_STATE, STATE } from './ds'
 import { Params } from './types'
-import { ADVANCE_LIMIT } from './ds'
 
 const NAMESPACE = 'ScreenAnime'
 
-let _loaded = false
-
-export default class ScreenAnime extends store {
+export default class ScreenAnime extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    /** 可视范围底部 y */
-    visibleBottom: _.window.height,
-    query: {
-      area: '日本',
-      type: '',
-      first: '',
-      year: 2023,
-      begin: '',
-      status: '',
-      tags: [],
-      official: '',
-      sort: '评分人数',
-      collected: ''
-    },
-    data: LIST_EMPTY,
-    layout: 'list',
-    expand: false,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
     const commitState = {
       ...state,
-      _loaded
+      ...EXCLUDE_STATE
     }
     if (!Array.isArray(commitState.tags)) commitState.tags = []
     this.setState(commitState)
 
-    if (!_loaded) await init()
-    _loaded = true
-
     const { _tags = [] } = this.params
     if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
 
-    collectionStore.fetchUserCollectionsQueue(false)
-
+    await init()
     this.search()
+
+    collectionStore.fetchUserCollectionsQueue(false)
     setTimeout(() => {
       this.setState({
         _loaded: true

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 05:41:36
+ * @Last Modified time: 2023-12-14 12:29:56
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
+import { decode, get } from '../../protobuf'
 import {
   ANIME_AREA,
   ANIME_BEGIN,
@@ -45,7 +46,6 @@ export {
 const cacheMap = new Map<Finger, SearchResult>()
 
 let anime: Item[] = []
-let loaded: boolean = false
 
 /** v7.1.0 后取消 OTA */
 function getData() {
@@ -54,10 +54,10 @@ function getData() {
 
 /** 初始化番剧数据 */
 export async function init() {
-  if (loaded) return
+  if (anime.length) return
 
-  anime = require('@assets/json/thirdParty/anime.min.json')
-  loaded = true
+  await decode('anime')
+  anime = get('anime') || []
 }
 
 /** 根据 index 选一项 */

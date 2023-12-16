@@ -1,16 +1,15 @@
 /*
- * OSS 快照
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 01:16:18
+ * @Last Modified time: 2023-12-14 12:22:12
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
-import { DEV } from '@/config'
 import { getTimestamp } from '../utils'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
+import { log } from './utils'
 import { HOST, UPDATE_CACHE_MAP } from './ds'
 import { Result, ResultTemp } from './type'
 
@@ -48,7 +47,10 @@ export async function gets(keys: string[], picker?: string[]): Promise<Result> {
   // @ts-expect-error
   const { data } = await axios(query)
 
-  if (data?.code === 200) return data?.data
+  if (data?.code === 200) {
+    log('gets', keys)
+    return data?.data
+  }
 
   return null
 }
@@ -74,7 +76,7 @@ export async function update(
   if (UPDATE_CACHE_MAP.has(finger)) return
 
   UPDATE_CACHE_MAP.set(finger, true)
-  if (DEV) console.info('update', key, finger)
+  log('update', key, finger)
 
   // @ts-expect-error
   const { data } = await axios({

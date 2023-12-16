@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:52:38
+ * @Last Modified time: 2023-12-16 11:14:43
  */
 import {
   _,
@@ -25,7 +25,9 @@ import {
   feedback,
   genICSCalenderEventDate,
   getBangumiUrl,
+  getCoverLarge,
   getCoverMedium,
+  getSPAParams,
   info,
   loading,
   open,
@@ -36,7 +38,11 @@ import { t, baiduTranslate } from '@utils/fetch'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { download, temp } from '@utils/kv'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
+import axios from '@utils/thirdParty/axios'
 import {
+  CDN_OSS_SUBJECT,
+  HOST,
+  HOST_CDN,
   LIKE_TYPE_TIMELINE,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
@@ -44,7 +50,8 @@ import {
   SITE_AGEFANS,
   SITE_MANHUADB,
   SITE_WK8,
-  STORYBOOK
+  STORYBOOK,
+  URL_SPA
 } from '@constants'
 import i18n from '@constants/i18n'
 import { EpStatus, Id, Navigation, RatingStatus, UserId } from '@types'
@@ -580,6 +587,65 @@ export default class Action extends Fetch {
     feedback()
   }
 
+  /** 拼图分享 */
+  onPostShare = async (navigation: Navigation) => {
+    if (!navigation) return
+
+    const { images } = this.subject
+    let src = CDN_OSS_SUBJECT(getCoverMedium(images?.common))
+    if (!src.includes(HOST_CDN)) src = getCoverLarge(images?.common)
+
+    const hide = loading('下载封面中...')
+
+    // @ts-expect-error
+    axios.defaults.withCredentials = false
+
+    // @ts-expect-error
+    const { request } = await axios({
+      method: 'get',
+      url: src.replace('http://', 'https://'),
+      responseType: 'arraybuffer'
+    })
+    hide()
+
+    navigation.push('Share', {
+      _subjectId: this.subjectId,
+      _type: this.type,
+      _url: `${HOST}/subject/${this.subjectId}`,
+      _cover: `data:image/jpg;base64,${request._response}`,
+      _title: cnjp(this.cn, this.jp),
+      _content: this.summary.replace(/\r\n\r\n/g, '\r\n'),
+      _detail: this.tags
+        .filter((item, index) => index <= 4)
+        .map(item => item.name)
+        .join(' · ')
+    })
+
+    t('条目.拼图分享', {
+      subjectId: this.subjectId,
+      spa: false
+    })
+  }
+
+  /** APP 网页分享 */
+  onWebShare = () => {
+    const url = `${URL_SPA}/${getSPAParams('Subject', {
+      subjectId: this.subjectId
+    })}`
+    copy(
+      `【链接】${cnjp(this.cn, this.jp)} | Bangumi番组计划\n${url}`,
+      '已复制 APP 网页版地址'
+    )
+    setTimeout(() => {
+      open(url)
+    }, 1600)
+
+    t('条目.拼图分享', {
+      subjectId: this.subjectId,
+      spa: true
+    })
+  }
+
   /** Box 状态按钮做动画前, 需要先设置开启 */
   prepareFlip = () => {
     this.setState({
@@ -821,11 +887,7 @@ export default class Action extends Fetch {
              * @date 2022/02/12
              */
             const totalEps = Number(this.subjectFormHTML.totalEps)
-            if (totalEps && item.sort >= totalEps) {
-              value = sort + 1
-            } else {
-              value = item.sort
-            }
+            value = totalEps && item.sort >= totalEps ? sort + 1 : item.sort
           } else {
             value = sort + 1
           }

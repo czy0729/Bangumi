@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 04:21:35
+ * @Last Modified time: 2023-12-13 01:40:28
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
@@ -66,6 +66,7 @@ export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB'] as const
 export const ANIME_FIRST = DATA_ALPHABET
 
 export const ANIME_YEAR = [
+  2024,
   2023,
   2022,
   2021,

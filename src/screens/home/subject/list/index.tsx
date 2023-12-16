@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-12 15:39:20
+ * @Last Modified time: 2023-12-15 15:39:15
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -14,7 +14,10 @@ import Header from '../header'
 import { Ctx } from '../types'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
 
-function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
+function List(
+  { forwardRef, onScroll, onScrollIntoViewIfNeeded, onBlockRef },
+  { $ }: Ctx
+) {
   rerender('Subject.List')
 
   return (
@@ -30,7 +33,10 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={
-        <Header onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
+        <Header
+          onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+          onBlockRef={onBlockRef}
+        />
       }
       renderItem={renderItem}
       onScroll={onScroll}

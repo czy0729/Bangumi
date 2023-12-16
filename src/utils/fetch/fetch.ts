@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 01:12:32
+ * @Last Modified time: 2023-12-15 14:23:14
  */
 import { STORYBOOK } from '@constants/device'
 import { APP_ID, HOST, UA } from '@constants/constants'
@@ -14,9 +14,8 @@ import { urlStringify, sleep, getTimestamp } from '../utils'
 import { loading } from '../ui'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
-import { log } from '../dev'
-import { safe } from './utils'
-import { SHOW_LOG, FETCH_TIMEOUT, FETCH_RETRY, HEADERS_DEFAULT } from './ds'
+import { log, safe } from './utils'
+import { FETCH_TIMEOUT, FETCH_RETRY, HEADERS_DEFAULT } from './ds'
 import { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
 
 const RETRY_CACHE = {}
@@ -33,7 +32,7 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
     url,
     data = {},
     retryCb,
-    info = '',
+    // info = '',
     noConsole = false
   } = args || {}
   const isGet = method === 'GET'
@@ -49,7 +48,7 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
 
   /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
   if (STORYBOOK && !isGet) {
-    console.info('[@utils/fetch]', 'fetchAPI denied:', url)
+    log('fetchAPI', 'fetchAPI denied:', url)
     return Promise.reject('denied')
   }
 
@@ -57,7 +56,7 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
   if (accessToken.access_token) {
     /** @todo [网页端] 旧 API 不支持新的 token, 需要重构相关部分的逻辑代码 */
     if (STORYBOOK && url.includes(API_HOST) && !url.includes(API_V0)) {
-      console.info('[@utils/fetch]', 'fetchAPI ignored token:', url)
+      log('fetchAPI', 'fetchAPI ignored token:', url)
     } else {
       config.headers.Authorization = `${accessToken.token_type} ${accessToken.access_token}`
     }
@@ -78,7 +77,6 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
     config.body = urlStringify(body)
     if (!noConsole) hideCb = loading()
   }
-  if (SHOW_LOG) log(`${info} ${_url}`)
 
   return fetch(_url, config)
     .then(response => {
@@ -149,7 +147,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
 
   /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
   if (STORYBOOK && !isGet) {
-    console.info('[@utils/fetch]', 'fetchHTML denied:', url)
+    log('fetchHTML', 'fetchHTML denied:', url)
     return Promise.reject('denied')
   }
 
@@ -175,12 +173,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   }
 
   const userStore = syncUserStore()
-  const {
-    cookie: userCookie,
-    // @ts-expect-error
-    setCookie,
-    userAgent
-  } = userStore.userCookie
+  const { cookie: userCookie, setCookie, userAgent } = userStore.userCookie
   const _config: Config = {
     timeout: FETCH_TIMEOUT,
     headers: {}
@@ -229,8 +222,6 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     hideCb = loading('Loading...', 8)
   }
 
-  if (SHOW_LOG) log(`⚡️ ${_url}`)
-
   if (STORYBOOK && HOST_PROXY) {
     _url = _url.replace(HOST, HOST_PROXY)
 
@@ -240,14 +231,14 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
 
   return fetch(_url, _config)
     .then(res => {
-      if (!isGet) log(method, 'success', _url, _config, res)
+      if (!isGet) log('fetchHTML', method, 'success', _url, _config, res)
       if (hideCb) hideCb()
 
       // @ts-expect-error
       return Promise.resolve(raw ? res : res.text())
     })
     .catch(error => {
-      console.error('[utils/fetch] fetchHTML', url, error)
+      log('fetchHTML', 'catch error:', url, error)
       if (hideCb) hideCb()
       return Promise.reject(error)
     })

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 14:31:51
+ * @Last Modified time: 2023-12-16 15:45:33
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl } from '@utils'
@@ -22,7 +23,7 @@ import { InView, Tag, Cover, Stars, Rank, Manage } from '../../base'
 import Title from './title'
 import { DEFAULT_PROPS } from './ds'
 
-const ITEM_HEIGHT = 184
+const ITEM_HEIGHT = 148
 
 const Item = memo(
   ({
@@ -102,26 +103,30 @@ const Item = memo(
             justify={justify}
             align='start'
           >
-            <Flex style={_.container.block} align='start'>
+            <Flex style={styles.title} align='start'>
               <Flex.Item>
                 <Title name={name} nameCn={nameCn} comments={comments} />
               </Flex.Item>
               {showManage && !isMono && (
-                <Manage
-                  subjectId={subjectId}
-                  collection={collection}
-                  typeCn={typeCn}
-                  onPress={() => {
-                    uiStore.showManageModal({
-                      subjectId,
-                      title: cnjp(nameCn, name),
-                      desc: cnjp(name, nameCn),
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                      action: getAction(typeCn)
-                    })
-                  }}
-                />
+                <View style={styles.manage}>
+                  <Manage
+                    subjectId={subjectId}
+                    collection={collection}
+                    typeCn={typeCn}
+                    onPress={() => {
+                      uiStore.showManageModal({
+                        subjectId,
+                        title: cnjp(nameCn, name),
+                        desc: cnjp(name, nameCn),
+                        status:
+                          MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(
+                            collection
+                          ),
+                        action: getAction(typeCn)
+                      })
+                    }}
+                  />
+                </View>
               )}
             </Flex>
             {!!tip && (

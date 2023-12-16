@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:38:19
+ * @Last Modified time: 2023-12-16 07:45:34
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
 import IconHidden from '../icon/hidden'
+import { TITLE_RELATIONS } from '../ds'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -23,11 +24,15 @@ export default memo(
       <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
-          right={!showRelations && <IconHidden name='关联' value='showRelations' />}
+          right={
+            !showRelations && (
+              <IconHidden name={TITLE_RELATIONS} value='showRelations' />
+            )
+          }
           icon={!showRelations && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showRelations')}
         >
-          关联
+          {TITLE_RELATIONS}
         </SectionTitle>
         {showRelations && (
           <>

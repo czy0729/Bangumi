@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:34:18
+ * @Last Modified time: 2023-12-16 07:48:08
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
 import IconStaff from '../icon/staff'
 import IconHidden from '../icon/hidden'
+import { TITLE_STAFF } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -25,12 +26,16 @@ export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock })
       <SectionTitle
         style={_.container.wind}
         right={
-          showStaff ? <IconStaff /> : <IconHidden name='制作人员' value='showStaff' />
+          showStaff ? (
+            <IconStaff />
+          ) : (
+            <IconHidden name={TITLE_STAFF} value='showStaff' />
+          )
         }
         icon={!showStaff && 'md-navigate-next'}
         onPress={() => onSwitchBlock('showStaff')}
       >
-        制作人员
+        {TITLE_STAFF}
       </SectionTitle>
       {showStaff && (
         <>
@@ -42,7 +47,7 @@ export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock })
             onPress={({ id, name, nameJP, _image }) => {
               t('条目.跳转', {
                 to: 'Mono',
-                from: '制作人员',
+                from: TITLE_STAFF,
                 subjectId
               })
 
@@ -54,7 +59,7 @@ export default memo(({ navigation, showStaff, subjectId, staff, onSwitchBlock })
               })
             }}
           />
-          <Heatmap id='条目.跳转' from='制作人员' />
+          <Heatmap id='条目.跳转' from={TITLE_STAFF} />
         </>
       )}
     </InView>

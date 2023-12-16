@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 06:01:13
+ * @Last Modified time: 2023-12-14 13:02:59
  */
+import { LIST_EMPTY } from '@constants'
 import {
   ANIME_AREA,
   ANIME_BEGIN,
@@ -16,6 +17,40 @@ import {
   ANIME_TYPE,
   ANIME_YEAR
 } from '@utils/subject/anime'
+import { _ } from '@stores'
+
+export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+  _loaded: false
+}
+
+export const STATE = {
+  /** 查询参数 */
+  query: {
+    area: '日本',
+    type: '',
+    first: '',
+    year: 2023,
+    begin: '',
+    status: '',
+    tags: [],
+    official: '',
+    sort: '评分人数',
+    collected: ''
+  },
+
+  /** 缓存列表 */
+  data: LIST_EMPTY,
+
+  /** 布局 */
+  layout: 'list' as 'list' | 'grid',
+
+  /** 是否展开更多过滤选项 */
+  expand: false,
+  ...EXCLUDE_STATE,
+  _loaded: false
+}
 
 export const ADVANCE_LIMIT = 120
 

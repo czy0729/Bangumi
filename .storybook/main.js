@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 17:30:50
+ * @Last Modified time: 2023-12-13 04:36:46
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -60,10 +60,10 @@ module.exports = {
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: path.resolve(__dirname, '../src/assets/proto'),
-            to: 'assets/proto',
+            from: path.resolve(__dirname, '../src/assets'),
+            to: 'assets',
             filter: resourcePath => {
-              return /\.(bin|proto)$/.test(resourcePath) // 只复制 .bin 和 .proto 文件
+              return /\.(bin|proto|ico)$/.test(resourcePath)
             }
           }
         ]

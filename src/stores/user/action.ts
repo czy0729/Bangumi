@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 01:50:57
+ * @Last Modified time: 2023-12-16 10:59:51
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -174,7 +174,7 @@ export default class Action extends Fetch {
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
     if (Array.isArray(matchLogout) && matchLogout[1]) {
       const formhash = matchLogout[1].replace('/', '')
-      console.info('doCheckCookie', formhash)
+      if (DEV) console.info('[@stores/user/doCheckCookie]', formhash)
 
       this.setState({
         formhash

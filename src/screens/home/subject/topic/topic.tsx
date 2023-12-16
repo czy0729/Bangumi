@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:55:37
+ * @Last Modified time: 2023-12-16 08:02:49
  */
 import React from 'react'
 import { Expand, Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { useExpandLazy } from '@utils/hooks'
 import { rerender } from '@utils/dev'
 import IconTopic from '../icon/topic'
 import IconHidden from '../icon/hidden'
+import { TITLE_TOPIC } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(
@@ -26,12 +27,16 @@ export default memo(
         <SectionTitle
           style={_.container.wind}
           right={
-            showTopic ? <IconTopic /> : <IconHidden name='帖子' value='showTopic' />
+            showTopic ? (
+              <IconTopic />
+            ) : (
+              <IconHidden name={TITLE_TOPIC} value='showTopic' />
+            )
           }
           icon={!showTopic && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showTopic')}
         >
-          帖子
+          {TITLE_TOPIC}
         </SectionTitle>
         {showTopic && (
           <>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 17:56:01
+ * @Last Modified time: 2023-12-16 06:33:54
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,6 +16,7 @@ import { useHorizontalLazy } from '@utils/hooks'
 import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
+import { TITLE_ANITABI } from '../ds'
 import { DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
 export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) => {
@@ -38,7 +39,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
         style={_.container.wind}
         right={
           showAnitabi === false ? (
-            <IconHidden name='取景地标' value='showAnitabi' />
+            <IconHidden name={TITLE_ANITABI} value='showAnitabi' />
           ) : (
             showAnitabi !== -1 && (
               <Touchable
@@ -46,7 +47,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
                 onPress={() => {
                   t('条目.跳转', {
                     to: 'anitabi.cn',
-                    from: '取景地标',
+                    from: TITLE_ANITABI,
                     subjectId
                   })
 
@@ -57,7 +58,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
                   <Text type='sub'>动画巡礼地图</Text>
                   <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
                 </Flex>
-                <Heatmap id='条目.跳转' from='取景地标' />
+                <Heatmap id='条目.跳转' from={TITLE_ANITABI} />
               </Touchable>
             )
           )
@@ -65,7 +66,7 @@ export default memo(({ styles, showAnitabi, subjectId, data, onSwitchBlock }) =>
         icon={!showAnitabi && 'md-navigate-next'}
         onPress={() => onSwitchBlock('showAnitabi')}
       >
-        取景地标
+        {TITLE_ANITABI}
       </SectionTitle>
 
       {showAnitabi && (

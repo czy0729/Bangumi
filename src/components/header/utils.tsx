@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-05 03:18:46
+ * @Last Modified time: 2023-12-15 16:37:34
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -165,8 +165,13 @@ export const useOnScroll = () => {
   )
 
   return {
+    /** y 轴引用 */
     yRef,
+
+    /** 头部是否固定 */
     fixed,
+
+    /** 滑动回调 */
     onScroll
   }
 }

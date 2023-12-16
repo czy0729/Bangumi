@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:32:20
+ * @Last Modified time: 2023-12-16 15:40:33
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,11 +16,14 @@ import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS, CDN_GAME } from '@constants'
 import IconPS from '../icon/ps'
 import IconHidden from '../icon/hidden'
+import { TITLE_GAME } from '../ds'
 import { Ctx } from '../types'
 import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
-class Game extends React.Component {
+class Game extends React.Component<{
+  onBlockRef: any
+}> {
   state = {
     scrolled: false
   }
@@ -175,36 +178,40 @@ class Game extends React.Component {
   render() {
     rerender('Subject.Game')
 
-    const { showGameInfo } = systemStore.setting
     const { $ } = this.context as Ctx
-    if (showGameInfo === -1 || !$.gameInfo || !$.gameInfo.i) return null
+    if (!$.showGame[1]) return null
 
+    const { showGameInfo } = systemStore.setting
+    const { onBlockRef } = this.props
     return (
-      <InView style={this.styles.container}>
-        <Expand>
-          <SectionTitle
-            style={_.container.wind}
-            right={
-              !showGameInfo ? (
-                <IconHidden name='游戏' value='showGameInfo' />
-              ) : (
-                !this.isADV && <IconPS />
-              )
-            }
-            icon={!showGameInfo && 'md-navigate-next'}
-            onPress={() => $.onSwitchBlock('showGameInfo')}
-          >
-            游戏
-          </SectionTitle>
-          {showGameInfo && (
-            <>
-              {this.renderThumbs()}
-              {this.renderDetails()}
-            </>
-          )}
-          <PreventTouchPlaceholder />
-        </Expand>
-      </InView>
+      <>
+        <View ref={ref => onBlockRef(ref, TITLE_GAME)} />
+        <InView style={this.styles.container}>
+          <Expand>
+            <SectionTitle
+              style={_.container.wind}
+              right={
+                !showGameInfo ? (
+                  <IconHidden name={TITLE_GAME} value='showGameInfo' />
+                ) : (
+                  !this.isADV && <IconPS />
+                )
+              }
+              icon={!showGameInfo && 'md-navigate-next'}
+              onPress={() => $.onSwitchBlock('showGameInfo')}
+            >
+              {TITLE_GAME}
+            </SectionTitle>
+            {showGameInfo && (
+              <>
+                {this.renderThumbs()}
+                {this.renderDetails()}
+              </>
+            )}
+            <PreventTouchPlaceholder />
+          </Expand>
+        </InView>
+      </>
     )
   }
 

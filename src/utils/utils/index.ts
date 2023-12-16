@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 21:47:29
+ * @Last Modified time: 2023-12-15 13:38:46
  */
 import { ComponentType } from 'react'
 import {
@@ -11,9 +11,9 @@ import {
 } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from 'p-limit'
-import { DEV } from '@/config'
 import { B, M, IOS, TIMEZONE_IS_GMT8 } from '@constants/constants'
 import { AnyObject, Fn } from '@types'
+import { log } from './utils'
 import { getTimestamp, date } from '../date'
 import { info } from '../ui'
 
@@ -234,7 +234,7 @@ export function interceptor(
 
   // 检查指纹是否存在于记录中
   if (INTERCEPTOR_FINGERPRINTS[fingerprint]) {
-    console.info('[@utils]', 'interceptor denied:', key)
+    log('interceptor', 'denied:', key)
     return true
   }
 
@@ -277,8 +277,7 @@ export function open(url: any, encode: boolean = false): boolean {
     Linking.openURL(url)
   }
 
-  if (DEV) console.info(url)
-
+  log('open', url)
   return true
 }
 
@@ -473,29 +472,25 @@ const LAST_DATE_UNITS = [
 
 /** 时间戳距离现在时间的描述 */
 export function lastDate(timestamp: number | string, simple: boolean = true) {
-  try {
-    if (!timestamp) return '刚刚'
+  if (!timestamp) return '刚刚'
 
-    let seconds = Math.floor(Date.now() / 1000 - Number(timestamp))
-    let str = ''
-    let hits = 0
-    for (const unit of LAST_DATE_UNITS) {
-      if (hits >= 2) break
+  let seconds = Math.floor(Date.now() / 1000 - Number(timestamp))
+  let str = ''
+  let hits = 0
+  for (const unit of LAST_DATE_UNITS) {
+    if (hits >= 2) break
 
-      const count = Math.floor(seconds / unit.seconds)
-      if (count > 0) {
-        const s = `${count}${unit.name}`
-        if (simple) return `${s}前`
+    const count = Math.floor(seconds / unit.seconds)
+    if (count > 0) {
+      const s = `${count}${unit.name}`
+      if (simple) return `${s}前`
 
-        str += s
-        hits += 1
-        seconds -= count * unit.seconds
-      }
+      str += s
+      hits += 1
+      seconds -= count * unit.seconds
     }
-    return str ? `${str}前` : '刚刚'
-  } catch (error) {
-    return '刚刚'
   }
+  return str ? `${str}前` : '刚刚'
 }
 
 /** 清除搜索关键字的特殊字符 */

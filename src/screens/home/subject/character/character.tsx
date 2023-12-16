@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:46:37
+ * @Last Modified time: 2023-12-16 06:42:50
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
 import IconCharacter from '../icon/character'
 import IconHidden from '../icon/hidden'
+import { TITLE_CHARACTER } from '../ds'
 import { DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -29,13 +30,13 @@ export default memo(
             showCharacter ? (
               <IconCharacter />
             ) : (
-              <IconHidden name='角色' value='showCharacter' />
+              <IconHidden name={TITLE_CHARACTER} value='showCharacter' />
             )
           }
           icon={!showCharacter && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showCharacter')}
         >
-          角色
+          {TITLE_CHARACTER}
         </SectionTitle>
         {showCharacter && (
           <>
@@ -51,7 +52,7 @@ export default memo(
               onPress={({ id, name, nameJP, _image }) => {
                 t('条目.跳转', {
                   to: 'Mono',
-                  from: '角色',
+                  from: TITLE_CHARACTER,
                   subjectId
                 })
 
@@ -66,7 +67,7 @@ export default memo(
               onSubPress={({ actorId, desc }) => {
                 t('条目.跳转', {
                   to: 'Mono',
-                  from: '角色',
+                  from: TITLE_CHARACTER,
                   subjectId
                 })
 
@@ -76,7 +77,7 @@ export default memo(
                 })
               }}
             />
-            <Heatmap id='条目.跳转' from='角色' />
+            <Heatmap id='条目.跳转' from={TITLE_CHARACTER} />
           </>
         )}
       </InView>

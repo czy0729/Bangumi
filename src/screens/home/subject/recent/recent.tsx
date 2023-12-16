@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:57:39
+ * @Last Modified time: 2023-12-16 07:40:54
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -14,6 +14,7 @@ import { useHorizontalLazy } from '@utils/hooks'
 import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconHidden from '../icon/hidden'
+import { TITLE_RECENT } from '../ds'
 import { styles } from './styles'
 import { DEFAULT_PROPS } from './ds'
 
@@ -26,11 +27,11 @@ export default memo(
       <InView style={showRecent ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
-          right={!showRecent && <IconHidden name='动态' value='showRecent' />}
+          right={!showRecent && <IconHidden name={TITLE_RECENT} value='showRecent' />}
           icon={!showRecent && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showRecent')}
         >
-          动态
+          {TITLE_RECENT}
         </SectionTitle>
         {showRecent && (
           <>

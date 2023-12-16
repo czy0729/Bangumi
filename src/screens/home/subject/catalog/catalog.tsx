@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-28 15:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 07:25:16
+ * @Last Modified time: 2023-12-16 06:38:58
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -16,6 +16,7 @@ import { rerender } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import IconCatalog from '../icon/catalog'
 import IconHidden from '../icon/hidden'
+import { TITLE_CATALOG } from '../ds'
 import Item from './item'
 import { DEFAULT_PROPS } from './ds'
 
@@ -28,12 +29,16 @@ export default memo(({ styles, showCatalog, catalog, onSwitchBlock }) => {
       <SectionTitle
         style={_.container.wind}
         right={
-          showCatalog ? <IconCatalog /> : <IconHidden name='目录' value='showCatalog' />
+          showCatalog ? (
+            <IconCatalog />
+          ) : (
+            <IconHidden name={TITLE_CATALOG} value='showCatalog' />
+          )
         }
         icon={!showCatalog && 'md-navigate-next'}
         onPress={() => onSwitchBlock('showCatalog')}
       >
-        目录
+        {TITLE_CATALOG}
       </SectionTitle>
       {showCatalog && (
         <>

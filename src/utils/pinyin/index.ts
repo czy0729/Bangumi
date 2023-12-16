@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-09 09:47:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-24 01:35:24
+ * @Last Modified time: 2023-12-15 14:17:07
  */
 import { getPinYinFirstCharacter } from '../thirdParty/pinyin'
 import { t2s } from '../thirdParty/cn-char'
@@ -64,7 +64,6 @@ export function getPinYinFilterValue(title: string, filter: string) {
     }
   }
 
-  console.log('getPinYinFilterValue')
   getPinYinFilterValueCacheMap.set(key, value)
   return value
 }

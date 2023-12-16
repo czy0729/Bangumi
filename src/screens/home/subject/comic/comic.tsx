@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 01:27:56
+ * @Last Modified time: 2023-12-16 06:44:43
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,6 +13,7 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
 import { IOS } from '@constants'
+import { TITLE_COMIC } from '../ds'
 import { COVER_WIDTH, COVER_HEIGHT, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -21,7 +22,7 @@ export default memo(({ navigation, subjectId, comic }) => {
 
   return (
     <InView style={styles.container}>
-      <SectionTitle style={_.container.wind}>单行本</SectionTitle>
+      <SectionTitle style={_.container.wind}>{TITLE_COMIC}</SectionTitle>
       <HorizontalList
         style={_.mt.sm}
         data={comic.map(item => ({
@@ -39,7 +40,7 @@ export default memo(({ navigation, subjectId, comic }) => {
         onPress={({ id, name, image }, type) => {
           t('条目.跳转', {
             to: 'Subject',
-            from: '单行本',
+            from: TITLE_COMIC,
             subjectId
           })
           navigation.push('Subject', {
@@ -50,7 +51,7 @@ export default memo(({ navigation, subjectId, comic }) => {
           })
         }}
       />
-      <Heatmap id='条目.跳转' from='单行本' />
+      <Heatmap id='条目.跳转' from={TITLE_COMIC} />
     </InView>
   )
 }, DEFAULT_PROPS)

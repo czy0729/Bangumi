@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 19:42:36
+ * @Last Modified time: 2023-12-16 07:35:24
  */
 import React from 'react'
 import { Flex, Text, Touchable, Iconfont, Heatmap } from '@components'
@@ -12,6 +12,7 @@ import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
+import { TITLE_RATING } from '../ds'
 import { Ctx } from '../types'
 
 function Title({ showScore }, { $, navigation }: Ctx) {
@@ -88,7 +89,7 @@ function Title({ showScore }, { $, navigation }: Ctx) {
       icon={!showRating && 'md-navigate-next'}
       onPress={() => $.onSwitchBlock('showRating')}
     >
-      评分{' '}
+      {TITLE_RATING}{' '}
       {showScore && (
         <Text type='warning' size={18} lineHeight={18} bold>
           {$.rating.score}

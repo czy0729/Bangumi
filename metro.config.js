@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-15 04:37:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-05 09:57:23
+ * @Last Modified time: 2023-12-13 21:09:53
  */
-
 /** Learn more https://docs.expo.io/guides/customizing-metro */
 const { getDefaultConfig } = require('expo/metro-config')
 
@@ -17,5 +16,6 @@ const monorepoPackages = {
 
 config.resolver.extraNodeModules = monorepoPackages
 config.resolver.blacklistRE = [/packages\/.*/]
+config.resolver.assetExts.push('proto', 'bin')
 
 module.exports = config
