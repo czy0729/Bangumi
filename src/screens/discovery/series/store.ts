@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:05:18
+ * @Last Modified time: 2023-12-17 10:04:13
  */
 import { observable, computed, toJS } from 'mobx'
 import { userStore, systemStore } from '@stores'
@@ -13,45 +13,29 @@ import { request } from '@utils/fetch.v0'
 import i18n from '@constants/i18n'
 import { SubjectId } from '@types'
 import {
-  NAMESPACE,
+  DISTANCE,
+  EXCLUDE_STATE,
   HOST_API_V0,
-  RELATIONS,
-  SUBJECT_TYPE,
-  SUBJECT_ITEM,
   LIMIT,
-  DISTANCE
+  NAMESPACE,
+  RELATIONS,
+  STATE,
+  SUBJECT_ITEM,
+  SUBJECT_TYPE
 } from './ds'
 
-const excludeState = {
-  fetching: false,
-  message: '',
-  current: 0,
-  total: 0
-}
 const loaded = {}
+
 let indexes = {}
 
-export default class ScreenSeries extends store {
-  state = observable({
-    collections: [],
-    otherCollections: [],
-    relations: {},
-    subjects: {},
-    data: [],
-    sort: '',
-    filter: '',
-    airtime: '',
-    status: '',
-    fixed: false,
-    ...excludeState,
-    _loaded: false
-  })
+export default class ScreenSeries extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: getTimestamp()
     })
 
@@ -151,7 +135,7 @@ export default class ScreenSeries extends store {
         }))
     })
     this.setState({
-      ...excludeState
+      ...EXCLUDE_STATE
     })
 
     this.setStorage(NAMESPACE)
@@ -297,7 +281,7 @@ export default class ScreenSeries extends store {
 
     setTimeout(() => {
       this.setState({
-        ...excludeState
+        ...EXCLUDE_STATE
       })
     }, 1600)
 

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-26 04:31:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 01:14:42
+ * @Last Modified time: 2023-12-17 08:17:01
  */
 import { _ } from '@stores'
+import { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenCalendar'
 
@@ -29,5 +30,5 @@ export const STATE = {
   /** 上次请求全局管理单独条目的收藏状态 */
   _lastQueue: 0 as number,
   ...EXCLUDE_STATE,
-  _loaded: false as boolean
+  _loaded: false as Loaded
 }

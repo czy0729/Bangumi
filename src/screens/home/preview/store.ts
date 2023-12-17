@@ -2,24 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:31:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:34:53
+ * @Last Modified time: 2023-12-17 10:20:17
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
 import { getPreview, matchMovie, search } from '@utils/douban'
 import { HOST } from '@constants'
+import { NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
-const NAMESPACE = 'ScreenPreview'
-
-export default class ScreenPreview extends store {
+export default class ScreenPreview extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    epsThumbs: [],
-    epsThumbsHeader: {},
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(this.namespace)) || {}

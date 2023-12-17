@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:46:10
+ * @Last Modified time: 2023-12-17 08:28:39
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { BrowserSort, SubjectType } from '@types'
+import { BrowserSort, Loaded, SubjectType } from '@types'
 
 export const DATE = new Date()
 
@@ -43,7 +43,6 @@ export const STATE = {
 
   /** 是否显示已收藏 (工具栏) */
   collected: true,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

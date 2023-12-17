@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:00:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 16:20:27
+ * @Last Modified time: 2023-12-17 11:48:28
  */
-import { CollectionStatus, SubjectId } from '@types'
+import { CollectionStatus, Loaded, SubjectId } from '@types'
 import { StateData } from './types'
 
 export const NAMESPACE = 'ScreenDouban'
@@ -68,9 +68,8 @@ export const STATE = {
 
   /** 收藏是否可见 */
   privacy: false,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 export const HOST_API = 'https://api.bgm.tv'

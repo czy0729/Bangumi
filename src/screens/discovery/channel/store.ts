@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:04:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 09:35:39
+ * @Last Modified time: 2023-12-17 08:20:29
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, collectionStore } from '@stores'
@@ -11,20 +11,16 @@ import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_CHANNEL, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectType, SubjectTypeCn } from '@types'
+import { STATE } from './ds'
 import { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenChannel extends store {
+export default class ScreenChannel extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    type: '' as SubjectType,
-
-    /** 云快照 */
-    ota: {}
-  })
+  state = observable(STATE)
 
   init = () => {
     this.setState({

@@ -2,31 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:37:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:33:21
+ * @Last Modified time: 2023-12-17 10:16:02
  */
 import { observable, computed } from 'mobx'
-import { _, monoStore } from '@stores'
+import { monoStore } from '@stores'
 import { getTimestamp, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_SUBJECT_CHARACTERS, LIST_EMPTY } from '@constants'
+import { STATE } from './ds'
 import { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenCharacters extends store {
+export default class ScreenCharacters extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    /** 可视范围底部 y */
-    visibleBottom: _.window.height,
-
-    /** 云快照 */
-    ota: {}
-  })
+  state = observable(STATE)
 
   init = () => {
+    this.setState({
+      _loaded: true
+    })
     return this.fetchCharacters()
   }
 

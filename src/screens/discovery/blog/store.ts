@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:04:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:47:16
+ * @Last Modified time: 2023-12-17 08:15:54
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -10,37 +10,10 @@ import { info, x18s } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { SubjectType } from '@types'
-import { NAMESPACE, TABS } from './ds'
+import { NAMESPACE, STATE, TABS } from './ds'
 
-export default class ScreenDiscoveryBlog extends store {
-  state = observable({
-    /** tab 的 page */
-    page: 0,
-
-    /** 是否显示列表, 制造切页效果 */
-    show: true,
-
-    /** 当前页数 */
-    currentPage: {
-      all: 1,
-      anime: 1,
-      book: 1,
-      game: 1,
-      music: 1,
-      real: 1
-    },
-
-    /** 输入框值 */
-    ipt: {
-      all: '1',
-      anime: '1',
-      book: '1',
-      game: '1',
-      music: '1',
-      real: '1'
-    },
-    _loaded: false
-  })
+export default class ScreenDiscoveryBlog extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

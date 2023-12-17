@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 16:00:29
+ * @Last Modified time: 2023-12-17 11:26:22
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -10,16 +10,13 @@ import { info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { HTML_PM_DETAIL } from '@constants'
+import { STATE } from './ds'
 import { Params } from './types'
 
-export default class ScreenPM extends store {
+export default class ScreenPM extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    title: '',
-    value: '',
-    _loaded: false
-  })
+  state = observable(STATE)
 
   scrollViewRef: any = null
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 01:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 15:01:53
+ * @Last Modified time: 2023-12-17 11:53:46
  */
 import { observable, computed } from 'mobx'
 import store from '@utils/store'
@@ -13,7 +13,7 @@ import { LOADED, NAMESPACE, STATE } from './init'
 
 type CacheKey = keyof typeof LOADED
 
-class SMBStore extends store implements StoreConstructor<typeof STATE> {
+class SMBStore extends store<typeof STATE> implements StoreConstructor<typeof STATE> {
   state = observable(STATE)
 
   private _loaded = LOADED

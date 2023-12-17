@@ -2,9 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 06:23:48
+ * @Last Modified time: 2023-12-17 11:49:44
  */
+import { Loaded } from '@types'
+
 export const NAMESPACE = 'ScreenVersions'
+
+export const STATE = {
+  page: 0,
+  _loaded: false as Loaded
+}
 
 export const TABS = [
   {
@@ -94,8 +101,3 @@ export const TABS = [
     key: 'tz5310'
   }
 ] as const
-
-export const STATE = {
-  page: 0,
-  _loaded: false
-}

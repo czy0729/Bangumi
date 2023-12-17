@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:25:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:37:03
+ * @Last Modified time: 2023-12-17 08:23:16
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, STATE } from './ds'
 
-export default class ScreenDollars extends store<typeof EXCLUDE_STATE> {
-  state = observable(EXCLUDE_STATE)
+export default class ScreenDollars extends store<typeof STATE> {
+  state = observable(STATE)
 
   scrollViewRef = null
 
@@ -20,7 +20,8 @@ export default class ScreenDollars extends store<typeof EXCLUDE_STATE> {
 
   init = async () => {
     this.setState({
-      ...EXCLUDE_STATE
+      ...EXCLUDE_STATE,
+      _loaded: true
     })
     return this.fetchDollars()
   }

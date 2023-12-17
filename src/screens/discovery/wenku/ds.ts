@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 07:07:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-12 15:41:33
+ * @Last Modified time: 2023-12-17 10:09:36
  */
 import {
   WENKU_ANIME,
@@ -16,6 +16,28 @@ import {
   WENKU_YEAR
   // WENKU_TAGS_NUMS_MAP
 } from '@utils/subject/wenku'
+import { LIST_EMPTY } from '@constants'
+import { Loaded } from '@types'
+
+export const NAMESPACE = 'ScreenWenku'
+
+export const STATE = {
+  query: {
+    first: '',
+    year: 2022,
+    status: '',
+    anime: '',
+    cate: '',
+    author: '',
+    tags: [],
+    sort: '发行',
+    collected: ''
+  },
+  data: LIST_EMPTY,
+  layout: 'list',
+  expand: false,
+  _loaded: false as Loaded
+}
 
 export const ADVANCE_LIMIT = 100
 

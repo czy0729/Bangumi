@@ -3,40 +3,22 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:40:54
+ * @Last Modified time: 2023-12-17 08:32:12
  */
 import { observable, computed } from 'mobx'
 import { userStore, systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search, getTagType, HENTAI_TAGS_MAP } from '@utils/subject/hentai'
 import { t } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
+import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-import { ADVANCE_LIMIT } from './ds'
-
-const NAMESPACE = 'ScreenHentai'
 
 let _loaded = false
 
-export default class ScreenHentai extends store {
+export default class ScreenHentai extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    query: {
-      first: '',
-      year: 2022,
-      chara: '',
-      job: '',
-      body: '',
-      content: '',
-      sort: '评分人数',
-      collected: ''
-    },
-    data: LIST_EMPTY,
-    layout: 'list',
-    expand: false,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

@@ -2,9 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 14:23:44
+ * @Last Modified time: 2023-12-17 11:49:12
  */
+import { Loaded } from '@types'
+
 export const NAMESPACE = 'ScreenTips'
+
+export const STATE = {
+  page: 0,
+  _loaded: false as Loaded
+}
 
 export const TABS = [
   {
@@ -60,8 +67,3 @@ export const TABS = [
     key: 'kfpfze0u7old4en1'
   }
 ] as const
-
-export const STATE = {
-  page: 0,
-  _loaded: false
-}

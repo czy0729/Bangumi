@@ -2,8 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-08-19 17:05:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 17:09:21
+ * @Last Modified time: 2023-12-17 10:55:30
  */
+import { _ } from '@stores'
+import { Loaded } from '@types'
+
+export const STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height,
+  page: 0,
+  _loaded: false as Loaded
+}
+
 export const TABS = [
   {
     key: 'notify',

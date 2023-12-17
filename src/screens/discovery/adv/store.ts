@@ -2,34 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:39:35
+ * @Last Modified time: 2023-12-17 08:12:37
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/adv'
 import { t } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
-import { ADVANCE_LIMIT } from './ds'
-
-const NAMESPACE = 'ScreenADV'
+import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 
 let _loaded = false
 
-export default class ScreenADV extends store {
-  state = observable({
-    query: {
-      first: '',
-      year: 2022,
-      dev: '',
-      sort: '评分人数',
-      collected: ''
-    },
-    data: LIST_EMPTY,
-    layout: 'list',
-    expand: false,
-    _loaded: false
-  })
+export default class ScreenADV extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

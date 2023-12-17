@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:33:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:34:38
+ * @Last Modified time: 2023-12-17 11:54:17
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -13,7 +13,7 @@ import { ListKey } from './types'
 
 type CacheKey = keyof typeof LOADED | ListKey
 
-export default class State extends Store {
+export default class State extends Store<typeof STATE> {
   state = observable(STATE)
 
   private _loaded = LOADED

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:53:26
+ * @Last Modified time: 2023-12-17 10:39:29
  */
 import { observable, computed } from 'mobx'
 import { collectionStore, subjectStore } from '@stores'
@@ -18,7 +18,7 @@ import { Params, ToolBarKeys } from './types'
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenWorks extends store {
+export default class ScreenWorks extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

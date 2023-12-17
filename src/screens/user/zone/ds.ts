@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-26 04:35:29
+ * @Last Modified time: 2023-12-17 11:40:01
  */
 import { INIT_USERS } from '@stores/users/init'
+import { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenZone'
 
@@ -34,7 +35,7 @@ export const STATE = {
   page: 0,
   recent: {},
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 export const TABS = [

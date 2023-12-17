@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-11 02:39:20
+ * @Last Modified time: 2023-12-17 08:30:44
  */
 import {
   GAME_CATE,
@@ -14,6 +14,27 @@ import {
   GAME_SORT,
   GAME_YEAR
 } from '@utils/subject/game'
+import { LIST_EMPTY } from '@constants'
+import { Loaded } from '@types'
+
+export const NAMESPACE = 'ScreenGame'
+
+export const STATE = {
+  query: {
+    first: '',
+    year: 2023,
+    platform: '',
+    cate: '',
+    dev: '',
+    pub: '',
+    sort: '发行',
+    collected: ''
+  },
+  data: LIST_EMPTY,
+  layout: 'list',
+  expand: false,
+  _loaded: false as Loaded
+}
 
 export const ADVANCE_LIMIT = 100
 

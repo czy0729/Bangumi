@@ -1,11 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2023-04-21 18:20:33
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-04-21 18:20:33
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-17 10:16:54
  */
 import { _ } from '@stores'
 import { Mono, MonoComments } from '@stores/subject/types'
+import { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenMono'
 
@@ -45,8 +46,6 @@ export const EXCLUDE_STATE = {
 export const STATE = {
   /** 评论倒序 */
   reverse: false,
-
   ...EXCLUDE_STATE,
-
-  _loaded: false
+  _loaded: false as Loaded
 }

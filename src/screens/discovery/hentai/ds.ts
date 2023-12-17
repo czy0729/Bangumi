@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:11:17
+ * @Last Modified time: 2023-12-17 08:31:58
  */
 import {
   HENTAI_BODY,
@@ -14,6 +14,27 @@ import {
   HENTAI_SORT,
   HENTAI_YEAR
 } from '@utils/subject/hentai'
+import { LIST_EMPTY } from '@constants'
+import { Loaded } from '@types'
+
+export const NAMESPACE = 'ScreenHentai'
+
+export const STATE = {
+  query: {
+    first: '',
+    year: 2022,
+    chara: '',
+    job: '',
+    body: '',
+    content: '',
+    sort: '评分人数',
+    collected: ''
+  },
+  data: LIST_EMPTY,
+  layout: 'list',
+  expand: false,
+  _loaded: false as Loaded
+}
 
 export const ADVANCE_LIMIT = 80
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-14 13:02:59
+ * @Last Modified time: 2023-12-17 08:26:08
  */
 import { LIST_EMPTY } from '@constants'
 import {
@@ -18,11 +18,11 @@ import {
   ANIME_YEAR
 } from '@utils/subject/anime'
 import { _ } from '@stores'
+import { Loaded } from '@types'
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
-  _loaded: false
+  visibleBottom: _.window.height
 }
 
 export const STATE = {
@@ -49,7 +49,7 @@ export const STATE = {
   /** 是否展开更多过滤选项 */
   expand: false,
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 export const ADVANCE_LIMIT = 120

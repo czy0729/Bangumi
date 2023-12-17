@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 13:56:52
+ * @Last Modified time: 2023-12-17 10:02:59
  */
 import { observable, computed } from 'mobx'
 import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -14,7 +14,7 @@ import { Navigation, SearchCat, SearchCatCn, SearchLegacy, SubjectId } from '@ty
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
 
-export default class ScreenSearch extends store {
+export default class ScreenSearch extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:02:30
+ * @Last Modified time: 2023-12-17 11:48:08
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -150,7 +150,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
             '',
           ...item
         })),
-        loaded: getTimestamp()
+        _loaded: getTimestamp()
       }
     })
     this.setStorage(NAMESPACE)

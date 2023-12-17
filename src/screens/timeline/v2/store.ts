@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-14 16:52:35
+ * @Last Modified time: 2023-12-17 11:14:51
  */
 import { observable, computed } from 'mobx'
 import { _, systemStore, userStore, timelineStore } from '@stores'
@@ -20,7 +20,7 @@ import { TimeLineScope, TimeLineType, UserId } from '@types'
 import { NAMESPACE, EXCLUDE_STATE, STATE, TABS } from './ds'
 import { TabLabel } from './types'
 
-export default class ScreenTimeline extends store {
+export default class ScreenTimeline extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

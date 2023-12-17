@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 05:34:17
+ * @Last Modified time: 2023-12-17 10:31:32
  */
 import { observable, computed } from 'mobx'
 import { tagStore, collectionStore, subjectStore } from '@stores'
@@ -18,7 +18,7 @@ import { Params } from './types'
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenTag extends store {
+export default class ScreenTag extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

@@ -2,26 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:37:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-11 17:29:38
+ * @Last Modified time: 2023-12-17 10:18:48
  */
 import { observable, computed } from 'mobx'
 import { monoStore } from '@stores'
+import { getTimestamp } from '@utils'
 import store from '@utils/store'
 import { get, update } from '@utils/kv'
 import { HTML_SUBJECT_PERSONS, LIST_EMPTY } from '@constants'
 import { Params } from './types'
-import { getTimestamp } from '@utils'
+import { STATE } from './ds'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenPersons extends store {
+export default class ScreenPersons extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    /** 云快照 */
-    ota: {}
-  })
+  state = observable(STATE)
 
   init = () => {
     return this.fetchPersons()

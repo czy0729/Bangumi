@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 05:34:24
+ * @Last Modified time: 2023-12-17 08:35:04
  */
 import { Loaded, SubjectId, SubjectType, SubjectTypeValue, UserId } from '@types'
 import { CollectionsItem, ListItem } from './types'
@@ -43,9 +43,8 @@ export const STATE = {
       _loaded: Loaded
     }
   >,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 export const HOST_API_V0 = 'https://api.bgm.tv/v0'

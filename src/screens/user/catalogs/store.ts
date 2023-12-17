@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 05:41:37
+ * @Last Modified time: 2023-12-17 11:21:52
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore, discoveryStore } from '@stores'
@@ -10,16 +10,13 @@ import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
 import { HTML_USERS_CATALOGS } from '@constants'
 import { Id } from '@types'
-import { NAMESPACE, TABS } from './ds'
+import { NAMESPACE, STATE, TABS } from './ds'
 import { Params, TabsLabel } from './types'
 
-export default class ScreenCatelogs extends store {
+export default class ScreenCatelogs extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    page: 0,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

@@ -2,32 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 15:59:25
+ * @Last Modified time: 2023-12-17 11:19:24
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore } from '@stores'
 import { desc, getTimestamp, info, open } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { STATE } from './ds'
 import { Item, Params } from './types'
 
-export default class ScreenActions extends store {
+export default class ScreenActions extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    data: {
-      data: []
-    },
-    edit: {
-      show: false,
-      uuid: '',
-      name: '',
-      url: '',
-      sort: '',
-      active: 1
-    } as Item,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     await subjectStore.init('actions')

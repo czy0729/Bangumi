@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:55:13
+ * @Last Modified time: 2023-12-17 11:22:58
  */
 import { observable, computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
@@ -16,7 +16,7 @@ import { sortByRecent } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
 
-export default class ScreenFriends extends store {
+export default class ScreenFriends extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

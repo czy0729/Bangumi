@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:14:30
+ * @Last Modified time: 2023-12-17 10:23:13
  */
 import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
@@ -57,10 +57,10 @@ export const EXCLUDE_STATE = {
   rendered: STORYBOOK,
 
   /** 书籍章 */
-  chap: '',
+  chap: '' as string | number,
 
   /** 书籍卷 */
-  vol: '',
+  vol: '' as string | number,
 
   /** 翻译缓存 */
   translateResult: [],
@@ -110,7 +110,7 @@ export const STATE = {
   epsReverse: false,
 
   /** 普通条目章节 */
-  watchedEps: '',
+  watchedEps: '' as string | number,
 
   /** 筛选章节的开头 */
   filterEps: 0,

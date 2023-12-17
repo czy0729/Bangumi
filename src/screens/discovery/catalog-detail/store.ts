@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:06:08
+ * @Last Modified time: 2023-12-17 08:19:32
  */
 import { observable, computed } from 'mobx'
 import { _, collectionStore, discoveryStore, subjectStore, userStore } from '@stores'
@@ -27,7 +27,7 @@ import { Navigation } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { List, Params } from './types'
 
-export default class ScreenCatalogDetail extends store {
+export default class ScreenCatalogDetail extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

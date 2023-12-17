@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:15:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 16:04:17
+ * @Last Modified time: 2023-12-17 11:19:41
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -19,7 +19,7 @@ type CacheKey =
   | `subjectV2${number}`
   | `subjectComments${number}`
 
-export default class State extends Store {
+export default class State extends Store<typeof STATE> {
   state = observable(STATE)
 
   private _loaded = LOADED

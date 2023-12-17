@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:00:59
+ * @Last Modified time: 2023-12-17 10:02:09
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import {
+  Loaded,
   RankAnimeFilter,
   RankBookFilter,
   RankGameFilter,
@@ -76,7 +77,6 @@ export const STATE = {
 
   /** 是否显示收藏条目 (工具条) */
   collected: true,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

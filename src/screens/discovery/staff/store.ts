@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:46:04
+ * @Last Modified time: 2023-12-17 10:07:34
  */
 import { observable, computed } from 'mobx'
-import { _, usersStore, discoveryStore } from '@stores'
+import { usersStore, discoveryStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { Id } from '@types'
+import { STATE } from './ds'
 
-export default class ScreenStaff extends store {
-  state = observable({
-    /** 可视范围底部 y */
-    visibleBottom: _.window.height
-  })
+export default class ScreenStaff extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = () => {
+    this.setState({
+      _loaded: true
+    })
     return this.fetchCatalogs(true)
   }
 

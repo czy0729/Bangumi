@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 19:45:29
+ * @Last Modified time: 2023-12-17 08:34:17
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { AnyObject, DeepPartial } from '@types'
+import { AnyObject, DeepPartial, Loaded } from '@types'
 import { getTimestamp, omit } from '../utils'
 import { setStorage } from '../storage'
 import { getItem } from '../storage/utils'
@@ -20,7 +20,11 @@ configure({
   useProxies: STORYBOOK ? 'always' : 'never'
 })
 
-export default class Store<T extends object> {
+export default class Store<
+  T extends AnyObject<{
+    _loaded?: Loaded
+  }>
+> {
   /** 同步的增量 setState 方法 */
   setState = action((state: DeepPartial<T>, stateKey: string = 'state') => {
     Object.entries(state).forEach(([key, item]) => {

@@ -2,19 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 01:19:16
+ * @Last Modified time: 2023-12-17 11:14:13
  */
 import { cheerio, getTimestamp, matchAvatar, safeObject, trim, htmlMatch } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { LIST_EMPTY, HTML_TIMELINE, MODEL_TIMELINE_SCOPE } from '@constants'
-import {
-  ListEmpty,
-  Override,
-  TimeLineScope,
-  TimeLineScopeCn,
-  TimeLineType,
-  UserId
-} from '@types'
+import { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
 import { Likes } from '../rakuen/types'
 import { Timeline } from './types'
 
@@ -30,7 +23,7 @@ export async function fetchTimeline(
   userInfo?: any
 ): Promise<
   Override<
-    ListEmpty<Timeline>,
+    Timeline,
     {
       likes: Likes
     }

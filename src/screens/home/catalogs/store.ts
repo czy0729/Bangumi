@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:31:16
+ * @Last Modified time: 2023-12-17 10:13:42
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, discoveryStore } from '@stores'
@@ -12,20 +12,21 @@ import { queue } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
 import { Id } from '@types'
+import { STATE } from './ds'
 import { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenSubjectCatalogs extends store {
+export default class ScreenSubjectCatalogs extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    /** 云快照 */
-    ota: {}
-  })
+  state = observable(STATE)
 
   init = () => {
+    this.setState({
+      _loaded: true
+    })
     return this.fetchSubjectCatalogs(true)
   }
 

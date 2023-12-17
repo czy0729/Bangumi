@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-28 11:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:02:46
+ * @Last Modified time: 2023-12-17 11:47:15
  */
 import { Loaded } from '@types'
 
@@ -40,7 +40,6 @@ export const STATE = {
 
   /** 收藏是否可见 */
   privacy: false,
-
   _loaded: false as Loaded
 }
 

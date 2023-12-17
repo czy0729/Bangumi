@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-25 23:08:18
+ * @Last Modified time: 2023-12-17 11:09:12
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -11,7 +11,7 @@ import MaterialIcons from '@components/@/vector-icons/vendor/react-native-vector
 import { SITES } from '@constants'
 import { EventKeys } from '@constants/events'
 import { Id, SubjectId } from './bangumi'
-import { AnyObject, DeepPartial, Override } from './utils'
+import { AnyObject, DeepPartial, Expand, Override } from './utils'
 import { NavigationPushType, Paths } from './route'
 
 export { Paths }
@@ -98,7 +98,7 @@ export type EventType = {
 }
 
 /** 列表对象 */
-export type ListEmpty<T = any> = {
+export type ListEmpty<T = any> = Expand<{
   list: T[]
   pagination?: {
     page: number
@@ -106,7 +106,7 @@ export type ListEmpty<T = any> = {
   }
   _list?: T[]
   _loaded?: Loaded
-}
+}>
 
 /** T: 传入 state 的所有 keys, 约束把所有 key 都可以通过 this[key] 访问 */
 export type StoreConstructor<T extends Record<string, unknown>> = {

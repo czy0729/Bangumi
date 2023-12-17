@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:25:34
+ * @Last Modified time: 2023-12-17 08:16:25
  */
 import { observable, computed } from 'mobx'
 import { tagStore, userStore, collectionStore, subjectStore } from '@stores'
@@ -22,7 +22,7 @@ import { NAMESPACE, STATE, EXCLUDE_STATE, DATE } from './ds'
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenBrowser extends store {
+export default class ScreenBrowser extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

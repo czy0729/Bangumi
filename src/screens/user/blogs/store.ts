@@ -2,20 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:31:58
+ * @Last Modified time: 2023-12-17 11:20:54
  */
-import { observable, computed } from 'mobx'
+import { computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
 import store from '@utils/store'
 import { HTML_USERS_BLOGS } from '@constants'
 import { Params } from './types'
 
-export default class ScreenBlogs extends store {
+export default class ScreenBlogs extends store<null> {
   params: Params
-
-  state = observable({
-    _loaded: false
-  })
 
   init = () => {
     return this.refresh()

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 15:59:30
+ * @Last Modified time: 2023-12-17 11:28:46
  */
 import { IOS, STORYBOOK } from '@constants'
-import { SubjectId } from '@types'
+import { Id, Loaded, SubjectId } from '@types'
 import { SubjectOSS } from './types'
 
 /** 数据分页项数 */
@@ -74,7 +74,7 @@ export const EXCLUDE_STATE = {
   subjectTags: [] as string[],
 
   /** 是否请求中 */
-  loading: false,
+  loading: false as boolean | string,
 
   /** 是否批量请求收藏信息中 */
   fetchingCollections: false,
@@ -147,7 +147,7 @@ export const EXCLUDE_STATE = {
 /** 本地化的状态 */
 export const STATE = {
   /** 当前选择的服务 uuid */
-  uuid: '',
+  uuid: '' as Id,
 
   /** 排序 */
   sort: ACTIONS_SORT[0] as (typeof ACTIONS_SORT)[number],
@@ -197,9 +197,8 @@ export const STATE = {
 
   /** 缓存条目快照 */
   subjects: {} as Record<`subject_${SubjectId}`, SubjectOSS>,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 /**

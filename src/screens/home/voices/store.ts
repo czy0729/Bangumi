@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:57:45
+ * @Last Modified time: 2023-12-17 10:38:48
  */
 import { observable, computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -11,19 +11,16 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { HTML_MONO_VOICES, LIST_EMPTY } from '@constants'
-import { NAMESPACE, EXCLUDE_STATE } from './ds'
+import { NAMESPACE, EXCLUDE_STATE, STATE } from './ds'
 import { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenVoices extends store {
+export default class ScreenVoices extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    ...EXCLUDE_STATE,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}

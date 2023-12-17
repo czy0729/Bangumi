@@ -2,21 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 21:29:45
+ * @Last Modified time: 2023-12-17 10:10:59
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
-import { NAMESPACE, KEYS, TOP_DS, TYPE_DS, RELATION_DS, LAST_DS } from './ds'
+import { NAMESPACE, KEYS, TOP_DS, TYPE_DS, RELATION_DS, LAST_DS, STATE } from './ds'
 
-export default class ScreenWiki extends store {
-  state = observable({
-    top: 0,
-    type: 0,
-    relation: 0,
-    last: 0,
-    _loaded: false
-  })
+export default class ScreenWiki extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const res = this.getStorage(NAMESPACE)

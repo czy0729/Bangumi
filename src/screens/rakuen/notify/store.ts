@@ -2,25 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:08:13
+ * @Last Modified time: 2023-12-17 10:55:42
  */
 import { observable, computed } from 'mobx'
-import { _, rakuenStore, userStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import store from '@utils/store'
 import { t, queue } from '@utils/fetch'
-import { TYPE_PAGE } from './ds'
+import { STATE, TYPE_PAGE } from './ds'
 import { Params, PMKeys } from './types'
 
-export default class ScreenNotify extends store {
+export default class ScreenNotify extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    /** 可视范围底部 y */
-    visibleBottom: _.window.height,
-    page: 0,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = () => {
     const { type } = this.params

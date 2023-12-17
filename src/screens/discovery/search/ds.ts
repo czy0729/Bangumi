@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-30 12:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:55:50
+ * @Last Modified time: 2023-12-17 10:02:52
  */
 import { _ } from '@stores'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
-import { RatingStatus, SearchCat, SearchLegacy } from '@types'
+import { Loaded, RatingStatus, SearchCat, SearchLegacy } from '@types'
 
 export const NAMESPACE = 'ScreenSearch'
 
@@ -50,7 +50,6 @@ export const STATE = {
 
   /** 是否精准查询 */
   legacy: DEFAULT_LEGACY,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

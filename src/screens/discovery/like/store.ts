@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:41:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 06:00:38
+ * @Last Modified time: 2023-12-17 08:35:39
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, uiStore, userStore } from '@stores'
@@ -27,7 +27,7 @@ import { NAMESPACE, STATE, EXCLUDE_STATE, LIMIT, API_COLLECTIONS } from './ds'
 import { calc, dayDiff, mergeArrays } from './utils'
 import { CollectionsItem, ListItem } from './types'
 
-export default class ScreenLike extends store {
+export default class ScreenLike extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-10 14:12:25
+ * @Last Modified time: 2023-12-17 10:42:28
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore, userStore, systemStore } from '@stores'
@@ -15,26 +15,16 @@ import { webhookGroup } from '@utils/webhooks'
 import { HOST_IMAGE } from '@utils/app/ds'
 import { CDN_OSS_MAGMA_PIC, HOST, LIST_EMPTY } from '@constants'
 import { TopicId } from '@types'
+import { NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-
-const NAMESPACE = 'ScreenGroup'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenGroup extends store {
+export default class ScreenGroup extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    page: 1,
-    show: true,
-    ipt: '1',
-    history: [],
-
-    /** 云快照 */
-    ota: {},
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(this.key)

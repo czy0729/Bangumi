@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 11:56:21
+ * @Last Modified time: 2023-12-17 10:50:47
  */
 import { observable, computed } from 'mobx'
 import { rakuenStore } from '@stores'
 import { desc } from '@utils'
 import store from '@utils/store'
-import { STORYBOOK } from '@constants'
+import { STATE } from './ds'
 
 const namespace = 'ScreenMine'
 const excludeState = {
@@ -17,13 +17,8 @@ const excludeState = {
   isFocused: true
 }
 
-export default class ScreenMine extends store {
-  state = observable({
-    /** mine | all */
-    type: STORYBOOK ? 'all' : 'mine',
-    ...excludeState,
-    _loaded: false
-  })
+export default class ScreenMine extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(namespace)

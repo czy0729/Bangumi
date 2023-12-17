@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:22:57
+ * @Last Modified time: 2023-12-17 10:31:42
  */
 import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
-import { TagOrder } from '@types'
+import { Loaded, TagOrder } from '@types'
 
 export const NAMESPACE = 'ScreenTag'
 
@@ -41,7 +41,6 @@ export const STATE = {
 
   /** 是否显示收藏 (工具条) */
   collected: true,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

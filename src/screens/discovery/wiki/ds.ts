@@ -2,9 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-08-27 21:10:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 21:29:10
+ * @Last Modified time: 2023-12-17 10:10:38
  */
+import { Loaded } from '@types'
+
 export const NAMESPACE = 'ScreenWiki'
+
+export const STATE = {
+  top: 0,
+  type: 0,
+  relation: 0,
+  last: 0,
+  _loaded: false as Loaded
+}
 
 export const KEYS = {
   '0|0': 'all',

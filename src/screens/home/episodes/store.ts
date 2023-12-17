@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-17 17:00:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 09:53:30
+ * @Last Modified time: 2023-12-17 10:16:24
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -10,7 +10,7 @@ import store from '@utils/store'
 import { HOST } from '@constants'
 import { Params } from './types'
 
-export default class ScreenEpisodes extends store {
+export default class ScreenEpisodes extends store<null> {
   params: Params
 
   init = () => {

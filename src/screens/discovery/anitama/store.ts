@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:35:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 20:35:49
+ * @Last Modified time: 2023-12-17 08:14:12
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore } from '@stores'
@@ -11,24 +11,12 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { NEWS, MODEL_NEWS } from '@constants'
 import { Id } from '@types'
-
-const NAMESPACE = 'ScreenAnitama'
-const EXCLUDE_STATE = {
-  page: 1,
-  ipt: '1'
-}
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 let prevPage: number
 
-export default class ScreenAnitama extends store {
-  state = observable({
-    ...EXCLUDE_STATE,
-    show: false,
-    history: [],
-    type: NEWS[0].value,
-    useWebView: false,
-    _loaded: false
-  })
+export default class ScreenAnitama extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

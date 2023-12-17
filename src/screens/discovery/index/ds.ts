@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 19:17:32
+ * @Last Modified time: 2023-12-17 08:35:17
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { IOS, STORYBOOK, SUBJECT_TYPE } from '@constants'
+import { Loaded } from '@types'
 import { MenuItemType } from './types'
 
 export const NAMESPACE = 'ScreenDiscovery'
@@ -35,7 +36,7 @@ export const EXCLUDE_STATE = {
 export const STATE = {
   showBlockTrain: true,
   ...EXCLUDE_STATE,
-  _loaded: true
+  _loaded: true as Loaded
 }
 
 export const INITIAL_RENDER_NUMS_XS = _.device(

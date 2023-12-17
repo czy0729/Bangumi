@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:05:01
+ * @Last Modified time: 2023-12-17 11:30:52
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -37,7 +37,7 @@ import {
   ACTION_CLOSE_DIRECTORY,
   REG_AIRDATE
 } from './ds'
-import { ListItem, MergeListItem, SMBListItem, SubjectOSS } from './types'
+import { ListItem, MergeListItem, SMBListItem, Sort, SubjectOSS } from './types'
 
 /**
  * SMB 页面状态
@@ -1131,7 +1131,7 @@ export default class ScreenSmb extends store<typeof STATE> {
   }
 
   /** 排序 */
-  onSelectSort = (title: string) => {
+  onSelectSort = (title: Sort) => {
     this.setState({
       sort: title,
       _page: '1',
@@ -1392,7 +1392,7 @@ export default class ScreenSmb extends store<typeof STATE> {
   onSwitchLayoutGridNums = (label: string) => {
     this.setState({
       configs: {
-        layoutGridNums: Number(label)
+        layoutGridNums: Number(label) as 3 | 2 | 4
       }
     })
     this.save()

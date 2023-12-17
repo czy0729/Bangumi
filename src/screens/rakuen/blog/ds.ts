@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-17 06:54:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:54:47
+ * @Last Modified time: 2023-12-17 10:39:56
  */
+import { Loaded } from '@types'
+
 export const NAMESPACE = 'ScreenBlog'
 
 export const EXCLUDE_STATE = {
@@ -26,5 +28,5 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

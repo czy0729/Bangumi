@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:04:32
+ * @Last Modified time: 2023-12-17 10:57:31
  */
 import { _ } from '@stores'
 import {
@@ -12,7 +12,7 @@ import {
   RAKUEN_TYPE,
   STORYBOOK
 } from '@constants'
-import { RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
+import { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
 
 export const NAMESPACE = 'ScreenRakuen'
 
@@ -58,8 +58,6 @@ export const STATE = {
 
   /** Prefetch */
   ...INIT_PREFETCH_STATE,
-
   ...EXCLUDE_STATE,
-
-  _loaded: false
+  _loaded: false as Loaded
 }

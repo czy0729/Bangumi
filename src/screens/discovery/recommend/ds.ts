@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:41:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 19:47:02
+ * @Last Modified time: 2023-12-17 10:02:33
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
+import { Loaded } from '@types'
 import { HOST_PROXY } from '@/config'
 
 export const NAMESPACE = 'ScreenRecommend'
@@ -73,6 +74,5 @@ export const STATE = {
 
   /** 缓存条目快照 */
   subjects: {},
-
-  _loaded: false
+  _loaded: false as Loaded
 }

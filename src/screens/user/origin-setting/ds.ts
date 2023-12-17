@@ -2,9 +2,39 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 13:05:19
+ * @Last Modified time: 2023-12-17 11:24:33
  */
+import { Loaded } from '@types'
+
 export const NAMESPACE = 'ScreenOriginSetting'
+
+export const STATE = {
+  data: {
+    base: {},
+    custom: {
+      anime: [],
+      hanime: [],
+      manga: [],
+      wenku: [],
+      music: [],
+      game: [],
+      real: []
+    }
+  },
+  edit: {
+    type: '',
+    item: {
+      id: '',
+      uuid: '',
+      name: '',
+      url: '',
+      sort: 0,
+      active: 1
+    }
+  },
+  active: true,
+  _loaded: false as Loaded
+}
 
 export const TYPES_DS = [
   {

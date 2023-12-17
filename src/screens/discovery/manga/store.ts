@@ -2,40 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:12:20
+ * @Last Modified time: 2023-12-17 10:01:48
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/manga'
 import { t } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
-import { ADVANCE_LIMIT } from './ds'
+import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-
-const NAMESPACE = 'ScreenManga'
 
 let _loaded = false
 
-export default class ScreenManga extends store {
+export default class ScreenManga extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    query: {
-      first: '',
-      year: 2022,
-      begin: '',
-      status: '',
-      tags: [],
-      hd: '',
-      sort: '评分人数',
-      collected: ''
-    },
-    data: LIST_EMPTY,
-    layout: 'list',
-    expand: false,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

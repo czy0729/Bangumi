@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-09-01 10:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:33:22
+ * @Last Modified time: 2023-12-17 10:20:51
  */
 import { RATING_STATUS } from '@constants'
+import { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenRating'
+
+export const STATE = {
+  page: 2,
+
+  /** 登录用户默认 true */
+  isFriend: false,
+  _fetching: false,
+  _loaded: false as Loaded
+}
 
 export const STATUS_MAP = {
   wish: 0,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-30 16:00:10
+ * @Last Modified time: 2023-12-17 11:25:01
  */
 import { observable, computed, toJS } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -10,36 +10,10 @@ import { getTimestamp, open, copy, info } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { getOriginConfig, replaceOriginUrl } from './utils'
-import { NAMESPACE, TYPES_DS } from './ds'
+import { NAMESPACE, STATE, TYPES_DS } from './ds'
 
-export default class ScreenOriginSetting extends store {
-  state = observable({
-    data: {
-      base: {},
-      custom: {
-        anime: [],
-        hanime: [],
-        manga: [],
-        wenku: [],
-        music: [],
-        game: [],
-        real: []
-      }
-    },
-    edit: {
-      type: '',
-      item: {
-        id: '',
-        uuid: '',
-        name: '',
-        url: '',
-        sort: 0,
-        active: 1
-      }
-    },
-    active: true,
-    _loaded: false
-  })
+export default class ScreenOriginSetting extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}

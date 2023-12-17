@@ -2,26 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 14:14:38
+ * @Last Modified time: 2023-12-17 11:12:57
  */
 import { observable, computed } from 'mobx'
 import { timelineStore, userStore } from '@stores'
 import { info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
+import { webhookSay } from '@utils/webhooks'
 import { HOST, IOS, MODEL_TIMELINE_TYPE } from '@constants'
 import i18n from '@constants/i18n'
-import { Params } from './types'
 import { Navigation, TimeLineType, UserId } from '@types'
-import { webhookSay } from '@utils/webhooks'
+import { STATE } from './ds'
+import { Params } from './types'
 
-export default class ScreenSay extends store {
+export default class ScreenSay extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    value: '',
-    _loaded: false
-  })
+  state = observable(STATE)
 
   scrollViewRef: any = null
 

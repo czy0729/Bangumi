@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 12:41:48
+ * @Last Modified time: 2023-12-17 11:37:57
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
@@ -10,30 +10,14 @@ import { getTimestamp, HTMLDecode, info, feedback } from '@utils'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { randomAvatars } from '@utils/user-setting'
-import { API_SETU, GITHUB_HOST } from '@constants'
+import { API_SETU } from '@constants'
+import { NAMESPACE, ONLINE_BGS_URL, REG_AVATAR, REG_BG, REG_FIXED, STATE } from './ds'
 
-const namespace = 'ScreenUserSetting'
-const onlineBgsUrl = `${GITHUB_HOST}/raw/master/bg.json`
-const regBg = /\[bg\](.+?)\[\/bg\]/
-const regAvatar = /\[avatar\](.+?)\[\/avatar\]/
-const regFixed =
-  /\[size=0\]\[avatar\]\[\/avatar\]\[\/size\]|\[size=0\]\[bg\]\[\/bg\]\[\/size\]/g
-
-export default class ScreenUserSetting extends store {
-  state = observable({
-    nickname: '',
-    sign_input: '',
-    avatar: '',
-    bg: '',
-    selectedIndex: 0,
-    bgs: [],
-    pixivs: [],
-    avatars: [],
-    _loaded: false
-  })
+export default class ScreenUserSetting extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(namespace)) || {}
+    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
       avatar: state.avatar || '',
       bg: state.bg || '',
@@ -57,20 +41,20 @@ export default class ScreenUserSetting extends store {
       nickname,
       sign_input
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
     return data
   }
 
   /** 预设背景 */
   fetchBgs = async () => {
     const bgs =
-      (await fetch(`${onlineBgsUrl}?t=${getTimestamp()}`).then(response =>
+      (await fetch(`${ONLINE_BGS_URL}?t=${getTimestamp()}`).then(response =>
         response.json()
       )) || []
     this.setState({
       bgs
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
     return bgs
   }
 
@@ -81,7 +65,7 @@ export default class ScreenUserSetting extends store {
       avatars
     })
 
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
     return avatars
   }
 
@@ -103,7 +87,7 @@ export default class ScreenUserSetting extends store {
         .filter(item => item.width * 1.28 >= item.height)
         .map(item => item.urls.small)
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
     return data
   }
 
@@ -111,12 +95,12 @@ export default class ScreenUserSetting extends store {
     await this.fetchUserSetting()
 
     const { sign } = this.userSetting
-    const _bgs = sign.match(regBg)
-    const _avatars = sign.match(regAvatar)
+    const _bgs = sign.match(REG_BG)
+    const _avatars = sign.match(REG_AVATAR)
     this.setState({
-      bg: HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(regFixed, '')),
+      bg: HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(REG_FIXED, '')),
       avatar: HTMLDecode(
-        String(_avatars ? String(_avatars[1]).trim() : '').replace(regFixed, '')
+        String(_avatars ? String(_avatars[1]).trim() : '').replace(REG_FIXED, '')
       )
     })
 
@@ -153,8 +137,8 @@ export default class ScreenUserSetting extends store {
     if (bg) return bg
 
     const { sign } = this.userSetting
-    const _bgs = sign.match(regBg)
-    return HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(regFixed, ''))
+    const _bgs = sign.match(REG_BG)
+    return HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(REG_FIXED, ''))
   }
 
   @computed get avatar() {
@@ -162,9 +146,9 @@ export default class ScreenUserSetting extends store {
     if (avatar) return avatar
 
     const { sign } = this.userSetting
-    const _avatars = sign.match(regAvatar)
+    const _avatars = sign.match(REG_AVATAR)
     return HTMLDecode(
-      String(_avatars ? String(_avatars[1]).trim() : '').replace(regFixed, '')
+      String(_avatars ? String(_avatars[1]).trim() : '').replace(REG_FIXED, '')
     )
   }
 
@@ -193,8 +177,8 @@ export default class ScreenUserSetting extends store {
 
     // 使用个人签名来记录APP自定义头像和背景
     let _sign = sign
-    if (_sign.match(regAvatar)) {
-      _sign = _sign.replace(regAvatar, `[avatar]${avatar || ''}[/avatar]`)
+    if (_sign.match(REG_AVATAR)) {
+      _sign = _sign.replace(REG_AVATAR, `[avatar]${avatar || ''}[/avatar]`)
     } else {
       _sign += `[size=0][avatar]${avatar || ''}[/avatar][/size]`
     }
@@ -204,14 +188,14 @@ export default class ScreenUserSetting extends store {
       _bg = _bg.replace('/c/540x540_70', '')
     }
 
-    if (_sign.match(regBg)) {
-      _sign = _sign.replace(regBg, `[bg]${_bg}[/bg]`)
+    if (_sign.match(REG_BG)) {
+      _sign = _sign.replace(REG_BG, `[bg]${_bg}[/bg]`)
     } else {
       _sign += `[size=0][bg]${_bg}[/bg][/size]`
     }
 
     // 清除错误保存的历史数据
-    _sign = _sign.replace(regFixed, '')
+    _sign = _sign.replace(REG_FIXED, '')
 
     userStore.doUpdateUserSetting(
       {
@@ -238,7 +222,7 @@ export default class ScreenUserSetting extends store {
         this.setState({
           bg: _bg
         })
-        this.setStorage(namespace)
+        this.setStorage(NAMESPACE)
       },
       () => {}
     )
@@ -257,6 +241,6 @@ export default class ScreenUserSetting extends store {
       this.onRefresh()
     }
 
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 }

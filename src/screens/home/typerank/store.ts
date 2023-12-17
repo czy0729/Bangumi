@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-05 03:46:28
+ * @Last Modified time: 2023-12-17 10:32:10
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, subjectStore } from '@stores'
@@ -14,7 +14,7 @@ import { getIds } from './utils'
 import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
 import { Params } from './types'
 
-export default class ScreenTyperank extends store {
+export default class ScreenTyperank extends store<typeof STATE> {
   params: Params
 
   state = observable(STATE)

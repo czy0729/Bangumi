@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:48:55
+ * @Last Modified time: 2023-12-17 11:32:53
  */
 import { computed } from 'mobx'
 import { usersStore, collectionStore, timelineStore } from '@stores'
@@ -11,7 +11,7 @@ import store from '@utils/store'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './ds'
 import { Params } from './types'
 
-export default class ScreenUserTimeline extends store {
+export default class ScreenUserTimeline extends store<null> {
   params: Params
 
   init = () => {

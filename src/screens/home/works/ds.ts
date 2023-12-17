@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:53:09
+ * @Last Modified time: 2023-12-17 10:39:17
  */
 import { _ } from '@stores'
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants'
-import { MonoWorksOrderby } from '@types'
+import { Loaded, MonoWorksOrderby } from '@types'
 
 export const NAMESPACE = 'ScreenWorks'
 
@@ -33,7 +33,6 @@ export const STATE = {
 
   /** 是否显示收藏条目 (工具条) */
   collected: true,
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

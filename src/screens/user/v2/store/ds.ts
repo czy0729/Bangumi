@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 07:48:11
+ * @Last Modified time: 2023-12-17 11:38:50
  */
 import { _ } from '@stores'
+import { Loaded } from '@types'
 import { DEFAULT_SUBJECT_TYPE, DEFAULT_ORDER } from '../ds'
 
 export const NAMESPACE = 'ScreenUser'
@@ -32,7 +33,6 @@ export const STATE = {
 
   /** 各类型当前 Input 页数 */
   ipt: '1',
-
   ...EXCLUDE_STATE,
-  _loaded: false
+  _loaded: false as Loaded
 }

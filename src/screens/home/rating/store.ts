@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 10:22:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:53:52
+ * @Last Modified time: 2023-12-17 10:21:31
  */
 import { observable, computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -10,20 +10,13 @@ import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { HTML_SUBJECT_RATING, URL_DEFAULT_AVATAR } from '@constants'
 import { RatingStatus } from '@types'
-import { NAMESPACE, STATUS_MAP, TABS } from './ds'
+import { NAMESPACE, STATE, STATUS_MAP, TABS } from './ds'
 import { Params } from './types'
 
-export default class ScreenRating extends store {
+export default class ScreenRating extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    page: 2,
-
-    /** 登录用户默认 true */
-    isFriend: false,
-    _loaded: false,
-    _fetching: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}
@@ -31,8 +24,8 @@ export default class ScreenRating extends store {
     if (status) state.page = STATUS_MAP[status] || 2
     this.setState({
       ...state,
-      _loaded: true,
-      _fetching: false
+      _fetching: false,
+      _loaded: true
     })
 
     const { page } = this.state

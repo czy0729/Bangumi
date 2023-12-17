@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-07 14:38:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 22:31:37
+ * @Last Modified time: 2023-12-17 11:31:14
  */
 import { desc } from '@utils'
 import DS from '@assets/json/advance.json'
 import USERS_MAP from '@assets/json/user.json'
+import { Loaded } from '@types'
 
 export { USERS_MAP }
 
 export const STATE = {
   list: true,
-  _loaded: false
+  _loaded: false as Loaded
 }
 
 export const LIST = Object.keys(DS)

@@ -2,24 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 00:18:41
+ * @Last Modified time: 2023-12-17 08:21:36
  */
 import { observable, computed } from 'mobx'
 import { userStore, usersStore } from '@stores'
 import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import { NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
-const NAMESPACE = 'ScreenCharacter'
-
-export default class ScreenCharacter extends store {
+export default class ScreenCharacter extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    page: 0,
-    _loaded: true
-  })
+  state = observable(STATE)
 
   init = async () => {
     const { page } = this.state

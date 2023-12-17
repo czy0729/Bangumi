@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 12:33:06
+ * @Last Modified time: 2023-12-17 08:18:51
  */
 import { observable, computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -12,40 +12,17 @@ import { t, queue } from '@utils/fetch'
 import { update } from '@utils/kv'
 import catalogs from '@assets/json/catalogs.json'
 import { Id, SubjectTypeCn } from '@types'
-import { TypeType, TypeLabel } from './types'
+import { TypeLabel } from './types'
 import {
   APP_USERID_IOS_AUTH,
   APP_USERID_TOURIST,
   MODEL_SUBJECT_TYPE,
   STORYBOOK
 } from '@constants'
+import { NAMESPACE, STATE } from './ds'
 
-const NAMESPACE = 'ScreenCatalog'
-
-export default class ScreenCatalog extends store {
-  state = observable({
-    type: 'advance' as TypeType,
-    page: 1,
-    show: true,
-    ipt: '1',
-
-    /** 筛选类型 */
-    filterType: '不限',
-
-    /** 筛选时间 */
-    filterYear: '近1年',
-
-    /** 筛选热词 */
-    filterKey: '不限',
-
-    /** 是否锁定筛选 */
-    fixedFilter: false,
-
-    /** 是否锁定分页器 */
-    fixedPagination: false,
-
-    _loaded: false
-  })
+export default class ScreenCatalog extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     this.setState({

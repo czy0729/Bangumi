@@ -2,40 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:11:27
+ * @Last Modified time: 2023-12-17 08:31:05
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/game'
 import { t } from '@utils/fetch'
-import { LIST_EMPTY } from '@constants'
-import { ADVANCE_LIMIT } from './ds'
+import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-
-const NAMESPACE = 'ScreenGame'
 
 let _loaded = false
 
-export default class ScreenGame extends store {
+export default class ScreenGame extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    query: {
-      first: '',
-      year: 2023,
-      platform: '',
-      cate: '',
-      dev: '',
-      pub: '',
-      sort: '发行',
-      collected: ''
-    },
-    data: LIST_EMPTY,
-    layout: 'list',
-    expand: false,
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)
