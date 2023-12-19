@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 19:04:28
+ * @Last Modified time: 2023-12-18 04:50:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,6 +79,7 @@ const Yearbook = ({ navigation }) => {
               {YEARS.map((item, index) => (
                 <Touchable
                   key={item}
+                  style={stl(styles.item, index % num === 0 && styles.side)}
                   animate
                   onPress={() => {
                     t('Bangumi年鉴.跳转', {
@@ -92,9 +93,8 @@ const Yearbook = ({ navigation }) => {
                   }}
                 >
                   <Squircle
-                    style={stl(styles.item, index % num === 0 && styles.side)}
-                    width={width}
-                    height={height}
+                    width={styles.itemBody.width}
+                    height={styles.itemBody.height}
                     radius={coverRadius}
                   >
                     <Flex style={styles.itemBody} justify='center' direction='column'>

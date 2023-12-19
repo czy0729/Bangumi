@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 18:01:55
+ * @Last Modified time: 2023-12-20 05:36:19
  */
 import jaData from '@assets/json/thirdParty/ja.min.json'
 import jaDataAddon from '@assets/json/thirdParty/ja.addon.json'
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
+import { get } from '@utils/protobuf'
 
 const CACHE_MAP = new Map<string, number>()
 
@@ -65,7 +65,7 @@ export function findJA(input: string) {
 
   // 在 bangumi-data 中找
   if (_input1 || input2 || input3 || inputCn) {
-    const find = bangumiData.find(item => {
+    const find = (get('bangumi-data') || []).find(item => {
       const c = (item.c || '').toLocaleLowerCase().replace(/ |劇場版|剧场版|·/g, '')
       const j = (item.j || '').toLocaleLowerCase().replace(/ |劇場版|剧场版|·/g, '')
       return (

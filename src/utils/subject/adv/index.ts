@@ -6,6 +6,7 @@
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
+import { decode, get } from '../../protobuf'
 import { SORT } from './../anime'
 import {
   ADV_COLLECTED,
@@ -19,9 +20,10 @@ import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export { ADV_COLLECTED, ADV_DEV, ADV_DEV_MAP, ADV_FIRST, ADV_SORT, ADV_YEAR }
 
+/** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
+
 let adv: Item[] = []
-let loaded: boolean = false
 
 /** v7.1.0 后取消 OTA */
 function getData(): Item[] {
@@ -30,10 +32,10 @@ function getData(): Item[] {
 
 /** 初始化数据 */
 export async function init() {
-  if (loaded) return
+  if (adv.length) return
 
-  adv = require('@assets/json/thirdParty/adv.min.json')
-  loaded = true
+  await decode('adv')
+  adv = get('adv') || []
 }
 
 /** 根据 index 选一项 */

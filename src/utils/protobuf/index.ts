@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-14 11:59:36
+ * @Last Modified time: 2023-12-18 04:18:45
  */
 import { Asset } from 'expo-asset'
 import * as FileSystem from 'expo-file-system'
@@ -60,10 +60,16 @@ export const decode: Decode = async name => {
 async function loadProtoFile(name: DataAssets) {
   try {
     let local: string | number
-    if (name === 'anime') {
-      local = require('@assets/proto/anime/index.proto')
-    } else if (name === 'bangumi-data') {
+    if (name === 'bangumi-data') {
       local = require('@assets/proto/bangumi-data/index.proto')
+    } else if (name === 'anime') {
+      local = require('@assets/proto/anime/index.proto')
+    } else if (name === 'manga') {
+      local = require('@assets/proto/manga/index.proto')
+    } else if (name === 'game') {
+      local = require('@assets/proto/game/index.proto')
+    } else if (name === 'adv') {
+      local = require('@assets/proto/adv/index.proto')
     }
 
     // 加载 proto 文件的资源模块
@@ -84,10 +90,16 @@ async function loadProtoFile(name: DataAssets) {
 async function loadBinFile(name: DataAssets) {
   try {
     let local: string | number
-    if (name === 'anime') {
-      local = require('@assets/proto/anime/index.bin')
-    } else if (name === 'bangumi-data') {
+    if (name === 'bangumi-data') {
       local = require('@assets/proto/bangumi-data/index.bin')
+    } else if (name === 'anime') {
+      local = require('@assets/proto/anime/index.bin')
+    } else if (name === 'manga') {
+      local = require('@assets/proto/manga/index.bin')
+    } else if (name === 'game') {
+      local = require('@assets/proto/game/index.bin')
+    } else if (name === 'adv') {
+      local = require('@assets/proto/adv/index.bin')
     }
 
     // 加载 proto 文件的资源模块

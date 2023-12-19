@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-05 10:17:00
+ * @Last Modified time: 2023-12-20 05:25:03
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -41,6 +41,7 @@ class ScreenHomeV2 extends Action {
     }
 
     await this.initStore()
+    this.fetchBangumiData()
 
     return true
   }

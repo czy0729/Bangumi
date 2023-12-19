@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message ADV {
+  int32 i = 1;
+  string f = 2;
+  string en = 3;
+  float s = 4;
+  int32 r = 5;
+  int32 l = 6;
+  int32 d = 7;
+}
+
+message Payload {
+  repeated ADV payload = 1;
+}

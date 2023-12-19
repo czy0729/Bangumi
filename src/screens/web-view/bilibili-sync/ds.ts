@@ -2,11 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-04-28 11:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:47:15
+ * @Last Modified time: 2023-12-20 05:29:59
  */
 import { Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenBilibili'
+
+export const EXCLUDE_STATE = {
+  /** 是否加载 bangumi-data */
+  loadedBangumiData: false
+}
 
 export const STATE = {
   /** 追番记录 (bili) */
@@ -40,6 +45,7 @@ export const STATE = {
 
   /** 收藏是否可见 */
   privacy: false,
+  ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
 

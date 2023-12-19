@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 19:24:49
+ * @Last Modified time: 2023-12-17 12:24:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,10 +53,10 @@ class Cover extends React.Component<Props> {
   }
 
   renderPlaceholder() {
-    if (!STORYBOOK && this.isLoaded) return null
+    const { placeholder, image } = this.props
+    if (!STORYBOOK && this.isLoaded && image) return null
 
     const { $ } = this.context as Ctx
-    const { placeholder } = this.props
     return (
       <CompCover
         style={[

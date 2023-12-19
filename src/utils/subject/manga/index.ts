@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 22:58:10
+ * @Last Modified time: 2023-12-18 04:13:42
  */
 import { SubjectId } from '@types'
 import { desc, getTimestamp } from '../../index'
+import { decode, get } from '../../protobuf'
 import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
 import { SORT } from './../anime'
 import {
@@ -31,9 +32,10 @@ export {
   MANGA_YEAR
 }
 
+/** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
+
 let manga: Item[] = []
-let loaded: boolean = false
 
 /** v7.1.0 后取消 OTA */
 function getData() {
@@ -42,10 +44,10 @@ function getData() {
 
 /** 初始化番剧数据 */
 export async function init() {
-  if (loaded) return
+  if (manga.length) return
 
-  manga = require('@assets/json/thirdParty/manga.min.json')
-  loaded = true
+  await decode('manga')
+  manga = get('manga') || []
 }
 
 /** 根据 index 选一项 */

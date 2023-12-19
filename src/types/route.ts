@@ -299,7 +299,7 @@ type RouteSubject = (
     subjectId: SubjectId
     _jp?: string
     _cn?: string
-    _image?: string
+    _image?: string | number
     _imageForce?: string
     _collection?: string
     _type?: SubjectTypeCn

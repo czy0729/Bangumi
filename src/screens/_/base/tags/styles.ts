@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   tags: {
-    marginRight: -_._wind
+    marginRight: -56
   }
 })

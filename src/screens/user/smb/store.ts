@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:30:52
+ * @Last Modified time: 2023-12-20 05:38:39
  */
 import { observable, computed, toJS } from 'mobx'
 import {
@@ -16,6 +16,7 @@ import { SMB } from '@stores/smb/types'
 import { alert, cnjp, confirm, desc, getTimestamp, info, pick, sleep } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
+import { decode } from '@utils/protobuf'
 import { get, gets, update } from '@utils/kv'
 import Crypto from '@utils/crypto'
 import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
@@ -59,10 +60,13 @@ export default class ScreenSmb extends store<typeof STATE> {
       _loaded: false
     })
 
-    await smbStore.init('data')
-    await subjectStore.initSubjectV2(this.subjectIds)
-    await collectionStore.init('collection')
-    await collectionStore.init('collectionStatus')
+    await queue([
+      () => smbStore.init('data'),
+      () => subjectStore.initSubjectV2(this.subjectIds),
+      () => collectionStore.init('collection'),
+      () => collectionStore.init('collectionStatus'),
+      () => decode('bangumi-data')
+    ])
     this.cacheList()
     this.setState({
       _loaded: true

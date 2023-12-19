@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-27 22:58:54
+ * @Last Modified time: 2023-12-20 05:40:14
  */
 import { observable, computed } from 'mobx'
 import { collectionStore } from '@stores'
 import store from '@utils/store'
-import { getBangumiUrl, unzipBangumiData } from '@utils/app'
+import { getBangumiUrl, unzipBangumiData, info } from '@utils'
 import { xhrCustom, HTMLTrim, queue } from '@utils/fetch'
-import { info } from '@utils/ui'
+import { get } from '@utils/protobuf'
 import { guess } from '@utils/subject/anime'
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 
 const namespace = 'ScreenGuess'
 const excludeState = {
@@ -156,7 +155,7 @@ export default class ScreenGuess extends store {
     }
 
     try {
-      const item = bangumiData.find(item => item.id == subjectId)
+      const item = (get('bangumi-data') || []).find(item => item.id == subjectId)
       let bangumiInfo
       let bilibiliSite
       let youkuSite

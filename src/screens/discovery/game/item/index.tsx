@@ -152,7 +152,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs.filter((item, index) => index < 2)}
+                data={thumbs.filter((item, index) => index < 3)}
                 renderItem={(item, index) => (
                   <Image
                     style={stl(
@@ -164,6 +164,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                     size={THUMB_WIDTH}
                     height={THUMB_HEIGHT}
                     radius
+                    errorToHide
                     onPress={() => {
                       showImageViewer(
                         thumbs2.map(item => ({

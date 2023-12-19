@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-14 18:19:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 06:17:07
+ * @Last Modified time: 2023-12-18 04:25:07
  */
+import { TEXT_TOTAL } from '@constants'
+
 export const FLITER_SWITCH_LAST_PATH_KEY = '@screens|base|FilterSwitch'
 
 export const FILTER_SWITCH_DS = [
@@ -24,11 +26,4 @@ export const PATH_MAP = {
   Hentai: 'Hentai'
 } as const
 
-export const TOTAL = {
-  番剧: 4233,
-  游戏: 2721,
-  ADV: 673,
-  漫画: 7868,
-  文库: 2740,
-  Hentai: 1036
-} as const
+export const TOTAL = TEXT_TOTAL

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-14 14:19:40
+ * @Last Modified time: 2023-12-19 17:14:46
  */
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import {
   collectionStore,
   subjectStore,
@@ -34,6 +33,7 @@ import {
 } from '@utils/douban'
 import { search as searchMV } from '@utils/bilibili'
 import { get, update } from '@utils/kv'
+import { decode, get as protoGet } from '@utils/protobuf'
 import { API_ANITABI, CDN_EPS, SITES, STORYBOOK } from '@constants'
 import { UserId } from '@types'
 import Computed from './computed'
@@ -128,8 +128,10 @@ export default class Fetch extends Computed {
 
   /** 装载第三方数据 */
   fetchThirdParty = async (data: { name: string }) => {
+    await decode('bangumi-data')
+
     // 若匹配到 bangumi-data 数据, 使用其中的 sites 数据进行对应平台 api 查找缩略图
-    const item = bangumiData.find(
+    const item = protoGet('bangumi-data').find(
       item =>
         item.id == this.subjectId ||
         item.j === HTMLDecode(data.name) ||

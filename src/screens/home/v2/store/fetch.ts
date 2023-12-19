@@ -2,20 +2,31 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 15:55:19
+ * @Last Modified time: 2023-12-20 05:24:05
  */
 import { collectionStore, subjectStore, userStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
-import { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
+import { decode } from '@utils/protobuf'
 import {
   MODEL_COLLECTIONS_ORDERBY,
   MODEL_COLLECTION_STATUS,
   MODEL_SUBJECT_TYPE
 } from '@constants'
+import { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
 
 export default class Fetch extends Computed {
+  /** 加载 bangumi-data */
+  fetchBangumiData = async () => {
+    if (this.state.loadedBangumiData) return
+
+    await decode('bangumi-data')
+    this.setState({
+      loadedBangumiData: true
+    })
+  }
+
   /** 请求条目信息 */
   fetchSubject = async (
     subjectId: SubjectId,

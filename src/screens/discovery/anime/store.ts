@@ -1,9 +1,8 @@
 /*
- * @Params: { _tags: [] }
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-14 13:03:02
+ * @Last Modified time: 2023-12-18 00:00:35
  */
 import { observable, computed } from 'mobx'
 import { systemStore, collectionStore, otaStore } from '@stores'
@@ -13,10 +12,10 @@ import { init, search } from '@utils/subject/anime'
 import { t } from '@utils/fetch'
 import { scrollToTop } from '@utils/dom'
 import { STORYBOOK } from '@constants'
-import { ADVANCE_LIMIT, EXCLUDE_STATE, STATE } from './ds'
+import { ADVANCE_LIMIT, EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
-const NAMESPACE = 'ScreenAnime'
+const _loaded = false
 
 export default class ScreenAnime extends store<typeof STATE> {
   params: Params
@@ -27,7 +26,8 @@ export default class ScreenAnime extends store<typeof STATE> {
     const state = await this.getStorage(NAMESPACE)
     const commitState = {
       ...state,
-      ...EXCLUDE_STATE
+      ...EXCLUDE_STATE,
+      _loaded
     }
     if (!Array.isArray(commitState.tags)) commitState.tags = []
     this.setState(commitState)

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:35:25
+ * @Last Modified time: 2023-12-20 05:35:13
  */
 import { Alert, BackHandler } from 'react-native'
 import dayjs from 'dayjs'
@@ -22,16 +22,12 @@ import {
   CDN_OSS_MAGMA_MONO,
   CDN_OSS_MAGMA_POSTER,
   CDN_OSS_SUBJECT
-  // initHashAvatarOTA,
-  // initHashSubjectOTA
 } from '@constants/cdn'
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import x18Data from '@assets/json/18x.json'
 import userData from '@assets/json/user.json'
 import {
   AnyObject,
   Avatar,
-  BangumiData,
   Cover,
   EventType,
   Id,
@@ -49,6 +45,7 @@ import { getStorage, setStorage } from '../storage'
 import { syncRakuenStore, syncSystemStore, s2tAsync } from '../async'
 import { t } from '../fetch'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
+import { get } from '../protobuf'
 import { rerender, globalLog, globalWarn } from '../dev'
 import { isNull, getSafeValue } from './utils'
 import {
@@ -206,7 +203,10 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
 
   if (FIND_SUBJECT_CN_CACHE_MAP.has(jp)) return FIND_SUBJECT_CN_CACHE_MAP.get(jp)
 
-  const item = (bangumiData as BangumiData).find(
+  const bangumiData = get('bangumi-data') || []
+  if (!bangumiData.length) return jp
+
+  const item = bangumiData.find(
     // 没有 id 则使用 jp 在 bangumi-data 里面匹配
     item => subjectId == item.id || item.j === HTMLDecode(jp)
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-22 06:31:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 06:32:08
+ * @Last Modified time: 2023-12-17 23:55:09
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
@@ -56,10 +56,13 @@ export const MANGA_TAGS = [
   '其他',
   '绘本',
   '武侠',
+  '转生',
+  '穿越',
   '东方',
   '仙侠',
   '连环画',
-  '童话'
+  '童话',
+  '杂志'
 ] as const
 
 const MANGA_TAGS_MAP = {}

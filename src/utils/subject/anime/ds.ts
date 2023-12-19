@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-13 01:40:28
+ * @Last Modified time: 2023-12-17 23:58:00
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
@@ -129,8 +129,8 @@ export const ANIME_TAGS = [
   '美少女',
   '亲子',
   '历史',
-  '日常',
   '职场',
+  '日常',
   '犯罪',
   '恋爱',
   '游戏',
@@ -160,8 +160,8 @@ export const ANIME_OFFICIAL = [
   'Production I.G',
   '东映动画',
   'Studio DEEN',
-  'SUNRISE',
   'BONES',
+  'SUNRISE',
   'SILVER LINK.',
   'SHAFT',
   'XEBEC',
@@ -252,7 +252,27 @@ export const ANIME_OFFICIAL = [
   'AXsiZ',
   'Science SARU',
   'GEEKTOYS',
-  'ライデンフィルム'
+  'ライデンフィルム',
+  'トムス・エンタテインメント',
+  'CoMix Wave Films',
+  'Studio Gallop',
+  'Ordet',
+  'Actas',
+  '白组',
+  '旭Production',
+  '朱夏',
+  'EMT2',
+  'MAHO FILM',
+  '童梦',
+  'スタジオコメット',
+  'エイトビット',
+  'GATHERING',
+  '东映株式会社',
+  'PlatinumVision',
+  'DMM.futureworks',
+  'BLADE',
+  '精英集团',
+  'ENGI'
 ] as const
 
 const ANIME_OFFICIAL_MAP = {}

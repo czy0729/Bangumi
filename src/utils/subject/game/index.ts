@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:03:16
+ * @Last Modified time: 2023-12-19 00:16:04
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
+import { decode, get } from '../../protobuf'
 import { SORT } from './../anime'
 import {
   GAME_CATE,
@@ -38,9 +39,10 @@ export {
   GAME_YEAR
 }
 
+/** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
+
 let game: Item[] = []
-let loaded: boolean = false
 
 /** v7.1.0 后取消 OTA */
 function getData(): Item[] {
@@ -49,10 +51,10 @@ function getData(): Item[] {
 
 /** 初始化数据 */
 export async function init() {
-  if (loaded) return
+  if (game.length) return
 
-  game = require('@assets/json/thirdParty/game.min.json')
-  loaded = true
+  await decode('game')
+  game = get('game') || []
 }
 
 /** 根据 index 选一项 */

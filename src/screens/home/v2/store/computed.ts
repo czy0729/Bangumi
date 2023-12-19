@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 18:42:05
+ * @Last Modified time: 2023-12-20 05:27:23
  */
 import { computed } from 'mobx'
 import {
@@ -23,6 +23,7 @@ import {
   x18
 } from '@utils'
 import CacheManager from '@utils/cache-manager'
+import { get } from '@utils/protobuf'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -41,7 +42,6 @@ import {
   SettingHomeLayout
 } from '@types'
 import { Ep } from '@stores/subject/types'
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { OriginItem, getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS, TABS_WITH_GAME } from '../ds'
 import { TabLabel } from '../types'
@@ -505,9 +505,20 @@ export default class Computed extends State {
   /** bangumi-data 数据扩展 */
   bangumiInfo(subjectId: SubjectId) {
     return computed(() => {
+      if (!this.state.loadedBangumiData) {
+        return {
+          title: '',
+          type: 'tv',
+          sites: [],
+          titleTranslate: {
+            'zh-Hans': []
+          }
+        }
+      }
+
       const { name_cn, name } = this.subject(subjectId)
       return unzipBangumiData(
-        bangumiData.find(
+        get('bangumi-data').find(
           item =>
             item.j === HTMLDecode(name_cn) ||
             item.j === HTMLDecode(name) ||

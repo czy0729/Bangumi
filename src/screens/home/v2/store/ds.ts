@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:37:31
+ * @Last Modified time: 2023-12-20 05:23:37
  */
 import { _ } from '@stores'
 import { Loaded, Subject, SubjectId } from '@types'
@@ -39,7 +39,10 @@ export const EXCLUDE_STATE = {
   filterPage: -1,
   isFocused: true,
   renderedTabsIndex: [] as number[],
-  flip: 0 as SubjectId
+  flip: 0 as SubjectId,
+
+  /** 是否加载 bangumi-data */
+  loadedBangumiData: false
 }
 
 /** state */

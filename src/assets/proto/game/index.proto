@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message Game {
+  int32 i = 1;
+  string f = 2;
+  string en = 3;
+  float s = 4;
+  int32 r = 5;
+  int32 l = 6;
+  repeated int32 ta = 7;
+  repeated int32 d = 8;
+  repeated int32 p = 9;
+  repeated int32 pl = 10;
+  float vs = 11;
+  int32 vc = 12;
+}
+
+message Payload {
+  repeated Game payload = 1;
+}

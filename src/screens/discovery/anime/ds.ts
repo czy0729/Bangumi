@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:26:08
+ * @Last Modified time: 2023-12-17 23:59:48
  */
 import { LIST_EMPTY } from '@constants'
 import {
@@ -19,6 +19,8 @@ import {
 } from '@utils/subject/anime'
 import { _ } from '@stores'
 import { Loaded } from '@types'
+
+export const NAMESPACE = 'ScreenAnime'
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

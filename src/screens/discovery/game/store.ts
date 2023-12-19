@@ -25,15 +25,17 @@ export default class ScreenGame extends store<typeof STATE> {
       ...state,
       _loaded
     })
+
     if (!_loaded) await init()
     _loaded = true
 
     const { _tags = [] } = this.params
     if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
 
-    collectionStore.fetchUserCollectionsQueue(false, '游戏')
-
+    await init()
     this.search()
+
+    collectionStore.fetchUserCollectionsQueue(false, '游戏')
     setTimeout(() => {
       this.setState({
         _loaded: true

@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:48:08
+ * @Last Modified time: 2023-12-20 05:31:19
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
-import { getTimestamp, asc, desc } from '@utils'
+import { getTimestamp, asc, desc, info, feedback } from '@utils'
 import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { info, feedback } from '@utils/ui'
+import { decode, get } from '@utils/protobuf'
 import { t2s } from '@utils/thirdParty/cn-char'
 import i18n from '@constants/i18n'
-import bangumiData from '@assets/json/thirdParty/bangumiData.min.json'
 import { NAMESPACE, STATE, HOST_API, MEDIA_SUBJECT, LOADED } from './ds'
 
 export default class ScreenBilibiliSync extends store<typeof STATE> {
@@ -25,6 +24,17 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
       ...state,
       hide: !!state?.data?.list?.length,
       _loaded: true
+    })
+    this.fetchBangumiData()
+  }
+
+  /** 加载 bangumi-data */
+  fetchBangumiData = async () => {
+    if (this.state.loadedBangumiData) return
+
+    await decode('bangumi-data')
+    this.setState({
+      loadedBangumiData: true
     })
   }
 
@@ -135,7 +145,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
         list: list.map(item => ({
           subjectId:
             MEDIA_SUBJECT[item.id] ||
-            bangumiData.find(i => {
+            (get('bangumi-data') || []).find(i => {
               let flag = i?.s?.b === item.id
               if (!flag) flag = i?.s?.bhmt === item.id
               if (!flag) {
