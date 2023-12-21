@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 15:47:29
+ * @Last Modified time: 2023-12-20 13:29:16
  */
 import { useCallback, useRef } from 'react'
 import { StatusBar } from '@components'
@@ -11,8 +11,10 @@ import { _, uiStore } from '@stores'
 import { feedback } from '@utils'
 import { useFocusEffect, useIsFocusedRef, useMount, useRunAfter } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { Ctx } from './types'
+import { scrollToTop } from '@utils/dom'
+import { STORYBOOK } from '@constants'
 import { TITLE_HEAD } from './ds'
+import { Ctx } from './types'
 
 /** 条目页面逻辑 */
 export function useSubjectPage($: Ctx['$']) {
@@ -99,24 +101,36 @@ export function useSubjectPage($: Ctx['$']) {
     ),
 
     /** 子组件可以调用此方法定位到指定子组件块 */
-    onScrollTo: useCallback((component: string) => {
-      try {
-        // 单行本 (10) => 单行本
-        const name = component.split('(')[0].trim()
-        if (scrollViewRef.current && blockRefs.current[name]) {
-          blockRefs.current[TITLE_HEAD].measure(
-            (x: number, y: number, w: number, h: number) => {
-              blockRefs.current[name].measure((x: number, y: number) => {
-                scrollViewRef.current.scrollToOffset({
-                  offset: y + h - _.headerHeight,
-                  animated: true
+    onScrollTo: useCallback(
+      (component: string) => {
+        try {
+          // 单行本 (10) => 单行本
+          const name = component.split('(')[0].trim()
+          if (scrollViewRef.current && blockRefs.current[name]) {
+            blockRefs.current[TITLE_HEAD].measure(
+              (x: number, y: number, w: number, h: number) => {
+                blockRefs.current[name].measure((x: number, y: number) => {
+                  if (STORYBOOK) {
+                    scrollToTop(y + h + 116)
+                  } else {
+                    scrollViewRef.current.scrollToOffset({
+                      offset: y + h - _.headerHeight,
+                      animated: true
+                    })
+                  }
+                  feedback()
+
+                  t('条目.跳转位置', {
+                    subjectId: $.subjectId,
+                    component
+                  })
                 })
-                feedback()
-              })
-            }
-          )
-        }
-      } catch (error) {}
-    }, [])
+              }
+            )
+          }
+        } catch (error) {}
+      },
+      [$]
+    )
   }
 }

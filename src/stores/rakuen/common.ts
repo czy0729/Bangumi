@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 12:16:48
+ * @Last Modified time: 2023-12-21 19:03:34
  */
 import {
   HTMLDecode,
@@ -534,4 +534,13 @@ export function cheerioHot(html: string) {
       })
       .get() || []
   ).filter((item: { group: any }) => !!item.group)
+}
+
+/** 帖子楼层编辑 */
+export function cheerioTopicEdit(html: string) {
+  return cheerio(
+    htmlMatch(html, '<form id="ModifyReplyForm"', '<div id="columnInSubjectB"')
+  )('#content')
+    .text()
+    .trim()
 }

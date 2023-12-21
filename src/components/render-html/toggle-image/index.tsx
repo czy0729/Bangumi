@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 06:37:01
+ * @Last Modified time: 2023-12-21 23:42:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -94,7 +94,7 @@ class ToggleImage extends React.Component<Props, State> {
               justify='center'
             >
               <Text size={10} type='sub'>
-                框架暂不支持webp, 使用浏览器打开
+                框架暂不支持 webp, 使用浏览器打开
               </Text>
               {isRemote && (
                 <Text

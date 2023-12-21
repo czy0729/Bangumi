@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:07:01
+ * @Last Modified time: 2023-12-21 20:09:49
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
-import { Loaded } from '@types'
+import { Id, Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenTopic'
 
@@ -25,6 +25,9 @@ export const EXCLUDE_STATE = {
 
   /** 存放 bgm 特有的子回复配置字符串 */
   replySub: '',
+
+  /** 若提交回复的时候存在此值, 调用编辑回复逻辑 */
+  editPostId: '' as Id,
 
   /** 存放子回复 html */
   message: '',

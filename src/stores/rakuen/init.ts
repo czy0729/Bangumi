@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 13:52:37
+ * @Last Modified time: 2023-12-21 19:54:14
  */
 import {
   MODEL_RAKUEN_SCOPE,
@@ -74,7 +74,10 @@ export const INIT_COMMENTS_ITEM = {
 export const INIT_NOTIFY = {
   unread: 0,
   clearHref: '',
-  list: []
+  list: [],
+
+  /** @deprecated */
+  clearHTML: ''
 }
 
 export const INIT_SETTING = {

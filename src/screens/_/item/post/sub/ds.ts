@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:58:18
+ * @Last Modified time: 2023-12-21 22:31:49
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
-import { Navigation, TopicId, UserId } from '@types'
+import { Fn, Navigation, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
@@ -34,7 +34,6 @@ export const DEFAULT_PROPS = {
   wide: false as boolean,
   readedTime: '' as any,
   replySub: '' as Props['replySub'],
-  showFixedTextare: false as boolean,
   time: '' as Props['time'],
   translate: '' as any,
   uid: '' as string,
@@ -44,7 +43,9 @@ export const DEFAULT_PROPS = {
   formhash: '' as string,
   likeType: '' as string,
   event: EVENT,
-  onLikesLongPress: (() => {}) as any
+  onJumpTo: (() => {}) as Fn,
+  onLikesLongPress: (() => {}) as Fn,
+  onShowFixedTextare: (() => {}) as Fn
 }
 
 export const REG_BGM =

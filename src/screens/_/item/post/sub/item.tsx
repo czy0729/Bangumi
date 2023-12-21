@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:58:33
+ * @Last Modified time: 2023-12-21 22:32:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,6 @@ export default memo(
     wide,
     readedTime,
     replySub,
-    showFixedTextare,
     time,
     translate,
     uid,
@@ -63,7 +62,9 @@ export default memo(
     formhash,
     likeType,
     event,
-    onLikesLongPress
+    onJumpTo,
+    onLikesLongPress,
+    onShowFixedTextare
   }) => {
     rerender('Topic.ItemSub.Main')
 
@@ -195,7 +196,8 @@ export default memo(
                 userName={userName}
                 message={message}
                 msg={msg}
-                showFixedTextare={showFixedTextare}
+                onJumpTo={onJumpTo}
+                onShowFixedTextare={onShowFixedTextare}
               />
             </Flex>
             <FloorText time={time} floor={floor} isNew={isNew} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:06:50
+ * @Last Modified time: 2023-12-21 23:28:48
  */
 import { rakuenStore } from '@stores'
 import {
@@ -19,7 +19,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import CacheManager from '@utils/cache-manager'
 import { IOS, HOST } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { AnyObject } from '@types'
+import { AnyObject, Fn, Id } from '@types'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
@@ -108,8 +108,29 @@ export default class Action extends Fetch {
     this.setState({
       placeholder: '',
       replySub: '',
-      message: ''
+      message: '',
+      editPostId: ''
     })
+  }
+
+  /** 显示编辑评论框 */
+  showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: Fn) => {
+    const value = await rakuenStore.fetchTopicEdit(postId)
+    if (!value) {
+      info('未能获取到回复内容，可能授权过期了')
+      return
+    }
+
+    this.setState({
+      value: ''
+    })
+    setTimeout(() => {
+      this.setState({
+        editPostId: postId,
+        value
+      })
+      showFixedTextareCallback()
+    }, 0)
   }
 
   /** 输入框变化 */
@@ -168,12 +189,14 @@ export default class Action extends Fetch {
     }
   }
 
+  /** 设置显示头顶吸附标题组件 */
   updateShowHeaderTitle = (showHeaderTitle: boolean) => {
     this.setState({
       showHeaderTitle
     })
   }
 
+  /** 展开的子楼层 */
   toggleExpand = (id: any) => {
     const { expands } = this.state
     this.setState({
@@ -184,6 +207,7 @@ export default class Action extends Fetch {
     this.save()
   }
 
+  /** 展开的子楼层回调 */
   onExpand = (id: any) => {
     const { expands } = this.state
     if (expands.includes(String(id))) return
@@ -191,6 +215,7 @@ export default class Action extends Fetch {
     this.toggleExpand(String(id))
   }
 
+  /** 设置导演楼层 */
   updateDirection = (directIndex: number, directFloor: string = '') => {
     this.setState({
       directIndex,
@@ -220,13 +245,44 @@ export default class Action extends Fetch {
       return
     }
 
-    const { replySub } = this.state
+    const { replySub, editPostId } = this.state
+    if (editPostId) {
+      this.doEditReply(editPostId, content)
+      return
+    }
+
     if (replySub) {
       this.doReplySub(content, type)
       return
     }
 
     this.doReply(content, type)
+  }
+
+  /** 编辑回复 */
+  doEditReply = (postId: Id, content: string) => {
+    t('帖子.编辑回复', {
+      topicId: this.topicId,
+      postId
+    })
+
+    const { formhash } = this.topic
+    rakuenStore.doEditReply(
+      {
+        postId,
+        content,
+        formhash
+      },
+      async () => {
+        this.setState({
+          value: '',
+          editPostId: ''
+        })
+
+        await this.fetchTopic()
+        feedback()
+      }
+    )
   }
 
   /** 回复 */
@@ -248,9 +304,7 @@ export default class Action extends Fetch {
         let res: AnyObject = {}
         try {
           res = JSON.parse(responseText)
-        } catch (error) {
-          // do nothing
-        }
+        } catch (error) {}
 
         if (IOS && res.status !== 'ok') {
           this.recoveryContent(content)

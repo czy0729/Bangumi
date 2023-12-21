@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:46:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 16:59:47
+ * @Last Modified time: 2023-12-20 11:55:47
  */
 import {
   CollectionStatusCn,
@@ -28,5 +28,8 @@ export type Props = {
   relatedId?: string | number
   event?: EventType
   popoverData?: string[] | readonly string[]
+
+  /** 是否特别关注 */
+  like?: boolean
   onSelect?: Fn
 }

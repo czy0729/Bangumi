@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-24 14:32:30
+ * @Last Modified time: 2023-12-21 22:38:16
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -13,10 +13,11 @@ import {
   API_TOPIC_COMMENT_LIKE,
   HOST,
   HTML_ACTION_BLOG_REPLY,
-  HTML_ACTION_RAKUEN_REPLY
+  HTML_ACTION_RAKUEN_REPLY,
+  HTML_TOPIC_EDIT
 } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { Fn, RakuenScrollDirection, RakuenSubExpand, TopicId, UserId } from '@types'
+import { Fn, Id, RakuenScrollDirection, RakuenSubExpand, TopicId, UserId } from '@types'
 import Fetch from './fetch'
 import { INIT_SETTING } from './init'
 
@@ -31,9 +32,10 @@ export default class Action extends Fetch {
 
       const key = 'notify'
       this.setState({
-        [key]: {
+        notify: {
           ...this.notify,
           unread: 0,
+          clearHref: '',
           clearHTML: ''
         }
       })
@@ -52,7 +54,7 @@ export default class Action extends Fetch {
       sub_reply_uid?: any
       post_uid?: any
     },
-    success?: (arg?: any) => any
+    success?: Fn
   ) => {
     const { topicId, type = 'group/topic', ...other } = args || {}
     xhr(
@@ -77,6 +79,31 @@ export default class Action extends Fetch {
         url
       },
       success
+    )
+  }
+
+  /** 编辑回复 */
+  doEditReply = async (
+    args: {
+      postId: Id
+      content: string
+      formhash: string
+    },
+    success?: Fn,
+    fail?: Fn
+  ) => {
+    const { postId, content, formhash } = args || {}
+    xhr(
+      {
+        url: HTML_TOPIC_EDIT(postId),
+        data: {
+          content,
+          formhash,
+          submit: '改好了'
+        }
+      },
+      success,
+      fail
     )
   }
 

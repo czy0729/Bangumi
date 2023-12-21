@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:18:45
+ * @Last Modified time: 2023-12-21 23:48:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -706,9 +706,11 @@ class LoginV2 extends React.Component<{
       <Component id='screen-login-v2' style={_.container.plain}>
         <UM title={TITLE} />
         <StatusBarPlaceholder />
-        <Notice style={_.mv.lg}>
-          当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用
-        </Notice>
+        {STORYBOOK && (
+          <Notice style={_.mv.lg}>
+            当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用
+          </Notice>
+        )}
         {this.renderContent()}
         <KeyboardSpacer topSpacing={_.ios(-120, 0)} />
         <Heatmap id='登陆.登陆' right={_.wind} bottom={_.bottom + 120} transparent />

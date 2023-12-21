@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 16:53:06
+ * @Last Modified time: 2023-12-21 18:46:17
  */
 import { urlStringify } from '@utils'
 import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
@@ -124,6 +124,10 @@ export const HTML_RAKUEN_HOT = () => HOST
 
 /** 帖子 */
 export const HTML_TOPIC = (topicId: TopicId) => `${HOST}/rakuen/topic/${topicId}`
+
+/** 帖子编辑 */
+export const HTML_TOPIC_EDIT = (postId: Id) =>
+  `https://bgm.tv/group/reply/${postId}/edit`
 
 /** 小组详情 */
 export const HTML_GROUP_INFO = (groupId: Id) => `${HOST}/group/${groupId}`

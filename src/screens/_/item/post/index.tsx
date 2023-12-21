@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 10:32:07
+ * @Last Modified time: 2023-12-21 22:34:11
  */
 import React from 'react'
 import { Component } from '@components'
@@ -42,9 +42,10 @@ export const ItemPost = obc(
       erase,
       rendered,
       matchLink,
-      showFixedTextare,
       expandNums,
-      event
+      event,
+      showFixedTextare: onShowFixedTextarea,
+      onJumpTo
     }: ItemPostProps,
     { $, navigation }
   ) => {
@@ -145,7 +146,6 @@ export const ItemPost = obc(
         postId={postId}
         readedTime={readedTime}
         replySub={replySub}
-        showFixedTextare={showFixedTextare}
         expandNums={_expands}
         sub={sub}
         time={time}
@@ -157,8 +157,10 @@ export const ItemPost = obc(
         formhash={$?.topic?.formhash}
         likeType={$?.topic?.likeType}
         event={event}
-        onToggleExpand={$?.toggleExpand}
+        onJumpTo={onJumpTo}
         onLikesLongPress={uiStore.showLikesUsers}
+        onShowFixedTextare={onShowFixedTextarea}
+        onToggleExpand={$?.toggleExpand}
       />
     )
   }

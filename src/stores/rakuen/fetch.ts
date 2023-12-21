@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 12:12:48
+ * @Last Modified time: 2023-12-21 19:09:22
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -20,6 +20,7 @@ import {
   HTML_RAKUEN_HOT,
   HTML_REVIEWS,
   HTML_TOPIC,
+  HTML_TOPIC_EDIT,
   LIMIT_LIST,
   LIST_EMPTY
 } from '@constants'
@@ -36,15 +37,16 @@ import {
 import Computed from './computed'
 import { getInt } from './utils'
 import {
-  cheerioGroup,
   cheerioBlog,
   cheerioBoard,
+  cheerioGroup,
   cheerioGroupInfo,
   cheerioHot,
   cheerioMine,
   cheerioNotify,
   cheerioReviews,
   cheerioTopic,
+  cheerioTopicEdit,
   fetchRakuen
 } from './common'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
@@ -299,6 +301,8 @@ export default class Fetch extends Computed {
         unread,
         clearHref,
         list,
+
+        /** @ts-expect-error */
         _loaded: analysis ? getTimestamp() : _loaded
       }
     })
@@ -527,5 +531,13 @@ export default class Fetch extends Computed {
     this.save(key)
 
     return this[key]
+  }
+
+  /** 获取回复楼层的 BBCODE */
+  fetchTopicEdit = async (postId: Id) => {
+    const html = await fetchHTML({
+      url: HTML_TOPIC_EDIT(postId)
+    })
+    return cheerioTopicEdit(html)
   }
 }

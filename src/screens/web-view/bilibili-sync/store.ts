@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 05:31:19
+ * @Last Modified time: 2023-12-22 01:48:50
  */
 import { observable, computed } from 'mobx'
 import { userStore } from '@stores'
@@ -23,6 +23,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
     this.setState({
       ...state,
       hide: !!state?.data?.list?.length,
+      loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: true
     })
     this.fetchBangumiData()

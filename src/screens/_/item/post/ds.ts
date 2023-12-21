@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:16:32
+ * @Last Modified time: 2023-12-21 22:29:10
  */
 import { _ } from '@stores'
 import { EVENT } from '@constants'
-import { Navigation, TopicId } from '@types'
+import { Fn, Navigation, TopicId } from '@types'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -45,7 +45,6 @@ export const DEFAULT_PROPS = {
   postId: '' as Props['postId'],
   readedTime: '' as string,
   replySub: '' as Props['replySub'],
-  showFixedTextare: (() => {}) as any,
   expandNums: undefined,
   sub: [] as Props['sub'],
   time: '' as Props['time'],
@@ -57,6 +56,8 @@ export const DEFAULT_PROPS = {
   formhash: '' as string,
   likeType: '' as string,
   event: EVENT as Props['event'],
-  onToggleExpand: (() => {}) as any,
-  onLikesLongPress: (() => {}) as any
+  onJumpTo: (() => {}) as Fn,
+  onLikesLongPress: (() => {}) as Fn,
+  onShowFixedTextare: (() => {}) as Fn,
+  onToggleExpand: (() => {}) as Fn
 } as const

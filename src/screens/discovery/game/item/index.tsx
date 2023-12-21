@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 16:52:43
+ * @Last Modified time: 2023-12-20 14:08:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,8 @@ import {
   IMG_WIDTH_LG,
   IMG_HEIGHT_LG,
   IMG_DEFAULT,
-  MODEL_COLLECTION_STATUS
+  MODEL_COLLECTION_STATUS,
+  STORYBOOK
 } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
@@ -152,7 +153,12 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs.filter((item, index) => index < 3)}
+                data={thumbs.filter((item, index) => {
+                  if (!STORYBOOK) return index < 3
+
+                  if (thumbs.length <= 1) return true
+                  return index > 0 && index < 4
+                })}
                 renderItem={(item, index) => (
                   <Image
                     style={stl(

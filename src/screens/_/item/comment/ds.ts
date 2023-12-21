@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:44:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:34:42
+ * @Last Modified time: 2023-12-20 11:56:30
  */
 import { EVENT } from '@constants'
 import {
@@ -31,5 +31,6 @@ export const DEFAULT_PROPS = {
   relatedId: '' as string | number,
   event: EVENT as EventType,
   popoverData: undefined as string[] | readonly string[],
+  like: false,
   onSelect: undefined as Fn
 }

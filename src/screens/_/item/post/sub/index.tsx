@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 05:57:48
+ * @Last Modified time: 2023-12-21 22:30:56
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -26,13 +26,14 @@ export default obc(
       postId,
       readedTime,
       replySub,
-      showFixedTextare,
       time,
       uid,
       url,
       userId,
       userName,
-      event
+      event,
+      onJumpTo,
+      onShowFixedTextare
     },
     { $, navigation }
   ) => {
@@ -70,7 +71,6 @@ export default obc(
         wide={wide}
         readedTime={readedTime}
         replySub={replySub}
-        showFixedTextare={showFixedTextare}
         time={time}
         translate={translateResultFloor?.[id]}
         uid={uid}
@@ -80,7 +80,9 @@ export default obc(
         formhash={$?.topic?.formhash}
         likeType={$?.topic?.likeType}
         event={event}
+        onJumpTo={onJumpTo}
         onLikesLongPress={$?.showLikesUsers}
+        onShowFixedTextare={onShowFixedTextare}
       />
     )
   }

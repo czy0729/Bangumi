@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 17:00:25
+ * @Last Modified time: 2023-12-20 11:58:47
  */
 import React from 'react'
 import { Component } from '@components'
@@ -28,6 +28,7 @@ export const ItemComment = ob(
     relatedId,
     event,
     popoverData,
+    like,
     onSelect
   }: ItemCommentProps) => (
     <Component id='item-comment' data-key={userId}>
@@ -46,6 +47,7 @@ export const ItemComment = ob(
         relatedId={relatedId}
         event={event}
         popoverData={popoverData}
+        like={like}
         onSelect={onSelect}
       />
     </Component>

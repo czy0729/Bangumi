@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 01:12:23
+ * @Last Modified time: 2023-12-21 19:49:16
  */
 import { STORYBOOK } from '@constants/device'
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
@@ -13,11 +13,10 @@ import { urlStringify } from '../utils'
 import { syncUserStore } from '../async'
 import { loading } from '../ui'
 import { isDevtoolsOpen } from '../dom'
-import { log } from '../dev'
-import { SHOW_LOG } from './ds'
+import { log } from './utils'
 import { XHRArgs, XHRCustomArgs } from './types'
 
-/** @deprecated 带登录信息的 XMLHttpRequest */
+/** 带登录信息的 XMLHttpRequest */
 export function xhr(
   args: XHRArgs,
   success: (responseText?: string, request?: any) => any = () => {},
@@ -36,8 +35,8 @@ export function xhr(
     if (request.status === 200) {
       success(request.responseText, request)
     } else {
-      console.warn('[utils/fetch] xhr', url, request)
       fail(request)
+      log('xhr', 'fail:', url, request)
     }
   }
 
@@ -78,9 +77,10 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
           // @ts-expect-error
           return resolve(this)
         }
+
+        log('xhrCustom', 'error:', this.status, url)
         if (this.status === 404) reject(new TypeError('404'))
         if (this.status === 500) reject(new TypeError('500'))
-        console.error('[utils/fetch] xhrCustom', url)
       }
     }
     request.onerror = function () {
@@ -107,7 +107,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
     const body = data ? urlStringify(data) : null
     request.send(body)
 
-    if (SHOW_LOG && showLog) log(`🔍 ${url}`)
+    if (showLog) log('xhrCustom', url)
   })
 }
 

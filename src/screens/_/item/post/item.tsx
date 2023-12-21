@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 10:33:53
+ * @Last Modified time: 2023-12-21 22:28:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,6 @@ const Item = memo(
     postId,
     readedTime,
     replySub,
-    showFixedTextare,
     expandNums,
     sub,
     time,
@@ -60,8 +59,10 @@ const Item = memo(
     formhash,
     likeType,
     event,
-    onToggleExpand,
-    onLikesLongPress
+    onJumpTo,
+    onLikesLongPress,
+    onShowFixedTextare,
+    onToggleExpand
   }) => {
     rerender('Topic.Item.Main')
 
@@ -127,7 +128,8 @@ const Item = memo(
                 erase={erase}
                 userId={userId}
                 userName={userName}
-                showFixedTextare={showFixedTextare}
+                onJumpTo={onJumpTo}
+                onShowFixedTextare={onShowFixedTextare}
               />
             </Flex>
             <FloorText time={time} floor={floor} isNew={isNew} />
@@ -187,9 +189,10 @@ const Item = memo(
                       url={url}
                       readedTime={readedTime}
                       matchLink={matchLink}
-                      showFixedTextare={showFixedTextare}
                       event={event}
+                      onJumpTo={onJumpTo}
                       onLikesLongPress={onLikesLongPress}
+                      onShowFixedTextare={onShowFixedTextare}
                     />
                   ))}
               </Flex>

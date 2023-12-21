@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-14 22:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 21:20:09
+ * @Last Modified time: 2023-12-21 22:33:09
  */
-import { Id, UserId, EventType, ViewStyle } from '@types'
+import { Id, UserId, EventType, ViewStyle, Fn } from '@types'
 
 export type Props = {
   inViewY?: number
@@ -68,7 +68,9 @@ export type Props = {
   expandNums?: number
 
   /** 传递显示回复弹窗的函数 */
-  showFixedTextare?: () => any
+  showFixedTextare?: Fn
+
+  onJumpTo?: Fn
 
   /** 埋点 */
   event?: EventType

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-03 21:43:12
+ * @Last Modified time: 2023-12-20 12:47:44
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
@@ -59,7 +59,7 @@ export function injectUtils() {
 }
 
 /** 尝试把页面中唯一的列表滚动到顶 */
-export function scrollToTop() {
+export function scrollToTop(y: number = 0) {
   if (typeof window === 'undefined' || !STORYBOOK) return
 
   setTimeout(() => {
@@ -69,7 +69,7 @@ export function scrollToTop() {
         .scrollTo({
           // @ts-ignore
           x: 0,
-          y: 0,
+          y,
           animated: true
         })
     } catch (error) {}

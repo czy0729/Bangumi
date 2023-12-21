@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:14:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 16:41:38
+ * @Last Modified time: 2023-12-21 22:25:09
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -38,14 +38,7 @@ function List({ forwardRef, renderItem, onScroll, onScrollToIndexFailed }, { $ }
   } as const
 
   if (list.length <= 64) {
-    return (
-      <ListView
-        ref={forwardRef}
-        data={$.comments}
-        {...passProps}
-        // contentContainerStyle={styles.flexWrap}
-      />
-    )
+    return <ListView ref={forwardRef} data={$.comments} {...passProps} />
   }
 
   return (

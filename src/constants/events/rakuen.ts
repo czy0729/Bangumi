@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 07:50:03
+ * @Last Modified time: 2023-12-21 20:41:45
  */
 
 /** Rakuen */
@@ -55,6 +55,7 @@ export default {
   '帖子.显示评论框': 'Topic.showFixedTextarea',
   '帖子.设置收藏': 'Topic.setFavor',
   '帖子.回复': 'Topic.doReply',
+  '帖子.编辑回复': 'Topic.doEditReply',
   '帖子.回复失败': 'Topic.recoveryContent',
   '帖子.删除回复': 'Topic.doDeleteReply',
   '帖子.UCG': 'Topic.UCGAgree',

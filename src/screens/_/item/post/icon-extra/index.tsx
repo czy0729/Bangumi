@@ -2,15 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:42:05
+ * @Last Modified time: 2023-12-21 23:44:55
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
-import { info, confirm, getCommentPlainText, copy, stl } from '@utils'
+import {
+  info,
+  confirm,
+  getCommentPlainText,
+  copy,
+  stl,
+  isChineseParagraph,
+  removeURLs,
+  removeHTMLTag
+} from '@utils'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
 import { Popover } from '../../../base'
+import {
+  ACTION_BLOCK,
+  ACTION_COPY,
+  ACTION_DELETE,
+  ACTION_EDIT,
+  ACTION_LIKES,
+  ACTION_REPLY,
+  ACTION_TRANSLATE
+} from './ds'
 import { styles } from './styles'
 
 function IconExtra(
@@ -26,45 +44,72 @@ function IconExtra(
     userName,
     message = '',
     msg,
-    showFixedTextare
+    onJumpTo,
+    onShowFixedTextare
   },
   { $ }
 ) {
   if (SHARE_MODE) return null
 
-  const data = []
-  if (rakuenStore.setting.likes && likeType) data.push('贴贴')
-  if (replySub && !$?.isLimit && $?.showFixedTextarea) data.push('回复')
-  data.push('复制回复')
-  if ($?.doTranslateFloor) data.push('翻译')
-  data.push('屏蔽用户')
-  if (erase && $?.doDeleteReply) data.push('删除')
+  const data = [
+    // 编辑
+    erase && $?.doDeleteReply && ACTION_EDIT,
+
+    // 贴贴
+    rakuenStore.setting.likes && likeType && ACTION_LIKES,
+
+    // 回复
+    replySub && !$?.isLimit && $?.showFixedTextarea && ACTION_REPLY,
+
+    // 复制
+    ACTION_COPY,
+
+    // 翻译
+    $?.doTranslateFloor &&
+      !isChineseParagraph(removeURLs(removeHTMLTag(msg)), 0.5) &&
+      ACTION_TRANSLATE,
+
+    // 屏蔽
+    !erase && ACTION_BLOCK,
+
+    // 删除
+    erase && $?.doDeleteReply && ACTION_DELETE
+  ].filter(Boolean)
 
   return (
     <Popover
       style={stl(styles.touch, style)}
       data={data}
       onSelect={title => {
-        if (title === '翻译') {
-          return $?.doTranslateFloor(id, msg)
-        }
-
-        if (title === '贴贴') {
-          return uiStore.showLikesGrid(topicId, id, formhash, likeType, {
+        if (title === ACTION_LIKES) {
+          uiStore.showLikesGrid(topicId, id, formhash, likeType, {
             recommandPosition: 'top'
           })
+          return
         }
 
-        if (title === '回复') {
+        if (title === ACTION_REPLY) {
           $?.showFixedTextarea(userName, replySub, message, msg)
-          return showFixedTextare()
+          onShowFixedTextare()
+          return
         }
 
-        if (title === '删除') {
-          return confirm('确定删除回复?', () => $?.doDeleteReply(erase))
+        if (title === ACTION_EDIT) {
+          $?.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
+          return
         }
 
-        if (title === '屏蔽用户') {
+        if (title === ACTION_COPY) {
+          copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
+          return
+        }
+
+        if (title === ACTION_TRANSLATE) {
+          $?.doTranslateFloor(id, msg)
+          return
+        }
+
+        if (title === ACTION_BLOCK) {
           confirm('确定屏蔽用户?', () => {
             rakuenStore.addBlockUser(`${userName}@${userId}`)
             info(`已屏蔽 ${userName}`)
@@ -72,8 +117,9 @@ function IconExtra(
           return
         }
 
-        if (title === '复制回复') {
-          copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
+        if (title === ACTION_DELETE) {
+          confirm('确定删除回复?', () => $?.doDeleteReply(erase))
+          return
         }
       }}
     >

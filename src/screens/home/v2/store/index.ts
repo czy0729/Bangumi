@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 05:25:03
+ * @Last Modified time: 2023-12-22 01:45:18
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
 import { date, feedback, getTimestamp, info, sortObject } from '@utils'
 import { t } from '@utils/fetch'
+import { get } from '@utils/protobuf'
 import { update } from '@utils/kv'
 import {
-  DEV,
   DEVICE_MODEL_NAME,
   MODEL_SETTING_INITIAL_PAGE,
   VERSION_GITHUB_RELEASE
@@ -29,7 +29,7 @@ let reOauthing: boolean
 class ScreenHomeV2 extends Action {
   /** 初始化 */
   init = async () => {
-    if (inited && !DEV) return
+    if (inited) return
 
     if (this.isLogin) {
       this.initUser()
@@ -53,6 +53,7 @@ class ScreenHomeV2 extends Action {
       ...state,
       ...EXCLUDE_STATE,
       renderedTabsIndex: [state?.page || 0],
+      loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: getTimestamp()
     })
   }

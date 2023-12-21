@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 03:25:36
+ * @Last Modified time: 2023-12-20 12:04:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,6 +31,7 @@ const Item = memo(
     relatedId,
     event,
     popoverData,
+    like,
     onSelect
   }) => {
     rerender('Item.ItemComment.Main', userName)
@@ -38,15 +39,33 @@ const Item = memo(
     return (
       <Flex style={stl(styles.item, style)} align='start'>
         <View style={styles.avatar}>
-          <UserStatus userId={userId}>
-            <Avatar
-              navigation={navigation}
-              userId={userId}
-              name={userName}
-              src={avatar}
-              event={event}
-            />
-          </UserStatus>
+          {like ? (
+            <View>
+              <Avatar
+                navigation={navigation}
+                userId={userId}
+                name={userName}
+                src={avatar}
+                event={event}
+              />
+              <Iconfont
+                style={styles.favor}
+                name='md-favorite'
+                color={_.colorMain}
+                size={12}
+              />
+            </View>
+          ) : (
+            <UserStatus userId={userId}>
+              <Avatar
+                navigation={navigation}
+                userId={userId}
+                name={userName}
+                src={avatar}
+                event={event}
+              />
+            </UserStatus>
+          )}
         </View>
         <Flex.Item style={styles.content}>
           <Flex>

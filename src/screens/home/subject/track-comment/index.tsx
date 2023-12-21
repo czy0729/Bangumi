@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 14:59:37
+ * @Last Modified time: 2023-12-20 11:58:33
  */
 import React from 'react'
 import { Divider } from '@components'
@@ -67,6 +67,7 @@ function TrackComment(props, { $, navigation }: Ctx) {
             status={status}
             comment={String(collection.comment).replace(/[\r\n]/g, '')}
             popoverData={POPOVER_DATA[$.type]}
+            like
             onSelect={$.onCancelTrackUsersCollection}
           />
         )
