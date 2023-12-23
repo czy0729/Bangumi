@@ -1,9 +1,8 @@
 /*
- * gitee as DB
  * @Author: czy0729
  * @Date: 2020-12-25 01:12:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-24 15:39:12
+ * @Last Modified time: 2023-12-23 09:36:19
  */
 import Constants from 'expo-constants'
 import { xhrCustom as xhr } from '../fetch'
@@ -17,7 +16,7 @@ let ua = ''
 
 /**
  * 密码模式
- * https://gitee.com/api/v5/oauth_doc#/list-item-2
+ * @doc https://gitee.com/api/v5/oauth_doc#/list-item-2
  */
 export async function oauth() {
   if (!ua) ua = (await Constants.getWebViewUserAgentAsync()) || ''
@@ -43,8 +42,7 @@ export async function oauth() {
 
 /**
  * 获取仓库具体路径下的内容
- * https://gitee.com/api/v5/swagger#/getV5ReposOwnerRepoContents(Path)
- *
+ * @doc https://gitee.com/api/v5/swagger#/getV5ReposOwnerRepoContents(Path)
  * @param {*} path
  */
 export async function read({ path }) {
@@ -75,7 +73,7 @@ export async function read({ path }) {
 
 /**
  * 新建文件
- * https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
+ * @doc https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
  */
 export async function add({ path, content, message }) {
   if (!ua) ua = (await Constants.getWebViewUserAgentAsync()) || ''
@@ -109,9 +107,8 @@ export async function add({ path, content, message }) {
 
 /**
  * 更新文件
- * https://gitee.com/api/v5/swagger#/putV5ReposOwnerRepoContentsPath
- *
- *  - 提示, content不允许携带中文, 请先escape或encode
+ * @doc https://gitee.com/api/v5/swagger#/putV5ReposOwnerRepoContentsPath
+ *  - 提示, content 不允许携带中文, 请先 escape 或 encode
  */
 export async function update({ path, content, sha, message }) {
   if (content === FILE_CACHES[path].content) return FILE_CACHES[path]
@@ -158,14 +155,14 @@ export async function put({
 }) {
   try {
     /**
-     * 获取access_token
+     * 获取 access_token
      */
     if (!accessToken) await oauth()
 
     /**
-     * 检查path是否存在
+     * 检查 path 是否存在
      *  - 不存在使用新建
-     *  - 若存在使用更新, 还需要获取文件sha
+     *  - 若存在使用更新, 还需要获取文件 sha
      */
     const { sha } = await read({ path })
     return sha

@@ -1,0 +1,277 @@
+/*
+ * @Author: czy0729
+ * @Date: 2023-12-23 07:19:18
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2023-12-23 09:23:25
+ */
+import { Alert, BackHandler } from 'react-native'
+import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { AnyObject, EventType, Navigation } from '@types'
+import { DEV } from '@/config'
+import { t } from '../fetch'
+import { s2tAsync, syncSystemStore } from '../async'
+import { getStorage, setStorage } from '../storage'
+import { rerender, globalLog, globalWarn } from '../dev'
+import { fixedBgmUrl, matchBgmLink } from './data-source'
+import { PRIVACY_STATE, RANDOM_FACTOR } from './ds'
+
+/** 启动 */
+export function bootApp() {
+  const fn = () => {}
+
+  global.log = globalLog
+  global.warn = globalWarn
+  global.rerender = rerender
+  global.console.warn = fn
+  global.console.error = fn
+
+  if (!DEV) {
+    global.console.info = fn
+    global.console.log = fn
+    global.console.debug = fn
+    global.console.assert = fn
+  }
+}
+
+/** 获取设置 */
+export function getSetting() {
+  return syncSystemStore().setting
+}
+
+/** 获取背景的模糊值 (各平台实际表现是不一样的, 需要分开判断) */
+export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
+  if (typeof uri === 'string') uri = uri.replace('http://', 'https://')
+  if (typeof bg === 'string') bg = bg.replace('http://', 'https://')
+  if (uri === bg) return 0
+
+  if (IOS) {
+    if (avatarLarge === bg || !bg) return 10
+    return 48
+  }
+
+  if (STORYBOOK) return 28
+
+  return 8
+}
+
+/** app 内使用时间因子作为随机数, 规避 Hermes 引擎 Array.sort 的卡死 bug */
+export function appRandom(arr: any[] = [], key: string = '') {
+  const data = []
+  arr.forEach(item => {
+    if (item[key]) {
+      const str = String(String(item[key]).match(/\d+/g)?.[0] || 0)
+      let factor = 5
+      try {
+        factor = Number(str.slice(str.length - 1, str.length))
+      } catch (error) {}
+
+      if (RANDOM_FACTOR >= factor) {
+        data.unshift(item)
+      } else {
+        data.push(item)
+      }
+    }
+  })
+  return data
+}
+
+let _navigationReference: Navigation | undefined
+
+/** 保存 navigation 引用 */
+export function navigationReference(navigation?: Navigation | undefined) {
+  if (STORYBOOK) {
+    return require('@components/storybook/navigation').StorybookNavigation as Navigation
+  }
+
+  if (navigation) {
+    _navigationReference = navigation
+    if (!_navigationReference.push) {
+      _navigationReference.push = _navigationReference.navigate
+    }
+  }
+
+  return _navigationReference
+}
+
+/** keyExtractor */
+export function keyExtractor(item: AnyObject = { id: '' }) {
+  return String(item.id)
+}
+
+/**
+ * 根据 Bangumi 的 url 判断路由跳转方式
+ * @param {*} url            链接
+ * @param {*} navigation     路由对象
+ * @param {*} passParams     传递的参数
+ * @param {*} event          EVENT
+ * @param {*} openWebBrowser 没路由对象或者非本站是否使用浏览器尝试打开
+ */
+export function appNavigate(
+  url: string = '',
+  navigation?: Navigation,
+  passParams: {
+    [key: string]: any
+  } = {},
+  event: EventType = EVENT,
+  openWebBrowser: boolean = true
+): boolean {
+  try {
+    const { id, data = {} } = event
+    const _url = fixedBgmUrl(url)
+    const result = matchBgmLink(_url)
+
+    // 没路由对象或者非本站
+    if (!navigation || !_url.includes(HOST) || !result) {
+      if (openWebBrowser) {
+        t(id, {
+          to: 'WebBrowser',
+          url: _url,
+          ...data
+        })
+
+        open(_url)
+      }
+      return false
+    }
+
+    const { route, params } = result
+    t(id, {
+      to: route,
+      ...params,
+      ...data
+    })
+
+    navigation.push(
+      route as any,
+      {
+        _url,
+        ...params,
+        ...passParams
+      } as any
+    )
+    return true
+  } catch (error) {
+    console.error('utils/app', 'appNavigate')
+    return false
+  }
+}
+
+/** 小圣杯时间格式化 */
+export function formatTime(time: string | number | Date) {
+  let times = (+new Date(time) - +new Date()) / 1000
+  let day = 0
+  let hour = 0
+  if (times > 0) {
+    day = Math.floor(times / (60 * 60 * 24))
+    hour = Math.floor(times / (60 * 60)) - day * 24
+    if (day > 0) return `${day}天${hour}小时`
+    if (hour > 1) return `剩余${hour}小时`
+    return '即将结束'
+  }
+
+  times = Math.abs(times)
+  day = Math.floor(times / (60 * 60 * 24))
+  hour = Math.floor(times / (60 * 60))
+  const miniute = Math.floor(times / 60)
+  const second = Math.floor(times)
+  if (miniute < 1) return `${second}s ago`
+  if (miniute < 60) return `${miniute}m ago`
+  if (hour < 24) return `${hour}h ago`
+  return `${day}d ago`
+}
+
+/** 小圣杯计算 ICO 等级 */
+export function caculateICO(ico: { users?: any; total?: number; Users?: number }) {
+  let level = 0
+  let price = 10
+  let amount = 0
+  let next = 100000
+  let nextUser = 15
+
+  // 人数等级
+  const heads = ico.users
+  let headLevel = Math.floor((heads - 10) / 5)
+  if (headLevel < 0) headLevel = 0
+
+  // 资金等级
+  while (ico.total >= next && level < headLevel) {
+    level += 1
+    next += Math.pow(level + 1, 2) * 100000
+  }
+
+  amount = 10000 + (level - 1) * 7500
+  price = ico.total / amount
+  nextUser = (level + 1) * 5 + 10
+
+  return {
+    level,
+    next,
+    price,
+    amount,
+    users: nextUser - ico.Users
+  }
+}
+
+/** 小圣杯 OSS 修正 */
+export function tinygrailOSS(str: string, w = 150) {
+  if (typeof str !== 'string' || str.includes('!w')) return str
+
+  // https://tinygrail.oss-cn-hangzhou.aliyuncs.com
+  // https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
+  if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {
+    return `${str}!w${w}`.replace(
+      'tinygrail.oss-cn-hangzhou.aliyuncs.com',
+      'tinygrail.mange.cn'
+    )
+  }
+
+  return str
+}
+
+/** 修复时间 (2019-10-04T13:34:03.4243768+08:00 => 2019-10-04 13:34:03) */
+export function tinygrailFixedTime(time: any) {
+  return (time || '').replace('T', ' ').split('+')[0].split('.')[0]
+}
+
+/** 隐私条款弹窗 */
+export async function privacy() {
+  const value = await getStorage(PRIVACY_STATE)
+  if (value) return
+
+  const params = [
+    {
+      text: s2tAsync('隐私保护政策'),
+      onPress: () => {
+        open(URL_PRIVACY)
+
+        setTimeout(() => {
+          privacy()
+        }, 4000)
+      }
+    },
+    {
+      text: s2tAsync('不同意并退出'),
+      onPress: () => {
+        BackHandler.exitApp()
+
+        setTimeout(() => {
+          privacy()
+        }, 4000)
+      }
+    },
+    {
+      text: s2tAsync('同意'),
+      onPress: () => {
+        setStorage(PRIVACY_STATE, 1)
+      }
+    }
+  ]
+
+  return Alert.alert(
+    s2tAsync('隐私保护政策'),
+    s2tAsync(`请你务必审慎阅读、充分理解“隐私保护政策”各条款。
+    \n如你同意，请点击“同意”开始使用服务。如你不同意，很遗憾本应用无法为你提供服务。`),
+    params
+  )
+}

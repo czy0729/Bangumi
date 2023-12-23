@@ -2,32 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-27 14:56:54
+ * @Last Modified time: 2023-12-23 06:24:38
  */
 import { PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
-import { IOS } from '@constants/constants'
 import { Fn } from '@types'
 
-/**
- * 保存 base64 图片到相册
- * @param {*} base64Img
- * @param {*} success
- * @param {*} fail
- */
+/** 保存 base64 图片到相册 */
 export async function saveBase64ImageToCameraRoll(
   base64Img: string,
   success: Fn = () => {},
   fail: Fn = () => {}
 ) {
-  // iOS Expo 端需要另外用 expo sdk 自带的 api 实现
-  if (IOS) return false
+  if (!(await hasAndroidPermission())) return false
 
-  if (!IOS && !(await hasAndroidPermission())) return false
-
-  const dirs = IOS ? RNFS.LibraryDirectoryPath : RNFS.ExternalDirectoryPath // 外部文件，共享目录的绝对路径（仅限android）
+  // 外部文件，共享目录的绝对路径
+  const dirs = RNFS.ExternalDirectoryPath
   const downloadDest = `${dirs}/bangumi_${new Date().getTime()}.jpg`
   const imageData = base64Img.split(';base64,')[1]
 
@@ -44,21 +36,9 @@ export async function saveBase64ImageToCameraRoll(
       fail(error)
     }
   })
-
-  // return RNFS.downloadFile({
-  //   fromUrl: imageData,
-  //   toFile: downloadDest
-  // })
-  //   .promise.then(async res => {
-  //     if (res?.statusCode === 200) {
-  //       CameraRoll.saveToCameraRoll(`file://${downloadDest}`)
-  //         .then(success)
-  //         .catch(fail)
-  //     }
-  //   })
-  //   .catch(fail)
 }
 
+/** 检查权限 */
 async function hasAndroidPermission() {
   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
 
