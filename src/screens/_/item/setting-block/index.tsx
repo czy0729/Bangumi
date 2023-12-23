@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 23:40:25
+ * @Last Modified time: 2023-12-23 15:06:43
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
-import { showImageViewer, stl } from '@utils'
+import { navigationReference, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import Item from './item'
 import { memoStyles } from './styles'
 import {
@@ -49,7 +50,22 @@ const ItemSettingBlock: IItemSettingBlock = ob(
             {!!thumb && (
               <Touchable
                 style={_.ml.xs}
-                onPress={() => showImageViewer(thumb, 0, true)}
+                onPress={() => {
+                  if (STORYBOOK) {
+                    const navigation = navigationReference()
+                    if (navigation) {
+                      navigation.push('Information', {
+                        title,
+                        message: [information],
+                        images: thumb.map(item => item.url)
+                      })
+                      return
+                    }
+                  }
+
+                  showImageViewer(thumb, 0, true)
+                  return
+                }}
               >
                 <Iconfont name='md-info-outline' size={16} />
               </Touchable>

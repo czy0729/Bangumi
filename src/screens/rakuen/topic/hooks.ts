@@ -16,6 +16,8 @@ import {
   useRunAfter
 } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { scrollToTop } from '@utils/dom'
+import { STORYBOOK } from '@constants'
 import { Id } from '@types'
 import { Ctx } from './types'
 
@@ -35,7 +37,22 @@ export function useTopicPage($: Ctx['$']) {
     (index = 0) => {
       try {
         const { list } = $.comments
-        info(list[index]?.floor, 0.8)
+        const item = list[index]
+        info(item?.floor, 0.8)
+
+        if (STORYBOOK) {
+          if (index === -1) {
+            scrollToTop()
+            return
+          }
+
+          const offsetTop = document.querySelector(
+            `item-post[data-key="${item.id}"]`
+            // @ts-expect-error
+          )?.offsetTop
+          if (offsetTop) scrollToTop(offsetTop - _.headerHeight)
+          return
+        }
 
         forwardRef.current?.scrollToIndex({
           animated: false,
@@ -73,23 +90,38 @@ export function useTopicPage($: Ctx['$']) {
         if (index === -1) {
           if (animated) info('#1', 0.8)
 
-          forwardRef.current?.scrollToOffset({
-            animated: sliderAnimated ? true : animated,
-            offset: 0 - _.headerHeight
-          })
+          if (STORYBOOK) {
+            scrollToTop()
+          } else {
+            forwardRef.current?.scrollToOffset({
+              animated: sliderAnimated ? true : animated,
+              offset: 0 - _.headerHeight
+            })
+          }
+
           feedback(true)
           $.updateDirection(-1, '')
           return
         }
 
         const { list } = $.comments
-        if (animated) info(list[index]?.floor, 0.8)
+        const item = list[index]
+        if (animated) info(item?.floor, 0.8)
 
-        forwardRef.current?.scrollToIndex({
-          animated: sliderAnimated ? true : animated,
-          index,
-          viewOffset: 0 + _.headerHeight + offset
-        })
+        if (STORYBOOK) {
+          const offsetTop = document.querySelector(
+            `item-post[data-key="${item.id}"]`
+            // @ts-expect-error
+          )?.offsetTop
+          if (offsetTop) scrollToTop(offsetTop - _.headerHeight)
+        } else {
+          forwardRef.current?.scrollToIndex({
+            animated: sliderAnimated ? true : animated,
+            index,
+            viewOffset: 0 + _.headerHeight + offset
+          })
+        }
+
         feedback(true)
       } catch (error) {
         console.error('topic/index.js', 'onScrollTo', error)

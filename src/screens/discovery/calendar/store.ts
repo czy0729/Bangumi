@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-22 01:47:59
+ * @Last Modified time: 2023-12-23 10:21:15
  */
 import { observable, computed } from 'mobx'
 import { calendarStore, subjectStore, collectionStore } from '@stores'
@@ -26,12 +26,15 @@ export default class ScreenCalendar extends store<typeof STATE> {
       _loaded: true
     })
 
-    await queue([
-      () => calendarStore.fetchOnAir(),
-      () => calendarStore.fetchCalendar(),
-      () => this.fetchBangumiData()
-    ])
-    this.fetchCollectionsQueue()
+    await queue(
+      [
+        () => calendarStore.fetchOnAir(),
+        () => calendarStore.fetchCalendar(),
+        () => this.fetchBangumiData(),
+        () => this.fetchCollectionsQueue()
+      ],
+      1
+    )
   }
 
   /** 全局管理单独条目的收藏状态 */

@@ -19,7 +19,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
   useEffect(() => {
     if (ref.current) {
       if (autoSize) {
-        const img = ref.current.querySelector('img')
+        const img = ref.current?.querySelector('img')
         if (img) {
           img.style = `
             position: unset;

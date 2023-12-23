@@ -7,7 +7,7 @@
 import React from 'react'
 import { obc } from '@utils/decorators'
 import { rerender } from '@utils/dev'
-import { MODEL_RAKUEN_SCROLL_DIRECTION, STORYBOOK } from '@constants'
+import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
 import { Ctx } from '../types'
 import { TouchScroll } from './touch-scroll'
@@ -15,8 +15,6 @@ import { memoStyles } from './styles'
 
 export default obc(({ onPress, onDirect }, { $ }: Ctx) => {
   rerender('Topic.TouchScroll')
-
-  if (STORYBOOK) return null
 
   const { scrollDirection } = $.setting
   const { list } = $.comments

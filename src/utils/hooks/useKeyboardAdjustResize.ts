@@ -6,6 +6,7 @@
  */
 import { androidKeyboardAdjust } from '@utils/ui'
 import { IOS } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import useFocusEffect from './useFocusEffect'
 import { runAfter } from '../../utils'
 
@@ -19,14 +20,14 @@ function useKeyboardAdjustResize({
 } = {}) {
   useFocusEffect(() => {
     runAfter(() => {
-      if (IOS) return
+      if (IOS || STORYBOOK) return
 
       androidKeyboardAdjust('setAdjustResize')
       if (typeof onDidFocus === 'function') onDidFocus()
     })
 
     return () => {
-      if (IOS) return
+      if (IOS || STORYBOOK) return
 
       androidKeyboardAdjust('setAdjustPan')
       if (typeof onDidBlur === 'function') onDidBlur()

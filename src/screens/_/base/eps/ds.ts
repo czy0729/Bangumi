@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:42:13
+ * @Last Modified time: 2023-12-23 09:52:40
  */
 import { _ } from '@stores'
 import { isMobile } from '@utils/dom'
 import { STORYBOOK } from '@constants'
 import { Fn, SubjectId, ViewStyle } from '@types'
 
-const numbersOfLine = STORYBOOK && !isMobile() ? 12 : 8
+const numbersOfLine = STORYBOOK && !isMobile() ? 10 : 8
 
 export const DEFAULT_PROPS = {
   style: {} as ViewStyle,

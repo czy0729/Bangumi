@@ -142,7 +142,7 @@ export default memo(
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
-      <Component id='item-post-sub' data-key={id}>
+      <Component id='item-post-sub' data-key={id} style={_.container.block}>
         <Flex
           style={styles.item}
           align='start'

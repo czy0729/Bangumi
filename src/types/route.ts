@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 13:44:31
+ * @Last Modified time: 2023-12-23 14:55:58
  */
 import * as Screens from '@screens'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -341,6 +341,7 @@ type RouteInformation = (
     title: string
     message: string[]
     advance?: boolean
+    images?: string[]
   }
 ) => any
 
