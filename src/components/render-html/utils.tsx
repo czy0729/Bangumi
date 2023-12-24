@@ -205,7 +205,7 @@ export async function fetchMediaQueue(
     LOADED_IDS.push(item)
 
     try {
-      if (DEV) console.info('fetchMediaQueue', IDS, item)
+      log('fetchMediaQueue', IDS, item)
 
       loading = true
       if (item.type === 'subject') {
@@ -228,4 +228,14 @@ export async function fetchMediaQueue(
       loading = false
     }
   }
+}
+
+/** [DEV] */
+function log(method: string, ...others: any[]) {
+  if (DEV)
+    console.info(
+      `%c[@components/render-html/utils/${method}]`,
+      'background: #000; color: #fff',
+      ...others
+    )
 }

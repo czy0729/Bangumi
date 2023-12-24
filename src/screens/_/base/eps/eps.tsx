@@ -104,6 +104,8 @@ export default memo(
         // 保证 SP 排在普通章节后面
         _eps = _eps
           .slice()
+          // 后来发现会有 2 的情况, 是 OP 或 ED, 暂时排除掉
+          .filter(item => item.type === 0 || item.type === 1)
           .sort((a, b) =>
             asc(a, b, item =>
               MODEL_EP_TYPE.getLabel<EpTypeCn>(String(item.type)) === '普通' ? 1 : 0

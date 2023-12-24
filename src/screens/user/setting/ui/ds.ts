@@ -44,7 +44,7 @@ export const TEXTS = {
   },
   squircle: {
     title: '[实验性] 圆角过渡',
-    information: '对图片使用另一种曲率渲染圆角'
+    information: '对图片使用另一种曲率渲染圆角（暂不建议使用）'
   },
   speech: {
     title: '看板娘吐槽',

@@ -10,7 +10,7 @@ import { STORYBOOK } from '@constants/device'
 import { AnyObject, EventType, Navigation } from '@types'
 import { DEV } from '@/config'
 import { t } from '../fetch'
-import { s2tAsync, syncSystemStore } from '../async'
+import { s2tAsync } from '../async'
 import { getStorage, setStorage } from '../storage'
 import { rerender, globalLog, globalWarn } from '../dev'
 import { fixedBgmUrl, matchBgmLink } from './data-source'
@@ -32,11 +32,6 @@ export function bootApp() {
     global.console.debug = fn
     global.console.assert = fn
   }
-}
-
-/** 获取设置 */
-export function getSetting() {
-  return syncSystemStore().setting
 }
 
 /** 获取背景的模糊值 (各平台实际表现是不一样的, 需要分开判断) */

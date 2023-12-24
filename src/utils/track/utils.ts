@@ -134,5 +134,11 @@ async function umamiXhr(payload: {
 
 /** [DEV] */
 function log(method: string, ...others: any[]) {
-  if (DEV) console.info(`[@utils/track/${method}]`, ...others)
+  if (DEV) {
+    console.info(
+      `%c[@utils/track/${method}]`,
+      'background: #000; color: #fff',
+      ...others
+    )
+  }
 }

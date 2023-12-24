@@ -26,7 +26,7 @@ import {
 import { HTMLDecode, removeHTMLTag } from '../html'
 import { getTimestamp } from '../utils'
 import { get } from '../protobuf'
-import { getSetting } from './app'
+import { getSetting } from './utils'
 import {
   BANGUMI_URL_TEMPLATES,
   FIND_SUBJECT_CN_CACHE_MAP,

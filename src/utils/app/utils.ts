@@ -6,6 +6,7 @@
  */
 import { AnyObject } from '@types'
 import { asc } from '../utils'
+import { syncSystemStore } from '../async'
 
 /** 是否 null */
 export function isNull(value: any) {
@@ -36,4 +37,9 @@ export function sortObject(object: AnyObject) {
       newObject[key] = object[key]
     })
   return newObject
+}
+
+/** 获取设置 */
+export function getSetting() {
+  return syncSystemStore().setting
 }

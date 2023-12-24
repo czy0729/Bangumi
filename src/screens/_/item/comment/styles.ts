@@ -41,9 +41,13 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     right: -6,
     bottom: -2,
-    padding: 2,
+    paddingTop: 1,
+    paddingRight: 2,
+    paddingBottom: 2,
+    paddingLeft: 1,
     backgroundColor: _.colorPlain,
-    borderRadius: 12,
+    borderRadius: _.web(12, 4),
+    overflow: 'hidden',
     pointerEvent: 'none'
   }
 }))

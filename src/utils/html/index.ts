@@ -1,11 +1,11 @@
 /*
- * 辅助分析HTML的函数
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-10-28 09:44:10
  */
 import cheerioRN from 'cheerio-without-node-native'
+import { DEV } from '@/config'
 import HTMLParser from './../thirdParty/html-parser'
 
 /** 去除 HTML */
@@ -236,7 +236,14 @@ export function cheerio(
   if (typeof target === 'string') {
     // 需要优化内容
     if (target.indexOf('<!DOCTYPE html>') === 0) {
-      console.info('[cheerio] need match', target.match(/<title>(.*?)<\/title>/g)?.[0])
+      if (DEV) {
+        console.info(
+          '%c[@utils/html/cheerio]',
+          'background: #000; color: #fff',
+          'need match',
+          target.match(/<title>(.*?)<\/title>/g)?.[0]
+        )
+      }
     }
 
     if (remove) {

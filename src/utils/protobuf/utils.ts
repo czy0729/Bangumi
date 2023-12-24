@@ -62,5 +62,11 @@ export function isPromise(obj: any) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(`[@utils/protobuf/${method}]`, ...others)
+  if (DEV) {
+    console.info(
+      `%c[@utils/protobuf/${method}]`,
+      'background: #000; color: #fff',
+      ...others
+    )
+  }
 }

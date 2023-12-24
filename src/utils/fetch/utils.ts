@@ -30,5 +30,11 @@ export async function queue(fetchs: any[] = [], num: any = 2) {
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(`[@utils/fetch/${method}]`, ...others)
+  if (DEV) {
+    console.info(
+      `%c[@utils/fetch/${method}]`,
+      'background: #000; color: #fff',
+      ...others
+    )
+  }
 }

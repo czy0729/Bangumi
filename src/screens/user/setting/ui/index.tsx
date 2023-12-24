@@ -394,10 +394,12 @@ function UI({ filter }) {
             show={shows.squircle}
             style={_.mt.sm}
             filter={filter}
-            // thumb={getYuqueThumbs([
-            //   '0/2022/png/386799/1661073314717-f67e17c1-0ae4-4e19-b61a-4fdaf2eb4bdd.png',
-            //   '0/2022/png/386799/1661073326148-8687046a-026a-4217-a3b3-1209dc3470e2.png'
-            // ])}
+            thumb={getYuqueThumbs([
+              '0/2023/jpeg/386799/1703391888067-91ac3d7e-4352-41fb-8881-27057c60c425.jpeg',
+              '0/2023/jpeg/386799/1703391904875-5fe44324-295b-450d-be98-8dfcb0e4bc94.jpeg',
+              '0/2023/png/386799/1703384112637-21fbcad3-fd83-4b21-a851-57410a39ca56.png',
+              '0/2023/png/386799/1703384087443-6629c121-8471-4633-aaf7-7bc442dbf681.png'
+            ])}
             {...TEXTS.squircle}
           >
             <ItemSettingBlock.Item

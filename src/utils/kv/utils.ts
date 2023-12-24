@@ -8,5 +8,7 @@ import { DEV } from '@/config'
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
-  if (DEV) console.info(`[@utils/kv/${method}]`, ...others)
+  if (DEV) {
+    console.info(`%c[@utils/kv/${method}]`, 'background: #000; color: #fff', ...others)
+  }
 }
