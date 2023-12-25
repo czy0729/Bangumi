@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:05:32
+ * @Last Modified time: 2023-12-25 13:24:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Modal, Flex, Cover } from '@components'
+import { ScrollView, ModalFixed, Flex, Cover } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -22,7 +22,7 @@ function ModalFolders(props, { $, navigation }: Ctx) {
   const { visible, subjectId, folder, merge } = folders
   const { jp, cn, image } = $.subjectV2(subjectId)
   return (
-    <Modal style={styles.modal} visible={visible} onClose={$.onCloseModalFolders}>
+    <ModalFixed style={styles.modal} visible={visible} onClose={$.onCloseModalFolders}>
       {!!subjectId && (
         <Flex style={_.mb.md}>
           <View style={_.mr.md}>
@@ -60,7 +60,7 @@ function ModalFolders(props, { $, navigation }: Ctx) {
           <Folders fixedStyle={false} folder={folder} merge={merge} defaultShow />
         </View>
       </ScrollView>
-    </Modal>
+    </ModalFixed>
   )
 }
 

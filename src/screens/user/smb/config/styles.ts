@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 10:07:27
+ * @Last Modified time: 2023-12-25 14:19:12
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   modal: {
     width: _.r(_.window.contentWidth),
-    marginTop: -_.window.height * 0.22,
+    marginTop: _.web(-_.window.height * 0.22, 0),
     maxWidth: _.device(408, 560),
     paddingTop: _.device(_.md + 2, 28),
     paddingHorizontal: _.device(0, _.sm),
@@ -17,7 +17,8 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   body: {
-    paddingHorizontal: 6
+    paddingHorizontal: 6,
+    marginTop: _.web(0, _.md)
   },
   switch: {
     marginRight: -4,

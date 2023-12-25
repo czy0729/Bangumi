@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 15:29:03
+ * @Last Modified time: 2023-12-25 15:03:45
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { ASSETS_ICONS, MODEL_SUBJECT_TYPE } from '@constants'
+import { ASSETS_ICONS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx, MergeListItem } from '../types'
 import { memoStyles } from './styles'
@@ -58,6 +58,13 @@ function ItemGrid(
       merge
     })
   }
+
+  let size: number
+  if (STORYBOOK) {
+    size = !subjectId ? 12 : title.length >= 16 ? 14 : 15
+  } else {
+    size = layoutGridNums >= 4 ? 10 : layoutGridNums >= 3 ? 12 : 14
+  }
   const elTitle = (
     <>
       <LinearGradient
@@ -68,7 +75,7 @@ function ItemGrid(
       <View style={stl(styles.content, !subjectId && styles.folderContent)}>
         <Touchable onPress={showModalFoldersHandle}>
           <Flex style={styles.title} align='end'>
-            <Text size={!subjectId ? 12 : title.length >= 16 ? 14 : 15} bold>
+            <Text size={size} bold>
               {title}
             </Text>
           </Flex>

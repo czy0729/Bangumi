@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-23 06:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 12:44:16
+ * @Last Modified time: 2023-12-25 13:54:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Touchable, Text } from '@components'
+import { _ } from '@stores'
 import { desc } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx, SMBListItem } from '../../types'
@@ -37,7 +38,10 @@ function Folders(
   const folders = [folder, ...(merge || [])]
   const foldersExpanded = layoutList ? $.isFoldersExpanded(folder.name) : true
   return (
-    <View style={fixedStyle && !hasExpanded && styles.folders} pointerEvents='none'>
+    <View
+      style={fixedStyle && !hasExpanded && styles.folders}
+      pointerEvents={_.web('none', 'auto')}
+    >
       <View pointerEvents='auto'>
         {folders
           .sort((a, b) => {

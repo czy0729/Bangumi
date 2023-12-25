@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 10:48:49
+ * @Last Modified time: 2023-12-25 15:37:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import ToolBar from '../tool-bar'
+import Servers from '../servers'
 import { ACTIONS_SMB } from '../ds'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -21,25 +22,11 @@ function Top(props, { $, navigation }: Ctx) {
 
   const styles = memoStyles()
   const { loading } = $.state
-  const { name, ip, sharedFolder } = smb
   return (
     <View style={styles.top}>
       <Flex style={styles.container}>
         <Flex.Item flex={0.5}>
-          <Popover
-            data={$.smbs.map((item, index) => item.name || `未命名服务 ${index + 1}`)}
-            onSelect={$.onSwitch}
-          >
-            <Flex>
-              <Text bold numberOfLines={1}>
-                {name || ip || '未命名服务'}
-              </Text>
-              <Iconfont name='md-arrow-drop-down' color={_.colorDesc} />
-            </Flex>
-          </Popover>
-          <Text size={12} type='sub' bold lineHeight={14} numberOfLines={1}>
-            {sharedFolder}
-          </Text>
+          <Servers store={$} />
         </Flex.Item>
         <Flex.Item>
           <ToolBar />

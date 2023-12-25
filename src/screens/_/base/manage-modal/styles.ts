@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 13:06:38
+ * @Last Modified time: 2023-12-25 15:10:23
  */
 import { _ } from '@stores'
 
@@ -19,9 +19,6 @@ export const memoStyles = _.memoStyles(() => ({
     width: _.r(_.window.width - 2 * _.wind),
     maxWidth: _.device(408, 560),
     paddingTop: 80
-  },
-  focus: {
-    marginTop: -Math.floor(_.window.height * _.device(0.48, 0.24))
   },
   wrap: {
     minHeight: _.device(380, 448),

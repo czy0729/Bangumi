@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 07:08:04
+ * @Last Modified time: 2023-12-25 14:48:09
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -12,7 +12,16 @@ import { STORYBOOK } from '@constants'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function Example(props, { $ }: Ctx) {
+function Example(
+  {
+    store
+  }: {
+    store: Ctx['$']
+  },
+  { $ }: Ctx
+) {
+  $ = $ || store
+
   const { id } = $.state
   return (
     <Flex style={STORYBOOK ? _.mt.md : _.mt.sm} justify='center'>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-16 22:38:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 11:57:18
+ * @Last Modified time: 2023-12-25 14:42:27
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -13,7 +13,16 @@ import { ReactNode } from '@types'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function Example(props, { $ }: Ctx) {
+function Example(
+  {
+    store
+  }: {
+    store: Ctx['$']
+  },
+  { $ }: Ctx
+) {
+  $ = $ || store
+
   const { webDAV } = $.state
   let el: ReactNode
   if (STORYBOOK) {

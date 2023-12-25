@@ -467,7 +467,7 @@ export default class ScreenSmb extends store<typeof STATE> {
     return computed(() => {
       if (STORYBOOK) return this.subjectOSS(subjectId)
 
-      return subjectStore.subjectV2(subjectId)
+      return subjectStore.subjectV2(subjectId) || this.subjectOSS(subjectId)
     }).get()
   }
 

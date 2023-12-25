@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 11:58:24
+ * @Last Modified time: 2023-12-25 14:53:42
  */
 import React, { useRef, useEffect } from 'react'
-import { KeyboardAvoidingView } from 'react-native'
+import { View } from 'react-native'
 import { Modal } from '@components'
 import { memo } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
@@ -19,7 +19,7 @@ import SaveItem from './save-item'
 import Information from './information'
 import { DEFAULT_PROPS } from './ds'
 
-export default memo(({ styles, visible, name, onClose }) => {
+export default memo(({ store, styles, visible, name, onClose }) => {
   const nameRef = useRef(null)
   const ipRef = useRef(null)
   const usernameRef = useRef(null)
@@ -49,11 +49,12 @@ export default memo(({ styles, visible, name, onClose }) => {
       title='连接本地服务'
       onClose={onClose}
     >
-      <KeyboardAvoidingView style={styles.body} behavior='padding'>
-        {!STORYBOOK && <TypeItem />}
-        <Example />
+      <View style={styles.body}>
+        {!STORYBOOK && <TypeItem store={store} />}
+        <Example store={store} />
         {STORYBOOK && <DirectoryItem />}
         <InputItem
+          store={store}
           label='别名'
           placeholder='选填，区分不同服务，如 Anime'
           name='name'
@@ -66,6 +67,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         />
         {!STORYBOOK && (
           <InputItem
+            store={store}
             label='主机'
             placeholder='必填，如内网 192.168.1.1'
             name='ip'
@@ -80,6 +82,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         )}
         {!STORYBOOK && (
           <InputItem
+            store={store}
             label='端口'
             placeholder='默认 445'
             name='port'
@@ -94,6 +97,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         )}
         {!STORYBOOK && (
           <InputItem
+            store={store}
             label='用户'
             placeholder='必填'
             name='username'
@@ -110,6 +114,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         )}
         {!STORYBOOK && (
           <InputItem
+            store={store}
             label='密码'
             placeholder='必填'
             name='password'
@@ -125,6 +130,7 @@ export default memo(({ styles, visible, name, onClose }) => {
           />
         )}
         <InputItem
+          store={store}
           label='路径'
           information={
             STORYBOOK
@@ -148,6 +154,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         />
         {!STORYBOOK && (
           <InputItem
+            store={store}
             label='文件夹'
             placeholder='通常不填，多个用英文逗号分割'
             name='path'
@@ -162,6 +169,7 @@ export default memo(({ styles, visible, name, onClose }) => {
         )}
         {!STORYBOOK && (
           <InputItem
+            store={store}
             label='工作组'
             placeholder='通常不填，默认空'
             name='workGroup'
@@ -176,11 +184,12 @@ export default memo(({ styles, visible, name, onClose }) => {
           />
         )}
         <UrlItem
+          store={store}
           connectRef={(ref: { inputRef: any }) => (urlRef.current = ref?.inputRef)}
         />
         {STORYBOOK && <SwitchItem />}
-        <SaveItem />
-      </KeyboardAvoidingView>
+        <SaveItem store={store} />
+      </View>
       <Information />
     </Modal>
   )

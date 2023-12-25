@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 10:40:59
+ * @Last Modified time: 2023-12-25 15:37:12
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
@@ -17,7 +17,7 @@ function Header(props, { $ }: Ctx) {
       headerRight={() => (
         <CompHeader.Popover
           name='md-menu'
-          data={['新增服务', '下载配置', '上传配置']}
+          data={['新增服务', '下载配置', '上传配置', '通用配置']}
           onSelect={key => {
             switch (key) {
               case '新增服务':
@@ -30,6 +30,10 @@ function Header(props, { $ }: Ctx) {
 
               case '上传配置':
                 $.upload()
+                break
+
+              case '通用配置':
+                $.onShowConfig()
                 break
 
               default:

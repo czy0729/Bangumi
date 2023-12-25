@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:02:06
+ * @Last Modified time: 2023-12-25 13:24:33
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import AntdModal from '../@/ant-design/modal'
 import { Text } from '../text'
+import { ModalFixed } from './fixed'
 import { Props as ModalProps } from './types'
 
-export { ModalProps }
+export { ModalProps, ModalFixed }
 
 /** 通用模态框 */
 export const Modal = observer(

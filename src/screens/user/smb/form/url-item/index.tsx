@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 04:55:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 06:55:29
+ * @Last Modified time: 2023-12-25 14:46:54
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -13,11 +13,22 @@ import { alert, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { s2tAsync } from '@utils/async'
 import { STORYBOOK } from '@constants'
+import { AnyObject } from '@types'
 import { Ctx } from '../../types'
 import { CONTENT_DIRECTORY, CONTENT_SMB, TITLE } from './ds'
 import { styles } from './styles'
 
-function UrlItem({ connectRef }, { $ }: Ctx) {
+function UrlItem(
+  {
+    store,
+    connectRef
+  }: AnyObject<{
+    store: Ctx['$']
+  }>,
+  { $ }: Ctx
+) {
+  $ = $ || store
+
   const { url } = $.state
   return (
     <Flex style={_.mt.sm} align='start'>

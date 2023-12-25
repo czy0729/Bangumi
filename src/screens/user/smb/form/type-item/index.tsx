@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:01:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-17 05:27:27
+ * @Last Modified time: 2023-12-25 14:41:50
  */
 import React from 'react'
 import { Flex, Text, SegmentedControl, Touchable } from '@components'
@@ -11,9 +11,17 @@ import { IOS } from '@constants'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function TypeItem(props, { $ }: Ctx) {
-  const { webDAV } = $.state
+function TypeItem(
+  {
+    store
+  }: {
+    store: Ctx['$']
+  },
+  { $ }: Ctx
+) {
+  $ = $ || store
 
+  const { webDAV } = $.state
   const elType = (
     <SegmentedControl
       style={styles.segmentedControl}

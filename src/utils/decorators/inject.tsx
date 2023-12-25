@@ -1,5 +1,4 @@
 /*
- * 封装应用主要功能实现的装饰器
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
@@ -40,7 +39,9 @@ type Props = {
   onMounted?: Fn
 }
 
-/** App inject store HOC */
+/**
+ * 封装应用主要功能实现的装饰器
+ * */
 const Inject = (Store, config?: Config) => {
   const { cache = true, listenIsFocused = false } = config || {}
   return (WrapComponent: React.ComponentType<WrapComponentProps>) => {

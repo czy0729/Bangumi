@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-22 13:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 11:13:05
+ * @Last Modified time: 2023-12-25 14:18:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import {
   ACTION_DDPLAY,
   ACTION_MPV,
@@ -127,26 +128,30 @@ function Config(props, { $ }: Ctx) {
             />
           }
         />
-        <Text style={_.mt.md} type='sub' size={12} bold>
-          浏览器插件
-        </Text>
-        <ItemSetting
-          hd='Local Explorer'
-          hdSize={14}
-          information='出于安全原因，浏览器不允许访问本地资源。若浏览器安装了此插件，即可通过外部调用方式使用本地资源管理器，直接打开文件夹。点击上方提示按钮进一步了解。'
-          ft={
-            <SwitchPro
-              style={styles.switch}
-              value={configs.showOpenLocalFolder}
-              onSyncPress={() => $.onSwitchConfig('showOpenLocalFolder')}
+        {STORYBOOK && (
+          <>
+            <Text style={_.mt.md} type='sub' size={12} bold>
+              浏览器插件
+            </Text>
+            <ItemSetting
+              hd='Local Explorer'
+              hdSize={14}
+              information='出于安全原因，浏览器不允许访问本地资源。若浏览器安装了此插件，即可通过外部调用方式使用本地资源管理器，直接打开文件夹。点击上方提示按钮进一步了解。'
+              ft={
+                <SwitchPro
+                  style={styles.switch}
+                  value={configs.showOpenLocalFolder}
+                  onSyncPress={() => $.onSwitchConfig('showOpenLocalFolder')}
+                />
+              }
+              onInfoPress={() => {
+                open(
+                  'https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt?singleDoc#DuNXM'
+                )
+              }}
             />
-          }
-          onInfoPress={() => {
-            open(
-              'https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt?singleDoc#DuNXM'
-            )
-          }}
-        />
+          </>
+        )}
       </View>
     </Modal>
   )
