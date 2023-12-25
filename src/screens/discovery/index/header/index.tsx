@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 02:05:55
+ * @Last Modified time: 2023-12-26 07:25:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,10 +13,10 @@ import { rerender } from '@utils/dev'
 import Award from '../award'
 import Today from '../today'
 import SortMenu from '../sort-menu'
-import { memoStyles } from './styles'
 import { Ctx } from '../types'
+import { memoStyles } from './styles'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(props, { $ }: Ctx) {
   rerender('Discovery.Header')
 
   const styles = memoStyles()
@@ -27,7 +27,7 @@ function Header(props, { $, navigation }: Ctx) {
       <StatusBarPlaceholder />
       {!dragging && (
         <View>
-          <Award navigation={navigation} />
+          <Award />
           <Heatmap id='发现.跳转' to='Award' />
         </View>
       )}

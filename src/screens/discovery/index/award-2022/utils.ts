@@ -69,7 +69,6 @@ export function getHtml(width: number, height: number) {
         width: 200%;
         left: -50%;
         top: 40%;
-        border-radius: 0 0 50% 50%;
         background: linear-gradient(
           to bottom,
           rgba(255, 255, 255, 1) 0%,
@@ -86,21 +85,18 @@ export function getHtml(width: number, height: number) {
         width: 100%;
         background: rgb(248, 247, 245);
         top: 65%;
-        border-radius: 0 0 15px 15px;
       }
       .oceanCanvas .sand-front {
         height: 10%;
         width: 100%;
         background: rgb(248, 247, 245);
         top: 90%;
-        border-radius: 0 0 15px 15px;
       }
       .oceanCanvas .wet-sand {
         height: 37.5%;
         width: 200%;
         left: -50%;
         top: 40%;
-        border-radius: 0 0 50% 50%;
         background: rgb(237, 233, 227);
         box-shadow: 0 10px 10px 0 rgb(241, 238, 234);
         animation: wetsandanim ease-in-out 10s;

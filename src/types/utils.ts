@@ -1,10 +1,9 @@
 /*
  * 工具类
- *
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 16:57:05
+ * @Last Modified time: 2023-12-26 07:18:51
  */
 import React from 'react'
 import {
@@ -13,7 +12,9 @@ import {
   TextStyle as RNTextStyle,
   ImageStyle as RNImageStyle,
   ColorValue as RNColorValue,
-  ImageProps
+  ImageProps,
+  NativeSyntheticEvent,
+  NativeScrollEvent
 } from 'react-native'
 
 /** <View> StyleProp */
@@ -96,3 +97,6 @@ export type InferArray<T> = T extends (infer S)[] ? S : never
 
 /** 取函数第一个参数 */
 export type FnParams<T extends Fn> = Parameters<T>[0]
+
+/** ScrollView 滑动事件对象类型 */
+export type ScrollEvent = NativeSyntheticEvent<NativeScrollEvent>

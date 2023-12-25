@@ -61,20 +61,18 @@ class ScreenSubject extends Action {
     queue(
       [
         () => {
-          // 因为有 cdn, 下面 2 个用户相关的接口可以提前
-          if (!this.state.subject._loaded) return this.fetchSubjectFormCDN()
-        },
-        () => {
           // 用户每集收看进度
-          if (!SHARE_MODE) return this.fetchCollection()
+          if (SHARE_MODE) return
+          return this.fetchCollection()
         },
         () => {
+          // 用户收藏状态
           if (userStore.isStorybookLogin) {
             return userStore.fetchUserProgressV0(this.subjectId)
           }
 
-          // 用户收藏状态
-          if (!SHARE_MODE) return userStore.fetchUserProgress(this.subjectId)
+          if (SHARE_MODE) return
+          return userStore.fetchUserProgress(this.subjectId)
         }
       ],
       1

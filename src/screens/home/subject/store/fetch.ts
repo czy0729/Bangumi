@@ -93,14 +93,6 @@ export default class Fetch extends Computed {
     } catch (error) {}
   }
 
-  /** 私有 CDN 的条目信息 */
-  fetchSubjectFormCDN = async () => {
-    const { setting } = systemStore
-    const { _loaded } = this.subjectFormHTML
-    if (!setting.cdn || _loaded) return true
-    return subjectStore.fetchSubjectFormCDN(this.subjectId)
-  }
-
   /** 装载云端条目留言缓存数据 */
   fetchCommentsFromOSS = async () => {
     if (this.subjectComments._loaded) return
