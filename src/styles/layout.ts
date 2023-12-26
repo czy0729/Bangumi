@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-06 04:06:29
+ * @Last Modified time: 2023-12-26 07:47:12
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import * as Device from 'expo-device'

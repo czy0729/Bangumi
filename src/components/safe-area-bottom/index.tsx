@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:33:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:08:19
+ * @Last Modified time: 2023-12-26 07:45:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,11 +24,7 @@ export const SafeAreaBottom = ({
   return useObserver(() => (
     <View
       style={stl(style, {
-        [type]:
-          type === 'height'
-            ? // @ts-expect-error
-              bottom + style?.height || 0
-            : bottom
+        [type]: type === 'height' ? bottom + (style as any)?.height || 0 : bottom
       })}
       {...other}
     >

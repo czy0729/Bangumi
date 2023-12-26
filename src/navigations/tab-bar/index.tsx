@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 20:41:54
+ * @Last Modified time: 2023-12-26 08:09:02
  */
 import React from 'react'
 import { SafeAreaBottom, Flex, Touchable, Iconfont, Text } from '@components'
