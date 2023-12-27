@@ -6,7 +6,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:41:09
+ * @Last Modified time: 2023-12-26 08:46:00
  */
 import {
   collectionStore,
@@ -28,7 +28,7 @@ class ScreenSubject extends Action {
     // 是否需要更新数据
     const { _loaded } = this.state
     const current = getTimestamp()
-    const needFetch = !_loaded || current - Number(_loaded) > 60
+    const needFetch = !_loaded || current - Number(_loaded) > 60 * 5
 
     try {
       const state = (await this.getStorage(this.namespace)) || {}

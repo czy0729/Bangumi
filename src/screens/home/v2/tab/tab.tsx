@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 05:23:20
+ * @Last Modified time: 2023-12-26 18:44:56
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -22,8 +22,7 @@ function Tab({ renderScene }, { $ }: Ctx) {
         key={_.orientation}
         style={_.mt._sm}
         lazy
-        lazyPreloadDistance={0}
-        // @ts-expect-error
+        lazyPreloadDistance={1}
         navigationState={$.navigationState}
         renderTabBar={renderTabBar}
         renderBackground={<BlurViewTab length={$.tabs.length} />}

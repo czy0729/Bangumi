@@ -23,7 +23,7 @@ const shimmerColorsDark = [
   _._colorDarkModeLevel1
 ]
 
-/** 骨架屏动画 */
+/** 骨架屏渐变动画 */
 export const Skeleton = observer(({ width, height }: SkeletonProps) => {
   if (
     typeof width !== 'number' ||

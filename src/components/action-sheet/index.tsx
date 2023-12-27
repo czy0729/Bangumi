@@ -90,7 +90,6 @@ export const ActionSheet = ({
             }}
             onPress={onClose}
           />
-          {/* @ts-ignore */}
           <Animated.View
             style={[
               styles.content,

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 06:37:03
+ * @Last Modified time: 2023-12-26 08:27:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Heatmap, Flex } from '@components'
+import { Text, Heatmap, Flex, Touchable } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
@@ -85,9 +85,16 @@ export default memo(
             </View>
           )}
           {outdate && (
-            <Text style={_.mt.md} size={statusSize} type='sub' bold>
-              检测到授权信息过期，请重新登录再进行收藏管理
-            </Text>
+            <Touchable
+              style={_.mt.md}
+              onPress={() => {
+                navigation.push('LoginV2')
+              }}
+            >
+              <Text size={statusSize} type='sub' bold>
+                检测到授权信息过期，点击重新登录，再进行收藏管理
+              </Text>
+            </Touchable>
           )}
         </View>
       </View>

@@ -4,9 +4,10 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2022-10-19 13:15:42
  */
+import { PropsWithChildren } from 'react'
 import { ReactNode } from '@types'
 
-export type Props = {
+export type Props = PropsWithChildren<{
   /** 是否显示 */
   show?: boolean
 
@@ -18,7 +19,4 @@ export type Props = {
 
   /** 关闭回调函数 */
   onClose?: () => any
-
-  /** 内容 */
-  children: any
-}
+}>

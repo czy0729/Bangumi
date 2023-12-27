@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-14 12:22:12
+ * @Last Modified time: 2023-12-26 19:31:08
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
@@ -58,7 +58,7 @@ export async function gets(keys: string[], picker?: string[]): Promise<Result> {
 /** 更新 */
 export async function update(
   key: string,
-  value: object,
+  value: string | object,
   updateTS: boolean = true,
   test?: boolean
 ): Promise<Result> {
@@ -66,13 +66,18 @@ export async function update(
 
   if (STORYBOOK && !test) return
 
-  const finger = hash(
-    JSON.stringify({
-      key,
-      value,
-      updateTS
-    })
-  ).slice(0, 4)
+  const fingerValue = {
+    key,
+    value:
+      typeof value === 'string'
+        ? value
+        : {
+            ...value,
+            _loaded: true
+          },
+    updateTS
+  }
+  const finger = hash(JSON.stringify(fingerValue)).slice(0, 4)
   if (UPDATE_CACHE_MAP.has(finger)) return
 
   UPDATE_CACHE_MAP.set(finger, true)

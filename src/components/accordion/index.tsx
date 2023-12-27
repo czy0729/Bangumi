@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-12-04 19:50:59
  */
 import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
-import { View, Animated } from 'react-native'
+import { View, Animated, LayoutChangeEvent } from 'react-native'
 import { runAfter } from '@utils'
 import { styles } from './styles'
 import { Props as AccordionProps } from './types'
@@ -34,15 +34,15 @@ export const Accordion = ({
               inputRange: [0, 1],
               outputRange: [0, Math.max(h, MIN_HEIGHT)]
             })
-          : 'auto'
+          : ('auto' as const)
       },
       style
     ],
     [h, style]
   )
   const onLayout = useCallback(
-    event => {
-      const { height } = event.nativeEvent.layout
+    (evt: LayoutChangeEvent) => {
+      const { height } = evt.nativeEvent.layout
       if (height > h) setH(height)
     },
     [h]
@@ -72,7 +72,6 @@ export const Accordion = ({
   if (!expanded.current && lazy && !show) return null
 
   return (
-    // @ts-ignore
     <Animated.View style={animatedStyles}>
       <View onLayout={onLayout}>{children}</View>
     </Animated.View>
