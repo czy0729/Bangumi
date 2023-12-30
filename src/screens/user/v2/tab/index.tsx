@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 04:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 17:04:43
+ * @Last Modified time: 2023-12-29 19:53:37
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -20,7 +20,6 @@ function Tab({
   scrollY,
   onIndexChange,
   onScroll,
-  onSelectSubjectType,
   onSwipeStart,
   onRefreshOffset
 }) {
@@ -78,19 +77,12 @@ function Tab({
   const renderTabBar = useCallback(
     props => {
       return (
-        // @ts-expect-error
         <Animated.View style={[styles.tabBarWrap, transform]}>
           <TabBar {...props} />
         </Animated.View>
       )
     },
     [transform]
-  )
-  const onSelect = useCallback(
-    (title: string) => {
-      onSelectSubjectType(title)
-    },
-    [onSelectSubjectType]
   )
 
   return (
@@ -105,9 +97,8 @@ function Tab({
         onSwipeStart={onSwipeStart}
         onIndexChange={onIndexChange}
       />
-      {/* @ts-expect-error */}
       <Animated.View style={[styles.tabBarLeft, transform]}>
-        <TabBarLeft onSelect={onSelect} />
+        <TabBarLeft />
       </Animated.View>
     </>
   )

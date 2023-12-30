@@ -78,10 +78,10 @@ export type Fn = (...args: any[]) => any
 export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K
 
 /** React Component Interface */
-export type IReactComponent<P = any> =
-  | React.FunctionComponent<P>
-  | React.ComponentClass<P>
-  | React.ClassicComponentClass<P>
+export type IReactComponent<T = any> =
+  | React.FunctionComponent<T>
+  | React.ComponentClass<T>
+  | React.ClassicComponentClass<T>
 
 /** 取 Model 联合类型 */
 export type ModelValueOf<

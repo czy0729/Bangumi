@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 16:30:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:23:17
+ * @Last Modified time: 2023-12-29 19:53:56
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -19,7 +19,6 @@ export default obc((props, { $ }: Ctx) => {
       fetchCollections={$.fetchCollections}
       onChange={$.onChange}
       onScroll={$.onScroll}
-      onSelectSubjectType={$.onSelectSubjectType}
     />
   )
 })

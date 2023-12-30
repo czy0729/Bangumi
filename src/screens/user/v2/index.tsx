@@ -1,36 +1,26 @@
 /*
- * 我的时光机
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:24:00
+ * @Last Modified time: 2023-12-27 22:39:02
  */
 import React from 'react'
-import { StatusBar, Page, Track, Component } from '@components'
+import { Page, Track, Component } from '@components'
 import { BlurViewRoot, BlurViewBottomTab, Login } from '@_'
-import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { _, userStore } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver, useFocusEffect } from '@utils/hooks'
+import { useObserver } from '@utils/hooks'
+import { IOS, STORYBOOK } from '@constants'
 import Wrap from './wrap'
+import NestedScroll from './nested-scroll'
 import Heatmaps from './heatmaps'
 import Store from './store'
+import { useUserPage } from './hooks'
 import { Ctx } from './types'
 
+/** 我的时光机 */
 const User = (props, { $, navigation }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-
-    navigation.addListener(`${EVENT_APP_TAB_PRESS}|User`, () => {
-      $.onRefreshThenScrollTop()
-    })
-  })
-
-  useFocusEffect(() => {
-    setTimeout(() => {
-      StatusBar.setBarStyle('light-content')
-    }, 40)
-  })
+  useUserPage($, navigation)
 
   return useObserver(() => {
     // 自己并且没登录
@@ -48,7 +38,7 @@ const User = (props, { $, navigation }: Ctx) => {
       <Component id='screen-user'>
         <Page>
           <BlurViewRoot>
-            {!!_loaded && <Wrap />}
+            {!!_loaded && (!IOS && !STORYBOOK ? <NestedScroll /> : <Wrap />)}
             <BlurViewBottomTab />
           </BlurViewRoot>
         </Page>

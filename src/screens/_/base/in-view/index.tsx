@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:14:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:19:08
+ * @Last Modified time: 2023-12-29 21:52:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ export const InView = obc(({ index, y, children, ...other }, { $ }) => {
   }
 
   return (
-    <InViewComp {...other} y={y} visibleBottom={$?.state?.visibleBottom}>
+    <InViewComp {...other} y={y} visibleBottom={$.state.visibleBottom}>
       {children}
     </InViewComp>
   )

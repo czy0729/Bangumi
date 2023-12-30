@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:44:48
+ * @Last Modified time: 2023-12-30 08:13:09
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
+import { _ } from '@stores'
 
 /** 提前渲染的 y 轴距离 */
-const PRE_DISTANCE = 120
+const PRE_DISTANCE = _.window.height * 2
 
 export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
   const [top, setTop] = useState(y)
@@ -32,7 +33,7 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
   const Component = flex ? Flex : View
   return (
     // @ts-expect-error
-    <Component {...other} onLayout={!log && top ? undefined : onLayout}>
+    <Component {...other} onLayout={onLayout}>
       {show ? children : null}
     </Component>
   )

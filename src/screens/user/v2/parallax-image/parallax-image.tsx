@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:45:10
+ * @Last Modified time: 2023-12-29 20:34:03
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -137,10 +137,8 @@ export default memo(
       return (
         <>
           {TEXT_ONLY ? (
-            // @ts-expect-error
             <Animated.View style={[themeStyles.parallaxImage, parallaxStyle]} />
           ) : (
-            // @ts-expect-error
             <Animated.Image
               style={[themeStyles.parallaxImage, parallaxStyle]}
               source={{
@@ -149,7 +147,6 @@ export default memo(
               blurRadius={getBlurRadius(uri, bg, avatar?.large)}
             />
           )}
-          {/* @ts-expect-error */}
           <Animated.View
             style={[
               styles.parallaxWrap,
@@ -168,7 +165,6 @@ export default memo(
               }
             ]}
           />
-          {/* @ts-expect-error */}
           <Animated.View
             style={[
               styles.parallaxMask,
@@ -205,9 +201,7 @@ export default memo(
               </Text>
             </Flex>
           </Animated.View>
-          {/* @ts-expect-error */}
           <Animated.View style={[styles.parallaxWrap, parallaxStyle as ViewStyle]}>
-            {/* @ts-expect-error */}
             <Animated.View
               style={{
                 opacity: scrollY.interpolate({

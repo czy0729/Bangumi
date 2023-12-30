@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 15:00:57
+ * @Last Modified time: 2023-12-30 10:16:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,8 +28,7 @@ function Header(props, { $ }: Ctx) {
       <Head onBlockRef={props.onBlockRef} />
       <View style={styles.content}>
         {TopEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
-        {$.rendered &&
-          BottomEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
+        {BottomEls.map((item, index) => renderWithErrorBoundary(item, index, props))}
         {!_loaded && (
           <Flex style={styles.loading} justify='center'>
             <Loading />

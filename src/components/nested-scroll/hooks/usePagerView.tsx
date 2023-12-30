@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 17:27:29
+ * @Last Modified time: 2023-12-30 10:59:46
  */
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { Animated, Platform } from 'react-native'
@@ -13,9 +13,8 @@ import type {
   PageScrollStateChangedNativeEvent
 } from 'react-native-pager-view'
 
-export function usePagerView(initialPage = 0) {
+export function usePagerView({ initialPage = 0, onIndexChange }) {
   const pagerRef = useRef<PagerView>(null)
-
   const [activePage, setActivePage] = useState(initialPage)
   const [isIdle, setIdle] = useState(true)
 
@@ -25,12 +24,11 @@ export function usePagerView(initialPage = 0) {
     } else {
       pagerRef.current?.setPageWithoutAnimation(page)
     }
-    console.log(time() + ' setPage', page)
     setActivePage(page)
   }, [])
 
   const offset = useRef(new Animated.Value(0)).current
-  const position = useRef(new Animated.Value(0)).current
+  const position = useRef(new Animated.Value(initialPage)).current
 
   const onPageScroll = useMemo(
     () =>
@@ -50,17 +48,19 @@ export function usePagerView(initialPage = 0) {
     [offset, position]
   )
 
-  const onPageSelected = useCallback((e: PagerViewOnPageSelectedEvent) => {
-    console.log(time() + ' onPageSelected', e.nativeEvent.position)
-    setActivePage(e.nativeEvent.position)
-    if (Platform.OS === 'ios') {
-      setIdle(true)
-    }
-  }, [])
+  const onPageSelected = useCallback(
+    (e: PagerViewOnPageSelectedEvent) => {
+      const { position } = e.nativeEvent
+      setActivePage(position)
+      if (Platform.OS === 'ios') setIdle(true)
+
+      if (typeof onIndexChange === 'function') onIndexChange(position)
+    },
+    [onIndexChange]
+  )
 
   const onPageScrollStateChanged = useCallback(
     ({ nativeEvent: { pageScrollState } }: PageScrollStateChangedNativeEvent) => {
-      console.log(time() + ' onPageScrollStateChanged', pageScrollState)
       setIdle(pageScrollState === 'idle')
     },
     []
@@ -77,17 +77,4 @@ export function usePagerView(initialPage = 0) {
     onPageSelected,
     onPageScrollStateChanged
   }
-}
-
-function time() {
-  const date = new Date()
-  return (
-    date.getHours() +
-    '时' +
-    date.getMinutes() +
-    '分' +
-    date.getSeconds() +
-    '秒:' +
-    date.getMilliseconds()
-  )
 }

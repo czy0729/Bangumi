@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-07 11:52:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-07 11:53:37
+ * @Last Modified time: 2023-12-29 08:52:20
  */
 import { _ } from '@stores'
 
-export const W_INDICATOR = _.r(16)
+export const W_INDICATOR = 16
 
 export const memoStyles = _.memoStyles(() => ({
   tabBar: {

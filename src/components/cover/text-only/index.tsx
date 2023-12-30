@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-20 10:03:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 10:16:29
+ * @Last Modified time: 2023-12-30 07:27:58
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,7 +27,7 @@ function TextOnly({ width, height, radius, onPress }) {
         )}
         justify='center'
       >
-        <Text type='sub' bold onPress={onPress}>
+        <Text type='sub' size={10} bold onPress={onPress}>
           text-only
         </Text>
       </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 21:14:09
+ * @Last Modified time: 2023-12-30 08:16:52
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -81,12 +81,12 @@ const List = memo(
       ({ item, index }) => {
         return (
           <>
-            <Item item={item} index={index} page={page} numColumns={numColumns} />
+            <Item item={item} index={index} page={page} />
             {index === 0 && <Heatmap id='我的.跳转' to='Subject' alias='条目' />}
           </>
         )
       },
-      [page, numColumns]
+      [page]
     )
 
     useMount(() => {

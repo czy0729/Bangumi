@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-21 18:44:30
+ * @Last Modified time: 2023-12-30 12:30:47
  */
-import React, { useRef, useEffect, useMemo } from 'react'
-import { Animated, View } from 'react-native'
+import React, { useRef, useEffect } from 'react'
+import { Animated } from 'react-native'
 import { Flex, Input, Loading } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
@@ -25,16 +25,6 @@ const Filter = memo(
 
     const inputRef = useRef(null)
     const aHeight = useRef(new Animated.Value(0))
-    const animatedStyles = useMemo(
-      () => ({
-        height: aHeight.current.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, 56]
-        }),
-        overflow: 'hidden'
-      }),
-      []
-    )
 
     useEffect(() => {
       setTimeout(
@@ -58,27 +48,32 @@ const Filter = memo(
     }, [isTabActive, showFilter])
 
     return (
-      // @ts-expect-error
-      <Animated.View style={animatedStyles}>
-        <View style={styles.container}>
-          <Flex style={styles.filter} justify='center'>
-            <View style={styles.wrap}>
-              <Input
-                ref={inputRef}
-                style={styles.input}
-                clearButtonMode='never'
-                value={fliterInputText}
-                placeholder='搜索'
-                onChangeText={onFilterChange}
-              />
-              {isFiltering && (
-                <Flex style={styles.loading} justify='center'>
-                  <Loading.Normal color={_.colorSub} size={16} />
-                </Flex>
-              )}
-            </View>
-          </Flex>
-        </View>
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            height: aHeight.current.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, styles.filter.height]
+            })
+          }
+        ]}
+      >
+        <Flex style={styles.filter} justify='center'>
+          <Input
+            ref={inputRef}
+            inputStyle={styles.input}
+            value={fliterInputText}
+            placeholder='搜索'
+            clearButtonMode='never'
+            onChangeText={onFilterChange}
+          />
+          {isFiltering && (
+            <Flex style={styles.loading} justify='center'>
+              <Loading.Normal color={_.colorSub} size={16} />
+            </Flex>
+          )}
+        </Flex>
       </Animated.View>
     )
   },

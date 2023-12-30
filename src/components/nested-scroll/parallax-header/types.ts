@@ -16,4 +16,6 @@ export type Props = PropsWithChildren<{
   scale: Animated.AnimatedInterpolation<number> | 1
   imageStyle?: StyleProp<ImageStyle>
   imageSource: any
+  headerOpacity: Animated.AnimatedInterpolation<number>
+  overflowHeaderOpacity: Animated.AnimatedInterpolation<number>
 }>

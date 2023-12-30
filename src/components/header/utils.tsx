@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 16:37:34
+ * @Last Modified time: 2023-12-30 10:22:40
  */
 import React, { useState, useCallback, useRef } from 'react'
 import { View } from 'react-native'
@@ -157,9 +157,7 @@ export const useOnScroll = () => {
       const offset = HEADER_TRANSITION_HEIGHT
       if ((fixed && y > offset) || (!fixed && y <= offset)) return
 
-      setTimeout(() => {
-        setFixed(y > offset)
-      }, 0)
+      setFixed(y > offset)
     },
     [fixed]
   )

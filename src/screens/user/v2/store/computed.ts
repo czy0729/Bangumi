@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:22:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 06:40:00
+ * @Last Modified time: 2023-12-30 08:46:20
  */
 import { computed } from 'mobx'
-import { _, userStore, collectionStore, usersStore } from '@stores'
+import { _, userStore, collectionStore, usersStore, systemStore } from '@stores'
 import { HTMLDecode, getPinYinFilterValue, t2s, x18 } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import {
@@ -218,5 +218,26 @@ export default class Computed extends State {
   @computed get isSortByScore() {
     const { order } = this.state
     return MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) === '网站评分'
+  }
+
+  /** 自定义背景 */
+  @computed get imageSource() {
+    return {
+      uri: this.bg
+    }
+  }
+
+  /** 长列表列数 */
+  @computed get numColumns() {
+    const { list } = this.state
+    return list ? undefined : Number(systemStore.setting.userGridNum)
+  }
+
+  /** 检查 tabbar 此页是否已经渲染过 */
+  loadedPage(index: number) {
+    return computed(() => {
+      const { loadedPage } = this.state
+      return loadedPage.includes(index)
+    }).get()
   }
 }

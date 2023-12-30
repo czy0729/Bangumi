@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 16:10:52
+ * @Last Modified time: 2023-12-30 08:23:04
  */
 import { Platform, ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
 import * as Device from 'expo-device'
+import { Fn } from '@types'
 import { PAD, RATIO, STORYBOOK, STORYBOOK_IFRAME } from '../device'
+
+/** 空函数引用 */
+export const FN = (() => {}) as Fn
 
 /** 设备名字 */
 export const DEVICE_MODEL_NAME = Device.modelName
@@ -21,7 +25,7 @@ export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
 const expoPackageJson = require('@/node_modules/expo/package.json')
 const appJson = require('@/app.json')
 
-/** @deprecated [已废弃] 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37 */
+/** @deprecated 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37 */
 export const SDK = parseInt(expoPackageJson.version.split('.')[0])
 
 /** Expo 线上预览唯一标识 */

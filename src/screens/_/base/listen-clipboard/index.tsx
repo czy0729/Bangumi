@@ -2,10 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:35:12
+ * @Last Modified time: 2023-12-29 20:23:35
  */
 import React from 'react'
-import { AppState, Clipboard } from 'react-native'
+import {
+  AppState,
+  AppStateStatus,
+  Clipboard,
+  NativeEventSubscription
+} from 'react-native'
 import { Component } from '@components'
 import { confirm, matchBgmUrl, navigationReference, appNavigate } from '@utils'
 import { IOS, STORYBOOK } from '@constants'
@@ -18,11 +23,13 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
     appState: AppState.currentState
   }
 
+  appStateListener: NativeEventSubscription
+
   componentDidMount() {
     // 从 iOS 14 开始会有粘贴板读取提示, 很烦人暂时屏蔽
     if (IOS || STORYBOOK) return
 
-    AppState.addEventListener('change', this.onAppStateChange)
+    this.appStateListener = AppState.addEventListener('change', this.onAppStateChange)
     setTimeout(() => {
       this.checkContent()
     }, 1200)
@@ -31,10 +38,10 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   componentWillUnmount() {
     if (IOS || STORYBOOK) return
 
-    AppState.removeEventListener('change', this.onAppStateChange)
+    this.appStateListener.remove()
   }
 
-  onAppStateChange = nextAppState => {
+  onAppStateChange = (nextAppState: AppStateStatus) => {
     const { appState } = this.state
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
       this.checkContent()

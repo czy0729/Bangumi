@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-05 06:27:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-05 07:20:52
+ * @Last Modified time: 2023-12-30 11:13:16
  */
 import { _ } from '@stores'
 import { H_RADIUS_LINE } from '../../ds'
@@ -22,13 +22,14 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   btn: {
-    width: _.r(56),
+    width: 56,
     height: _.ios(28, 22),
     marginTop: _.ios(0, 3),
     borderRadius: _.r(16)
   },
   text: {
-    width: _.r(56)
+    width: 56,
+    lineHeight: 16
   },
   textIOS: {
     lineHeight: 14

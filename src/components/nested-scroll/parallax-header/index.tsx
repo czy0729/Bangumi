@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:48:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 15:50:46
+ * @Last Modified time: 2023-12-29 20:51:37
  */
 import React from 'react'
 import { Animated, ImageBackground, useWindowDimensions, View } from 'react-native'
@@ -22,6 +22,8 @@ export function ParallaxHeader({
   scale,
   imageStyle,
   imageSource,
+  headerOpacity,
+  overflowHeaderOpacity,
   onScroll,
   children
 }: Props) {
@@ -41,9 +43,9 @@ export function ParallaxHeader({
         <AnimatedImageBackground
           style={[
             {
+              justifyContent: 'center',
               height: imageHeight,
-              width: width * 1.2,
-              justifyContent: 'center'
+              width: width
             },
             {
               transform: [
@@ -56,7 +58,21 @@ export function ParallaxHeader({
           ]}
           source={imageSource}
         >
-          {children}
+          <Animated.View
+            style={[
+              styles.mask,
+              {
+                opacity: headerOpacity
+              }
+            ]}
+          />
+          <Animated.View
+            style={{
+              opacity: overflowHeaderOpacity
+            }}
+          >
+            {children}
+          </Animated.View>
         </AnimatedImageBackground>
       </View>
     </NestedScrollViewHeaderAnimated>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:38:50
+ * @Last Modified time: 2023-12-30 08:43:32
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
@@ -18,7 +18,8 @@ export const EXCLUDE_STATE = {
   fixed: false,
   filter: '',
   fliterInputText: '',
-  fetching: false
+  fetching: false,
+  loadedPage: [] as number[]
 }
 
 export const STATE = {

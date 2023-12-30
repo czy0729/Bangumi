@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 09:19:58
+ * @Last Modified time: 2023-12-30 08:50:53
  */
 import { userStore, systemStore } from '@stores'
 import { MODEL_COLLECTIONS_ORDERBY } from '@constants'
@@ -13,11 +13,13 @@ import { EXCLUDE_STATE, NAMESPACE } from './ds'
 export default class ScreenUser extends Action {
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}
-    this.setState({
+    const next = {
       ...state,
       ...EXCLUDE_STATE,
       _loaded: true
-    })
+    }
+    next.loadedPage = [next.page]
+    this.setState(next)
 
     // 用户信息
     await this.fetchUsersInfo()

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 15:38:38
+ * @Last Modified time: 2023-12-30 10:19:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -87,11 +87,6 @@ export default class Computed extends State {
   /** 页面唯一命名空间 */
   @computed get namespace() {
     return `${NAMESPACE}|${this.subjectId}` as const
-  }
-
-  /** @deprecated 用于懒渲染 */
-  @computed get rendered() {
-    return STORYBOOK ? true : this.state.rendered
   }
 
   /** 是否敏感条目 */

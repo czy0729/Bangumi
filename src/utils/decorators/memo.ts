@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 07:14:39
+ * @Last Modified time: 2023-12-30 08:39:56
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
+import { AnyObject } from '@types'
 
-function compareLog(prev, next) {
+function log(prev: AnyObject, next: AnyObject) {
   const unsameKeys = []
 
   Object.keys(prev).forEach(key => {
@@ -20,7 +21,7 @@ function compareLog(prev, next) {
 
   if (unsameKeys.length) {
     if (prev[unsameKeys[0]] === 'object') {
-      compareLog(prev[unsameKeys[0]], next[unsameKeys[0]])
+      log(prev[unsameKeys[0]], next[unsameKeys[0]])
       return
     }
 
@@ -43,7 +44,7 @@ function compareLog(prev, next) {
   }
 }
 
-function mapKey(target, key, value) {
+function mapKey(target: AnyObject, key: string, value: any) {
   if (key === 'navigation' || key === '_loaded' || typeof value === 'function') return
 
   // 每次请求后, 不管数据源有没有变化, _loaded 都会变化
@@ -57,14 +58,14 @@ function mapKey(target, key, value) {
   target[key] = value
 }
 
-/**
- * 封装通用React.memo的第二参数
- * @param {*} prevProps
- * @param {*} nextProps
- * @param {*} propsOrKeys
- */
-function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
-  // 正常情况不会是false, 这是留给强制更新的一个参数配合
+/** 封装通用 React.memo 的第二参数 */
+function memoCompare(
+  prevProps: AnyObject,
+  nextProps: AnyObject,
+  propsOrKeys: AnyObject | string[],
+  dev?: boolean
+) {
+  // 正常情况不会是 false, 这是留给强制更新的一个参数配合
   if (prevProps === false && nextProps === false) return false
 
   const _prevProps = propsOrKeys ? {} : prevProps
@@ -79,7 +80,7 @@ function memoCompare(prevProps, nextProps, propsOrKeys, dev) {
   }
 
   const notUpdate = isEqual(_prevProps, _nextProps)
-  if (dev && !notUpdate) compareLog(_prevProps, _nextProps)
+  if (dev && !notUpdate) log(_prevProps, _nextProps)
 
   return notUpdate
 }

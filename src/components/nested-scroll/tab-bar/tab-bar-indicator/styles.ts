@@ -6,14 +6,14 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   indicator: {
     position: 'absolute',
-    left: 0,
     bottom: 0,
+    left: 0,
     width: 24,
     height: 4,
-    backgroundColor: '#448AFF',
+    backgroundColor: _.colorMain,
     borderRadius: 2
   }
-})
+}))

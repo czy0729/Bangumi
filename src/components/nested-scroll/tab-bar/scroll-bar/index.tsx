@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-27 16:35:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 17:07:08
+ * @Last Modified time: 2023-12-30 09:47:40
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { LayoutChangeEvent, ScrollView } from 'react-native'
+import { stl } from '@utils'
 import { styles } from './styles'
 import { Layout, ScrollBarProps } from './types'
 
@@ -28,9 +29,8 @@ export function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
   const scrollRef = useRef<ScrollView>(null)
 
   useEffect(() => {
-    if (tabLayouts.length - 1 < page || contentWidth === 0 || scrollBarWidth === 0) {
+    if (tabLayouts.length - 1 < page || contentWidth === 0 || scrollBarWidth === 0)
       return
-    }
 
     // 获得选中的 Tab 布局数据
     const tabLayout = tabLayouts[page]
@@ -50,12 +50,12 @@ export function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
   return (
     <ScrollView
       ref={scrollRef}
-      style={[styles.scrollbar, style]}
+      style={stl(styles.scrollbar, style)}
       horizontal
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
       onContentSizeChange={onContentSizeChange}
       onLayout={onLayout}
-      bounces={false}
-      showsHorizontalScrollIndicator={false}
       {...props}
     >
       {React.cloneElement(children as any, { onTabsLayout })}

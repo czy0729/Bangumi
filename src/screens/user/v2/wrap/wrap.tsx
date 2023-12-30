@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 05:54:08
+ * @Last Modified time: 2023-12-29 19:53:44
  */
 import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -13,15 +13,7 @@ import ParallaxImage from '../parallax-image'
 import { DEFAULT_PROPS } from './ds'
 
 const Wrap = memo(
-  ({
-    fixedHeight,
-    page,
-    scrollToOffset,
-    fetchCollections,
-    onChange,
-    onScroll,
-    onSelectSubjectType
-  }) => {
+  ({ fixedHeight, page, scrollToOffset, fetchCollections, onChange, onScroll }) => {
     useMount(() => {
       fetchCollections()
     })
@@ -110,7 +102,6 @@ const Wrap = memo(
           onScroll={onScrollCallback}
           onSwipeStart={onSwipeStart}
           onIndexChange={onIndexChange}
-          onSelectSubjectType={onSelectSubjectType}
           onRefreshOffset={onRefreshOffset}
         />
         <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />

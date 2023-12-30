@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 02:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 05:14:31
+ * @Last Modified time: 2023-12-30 12:46:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,10 @@ import Search from './search'
 import More from './more'
 import { memoStyles } from './styles'
 
-function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset }, { $ }: Ctx) {
+function ToolBar(
+  { page, pageCurrent, pageTotal, onRefreshOffset = undefined },
+  { $ }: Ctx
+) {
   rerender('User.ToolBar')
 
   const styles = memoStyles()
@@ -37,7 +40,7 @@ function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset }, { $ }: Ctx) 
         <Search />
         <More
           onRefreshOffset={() => {
-            onRefreshOffset()
+            if (typeof onRefreshOffset === 'function') onRefreshOffset()
             $.onRefreshOffset()
           }}
         />

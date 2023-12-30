@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:55:10
+ * @Last Modified time: 2023-12-29 22:21:25
  */
 import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
@@ -248,7 +248,6 @@ class SwitchProComp extends React.Component<any, any> {
     })
 
     return (
-      // @ts-expect-error
       <Animated.View
         {...rest}
         {...this._panResponder.panHandlers}
@@ -264,7 +263,6 @@ class SwitchProComp extends React.Component<any, any> {
           style
         )}
       >
-        {/* @ts-expect-error */}
         <Animated.View
           style={stl(
             {

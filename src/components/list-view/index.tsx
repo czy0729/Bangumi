@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-26 19:17:08
+ * @Last Modified time: 2023-12-30 09:00:25
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -225,8 +225,8 @@ export const ListView = observer(
 
         /** 常用优化参数 */
         maxToRenderPerBatch: optimize ? 48 : undefined,
-        updateCellsBatchingPeriod: optimize ? 96 : undefined,
-        initialNumToRender: 24,
+        updateCellsBatchingPeriod: optimize ? 48 : undefined,
+        initialNumToRender: 12,
         windowSize: optimize ? 21 : undefined,
 
         /** 强制不显示滚动条 */

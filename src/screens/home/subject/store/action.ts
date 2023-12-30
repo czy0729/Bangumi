@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 08:54:32
+ * @Last Modified time: 2023-12-30 10:17:56
  */
 import {
   _,
@@ -403,7 +403,6 @@ export default class Action extends Fetch {
     const { rendered } = this.state
     if (!rendered) {
       this.setState({
-        visibleBottom: _.window.height * 1.5,
         rendered: true
       })
     }
@@ -413,7 +412,6 @@ export default class Action extends Fetch {
     const { rendered } = this.state
     if (rendered) {
       this.setState({
-        visibleBottom: 0,
         rendered: false
       })
     }

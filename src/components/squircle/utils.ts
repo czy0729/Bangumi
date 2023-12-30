@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:31:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 05:44:43
+ * @Last Modified time: 2023-12-29 22:32:12
  */
 import { STORYBOOK } from '@constants'
 import { _ } from '@stores'
@@ -17,9 +17,9 @@ const iOS_PREST = {
   r2: 0.332
 } as const
 
-const MIN_RADIUS = 6
+const MIN_RADIUS = _.web(6, 8)
 
-const MAX_RADIUS = 36
+const MAX_RADIUS = _.web(36, 40)
 
 const DEFAULT_RATIO = iOS_PREST.r1 / iOS_PREST.r2
 

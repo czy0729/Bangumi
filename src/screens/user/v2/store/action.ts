@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 05:11:25
+ * @Last Modified time: 2023-12-30 11:01:48
  */
 import { _, collectionStore, uiStore } from '@stores'
 import { debounce, feedback, updateVisibleBottom } from '@utils'
@@ -16,6 +16,7 @@ import {
 import { MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 import { TABS } from '../ds'
 import Fetch from './fetch'
+import { STATE } from './ds'
 
 export default class Action extends Fetch {
   /** ScrollView.scrollToIndex */
@@ -67,36 +68,42 @@ export default class Action extends Fetch {
 
   /** 标签页切换 */
   onChange = (page: number) => {
+    if (page === this.state.page) return
+
     t('我的.标签页切换', {
       page
     })
 
-    this.setState({
+    const { loadedPage } = this.state
+    const next: Partial<typeof STATE> = {
       page,
       tag: '',
       ipt: '1'
-    })
+    }
+    if (!loadedPage.includes(page)) next.loadedPage = [...loadedPage, page]
+    this.setState(next)
     this.fetchIsNeedToEnd(true)
     this.save()
   }
 
   /** 条目类型选择 */
   onSelectSubjectType = (title: SubjectTypeCn) => {
+    const subjectType = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(title)
+    if (subjectType === this.state.subjectType) return
+
     t('我的.类型选择', {
       title
     })
 
-    const { subjectType } = this.state
-    const nextSubjectType = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(title)
-    if (nextSubjectType !== subjectType) {
-      this.setState({
-        subjectType: nextSubjectType,
-        tag: '',
-        ipt: '1'
-      })
-      this.fetchIsNeedRefreshToEnd()
-      this.save()
-    }
+    const { page } = this.state
+    this.setState({
+      subjectType,
+      tag: '',
+      ipt: '1',
+      loadedPage: [page]
+    })
+    this.fetchIsNeedRefreshToEnd()
+    this.save()
   }
 
   /** 排序选择 */

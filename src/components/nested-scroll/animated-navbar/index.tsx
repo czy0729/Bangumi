@@ -2,28 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:54:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 16:10:47
+ * @Last Modified time: 2023-12-30 15:57:57
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { useAnimatedNavbar } from '../hooks/useAnimatedNavbar'
 import { styles } from './styles'
 import { Props } from './types'
 
 export function AnimatedNavbar({
-  scroll,
-  imageHeight,
-  headerHeight,
   statusBarHeight,
+  headerHeight,
+  headerOpacity,
+  overflowHeaderOpacity,
   OverflowHeaderComponent,
   TopNavbarComponent
 }: Props) {
-  const [headerOpacity, overflowHeaderOpacity] = useAnimatedNavbar(
-    scroll,
-    imageHeight,
-    headerHeight
-  )
-
   return (
     <>
       {!!TopNavbarComponent && (
@@ -32,9 +25,9 @@ export function AnimatedNavbar({
             styles.container,
             styles.header,
             {
-              paddingTop: statusBarHeight,
               zIndex: headerOpacity,
               height: headerHeight,
+              paddingTop: statusBarHeight,
               opacity: headerOpacity
             }
           ]}
