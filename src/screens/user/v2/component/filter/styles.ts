@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-05 05:39:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 12:43:19
+ * @Last Modified time: 2024-01-01 16:27:35
  */
 import { _ } from '@stores'
 
@@ -34,8 +34,8 @@ export const memoStyles = _.memoStyles(() => ({
   loading: {
     position: 'absolute',
     zIndex: 2,
-    top: 0,
-    right: 0,
+    top: _.sm - 1,
+    right: 1,
     width: SIZE,
     height: SIZE
   }

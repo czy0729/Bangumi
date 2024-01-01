@@ -2,17 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:22:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 08:46:20
+ * @Last Modified time: 2024-01-01 20:05:18
  */
 import { computed } from 'mobx'
 import { _, userStore, collectionStore, usersStore, systemStore } from '@stores'
 import { HTMLDecode, getPinYinFilterValue, t2s, x18 } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
-import {
-  MODEL_SUBJECT_TYPE,
-  MODEL_COLLECTION_STATUS,
-  MODEL_COLLECTIONS_ORDERBY
-} from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY } from '@constants'
 import {
   CollectionsOrderCn,
   CollectionStatus,
@@ -106,7 +102,7 @@ export default class Computed extends State {
 
   /** 各个 tab 条目计数 */
   @computed get counts() {
-    const counts = {
+    const counts: Record<SubjectTypeCn, Partial<Record<CollectionStatusCn, number>>> = {
       动画: {},
       书籍: {},
       游戏: {},
@@ -118,14 +114,17 @@ export default class Computed extends State {
     if (data.length) {
       data.forEach(item => {
         item.collects.forEach(i => {
-          const type = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
-            i.status.type
-          )
+          const type = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(i.status.type)
           counts[item.name_cn][type] = i.count
         })
       })
     }
     return counts
+  }
+
+  /** tab 条目计数 */
+  count(subjectTypeCn: SubjectTypeCn, collectionStatus: CollectionStatusCn) {
+    return computed(() => this.counts[subjectTypeCn][collectionStatus]).get()
   }
 
   /** 顶部背景高度 */
@@ -140,20 +139,14 @@ export default class Computed extends State {
    * @param {*} isBetween 前后tab也算当前
    * @returns
    */
-  isTabActive(
-    subjectType: SubjectType,
-    type: CollectionStatus,
-    isBetween: boolean = false
-  ) {
+  isTabActive(subjectType: SubjectType, type: CollectionStatus, isBetween: boolean = false) {
     return computed(() => {
       const { subjectType: _subjectType, page } = this.state
       if (subjectType !== _subjectType) return false
 
       if (isBetween) {
         return (
-          TABS[page]?.key === type ||
-          TABS[page - 1]?.key === type ||
-          TABS[page + 1]?.key === type
+          TABS[page]?.key === type || TABS[page - 1]?.key === type || TABS[page + 1]?.key === type
         )
       }
       return TABS[page]?.key === type
@@ -180,11 +173,7 @@ export default class Computed extends State {
   userCollections(subjectType: SubjectType, type: CollectionStatus) {
     return computed(() => {
       // eslint-disable-next-line prefer-const
-      let { list, ...other } = collectionStore.userCollections(
-        this.username,
-        subjectType,
-        type
-      )
+      let { list, ...other } = collectionStore.userCollections(this.username, subjectType, type)
 
       if (this.isTabActive(subjectType, type, true)) {
         if (this.filter) {
@@ -193,10 +182,7 @@ export default class Computed extends State {
             const jp = (item.name || '').toUpperCase()
             if (cn.includes(this.filter) || jp.includes(this.filter)) return true
 
-            return (
-              getPinYinFilterValue(cn, this.filter) ||
-              getPinYinFilterValue(jp, this.filter)
-            )
+            return getPinYinFilterValue(cn, this.filter) || getPinYinFilterValue(jp, this.filter)
           })
         }
       }

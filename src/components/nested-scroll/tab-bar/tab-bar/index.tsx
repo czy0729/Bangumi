@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 17:08:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 11:10:44
+ * @Last Modified time: 2024-01-01 20:24:36
  */
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Animated, View, LayoutChangeEvent } from 'react-native'
@@ -102,18 +102,11 @@ export function TabBar({
           labelStyle={labelStyle}
           title={tab}
           renderLabel={renderLabel}
-          onPress={() => {
-            handleTabPress(index)
-          }}
-          onLayout={(event: LayoutChangeEvent) => {
-            handleTabLayout(index, event.nativeEvent.layout)
-          }}
+          onPress={() => handleTabPress(index)}
+          onLayout={(event: LayoutChangeEvent) => handleTabLayout(index, event.nativeEvent.layout)}
         />
       ))}
-      <TabBarIndicator
-        style={stl(styles.indicator, indicatorStyle)}
-        scrollX={scrollX}
-      />
+      <TabBarIndicator style={stl(styles.indicator, indicatorStyle)} scrollX={scrollX} />
     </View>
   )
 }

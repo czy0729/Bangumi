@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:59:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:38:03
+ * @Last Modified time: 2024-01-01 16:14:28
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -21,7 +21,6 @@ function ItemGrid({ item, numColumns }, { $, navigation }: Ctx) {
       navigation={navigation}
       num={numColumns}
       type={typeCn}
-      userCollection={$.label}
       event={EVENT}
       {...item}
       isRectangle={typeCn === '音乐'}

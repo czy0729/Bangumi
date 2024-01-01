@@ -3,18 +3,24 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 14:12:46
+ * @Last Modified time: 2024-01-01 21:03:33
  */
-import { DEV, LOG_LEVEL } from '@/config'
-import { RERENDER_SHOW } from '@/config'
 import { AnyObject, Join } from '@types'
+import { DEV, LOG_LEVEL, RERENDER_SHOW, RERENDER_NOT_SHOW } from '@/config'
 import { pad } from '../utils'
 import { handleCircular } from './utils'
 import { RERENDER_LOG_COUNT, RERENDER_MEMO } from './ds'
 
 /** @deprecated 调试查看组件 re-render 情况 */
 export function rerender(key: string, ...other: any[]) {
-  if (!DEV || !key || !RERENDER_SHOW.test(key)) return
+  if (
+    !DEV ||
+    !key ||
+    !RERENDER_SHOW.test(key) ||
+    RERENDER_NOT_SHOW.some(item => key.includes(item))
+  ) {
+    return
+  }
 
   if (!RERENDER_MEMO.data[key]) RERENDER_MEMO.data[key] = 0
   RERENDER_MEMO.data[key] += 1
@@ -49,7 +55,14 @@ export function rc<A extends string, B extends string = 'Main'>(
 
 /** 调试查看组件 re-render 情况 */
 export function r(key: string, ...other: any[]) {
-  if (!DEV || !key || !RERENDER_SHOW.test(key)) return
+  if (
+    !DEV ||
+    !key ||
+    !RERENDER_SHOW.test(key) ||
+    RERENDER_NOT_SHOW.some(item => key.includes(item))
+  ) {
+    return
+  }
 
   if (!RERENDER_MEMO.data[key]) RERENDER_MEMO.data[key] = 0
   RERENDER_MEMO.data[key] += 1

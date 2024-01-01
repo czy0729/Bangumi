@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:35:27
+ * @Last Modified time: 2024-01-01 15:47:16
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCollectionsProps } from './types'
 
@@ -48,8 +48,6 @@ export const ItemCollections = ob(
     showManage,
     onEdit
   }: ItemCollectionsProps) => {
-    rerender('Component.ItemCollections')
-
     return (
       <Item
         navigation={navigation}
@@ -87,5 +85,6 @@ export const ItemCollections = ob(
         onEdit={onEdit}
       />
     )
-  }
+  },
+  COMPONENT
 )

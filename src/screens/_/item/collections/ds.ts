@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 20:34:53
+ * @Last Modified time: 2024-01-01 15:46:39
  */
+import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
+
+export const COMPONENT = rc(PARENT, 'ItemCollections')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,

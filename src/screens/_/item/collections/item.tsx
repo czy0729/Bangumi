@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 22:14:28
+ * @Last Modified time: 2024-01-01 16:24:24
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
@@ -10,14 +10,13 @@ import { _, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { InView, Cover, Manage } from '../../base'
 import { IconTouchable } from '../../icon/touchable'
 import Title from './title'
 import Bottom from './bottom'
-import { DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const ITEM_HEIGHT = 156
 
@@ -55,11 +54,9 @@ const Item = memo(
     showManage,
     onEdit
   }) => {
-    rerender('Component.ItemCollections.Main')
-
     const typeCn = type
 
-    let justify
+    let justify: 'between'
     if (!isCatalog || (!comments && !isEditable)) justify = 'between'
 
     const subjectId = String(id).replace('/subject/', '')
@@ -126,10 +123,7 @@ const Item = memo(
                             subjectId,
                             title: nameCn,
                             desc: name,
-                            status:
-                              MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(
-                                collection
-                              ),
+                            status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                             action: getAction(typeCn)
                           },
                           '收藏'
@@ -183,7 +177,8 @@ const Item = memo(
       </Component>
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
 
 export default Item

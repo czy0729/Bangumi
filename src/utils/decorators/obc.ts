@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 12:59:03
+ * @Last Modified time: 2024-01-01 15:57:26
  */
-import { ComponentType } from 'react'
 import { observer } from 'mobx-react'
 import { contextTypes } from '@constants/constants'
-import { AnyObject } from '@types'
+import { IReactComponent } from '@types'
 import { DEV } from '@/config'
 import { withDev } from './utils'
 
@@ -18,11 +17,11 @@ import { withDev } from './utils'
  * @param param3 devRerenderKey 调试组件名
  * @returns
  */
-export default function obc(
-  Component: ComponentType<AnyObject>,
+export default function obc<T extends IReactComponent>(
+  Component: T,
   param2?: object | string,
   param3?: string
-) {
+): T {
   Component.contextTypes = contextTypes
 
   let devRerenderKey: string
@@ -43,5 +42,5 @@ export default function obc(
     }
   }
 
-  return observer(DEV && devRerenderKey ? withDev(Component, devRerenderKey) : Component)
+  return observer(DEV && devRerenderKey ? withDev(Component, devRerenderKey) : Component) as T
 }

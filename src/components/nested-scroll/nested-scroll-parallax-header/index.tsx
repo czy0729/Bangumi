@@ -2,16 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 15:59:26
+ * @Last Modified time: 2024-01-01 15:14:52
  */
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
-import {
-  NestedScrollView,
-  NestedScrollViewHeader,
-  NestedScrollEvent
-} from '@sdcx/nested-scroll'
+import { NestedScrollView, NestedScrollViewHeader, NestedScrollEvent } from '@sdcx/nested-scroll'
 import { _ } from '@stores'
 import { ParallaxHeader } from '../parallax-header'
 import { AnimatedNavbar } from '../animated-navbar'
@@ -42,10 +38,7 @@ export function NestedScrollParallaxHeader({
   onIndexChange,
   children
 }: NestedScrollParallaxHeaderProps) {
-  const [scroll, , scale, translateYDown, translateYUp] = useAnimateScrollView(
-    imageHeight,
-    true
-  )
+  const [scroll, , scale, translateYDown, translateYUp] = useAnimateScrollView(imageHeight, true)
 
   const {
     pagerRef,
@@ -83,8 +76,8 @@ export function NestedScrollParallaxHeader({
     [scroll]
   )
 
-  return (
-    <View style={styles.fill}>
+  const elNavbar = useMemo(
+    () => (
       <AnimatedNavbar
         statusBarHeight={_.statusBarHeight}
         headerHeight={_.headerHeight}
@@ -93,45 +86,93 @@ export function NestedScrollParallaxHeader({
         OverflowHeaderComponent={OverflowHeaderComponent}
         TopNavbarComponent={TopNavbarComponent}
       />
+    ),
+    [OverflowHeaderComponent, TopNavbarComponent, headerOpacity, overflowHeaderOpacity]
+  )
+
+  const elParallaxHeader = useMemo(
+    () => (
+      <ParallaxHeader
+        topBarHeight={_.headerHeight}
+        imageHeight={imageHeight}
+        imageSource={imageSource}
+        scale={scale}
+        translateYDown={translateYDown}
+        translateYUp={translateYUp}
+        headerOpacity={headerOpacity}
+        overflowHeaderOpacity={overflowHeaderOpacity}
+      >
+        {HeaderComponent}
+      </ParallaxHeader>
+    ),
+    [
+      HeaderComponent,
+      headerOpacity,
+      imageHeight,
+      imageSource,
+      overflowHeaderOpacity,
+      scale,
+      translateYDown,
+      translateYUp
+    ]
+  )
+
+  const elTabBar = useMemo(
+    () => (
+      <TabBar
+        tabs={pages}
+        position={position}
+        offset={offset}
+        page={page}
+        isIdle={isIdle}
+        spacing={spacing}
+        tabBarLocalKey={tabBarLocalKey}
+        TabBarLeft={TabBarLeft}
+        renderLabel={renderLabel}
+        onTabPress={setPage}
+      />
+    ),
+    [
+      TabBarLeft,
+      isIdle,
+      offset,
+      page,
+      pages,
+      position,
+      renderLabel,
+      setPage,
+      spacing,
+      tabBarLocalKey
+    ]
+  )
+
+  const elAnimatedPagerView = useMemo(
+    () => (
+      <AnimatedPagerView
+        ref={pagerRef}
+        style={styles.pager}
+        initialPage={page}
+        overdrag
+        overScrollMode='always'
+        onPageScroll={onPageScroll}
+        onPageSelected={onPageSelected}
+        onPageScrollStateChanged={onPageScrollStateChanged}
+      >
+        {children}
+      </AnimatedPagerView>
+    ),
+    [children, onPageScroll, onPageScrollStateChanged, onPageSelected, page, pagerRef]
+  )
+
+  return (
+    <View style={styles.fill}>
+      {elNavbar}
       <NestedScrollView bounces>
         <NestedScrollViewHeader stickyHeight={stickyHeight} onScroll={onScroll}>
-          <ParallaxHeader
-            topBarHeight={_.headerHeight}
-            imageHeight={imageHeight}
-            imageSource={imageSource}
-            scale={scale}
-            translateYDown={translateYDown}
-            translateYUp={translateYUp}
-            headerOpacity={headerOpacity}
-            overflowHeaderOpacity={overflowHeaderOpacity}
-          >
-            {HeaderComponent}
-          </ParallaxHeader>
-          <TabBar
-            tabs={pages}
-            position={position}
-            offset={offset}
-            page={page}
-            isIdle={isIdle}
-            spacing={spacing}
-            tabBarLocalKey={tabBarLocalKey}
-            TabBarLeft={TabBarLeft}
-            renderLabel={renderLabel}
-            onTabPress={setPage}
-          />
+          {elParallaxHeader}
+          {elTabBar}
         </NestedScrollViewHeader>
-        <AnimatedPagerView
-          ref={pagerRef}
-          style={styles.pager}
-          initialPage={page}
-          overdrag
-          overScrollMode='always'
-          onPageScroll={onPageScroll}
-          onPageSelected={onPageSelected}
-          onPageScrollStateChanged={onPageScrollStateChanged}
-        >
-          {children}
-        </AnimatedPagerView>
+        {elAnimatedPagerView}
       </NestedScrollView>
     </View>
   )

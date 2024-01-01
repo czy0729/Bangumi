@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 09:23:25
+ * @Last Modified time: 2024-01-01 14:30:47
  */
 import { Alert, BackHandler } from 'react-native'
 import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
@@ -215,10 +215,7 @@ export function tinygrailOSS(str: string, w = 150) {
   // https://tinygrail.oss-cn-hangzhou.aliyuncs.com
   // https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
   if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {
-    return `${str}!w${w}`.replace(
-      'tinygrail.oss-cn-hangzhou.aliyuncs.com',
-      'tinygrail.mange.cn'
-    )
+    return `${str}!w${w}`.replace('tinygrail.oss-cn-hangzhou.aliyuncs.com', 'tinygrail.mange.cn')
   }
 
   return str

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 15:55:37
+ * @Last Modified time: 2024-01-01 16:13:08
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
@@ -64,6 +64,7 @@ export default function memo<P, T extends React.FunctionComponent<P>>(
   // @ts-expect-error
   return React.memo(
     DEV && devRerenderKey ? withDev(Component, devRerenderKey) : Component,
+    /** 返回 false 更新视图, true 不更新视图 */
     (prevProps, nextProps) => {
       if (typeof customCompareFn === 'function') {
         return memoCompare(customCompareFn(prevProps), customCompareFn(nextProps), null, dev)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:38:34
+ * @Last Modified time: 2024-01-01 16:22:00
  */
 import React from 'react'
 import { ItemCollections } from '@_'
@@ -15,10 +15,10 @@ import { Ctx } from '../../../types'
 import { COMPONENT, EVENT } from './ds'
 
 function ItemList({ item, index, page }, { $, navigation }: Ctx) {
-  const { subjectType } = $.state
+  const { subjectType, filter } = $.state
   const { key: type } = TABS[page]
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
-  const filter = $.isTabActive(subjectType, type) ? $.state.filter : ''
+  const activeFilter = filter && $.isTabActive(subjectType, type) ? filter : ''
 
   let rankText = ''
   if ($.isSortByScore) {
@@ -35,12 +35,11 @@ function ItemList({ item, index, page }, { $, navigation }: Ctx) {
       {...item}
       showLabel={false}
       type={typeCn}
-      userCollection={$.label}
       isDo={type === 'do'}
       isDropped={type === 'dropped'}
       isOnHold={type === 'on_hold'}
       event={EVENT}
-      filter={filter}
+      filter={activeFilter}
       simpleStars
       rank={rankText}
       collection={!$.isMe ? collectionStore.collect(item.id) : undefined}
