@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 12:46:55
+ * @Last Modified time: 2024-01-01 11:44:30
  */
 import React from 'react'
 import { Loading } from '@components'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import List from './list'
 import { styles } from './styles'
+import { COMPONENT } from './ds'
 
 export default obc(({ title }, { $ }: Ctx) => {
-  rerender('User.NestedScroll.List', title)
-
   const { subjectType, list } = $.state
   const page = TABS.findIndex(item => item.title === title)
   const data = $.userCollections(
@@ -37,4 +35,4 @@ export default obc(({ title }, { $ }: Ctx) => {
       onFooterRefresh={$.fetchUserCollections}
     />
   )
-})
+}, COMPONENT)

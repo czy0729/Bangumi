@@ -2,51 +2,43 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-27 22:39:02
+ * @Last Modified time: 2023-12-31 12:15:05
  */
 import React from 'react'
-import { Page, Track, Component } from '@components'
+import { Page, Component } from '@components'
 import { BlurViewRoot, BlurViewBottomTab, Login } from '@_'
 import { _, userStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import { IOS, STORYBOOK } from '@constants'
-import Wrap from './wrap'
+import Scroll from './scroll'
 import NestedScroll from './nested-scroll'
-import Heatmaps from './heatmaps'
+import Extra from './extra'
 import Store from './store'
 import { useUserPage } from './hooks'
 import { Ctx } from './types'
 
 /** 我的时光机 */
-const User = (props, { $, navigation }: Ctx) => {
-  useUserPage($, navigation)
+const User = (props, context: Ctx) => {
+  useUserPage(context)
 
-  return useObserver(() => {
-    // 自己并且没登录
-    const { id } = $.usersInfo
-    if (!id && !userStore.isLogin) {
-      return (
-        <Page>
+  const { $ } = context
+  return useObserver(() => (
+    <Component id='screen-user'>
+      <Page>
+        {/* 自己并且没登录 */}
+        {!$.usersInfo.id && !userStore.isLogin ? (
           <Login style={_.container.plain} />
-        </Page>
-      )
-    }
-
-    const { _loaded } = $.state
-    return (
-      <Component id='screen-user'>
-        <Page>
+        ) : (
           <BlurViewRoot>
-            {!!_loaded && (!IOS && !STORYBOOK ? <NestedScroll /> : <Wrap />)}
+            {!!$.state._loaded && (!IOS && !STORYBOOK ? <NestedScroll /> : <Scroll />)}
             <BlurViewBottomTab />
           </BlurViewRoot>
-        </Page>
-        <Track title='时光机' hm={[`user/${$.myUserId}?route=user`, 'User']} />
-        <Heatmaps />
-      </Component>
-    )
-  })
+        )}
+      </Page>
+      <Extra />
+    </Component>
+  ))
 }
 
 export default ic(Store, User)

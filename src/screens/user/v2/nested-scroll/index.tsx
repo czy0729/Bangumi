@@ -2,31 +2,28 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 15:36:55
+ * @Last Modified time: 2024-01-01 11:44:02
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
-import Menu from '../menu'
-import TabBarLeft from '../tab/tab-bar-left'
-import Label from '../tab/label'
+import Menu from '../component/menu'
+import HeaderComponent from '../component/header-component'
+import TabBarLeft from '../component/tab-bar-left'
+import TabBarLabel from '../component/tab-bar-label'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
-import HeaderComponent from './header-component'
 import TopNavbarComponent from './top-navbar-component'
 import List from './list'
+import { COMPONENT } from './ds'
 
-const PAGES = TABS.map(item => item.title)
-
+/** 安卓用 */
 function NestedScroll(props, { $ }: Ctx) {
-  rerender('User.NestedScroll')
-
   const { page } = $.state
   return (
     <>
       <NestedScrollParallaxHeader
-        pages={PAGES}
+        pages={TABS.map(item => item.title)}
         initialPage={page}
         imageSource={$.imageSource}
         spacing={-14}
@@ -46,8 +43,8 @@ function NestedScroll(props, { $ }: Ctx) {
   )
 }
 
-export default obc(NestedScroll)
+export default obc(NestedScroll, COMPONENT)
 
 function renderLabel({ style, title }) {
-  return <Label style={style} title={title} />
+  return <TabBarLabel style={style} title={title} />
 }

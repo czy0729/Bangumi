@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 05:02:31
+ * @Last Modified time: 2023-12-31 10:06:57
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp } from '@utils'
@@ -81,7 +81,7 @@ export function getAvatar(src: any) {
 }
 
 /** 判断是否使用 CDN */
-function getCDNAvatar(
+export function getCDNAvatar(
   src: any,
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
 ) {
@@ -106,11 +106,7 @@ function getCDNAvatar(
 }
 
 /** 计算圆角参数值 */
-export function getRadius(
-  radius: Props['radius'],
-  round: Props['round'],
-  size: Props['size']
-) {
+export function getRadius(radius: Props['radius'], round: Props['round'], size: Props['size']) {
   let value: number
   if (radius === false) {
     value = 0

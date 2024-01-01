@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 00:03:08
+ * @Last Modified time: 2023-12-31 10:35:54
  */
 import React from 'react'
 import { Popover as CompPopover, PopoverProps, Menu, Component } from '@components'
@@ -11,7 +11,13 @@ import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 
 const Popover = ob(
-  ({ data = [], menuStyle, onSelect = () => {}, children, ...other }: PopoverProps) => {
+  ({
+    data = [],
+    menuStyle,
+    onSelect = () => {},
+    children,
+    ...other
+  }: PopoverProps<typeof data>) => {
     const popoverProps = IOS
       ? {
           overlay: (
@@ -29,12 +35,7 @@ const Popover = ob(
 
     return (
       <Component id='base-popover'>
-        <CompPopover
-          key={String(data.length)}
-          placement='bottom'
-          {...popoverProps}
-          {...other}
-        >
+        <CompPopover key={String(data.length)} placement='bottom' {...popoverProps} {...other}>
           {children}
         </CompPopover>
       </Component>
@@ -43,34 +44,27 @@ const Popover = ob(
 )
 
 // @ts-expect-error
-Popover.Old = ob(
-  ({ data = [], menuStyle, onSelect = Function.prototype, children, ...other }) => {
-    const popoverProps = IOS
-      ? {
-          overlay: (
-            <Menu
-              style={menuStyle}
-              data={data}
-              onSelect={title => setTimeout(() => onSelect(title), 0)}
-            />
-          )
-        }
-      : {
-          data,
-          onSelect
-        }
+Popover.Old = ob(({ data = [], menuStyle, onSelect = Function.prototype, children, ...other }) => {
+  const popoverProps = IOS
+    ? {
+        overlay: (
+          <Menu
+            style={menuStyle}
+            data={data}
+            onSelect={title => setTimeout(() => onSelect(title), 0)}
+          />
+        )
+      }
+    : {
+        data,
+        onSelect
+      }
 
-    return (
-      <CompPopoverOld
-        key={String(data.length)}
-        placement='bottom'
-        {...popoverProps}
-        {...other}
-      >
-        {children}
-      </CompPopoverOld>
-    )
-  }
-)
+  return (
+    <CompPopoverOld key={String(data.length)} placement='bottom' {...popoverProps} {...other}>
+      {children}
+    </CompPopoverOld>
+  )
+})
 
 export { Popover }

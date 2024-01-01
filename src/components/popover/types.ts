@@ -6,11 +6,11 @@
  */
 import { ViewStyle, ReactNode } from '@types'
 
-export type Props = {
+export type Props<T extends string[] | readonly string[]> = {
   style?: ViewStyle
 
   /** 菜单项 */
-  data?: string[] | readonly string[]
+  data?: T
 
   /** 菜单位置 (iOS only) */
   placement?: string
@@ -26,10 +26,10 @@ export type Props = {
   hitSlop?: Record<'top' | 'right' | 'bottom' | 'left', number>
 
   /** 菜单选择 */
-  onSelect?: (title?: string, index?: number) => any
+  onSelect?: (title?: T[number], index?: number) => any
 
   /** 菜单长按选择 (不推荐使用) */
-  onLongPress?: (title?: string) => any
+  onLongPress?: (title?: T[number]) => any
 
   children?: ReactNode
 }

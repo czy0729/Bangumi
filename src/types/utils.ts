@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-26 07:18:51
+ * @Last Modified time: 2023-12-31 13:04:12
  */
 import React from 'react'
 import {
@@ -84,10 +84,7 @@ export type IReactComponent<T = any> =
   | React.ClassicComponentClass<T>
 
 /** 取 Model 联合类型 */
-export type ModelValueOf<
-  T extends readonly any[],
-  K extends string = 'value'
-> = T[number][K]
+export type ModelValueOf<T extends readonly any[], K extends string = 'value'> = T[number][K]
 
 /** 普通对象 */
 export type AnyObject<T = any> = Record<string, any> & T
@@ -100,3 +97,8 @@ export type FnParams<T extends Fn> = Parameters<T>[0]
 
 /** ScrollView 滑动事件对象类型 */
 export type ScrollEvent = NativeSyntheticEvent<NativeScrollEvent>
+
+export type Join<T extends string[], D extends string> = T extends [infer F, ...infer R]
+  ? // @ts-expect-error
+    `${F}${R extends [] ? '' : D}${Join<R, D>}`
+  : ''

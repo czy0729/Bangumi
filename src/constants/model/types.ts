@@ -80,10 +80,7 @@ export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE>
 
 export type RakuenSubExpand = ModelValueOf<typeof RAKUEN_SUB_EXPAND, 'value'>
 
-export type RakuenScrollDirection = ModelValueOf<
-  typeof RAKUEN_SCROLL_DIRECTION,
-  'value'
->
+export type RakuenScrollDirection = ModelValueOf<typeof RAKUEN_SCROLL_DIRECTION, 'value'>
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE>
 
 export type RakuenTypeGroup = ModelValueOf<typeof RAKUEN_TYPE_GROUP>
@@ -119,10 +116,7 @@ export type SettingHomeGridCoverLayoutCn = ModelValueOf<
 >
 
 export type SettingHomeCountView = ModelValueOf<typeof SETTING_HOME_COUNT_VIEW>
-export type SettingHomeCountViewCn = ModelValueOf<
-  typeof SETTING_HOME_COUNT_VIEW,
-  'label'
->
+export type SettingHomeCountViewCn = ModelValueOf<typeof SETTING_HOME_COUNT_VIEW, 'label'>
 
 export type SettingHomeSorting = ModelValueOf<typeof SETTING_HOME_SORTING>
 export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'label'>
@@ -156,15 +150,7 @@ export type TimeLineScopeCn = ModelValueOf<typeof TIMELINE_SCOPE, 'label'>
 export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE>
 
 export type TinygrailCaculateType = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE>
-export type TinygrailCaculateTypeCn = ModelValueOf<
-  typeof TINYGRAIL_CACULATE_TYPE,
-  'label'
->
+export type TinygrailCaculateTypeCn = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE, 'label'>
 
-export type TinygrailCaculateRichType = ModelValueOf<
-  typeof TINYGRAIL_CACULATE_RICH_TYPE
->
-export type TinygrailCaculateRichTypeCn = ModelValueOf<
-  typeof TINYGRAIL_CACULATE_RICH_TYPE,
-  'label'
->
+export type TinygrailCaculateRichType = ModelValueOf<typeof TINYGRAIL_CACULATE_RICH_TYPE>
+export type TinygrailCaculateRichTypeCn = ModelValueOf<typeof TINYGRAIL_CACULATE_RICH_TYPE, 'label'>
