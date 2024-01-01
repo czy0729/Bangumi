@@ -94,7 +94,6 @@ android {
     targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode expoVersionCode
     versionName expoVersionName
-
     buildConfigField("boolean", "REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS", (findProperty("reactNative.unstable_useRuntimeSchedulerAlways") ?: true).toString())
   }
 
@@ -102,8 +101,8 @@ android {
     abi {
       reset()
       enable true
-      universalApk false  // If true, also generate a universal APK
-      include "armeabi-v7a", "arm64-v8a", "x86_64" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+      universalApk false
+      include "arm64-v8a" // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
     }
   }
 

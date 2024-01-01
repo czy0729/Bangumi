@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 15:11:53
+ * @Last Modified time: 2024-01-01 21:18:54
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -14,8 +14,12 @@ export const DEV = global.__DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
 // export const DEV = global.__DEV__
 
 /** ==================== 常用配置 ==================== */
+const rerenderShow = 'ZZZ'
+const rerenderNotShow = []
+
 /** 观察组件 re-render 用 (开发用) */
-export const RERENDER_SHOW = /ZZZ/ // /Rakuen\.(.+?)\.Main/
+export const RERENDER_SHOW = new RegExp(rerenderShow.replace(/\./g, '\\.')) // /Rakuen\.(.+?)\.Main/
+export const RERENDER_NOT_SHOW = rerenderNotShow
 
 /** 显示调试菜单按钮 (安卓、开发用) */
 export const ANDROID_DEV_MENU = true
@@ -30,7 +34,7 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
 /** ==================== 默认路由 ==================== */
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
-  initialRouteName: 'HomeTab', // HomeTab
+  initialRouteName: 'User', // HomeTab
   initialRouteParams: {
     // subjectId: 329114 // anime: 296870, music: 302514, book: 267358, game: 137458
     // topicId: 'group/391427' // group/366561
