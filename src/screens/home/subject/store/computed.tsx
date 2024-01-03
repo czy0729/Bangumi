@@ -13,31 +13,32 @@ import {
   collectionStore,
   discoveryStore,
   monoStore,
+  rakuenStore,
   subjectStore,
   systemStore,
-  userStore,
   usersStore,
-  rakuenStore
+  userStore
 } from '@stores'
 import {
-  HTMLDecode,
   asc,
   desc,
   findSubjectCn,
   getOnAir,
   getTimestamp,
+  HTMLDecode,
   isArray,
   matchCoverUrl,
   removeHTMLTag,
   x18
 } from '@utils'
-import { findAnime, ANIME_TAGS } from '@utils/subject/anime'
+import { findADV } from '@utils/subject/adv'
+import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
+import { findGame, GAME_CATE } from '@utils/subject/game'
+import { findHentai, HENTAI_TAGS } from '@utils/subject/hentai'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
-import { findGame, GAME_CATE } from '@utils/subject/game'
-import { findADV } from '@utils/subject/adv'
-import { HENTAI_TAGS, findHentai } from '@utils/subject/hentai'
 import {
+  getOTA,
   HOST,
   IMG_DEFAULT,
   IMG_WIDTH_LG,
@@ -45,12 +46,12 @@ import {
   SITES,
   SITES_DS,
   STORYBOOK,
-  URL_DEFAULT_AVATAR,
-  getOTA
+  URL_DEFAULT_AVATAR
 } from '@constants'
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import {
+  TITLE_ANITABI,
   TITLE_BLOG,
   TITLE_CATALOG,
   TITLE_CHARACTER,
@@ -71,7 +72,7 @@ import {
   TITLE_TOPIC
 } from '../ds'
 import State from './state'
-import { NAMESPACE, INIT_RATING, SORT_RELATION_DESC, EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, INIT_RATING, NAMESPACE, SORT_RELATION_DESC } from './ds'
 
 export default class Computed extends State {
   save = () => {
@@ -96,10 +97,7 @@ export default class Computed extends State {
 
   /** 用户自定义播放信息 */
   @computed get onAirCustom() {
-    return getOnAir(
-      calendarStore.onAir[this.subjectId],
-      calendarStore.onAirUser(this.subjectId)
-    )
+    return getOnAir(calendarStore.onAir[this.subjectId], calendarStore.onAirUser(this.subjectId))
   }
 
   /** 屏蔽默认头像用户相关信息 */
@@ -268,9 +266,7 @@ export default class Computed extends State {
   @computed get ningMoeEpOffset() {
     const { eps = [] } = this.subject
     return (
-      eps
-        .filter(item => item.type === 0)
-        .sort((a, b) => asc(a, b, item => item.sort))[0].sort - 1
+      eps.filter(item => item.type === 0).sort((a, b) => asc(a, b, item => item.sort))[0].sort - 1
     )
   }
 
@@ -399,9 +395,7 @@ export default class Computed extends State {
   @computed get isPS() {
     return (
       this.type === '游戏' &&
-      (this.info.includes('PS4') ||
-        this.info.includes('PS3') ||
-        this.info.includes('PS5'))
+      (this.info.includes('PS4') || this.info.includes('PS3') || this.info.includes('PS5'))
     )
   }
 
@@ -582,9 +576,8 @@ export default class Computed extends State {
   /** 上映时间 (用于标识未上映) */
   @computed get release() {
     return (
-      this.info.match(
-        /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
-      )?.[2] || ''
+      this.info.match(/<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/)?.[2] ||
+      ''
     )
   }
 
@@ -592,9 +585,9 @@ export default class Computed extends State {
   @computed get year() {
     // 连载开始为最优先
     const year =
-      (
-        this.info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || ''
-      ).match(/(\d{4})/)?.[0] || ''
+      (this.info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
+        /(\d{4})/
+      )?.[0] || ''
     if (year) return year
 
     return (
@@ -610,17 +603,15 @@ export default class Computed extends State {
   @computed get end() {
     // 连载开始为最优先
     const year =
-      (
-        this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || ''
-      ).match(/(\d{4})/)?.[0] || ''
+      (this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || '').match(
+        /(\d{4})/
+      )?.[0] || ''
     return year
   }
 
   /** 艺术家 */
   @computed get artist() {
-    return removeHTMLTag(
-      this.info.match(/<li><span>艺术家: <\/span>(.+?)<\/li>/)?.[1] || ''
-    )
+    return removeHTMLTag(this.info.match(/<li><span>艺术家: <\/span>(.+?)<\/li>/)?.[1] || '')
   }
 
   /** 封面图宽度 */
@@ -760,12 +751,7 @@ export default class Computed extends State {
       return this.subject.summary
     }
 
-    return (
-      this.subjectFromOSS.summary ||
-      this.subjectFormCDN.summary ||
-      this.params._summary ||
-      ''
-    )
+    return this.subjectFromOSS.summary || this.subjectFormCDN.summary || this.params._summary || ''
   }
 
   /** 标签 */
@@ -791,14 +777,7 @@ export default class Computed extends State {
     if (this.subject._loaded && this.subject.rating) {
       const { crt } = this.subject
       return (crt || []).map(
-        ({
-          id,
-          images = {},
-          name,
-          name_cn: nameCn,
-          role_name: roleName,
-          actors = []
-        }) => ({
+        ({ id, images = {}, name, name_cn: nameCn, role_name: roleName, actors = [] }) => ({
           id,
           image: images.grid,
           _image: images?.medium,
@@ -831,16 +810,14 @@ export default class Computed extends State {
         }))
       }
 
-      return (staff || []).map(
-        ({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
-          id,
-          image: images.grid,
-          _image: images?.medium,
-          name: nameCn || name,
-          nameJP: name,
-          desc: jobs[0]
-        })
-      )
+      return (staff || []).map(({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
+        id,
+        image: images.grid,
+        _image: images?.medium,
+        name: nameCn || name,
+        nameJP: name,
+        desc: jobs[0]
+      }))
     }
     return this.subjectFromOSS.staff || this.subjectFormCDN.staff || []
   }
@@ -854,30 +831,24 @@ export default class Computed extends State {
       desc: any
     }[] = []
     if (this.subject._loaded && this.subject.rating) {
-      data = (this.subjectFormHTML.relations || []).map(
-        ({ id, image, title, type }) => ({
-          id,
-          image,
-          name: title,
-          desc: type
-        })
-      )
+      data = (this.subjectFormHTML.relations || []).map(({ id, image, title, type }) => ({
+        id,
+        image,
+        name: title,
+        desc: type
+      }))
     } else {
-      data = (this.subjectFromOSS.relations || this.subjectFormCDN.relations || []).map(
-        item => ({
-          id: item.id,
-          image: item.image,
-          name: item.title,
-          desc: item.type
-        })
-      )
+      data = (this.subjectFromOSS.relations || this.subjectFormCDN.relations || []).map(item => ({
+        id: item.id,
+        image: item.image,
+        name: item.title,
+        desc: item.type
+      }))
     }
 
     return data
       .slice()
-      .sort((a, b) =>
-        desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0)
-      )
+      .sort((a, b) => desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0))
   }
 
   /** 单行本 */
@@ -901,10 +872,7 @@ export default class Computed extends State {
     if (label === '动画') {
       const { bangumiInfo } = this.state
       const _label =
-        this.subjectFormHTML.type ||
-        String(bangumiInfo.type).toUpperCase() ||
-        label ||
-        'TV'
+        this.subjectFormHTML.type || String(bangumiInfo.type).toUpperCase() || label || 'TV'
       if (_label === '动画') return 'TV'
       if (_label === '剧场版') return 'MOVIE'
       return _label || this.subjectFromOSS.titleLabel || ''
@@ -972,15 +940,10 @@ export default class Computed extends State {
   @computed get subjectAnime() {
     if (!(this.titleLabel || '').includes('系列')) return null
 
-    const find = this.subjectRelations.find(
-      item => item.type === '动画' || item.type === '其他'
-    )
+    const find = this.subjectRelations.find(item => item.type === '动画' || item.type === '其他')
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
-    if (
-      find?.type === '动画' ||
-      (find?.type === '其他' && this.jp.includes(find?.title))
-    ) {
+    if (find?.type === '动画' || (find?.type === '其他' && this.jp.includes(find?.title))) {
       return find
     }
     return null
@@ -994,8 +957,8 @@ export default class Computed extends State {
   /** 是否有相关系列 */
   @computed get hasSeries() {
     return !!(
-      this.subjectPrev ||
       this.subjectAfter ||
+      this.subjectPrev ||
       this.subjectSeries ||
       this.subjectAnime ||
       this.subjectDiff
@@ -1228,6 +1191,14 @@ export default class Computed extends State {
     return [showStaff === true, showStaff !== -1] as const
   }
 
+  /** 是否显示取景地标 */
+  @computed get showAnitabi() {
+    if (!this.state.anitabi.pointsLength) return [false, false] as const
+
+    const { showAnitabi } = systemStore.setting
+    return [showAnitabi === true, showAnitabi !== -1] as const
+  }
+
   /** 是否显示关联 */
   @computed get showRelations() {
     if (!this.relations.length) return [false, false] as const
@@ -1298,21 +1269,14 @@ export default class Computed extends State {
     if (this.showRating[0]) data.push(TITLE_RATING)
     if (this.showCharacter[0]) data.push(TITLE_CHARACTER)
     if (this.showStaff[0]) data.push(TITLE_STAFF)
-    if (this.showRelations[0]) {
-      data.push(`${TITLE_RELATIONS} (${this.relations.length})`)
-    }
-    if (this.showComic[0]) {
-      data.push(`${TITLE_COMIC} (${this.comic.length})`)
-    }
-    if (this.showCalalog[0]) data.push(TITLE_CATALOG)
-    if (this.showLike[0]) data.push(TITLE_LIKE)
-    if (this.showBlog[0]) {
-      data.push(`${TITLE_BLOG} (${this.filterBlog.length})`)
-    }
-    if (this.showTopic[0]) {
-      data.push(`${TITLE_TOPIC} (${this.filterTopic.length})`)
-    }
-    if (this.showRecent[0]) data.push(TITLE_RECENT)
+    if (this.showAnitabi[0]) data.push(`${TITLE_ANITABI} (${this.state.anitabi.pointsLength})`)
+    if (this.showRelations[0]) data.push(`${TITLE_RELATIONS} (${this.relations.length})`)
+    if (this.showComic[0]) data.push(`${TITLE_COMIC} (${this.comic.length})`)
+    if (this.showCalalog[0]) data.push(`${TITLE_CATALOG} (${this.filterCatalog.length})`)
+    if (this.showLike[0]) data.push(`${TITLE_LIKE} (${this.like.length})`)
+    if (this.showBlog[0]) data.push(`${TITLE_BLOG} (${this.filterBlog.length})`)
+    if (this.showTopic[0]) data.push(`${TITLE_TOPIC} (${this.filterTopic.length})`)
+    if (this.showRecent[0]) data.push(`${TITLE_RECENT} (${this.filterRecent.length})`)
     data.push(`${TITLE_COMMENT} (${this.commentLength}+)`)
     return data
   }

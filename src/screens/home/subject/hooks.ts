@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 17:41:07
+ * @Last Modified time: 2024-01-03 00:54:27
  */
 import { useCallback, useRef } from 'react'
 import { StatusBar } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { _, uiStore } from '@stores'
 import { feedback } from '@utils'
-import { useFocusEffect, useIsFocusedRef, useMount, useRunAfter } from '@utils/hooks'
-import { t } from '@utils/fetch'
 import { scrollToTop } from '@utils/dom'
+import { t } from '@utils/fetch'
+import { useFocusEffect, useIsFocusedRef, useMount, useRunAfter } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import { TITLE_HEAD } from './ds'
 import { Ctx } from './types'
 
 /** 条目页面逻辑 */
-export function useSubjectPage($: Ctx['$']) {
+export function useSubjectPage({ $ }: Ctx) {
   const { yRef, fixed, onScroll } = useOnScroll()
 
   /** 页面是否聚焦 */
@@ -49,9 +49,7 @@ export function useSubjectPage($: Ctx['$']) {
   /** 动态改变状态栏主题 */
   useFocusEffect(() => {
     setTimeout(() => {
-      StatusBar.setBarStyle(
-        _.isDark ? 'light-content' : fixed ? 'dark-content' : 'light-content'
-      )
+      StatusBar.setBarStyle(_.isDark ? 'light-content' : fixed ? 'dark-content' : 'light-content')
     }, 80)
   })
 
@@ -107,26 +105,24 @@ export function useSubjectPage($: Ctx['$']) {
           // 单行本 (10) => 单行本
           const name = component.split('(')[0].trim()
           if (scrollViewRef.current && blockRefs.current[name]) {
-            blockRefs.current[TITLE_HEAD].measure(
-              (x: number, y: number, w: number, h: number) => {
-                blockRefs.current[name].measure((x: number, y: number) => {
-                  if (STORYBOOK) {
-                    scrollToTop(y + h + 116)
-                  } else {
-                    scrollViewRef.current.scrollToOffset({
-                      offset: y + h - _.headerHeight,
-                      animated: true
-                    })
-                  }
-                  feedback()
-
-                  t('条目.跳转位置', {
-                    subjectId: $.subjectId,
-                    component
+            blockRefs.current[TITLE_HEAD].measure((x: number, y: number, w: number, h: number) => {
+              blockRefs.current[name].measure((x: number, y: number) => {
+                if (STORYBOOK) {
+                  scrollToTop(y + h + 116)
+                } else {
+                  scrollViewRef.current.scrollToOffset({
+                    offset: y + h - _.headerHeight,
+                    animated: true
                   })
+                }
+                feedback()
+
+                t('条目.跳转位置', {
+                  subjectId: $.subjectId,
+                  component
                 })
-              }
-            )
+              })
+            })
           }
         } catch (error) {}
       },

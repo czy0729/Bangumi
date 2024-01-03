@@ -1,13 +1,13 @@
+import { _ } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-06-20 20:07:04
  */
-import { setStorage, getStorage, showImageViewer } from '@utils'
+import { getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST_CDN } from '@constants'
-import { _ } from '@stores'
 import { OSS_BGM_EMOJI_PREFIX } from './ds'
 
 const NAMESPACE = 'Component|Image'
@@ -176,7 +176,7 @@ export function fixedRemoteImageUrl(url: any) {
 
   // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
   // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
-  return _url.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '')
+  return _url.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '').replace('http://', 'https://')
 }
 
 /** 用于下载超时 */

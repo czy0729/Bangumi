@@ -72,18 +72,26 @@ export type CoverCrt<S extends 'l' | 'm' | 's' | 'g' = 'g'> =
   | `${UrlStatic}/crt/${S}/${string}.jpg?r=${number}`
 
 /** 小组封面地址 */
-export type CoverGroup<S extends 'l' | 's' = 's'> =
-  | `${UrlStatic}/icon/${S}/${string}.jpg`
+export type CoverGroup<S extends 'l' | 's' = 's'> = `${UrlStatic}/icon/${S}/${string}.jpg`
 
 /** 用户上传的图片 */
 export type CoverPhoto<S extends 'g' = 'g'> = `${UrlStatic}/photo/${S}/${string}.jpg`
 
 /** 图片结构 */
 export type Images = {
+  /** w: origin */
   large: Cover<'l'>
+
+  /** w: 150px */
   common: Cover<'c'>
+
+  /** w: 100px */
   medium: Cover<'m'>
+
+  /** w: 80px */
   small: Cover<'s'>
+
+  /** w: 48px, h: 48px */
   grid: Cover<'g'>
 }
 
@@ -103,10 +111,7 @@ export type ImagesCrt = {
 }
 
 /** 收藏数 */
-export type Collection = Record<
-  'wish' | 'collect' | 'doing' | 'on_hold' | 'dropped',
-  number
->
+export type Collection = Record<'wish' | 'collect' | 'doing' | 'on_hold' | 'dropped', number>
 
 /** 评分 */
 export type Rating = {
@@ -141,9 +146,4 @@ export type Subject = Partial<{
 type Actions = '看' | '玩' | '听' | '读'
 
 /** 收藏状态动词 */
-export type CollectActions =
-  | `${Actions}过`
-  | `在${Actions}`
-  | `想${Actions}`
-  | '搁置'
-  | '抛弃'
+export type CollectActions = `${Actions}过` | `在${Actions}` | `想${Actions}` | '搁置' | '抛弃'

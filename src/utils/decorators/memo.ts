@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import isEqual from 'lodash.isequal'
-import { AnyObject } from '@types'
 import { DEV } from '@/config'
+import { AnyObject } from '@types'
 import { withDev } from './utils'
 
 type CustemCompareFn = (targetProps?: Record<string, unknown>) => boolean | object
@@ -67,15 +67,21 @@ export default function memo<P, T extends React.FunctionComponent<P>>(
     /** 返回 false 更新视图, true 不更新视图 */
     (prevProps, nextProps) => {
       if (typeof customCompareFn === 'function') {
-        return memoCompare(customCompareFn(prevProps), customCompareFn(nextProps), null, dev)
+        return memoCompare(
+          customCompareFn(prevProps),
+          customCompareFn(nextProps),
+          null,
+          dev,
+          devRerenderKey
+        )
       }
 
-      return memoCompare(prevProps, nextProps, Component.defaultProps, dev)
+      return memoCompare(prevProps, nextProps, Component.defaultProps, dev, devRerenderKey)
     }
   )
 }
 
-function log(prev: AnyObject, next: AnyObject) {
+function log(prev: AnyObject, next: AnyObject, devRerenderKey?: string) {
   const unsameKeys = []
 
   Object.keys(prev).forEach(key => {
@@ -88,18 +94,19 @@ function log(prev: AnyObject, next: AnyObject) {
 
   if (unsameKeys.length) {
     if (prev[unsameKeys[0]] === 'object') {
-      log(prev[unsameKeys[0]], next[unsameKeys[0]])
+      log(prev[unsameKeys[0]], next[unsameKeys[0]], devRerenderKey)
       return
     }
 
     // 不打印 styles, 没意义
     if (unsameKeys[0]) {
       if (unsameKeys[0] === 'styles') {
-        console.info('\n', '[update]', unsameKeys[0], '\n')
+        console.info('[update]', unsameKeys[0], '\n')
       } else {
         console.info(
-          '\n',
           '[update]',
+          devRerenderKey,
+          '\n',
           `${unsameKeys[0]}:`,
           JSON.stringify(prev[unsameKeys[0]]),
           '=>',
@@ -130,7 +137,8 @@ function memoCompare(
   prevProps: AnyObject,
   nextProps: AnyObject,
   propsOrKeys: AnyObject | string[],
-  dev?: boolean
+  dev?: boolean,
+  devRerenderKey?: string
 ) {
   // 正常情况不会是 false, 这是留给强制更新的一个参数配合
   if (prevProps === false && nextProps === false) return false
@@ -147,7 +155,7 @@ function memoCompare(
   }
 
   const notUpdate = isEqual(_prevProps, _nextProps)
-  if (dev && !notUpdate) log(_prevProps, _nextProps)
+  if (dev && !notUpdate) log(_prevProps, _nextProps, devRerenderKey)
 
   return notUpdate
 }

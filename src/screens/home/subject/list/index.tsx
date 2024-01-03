@@ -2,24 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 15:39:15
+ * @Last Modified time: 2024-01-03 17:10:55
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
-import Header from '../header'
 import { Ctx } from '../types'
+import HeaderComponent from '../header-component'
 import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
+import { COMPONENT } from './ds'
 
-function List(
-  { forwardRef, onScroll, onScrollIntoViewIfNeeded, onBlockRef },
-  { $ }: Ctx
-) {
-  rerender('Subject.List')
-
+function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) {
+  const { _loaded } = $.subjectComments
   return (
     <ListView
       ref={forwardRef}
@@ -33,7 +29,8 @@ function List(
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={
-        <Header
+        <HeaderComponent
+          loaded={!!_loaded}
           onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
           onBlockRef={onBlockRef}
         />
@@ -46,4 +43,4 @@ function List(
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

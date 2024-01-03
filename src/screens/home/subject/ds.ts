@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-16 06:26:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 15:36:12
+ * @Last Modified time: 2024-01-01 22:37:57
  */
+export const COMPONENT = 'Subject'
+
 export const TITLE_HEAD = '头部'
 
 export const TITLE_BOX = '收藏'

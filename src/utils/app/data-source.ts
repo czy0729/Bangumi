@@ -5,27 +5,14 @@
  * @Last Modified time: 2023-12-23 09:28:12
  */
 import { isObservableArray } from 'mobx'
+import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
+import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
 import x18Data from '@assets/json/18x.json'
 import userData from '@assets/json/user.json'
-import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
-import {
-  CDN_OSS_MAGMA_MONO,
-  CDN_OSS_MAGMA_POSTER,
-  CDN_OSS_SUBJECT
-} from '@constants/cdn'
-import {
-  AnyObject,
-  Avatar,
-  Cover,
-  Id,
-  ListEmpty,
-  Paths,
-  SubjectId,
-  SubjectTypeCn
-} from '@types'
+import { AnyObject, Avatar, Cover, Id, ListEmpty, Paths, SubjectId, SubjectTypeCn } from '@types'
 import { HTMLDecode, removeHTMLTag } from '../html'
-import { getTimestamp } from '../utils'
 import { get } from '../protobuf'
+import { getTimestamp } from '../utils'
 import { getSetting } from './utils'
 import {
   BANGUMI_URL_TEMPLATES,
@@ -44,11 +31,7 @@ import {
 
 /** 猜测数据中大概有多少项 */
 export function guessTotalCount(list: ListEmpty, limit: number = 10) {
-  if (
-    !list?._loaded ||
-    !list?.list?.length ||
-    typeof list?.pagination?.pageTotal !== 'number'
-  ) {
+  if (!list?._loaded || !list?.list?.length || typeof list?.pagination?.pageTotal !== 'number') {
     return 0
   }
 
@@ -360,12 +343,7 @@ export function matchCoverUrl(src: any, noDefault?: boolean, prefix?: string) {
   if (NO_IMGS.includes(src)) return IMG_DEFAULT || fallback
 
   /** magma 高级会员图片源 */
-  if (
-    cdn &&
-    cdnOrigin === 'magma' &&
-    typeof src === 'string' &&
-    src.includes(HOST_IMAGE)
-  ) {
+  if (cdn && cdnOrigin === 'magma' && typeof src === 'string' && src.includes(HOST_IMAGE)) {
     if (src.includes('/pic/crt/')) return CDN_OSS_MAGMA_MONO(src) || fallback
 
     return CDN_OSS_MAGMA_POSTER(getCoverMedium(src), prefix) || fallback
@@ -373,10 +351,7 @@ export function matchCoverUrl(src: any, noDefault?: boolean, prefix?: string) {
 
   /** @deprecated 旧免费 CDN 源头, 国内已全部失效 */
   if (cdn) {
-    return (
-      CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin as 'fastly' | 'OneDrive') ||
-      fallback
-    )
+    return CDN_OSS_SUBJECT(getCoverMedium(src), cdnOrigin as 'fastly' | 'OneDrive') || fallback
   }
 
   /** 大图不替换成低质量图 */
@@ -402,10 +377,10 @@ export function getCoverMedium(src: any = '', mini: boolean = false) {
 
   // 用户头像和小组图标没有/c/类型
   if (mini || src.includes('/user/') || src.includes('/icon/')) {
-    return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/')
+    return fixedRemoteImageUrl(src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/m/'))
   }
 
-  return src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/')
+  return fixedRemoteImageUrl(src.replace(/\/g\/|\/s\/|\/m\/|\/l\//, '/c/'))
 }
 
 /**
@@ -428,7 +403,7 @@ export function getCoverSmall(
     return src
   }
 
-  return src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/s/')
+  return fixedRemoteImageUrl(src.replace(/\/g\/|\/s\/|\/c\/|\/l\//, '/s/'))
 }
 
 /** 获取高质量 bgm 图片 */
@@ -442,19 +417,16 @@ export function getCoverLarge(src = '') {
     return src
   }
 
-  return src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/')
+  return fixedRemoteImageUrl(src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/'))
 }
 
 /** 获取新格式 bgm 封面大图 */
 export function getCover400(src: string = '', size: 100 | 200 | 400 | 600 | 800 = 400) {
   if (typeof src === 'string' && src.includes('lain.bgm.tv')) {
-    return (
+    return fixedRemoteImageUrl(
       src
         // 使用新增的 r/400 前缀
-        .replace(
-          /lain.bgm.tv\/pic\/cover\/(g|s|c|m|l)\//,
-          `lain.bgm.tv/r/${size}/pic/cover/l/`
-        )
+        .replace(/lain.bgm.tv\/pic\/cover\/(g|s|c|m|l)\//, `lain.bgm.tv/r/${size}/pic/cover/l/`)
         // 不使用 nxn 直接使用 r/400
         .replace(/\/r\/\d+x\d+\//, `/r/${size}/`)
         // 不使用 r/800
@@ -467,26 +439,34 @@ export function getCover400(src: string = '', size: 100 | 200 | 400 | 600 | 800 
 
 /** 获取条目封面中等质量地址 */
 export function getSubjectCoverCommon(url: string): string {
-  const _url = url.replace(
-    /\/\/lain.bgm.tv\/r\/\d+\/pic\/cover\/(g|s|m|l)\//,
-    '//lain.bgm.tv/pic/cover/c/'
+  return fixedRemoteImageUrl(
+    url.replace(/\/\/lain.bgm.tv\/r\/\d+\/pic\/cover\/(g|s|m|l)\//, '//lain.bgm.tv/pic/cover/c/')
   )
-  return _url.indexOf('//') === 0
-    ? `https:${_url}`
-    : _url.replace('http://', 'https://')
 }
 
 /** 获取人物封面中等质量地址 */
 export function getMonoCoverSmall(url: string): string {
-  const _url = url
-    .replace(
-      /\/\/lain.bgm.tv\/r\/\d+\/pic\/crt\/[gsmcl]\//g,
-      '//lain.bgm.tv/pic/crt/g/'
-    )
-    .replace(/\/[gsmcl]\//g, '/g/')
-  return _url.indexOf('//') === 0
-    ? `https:${_url}`
-    : _url.replace('http://', 'https://')
+  return fixedRemoteImageUrl(
+    url
+      .replace(/\/\/lain.bgm.tv\/r\/\d+\/pic\/crt\/[gsmcl]\//g, '//lain.bgm.tv/pic/crt/g/')
+      .replace(/\/[gsmcl]\//g, '/g/')
+  )
+}
+
+/** 修复远程图片地址 */
+export function fixedRemoteImageUrl(url: any) {
+  if (typeof url !== 'string') return url
+
+  let _url = url
+
+  // 协议
+  if (_url.indexOf('https:') === -1 && _url.indexOf('http:') === -1) {
+    _url = `https:${_url}`
+  }
+
+  // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
+  // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
+  return _url.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '').replace('http://', 'https://')
 }
 
 /** 获取颜色 type */
@@ -495,9 +475,7 @@ export function getType(label: string, defaultType: string = 'plain') {
 }
 
 /** 获取评分中文 */
-export function getRating(
-  score: number
-): (typeof RATING_MAP)[keyof typeof RATING_MAP] | '' {
+export function getRating(score: number): (typeof RATING_MAP)[keyof typeof RATING_MAP] | '' {
   if (score === undefined) return ''
   return RATING_MAP[Math.floor(score + 0.5)] || RATING_MAP[1]
 }

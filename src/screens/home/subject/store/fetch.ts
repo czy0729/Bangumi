@@ -2,15 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-19 17:14:46
+ * @Last Modified time: 2024-01-01 22:57:49
  */
-import {
-  collectionStore,
-  subjectStore,
-  systemStore,
-  monoStore,
-  usersStore
-} from '@stores'
+import { collectionStore, subjectStore, systemStore, monoStore, usersStore } from '@stores'
 import {
   HTMLDecode,
   HTMLTrim,
@@ -23,14 +17,7 @@ import {
   queue
 } from '@utils'
 import { xhrCustom } from '@utils/fetch'
-import {
-  getPreview,
-  getTrailer,
-  getVideo,
-  matchGame,
-  matchMovie,
-  search
-} from '@utils/douban'
+import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from '@utils/douban'
 import { search as searchMV } from '@utils/bilibili'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
@@ -303,8 +290,7 @@ export default class Fetch extends Computed {
               epsThumbs: Array.from(
                 new Set(
                   result.main_section.episodes.map(
-                    item =>
-                      `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
+                    item => `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
                   )
                 )
               ),
@@ -342,9 +328,7 @@ export default class Fetch extends Computed {
                   .map(item => {
                     const match = item.match(/src="(.+?)"/)
                     if (match) {
-                      return match[1]
-                        .replace(/\\\//g, '/')
-                        .replace('http://', 'https://')
+                      return match[1].replace(/\\\//g, '/').replace('http://', 'https://')
                     }
                     return ''
                   })
@@ -573,8 +557,6 @@ export default class Fetch extends Computed {
 
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
-    if (STORYBOOK) return false
-
     const { showAnitabi } = systemStore.setting
     if (showAnitabi === -1 || !showAnitabi) return false
 

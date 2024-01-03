@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 09:52:40
+ * @Last Modified time: 2024-01-02 23:40:10
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
 import { isMobile } from '@utils/dom'
 import { STORYBOOK } from '@constants'
 import { Fn, SubjectId, ViewStyle } from '@types'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Eps')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 const numbersOfLine = STORYBOOK && !isMobile() ? 10 : 8
 

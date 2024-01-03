@@ -2,32 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 16:31:15
+ * @Last Modified time: 2024-01-03 17:12:08
  */
 import React from 'react'
-import { Component, Page, Heatmap } from '@components'
+import { Component, Page } from '@components'
 import { TapListener } from '@_'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
-import Header from './page-header'
-import Bg from './bg'
-import List from './list'
-import Modal from './modal'
-import Store from './store'
+import Bg from './component/bg'
+import Extra from './extra'
+import Header from './header'
 import { useSubjectPage } from './hooks'
+import List from './list'
+import Store from './store'
 import { Ctx } from './types'
 
-const Subject = (props, { $, navigation }: Ctx) => {
-  const {
-    fixed,
-    forwardRef,
-    onBlockRef,
-    onScrollFn,
-    onScrollIntoViewIfNeeded,
-    onScrollTo
-  } = useSubjectPage($)
+const Subject = (props, context: Ctx) => {
+  const { fixed, forwardRef, onBlockRef, onScrollFn, onScrollIntoViewIfNeeded, onScrollTo } =
+    useSubjectPage(context)
 
+  const { navigation } = context
   return useObserver(() => (
     <Component id='screen-subject'>
       <TapListener>
@@ -39,15 +34,10 @@ const Subject = (props, { $, navigation }: Ctx) => {
             onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
             onBlockRef={onBlockRef}
           />
-          <Modal />
         </Page>
       </TapListener>
-      <Header
-        fixed={fixed}
-        index={navigation.getState().index}
-        onScrollTo={onScrollTo}
-      />
-      <Heatmap id='条目' screen='Subject' />
+      <Header fixed={fixed} index={navigation.getState().index} onScrollTo={onScrollTo} />
+      <Extra />
     </Component>
   ))
 }

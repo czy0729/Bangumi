@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:19:51
+ * @Last Modified time: 2024-01-03 16:40:27
  */
 import React from 'react'
 import { InView, ItemComment } from '@_'
@@ -10,16 +10,7 @@ import { _, rakuenStore } from '@stores'
 import { getIsBlockUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
-
-const POPOVER_DATA = {
-  动画: ['贴贴', '复制评论', '特别关注TA的动画评论', '屏蔽用户'],
-  书籍: ['贴贴', '复制评论', '特别关注TA的书籍评论', '屏蔽用户'],
-  游戏: ['贴贴', '复制评论', '特别关注TA的游戏评论', '屏蔽用户'],
-  音乐: ['贴贴', '复制评论', '特别关注TA的音乐评论', '屏蔽用户'],
-  三次元: ['贴贴', '复制评论', '特别关注TA的三次元评论', '屏蔽用户']
-} as const
-
-const ITEM_HEIGHT = 100
+import { ITEM_HEIGHT, POPOVER_DATA } from './ds'
 
 function Item(
   { index, time, avatar, userId, userName, star, comment, relatedId },
