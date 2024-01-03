@@ -1,25 +1,19 @@
+import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 /*
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 23:28:48
+ * @Last Modified time: 2024-01-04 00:24:36
  */
-import { rakuenStore } from '@stores'
-import {
-  HTMLDecode,
-  feedback,
-  info,
-  loading,
-  removeHTMLTag,
-  updateVisibleBottom
-} from '@utils'
-import { t, baiduTranslate } from '@utils/fetch'
+import { rakuenStore, uiStore } from '@stores'
+import { feedback, HTMLDecode, info, loading, removeHTMLTag, updateVisibleBottom } from '@utils'
+import CacheManager from '@utils/cache-manager'
+import { baiduTranslate, t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import CacheManager from '@utils/cache-manager'
-import { IOS, HOST } from '@constants'
+import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { AnyObject, Fn, Id } from '@types'
+import { AnyObject, Fn, Id, ScrollEvent } from '@types'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
@@ -200,9 +194,7 @@ export default class Action extends Fetch {
   toggleExpand = (id: any) => {
     const { expands } = this.state
     this.setState({
-      expands: expands.includes(id)
-        ? expands.filter(item => item !== id)
-        : [...expands, id]
+      expands: expands.includes(id) ? expands.filter(item => item !== id) : [...expands, id]
     })
     this.save()
   }
@@ -224,8 +216,32 @@ export default class Action extends Fetch {
     this.save()
   }
 
+  private onScrollY = 0
+
   /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
+  onScroll = (e: ScrollEvent) => {
+    updateVisibleBottom(e)
+    uiStore.closePopableSubject()
+    uiStore.closeLikesGrid()
+
+    // 计算头部是否需要固定
+    const { y } = e.nativeEvent.contentOffset
+    this.onScrollY = y
+
+    const { fixed } = this.state
+    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
+
+    this.setState({
+      fixed: y > HEADER_TRANSITION_HEIGHT
+    })
+  }
+
+  /** 更新是否完成渲染 */
+  setRendered = (rendered: boolean) => {
+    this.setState({
+      rendered
+    })
+  }
 
   // -------------------- action --------------------
   /** 提交回复 */
@@ -332,10 +348,7 @@ export default class Action extends Fetch {
     const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
-      const _message = decoder(message).replace(
-        /<div class="quote"><q>.*<\/q><\/div>/,
-        ''
-      )
+      const _message = decoder(message).replace(/<div class="quote"><q>.*<\/q><\/div>/, '')
       _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
         _message,
         false
@@ -437,9 +450,7 @@ export default class Action extends Fetch {
     let hide
     try {
       hide = loading()
-      const response = await baiduTranslate(
-        removeHTMLTag(msg.replace(/<br>/g, '\n'), false)
-      )
+      const response = await baiduTranslate(removeHTMLTag(msg.replace(/<br>/g, '\n'), false))
       hide()
 
       const { trans_result: translateResult } = JSON.parse(response)

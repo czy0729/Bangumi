@@ -2,15 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 20:09:49
+ * @Last Modified time: 2024-01-04 00:35:52
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
+import { STORYBOOK } from '@constants'
 import { Id, Loaded } from '@types'
 
 export const NAMESPACE = 'ScreenTopic'
 
 export const EXCLUDE_STATE = {
+  /** 头部是否固定 */
+  fixed: false,
+
+  /** 是否完成渲染 */
+  rendered: STORYBOOK,
+
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
 

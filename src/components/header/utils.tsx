@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:22:40
+ * @Last Modified time: 2024-01-03 23:35:21
  */
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
 import Back from './back'
-import { colors, backgroundColors, styles } from './styles'
+import { backgroundColors, colors, styles } from './styles'
 import { UpdateHeaderProps } from './types'
 
-const HEADER_TRANSITION_HEIGHT = 32
+export const HEADER_TRANSITION_HEIGHT = 32
 
 /** 动态更新头参数 */
 export const updateHeader = ({
@@ -34,9 +34,7 @@ export const updateHeader = ({
   if (!navigation) return
 
   const _title = systemStore.setting.s2t ? s2t(title) : title
-  const color = colors[statusBarEventsType]
-    ? colors[statusBarEventsType](fixed)
-    : undefined
+  const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
   const backgroundColor = backgroundColors[statusBarEventsType]
     ? backgroundColors[statusBarEventsType](fixed)
     : undefined
@@ -146,6 +144,7 @@ export const updateHeader = ({
   navigation.setOptions(options)
 }
 
+/** @deprecated 有性能问题, 请使用 mobx 写法替代 */
 export const useOnScroll = () => {
   const yRef = useRef(0)
   const [fixed, setFixed] = useState(false)

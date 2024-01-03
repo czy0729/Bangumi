@@ -2,18 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-05-19 09:58:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-30 18:30:14
+ * @Last Modified time: 2024-01-04 00:39:35
  */
 import React from 'react'
-import { SafeAreaBottom, Touchable, Flex, Iconfont } from '@components'
+import { Flex, Iconfont, SafeAreaBottom, Touchable } from '@components'
 import { _, rakuenStore } from '@stores'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Extra({ onDirect }) {
+  r(COMPONENT)
+
   const styles = memoStyles()
   const { switchSlider } = rakuenStore.setting
   const type = _.ios('height', 'bottom')
+
   return useObserver(() => (
     <>
       <SafeAreaBottom style={styles.left} type={type}>

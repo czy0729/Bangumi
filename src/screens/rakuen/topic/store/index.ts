@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:17:51
+ * @Last Modified time: 2024-01-03 23:22:32
  */
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { NAMESPACE, EXCLUDE_STATE } from './ds'
 import Action from './action'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 let loadedFavor = false
 

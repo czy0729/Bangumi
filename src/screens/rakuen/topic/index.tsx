@@ -2,47 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 23:29:37
+ * @Last Modified time: 2024-01-04 00:36:08
  */
-import React, { useCallback } from 'react'
-import { Page, Component } from '@components'
+import React from 'react'
+import { Component, Page } from '@components'
 import { TapListener } from '@_'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
-import Header from './header'
-import List from './list'
-import Item from './item'
-import TouchScroll from './touch-scroll'
-import Heatmaps from './heatmaps'
 import Bottom from './bottom'
-import Store from './store'
+import Heatmaps from './component/heatmaps'
+import TouchScroll from './component/touch-scroll'
+import Header from './header'
 import { useTopicPage } from './hooks'
+import List from './list'
+import Store from './store'
 import { Ctx } from './types'
 
-const Topic = (props, { $ }: Ctx) => {
+const Topic = (props, context: Ctx) => {
   const {
-    fixed,
-    rendered,
     forwardRef,
     fixedTextareaRef,
     onFloorPress,
-    onScroll,
     onShowFixedTextarea,
     onScrollToIndexFailed,
     onDirect
-  } = useTopicPage($)
-
-  const renderItem = useCallback(
-    ({ item, index }) => (
-      <Item
-        item={item}
-        index={index}
-        rendered={rendered}
-        onShowFixedTextarea={onShowFixedTextarea}
-      />
-    ),
-    [rendered, onShowFixedTextarea]
-  )
+  } = useTopicPage(context)
 
   return useObserver(() => {
     return (
@@ -51,14 +35,13 @@ const Topic = (props, { $ }: Ctx) => {
           <Page statusBarEvent={false}>
             <List
               forwardRef={forwardRef}
-              renderItem={renderItem}
-              onScroll={onScroll}
               onScrollToIndexFailed={onScrollToIndexFailed}
+              onShowFixedTextarea={onShowFixedTextarea}
             />
             <TouchScroll onPress={onFloorPress} />
           </Page>
         </TapListener>
-        <Header fixed={fixed} />
+        <Header />
         <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
         <Heatmaps />
       </Component>

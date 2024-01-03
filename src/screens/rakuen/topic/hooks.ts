@@ -2,32 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 23:22:21
+ * @Last Modified time: 2024-01-04 00:30:58
  */
-import { useState, useRef, useCallback, useEffect } from 'react'
-import { useOnScroll } from '@components/header/utils'
+import { useCallback, useEffect, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
 import { _, rakuenStore, uiStore } from '@stores'
-import { info, androidKeyboardAdjust, feedback } from '@utils'
-import {
-  useIsFocused,
-  useIsFocusedRef,
-  useKeyboardAdjustResize,
-  useRunAfter
-} from '@utils/hooks'
-import { t } from '@utils/fetch'
+import { androidKeyboardAdjust, feedback, info } from '@utils'
 import { scrollToTop } from '@utils/dom'
+import { t } from '@utils/fetch'
+import { useIsFocused, useIsFocusedRef, useKeyboardAdjustResize, useRunAfter } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import { Id } from '@types'
 import { Ctx } from './types'
 
 const PRE_OFFSET = _.window.height * 0.2
 
-export function useTopicPage($: Ctx['$']) {
+export function useTopicPage({ $ }: Ctx) {
   const isFocused = useIsFocused()
   const isFocusedRef = useIsFocusedRef()
-  const { fixed, onScroll } = useOnScroll()
-  const [rendered, setRendered] = useState(false)
   const forwardRef = useRef(null)
   const fixedTextareaRef = useRef(null)
   const scrollFailCount = useRef(0)
@@ -64,17 +56,6 @@ export function useTopicPage($: Ctx['$']) {
       }
     },
     [$.comments]
-  )
-
-  /** 滚动回调 */
-  const onScrollFn = useCallback(
-    e => {
-      $.onScroll(e)
-      onScroll(e)
-      uiStore.closePopableSubject()
-      uiStore.closeLikesGrid()
-    },
-    [$, onScroll]
   )
 
   /** 滚动到指定楼层 (重复尝试) */
@@ -215,9 +196,7 @@ export function useTopicPage($: Ctx['$']) {
       try {
         onScrollTo(index)
 
-        const directIndex = $.directItems.findIndex(
-          item => item.floor === `#${index + 1}`
-        )
+        const directIndex = $.directItems.findIndex(item => item.floor === `#${index + 1}`)
         if (directIndex && directIndex !== -1) {
           $.updateDirection(directIndex)
         }
@@ -296,7 +275,7 @@ export function useTopicPage($: Ctx['$']) {
     androidKeyboardAdjust('setAdjustResize')
 
     setTimeout(() => {
-      if (isFocusedRef.current) setRendered(true)
+      if (isFocusedRef.current) $.setRendered(true)
     }, 400)
 
     await $.init()
@@ -314,12 +293,6 @@ export function useTopicPage($: Ctx['$']) {
   }, [isFocused])
 
   return {
-    /** 是否锁定头部 */
-    fixed,
-
-    /** 是否完成渲染 */
-    rendered,
-
     /** 底部回复框引用 */
     fixedTextareaRef,
 
@@ -334,9 +307,6 @@ export function useTopicPage($: Ctx['$']) {
 
     /** 跳转到指定提醒楼层 */
     onJumpTo,
-
-    /** 滚动回调 */
-    onScroll: onScrollFn,
 
     /** 滚动失败后尝试使用保守的方法再次滚动 */
     onScrollToIndexFailed,

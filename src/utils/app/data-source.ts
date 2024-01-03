@@ -2,14 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 09:28:12
+ * @Last Modified time: 2024-01-03 23:32:10
  */
 import { isObservableArray } from 'mobx'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
 import x18Data from '@assets/json/18x.json'
 import userData from '@assets/json/user.json'
-import { AnyObject, Avatar, Cover, Id, ListEmpty, Paths, SubjectId, SubjectTypeCn } from '@types'
+import {
+  AnyObject,
+  Avatar,
+  Cover,
+  Id,
+  ListEmpty,
+  Paths,
+  ScrollEvent,
+  SubjectId,
+  SubjectTypeCn
+} from '@types'
 import { HTMLDecode, removeHTMLTag } from '../html'
 import { get } from '../protobuf'
 import { getTimestamp } from '../utils'
@@ -41,7 +51,7 @@ export function guessTotalCount(list: ListEmpty, limit: number = 10) {
 }
 
 /** 统一更新控制页面懒渲染 visibleBottom 变量的函数 */
-export function updateVisibleBottom({ nativeEvent }) {
+export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
   if (typeof this.setState !== 'function') return
 
   const { contentOffset, layoutMeasurement } = nativeEvent

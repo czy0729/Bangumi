@@ -2,26 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 08:18:55
+ * @Last Modified time: 2024-01-03 23:39:52
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Heatmap } from '@components'
+import { Flex, Header as CompHeader, Heatmap } from '@components'
 import { copy, getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, STORYBOOK, URL_SPA } from '@constants'
-import HeaderTitle from '../header-title'
-import IconFavor from '../icon/favor'
+import { HOST, URL_SPA } from '@constants'
+import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
+import IconFavor from '../icon/favor'
+import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
 
-const TEXT_SPA = '网页版查看'
-const TEXT_COPY = '复制链接'
-const TEXT_SHARE = '复制分享'
-const TEXT_REPORT = '举报'
-const DATA = [TEXT_COPY, TEXT_SHARE, TEXT_REPORT]
-if (!STORYBOOK) DATA.unshift(TEXT_SPA)
-
-function Header({ fixed }, { $, navigation }: Ctx) {
+function Header(props, { $, navigation }: Ctx) {
+  const { fixed } = $.state
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <CompHeader
@@ -77,4 +72,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

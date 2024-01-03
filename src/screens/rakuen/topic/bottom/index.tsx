@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 16:42:52
+ * @Last Modified time: 2024-01-04 00:38:45
  */
 import React from 'react'
-import { SafeAreaBottom, FixedTextarea, Flex, Text } from '@components'
+import { FixedTextarea, Flex, SafeAreaBottom, Text } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import Extra from './extra'
+import { COMPONENT, MARKS } from './ds'
 import { memoStyles } from './styles'
-
-const MARKS = ['+1', 'mark', '(bgm38)'] as const
 
 function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   if (!$.isWebLogin || $.isLimit) return null
@@ -60,4 +59,4 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Bottom)
+export default obc(Bottom, COMPONENT)
