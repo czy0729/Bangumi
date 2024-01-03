@@ -2,8 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-13 15:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-13 16:56:03
+ * @Last Modified time: 2024-01-04 03:31:03
  */
-export function getTime(item: any) {
-  return String(item?.timeLocal || item?.timeCN || item?.timeJP || '2359')
+import { ON_AIR } from '@stores/calendar/onair'
+import { SubjectId } from '@types'
+
+export function getTime(item: any, subjectId?: SubjectId) {
+  return String(
+    item?.timeLocal || item?.timeCN || item?.timeJP || ON_AIR[subjectId]?.timeCN || '2359'
+  )
 }

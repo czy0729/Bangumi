@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:19:35
+ * @Last Modified time: 2024-01-04 01:09:58
  */
 import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
@@ -41,6 +41,12 @@ export const INIT_RATING = {
 
 /** 页面 store 初始化后需要还原的 state */
 export const EXCLUDE_STATE = {
+  /** 头部是否固定 */
+  fixed: false,
+
+  /** 是否完成渲染 */
+  rendered: STORYBOOK,
+
   /** 可视范围底部 y */
   visibleBottom: 0,
 
@@ -52,9 +58,6 @@ export const EXCLUDE_STATE = {
 
   /** 是否显示目录管理模态框 */
   folder: false,
-
-  /** 页面是否渲染完毕 */
-  rendered: STORYBOOK,
 
   /** 书籍章 */
   chap: '' as string | number,
@@ -70,10 +73,7 @@ export const EXCLUDE_STATE = {
 
   /** 云端缓存的条目信息 */
   subject: {} as Override<
-    Omit<
-      SubjectFromHTML,
-      'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'
-    >,
+    Omit<SubjectFromHTML, 'type' | 'watchedEps' | 'friend' | 'who' | 'formhash' | '_loaded'>,
     {
       id: SubjectId
       type: SubjectTypeValue

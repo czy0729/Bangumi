@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:54:27
+ * @Last Modified time: 2024-01-04 01:15:34
  */
 import { useCallback, useRef } from 'react'
 import { StatusBar } from '@components'
-import { useOnScroll } from '@components/header/utils'
-import { _, uiStore } from '@stores'
+import { _ } from '@stores'
 import { feedback } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
@@ -18,8 +17,6 @@ import { Ctx } from './types'
 
 /** 条目页面逻辑 */
 export function useSubjectPage({ $ }: Ctx) {
-  const { yRef, fixed, onScroll } = useOnScroll()
-
   /** 页面是否聚焦 */
   const isFocused = useIsFocusedRef()
 
@@ -49,7 +46,9 @@ export function useSubjectPage({ $ }: Ctx) {
   /** 动态改变状态栏主题 */
   useFocusEffect(() => {
     setTimeout(() => {
-      StatusBar.setBarStyle(_.isDark ? 'light-content' : fixed ? 'dark-content' : 'light-content')
+      StatusBar.setBarStyle(
+        _.isDark ? 'light-content' : $.state.fixed ? 'dark-content' : 'light-content'
+      )
     }, 80)
   })
 
@@ -60,9 +59,6 @@ export function useSubjectPage({ $ }: Ctx) {
   const blockRefs = useRef<any>({})
 
   return {
-    /** 头部是否固定 */
-    fixed,
-
     /** 收集 ListView.ref */
     forwardRef: useCallback(ref => {
       scrollViewRef.current = ref
@@ -73,16 +69,6 @@ export function useSubjectPage({ $ }: Ctx) {
       blockRefs.current[component] = ref
     }, []),
 
-    /** 滑动回调 */
-    onScrollFn: useCallback(
-      evt => {
-        $.onScroll(evt)
-        onScroll(evt)
-        uiStore.closeLikesGrid()
-      },
-      [$, onScroll]
-    ),
-
     /** 子组件可以调用此方法定位到指定 y 轴坐标 */
     onScrollIntoViewIfNeeded: useCallback(
       (y: number) => {
@@ -90,12 +76,13 @@ export function useSubjectPage({ $ }: Ctx) {
           if (typeof scrollViewRef?.current?.scrollToOffset === 'function') {
             scrollViewRef.current.scrollToOffset({
               animated: true,
-              offset: y + yRef.current
+              offset: y + $.onScrollY
             })
           }
         } catch (error) {}
       },
-      [yRef]
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      []
     ),
 
     /** 子组件可以调用此方法定位到指定子组件块 */
@@ -126,7 +113,8 @@ export function useSubjectPage({ $ }: Ctx) {
           }
         } catch (error) {}
       },
-      [$]
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      []
     )
   }
 }

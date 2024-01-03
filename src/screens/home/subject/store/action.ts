@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:17:56
+ * @Last Modified time: 2024-01-04 01:16:46
  */
+import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import {
-  _,
   calendarStore,
   collectionStore,
   otaStore,
   rakuenStore,
   systemStore,
-  userStore,
+  uiStore,
   usersStore,
-  uiStore
+  userStore
 } from '@stores'
 import {
   appNavigate,
@@ -32,13 +32,14 @@ import {
   loading,
   open,
   saveCalenderEvent,
-  showActionSheet
+  showActionSheet,
+  updateVisibleBottom
 } from '@utils'
-import { t, baiduTranslate } from '@utils/fetch'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { baiduTranslate, t } from '@utils/fetch'
 import { download, temp } from '@utils/kv'
-import { webhookCollection, webhookEp } from '@utils/webhooks'
 import axios from '@utils/thirdParty/axios'
+import { s2t } from '@utils/thirdParty/cn-char'
+import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
   CDN_OSS_SUBJECT,
   HOST,
@@ -46,15 +47,15 @@ import {
   LIKE_TYPE_TIMELINE,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
-  SITES,
   SITE_AGEFANS,
   SITE_MANHUADB,
   SITE_WK8,
+  SITES,
   STORYBOOK,
   URL_SPA
 } from '@constants'
 import i18n from '@constants/i18n'
-import { EpStatus, Id, Navigation, RatingStatus, UserId } from '@types'
+import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
@@ -140,9 +141,7 @@ export default class Action extends Fetch {
 
       // 匹配用户自定义源头
       if (!url) {
-        const find = this.onlineOrigins.find(
-          (item: OriginItem) => item.name === key
-        ) as OriginItem
+        const find = this.onlineOrigins.find((item: OriginItem) => item.name === key) as OriginItem
         if (find) {
           if (key === '萌番组' && find.id) {
             copy(this.cn || this.jp)
@@ -167,9 +166,7 @@ export default class Action extends Fetch {
         let item
         switch (key) {
           case 'AGE动漫':
-            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(
-              this.cn || this.jp
-            )}&page=1`
+            url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(this.cn || this.jp)}&page=1`
             break
 
           case 'Anime1':
@@ -183,9 +180,7 @@ export default class Action extends Fetch {
             break
 
           case 'Hanime1':
-            url = `https://hanime1.me/search?query=${encodeURIComponent(
-              this.jp || this.cn
-            )}`
+            url = `https://hanime1.me/search?query=${encodeURIComponent(this.jp || this.cn)}`
             break
 
           default:
@@ -630,10 +625,7 @@ export default class Action extends Fetch {
     const url = `${URL_SPA}/${getSPAParams('Subject', {
       subjectId: this.subjectId
     })}`
-    copy(
-      `【链接】${cnjp(this.cn, this.jp)} | Bangumi番组计划\n${url}`,
-      '已复制 APP 网页版地址'
-    )
+    copy(`【链接】${cnjp(this.cn, this.jp)} | Bangumi番组计划\n${url}`, '已复制 APP 网页版地址')
     setTimeout(() => {
       open(url)
     }, 1600)
@@ -678,23 +670,28 @@ export default class Action extends Fetch {
     })
   })
 
+  onScrollY = 0
+
   /** 更新可视范围底部 y */
-  onScroll = ({ nativeEvent }) => {
-    const { contentOffset, layoutMeasurement } = nativeEvent
-    const screenHeight = layoutMeasurement.height
-    const visibleBottom = contentOffset.y + screenHeight
-    if (visibleBottom <= (this.state.visibleBottom || 0)) return
+  onScroll = (e: ScrollEvent) => {
+    updateVisibleBottom(e)
+    uiStore.closeLikesGrid()
+
+    // 计算头部是否需要固定
+    const { y } = e.nativeEvent.contentOffset
+    this.onScrollY = y
+
+    const { fixed } = this.state
+    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
 
     this.setState({
-      visibleBottom: visibleBottom + _.window.height * 0.5
+      fixed: y > HEADER_TRANSITION_HEIGHT
     })
   }
 
   // -------------------- action --------------------
   /** 管理收藏 */
-  doUpdateCollection = async (
-    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
-  ) => {
+  doUpdateCollection = async (values: Parameters<typeof collectionStore.doUpdateCollection>[0]) => {
     t('条目.管理收藏', {
       subjectId: this.subjectId
     })
@@ -763,9 +760,10 @@ export default class Action extends Fetch {
             _title: `ep${item.sort}.${item.name || item.name_cn}`,
             _group: this.subject.name || this.subject.name_cn,
             _groupThumb: getCoverMedium((this.subject.images || {})?.medium),
-            _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
-              item.desc || ''
-            ).replace(/\r\n/g, '<br />')}`
+            _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
+              /\r\n/g,
+              '<br />'
+            )}`
           },
           {
             id: '条目.跳转',
@@ -801,9 +799,7 @@ export default class Action extends Fetch {
                   site
                 })
               } else {
-                epIndex = eps
-                  .filter(item => item.type === 0)
-                  .findIndex(i => i.id === item.id)
+                epIndex = eps.filter(item => item.type === 0).findIndex(i => i.id === item.id)
                 url =
                   epsData[site][epIndex] ||
                   getBangumiUrl({
@@ -975,10 +971,7 @@ export default class Action extends Fetch {
   }
 
   /** 章节更新统一入口 */
-  doUpdateEp = async (
-    { eps, vol }: { eps?: any; vol?: any },
-    isNeedFeedback: boolean = false
-  ) => {
+  doUpdateEp = async ({ eps, vol }: { eps?: any; vol?: any }, isNeedFeedback: boolean = false) => {
     try {
       this.prepareEpsFlip()
 
@@ -1198,11 +1191,7 @@ export default class Action extends Fetch {
       })
       ics.push('END:VCALENDAR')
 
-      const { data } = await temp(
-        `${this.userId}_${this.subjectId}.ics`,
-        ics.join('\n'),
-        -1
-      )
+      const { data } = await temp(`${this.userId}_${this.subjectId}.ics`, ics.join('\n'), -1)
       if (!data?.downloadKey) {
         info('未知错误，生成ics失败，重试或联系作者')
         return false

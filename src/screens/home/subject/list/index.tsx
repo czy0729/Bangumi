@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 17:10:55
+ * @Last Modified time: 2024-01-04 01:15:31
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
+import Item from '../component/item'
 import { Ctx } from '../types'
 import HeaderComponent from '../header-component'
-import { REFRESH_CONTROL_PROPS, renderItem } from './utils'
-import { COMPONENT } from './ds'
+import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 
-function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) {
+function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) {
   const { _loaded } = $.subjectComments
   return (
     <ListView
@@ -36,7 +36,7 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onBlockRef }, { 
         />
       }
       renderItem={renderItem}
-      onScroll={onScroll}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectComments}
     />
@@ -44,3 +44,18 @@ function List({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onBlockRef }, { 
 }
 
 export default obc(List, COMPONENT)
+
+function renderItem({ item, index }) {
+  return (
+    <Item
+      index={index}
+      time={item.time}
+      avatar={item.avatar}
+      userId={item.userId}
+      userName={item.userName}
+      star={item.star}
+      comment={item.comment}
+      relatedId={item.relatedId}
+    />
+  )
+}

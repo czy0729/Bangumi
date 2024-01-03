@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 15:40:18
+ * @Last Modified time: 2024-01-04 03:37:36
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 
 export const memoStyles = _.memoStyles(() => {
   const height = IMG_HEIGHT
@@ -23,6 +23,9 @@ export const memoStyles = _.memoStyles(() => {
       width: _.r(72),
       paddingLeft: _._wind,
       marginTop: 2
+    },
+    transparent: {
+      opacity: 0
     },
     body: {
       width: '100%',

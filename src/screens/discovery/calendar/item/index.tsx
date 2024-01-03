@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:15:16
+ * @Last Modified time: 2024-01-04 03:47:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
 import { _ } from '@stores'
-import { date, cnjp, getTimestamp } from '@utils'
-import { obc } from '@utils/decorators'
 import { CalendarItem } from '@stores/calendar/types'
+import { cnjp, date, getTimestamp } from '@utils'
+import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 import ItemGrid from '../item-grid'
 import ItemLine from '../item-line'
 import { getTime } from '../utils'
-import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 let day = new Date().getDay()
@@ -29,8 +29,8 @@ function Item({ item, section }, { $ }: Ctx) {
     <Flex wrap='wrap' align='start'>
       {items.map((i, idx) => {
         // 如果存在多个同一时间放送的条目, 只在第一个条目显示时间
-        let time = getTime(i)
-        if (idx > 0 && getTime(items[idx - 1]) === time) time = ''
+        let time = getTime(i, i.id)
+        if (idx > 0 && time === '2359' && getTime(items[idx - 1], i.id) === time) time = ''
 
         // 放送到多少集, 自增 1
         let { air } = i

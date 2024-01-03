@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:10:00
+ * @Last Modified time: 2024-01-04 01:15:11
  */
 import React from 'react'
 import { Flex, Header as CompHeader, Heatmap } from '@components'
@@ -12,8 +12,8 @@ import { cnjp, copy, info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { STORYBOOK, URL_ABOUT } from '@constants'
-import { Ctx } from '../types'
 import HeaderTitle from '../component/header-title'
+import { Ctx } from '../types'
 import {
   COMPONENT,
   TEXT_APP,
@@ -24,7 +24,8 @@ import {
   TEXT_WEB_SHARE
 } from './ds'
 
-function Header({ fixed, index, onScrollTo }, { $, navigation }: Ctx) {
+function Header({ index, onScrollTo }, { $, navigation }: Ctx) {
+  const { fixed } = $.state
   const color = _.isDark || !fixed ? '#fff' : '#000'
   const data = [
     `浏览器打开 · ${$.subjectId}`,

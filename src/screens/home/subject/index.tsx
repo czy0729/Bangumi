@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 17:12:08
+ * @Last Modified time: 2024-01-04 01:15:15
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -19,8 +19,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 const Subject = (props, context: Ctx) => {
-  const { fixed, forwardRef, onBlockRef, onScrollFn, onScrollIntoViewIfNeeded, onScrollTo } =
-    useSubjectPage(context)
+  const { forwardRef, onBlockRef, onScrollIntoViewIfNeeded, onScrollTo } = useSubjectPage(context)
 
   const { navigation } = context
   return useObserver(() => (
@@ -30,13 +29,12 @@ const Subject = (props, context: Ctx) => {
           {IOS && <Bg />}
           <List
             forwardRef={forwardRef}
-            onScroll={onScrollFn}
             onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
             onBlockRef={onBlockRef}
           />
         </Page>
       </TapListener>
-      <Header fixed={fixed} index={navigation.getState().index} onScrollTo={onScrollTo} />
+      <Header index={navigation.getState().index} onScrollTo={onScrollTo} />
       <Extra />
     </Component>
   ))
