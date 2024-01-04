@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-02-14 02:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 19:10:45
+ * @Last Modified time: 2024-01-04 16:54:54
  */
 import React from 'react'
 import { ItemTimeline } from '@_'
 import { _, rakuenStore } from '@stores'
 import { getIsBlockUser } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 import ItemHeatmaps from '../item-heatmaps'
-import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
   const { p1 } = item
@@ -18,9 +19,7 @@ function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
   if (url.includes('/user/')) {
     const text = p1?.text || ''
     const { blockUserIds } = rakuenStore.setting
-    if (
-      getIsBlockUser(blockUserIds, text, url.split('/user/')?.[1], `Timeline|${index}`)
-    ) {
+    if (getIsBlockUser(blockUserIds, text, url.split('/user/')?.[1], `Timeline|${index}`)) {
       return null
     }
   }
@@ -49,4 +48,4 @@ function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

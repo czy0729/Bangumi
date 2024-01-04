@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 05:19:43
+ * @Last Modified time: 2024-01-04 16:55:43
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { Login, SectionHeader } from '@_'
 import { uiStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { TimeLineScope, TimeLineScopeCn, TimeLineType } from '@types'
+import { TABS } from '../../ds'
+import { Ctx, TabLabel } from '../../types'
 import Item from '../item'
-import { TABS } from '../ds'
-import { Ctx, TabLabel } from '../types'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 class List extends React.Component<{
@@ -64,6 +66,8 @@ class List extends React.Component<{
   }
 
   render() {
+    r(COMPONENT)
+
     const { $ } = this.context as Ctx
     const { scope, page, isFocused } = $.state
     const { title } = this.props
@@ -73,10 +77,7 @@ class List extends React.Component<{
     const { hide } = this.state
     if (hide) return null
 
-    const timeline = $.timeline(
-      scope,
-      MODEL_TIMELINE_TYPE.getValue<TimeLineType>(title)
-    )
+    const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue<TimeLineType>(title))
     if (!timeline._loaded) return <Loading />
 
     if (!$.showItem(title)) return null

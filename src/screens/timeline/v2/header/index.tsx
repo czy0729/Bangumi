@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-02 22:31:19
+ * @Last Modified time: 2024-01-04 16:51:45
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { LogoHeader, IconTabsHeader } from '@_'
-import { _ } from '@stores'
+import { IconTabsHeader, LogoHeader } from '@_'
 import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
@@ -47,13 +48,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
-
-const styles = _.create({
-  icon: {
-    marginRight: _.xs,
-    marginBottom: 0,
-    borderRadius: 40,
-    overflow: 'hidden'
-  }
-})
+export default obc(Header, COMPONENT)

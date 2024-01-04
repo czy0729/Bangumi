@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-14 06:25:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:15:02
+ * @Last Modified time: 2024-01-04 16:55:20
  */
 import { _ } from '@stores'
 import { MODEL_TIMELINE_SCOPE, TIMELINE_TYPE } from '@constants'
 import { Loaded, TimeLineScope } from '@types'
+
+export const COMPONENT = 'Timeline'
 
 export const NAMESPACE = 'ScreenTimeline'
 

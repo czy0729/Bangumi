@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:31:03
+ * @Last Modified time: 2024-01-04 16:56:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { TabView } from '@components'
-import { BlurViewRoot, BlurViewTab, BlurViewBottomTab } from '@_'
+import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
+import renderScene from './renderScene'
 import TabBar from './tab-bar'
 import TabBarLeft from './tab-bar-left'
-import renderScene from './renderScene'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Tab(props, { $ }: Ctx) {
@@ -40,7 +41,7 @@ function Tab(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tab)
+export default obc(Tab, COMPONENT)
 
 function renderTabBar(props) {
   return <TabBar {...props} />

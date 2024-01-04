@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-07-27 18:12:33
  */
 import { _ } from '@stores'
-import { H_TABBAR } from '../ds'
+import { H_TABBAR } from '../../ds'
 
 export const styles = _.create({
   contentContainerStyle: {
