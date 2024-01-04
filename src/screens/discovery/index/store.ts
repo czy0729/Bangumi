@@ -2,32 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:47:31
+ * @Last Modified time: 2024-01-04 16:11:23
  */
-import { observable, computed } from 'mobx'
-import {
-  systemStore,
-  calendarStore,
-  userStore,
-  discoveryStore,
-  usersStore
-} from '@stores'
+import { computed, observable } from 'mobx'
+import { calendarStore, discoveryStore, systemStore, usersStore, userStore } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
 import {
-  date,
-  getTimestamp,
   appNavigate,
   appRandom,
+  date,
+  desc,
+  getTimestamp,
   info,
   matchBgmUrl,
-  desc,
   updateVisibleBottom
 } from '@utils'
 import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { Navigation, SubjectType } from '@types'
-import { NAMESPACE, EXCLUDE_STATE, STATE, MenuMapType } from './ds'
+import { EXCLUDE_STATE, MenuMapType, NAMESPACE, STATE } from './ds'
 
 export default class ScreenDiscovery extends store<typeof STATE> {
   state = observable(STATE)
@@ -203,8 +197,7 @@ export default class ScreenDiscovery extends store<typeof STATE> {
       const time = date('Hi', getTimestamp())
       const current = parseInt(`${new Date().getDay() || 7}${time || '0000'}`)
       const index = this.calendar.findIndex(
-        item =>
-          current >= parseInt(`${item.weekDayLocal || 7}${item.timeLocal || '0000'}`)
+        item => current >= parseInt(`${item.weekDayLocal || 7}${item.timeLocal || '0000'}`)
       )
 
       // 在前面和后面拼接多一组数据, 可以实现循环每周, 补全数据

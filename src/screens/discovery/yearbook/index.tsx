@@ -2,27 +2,27 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-18 04:50:39
+ * @Last Modified time: 2024-01-04 14:37:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
   Component,
-  Squircle,
   Flex,
   Header,
   Image,
   Page,
   ScrollView,
+  Squircle,
   Text,
   Touchable
 } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST } from '@constants'
-import Award2022 from '../index/award-2022'
+import Award2022 from '../index/component/award-2022'
 import { YEARS } from './ds'
 import { memoStyles } from './styles'
 

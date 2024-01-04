@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:35:17
+ * @Last Modified time: 2024-01-04 16:11:32
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { IOS, STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { Loaded } from '@types'
 import { MenuItemType } from './types'
+
+export const COMPONENT = 'Discovery'
 
 export const NAMESPACE = 'ScreenDiscovery'
 
@@ -39,10 +41,7 @@ export const STATE = {
   _loaded: true as Loaded
 }
 
-export const INITIAL_RENDER_NUMS_XS = _.device(
-  Math.floor(_.window.contentWidth / 80) + 1,
-  0
-)
+export const INITIAL_RENDER_NUMS_XS = _.device(Math.floor(_.window.contentWidth / 80) + 1, 0)
 
 export const MENU_MAP = {
   Rank: {
@@ -256,11 +255,7 @@ export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
   if (newMenuKeys.length) {
     const openIndex = menus.findIndex(item => item.key === 'Open')
     const newMenus = newMenuKeys.map(item => menuMap[item])
-    menus = [
-      ...menus.slice(0, openIndex),
-      ...newMenus,
-      ...menus.slice(openIndex, menus.length)
-    ]
+    menus = [...menus.slice(0, openIndex), ...newMenus, ...menus.slice(openIndex, menus.length)]
   }
 
   if (STORYBOOK) return menus.filter(item => item.web !== false)
