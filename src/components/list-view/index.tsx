@@ -8,19 +8,14 @@ import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { pick, omit, sleep, simpleTime, date } from '@utils'
+import { date, omit, pick, simpleTime, sleep } from '@utils'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
 import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
-import List from './list'
 import Footer from './footer'
+import List from './list'
 import { DEFAULT_PROPS, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
-import {
-  Props as ListViewProps,
-  RefreshState,
-  RenderListProps,
-  ScrollToFunction
-} from './types'
+import { Props as ListViewProps, RefreshState, RenderListProps, ScrollToFunction } from './types'
 
 export { ListViewProps }
 
@@ -224,9 +219,9 @@ export const ListView = observer(
         onEndReachedThreshold: 0.5,
 
         /** 常用优化参数 */
-        maxToRenderPerBatch: optimize ? 48 : undefined,
-        updateCellsBatchingPeriod: optimize ? 48 : undefined,
-        initialNumToRender: 12,
+        maxToRenderPerBatch: optimize ? 96 : undefined,
+        updateCellsBatchingPeriod: optimize ? 96 : undefined,
+        initialNumToRender: 24,
         windowSize: optimize ? 21 : undefined,
 
         /** 强制不显示滚动条 */
@@ -269,8 +264,7 @@ export const ListView = observer(
 
     /** 不要试图去单独封装这个组件, 不明原因会导致整个列表都不显示 */
     renderRefreshControl() {
-      const { data, progressViewOffset, refreshControlProps, onHeaderRefresh } =
-        this.props
+      const { data, progressViewOffset, refreshControlProps, onHeaderRefresh } = this.props
       if (!onHeaderRefresh) return null
 
       const { refreshState } = this.state
@@ -279,9 +273,7 @@ export const ListView = observer(
           enabled={!!onHeaderRefresh}
           refreshing={refreshState === REFRESH_STATE.HeaderRefreshing}
           title={
-            data._loaded
-              ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}`
-              : undefined
+            data._loaded ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}` : undefined
           }
           colors={[_.colorMain]}
           titleColor={_.colorSub}

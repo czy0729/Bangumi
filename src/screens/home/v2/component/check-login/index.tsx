@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:35:20
+ * @Last Modified time: 2024-01-06 01:33:52
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { MODEL_SETTING_INITIAL_PAGE } from '@constants'
 import { SettingInitialPage } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 
 let rendered = false
 
 function CheckLogin(props, { $, navigation }: Ctx) {
-  rerender('Home.CheckLogin')
-
   const { initialPage } = systemStore.setting
   return (
     <NavigationEvents
@@ -25,14 +23,13 @@ function CheckLogin(props, { $, navigation }: Ctx) {
         const { _loaded } = $.state
         if (!_loaded) $.init()
 
-        // popToTop回来时需要延时才能获得正确的登出后的isLogin状态
+        // popToTop 回来时需要延时才能获得正确的登出后的 isLogin 状态
         setTimeout(() => {
-          // 当用户设置了App启动首页非进度页时, 第一次渲染前非登录不能跳转到登录页
+          // 当用户设置了 App 启动首页非进度页时, 第一次渲染前非登录不能跳转到登录页
           if (!rendered) {
             if (
               !$.isLogin &&
-              initialPage ===
-                MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')
+              initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')
             ) {
               navigation.navigate('Auth')
             }
@@ -47,4 +44,4 @@ function CheckLogin(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(CheckLogin)
+export default obc(CheckLogin, COMPONENT)

@@ -9,10 +9,10 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { systemStore } from '@stores'
+import { REFRESH_STATE } from '../ds'
 import { Flex } from '../../flex'
 import { Mesume } from '../../mesume'
 import { Text } from '../../text'
-import { REFRESH_STATE } from '../ds'
 import RandomText from './random-text'
 import { styles } from './styles'
 
@@ -92,9 +92,7 @@ function Footer({
         (showMesume ? (
           <Flex style={styles.noMore} justify='center' direction='column'>
             <Mesume size={80} />
-            {systemStore.setting.speech && (
-              <RandomText type={footerTextType} text={filterText} />
-            )}
+            {systemStore.setting.speech && <RandomText type={footerTextType} text={filterText} />}
           </Flex>
         ) : null)
       )

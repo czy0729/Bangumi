@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-12 09:57:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:34:32
+ * @Last Modified time: 2024-01-05 20:34:44
  */
+export const COMPONENT = 'Home'
+
 /** 基本 Tabs */
 export const TABS = [
   {

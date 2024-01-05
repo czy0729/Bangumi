@@ -2,36 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-06-10 13:44:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 20:36:32
+ * @Last Modified time: 2024-01-06 01:32:05
  */
 import React from 'react'
-import { Flex, Text, Mesume, Button } from '@components'
+import { Button, Flex, Mesume, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { rerender } from '@utils/dev'
+import { Ctx } from '../../types'
+import { COMPONENT, FOOTER_EMPTY_TEXT } from './ds'
 import { memoStyles } from './styles'
-import { Ctx } from '../types'
-
-const FOOTER_EMPTY_TEXT = {
-  全部: '当前没有可管理的条目哦',
-  动画: '当前没有在追的番组哦',
-  书籍: '当前没有在读的书籍哦',
-  三次元: '当前没有在追的电视剧哦',
-  游戏: '当前没有在玩的游戏哦'
-} as const
 
 function Empty({ title, length }, { $, navigation }: Ctx) {
-  rerender('Home.Empty')
-
   const styles = memoStyles()
   const { filter } = $.state
   return (
-    <Flex
-      style={length ? styles.top : styles.empty}
-      direction='column'
-      justify='center'
-    >
+    <Flex style={length ? styles.top : styles.empty} direction='column' justify='center'>
       <Mesume size={80} />
       <Text style={styles.text} type='sub' size={13} align='center'>
         {length ? randomSpeech() : FOOTER_EMPTY_TEXT[title]}
@@ -59,4 +45,4 @@ function Empty({ title, length }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Empty)
+export default obc(Empty, COMPONENT)

@@ -7,7 +7,7 @@
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { rerender } from '@utils/dev'
-import List from '../list'
+import List from '../component/list'
 import Tab from './tab'
 
 /**

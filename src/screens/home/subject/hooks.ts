@@ -34,15 +34,6 @@ export function useSubjectPage({ $ }: Ctx) {
     })
   })
 
-  /** 页面销毁时设置未渲染标识 */
-  useMount(() => {
-    return () => {
-      setTimeout(() => {
-        $.unRendered()
-      }, 480)
-    }
-  })
-
   /** 动态改变状态栏主题 */
   useFocusEffect(() => {
     setTimeout(() => {
@@ -50,6 +41,18 @@ export function useSubjectPage({ $ }: Ctx) {
         _.isDark ? 'light-content' : $.state.fixed ? 'dark-content' : 'light-content'
       )
     }, 80)
+  })
+
+  /** 页面销毁 */
+  useMount(() => {
+    return () => {
+      setTimeout(() => {
+        $.unRendered()
+        $.setState({
+          fixed: false
+        })
+      }, 480)
+    }
   })
 
   /** ListView.ref */

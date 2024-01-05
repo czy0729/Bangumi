@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 04:58:49
+ * @Last Modified time: 2024-01-06 01:33:11
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Input, Iconfont, Loading } from '@components'
+import { Flex, Iconfont, Input, Loading, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
-import { Ctx } from '../types'
+import { r } from '@utils/dev'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -48,9 +49,9 @@ class Filter extends React.Component<Props> {
   }
 
   render() {
-    if (!this.show) return null
+    r(COMPONENT)
 
-    rerender('Home.Filter')
+    if (!this.show) return null
 
     const { $ } = this.context as Ctx
     const { progress } = $.state

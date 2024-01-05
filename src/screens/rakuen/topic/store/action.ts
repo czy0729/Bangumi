@@ -216,11 +216,13 @@ export default class Action extends Fetch {
     this.save()
   }
 
-  private onScrollY = 0
+  updateVisibleBottom = updateVisibleBottom.bind(this)
+
+  onScrollY = 0
 
   /** 更新可视范围底部 y */
   onScroll = (e: ScrollEvent) => {
-    updateVisibleBottom(e)
+    this.updateVisibleBottom(e)
     uiStore.closePopableSubject()
     uiStore.closeLikesGrid()
 

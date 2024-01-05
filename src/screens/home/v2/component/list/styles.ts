@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-07-25 18:15:23
  */
 import { _ } from '@stores'
-import { H_TABBAR } from '../ds'
+import { H_TABBAR } from '../../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {

@@ -2,35 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-26 18:42:27
+ * @Last Modified time: 2024-01-06 01:31:00
  */
 import React from 'react'
-import { Component, Page, Track } from '@components'
-import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
-import { Auth, LoginNotice } from '@_'
+import { Component, Page } from '@components'
+import { Auth } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useFocusEffect, useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver } from '@utils/hooks'
+import Extra from './component/extra'
+import Modal from './component/modal'
+import Tips from './component/tips'
 import Header from './header'
-import Tab from './tab'
-import Tips from './tips'
-import Modal from './modal'
+import { useHomePage } from './hooks'
 import Store from './store'
+import Tab from './tab'
 import { Ctx } from './types'
 
-const Home = (props, { $, navigation }: Ctx) => {
-  useRunAfter(() => {
-    $.updateInitialPage(navigation)
+const Home = (props, context: Ctx) => {
+  useHomePage(context)
 
-    navigation.addListener(`${EVENT_APP_TAB_PRESS}|Home`, () => {
-      $.onRefreshThenScrollTop()
-    })
-  })
-
-  useFocusEffect(() => {
-    $.init()
-  })
-
+  const { $ } = context
   return useObserver(() => (
     <Component id='screen-home'>
       <Page style={_.ios(_.container.bg, _.container.plain)} loaded={$.state._loaded}>
@@ -45,8 +37,7 @@ const Home = (props, { $, navigation }: Ctx) => {
           <Auth />
         )}
       </Page>
-      <Track title='首页' hm={$.hm} />
-      <LoginNotice navigation={navigation} />
+      <Extra />
     </Component>
   ))
 }

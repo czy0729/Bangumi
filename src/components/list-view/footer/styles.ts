@@ -13,7 +13,7 @@ export const styles = _.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 40,
+    minHeight: 96,
     paddingVertical: 8,
     paddingHorizontal: _.lg
   },

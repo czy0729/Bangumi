@@ -8,22 +8,19 @@ import React from 'react'
 import { Loading } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { SettingHomeLayout } from '@types'
-import Grid from '../grid'
-import { Ctx } from '../types'
+import { Ctx, TabLabel } from '../../types'
+import Grid from '../../grid'
 import List from './list'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(({ title = '全部' }, { $ }: Ctx) => {
-  rerender('Home.List')
-
+function ListWrap({ title = '全部' as TabLabel }, { $ }: Ctx) {
   if (!$.collection._loaded) return <Loading />
 
   const { homeLayout } = systemStore.setting
-  const isGrid =
-    homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
+  const isGrid = homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
   if (isGrid) return <Grid title={title} />
 
   const showItem = $.showItem(title)
@@ -44,4 +41,6 @@ export default obc(({ title = '全部' }, { $ }: Ctx) => {
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
     />
   )
-})
+}
+
+export default obc(ListWrap, COMPONENT)

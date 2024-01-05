@@ -10,7 +10,13 @@ import { _, rakuenStore, uiStore } from '@stores'
 import { androidKeyboardAdjust, feedback, info } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
-import { useIsFocused, useIsFocusedRef, useKeyboardAdjustResize, useRunAfter } from '@utils/hooks'
+import {
+  useIsFocused,
+  useIsFocusedRef,
+  useKeyboardAdjustResize,
+  useMount,
+  useRunAfter
+} from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import { Id } from '@types'
 import { Ctx } from './types'
@@ -291,6 +297,17 @@ export function useTopicPage({ $ }: Ctx) {
       uiStore.closeLikesGrid()
     }
   }, [isFocused])
+
+  /** 页面销毁 */
+  useMount(() => {
+    return () => {
+      setTimeout(() => {
+        $.setState({
+          fixed: false
+        })
+      }, 480)
+    }
+  })
 
   return {
     /** 底部回复框引用 */

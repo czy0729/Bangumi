@@ -159,8 +159,7 @@ const Ep = memo(
     )
   },
   DEFAULT_PROPS,
-  COMPONENT_MAIN,
-  true
+  COMPONENT_MAIN
 )
 
 export default Ep

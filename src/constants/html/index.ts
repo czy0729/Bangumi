@@ -6,27 +6,27 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-21 18:46:17
  */
-import { urlStringify } from '@utils'
-import { Id, SubjectId, EpId, UserId, PersonId, MonoId, TopicId } from '@types'
+import { urlStringify } from '@utils/utils'
+import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, UserId } from '@types'
 import { HOST } from '../constants'
 import { MODEL_TIMELINE_SCOPE } from '../model'
 import {
-  CollectionStatus,
   CollectionsOrder,
-  TagOrder,
+  CollectionStatus,
   RakuenScope,
   RakuenType,
-  RatingStatus,
-  SearchCat,
-  SubjectType,
-  TimeLineScope,
-  TimeLineType,
+  RakuenTypeGroup,
+  RakuenTypeMono,
   RankAnimeFilter,
   RankBookFilter,
   RankGameFilter,
   RankRealFilter,
-  RakuenTypeMono,
-  RakuenTypeGroup
+  RatingStatus,
+  SearchCat,
+  SubjectType,
+  TagOrder,
+  TimeLineScope,
+  TimeLineType
 } from '../model/types'
 import { RakuenReplyType } from './types'
 
@@ -43,10 +43,7 @@ export const HTML_SUBJECT_RATING = (
   status: RatingStatus = 'collections',
   isFriend: boolean = false,
   page: number = 1
-) =>
-  `${HOST}/subject/${subjectId}/${status}?page=${page}${
-    isFriend ? '&filter=friends' : ''
-  }`
+) => `${HOST}/subject/${subjectId}/${status}?page=${page}${isFriend ? '&filter=friends' : ''}`
 
 /** 用于获取条目管理相关信息 */
 export const HTML_SUBJECT_COLLECT_DETAIL = (subjectId: SubjectId) =>
@@ -126,8 +123,7 @@ export const HTML_RAKUEN_HOT = () => HOST
 export const HTML_TOPIC = (topicId: TopicId) => `${HOST}/rakuen/topic/${topicId}`
 
 /** 帖子编辑 */
-export const HTML_TOPIC_EDIT = (postId: Id) =>
-  `https://bgm.tv/group/reply/${postId}/edit`
+export const HTML_TOPIC_EDIT = (postId: Id) => `https://bgm.tv/group/reply/${postId}/edit`
 
 /** 小组详情 */
 export const HTML_GROUP_INFO = (groupId: Id) => `${HOST}/group/${groupId}`
@@ -154,16 +150,9 @@ export const HTML_BLOG_LIST = (type: string = '', page: number = 1) =>
  * @param {*} page
  * @param {*} legacy 是否精准匹配
  */
-export const HTML_SEARCH = (
-  text: string,
-  cat: SearchCat,
-  page: number = 1,
-  legacy = ''
-) => {
+export const HTML_SEARCH = (text: string, cat: SearchCat, page: number = 1, legacy = '') => {
   const [type, _cat] = String(cat).split('_')
-  return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}&legacy=${
-    legacy ? 1 : 0
-  }`
+  return `${HOST}/${type}_search/${text}?cat=${_cat}&page=${page}&legacy=${legacy ? 1 : 0}`
 }
 
 /** 标签 */
@@ -219,8 +208,7 @@ export const HTML_NEW_TOPIC = (group?: string) =>
   group ? `${HOST}/group/${group}/new_topic` : `${HOST}/rakuen/new_topic`
 
 /** 添加新时间线 */
-export const HTML_NEW_TIMELINE = (userId: UserId) =>
-  `${HOST}/user/${userId}/timeline?type=say`
+export const HTML_NEW_TIMELINE = (userId: UserId) => `${HOST}/user/${userId}/timeline?type=say`
 
 /**
  * 电波提醒
@@ -290,8 +278,7 @@ export const HTML_USERS_PERSON = (userId: UserId = '', page: number = 1) =>
   `${HOST}/user/${userId}/mono/person?page=${page}`
 
 /** 我收藏人物的最近作品 */
-export const HTML_USERS_MONO_RECENTS = (page: number = 1) =>
-  `${HOST}/mono/update?page=${page}`
+export const HTML_USERS_MONO_RECENTS = (page: number = 1) => `${HOST}/mono/update?page=${page}`
 
 /** 用户日志列表 */
 export const HTML_USERS_BLOGS = (userId: UserId = '', page: number = 1) =>
@@ -306,8 +293,7 @@ export const HTML_TAGS = (type: SubjectType, page: number = 1, filter?: string) 
 }
 
 /** 吐槽 */
-export const HTML_SAY = (userId: UserId, id: Id) =>
-  `${HOST}/user/${userId}/timeline/status/${id}`
+export const HTML_SAY = (userId: UserId, id: Id) => `${HOST}/user/${userId}/timeline/status/${id}`
 
 /** 频道聚合 */
 export const HTML_CHANNEL = (channel: SubjectType) => `${HOST}/${channel}`
@@ -317,8 +303,7 @@ export const HTML_SUBJECT_CHARACTERS = (subjectId: SubjectId) =>
   `${HOST}/subject/${subjectId}/characters`
 
 /** 条目更多制作人员 */
-export const HTML_SUBJECT_PERSONS = (subjectId: SubjectId) =>
-  `${HOST}/subject/${subjectId}/persons`
+export const HTML_SUBJECT_PERSONS = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/persons`
 
 /** 维基人 */
 export const HTML_WIKI = () => `${HOST}/wiki`
@@ -352,8 +337,7 @@ export const HTML_ACTION_BLOG_REPLY = (topicId: TopicId) =>
   `${HOST}/blog/entry/${topicId}/new_reply?ajax=1`
 
 /** 回复吐槽 */
-export const HTML_ACTION_TIMELINE_REPLY = (id: Id) =>
-  `${HOST}/timeline/${id}/new_reply?ajax=1`
+export const HTML_ACTION_TIMELINE_REPLY = (id: Id) => `${HOST}/timeline/${id}/new_reply?ajax=1`
 
 /** 发新吐槽 */
 export const HTML_ACTION_TIMELINE_SAY = () => `${HOST}/update/user/say?ajax=1`
@@ -386,10 +370,8 @@ export const HTML_ACTION_SUBJECT_SET_WATCHED = (subjectId: SubjectId) =>
  * [privacy]
  * [update] '保存'
  */
-export const HTML_ACTION_SUBJECT_INTEREST_UPDATE = (
-  subjectId: SubjectId,
-  formhash: string
-) => `${HOST}/subject/${subjectId}/interest/update?gh=${formhash}`
+export const HTML_ACTION_SUBJECT_INTEREST_UPDATE = (subjectId: SubjectId, formhash: string) =>
+  `${HOST}/subject/${subjectId}/interest/update?gh=${formhash}`
 
 /**
  * [POST] 创建目录
@@ -409,8 +391,7 @@ export const HTML_ACTION_CATALOG_CREATE = () => `${HOST}/index/create`
  * [formhash]
  * [submit] '我要删除这个目录'
  */
-export const HTML_ACTION_CATALOG_DELETE = (catalogId: Id) =>
-  `${HOST}/index/${catalogId}/erase`
+export const HTML_ACTION_CATALOG_DELETE = (catalogId: Id) => `${HOST}/index/${catalogId}/erase`
 
 /**
  * [POST] 修改目录
@@ -421,8 +402,7 @@ export const HTML_ACTION_CATALOG_DELETE = (catalogId: Id) =>
  * [desc] '',
  * [submit] '保存修改'
  */
-export const HTML_ACTION_CATALOG_EDIT = (catalogId: Id) =>
-  `${HOST}/index/${catalogId}/edit`
+export const HTML_ACTION_CATALOG_EDIT = (catalogId: Id) => `${HOST}/index/${catalogId}/edit`
 
 /**
  * [POST] 目录添加条目
@@ -452,12 +432,10 @@ export const HTML_ACTION_CATALOG_MODIFY_SUBJECT = (itemId: Id) =>
 export const HTML_BOARD = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/board`
 
 /** 条目影评 */
-export const HTML_REVIEWS = (subjectId: SubjectId) =>
-  `${HOST}/subject/${subjectId}/reviews`
+export const HTML_REVIEWS = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/reviews`
 
 /** 条目修订历史 */
-export const HTML_SUBJECT_WIKI_EDIT = (subjectId: SubjectId) =>
-  `${HOST}/subject/${subjectId}/edit`
+export const HTML_SUBJECT_WIKI_EDIT = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/edit`
 
 /** 条目封面修订历史 */
 export const HTML_SUBJECT_WIKI_COVER = (subjectId: SubjectId) =>

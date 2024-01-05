@@ -2,25 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 19:41:37
+ * @Last Modified time: 2024-01-06 01:35:52
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
-import { LogoHeader, IconNotify, IconTabsHeader } from '@_'
+import { IconNotify, IconTabsHeader, LogoHeader } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { rerender } from '@utils/dev'
+import { Ctx } from '../types'
 import { MENU_MAP } from '../../../discovery/index/ds'
+import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-const EVENT = {
-  id: '首页.跳转'
-} as const
-
-function Header(props, { navigation }) {
-  rerender('Home.Header')
-
+function Header(props, { navigation }: Ctx) {
   const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
   const left = MENU_MAP[homeTopLeftCustom]
   const right = MENU_MAP[homeTopRightCustom]
@@ -44,6 +39,7 @@ function Header(props, { navigation }) {
                 t('首页.跳转', {
                   to: left.key
                 })
+
                 navigation.push(left.key)
               }}
             />
@@ -58,6 +54,7 @@ function Header(props, { navigation }) {
                 t('首页.跳转', {
                   to: right.key
                 })
+
                 navigation.push(right.key)
               }}
             />
@@ -68,4 +65,4 @@ function Header(props, { navigation }) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

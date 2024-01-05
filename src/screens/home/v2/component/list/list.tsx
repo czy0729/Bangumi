@@ -7,11 +7,10 @@
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
-import Filter from '../filter'
 import Empty from '../empty'
+import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
-import { DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const List = memo(
   ({
@@ -25,8 +24,6 @@ const List = memo(
     onHeaderRefresh,
     onFooterRefresh
   }) => {
-    rerender('Home.List.Main')
-
     const { length } = data.list
     const emptyComponent = <Empty title={title} length={length} />
     const _renderItem = useCallback(
@@ -70,7 +67,8 @@ const List = memo(
       />
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
 
 export default List

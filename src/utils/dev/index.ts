@@ -1,4 +1,3 @@
-import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@/config'
 /*
  * 开发调试
  * @Author: czy0729
@@ -6,6 +5,7 @@ import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@/config'
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-05 00:50:00
  */
+import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@/config'
 import { AnyObject, Join } from '@types'
 import { pad } from '../utils'
 import { handleCircular } from './utils'

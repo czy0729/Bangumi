@@ -670,11 +670,13 @@ export default class Action extends Fetch {
     })
   })
 
+  updateVisibleBottom = updateVisibleBottom.bind(this)
+
   onScrollY = 0
 
   /** 更新可视范围底部 y */
   onScroll = (e: ScrollEvent) => {
-    updateVisibleBottom(e)
+    this.updateVisibleBottom(e)
     uiStore.closeLikesGrid()
 
     // 计算头部是否需要固定
