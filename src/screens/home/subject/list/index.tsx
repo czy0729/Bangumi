@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 01:15:31
+ * @Last Modified time: 2024-01-05 17:50:31
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -15,7 +15,6 @@ import HeaderComponent from '../header-component'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 
 function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) {
-  const { _loaded } = $.subjectComments
   return (
     <ListView
       ref={forwardRef}
@@ -30,7 +29,6 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) 
       refreshControlProps={REFRESH_CONTROL_PROPS}
       ListHeaderComponent={
         <HeaderComponent
-          loaded={!!_loaded}
           onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
           onBlockRef={onBlockRef}
         />

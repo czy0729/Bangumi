@@ -2,35 +2,36 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 11:58:47
+ * @Last Modified time: 2024-01-05 18:53:23
  */
 import React from 'react'
 import { Component } from '@components'
 import { ob } from '@utils/decorators'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCommentProps } from './types'
 
 export { ItemCommentProps }
 
-export const ItemComment = ob(
-  ({
-    navigation,
-    style,
-    time,
-    avatar,
-    userId,
-    userName,
-    star,
-    status,
-    comment,
-    subjectId,
-    relatedId,
-    event,
-    popoverData,
-    like,
-    onSelect
-  }: ItemCommentProps) => (
+function ItemCommentWrap({
+  navigation,
+  style,
+  time,
+  avatar,
+  userId,
+  userName,
+  star,
+  status,
+  comment,
+  subjectId,
+  relatedId,
+  event,
+  popoverData,
+  like,
+  onSelect
+}: ItemCommentProps) {
+  return (
     <Component id='item-comment' data-key={userId}>
       <Item
         navigation={navigation}
@@ -52,4 +53,6 @@ export const ItemComment = ob(
       />
     </Component>
   )
-)
+}
+
+export const ItemComment = ob(ItemCommentWrap, COMPONENT)

@@ -2,25 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 15:57:50
+ * @Last Modified time: 2024-01-05 16:36:11
  */
 import { observer } from 'mobx-react'
-import { IReactComponent } from '@types'
+import { contextTypes } from '@constants/constants'
 import { DEV } from '@/config'
-import { withDev } from './utils'
+import { IReactComponent } from '@types'
+import { withDev } from '../utils'
 
 /**
- * Observer
+ * Observer with Context
  * @param Component 组件
  * @param param2 defaultProps | devRerenderKey 默认 props 或者调试组件名
  * @param param3 devRerenderKey 调试组件名
  * @returns
  */
-export default function ob<T extends IReactComponent>(
+export default function obc<T extends IReactComponent>(
   Component: T,
   param2?: object | string,
   param3?: string
 ): T {
+  Component.contextTypes = contextTypes
+
   let devRerenderKey: string
 
   // 处理第二个参数

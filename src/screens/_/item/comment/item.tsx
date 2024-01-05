@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 12:04:30
+ * @Last Modified time: 2024-01-05 18:57:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, UserStatus } from '@components'
-import { _, userStore, uiStore } from '@stores'
-import { stl, correctAgo, HTMLDecode } from '@utils'
+import { _, uiStore, userStore } from '@stores'
+import { correctAgo, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
-import { Popover, Avatar, Stars, Name, Likes } from '../../base'
-import { DEFAULT_PROPS } from './ds'
+import { Avatar, Likes, Name, Popover, Stars } from '../../base'
+import { formatTime } from './utils'
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
-const Item = memo(
+const ItemComment = memo(
   ({
     navigation,
     styles,
@@ -34,8 +34,6 @@ const Item = memo(
     like,
     onSelect
   }) => {
-    rerender('Item.ItemComment.Main', userName)
-
     return (
       <Flex style={stl(styles.item, style)} align='start'>
         <View style={styles.avatar}>
@@ -48,12 +46,7 @@ const Item = memo(
                 src={avatar}
                 event={event}
               />
-              <Iconfont
-                style={styles.favor}
-                name='md-favorite'
-                color={_.colorMain}
-                size={12}
-              />
+              <Iconfont style={styles.favor} name='md-favorite' color={_.colorMain} size={12} />
             </View>
           ) : (
             <UserStatus userId={userId}>
@@ -136,22 +129,8 @@ const Item = memo(
       </Flex>
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
 
-export default Item
-
-/**
- * 由于爬出的 html 做了去除空格操作
- * 还原本来有操作的时间字符串
- */
-function formatTime(str = '') {
-  if (str.indexOf('ago') === -1) {
-    // date
-    const { length } = str
-    return `${str.slice(2, length - 5)} ${str.slice(length - 5, length)}`
-  }
-
-  // ago
-  return str.replace('d', 'd ').replace('h', 'h ').replace('m', 'm ').replace('s', 's ')
-}
+export default ItemComment
