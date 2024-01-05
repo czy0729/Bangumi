@@ -2,14 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:21:08
+ * @Last Modified time: 2024-01-05 16:21:13
  */
 import { _ } from '@stores'
-import { Fn } from '@types'
+import { rc } from '@utils/dev'
+import { FN } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+export const COMPONENT = rc(PARENT, 'Item')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 /** 限制首次渲染项数 */
 export const LIMIT_HEAVY = _.device(10, 20)
+
+/** 项高度 */
+export const ITEM_HEIGHT = 60
 
 /** 回复数少于的数字, 判断为广告姬 */
 export const AD_REPLIES_COUNT = 4
@@ -27,7 +36,6 @@ export const DEFAULT_PROPS = {
   time: '' as string,
   topicId: '' as string,
   replyCount: '' as string | number,
-  isReaded: false as boolean,
   isGroup: false as boolean,
-  onPress: (() => {}) as Fn
+  onPress: FN
 }

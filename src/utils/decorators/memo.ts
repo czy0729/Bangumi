@@ -10,7 +10,11 @@ import { DEV } from '@/config'
 import { AnyObject } from '@types'
 import { withDev } from './utils'
 
-type CustemCompareFn = (targetProps?: Record<string, unknown>) => boolean | object
+type CustemCompareFn<P = Record<string, unknown>> = (
+  targetProps?: P,
+  prevProps?: P,
+  nextProps?: P
+) => boolean | object
 
 /**
  * 封装通用 React.memo
@@ -24,14 +28,14 @@ type CustemCompareFn = (targetProps?: Record<string, unknown>) => boolean | obje
 export default function memo<P, T extends React.FunctionComponent<P>>(
   Component: T,
   defaultProps: P,
-  param3?: string | CustemCompareFn | boolean,
-  param4?: CustemCompareFn | boolean,
+  param3?: string | CustemCompareFn<P> | boolean,
+  param4?: CustemCompareFn<P> | boolean,
   param5?: boolean
 ): T {
   if (defaultProps) Component.defaultProps = defaultProps
 
   let devRerenderKey: string
-  let customCompareFn: CustemCompareFn
+  let customCompareFn: CustemCompareFn<P>
   let dev: boolean
 
   // 处理第三个参数
@@ -65,12 +69,12 @@ export default function memo<P, T extends React.FunctionComponent<P>>(
   return React.memo(
     DEV && devRerenderKey ? withDev(Component, devRerenderKey) : Component,
     /** 返回 false 更新视图, true 不更新视图 */
-    (prevProps, nextProps) => {
+    (prevProps: P, nextProps: P) => {
       if (typeof customCompareFn === 'function') {
         return memoCompare(
-          customCompareFn(prevProps),
-          customCompareFn(nextProps),
-          null,
+          customCompareFn(prevProps, prevProps, nextProps),
+          customCompareFn(nextProps, prevProps, nextProps),
+          Component.defaultProps,
           dev,
           devRerenderKey
         )
@@ -118,6 +122,13 @@ function log(prev: AnyObject, next: AnyObject, devRerenderKey?: string) {
   }
 }
 
+/**
+ * 排除比较的 key
+ *  - navigation
+ *  - _loaded
+ *  - 第一层 object._loaded
+ *  - typeof function
+ * */
 function mapKey(target: AnyObject, key: string, value: any) {
   if (key === 'navigation' || key === '_loaded' || typeof value === 'function') return
 
@@ -143,19 +154,18 @@ function memoCompare(
   // 正常情况不会是 false, 这是留给强制更新的一个参数配合
   if (prevProps === false && nextProps === false) return false
 
-  const _prevProps = propsOrKeys ? {} : prevProps
-  const _nextProps = propsOrKeys ? {} : nextProps
+  const checkEqualPrevProps = propsOrKeys ? {} : prevProps
+  const checkEqualNextProps = propsOrKeys ? {} : nextProps
   if (propsOrKeys) {
-    const _keys = Array.isArray(propsOrKeys) ? propsOrKeys : Object.keys(propsOrKeys)
-
-    _keys.forEach(key => {
-      mapKey(_prevProps, key, prevProps[key])
-      mapKey(_nextProps, key, nextProps[key])
+    const checkEqualKeys = Array.isArray(propsOrKeys) ? propsOrKeys : Object.keys(propsOrKeys)
+    checkEqualKeys.forEach(key => {
+      mapKey(checkEqualPrevProps, key, prevProps[key])
+      mapKey(checkEqualNextProps, key, nextProps[key])
     })
   }
 
-  const notUpdate = isEqual(_prevProps, _nextProps)
-  if (dev && !notUpdate) log(_prevProps, _nextProps, devRerenderKey)
+  const notUpdate = isEqual(checkEqualPrevProps, checkEqualNextProps)
+  if (dev && !notUpdate) log(checkEqualPrevProps, checkEqualNextProps, devRerenderKey)
 
   return notUpdate
 }

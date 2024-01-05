@@ -6,19 +6,19 @@
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Iconfont, Touchable } from '@components'
-import { _, userStore, uiStore } from '@stores'
+import { Flex, Iconfont, Text, Touchable } from '@components'
+import { _, uiStore, userStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { InView, Cover, Stars, Popover, Likes } from '../../base'
+import { Cover, InView, Likes, Popover, Stars } from '../../base'
 import Avatar from './avatar'
-import { DEFAULT_PROPS, AVATAR_COVER_WIDTH, HIDDEN_DS, LIKES_OFFSETS } from './ds'
-import P from './p'
 import Desc from './desc'
 import Images from './images'
+import P from './p'
+import { AVATAR_COVER_WIDTH, DEFAULT_PROPS, HIDDEN_DS, LIKES_OFFSETS } from './ds'
 
 const ITEM_HEIGHT = 84
 
@@ -139,11 +139,7 @@ const Item = memo(
                 offsets={LIKES_OFFSETS}
                 onLongPress={uiStore.showLikesUsers}
               />
-              <Flex
-                style={
-                  image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md
-                }
-              >
+              <Flex style={image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md}>
                 {!!replyCount && (
                   <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
                     <Text type='primary' size={12}>
@@ -210,10 +206,12 @@ const Item = memo(
     )
   },
   DEFAULT_PROPS,
-  ({ style, styles, time }) => ({
-    style,
-    styles,
-    time
+  props => ({
+    style: props.style,
+    styles: props.styles,
+
+    /** 时间胶囊项的信息变化不重要, 只根据时间判断 */
+    time: props.time
   })
 )
 

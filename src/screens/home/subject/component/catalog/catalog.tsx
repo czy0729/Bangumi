@@ -58,10 +58,11 @@ const Catalog = memo(
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN,
-  ({ catalog, ...other }: { catalog: any[] }) => ({
-    // 目录数据每次请求都不一样, 此数据非重要数据, 使判断只认数组长度, 减少重渲染次数
-    catalog: catalog.length,
-    ...other
+  props => ({
+    ...props,
+
+    /** 目录数据每次请求都不一样, 此数据非重要数据, 使判断只认数组长度, 减少重渲染次数 */
+    catalog: props.catalog.length
   })
 )
 

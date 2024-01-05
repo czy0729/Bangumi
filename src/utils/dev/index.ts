@@ -1,12 +1,12 @@
+import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@/config'
 /*
  * 开发调试
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 21:03:33
+ * @Last Modified time: 2024-01-05 00:50:00
  */
 import { AnyObject, Join } from '@types'
-import { DEV, LOG_LEVEL, RERENDER_SHOW, RERENDER_NOT_SHOW } from '@/config'
 import { pad } from '../utils'
 import { handleCircular } from './utils'
 import { RERENDER_LOG_COUNT, RERENDER_MEMO } from './ds'
@@ -77,7 +77,9 @@ export function r(key: string, ...other: any[]) {
   for (let len = 1; len <= Math.min(RERENDER_MEMO.data[key], 10); len += 1) _count += '■'
   for (let len = _count.length; len <= 15; len += 1) _count += ' '
 
-  console.info('[render]', _key, RERENDER_MEMO.data[key] < 10 ? ` ${_count}` : _count, ...other)
+  setTimeout(() => {
+    console.info('[render]', _key, RERENDER_MEMO.data[key] < 10 ? ` ${_count}` : _count, ...other)
+  }, 0)
 }
 
 /** 当前时间戳字符串 */

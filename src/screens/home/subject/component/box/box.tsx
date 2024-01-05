@@ -89,10 +89,11 @@ const Box = memo(
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN,
-  ({ status, ...other }: { status: any[] }) => ({
-    // 总人数变化快, 且为非重要数据, 使判断只认数组长度, 减少重渲染次数
-    status: status.length,
-    ...other
+  props => ({
+    ...props,
+
+    /** 总人数变化快, 且为非重要数据, 使判断只认数组长度, 减少重渲染次数 */
+    status: props.status.length
   })
 )
 

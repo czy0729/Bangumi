@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:57:31
+ * @Last Modified time: 2024-01-04 17:44:48
  */
 import { _ } from '@stores'
 import {
@@ -14,13 +14,11 @@ import {
 } from '@constants'
 import { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
 
+export const COMPONENT = 'Rakuen'
+
 export const NAMESPACE = 'ScreenRakuen'
 
 export const H_TABBAR = 48
-
-// export const TABS = RAKUEN_TYPE.map(item => ({
-//   title: item.label
-// }))
 
 export const TABS = RAKUEN_TYPE.map(item => ({
   title: item.label,

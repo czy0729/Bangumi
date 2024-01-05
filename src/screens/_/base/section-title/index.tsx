@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-11-10 00:14:55
  */
 import React from 'react'
-import { Component, Flex, Text, Touchable, Iconfont } from '@components'
+import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { isObject } from '@utils'
 import { memo } from '@utils/decorators'
@@ -56,7 +56,7 @@ export const SectionTitle = memo(
     onPress: undefined
   },
   ({ left, right, children, ...other }) => {
-    // right只会是React.Element, 若存在强制更新
+    /** right 只会 React.Element, 若存在强制更新 */
     if (isObject(right) || isObject(children)) return false
 
     return {

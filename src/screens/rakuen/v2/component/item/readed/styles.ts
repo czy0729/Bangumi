@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-09-03 11:12:05
+ * @Date: 2024-01-05 16:02:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:36:35
+ * @Last Modified time: 2024-01-05 16:08:02
  */
 import { _ } from '@stores'
 
@@ -14,13 +14,5 @@ export const memoStyles = _.memoStyles(() => ({
   },
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
-  },
-  inView: {
-    minWidth: 40,
-    minHeight: 40
-  },
-  wrap: {
-    paddingRight: _.wind - _._wind,
-    marginTop: 2
   }
 }))

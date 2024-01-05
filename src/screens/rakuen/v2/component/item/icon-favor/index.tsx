@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:41:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:10:52
+ * @Last Modified time: 2024-01-04 23:12:40
  */
 import React from 'react'
 import { Iconfont } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function IconFavor({ topicId }, { $ }: Ctx) {

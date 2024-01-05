@@ -97,9 +97,9 @@ const Disc = memo(
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN,
-  ({ discTranslateResult, ...other }: { discTranslateResult: any[] }) => ({
-    discTranslateResult: discTranslateResult.length,
-    ...other
+  props => ({
+    ...props,
+    discTranslateResult: props.discTranslateResult.length
   })
 )
 

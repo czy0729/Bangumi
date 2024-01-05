@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:29:11
+ * @Last Modified time: 2024-01-05 16:09:52
  */
 import React from 'react'
 import { Text } from '@components'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
+import { OLD_GROUP_ID } from './ds'
 
-/** 少于这个数字的, 为坟贴 */
-const OLD_GROUP_ID = 374218
+function Title({ topicId, title, replyCount, isGroup }, { $ }: Ctx) {
+  const isReaded = $.readed(topicId).time
 
-function Title({ topicId, title, replyCount, isReaded, isGroup }, { $ }: Ctx) {
   // 处理 (+30) +10 样式
   const replyText = `+${replyCount}`
   let replyAdd: {}

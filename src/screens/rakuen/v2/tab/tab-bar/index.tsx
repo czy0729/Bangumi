@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-18 18:59:58
+ * @Last Modified time: 2024-01-04 23:16:08
  */
 import React from 'react'
 import { TabBar as TabViewTabBar } from '@components'
 import { ob } from '@utils/decorators'
 import TabBarLabel from '../tab-bar-label'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function TabBar(props) {
@@ -27,7 +28,7 @@ function TabBar(props) {
   )
 }
 
-export default ob(TabBar)
+export default ob(TabBar, COMPONENT)
 
 function renderLabel({ route, focused }) {
   return <TabBarLabel route={route} focused={focused} />

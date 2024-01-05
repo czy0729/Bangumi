@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:14:15
+ * @Last Modified time: 2024-01-04 23:20:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function BtnPopover(
@@ -32,12 +32,8 @@ function BtnPopover(
   }
 
   // 只有小组和条目可以屏蔽用户
-  const popoverData = [`进入${type}`]
-  if (isGroup || isSubject) {
-    popoverData.push(`屏蔽${type}`, '屏蔽用户')
-  } else {
-    popoverData.push(`屏蔽${type}`)
-  }
+  const popoverData = [`进入${type}`, `屏蔽${type}`]
+  if (isGroup || isSubject) popoverData.push('屏蔽用户')
 
   return (
     <Popover

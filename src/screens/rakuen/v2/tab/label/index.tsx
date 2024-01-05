@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-10 02:55:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 18:17:38
+ * @Last Modified time: 2024-01-04 23:15:52
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,6 +10,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
+import { COMPONENT } from './ds'
 
 function Label({ focused, model, label, value, onSelect }) {
   return (
@@ -33,4 +34,4 @@ function Label({ focused, model, label, value, onSelect }) {
   )
 }
 
-export default ob(Label)
+export default ob(Label, COMPONENT)

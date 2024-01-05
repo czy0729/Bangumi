@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:02:37
+ * @Last Modified time: 2024-01-04 23:16:25
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
-import { Ctx } from '../../types'
 import { TABS } from '../../ds'
+import { Ctx } from '../../types'
 import Label from '../label'
+import { COMPONENT } from './ds'
 
 function TabBarLabel({ route, focused }, { $ }: Ctx) {
   const { page, group, mono } = $.state
@@ -48,4 +49,4 @@ function TabBarLabel({ route, focused }, { $ }: Ctx) {
   )
 }
 
-export default obc(TabBarLabel)
+export default obc(TabBarLabel, COMPONENT)

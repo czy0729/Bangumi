@@ -11,11 +11,11 @@ import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { rerender } from '@utils/dev'
-import { InView, Avatar, Name, HTML, Likes } from '../../base'
-import UserLabel from './user-label'
+import { Avatar, HTML, InView, Likes, Name } from '../../base'
 import FloorText from './floor-text'
 import IconExtra from './icon-extra'
 import ItemSub from './sub'
+import UserLabel from './user-label'
 import { layoutHeightMap } from './utils'
 import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
 
@@ -106,13 +106,7 @@ const Item = memo(
                   size={userName.length > 10 ? 12 : 14}
                   lineHeight={14}
                   bold
-                  right={
-                    <UserLabel
-                      isAuthor={isAuthor}
-                      isFriend={isFriend}
-                      userSign={userSign}
-                    />
-                  }
+                  right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />}
                 >
                   {HTMLDecode(userName)}
                 </Name>
@@ -197,10 +191,7 @@ const Item = memo(
                   ))}
               </Flex>
               {sub.length > expandNums && (
-                <Touchable
-                  style={styles.expandContainer}
-                  onPress={() => onToggleExpand(id)}
-                >
+                <Touchable style={styles.expandContainer} onPress={() => onToggleExpand(id)}>
                   <Text
                     style={styles.expand}
                     type={isExpand ? 'sub' : 'main'}
@@ -219,9 +210,11 @@ const Item = memo(
     )
   },
   DEFAULT_PROPS,
-  ({ sub, ...other }) => ({
-    sub: (sub as any[]).length,
-    ...other
+  props => ({
+    ...props,
+
+    /** 子楼层高度变化 */
+    sub: props.sub.length
   })
 )
 

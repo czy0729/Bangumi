@@ -15,8 +15,8 @@ export const InView = obc(({ index, y, children, ...other }, { $ }) => {
   // web 或者若页面没有管理的 y 轴数值, 或者传递了 index
   if (
     STORYBOOK ||
-    $?.state?.visibleBottom === undefined ||
-    (typeof index === 'number' && index < 8)
+    (typeof index === 'number' && index < 8) ||
+    $?.state?.visibleBottom === undefined
   ) {
     return Object.keys(other).length ? <View {...other}>{children}</View> : children
   }

@@ -121,8 +121,8 @@ export const TouchScroll = memo(
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN,
-  ({ list, ...other }: { list: any[] }) => ({
-    list: list.length,
-    ...other
+  props => ({
+    ...props,
+    list: props.list.length
   })
 )

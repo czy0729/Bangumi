@@ -63,9 +63,9 @@ const Summary = memo(
   },
   DEFAULT_PROPS,
   COMPONENT_MAIN,
-  ({ translateResult, ...other }: { translateResult: any[] }) => ({
-    translateResult: translateResult.length,
-    ...other
+  props => ({
+    ...props,
+    translateResult: props.translateResult.length
   })
 )
 
