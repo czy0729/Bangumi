@@ -12,11 +12,11 @@ import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import Modal from './component/modal'
+import Tab from './component/tab'
 import Tips from './component/tips'
 import Header from './header'
 import { useHomePage } from './hooks'
 import Store from './store'
-import Tab from './tab'
 import { Ctx } from './types'
 
 const Home = (props, context: Ctx) => {

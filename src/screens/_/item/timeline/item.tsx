@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:02:12
+ * @Last Modified time: 2024-01-06 03:35:14
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -148,7 +148,7 @@ const Item = memo(
                   </Touchable>
                 )}
                 <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
-                  {time}
+                  {time.trim().replace(/ ·$/g, '')}
                 </Text>
                 <Stars value={star} />
               </Flex>

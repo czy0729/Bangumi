@@ -9,11 +9,11 @@ import { action, configure, extendObservable, isObservableArray, toJS } from 'mo
 import { LIST_EMPTY } from '@constants/constants'
 // import { STORYBOOK } from '@constants/device'
 import { AnyObject, DeepPartial, Loaded } from '@types'
-import { getTimestamp, omit } from '../utils'
-import { setStorage } from '../storage'
-import { getItem } from '../storage/utils'
 import fetch from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
+import { setStorage } from '../storage'
+import { getItem } from '../storage/utils'
+import { getTimestamp, omit } from '../utils'
 
 configure({
   enforceActions: 'observed',
@@ -235,11 +235,7 @@ export default class Store<
    * @param {*} namespace 空间名其实一定要传递的
    * @param {*} defaultValue
    */
-  getStorage = async (
-    key: string,
-    namespace?: string,
-    defaultValue?: any
-  ): Promise<any> => {
+  getStorage = async (key: string, namespace?: string, defaultValue?: any): Promise<any> => {
     // 只传了一个参数时, 第一个参数作为 namespace
     if (namespace === undefined && defaultValue === undefined) {
       // @ts-expect-error
@@ -256,8 +252,7 @@ export default class Store<
     if (key) _key += `|${key}`
     _key += '|state'
     return (
-      JSON.parse((await getItem(_key)) || null) ||
-      (defaultValue === undefined ? {} : defaultValue)
+      JSON.parse((await getItem(_key)) || null) || (defaultValue === undefined ? {} : defaultValue)
     )
   }
 

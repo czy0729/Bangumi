@@ -1,19 +1,19 @@
 // @flow
-import * as _ from 'lodash'
 import * as React from 'react'
 import {
-  Image as RNImage,
   Animated,
-  StyleSheet,
-  View,
-  Platform,
+  Image as RNImage,
+  ImageSourcePropType,
   ImageStyle,
   ImageURISource,
-  ImageSourcePropType,
-  StyleProp
+  Platform,
+  StyleProp,
+  StyleSheet,
+  View
 } from 'react-native'
 import { BlurView } from 'expo-blur'
-
+import pickBy from 'lodash.pickby'
+import transform from 'lodash.transform'
 import CacheManager, { DownloadOptions } from './CacheManager'
 
 interface ImageProps {
@@ -96,8 +96,8 @@ export default class Image extends React.Component<ImageProps, ImageState> {
     const flattenedStyle = StyleSheet.flatten(style)
     const computedStyle: StyleProp<ImageStyle> = [
       StyleSheet.absoluteFill,
-      _.transform(
-        _.pickBy(flattenedStyle, (_val, key) => propsToCopy.indexOf(key) !== -1),
+      transform(
+        pickBy(flattenedStyle, (_val, key) => propsToCopy.indexOf(key) !== -1),
         (result, value: any, key) =>
           Object.assign(result, { [key]: value - (flattenedStyle.borderWidth || 0) })
       )
@@ -115,18 +115,13 @@ export default class Image extends React.Component<ImageProps, ImageState> {
             {...otherProps}
           />
         )}
-        {isImageReady && (
-          <RNImage source={{ uri }} style={computedStyle} {...otherProps} />
-        )}
+        {isImageReady && <RNImage source={{ uri }} style={computedStyle} {...otherProps} />}
         {!!preview && Platform.OS === 'ios' && (
           <AnimatedBlurView style={computedStyle} {...{ intensity, tint }} />
         )}
         {!!preview && Platform.OS === 'android' && (
           <Animated.View
-            style={[
-              computedStyle,
-              { backgroundColor: tint === 'dark' ? black : white, opacity }
-            ]}
+            style={[computedStyle, { backgroundColor: tint === 'dark' ? black : white, opacity }]}
           />
         )}
       </View>

@@ -1,6 +1,6 @@
-import * as _ from 'lodash'
-import * as FileSystem from 'expo-file-system'
 import SHA1 from 'crypto-js/sha1'
+import * as FileSystem from 'expo-file-system'
+import uniqueId from 'lodash.uniqueid'
 
 export interface DownloadOptions {
   md5?: boolean
@@ -30,11 +30,7 @@ export class CacheEntry {
     const { path, exists, tmpPath, size } = await getCacheEntry(uri)
     if (exists) return { path, size }
 
-    const result = await FileSystem.createDownloadResumable(
-      uri,
-      tmpPath,
-      options
-    ).downloadAsync()
+    const result = await FileSystem.createDownloadResumable(uri, tmpPath, options).downloadAsync()
     // If the image download failed, we don't cache anything
     if (result && result.status !== 200) return undefined
 
@@ -79,12 +75,9 @@ const getCacheEntry = async (
     uri.lastIndexOf('/'),
     uri.indexOf('?') === -1 ? uri.length : uri.indexOf('?')
   )
-  const ext =
-    filename.indexOf('.') === -1
-      ? '.jpg'
-      : filename.substring(filename.lastIndexOf('.'))
+  const ext = filename.indexOf('.') === -1 ? '.jpg' : filename.substring(filename.lastIndexOf('.'))
   const path = `${BASE_DIR}${SHA1(uri)}${ext}`
-  const tmpPath = `${BASE_DIR}${SHA1(uri)}-${_.uniqueId()}${ext}`
+  const tmpPath = `${BASE_DIR}${SHA1(uri)}-${uniqueId()}${ext}`
 
   // TODO: maybe we don't have to do this every time
   try {

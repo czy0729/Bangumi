@@ -7,7 +7,7 @@
 import { ComponentType } from 'react'
 import { r } from '@utils/dev'
 
-export function withDev(Component: ComponentType, devRerenderKey: string) {
+export function withDev<T extends ComponentType>(Component: T, devRerenderKey: string) {
   // 创建一个代理对象
   const ComponentProxy = new Proxy(Component, {
     apply: function (target, thisArg, argumentsList) {

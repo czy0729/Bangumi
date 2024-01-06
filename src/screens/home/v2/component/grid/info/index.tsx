@@ -11,7 +11,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { memoStyles } from '../styles'
-import GridInfo from '../../../grid-info'
+import GridInfo from '../../grid-info'
 import { COMPONENT, PREV_TEXT } from './ds'
 
 function Info({ title }, { $ }: Ctx) {

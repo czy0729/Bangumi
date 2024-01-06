@@ -62,7 +62,6 @@ export default function memo<P, T extends React.FunctionComponent<P>>(
   // @ts-expect-error
   return React.memo(
     DEV && devRerenderKey ? withDev(Component, devRerenderKey) : Component,
-    /** 返回 false 更新视图, true 不更新视图 */
     (prevProps: P, nextProps: P) => {
       if (typeof customCompareFn === 'function') {
         return memoCompare(
