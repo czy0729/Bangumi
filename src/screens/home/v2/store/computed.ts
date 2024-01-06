@@ -2,22 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-22 01:31:08
+ * @Last Modified time: 2024-01-06 19:44:23
  */
 import { computed } from 'mobx'
+import { calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
+import { Ep } from '@stores/subject/types'
 import {
-  calendarStore,
-  collectionStore,
-  subjectStore,
-  systemStore,
-  userStore
-} from '@stores'
-import {
-  HTMLDecode,
   desc,
   findLastIndex,
   getOnAir,
   getPinYinFilterValue,
+  HTMLDecode,
   t2s,
   unzipBangumiData,
   x18
@@ -30,29 +25,23 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SUBJECT_TYPE,
-  SITES_DS
+  SITES_DS,
+  STORYBOOK
 } from '@constants'
+import { getOriginConfig, OriginItem } from '@src/screens/user/origin-setting/utils'
 import {
   CollectionStatus,
   Id,
+  SettingHomeLayout,
   SettingHomeSorting,
   SubjectId,
   SubjectType,
-  SubjectTypeValue,
-  SettingHomeLayout
+  SubjectTypeValue
 } from '@types'
-import { Ep } from '@stores/subject/types'
-import { OriginItem, getOriginConfig } from '@src/screens/user/origin-setting/utils'
 import { TABS, TABS_WITH_GAME } from '../ds'
 import { TabLabel } from '../types'
-import {
-  EXCLUDE_STATE,
-  INIT_ITEM,
-  NAMESPACE,
-  PAGE_LIMIT_GRID,
-  PAGE_LIMIT_LIST
-} from './ds'
 import State from './state'
+import { EXCLUDE_STATE, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
 export default class Computed extends State {
   save = () => {
@@ -109,7 +98,7 @@ export default class Computed extends State {
 
   /** 是否登录 (api) */
   @computed get isLogin() {
-    return userStore.isLogin
+    return STORYBOOK ? userStore.isStorybookLogin : userStore.isLogin
   }
 
   /** 自己用户信息 */
@@ -202,12 +191,8 @@ export default class Computed extends State {
       const topMap = this.getTopMap()
 
       // 网页顺序: 不需要处理
-      if (
-        homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
-      ) {
-        return list
-          .slice()
-          .sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
+      if (homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')) {
+        return list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
       }
 
       try {
@@ -349,8 +334,7 @@ export default class Computed extends State {
         const { length } = eps
 
         // 集数超过了 1 页的显示个数
-        const isGrid =
-          homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
+        const isGrid = homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
         if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
           const userProgress = this.userProgress(subjectId)
           const index = eps.findIndex(item => userProgress[item.id] !== '看过')
@@ -368,14 +352,9 @@ export default class Computed extends State {
             // @ts-ignore
             if (typeof eps.findLastIndex === 'function') {
               // @ts-ignore
-              lastIndex = eps.findLastIndex(
-                (item: Ep) => userProgress[item.id] === '看过'
-              )
+              lastIndex = eps.findLastIndex((item: Ep) => userProgress[item.id] === '看过')
             } else {
-              lastIndex = findLastIndex(
-                eps,
-                (item: Ep) => userProgress[item.id] === '看过'
-              )
+              lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
             }
             return eps.slice(Math.max(lastIndex, 0), lastIndex + PAGE_LIMIT_LIST)
           }
@@ -468,9 +447,7 @@ export default class Computed extends State {
   /** 放送顺序 */
   @computed get sortOnAir() {
     const { homeSorting } = systemStore.setting
-    return (
-      homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
-    )
+    return homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
   }
 
   /** 云端 onAir 和自定义 onAir 组合判断 (自定义最优先) */
@@ -569,8 +546,7 @@ export default class Computed extends State {
     return computed(() => {
       const progress = this.userProgress(subjectId)
       return this.epsNoSp(subjectId).some(
-        item =>
-          (item.status === 'Air' || item.status === 'Today') && !(item.id in progress)
+        item => (item.status === 'Air' || item.status === 'Today') && !(item.id in progress)
       )
     }).get()
   }
@@ -667,9 +643,7 @@ export default class Computed extends State {
 
   @computed get hm() {
     return (
-      this.isLogin
-        ? [`?id=${this.userId}`, 'Home']
-        : [`?id=${this.userId}&login=0`, 'Home']
+      this.isLogin ? [`?id=${this.userId}`, 'Home'] : [`?id=${this.userId}&login=0`, 'Home']
     ) as [string, string]
   }
 }

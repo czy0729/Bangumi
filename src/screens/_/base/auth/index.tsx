@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 22:55:03
+ * @Last Modified time: 2024-01-06 19:50:15
  */
 import React from 'react'
-import { Touchable, Flex, Button, Iconfont, Text, Component } from '@components'
+import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
-import { URL_ZHINAN } from '@constants'
+import { STORYBOOK, URL_ZHINAN } from '@constants'
 import i18n from '@constants/i18n'
-import { StatusBarPlaceholder } from '../status-bar-placeholder'
 import { IconTouchable } from '../../icon/touchable'
+import { StatusBarPlaceholder } from '../status-bar-placeholder'
 import { styles } from './styles'
 
 /** 未登录页面 */
@@ -28,21 +28,23 @@ export const Auth = obc((props, { navigation }) => (
           </Text>
         </Flex>
       </Touchable>
-      <IconTouchable
-        style={_.mr.xs}
-        name={_.isDark ? 'ios-moon' : 'ios-sunny'}
-        color={_.colorDesc}
-        size={22}
-        onPress={() => {
-          setTimeout(() => {
-            _.toggleMode()
-
+      {!STORYBOOK && (
+        <IconTouchable
+          style={_.mr.xs}
+          name={_.isDark ? 'ios-moon' : 'ios-sunny'}
+          color={_.colorDesc}
+          size={22}
+          onPress={() => {
             setTimeout(() => {
-              if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+              _.toggleMode()
+
+              setTimeout(() => {
+                if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+              }, 40)
             }, 40)
-          }, 40)
-        }}
-      />
+          }}
+        />
+      )}
       <Flex.Item />
       <IconTouchable
         style={_.mr.xs}
@@ -60,7 +62,13 @@ export const Auth = obc((props, { navigation }) => (
       />
     </Flex>
     <Flex style={styles.go} direction='column' justify='center'>
-      <Button style={styles.btn} shadow onPress={() => navigation.push('LoginV2')}>
+      <Button
+        style={styles.btn}
+        shadow
+        onPress={() => {
+          navigation.push(STORYBOOK ? 'LoginToken' : 'LoginV2')
+        }}
+      >
         {i18n.login()}后管理进度
       </Button>
     </Flex>

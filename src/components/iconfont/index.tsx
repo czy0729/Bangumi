@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:36:19
+ * @Last Modified time: 2024-01-06 18:34:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +12,7 @@ import { stl } from '@utils'
 import { PAD } from '@constants'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
-import { Props, MaterialIconsNames, IoniconsIconsNames, AppIconsNames } from './types'
+import { AppIconsNames, IoniconsIconsNames, MaterialIconsNames, Props } from './types'
 
 const PAD_INCREASE = PAD === 2 ? 4 : 2
 

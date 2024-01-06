@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:11:32
+ * @Last Modified time: 2024-01-06 18:54:36
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
 import { IOS, STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { Loaded } from '@types'
-import { MenuItemType } from './types'
+import { MenuItemType, MenuMapType } from './types'
 
 export const COMPONENT = 'Discovery'
 
@@ -43,7 +43,7 @@ export const STATE = {
 
 export const INITIAL_RENDER_NUMS_XS = _.device(Math.floor(_.window.contentWidth / 80) + 1, 0)
 
-export const MENU_MAP = {
+export const MENU_MAP: MenuMapType = {
   Rank: {
     key: 'Rank',
     name: '排行榜',
@@ -207,9 +207,7 @@ export const MENU_MAP = {
   }
 } as const
 
-export type MenuMapType = keyof typeof MENU_MAP
-
-export const MENU_MAP_STORYBOOK = {
+export const MENU_MAP_STORYBOOK: MenuMapType = {
   // Rakuen: {
   //   key: 'Rakuen',
   //   name: '超展开',
@@ -225,11 +223,16 @@ export const MENU_MAP_STORYBOOK = {
     key: 'Setting',
     name: '设置',
     icon: 'setting'
+  },
+  LoginToken: {
+    key: 'LoginToken',
+    name: '授权',
+    icon: 'md-face'
   }
 }
 
 /** 根据设置自定义菜单构造菜单数据 */
-export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
+export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
   if (!discoveryMenu.length) return []
 
   let menuMap = { ...MENU_MAP }
@@ -241,8 +244,9 @@ export function getMenus(discoveryMenu: MenuMapType[] = []): MenuItemType[] {
     delete menuMap.Dollars
   }
 
+  let menus: MenuItemType[] = []
+
   // 若 discoveryMenu 的 key 不存在在 defaultMenu 里, 需要过滤
-  let menus = []
   discoveryMenu.forEach(key => {
     if (menuMap[key]) {
       menus.push(menuMap[key])

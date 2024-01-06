@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:31:00
+ * @Last Modified time: 2024-01-06 19:49:37
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -10,10 +10,10 @@ import { Auth } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
-import Extra from './component/extra'
 import Modal from './component/modal'
 import Tab from './component/tab'
 import Tips from './component/tips'
+import Extra from './extra'
 import Header from './header'
 import { useHomePage } from './hooks'
 import Store from './store'

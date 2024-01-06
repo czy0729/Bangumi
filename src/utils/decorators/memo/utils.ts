@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 03:28:12
+ * @Last Modified time: 2024-01-06 19:48:22
  */
 import isEqual from 'lodash.isequal'
 import { STORYBOOK } from '@constants'
@@ -90,7 +90,7 @@ function mapKey<P extends AnyObject>(target: P, key: keyof P, value: P[keyof P])
     key === 'navigation' ||
     key === '_loaded' ||
     typeof value === 'function' ||
-    (typeof value === 'object' && 'current' in value)
+    (value && typeof value === 'object' && 'current' in value)
   ) {
     return
   }
