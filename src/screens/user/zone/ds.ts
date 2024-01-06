@@ -7,6 +7,8 @@
 import { INIT_USERS } from '@stores/users/init'
 import { Loaded } from '@types'
 
+export const COMPONENT = 'Zone'
+
 export const NAMESPACE = 'ScreenZone'
 
 export const EXCLUDE_STATE = {

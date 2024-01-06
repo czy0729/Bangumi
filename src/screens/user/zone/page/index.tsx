@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:27:33
+ * @Last Modified time: 2024-01-06 20:42:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Track } from '@components'
-import { uiStore, _ } from '@stores'
+import { _, uiStore } from '@stores'
 import { obc } from '@utils/decorators'
-import ParallaxImage from '../parallax-image'
-import Tab from '../tab'
-import UsedModal from '../used-modal'
-import Heatmaps from '../heatmaps'
+import Heatmaps from '../component/heatmaps'
+import ParallaxImage from '../component/parallax-image'
+import Tab from '../component/tab'
+import UsedModal from '../component/used-modal'
 import { Ctx } from '../types'
 
 const title = '空间'
