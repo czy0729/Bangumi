@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import Rating from './rating'
 import { TITLE_RATING } from '../../ds'
 import { Ctx } from '../../types'
+import Rating from './rating'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -20,7 +20,7 @@ function RatingWrap({ onBlockRef }, { $ }: Ctx) {
   const { showRating, hideScore } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_RATING)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RATING)} />
       <Rating styles={memoStyles()} showRating={showRating} hideScore={hideScore} />
     </>
   )

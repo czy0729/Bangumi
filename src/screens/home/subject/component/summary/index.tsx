@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_SUMMARY } from '../../ds'
 import { Ctx } from '../../types'
@@ -20,7 +20,7 @@ function SummaryWrap({ onBlockRef }, { $ }: Ctx) {
   const { showSummary } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_SUMMARY)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_SUMMARY)} />
       <Summary
         styles={memoStyles()}
         showSummary={showSummary}

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_RELATIONS } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +19,7 @@ function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showRelations } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_RELATIONS)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RELATIONS)} />
       <Relations
         navigation={navigation}
         showRelations={showRelations}

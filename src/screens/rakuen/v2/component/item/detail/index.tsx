@@ -13,16 +13,16 @@ import { ob } from '@utils/decorators'
 
 function Detail({ time, groupCn, userName, userId }) {
   return (
-    <Text style={_.mt.xs} size={11} numberOfLines={1}>
-      <Text type='sub' size={11}>
+    <Text style={_.mt.xs} size={11} lineHeight={13} numberOfLines={1}>
+      <Text type='sub' size={11} lineHeight={13}>
         {time ? correctAgo(time) : ''}
         {groupCn && time ? ' / ' : ''}
       </Text>
-      <Text type='sub' size={11}>
+      <Text type='sub' size={11} lineHeight={13}>
         {groupCn}
       </Text>
       {!!userName && (
-        <Name userId={userId} showFriend type='sub' size={11} disabled>
+        <Name userId={userId} showFriend type='sub' size={11} lineHeight={13} disabled>
           {' '}
           / {userName}
         </Name>

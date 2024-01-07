@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 03:36:32
+ * @Last Modified time: 2024-01-07 21:43:42
  */
 import { Images, Navigation, SubjectId } from '@types'
 import { StoreType as $ } from '../types'
@@ -20,6 +20,7 @@ export const DEFAULT_PROPS = {
   images: {} as Images,
   air: '' as string,
   time: '2359' as string,
+  prevTime: '' as string,
   expand: false as boolean,
   collection: undefined as string,
   rank: 0 as number,

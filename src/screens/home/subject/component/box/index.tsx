@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore, userStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_BOX } from '../../ds'
 import { Ctx } from '../../types'
@@ -17,7 +17,7 @@ import { memoStyles } from './styles'
 function BoxWrap({ onBlockRef }, { $, navigation }: Ctx) {
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_BOX)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_BOX)} />
       <Box
         styles={memoStyles()}
         navigation={navigation}

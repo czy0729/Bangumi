@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_TAGS } from '../../ds'
 import { Ctx } from '../../types'
@@ -20,7 +20,7 @@ function TagsWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showTags, subjectTagsExpand, subjectTagsRec, focusOrigin } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_TAGS)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_TAGS)} />
       <Tags
         navigation={navigation}
         styles={memoStyles()}

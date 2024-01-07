@@ -8,10 +8,10 @@ import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
 import { IOS, ORIENTATION_LANDSCAPE, PAD, WSA } from '@constants'
 import _, { fontSize } from '@styles'
-import { StoreConstructor, SelectFn } from '@types'
+import { SelectFn, StoreConstructor } from '@types'
 import systemStore from '../system'
-import State from './state'
 import { DEFAULT_TINYGRAIL_MODE, STATE } from './init'
+import State from './state'
 import { Color, Mode, Orientation, TinygrailMode } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
@@ -435,23 +435,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 一层 (dark) */
   @computed get _colorDarkModeLevel1() {
-    return this.deepDark
-      ? _._colorThemeDeepDark.colorDarkModeLevel1
-      : _._colorDarkModeLevel1
+    return this.deepDark ? _._colorThemeDeepDark.colorDarkModeLevel1 : _._colorDarkModeLevel1
   }
 
   /**  一层 Hex (dark) */
   @computed get _colorDarkModeLevel1Hex() {
-    return this.deepDark
-      ? _._colorThemeDeepDark.colorDarkModeLevel1Hex
-      : _._colorDarkModeLevel1Hex
+    return this.deepDark ? _._colorThemeDeepDark.colorDarkModeLevel1Hex : _._colorDarkModeLevel1Hex
   }
 
   /** 二层 (dark) */
   @computed get _colorDarkModeLevel2() {
-    return this.deepDark
-      ? _._colorThemeDeepDark.colorDarkModeLevel2
-      : _._colorDarkModeLevel2
+    return this.deepDark ? _._colorThemeDeepDark.colorDarkModeLevel2 : _._colorDarkModeLevel2
   }
 
   /** 白 (dark) */
@@ -476,9 +470,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 一层 (dark, RGB) */
   @computed get _colorDarkModeLevel1Raw() {
-    return this.deepDark
-      ? _._colorThemeDeepDark.colorDarkModeLevel1Raw
-      : _._colorDarkModeLevel1Raw
+    return this.deepDark ? _._colorThemeDeepDark.colorDarkModeLevel1Raw : _._colorDarkModeLevel1Raw
   }
 
   /** 白 (dark, RGB) */
@@ -551,9 +543,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 容器 Hex (小圣杯) */
   @computed get colorTinygrailContainerHex() {
-    return this.isTinygrailDark
-      ? _.colorTinygrailContainerHex
-      : _._colorTinygrailContainerHex
+    return this.isTinygrailDark ? _.colorTinygrailContainerHex : _._colorTinygrailContainerHex
   }
 
   /** 边框 (小圣杯) */
@@ -695,6 +685,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
       },
       h100: {
         height: '100%'
+      },
+      layout: {
+        width: '100%',
+        height: 1
       }
     } as const)
   }

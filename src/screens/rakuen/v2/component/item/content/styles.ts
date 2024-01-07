@@ -10,7 +10,8 @@ export const styles = _.create({
   item: {
     paddingTop: _.md - _.web(7, 4),
     paddingBottom: _.md - 4,
-    paddingLeft: _.sm,
+    paddingLeft: _.sm + 1,
+    marginTop: -3,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   }

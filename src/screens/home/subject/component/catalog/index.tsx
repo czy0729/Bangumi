@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_CATALOG } from '../../ds'
 import { Ctx } from '../../types'
@@ -20,7 +20,7 @@ function CatalogWrap({ onBlockRef }, { $ }: Ctx) {
   const { showCatalog } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_CATALOG)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_CATALOG)} />
       <Catalog
         styles={memoStyles()}
         showCatalog={showCatalog}

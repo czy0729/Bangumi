@@ -5,13 +5,14 @@
  * @Last Modified time: 2024-01-04 01:15:34
  */
 import { useCallback, useRef } from 'react'
+import { findNodeHandle } from 'react-native'
 import { StatusBar } from '@components'
 import { _ } from '@stores'
 import { feedback } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { useFocusEffect, useIsFocusedRef, useMount, useRunAfter } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { IOS, STORYBOOK } from '@constants'
 import { TITLE_HEAD } from './ds'
 import { Ctx } from './types'
 
@@ -95,24 +96,45 @@ export function useSubjectPage({ $ }: Ctx) {
           // 单行本 (10) => 单行本
           const name = component.split('(')[0].trim()
           if (scrollViewRef.current && blockRefs.current[name]) {
-            blockRefs.current[TITLE_HEAD].measure((x: number, y: number, w: number, h: number) => {
-              blockRefs.current[name].measure((x: number, y: number) => {
-                if (STORYBOOK) {
-                  scrollToTop(y + h + 116)
-                } else {
-                  scrollViewRef.current.scrollToOffset({
-                    offset: y + h - _.headerHeight,
-                    animated: true
+            if (IOS || STORYBOOK) {
+              blockRefs.current[TITLE_HEAD].measure(
+                (x: number, y: number, w: number, h: number) => {
+                  blockRefs.current[name].measure((x: number, y: number) => {
+                    if (STORYBOOK) {
+                      scrollToTop(y + h + 116)
+                    } else {
+                      scrollViewRef.current.scrollToOffset({
+                        offset: y + h - _.headerHeight,
+                        animated: true
+                      })
+                    }
+                    feedback()
+
+                    t('条目.跳转位置', {
+                      subjectId: $.subjectId,
+                      component
+                    })
                   })
                 }
+              )
+              return
+            }
+
+            blockRefs.current[name].measureLayout(
+              findNodeHandle(scrollViewRef.current),
+              (x: number, y: number) => {
+                scrollViewRef.current.scrollToOffset({
+                  offset: y - _.headerHeight,
+                  animated: true
+                })
                 feedback()
 
                 t('条目.跳转位置', {
                   subjectId: $.subjectId,
                   component
                 })
-              })
-            })
+              }
+            )
           }
         } catch (error) {}
       },

@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_COMIC } from '../../ds'
 import { Ctx } from '../../types'
@@ -17,7 +18,7 @@ function ComicWrap({ onBlockRef }, { $, navigation }: Ctx) {
 
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_COMIC)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_COMIC)} />
       <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
     </>
   )

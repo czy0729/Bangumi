@@ -31,5 +31,9 @@ export const memoStyles = _.memoStyles(() => ({
   touch: {
     paddingLeft: _.xs,
     marginRight: -_.sm
+  },
+  layout: {
+    width: '100%',
+    height: 1
   }
 }))

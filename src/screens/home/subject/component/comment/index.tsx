@@ -7,6 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { TITLE_COMMENT } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +20,10 @@ function CommentWrap({ onBlockRef }, { $ }: Ctx) {
   const hidden = showComment === -1
   return (
     <>
-      <View ref={(ref: any) => onBlockRef(ref, TITLE_COMMENT)} style={hidden && _.mt.lg} />
+      <View
+        ref={(ref: any) => onBlockRef(ref, TITLE_COMMENT)}
+        style={stl(_.container.layout, hidden && _.mt.lg)}
+      />
       {!hidden && (
         <Comment
           styles={memoStyles()}

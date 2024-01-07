@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_CHARACTER } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +19,7 @@ function CharacterWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showCharacter } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_CHARACTER)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_CHARACTER)} />
       <Character
         navigation={navigation}
         showCharacter={showCharacter}

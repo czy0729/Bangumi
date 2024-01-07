@@ -107,7 +107,7 @@ class Thumbs extends React.Component<{
     const { scrolled } = this.state
     return (
       <>
-        <View ref={ref => onBlockRef(ref, TITLE_THUMBS)} />
+        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_THUMBS)} />
         <InView style={stl(styles.container, !showThumbs && _.short)}>
           <SectionTitle
             style={_.container.wind}

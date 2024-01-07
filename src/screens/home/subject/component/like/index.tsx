@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_LIKE } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +19,7 @@ function LikeWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showLike } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_LIKE)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_LIKE)} />
       <Like
         navigation={navigation}
         showLike={showLike}

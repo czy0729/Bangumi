@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-15 04:37:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-13 21:09:53
+ * @Last Modified time: 2024-01-07 22:36:57
  */
 /** Learn more https://docs.expo.io/guides/customizing-metro */
 const { getDefaultConfig } = require('expo/metro-config')

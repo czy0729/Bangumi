@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_TOPIC } from '../../ds'
 import { Ctx } from '../../types'
@@ -20,7 +20,7 @@ function TopicWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showTopic } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_TOPIC)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_TOPIC)} />
       <Topic
         navigation={navigation}
         styles={memoStyles()}

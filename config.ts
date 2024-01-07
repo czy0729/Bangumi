@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 17:19:47
+ * @Last Modified time: 2024-01-07 23:02:12
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -25,7 +25,7 @@ export const RERENDER_NOT_SHOW = rerenderNotShow
 export const ANDROID_DEV_MENU = true
 
 /** 是否不显示图片 (开发用) false 是为了打包后的 apk 稳定显示图片 */
-export const TEXT_ONLY = DEV ? DEV : false
+export const TEXT_ONLY = DEV ? !DEV : false
 
 /** 反代地址 */
 export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'

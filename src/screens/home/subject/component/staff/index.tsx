@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_STAFF } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +19,7 @@ function StaffWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showStaff } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_STAFF)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_STAFF)} />
       <Staff
         navigation={navigation}
         showStaff={showStaff}

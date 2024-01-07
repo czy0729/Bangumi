@@ -14,10 +14,10 @@ import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { CDN_GAME, SCROLL_VIEW_RESET_PROPS } from '@constants'
-import IconHidden from '../../icon/hidden'
-import IconPS from '../../icon/ps'
 import { TITLE_GAME } from '../../ds'
 import { Ctx } from '../../types'
+import IconHidden from '../../icon/hidden'
+import IconPS from '../../icon/ps'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
@@ -183,7 +183,7 @@ class Game extends React.Component<{
     const { onBlockRef } = this.props
     return (
       <>
-        <View ref={ref => onBlockRef(ref, TITLE_GAME)} />
+        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_GAME)} />
         <InView style={this.styles.container}>
           <Expand>
             <SectionTitle

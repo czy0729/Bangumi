@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 03:49:50
+ * @Last Modified time: 2024-01-07 21:42:53
  */
 import React from 'react'
 import { collectionStore, systemStore } from '@stores'
@@ -14,7 +14,7 @@ import { memoStyles } from './styles'
 
 export default obc(
   (
-    { subjectId, images = {}, name, desc, air, time, rank, score, total, section, index },
+    { subjectId, images = {}, name, desc, air, time, prevTime, rank, score, total, section, index },
     { $, navigation }: Ctx
   ) => {
     rerender('Calendar.ItemLine')
@@ -37,6 +37,7 @@ export default obc(
         images={images}
         air={air}
         time={time}
+        prevTime={prevTime}
         expand={expand}
         collection={collection}
         rank={rank}

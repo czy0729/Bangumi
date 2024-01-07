@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 03:47:52
+ * @Last Modified time: 2024-01-07 21:45:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,12 @@ function Item({ item, section }, { $ }: Ctx) {
         let time = getTime(i, i.id)
         if (idx > 0 && time === '2359' && getTime(items[idx - 1], i.id) === time) time = ''
 
+        const prevItem = items?.[idx - 1]
+        let prevTime = ''
+        if (prevItem) {
+          prevTime = getTime(prevItem, prevItem.id)
+        }
+
         // 放送到多少集, 自增 1
         let { air } = i
         if (i.air_weekday !== day && air !== 0) air = Number(air) + 1
@@ -47,6 +53,7 @@ function Item({ item, section }, { $ }: Ctx) {
           total: i?.rating?.total,
           air,
           time,
+          prevTime,
           section: section.index,
           index: idx
         }

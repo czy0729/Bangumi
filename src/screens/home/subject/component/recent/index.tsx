@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_RECENT } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +19,7 @@ function RecentWrap({ onBlockRef }, { $, navigation }: Ctx) {
   const { showRecent } = systemStore.setting
   return (
     <>
-      <View ref={ref => onBlockRef(ref, TITLE_RECENT)} />
+      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RECENT)} />
       <Recent
         navigation={navigation}
         showRecent={showRecent}

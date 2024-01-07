@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-18 04:18:45
+ * @Last Modified time: 2024-01-07 23:25:15
  */
+import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
 import * as FileSystem from 'expo-file-system'
 import protobuf, { Reader } from 'protobufjs'
-import { toByteArray } from 'base64-js'
 import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
 import { DataAssets, Decode } from './types'
 
@@ -61,15 +61,15 @@ async function loadProtoFile(name: DataAssets) {
   try {
     let local: string | number
     if (name === 'bangumi-data') {
-      local = require('@assets/proto/bangumi-data/index.proto')
+      local = require('@assets/proto/bangumi-data/proto/index.proto')
     } else if (name === 'anime') {
-      local = require('@assets/proto/anime/index.proto')
+      local = require('@assets/proto/anime/proto/index.proto')
     } else if (name === 'manga') {
-      local = require('@assets/proto/manga/index.proto')
+      local = require('@assets/proto/manga/proto/index.proto')
     } else if (name === 'game') {
-      local = require('@assets/proto/game/index.proto')
+      local = require('@assets/proto/game/proto/index.proto')
     } else if (name === 'adv') {
-      local = require('@assets/proto/adv/index.proto')
+      local = require('@assets/proto/adv/proto/index.proto')
     }
 
     // 加载 proto 文件的资源模块
@@ -91,15 +91,15 @@ async function loadBinFile(name: DataAssets) {
   try {
     let local: string | number
     if (name === 'bangumi-data') {
-      local = require('@assets/proto/bangumi-data/index.bin')
+      local = require('@assets/proto/bangumi-data/bin/index.bin')
     } else if (name === 'anime') {
-      local = require('@assets/proto/anime/index.bin')
+      local = require('@assets/proto/anime/bin/index.bin')
     } else if (name === 'manga') {
-      local = require('@assets/proto/manga/index.bin')
+      local = require('@assets/proto/manga/bin/index.bin')
     } else if (name === 'game') {
-      local = require('@assets/proto/game/index.bin')
+      local = require('@assets/proto/game/bin/index.bin')
     } else if (name === 'adv') {
-      local = require('@assets/proto/adv/index.bin')
+      local = require('@assets/proto/adv/bin/index.bin')
     }
 
     // 加载 proto 文件的资源模块

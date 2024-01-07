@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { subjectStore, systemStore } from '@stores'
+import { _, subjectStore, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_DISC, TITLE_EP } from '../../ds'
@@ -23,7 +23,10 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
   const typeCn = $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId))
   return (
     <>
-      <View ref={ref => onBlockRef(ref, typeCn === '音乐' ? TITLE_DISC : TITLE_EP)} />
+      <View
+        style={_.container.layout}
+        ref={ref => onBlockRef(ref, typeCn === '音乐' ? TITLE_DISC : TITLE_EP)}
+      />
       {typeCn === '书籍' ? (
         <BookEp onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded} />
       ) : typeCn === '音乐' ? (

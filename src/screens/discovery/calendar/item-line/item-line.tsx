@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 03:56:16
+ * @Last Modified time: 2024-01-07 21:43:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,6 +32,7 @@ const ItemLine = memo(
     images,
     air,
     time,
+    prevTime,
     expand,
     collection,
     rank,
@@ -58,7 +59,7 @@ const ItemLine = memo(
     return (
       <View style={_.container.block}>
         <Flex style={styles.item} align='start'>
-          <View style={stl(styles.time, index > 0 && time !== '2359' && styles.transparent)}>
+          <View style={stl(styles.time, prevTime && prevTime === time && styles.transparent)}>
             {!!(time && !(time === '2359' && !expand)) && (
               <Text bold>{time === '2359' ? '未知' : `${time.slice(0, 2)}:${time.slice(2)}`}</Text>
             )}
