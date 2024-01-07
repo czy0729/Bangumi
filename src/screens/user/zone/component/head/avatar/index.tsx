@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:46:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 10:24:04
+ * @Last Modified time: 2024-01-07 20:55:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,9 +26,9 @@ function Avatar(props, { $ }: Ctx) {
         src={$.src}
         size={size}
         radius={size / 2}
+        placeholder={false}
         border={_.__colorPlain__}
         borderWidth={2}
-        shadow
         fallback={fallback}
         fallbackSrc={avatar?.large}
       />

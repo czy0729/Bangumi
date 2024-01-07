@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:44:12
+ * @Last Modified time: 2024-01-06 22:09:28
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -11,7 +11,6 @@ import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
-import { Fn } from '@types'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Footer from './footer'
@@ -19,12 +18,9 @@ import Item from './item'
 import SectionHeader from './section-header'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-class BangumiList extends React.Component<{
-  ListHeaderComponent: any
-  scrollEventThrottle: number
-  onScroll: Fn
-}> {
+class BangumiList extends React.Component<Props> {
   connectRef = (ref: any) => {
     const { $ } = this.context as Ctx
     const index = TABS.findIndex(item => item.title === '番剧')

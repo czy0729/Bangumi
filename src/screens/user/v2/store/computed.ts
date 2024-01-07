@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:22:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 20:05:18
+ * @Last Modified time: 2024-01-07 21:15:55
  */
 import { computed } from 'mobx'
-import { _, userStore, collectionStore, usersStore, systemStore } from '@stores'
-import { HTMLDecode, getPinYinFilterValue, t2s, x18 } from '@utils'
+import { _, collectionStore, systemStore, usersStore, userStore } from '@stores'
+import { getBlurRadius, getPinYinFilterValue, HTMLDecode, t2s, x18 } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
-import { MODEL_SUBJECT_TYPE, MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY } from '@constants'
+import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 import {
   CollectionsOrderCn,
   CollectionStatus,
@@ -209,8 +209,13 @@ export default class Computed extends State {
   /** 自定义背景 */
   @computed get imageSource() {
     return {
-      uri: this.bg
+      uri: this.bg || this.avatar || this.usersInfo.avatar?.large
     }
+  }
+
+  /** 背景模糊像素 */
+  @computed get blurRadius() {
+    return getBlurRadius(this.imageSource.uri, this.bg, this.usersInfo.avatar?.large)
   }
 
   /** 长列表列数 */

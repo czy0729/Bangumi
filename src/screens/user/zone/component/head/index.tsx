@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 20:41:21
+ * @Last Modified time: 2024-01-07 20:20:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 import { ob } from '@utils/decorators'
+import { ViewStyle } from '@types'
 import Avatar from './avatar'
 import Blogs from './blogs'
 import Catalogs from './catalogs'
@@ -19,7 +20,7 @@ import Sync from './sync'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Head({ style }) {
+function Head({ style }: { style?: ViewStyle }) {
   const styles = memoStyles()
   return (
     <Flex style={style} direction='column'>

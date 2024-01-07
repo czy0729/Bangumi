@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 15:14:52
+ * @Last Modified time: 2024-01-07 20:52:58
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
-import { NestedScrollView, NestedScrollViewHeader, NestedScrollEvent } from '@sdcx/nested-scroll'
 import { _ } from '@stores'
-import { ParallaxHeader } from '../parallax-header'
+import { NestedScrollEvent, NestedScrollView, NestedScrollViewHeader } from '@sdcx/nested-scroll'
 import { AnimatedNavbar } from '../animated-navbar'
-import { TabBar } from '../tab-bar'
-import { useAnimateScrollView } from '../hooks/useAnimatedScrollView'
 import { useAnimatedNavbar } from '../hooks/useAnimatedNavbar'
+import { useAnimateScrollView } from '../hooks/useAnimatedScrollView'
 import { usePagerView } from '../hooks/usePagerView'
+import { ParallaxHeader } from '../parallax-header'
+import { TabBar } from '../tab-bar'
 import { styles } from './styles'
 import { Props as NestedScrollParallaxHeaderProps } from './types'
 
@@ -27,8 +27,10 @@ export function NestedScrollParallaxHeader({
   initialPage,
   imageHeight = _.parallaxImageHeight,
   imageSource,
+  blurRadius,
   stickyHeight = _.tabsHeaderHeight,
   spacing,
+  tabStyle,
   tabBarLocalKey,
   HeaderComponent,
   OverflowHeaderComponent,
@@ -96,6 +98,7 @@ export function NestedScrollParallaxHeader({
         topBarHeight={_.headerHeight}
         imageHeight={imageHeight}
         imageSource={imageSource}
+        blurRadius={blurRadius}
         scale={scale}
         translateYDown={translateYDown}
         translateYUp={translateYUp}
@@ -107,6 +110,7 @@ export function NestedScrollParallaxHeader({
     ),
     [
       HeaderComponent,
+      blurRadius,
       headerOpacity,
       imageHeight,
       imageSource,
@@ -126,6 +130,7 @@ export function NestedScrollParallaxHeader({
         page={page}
         isIdle={isIdle}
         spacing={spacing}
+        tabStyle={tabStyle}
         tabBarLocalKey={tabBarLocalKey}
         TabBarLeft={TabBarLeft}
         renderLabel={renderLabel}
@@ -142,7 +147,8 @@ export function NestedScrollParallaxHeader({
       renderLabel,
       setPage,
       spacing,
-      tabBarLocalKey
+      tabBarLocalKey,
+      tabStyle
     ]
   )
 

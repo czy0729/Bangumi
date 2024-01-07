@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 01:15:02
+ * @Last Modified time: 2024-01-06 23:08:51
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -13,24 +13,13 @@ import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
-import { Fn } from '@types'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-const EVENT = {
-  id: '空间.跳转',
-  data: {
-    from: '时间胶囊'
-  }
-} as const
-
-class TimelineList extends React.Component<{
-  ListHeaderComponent: any
-  scrollEventThrottle: number
-  onScroll: Fn
-}> {
+class TimelineList extends React.Component<Props> {
   connectRef = ref => {
     const { $ } = this.context as Ctx
     const index = TABS.findIndex(item => item.title === '时间线')

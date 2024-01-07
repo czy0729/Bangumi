@@ -4,10 +4,10 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:38:21
+ * @Last Modified time: 2024-01-07 20:54:48
  */
 import { Animated } from 'react-native'
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@_/base/avatar/utils'
 import {
   _,
@@ -15,34 +15,37 @@ import {
   systemStore,
   timelineStore,
   tinygrailStore,
-  userStore,
-  usersStore
+  usersStore,
+  userStore
 } from '@stores'
 import {
-  HTMLDecode,
   feedback,
+  getBlurRadius,
   getTimestamp,
+  HTMLDecode,
   info,
   loading,
   omit,
   opitimize,
   queue
 } from '@utils'
-import store from '@utils/store'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import { fixedRemote } from '@utils/user-setting'
 import { webhookFriend } from '@utils/webhooks'
 import {
   HOST,
+  IMG_EMPTY_DARK,
   MODEL_TIMELINE_SCOPE,
   MODEL_TIMELINE_TYPE,
   SHARE_MODE,
-  STORYBOOK
+  STORYBOOK,
+  TEXT_ONLY
 } from '@constants'
-import { Navigation, TimeLineScope, TimeLineType } from '@types'
-import { H_RADIUS_LINE, H_HEADER, H_TABBAR } from '../v2/ds'
-import { NAMESPACE, STATE, EXCLUDE_STATE, TABS, TABS_WITH_TINYGRAIL } from './ds'
+import { Navigation, Source, TimeLineScope, TimeLineType } from '@types'
+import { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '../v2/ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE, TABS, TABS_WITH_TINYGRAIL } from './ds'
 import { Params } from './types'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
@@ -180,10 +183,40 @@ export default class ScreenZone extends store<typeof STATE> {
   @computed get src() {
     const { _image } = this.params
     const { avatar } = this.usersInfo
-    return getCDNAvatar(
-      fixedHD(this.avatar || _image || avatar?.large),
-      'bgm_poster_200'
-    )
+    return getCDNAvatar(fixedHD(this.avatar || _image || avatar?.large), 'bgm_poster_200')
+  }
+
+  /** 实际背景 */
+  @computed get imageSource() {
+    const { _image } = this.params
+    const { avatar } = this.usersInfo
+    let source: Source = {
+      uri: avatar?.large
+    }
+
+    if (TEXT_ONLY) {
+      source = IMG_EMPTY_DARK
+    } else {
+      if (typeof _image === 'string') {
+        if (_image?.indexOf('http') === 0) {
+          source.uri = _image
+        } else {
+          source.uri = `https:${_image}`
+        }
+      }
+
+      source.uri = fixedHD(this.bg || this.avatar || source.uri)
+      if (typeof source.uri === 'string') {
+        source.uri = source.uri.replace('http://', 'https://')
+      }
+    }
+
+    return source
+  }
+
+  /** 背景模糊像素 */
+  @computed get blurRadius() {
+    return getBlurRadius(this.imageSource.uri, this.bg, this.usersInfo.avatar?.large)
   }
 
   /** 用户昵称 */
@@ -312,9 +345,7 @@ export default class ScreenZone extends store<typeof STATE> {
     const data: any = await get(`u_${username}`)
     this.setState({
       recent: {
-        [username]: data?.ts
-          ? getTimestamp() - Number(data.ts || 0) <= 60 * 60 * 30
-          : false
+        [username]: data?.ts ? getTimestamp() - Number(data.ts || 0) <= 60 * 60 * 30 : false
       }
     })
     this.save()
@@ -562,13 +593,7 @@ export default class ScreenZone extends store<typeof STATE> {
       if (!this.userId || !this.users._loaded) return false
 
       update(`zone_${this.userId}`, {
-        ...omit(this.users, [
-          'recent',
-          'connectUrl',
-          'disconnectUrl',
-          'formhash',
-          '_loaded'
-        ])
+        ...omit(this.users, ['recent', 'connectUrl', 'disconnectUrl', 'formhash', '_loaded'])
       })
     }, 10000)
   }

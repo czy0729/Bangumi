@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-01 20:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 20:36:19
+ * @Last Modified time: 2024-01-06 22:48:21
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
-const TabBarLeft = memo(
+const TabBarLabel = memo(
   ({ style, title, count, focused }) => {
     return (
       <Flex style={style} justify='center' align='start'>
@@ -29,4 +29,4 @@ const TabBarLeft = memo(
   COMPONENT_MAIN
 )
 
-export default TabBarLeft
+export default TabBarLabel

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 12:09:22
+ * @Last Modified time: 2024-01-07 17:21:30
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -12,41 +12,20 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
 import { SHARE_MODE, STORYBOOK } from '@constants'
-import { Fn } from '@types'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
-import RakuenItem from '../rakuen-item'
+import RakuenItem from './rakuen-item'
+import { handleToQiafan } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-const EVENT = {
-  id: '空间.跳转',
-  data: {
-    from: '超展开'
-  }
-} as const
-
-class RakuenList extends React.Component<{
-  ListHeaderComponent: any
-  scrollEventThrottle: number
-  onScroll: Fn
-}> {
+class RakuenList extends React.Component<Props> {
   connectRef = ref => {
     const { $ } = this.context as Ctx
     const index = TABS.findIndex(item => item.title === '超展开')
     return $.connectRef(ref, index)
-  }
-
-  toQiafan = () => {
-    const { navigation } = this.context as Ctx
-    t('空间.跳转', {
-      from: '高级会员',
-      to: 'Qiafan'
-    })
-
-    navigation.push('Qiafan')
   }
 
   renderSectionHeader = ({ section: { title } }) => <SectionHeader size={14}>{title}</SectionHeader>
@@ -54,7 +33,7 @@ class RakuenList extends React.Component<{
   renderItem = ({ item, index }) => {
     const { navigation } = this.context as Ctx
     return (
-      <RakuenItem navigation={navigation} index={index} event={EVENT} {...item}>
+      <RakuenItem navigation={navigation} index={index} {...item}>
         {!index && <Heatmap id='空间.跳转' to='Topic' alias='帖子' />}
       </RakuenItem>
     )
@@ -71,7 +50,7 @@ class RakuenList extends React.Component<{
       )
     }
 
-    const { $ } = this.context as Ctx
+    const { $, navigation } = this.context as Ctx
     const { timeout } = $.state
     const { onScroll } = this.props
     const _onScroll = STORYBOOK
@@ -114,7 +93,7 @@ class RakuenList extends React.Component<{
             还有{_filter}条数据未显示
           </Text>
           <Text style={_.mt.xs} type='sub' align='center' size={12}>
-            <Text type='warning' size={12} onPress={this.toQiafan}>
+            <Text type='warning' size={12} onPress={() => handleToQiafan(navigation)}>
               高级会员
             </Text>
             显示所有

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 16:27:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-29 20:29:52
+ * @Last Modified time: 2024-01-07 20:35:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,12 +24,7 @@ export function TabBar({ page, TabBarLeft, ...other }: TabBarProps) {
             contentContainerStyle={styles.contentContainerStyle}
             page={page}
           >
-            <TabBarComp
-              style={styles.tabbar}
-              tabStyle={styles.tab}
-              page={page}
-              {...other}
-            />
+            <TabBarComp style={styles.tabbar} page={page} {...other} />
           </ScrollBar>
         </Flex.Item>
       </Flex>

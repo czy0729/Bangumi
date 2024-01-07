@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:48:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-29 20:51:37
+ * @Last Modified time: 2024-01-07 21:04:15
  */
 import React from 'react'
 import { Animated, ImageBackground, useWindowDimensions, View } from 'react-native'
@@ -10,8 +10,7 @@ import { NestedScrollViewHeader } from '@sdcx/nested-scroll'
 import { styles } from './styles'
 import { Props } from './types'
 
-const NestedScrollViewHeaderAnimated =
-  Animated.createAnimatedComponent(NestedScrollViewHeader)
+const NestedScrollViewHeaderAnimated = Animated.createAnimatedComponent(NestedScrollViewHeader)
 const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground)
 
 export function ParallaxHeader({
@@ -22,6 +21,7 @@ export function ParallaxHeader({
   scale,
   imageStyle,
   imageSource,
+  blurRadius,
   headerOpacity,
   overflowHeaderOpacity,
   onScroll,
@@ -41,6 +41,7 @@ export function ParallaxHeader({
         ]}
       >
         <AnimatedImageBackground
+          key={String(imageSource?.uri)}
           style={[
             {
               justifyContent: 'center',
@@ -57,6 +58,7 @@ export function ParallaxHeader({
             imageStyle
           ]}
           source={imageSource}
+          blurRadius={blurRadius}
         >
           <Animated.View
             style={[

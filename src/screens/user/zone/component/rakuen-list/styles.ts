@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-22 10:13:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 12:09:38
+ * @Last Modified time: 2024-01-07 17:31:13
  */
 import { _ } from '@stores'
 
@@ -12,5 +12,11 @@ export const styles = _.create({
   },
   contentContainerStyle: {
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
+  },
+  nestScroll: {
+    paddingBottom: _.bottom
+  },
+  nestScrollLoading: {
+    marginTop: -320
   }
 })
