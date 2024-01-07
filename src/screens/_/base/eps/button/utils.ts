@@ -19,9 +19,7 @@ export function getPopoverData(
   advance: boolean,
   userProgress: { [x: string]: string }
 ) {
-  const discuss = HTMLDecode(
-    `(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`
-  )
+  const discuss = HTMLDecode(`(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`)
 
   // 计算放送时间是否在今天以后
   let canAddCalendar = !STORYBOOK && !WSA && !userProgress[item.id] && !isSp
@@ -85,6 +83,7 @@ export function getComment(eps: any[]) {
   }
 }
 
+/** @deprecated */
 export function customCompare({ props, item, eps, isSp, num }: typeof DEFAULT_PROPS) {
   const { userProgress, flip, ...otherProps } = props
   return {
