@@ -83,3 +83,6 @@ export const IOS_IPA = Platform.OS === 'ios' && Constants.appOwnership !== 'expo
 
 /** 图片是否开启新本地缓存策略 (iOS) */
 export const IOS_IMAGE_CACHE_V2 = IOS_IPA
+
+/** 是否来自 github action */
+export const GITHUB_ACTION = false

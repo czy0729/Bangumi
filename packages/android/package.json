@@ -11,8 +11,8 @@
     "k": "sudo purge",
     "clean": "cd android && ./gradlew clean",
     "build": "cd android && ./gradlew assembleRelease && cd .. && node web/rename.js",
-    "open": "open ./android/app/build/outputs/apk/release/",
-    "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\"
+    "open": "start .\\android\\app\\build\\outputs\\apk\\release\\",
+    "open:mac": "open ./android/app/build/outputs/apk/release/"
   },
   "resolutions": {
     "define-properties": "1.2.0"

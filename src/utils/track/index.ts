@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-05 04:05:10
  */
+import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import events, { EventKeys } from '@constants/events'
 // import { NativeModules } from 'react-native'
 import { DEV, IOS_IPA } from '@/config'
-import { STORYBOOK } from '@constants/device'
-import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
-import events, { EventKeys } from '@constants/events'
-import { runAfter, urlStringify } from '../utils'
-import { syncUserStore, syncThemeStore, syncSystemStore } from '../async'
+import { syncSystemStore, syncThemeStore, syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
+import { runAfter, urlStringify } from '../utils'
+import { EventData, HMQuery } from './type'
 import { umami, umamiEvent, xhr } from './utils'
 import { SI_ERROR, SI_UV } from './ds'
-import { EventData, HMQuery } from './type'
 
 let lastQuery = ''
 let currentQuery = ''

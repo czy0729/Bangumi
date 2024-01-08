@@ -5,21 +5,13 @@
  * @Last Modified time: 2023-12-17 03:53:05
  */
 import Constants from 'expo-constants'
-import { STORYBOOK } from '@constants/device'
 import { HOST } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
+import { DEV, GITHUB_ACTION } from '@/config'
 import { AnyObject, EventKeys } from '@types'
-import { DEV } from '@/config'
-import { urlStringify, getTimestamp, randomn, interceptor } from '../utils'
-import {
-  API_UMAMI,
-  API_XHR,
-  SCREEN,
-  TIMEOUT,
-  TITLE,
-  WEBSITE,
-  WEBSITE_TINGRAIL
-} from './ds'
+import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
 import { EventData } from './type'
+import { API_UMAMI, API_XHR, SCREEN, TIMEOUT, TITLE, WEBSITE, WEBSITE_TINGRAIL } from './ds'
 
 export function xhr(si: string, u: string) {
   const url = `${API_XHR}?${urlStringify({
@@ -103,12 +95,7 @@ export async function umamiEvent(
   log('umamiEvent', eventId, data)
 }
 
-async function umamiXhr(payload: {
-  title: string
-  url: string
-  name?: string
-  data?: AnyObject
-}) {
+async function umamiXhr(payload: { title: string; url: string; name?: string; data?: AnyObject }) {
   if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
 
   const request = new XMLHttpRequest()
@@ -125,7 +112,7 @@ async function umamiXhr(payload: {
         hostname: 'bgm.tv',
         screen: SCREEN,
         language: 'zh-CN',
-        referrer: ''
+        referrer: GITHUB_ACTION ? 'https://github.com/' : ''
       },
       type: 'event'
     })
@@ -135,10 +122,6 @@ async function umamiXhr(payload: {
 /** [DEV] */
 function log(method: string, ...others: any[]) {
   if (DEV) {
-    console.info(
-      `%c[@utils/track/${method}]`,
-      'background: #000; color: #fff',
-      ...others
-    )
+    console.info(`%c[@utils/track/${method}]`, 'background: #000; color: #fff', ...others)
   }
 }

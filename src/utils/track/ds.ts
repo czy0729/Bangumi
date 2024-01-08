@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-16 17:09:51
  */
-import { DEV, IOS_IPA } from '@/config'
-import { WSA, STORYBOOK } from '@constants/device'
 import { IOS } from '@constants/constants'
+import { STORYBOOK, WSA } from '@constants/device'
+import { DEV, IOS_IPA } from '@/config'
 import { window } from '../../styles/layout'
 import { get } from '../crypto'
 
@@ -23,7 +23,7 @@ export const TITLE = 'Bangumi 番组计划'
 
 export const TIMEOUT = 2000
 
-export const SCREEN = `${window.width}x${window.height}`
+export const SCREEN = `${Math.floor(window.width)}x${Math.floor(window.height)}`
 
 /** ==================== hm ==================== */
 const SI_WSA = 'b0f22537130c960c2a12a184638f748a'
