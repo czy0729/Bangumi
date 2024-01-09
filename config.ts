@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 23:02:12
+ * @Last Modified time: 2024-01-09 22:52:05
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -17,9 +17,14 @@ export const DEV = global.__DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
 const rerenderShow = 'ZZZ'
 const rerenderNotShow = []
 
-/** 观察组件 re-render 用 (开发用) */
+/** 观察组件 rerender 用 (开发用) */
 export const RERENDER_SHOW = new RegExp(rerenderShow.replace(/\./g, '\\.')) // /Rakuen\.(.+?)\.Main/
+
+/** 屏蔽观察组件 rerender 用 (开发用) */
 export const RERENDER_NOT_SHOW = rerenderNotShow
+
+/** 打印组件 rerender 值变化 (开发用) */
+export const RERENDER_SHOW_DIFF = false
 
 /** 显示调试菜单按钮 (安卓、开发用) */
 export const ANDROID_DEV_MENU = true

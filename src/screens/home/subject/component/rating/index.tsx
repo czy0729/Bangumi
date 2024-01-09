@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 08:49:27
+ * @Last Modified time: 2024-01-09 16:29:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,11 +17,14 @@ import { memoStyles } from './styles'
 function RatingWrap({ onBlockRef }, { $ }: Ctx) {
   if (!$.showRating[1]) return null
 
-  const { showRating, hideScore } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RATING)} />
-      <Rating styles={memoStyles()} showRating={showRating} hideScore={hideScore} />
+      <Rating
+        styles={memoStyles()}
+        showRating={systemStore.setting.showRating}
+        hideScore={systemStore.setting.hideScore}
+      />
     </>
   )
 }

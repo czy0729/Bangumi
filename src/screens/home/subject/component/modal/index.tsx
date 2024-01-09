@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:59:23
+ * @Last Modified time: 2024-01-09 16:29:16
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -13,11 +13,10 @@ import { COMPONENT } from './ds'
 function ModalWrap(props, { $ }: Ctx) {
   if (!$.isLogin) return null
 
-  const { visible, disabled } = $.state
   return (
     <Modal
-      visible={visible}
-      disabled={disabled}
+      visible={$.state.visible}
+      disabled={$.state.disabled}
       subjectId={$.params.subjectId}
       name={$.subject.name}
       nameCn={$.subject.name_cn}

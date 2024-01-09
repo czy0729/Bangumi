@@ -2,24 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:50:03
+ * @Last Modified time: 2024-01-09 17:10:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { InView, Avatar, PreventTouchPlaceholder, SectionTitle } from '@_'
+import { Avatar, InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
+import { t } from '@utils/fetch'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Collabs(props, { $, navigation }: Ctx) {
-  rerender('Mono.Collabs')
-
   const { collabs } = $.mono
   if (!collabs?.length) return null
 
@@ -48,12 +46,7 @@ function Collabs(props, { $, navigation }: Ctx) {
                 <Text style={_.ml.sm} type='sub'>
                   全部
                 </Text>
-                <Iconfont
-                  style={_.ml.xs}
-                  name='md-open-in-new'
-                  color={_.colorSub}
-                  size={16}
-                />
+                <Iconfont style={_.ml.xs} name='md-open-in-new' color={_.colorSub} size={16} />
               </Flex>
             </Touchable>
           </Flex>
@@ -104,4 +97,4 @@ function Collabs(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Collabs)
+export default obc(Collabs, COMPONENT)

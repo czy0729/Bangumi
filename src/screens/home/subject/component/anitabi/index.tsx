@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:38:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 01:04:01
+ * @Last Modified time: 2024-01-09 16:21:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,13 +17,12 @@ import { memoStyles } from './styles'
 function AnitabiWrap({ onBlockRef }, { $ }: Ctx) {
   if (!$.showAnitabi[1]) return null
 
-  const { showAnitabi } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_ANITABI)} />
       <Anitabi
         styles={memoStyles()}
-        showAnitabi={showAnitabi}
+        showAnitabi={systemStore.setting.showAnitabi}
         subjectId={$.subjectId}
         data={$.state.anitabi}
         onSwitchBlock={$.onSwitchBlock}

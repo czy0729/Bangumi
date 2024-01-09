@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 09:04:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:36:13
+ * @Last Modified time: 2024-01-09 16:32:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,10 +19,9 @@ function Block({ path, tags }, { $, navigation }: Ctx) {
   if (!tags?.length) return null
 
   const styles = memoStyles()
-  const { subjectTagsExpand } = systemStore.setting
   return (
     <>
-      <Flex style={stl(styles.badge, subjectTagsExpand && styles.badgeExpand)}>
+      <Flex style={stl(styles.badge, systemStore.setting.subjectTagsExpand && styles.badgeExpand)}>
         <Text size={13} type='sub'>
           第三方标签
         </Text>

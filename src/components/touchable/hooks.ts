@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 05:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:52:38
+ * @Last Modified time: 2024-01-09 22:51:12
  */
 import { useCallback, useState } from 'react'
 import { Fn } from '@types'
@@ -12,12 +12,16 @@ export function useCallOnceInInterval(onPress: Fn) {
   const handlePress = useCallback(() => {
     setDisabled(true)
 
-    requestAnimationFrame(() => {
+    /**
+     * 这里一定不能用 requestAnimationFrame
+     * 会出现一种情况, 比如图片加载很慢, 一直在现实骨架屏动画, 会一直被延迟执行点击, 产生假死现象
+     * */
+    setTimeout(() => {
       onPress()
       setTimeout(() => {
         setDisabled(false)
       }, 400)
-    })
+    }, 0)
   }, [onPress])
 
   return {

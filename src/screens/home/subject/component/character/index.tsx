@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 08:59:11
+ * @Last Modified time: 2024-01-09 16:23:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,12 @@ import { COMPONENT } from './ds'
 function CharacterWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showCharacter[1]) return null
 
-  const { showCharacter } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_CHARACTER)} />
       <Character
         navigation={navigation}
-        showCharacter={showCharacter}
+        showCharacter={systemStore.setting.showCharacter}
         subjectId={$.subjectId}
         crt={$.crt}
         crtCounts={$.subjectFormHTML.crtCounts}

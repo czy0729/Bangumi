@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 17:50:31
+ * @Last Modified time: 2024-01-09 16:20:24
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import Item from '../component/item'
-import { Ctx } from '../types'
-import HeaderComponent from '../header-component'
+import { Ctx } from '../../types'
+import HeaderComponent from '../../header-component'
+import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 
 function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) {
@@ -42,18 +42,3 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) 
 }
 
 export default obc(List, COMPONENT)
-
-function renderItem({ item, index }) {
-  return (
-    <Item
-      index={index}
-      time={item.time}
-      avatar={item.avatar}
-      userId={item.userId}
-      userName={item.userName}
-      star={item.star}
-      comment={item.comment}
-      relatedId={item.relatedId}
-    />
-  )
-}

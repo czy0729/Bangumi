@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-29 14:15:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:17:00
+ * @Last Modified time: 2024-01-09 16:22:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,14 +20,13 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Extra(props, { $ }: Ctx) {
-  const { focusOrigin, focusAction } = systemStore.setting
-  if (!focusOrigin) return null
+  if (!systemStore.setting.focusOrigin) return null
 
   // 设置的实现: [自定义跳转] 和 [若有自定义跳转隐藏通用源头按钮]
   const hasActions = !!$.actions.length
   let Component: typeof IconOnline | typeof IconSearch | typeof IconGame | typeof IconSearchDisc
   let elOrigin: React.ReactNode
-  if (!(focusAction && hasActions)) {
+  if (!(systemStore.setting.focusAction && hasActions)) {
     if ($.type === '动画' || $.type === '三次元') {
       Component = IconOnline
     } else if ($.type === '书籍') {

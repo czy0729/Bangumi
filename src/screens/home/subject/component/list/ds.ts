@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { COMPONENT as PARENT } from '../ds'
+import { COMPONENT as PARENT } from '../../ds'
 
 export const COMPONENT = rc(PARENT, 'List')
 

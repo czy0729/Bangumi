@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 15:40:33
+ * @Last Modified time: 2024-01-09 16:25:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -81,6 +81,7 @@ class Game extends React.Component<{
             size={THUMB_WIDTH}
             height={THUMB_HEIGHT}
             radius
+            errorToHide
             onPress={() => {
               t('条目.游戏截图', {
                 subjectId: $.subjectId

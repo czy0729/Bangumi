@@ -7,31 +7,31 @@
 import React from 'react'
 import { View } from 'react-native'
 import {
-  Flex,
-  Text,
-  Image,
-  HeaderPlaceholder,
   Divider,
-  Touchable,
+  Flex,
+  HeaderPlaceholder,
+  Heatmap,
   Iconfont,
-  Heatmap
+  Image,
+  Text,
+  Touchable
 } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
 import { rerender } from '@utils/dev'
-import { IOS, API_MONO_COVER } from '@constants'
+import { t } from '@utils/fetch'
+import { API_MONO_COVER, IOS } from '@constants'
 import { TopicId } from '@types'
+import Collabs from '../component/collabs'
+import { Ctx } from '../types'
+import Collected from '../collected'
 import Content from '../content'
 import Detail from '../detail'
+import Jobs from '../jobs'
 import Voice from '../voice'
 import Works from '../works'
-import Jobs from '../jobs'
-import Collabs from '../collabs'
-import Collected from '../collected'
-import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Info(props, { $, navigation }: Ctx) {
@@ -85,12 +85,7 @@ function Info(props, { $, navigation }: Ctx) {
                 <Text style={_.ml.sm} type='sub'>
                   更多资料
                 </Text>
-                <Iconfont
-                  style={_.ml.xs}
-                  name='md-open-in-new'
-                  color={_.colorSub}
-                  size={16}
-                />
+                <Iconfont style={_.ml.xs} name='md-open-in-new' color={_.colorSub} size={16} />
               </Flex>
             </Touchable>
           </Flex>

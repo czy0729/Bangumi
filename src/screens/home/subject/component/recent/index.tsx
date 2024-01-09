@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 10:34:12
+ * @Last Modified time: 2024-01-09 16:30:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,12 @@ import { COMPONENT } from './ds'
 function RecentWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showRecent[1]) return null
 
-  const { showRecent } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RECENT)} />
       <Recent
         navigation={navigation}
-        showRecent={showRecent}
+        showRecent={systemStore.setting.showRecent}
         subjectId={$.subjectId}
         who={$.filterRecent}
         hideScore={$.hideScore}

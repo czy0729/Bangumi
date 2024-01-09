@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-29 17:12:44
+ * @Last Modified time: 2024-01-09 16:25:02
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -13,7 +13,6 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function DiscWrap(props, { $, navigation }: Ctx) {
-  const { focusOrigin } = systemStore.setting
   return (
     <Disc
       navigation={navigation}
@@ -21,7 +20,7 @@ function DiscWrap(props, { $, navigation }: Ctx) {
       subjectId={$.subjectId}
       disc={$.disc}
       discTranslateResult={$.state.discTranslateResult}
-      focusOrigin={focusOrigin}
+      focusOrigin={systemStore.setting.focusOrigin}
     />
   )
 }

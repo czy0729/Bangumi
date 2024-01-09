@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 09:43:08
+ * @Last Modified time: 2024-01-09 16:30:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,12 @@ import { COMPONENT } from './ds'
 function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showRelations[1]) return null
 
-  const { showRelations } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RELATIONS)} />
       <Relations
         navigation={navigation}
-        showRelations={showRelations}
+        showRelations={systemStore.setting.showRelations}
         subjectId={$.subjectId}
         relations={$.relations}
         onSwitchBlock={$.onSwitchBlock}

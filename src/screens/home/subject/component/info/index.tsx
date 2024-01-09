@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 08:47:04
+ * @Last Modified time: 2024-01-09 16:26:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ import { memoStyles } from './styles'
 function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showInfo[1]) return null
 
-  const { showInfo } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_INFO)} />
@@ -25,7 +24,7 @@ function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
         navigation={navigation}
         styles={memoStyles()}
         subjectId={$.subjectId}
-        showInfo={showInfo}
+        showInfo={systemStore.setting.showInfo}
         info={$.info}
         onSwitchBlock={$.onSwitchBlock}
       />

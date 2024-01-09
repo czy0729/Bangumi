@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:18:35
+ * @Last Modified time: 2024-01-09 16:23:10
  */
 import React from 'react'
 import { collectionStore } from '@stores'
@@ -14,7 +14,6 @@ import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
 
 function FlipBtnWrap({ onPress }, { $ }: Ctx) {
-  const { flip, flipKey } = $.state
   const {
     status: collectionStatus = { name: '未收藏', type: null },
     rating = 0,
@@ -37,8 +36,8 @@ function FlipBtnWrap({ onPress }, { $ }: Ctx) {
 
   return (
     <FlipBtn
-      key={String(flipKey)}
-      animate={flip}
+      key={String($.state.flipKey)}
+      animate={$.state.flip}
       btnText={btnText}
       rating={rating}
       privacy={privacy}

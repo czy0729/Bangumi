@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:34:23
+ * @Last Modified time: 2024-01-09 16:32:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ import { memoStyles } from './styles'
 function TagsWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showTags[1]) return null
 
-  const { showTags, subjectTagsExpand, subjectTagsRec, focusOrigin } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_TAGS)} />
@@ -26,11 +25,11 @@ function TagsWrap({ onBlockRef }, { $, navigation }: Ctx) {
         styles={memoStyles()}
         subjectId={$.subjectId}
         subjectType={$.subjectType}
-        showTags={showTags}
-        subjectTagsExpand={subjectTagsExpand}
-        subjectTagsRec={subjectTagsRec}
+        showTags={systemStore.setting.showTags}
+        subjectTagsExpand={systemStore.setting.subjectTagsExpand}
+        subjectTagsRec={systemStore.setting.subjectTagsRec}
         rank={$.rank}
-        focusOrigin={focusOrigin}
+        focusOrigin={systemStore.setting.focusOrigin}
         tag={$.collection.tag}
         tags={$.tags}
         animeTags={$.animeTags}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 01:00:57
+ * @Last Modified time: 2024-01-09 16:26:44
  */
 import React from 'react'
 import { InView, ItemComment } from '@_'
@@ -16,11 +16,11 @@ function Item(
   { index, time, avatar, userId, userName, star, comment, relatedId },
   { $, navigation }: Ctx
 ) {
-  const { rendered } = $.state
-  if (!rendered) return null
+  if (!$.state.rendered) return null
 
-  const { blockUserIds } = rakuenStore.setting
-  if (getIsBlockUser(blockUserIds, userName, userId, `Subject|${$.subjectId}`)) {
+  if (
+    getIsBlockUser(rakuenStore.setting.blockUserIds, userName, userId, `Subject|${$.subjectId}`)
+  ) {
     return null
   }
 

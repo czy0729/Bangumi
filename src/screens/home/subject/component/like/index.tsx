@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 07:31:46
+ * @Last Modified time: 2024-01-09 16:27:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,12 @@ import { COMPONENT } from './ds'
 function LikeWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showLike[1]) return null
 
-  const { showLike } = systemStore.setting
   return (
     <>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_LIKE)} />
       <Like
         navigation={navigation}
-        showLike={showLike}
+        showLike={systemStore.setting.showLike}
         subjectId={$.subjectId}
         like={$.like}
         onSwitchBlock={$.onSwitchBlock}
