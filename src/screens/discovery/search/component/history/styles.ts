@@ -10,9 +10,6 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     paddingHorizontal: _.wind
   },
-  content: {
-    paddingVertical: _.sm
-  },
   close: {
     padding: _.sm,
     marginLeft: _.md,

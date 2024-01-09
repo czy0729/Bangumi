@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-20 10:14:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:23:36
+ * @Last Modified time: 2024-01-09 12:24:47
  */
 import { _ } from '@stores'
 
@@ -13,13 +13,14 @@ export const memoStyles = _.memoStyles(() => ({
     top: 0,
     right: 0
   },
-  book: {
+  wrap: {
     position: 'absolute',
     zIndex: 1,
     top: 0,
-    right: -4,
-    backgroundColor: _.select(_.colorIcon, _._colorDarkModeLevel2),
-    borderRadius: _.radiusXs
+    right: -4
+  },
+  book: {
+    backgroundColor: _.select(_.colorIcon, _._colorDarkModeLevel2)
   },
   line: {
     position: 'absolute',

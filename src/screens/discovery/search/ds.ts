@@ -8,7 +8,9 @@ import { _ } from '@stores'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import { Loaded, RatingStatus, SearchCat, SearchLegacy } from '@types'
 
-export const NAMESPACE = 'ScreenSearch'
+export const COMPONENT = 'Search'
+
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const DEFAULT_CAT = MODEL_SEARCH_CAT.getValue<SearchCat>('动画')
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 17:49:42
+ * @Last Modified time: 2024-01-09 13:27:12
  */
 import React from 'react'
 import { Input } from '@components'
@@ -10,17 +10,17 @@ import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants'
 import { SearchCatCn } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function SearchBar(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { cat, _value } = $.state
-  const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(cat)
+  const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat)
   return (
     <Input
       style={stl(styles.searchIpt, ['人物', '用户'].includes(label) && styles.radius)}
-      value={_value}
+      value={$.state._value}
       returnKeyType='search'
       returnKeyLabel='搜索'
       placeholder={$.isUser ? '输入完整的用户Id' : '输入关键字'}
@@ -33,4 +33,4 @@ function SearchBar(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SearchBar)
+export default obc(SearchBar, COMPONENT)

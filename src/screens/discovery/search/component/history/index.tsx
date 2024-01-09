@@ -2,25 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-17 02:19:00
+ * @Last Modified time: 2024-01-09 13:28:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Iconfont, Heatmap } from '@components'
+import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function History(props, { $ }: Ctx) {
-  const { history, value } = $.state
-  if (value !== '') return null
+  const { history } = $.state
+  if (!history.length || $.state.value !== '') return null
 
   const styles = memoStyles()
   return (
-    <View>
+    <View style={_.mt.sm}>
       {history.map(item => (
         <View key={item} style={styles.item}>
-          <Flex style={styles.content}>
+          <Flex>
             <Flex.Item>
               <Text size={15} bold onPress={() => $.selectHistory(item)}>
                 {item}
@@ -45,4 +47,4 @@ function History(props, { $ }: Ctx) {
   )
 }
 
-export default obc(History)
+export default obc(History, COMPONENT)

@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-31 15:03:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 15:54:08
+ * @Last Modified time: 2024-01-09 11:50:16
  */
 import { ComponentType } from 'react'
 import { r } from '@utils/dev'
+import { RERENDER_SHOW_DIFF } from '@/config'
 
+/** HOC, 通过代理来判断函数组件是否被重新渲染 */
 export function withDev<T extends ComponentType>(Component: T, devRerenderKey: string) {
   // 创建一个代理对象
   const ComponentProxy = new Proxy(Component, {
@@ -20,15 +22,18 @@ export function withDev<T extends ComponentType>(Component: T, devRerenderKey: s
   return ComponentProxy
 }
 
+/** 打印重渲染信息 */
 function devLog(devRerenderKey: string, argumentsList: object) {
-  r(devRerenderKey)
-  return
-
-  const props = {
-    ...argumentsList?.[0]
+  if (RERENDER_SHOW_DIFF) {
+    const props = {
+      ...argumentsList?.[0]
+    }
+    Object.entries(props).forEach(([key, value]) => {
+      if (['object', 'function'].includes(typeof value)) delete props[key]
+    })
+    r(devRerenderKey, props)
+    return
   }
-  Object.entries(props).forEach(([key, value]) => {
-    if (['object', 'function'].includes(typeof value)) delete props[key]
-  })
-  r(devRerenderKey, props)
+
+  r(devRerenderKey)
 }

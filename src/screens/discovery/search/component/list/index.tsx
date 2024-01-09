@@ -2,28 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 05:33:01
+ * @Last Modified time: 2024-01-09 13:26:39
  */
 import React from 'react'
-import { Loading, ListView, Heatmap } from '@components'
+import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
-import Item from './item'
+import { Ctx } from '../../types'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function List(props, { $ }: Ctx) {
-  const { searching } = $.state
-  if (searching) return <Loading style={_.container.flex} />
+  if ($.state.searching) return <Loading style={_.container.flex} />
 
-  const search = $.search()
-  if (!search._loaded) return null
+  if (!$.search._loaded) return null
 
   return (
     <ListView
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
-      data={search}
+      data={$.search}
       keyboardDismissMode='on-drag'
       scrollToTop
       renderItem={renderItem}
@@ -35,13 +34,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
-
-function renderItem({ item, index }) {
-  return (
-    <>
-      <Item item={item} index={index} />
-      {!index && <Heatmap id='搜索.跳转' />}
-    </>
-  )
-}
+export default obc(List, COMPONENT)

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:02:59
+ * @Last Modified time: 2024-01-09 11:44:02
  */
-import { observable, computed } from 'mobx'
-import { searchStore, userStore, collectionStore, subjectStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { collectionStore, searchStore, subjectStore, userStore } from '@stores'
 import { debounce, info, updateVisibleBottom, x18 } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY, HTML_SEARCH } from '@constants'
+import store from '@utils/store'
+import { HTML_SEARCH, MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import { Navigation, SearchCat, SearchCatCn, SearchLegacy, SubjectId } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
 export default class ScreenSearch extends store<typeof STATE> {
@@ -36,23 +36,22 @@ export default class ScreenSearch extends store<typeof STATE> {
     return this.doSearch(true)
   }
 
+  /** 本地化数据 */
   save = () => {
     return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }
 
   // -------------------- get --------------------
   /** 搜索结果 */
-  search() {
+  @computed get search() {
     const { cat, legacy, value } = this.state
-    return computed(() => {
-      const search = searchStore.search(value, cat, legacy)
-      if (!userStore.isLimit) return search
+    const search = searchStore.search(value, cat, legacy)
+    if (!userStore.isLimit) return search
 
-      return {
-        ...search,
-        list: search.list.filter(item => !x18(item.id))
-      }
-    }).get()
+    return {
+      ...search,
+      list: search.list.filter(item => !x18(item.id))
+    }
   }
 
   /** 搜索具体网址 */
@@ -72,7 +71,7 @@ export default class ScreenSearch extends store<typeof STATE> {
   /** 是否显示推荐词 */
   @computed get showAdvance() {
     const { focus, cat } = this.state
-    if (!focus || cat === 'mono_all' || cat === 'user' || this.search().list.length) {
+    if (!focus || cat === 'mono_all' || cat === 'user' || this.search.list.length) {
       return false
     }
 

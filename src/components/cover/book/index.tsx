@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-06-20 10:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 16:44:04
+ * @Last Modified time: 2024-01-09 12:25:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { Component } from '../../component'
-import { Squircle } from '../../squircle'
 import { Image } from '../../image'
+import { Squircle } from '../../squircle'
 import { memoStyles } from './styles'
 
 function Book({
@@ -37,13 +37,12 @@ function Book({
   }
   return (
     <Component id='component-cover' data-type='book' style={bookStyle}>
-      <View style={[styles.book, bookStyle]} />
-      <Squircle
-        style={styles.image}
-        width={bookWidth}
-        height={bookHeight}
-        radius={_.radiusXs}
-      >
+      <View style={styles.wrap}>
+        <Squircle width={bookWidth} height={bookHeight} radius={_.radiusXs}>
+          <View style={[styles.book, bookStyle]} />
+        </Squircle>
+      </View>
+      <Squircle style={styles.image} width={bookWidth} height={bookHeight} radius={_.radiusXs}>
         <Image
           style={imageStyle}
           src={src}
