@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 18:54:36
+ * @Last Modified time: 2024-01-09 14:19:51
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -12,11 +12,13 @@ import { MenuItemType, MenuMapType } from './types'
 
 export const COMPONENT = 'Discovery'
 
-export const NAMESPACE = 'ScreenDiscovery'
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
+
+  /** 构建列表数据 */
   home: {
     list: SUBJECT_TYPE.map(item => ({
       type: item.label
@@ -27,15 +29,19 @@ export const EXCLUDE_STATE = {
     },
     _loaded: getTimestamp()
   },
+
+  /** 是否显示剪贴板 Modal */
   visible: false,
 
+  /** 剪贴板 Modal Input */
+  link: '',
+
   /** 菜单编辑中 */
-  dragging: false,
-  expand: false,
-  link: ''
+  dragging: false
 }
 
 export const STATE = {
+  /** @deprecated 是否显示 2021 年鉴的动画 */
   showBlockTrain: true,
   ...EXCLUDE_STATE,
   _loaded: true as Loaded

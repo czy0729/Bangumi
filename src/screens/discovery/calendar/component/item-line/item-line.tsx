@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 23:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 21:43:25
+ * @Last Modified time: 2024-01-09 16:00:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,11 +11,10 @@ import { InView, Manage, Rank, Stars } from '@_'
 import { _, uiStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import { DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const SECTION_HEIGHT = _.window.height * 0.64
 
@@ -29,7 +28,7 @@ const ItemLine = memo(
     subjectId,
     name,
     desc,
-    images,
+    image,
     air,
     time,
     prevTime,
@@ -41,8 +40,6 @@ const ItemLine = memo(
     sites,
     onToggleExpand
   }) => {
-    rerender('Calendar.ItemLine.Main')
-
     const { minWidth: width, minHeight: height } = styles.inView
     const title = HTMLDecode(name)
     const size = title.length >= 20 ? 12 : title.length >= 14 ? 13 : 14
@@ -82,11 +79,11 @@ const ItemLine = memo(
                     navigation.push('Subject', {
                       subjectId,
                       _cn: name,
-                      _image: images?.medium
+                      _image: image
                     })
                   }}
                 >
-                  <Cover width={width} height={height} src={images?.medium} radius />
+                  <Cover width={width} height={height} src={image} radius />
                 </Touchable>
               </InView>
               <Flex.Item style={_.ml.md}>
@@ -152,7 +149,8 @@ const ItemLine = memo(
       </View>
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
 
 export default ItemLine

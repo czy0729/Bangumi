@@ -2,11 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-25 22:05:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 21:43:42
+ * @Last Modified time: 2024-01-09 15:30:37
  */
-import { Images, Navigation, SubjectId } from '@types'
-import { StoreType as $ } from '../types'
+import { rc } from '@utils/dev'
+import { Navigation, SubjectId } from '@types'
+import { StoreType as $ } from '../../types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+export const COMPONENT = rc(PARENT, 'ItemList')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
@@ -17,7 +23,7 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as SubjectId,
   name: '' as string,
   desc: '' as string,
-  images: {} as Images,
+  image: '' as string,
   air: '' as string,
   time: '2359' as string,
   prevTime: '' as string,

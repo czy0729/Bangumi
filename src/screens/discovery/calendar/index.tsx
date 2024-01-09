@@ -7,9 +7,9 @@
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
 import Header from './header'
-import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 

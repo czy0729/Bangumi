@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 12:22:47
+ * @Last Modified time: 2024-01-09 15:48:11
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { obc } from '@utils/decorators'
-import Extra from '../extra'
+import Extra from '../component/extra'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   const { type, _loaded } = $.state
@@ -30,4 +31,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

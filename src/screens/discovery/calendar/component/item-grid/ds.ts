@@ -2,20 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-09-01 14:07:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 15:32:26
+ * @Last Modified time: 2024-01-09 15:34:00
  */
-import { systemStore, _ } from '@stores'
-import { Images, Navigation, SubjectId, ViewStyle } from '@types'
+import { _, systemStore } from '@stores'
+import { rc } from '@utils/dev'
+import { Navigation, SubjectId } from '@types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+export const COMPONENT = rc(PARENT, 'ItemGrid')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   hideScore: false as (typeof systemStore)['setting']['hideScore'],
-  style: {} as ViewStyle,
   subjectId: 0 as SubjectId,
   name: '' as string,
-  images: {} as Images,
+  image: '' as string,
   score: '' as string | number,
   collection: '' as string,
   time: '2359' as string

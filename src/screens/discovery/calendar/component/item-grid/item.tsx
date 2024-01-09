@@ -2,33 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 15:42:29
+ * @Last Modified time: 2024-01-09 16:00:15
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Cover, Text } from '@components'
+import { Cover, Flex, Text, Touchable } from '@components'
 import { Stars } from '@_'
 import { _ } from '@stores'
-import { HTMLDecode, stl } from '@utils'
+import { HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { rerender } from '@utils/dev'
-import { DEFAULT_PROPS, HIT_SLOP } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
-export default memo(
-  ({
-    navigation,
-    styles,
-    hideScore,
-    style,
-    subjectId,
-    name,
-    images,
-    score,
-    collection,
-    time
-  }) => {
-    rerender('Calendar.Item.Main')
+const ItemGrid = memo(
+  ({ navigation, styles, hideScore, subjectId, name, image, score, collection, time }) => {
     const { width, height } = styles.cover
     const showScore = !hideScore && !!score
 
@@ -40,7 +27,7 @@ export default memo(
     middle = middle.join(' · ')
 
     return (
-      <View style={stl(styles.item, style)}>
+      <View style={styles.item}>
         <Touchable
           animate
           hitSlop={HIT_SLOP}
@@ -53,18 +40,18 @@ export default memo(
             navigation.push('Subject', {
               subjectId,
               _cn: name,
-              _image: images?.medium
+              _image: image
             })
           }}
         >
-          <Cover width={width} height={height} src={images?.medium} radius />
+          <Cover width={width} height={height} src={image} radius />
           <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={2} bold>
             {HTMLDecode(name)}
           </Text>
           <Flex style={_.mt.xs}>
             {showScore && <Stars value={score} simple />}
             {!!middle && (
-              <Text size={11} type='sub' bold>
+              <Text size={11} type='sub' bold noWrap>
                 {showScore && score ? ' · ' : ''}
                 {middle}
               </Text>
@@ -74,5 +61,8 @@ export default memo(
       </View>
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
+
+export default ItemGrid

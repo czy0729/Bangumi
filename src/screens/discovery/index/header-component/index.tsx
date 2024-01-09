@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:10:41
+ * @Last Modified time: 2024-01-09 14:54:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,19 +18,17 @@ import { memoStyles } from './styles'
 
 function HeaderComponent(props, { $ }: Ctx) {
   const styles = memoStyles()
-  const { dragging } = $.state
-  const { today } = $.home
   return (
     <>
       <StatusBarPlaceholder />
-      {!dragging && (
+      {!$.state.dragging && (
         <View>
           <Award />
           <Heatmap id='发现.跳转' to='Award' />
         </View>
       )}
       <SortMenu />
-      {!dragging && (
+      {!$.state.dragging && (
         <>
           <Flex style={styles.wrap}>
             {!!$.online && (
@@ -40,7 +38,7 @@ function HeaderComponent(props, { $ }: Ctx) {
             )}
             <Flex.Item>
               <Text align='right' size={12} numberOfLines={1}>
-                {$.today || today}
+                {$.today || $.home.today}
               </Text>
             </Flex.Item>
           </Flex>

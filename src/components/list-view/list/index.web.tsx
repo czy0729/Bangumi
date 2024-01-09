@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:23:43
+ * @Last Modified time: 2024-01-09 15:56:24
  */
 import React, { ReactNode } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { StorybookScroll } from '../../storybook'
-import { Flex } from '../../flex'
 import { AnyObject, Fn } from '@types'
+import { Flex } from '../../flex'
+import { StorybookScroll } from '../../storybook'
 
 function List({
   contentContainerStyle,
@@ -36,7 +36,7 @@ function List({
   let content: ReactNode
   if (sections) {
     content = sections.map((section: any, index: number) => (
-      <View key={`section-${index}`}>
+      <View key={`section-${index}`} style={_.container.block}>
         {renderSectionHeader({ section })}
         {(section.data || [])
           .map((item: any) => {

@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 21:45:27
+ * @Last Modified time: 2024-01-09 15:56:06
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Iconfont, Text } from '@components'
+import { Flex } from '@components'
 import { _ } from '@stores'
 import { CalendarItem } from '@stores/calendar/types'
 import { cnjp, date, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { getTime } from '../../utils'
 import ItemGrid from '../item-grid'
 import ItemLine from '../item-line'
-import { getTime } from '../utils'
-import { memoStyles } from './styles'
+import Line from './line'
 
 let day = new Date().getDay()
 if (day === 0) day = 7
@@ -93,18 +93,3 @@ function Item({ item, section }, { $ }: Ctx) {
 }
 
 export default obc(Item)
-
-function Line() {
-  const styles = memoStyles()
-  return (
-    <Flex>
-      <Flex.Item style={styles.line} />
-      <Iconfont name='md-access-time' color={_.colorMain} size={16} />
-      <Text style={_.ml.xs} type='main' bold>
-        {date('H:i', getTimestamp())}
-      </Text>
-      <Flex.Item style={styles.line} />
-      <Heatmap id='每日放送.跳转' />
-    </Flex>
-  )
-}

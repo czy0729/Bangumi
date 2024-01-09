@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 17:51:55
+ * @Last Modified time: 2024-01-09 15:44:58
  */
 import React from 'react'
 import { ListView } from '@components'
-import { SectionHeader } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import Item from '../item'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { renderItem, renderSectionHeader } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function List(props, { $ }: Ctx) {
@@ -36,17 +36,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
-
-function renderSectionHeader({ section: { title } }) {
-  const styles = memoStyles()
-  return (
-    <SectionHeader style={styles.section} size={14}>
-      {title}
-    </SectionHeader>
-  )
-}
-
-function renderItem({ item, section = {} }) {
-  return <Item item={item} section={section} />
-}
+export default obc(List, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:11:23
+ * @Last Modified time: 2024-01-09 14:18:46
  */
 import { computed, observable } from 'mobx'
 import { calendarStore, discoveryStore, systemStore, usersStore, userStore } from '@stores'
@@ -21,7 +21,7 @@ import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
 import { STORYBOOK, SUBJECT_TYPE } from '@constants'
 import { Navigation, SubjectType } from '@types'
-import { EXCLUDE_STATE, MenuMapType, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenDiscovery extends store<typeof STATE> {
   state = observable(STATE)
@@ -214,7 +214,7 @@ export default class ScreenDiscovery extends store<typeof STATE> {
   /** 发现页自定义菜单 */
   @computed get discoveryMenu() {
     const { setting } = systemStore
-    return setting.discoveryMenu as MenuMapType[]
+    return setting.discoveryMenu
   }
 
   /** 发现页今日放送 */
@@ -230,22 +230,6 @@ export default class ScreenDiscovery extends store<typeof STATE> {
   }
 
   // -------------------- action --------------------
-  /** 展开菜单 */
-  openMenu = () => {
-    this.setState({
-      expand: true
-    })
-    this.save()
-  }
-
-  /** 收起菜单 */
-  closeMenu = () => {
-    this.setState({
-      expand: false
-    })
-    this.save()
-  }
-
   /** 刷新到顶函数引用 */
   scrollToIndex: any
 
