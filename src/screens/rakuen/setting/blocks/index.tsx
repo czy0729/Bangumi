@@ -6,14 +6,14 @@
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Iconfont, Input } from '@components'
+import { Flex, Iconfont, Input, Touchable } from '@components'
 import { _, rakuenStore } from '@stores'
 import { info } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import Block from '../../../user/setting/block'
-import Tip from '../../../user/setting/tip'
-import History from './../history'
+import { useObserver } from '@utils/hooks'
+import Block from '../../../user/setting/component/block'
+import Tip from '../../../user/setting/component/tip'
+import History from '../history'
 import { memoStyles } from './styles'
 
 function Blocks({ navigation, onNavigate = undefined }) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-17 15:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-21 08:31:25
+ * @Last Modified time: 2024-01-11 04:51:41
  */
 import { t2s } from '@utils/thirdParty/cn-char'
 
@@ -42,10 +42,7 @@ export function getShow(filter: string, texts: Readonly<object>) {
  * @param filter
  * @param textsAll
  */
-export function getShows<T extends Record<string, object>>(
-  filter: string,
-  textsAll: T
-) {
+export function getShows<T extends Record<string, object>>(filter: string, textsAll: T) {
   const shows = {}
   if (!filter) {
     Object.keys(textsAll).forEach(key => (shows[key] = true))

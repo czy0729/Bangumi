@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-05-18 00:08:05
  */
 import React from 'react'
-import { Page, ScrollView, SwitchPro, Flex, SegmentedControl, Text } from '@components'
+import { Flex, Page, ScrollView, SegmentedControl, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, rakuenStore, uiStore } from '@stores'
 import { ob } from '@utils/decorators'
@@ -17,11 +17,11 @@ import {
   RAKUEN_SUB_EXPAND
 } from '@constants'
 import { Navigation } from '@types'
-import Block from '../../../user/setting/block'
-import Tip from '../../../user/setting/tip'
+import Block from '../../../user/setting/component/block'
+import Tip from '../../../user/setting/component/tip'
 import Blocks from '../blocks'
-import { memoStyles } from './styles'
 import { getYuqueThumbs } from './utils'
+import { memoStyles } from './styles'
 
 const scrollDirectionDS = RAKUEN_SCROLL_DIRECTION.map(item => item.label)
 const subExpandDS = RAKUEN_SUB_EXPAND.map(item => item.label)
@@ -133,9 +133,7 @@ class RakuenSetting extends React.Component<{
                   title: '楼层导航条方向',
                   value: title
                 })
-                rakuenStore.setScrollDirection(
-                  MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title)
-                )
+                rakuenStore.setScrollDirection(MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title))
               }}
             />
           }
@@ -354,9 +352,7 @@ class RakuenSetting extends React.Component<{
               backgroundColor={_.select(_.colorBg, _.colorPlain)}
               size={12}
               values={subExpandDS}
-              selectedIndex={RAKUEN_SUB_EXPAND.findIndex(
-                item => item.value === subExpand
-              )}
+              selectedIndex={RAKUEN_SUB_EXPAND.findIndex(item => item.value === subExpand)}
               onValueChange={title => {
                 t('超展开设置.切换', {
                   title: '子楼层折叠',
@@ -437,10 +433,7 @@ class RakuenSetting extends React.Component<{
     const { navigation } = this.props
     return (
       <Page style={_.select(_.container.bg, _.container.plain)}>
-        <ScrollView
-          contentContainerStyle={this.styles.container}
-          onScroll={this.onScroll}
-        >
+        <ScrollView contentContainerStyle={this.styles.container} onScroll={this.onScroll}>
           {this.renderLikes()}
           {this.renderTopic()}
           {this.renderSlider()}
