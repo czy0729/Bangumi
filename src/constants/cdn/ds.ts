@@ -1,13 +1,25 @@
 /*
- * jsDelivr 国内待废弃
- *
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-17 06:42:08
+ * @Last Modified time: 2024-01-10 19:55:02
  */
 import { get } from '@utils/crypto'
 
+/** DogeCloud */
+export const HOST_DOGE = get(
+  'U2FsdGVkX1/PXY2zMa9hDyRFAFjsZXNSzJvNrxUaQ3gBWUMfsMwK2psySTo4/gKoeTo2WcMavXPewMdpH0G+AA=='
+) as string
+
+/** DogeCloud */
+export const HOST_CDN_AVATAR = get(
+  'U2FsdGVkX19B9z0TLPcopsUYzdq1hhviuF8j4ZjtcA+ho5Zr2/GAfv31rFzztvUJ'
+) as string
+
+/** https://github.com/czy0729/Bangumi-Rakuen */
+export const VERSION_RAKUEN = '20240110'
+
+/** ==================== @deprecated ==================== */
 /** @deprecated cdn | fastly | gcore | originfastly */
 export const HOST_CDN_FASTLY = 'https://fastly.jsdelivr.net'
 
@@ -17,20 +29,8 @@ export const HOST_CDN_ONEDRIVE = 'https://bangumi.stdcdn.com'
 /** @deprecated OneDrive Static File */
 export const HOST_CDN_STATIC = 'https://bangumi-static.stdcdn.com'
 
-/** DogeCloud */
-export const HOST_DOGE = get(
-  'U2FsdGVkX1/PXY2zMa9hDyRFAFjsZXNSzJvNrxUaQ3gBWUMfsMwK2psySTo4/gKoeTo2WcMavXPewMdpH0G+AA=='
-) as string
-
-export const HOST_CDN_AVATAR = get(
-  'U2FsdGVkX19B9z0TLPcopsUYzdq1hhviuF8j4ZjtcA+ho5Zr2/GAfv31rFzztvUJ'
-) as string
-
 /** @deprecated https://github.com/czy0729/Bangumi-Static */
 export const VERSION_STATIC = '20220624'
-
-/** https://github.com/czy0729/Bangumi-Rakuen */
-export const VERSION_RAKUEN = '20231017'
 
 /** @deprecated https://github.com/czy0729/Bangumi-OSS/tree/master/data/avatar/m */
 export const VERSION_AVATAR = '20220102'

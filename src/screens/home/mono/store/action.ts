@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-21 18:36:22
+ * @Last Modified time: 2024-01-10 04:42:22
  */
 import { tinygrailStore, userStore } from '@stores'
 import { feedback, info, loading, open, removeHTMLTag } from '@utils'
-import { fetchHTML, t, baiduTranslate } from '@utils/fetch'
+import { baiduTranslate, fetchHTML, t } from '@utils/fetch'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
 import { Id, Navigation } from '@types'
@@ -29,9 +29,7 @@ export default class Action extends Fetch {
   toggleExpand = (id: Id) => {
     const { expands } = this.state
     this.setState({
-      expands: expands.includes(id)
-        ? expands.filter(item => item !== id)
-        : [...expands, id]
+      expands: expands.includes(id) ? expands.filter(item => item !== id) : [...expands, id]
     })
   }
 

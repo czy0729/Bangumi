@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-02 15:16:53
  */
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
 import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 
@@ -29,6 +29,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
             opacity: unset;
             inset: unset;
           `
+          img.src = uri
         }
       }
     }

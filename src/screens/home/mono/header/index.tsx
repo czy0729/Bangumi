@@ -5,13 +5,14 @@
  * @Last Modified time: 2022-08-25 19:26:02
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Heatmap } from '@components'
-import { copy, cnjp, open } from '@utils'
+import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { cnjp, copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import HeaderTitle from '../header-title'
-import Extra from '../extra'
+import Extra from '../component/extra'
+import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   return (
@@ -20,6 +21,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       statusBarEventsType='Topic'
       fixed={fixed}
       title='人物'
+      domTitle={$.jp || $.cn}
       hm={[$.url, 'Mono']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
@@ -42,10 +44,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
                   break
 
                 case '复制分享':
-                  copy(
-                    `【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`,
-                    '已复制分享文案'
-                  )
+                  copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`, '已复制分享文案')
                   break
 
                 default:
@@ -61,4 +60,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)
