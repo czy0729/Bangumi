@@ -2,24 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-07-27 05:22:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 15:46:43
+ * @Last Modified time: 2024-01-11 05:21:58
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
+import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 import ToolBar from '../tool-bar'
-import { Ctx } from '../types'
-import Item from './item'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function List(props, { $ }: Ctx) {
-  const { show, layout, fixed } = $.state
-  const { _loaded } = $.list
-  if (!_loaded || !show) {
+  if (!$.list._loaded || !$.state.show) {
     return (
       <>
-        {!fixed && <ToolBar />}
+        {!$.state.fixed && <ToolBar />}
         <Loading />
       </>
     )
@@ -28,13 +27,13 @@ function List(props, { $ }: Ctx) {
   const numColumns = $.isList ? undefined : _.portrait(3, 5)
   return (
     <ListView
-      key={`${layout}${numColumns}`}
+      key={`${$.state.layout}${numColumns}`}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       numColumns={numColumns}
       data={$.list}
       lazy={9}
-      ListHeaderComponent={!fixed && <ToolBar />}
+      ListHeaderComponent={!$.state.fixed && <ToolBar />}
       renderItem={renderItem}
       scrollToTop
       scrollEventThrottle={4}
@@ -45,8 +44,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
-
-function renderItem({ item, index }) {
-  return <Item item={item} index={index} />
-}
+export default obc(List, COMPONENT)

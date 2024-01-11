@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:01:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:56:17
+ * @Last Modified time: 2024-01-11 05:14:44
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
+import ToolBar from './component/tool-bar'
 import Header from './header'
-import ToolBar from './tool-bar'
-import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -19,18 +19,15 @@ const Browser = (props, { $ }: Ctx) => {
     $.init()
   })
 
-  return useObserver(() => {
-    const { fixed } = $.state
-    return (
-      <Component id='screen-browser'>
-        <Header />
-        <Page>
-          {fixed && <ToolBar />}
-          {$.state._loaded && <List />}
-        </Page>
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-browser'>
+      <Header />
+      <Page>
+        {$.state.fixed && <ToolBar />}
+        {$.state._loaded && <List />}
+      </Page>
+    </Component>
+  ))
 }
 
 export default ic(Store, Browser)

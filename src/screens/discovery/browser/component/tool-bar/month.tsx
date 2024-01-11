@@ -8,7 +8,7 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { obc } from '@utils/decorators'
 import { DATA_BROWSER_MONTH } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Month(props, { $ }: Ctx) {
   const { month } = $.state

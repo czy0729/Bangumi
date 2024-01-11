@@ -9,7 +9,7 @@ import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_BROWSER_SORT } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Sort(props, { $ }: Ctx) {
   const { sort } = $.state

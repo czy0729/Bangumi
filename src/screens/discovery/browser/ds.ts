@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:28:39
+ * @Last Modified time: 2024-01-11 05:15:48
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { BrowserSort, Loaded, SubjectType } from '@types'
 
-export const DATE = new Date()
+export const COMPONENT = 'Browser'
 
-export const NAMESPACE = 'ScreenBrowser'
+export const NAMESPACE = `Screen${COMPONENT}`
+
+export const DATE = new Date()
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

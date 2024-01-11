@@ -2,20 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 08:05:00
+ * @Last Modified time: 2024-01-11 05:28:54
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Heatmap } from '@components'
+import { Flex, Header as CompHeader, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { STORYBOOK, URL_SPA } from '@constants'
+import { t } from '@utils/fetch'
+import { URL_SPA } from '@constants'
 import { Ctx } from '../types'
-
-const TEXT_BROWSER = '浏览器查看'
-const TEXT_SPA = '网页版查看'
-const DATA = [TEXT_BROWSER]
-if (!STORYBOOK) DATA.push(TEXT_SPA)
+import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
@@ -47,4 +43,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

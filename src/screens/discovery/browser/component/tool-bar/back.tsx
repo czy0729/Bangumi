@@ -8,16 +8,10 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Back(props, { $ }: Ctx) {
-  return (
-    <ToolBar.Icon
-      icon='md-arrow-back'
-      iconColor={_.colorDesc}
-      onSelect={$.onAirdatePrev}
-    />
-  )
+  return <ToolBar.Icon icon='md-arrow-back' iconColor={_.colorDesc} onSelect={$.onAirdatePrev} />
 }
 
 export default obc(Back)

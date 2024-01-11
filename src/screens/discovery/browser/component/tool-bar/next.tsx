@@ -8,16 +8,10 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Next(props, { $ }: Ctx) {
-  return (
-    <ToolBar.Icon
-      icon='md-arrow-forward'
-      iconColor={_.colorDesc}
-      onSelect={$.onAirdateNext}
-    />
-  )
+  return <ToolBar.Icon icon='md-arrow-forward' iconColor={_.colorDesc} onSelect={$.onAirdateNext} />
 }
 
 export default obc(Next)
