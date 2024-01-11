@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:27:14
+ * @Last Modified time: 2024-01-11 16:31:36
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Text, Highlight, Touchable, UserStatus } from '@components'
+import { Component, Flex, Highlight, Text, Touchable, UserStatus } from '@components'
 import { _, discoveryStore } from '@stores'
-import { lastDate, getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
-import { t } from '@utils/fetch'
+import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { InView, Avatar } from '../../base'
+import { Avatar, InView } from '../../base'
 import Covers from './covers'
 import { AVATAR_WIDTH } from './ds'
 import { memoStyles } from './styles'
@@ -105,13 +105,8 @@ export const ItemCatalog = obc(
               <Covers list={list} total={oss?.total} />
             </InView>
             <Flex.Item>
-              <Flex
-                style={styles.content}
-                direction='column'
-                justify='between'
-                align='start'
-              >
-                <View>
+              <Flex style={styles.content} direction='column' justify='between' align='start'>
+                <View style={_.container.block}>
                   <Highlight bold numberOfLines={3} value={filter} t2s={false}>
                     {_title}
                   </Highlight>

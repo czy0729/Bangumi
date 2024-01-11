@@ -2,31 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:18:51
+ * @Last Modified time: 2024-01-11 16:21:42
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { date, getTimestamp, HTMLDecode, info, removeHTMLTag, x18s } from '@utils'
-import store from '@utils/store'
-import { t, queue } from '@utils/fetch'
+import { queue, t } from '@utils/fetch'
 import { update } from '@utils/kv'
-import catalogs from '@assets/json/catalogs.json'
-import { Id, SubjectTypeCn } from '@types'
+import { decode, get } from '@utils/protobuf'
+import store from '@utils/store'
+import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
+import { Id, SubjectType, SubjectTypeCn } from '@types'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { TypeLabel } from './types'
-import {
-  APP_USERID_IOS_AUTH,
-  APP_USERID_TOURIST,
-  MODEL_SUBJECT_TYPE,
-  STORYBOOK
-} from '@constants'
-import { NAMESPACE, STATE } from './ds'
 
 export default class ScreenCatalog extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
+      ...state,
+      ...EXCLUDE_STATE,
+      loadedCatalog: !!get('catalog')?.length,
       _loaded: true
     })
 
@@ -36,10 +34,17 @@ export default class ScreenCatalog extends store<typeof STATE> {
   // -------------------- fetch --------------------
   /** 目录 */
   fetchCatalog = async () => {
-    const { type, page } = this.state
+    const { type, page, loadedCatalog } = this.state
 
     let data: any[]
     if (type === 'advance') {
+      if (!loadedCatalog) {
+        await decode('catalog')
+        this.setState({
+          loadedCatalog: true
+        })
+      }
+
       data = this.catalogAdvanceFilter.list
     } else {
       data = await discoveryStore.fetchCatalog({
@@ -84,18 +89,7 @@ export default class ScreenCatalog extends store<typeof STATE> {
   /** 上传目录详情 */
   updateCatalogDetail = data => {
     setTimeout(() => {
-      const {
-        id,
-        title,
-        info,
-        content,
-        avatar,
-        nickname,
-        userId,
-        time,
-        collect,
-        list
-      } = data
+      const { id, title, info, content, avatar, nickname, userId, time, collect, list } = data
 
       const desc = HTMLDecode(removeHTMLTag(info || content))
       update(`catalog_${id}`, {
@@ -125,9 +119,12 @@ export default class ScreenCatalog extends store<typeof STATE> {
   // -------------------- get --------------------
   /** 目录 (高级) */
   @computed get catalogAdvance() {
-    return catalogs.map(item => {
+    const { loadedCatalog } = this.state
+    if (!loadedCatalog) return []
+
+    return get('catalog').map(item => {
       // 计算这个目录大部分是什么类型的条目
-      let _type: string
+      let _type: SubjectType
       if (item.r >= Math.max(item.a || 0, item.b || 0, item.m || 0, item.g || 0)) {
         _type = 'real'
       } else if (item.g >= Math.max(item.a || 0, item.b || 0, item.m || 0)) {
@@ -298,7 +295,7 @@ export default class ScreenCatalog extends store<typeof STATE> {
   }
 
   /** 高级筛选 */
-  onFilterChange = (key: string, value: string) => {
+  onFilterChange = (key: string, value: string | number) => {
     this.setState({
       page: 1,
       show: false,

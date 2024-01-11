@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-01-03 23:32:10
  */
 import { isObservableArray } from 'mobx'
+import { STORYBOOK } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
 import x18Data from '@assets/json/18x.json'
@@ -105,7 +106,7 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
 
 /** 简单控制请求频率工具函数, 若不需要发请求返回 true */
 export function opitimize(data: any, s = 60) {
-  if (!data?._loaded) return false
+  if (STORYBOOK || !data?._loaded) return false
 
   return getTimestamp() - Number(data?._loaded || 0) < s
 }

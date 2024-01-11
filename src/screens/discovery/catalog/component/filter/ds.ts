@@ -2,14 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-09-06 19:11:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 14:47:32
+ * @Last Modified time: 2024-01-11 15:48:40
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Filter')
+
 export const TYPE_DS = ['不限', '动画', '书籍', '游戏', '音乐', '三次元'] as const
 
 export const YEAR_DS = [
   '不限',
   '近1年',
   '近3年',
+  2024,
   2023,
   2022,
   2021,

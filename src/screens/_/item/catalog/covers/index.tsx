@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:52:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 06:03:01
+ * @Last Modified time: 2024-01-11 16:24:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { ob } from '@utils/decorators'
+import { CATALOG_WIDTH, WIDTH } from '../ds'
 import { Cover } from '../../../base'
-import { WIDTH, CATALOG_WIDTH } from '../ds'
 import { memoStyles } from './styles'
 
 function Covers({ list, total = 0 }) {
@@ -36,7 +36,7 @@ function Covers({ list, total = 0 }) {
           }
         ]}
       />
-      <Flex style={styles.thumbs} wrap='wrap'>
+      <Flex style={styles.thumbs} align='start' wrap='wrap'>
         {list
           .filter((item, index: number) => index < 3)
           .map(item => (

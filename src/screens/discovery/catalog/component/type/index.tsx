@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-01-05 20:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 21:27:17
+ * @Last Modified time: 2024-01-11 16:21:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, SegmentedControl } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Ctx, TypeType } from '../../types'
 import More from '../more'
-import { Ctx, TypeType } from '../types'
+import { COMPONENT, TYPE_DS } from './ds'
 import { styles } from './styles'
-
-const TYPE_DS = ['高级', '最新', '热门'] as const
 
 let type: any
 
@@ -43,4 +42,4 @@ function Type({ $ }: Ctx) {
   )
 }
 
-export default ob(Type)
+export default ob(Type, COMPONENT)

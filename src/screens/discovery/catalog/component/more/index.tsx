@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:18:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-06 21:26:53
+ * @Last Modified time: 2024-01-11 16:14:27
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { ob } from '@utils/decorators'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 
 function More({ $ }: Ctx) {
   const { fixedFilter, fixedPagination } = $?.state || {}
@@ -23,7 +24,7 @@ function More({ $ }: Ctx) {
       iconSize={20}
       type='desc'
       transparent
-      onSelect={title => {
+      onSelect={(title: string) => {
         if (title.includes('选项')) return $.onToggleFixed('fixedFilter')
         if (title.includes('分页')) return $.onToggleFixed('fixedPagination')
       }}
@@ -31,4 +32,4 @@ function More({ $ }: Ctx) {
   )
 }
 
-export default obc(More)
+export default ob(More, COMPONENT)

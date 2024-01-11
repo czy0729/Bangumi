@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-09-06 18:13:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:47:40
+ * @Last Modified time: 2024-01-11 16:06:55
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Flex, Text, Touchable } from '@components'
+import { Flex, ScrollView, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../types'
-import { FILTER_DS } from './ds'
+import { Ctx } from '../../types'
+import { COMPONENT, FILTER_DS } from './ds'
 import { memoStyles } from './styles'
 
 function Filter(props, { $ }: Ctx) {
-  const { type } = $.state
-  if (type !== 'advance') return null
+  if ($.state.type !== 'advance') return null
 
   const styles = memoStyles()
   return (
@@ -35,7 +34,7 @@ function Filter(props, { $ }: Ctx) {
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
             >
-              {item.data.map((i, index) => {
+              {item.data.map((i: (typeof item.data)[number], index: number) => {
                 // 因为只设计了一行, 屏幕外面的选择了, 复制一个放在前面用于提示
                 if (
                   item.key === 'filterKey' &&
@@ -83,4 +82,4 @@ function Filter(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Filter)
+export default obc(Filter, COMPONENT)
