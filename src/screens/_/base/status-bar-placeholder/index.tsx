@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 14:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 01:12:00
+ * @Last Modified time: 2024-01-14 03:55:28
  */
 import React from 'react'
 import Constants from 'expo-constants'
@@ -10,6 +10,7 @@ import { Component } from '@components'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { WSA } from '@constants'
+import { COMPONENT } from './ds'
 import { Props as StatusBarPlaceholderProps } from './types'
 
 export { StatusBarPlaceholderProps }
@@ -29,4 +30,4 @@ export const StatusBarPlaceholder = ob(({ style }: StatusBarPlaceholderProps) =>
       )}
     />
   )
-})
+}, COMPONENT)

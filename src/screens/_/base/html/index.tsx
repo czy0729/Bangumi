@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-16 10:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 01:06:02
+ * @Last Modified time: 2024-01-14 03:19:00
  */
 import React, { useCallback, useState } from 'react'
 import { Component, Expand, RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate, open } from '@utils'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 
 /** 初始带截断的渲染 html, 用于优化渲染过长的 html */
 export const HTML = ({
@@ -20,6 +22,8 @@ export const HTML = ({
   matchLink,
   event
 }) => {
+  r(COMPONENT)
+
   const [expand, setExpand] = useState(false)
   const onExpand = useCallback(() => {
     setExpand(true)

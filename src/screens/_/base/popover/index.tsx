@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 10:35:54
+ * @Last Modified time: 2024-01-14 03:47:10
  */
 import React from 'react'
-import { Popover as CompPopover, PopoverProps, Menu, Component } from '@components'
+import { Component, Menu, Popover as CompPopover, PopoverProps } from '@components'
 import { Popover as CompPopoverOld } from '@components/popover/old'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
+import { COMPONENT } from './ds'
 
 const Popover = ob(
   ({
@@ -40,7 +41,8 @@ const Popover = ob(
         </CompPopover>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )
 
 // @ts-expect-error

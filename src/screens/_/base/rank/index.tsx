@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 04:25:53
+ * @Last Modified time: 2024-01-14 03:49:23
  */
 import React from 'react'
 import { Component, Text } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { fontSize } from '@styles'
 import { STORYBOOK } from '@constants'
+import { fontSize } from '@styles'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as RankProps } from './types'
 
@@ -41,4 +42,4 @@ export const Rank = ob(({ style, size = 10, value }: RankProps) => {
       </Text>
     </Component>
   )
-})
+}, COMPONENT)

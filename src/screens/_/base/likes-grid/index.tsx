@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:32:42
+ * @Last Modified time: 2024-01-14 03:22:53
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
@@ -13,23 +13,12 @@ import { LIKE_TYPE_TIMELINE } from '@constants'
 import { BlurView } from '../blur-view'
 import Grid from './grid'
 import { getPosition } from './utils'
-import { DATA, DATA_TIMELINE } from './ds'
+import { COMPONENT, DATA, DATA_TIMELINE } from './ds'
 import { memoStyles } from './styles'
 
 /** 贴贴浮出选择框 */
 export const LikesGrid = ob(
-  ({
-    visible,
-    portalKey,
-    x,
-    y,
-    value,
-    topicId,
-    floorId,
-    formhash,
-    likeType,
-    offsets
-  }) => {
+  ({ visible, portalKey, x, y, value, topicId, floorId, formhash, likeType, offsets }) => {
     if (!rakuenStore.setting.likes) return null
 
     const styles = memoStyles()
@@ -76,5 +65,6 @@ export const LikesGrid = ob(
         </Portal>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

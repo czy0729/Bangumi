@@ -2,8 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-14 12:15:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-06 19:41:56
+ * @Last Modified time: 2024-01-14 03:16:31
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'FolderSMB')
 
 /** 文件类型排序 */
 export const SORT_ORDER = {

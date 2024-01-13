@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-23 08:43:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 00:11:47
+ * @Last Modified time: 2024-01-14 03:51:14
  */
 import React from 'react'
 import { Component, Flex, Text } from '@components'
 import { _ } from '@stores'
-import { stl, getRating } from '@utils'
+import { getRating, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ScoreTagProps } from './types'
 
@@ -26,4 +27,4 @@ export const ScoreTag = ob(({ style, value = 0 }: ScoreTagProps) => {
       </Flex>
     </Component>
   )
-})
+}, COMPONENT)

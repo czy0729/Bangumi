@@ -2,10 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 18:58:24
+ * @Last Modified time: 2024-01-14 03:14:27
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { rc } from '@utils/dev'
+import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'FolderManageModal')
 
 export const STORAGE_KEY = 'FolderManageModal|expand'
 

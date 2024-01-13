@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 03:11:42
+ * @Last Modified time: 2024-01-14 03:10:11
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont, Heatmap, Component } from '@components'
+import { Component, Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { info, stl, isArray } from '@utils'
+import { info, isArray, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
 import { FilterSwitch } from '../filter-switch'
 import { scrollToX } from './utils'
-import { HIT_SLOP } from './ds'
+import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterProps } from './types'
 
@@ -53,27 +53,14 @@ export const Filter = obc(
             const multiple = item.multiple
             const multiSelect = item.multiSelect
             return (
-              <Flex
-                key={item.title}
-                style={styles.row}
-                align={multiple ? 'start' : 'center'}
-              >
+              <Flex key={item.title} style={styles.row} align={multiple ? 'start' : 'center'}>
                 <View>
                   <View>
-                    <Text
-                      style={multiple && styles.multipleTitle}
-                      size={12}
-                      bold
-                      noWrap
-                    >
+                    <Text style={multiple && styles.multipleTitle} size={12} bold noWrap>
                       {item.title}
                     </Text>
                     {multiSelect && (
-                      <Touchable
-                        style={styles.how}
-                        useRN
-                        onPress={() => info('长按标签多选类型')}
-                      >
+                      <Touchable style={styles.how} useRN onPress={() => info('长按标签多选类型')}>
                         <Text size={12} lineHeight={12} type='icon' bold noWrap>
                           多选
                         </Text>
@@ -87,9 +74,8 @@ export const Filter = obc(
                     <Touchable
                       style={stl(
                         styles.item,
-                        (typeof state === 'object'
-                          ? state.length === 0
-                          : state === '') && styles.itemActive,
+                        (typeof state === 'object' ? state.length === 0 : state === '') &&
+                          styles.itemActive,
                         multiple && {
                           marginTop: _.r(4)
                         }
@@ -121,9 +107,7 @@ export const Filter = obc(
                             <Flex key={idx} style={styles.contentContainerStyle}>
                               {i.map(tag => {
                                 const isActive =
-                                  typeof state === 'object'
-                                    ? state.includes(tag)
-                                    : state === tag
+                                  typeof state === 'object' ? state.includes(tag) : state === tag
                                 return (
                                   <Touchable
                                     key={tag}
@@ -171,9 +155,8 @@ export const Filter = obc(
                                 key={i}
                                 style={stl(
                                   styles.item,
-                                  (typeof state === 'object'
-                                    ? state.includes(i)
-                                    : state === i) && styles.itemActive
+                                  (typeof state === 'object' ? state.includes(i) : state === i) &&
+                                    styles.itemActive
                                 )}
                                 hitSlop={HIT_SLOP}
                                 onPress={() => $?.onSelect(item.type, i)}
@@ -237,5 +220,6 @@ export const Filter = obc(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

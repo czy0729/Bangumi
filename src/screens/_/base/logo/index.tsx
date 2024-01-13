@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:40:02
+ * @Last Modified time: 2024-01-14 03:29:42
  */
 import React from 'react'
-import { Touchable, Flex, Iconfont, Component } from '@components'
+import { Component, Flex, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { info } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as LogoProps } from './types'
 
@@ -61,5 +62,6 @@ export const Logo = obc(
         </Flex>
       </Touchable>
     </Component>
-  )
+  ),
+  COMPONENT
 )

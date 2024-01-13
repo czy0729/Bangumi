@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 15:51:13
+ * @Last Modified time: 2024-01-14 03:31:16
  */
 import React from 'react'
-import { Touchable, Flex, Component } from '@components'
+import { Component, Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { HOST, STORYBOOK } from '@constants'
 import { IconTouchable } from '../../icon/touchable'
-import Flip from './flip'
 import Content from './content'
-import { HIT_SLOP } from './ds'
+import Flip from './flip'
+import { COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 import { Props as ManageProps } from './types'
 
@@ -110,5 +110,6 @@ export const Manage = ob(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

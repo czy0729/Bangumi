@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 00:23:18
+ * @Last Modified time: 2024-01-14 03:53:06
  */
 import React from 'react'
-import { Text, Touchable, Iconfont, Flex, Component } from '@components'
+import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { getRating, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as StarGroupProps } from './types'
 
@@ -130,5 +131,6 @@ export const StarGroup = ob(
         </Component>
       )
     }
-  }
+  },
+  COMPONENT
 )

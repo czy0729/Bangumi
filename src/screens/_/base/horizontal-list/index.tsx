@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:14:50
+ * @Last Modified time: 2024-01-14 03:18:18
  */
 import React from 'react'
 import { Component } from '@components'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
-import ScrollViewHorizontal from './scroll-view-horizontal'
 import Item from './item'
+import ScrollViewHorizontal from './scroll-view-horizontal'
+import { COMPONENT } from './ds'
 import { Props as HorizontalListProps } from './types'
 
 export { HorizontalListProps }
@@ -100,5 +101,6 @@ export const HorizontalList = ob(
         </Component>
       )
     }
-  }
+  },
+  COMPONENT
 )

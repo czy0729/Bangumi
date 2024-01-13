@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 00:14:37
+ * @Last Modified time: 2024-01-14 03:51:45
  */
 import React from 'react'
 import { Component, Flex, Text } from '@components'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as SectionHeaderProps } from './types'
 
@@ -29,5 +30,6 @@ export const SectionHeader = ob(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

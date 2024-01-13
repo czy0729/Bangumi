@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 00:14:55
+ * @Last Modified time: 2024-01-14 03:52:18
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { isObject } from '@utils'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as SectionTitleProps } from './types'
 
@@ -18,7 +19,7 @@ export { SectionTitleProps }
 /** 块(章节) 标题 */
 export const SectionTitle = memo(
   ({ style, icon, left, right, children, onPress }: SectionTitleProps) => {
-    rerender('Component.SectionTitle')
+    r(COMPONENT)
 
     return (
       <Component id='base-section-title'>

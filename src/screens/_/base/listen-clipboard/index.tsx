@@ -2,18 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-29 20:23:35
+ * @Last Modified time: 2024-01-14 03:27:03
  */
 import React from 'react'
-import {
-  AppState,
-  AppStateStatus,
-  Clipboard,
-  NativeEventSubscription
-} from 'react-native'
+import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
 import { Component } from '@components'
-import { confirm, matchBgmUrl, navigationReference, appNavigate } from '@utils'
+import { appNavigate, confirm, matchBgmUrl, navigationReference } from '@utils'
+import { r } from '@utils/dev'
 import { IOS, STORYBOOK } from '@constants'
+import { COMPONENT } from './ds'
 
 let lastUrl = ''
 
@@ -71,6 +68,8 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   }
 
   render() {
+    r(COMPONENT)
+
     return <Component id='base-listen-clipboard' />
   }
 }

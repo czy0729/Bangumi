@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:43:25
+ * @Last Modified time: 2024-01-14 03:33:10
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Component, Text } from '@components'
 import { usersStore } from '@stores'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { COMPONENT } from './ds'
 import { Props as NameProps } from './types'
 
 export { NameProps }
@@ -25,6 +27,8 @@ export const Name = ({
   children,
   ...other
 }: NameProps) => {
+  r(COMPONENT)
+
   const [lines, setLines] = useState(numberOfLines)
   const setLines2 = useCallback(() => setLines(numberOfLines + 1), [numberOfLines])
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:42:58
+ * @Last Modified time: 2024-01-14 03:32:21
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -19,14 +19,14 @@ import {
   Touchable
 } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { setStorage, getStorage, sleep, getTimestamp, stl } from '@utils'
+import { getStorage, getTimestamp, setStorage, sleep, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import { StarGroup } from '../star-group'
 import { StatusBtnGroup } from '../status-btn-group'
 import CommentHistory from './comment-history'
-import { NAMESPACE, MAX_HISTORY_COUNT } from './ds'
+import { COMPONENT, MAX_HISTORY_COUNT, NAMESPACE } from './ds'
 import { memoStyles } from './styles'
 import { Props as ManageModalProps, State } from './types'
 
@@ -66,10 +66,8 @@ export const ManageModal = ob(
     async componentDidMount() {
       try {
         const privacy =
-          (await getStorage(`${NAMESPACE}|privacy`)) ||
-          MODEL_PRIVATE.getValue<Private>('公开')
-        const commentHistory: string[] =
-          (await getStorage(`${NAMESPACE}|commentHistory`)) || []
+          (await getStorage(`${NAMESPACE}|privacy`)) || MODEL_PRIVATE.getValue<Private>('公开')
+        const commentHistory: string[] = (await getStorage(`${NAMESPACE}|commentHistory`)) || []
         this.setState({
           showTags: systemStore.setting.showTags === true,
           commentHistory,
@@ -236,9 +234,7 @@ export const ManageModal = ob(
       }
 
       if (commentHistory.length > MAX_HISTORY_COUNT) {
-        commentHistory = commentHistory.filter(
-          (item, index) => index < MAX_HISTORY_COUNT
-        )
+        commentHistory = commentHistory.filter((item, index) => index < MAX_HISTORY_COUNT)
       }
 
       this.setState({
@@ -344,23 +340,13 @@ export const ManageModal = ob(
         <View>
           <Flex style={this.styles.title}>
             <Touchable onPress={this.onToggleTagsRecent}>
-              <Text
-                style={showUserTags && this.styles.opacity}
-                type='sub'
-                size={12}
-                bold
-              >
+              <Text style={showUserTags && this.styles.opacity} type='sub' size={12} bold>
                 常用
               </Text>
             </Touchable>
             <View style={this.styles.split} />
             <Touchable onPress={this.onToggleTagsUser}>
-              <Text
-                style={!showUserTags && this.styles.opacity}
-                type='sub'
-                size={12}
-                bold
-              >
+              <Text style={!showUserTags && this.styles.opacity} type='sub' size={12} bold>
                 我的
               </Text>
             </Touchable>
@@ -386,12 +372,7 @@ export const ManageModal = ob(
                       key={name}
                       onPress={() => this.toggleTag(name)}
                     >
-                      <Flex
-                        style={stl(
-                          this.styles.tag,
-                          isSelected && this.styles.tagSelected
-                        )}
-                      >
+                      <Flex style={stl(this.styles.tag, isSelected && this.styles.tagSelected)}>
                         <Text
                           size={12}
                           bold
@@ -467,12 +448,7 @@ export const ManageModal = ob(
       return (
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Button
-              style={this.styles.btn}
-              type='main'
-              loading={disabled}
-              onPress={this.onSubmit}
-            >
+            <Button style={this.styles.btn} type='main' loading={disabled} onPress={this.onSubmit}>
               更新
             </Button>
           </Flex.Item>
@@ -481,12 +457,7 @@ export const ManageModal = ob(
             type={label === '公开' ? 'ghostMain' : 'ghostPlain'}
             extra={
               label === '私密' && (
-                <Iconfont
-                  style={_.ml.xs}
-                  color={_.colorSub}
-                  size={16}
-                  name='md-visibility-off'
-                />
+                <Iconfont style={_.ml.xs} color={_.colorSub} size={16} name='md-visibility-off' />
               )
             }
             onPress={this.togglePrivacy}
@@ -534,5 +505,6 @@ export const ManageModal = ob(
     get styles() {
       return memoStyles()
     }
-  }
+  },
+  COMPONENT
 )

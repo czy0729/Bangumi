@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:00:13
+ * @Last Modified time: 2024-01-14 03:08:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { HardwareTextureBlurView } from '@components'
 import { _, systemStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 /**
@@ -21,13 +22,7 @@ export const BlurViewTab = ob(({ length }) => {
   const styles = memoStyles()
   const { androidBlur, blurBottomTabs } = systemStore.setting
   if (!IOS && !(androidBlur && blurBottomTabs)) {
-    return (
-      <View
-        style={[styles.android, styles.view]}
-        removeClippedSubviews
-        pointerEvents='none'
-      />
-    )
+    return <View style={[styles.android, styles.view]} removeClippedSubviews pointerEvents='none' />
   }
 
   return (
@@ -43,4 +38,4 @@ export const BlurViewTab = ob(({ length }) => {
       )}
     />
   )
-})
+}, COMPONENT)

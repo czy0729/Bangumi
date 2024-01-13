@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:43:58
+ * @Last Modified time: 2024-01-14 03:56:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { stl, toFixed, caculateICO } from '@utils'
+import { caculateICO, stl, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { ViewStyle } from '@types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as StockPreviewProps } from './types'
 
@@ -69,9 +70,7 @@ export const StockPreview = ob(
         <Flex style={this.styles.ico}>
           <Text
             style={
-              this.isDark
-                ? [this.styles.iconText, this.styles.iconTextDark]
-                : this.styles.iconText
+              this.isDark ? [this.styles.iconText, this.styles.iconTextDark] : this.styles.iconText
             }
             size={11}
             align='center'
@@ -79,11 +78,7 @@ export const StockPreview = ob(
             lv.{level} {percent}%
           </Text>
           <View
-            style={
-              this.isDark
-                ? [this.styles.icoBar, this.styles.icoBarDark]
-                : this.styles.icoBar
-            }
+            style={this.isDark ? [this.styles.icoBar, this.styles.icoBarDark] : this.styles.icoBar}
           >
             <View
               style={[
@@ -105,8 +100,7 @@ export const StockPreview = ob(
     }
 
     render() {
-      const { style, current, fluctuation, change, bids, asks, users, _loaded } =
-        this.props
+      const { style, current, fluctuation, change, bids, asks, users, _loaded } = this.props
       if (!_loaded) {
         return null
       }
@@ -201,9 +195,7 @@ export const StockPreview = ob(
                   paddingLeft: _.wind,
                   paddingRight: _.xs,
                   color: this.isDark ? colorDarkText : _.colorSub,
-                  backgroundColor: this.isDark
-                    ? _.colorTinygrailContainer
-                    : _.colorPlain
+                  backgroundColor: this.isDark ? _.colorTinygrailContainer : _.colorPlain
                 }}
                 size={11}
               >
@@ -223,10 +215,7 @@ export const StockPreview = ob(
                   </Text>
                 )}
                 <Flex
-                  style={[
-                    show ? this.styles.floorShowDetail : this.styles.floor,
-                    _.ml.xs
-                  ]}
+                  style={[show ? this.styles.floorShowDetail : this.styles.floor, _.ml.xs]}
                   justify='between'
                 >
                   <View
@@ -282,5 +271,6 @@ export const StockPreview = ob(
     get styles() {
       return memoStyles()
     }
-  }
+  },
+  COMPONENT
 )

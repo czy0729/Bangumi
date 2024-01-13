@@ -2,21 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 22:55:27
+ * @Last Modified time: 2024-01-14 03:01:48
  */
 import React from 'react'
 import { toJS } from 'mobx'
-import { ImageViewer, Heatmap, Component } from '@components'
+import { Component, Heatmap, ImageViewer } from '@components'
 import { systemStore, uiStore } from '@stores'
+import { r } from '@utils/dev'
 import { useGlobalMount, useKeepAwake, useObserver } from '@utils/hooks'
-import { Popable } from '../popable'
 import { LikesGrid } from '../likes-grid'
 import { LikesUsers } from '../likes-users'
-import { ManageModal } from '../manage-modal'
 import { ListenClipboard } from '../listen-clipboard'
+import { ManageModal } from '../manage-modal'
+import { Popable } from '../popable'
+import { COMPONENT } from './ds'
 
 /** 全局公用逻辑 */
 export const AppCommon = () => {
+  r(COMPONENT)
+
   // App 启动稳定后统一做的操作
   useGlobalMount()
 

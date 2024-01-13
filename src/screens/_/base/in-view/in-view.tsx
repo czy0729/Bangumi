@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 08:13:09
+ * @Last Modified time: 2024-01-14 03:21:50
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
-import { _ } from '@stores'
-
-/** 提前渲染的 y 轴距离 */
-const PRE_DISTANCE = _.window.height * 2
+import { r } from '@utils/dev'
+import { COMPONENT, PRE_DISTANCE } from './ds'
 
 export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
+  r(COMPONENT)
+
   const [top, setTop] = useState(y)
   const [show, setShow] = useState(false)
 

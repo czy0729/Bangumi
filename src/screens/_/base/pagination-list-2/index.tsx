@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 03:22:00
+ * @Last Modified time: 2024-01-14 03:41:48
  */
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
 import { getTimestamp } from '@utils'
+import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { ListEmpty } from '@types'
+import { COMPONENT } from './ds'
 import { Props as PaginationList2Props } from './types'
 
 export { PaginationList2Props }
@@ -23,6 +25,8 @@ export const PaginationList2 = ({
   onNextPage,
   ...other
 }: PaginationList2Props) => {
+  r(COMPONENT)
+
   // 用户记住列表看到多少页, 在触发更新后需要使用此值去重新划归数组当前页数
   const lastPage = useRef(1)
 

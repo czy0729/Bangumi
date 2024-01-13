@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 02:26:13
+ * @Last Modified time: 2024-01-14 03:54:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,11 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { fontSize } from '@styles'
+import { COMPONENT, NUMS } from './ds'
 import { styles } from './styles'
 import { Props as StarsProps } from './types'
 
 export { StarsProps }
-
-const NUMS = [1, 2, 3, 4, 5] as const
 
 /** 评分 */
 export const Stars = ob(
@@ -30,12 +29,7 @@ export const Stars = ob(
       return (
         <Component id='base-stars' data-simple={simple}>
           <Flex style={style}>
-            <Iconfont
-              style={webStyle}
-              name='md-star'
-              size={size}
-              color={_.colorWarning}
-            />
+            <Iconfont style={webStyle} name='md-star' size={size} color={_.colorWarning} />
             <Text style={stl(_.ml.xxs, webStyle)} type={type} size={size} bold>
               {value}
             </Text>
@@ -101,5 +95,6 @@ export const Stars = ob(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

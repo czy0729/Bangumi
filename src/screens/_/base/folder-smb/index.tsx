@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:13:52
+ * @Last Modified time: 2024-01-14 03:17:14
  */
 import React, { useState } from 'react'
-import { View, Linking } from 'react-native'
-import { Flex, Image, Text, Touchable, Iconfont, Component } from '@components'
+import { Linking, View } from 'react-native'
+import { Component, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { copy, desc, alert } from '@utils'
+import { alert, copy, desc } from '@utils'
 import { obc } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
 import { getUrl } from './utils'
-import { SORT_ORDER } from './ds'
+import { COMPONENT, SORT_ORDER } from './ds'
 import { memoStyles } from './styles'
 import { Props as FolderSMBProps } from './types'
 
@@ -39,12 +39,7 @@ function Comp({ styles, smb, folder }: FolderSMBProps) {
             resizeMode='contain'
           />
           <Flex.Item>
-            <Text
-              size={12}
-              lineHeight={14}
-              bold
-              numberOfLines={showFolder ? undefined : 1}
-            >
+            <Text size={12} lineHeight={14} bold numberOfLines={showFolder ? undefined : 1}>
               {path.join('/') || '/'}
             </Text>
           </Flex.Item>
@@ -134,5 +129,6 @@ export const FolderSMB = obc(
     if (!smb?.uuid || !folder?.name || !folder?.list?.length) return null
 
     return <Comp styles={memoStyles()} smb={smb} folder={folder} />
-  }
+  },
+  COMPONENT
 )

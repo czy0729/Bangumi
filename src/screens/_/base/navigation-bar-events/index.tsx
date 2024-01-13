@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-12-10 22:47:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:43:57
+ * @Last Modified time: 2024-01-14 03:37:52
  */
 import React from 'react'
 import { Component, NavigationEvents } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
+import { COMPONENT } from './ds'
 import { Props as NavigationBarEventsProps } from './types'
 
 export { NavigationBarEventsProps }
@@ -34,4 +35,4 @@ export const NavigationBarEvents = ob(({ tinygrail }: NavigationBarEventsProps) 
       />
     </Component>
   )
-})
+}, COMPONENT)

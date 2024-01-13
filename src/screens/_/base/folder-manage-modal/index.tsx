@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:12:16
+ * @Last Modified time: 2024-01-14 03:15:39
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
-import { Modal, Divider, Empty, Component } from '@components'
-import { _, userStore, usersStore, discoveryStore } from '@stores'
+import { Component, Divider, Empty, Modal } from '@components'
+import { _, discoveryStore, usersStore, userStore } from '@stores'
 import {
   asc,
   confirm,
@@ -20,17 +20,18 @@ import {
   setStorage
 } from '@utils'
 import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { queue, t } from '@utils/fetch'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { Id } from '@types'
 import { IconTouchable } from '../../icon/touchable'
-import { STORAGE_KEY } from './ds'
+import Catalog from './catalog'
+import Create from './create'
+import Subjects from './subjects'
+import { COMPONENT, STORAGE_KEY } from './ds'
 import { memoStyles } from './styles'
 import { Props as FolderManageModalProps, State } from './types'
-import Catalog from './catalog'
-import Subjects from './subjects'
-import Create from './create'
 
 export { FolderManageModalProps }
 
@@ -38,10 +39,7 @@ let loaded = false
 
 /** 目录管理弹窗 */
 export const FolderManageModal = ob(
-  class FolderManageModalComponent extends React.Component<
-    FolderManageModalProps,
-    State
-  > {
+  class FolderManageModalComponent extends React.Component<FolderManageModalProps, State> {
     static defaultProps = {
       id: 0,
       defaultExpand: 0,
@@ -384,9 +382,7 @@ export const FolderManageModal = ob(
 
       switch (title) {
         case '置顶':
-          temp = detail.list
-            .slice()
-            .sort((a, b) => asc(a, b, item => Number(item.sort)))[0]
+          temp = detail.list.slice().sort((a, b) => asc(a, b, item => Number(item.sort)))[0]
           order = Number(temp.order)
           if (Number.isNaN(order)) {
             order = 0
@@ -438,9 +434,7 @@ export const FolderManageModal = ob(
           break
 
         case '置底':
-          temp = detail.list
-            .slice()
-            .sort((a, b) => desc(a, b, item => Number(item.sort)))[0]
+          temp = detail.list.slice().sort((a, b) => desc(a, b, item => Number(item.sort)))[0]
           order = Number(temp.order)
           if (Number.isNaN(order)) {
             order = 10
@@ -698,16 +692,13 @@ export const FolderManageModal = ob(
     }
 
     render() {
+      r(COMPONENT)
+
       const { title, onClose } = this.props
       const { visible } = this.state
       return (
         <Component id='base-folder-manage-modal'>
-          <Modal
-            style={this.styles.modal}
-            visible={visible}
-            title={title}
-            onClose={onClose}
-          >
+          <Modal style={this.styles.modal} visible={visible} title={title} onClose={onClose}>
             {this.renderBtnCreate()}
             {this.renderList()}
           </Modal>

@@ -2,8 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:05:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 04:44:47
+ * @Last Modified time: 2024-01-14 03:08:50
  */
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 
 /**
  * 底部 Tab 毛玻璃背景
@@ -16,5 +18,7 @@
  *   而距离底部 1pt, 这个问题又好了, 所以给底部增加 1pt 防止这个问题;
  */
 export const BlurViewBottomTab = () => {
+  r(COMPONENT)
+
   return null
 }

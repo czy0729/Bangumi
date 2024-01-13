@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 01:12:56
+ * @Last Modified time: 2024-01-14 03:56:13
  */
 import React from 'react'
-import { Flex, Button, Component } from '@components'
+import { Button, Component, Flex } from '@components'
 import { _ } from '@stores'
 import { getType, stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_COLLECTION_STATUS, COLLECTION_STATUS } from '@constants'
+import { COLLECTION_STATUS, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusCn } from '@types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as StatusBtnGroupProps } from './types'
 
@@ -18,12 +19,7 @@ export { StatusBtnGroupProps }
 
 /** 条目状态选择按钮组 */
 export const StatusBtnGroup = ob(
-  ({
-    style,
-    value = 'doings',
-    action = '看',
-    onSelect = () => {}
-  }: StatusBtnGroupProps) => {
+  ({ style, value = 'doings', action = '看', onSelect = () => {} }: StatusBtnGroupProps) => {
     const styles = memoStyles()
     return (
       <Component id='base-status-btn-group'>
@@ -33,8 +29,7 @@ export const StatusBtnGroup = ob(
               <Button
                 style={styles.btn}
                 type={
-                  MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(value) ===
-                  item.label
+                  MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(value) === item.label
                     ? getType(item.label)
                     : _.select('plain', 'ghostPlain')
                 }
@@ -47,5 +42,6 @@ export const StatusBtnGroup = ob(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

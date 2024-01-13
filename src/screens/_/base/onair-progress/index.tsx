@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:51:56
+ * @Last Modified time: 2024-01-14 03:38:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import { Component } from '@components'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as OnairProgressProps } from './types'
-import { Component } from '@components'
 
 export { OnairProgressProps }
 
@@ -22,6 +24,8 @@ export const OnairProgress = ({
   defaultTotal = 12,
   height = 7
 }: OnairProgressProps) => {
+  r(COMPONENT)
+
   const totalPercent = Math.min(
     (Math.floor(Number(epStatus || 0)) / Math.floor(total || defaultTotal)) * 100,
     100

@@ -2,8 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-10-29 23:25:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 01:01:09
+ * @Last Modified time: 2024-01-14 03:22:53
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'LikesGrid')
+
 export const DATA = [
   [44, 0],
   [40, 79],

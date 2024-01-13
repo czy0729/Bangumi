@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 03:22:09
+ * @Last Modified time: 2024-01-14 03:39:36
  */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Component, ListView } from '@components'
 import { getTimestamp } from '@utils'
+import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { ListEmpty } from '@types'
+import { COMPONENT } from './ds'
 import { Props as PaginationListProps } from './types'
 
 export { PaginationListProps }
@@ -21,6 +23,8 @@ export const PaginationList = ({
   onPage,
   ...other
 }: PaginationListProps) => {
+  r(COMPONENT)
+
   const [list, setList] = useState<ListEmpty>({
     list: [],
     pagination: {
@@ -66,12 +70,7 @@ export const PaginationList = ({
 
   return (
     <Component id='base-pagination-list'>
-      <ListView
-        ref={forwardRef}
-        data={list}
-        {...other}
-        onFooterRefresh={onFooterRefresh}
-      />
+      <ListView ref={forwardRef} data={list} {...other} onFooterRefresh={onFooterRefresh} />
     </Component>
   )
 }

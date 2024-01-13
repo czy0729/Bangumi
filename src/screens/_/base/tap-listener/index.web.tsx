@@ -2,13 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-06-02 22:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 01:14:42
+ * @Last Modified time: 2024-01-14 04:01:45
  */
 import { useEffect } from 'react'
 import { Component } from '@components'
 import { _, uiStore } from '@stores'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 
 export const TapListener = ({ children }) => {
+  r(COMPONENT)
+
   useEffect(() => {
     function handleTouchEnd(event) {
       const touch = event.changedTouches[event.changedTouches.length - 1]

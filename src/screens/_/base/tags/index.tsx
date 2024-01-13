@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-23 11:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 01:14:14
+ * @Last Modified time: 2024-01-14 03:58:20
  */
 import React from 'react'
 import { Component, ScrollView } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { Tag } from '../tag'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 /** 标签组 */
@@ -24,4 +25,4 @@ export const Tags = ob(({ value = [], ...other }) => {
       </ScrollView>
     </Component>
   )
-})
+}, COMPONENT)

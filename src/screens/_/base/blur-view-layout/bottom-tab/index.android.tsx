@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-08-10 03:36:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 21:19:00
+ * @Last Modified time: 2024-01-14 03:07:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { SafeAreaBottom, HardwareTextureBlurView } from '@components'
+import { HardwareTextureBlurView, SafeAreaBottom } from '@components'
 import { _, systemStore } from '@stores'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 /**
@@ -23,6 +25,8 @@ import { memoStyles } from './styles'
  *   而距离底部 1pt, 这个问题又好了, 所以给底部增加 1pt 防止这个问题;
  */
 export const BlurViewBottomTab = () => {
+  r(COMPONENT)
+
   const { bottom } = useSafeAreaInsets()
   return useObserver(() => {
     const styles = memoStyles()

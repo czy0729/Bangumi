@@ -2,27 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:12:23
+ * @Last Modified time: 2024-01-14 03:13:14
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { getStorage, setStorage, stl } from '@utils'
+import { setStorage, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { FLITER_SWITCH_LAST_PATH_KEY, FILTER_SWITCH_DS, PATH_MAP, TOTAL } from './ds'
+import { getLastPath, scrollToX } from './utils'
+import { COMPONENT, FILTER_SWITCH_DS, FLITER_SWITCH_LAST_PATH_KEY, PATH_MAP, TOTAL } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterSwitchProps } from './types'
 
-export { FilterSwitchProps }
+export { FilterSwitchProps, getLastPath }
 
 /** 番剧, 游戏, 漫画, 文库, ADV, Hentai 页面直接切换筛选 */
 export const FilterSwitch = obc(
-  (
-    { title = '频道', name = FILTER_SWITCH_DS[0] }: FilterSwitchProps,
-    { navigation }
-  ) => {
+  ({ title = '频道', name = FILTER_SWITCH_DS[0] }: FilterSwitchProps, { navigation }) => {
     const styles = memoStyles()
     return (
       <Component id='base-filter-switch'>
@@ -59,12 +57,7 @@ export const FilterSwitch = obc(
                     <Text size={11} bold>
                       {item}
                       {!!TOTAL[item] && (
-                        <Text
-                          type='sub'
-                          size={9}
-                          lineHeight={11}
-                          bold
-                        >{` ${TOTAL[item]}`}</Text>
+                        <Text type='sub' size={9} lineHeight={11} bold>{` ${TOTAL[item]}`}</Text>
                       )}
                     </Text>
                   </Touchable>
@@ -75,37 +68,6 @@ export const FilterSwitch = obc(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )
-
-export async function getLastPath() {
-  const path = await getStorage(FLITER_SWITCH_LAST_PATH_KEY)
-  return path || PATH_MAP[FILTER_SWITCH_DS[0]]
-}
-
-function scrollToX(
-  scrollView: ScrollView,
-  data: readonly any[],
-  value: any,
-  width = 50
-) {
-  try {
-    if (scrollView && value) {
-      const index = data.findIndex(i => i == value)
-      if (index >= 5) {
-        setTimeout(() => {
-          try {
-            scrollView.scrollTo(
-              {
-                x: (index - 2) * width,
-                y: 0,
-                animated: true
-              },
-              1
-            )
-          } catch (error) {}
-        }, 80)
-      }
-    }
-  } catch (error) {}
-}

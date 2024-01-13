@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 23:31:12
+ * @Last Modified time: 2024-01-14 03:22:28
  */
 import React from 'react'
 import { toJS } from 'mobx'
-import { ScrollView, Touchable, Flex, Iconfont, Component } from '@components'
+import { Component, Flex, Iconfont, ScrollView, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
-import { useObserver, useBoolean } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useBoolean, useObserver } from '@utils/hooks'
 import { LIKE_TYPE_TIMELINE } from '@constants'
-import Flip from './flip'
 import Btn from './btn'
-import { LIMIT, HIT_SLOP } from './ds'
+import Flip from './flip'
+import { COMPONENT, HIT_SLOP, LIMIT } from './ds'
 import { memoStyles } from './styles'
 import { Props as LikesProps } from './types'
 
@@ -30,6 +31,8 @@ export const Likes = ({
   storybook,
   onLongPress
 }: LikesProps) => {
+  r(COMPONENT)
+
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
@@ -70,9 +73,7 @@ export const Likes = ({
             </Touchable>
           )}
           {likesList
-            .filter((item, index) =>
-              item.selected ? true : state ? true : index < LIMIT
-            )
+            .filter((item, index) => (item.selected ? true : state ? true : index < LIMIT))
             .map(item => {
               const passProps = {
                 topicId,
