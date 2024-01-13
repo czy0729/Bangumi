@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 15:07:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 17:31:20
+ * @Last Modified time: 2024-01-13 22:06:38
  */
 import Provider from '@ant-design/react-native/lib/provider'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'

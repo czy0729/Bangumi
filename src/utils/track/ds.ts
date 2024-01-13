@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 17:09:51
+ * @Last Modified time: 2024-01-13 22:09:30
  */
 import { IOS } from '@constants/constants'
 import { STORYBOOK, WSA } from '@constants/device'
-import { DEV, IOS_IPA } from '@/config'
+import { DEV, GITHUB_ACTION, IOS_IPA } from '@/config'
 import { window } from '../../styles/layout'
 import { get } from '../crypto'
 
@@ -68,3 +68,5 @@ export const WEBSITE = DEV
 export const WEBSITE_TINGRAIL = '945f4ab5-424b-4bd6-89f6-7735380396cd'
 
 export const WEBSITE_FATAL_ERROR = 'a8d71a9c-3333-45ca-b223-59600d84b76a'
+
+export const REFERRER = GITHUB_ACTION ? 'https://github.com/' : ''

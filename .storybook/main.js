@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-13 04:36:46
+ * @Last Modified time: 2024-01-13 22:13:44
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -99,6 +99,10 @@ module.exports = {
                   maxAgeSeconds: 60 * 60 * 24 * 30
                 }
               }
+            },
+            {
+              urlPattern: /\.(proto|bin)$/,
+              handler: 'NetworkFirst'
             }
           ],
           maximumFileSizeToCacheInBytes: 15 * 1024 * 1024
@@ -111,17 +115,12 @@ module.exports = {
       // 搜索 existingUglifyPlugin
       const existingUglifyPluginIndex = config.optimization.minimizer.findIndex(
         plugin =>
-          plugin.constructor.name === 'TerserPlugin' ||
-          plugin.constructor.name === 'UglifyJsPlugin'
+          plugin.constructor.name === 'TerserPlugin' || plugin.constructor.name === 'UglifyJsPlugin'
       )
 
       if (existingUglifyPluginIndex > -1) {
         // 替换 existingUglifyPlugin
-        config.optimization.minimizer.splice(
-          existingUglifyPluginIndex,
-          1,
-          new UglifyJsPlugin()
-        )
+        config.optimization.minimizer.splice(existingUglifyPluginIndex, 1, new UglifyJsPlugin())
       } else {
         // 添加新的 UglifyJsPlugin
         config.optimization.minimizer.push(new UglifyJsPlugin())

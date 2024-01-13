@@ -2,16 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 03:53:05
+ * @Last Modified time: 2024-01-13 22:09:38
  */
 import Constants from 'expo-constants'
 import { HOST } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { DEV, GITHUB_ACTION } from '@/config'
+import { DEV } from '@/config'
 import { AnyObject, EventKeys } from '@types'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
 import { EventData } from './type'
-import { API_UMAMI, API_XHR, SCREEN, TIMEOUT, TITLE, WEBSITE, WEBSITE_TINGRAIL } from './ds'
+import {
+  API_UMAMI,
+  API_XHR,
+  REFERRER,
+  SCREEN,
+  TIMEOUT,
+  TITLE,
+  WEBSITE,
+  WEBSITE_TINGRAIL
+} from './ds'
 
 export function xhr(si: string, u: string) {
   const url = `${API_XHR}?${urlStringify({
@@ -45,7 +54,7 @@ export async function umami(url: string = '', title: string = '') {
       website: url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
       url,
       title,
-      referrer: ''
+      referrer: REFERRER
     }))
 
     log('umami', url)
@@ -79,7 +88,7 @@ export async function umamiEvent(
       title,
       name: eventId,
       data,
-      referrer: ''
+      referrer: REFERRER
     }))
 
     log('umamiEvent', url, eventId, data)
@@ -112,7 +121,7 @@ async function umamiXhr(payload: { title: string; url: string; name?: string; da
         hostname: 'bgm.tv',
         screen: SCREEN,
         language: 'zh-CN',
-        referrer: GITHUB_ACTION ? 'https://github.com/' : ''
+        referrer: REFERRER
       },
       type: 'event'
     })
