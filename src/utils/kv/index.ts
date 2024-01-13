@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-26 19:31:08
+ * @Last Modified time: 2024-01-13 21:07:04
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
-import { getTimestamp } from '../utils'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
+import { getTimestamp } from '../utils'
+import { Result, ResultTemp } from './type'
 import { log } from './utils'
 import { HOST, UPDATE_CACHE_MAP } from './ds'
-import { Result, ResultTemp } from './type'
 
 /** 获取 */
 export async function get(key: string): Promise<any> {
@@ -60,11 +60,11 @@ export async function update(
   key: string,
   value: string | object,
   updateTS: boolean = true,
-  test?: boolean
+  allowWebCommit: boolean = false
 ): Promise<Result> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
-  if (STORYBOOK && !test) return
+  if (STORYBOOK && !allowWebCommit) return
 
   const fingerValue = {
     key,

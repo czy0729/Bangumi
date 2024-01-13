@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:38:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 15:39:17
+ * @Last Modified time: 2024-01-13 21:59:30
  */
 import CryptoJS from 'crypto-js'
-import { put, read } from '@utils/db'
+import { read } from '@utils/db'
+import { get, update } from '@utils/kv'
 import { APP_ID } from '@constants'
 import { Actions, Origin, SubjectId } from '@types'
 import UserStore from '../user'
 import Fetch from './fetch'
-import { SubjectSnapshot } from './types'
 import { getInt, getSubjectSnapshot } from './utils'
+import { SubjectSnapshot } from './types'
 
 export default class Action extends Fetch {
   /** 获取条目信息快照, 尽可能在其他数据中组装条目信息 */
-  getSubjectSnapshot = async (
-    subjectId: SubjectId
-  ): Promise<SubjectSnapshot | undefined> => {
+  getSubjectSnapshot = async (subjectId: SubjectId): Promise<SubjectSnapshot | undefined> => {
     let subjectSnapShot: SubjectSnapshot
     let flag = false
     if (!flag) {
@@ -92,22 +91,35 @@ export default class Action extends Fetch {
   uploadOrigin = () => {
     const { id } = UserStore.userInfo
     const { origin } = this.state
-    return put({
-      path: `origin/${id}.json`,
-      content: CryptoJS.AES.encrypt(JSON.stringify(origin), APP_ID).toString()
-    })
+    return update(
+      `origin_${id}`,
+      {
+        content: CryptoJS.AES.encrypt(JSON.stringify(origin), APP_ID).toString()
+      },
+      true,
+      true
+    )
   }
 
   /** 恢复源头数据 */
   downloadOrigin = async () => {
     const { id } = UserStore.userInfo
-    const { content } = await read({
-      path: `origin/${id}.json`
-    })
+    let content: string
 
-    if (!content) {
+    try {
+      const data = await get(`origin_${id}`)
+      if (typeof data?.content === 'string') {
+        content = data.content
+      } else {
+        const data = await read({
+          path: `origin/${id}.json`
+        })
+        if (typeof data?.content === 'string') content = data.content
+      }
+    } catch (error) {
       return false
     }
+    if (!content) return false
 
     try {
       const bytes = CryptoJS.AES.decrypt(content.toString(), APP_ID)
@@ -123,7 +135,6 @@ export default class Action extends Fetch {
         this.save(key)
         return true
       }
-
       return false
     } catch (error) {
       return false

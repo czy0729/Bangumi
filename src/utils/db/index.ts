@@ -5,9 +5,9 @@
  * @Last Modified time: 2023-12-23 09:36:19
  */
 import Constants from 'expo-constants'
+import { log } from '../dev'
 import { xhrCustom as xhr } from '../fetch'
 import Base64 from '../thirdParty/base64'
-import { log } from '../dev'
 import { OAUTH_DATA, REPO_DATA } from './ds'
 
 const FILE_CACHES = {}
@@ -106,7 +106,7 @@ export async function add({ path, content, message }) {
 }
 
 /**
- * 更新文件
+ * @deprecated 更新文件
  * @doc https://gitee.com/api/v5/swagger#/putV5ReposOwnerRepoContentsPath
  *  - 提示, content 不允许携带中文, 请先 escape 或 encode
  */
@@ -143,7 +143,7 @@ export async function update({ path, content, sha, message }) {
   return FILE_CACHES[path]
 }
 
-/** 自动写入 */
+/** @deprecated  自动写入 */
 export async function put({
   path,
   content,
@@ -165,9 +165,7 @@ export async function put({
      *  - 若存在使用更新, 还需要获取文件 sha
      */
     const { sha } = await read({ path })
-    return sha
-      ? update({ path, content, sha, message })
-      : add({ path, content, message })
+    return sha ? update({ path, content, sha, message }) : add({ path, content, message })
   } catch (error) {
     return false
   }
