@@ -6,7 +6,9 @@
  */
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenOriginSetting'
+export const COMPONENT = 'OriginSetting'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   data: {

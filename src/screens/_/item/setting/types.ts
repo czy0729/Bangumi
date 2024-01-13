@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:56:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 10:31:38
+ * @Last Modified time: 2024-01-12 15:59:19
  */
-import { TouchableProps, TextType } from '@components'
-import { Override, ViewStyle, ReactNode, TextStyle, IconfontNames, Fn } from '@types'
+import { TextType, TouchableProps } from '@components'
+import { Fn, IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
 
 export type Props = Override<
   TouchableProps,
   {
     style?: ViewStyle
+    contentStyle?: ViewStyle
     show?: boolean
     hd?: ReactNode | string
     hdSize?: number

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-13 05:50:07
+ * @Last Modified time: 2024-01-12 06:07:09
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {

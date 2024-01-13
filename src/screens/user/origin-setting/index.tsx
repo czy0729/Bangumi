@@ -7,10 +7,10 @@
 import React from 'react'
 import { Component, Page, ScrollView } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Cloud from './component/cloud'
+import List from './component/list'
 import Header from './header'
-import Cloud from './cloud'
-import List from './list'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
@@ -20,21 +20,22 @@ const OriginSetting = (props, { $ }: Ctx) => {
     $.init()
   })
 
-  return useObserver(() => {
-    const styles = memoStyles()
-    const { _loaded, active } = $.state
-    return (
-      <Component id='screen-origin-setting'>
-        <Header />
-        <Page loaded={_loaded}>
-          <ScrollView contentContainerStyle={styles.scrollView}>
-            <Cloud active={active} onToggle={$.onToggle} onDownloaded={$.init} />
-            <List />
-          </ScrollView>
-        </Page>
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-origin-setting'>
+      <Header />
+      <Page loaded={$.state._loaded}>
+        <ScrollView contentContainerStyle={memoStyles().scrollView}>
+          <Cloud
+            isLogin={$.isLogin}
+            active={$.state.active}
+            onToggle={$.onToggle}
+            onDownloaded={$.init}
+          />
+          <List />
+        </ScrollView>
+      </Page>
+    </Component>
+  ))
 }
 
 export default ic(Store, OriginSetting)

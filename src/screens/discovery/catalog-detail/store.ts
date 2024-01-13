@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:19:32
+ * @Last Modified time: 2024-01-12 06:01:57
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { _, collectionStore, discoveryStore, subjectStore, userStore } from '@stores'
 import {
   confirm,
@@ -17,9 +17,9 @@ import {
   sleep,
   updateVisibleBottom
 } from '@utils'
-import store from '@utils/store'
-import { t, fetchHTML, queue } from '@utils/fetch'
 import CacheManager from '@utils/cache-manager'
+import { fetchHTML, queue, t } from '@utils/fetch'
+import store from '@utils/store'
 import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
@@ -82,9 +82,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
 
             // 由于之前失误没有把排名存到云端
             const rank =
-              subjectStore.subject(id)?.rank ||
-              subjectStore.subjectFromOSS(id)?.rank ||
-              ''
+              subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || ''
             if (!rank) {
               await subjectStore.fetchSubject(id, 'small')
             } else {
@@ -160,8 +158,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
           subjectStore.subject(id)?.rating?.score ||
           subjectStore.subjectFromOSS(id)?.rating?.score ||
           0,
-        rank:
-          subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || '',
+        rank: subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || '',
         total:
           subjectStore.subject(id)?.rating?.total ||
           subjectStore.subjectFromOSS(id)?.rating?.total ||
@@ -175,14 +172,8 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
         key,
         list.slice().sort((a, b) => {
           return desc(
-            getTimestamp(
-              (String(a.info).split(' / ')?.[0] || '').trim(),
-              'YYYY年M月D日'
-            ),
-            getTimestamp(
-              (String(b.info).split(' / ')?.[0] || '').trim(),
-              'YYYY年M月D日'
-            )
+            getTimestamp((String(a.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日'),
+            getTimestamp((String(b.info).split(' / ')?.[0] || '').trim(), 'YYYY年M月D日')
           )
         })
       )
@@ -194,9 +185,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
         key,
         list
           .slice()
-          .sort((a, b) =>
-            desc(a, b, item => (item.rank ? 10000 - item.rank : item.score))
-          )
+          .sort((a, b) => desc(a, b, item => (item.rank ? 10000 - item.rank : item.score)))
       )
     }
 

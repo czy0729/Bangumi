@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:07:26
+ * @Last Modified time: 2024-01-12 06:02:04
  */
 import React, { useCallback } from 'react'
 import { Component, Page } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { FolderManageModal } from '@_'
-import { useRunAfter, useObserver } from '@utils/hooks'
 import { ic } from '@utils/decorators'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
+import Tips from './component/tips'
 import Header from './header'
-import List from './list'
-import Tips from './tips'
 import Store from './store'
 import { Ctx } from './types'
 

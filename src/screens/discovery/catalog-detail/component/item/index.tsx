@@ -1,0 +1,78 @@
+/*
+ * @Author: czy0729
+ * @Date: 2022-03-11 23:14:46
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-01-12 05:57:22
+ */
+import React from 'react'
+import { Heatmap } from '@components'
+import { ItemCollections, ItemCollectionsGrid } from '@_'
+import { _, collectionStore, subjectStore } from '@stores'
+import { findSubjectCn } from '@utils'
+import { obc } from '@utils/decorators'
+import { Ctx, ListItem } from '../../types'
+import { COMPONENT, EVENT } from './ds'
+
+function Item(
+  {
+    index = 0,
+    item
+  }: {
+    index: number
+    item: ListItem
+  },
+  { $, navigation }: Ctx
+) {
+  const id = String(item.id).match(/\d+/)[0]
+  const collection = collectionStore.collect(id)
+  if ($.isList) {
+    return (
+      <>
+        <ItemCollections
+          navigation={navigation}
+          event={EVENT}
+          inViewY={_.window.height * 0.5}
+          index={index}
+          id={id}
+          type={item.type}
+          cover={item.image}
+          name={subjectStore.jp(id) || item.title}
+          nameCn={subjectStore.cn(id) || findSubjectCn(item.title, id)}
+          tip={item.info}
+          comments={item.comment}
+          score={item.score}
+          rank={item.rank}
+          total={item.total}
+          numberOfLines={3}
+          modify={item.modify}
+          isCollect={item.isCollect}
+          collection={collection}
+          isCatalog
+          hideScore={$.hideScore}
+          isEditable={$.isSelf}
+          showManage
+          onEdit={$.onEdit}
+        />
+        {!index && <Heatmap id='目录详情.跳转' />}
+      </>
+    )
+  }
+
+  return (
+    <ItemCollectionsGrid
+      navigation={navigation}
+      event={EVENT}
+      id={id}
+      num={$.gridNum}
+      name={subjectStore.jp(id) || item.title}
+      nameCn={subjectStore.cn(id) || findSubjectCn(item.title, id)}
+      cover={item.image}
+      score={item.score}
+      rank={item.rank}
+      typeCn={item.type}
+      collection={collection}
+    />
+  )
+}
+
+export default obc(Item, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-28 23:05:00
+ * @Last Modified time: 2024-01-13 20:13:36
  */
 import { computed } from 'mobx'
 import {
@@ -23,8 +23,8 @@ import {
   SubjectType,
   UserId
 } from '@types'
-import State from './state'
 import { DEFAULT_SCOPE, INIT_USER_INFO, STATE } from './init'
+import State from './state'
 import {
   CollectionsItem,
   CollectionsStatusItem,

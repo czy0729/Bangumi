@@ -7,7 +7,9 @@
 import { _ } from '@stores'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenCatalogDetail'
+export const COMPONENT = 'CatalogDetail'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

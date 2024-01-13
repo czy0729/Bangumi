@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 16:24:24
+ * @Last Modified time: 2024-01-12 06:07:09
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
-import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
-import { IMG_WIDTH, IMG_HEIGHT, MODEL_COLLECTION_STATUS } from '@constants'
+import { t } from '@utils/fetch'
+import { IMG_HEIGHT, IMG_WIDTH, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import { InView, Cover, Manage } from '../../base'
+import { Cover, InView, Manage } from '../../base'
 import { IconTouchable } from '../../icon/touchable'
-import Title from './title'
 import Bottom from './bottom'
+import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const ITEM_HEIGHT = 156

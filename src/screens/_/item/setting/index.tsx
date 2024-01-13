@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 10:33:07
+ * @Last Modified time: 2024-01-12 16:33:37
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Highlight, Iconfont, Component } from '@components'
+import { Component, Flex, Highlight, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { stl, showImageViewer } from '@utils'
+import { navigationReference, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { STORYBOOK } from '@constants'
 import { memoStyles } from './styles'
 import { Props as ItemSettingProps } from './types'
 
@@ -18,6 +19,7 @@ export { ItemSettingProps }
 export const ItemSetting = ob(
   ({
     style,
+    contentStyle,
     show = true,
     hd,
     hdSize = 16,
@@ -39,7 +41,7 @@ export const ItemSetting = ob(
 
     const styles = memoStyles()
     const content = (
-      <View style={styles.item}>
+      <View style={stl(styles.item, contentStyle)}>
         <Flex>
           <Flex.Item>
             <Flex>
@@ -49,7 +51,21 @@ export const ItemSetting = ob(
               {!!thumb && (
                 <Touchable
                   style={_.ml.xs}
-                  onPress={() => showImageViewer(thumb, 0, true)}
+                  onPress={() => {
+                    if (STORYBOOK) {
+                      const navigation = navigationReference()
+                      if (navigation) {
+                        navigation.push('Information', {
+                          title: String(hd),
+                          message: [information],
+                          images: thumb.map(item => item.url)
+                        })
+                        return
+                      }
+                    }
+
+                    showImageViewer(thumb, 0, true)
+                  }}
                 >
                   <Iconfont name='md-info-outline' size={16} />
                 </Touchable>
@@ -62,13 +78,7 @@ export const ItemSetting = ob(
             </Flex>
           </Flex.Item>
           {typeof ft === 'string' ? <Text type='sub'>{ft}</Text> : ft}
-          {arrow && (
-            <Iconfont
-              style={stl(_.ml.xs, arrowStyle)}
-              name={arrowIcon}
-              size={arrowSize}
-            />
-          )}
+          {arrow && <Iconfont style={stl(_.ml.xs, arrowStyle)} name={arrowIcon} size={arrowSize} />}
         </Flex>
         <Flex>
           {!!information && (

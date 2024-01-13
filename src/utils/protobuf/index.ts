@@ -70,6 +70,8 @@ async function loadProtoFile(name: DataAssets) {
       local = require('@assets/proto/game/proto/index.proto')
     } else if (name === 'adv') {
       local = require('@assets/proto/adv/proto/index.proto')
+    } else if (name === 'catalog') {
+      local = require('@assets/proto/catalog/proto/index.proto')
     }
 
     // 加载 proto 文件的资源模块
@@ -100,6 +102,8 @@ async function loadBinFile(name: DataAssets) {
       local = require('@assets/proto/game/bin/index.bin')
     } else if (name === 'adv') {
       local = require('@assets/proto/adv/bin/index.bin')
+    } else if (name === 'catalog') {
+      local = require('@assets/proto/catalog/bin/index.bin')
     }
 
     // 加载 proto 文件的资源模块

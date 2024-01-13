@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 15:06:43
+ * @Last Modified time: 2024-01-12 16:28:37
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
@@ -12,11 +12,7 @@ import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import Item from './item'
 import { memoStyles } from './styles'
-import {
-  IItemSettingBlock,
-  ItemSettingBlockProps,
-  ItemSettingBlockItemProps
-} from './types'
+import { IItemSettingBlock, ItemSettingBlockItemProps, ItemSettingBlockProps } from './types'
 
 export { IItemSettingBlock, ItemSettingBlockProps, ItemSettingBlockItemProps }
 
@@ -37,11 +33,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
 
     const styles = memoStyles()
     return (
-      <Component
-        id='item-setting-block'
-        data-key={title}
-        style={stl(styles.container, style)}
-      >
+      <Component id='item-setting-block' data-key={title} style={stl(styles.container, style)}>
         {!!title && (
           <Flex>
             <Highlight type='title' size={size} bold value={filter}>
@@ -64,7 +56,6 @@ const ItemSettingBlock: IItemSettingBlock = ob(
                   }
 
                   showImageViewer(thumb, 0, true)
-                  return
                 }}
               >
                 <Iconfont name='md-info-outline' size={16} />

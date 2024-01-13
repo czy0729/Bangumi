@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:25:01
+ * @Last Modified time: 2024-01-13 20:29:09
  */
-import { observable, computed, toJS } from 'mobx'
-import { subjectStore, systemStore } from '@stores'
-import { getTimestamp, open, copy, info } from '@utils'
-import store from '@utils/store'
+import { computed, observable, toJS } from 'mobx'
+import { subjectStore, systemStore, userStore } from '@stores'
+import { copy, getTimestamp, info, open } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { getOriginConfig, replaceOriginUrl } from './utils'
 import { NAMESPACE, STATE, TYPES_DS } from './ds'
 
@@ -28,6 +28,10 @@ export default class ScreenOriginSetting extends store<typeof STATE> {
   @computed get data() {
     const { data } = this.state
     return getOriginConfig(data)
+  }
+
+  @computed get isLogin() {
+    return !!userStore.userInfo.id
   }
 
   // -------------------- action --------------------

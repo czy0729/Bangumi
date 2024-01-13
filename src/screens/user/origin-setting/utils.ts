@@ -9,12 +9,12 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:30:26
+ * @Last Modified time: 2024-01-13 16:29:27
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
 import { s2t } from '@utils/thirdParty/cn-char'
-import { SITE_AGEFANS, SITE_WNACG, SITE_MANGABZ, SITE_WK8 } from '@constants'
+import { SITE_AGEFANS, SITE_MANGABZ, SITE_WK8, SITE_WNACG } from '@constants'
 import { Origin, SubjectId } from '@types'
 import {
   SITES_ANIME,
@@ -140,4 +140,12 @@ export function replaceOriginUrl(
     .replace(/\[CN_S2T\]/g, encodeURIComponent(s2t(item.CN)))
     .replace(/\[TIME\]/g, String(getTimestamp()))
     .replace(/\[ID\]/g, String(item.ID))
+}
+
+export function getYuqueThumbs(src: string[] | readonly string[] | false) {
+  if (!src) return false
+
+  return src.map(item => ({
+    url: `https://cdn.nlark.com/yuque/${item}`
+  }))
 }

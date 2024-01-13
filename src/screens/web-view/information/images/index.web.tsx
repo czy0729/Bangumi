@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-23 11:11:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 15:12:26
+ * @Last Modified time: 2024-01-12 16:35:12
  */
 import React from 'react'
+import { View } from 'react-native'
 import { styles } from './styles'
 
 function Images({ data = [] }: { data: string[] }) {
@@ -13,14 +14,9 @@ function Images({ data = [] }: { data: string[] }) {
   return (
     <>
       {data.map(item => (
-        <img
-          key={item}
-          style={styles.image}
-          src={item}
-          rel='noreferrer'
-          referrerPolicy='no-referrer'
-          alt=''
-        />
+        <View key={item} style={styles.image}>
+          <img src={item} rel='noreferrer' referrerPolicy='no-referrer' alt='' />
+        </View>
       ))}
     </>
   )
