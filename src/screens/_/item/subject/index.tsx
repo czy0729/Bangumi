@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-03 03:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-05 03:52:04
+ * @Last Modified time: 2024-01-13 23:31:08
  */
 import React from 'react'
-import { Text, Touchable, Flex, Component } from '@components'
-import { _, subjectStore, collectionStore } from '@stores'
+import { Component, Flex, Text, Touchable } from '@components'
+import { _, collectionStore, subjectStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { ItemSearch } from '../search'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 export const ItemSubject = ob(
@@ -53,23 +54,14 @@ export const ItemSubject = ob(
           navigation={navigation}
           index={index}
           id={`/subject/${subjectId}`}
-          typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
-            subject.type || oss.type || type
-          )}
+          typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type || oss.type || type)}
           name={name}
           nameCn={nameCn}
           cover={subject.image || oss.image || subjectStore.cover(subjectId)}
           rank={subjectStore.ratingRank(subjectId) || subject.rank || oss.rank}
-          score={
-            subjectStore.ratingScore(subjectId) ||
-            subject.rating.score ||
-            oss.rating?.score
-          }
+          score={subjectStore.ratingScore(subjectId) || subject.rating.score || oss.rating?.score}
           total={`(${
-            subjectStore.ratingTotal(subjectId) ||
-            subject.rating.total ||
-            oss.rating?.total ||
-            0
+            subjectStore.ratingTotal(subjectId) || subject.rating.total || oss.rating?.total || 0
           })`}
           tip={
             [
@@ -86,5 +78,6 @@ export const ItemSubject = ob(
         />
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

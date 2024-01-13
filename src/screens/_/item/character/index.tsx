@@ -2,24 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:45:20
+ * @Last Modified time: 2024-01-13 23:12:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Component } from '@components'
+import { Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode, cnjp } from '@utils'
-import { t } from '@utils/fetch'
+import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { InView, Tag, Cover } from '../../base'
-import { IMG_WIDTH } from './ds'
+import { Cover, InView, Tag } from '../../base'
+import { COMPONENT, IMG_WIDTH, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCharacterProps } from './types'
 
 export { ItemCharacterProps }
-
-const ITEM_HEIGHT = 158
 
 export const ItemCharacter = obc(
   (
@@ -152,5 +150,6 @@ export const ItemCharacter = obc(
         {children}
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

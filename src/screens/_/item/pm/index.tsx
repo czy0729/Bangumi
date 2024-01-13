@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:34:39
+ * @Last Modified time: 2024-01-13 23:24:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { InView, Avatar, Name } from '../../base'
+import { Avatar, InView, Name } from '../../base'
+import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemPMProps } from './types'
 
 export { ItemPMProps }
-
-const ITEM_HEIGHT = 98
 
 export const ItemPM = ob(
   ({
@@ -105,5 +104,6 @@ export const ItemPM = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

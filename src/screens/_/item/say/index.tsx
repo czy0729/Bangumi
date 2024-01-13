@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 00:48:53
+ * @Last Modified time: 2024-01-13 23:29:08
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, RenderHtml, UserStatus, Component } from '@components'
+import { Component, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar, Name } from '../../base'
+import { getBgmHtml } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemSayProps } from './types'
 
@@ -147,20 +149,6 @@ export const ItemSay = obc(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )
-
-function getBgmHtml(html = '') {
-  let _html = html
-  const matchs = _html.match(/\(bgm\d+\)/g) || []
-  if (matchs.length) {
-    matchs.forEach(item => {
-      const index = parseInt(item.match(/\d+/g)[0])
-
-      // 防止2连同一个bgm表情, 替换不了后面的
-      _html = _html.replace(item, `<img smileid alt="(bgm~~~${index})" />`)
-    })
-  }
-
-  return _html.replace(/~~~/g, '')
-}

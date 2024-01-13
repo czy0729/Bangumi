@@ -2,20 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:29:10
+ * @Last Modified time: 2024-01-13 23:27:17
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
 import { Fn, Navigation, TopicId } from '@types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
+
+export const COMPONENT = rc(PARENT, 'ItemPost')
 
 const AVATAR_WIDTH = 32
 
 export const IMAGES_MAX_WIDTH = _.window.width - 2 * _.wind - AVATAR_WIDTH - _.sm
 
-export const IMAGES_MAX_WIDTH_SUB =
-  _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
+export const IMAGES_MAX_WIDTH_SUB = _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
 
 export const EXPAND_NUMS = 3
 

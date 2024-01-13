@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 16:31:36
+ * @Last Modified time: 2024-01-13 23:11:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,13 +14,11 @@ import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { Avatar, InView } from '../../base'
 import Covers from './covers'
-import { AVATAR_WIDTH } from './ds'
+import { AVATAR_WIDTH, COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCatalogProps } from './types'
 
 export { ItemCatalogProps }
-
-const ITEM_HEIGHT = 176
 
 export const ItemCatalog = obc(
   (
@@ -159,5 +157,6 @@ export const ItemCatalog = obc(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

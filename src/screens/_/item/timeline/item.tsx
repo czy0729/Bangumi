@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 03:35:14
+ * @Last Modified time: 2024-01-13 23:32:17
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, uiStore, userStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Cover, InView, Likes, Popover, Stars } from '../../base'
@@ -18,9 +17,14 @@ import Avatar from './avatar'
 import Desc from './desc'
 import Images from './images'
 import P from './p'
-import { AVATAR_COVER_WIDTH, DEFAULT_PROPS, HIDDEN_DS, LIKES_OFFSETS } from './ds'
-
-const ITEM_HEIGHT = 84
+import {
+  AVATAR_COVER_WIDTH,
+  COMPONENT_MAIN,
+  DEFAULT_PROPS,
+  HIDDEN_DS,
+  ITEM_HEIGHT,
+  LIKES_OFFSETS
+} from './ds'
 
 const Item = memo(
   ({
@@ -48,8 +52,6 @@ const Item = memo(
     onDelete,
     onHidden
   }) => {
-    rerender('Component.ItemTimeline.Main')
-
     const { src: avatarSrc } = avatar
     const { count: replyCount, url: replyUrl, content: replyContent } = reply
     const { text: p1Text, url: p1Url } = p1
@@ -206,6 +208,7 @@ const Item = memo(
     )
   },
   DEFAULT_PROPS,
+  COMPONENT_MAIN,
   props => ({
     style: props.style,
     styles: props.styles,

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 04:02:49
+ * @Last Modified time: 2024-01-13 23:29:37
  */
 import React from 'react'
 import { Component } from '@components'
 import { ob } from '@utils/decorators'
 import { rerender } from '@utils/dev'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemSearchProps } from './types'
 
@@ -62,5 +63,6 @@ export const ItemSearch = ob(
         />
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

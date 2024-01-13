@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 03:31:22
+ * @Last Modified time: 2024-01-13 23:23:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,12 @@ import { _, timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { InView, Avatar, Name, Tag } from '../../base'
+import { Avatar, InView, Name, Tag } from '../../base'
+import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemNotifyProps } from './types'
 
 export { ItemNotifyProps }
-
-const ITEM_HEIGHT = 40
 
 export const ItemNotify = ob(
   ({
@@ -102,5 +101,6 @@ export const ItemNotify = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

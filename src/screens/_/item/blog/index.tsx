@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 22:11:55
+ * @Last Modified time: 2024-01-13 23:08:14
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Katakana, Text, Component } from '@components'
+import { Component, Flex, Katakana, Text, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import { EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
+import { t } from '@utils/fetch'
+import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { Cover } from '../../base'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemBlogProps } from './types'
 
@@ -65,13 +66,7 @@ export const ItemBlog = obc(
           <Flex align='start' style={styles.wrap}>
             {!!cover && (
               <View style={styles.imgContainer}>
-                <Cover
-                  src={cover}
-                  width={IMG_WIDTH_SM}
-                  height={IMG_HEIGHT_SM}
-                  radius
-                  shadow
-                />
+                <Cover src={cover} width={IMG_WIDTH_SM} height={IMG_HEIGHT_SM} radius shadow />
               </View>
             )}
             <Flex.Item>
@@ -109,5 +104,6 @@ export const ItemBlog = obc(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

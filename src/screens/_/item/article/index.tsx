@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:31:26
+ * @Last Modified time: 2024-01-13 23:03:16
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
-import { date, appNavigate, HTMLDecode } from '@utils'
+import { appNavigate, date, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Avatar, Name } from '../../base'
+import { COMPONENT, Y } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemArticleProps } from './types'
-import { View } from 'react-native'
 
 export { ItemArticleProps }
-
-const D = new Date()
-const Y = String(D.getFullYear()).slice(2, 4)
 
 export const ItemArticle = ob(
   ({
@@ -39,11 +37,7 @@ export const ItemArticle = ob(
     if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
     return (
       <Component id='item-article' data-key={url}>
-        <Touchable
-          style={style}
-          animate
-          onPress={() => appNavigate(url, navigation, {}, event)}
-        >
+        <Touchable style={style} animate onPress={() => appNavigate(url, navigation, {}, event)}>
           <Flex align='start'>
             <View style={styles.cover}>
               <UserStatus userId={userId}>
@@ -77,5 +71,6 @@ export const ItemArticle = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

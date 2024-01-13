@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 16:28:37
+ * @Last Modified time: 2024-01-13 23:30:46
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
@@ -11,6 +11,7 @@ import { navigationReference, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { IItemSettingBlock, ItemSettingBlockItemProps, ItemSettingBlockProps } from './types'
 
@@ -79,7 +80,8 @@ const ItemSettingBlock: IItemSettingBlock = ob(
         </Flex>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )
 
 ItemSettingBlock.Item = Item

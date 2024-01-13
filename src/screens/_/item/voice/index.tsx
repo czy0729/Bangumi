@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 12:06:04
+ * @Last Modified time: 2024-01-13 23:33:06
  */
 import React from 'react'
-import { Expand, Flex, Text, Image, Touchable, Component } from '@components'
+import { Component, Expand, Flex, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useExpandLazy, useObserver } from '@utils/hooks'
-import { EVENT, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-import { InView, Cover, Tag } from '../../base'
-import { AVATAR_SIZE } from './ds'
+import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
+import { Cover, InView, Tag } from '../../base'
+import { AVATAR_SIZE, COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemVoiceProps } from './types'
 
 export { ItemVoiceProps }
-
-const ITEM_HEIGHT = 132
 
 export const ItemVoice = ({
   style,
@@ -32,6 +31,8 @@ export const ItemVoice = ({
   subject = [],
   children
 }: ItemVoiceProps) => {
+  r(COMPONENT)
+
   const { list, onExpand } = useExpandLazy(subject, 4)
 
   return useObserver(() => {
@@ -106,14 +107,7 @@ export const ItemVoice = ({
                       <Text align='right' size={12} bold>
                         {cn}
                       </Text>
-                      <Text
-                        style={_.mt.xs}
-                        size={11}
-                        type='sub'
-                        align='right'
-                        lineHeight={12}
-                        bold
-                      >
+                      <Text style={_.mt.xs} size={11} type='sub' align='right' lineHeight={12} bold>
                         {jp}
                       </Text>
                       <Flex style={_.mt.sm} justify='end'>

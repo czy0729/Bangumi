@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:34:11
+ * @Last Modified time: 2024-01-13 23:27:31
  */
 import React from 'react'
 import { Component } from '@components'
@@ -10,11 +10,11 @@ import { rakuenStore, uiStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { rerender } from '@utils/dev'
 import { HOST } from '@constants'
 import Item from './item'
 import PlusOne from './plus-one'
 import { isBlockUser } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemPostProps } from './types'
 
@@ -49,8 +49,6 @@ export const ItemPost = obc(
     }: ItemPostProps,
     { $, navigation }
   ) => {
-    rerender('Topic.Item')
-
     // 屏蔽脏数据
     if (!userId) return null
 
@@ -75,12 +73,7 @@ export const ItemPost = obc(
       (msg.toLocaleLowerCase().includes('mark') || msg.includes('+1'))
     if (isDelete || isBadge) {
       return (
-        <Component
-          id='item-post'
-          data-key={id}
-          data-type='plus-one'
-          style={styles.itemDelete}
-        >
+        <Component id='item-post' data-key={id} data-type='plus-one' style={styles.itemDelete}>
           <PlusOne
             id={id}
             message={message}
@@ -103,8 +96,7 @@ export const ItemPost = obc(
     const _expands = Number(expandNums || subExpand)
     let isExpand: boolean
     if (_expands !== undefined) {
-      isExpand =
-        sub.length <= _expands || (sub.length > _expands && expands?.includes(id))
+      isExpand = sub.length <= _expands || (sub.length > _expands && expands?.includes(id))
     } else {
       isExpand = true
     }
@@ -163,5 +155,6 @@ export const ItemPost = obc(
         onToggleExpand={$?.toggleExpand}
       />
     )
-  }
+  },
+  COMPONENT
 )

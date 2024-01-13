@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 03:29:52
+ * @Last Modified time: 2024-01-13 23:21:49
  */
 import React from 'react'
 import { View } from 'react-native'
 import Progress from '@ant-design/react-native/lib/progress'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { Avatar } from '../../base'
-import Name from './name'
 import Counts from './counts'
+import Name from './name'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemFriendsProps } from './types'
 
@@ -63,12 +64,7 @@ export const ItemFriends = ob(
           <Flex>
             <View style={styles.avatar}>
               <UserStatus userId={userId}>
-                <Avatar
-                  navigation={navigation}
-                  name={userName}
-                  userId={userId}
-                  src={avatar}
-                />
+                <Avatar navigation={navigation} name={userName} userId={userId} src={avatar} />
               </UserStatus>
             </View>
             <Flex.Item style={styles.item}>
@@ -102,5 +98,6 @@ export const ItemFriends = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

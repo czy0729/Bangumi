@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:00:33
+ * @Last Modified time: 2024-01-13 23:32:29
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
 import { UserId } from '@types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
+
+export const COMPONENT = rc(PARENT, 'ItemTimeline')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
+
+export const ITEM_HEIGHT = 84
 
 export const AVATAR_WIDTH = 40
 

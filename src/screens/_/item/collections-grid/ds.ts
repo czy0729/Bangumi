@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-25 19:40:13
+ * @Last Modified time: 2024-01-13 23:17:31
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
 import { GridStyle } from '@types'
+import { COMPONENT as PARENT } from '../ds'
 import { Props } from './types'
+
+export const COMPONENT = rc(PARENT, 'ItemCollectionsGrid')
 
 export const HIT_SLOP = {
   top: _.device(2, 4),

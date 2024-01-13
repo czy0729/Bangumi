@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 22:06:30
+ * @Last Modified time: 2024-01-13 23:04:35
  */
 import React from 'react'
-import { Touchable, Text, Component } from '@components'
+import { Component, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { stl, HTMLDecode } from '@utils'
-import { t } from '@utils/fetch'
+import { HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { Images } from '@types'
 import { Cover } from '../../base'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemBangumiListProps } from './types'
 
@@ -29,11 +30,7 @@ export const ItemBangumiList = ob(
   }: ItemBangumiListProps) => {
     const styles = memoStyles()
     return (
-      <Component
-        id='item-bangumi-list'
-        data-key={subjectId}
-        style={stl(styles.item, style)}
-      >
+      <Component id='item-bangumi-list' data-key={subjectId} style={stl(styles.item, style)}>
         <Touchable
           animate
           scale={0.9}
@@ -59,5 +56,6 @@ export const ItemBangumiList = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

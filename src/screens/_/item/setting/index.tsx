@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 02:02:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 16:33:37
+ * @Last Modified time: 2024-01-13 23:30:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { navigationReference, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemSettingProps } from './types'
 
@@ -112,5 +113,6 @@ export const ItemSetting = ob(
         {content}
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

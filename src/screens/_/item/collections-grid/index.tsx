@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 00:12:09
+ * @Last Modified time: 2024-01-13 23:17:53
  */
 import React from 'react'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { Props as ItemCollectionsGridProps } from './types'
 
 export { ItemCollectionsGridProps }
@@ -36,8 +36,6 @@ export const ItemCollectionsGrid = ob(
     isRectangle,
     event
   }: ItemCollectionsGridProps) => {
-    rerender('Component.ItemCollectionsGrid')
-
     return (
       <Item
         navigation={navigation}
@@ -62,5 +60,6 @@ export const ItemCollectionsGrid = ob(
         event={event}
       />
     )
-  }
+  },
+  COMPONENT
 )

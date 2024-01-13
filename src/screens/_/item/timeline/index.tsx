@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 23:13:48
+ * @Last Modified time: 2024-01-13 23:31:37
  */
 import React from 'react'
+import { Component } from '@components'
 import { timelineStore } from '@stores'
 import { getTimestamp, matchUserId } from '@utils'
 import { ob } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { HOST } from '@constants'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemTimelineProps } from './types'
-import { Component } from '@components'
 
 export { ItemTimelineProps }
 
@@ -41,8 +41,6 @@ export const ItemTimeline = ob(
     onDelete,
     onHidden
   }: ItemTimelineProps) => {
-    rerender('Component.ItemTimeline')
-
     const userId = matchUserId(String(avatar?.url || p1?.url).replace(HOST, ''))
     if (userId in timelineStore.hidden) {
       if (getTimestamp() < timelineStore.hidden[userId]) return null
@@ -77,5 +75,6 @@ export const ItemTimeline = ob(
         />
       </Component>
     )
-  }
+  },
+  COMPONENT
 )
