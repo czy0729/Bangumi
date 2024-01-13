@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-18 13:58:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 01:07:10
+ * @Last Modified time: 2024-01-14 04:18:06
  */
 import React from 'react'
 import { Component } from '@components'
@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { IconTouchable } from '../touchable'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as IconLayoutProps } from './types'
 
@@ -28,5 +29,6 @@ export const IconLayout = ob(
         {children}
       </IconTouchable>
     </Component>
-  )
+  ),
+  COMPONENT
 )

@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 01:00:48
+ * @Last Modified time: 2024-01-14 04:16:36
  */
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Component, Iconfont } from '@components'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 import { Props as IconExpandProps } from './types'
 
 export { IconExpandProps }
 
 export const IconExpand = ({ style, expand = false, color }: IconExpandProps) => {
+  r(COMPONENT)
+
   const rotate = useRef(new Animated.Value(expand ? 1 : 0))
   const styles = useMemo(
     () => [

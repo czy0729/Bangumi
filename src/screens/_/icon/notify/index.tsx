@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 01:11:34
+ * @Last Modified time: 2024-01-14 04:18:36
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
 import { rakuenStore, userStore } from '@stores'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as IconNotifyProps } from './types'
 
@@ -44,9 +45,7 @@ export const IconNotify = ob(
       const { hasNewPM } = userStore
       return (
         <Component id='item-notify'>
-          {(hasNewNotify || hasNewPM) && (
-            <View style={this.styles.dot} pointerEvents='none' />
-          )}
+          {(hasNewNotify || hasNewPM) && <View style={this.styles.dot} pointerEvents='none' />}
           <IconTabsHeader
             style={style}
             name='md-mail-outline'
@@ -74,5 +73,6 @@ export const IconNotify = ob(
     get styles() {
       return memoStyles()
     }
-  }
+  },
+  COMPONENT
 )

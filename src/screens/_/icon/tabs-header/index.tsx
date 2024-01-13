@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-19 20:13:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 01:15:22
+ * @Last Modified time: 2024-01-14 04:20:43
  */
 import React from 'react'
-import { Touchable, Iconfont, Text, Component } from '@components'
-import { IOS } from '@constants'
+import { Component, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { IOS } from '@constants'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as IconTabsHeaderProps } from './types'
 
@@ -50,13 +51,7 @@ export const IconTabsHeader = ob(
     return (
       <Component id='icon-tabs-header'>
         <Touchable
-          style={stl(
-            styles.icon,
-            styles.touch,
-            styles[position],
-            IOS && styles.ios,
-            style
-          )}
+          style={stl(styles.icon, styles.touch, styles[position], IOS && styles.ios, style)}
           onPress={onPress}
         >
           {top}
@@ -64,5 +59,6 @@ export const IconTabsHeader = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

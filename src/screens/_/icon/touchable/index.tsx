@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 03:54:30
+ * @Last Modified time: 2024-01-14 04:21:44
  */
 import React from 'react'
-import { Touchable, Flex, Iconfont, Text, Component } from '@components'
+import { Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as IconTouchableProps } from './types'
 
@@ -62,5 +63,6 @@ export const IconTouchable = ob(
         </Touchable>
       </Component>
     )
-  }
+  },
+  COMPONENT
 )

@@ -3,15 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-09-07 15:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 16:33:24
+ * @Last Modified time: 2024-01-14 04:21:00
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _, systemStore } from '@stores'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { IconTabsHeader } from '../tabs-header'
+import { COMPONENT } from './ds'
 import { Props as IconTinygrailProps } from './types'
 
 export { IconTinygrailProps }
@@ -35,13 +36,7 @@ export const IconTinygrail = ob(
             navigation.push('Tinygrail')
           }}
         >
-          <Heatmap
-            right={52}
-            id='首页.跳转'
-            to='Tinygrail'
-            alias='小圣杯'
-            transparent
-          />
+          <Heatmap right={52} id='首页.跳转' to='Tinygrail' alias='小圣杯' transparent />
         </IconTabsHeader>
       )
     }
@@ -62,5 +57,6 @@ export const IconTinygrail = ob(
         }}
       />
     )
-  }
+  },
+  COMPONENT
 )
