@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-30 19:35:46
+ * @Last Modified time: 2024-01-15 22:16:20
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Heatmap } from '@components'
+import { Flex, Header as CompHeader, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   const { list } = $.say
@@ -20,9 +21,7 @@ function Header(props, { $ }: Ctx) {
   return (
     <CompHeader
       title={
-        $.isNew
-          ? '新吐槽'
-          : `吐槽 (${list.length})${date ? ` · ${date.split(' ')?.[0]}` : ''}`
+        $.isNew ? '新吐槽' : `吐槽 (${list.length})${date ? ` · ${date.split(' ')?.[0]}` : ''}`
       }
       alias='吐槽'
       hm={[$.url, 'Say']}
@@ -71,4 +70,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

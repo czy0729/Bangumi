@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 14:14:44
+ * @Last Modified time: 2024-01-15 22:18:26
  */
 import React from 'react'
 import { Text } from '@components'
@@ -11,10 +11,7 @@ import { getAvatarLocal } from '@utils'
 import { obc } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
 import { Ctx } from '../../types'
-
-const EVENT = {
-  id: '吐槽.跳转'
-} as const
+import { COMPONENT, EVENT } from './ds'
 
 function Item({ item, index }, { $ }: Ctx) {
   if (!item.id) return null
@@ -41,4 +38,4 @@ function Item({ item, index }, { $ }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

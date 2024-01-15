@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:12:57
+ * @Last Modified time: 2024-01-15 22:32:25
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { timelineStore, userStore } from '@stores'
-import { info, feedback } from '@utils'
-import store from '@utils/store'
+import { feedback, info } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { webhookSay } from '@utils/webhooks'
 import { HOST, IOS, MODEL_TIMELINE_TYPE } from '@constants'
 import i18n from '@constants/i18n'
@@ -109,7 +109,7 @@ export default class ScreenSay extends store<typeof STATE> {
           scrollView.scrollToIndex({
             animated,
             index: 0,
-            viewOffset: 0
+            viewOffset: 200
           })
         } catch (error) {}
       }, 160)

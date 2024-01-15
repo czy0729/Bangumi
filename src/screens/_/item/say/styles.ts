@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 19:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-17 20:01:51
+ * @Last Modified time: 2024-01-15 22:29:03
  */
 import { _ } from '@stores'
 
@@ -13,8 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     left: 0,
     bottom: 0,
     width: 40,
-    height: 40,
-    backgroundColor: _.colorBg
+    height: 40
   },
   avatarWrapRight: {
     position: 'absolute',
@@ -22,8 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 0,
     width: 40,
-    height: 40,
-    backgroundColor: _.colorBg
+    height: 40
   },
   contentLeft: {
     maxWidth: '88%',

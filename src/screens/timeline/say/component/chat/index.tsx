@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 14:14:54
+ * @Last Modified time: 2024-01-15 22:18:00
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import Item from './item'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Chat({ forwardRef }: any, { $ }: Ctx) {
@@ -31,8 +32,4 @@ function Chat({ forwardRef }: any, { $ }: Ctx) {
   )
 }
 
-export default obc(Chat)
-
-function renderItem({ item, index }) {
-  return <Item item={item} index={index} />
-}
+export default obc(Chat, COMPONENT)

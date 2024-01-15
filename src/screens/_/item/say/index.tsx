@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:29:08
+ * @Last Modified time: 2024-01-15 22:37:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Flex, RenderHtml, Text, UserStatus } from '@components'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -36,7 +36,6 @@ export const ItemSay = obc(
     { navigation }
   ) => {
     const styles = memoStyles()
-    const { coverRadius } = systemStore.setting
     if (position === 'right') {
       return (
         <Component id='item-say' data-type='right'>
@@ -64,15 +63,7 @@ export const ItemSay = obc(
                 </View>
               </Flex>
             </Flex.Item>
-            <Flex
-              style={[
-                styles.avatarWrapRight,
-                {
-                  borderRadius: coverRadius + 4
-                }
-              ]}
-              justify='center'
-            >
+            <Flex style={styles.avatarWrapRight} justify='center'>
               <UserStatus userId={id}>
                 <Avatar
                   navigation={navigation}
@@ -93,15 +84,7 @@ export const ItemSay = obc(
     return (
       <Component id='item-say' data-type='left'>
         <Flex style={showName ? _.mt.md : _.mt.sm} align='start'>
-          <Flex
-            style={[
-              styles.avatarWrapLeft,
-              {
-                borderRadius: coverRadius + 4
-              }
-            ]}
-            justify='center'
-          >
+          <Flex style={styles.avatarWrapLeft} justify='center'>
             <UserStatus userId={id}>
               <Avatar
                 navigation={navigation}
@@ -118,24 +101,25 @@ export const ItemSay = obc(
           <Flex.Item style={styles.contentLeft}>
             <Flex direction='column' align='start'>
               {showName && (
-                <Name
-                  style={_.ml.sm}
-                  userId={id}
-                  showFriend
-                  size={11}
-                  type='title'
-                  bold
-                  right={
-                    !!time && (
-                      <Text type='sub' size={11} bold>
-                        {' · '}
-                        {time}
-                      </Text>
-                    )
-                  }
-                >
-                  {name}
-                </Name>
+                <View style={_.ml.sm}>
+                  <Name
+                    userId={id}
+                    showFriend
+                    size={11}
+                    type='title'
+                    bold
+                    right={
+                      !!time && (
+                        <Text type='sub' size={11} bold>
+                          {' · '}
+                          {time}
+                        </Text>
+                      )
+                    }
+                  >
+                    {name}
+                  </Name>
+                </View>
               )}
               <View style={[styles.text, _.mt.xs]}>
                 <RenderHtml

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 14:30:47
+ * @Last Modified time: 2024-01-15 22:26:56
  */
 import { Alert, BackHandler } from 'react-native'
 import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { AnyObject, EventType, Navigation } from '@types'
 import { DEV } from '@/config'
-import { t } from '../fetch'
+import { AnyObject, EventType, Navigation } from '@types'
 import { s2tAsync } from '../async'
+import { globalLog, globalWarn, rerender } from '../dev'
+import { t } from '../fetch'
 import { getStorage, setStorage } from '../storage'
-import { rerender, globalLog, globalWarn } from '../dev'
+import { open } from '../utils'
 import { fixedBgmUrl, matchBgmLink } from './data-source'
 import { PRIVACY_STATE, RANDOM_FACTOR } from './ds'
 

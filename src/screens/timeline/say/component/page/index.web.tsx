@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-17 11:49:00
+ * @Last Modified time: 2024-01-15 22:13:27
  */
 import React from 'react'
-import { ScrollView, FixedTextarea, Flex, Loading, Page, Text } from '@components'
+import { FixedTextarea, Flex, Loading, Page, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { Ctx } from '../../types'
 import Chat from '../chat'
-import { Ctx } from '../types'
 
 class Say extends React.Component {
   state = {
@@ -64,10 +64,7 @@ class Say extends React.Component {
     }
 
     return (
-      <ScrollView
-        contentContainerStyle={_.container.bottom}
-        {...SCROLL_VIEW_RESET_PROPS}
-      >
+      <ScrollView contentContainerStyle={_.container.bottom} {...SCROLL_VIEW_RESET_PROPS}>
         <Chat />
       </ScrollView>
     )
@@ -92,11 +89,7 @@ class Say extends React.Component {
 
   render() {
     const { $ } = this.context as Ctx
-    return (
-      <Page style={_.container.screen}>
-        {$.isNew ? this.renderNew() : this.renderList()}
-      </Page>
-    )
+    return <Page style={_.container.screen}>{$.isNew ? this.renderNew() : this.renderList()}</Page>
   }
 }
 
