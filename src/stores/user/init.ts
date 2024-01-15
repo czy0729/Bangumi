@@ -35,6 +35,7 @@ export const INIT_USER_COOKIE: {
   userAgent: string
   v?: number
   tourist?: number
+  setCookie?: string
 } = {
   cookie: '',
   userAgent: '',

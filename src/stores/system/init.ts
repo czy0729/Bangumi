@@ -382,7 +382,7 @@ export const INIT_SETTING = {
   likeCollected: true,
 
   /** 启用毛玻璃布局 (android) */
-  androidBlur: false,
+  androidBlur: STORYBOOK,
 
   /** 毛玻璃: 首屏页面顶部和底部 (android) */
   blurBottomTabs: true,

@@ -175,6 +175,8 @@ export default class Computed extends State {
         data.list = this.sortList(data.list)
       }
 
+      if (STORYBOOK) data.list = data.list.slice(0, 50)
+
       return CacheManager.set(key, data)
     }).get()
   }

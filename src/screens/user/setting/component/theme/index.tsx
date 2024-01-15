@@ -24,7 +24,7 @@ function Theme({ navigation, filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (STORYBOOK || !shows) return null
+    if (!shows) return null
 
     const { deepDark, autoColorScheme, androidBlur } = systemStore.setting
     return (
@@ -34,7 +34,7 @@ function Theme({ navigation, filter }) {
 
         <ActionSheet
           show={state}
-          height={filter ? 440 : IOS ? 440 : 760}
+          height={STORYBOOK ? 440 : filter ? 440 : IOS ? 440 : 760}
           title='主题'
           onClose={setFalse}
         >
@@ -50,38 +50,41 @@ function Theme({ navigation, filter }) {
             ])}
             {...TEXTS.theme.setting}
           >
-            <ItemSettingBlock.Item
-              icon='ios-sunny'
-              iconColor={_.colorYellow}
-              active={!_.isDark}
-              filter={filter}
-              onPress={async () => {
-                if (!_.isDark) return
+            {!STORYBOOK && (
+              <ItemSettingBlock.Item
+                style={_.mr.md}
+                icon='ios-sunny'
+                iconColor={_.colorYellow}
+                active={!_.isDark}
+                filter={filter}
+                onPress={async () => {
+                  if (!_.isDark) return
 
-                t('设置.切换', {
-                  title: '黑暗模式',
-                  checked: !_.isDark
-                })
-
-                _.toggleMode()
-
-                // 用于主动刷新头部颜色
-                setTimeout(() => {
-                  updateHeader({
-                    navigation
+                  t('设置.切换', {
+                    title: '黑暗模式',
+                    checked: !_.isDark
                   })
-                }, 0)
 
-                setTimeout(() => {
-                  if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
-                }, 40)
-              }}
-              {...TEXTS.theme.light}
-            >
-              <Heatmap id='设置.切换' title='黑暗模式' />
-            </ItemSettingBlock.Item>
+                  _.toggleMode()
+
+                  // 用于主动刷新头部颜色
+                  setTimeout(() => {
+                    updateHeader({
+                      navigation
+                    })
+                  }, 0)
+
+                  setTimeout(() => {
+                    if (_.mode !== _.tinygrailThemeMode) _.toggleTinygrailThemeMode()
+                  }, 40)
+                }}
+                {...TEXTS.theme.light}
+              >
+                <Heatmap id='设置.切换' title='黑暗模式' />
+              </ItemSettingBlock.Item>
+            )}
             <ItemSettingBlock.Item
-              style={_.ml.md}
+              style={_.mr.md}
               icon='ios-moon'
               iconColor={_.colorYellow}
               active={_.isDark && deepDark}
@@ -112,7 +115,6 @@ function Theme({ navigation, filter }) {
               <Heatmap id='设置.切换' title='纯黑' />
             </ItemSettingBlock.Item>
             <ItemSettingBlock.Item
-              style={_.ml.md}
               icon='ios-moon'
               iconColor={_.colorYellow}
               active={_.isDark && !deepDark}
@@ -145,27 +147,29 @@ function Theme({ navigation, filter }) {
           </ItemSettingBlock>
 
           {/* 跟随系统 */}
-          <ItemSetting
-            show={shows.autoColorScheme && !IS_BEFORE_ANDROID_10}
-            ft={
-              <SwitchPro
-                style={styles.switch}
-                value={autoColorScheme}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '跟随系统',
-                    checked: !autoColorScheme
-                  })
+          {!STORYBOOK && (
+            <ItemSetting
+              show={shows.autoColorScheme && !IS_BEFORE_ANDROID_10}
+              ft={
+                <SwitchPro
+                  style={styles.switch}
+                  value={autoColorScheme}
+                  onSyncPress={() => {
+                    t('设置.切换', {
+                      title: '跟随系统',
+                      checked: !autoColorScheme
+                    })
 
-                  systemStore.switchSetting('autoColorScheme')
-                }}
-              />
-            }
-            filter={filter}
-            {...TEXTS.autoColorScheme}
-          >
-            <Heatmap id='设置.切换' title='跟随系统' />
-          </ItemSetting>
+                    systemStore.switchSetting('autoColorScheme')
+                  }}
+                />
+              }
+              filter={filter}
+              {...TEXTS.autoColorScheme}
+            >
+              <Heatmap id='设置.切换' title='跟随系统' />
+            </ItemSetting>
+          )}
 
           {/* 毛玻璃布局 */}
           <ItemSetting

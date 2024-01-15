@@ -7,14 +7,14 @@
 import React from 'react'
 import { useObserver } from 'mobx-react'
 import { BlurView } from 'expo-blur'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { getSPAId } from '@utils'
 import { r } from '@utils/dev'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
 import { Component } from '../../component'
-import { BOTTOM_TAB_DS } from '../ds'
+import { BOTTOM_TAB_DS, BOTTOM_TAB_WITH_AUTH_DS } from '../ds'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Text } from '../../text'
@@ -28,17 +28,19 @@ export const StorybookBottomTab = () => {
 
   if (!STORYBOOK) return null
 
-  const params = new URLSearchParams(window.location.search)
-  const currentStoryId = params.get('id')
-  if (!BOTTOM_TAB_DS.some(item => currentStoryId === getSPAId(item.id))) return null
-
   return useObserver(() => {
+    const params = new URLSearchParams(window.location.search)
+    const currentStoryId = params.get('id')
+
+    const DS = userStore.isStorybookLogin ? BOTTOM_TAB_WITH_AUTH_DS : BOTTOM_TAB_DS
+    if (!DS.some(item => currentStoryId === getSPAId(item.id))) return null
+
     const styles = memoStyles()
     return (
       <Component id='component-storybook-bottom-tab' style={styles.bottomTab}>
         <BlurView style={styles.blurView} tint={_.select('light', 'dark')} intensity={100}>
           <Flex>
-            {BOTTOM_TAB_DS.map(item => {
+            {DS.map((item: (typeof BOTTOM_TAB_WITH_AUTH_DS)[number]) => {
               const storyId = getSPAId(item.id)
               const isActive = currentStoryId === storyId
               return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-08 23:39:32
+ * @Last Modified time: 2024-01-16 06:27:08
  */
 import { StyleSheet } from 'react-native'
 // import changeNavigationBarColor from 'react-native-navigation-bar-color'
@@ -11,8 +11,8 @@ import { IOS, STORYBOOK, WSA } from '@constants'
 import _, { IS_IOS_5_6_7_8 } from '@styles'
 import { AnyObject, SelectFn, SettingFontsizeadjust } from '@types'
 import Computed from './computed'
-import { getMemoStyles, getMemoStylesHash } from './utils'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
+import { getMemoStyles, getMemoStylesHash } from './utils'
 import { Mode, Orientation, TinygrailMode } from './types'
 
 export default class Action extends Computed {
@@ -82,7 +82,7 @@ export default class Action extends Computed {
   /** 切换主题模式 */
   toggleMode = (mode?: Mode) => {
     // web 端暂不开放白天模式
-    if (STORYBOOK) return false
+    if (STORYBOOK && mode === 'light') return false
 
     const key = 'mode'
     if (mode === 'light') {
@@ -92,6 +92,7 @@ export default class Action extends Computed {
       })
     } else if (mode === 'dark') {
       this.setState(
+        // @ts-expect-error
         this.deepDark
           ? {
               [key]: 'dark',
@@ -104,6 +105,7 @@ export default class Action extends Computed {
             }
       )
     } else {
+      // @ts-expect-error
       this.setState({
         [key]: this.select('dark', 'light'),
         ...this.select(
