@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 19:44:23
+ * @Last Modified time: 2024-01-15 22:52:54
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -481,6 +481,16 @@ export default class Computed extends State {
 
   /** bangumi-data 数据扩展 */
   bangumiInfo(subjectId: SubjectId) {
+    // 暂时不使用 bangumi-data 数据
+    return {
+      title: '',
+      type: 'tv',
+      sites: [],
+      titleTranslate: {
+        'zh-Hans': []
+      }
+    }
+
     return computed(() => {
       if (!this.state.loadedBangumiData) {
         return {

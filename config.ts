@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 22:52:05
+ * @Last Modified time: 2024-01-15 23:02:16
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -45,7 +45,7 @@ const CONFIGS: Configs = {
     // topicId: 'group/391427' // group/366561
     // userId: 456208 // 456208, 419012, 'lilyurey'
     // monoId: 'character/76270' // character/70323 person/5745
-    // id: 240929
+    // id: 37896791
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]
     // blogId: 307175 // 294448
     // catalogId: 37787

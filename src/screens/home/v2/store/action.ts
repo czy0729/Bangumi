@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-22 01:24:28
+ * @Last Modified time: 2024-01-15 22:51:58
  */
 import { collectionStore, userStore } from '@stores'
 import {
-  HTMLDecode,
   appNavigate,
   asc,
   cnjp,
@@ -18,6 +17,7 @@ import {
   getBangumiUrl,
   getCalenderEventTitle,
   getCoverMedium,
+  HTMLDecode,
   info,
   loading,
   open,
@@ -26,13 +26,10 @@ import {
   sleep,
   updateVisibleBottom
 } from '@utils'
+import { calendarEventsRequestPermissions, calendarGetEventsAsync } from '@utils/calendar'
 import { t } from '@utils/fetch'
-import {
-  calendarEventsRequestPermissions,
-  calendarGetEventsAsync
-} from '@utils/calendar'
 import { download, temp } from '@utils/kv'
-import { webhookEp, webhookCollection } from '@utils/webhooks'
+import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -43,6 +40,7 @@ import {
 import {
   EpId,
   EpStatus,
+  Id,
   Navigation,
   RatingStatus,
   Subject,
@@ -51,7 +49,7 @@ import {
 } from '@types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
-import { STATE, EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -243,7 +241,11 @@ export default class Action extends Fetch {
         const bangumiInfo = this.bangumiInfo(subjectId)
         const { sites = [] } = bangumiInfo
         const cn = HTMLDecode(name_cn || name)
-        let item
+        let item: {
+          site: string
+          id: Id
+          url?: string
+        }
 
         switch (label) {
           case 'AGE动漫':
@@ -355,9 +357,7 @@ export default class Action extends Fetch {
 
   /** -------------------- action -------------------- */
   /** 管理收藏 */
-  doUpdateCollection = async (
-    values: Parameters<typeof collectionStore.doUpdateCollection>[0]
-  ) => {
+  doUpdateCollection = async (values: Parameters<typeof collectionStore.doUpdateCollection>[0]) => {
     t('首页.管理收藏', {
       subjectId: values.subjectId
     })
@@ -496,11 +496,7 @@ export default class Action extends Fetch {
   ) => {
     if (value === '添加提醒') {
       const subject = this.subject(subjectId)
-      saveCalenderEvent(
-        item,
-        cnjp(subject.name_cn, subject.name),
-        this.onAirCustom(subjectId)
-      )
+      saveCalenderEvent(item, cnjp(subject.name_cn, subject.name), this.onAirCustom(subjectId))
 
       t('其他.添加日历', {
         subjectId,
@@ -602,9 +598,10 @@ export default class Action extends Fetch {
           _title: `ep${item.sort}.${item.name || item.name_cn}`,
           _group: subject.name || subject.name_cn,
           _groupThumb: getCoverMedium((subject.images || {})?.medium),
-          _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(
-            item.desc || ''
-          ).replace(/\r\n/g, '<br />')}`
+          _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
+            /\r\n/g,
+            '<br />'
+          )}`
         },
         {
           id: '首页.跳转'
@@ -703,9 +700,7 @@ export default class Action extends Fetch {
     if (eps.length) {
       const subject = this.subject(subjectId)
       const eps =
-        subject.eps.length >= 100
-          ? subject.eps.filter(item => item.status === 'NA')
-          : subject.eps
+        subject.eps.length >= 100 ? subject.eps.filter(item => item.status === 'NA') : subject.eps
       if (!eps.length) {
         info('没有数据')
         return

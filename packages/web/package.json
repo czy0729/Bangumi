@@ -4,8 +4,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "dev": "STORYBOOK=true start-storybook -p 6006",
-    "build": "STORYBOOK=true build-storybook",
+    "dev": "sudo STORYBOOK=true start-storybook -p 6006",
+    "build": "sudo STORYBOOK=true build-storybook",
     "postinstall": "patch-package",
     "env": "node ./packages/env.js",
     "proxy": "cd ./web/tools && node proxy-api.js",
