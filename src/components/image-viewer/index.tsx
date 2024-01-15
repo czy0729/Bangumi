@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:46:43
+ * @Last Modified time: 2024-01-14 16:34:24
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { open, showActionSheet, stl } from '@utils'
+import { r } from '@utils/dev'
 import { HOST_DOGE, IOS } from '@constants'
-import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
 import { Component } from '../component'
-import { StatusBar } from '../status-bar'
-import { Touchable } from '../touchable'
+import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
 import { Iconfont } from '../iconfont'
+import { StatusBar } from '../status-bar'
 import { Text } from '../text'
+import { Touchable } from '../touchable'
+import { ACTION_SHEET_DS, COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as ImageViewerProps } from './types'
 
 export { ImageViewerProps }
-
-const ACTION_SHEET_DS = ['浏览器打开图片', '取消'] as const
 
 /**
  * 图片相册查看器
@@ -83,19 +83,15 @@ export const ImageViewer = observer(
       if (imageUrls.length <= 1) return null
 
       return (
-        <Text
-          style={styles.indicator}
-          type='__plain__'
-          align='center'
-          // @ts-expect-error
-          pointerEvents='none'
-        >
+        <Text style={styles.indicator} type='__plain__' align='center' pointerEvents='none'>
           {currentIndex} / {allSize}
         </Text>
       )
     }
 
     render() {
+      r(COMPONENT)
+
       const { index, visible, imageUrls, mini, onCancel, ...other } = this.props
       return (
         <Component id='component-image-viewer'>

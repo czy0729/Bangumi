@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-12-09 13:53:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 05:22:57
+ * @Last Modified time: 2024-01-15 02:28:20
  */
 import React from 'react'
 import { Squircle as SquircleComp } from 'react-ios-corners'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
+import { r } from '@utils/dev'
 import { Component } from '../component'
 import Radius from './radius'
 import { getRadius, getRoundness } from './utils'
+import { COMPONENT } from './ds'
 import { Props as SquircleProps } from './types'
 import './index.scss'
 
@@ -24,6 +26,8 @@ export { SquircleProps }
  * */
 export const Squircle = observer(
   ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
+    r(COMPONENT)
+
     if (!radius) {
       return (
         <Component style={style} id='component-squircle'>

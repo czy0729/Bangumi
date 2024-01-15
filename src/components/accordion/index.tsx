@@ -2,25 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 19:50:59
+ * @Last Modified time: 2024-01-14 04:27:03
  */
-import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
-import { View, Animated, LayoutChangeEvent } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Animated, LayoutChangeEvent, View } from 'react-native'
 import { runAfter } from '@utils'
+import { r } from '@utils/dev'
+import { COMPONENT, MIN_HEIGHT } from './ds'
 import { styles } from './styles'
 import { Props as AccordionProps } from './types'
 
 export { AccordionProps }
 
-const MIN_HEIGHT = 48
-
 /** 手风琴 */
-export const Accordion = ({
-  style,
-  expand = false,
-  lazy = true,
-  children
-}: AccordionProps) => {
+export const Accordion = ({ style, expand = false, lazy = true, children }: AccordionProps) => {
+  r(COMPONENT)
+
   const [show, setShow] = useState(lazy ? expand : true)
   const expanded = useRef(expand)
   const [h, setH] = useState(0)

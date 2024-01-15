@@ -2,22 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:56:30
+ * @Last Modified time: 2024-01-15 02:42:19
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import PropTypes from 'prop-types'
 import { _, systemStore } from '@stores'
+import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
-import {
-  PAD_INCREASE,
-  setComponentsDefaultProps,
-  computedLineHeight,
-  format
-} from './utils'
+import { computedLineHeight, format, PAD_INCREASE, setComponentsDefaultProps } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { TextType, Props as TextProps, Context } from './types'
+import { Context, Props as TextProps, TextType } from './types'
 
 export { setComponentsDefaultProps, TextType, TextProps }
 
@@ -43,6 +40,8 @@ function CompText(
   }: TextProps,
   { lineHeightIncrease: contextLineHeightIncrease = 0 }: Context
 ) {
+  r(COMPONENT)
+
   const styles = memoStyles()
   const _style: TextProps['style'][] = []
 

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-29 22:21:25
+ * @Last Modified time: 2024-01-15 02:39:40
  */
 import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { Component } from '../component'
+import { COMPONENT } from './ds'
 
 const SCALE = 6 / 5
 
@@ -73,10 +75,7 @@ class SwitchProComp extends React.Component<any, any> {
       return
     }
 
-    if (
-      typeof nextProps.value !== 'undefined' &&
-      nextProps.value !== this.props.value
-    ) {
+    if (typeof nextProps.value !== 'undefined' && nextProps.value !== this.props.value) {
       /**
        * you can add animation when changing value programmatically like following:
        * this.animateHandler(this.handlerSize * SCALE, () => {
@@ -152,11 +151,7 @@ class SwitchProComp extends React.Component<any, any> {
    * @param toValue next status of switch
    * @param callback invoke when task is finished
    */
-  toggleSwitchToValue = (
-    result,
-    toValue,
-    callback: (arg0: any) => any = () => null
-  ) => {
+  toggleSwitchToValue = (result, toValue, callback: (arg0: any) => any = () => null) => {
     const { switchAnimation } = this.state
 
     this.animateHandler(this.handlerSize)
@@ -296,15 +291,17 @@ export const SwitchPro = observer(
     backgroundActive = undefined,
     backgroundInactive = undefined,
     ...other
-  }) => (
-    <Component id='component-switch-pro'>
-      <SwitchProComp
-        backgroundActive={backgroundActive || _.colorSuccess}
-        backgroundInactive={
-          backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)
-        }
-        {...other}
-      />
-    </Component>
-  )
+  }) => {
+    r(COMPONENT)
+
+    return (
+      <Component id='component-switch-pro'>
+        <SwitchProComp
+          backgroundActive={backgroundActive || _.colorSuccess}
+          backgroundInactive={backgroundInactive || _.select(_.colorBg, _._colorDarkModeLevel2)}
+          {...other}
+        />
+      </Component>
+    )
+  }
 )

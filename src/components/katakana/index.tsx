@@ -2,15 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:52:38
+ * @Last Modified time: 2024-01-14 16:42:38
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
-import { Text, TextProps } from '../text'
+import { r } from '@utils/dev'
+import { Text } from '../text'
 import { KatakanaProvider } from './provider'
 import { getCache, matchKatakanas, translate } from './utils'
+import { COMPONENT } from './ds'
+import { KatakanaProps, KatakanaProviderProps } from './types'
+
+export { KatakanaProviderProps, KatakanaProps }
 
 let inited: boolean
 ;(async () => {
@@ -28,7 +33,7 @@ let inited: boolean
  *  - 富文本内文字支持
  */
 const Katakana = observer(
-  class KatakanaComponent extends React.Component<TextProps> {
+  class KatakanaComponent extends React.Component<KatakanaProps> {
     static contextTypes = {
       active: PropTypes.bool,
       onKatakana: PropTypes.func
@@ -95,6 +100,8 @@ const Katakana = observer(
     }
 
     render() {
+      r(COMPONENT)
+
       return <Text {...this.props} />
     }
   }

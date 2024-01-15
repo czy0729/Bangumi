@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 18:34:50
+ * @Last Modified time: 2024-01-14 16:24:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import Icons from '@components/@/vector-icons/AntDesign'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { PAD } from '@constants'
+import { r } from '@utils/dev'
 import { Ionicons } from './ionicons'
 import { Material } from './material'
+import { COMPONENT, PAD_INCREASE } from './ds'
 import { AppIconsNames, IoniconsIconsNames, MaterialIconsNames, Props } from './types'
-
-const PAD_INCREASE = PAD === 2 ? 4 : 2
 
 /** Iconfont 自定义项目图标 */
 export const Iconfont = observer(
   ({ style, name = '', size = 22, lineHeight, color, ...other }: Props) => {
+    r(COMPONENT)
+
     const _size = size + _.fontSizeAdjust + _.device(0, PAD_INCREASE)
     const _lineHeight = lineHeight + _.fontSizeAdjust
 

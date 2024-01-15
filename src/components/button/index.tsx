@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 04:16:00
+ * @Last Modified time: 2024-01-14 04:38:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { titleCase, stl } from '@utils'
-import { ViewStyle, TextStyle } from '@types'
+import { stl, titleCase } from '@utils'
+import { r } from '@utils/dev'
+import { TextStyle, ViewStyle } from '@types'
 import { Component } from '../component'
 import { Activity } from '../activity'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ButtonProps } from './types'
 
@@ -40,6 +42,8 @@ export const Button = observer(
     'data-title': dataTitle,
     ...other
   }: ButtonProps) => {
+    r(COMPONENT)
+
     const styles = memoStyles()
     const wrapStyle: ViewStyle[] = [styles.button]
     const textStyle: TextStyle[] = [styles.text]
@@ -73,10 +77,7 @@ export const Button = observer(
       <Flex justify='center'>
         {loading ? (
           <View style={styles.scale}>
-            <Activity
-              color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'}
-              size='small'
-            />
+            <Activity color={type === 'plain' ? 'rgb(128, 128, 128)' : 'white'} size='small' />
           </View>
         ) : (
           <>
@@ -107,12 +108,7 @@ export const Button = observer(
       if (dataTitle) passProps['data-title'] = dataTitle
       return (
         <Component {...passProps}>
-          <Touchable
-            animate={animate}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            {...other}
-          >
+          <Touchable animate={animate} onPress={onPress} onLongPress={onLongPress} {...other}>
             <View style={wrapStyle}>{content}</View>
           </Touchable>
         </Component>

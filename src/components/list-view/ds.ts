@@ -2,16 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:41:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 17:10:42
+ * @Last Modified time: 2024-01-14 16:44:58
  */
-import {
-  DEV,
-  LIST_EMPTY,
-  TEXT_EMPTY,
-  TEXT_FAIL,
-  TEXT_NO_MORE,
-  TEXT_REFRESHING
-} from '@constants'
+import { rc } from '@utils/dev'
+import { DEV, LIST_EMPTY, TEXT_EMPTY, TEXT_FAIL, TEXT_NO_MORE, TEXT_REFRESHING } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'ListView')
 
 export const REFRESH_STATE = {
   Idle: 0,

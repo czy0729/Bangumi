@@ -2,10 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-11 12:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:29:17
+ * @Last Modified time: 2024-01-14 16:27:03
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
 import { EVENT, HOST, STORYBOOK, TEXT_ONLY } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Image')
 
 /** 默认请求头 */
 export const DEFAULT_HEADERS = {

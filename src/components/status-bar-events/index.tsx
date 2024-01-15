@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:14:22
+ * @Last Modified time: 2024-01-15 02:29:12
  */
 import React from 'react'
 import { StatusBarStyle } from 'react-native'
 import { observer } from 'mobx-react'
-import { IOS, STORYBOOK } from '@constants'
 import { _ } from '@stores'
-import { StatusBar } from '../status-bar'
+import { r } from '@utils/dev'
+import { IOS, STORYBOOK } from '@constants'
 import { NavigationEvents } from '../navigation/events'
-import { Props as StatusBarEventsProps, PassProps } from './types'
+import { StatusBar } from '../status-bar'
+import { COMPONENT } from './ds'
+import { PassProps, Props as StatusBarEventsProps } from './types'
 
 export { StatusBarEventsProps }
 
@@ -28,6 +30,8 @@ export const StatusBarEvents = observer(
     animated = IOS,
     action = 'onDidFocus'
   }: StatusBarEventsProps) => {
+    r(COMPONENT)
+
     if (STORYBOOK) return null
 
     let _barStyle: StatusBarStyle

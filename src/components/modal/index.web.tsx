@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 16:12:15
+ * @Last Modified time: 2024-01-15 02:03:24
  */
 import React, { useEffect } from 'react'
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { Component } from '../component'
 import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
-import { Props as ModalProps } from './types'
+import { COMPONENT } from './ds'
 import { styles } from './styles.web'
+import { Props as ModalProps } from './types'
 import './index.scss'
 
 export { ModalProps }
@@ -32,6 +30,8 @@ export const Modal = ({
   onClose,
   children
 }: ModalProps) => {
+  r(COMPONENT)
+
   const activeRef = useSharedValue(visible ? 1 : 0)
   const animatedStyle = useAnimatedStyle(() => {
     return {

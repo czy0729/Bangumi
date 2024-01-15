@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 05:31:31
+ * @Last Modified time: 2024-01-15 02:09:59
  */
-import React, { useState, useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Component } from '../component'
-import { Touchable } from '../touchable'
 import { Flex } from '../flex'
-import { Input } from '../input'
-import { Iconfont } from '../iconfont'
-import { KeyboardSpacer } from '../keyboard-spacer'
 import { Heatmap } from '../heatmap'
+import { Iconfont } from '../iconfont'
+import { Input } from '../input'
+import { KeyboardSpacer } from '../keyboard-spacer'
+import { Touchable } from '../touchable'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as PaginationProps } from './types'
 
@@ -32,8 +34,11 @@ export const Pagination = ({
   onChange = () => {},
   onSearch = () => {}
 }: PaginationProps) => {
+  r(COMPONENT)
+
   const [show, setShow] = useState(false)
   const inputRef = useRef(null)
+
   return useObserver(() => {
     const styles = memoStyles()
     return (

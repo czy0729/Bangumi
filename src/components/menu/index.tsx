@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:01:31
+ * @Last Modified time: 2024-01-14 16:58:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { Component } from '../component'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as MenuProps } from './types'
 
@@ -21,6 +23,8 @@ export { MenuProps }
 /** iOS 风格菜单 */
 export const Menu = observer(
   ({ style, title = [], desc = '', data = [], onSelect = () => {} }: MenuProps) => {
+    r(COMPONENT)
+
     const styles = memoStyles()
     return (
       <Component id='component-menu'>
@@ -65,10 +69,7 @@ export const Menu = observer(
 
             return (
               <View key={item.title} style={showBorder && styles.border}>
-                <Touchable
-                  style={styles.item}
-                  onPress={() => onSelect(item.title, index)}
-                >
+                <Touchable style={styles.item} onPress={() => onSelect(item.title, index)}>
                   {item.title}
                 </Touchable>
               </View>

@@ -2,31 +2,30 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 11:50:15
+ * @Last Modified time: 2024-01-14 16:35:30
  */
 import React from 'react'
 import {
   Keyboard,
-  View,
-  TouchableWithoutFeedback,
   NativeSyntheticEvent,
+  TextInput as RNTextInput,
   TextInputSubmitEditingEventData,
-  TextInput as RNTextInput
+  TouchableWithoutFeedback,
+  View
 } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { Component } from '../component'
-import TextInput from './text-input'
 import Clear from './clear'
+import TextInput from './text-input'
+import { COMPONENT, INPUT_LINE_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as InputProps, State } from './types'
 
 export { InputProps }
-
-/** 一行的大概高度 */
-const INPUT_LINE_HEIGHT = 18
 
 /**
  * 通用输入框
@@ -128,17 +127,15 @@ export const Input = observer(
       const node = evt?.target || evt?.currentTarget
       setTimeout(() => {
         try {
-          node.measureInWindow(
-            (x: number, y: number, width: number, height: number) => {
-              const inputBottomPosition = y + height
-              const scrollViewHeight = _.window.height
-              if (inputBottomPosition > scrollViewHeight - this.keyboardHeight) {
-                onScrollIntoViewIfNeeded(
-                  inputBottomPosition - scrollViewHeight + this.keyboardHeight + _.md
-                )
-              }
+          node.measureInWindow((x: number, y: number, width: number, height: number) => {
+            const inputBottomPosition = y + height
+            const scrollViewHeight = _.window.height
+            if (inputBottomPosition > scrollViewHeight - this.keyboardHeight) {
+              onScrollIntoViewIfNeeded(
+                inputBottomPosition - scrollViewHeight + this.keyboardHeight + _.md
+              )
             }
-          )
+          })
         } catch (error) {}
       }, 640)
     }
@@ -198,13 +195,8 @@ export const Input = observer(
     }
 
     get overrideProps() {
-      const {
-        inputStyle,
-        numberOfLines,
-        placeholderTextColor,
-        onFocus,
-        onScrollIntoViewIfNeeded
-      } = this.props
+      const { inputStyle, numberOfLines, placeholderTextColor, onFocus, onScrollIntoViewIfNeeded } =
+        this.props
       const props: any = {
         forwardRef: this.forwardRef,
         numberOfLines,
@@ -224,16 +216,13 @@ export const Input = observer(
     }
 
     render() {
-      const { style, multiline, numberOfLines, showClear, colorClear, editable } =
-        this.props
+      r(COMPONENT)
+
+      const { style, multiline, numberOfLines, showClear, colorClear, editable } = this.props
       if (multiline) {
         const containerHeight = INPUT_LINE_HEIGHT * numberOfLines + 18
         return (
-          <Component
-            id='component-input'
-            data-editable={editable}
-            style={_.container.block}
-          >
+          <Component id='component-input' data-editable={editable} style={_.container.block}>
             <TouchableWithoutFeedback onPress={this.onTouch}>
               <View
                 style={stl(
@@ -248,19 +237,13 @@ export const Input = observer(
                 <TextInput multiline {...this.passProps} {...this.overrideProps} />
               </View>
             </TouchableWithoutFeedback>
-            {showClear && !!this.state.value && (
-              <Clear color={colorClear} onPress={this.onClear} />
-            )}
+            {showClear && !!this.state.value && <Clear color={colorClear} onPress={this.onClear} />}
           </Component>
         )
       }
 
       return (
-        <Component
-          id='component-input'
-          data-editable={editable}
-          style={_.container.block}
-        >
+        <Component id='component-input' data-editable={editable} style={_.container.block}>
           <TextInput
             style={stl(
               {
@@ -273,9 +256,7 @@ export const Input = observer(
             {...this.overrideProps}
             onSubmitEditing={this.onSubmitEditing}
           />
-          {showClear && !!this.state.value && (
-            <Clear color={colorClear} onPress={this.onClear} />
-          )}
+          {showClear && !!this.state.value && <Clear color={colorClear} onPress={this.onClear} />}
         </Component>
       )
     }

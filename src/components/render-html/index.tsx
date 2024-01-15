@@ -2,35 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:06:26
+ * @Last Modified time: 2024-01-15 02:15:31
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { open, cheerio, HTMLDecode } from '@utils'
+import { cheerio, HTMLDecode, open } from '@utils'
+import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { TextStyle } from '@types'
+import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
 import { a } from '../@/react-native-render-html/src/HTMLRenderers'
-import { Component } from '../component'
+import { bgmMap, BgmText } from '../bgm-text'
 import { ErrorBoundary } from '../error-boundary'
-import { BgmText, bgmMap } from '../bgm-text'
 import { translateAll } from '../katakana/utils'
+import A from './a'
 import Error from './error'
-import MaskText from './mask-text'
-import QuoteText from './quote-text'
-import LineThroughtText from './line-throught-text'
 import HiddenText from './hidden-text'
 import Li from './li'
-import A from './a'
+import LineThroughtText from './line-throught-text'
+import MaskText from './mask-text'
+import QuoteText from './quote-text'
 import ToggleImage from './toggle-image'
 import {
-  getIncreaseFontSize,
   fixedBaseFontStyle,
+  getIncreaseFontSize,
   hackFixedHTMLTags,
   hackMatchMediaLink
 } from './utils'
-import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS, SPAN_MARK } from './ds'
+import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS, SPAN_MARK } from './ds'
 import { Props as RenderHtmlProps } from './types'
 
 export { RenderHtmlProps }
@@ -139,8 +140,7 @@ export const RenderHtml = observer(
                       // 文字
                       text.push(item.data)
                     } else if (item.children) {
-                      const _baseFontStyle: TextStyle =
-                        fixedBaseFontStyle(baseFontStyle)
+                      const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
                       item.children.forEach((i, idx) => {
                         // 表情
                         text.push(
@@ -176,8 +176,7 @@ export const RenderHtml = observer(
             // 删除字
             if (style.includes(SPAN_MARK.lineThrough)) {
               const target = rawChildren?.[0]
-              const text =
-                target?.parent?.children?.[0]?.data || target?.children?.[0]?.data || ''
+              const text = target?.parent?.children?.[0]?.data || target?.children?.[0]?.data || ''
               return (
                 <LineThroughtText
                   key={key}
@@ -313,6 +312,8 @@ export const RenderHtml = observer(
     }
 
     render() {
+      r(COMPONENT)
+
       const {
         style,
         baseFontStyle,

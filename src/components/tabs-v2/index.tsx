@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:55:24
+ * @Last Modified time: 2024-01-15 02:41:35
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { TextStyle, ViewStyle } from '@types'
-import { TabView } from '../@/react-native-tab-view/TabView'
-import { TabBar } from '../@/react-native-tab-view/TabBar'
 import { Component } from '../component'
+import { TabBar } from '../@/react-native-tab-view/TabBar'
+import { TabView } from '../@/react-native-tab-view/TabView'
 import { Flex } from '../flex'
 import { Text } from '../text'
-import { W_INDICATOR, memoStyles } from './styles'
+import { COMPONENT } from './ds'
+import { memoStyles, W_INDICATOR } from './styles'
 import { Props as TabsV2Props } from './types'
 
 export { TabsV2Props, TabView, TabBar, SceneMap }
@@ -33,6 +35,8 @@ export const TabsV2 = ({
   onChange = () => {},
   ...other
 }: TabsV2Props) => {
+  r(COMPONENT)
+
   const styles = memoStyles()
   const renderScene = useMemo(
     () =>

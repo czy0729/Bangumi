@@ -2,8 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-02 04:22:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:34:30
+ * @Last Modified time: 2024-01-15 02:30:00
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Storybook')
+
 export const BOTTOM_TAB_DS = [
   {
     id: 'Discovery',

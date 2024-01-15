@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 19:15:48
+ * @Last Modified time: 2024-01-14 16:28:02
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -10,12 +10,13 @@ import { observer } from 'mobx-react'
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCover400, getTimestamp } from '@utils'
+import { r } from '@utils/dev'
 import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
-import { AnyObject, Fn, Source } from '@types'
 import { IOS_IPA } from '@/config'
+import { AnyObject, Fn, Source } from '@types'
 import { Component } from '../component'
-import { Touchable } from '../touchable'
 import { devLog } from '../dev'
+import { Touchable } from '../touchable'
 import Error from './error'
 import Local from './local'
 import Placeholder from './placeholder'
@@ -36,6 +37,7 @@ import {
   timeoutPromise
 } from './utils'
 import {
+  COMPONENT,
   DEFAULT_HEADERS,
   DEFAULT_PROPS,
   MAX_ERROR_COUNT,
@@ -206,11 +208,7 @@ export const Image = observer(
              * magma 的 cdn 要单独对第一次对象存储镜像做延迟处理, 需要再重新请求一遍
              * @date 20220509
              */
-            if (
-              typeof _src === 'string' &&
-              _src.includes(OSS_MEGMA_PREFIX) &&
-              path === undefined
-            ) {
+            if (typeof _src === 'string' && _src.includes(OSS_MEGMA_PREFIX) && path === undefined) {
               this.onError()
             } else {
               const uri = path || _src
@@ -441,11 +439,7 @@ export const Image = observer(
       if (s) s = s.replace(/\/bgm_poster(_100|_200)?/g, '')
 
       // 如果是触发回滚机制的图, 通常是游戏类的横屏图, 所以可以使用 height 去检查加大一个级别
-      const width = Math.max(
-        this.props.width || 0,
-        this.props.height || 0,
-        this.props.size || 0
-      )
+      const width = Math.max(this.props.width || 0, this.props.height || 0, this.props.size || 0)
       let coverSize: 100 | 200 | 400 = 100
       if (STORYBOOK) {
         if (width > 200) {
@@ -658,12 +652,7 @@ export const Image = observer(
       if (error && errorToHide) return null
 
       if (error && !STORYBOOK) {
-        return (
-          <Error
-            style={this.computedStyle.image}
-            size={this.props.width || this.props.size}
-          />
-        )
+        return <Error style={this.computedStyle.image} size={this.props.width || this.props.size} />
       }
 
       if (typeof src === 'string' || typeof src === 'undefined') {
@@ -712,15 +701,8 @@ export const Image = observer(
     }
 
     renderTouchableImage(onPress: Fn) {
-      const {
-        textOnly,
-        placeholder,
-        delay,
-        scale,
-        skeleton,
-        withoutFeedback,
-        onLongPress
-      } = this.props
+      const { textOnly, placeholder, delay, scale, skeleton, withoutFeedback, onLongPress } =
+        this.props
       const { loaded } = this.state
       return (
         <Component id='component-image' style={this.computedStyle.container}>
@@ -768,6 +750,8 @@ export const Image = observer(
     }
 
     render() {
+      r(COMPONENT)
+
       const {
         src,
         textOnly,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-04 05:24:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 13:11:30
+ * @Last Modified time: 2024-01-14 15:51:08
  */
 import React from 'react'
 import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
@@ -24,8 +24,7 @@ export default class Flex extends React.Component<FlexProps, any> {
   }
 
   render() {
-    const { style, direction, wrap, justify, align, children, ...restProps } =
-      this.props
+    const { style, direction, wrap, justify, align, children, ...restProps } = this.props
     const transferConst = [justify, align]
     const transferConstStyle = transferConst.map(el => {
       let tempTxt

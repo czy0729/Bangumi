@@ -3,15 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 17:37:36
+ * @Last Modified time: 2024-01-15 02:44:24
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { FN } from '@constants'
+import { useCallOnceInInterval } from './hooks'
 import TouchableOpacity from './touchable-opacity'
 import { defaultHitSlop } from './utils'
-import { useCallOnceInInterval } from './hooks'
+import { COMPONENT } from './ds'
 import { Props as TouchableProps } from './types'
 
 export { TouchableProps }
@@ -38,6 +39,8 @@ export const Touchable = observer(
     children,
     ...other
   }: TouchableProps) => {
+    r(COMPONENT)
+
     const { handleDisabled, handlePress } = useCallOnceInInterval(onPress)
     const passProps = {
       style,

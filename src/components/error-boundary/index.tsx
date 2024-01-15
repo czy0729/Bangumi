@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 10:10:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 18:10:40
+ * @Last Modified time: 2024-01-14 15:47:42
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -11,7 +11,7 @@ import { AnyObject } from '@types'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { styles } from './styles'
-import { State, Props as ErrorBoundaryProps } from './types'
+import { Props as ErrorBoundaryProps, State } from './types'
 
 /** 捕捉错误异常 */
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
@@ -27,11 +27,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
     const { error } = this.state
     if (error) {
       return (
-        <Flex
-          style={stl(styles.error, this.props.style)}
-          direction='column'
-          justify='center'
-        >
+        <Flex style={stl(styles.error, this.props.style)} direction='column' justify='center'>
           <Text size={13} type='sub'>
             代码发生错误
           </Text>

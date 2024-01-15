@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:08:56
+ * @Last Modified time: 2024-01-15 02:17:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import Portal from '@ant-design/react-native/lib/portal'
 import { _, systemStore } from '@stores'
+import { r } from '@utils/dev'
 import { IOS, WSA } from '@constants'
-import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
+import { Touchable } from '../touchable'
 import { scrollToTopCallback } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ScrollToToProps } from './types'
 
@@ -21,13 +23,9 @@ export { ScrollToToProps, scrollToTopCallback }
 
 /** [Android] 仿 iOS 点击头部列表滚动到顶 */
 const ScrollToTop = observer(
-  ({
-    isFocused = true,
-    scrollTo,
-    scrollToIndex,
-    scrollToLocation,
-    onPress
-  }: ScrollToToProps) => {
+  ({ isFocused = true, scrollTo, scrollToIndex, scrollToLocation, onPress }: ScrollToToProps) => {
+    r(COMPONENT)
+
     return null
 
     if (IOS) return null

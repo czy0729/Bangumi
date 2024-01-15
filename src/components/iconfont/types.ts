@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 19:27:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 18:32:37
+ * @Last Modified time: 2024-01-14 16:24:26
  */
 import {
   AppIconsNames,
@@ -10,6 +10,7 @@ import {
   IconfontNames,
   IoniconsIconsNames,
   MaterialIconsNames,
+  Override,
   TextStyle
 } from '@types'
 
@@ -31,3 +32,17 @@ export type Props = {
   /** 颜色 */
   color?: ColorValue
 }
+
+export type PropsIonicons = Override<
+  Props,
+  {
+    name: IoniconsIconsNames
+  }
+>
+
+export type PropsMaterial = Override<
+  Props,
+  {
+    name: MaterialIconsNames
+  }
+>

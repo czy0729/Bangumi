@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:03:52
+ * @Last Modified time: 2024-01-15 02:09:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
-import { useFocusEffect } from '@react-navigation/native'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { IOS } from '@constants'
-import { StatusBar } from '../status-bar'
+import { useFocusEffect } from '@react-navigation/native'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
+import { StatusBar } from '../status-bar'
+import { COMPONENT } from './ds'
 import { Props as PageProps } from './types'
 
 export { PageProps }
@@ -28,6 +30,8 @@ export const Page = ({
   statusBarEvent = true,
   ...other
 }: PageProps) => {
+  r(COMPONENT)
+
   useFocusEffect(() => {
     if (IOS && statusBarEvent) {
       StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
@@ -45,8 +49,6 @@ export const Page = ({
         </ErrorBoundary>
       )
 
-    return (
-      <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
-    )
+    return <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
   })
 }

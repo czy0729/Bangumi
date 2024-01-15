@@ -2,35 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:29:37
+ * @Last Modified time: 2024-01-14 16:43:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
+import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { Override, TextStyle } from '@types'
+import { r } from '@utils/dev'
 import { Flex } from '../flex'
-import { Text, TextProps } from '../text'
+import { Text } from '../text'
+import { COMPONENT_PROVIDER } from './ds'
 import { styles } from './styles'
-
-type Props = Override<
-  TextProps,
-  {
-    /** 所有katakana的样式 */
-    itemStyle?: TextStyle
-
-    /** 非第一行katakana的样式 */
-    itemSecondStyle?: TextStyle
-
-    /** props可强制启动 */
-    active?: boolean
-  }
->
+import { KatakanaProviderProps } from './types'
 
 export const KatakanaProvider = observer(
-  class KatakanaProviderComponent extends React.Component<Props> {
+  class KatakanaProviderComponent extends React.Component<KatakanaProviderProps> {
     static defaultProps = {
       itemStyle: undefined,
       itemSecondStyle: undefined,
@@ -270,6 +258,8 @@ export const KatakanaProvider = observer(
     }
 
     render() {
+      r(COMPONENT_PROVIDER)
+
       const { children, ...other } = this.props
       if (!this.isOn) return <Text {...other}>{children}</Text>
 

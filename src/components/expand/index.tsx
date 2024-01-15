@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:29:16
+ * @Last Modified time: 2024-01-14 15:48:50
  */
-import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
-import { View, Animated } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Animated, View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { Component } from '../component'
-import { Touchable } from '../touchable'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
+import { Touchable } from '../touchable'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as ExpandProps } from './types'
 
@@ -30,6 +32,8 @@ export const Expand = ({
   onExpand: onExpandCb,
   children
 }: ExpandProps) => {
+  r(COMPONENT)
+
   const aHeight = useRef(new Animated.Value(0))
   const ratioHeight = _.r(216) * ratio
 

@@ -2,51 +2,45 @@
  * @Author: czy0729
  * @Date: 2023-03-28 04:54:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:17:05
+ * @Last Modified time: 2024-01-14 15:56:50
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  Easing
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { feedback, urlStringify } from '@utils'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Component } from '../component'
+import { COMPONENT, CONFIG, PERSPECTIVE } from './ds'
 import { Props as FlipProps } from './types'
 
 export { FlipProps }
 
-const perspective = 2400
-const config = {
-  duration: 480,
-  easing: Easing.inOut(Easing.ease)
-}
 let feedbacked = false
 
 /** 翻转动画 */
 export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProps) => {
+  r(COMPONENT)
+
   const animate = true
   const activeRef = useSharedValue(0)
   const beforeStyle = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(activeRef.value ? 0 : 1, config),
+      opacity: withTiming(activeRef.value ? 0 : 1, CONFIG),
       transform: [
-        { perspective },
-        { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', config) },
-        { translateY: withTiming(-activeRef.value * height, config) }
+        { perspective: PERSPECTIVE },
+        { rotateX: withTiming(activeRef.value ? '90deg' : '0deg', CONFIG) },
+        { translateY: withTiming(-activeRef.value * height, CONFIG) }
       ]
     }
   })
   const afterStyle = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(activeRef.value ? 1 : 0, config),
+      opacity: withTiming(activeRef.value ? 1 : 0, CONFIG),
       transform: [
-        { perspective },
-        { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', config) },
-        { translateY: withTiming(-activeRef.value * height, config) }
+        { perspective: PERSPECTIVE },
+        { rotateX: withTiming(activeRef.value ? '0deg' : '90deg', CONFIG) },
+        { translateY: withTiming(-activeRef.value * height, CONFIG) }
       ]
     }
   })
@@ -84,14 +78,14 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
 
           setTimeout(() => {
             feedbacked = false
-          }, config.duration)
+          }, CONFIG.duration)
         }
 
         activeRef.value = 1
 
         setTimeout(() => {
           if (typeof onAnimated === 'function') onAnimated()
-        }, config.duration)
+        }, CONFIG.duration)
       }, 240)
     }
   }, [activeRef, beforeProps, animate, onAnimated, other])

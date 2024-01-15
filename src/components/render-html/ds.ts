@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-30 15:53:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:30:13
+ * @Last Modified time: 2024-01-15 02:15:07
  */
+import { rc } from '@utils/dev'
 import { PAD } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'RenderHtml')
 
 /** 一些超展开内容文本样式的标记 */
 export const SPAN_MARK = {
@@ -36,6 +40,5 @@ export const REGS = {
   q: /<q>(.+?)<\/q>/g,
   quote: /<div class="quote"><q(.+?)<\/q><\/div>/g,
   ruby: /<ruby>(.+?)<\/ruby>/g,
-  whiteTags:
-    /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
+  whiteTags: /<(?!\/?(div|a|p|span|h1|h2|h3|h4|h5|strong|em|small|hr|br|q|img|ol|ul|li))/g
 } as const

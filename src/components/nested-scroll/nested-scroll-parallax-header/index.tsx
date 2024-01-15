@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:52:58
+ * @Last Modified time: 2024-01-15 02:08:13
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { NestedScrollEvent, NestedScrollView, NestedScrollViewHeader } from '@sdcx/nested-scroll'
 import { AnimatedNavbar } from '../animated-navbar'
 import { useAnimatedNavbar } from '../hooks/useAnimatedNavbar'
@@ -15,6 +16,7 @@ import { useAnimateScrollView } from '../hooks/useAnimatedScrollView'
 import { usePagerView } from '../hooks/usePagerView'
 import { ParallaxHeader } from '../parallax-header'
 import { TabBar } from '../tab-bar'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as NestedScrollParallaxHeaderProps } from './types'
 
@@ -40,6 +42,8 @@ export function NestedScrollParallaxHeader({
   onIndexChange,
   children
 }: NestedScrollParallaxHeaderProps) {
+  r(COMPONENT)
+
   const [scroll, , scale, translateYDown, translateYUp] = useAnimateScrollView(imageHeight, true)
 
   const {

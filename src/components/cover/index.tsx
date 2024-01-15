@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 05:24:01
+ * @Last Modified time: 2024-01-14 15:34:43
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
+import { r } from '@utils/dev'
 import { Component } from '../component'
-import { Squircle } from '../squircle'
 import { Image } from '../image'
-import TextOnly from './text-only'
-import Disc from './disc'
+import { Squircle } from '../squircle'
 import Book from './book'
-import Game from './game'
 import Catalog from './catalog'
+import Disc from './disc'
+import Game from './game'
+import TextOnly from './text-only'
 import { getCoverSrc, getImageViewerSrc } from './utils'
+import { COMPONENT } from './ds'
 import { Props as CoverProps } from './types'
 
 export { CoverProps }
@@ -39,18 +41,13 @@ export const Cover = observer(
     fallback,
     ...other
   }: CoverProps) => {
+    r(COMPONENT)
+
     const { width, radius, onPress } = other
     const coverWidth = width || size
     const coverHeight = height || size
     if (textOnly) {
-      return (
-        <TextOnly
-          width={coverWidth}
-          height={coverHeight}
-          radius={radius}
-          onPress={onPress}
-        />
-      )
+      return <TextOnly width={coverWidth} height={coverHeight} radius={radius} onPress={onPress} />
     }
 
     const { coverThings } = systemStore.setting

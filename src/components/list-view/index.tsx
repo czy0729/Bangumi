@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 09:00:25
+ * @Last Modified time: 2024-01-14 16:45:20
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { date, omit, pick, simpleTime, sleep } from '@utils'
+import { r } from '@utils/dev'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
 import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
 import Footer from './footer'
 import List from './list'
-import { DEFAULT_PROPS, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
+import { COMPONENT, DEFAULT_PROPS, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
 import { Props as ListViewProps, RefreshState, RenderListProps, ScrollToFunction } from './types'
 
 export { ListViewProps }
@@ -353,6 +354,8 @@ export const ListView = observer(
     }
 
     render() {
+      r(COMPONENT)
+
       return <ErrorBoundary>{this.renderList()}</ErrorBoundary>
     }
   }

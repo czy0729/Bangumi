@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-05-31 17:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:43:50
+ * @Last Modified time: 2024-01-15 02:09:21
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { Component } from '../component'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
+import { COMPONENT } from './ds'
 import { Props as PageProps } from './types'
 import './index.scss'
 
@@ -26,6 +28,8 @@ export const Page = observer(
     children,
     ...other
   }: PageProps) => {
+    r(COMPONENT)
+
     const _style = stl(_.container.plain, style)
     return (
       <ErrorBoundary style={_style}>
@@ -33,11 +37,7 @@ export const Page = observer(
           {loaded || loaded === undefined ? (
             children
           ) : (
-            <Loading
-              style={_style}
-              color={loadingColor}
-              backgroundColor={backgroundColor}
-            />
+            <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
           )}
         </Component>
       </ErrorBoundary>

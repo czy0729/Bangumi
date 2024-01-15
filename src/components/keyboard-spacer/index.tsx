@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:50:49
+ * @Last Modified time: 2024-01-14 16:44:40
  */
 import React, { Component } from 'react'
-import { UIManager, Keyboard, LayoutAnimation, View, Dimensions } from 'react-native'
+import { Dimensions, Keyboard, LayoutAnimation, UIManager, View } from 'react-native'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { IOS } from '@constants'
+import { COMPONENT, DEFAULT_ANIMATION } from './ds'
 import { styles } from './styles'
-import { DEFAULT_ANIMATION } from './ds'
 import { Props as KeyboardSpacerProps } from './types'
 
 export { KeyboardSpacerProps }
@@ -97,6 +98,8 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
   }
 
   render() {
+    r(COMPONENT)
+
     if (IOS) return null
 
     const { style } = this.props

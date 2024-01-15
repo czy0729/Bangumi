@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-07-30 17:33:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:34:55
+ * @Last Modified time: 2024-01-14 16:19:31
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { t2s as t2sUtils } from '@utils'
+import { r } from '@utils/dev'
 import { Text } from '../text'
+import { COMPONENT } from './ds'
 import { Props as HighlightProps } from './types'
 
 export { HighlightProps }
@@ -26,6 +28,8 @@ export const Highlight = observer(
     children,
     ...other
   }: HighlightProps) => {
+    r(COMPONENT)
+
     const props = {
       size,
       lineHeight,

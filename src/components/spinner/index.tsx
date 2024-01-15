@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:13:18
+ * @Last Modified time: 2024-01-15 02:26:27
  */
 import React, { useCallback, useEffect } from 'react'
-import { View, Image } from 'react-native'
+import { Image, View } from 'react-native'
 import Animated, {
-  Easing,
   cancelAnimation,
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -16,8 +16,9 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { Flex } from '../flex'
-import { HALF_CIRCLE } from './ds'
+import { COMPONENT, HALF_CIRCLE } from './ds'
 import { memoStyles } from './styles'
 import { Props as SpinnerProps } from './types'
 
@@ -25,6 +26,8 @@ export { SpinnerProps }
 
 /** Loading 指示器 (新) */
 export const Spinner = ({ style, backgroundColor = 'transparent' }: SpinnerProps) => {
+  r(COMPONENT)
+
   const rotation = useSharedValue(0)
   const startAnimation = useCallback(() => {
     rotation.value = 0

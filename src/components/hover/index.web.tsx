@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-11-24 08:49:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 15:25:56
+ * @Last Modified time: 2024-01-14 16:22:39
  */
 import React from 'react'
+import { r } from '@utils/dev'
 import { Component } from '../component'
+import { COMPONENT } from './ds'
 import { Props as HoverProps } from './types'
 import './index.scss'
 
 export { HoverProps }
 
 export const Hover = ({ style, type, children }: HoverProps) => {
+  r(COMPONENT)
+
   return (
     <Component id='component-hover' data-type={type} style={style}>
       {children}

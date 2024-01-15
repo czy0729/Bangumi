@@ -6,8 +6,12 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { r } from '@utils/dev'
 import PopoverIOS from './popover'
+import { COMPONENT } from './ds'
 
 export const Popover = observer(props => {
+  r(COMPONENT)
+
   return <PopoverIOS {...props} />
 })

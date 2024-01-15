@@ -2,22 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-03-15 08:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:44:40
+ * @Last Modified time: 2024-01-14 16:25:45
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import ExpoIcon from '@components/@/vector-icons/Ionicons'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { Override } from '@types'
-import { Props, IoniconsIconsNames } from './types'
-
-type PropsIonicons = Override<
-  Props,
-  {
-    name: IoniconsIconsNames
-  }
->
+import { PropsIonicons } from './types'
 
 /**
  * Ionicons Icons

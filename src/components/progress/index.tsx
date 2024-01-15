@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:05:44
+ * @Last Modified time: 2024-01-15 02:14:28
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
-import { useObserver } from 'mobx-react'
 import Animated, {
-  useSharedValue,
+  Easing,
   useAnimatedStyle,
-  withTiming,
-  Easing
+  useSharedValue,
+  withTiming
 } from 'react-native-reanimated'
+import { useObserver } from 'mobx-react'
+import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Text } from '../text'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ProgressProps } from './types'
 
@@ -29,6 +31,8 @@ export const Progress = ({
   current = 0,
   total = 1
 }: ProgressProps) => {
+  r(COMPONENT)
+
   const w = useSharedValue(current / (total || 1))
   const barStyle = useAnimatedStyle(() => {
     return {

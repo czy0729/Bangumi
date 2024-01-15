@@ -2,25 +2,27 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:29:40
+ * @Last Modified time: 2024-01-14 15:50:52
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { getStorage, info, setStorage } from '@utils'
+import { r } from '@utils/dev'
 import { IOS, STORYBOOK } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'
+import Container from './container'
+import Content from './content'
+import Mask from './mask'
+import Textarea from './textarea'
+import ToolBar from './tool-bar'
 import {
+  COMPONENT,
   MAX_BGM_HISTORY_COUNT,
   MAX_HISTORY_COUNT,
   NAMESPACE,
   SOURCE_FLAG,
   SOURCE_TEXT
 } from './ds'
-import Textarea from './textarea'
-import ToolBar from './tool-bar'
-import Mask from './mask'
-import Container from './container'
-import Content from './content'
 import { Props as FixedTextareaProps } from './types'
 
 export { FixedTextareaProps }
@@ -70,8 +72,7 @@ export const FixedTextarea = observer(
 
     async componentDidMount() {
       try {
-        const showSource: boolean =
-          (await getStorage(`${NAMESPACE}|showSource`)) || false
+        const showSource: boolean = (await getStorage(`${NAMESPACE}|showSource`)) || false
 
         let showSourceText: boolean = await getStorage(`${NAMESPACE}|showSourceText`)
         if (typeof showSourceText !== 'boolean') showSourceText = true
@@ -82,10 +83,8 @@ export const FixedTextarea = observer(
           .split(',')
           .filter(item => item !== '')
           .map(item => parseInt(item))
-        const replyHistory: string[] =
-          (await getStorage(`${NAMESPACE}|replyHistory`)) || []
-        const lockHistory: string[] =
-          (await getStorage(`${NAMESPACE}|lockHistory`)) || ''
+        const replyHistory: string[] = (await getStorage(`${NAMESPACE}|replyHistory`)) || []
+        const lockHistory: string[] = (await getStorage(`${NAMESPACE}|lockHistory`)) || ''
 
         this.setState({
           showSource,
@@ -497,8 +496,7 @@ export const FixedTextarea = observer(
     }
 
     renderBody() {
-      const { placeholder, simple, source, marks, children, extraComponent } =
-        this.props
+      const { placeholder, simple, source, marks, children, extraComponent } = this.props
       const {
         value,
         showBgm,
@@ -560,6 +558,8 @@ export const FixedTextarea = observer(
     }
 
     render() {
+      r(COMPONENT)
+
       if (STORYBOOK) return null
 
       const { extraComponent } = this.props

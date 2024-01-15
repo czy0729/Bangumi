@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:35:05
+ * @Last Modified time: 2024-01-14 16:21:59
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import ScrollViewHorizontal from './scroll-view-horizontal'
+import { r } from '@utils/dev'
 import { Component } from '../component'
+import ScrollViewHorizontal from './scroll-view-horizontal'
+import { COMPONENT } from './ds'
 import { Props as HorizontalListProps } from './types'
 
 export { HorizontalListProps }
@@ -52,6 +54,8 @@ export const HorizontalList = observer(
     }
 
     render() {
+      r(COMPONENT)
+
       const { style, contentContainerStyle, renderItem, renderNums } = this.props
       return (
         <Component id='component-horizontal-list'>

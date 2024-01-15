@@ -2,29 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:16:46
+ * @Last Modified time: 2024-01-14 04:34:23
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { r } from '@utils/dev'
 import { Source } from '@types'
 import { Image } from '../image'
+import { COMPONENT } from './ds'
 import { Props as BgmProps } from './types'
 
 export { BgmProps }
 
 /** bgm.tv 表情 */
 export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
+  r(COMPONENT)
+
   if (!bgm) init()
 
-  return (
-    <Image
-      src={bgm[index]}
-      resizeMode='contain'
-      size={size}
-      placeholder={false}
-      {...other}
-    />
-  )
+  return <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
 })
 
 let bgm: {

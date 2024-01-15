@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:18:17
+ * @Last Modified time: 2024-01-15 02:34:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { stl } from '@utils'
+import { r } from '@utils/dev'
 import { Component } from '../../component'
 import { Flex } from '../../flex'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as StorybookPageProps } from './types'
 
@@ -22,6 +24,8 @@ export const StorybookPage = ({
   children,
   ...other
 }: StorybookPageProps) => {
+  r(COMPONENT)
+
   return (
     <Component id='component-storybook-page'>
       <Flex

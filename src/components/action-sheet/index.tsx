@@ -2,22 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 21:26:54
+ * @Last Modified time: 2024-01-14 04:29:30
  */
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { useBackHandler } from '@utils/hooks'
 import { IOS } from '@constants'
-import { Portal } from '../portal'
 import { Component } from '../component'
-import { SafeAreaBottom } from '../safe-area-bottom'
-import { Mask } from '../mask'
-import { ScrollView } from '../scroll-view'
-import { Touchable } from '../touchable'
 import { Flex } from '../flex'
+import { Mask } from '../mask'
+import { Portal } from '../portal'
+import { SafeAreaBottom } from '../safe-area-bottom'
+import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
+import { Touchable } from '../touchable'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ActionSheetProps } from './types'
 
@@ -31,6 +33,8 @@ export const ActionSheet = ({
   onClose,
   children
 }: ActionSheetProps) => {
+  r(COMPONENT)
+
   const y = useRef(new Animated.Value(0))
   const [_show, _setShow] = useState(show)
 

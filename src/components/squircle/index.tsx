@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:10:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 05:26:24
+ * @Last Modified time: 2024-01-15 02:27:38
  */
 import React from 'react'
-import Svg, { Defs, ClipPath, Path } from 'react-native-svg'
-import MaskedView from '@react-native-masked-view/masked-view'
+import Svg, { ClipPath, Defs, Path } from 'react-native-svg'
 import { systemStore } from '@stores'
+import { r } from '@utils/dev'
+import MaskedView from '@react-native-masked-view/masked-view'
 import { Component } from '../component'
 import Radius from './radius'
 import { getMaskPath, getRadius } from './utils'
+import { COMPONENT } from './ds'
 import { Props as SquircleProps } from './types'
 
 export { SquircleProps }
@@ -22,13 +24,9 @@ export { SquircleProps }
  *  - android 使用 masked-view 配合 svg 做遮罩效果
  *  - web 使用 react-ios-corners 实现
  * */
-export const Squircle = ({
-  style,
-  width = 0,
-  height = 0,
-  radius,
-  children
-}: SquircleProps) => {
+export const Squircle = ({ style, width = 0, height = 0, radius, children }: SquircleProps) => {
+  r(COMPONENT)
+
   if (!radius || (!width && !height)) {
     return (
       <Component style={style} id='component-squircle'>

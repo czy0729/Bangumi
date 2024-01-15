@@ -4,22 +4,20 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 11:08:13
+ * @Last Modified time: 2024-01-15 02:17:52
  */
 import { observer } from 'mobx-react'
+import { r } from '@utils/dev'
 import { scrollToTopCallback } from './utils'
+import { COMPONENT } from './ds'
 import { Props as ScrollToToProps } from './types'
 
 export { ScrollToToProps, scrollToTopCallback }
 
 const ScrollToTop = observer(
-  ({
-    isFocused = true,
-    scrollTo,
-    scrollToIndex,
-    scrollToLocation,
-    onPress
-  }: ScrollToToProps) => {
+  ({ isFocused = true, scrollTo, scrollToIndex, scrollToLocation, onPress }: ScrollToToProps) => {
+    r(COMPONENT)
+
     return null
   }
 )

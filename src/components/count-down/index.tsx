@@ -2,17 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:26:26
+ * @Last Modified time: 2024-01-14 15:32:42
  */
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getTimestamp } from '@utils'
+import { r } from '@utils/dev'
 import { Text } from '../text'
+import { COMPONENT } from './ds'
 import { Props as CountDownProps } from './types'
 
 export { CountDownProps }
 
 /** 倒数 */
 export const CountDown = ({ end, ...other }: CountDownProps) => {
+  r(COMPONENT)
+
   const [now, setNow] = useState(getTimestamp())
   useEffect(() => {
     const interval = setInterval(() => {

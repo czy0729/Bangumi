@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:20:33
+ * @Last Modified time: 2024-01-14 04:36:30
  */
 import React from 'react'
 import { Text } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { TextStyle } from '@types'
-import { bgmMap } from './ds'
+import { bgmMap, COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as BgmTextProps } from './types'
 
@@ -26,6 +27,8 @@ export const BgmText = observer(
     children,
     ...other
   }: BgmTextProps) => {
+    r(COMPONENT)
+
     const _style: TextStyle[] = [styles.text]
     if (size) _style.push(styles[size])
     if (lineHeight !== undefined) {

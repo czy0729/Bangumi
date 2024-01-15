@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 12:49:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 13:00:01
+ * @Last Modified time: 2024-01-14 15:51:10
  */
-import { STORYBOOK } from '@constants'
 import React, { ReactNode } from 'react'
 import { StyleProp, TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
+import { STORYBOOK } from '@constants'
 
 interface FlexItemPropsType {
   disabled?: boolean
@@ -44,10 +44,7 @@ export default class FlexItem extends React.Component<FlexItemProps, any> {
     )
 
     const shouldWrapInTouchableComponent =
-      restProps.onPress ||
-      restProps.onLongPress ||
-      restProps.onPressIn ||
-      restProps.onPressOut
+      restProps.onPress || restProps.onLongPress || restProps.onPressIn || restProps.onPressOut
 
     if (shouldWrapInTouchableComponent) {
       return <TouchableWithoutFeedback {...restProps}>{inner}</TouchableWithoutFeedback>

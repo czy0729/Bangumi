@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 17:57:40
+ * @Last Modified time: 2024-01-14 15:49:06
  */
+import { rc } from '@utils/dev'
 import { IOS } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'FixedTextarea')
 
 export const NAMESPACE = 'c-fixed-textarea'
 

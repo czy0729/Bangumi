@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:09:03
+ * @Last Modified time: 2024-01-15 02:18:20
  */
 import React, { useRef } from 'react'
-import { ScrollView as RNScrollView, Animated } from 'react-native'
+import { Animated, ScrollView as RNScrollView } from 'react-native'
+import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { ScrollToTop } from '../scroll-to-top'
+import { COMPONENT } from './ds'
 import { Props as ScrollViewProps } from './types'
 
 export { ScrollViewProps }
@@ -30,6 +32,8 @@ export const ScrollView = ({
   children,
   ...other
 }: ScrollViewProps) => {
+  r(COMPONENT)
+
   const scrollViewEl = useRef(null)
 
   let ref: React.LegacyRef<RNScrollView>

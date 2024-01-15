@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 19:22:06
+ * @Last Modified time: 2024-01-14 16:09:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { r } from '@utils/dev'
 import { Component } from '../../component'
+import { colors } from '../styles'
 import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
-import { colors } from '../styles'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -26,10 +28,10 @@ function HeaderComponent({
   headerRight,
   onBackPress
 }: Props) {
+  r(COMPONENT)
+
   const styles = memoStyles()
-  const color = colors[statusBarEventsType]
-    ? colors[statusBarEventsType](fixed)
-    : undefined
+  const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
   return (
     <Component
       id='component-header'

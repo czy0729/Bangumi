@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 21:34:33
+ * @Last Modified time: 2024-01-14 16:18:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import heatmapData from '@assets/json/heatmap/index.json'
 import heatmapEventData from '@assets/json/heatmap/event.json'
+import heatmapData from '@assets/json/heatmap/index.json'
 import { Text } from '../text'
 import { Control } from './control'
 import { PageText } from './page-text'
@@ -59,12 +59,9 @@ const Heatmap = observer(
     const value = _data[key]
 
     // 计算
-    const count = key
-      ? heatmapEventData[`${id}.${key}`]?.[value] || 0
-      : heatmapData[id] || 0 // 事件数量
+    const count = key ? heatmapEventData[`${id}.${key}`]?.[value] || 0 : heatmapData[id] || 0 // 事件数量
     const total =
-      (isPage ? totalWithoutView : heatmapData[page]) -
-      (heatmapData[`${page}.查看`] || 0) // 事件百分比需要排除[页面.查看]
+      (isPage ? totalWithoutView : heatmapData[page]) - (heatmapData[`${page}.查看`] || 0) // 事件百分比需要排除[页面.查看]
     const percentStyle = Math.min(count / (heatmapData[page] || 1), 0.56) // 红色背景透明度百分比
     let percent: any = (count / (total || 1)) * 100
     percent = percent < 1 ? toFixed(percent, 1) : parseInt(String(percent)) // 百分比
@@ -101,16 +98,11 @@ const Heatmap = observer(
       )
     }
 
-    const eventName = isPage
-      ? `${id}(日)`
-      : id.includes('跳转.')
-      ? key
-      : id.split('.')[1]
+    const eventName = isPage ? `${id}(日)` : id.includes('跳转.') ? key : id.split('.')[1]
     const eventDetail = value ? `.${_data.alias || value}` : ''
     const eventCount = formatNumber(count / 30, count >= 30 || count === 0 ? 0 : 1)
     const eventAppPercent = count !== 0 ? ` / ${percent}%` : ''
-    const eventPagePercent =
-      percentTo && percentTo !== percent ? ` (${percentTo}%)` : ''
+    const eventPagePercent = percentTo && percentTo !== percent ? ` (${percentTo}%)` : ''
     return (
       <>
         {!!grid && !isPage && !transparent && (

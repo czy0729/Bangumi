@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-02 11:29:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:04:45
+ * @Last Modified time: 2024-01-15 02:13:08
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { r } from '@utils/dev'
 import PopoverIOS from './popover'
+import { COMPONENT } from './ds'
 import { Props as PopoverProps } from './types'
 
 export { PopoverProps }
@@ -23,7 +25,9 @@ export const Popover = observer(
     onLongPress,
     children,
     ...other
-  }: PopoverProps) => {
+  }: PopoverProps<typeof data>) => {
+    r(COMPONENT)
+
     return (
       <PopoverIOS
         style={style}

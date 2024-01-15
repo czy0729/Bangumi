@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:54:17
+ * @Last Modified time: 2024-01-14 16:15:26
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { StorybookState } from '../../storybook'
 import { ScrollView } from '../../scroll-view'
+import { StorybookState } from '../../storybook'
 import { Text } from '../../text'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { TransitionProps } from './types'
+import { Props } from './types'
 
-function Transition({ fixed, title, headerTitle }: TransitionProps) {
+function Transition({ fixed, title, headerTitle }: Props) {
+  r(COMPONENT)
+
   // 避免页面退后也触发了渐出动画
   const _fixed =
     (StorybookState.navigateAction === 'POP' &&

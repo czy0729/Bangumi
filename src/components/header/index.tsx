@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:38:21
+ * @Last Modified time: 2024-01-14 16:07:38
  */
 import React, { useEffect } from 'react'
+import { r } from '@utils/dev'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import { Track } from '../track'
@@ -12,6 +13,7 @@ import HeaderComponent from './header-component'
 import Placeholder from './placeholder'
 import Popover from './popover'
 import { updateHeader } from './utils'
+import { COMPONENT } from './ds'
 import { IHeader } from './types'
 
 /**
@@ -33,6 +35,8 @@ const Header: IHeader = ({
   statusBarEventsType,
   onBackPress
 }) => {
+  r(COMPONENT)
+
   const navigation = useNavigation()
   useEffect(() => {
     updateHeader({
