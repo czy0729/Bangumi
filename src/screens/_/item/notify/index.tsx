@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:23:07
+ * @Last Modified time: 2024-01-18 06:07:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,7 +58,7 @@ export const ItemNotify = ob(
           }}
         >
           <Flex style={styles.container} align='start'>
-            <View style={_.mt.md}>
+            <View style={styles.avatar}>
               <UserStatus userId={userId}>
                 <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
                   <Avatar
@@ -78,15 +78,15 @@ export const ItemNotify = ob(
               </Name>
               <Flex style={styles.message} align='start'>
                 <Flex.Item>
-                  <Text lineHeight={18}>
+                  <Text size={13} lineHeight={15}>
                     {message}
-                    <Text lineHeight={18} type='main' bold>
+                    <Text size={13} lineHeight={15} type='main' bold>
                       {title}
                     </Text>
                     {message2}
                   </Text>
                   {!!sayTitle && (
-                    <Text type='sub' size={11} lineHeight={18} numberOfLines={1} bold>
+                    <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1} bold>
                       描述：{sayTitle}
                     </Text>
                   )}

@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 11:18:59
+ * @Last Modified time: 2024-01-18 06:26:26
  */
 import {
-  ListEmpty,
-  DeepPartial,
   Avatar,
-  HTMLText,
-  UserId,
-  Id,
   CoverGroup,
+  DeepPartial,
+  HTMLText,
+  Id,
+  ListEmpty,
   Loaded,
-  Override
+  Override,
+  UserId
 } from '@types'
 
 /** 超展开列表 */
@@ -164,7 +164,15 @@ export type Likes = Record<
 export type Notify = {
   unread: number
   clearHref: string
-  list: any[]
+  list: {
+    avatar: Avatar<'l'>
+    href: string
+    message: string
+    message2: string
+    title: string
+    userId: UserId
+    userName: string
+  }[]
   _loaded?: number
 }
 

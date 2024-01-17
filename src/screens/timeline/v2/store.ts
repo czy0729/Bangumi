@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 11:14:51
  */
-import { observable, computed } from 'mobx'
-import { _, systemStore, userStore, timelineStore } from '@stores'
-import { x18, feedback, updateVisibleBottom } from '@utils'
+import { computed, observable } from 'mobx'
+import { _, systemStore, timelineStore, userStore } from '@stores'
+import { feedback, updateVisibleBottom, x18 } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import store from '@utils/store'
 import {
@@ -17,7 +17,7 @@ import {
   URL_DEFAULT_AVATAR
 } from '@constants'
 import { TimeLineScope, TimeLineType, UserId } from '@types'
-import { NAMESPACE, EXCLUDE_STATE, STATE, TABS } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE, TABS } from './ds'
 import { TabLabel } from './types'
 
 export default class ScreenTimeline extends store<typeof STATE> {
@@ -88,8 +88,8 @@ export default class ScreenTimeline extends store<typeof STATE> {
   /**
    * 筛选逻辑
    *  - 主动设置屏蔽默认头像用户相关信息
-   *  - 主动设置屏蔽18x
-   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户和18x
+   *  - 主动设置屏蔽 18x
+   *  - 限制用户群体 (iOS 的游客和审核员) 强制屏蔽默认头像用户和 18x
    */
   timeline(scope: TimeLineScope, type: TimeLineType) {
     return computed(() => {
@@ -240,15 +240,13 @@ export default class ScreenTimeline extends store<typeof STATE> {
       scope
     })
 
-    const res = fetchHTML({
+    await fetchHTML({
       method: 'POST',
       url: href
     })
-    await res
     feedback()
 
     this.fetchTimeline(true)
-
-    return res
+    return true
   }
 }

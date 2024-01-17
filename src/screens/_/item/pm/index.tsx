@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:24:08
+ * @Last Modified time: 2024-01-18 06:10:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,7 +57,7 @@ export const ItemPM = ob(
           }}
         >
           <Flex style={styles.container} align='start'>
-            <View style={_.mt.md}>
+            <View style={styles.avatar}>
               <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
                 <Avatar
                   navigation={navigation}
@@ -89,7 +89,7 @@ export const ItemPM = ob(
                   <Text style={_.mt.xs} type='main' bold>
                     {title}
                   </Text>
-                  <Text style={_.mt.sm} size={13} lineHeight={16} type='title'>
+                  <Text style={_.mt.xs} type='title' size={13} lineHeight={16} numberOfLines={2}>
                     {HTMLDecode(content)}
                   </Text>
                 </Flex.Item>

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 15:34:45
+ * @Last Modified time: 2024-01-18 05:56:25
  */
 import React from 'react'
 import { Header as CompHeader, Heatmap } from '@components'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { HTML_NOTIFY } from '@constants'
+import { COMPONENT } from './ds'
 
 function Header() {
   return (
@@ -33,4 +34,4 @@ function Header() {
   )
 }
 
-export default ob(Header)
+export default ob(Header, COMPONENT)

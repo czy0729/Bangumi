@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-12-19 17:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 16:01:57
+ * @Last Modified time: 2024-01-18 04:31:57
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 
 function Heatmaps() {
   return (
@@ -20,13 +21,7 @@ function Heatmaps() {
         alias='帖子'
         transparent
       />
-      <Heatmap
-        right={86}
-        bottom={_.bottom - 13}
-        id='电波提醒.跳转'
-        to='PM'
-        transparent
-      />
+      <Heatmap right={86} bottom={_.bottom - 13} id='电波提醒.跳转' to='PM' transparent />
       <Heatmap
         right={260}
         bottom={_.bottom - 13}
@@ -47,4 +42,4 @@ function Heatmaps() {
   )
 }
 
-export default ob(Heatmaps)
+export default ob(Heatmaps, COMPONENT)
