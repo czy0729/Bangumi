@@ -1,19 +1,29 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-01-16 18:26:04
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-01-16 18:26:04
+ */
 import * as React from 'react'
-import { StyleSheet, View, StyleProp, ViewStyle, LayoutChangeEvent } from 'react-native'
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler'
+import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
+import Pager, { Props as ChildProps } from 'react-native-tab-view/src/Pager'
 import TabBar, { Props as TabBarProps } from 'react-native-tab-view/src/TabBar'
 import {
   Layout,
-  NavigationState,
+  PagerCommonProps,
   Route,
-  SceneRendererProps,
-  PagerCommonProps
+  SceneRendererProps
 } from 'react-native-tab-view/src/types'
-import Pager, { Props as ChildProps } from 'react-native-tab-view/src/Pager'
 import { stl } from '@utils'
 import { IOS } from '@constants'
 import SceneView from './SceneView'
+
+type NavigationState<T extends Route> = {
+  index: number
+  routes: T[] | readonly T[]
+}
 
 export type Props<T extends Route> = PagerCommonProps & {
   position?: Animated.Value<number>
@@ -126,11 +136,9 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
     const { layout } = this.state
 
     return (
-      <GestureHandlerWrapper
-        style={stl(styles.pager, style)}
-        onLayout={this.handleLayout}
-      >
+      <GestureHandlerWrapper style={stl(styles.pager, style)} onLayout={this.handleLayout}>
         {renderPager({
+          // @ts-expect-error
           navigationState,
           layout,
           keyboardDismissMode,
@@ -176,6 +184,7 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
                       index={i}
                       lazy={lazy}
                       lazyPreloadDistance={lazyPreloadDistance}
+                      // @ts-expect-error
                       navigationState={navigationState}
                       style={sceneContainerStyle}
                     >

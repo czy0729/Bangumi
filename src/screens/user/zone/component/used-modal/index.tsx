@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 17:11:39
+ * @Last Modified time: 2024-01-16 19:54:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -125,7 +125,15 @@ class UsedModal extends React.Component<{
         {...SCROLL_VIEW_RESET_PROPS}
       >
         {avatar.map((item, index) => (
-          <Image key={index} style={_.mr.sm} src={item} size={40} radius={20} placeholder={false} />
+          <Image
+            key={index}
+            style={_.mr.sm}
+            src={item}
+            size={40}
+            radius={20}
+            placeholder={false}
+            errorToHide
+          />
         ))}
       </ScrollView>
     )

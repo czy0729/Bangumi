@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:28:02
+ * @Last Modified time: 2024-01-16 20:09:08
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -11,7 +11,7 @@ import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _, systemStore } from '@stores'
 import { getCover400, getTimestamp } from '@utils'
 import { r } from '@utils/dev'
-import { DEV, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
+import { HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
 import { IOS_IPA } from '@/config'
 import { AnyObject, Fn, Source } from '@types'
 import { Component } from '../component'
@@ -31,6 +31,7 @@ import {
   fixedRemoteImageUrl,
   getDevStyles,
   imageViewerCallback,
+  log,
   setError404,
   setError451,
   setErrorTimeout,
@@ -163,7 +164,7 @@ export const Image = observer(
 
             // 空地址不作处理
             if (_src === 'https:') {
-              this.commitError('error: 1')
+              this.commitError('error: cache 1')
               return false
             }
 
@@ -172,7 +173,7 @@ export const Image = observer(
              * @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发 unmounted
              */
             if (typeof _src === 'string' && _src.includes('https:/img/')) {
-              this.commitError('error: 2')
+              this.commitError('error: cache 2')
               return false
             }
 
@@ -193,7 +194,7 @@ export const Image = observer(
                 ])
               } catch (error) {
                 if (typeof this.props.src === 'string') setErrorTimeout(this.props.src)
-                this.onError(error)
+                this.onError()
                 return
               }
             } else {
@@ -339,13 +340,13 @@ export const Image = observer(
 
       setTimeout(() => {
         RNImage.getSizeWithHeaders(uri, this.headers, cb, () => {
-          this.commitError()
+          this.commitError('error: getSizeWithHeaders')
         })
       }, 0)
     }
 
     /** 加载失败 */
-    onError = async (error?: any) => {
+    onError = async () => {
       const { src } = this.props
       if (
         typeof src === 'string' &&
@@ -417,7 +418,7 @@ export const Image = observer(
           uri: fixedRemoteImageUrl(fallbackSrc)
         })
       } else {
-        this.commitError(error)
+        this.commitError('error: onError')
       }
     }
 
@@ -460,7 +461,7 @@ export const Image = observer(
     }
 
     /** 确定失败 */
-    commitError = (info?: string) => {
+    commitError = (errorInfo?: string) => {
       if (this._commited) return
 
       this._commited = true
@@ -471,7 +472,7 @@ export const Image = observer(
         () => {
           const { onError } = this.props
           if (typeof onError === 'function') onError()
-          if (DEV) console.info('commitError', info)
+          log('commitError', errorInfo, this.props.src)
         }
       )
     }

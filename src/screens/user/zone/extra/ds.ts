@@ -1,10 +1,10 @@
 /*
  * @Author: czy0729
- * @Date: 2024-01-04 16:49:22
+ * @Date: 2024-01-16 18:07:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:56:23
+ * @Last Modified time: 2024-01-16 18:33:57
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
-export const COMPONENT = rc(PARENT, 'Tab')
+export const COMPONENT = rc(PARENT, 'Extra')

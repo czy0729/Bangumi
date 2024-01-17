@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:17:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 19:28:03
+ * @Last Modified time: 2024-01-16 18:47:44
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
@@ -10,18 +10,7 @@ import { ob } from '@utils/decorators'
 import { Name } from '../../../base'
 import P3 from '../p3'
 
-function P({
-  image,
-  p1Text,
-  p1Url,
-  p2Text,
-  p3Text,
-  p3Url,
-  p4Text,
-  userId,
-  avatarSrc,
-  onNavigate
-}) {
+function P({ image, p1Text, p1Url, p2Text, p3Text, p3Url, p4Text, userId, avatarSrc, onNavigate }) {
   // 是否渲染第一行
   const hasPosition = !!(p1Text || p2Text || p3Text?.length || p4Text)
   if (!hasPosition) return null
@@ -34,12 +23,12 @@ function P({
           type='title'
           lineHeight={16}
           bold
-          onPress={() =>
+          onPress={() => {
             onNavigate(p1Url, {
               _name: p1Text,
               _image: avatarSrc
             })
-          }
+          }}
         >
           {p1Text}{' '}
         </Name>

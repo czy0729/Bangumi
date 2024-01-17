@@ -5,7 +5,6 @@
  * @Last Modified time: 2024-01-16 06:27:08
  */
 import { StyleSheet } from 'react-native'
-// import changeNavigationBarColor from 'react-native-navigation-bar-color'
 import { androidDayNightToggle, runAfter } from '@utils'
 import { IOS, STORYBOOK, WSA } from '@constants'
 import _, { IS_IOS_5_6_7_8 } from '@styles'

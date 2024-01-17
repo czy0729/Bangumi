@@ -10,7 +10,7 @@ import { Popover } from '@_'
 import { obc } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
 import { TimeLineScopeCn } from '@types'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { COMPONENT, DATA } from './ds'
 import { memoStyles } from './styles'
 

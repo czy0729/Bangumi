@@ -1,13 +1,13 @@
-import { _ } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-20 20:07:04
+ * @Last Modified time: 2024-01-16 20:02:58
  */
+import { _ } from '@stores'
 import { getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
-import { HOST_CDN } from '@constants'
+import { DEV, HOST_CDN } from '@constants'
 import { OSS_BGM_EMOJI_PREFIX } from './ds'
 
 const NAMESPACE = 'Component|Image'
@@ -186,4 +186,11 @@ export function timeoutPromise() {
       reject('download timed out')
     }, 10000)
   })
+}
+
+/** [DEV] */
+export function log(method: string, ...others: any[]) {
+  if (DEV) {
+    console.info(`%c[@component/image/${method}]`, 'background: #000; color: #fff', ...others)
+  }
 }

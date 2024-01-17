@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-22 09:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 09:31:12
+ * @Last Modified time: 2024-01-16 19:59:43
  */
 import { _ } from '@stores'
 
@@ -32,6 +32,7 @@ export const memoStyles = _.memoStyles(() => ({
     width: _.r(80)
   },
   empty: {
+    marginTop: -_.md,
     height: '100%'
   }
 }))

@@ -19,7 +19,8 @@ export const memoStyles = _.memoStyles(() => ({
     width: 24,
     height: 3,
     marginBottom: 3,
-    backgroundColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2)
+    backgroundColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2),
+    borderRadius: 2
   },
   angle: {
     width: 8,

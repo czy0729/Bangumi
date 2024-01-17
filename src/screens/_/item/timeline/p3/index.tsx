@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:22:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 20:01:16
+ * @Last Modified time: 2024-01-16 18:50:52
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
-import { uiStore, systemStore } from '@stores'
-import { findSubjectCn, getCoverMedium } from '@utils'
+import { systemStore, uiStore } from '@stores'
+import { findSubjectCn, getCoverMedium, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST_NAME } from '@constants'
@@ -15,15 +15,18 @@ import { matchSubjectId } from '../utils'
 
 function P3({ image, p3Text, p3Url, onNavigate }) {
   let $p3: any | any[] = null
+
   if (p3Text.length > 1) {
     $p3 = []
     p3Text.forEach((item: string, index: number) => {
+      const text = HTMLDecode(item)
       const url = String(p3Url[index])
       const isSubject = url.includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
       const subjectId = isSubject ? matchSubjectId(url) : 0
+
       $p3.push(
         <Katakana
-          key={item || index}
+          key={text || index}
           type={isSubject ? 'main' : 'title'}
           lineHeight={16}
           bold
@@ -43,27 +46,29 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
             onNavigate(
               url,
               isSubject && {
-                _jp: item,
-                _cn: findSubjectCn(item, subjectId),
-                _name: item,
+                _jp: text,
+                _cn: findSubjectCn(text, subjectId),
+                _name: text,
                 _image: getCoverMedium(image[index] || '')
               }
             )
           }}
         >
-          {isSubject ? findSubjectCn(item, subjectId) : item}
+          {isSubject ? findSubjectCn(text, subjectId) : text}
         </Katakana>,
-        <Text key={`${item}.`} lineHeight={16} type='sub'>
+        <Text key={`${text}.`} lineHeight={16} type='sub'>
           、
         </Text>
       )
     })
     $p3.pop()
   } else if (p3Text.length === 1) {
+    const text = HTMLDecode(p3Text[0])
+    const url = p3Url[0]
     const isSubject =
-      !!String(!!p3Url.length && p3Url[0]).includes(`${HOST_NAME}/subject/`) &&
-      !p3Url[0].includes('/ep/')
-    const subjectId = isSubject ? matchSubjectId(!!p3Url.length && p3Url[0]) : 0
+      !!String(!!p3Url.length && url).includes(`${HOST_NAME}/subject/`) && !url.includes('/ep/')
+    const subjectId = isSubject ? matchSubjectId(!!p3Url.length && url) : 0
+
     $p3 = (
       <Katakana
         type={isSubject ? 'main' : 'title'}
@@ -82,19 +87,17 @@ function P3({ image, p3Text, p3Url, onNavigate }) {
           }
 
           onNavigate(
-            !!p3Url.length && p3Url[0],
+            !!p3Url.length && url,
             isSubject && {
-              _jp: !!p3Text.length && p3Text[0],
-              _cn: findSubjectCn(!!p3Text.length && p3Text[0], subjectId),
-              _name: !!p3Text.length && p3Text[0],
+              _jp: !!p3Text.length && text,
+              _cn: findSubjectCn(!!p3Text.length && text, subjectId),
+              _name: !!p3Text.length && text,
               _image: getCoverMedium((!!image.length && image[0]) || '')
             }
           )
         }}
       >
-        {isSubject
-          ? findSubjectCn(!!p3Text.length && p3Text[0], subjectId)
-          : !!p3Text.length && p3Text[0]}
+        {isSubject ? findSubjectCn(!!p3Text.length && text, subjectId) : !!p3Text.length && text}
       </Katakana>
     )
   }

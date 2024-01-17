@@ -17,7 +17,7 @@ function Avatar(props, { $ }: Ctx) {
   const fallback = typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
   const userStatus = getUserStatus(username)
   const size = _.r(88)
-
+  console.log($.src)
   return (
     <View>
       <Image
