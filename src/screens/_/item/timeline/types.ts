@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:50:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:00:07
+ * @Last Modified time: 2024-01-16 20:28:23
  */
 import { EventType, Navigation, SubjectId, UserId, ViewStyle } from '@types'
 
@@ -31,14 +31,14 @@ export type Props = {
   image?: string[]
   comment?: string
   reply?: {
-    count: number
+    count: string | number
     url?: string
     content?: string
   }
   like?: {
-    type: string
-    mainId: string
-    relatedId: string
+    type: string | number
+    mainId: string | number
+    relatedId: string | number
   }
   time?: string
   star?: string | number

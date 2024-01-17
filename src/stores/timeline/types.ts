@@ -34,7 +34,7 @@ export type TimelineItem = {
   comment: string
   reply: {
     content: string
-    count: string
+    count: string | number
     url: string
   }
   like: {

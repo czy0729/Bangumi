@@ -4,12 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 11:14:13
  */
-import { cheerio, getTimestamp, matchAvatar, safeObject, trim, htmlMatch } from '@utils'
+import { cheerio, getTimestamp, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { LIST_EMPTY, HTML_TIMELINE, MODEL_TIMELINE_SCOPE } from '@constants'
+import { HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
 import { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
 import { Likes } from '../rakuen/types'
 import { Timeline } from './types'
+
+const NODE_TYPE_RAW_TEXT = 3
 
 /** 请求时间胶囊 */
 export async function fetchTimeline(
@@ -53,7 +55,7 @@ export async function fetchTimeline(
           const $row = cheerio(element)
           const $info = $row.find('.info, .info_full')
           const $texts = $info.contents().filter(function () {
-            return this.nodeType === 3 && this.parent === $info[0]
+            return this.nodeType === NODE_TYPE_RAW_TEXT && this.parent === $info[0]
           })
           const $card = $info.find('.card')
           const $reply = $info.find('a.tml_comment')
@@ -134,17 +136,22 @@ export async function fetchTimeline(
             subjectId: ''
           }
           if (p3.text?.[0]?.includes('ep.')) {
-            subject.subject = $card.find('.title').text().trim()
-            subject.subjectId = ($card.find('a').attr('href') || '').split(
-              '/subject/'
-            )?.[1]
+            subject.subject = $card
+              .find('.title a')
+              .contents()
+              .filter(function () {
+                return this.nodeType === NODE_TYPE_RAW_TEXT
+              })
+              .text()
+              .trim()
+            subject.subjectId = ($card.find('a').attr('href') || '').split('/subject/')?.[1]
           }
 
           /** 底部时间 */
           const time = $date
             .contents()
             .filter(function () {
-              return this.nodeType === 3 && this.parent === $date[0]
+              return this.nodeType === NODE_TYPE_RAW_TEXT && this.parent === $date[0]
             })
             .text()
             .trim()
@@ -166,13 +173,11 @@ export async function fetchTimeline(
 
           // 多条目, 人物, 好友
           if (!image.length) {
-            $row
-              .find('.imgs img, img.rr, .rr img')
-              .each((index: number, element: any) => {
-                const $row = cheerio(element)
-                const src = $row.attr('src')
-                if (src) image.push(src)
-              })
+            $row.find('.imgs img, img.rr, .rr img').each((index: number, element: any) => {
+              const $row = cheerio(element)
+              const src = $row.attr('src')
+              if (src) image.push(src)
+            })
           }
 
           const id = `${page}|${($row.attr('id') || '').replace('tml_', '')}`
@@ -199,13 +204,10 @@ export async function fetchTimeline(
             like: {
               type: 40,
               mainId: id,
-              relatedId: ($row.find('.likes_grid').attr('id') || '').replace(
-                'likes_grid_',
-                ''
-              )
+              relatedId: ($row.find('.likes_grid').attr('id') || '').replace('likes_grid_', '')
             },
             image,
-            clearHref: ''
+            clearHref: $row.find('.tml_del').attr('href') || ''
           })
         } catch (error) {}
       })

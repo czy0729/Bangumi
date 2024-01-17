@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:55:43
+ * @Last Modified time: 2024-01-16 20:44:17
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -61,8 +61,8 @@ class List extends React.Component<{
   }
 
   renderItem = ({ item, index }) => {
-    const { scope, title } = this.props
-    return <Item scope={scope} title={title} item={item} index={index} />
+    const { title } = this.props
+    return <Item title={title} item={item} index={index} />
   }
 
   render() {

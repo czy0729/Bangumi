@@ -2,18 +2,31 @@
  * @Author: czy0729
  * @Date: 2023-02-14 02:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:54:54
+ * @Last Modified time: 2024-01-16 21:02:09
  */
 import React from 'react'
 import { ItemTimeline } from '@_'
 import { _, rakuenStore } from '@stores'
+import { TimelineItem } from '@stores/timeline/types'
 import { getIsBlockUser } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { MODEL_TIMELINE_SCOPE } from '@constants'
+import { Ctx, TabLabel } from '../../types'
 import ItemHeatmaps from '../item-heatmaps'
 import { COMPONENT } from './ds'
 
-function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
+function Item(
+  {
+    title,
+    item,
+    index
+  }: {
+    title: TabLabel
+    item: TimelineItem
+    index: number
+  },
+  { $, navigation }: Ctx
+) {
   const { p1 } = item
   const url = p1?.url || ''
   if (url.includes('/user/')) {
@@ -24,22 +37,22 @@ function Item({ scope, title, item, index }, { $, navigation }: Ctx) {
     }
   }
 
-  const EVENT = {
-    id: '时间胶囊.跳转',
-    data: {
-      scope,
-      title
-    }
-  } as const
-
+  const { scope } = $.state
   return (
     <>
       <ItemTimeline
         style={_.container._item}
         navigation={navigation}
         {...item}
+        full={MODEL_TIMELINE_SCOPE.getLabel(scope) === '自己'}
         index={index}
-        event={EVENT}
+        event={{
+          id: '时间胶囊.跳转',
+          data: {
+            scope,
+            title
+          }
+        }}
         onDelete={$.doDelete}
         onHidden={$.onHidden}
       />

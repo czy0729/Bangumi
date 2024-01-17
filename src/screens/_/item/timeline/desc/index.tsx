@@ -6,23 +6,14 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Katakana, Text, Expand } from '@components'
-import { _, uiStore, systemStore } from '@stores'
+import { Expand, Katakana, Text } from '@components'
+import { _, systemStore, uiStore } from '@stores'
 import { findSubjectCn, getCoverMedium } from '@utils'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { styles } from './styles'
 
-function Desc({
-  navigation,
-  subject,
-  subjectId,
-  image,
-  comment,
-  replyContent,
-  replyCount,
-  event
-}) {
+function Desc({ navigation, subject, subjectId, image, comment, replyContent, replyCount, event }) {
   const { id, data = {} } = event
   return (
     <>
