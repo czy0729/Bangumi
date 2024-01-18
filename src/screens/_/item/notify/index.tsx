@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:07:00
+ * @Last Modified time: 2024-01-18 07:16:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Text, Touchable, UserStatus } from '@components'
-import { _, timelineStore } from '@stores'
+import { timelineStore } from '@stores'
 import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
@@ -86,9 +86,11 @@ export const ItemNotify = ob(
                     {message2}
                   </Text>
                   {!!sayTitle && (
-                    <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1} bold>
-                      描述：{sayTitle}
-                    </Text>
+                    <Flex>
+                      <Text style={styles.info} type='sub' size={12} numberOfLines={1} bold>
+                        描述：{sayTitle}
+                      </Text>
+                    </Flex>
                   )}
                 </Flex.Item>
                 <Flex style={styles.tag} justify='end'>

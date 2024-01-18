@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:13:27
+ * @Last Modified time: 2024-01-18 06:58:57
  */
 import React from 'react'
 import { FixedTextarea, Flex, Loading, Page, ScrollView, Text } from '@components'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../../types'
@@ -38,7 +38,7 @@ class Say extends React.Component {
             点击底部输入框录入吐槽内容
           </Text>
         </ScrollView>
-        {$.isWebLogin && (
+        {userStore.isWebLogin && (
           <FixedTextarea
             placeholder='新吐槽'
             simple
@@ -74,7 +74,7 @@ class Say extends React.Component {
     const { $, navigation } = this.context as Ctx
     const { value } = $.state
     return (
-      $.isWebLogin && (
+      userStore.isWebLogin && (
         <FixedTextarea
           placeholder='回复吐槽, 长按头像@某人'
           simple

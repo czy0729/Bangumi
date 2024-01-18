@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 15:33:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 05:14:42
+ * @Last Modified time: 2024-01-18 06:52:34
  */
 import { factory } from '@utils'
 import { Navigation } from '@types'
@@ -18,9 +18,9 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type TabsKey = typeof TABS[number]['key']
+export type TabsKey = (typeof TABS)[number]['key']
 
-export type TabsLabel = typeof TABS[number]['title']
+export type TabsLabel = (typeof TABS)[number]['title']
 
 export type Params = {
   type?: TabsKey

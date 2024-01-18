@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:10:00
+ * @Last Modified time: 2024-01-18 07:19:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,7 +79,7 @@ export const ItemPM = ob(
                     bold
                     right={
                       <Text size={11} lineHeight={13} type='sub'>
-                        {' '}
+                        {'  '}
                         {time}
                       </Text>
                     }
@@ -89,9 +89,13 @@ export const ItemPM = ob(
                   <Text style={_.mt.xs} type='main' bold>
                     {title}
                   </Text>
-                  <Text style={_.mt.xs} type='title' size={13} lineHeight={16} numberOfLines={2}>
-                    {HTMLDecode(content)}
-                  </Text>
+                  <Flex>
+                    <View style={styles.info}>
+                      <Text size={13} lineHeight={15}>
+                        {HTMLDecode(content)}
+                      </Text>
+                    </View>
+                  </Flex>
                 </Flex.Item>
                 {isNew && (
                   <Text style={_.ml.sm} type='danger'>

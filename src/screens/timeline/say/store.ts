@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:32:25
+ * @Last Modified time: 2024-01-18 07:00:23
  */
 import { computed, observable } from 'mobx'
 import { timelineStore, userStore } from '@stores'
@@ -55,6 +55,7 @@ export default class ScreenSay extends store<typeof STATE> {
   }
 
   // -------------------- get --------------------
+  /** 吐槽 id */
   @computed get id() {
     const { id, sayId } = this.params
     return sayId || id
@@ -72,19 +73,6 @@ export default class ScreenSay extends store<typeof STATE> {
       ...data,
       list: data.list.slice().reverse()
     }
-  }
-
-  @computed get myId() {
-    return userStore.myId
-  }
-
-  @computed get userInfo() {
-    return userStore.userInfo
-  }
-
-  /** 是否登录 (web) */
-  @computed get isWebLogin() {
-    return userStore.isWebLogin
   }
 
   /** 表单提交唯一码 */
@@ -148,7 +136,7 @@ export default class ScreenSay extends store<typeof STATE> {
     })
   }
 
-  /** 长按 @ 某人 */
+  /** 长按 at 某人 */
   at = (id: UserId) => {
     t('吐槽.at', {
       id
@@ -168,6 +156,7 @@ export default class ScreenSay extends store<typeof STATE> {
     this.setState({
       value: ''
     })
+
     setTimeout(() => {
       this.setState({
         value: content

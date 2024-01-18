@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 19:03:34
+ * @Last Modified time: 2024-01-18 10:26:32
  */
 import {
-  HTMLDecode,
-  HTMLToTree,
-  HTMLTrim,
   cheerio,
   getCoverSmall,
+  HTMLDecode,
   htmlMatch,
+  HTMLToTree,
+  HTMLTrim,
   matchAvatar,
   matchUserId,
   safeObject,
@@ -20,8 +20,8 @@ import { fetchHTML } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
-import { INIT_TOPIC, INIT_COMMENTS_ITEM, INIT_BLOG } from './init'
-import { Likes, CommentsItem, CommentsItemWithSub, Topic } from './types'
+import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'
+import { CommentsItem, CommentsItemWithSub, Likes, Topic } from './types'
 
 export async function fetchRakuen(args: {
   scope: RakuenScope
@@ -116,8 +116,7 @@ export function cheerioComments(html: string, reverse?: boolean) {
                     id: $row.attr('id').replace('post_', ''),
                     time: info?.[1] || '',
                     floor: info?.[0] || '',
-                    avatar:
-                      matchAvatar($row.find('span.avatarNeue').attr('style')) || '',
+                    avatar: matchAvatar($row.find('span.avatarNeue').attr('style')) || '',
                     userId: matchUserId($name.attr('href')) || '',
                     userName: HTMLDecode($name.text().trim()),
                     userSign: HTMLDecode($row.find('span.sign').text().trim()),
@@ -181,7 +180,7 @@ export function cheerioGroup(html: string) {
 
 /** 电波提醒列表 */
 export function cheerioNotify(html: string) {
-  return cheerio(html)('div.tml_item')
+  return cheerio(htmlMatch(html, '<div class="columns', '<div id="footer">'))('div.tml_item')
     .map((index: number, element: any) => {
       const $tr = cheerio(element)
       const $name = $tr.find('a.l')
@@ -235,9 +234,7 @@ export function cheerioTopic(html: string) {
 
     topic = safeObject<Topic>({
       id: String($('div.postTopic').attr('id') || '').substring(5),
-      avatar: getCoverSmall(
-        matchAvatar($('div.postTopic span.avatarNeue').attr('style'))
-      ),
+      avatar: getCoverSmall(matchAvatar($('div.postTopic span.avatarNeue').attr('style'))),
       floor,
       formhash: $('input[name=formhash]').attr('value'),
       likeType: $('a.like_dropdown').data('like-type') || '',
@@ -281,9 +278,7 @@ export function cheerioTopic(html: string) {
 
           return safeObject<CommentsItemWithSub>({
             id: $row.attr('id').substring(5),
-            avatar: getCoverSmall(
-              matchAvatar($avatar.find('span.avatarNeue').attr('style'))
-            ),
+            avatar: getCoverSmall(matchAvatar($avatar.find('span.avatarNeue').attr('style'))),
             floor,
             message: decoder(HTMLTrim($floor.find('> div.message').html())),
             replySub: $info.find('> div.action a.icon').attr('onclick'),
@@ -301,13 +296,9 @@ export function cheerioTopic(html: string) {
                 .find('div.sub_reply_bg')
                 .map((index: number, element: any) => {
                   const $row = cheerio(element)
-                  const [floor, time] = ($row.find('small').text().trim() || '').split(
-                    ' - '
-                  )
+                  const [floor, time] = ($row.find('small').text().trim() || '').split(' - ')
                   return safeObject<CommentsItem>({
-                    avatar: getCoverSmall(
-                      matchAvatar($row.find('span.avatarNeue').attr('style'))
-                    ),
+                    avatar: getCoverSmall(matchAvatar($row.find('span.avatarNeue').attr('style'))),
                     floor,
                     id: $row.attr('id').substring(5),
                     message: decoder(HTMLTrim($row.find('div.cmt_sub_content').html())),
@@ -384,19 +375,13 @@ export function cheerioBlog(html: string) {
       $('#comment_list > div.row_reply')
         .map((index: number, element: any) => {
           const $row = cheerio(element)
-          const [floor, time] = (
-            $row.find('> div.re_info small').text().trim() || ''
-          ).split(' - ')
+          const [floor, time] = ($row.find('> div.re_info small').text().trim() || '').split(' - ')
           return safeObject({
             ...INIT_COMMENTS_ITEM,
-            avatar: getCoverSmall(
-              matchAvatar($row.find('span.avatarNeue').attr('style'))
-            ),
+            avatar: getCoverSmall(matchAvatar($row.find('span.avatarNeue').attr('style'))),
             floor,
             id: $row.attr('id').substring(5),
-            message: HTMLTrim(
-              $row.find('> div.inner > div.reply_content > div.message').html()
-            ),
+            message: HTMLTrim($row.find('> div.inner > div.reply_content > div.message').html()),
             replySub: $row.find('> div.re_info > div.action a.icon').attr('onclick'),
             time,
             userId: matchUserId($row.find('a.avatar').attr('href')),
@@ -417,9 +402,7 @@ export function cheerioBlog(html: string) {
                   const [floor, time] = ($row.find('small').text() || '').split(' - ')
                   return safeObject({
                     ...INIT_COMMENTS_ITEM,
-                    avatar: getCoverSmall(
-                      matchAvatar($row.find('span.avatarNeue').attr('style'))
-                    ),
+                    avatar: getCoverSmall(matchAvatar($row.find('span.avatarNeue').attr('style'))),
                     floor,
                     id: $row.attr('id').substring(5),
                     message: HTMLTrim($row.find('div.cmt_sub_content').html()),
@@ -466,9 +449,9 @@ export function cheerioMine(html: string) {
 /** 条目讨论版 */
 export function cheerioBoard(html: string) {
   return (
-    cheerio(
-      htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
-    )('.topic_list tr')
+    cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))(
+      '.topic_list tr'
+    )
       .map((index: number, element: any) => {
         const $tr = cheerio(element)
         const $title = $tr.find('.subject > a')
@@ -489,9 +472,9 @@ export function cheerioBoard(html: string) {
 /** 条目影评 */
 export function cheerioReviews(html: string) {
   return (
-    cheerio(
-      htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
-    )('#entry_list .item')
+    cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))(
+      '#entry_list .item'
+    )
       .map((index: number, element: any) => {
         const $tr = cheerio(element)
         const $title = $tr.find('.title > a')
@@ -538,9 +521,9 @@ export function cheerioHot(html: string) {
 
 /** 帖子楼层编辑 */
 export function cheerioTopicEdit(html: string) {
-  return cheerio(
-    htmlMatch(html, '<form id="ModifyReplyForm"', '<div id="columnInSubjectB"')
-  )('#content')
+  return cheerio(htmlMatch(html, '<form id="ModifyReplyForm"', '<div id="columnInSubjectB"'))(
+    '#content'
+  )
     .text()
     .trim()
 }

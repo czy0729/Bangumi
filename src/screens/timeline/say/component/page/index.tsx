@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:15:42
+ * @Last Modified time: 2024-01-18 06:58:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { FixedTextarea, Flex, Loading, Page, Text } from '@components'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
@@ -44,7 +44,7 @@ class Say extends React.Component {
     const { $, navigation } = this.context as Ctx
     const { value } = $.state
     return (
-      $.isWebLogin && (
+      userStore.isWebLogin && (
         <FixedTextarea
           placeholder={placeholder}
           simple

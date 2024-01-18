@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:14:13
+ * @Last Modified time: 2024-01-18 10:31:10
  */
 import { cheerio, getTimestamp, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -231,7 +231,7 @@ export async function fetchTimeline(
 
 /** 吐槽 */
 export function cheerioSay(html: string) {
-  const $ = cheerio(html)
+  const $ = cheerio(htmlMatch(html, '<div class="columnsApp', '<div id="footer">'))
   const id = ($('div.statusHeader p.tip').text() || '').replace('@', '')
   const avatar = $('img.avatar').attr('src')
   const main = safeObject({
@@ -262,6 +262,6 @@ export function cheerioSay(html: string) {
 
 /** 吐槽表单授权码 */
 export function cheerioFormHash(html: string) {
-  const $ = cheerio(html)
+  const $ = cheerio(htmlMatch(html, '<form id="SayFrom"', '</form>'))
   return $('input[name=formhash]').attr('value') || ''
 }

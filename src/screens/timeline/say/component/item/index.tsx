@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:18:26
+ * @Last Modified time: 2024-01-18 06:57:07
  */
 import React from 'react'
 import { Text } from '@components'
 import { ItemSay } from '@_'
+import { userStore } from '@stores'
 import { getAvatarLocal } from '@utils'
 import { obc } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
@@ -18,7 +19,7 @@ function Item({ item, index }, { $ }: Ctx) {
 
   const { list } = $.say
   const prevItem = index === 0 ? {} : list[index - 1]
-  const isMe = item.id === $.myId
+  const isMe = item.id === userStore.myId
   return (
     <>
       <ItemSay
