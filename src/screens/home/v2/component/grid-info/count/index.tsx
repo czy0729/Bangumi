@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 08:49:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 00:38:35
+ * @Last Modified time: 2024-01-19 22:17:11
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -53,7 +53,7 @@ function Count({ subjectId, subject = {} as any, epStatus, tip }, { $ }: Ctx) {
 
   return (
     <Text type='primary' size={18}>
-      {epStatus || 0}
+      {$.countFixed(subjectId, epStatus) || '0'}
       <Text type='sub' lineHeight={18}>
         {' '}
         / {$.countRight(subjectId)}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-19 17:28:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 19:19:56
+ * @Last Modified time: 2024-01-19 19:30:44
  */
 import React, { useState } from 'react'
 import { Button, Flex, Text } from '@components'
@@ -70,7 +70,7 @@ function Extra({ connectUserId, repeat }) {
                 type='ghostPlain'
                 size='sm'
                 onPress={() => {
-                  confirm('确定忽略?', async () => {
+                  confirm('确定忽略?', () => {
                     setConnect('已忽略')
                     setStorage(`${COMPONENT}|${connectUserId}`, '已忽略')
 

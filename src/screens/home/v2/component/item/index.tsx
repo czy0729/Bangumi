@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:55:37
+ * @Last Modified time: 2024-01-19 22:04:21
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -27,7 +27,7 @@ function ItemWrap(
       subject={subject}
       subjectId={subjectId}
       title={title}
-      epStatus={epStatus}
+      epStatus={Math.max(Number(epStatus) || 0, $.epStatus(subjectId))}
       heatMap={heatMap}
       homeListCompact={homeListCompact}
       expand={$.$Item(subjectId).expand}

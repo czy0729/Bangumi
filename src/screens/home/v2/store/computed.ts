@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:52:54
+ * @Last Modified time: 2024-01-19 22:10:20
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -41,13 +41,9 @@ import {
 import { TABS, TABS_WITH_GAME } from '../ds'
 import { TabLabel } from '../types'
 import State from './state'
-import { EXCLUDE_STATE, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
+import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
 export default class Computed extends State {
-  save = () => {
-    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
-  }
-
   /** 置顶的映射 */
   getTopMap() {
     const { top } = this.state
@@ -411,6 +407,19 @@ export default class Computed extends State {
     }
   }
 
+  /** 总章节 */
+  totalEps(subjectId: SubjectId) {
+    try {
+      const eps = this.epsNoSp(subjectId)
+      return (
+        Math.max(this.subject(subjectId)?.eps_count || 0, eps?.[eps.length - 1]?.sort || 0) || '??'
+      )
+    } catch (error) {
+      console.error(NAMESPACE, 'totalEps', error)
+      return '??'
+    }
+  }
+
   /** 猜测条目当前看到的集数 */
   countFixed(subjectId: SubjectId, epStatus: number | string) {
     return computed(() => {
@@ -443,6 +452,15 @@ export default class Computed extends State {
       // 主要是有些特殊情况, 会有意料不到的问题, 特殊处理
       // epStatus=1 的时候, 优先使用 count
       return Number(epStatus == 1 ? count || epStatus : epStatus || count)
+    }).get()
+  }
+
+  /** subject 中的 epStatus 未必准确, 需要手动算一个对比 */
+  epStatus(subjectId: SubjectId) {
+    return computed(() => {
+      const userProgress = this.userProgress(subjectId)
+      const eps = this.epsNoSp(subjectId)
+      return eps.filter(item => userProgress[item.id] === '看过').length
     }).get()
   }
 
@@ -598,11 +616,10 @@ export default class Computed extends State {
   countRight(subjectId: SubjectId) {
     return computed(() => {
       const { homeCountView } = systemStore.setting
-      const subject = this.subject(subjectId)
       const current = this.currentOnAir(subjectId)
 
-      // 二季度的番剧，首集非1开始的需要从所有章节里面获取最大集数
-      let total = subject?.eps_count || '??'
+      // 二季度的番剧，首集非 1 开始的需要从所有章节里面获取最大集数
+      let total = this.totalEps(subjectId)
       if (total !== '??' && Number(current) > Number(total)) total = current
 
       let right = ''

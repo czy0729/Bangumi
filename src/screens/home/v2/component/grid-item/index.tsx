@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 22:55:54
+ * @Last Modified time: 2024-01-19 22:06:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,8 @@ import { Props } from './types'
 
 function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) {
   const styles = memoStyles()
+  epStatus = Math.max(Number(epStatus) || 0, $.epStatus(subjectId))
+
   const { homeGridTitle } = systemStore.setting
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const isGame = typeCn === '游戏'

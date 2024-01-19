@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:38:46
+ * @Last Modified time: 2024-01-19 22:15:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,7 @@ export const OnairProgress = ({
     100
   )
   const animatedStyle = useAnimatedStyle(() => ({
-    width: withTiming(`${totalPercent ? Math.max(totalPercent, 10) : 0}%`, {
+    width: withTiming(`${totalPercent ? Math.max(totalPercent, 2) : 0}%`, {
       duration: 120
     })
   }))
@@ -56,7 +56,7 @@ export const OnairProgress = ({
           style={[
             styles.progressBar,
             {
-              width: `${currentPercent ? Math.max(currentPercent, 10) : 0}%`,
+              width: `${currentPercent ? Math.max(currentPercent, 2) : 0}%`,
               height
             }
           ]}

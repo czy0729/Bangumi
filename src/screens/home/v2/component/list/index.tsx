@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 04:31:17
+ * @Last Modified time: 2024-01-19 19:51:54
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -19,23 +19,28 @@ import { memoStyles } from './styles'
 function ListWrap({ title = '全部' as TabLabel }, { $ }: Ctx) {
   if (!$.collection._loaded) return <Loading />
 
-  const { homeLayout } = systemStore.setting
-  const isGrid = homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
-  if (isGrid) return <Grid title={title} />
+  if (
+    systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
+  ) {
+    return <Grid title={title} />
+  }
 
   const showItem = $.showItem(title)
   if (!showItem) return null
 
-  const styles = memoStyles()
-  const index = $.tabs.findIndex(item => item.title === title)
   return (
     <List
-      forwardRef={ref => $.forwardRef(ref, index)}
-      styles={styles}
+      forwardRef={ref => {
+        $.forwardRef(
+          ref,
+          $.tabs.findIndex(item => item.title === title)
+        )
+      }}
+      styles={memoStyles()}
       data={$.currentCollection(title)}
       title={title}
       scrollToTop={$.scrollToTop(title)}
-      showItem={$.showItem(title)}
+      showItem={showItem}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={title === '游戏' ? $.onFooterRefresh : undefined}
