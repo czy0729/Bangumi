@@ -108,7 +108,7 @@ export default class ScreenNotify extends store<typeof STATE> {
   onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
-  /** 清除电波提醒未读 */
+  /** 清除电波提醒所有未读 */
   doClearNotify = () => {
     t('电波提醒.清除')
 

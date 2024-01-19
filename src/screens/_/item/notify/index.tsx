@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 07:16:20
+ * @Last Modified time: 2024-01-19 17:37:59
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Component, Flex, Text, Touchable, UserStatus } from '@components'
-import { timelineStore } from '@stores'
-import { appNavigate } from '@utils'
+import { Component, Flex, Touchable } from '@components'
+import { appNavigate, getUserIdFromAvatar } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, InView, Name, Tag } from '../../base'
-import { COMPONENT, ITEM_HEIGHT } from './ds'
+import Avatar from './avatar'
+import Content from './content'
+import Extra from './extra'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemNotifyProps } from './types'
 
@@ -35,72 +35,61 @@ export const ItemNotify = ob(
   }: ItemNotifyProps) => {
     const styles = memoStyles()
 
-    let sayTitle: string
-    const notifyId = String(href).split('/status/')?.[1]
-    if (notifyId) {
-      const say = timelineStore.say(notifyId)
-      if (say.list.length) sayTitle = say.list[0]?.text
+    let connectUserId = 0
+    if (message.includes('请求与你成为好友')) {
+      connectUserId = getUserIdFromAvatar(avatar)
     }
 
-    return (
-      <Component id='item-notify' data-key={notifyId}>
-        <Touchable
-          animate
-          onPress={() => {
-            appNavigate(
-              href,
-              navigation,
-              {
-                _title: title
-              },
-              event
-            )
-          }}
-        >
-          <Flex style={styles.container} align='start'>
-            <View style={styles.avatar}>
-              <UserStatus userId={userId}>
-                <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-                  <Avatar
-                    key={String(avatar)}
-                    navigation={navigation}
-                    userId={userId}
-                    name={userName}
-                    src={avatar}
-                    event={event}
-                  />
-                </InView>
-              </UserStatus>
-            </View>
-            <Flex.Item style={styles.item}>
-              <Name userId={userId} showFriend size={13} type='title' bold>
-                {userName}
-              </Name>
-              <Flex style={styles.message} align='start'>
-                <Flex.Item>
-                  <Text size={13} lineHeight={15}>
-                    {message}
-                    <Text size={13} lineHeight={15} type='main' bold>
-                      {title}
-                    </Text>
-                    {message2}
-                  </Text>
-                  {!!sayTitle && (
-                    <Flex>
-                      <Text style={styles.info} type='sub' size={12} numberOfLines={1} bold>
-                        描述：{sayTitle}
-                      </Text>
-                    </Flex>
-                  )}
-                </Flex.Item>
-                <Flex style={styles.tag} justify='end'>
-                  {!!repeat && <Tag value={`x${repeat + 1}`} />}
-                </Flex>
-              </Flex>
+    const elBody = (
+      <Flex style={styles.container} align='start'>
+        <Avatar
+          navigation={navigation}
+          index={index}
+          avatar={avatar}
+          userId={userId}
+          userName={userName}
+          event={event}
+        />
+        <Flex.Item style={styles.content}>
+          <Flex>
+            <Flex.Item>
+              <Content
+                userId={userId}
+                userName={userName}
+                title={title}
+                message={message}
+                message2={message2}
+                href={href}
+              />
             </Flex.Item>
-            {children}
+            <Extra connectUserId={connectUserId} repeat={repeat} />
           </Flex>
-        </Touchable>
+        </Flex.Item>
+        {children}
+      </Flex>
+    )
+
+    return (
+      <Component id='item-notify' data-key={href}>
+        {connectUserId ? (
+          elBody
+        ) : (
+          <Touchable
+            animate
+            onPress={() => {
+              appNavigate(
+                href,
+                navigation,
+                {
+                  _title: title
+                },
+                event
+              )
+            }}
+          >
+            {elBody}
+          </Touchable>
+        )}
       </Component>
     )
   },

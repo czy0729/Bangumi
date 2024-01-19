@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:08:08
+ * @Last Modified time: 2024-01-19 19:20:46
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
 import {
+  API_CONNECT,
   API_TOPIC_COMMENT_LIKE,
   HTML_ACTION_TIMELINE_REPLY,
   HTML_ACTION_TIMELINE_SAY
@@ -123,5 +124,27 @@ export default class Action extends Fetch {
         if (typeof callback === 'function') callback()
       }
     )
+  }
+
+  /** 添加好友 */
+  doConnect = async (userId: number) => {
+    await this.fetchFormHash()
+    if (!this.formhash) return false
+
+    return new Promise(resolve => {
+      xhr(
+        {
+          url: API_CONNECT(userId, this.formhash)
+        },
+        responseText => {
+          try {
+            if (JSON.parse(responseText)?.status === 'ok') return resolve(true)
+          } catch (error) {}
+
+          resolve(false)
+        },
+        () => resolve(false)
+      )
+    })
   }
 }

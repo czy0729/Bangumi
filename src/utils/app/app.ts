@@ -95,6 +95,15 @@ export function keyExtractor(item: AnyObject = { id: '' }) {
   return String(item.id)
 }
 
+/** 从修改过的用户头像地址中算出原始用户 id */
+export function getUserIdFromAvatar(src: string) {
+  try {
+    return Number(src.match(/\/(\d+)\.jpg/)?.[1]) || 0
+  } catch (error) {
+    return 0
+  }
+}
+
 /**
  * 根据 Bangumi 的 url 判断路由跳转方式
  * @param {*} url            链接

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 20:41:45
+ * @Last Modified time: 2024-01-19 19:19:22
  */
 
 /** Rakuen */
@@ -40,6 +40,8 @@ export default {
   '电波提醒.跳转': 'Notify.to',
   '电波提醒.右上角菜单': 'Notify.topRightMenu',
   '电波提醒.清除': 'Notify.clear',
+  '电波提醒.添加好友': 'Notify.doConnect',
+  '电波提醒.忽略好友': 'Notify.doErase',
 
   // 超展开设置
   '超展开设置.切换': 'RakuenSetting.switch',

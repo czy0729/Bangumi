@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 12:15:32
+ * @Last Modified time: 2024-01-19 17:59:03
  */
 import { EpId, Id, SubjectId, UserId } from '@types'
 import { HOST, IMG_DEFAULT } from '../constants'
@@ -46,10 +46,8 @@ export const API_USER_COLLECTION = (userId: UserId) =>
  *
  * @query  max_results 显示条数最多25
  */
-export const API_USER_COLLECTIONS = (
-  subjectType: SubjectType = 'anime',
-  userId: UserId
-) => `${API_HOST}/user/${userId}/collections/${subjectType}` as const
+export const API_USER_COLLECTIONS = (subjectType: SubjectType = 'anime', userId: UserId) =>
+  `${API_HOST}/user/${userId}/collections/${subjectType}` as const
 
 /** 用户收藏统计 */
 export const API_USER_COLLECTIONS_STATUS = (userId: UserId) =>
@@ -60,8 +58,7 @@ export const API_USER_COLLECTIONS_STATUS = (userId: UserId) =>
  *
  * @query subject_id 条目ID 获取指定条目收视进度
  */
-export const API_USER_PROGRESS = (userId: UserId) =>
-  `${API_HOST}/user/${userId}/progress` as const
+export const API_USER_PROGRESS = (userId: UserId) => `${API_HOST}/user/${userId}/progress` as const
 
 /**
  * 条目信息
@@ -71,8 +68,7 @@ export const API_USER_PROGRESS = (userId: UserId) =>
 export const API_SUBJECT = (subjectId: SubjectId) => `${API_HOST}/subject/${subjectId}`
 
 /** 章节数据 */
-export const API_SUBJECT_EP = (subjectId: SubjectId) =>
-  `${API_HOST}/subject/${subjectId}/ep`
+export const API_SUBJECT_EP = (subjectId: SubjectId) => `${API_HOST}/subject/${subjectId}/ep`
 
 /** 每日放送 */
 export const API_CALENDAR = () => `${API_HOST}/calendar`
@@ -94,8 +90,7 @@ export const API_SEARCH = (keywords: string) => `${API_HOST}/search/subject/${ke
  * @query ep_id 使用 POST 批量更新 将章节以半角逗号分隔, 如 3697,3698,3699
  *         请求时 URL 中的 ep_id 为最后一个章节ID
  */
-export const API_EP_STATUS = (id: EpId, status: EpStatus) =>
-  `${API_HOST}/ep/${id}/status/${status}`
+export const API_EP_STATUS = (id: EpId, status: EpStatus) => `${API_HOST}/ep/${id}/status/${status}`
 
 /**
  * [POST] 批量更新收视进度
@@ -108,8 +103,7 @@ export const API_SUBJECT_UPDATE_WATCHED = (subjectId: SubjectId) =>
   `${API_HOST}/subject/${subjectId}/update/watched_eps`
 
 /** 获取指定条目收藏信息 */
-export const API_COLLECTION = (subjectId: SubjectId) =>
-  `${API_HOST}/collection/${subjectId}`
+export const API_COLLECTION = (subjectId: SubjectId) => `${API_HOST}/collection/${subjectId}`
 
 /**
  * 管理收藏
@@ -122,10 +116,8 @@ export const API_COLLECTION = (subjectId: SubjectId) =>
  * @query rating  评分 1-10
  * @query privacy 收藏隐私: 0 = 公开, 1 = 私密
  */
-export const API_COLLECTION_ACTION = (
-  subjectId: SubjectId,
-  action: CollectionAction = 'update'
-) => `${API_HOST}/collection/${subjectId}/${action}`
+export const API_COLLECTION_ACTION = (subjectId: SubjectId, action: CollectionAction = 'update') =>
+  `${API_HOST}/collection/${subjectId}/${action}`
 
 /** v0 api: 条目封面 */
 export const API_COVER = (subjectId: SubjectId, type: string = 'common') =>
@@ -143,10 +135,8 @@ export const API_MONO_COVER = (
 ) => `${API_HOST}/v0/${monoType}/${monoId}/image?type=${type}`
 
 /** v0 api: 获取对应用户的收藏 */
-export const API_USERS_SUBJECT_COLLECTION = (
-  username: string | number,
-  subjectId: SubjectId
-) => `${API_HOST}/v0/users/${username}/collections/${subjectId}`
+export const API_USERS_SUBJECT_COLLECTION = (username: string | number, subjectId: SubjectId) =>
+  `${API_HOST}/v0/users/${username}/collections/${subjectId}`
 
 /** 随机 pixiv */
 export const API_SETU = (num: number = 20) =>
@@ -166,5 +156,8 @@ export const API_TOPIC_COMMENT_LIKE = (
   id: number,
   value: string,
   gh: string
-) =>
-  `${HOST}/like?type=${type}&main_id=${main_id}&id=${id}&value=${value}&gh=${gh}&ajax=1`
+) => `${HOST}/like?type=${type}&main_id=${main_id}&id=${id}&value=${value}&gh=${gh}&ajax=1`
+
+/** 添加好友 */
+export const API_CONNECT = (userId: number, gh: string) =>
+  `${HOST}/connect/${userId}?gh=${gh}&ajax=1`
