@@ -2,17 +2,26 @@
  * @Author: czy0729
  * @Date: 2021-01-21 16:01:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 22:46:43
+ * @Last Modified time: 2024-01-20 07:43:28
  */
 import React from 'react'
 import { OnairProgress } from '@_'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Progress({ epStatus, subjectId }, { $ }: Ctx) {
-  const { homeListCompact } = systemStore.setting
+function Progress(
+  {
+    subjectId,
+    epStatus
+  }: {
+    subjectId: SubjectId
+    epStatus: string | number
+  },
+  { $ }: Ctx
+) {
   const total = $.epsCount(subjectId)
   let current = $.currentOnAir(subjectId)
 
@@ -24,11 +33,11 @@ function Progress({ epStatus, subjectId }, { $ }: Ctx) {
 
   return (
     <OnairProgress
-      key={String($.$Item(subjectId).doing)}
+      // key={String($.$Item(subjectId).doing)}
       epStatus={epStatus}
       total={total}
       current={current}
-      height={homeListCompact ? 5 : 6}
+      height={systemStore.setting.homeListCompact ? 5 : 6}
     />
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:51:58
+ * @Last Modified time: 2024-01-20 09:53:00
  */
 import { collectionStore, userStore } from '@stores'
 import {
@@ -37,16 +37,8 @@ import {
   MODEL_SUBJECT_TYPE,
   SITE_AGEFANS
 } from '@constants'
-import {
-  EpId,
-  EpStatus,
-  Id,
-  Navigation,
-  RatingStatus,
-  Subject,
-  SubjectId,
-  SubjectTypeCn
-} from '@types'
+import { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
+import { TabLabel } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
@@ -195,8 +187,9 @@ export default class Action extends Fetch {
     ref: {
       scrollToIndex: any
     },
-    index: string | number
+    title: TabLabel
   ) => {
+    const index = this.tabs.findIndex(item => item.title === title)
     if (!this.scrollToIndex[index] && ref?.scrollToIndex) {
       this.scrollToIndex[index] = ref?.scrollToIndex
     }
@@ -263,23 +256,6 @@ export default class Action extends Fetch {
     } catch (error) {
       console.error(NAMESPACE, 'onlinePlaySelected', error)
     }
-  }
-
-  /** 跳转到条目页面 */
-  onItemPress = (navigation: Navigation, subjectId: SubjectId, subject: Subject) => {
-    t('首页.跳转', {
-      to: 'Subject',
-      from: 'list'
-    })
-
-    navigation.push('Subject', {
-      subjectId,
-      _jp: subject.name,
-      _cn: subject.name_cn || subject.name,
-      _image: subject?.images?.medium || '',
-      _collection: '在看',
-      _type: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
-    })
   }
 
   /** 页面筛选文字变化 */
@@ -450,7 +426,11 @@ export default class Action extends Fetch {
   }
 
   /** 更新书籍下一个章节 */
-  doUpdateNext = (subjectId: SubjectId, epStatus?: string, volStatus?: string) => {
+  doUpdateNext = (
+    subjectId: SubjectId,
+    epStatus?: string | number,
+    volStatus?: string | number
+  ) => {
     t('首页.更新书籍下一个章节', {
       subjectId
     })

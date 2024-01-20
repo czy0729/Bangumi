@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 23:40:10
+ * @Last Modified time: 2024-01-20 09:37:56
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -15,7 +15,7 @@ export const COMPONENT = rc(PARENT, 'Eps')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
-const numbersOfLine = STORYBOOK && !isMobile() ? 10 : 8
+export const numbersOfLine = STORYBOOK && !isMobile() ? 10 : 8
 
 export const DEFAULT_PROPS = {
   style: {} as ViewStyle,

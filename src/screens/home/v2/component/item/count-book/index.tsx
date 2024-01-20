@@ -2,18 +2,27 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:08:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-15 17:53:07
+ * @Last Modified time: 2024-01-20 07:44:56
  */
 import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import BtnBookNext from '../btn-book-next'
 import { COMPONENT } from './ds'
-import { Props } from './types'
 
-function CountBook({ subjectId, isFirst }: Props, { $ }: Ctx) {
+function CountBook(
+  {
+    subjectId,
+    isFirst
+  }: {
+    subjectId: SubjectId
+    isFirst: boolean
+  },
+  { $ }: Ctx
+) {
   const { list = [] } = $.collection
   const { ep_status: epStatus, vol_status: volStatus } =
     list.find(item => item.subject_id === subjectId) || {}

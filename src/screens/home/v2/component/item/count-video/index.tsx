@@ -2,18 +2,27 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:22:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-19 09:26:41
+ * @Last Modified time: 2024-01-20 07:11:29
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { IconExpand } from '@_'
 import { obc } from '@utils/decorators'
+import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
 
-function CountVideo({ subjectId, epStatus }: Props, { $ }: Ctx) {
+function CountVideo(
+  {
+    subjectId,
+    epStatus
+  }: {
+    subjectId: SubjectId
+    epStatus: string | number
+  },
+  { $ }: Ctx
+) {
   const { expand } = $.$Item(subjectId)
   return (
     <Flex style={styles.count}>

@@ -2,63 +2,57 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 10:57:05
+ * @Last Modified time: 2024-01-20 07:14:00
  */
 import React from 'react'
-import { Highlight, Katakana, Text } from '@components'
-import { _, systemStore } from '@stores'
+import { Highlight, Katakana } from '@components'
 import { cnjp, getPinYinFilterValue, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
-import { WEEK_DAY_MAP } from '../ds'
+import { SubjectId, SubjectTypeCn } from '@types'
+import { Ctx, TabLabel } from '../../../types'
+import Doing from './doing'
 import { COMPONENT } from './ds'
-import { Props } from './types'
 
-function Title({ subject, subjectId, title: tabLabel }: Props, { $ }: Ctx) {
-  const { homeListCompact } = systemStore.setting
-  const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
-  const action = type === '书籍' ? '读' : type === '游戏' ? '玩' : '看'
-
-  const { weekDay, isOnair } = $.onAirCustom(subjectId)
-  const weekDayText = systemStore.setting.homeOnAir
-    ? ''
-    : isOnair
-    ? ` · 周${WEEK_DAY_MAP[weekDay]}`
-    : ''
-
-  const _subject = $.subject(subjectId)
-  const doing = subject?.collection?.doing || _subject?.collection?.doing || 0
-
-  const title = HTMLDecode(
-    cnjp(_subject?.name_cn || subject.name_cn, _subject?.name || subject.name)
+function Title(
+  {
+    subjectId,
+    typeCn,
+    title,
+    name,
+    name_cn,
+    doing
+  }: {
+    subjectId: SubjectId
+    typeCn: SubjectTypeCn
+    title: TabLabel
+    name: string
+    name_cn: string
+    doing: number
+  },
+  { $ }: Ctx
+) {
+  const text = HTMLDecode(
+    cnjp(name_cn || $.subject(subjectId)?.name_cn, name || $.subject(subjectId)?.name)
   )
 
   let filterValue = ''
-  if ($.isFilter(tabLabel)) filterValue = getPinYinFilterValue(title, $.filter)
+  if ($.isFilter(title)) filterValue = getPinYinFilterValue(text, $.filter)
 
-  const { length } = title
-  const size = length > 28 ? 12 : length > 18 ? 13 : 15
+  const size = text.length > 28 ? 12 : text.length > 18 ? 13 : 15
   return (
     <>
       {filterValue ? (
         <Highlight size={size} numberOfLines={2} bold value={filterValue}>
-          {title}
+          {text}
         </Highlight>
       ) : (
         <Katakana.Provider size={size} numberOfLines={2} bold>
           <Katakana size={size} numberOfLines={2} bold>
-            {title}
+            {text}
           </Katakana>
         </Katakana.Provider>
       )}
-      {!homeListCompact && !!doing && (
-        <Text style={_.mt.xs} type='sub' size={12}>
-          {doing} 人在{action}
-          {weekDayText}
-        </Text>
-      )}
+      <Doing subjectId={subjectId} typeCn={typeCn} doing={doing} />
     </>
   )
 }

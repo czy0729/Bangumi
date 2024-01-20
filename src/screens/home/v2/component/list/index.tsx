@@ -30,12 +30,7 @@ function ListWrap({ title = '全部' as TabLabel }, { $ }: Ctx) {
 
   return (
     <List
-      forwardRef={ref => {
-        $.forwardRef(
-          ref,
-          $.tabs.findIndex(item => item.title === title)
-        )
-      }}
+      forwardRef={ref => $.forwardRef(ref, title)}
       styles={memoStyles()}
       data={$.currentCollection(title)}
       title={title}

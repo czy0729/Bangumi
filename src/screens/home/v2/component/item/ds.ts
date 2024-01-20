@@ -1,26 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2022-06-12 15:07:25
+ * @Date: 2024-01-20 09:11:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-27 22:19:11
+ * @Last Modified time: 2024-01-20 09:48:10
  */
-import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { Navigation, Subject, SubjectId } from '@types'
-import { StoreType, TabLabel } from '../../types'
+import { Subject, SubjectId } from '@types'
+import { TabLabel } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
-
-export const TITLE_HIT_SLOPS = {
-  top: _.device(8, 4),
-  right: _.device(8, 4),
-  bottom: _.device(2, 4),
-  left: _.device(8, 4)
-}
 
 export const WEEK_DAY_MAP = {
   0: '日',
@@ -46,20 +37,15 @@ export type Props = {
 
 /** item.tsx */
 export const DEFAULT_PROPS = {
-  navigation: {} as Navigation,
-  styles: {} as ReturnType<typeof memoStyles>,
   index: 0 as number,
-  subject: {} as Subject,
-  subjectId: 0 as SubjectId,
   title: '' as TabLabel,
+  subjectId: 0 as SubjectId,
+  type: '2' as Subject['type'],
+  image: '' as Subject['images']['medium'],
+  name: '' as Subject['name'],
+  name_cn: '' as Subject['name_cn'],
+  doing: 0 as Subject['collection']['doing'],
 
   /** 看到多少集 */
-  epStatus: '' as string | number,
-  heatMap: false as boolean,
-  homeListCompact: false as boolean,
-  expand: false as boolean,
-  epsCount: 0 as number,
-  isTop: false as boolean,
-  isRefreshing: false as boolean,
-  onItemPress: (() => {}) as StoreType['onItemPress']
+  epStatus: '' as string | number
 }

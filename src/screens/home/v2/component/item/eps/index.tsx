@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 11:19:24
+ * @Last Modified time: 2024-01-20 07:46:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,11 +10,21 @@ import { Heatmap } from '@components'
 import { Eps as CompEps } from '@_'
 import { obc } from '@utils/decorators'
 import { window } from '@styles'
+import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Eps({ subjectId, isFirst }, { $, navigation }: Ctx) {
+function Eps(
+  {
+    subjectId,
+    isFirst
+  }: {
+    subjectId: SubjectId
+    isFirst: boolean
+  },
+  { $, navigation }: Ctx
+) {
   return (
     <View style={styles.eps}>
       <CompEps

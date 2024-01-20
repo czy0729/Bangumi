@@ -2,76 +2,84 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 11:27:47
+ * @Last Modified time: 2024-01-20 09:52:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Collapsible, Flex, Heatmap, Loading, Touchable } from '@components'
-import { _ } from '@stores'
+import { Flex, Heatmap } from '@components'
 import { memo } from '@utils/decorators'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectTypeCn } from '@types'
+import Collapsible from './collapsible'
+import Container from './container'
+import ContentContainer from './container-content'
+import ContainerTouchable from './container-touchable'
 import Count from './count'
 import Cover from './cover'
-import Eps from './eps'
+import Loading from './loading'
 import OnAir from './onair'
 import Progress from './progress'
 import Title from './title'
 import ToolBar from './tool-bar'
-import { COMPONENT_MAIN, DEFAULT_PROPS, TITLE_HIT_SLOPS } from './ds'
+import Top from './top'
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 const Item = memo(
-  ({
-    navigation,
-    styles,
-    index,
-    subject,
-    subjectId,
-    title,
-    epStatus,
-    heatMap,
-    homeListCompact,
-    expand,
-    epsCount,
-    isTop,
-    isRefreshing,
-    onItemPress
-  }) => {
+  ({ index, title, subjectId, type, image, name, name_cn, doing, epStatus }) => {
+    const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const isFirst = index === 0
     return (
-      <View style={heatMap && expand ? styles.itemWithHeatMap : styles.item}>
+      <Container subjectId={subjectId}>
         <Flex style={styles.hd}>
-          <Cover index={index} subjectId={subjectId} subject={subject} />
+          <Cover
+            index={index}
+            subjectId={subjectId}
+            typeCn={typeCn}
+            name={name}
+            name_cn={name_cn}
+            image={image}
+          />
           <Flex.Item style={styles.content}>
-            <Touchable
-              style={homeListCompact ? styles.titleCompact : styles.title}
-              withoutFeedback
-              hitSlop={TITLE_HIT_SLOPS}
-              onPress={() => onItemPress(navigation, subjectId, subject)}
+            <ContainerTouchable
+              subjectId={subjectId}
+              typeCn={typeCn}
+              name={name}
+              name_cn={name_cn}
+              image={image}
             >
               <Flex align='start'>
                 <Flex.Item>
-                  <Title subjectId={subjectId} subject={subject} title={title} />
+                  <Title
+                    subjectId={subjectId}
+                    typeCn={typeCn}
+                    title={title}
+                    name={name}
+                    name_cn={name_cn}
+                    doing={doing}
+                  />
                 </Flex.Item>
-                {isRefreshing && <Loading.Medium color={_.colorSub} size={16} />}
-                <OnAir subjectId={subjectId} />
+                <Loading subjectId={subjectId} />
+                <OnAir subjectId={subjectId} typeCn={typeCn} />
               </Flex>
-            </Touchable>
+            </ContainerTouchable>
             <View>
-              <Flex style={homeListCompact ? styles.infoCompact : styles.info}>
+              <ContentContainer>
                 <Count
                   subjectId={subjectId}
-                  subject={subject}
+                  typeCn={typeCn}
                   epStatus={epStatus}
                   isFirst={isFirst}
                 />
                 <Flex.Item />
                 <ToolBar
                   subjectId={subjectId}
-                  subject={subject}
                   epStatus={epStatus}
-                  isTop={isTop}
+                  name={name}
+                  name_cn={name_cn}
                   isFirst={isFirst}
                 />
-              </Flex>
+              </ContentContainer>
               {title !== '游戏' && <Progress subjectId={subjectId} epStatus={epStatus} />}
             </View>
           </Flex.Item>
@@ -81,11 +89,9 @@ const Item = memo(
             </View>
           )}
         </Flex>
-        <Collapsible key={String(epsCount)} collapsed={!expand}>
-          <Eps subjectId={subjectId} isFirst={isFirst} />
-        </Collapsible>
-        {isTop && <View style={styles.dot} />}
-      </View>
+        <Collapsible subjectId={subjectId} isFirst={isFirst} />
+        <Top subjectId={subjectId} />
+      </Container>
     )
   },
   DEFAULT_PROPS,

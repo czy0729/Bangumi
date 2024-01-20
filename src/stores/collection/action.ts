@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-08 04:09:28
+ * @Last Modified time: 2024-01-20 07:45:43
  */
 import { toJS } from 'mobx'
 import { confirm } from '@utils'
@@ -24,8 +24,8 @@ import {
   SubjectType,
   UserId
 } from '@types'
-import userStore from '../user'
 import subjectStore from '../subject'
+import userStore from '../user'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -44,9 +44,7 @@ export default class Action extends Fetch {
 
     const list = data.list
       .slice()
-      .sort((a, b) =>
-        SORT.rating(subjectStore.rank(a.id), subjectStore.rank(b.id), 's', 'r')
-      )
+      .sort((a, b) => SORT.rating(subjectStore.rank(a.id), subjectStore.rank(b.id), 's', 'r'))
 
     const key = 'userCollections'
     const stateKey = `${userId}|${subjectType}|${type}`
@@ -116,15 +114,7 @@ export default class Action extends Fetch {
     privacy?: any // 0 | 1
     noConsole?: boolean
   }) => {
-    const {
-      subjectId,
-      status,
-      tags,
-      comment,
-      rating,
-      privacy,
-      noConsole = false
-    } = args || {}
+    const { subjectId, status, tags, comment, rating, privacy, noConsole = false } = args || {}
     return new Promise(async resolve => {
       const data = await fetch({
         url: API_COLLECTION_ACTION(subjectId),
@@ -209,7 +199,11 @@ export default class Action extends Fetch {
 
   /** 输入框更新章节进度 */
   doUpdateSubjectEp = (
-    args: { subjectId: SubjectId; watchedEps?: string; watchedVols?: string },
+    args: {
+      subjectId: SubjectId
+      watchedEps?: string | number
+      watchedVols?: string | number
+    },
     success?: () => any
   ) => {
     const { subjectId, watchedEps, watchedVols } = args || {}

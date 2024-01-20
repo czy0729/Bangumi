@@ -2,49 +2,74 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 09:53:29
+ * @Last Modified time: 2024-01-20 09:50:04
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Heatmap, Touchable } from '@components'
+import { Touchable } from '@components'
 import { Cover as CompCover, InView } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { IMG_HEIGHT, MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
+import { t } from '@utils/fetch'
+import { IMG_HEIGHT } from '@constants'
+import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
+import Heatmaps from './heatmaps'
 import { COMPONENT, ITEM_HEIGHT, ITEM_HEIGHT_COMPACT } from './ds'
 import { styles } from './styles'
 
-function Cover({ index, subjectId, subject }, { $, navigation }: Ctx) {
+function Cover(
+  {
+    index,
+    subjectId,
+    typeCn,
+    name,
+    name_cn,
+    image
+  }: {
+    index: number
+    subjectId: SubjectId
+    typeCn: SubjectTypeCn
+    name: string
+    name_cn: string
+    image: string
+  },
+  { navigation }: Ctx
+) {
   const { homeListCompact } = systemStore.setting
   const style = homeListCompact ? styles.inViewCompact : styles.inView
-  const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   return (
-    <View>
-      <Touchable animate onPress={() => $.onItemPress(navigation, subjectId, subject)}>
-        <InView
-          style={style}
-          y={(homeListCompact ? ITEM_HEIGHT_COMPACT : ITEM_HEIGHT) * index + _.headerHeight}
-        >
-          <CompCover
-            src={subject?.images?.medium || ''}
-            size={style.minWidth}
-            height={homeListCompact ? style.minHeight : IMG_HEIGHT}
-            radius
-            shadow
-            type={type}
-          />
-        </InView>
-      </Touchable>
-      {index === 0 && (
-        <>
-          <Heatmap bottom={68} id='首页.全部展开' transparent />
-          <Heatmap bottom={34} id='首页.全部关闭' transparent />
-          <Heatmap id='首页.跳转' to='Subject' alias='条目' />
-        </>
-      )}
-    </View>
+    <Touchable
+      animate
+      onPress={() => {
+        t('首页.跳转', {
+          to: 'Subject',
+          from: 'list'
+        })
+
+        navigation.push('Subject', {
+          subjectId,
+          _jp: name,
+          _cn: name_cn || name,
+          _image: image,
+          _collection: '在看',
+          _type: typeCn
+        })
+      }}
+    >
+      <InView
+        style={style}
+        y={(homeListCompact ? ITEM_HEIGHT_COMPACT : ITEM_HEIGHT) * index + _.headerHeight}
+      >
+        <CompCover
+          src={image}
+          size={style.minWidth}
+          height={homeListCompact ? style.minHeight : IMG_HEIGHT}
+          type={typeCn}
+          radius
+        />
+      </InView>
+      {index === 0 && <Heatmaps />}
+    </Touchable>
   )
 }
 

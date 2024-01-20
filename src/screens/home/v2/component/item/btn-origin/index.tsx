@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-04 20:48:01
+ * @Last Modified time: 2024-01-20 07:38:20
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -10,18 +10,23 @@ import { Popover } from '@_'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
+import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
 
-function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
-  const { homeOrigin, exportICS } = systemStore.setting
-  if (homeOrigin === -1) return null
+function BtnOrigin(
+  {
+    subjectId
+  }: {
+    subjectId: SubjectId
+  },
+  { $ }: Ctx
+) {
+  if (systemStore.setting.homeOrigin === -1) return null
 
   const origins: string[] = [...$.actions(subjectId).map(item => item.name)]
-  if (homeOrigin === true) {
+  if (systemStore.setting.homeOrigin === true) {
     origins.push(
       ...$.onlineOrigins(subjectId).map(item => (typeof item === 'object' ? item.name : item))
     )
@@ -29,7 +34,7 @@ function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
 
   const subject = $.subject(subjectId)
   const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
-  const data = [...origins, isTop ? '取消置顶' : '置顶']
+  const data = [...origins, $.state.top.indexOf(subjectId) !== -1 ? '取消置顶' : '置顶']
 
   if (['动画', '三次元'].includes(title)) {
     data.push('全部展开', '全部收起')
@@ -39,7 +44,7 @@ function BtnOrigin({ subjectId, isTop = false }: Props, { $ }: Ctx) {
       data.push('一键添加提醒')
     }
 
-    if (subject?.eps?.length && exportICS) data.push('导出放送日程ICS')
+    if (systemStore.setting.exportICS && subject?.eps?.length) data.push('导出放送日程ICS')
   }
 
   return (

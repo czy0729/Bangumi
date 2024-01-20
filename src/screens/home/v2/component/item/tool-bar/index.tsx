@@ -2,24 +2,36 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-25 15:13:38
+ * @Last Modified time: 2024-01-20 07:41:22
  */
 import React from 'react'
 import { Flex } from '@components'
 import { ob } from '@utils/decorators'
+import { SubjectId } from '@types'
 import BtnEpNext from '../btn-ep-next'
 import BtnFavor from '../btn-favor'
 import BtnOrigin from '../btn-origin'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
 
-function ToolBar({ subjectId, subject, epStatus, isTop, isFirst }: Props) {
+function ToolBar({
+  subjectId,
+  epStatus,
+  name,
+  name_cn,
+  isFirst
+}: {
+  subjectId: SubjectId
+  epStatus: string | number
+  name: string
+  name_cn: string
+  isFirst: boolean
+}) {
   return (
     <Flex style={styles.toolBar}>
-      <BtnOrigin subjectId={subjectId} isTop={isTop} />
+      <BtnOrigin subjectId={subjectId} />
       <BtnEpNext subjectId={subjectId} epStatus={epStatus} isFirst={isFirst} />
-      <BtnFavor subjectId={subjectId} subject={subject} isFirst={isFirst} />
+      <BtnFavor subjectId={subjectId} name={name} name_cn={name_cn} isFirst={isFirst} />
     </Flex>
   )
 }
