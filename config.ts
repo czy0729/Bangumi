@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 23:02:16
+ * @Last Modified time: 2024-01-20 09:54:19
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -14,7 +14,7 @@ export const DEV = global.__DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
 // export const DEV = global.__DEV__
 
 /** ==================== 常用配置 ==================== */
-const rerenderShow = 'ZZZ'
+const rerenderShow = 'ZZZ.'
 const rerenderNotShow = []
 
 /** 观察组件 rerender 用 (开发用) */
