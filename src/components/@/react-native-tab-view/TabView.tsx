@@ -3,6 +3,7 @@ import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react
 import { Pager } from 'react-native-tab-view/src/Pager'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { TabBar } from 'react-native-tab-view/src/TabBar'
+import { IOS } from '@constants'
 
 import type {
   Layout,
@@ -29,6 +30,7 @@ export type Props<T extends Route> = PagerProps & {
   style?: StyleProp<ViewStyle>
 
   /** @add */
+  renderContentHeaderComponent?: React.ReactNode
   renderBackground?: React.ReactNode
 }
 
@@ -53,6 +55,7 @@ export function TabView<T extends Route>({
   overScrollMode,
 
   /** @add */
+  renderContentHeaderComponent = null,
   renderBackground = null
 }: Props<T>) {
   const [layout, setLayout] = React.useState({
@@ -109,7 +112,8 @@ export function TabView<T extends Route>({
                   ...sceneRendererProps,
                   navigationState
                 })}
-              {renderBackground}
+              {renderContentHeaderComponent}
+              {!IOS && renderBackground}
               {render(
                 navigationState.routes.map((route, i) => {
                   return (
@@ -135,6 +139,7 @@ export function TabView<T extends Route>({
                   )
                 })
               )}
+              {IOS && renderBackground}
               {tabBarPosition === 'bottom' &&
                 renderTabBar({
                   ...sceneRendererProps,

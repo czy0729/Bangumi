@@ -17,7 +17,7 @@ function TabBarLabelWrap({ style, title, focused }: Props, { $ }: Ctx) {
   return (
     <TabBarLabel
       style={style}
-      title={title}
+      title={title.replace('看', $.action)}
       count={$.count(MODEL_SUBJECT_TYPE.getTitle(subjectType), title)}
       focused={focused}
     />
