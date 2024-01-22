@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-17 11:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:37:27
+ * @Last Modified time: 2024-01-21 07:51:17
  */
 import { GITHUB_HOST } from '@constants'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenUserSetting'
+export const COMPONENT = 'UserSetting'
+
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const STATE = {
   nickname: '',

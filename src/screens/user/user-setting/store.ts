@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:37:57
+ * @Last Modified time: 2024-01-22 14:46:34
  */
-import { observable, computed } from 'mobx'
-import { userStore, usersStore } from '@stores'
-import { getTimestamp, HTMLDecode, info, feedback } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { usersStore, userStore } from '@stores'
+import { feedback, getTimestamp, HTMLDecode, info } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { randomAvatars } from '@utils/user-setting'
-import { API_SETU } from '@constants'
 import { NAMESPACE, ONLINE_BGS_URL, REG_AVATAR, REG_BG, REG_FIXED, STATE } from './ds'
 
 export default class ScreenUserSetting extends store<typeof STATE> {
@@ -30,10 +29,12 @@ export default class ScreenUserSetting extends store<typeof STATE> {
 
     await this.onInit()
     this.onRefresh()
+
     return true
   }
 
   // -------------------- fetch --------------------
+  /** 个人资料 */
   fetchUserSetting = async () => {
     const data = await userStore.fetchUserSetting()
     const { nickname = '', sign_input = '' } = data
@@ -48,9 +49,7 @@ export default class ScreenUserSetting extends store<typeof STATE> {
   /** 预设背景 */
   fetchBgs = async () => {
     const bgs =
-      (await fetch(`${ONLINE_BGS_URL}?t=${getTimestamp()}`).then(response =>
-        response.json()
-      )) || []
+      (await fetch(`${ONLINE_BGS_URL}?t=${getTimestamp()}`).then(response => response.json())) || []
     this.setState({
       bgs
     })
@@ -70,27 +69,24 @@ export default class ScreenUserSetting extends store<typeof STATE> {
   }
 
   /** 随机背景 */
-  fetchSetus = async () => {
-    const data = []
-    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
-    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
-    this.setState({
-      pixivs: data
-        .filter(item => item.width * 1.28 >= item.height)
-        .map(item => item.urls.small)
-    })
+  // fetchSetus = async () => {
+  //   const data = []
+  //   data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+  //   data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+  //   this.setState({
+  //     pixivs: data.filter(item => item.width * 1.28 >= item.height).map(item => item.urls.small)
+  //   })
 
-    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
-    data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
-    this.setState({
-      pixivs: data
-        .filter(item => item.width * 1.28 >= item.height)
-        .map(item => item.urls.small)
-    })
-    this.setStorage(NAMESPACE)
-    return data
-  }
+  //   data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+  //   data.push(...(await fetch(API_SETU()).then(res => res.json())).data)
+  //   this.setState({
+  //     pixivs: data.filter(item => item.width * 1.28 >= item.height).map(item => item.urls.small)
+  //   })
+  //   this.setStorage(NAMESPACE)
+  //   return data
+  // }
 
+  /** 还原 */
   onInit = async (resume: boolean = false) => {
     await this.fetchUserSetting()
 
@@ -99,14 +95,13 @@ export default class ScreenUserSetting extends store<typeof STATE> {
     const _avatars = sign.match(REG_AVATAR)
     this.setState({
       bg: HTMLDecode(String(_bgs ? String(_bgs[1]).trim() : '').replace(REG_FIXED, '')),
-      avatar: HTMLDecode(
-        String(_avatars ? String(_avatars[1]).trim() : '').replace(REG_FIXED, '')
-      )
+      avatar: HTMLDecode(String(_avatars ? String(_avatars[1]).trim() : '').replace(REG_FIXED, ''))
     })
 
     if (resume) info('已还原')
   }
 
+  /** 刷新 */
   onRefresh = () => {
     const { selectedIndex } = this.state
     if (selectedIndex === 0) return this.fetchBgs()
@@ -147,9 +142,7 @@ export default class ScreenUserSetting extends store<typeof STATE> {
 
     const { sign } = this.userSetting
     const _avatars = sign.match(REG_AVATAR)
-    return HTMLDecode(
-      String(_avatars ? String(_avatars[1]).trim() : '').replace(REG_FIXED, '')
-    )
+    return HTMLDecode(String(_avatars ? String(_avatars[1]).trim() : '').replace(REG_FIXED, ''))
   }
 
   // -------------------- action --------------------

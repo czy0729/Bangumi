@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-10-20 18:01:27
  */
-import { _, userStore, systemStore, rakuenStore } from '@stores'
+import { rakuenStore, systemStore } from '@stores'
 import { DEV } from '@constants'
-import { arrGroup, getTimestamp, omit } from '../utils'
 import { t, ua } from '../fetch'
-import { setStorage, getStorage } from '../storage'
+import { getStorage, setStorage } from '../storage'
+import { arrGroup, getTimestamp, omit } from '../utils'
 import useMount from './useMount'
 
 const CACHE_KEY = 'utils|hooks|useGlobalMountV2'
@@ -20,10 +20,7 @@ export default function useGlobalMount() {
     // 启动后的全局动作
     setTimeout(() => {
       ua()
-      t('其他.启动', {
-        userId: userStore?.userInfo?.username || userStore?.myUserId,
-        device: _.isPad ? 'pad' : 'mobile'
-      })
+      t('其他.启动')
     }, 8000)
 
     setTimeout(async () => {
@@ -31,10 +28,7 @@ export default function useGlobalMount() {
         const lastMs = (await getStorage(CACHE_KEY)) || 0
         const now = getTimestamp()
         if (now - lastMs >= 60 * 60 * 24) {
-          const settings = omit(systemStore.setting, [
-            'homeRenderTabs',
-            'discoveryMenu'
-          ])
+          const settings = omit(systemStore.setting, ['homeRenderTabs', 'discoveryMenu'])
           const keys = Object.keys(settings)
           keys.forEach(key => {
             if (settings[key] === true) {
@@ -43,7 +37,7 @@ export default function useGlobalMount() {
               settings[key] = 0
             }
           })
-          arrGroup(keys, 10).forEach((arr, index) => {
+          arrGroup(keys).forEach((arr, index) => {
             setTimeout(() => {
               const data = {}
               arr.forEach((key: string) => (data[key] = settings[key]))

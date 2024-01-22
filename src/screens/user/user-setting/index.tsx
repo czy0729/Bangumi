@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:23:39
+ * @Last Modified time: 2024-01-22 13:22:15
  */
 import React from 'react'
-import { Component, Header } from '@components'
+import { Component } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
-import Page from './page'
-import Check from './check'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Header from './header'
+import Scroll from './scroll'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -20,12 +20,8 @@ const UserSetting = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <Component id='screen-user-setting'>
-      <Header
-        title='个人设置'
-        hm={['userSetting', 'UserSetting']}
-        headerRight={() => <Check $={$} />}
-      />
-      <Page />
+      <Header />
+      <Scroll />
     </Component>
   ))
 }

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-13 22:09:38
  */
 import Constants from 'expo-constants'
-import { HOST } from '@constants/constants'
+import { HOST, IOS } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import { DEV } from '@/config'
 import { AnyObject, EventKeys } from '@types'
@@ -19,7 +19,9 @@ import {
   TIMEOUT,
   TITLE,
   WEBSITE,
-  WEBSITE_TINGRAIL
+  WEBSITE_FATAL_ERROR,
+  WEBSITE_TINGRAIL,
+  WEBSITE_UV
 } from './ds'
 
 export function xhr(si: string, u: string) {
@@ -104,7 +106,12 @@ export async function umamiEvent(
   log('umamiEvent', eventId, data)
 }
 
-async function umamiXhr(payload: { title: string; url: string; name?: string; data?: AnyObject }) {
+async function umamiXhr(payload: {
+  title: string
+  url: string
+  name?: EventKeys
+  data?: AnyObject
+}) {
   if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
 
   const request = new XMLHttpRequest()
@@ -113,15 +120,25 @@ async function umamiXhr(payload: { title: string; url: string; name?: string; da
   request.setRequestHeader('User-Agent', userAgent)
   request.timeout = TIMEOUT
   request.withCredentials = false
+
+  let website = payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE
+  let referrer = REFERRER
+  if (payload.name === '其他.启动') {
+    website = WEBSITE_UV
+    referrer = IOS ? 'ios' : 'android'
+  } else if (payload.name === '其他.崩溃') {
+    website = WEBSITE_FATAL_ERROR
+  }
+
   request.send(
     JSON.stringify({
       payload: {
         ...payload,
-        website: payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
+        website,
         hostname: 'bgm.tv',
         screen: SCREEN,
         language: 'zh-CN',
-        referrer: REFERRER
+        referrer
       },
       type: 'event'
     })
