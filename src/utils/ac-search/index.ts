@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 06:21:28
+ * @Last Modified time: 2024-01-23 21:12:59
  */
-import { desc } from '../utils'
 import hash from '../thirdParty/hash'
+import { desc } from '../utils'
 import { getSubStrings, getTries, initLazyac } from './utils'
 
 export { getSubStrings }
@@ -20,7 +20,7 @@ const cacheMap = new Map<string, string[]>()
 export function acSearch(str: string) {
   const trieInitDone = initLazyac()
   const id = hash(str)
-  if (trieInitDone && cacheMap.has(id)) return cacheMap.get(id)
+  if (trieInitDone === 2 && cacheMap.has(id)) return cacheMap.get(id)
 
   let results: string[] = []
   getTries().forEach(trie => {
@@ -29,9 +29,7 @@ export function acSearch(str: string) {
     })
   })
 
-  results = results.sort((a, b) =>
-    a.length !== b.length ? desc(a.length, b.length) : desc(b, a)
-  )
-  if (trieInitDone) cacheMap.set(id, results)
+  results = results.sort((a, b) => (a.length !== b.length ? desc(a.length, b.length) : desc(b, a)))
+  if (trieInitDone === 2) cacheMap.set(id, results)
   return results
 }
