@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 17:13:38
+ * @Last Modified time: 2024-01-23 16:24:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { memo } from '@utils/decorators'
 import { TITLE_SUMMARY } from '../../ds'
 import IconHidden from '../../icon/hidden'
 import IconTranslate from '../../icon/translate'
+import { fixedTranslateResult } from '../utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Summary = memo(
@@ -36,7 +37,7 @@ const Summary = memo(
           <View>
             {translateResult.length ? (
               <View>
-                {translateResult.map((item, index) => (
+                {fixedTranslateResult(translateResult, content).map((item, index) => (
                   <View key={index} style={_.mt.sm}>
                     <Text style={_.mt.md} type='sub' size={12} lineHeight={14} selectable>
                       {item.src.trim()}
