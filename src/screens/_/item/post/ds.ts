@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:27:17
+ * @Last Modified time: 2024-01-23 19:58:09
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
-import { Fn, Navigation, TopicId } from '@types'
+import { Fn, TopicId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 import { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemPost')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 const AVATAR_WIDTH = 32
 
@@ -25,10 +26,8 @@ export const EXPAND_NUMS = 3
 export const REG_MARK = /mark|mrak|cy|码|马|眼/i
 
 export const DEFAULT_PROPS = {
-  navigation: {} as Navigation,
   inViewY: 0 as number,
   index: 0 as number,
-  styles: {} as ReturnType<typeof memoStyles>,
   contentStyle: {} as Props['contentStyle'],
   extraStyle: {} as Props['contentStyle'],
   topicId: '' as TopicId,

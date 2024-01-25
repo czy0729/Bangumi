@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-13 05:17:52
+ * @Last Modified time: 2024-01-23 19:46:10
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, RenderHtml, UserStatus, Text } from '@components'
+import { Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
-import { open, appNavigate, HTMLDecode } from '@utils'
+import { appNavigate, HTMLDecode, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { Avatar, Name } from '../../../base'
 import UserLabel from '../user-label'
@@ -56,12 +56,7 @@ function ItemPlusOne(
           <Name userId={userId} size={10} bold>
             {HTMLDecode(userName)}
           </Name>
-          <UserLabel
-            isAuthor={isAuthor}
-            isFriend={isFriend}
-            isLayer={isLayer}
-            lineHeight={10}
-          />
+          <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} lineHeight={10} />
         </Flex>
         <Flex align='end'>
           <RenderHtml
@@ -69,7 +64,9 @@ function ItemPlusOne(
             baseFontStyle={_.baseFontStyle.sm}
             imagesMaxWidth={imagesMaxWidthSub}
             html={message}
-            onLinkPress={href => appNavigate(href, navigation, {}, event)}
+            onLinkPress={href => {
+              appNavigate(href, navigation, {}, event)
+            }}
             onImageFallback={() => open(`${url}#post_${id}`)}
           />
           {!!floor && (

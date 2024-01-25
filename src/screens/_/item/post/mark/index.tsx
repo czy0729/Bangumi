@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-26 22:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-18 04:12:40
+ * @Last Modified time: 2024-01-23 19:45:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
-import { open, appNavigate, HTMLDecode } from '@utils'
+import { appNavigate, HTMLDecode, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { Avatar, Name } from '../../../base'
 import { memoStyles } from './styles'
@@ -46,7 +46,9 @@ function Mark(
         baseFontStyle={_.baseFontStyle.sm}
         imagesMaxWidth={imagesMaxWidthSub}
         html={message}
-        onLinkPress={href => appNavigate(href, navigation, {}, event)}
+        onLinkPress={href => {
+          appNavigate(href, navigation, {}, event)
+        }}
         onImageFallback={() => open(`${url}#post_${id}`)}
       />
 

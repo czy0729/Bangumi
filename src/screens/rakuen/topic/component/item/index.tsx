@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:17:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:35:38
+ * @Last Modified time: 2024-01-23 20:07:29
  */
 import React from 'react'
 import { ItemPost } from '@_'
@@ -29,6 +29,7 @@ function Item({ item, index, onShowFixedTextarea }, { $ }: Ctx) {
       postId={$.postId}
       authorId={$.topic.userId}
       {...item}
+      matchLink
       event={EVENT}
       showFixedTextare={onShowFixedTextarea}
     />

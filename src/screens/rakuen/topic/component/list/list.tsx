@@ -10,7 +10,7 @@ import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
-import Item from '../component/item'
+import Item from '../item'
 import { COMPONENT_MAIN, DEFAULT_PROPS, LISTVIEW_PROPS } from './ds'
 
 const List = memo(

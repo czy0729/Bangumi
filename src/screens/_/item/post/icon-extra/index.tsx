@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 23:44:55
+ * @Last Modified time: 2024-01-23 19:16:09
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore } from '@stores'
 import {
-  info,
   confirm,
-  getCommentPlainText,
   copy,
-  stl,
+  getCommentPlainText,
+  info,
   isChineseParagraph,
+  removeHTMLTag,
   removeURLs,
-  removeHTMLTag
+  stl
 } from '@utils'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'

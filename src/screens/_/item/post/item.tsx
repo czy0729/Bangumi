@@ -2,33 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:28:07
+ * @Last Modified time: 2024-01-23 19:57:59
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Component, Flex, Text, Touchable, UserStatus } from '@components'
-import { _ } from '@stores'
-import { HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
-import { Avatar, HTML, InView, Likes, Name } from '../../base'
-import FloorText from './floor-text'
-import IconExtra from './icon-extra'
-import ItemSub from './sub'
-import UserLabel from './user-label'
-import { layoutHeightMap } from './utils'
-import { DEFAULT_PROPS, IMAGES_MAX_WIDTH } from './ds'
-
-const AVATAR_SIZE = 36
-
-const ITEM_HEIGHT = 100
+import { r } from '@utils/dev'
+import Avatar from './avatar'
+import Container from './container'
+import ContainerLayout from './container-layout'
+import FloorDirect from './floor-direct'
+import FloorMain from './floor-main'
+import FloorSub from './floor-sub'
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Item = memo(
   ({
-    navigation,
     inViewY,
     index,
-    styles,
     contentStyle,
     extraStyle,
     topicId,
@@ -64,149 +54,77 @@ const Item = memo(
     onShowFixedTextare,
     onToggleExpand
   }) => {
-    rerender('Topic.Item.Main')
+    r(COMPONENT_MAIN)
 
     return (
-      <Component
-        id='item-post'
-        data-key={id}
-        style={stl(styles.item, sub.length && styles.itemWithSub)}
-      >
-        <Flex
-          style={stl(_.container.item, isJump && styles.itemJump)}
-          align='start'
-          onLayout={
-            sub.length
-              ? e => {
-                  layoutHeightMap.set(Number(id), e.nativeEvent.layout.height)
-                }
-              : undefined
-          }
-        >
-          {/* 头像 */}
-          <UserStatus userId={userId}>
-            <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
-              <Avatar
-                navigation={navigation}
-                userId={userId}
-                name={userName}
-                size={AVATAR_SIZE}
-                src={avatar}
-                event={event}
-              />
-            </InView>
-          </UserStatus>
+      <Container id={id} subLength={sub.length}>
+        <ContainerLayout id={id} subLength={sub.length} isJump={isJump}>
+          <Avatar
+            {...{
+              index,
+              inViewY,
+              userId,
+              userName,
+              avatar,
+              event
+            }}
+          />
 
           {/* 主楼层 */}
-          <Flex.Item style={stl(styles.content, contentStyle)}>
-            <Flex align='start'>
-              <Flex.Item>
-                <Name
-                  userId={userId}
-                  size={userName.length > 10 ? 12 : 14}
-                  lineHeight={14}
-                  bold
-                  right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} userSign={userSign} />}
-                >
-                  {HTMLDecode(userName)}
-                </Name>
-              </Flex.Item>
-              <IconExtra
-                style={extraStyle}
-                topicId={topicId}
-                id={id}
-                formhash={formhash}
-                likeType={likeType}
-                msg={msg}
-                replySub={replySub}
-                erase={erase}
-                userId={userId}
-                userName={userName}
-                onJumpTo={onJumpTo}
-                onShowFixedTextare={onShowFixedTextare}
-              />
-            </Flex>
-            <FloorText time={time} floor={floor} isNew={isNew} />
-            <View style={styles.html}>
-              <HTML
-                navigation={navigation}
-                id={id}
-                msg={msg}
-                url={url}
-                imagesMaxWidth={IMAGES_MAX_WIDTH}
-                matchLink={matchLink}
-                event={event}
-              />
-              <Likes
-                topicId={topicId}
-                id={id}
-                formhash={formhash}
-                likeType={likeType}
-                onLongPress={onLikesLongPress}
-              />
-            </View>
-            {!!translate && (
-              <Text style={styles.translate} size={11}>
-                {translate}
-              </Text>
-            )}
-          </Flex.Item>
+          <FloorMain
+            {...{
+              contentStyle,
+              extraStyle,
+              topicId,
+              erase,
+              floor,
+              id,
+              isAuthor,
+              isFriend,
+              isNew,
+              matchLink,
+              msg,
+              replySub,
+              time,
+              translate,
+              url,
+              userId,
+              userName,
+              userSign,
+              formhash,
+              likeType,
+              event,
+              onJumpTo,
+              onLikesLongPress,
+              onShowFixedTextare
+            }}
+          />
 
           {/* 高亮 */}
-          {directFloor && <View style={styles.direct} pointerEvents='none' />}
-        </Flex>
+          {directFloor && <FloorDirect />}
+        </ContainerLayout>
 
-        {/* 子楼层 */}
-        {!!sub.length && (
-          <Flex>
-            <View style={styles.left} />
-            <Flex.Item style={styles.sub}>
-              <Flex wrap='wrap'>
-                {sub
-                  .filter((item, index) => (isExpand ? true : index < expandNums))
-                  .map(item => (
-                    <ItemSub
-                      key={item.id}
-                      extraStyle={extraStyle}
-                      id={item.id}
-                      message={item.message}
-                      userId={item.userId}
-                      userName={item.userName}
-                      avatar={item.avatar}
-                      floor={item.floor}
-                      erase={item.erase}
-                      replySub={item.replySub}
-                      time={item.time}
-                      postId={postId}
-                      authorId={authorId}
-                      uid={userId}
-                      url={url}
-                      readedTime={readedTime}
-                      matchLink={matchLink}
-                      event={event}
-                      onJumpTo={onJumpTo}
-                      onLikesLongPress={onLikesLongPress}
-                      onShowFixedTextare={onShowFixedTextare}
-                    />
-                  ))}
-              </Flex>
-              {sub.length > expandNums && (
-                <Touchable style={styles.expandContainer} onPress={() => onToggleExpand(id)}>
-                  <Text
-                    style={styles.expand}
-                    type={isExpand ? 'sub' : 'main'}
-                    size={12}
-                    align='center'
-                    bold
-                  >
-                    {isExpand ? '收起楼层' : `展开 ${sub.length - expandNums} 条回复`}
-                  </Text>
-                </Touchable>
-              )}
-            </Flex.Item>
-          </Flex>
-        )}
-      </Component>
+        <FloorSub
+          {...{
+            extraStyle,
+            authorId,
+            id,
+            isExpand,
+            matchLink,
+            postId,
+            readedTime,
+            expandNums,
+            sub,
+            url,
+            userId,
+            event,
+            onJumpTo,
+            onLikesLongPress,
+            onShowFixedTextare,
+            onToggleExpand
+          }}
+        />
+      </Container>
     )
   },
   DEFAULT_PROPS,

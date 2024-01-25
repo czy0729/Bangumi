@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 import List from './list'
 import { COMPONENT } from './ds'
 

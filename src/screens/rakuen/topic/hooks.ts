@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:30:58
+ * @Last Modified time: 2024-01-23 17:36:17
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -19,9 +19,8 @@ import {
 } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import { Id } from '@types'
+import { PRE_OFFSET } from './ds'
 import { Ctx } from './types'
-
-const PRE_OFFSET = _.window.height * 0.2
 
 export function useTopicPage({ $ }: Ctx) {
   const isFocused = useIsFocused()

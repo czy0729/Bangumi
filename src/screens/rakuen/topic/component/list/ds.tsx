@@ -1,16 +1,16 @@
-import { ListViewProps } from '@components'
 /*
  * @Author: czy0729
  * @Date: 2024-01-03 22:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 22:27:58
+ * @Last Modified time: 2024-01-23 17:35:09
  */
+import { ListViewProps } from '@components'
 import { keyExtractor } from '@utils'
 import { rc } from '@utils/dev'
 import { FN, LIST_EMPTY } from '@constants'
-import Top from '../component/top'
+import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
-import { StoreType as $ } from '../types'
+import Top from '../top'
 
 export const COMPONENT = rc(PARENT, 'List')
 

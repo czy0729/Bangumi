@@ -40,9 +40,8 @@ class Scroll extends React.Component {
   }
 
   onExpand = () => {
-    const { expand } = this.state
     this.setState({
-      expand: !expand
+      expand: !this.state.expand
     })
   }
 
@@ -67,24 +66,21 @@ class Scroll extends React.Component {
 
   get avatar() {
     const { $ } = this.context as Ctx
-    const { avatar } = $.usersInfo
-    return avatar?.large
+    return $.usersInfo.avatar?.large
   }
 
   get previewAvatarSrc() {
     const { $ } = this.context as Ctx
-    const { avatar } = $.usersInfo
-    if (!$.state.avatar) return avatar?.large
+    if (!$.state.avatar) return $.usersInfo.avatar?.large
 
-    return fixedRemote($.state.avatar, true) || avatar?.large
+    return fixedRemote($.state.avatar, true) || $.usersInfo.avatar?.large
   }
 
   get previewBgSrc() {
     const { $ } = this.context as Ctx
-    const { avatar } = $.usersInfo
     if (!$.state.bg) return this.previewAvatarSrc
 
-    return fixedRemote($.state.bg) || fixedRemote($.state.avatar, true) || avatar?.large
+    return fixedRemote($.state.bg) || fixedRemote($.state.avatar, true) || $.usersInfo.avatar?.large
   }
 
   get blurRadius() {
@@ -100,7 +96,6 @@ class Scroll extends React.Component {
     const { $ } = this.context as Ctx
     const { selectedIndex } = $.state
     const { expand } = this.state
-
     const elPreview = (
       <Preview bg={this.previewBgSrc} avatar={this.previewAvatarSrc} blurRadius={this.blurRadius} />
     )

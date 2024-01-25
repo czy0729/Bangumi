@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:27:31
+ * @Last Modified time: 2024-01-23 20:00:55
  */
 import React from 'react'
 import { Component } from '@components'
@@ -47,7 +47,7 @@ export const ItemPost = obc(
       showFixedTextare: onShowFixedTextarea,
       onJumpTo
     }: ItemPostProps,
-    { $, navigation }
+    { $ }
   ) => {
     // 屏蔽脏数据
     if (!userId) return null
@@ -73,7 +73,7 @@ export const ItemPost = obc(
       (msg.toLocaleLowerCase().includes('mark') || msg.includes('+1'))
     if (isDelete || isBadge) {
       return (
-        <Component id='item-post' data-key={id} data-type='plus-one' style={styles.itemDelete}>
+        <Component id='item-post' data-key={id} data-type='plus-one' style={styles.delete}>
           <PlusOne
             id={id}
             message={message}
@@ -115,10 +115,8 @@ export const ItemPost = obc(
 
     return (
       <Item
-        navigation={navigation}
         inViewY={inViewY}
         index={index}
-        styles={styles}
         contentStyle={contentStyle}
         extraStyle={extraStyle}
         topicId={$?.topicId}

@@ -2,30 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:32:05
+ * @Last Modified time: 2024-01-23 19:15:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
-import {
-  HTMLDecode,
-  getTimestamp,
-  matchUserIdFromAvatar,
-  removeHTMLTag,
-  stl
-} from '@utils'
+import { getTimestamp, HTMLDecode, matchUserIdFromAvatar, removeHTMLTag, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { rerender } from '@utils/dev'
-import { Avatar, Name, HTML, Likes } from '../../../base'
+import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
+import { Avatar, HTML, Likes, Name } from '../../../base'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import Mark from '../mark'
 import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
 import { layoutHeightMap } from '../utils'
-import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
 import { DEFAULT_PROPS, REG_BGM, REG_PLUS } from './ds'
 
 export default memo(
@@ -66,8 +59,6 @@ export default memo(
     onLikesLongPress,
     onShowFixedTextare
   }) => {
-    rerender('Topic.ItemSub.Main')
-
     const msg = decoder(message)
     const rawMsg = removeHTMLTag(msg)
     const isDelete = rawMsg.includes('删除了回复')
@@ -78,11 +69,7 @@ export default memo(
     const isFriend = myFriendsMap[userId]
 
     // +N 的楼层, 只有表情的楼层
-    if (
-      isDelete ||
-      (rawMsg.length <= 10 && REG_PLUS.test(rawMsg)) ||
-      REG_BGM.test(msg.trim())
-    ) {
+    if (isDelete || (rawMsg.length <= 10 && REG_PLUS.test(rawMsg)) || REG_BGM.test(msg.trim())) {
       return (
         <Component id='item-post-sub' data-key={id} data-type='plus-one'>
           <PlusOne
@@ -173,13 +160,7 @@ export default memo(
                   size={userName.length > 10 ? 12 : 14}
                   lineHeight={14}
                   bold
-                  right={
-                    <UserLabel
-                      isAuthor={isAuthor}
-                      isFriend={isFriend}
-                      isLayer={isLayer}
-                    />
-                  }
+                  right={<UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} />}
                 >
                   {HTMLDecode(userName)}
                 </Name>
@@ -218,9 +199,7 @@ export default memo(
                 </Text>
               )}
               {showQuoteAvatar && (
-                <Flex
-                  style={stl(styles.quoteUserRound, wide && styles.quoteUserRoundWide)}
-                >
+                <Flex style={stl(styles.quoteUserRound, wide && styles.quoteUserRoundWide)}>
                   <Avatar
                     navigation={navigation}
                     size={13}

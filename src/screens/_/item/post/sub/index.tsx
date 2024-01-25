@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:30:56
+ * @Last Modified time: 2024-01-23 19:16:31
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import { isBlockUser } from '../utils'
 import ItemSub from './item'
 import { memoStyles } from './styles'
@@ -37,8 +36,6 @@ export default obc(
     },
     { $, navigation }
   ) => {
-    rerender('Topic.ItemSub')
-
     // 屏蔽脏数据
     if (!userId) return null
 
