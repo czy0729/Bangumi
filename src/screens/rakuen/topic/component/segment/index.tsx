@@ -35,6 +35,7 @@ function Segement(props, { $ }: Ctx) {
   return (
     <View>
       <SegmentedControl
+        key={selectedIndex}
         style={[
           styles.segmentedControl,
           {

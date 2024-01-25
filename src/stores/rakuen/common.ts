@@ -519,11 +519,14 @@ export function cheerioHot(html: string) {
   ).filter((item: { group: any }) => !!item.group)
 }
 
-/** 帖子楼层编辑 */
-export function cheerioTopicEdit(html: string) {
-  return cheerio(htmlMatch(html, '<form id="ModifyReplyForm"', '<div id="columnInSubjectB"'))(
+/** 帖子楼层编辑, 返回字符串代表能正常回复, 返回 true 代表已被回复不允许修改 */
+export function cheerioTopicEdit(html: string): string | boolean {
+  const text = cheerio(htmlMatch(html, '<form id="ModifyReplyForm"', '<div id="columnInSubjectB"'))(
     '#content'
   )
     .text()
     .trim()
+  if (text) return text
+
+  return html.includes('你只能修改自己发表的帖子')
 }

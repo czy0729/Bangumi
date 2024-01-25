@@ -110,6 +110,11 @@ export default class Action extends Fetch {
   /** 显示编辑评论框 */
   showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: Fn) => {
     const value = await rakuenStore.fetchTopicEdit(postId)
+    if (value === true) {
+      info('此楼层不再允许修改，可能已被回复过')
+      return
+    }
+
     if (!value) {
       info('未能获取到回复内容，可能授权过期了')
       return
