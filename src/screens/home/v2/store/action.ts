@@ -544,11 +544,19 @@ export default class Action extends Fetch {
         }
       }
 
+      if (sort === -1) {
+        sort = item.sort
+      } else if (this.epsNoSp(subjectId)?.[0]?.sort !== 1) {
+        // 原始章节第一个不是从 1 开始的, 才需要 +1
+        sort += 1
+      }
+
       this.prepareEpsFlip(subjectId)
       await userStore.doUpdateSubjectWatched({
         subjectId,
-        sort: sort === -1 ? item.sort : sort + 1
+        sort
       })
+
       userStore.fetchCollectionSingle(subjectId)
       this.fetchUserProgress(subjectId)
       webhookEp(
