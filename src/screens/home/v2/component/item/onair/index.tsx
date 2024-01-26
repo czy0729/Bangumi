@@ -28,7 +28,7 @@ function OnAir(
 
   // 防止完结的番剧因放送数据更新不及时, 导致一直显示放送中的问题
   const current = $.currentOnAir(subjectId)
-  if (current >= 8) {
+  if (current >= 8 && !systemStore.setting.homeOnAir) {
     const total = $.epsCount(subjectId)
     if (total >= 8 && current === total) return null
   }
@@ -54,16 +54,16 @@ function OnAir(
   }
 
   if (systemStore.setting.homeOnAir) {
-    const { weekDay, isOnair, h, m } = $.onAirCustom(subjectId)
-    const weekDayText = isOnair ? `周${WEEK_DAY_MAP[weekDay]}` : ''
-    if (!weekDayText) return null
-
-    const t = [h, m].filter(item => !!item)
-    return (
-      <Text style={styles.onAir} type='sub' size={13} lineHeight={14} bold>
-        {weekDayText} {t.join(':')}
-      </Text>
-    )
+    const { weekDay, h, m } = $.onAirCustom(subjectId)
+    if (WEEK_DAY_MAP[weekDay] && h && m) {
+      const weekDayText = `周${WEEK_DAY_MAP[weekDay]}`
+      const t = [h, m].filter(item => !!item)
+      return (
+        <Text style={styles.onAir} type='sub' size={13} lineHeight={14} bold>
+          {weekDayText} {t.join(':')}
+        </Text>
+      )
+    }
   }
 
   return null
