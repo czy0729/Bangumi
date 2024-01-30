@@ -41,7 +41,11 @@ function Popover({ children, ...other }) {
       try {
         index = data.findIndex((item: any) => item === value)
       } catch (error) {}
-      return onSelect(value, index)
+
+      setTimeout(() => {
+        onSelect(value, index)
+      }, 0)
+      return
     })
     return () => subscription.remove()
   })

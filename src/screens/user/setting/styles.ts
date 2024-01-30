@@ -38,9 +38,6 @@ export const styles = _.create({
     paddingTop: _.sm,
     paddingBottom: _.md
   },
-  transparent: {
-    opacity: 0
-  },
   input: {
     height: 44,
     paddingVertical: 0,

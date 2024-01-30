@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 15:20:01
+ * @Last Modified time: 2024-01-28 14:22:49
  */
 import { confirm, info, titleCase } from '@utils'
-import { put, read } from '@utils/db'
+import { read } from '@utils/db'
+import { get, update } from '@utils/kv'
 import {
   ADVANCE_CDN,
   MODEL_SETTING_CDN_ORIGIN,
@@ -54,10 +55,7 @@ export default class Actions extends Fetch {
       }
 
       const { cdn, cdnOrigin } = this.setting
-      if (
-        cdn &&
-        cdnOrigin === MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma')
-      ) {
+      if (cdn && cdnOrigin === MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma')) {
         this.switchSetting('cdn')
         return true
       }
@@ -130,8 +128,7 @@ export default class Actions extends Fetch {
 
   /** 设置 `首页放送数字显示` */
   setHomeCountView = (label: SettingHomeCountViewCn) => {
-    const homeCountView =
-      MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>(label)
+    const homeCountView = MODEL_SETTING_HOME_COUNT_VIEW.getValue<SettingHomeCountView>(label)
     if (homeCountView) {
       const key = 'setting'
       this.setState({
@@ -160,9 +157,7 @@ export default class Actions extends Fetch {
   }
 
   /** 设置 `首页功能块` */
-  setHomeRenderTabs = (
-    label: 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
-  ) => {
+  setHomeRenderTabs = (label: 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User') => {
     const { homeRenderTabs } = this.setting
 
     let data: string[]
@@ -170,10 +165,8 @@ export default class Actions extends Fetch {
       data = homeRenderTabs.filter(item => item !== label)
     } else {
       data = []
-      if (label === 'Discovery' || homeRenderTabs.includes('Discovery'))
-        data.push('Discovery')
-      if (label === 'Timeline' || homeRenderTabs.includes('Timeline'))
-        data.push('Timeline')
+      if (label === 'Discovery' || homeRenderTabs.includes('Discovery')) data.push('Discovery')
+      if (label === 'Timeline' || homeRenderTabs.includes('Timeline')) data.push('Timeline')
       data.push('Home')
       if (label === 'Rakuen' || homeRenderTabs.includes('Rakuen')) data.push('Rakuen')
       data.push('User')
@@ -252,23 +245,32 @@ export default class Actions extends Fetch {
   /** 上传当前设置到云端 */
   uploadSetting = () => {
     const { id } = UserStore.userInfo
-    return put({
-      path: `setting/${id}.json`,
-      content: JSON.stringify(this.setting)
-    })
+    return update(`setting_${id}`, this.setting)
   }
 
   /** 恢复到云端的设置 */
   downloadSetting = async () => {
     const { id } = UserStore.userInfo
-    const { content } = await read({
-      path: `setting/${id}.json`
-    })
-
-    if (!content) return false
+    let setting: typeof this.setting
 
     try {
-      const setting = JSON.parse(content)
+      const data = await get(`setting_${id}`)
+      if (data) {
+        setting = data
+      } else {
+        const data = await read({
+          path: `setting/${id}.json`
+        })
+        if (!data?.content) return false
+
+        setting = JSON.parse(data.content)
+      }
+    } catch (error) {
+      return false
+    }
+    if (!setting || typeof setting !== 'object') return false
+
+    try {
       const key = 'setting'
       this.setState({
         [key]: {
@@ -284,11 +286,7 @@ export default class Actions extends Fetch {
   }
 
   /** 显示 ImageViewer */
-  showImageViewer = (
-    imageUrls: unknown[] = [],
-    index: number,
-    mini: boolean = false
-  ) => {
+  showImageViewer = (imageUrls: unknown[] = [], index: number, mini: boolean = false) => {
     this.setState({
       imageViewer: {
         visible: true,
@@ -317,9 +315,7 @@ export default class Actions extends Fetch {
   }
 
   /** 切换显示埋点统计 */
-  toggleDevEvent = (
-    value: 'enabled' | 'grid' | 'text' | 'sum' | 'mini' = 'enabled'
-  ) => {
+  toggleDevEvent = (value: 'enabled' | 'grid' | 'text' | 'sum' | 'mini' = 'enabled') => {
     const { devEvent } = this.state
     const key = 'devEvent'
     this.setState({

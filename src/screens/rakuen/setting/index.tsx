@@ -2,26 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:34:40
+ * @Last Modified time: 2024-01-30 16:25:36
  */
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Component, Header } from '@components'
 import { TapListener } from '@_'
-import { uiStore } from '@stores'
-import { useIsFocused, useObserver } from '@utils/hooks'
-import Page from './page'
+import { useObserver } from '@utils/hooks'
+import Scroll from './component/scroll'
+import { useRakuenSettingPage } from './hooks'
 
 const RakuenSetting = ({ navigation }) => {
-  const isFocused = useIsFocused()
-  useEffect(() => {
-    if (!isFocused) uiStore.closePopableSubject()
-  }, [isFocused])
+  useRakuenSettingPage()
 
   return useObserver(() => (
     <Component id='screen-rakuen-setting'>
       <Header title='超展开设置' hm={['rakuen/settings', 'RakuenSetting']} />
       <TapListener>
-        <Page navigation={navigation} />
+        <Scroll navigation={navigation} />
       </TapListener>
     </Component>
   ))

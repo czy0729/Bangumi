@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-18 00:08:05
+ * @Last Modified time: 2024-01-30 16:18:12
  */
 import React from 'react'
 import { Flex, Page, ScrollView, SegmentedControl, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, rakuenStore, uiStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import {
   MODEL_RAKUEN_SCROLL_DIRECTION,
@@ -16,17 +17,15 @@ import {
   RAKUEN_SCROLL_DIRECTION,
   RAKUEN_SUB_EXPAND
 } from '@constants'
+import Block from '@screens/user/setting/component/block'
+import Tip from '@screens/user/setting/component/tip'
 import { Navigation } from '@types'
-import Block from '../../../user/setting/component/block'
-import Tip from '../../../user/setting/component/tip'
 import Blocks from '../blocks'
 import { getYuqueThumbs } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const scrollDirectionDS = RAKUEN_SCROLL_DIRECTION.map(item => item.label)
-const subExpandDS = RAKUEN_SUB_EXPAND.map(item => item.label)
-
-class RakuenSetting extends React.Component<{
+class Scroll extends React.Component<{
   navigation: Navigation
 }> {
   onScroll = () => {
@@ -124,7 +123,7 @@ class RakuenSetting extends React.Component<{
               style={this.styles.segmentedControl}
               backgroundColor={_.select(_.colorBg, _.colorPlain)}
               size={12}
-              values={scrollDirectionDS}
+              values={RAKUEN_SCROLL_DIRECTION.map(item => item.label)}
               selectedIndex={RAKUEN_SCROLL_DIRECTION.findIndex(
                 item => item.value === scrollDirection
               )}
@@ -351,7 +350,7 @@ class RakuenSetting extends React.Component<{
               style={this.styles.segmentedControl}
               backgroundColor={_.select(_.colorBg, _.colorPlain)}
               size={12}
-              values={subExpandDS}
+              values={RAKUEN_SUB_EXPAND.map(item => item.label)}
               selectedIndex={RAKUEN_SUB_EXPAND.findIndex(item => item.value === subExpand)}
               onValueChange={title => {
                 t('超展开设置.切换', {
@@ -430,6 +429,8 @@ class RakuenSetting extends React.Component<{
   }
 
   render() {
+    r(COMPONENT)
+
     const { navigation } = this.props
     return (
       <Page style={_.select(_.container.bg, _.container.plain)}>
@@ -450,4 +451,4 @@ class RakuenSetting extends React.Component<{
   }
 }
 
-export default ob(RakuenSetting)
+export default ob(Scroll)

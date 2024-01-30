@@ -109,6 +109,7 @@ export type OnAir = Override<
 >
 
 export type OnAirUser = {
-  weekDayCN: string
+  weekDayCN: string | number
   timeCN: string
+  _loaded?: Loaded
 }

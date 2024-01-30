@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:38:16
+ * @Last Modified time: 2024-01-28 14:37:13
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
 import { put, read } from '@utils/db'
 import { fetchHTML, xhr } from '@utils/fetch'
-import { collect, collectList, is } from '@utils/kv'
+import { collect, collectList, get, is, update } from '@utils/kv'
 import {
   API_TOPIC_COMMENT_LIKE,
   HOST,
@@ -130,13 +130,7 @@ export default class Action extends Fetch {
 
     xhr(
       {
-        url: API_TOPIC_COMMENT_LIKE(
-          item.type,
-          item.main_id,
-          floorId,
-          item.value,
-          formhash
-        )
+        url: API_TOPIC_COMMENT_LIKE(item.type, item.main_id, floorId, item.value, formhash)
       },
       responseText => {
         try {
@@ -492,29 +486,50 @@ export default class Action extends Fetch {
   /** 上传当前设置到云端 */
   uploadSetting = () => {
     const { id } = syncUserStore().userInfo
-    return put({
-      path: `rakuen-setting/${id}.json`,
-      content: JSON.stringify({
-        ...this.setting,
-        blockKeywords: escape(JSON.stringify(this.setting.blockKeywords)),
-        blockGroups: escape(JSON.stringify(this.setting.blockGroups)),
-        blockUserIds: escape(JSON.stringify(this.setting.blockUserIds))
-      })
-    })
+    return update(`rakuen_setting_${id}`, this.setting)
   }
 
   /** 恢复到云端的设置 */
   downloadSetting = async () => {
     const { id } = syncUserStore().userInfo
-    const { content } = await read({
-      path: `rakuen-setting/${id}.json`
-    })
-
-    if (!content) return false
+    const key = 'setting'
 
     try {
-      const setting = JSON.parse(content)
-      const key = 'setting'
+      const setting = await get(`rakuen_setting_${id}`)
+      if (setting) {
+        const { blockKeywords, blockGroups, blockUserIds } = setting
+        this.setting.blockKeywords.forEach(item => {
+          if (!blockKeywords.includes(item)) blockKeywords.push(item)
+        })
+        this.setting.blockGroups.forEach(item => {
+          if (!blockGroups.includes(item)) blockGroups.push(item)
+        })
+        this.setting.blockUserIds.forEach(item => {
+          if (!blockUserIds.includes(item)) blockUserIds.push(item)
+        })
+
+        this.setState({
+          [key]: {
+            ...this.setting,
+            ...setting,
+            blockKeywords,
+            blockGroups,
+            blockUserIds
+          }
+        })
+        this.save(key)
+        return true
+      }
+    } catch (error) {}
+
+    // 旧逻辑, 暂时保留
+    try {
+      const data = await read({
+        path: `rakuen-setting/${id}.json`
+      })
+      if (!data?.content) return false
+
+      const setting = JSON.parse(data.content)
 
       // 屏蔽的数据还需要跟现在的合并
       let { blockKeywords, blockGroups, blockUserIds } = setting
@@ -542,10 +557,10 @@ export default class Action extends Fetch {
       })
       this.save(key)
       return true
-    } catch (error) {
-      console.info('rakuenStore downloadSetting', error)
-      return false
-    }
+    } catch (error) {}
+
+    console.info('rakuenStore downloadSetting error')
+    return false
   }
 
   /** 屏蔽用户的屏蔽次数 +1 */

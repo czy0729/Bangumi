@@ -2,44 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:42:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:42:15
+ * @Last Modified time: 2024-01-28 13:08:42
  */
-import React, { useState } from 'react'
+import React from 'react'
 import { ActionSheet, Heatmap } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
-import { _, calendarStore, rakuenStore, systemStore, userStore } from '@stores'
-import { confirm, feedback, info, loading } from '@utils'
-import { read } from '@utils/db'
+import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { useBoolean, useMount, useObserver } from '@utils/hooks'
+import { useBoolean, useObserver } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
+import { Navigation } from '@types'
 import { getShows } from '../../utils'
+import { useCloud } from './hooks'
+import { handleDownload, handleRestore, handleUpload } from './utils'
 import { COMPONENT, TEXTS } from './ds'
 
-function System({ navigation, filter }) {
+function System({ navigation, filter }: { navigation: Navigation; filter: string }) {
   r(COMPONENT)
 
-  const [settingLen, setSettingLen] = useState(0)
+  const text = useCloud()
   const { state, setTrue, setFalse } = useBoolean(false)
-
-  useMount(() => {
-    setTimeout(async () => {
-      try {
-        const { id } = userStore.userInfo
-        if (!id) return
-
-        const { content } = await read({
-          path: `setting/${id}.json`
-        })
-
-        if (content?.length) setSettingLen(content.length)
-      } catch (error) {}
-    }, 2400)
-  })
-
   const shows = getShows(filter, TEXTS)
+
   return useObserver(() => {
     if (!shows) return null
 
@@ -73,39 +59,10 @@ function System({ navigation, filter }) {
               }}
               title='下载'
               information={
-                settingLen
-                  ? `${(settingLen / 1000).toFixed(1)} kb`
-                  : (!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`
+                text || ((!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`)
               }
               filter={filter}
-              onPress={() => {
-                t('设置.恢复默认设置', {
-                  label: '下载'
-                })
-
-                if (!userStore.isLogin || !userStore.userInfo.id) {
-                  return info(`下载需先${i18n.login()}`)
-                }
-
-                setTimeout(() => {
-                  confirm('确定恢复到云端的设置?', async () => {
-                    let hide = loading('下载设置(1/3)...')
-                    const flag = await systemStore.downloadSetting()
-                    hide()
-
-                    hide = loading('超展开设置(2/3)...')
-                    await rakuenStore.downloadSetting()
-                    hide()
-
-                    hide = loading('自定义放送数据(3/3)')
-                    await calendarStore.downloadSetting()
-                    hide()
-
-                    feedback()
-                    info(flag ? '已恢复' : '下载设置失败')
-                  })
-                }, 160)
-              }}
+              onPress={handleDownload}
             />
             <ItemSettingBlock.Item
               style={_.ml.md}
@@ -113,57 +70,14 @@ function System({ navigation, filter }) {
               title='上传'
               information={(!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`}
               filter={filter}
-              onPress={() => {
-                t('设置.恢复默认设置', {
-                  label: '上传'
-                })
-
-                if (!userStore.isLogin || !userStore.userInfo.id) {
-                  return info(`上传需先${i18n.login()}`)
-                }
-
-                setTimeout(() => {
-                  confirm('确定上传当前设置到云端?', async () => {
-                    let hide = loading('上传设置(1/3)...')
-                    const flag = await systemStore.uploadSetting()
-                    hide()
-
-                    hide = loading('超展开设置(2/3)...')
-                    await rakuenStore.uploadSetting()
-                    hide()
-
-                    hide = loading('自定义放送数据(3/3)')
-                    await calendarStore.uploadSetting()
-                    hide()
-
-                    feedback()
-                    info(flag ? '已上传' : '上传失败，云服务异常，请待作者修复')
-                  })
-                }, 160)
-              }}
+              onPress={handleUpload}
             />
             <ItemSettingBlock.Item
               style={_.ml.md}
               icon='md-refresh'
               title={`恢复${i18n.initial()}`}
               filter={filter}
-              onPress={() => {
-                t('设置.恢复默认设置', {
-                  label: '恢复默认'
-                })
-
-                setTimeout(() => {
-                  confirm(
-                    `仅会恢复${i18n.initial()}设置，不包含超展开设置和自定义放送数据，确定?`,
-                    () => {
-                      systemStore.resetSetting()
-                      setTimeout(() => {
-                        info('已恢复')
-                      }, 160)
-                    }
-                  )
-                }, 160)
-              }}
+              onPress={handleRestore}
             />
           </ItemSettingBlock>
 

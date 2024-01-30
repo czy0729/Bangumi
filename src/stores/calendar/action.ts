@@ -5,18 +5,15 @@
  * @Last Modified time: 2023-04-24 14:07:22
  */
 import { toJS } from 'mobx'
-import { put, read } from '@utils/db'
+import { read } from '@utils/db'
+import { get, update } from '@utils/kv'
 import { SubjectId } from '@types'
 import UserStore from '../user'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
   /** 更新用户自定义放送时间 */
-  updateOnAirUser = (
-    subjectId: SubjectId,
-    weekDayCN: string | number,
-    timeCN: string
-  ) => {
+  updateOnAirUser = (subjectId: SubjectId, weekDayCN: string | number, timeCN: string) => {
     if (!subjectId) return
 
     const key = 'onAirUser'
@@ -48,26 +45,33 @@ export default class Action extends Fetch {
     if (!Object.keys(this.state.onAirUser).length) return false
 
     const { id } = UserStore.userInfo
-    return put({
-      path: `onair-user/${id}.json`,
-      content: JSON.stringify(this.state.onAirUser)
-    })
+    return update(`onair_user_${id}`, this.state.onAirUser)
   }
 
   /** 恢复到云端的用户自定义放送数据 */
   downloadSetting = async () => {
     const { id } = UserStore.userInfo
-    const { content } = await read({
-      path: `onair-user/${id}.json`
-    })
-
-    if (!content) return false
+    let onAirUser: typeof this.state.onAirUser
 
     try {
-      const onAirUser = JSON.parse(content)
-      const key = 'onAirUser'
+      const data = await get(`onair_user_${id}`)
+      if (data) {
+        onAirUser = data
+      } else {
+        const data = await read({
+          path: `onair-user/${id}.json`
+        })
+        if (!data?.content) return false
 
-      // 本地的最优先
+        onAirUser = JSON.parse(data.content)
+      }
+    } catch (error) {
+      return false
+    }
+    if (!onAirUser || typeof onAirUser !== 'object') return false
+
+    try {
+      const key = 'onAirUser'
       this.setState({
         [key]: {
           ...onAirUser,

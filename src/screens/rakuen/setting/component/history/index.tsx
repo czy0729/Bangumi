@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:44:55
+ * @Last Modified time: 2024-01-30 16:15:04
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Text, Iconfont } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar } from '@_'
 import { _, rakuenStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function History({
@@ -95,4 +96,4 @@ function History({
   )
 }
 
-export default ob(History)
+export default ob(History, COMPONENT)

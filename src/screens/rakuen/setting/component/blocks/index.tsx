@@ -2,21 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:22:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-01 10:29:46
+ * @Last Modified time: 2024-01-30 17:24:06
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Input, Touchable } from '@components'
 import { _, rakuenStore } from '@stores'
 import { info } from '@utils'
-import { t } from '@utils/fetch'
+import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import Block from '../../../user/setting/component/block'
-import Tip from '../../../user/setting/component/tip'
+import Block from '@screens/user/setting/component/block'
+import Tip from '@screens/user/setting/component/tip'
+import { Fn, Navigation } from '@types'
 import History from '../history'
+import { handleDeleteBlockGroup, handleDeleteBlockUser, handleDeleteKeyword } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Blocks({ navigation, onNavigate = undefined }) {
+function Blocks({ navigation, onNavigate }: { navigation: Navigation; onNavigate?: Fn }) {
+  r(COMPONENT)
+
   const [keyword, setKeyword] = useState('')
   const onChange = useCallback(keyword => {
     setKeyword(keyword.trim())
@@ -33,7 +38,6 @@ function Blocks({ navigation, onNavigate = undefined }) {
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { blockUserIds, blockKeywords, blockGroups } = rakuenStore.setting
     return (
       <View style={styles.container}>
         {/* 屏蔽用户 */}
@@ -41,15 +45,10 @@ function Blocks({ navigation, onNavigate = undefined }) {
           <Tip>屏蔽用户（对条目评论、时间胶囊、超展开相关信息生效）</Tip>
           <History
             navigation={navigation}
-            data={blockUserIds}
+            data={rakuenStore.setting.blockUserIds}
             showAvatar
             onNavigate={onNavigate}
-            onDelete={(item: string) => {
-              t('超展开设置.取消用户', {
-                item
-              })
-              rakuenStore.deleteBlockUser(item)
-            }}
+            onDelete={(item: string) => handleDeleteBlockUser(item)}
           />
         </Block>
 
@@ -57,13 +56,8 @@ function Blocks({ navigation, onNavigate = undefined }) {
         <Block>
           <Tip>屏蔽关键字（对超展开标题、帖子正文内容生效）</Tip>
           <History
-            data={blockKeywords}
-            onDelete={(item: string) => {
-              t('超展开设置.取消关键字', {
-                item
-              })
-              rakuenStore.deleteBlockKeyword(item)
-            }}
+            data={rakuenStore.setting.blockKeywords}
+            onDelete={(item: string) => handleDeleteKeyword(item)}
           />
           <Flex style={styles.section}>
             <Flex.Item>
@@ -89,13 +83,8 @@ function Blocks({ navigation, onNavigate = undefined }) {
         <Block>
           <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>
           <History
-            data={blockGroups}
-            onDelete={(item: string) => {
-              t('超展开设置.取消关键字', {
-                item
-              })
-              rakuenStore.deleteBlockGroup(item)
-            }}
+            data={rakuenStore.setting.blockGroups}
+            onDelete={(item: string) => handleDeleteBlockGroup(item)}
           />
         </Block>
       </View>
