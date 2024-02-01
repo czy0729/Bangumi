@@ -16,6 +16,16 @@ import {
   UserId
 } from '@types'
 
+/** 0: 全部, 1: 我的好友, 2: 不接收 */
+export type PrivacyValue = '0' | '1' | '2'
+
+/** 绝交用户 */
+export type BlockedUsersItem = {
+  userId: UserId
+  userName: string
+  href: string
+}
+
 /** 超展开列表 */
 export type Rakuen = ListEmpty<
   DeepPartial<{

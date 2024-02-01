@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 18:46:17
+ * @Last Modified time: 2024-01-30 21:39:48
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, UserId } from '@types'
@@ -440,3 +440,6 @@ export const HTML_SUBJECT_WIKI_EDIT = (subjectId: SubjectId) => `${HOST}/subject
 /** 条目封面修订历史 */
 export const HTML_SUBJECT_WIKI_COVER = (subjectId: SubjectId) =>
   `${HOST}/subject/${subjectId}/upload_img`
+
+/** 隐私 */
+export const HTML_PRIVACY = () => `${HOST}/settings/privacy`

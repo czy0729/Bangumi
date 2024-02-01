@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 04:12:14
+ * @Last Modified time: 2024-01-30 23:06:44
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -30,12 +30,11 @@ import {
   SettingUserGridNum
 } from '@types'
 import { IOS_IMAGE_CACHE_V2 } from '../../../config'
+import { LayoutValue } from './types'
 
 export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
-type LayoutValue = true | false | -1
-
 /** 条目页面: true 显示 | false 折叠 | -1 永久隐藏 */
 export const INIT_SUBJECT_LAYOUT = {
   /** 其他用户收藏数量 */

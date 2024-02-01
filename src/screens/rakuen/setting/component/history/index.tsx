@@ -2,27 +2,37 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-30 16:15:04
+ * @Last Modified time: 2024-01-31 21:20:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar } from '@_'
 import { _, rakuenStore } from '@stores'
+import { BlockedUsersItem } from '@stores/rakuen/types'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
+import { Fn, Navigation, UserId, ViewStyle } from '@types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+/** 屏蔽列表 */
 function History({
   navigation,
   style,
-  data = [],
+  data,
   showAvatar = false,
   onNavigate,
   onDelete = () => {}
-}: any) {
+}: {
+  navigation?: Navigation
+  style?: ViewStyle
+  data: string[] | BlockedUsersItem[]
+  showAvatar?: boolean
+  onNavigate?: Fn
+  onDelete?: Fn
+}) {
   const styles = memoStyles()
   if (!data.length) {
     return (
@@ -40,12 +50,15 @@ function History({
 
   return (
     <View style={stl(styles.container, style)}>
-      {data.map(item => {
-        let userId = ''
-        try {
-          const [, _userId] = item.replace('@undefined', '').split('@')
-          if (_userId) userId = _userId
-        } catch (error) {}
+      {data.map((item: string | BlockedUsersItem) => {
+        let userId: UserId = ''
+        let text = ''
+        if (typeof item === 'object') {
+          userId = item.userId
+          text = `${item.userName}@${userId}`
+        } else {
+          text = item
+        }
 
         const onPress = () => {
           if (!navigation) return
@@ -66,7 +79,7 @@ function History({
         if (userId) blockCount = rakuenStore.blockedUsersTrack(userId)
 
         return (
-          <View key={item} style={styles.item}>
+          <View key={text} style={styles.item}>
             <Flex style={styles.content}>
               {showAvatar && !!userId && (
                 <View style={_.mr.sm}>
@@ -75,7 +88,7 @@ function History({
               )}
               <Flex.Item>
                 <Text size={blockCount ? 13 : 14} bold onPress={onPress}>
-                  {item.replace('@undefined', '')}
+                  {text}
                 </Text>
                 {!!blockCount && (
                   <Text style={_.mt.xxs} size={10} type='sub' bold>

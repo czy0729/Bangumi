@@ -2,14 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:26:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-14 03:46:29
+ * @Last Modified time: 2024-01-31 20:22:37
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
-  container: {
-    paddingBottom: _.window.height * 0.32
-  },
+export const styles = _.create({
   icon: {
     width: 36,
     height: 36
@@ -23,4 +20,4 @@ export const memoStyles = _.memoStyles(() => ({
     height: 44,
     paddingVertical: 0
   }
-}))
+})

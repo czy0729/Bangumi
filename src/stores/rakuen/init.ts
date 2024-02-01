@@ -5,12 +5,13 @@
  * @Last Modified time: 2023-12-21 19:54:14
  */
 import {
+  LIST_EMPTY,
   MODEL_RAKUEN_SCOPE,
-  MODEL_RAKUEN_TYPE,
   MODEL_RAKUEN_SCROLL_DIRECTION,
-  LIST_EMPTY
+  MODEL_RAKUEN_TYPE
 } from '@constants'
-import { Avatar, RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
+import { Avatar, Loaded, RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
+import { BlockedUsersItem, PrivacyValue } from './types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -273,6 +274,29 @@ const STATE = {
   /** 屏蔽用户的屏蔽次数追踪 */
   blockedUsersTrack: {
     0: 0
+  },
+
+  /**
+   * 消息与提醒
+   * @doc https://bgm.tv/settings/privacy */
+  privacy: {
+    /** 接收短信 */
+    'privacy_set[1]': '0' as PrivacyValue,
+
+    /** 时间线回复 */
+    'privacy_set[30]': '0' as PrivacyValue,
+
+    /** @ 提醒 */
+    'privacy_set[20]': '0' as PrivacyValue,
+
+    /** 评论提醒 */
+    'privacy_set[21]': '0' as PrivacyValue
+  },
+
+  /** 用户绝交 */
+  blockedUsers: {
+    list: [] as BlockedUsersItem[],
+    _loaded: 0 as Loaded
   }
 }
 
@@ -292,6 +316,7 @@ for (let i = 0; i < 100; i += 1) {
 export { STATE }
 
 export const LOADED = {
+  blockedUsers: false,
   blockedUsersTrack: false,
   blog: false,
   cloudTopic: false,
@@ -305,6 +330,7 @@ export const LOADED = {
   likes: false,
   mine: false,
   notify: false,
+  privacy: false,
   rakuen: false,
   readed: false,
   setting: false,

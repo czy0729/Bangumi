@@ -16,6 +16,7 @@ export function useRakuenSettingPage() {
   }, [isFocused])
 
   useMount(() => {
-    rakuenStore.downloadSetting()
+    // rakuenStore.downloadSetting()
+    rakuenStore.fetchPrivacy()
   })
 }

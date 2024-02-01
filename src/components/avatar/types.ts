@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-05-14 10:10:23
  */
-import { ColorValue, EventType, Navigation, ViewStyle, Fn, AnyObject } from '@types'
+import { AnyObject, ColorValue, EventType, Fn, Navigation, Source, ViewStyle } from '@types'
 
 export type Props = {
   /** 图片容器样式 */
@@ -20,11 +20,7 @@ export type Props = {
   name?: string
 
   /** 头像地址 */
-  src?:
-    | string
-    | {
-        uri: string
-      }
+  src?: string | Source
 
   /** 大小 */
   size?: number

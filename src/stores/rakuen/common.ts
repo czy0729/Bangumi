@@ -20,8 +20,8 @@ import { fetchHTML } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HTML_RAKUEN } from '@constants'
 import { RakuenScope, RakuenType, RakuenTypeGroup, RakuenTypeMono } from '@types'
-import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'
-import { CommentsItem, CommentsItemWithSub, Likes, Topic } from './types'
+import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC, STATE } from './init'
+import { BlockedUsersItem, CommentsItem, CommentsItemWithSub, Likes, Topic } from './types'
 
 export async function fetchRakuen(args: {
   scope: RakuenScope
@@ -529,4 +529,35 @@ export function cheerioTopicEdit(html: string): string | boolean {
   if (text) return text
 
   return html.includes('你只能修改自己发表的帖子')
+}
+
+/** 个人设置隐私 */
+export function cheerioPrivacy(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
+
+  const blockedUsers: BlockedUsersItem[] = []
+  $('tr').each((index: number, element: any) => {
+    const $row = cheerio(element)
+    const $user = $row.find('td[valign="top"] a')
+    const userId = ($user.attr('href') || '').split('/user/')?.[1]
+    if (userId) {
+      blockedUsers.push({
+        userId,
+        userName: $user.text().trim(),
+        href: $row.find('a.tip_i').attr('href') || ''
+      })
+    }
+  })
+
+  const privacy: typeof STATE.privacy = {
+    'privacy_set[1]': $('select[name="privacy_set[1]"]').val() || '0',
+    'privacy_set[30]': $('select[name="privacy_set[30]"]').val() || '0',
+    'privacy_set[20]': $('select[name="privacy_set[20]"]').val() || '0',
+    'privacy_set[21]': $('select[name="privacy_set[21]"]').val() || '0'
+  }
+
+  return {
+    blockedUsers,
+    privacy
+  }
 }

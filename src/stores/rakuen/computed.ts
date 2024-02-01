@@ -18,8 +18,6 @@ import {
   TopicId,
   UserId
 } from '@types'
-import State from './state'
-import { getInt } from './utils'
 import {
   DEFAULT_SCOPE,
   DEFAULT_TYPE,
@@ -29,6 +27,8 @@ import {
   INIT_TOPIC,
   STATE
 } from './init'
+import { getInt } from './utils'
+import State from './state'
 import {
   Board,
   Comments,
@@ -228,6 +228,18 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return computed<number>(() => {
       return this.state.blockedUsersTrack[userId] || 0
     }).get()
+  }
+
+  /** 消息与提醒 */
+  @computed get privacy() {
+    this.init('privacy')
+    return this.state.privacy
+  }
+
+  /** 用户绝交 */
+  @computed get blockedUsers() {
+    this.init('blockedUsers')
+    return this.state.blockedUsers
   }
 
   // -------------------- computed --------------------

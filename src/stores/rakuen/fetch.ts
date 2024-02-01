@@ -17,6 +17,7 @@ import {
   HTML_GROUP_INFO,
   HTML_GROUP_MINE,
   HTML_NOTIFY,
+  HTML_PRIVACY,
   HTML_RAKUEN_HOT,
   HTML_REVIEWS,
   HTML_TOPIC,
@@ -34,8 +35,6 @@ import {
   TopicId,
   UserId
 } from '@types'
-import Computed from './computed'
-import { getInt } from './utils'
 import {
   cheerioBlog,
   cheerioBoard,
@@ -44,12 +43,15 @@ import {
   cheerioHot,
   cheerioMine,
   cheerioNotify,
+  cheerioPrivacy,
   cheerioReviews,
   cheerioTopic,
   cheerioTopicEdit,
   fetchRakuen
 } from './common'
+import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
+import { getInt } from './utils'
 
 export default class Fetch extends Computed {
   /**
@@ -278,9 +280,7 @@ export default class Fetch extends Computed {
     let { unread, clearHref, list } = this.notify
 
     // 清除动作
-    const clearHTML = html.match(
-      /<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/
-    )
+    const clearHTML = html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
     if (clearHTML) clearHref = clearHTML[1]
 
     // 未读数
@@ -539,5 +539,25 @@ export default class Fetch extends Computed {
       url: HTML_TOPIC_EDIT(postId)
     })
     return cheerioTopicEdit(html)
+  }
+
+  /** 个人设置隐私 */
+  fetchPrivacy = async () => {
+    const html = await fetchHTML({
+      url: HTML_PRIVACY()
+    })
+    const data = cheerioPrivacy(html)
+
+    this.setState({
+      privacy: data.privacy,
+      blockedUsers: {
+        list: data.blockedUsers || [],
+        _loaded: getTimestamp()
+      }
+    })
+    this.save('privacy')
+    this.save('blockedUsers')
+
+    return data
   }
 }
