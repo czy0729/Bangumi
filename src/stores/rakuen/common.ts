@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 10:26:32
+ * @Last Modified time: 2024-02-01 17:07:23
  */
 import {
   cheerio,
@@ -544,7 +544,7 @@ export function cheerioPrivacy(html: string) {
       blockedUsers.push({
         userId,
         userName: $user.text().trim(),
-        href: $row.find('a.tip_i').attr('href') || ''
+        href: HTMLDecode($row.find('a.tip_i').attr('href') || '')
       })
     }
   })
@@ -558,6 +558,7 @@ export function cheerioPrivacy(html: string) {
 
   return {
     blockedUsers,
-    privacy
+    privacy,
+    formhash: $('input[name="formhash"]').val() || ''
   }
 }

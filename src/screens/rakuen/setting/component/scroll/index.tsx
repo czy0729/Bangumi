@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-31 20:40:01
+ * @Last Modified time: 2024-02-01 18:34:41
  */
 import React, { useCallback } from 'react'
 import { useObserver } from 'mobx-react'
@@ -29,12 +29,12 @@ function Scroll({ navigation }: { navigation: Navigation }) {
   return useObserver(() => (
     <Page style={_.select(_.container.bg, _.container.plain)}>
       <ScrollView contentContainerStyle={styles.container} onScroll={onScroll}>
-        <Blockeds navigation={navigation} />
         <Likes />
         <Topic />
         <Slider />
         <Media />
         <Base />
+        <Blockeds navigation={navigation} />
       </ScrollView>
     </Page>
   ))

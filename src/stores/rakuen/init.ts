@@ -297,7 +297,10 @@ const STATE = {
   blockedUsers: {
     list: [] as BlockedUsersItem[],
     _loaded: 0 as Loaded
-  }
+  },
+
+  /** 表单授权 */
+  formhash: ''
 }
 
 /**
@@ -324,6 +327,7 @@ export const LOADED = {
   favor: false,
   favorCount: false,
   favorV2: false,
+  formhash: false,
   groupInfo: false,
   groupThumb: false,
   hot: false,

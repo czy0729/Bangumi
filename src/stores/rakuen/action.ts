@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-28 14:37:13
+ * @Last Modified time: 2024-02-01 17:52:46
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -14,6 +14,7 @@ import {
   HOST,
   HTML_ACTION_BLOG_REPLY,
   HTML_ACTION_RAKUEN_REPLY,
+  HTML_PRIVACY,
   HTML_TOPIC_EDIT
 } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
@@ -195,13 +196,50 @@ export default class Action extends Fetch {
   }
 
   /** 删除日志回复 */
-  doDeleteReplyBlog = async (args: { url: string }, success?: () => any) => {
+  doDeleteReplyBlog = async (args: { url: string }, success?: Fn, fail?: Fn) => {
     const { url } = args || {}
     xhr(
       {
         url
       },
-      success
+      success,
+      fail
+    )
+  }
+
+  /** 与某用户绝交 */
+  doBlockUser = async (
+    args: {
+      keyword: string
+    },
+    success?: Fn,
+    fail?: Fn
+  ) => {
+    const { keyword } = args || {}
+    xhr(
+      {
+        method: 'POST',
+        url: HTML_PRIVACY(),
+        data: {
+          ignore_user: keyword,
+          formhash: this.formhash,
+          submit_ignore: '保存'
+        }
+      },
+      success,
+      fail
+    )
+  }
+
+  /** 取消与某用户绝交 */
+  doCancelBlockUser = async (args: { url: string }, success?: Fn, fail?: Fn) => {
+    const { url } = args || {}
+    xhr(
+      {
+        url
+      },
+      success,
+      fail
     )
   }
 
@@ -492,8 +530,9 @@ export default class Action extends Fetch {
   /** 恢复到云端的设置 */
   downloadSetting = async () => {
     const { id } = syncUserStore().userInfo
-    const key = 'setting'
+    if (!id) return false
 
+    const key = 'setting'
     try {
       const setting = await get(`rakuen_setting_${id}`)
       if (setting) {

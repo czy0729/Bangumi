@@ -242,6 +242,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.blockedUsers
   }
 
+  /** 表单授权 */
+  @computed get formhash() {
+    this.init('formhash')
+    return this.state.formhash
+  }
+
   // -------------------- computed --------------------
   /** 收藏的帖子 */
   @computed get favorTopic() {

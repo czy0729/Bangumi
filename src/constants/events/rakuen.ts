@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 19:19:22
+ * @Last Modified time: 2024-02-01 18:31:47
  */
 
 /** Rakuen */
@@ -44,9 +44,12 @@ export default {
   '电波提醒.忽略好友': 'Notify.doErase',
 
   // 超展开设置
+  '超展开设置.右上角菜单': 'RakuenSetting.topRightMenu',
   '超展开设置.切换': 'RakuenSetting.switch',
   '超展开设置.取消关键字': 'RakuenSetting.cancelBlock',
   '超展开设置.取消用户': 'RakuenSetting.cancelUser',
+  '超展开设置.绝交': 'RakuenSetting.blockUser',
+  '超展开设置.取消绝交': 'RakuenSetting.cancelBlockUser',
 
   // 帖子
   '帖子.跳转': 'Topic.to',

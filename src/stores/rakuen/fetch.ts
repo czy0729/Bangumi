@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 19:09:22
+ * @Last Modified time: 2024-02-01 17:53:06
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -553,10 +553,12 @@ export default class Fetch extends Computed {
       blockedUsers: {
         list: data.blockedUsers || [],
         _loaded: getTimestamp()
-      }
+      },
+      formhash: data.formhash
     })
     this.save('privacy')
     this.save('blockedUsers')
+    this.save('formhash')
 
     return data
   }
