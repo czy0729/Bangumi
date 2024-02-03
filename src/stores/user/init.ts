@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-22 16:34:22
+ * @Last Modified time: 2024-02-03 19:40:35
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { ImagesAvatar, SubjectType } from '@types'
@@ -131,6 +131,9 @@ export const STATE = {
 
   /** 登录是否过期 */
   outdate: false,
+
+  /** 主站 502 */
+  websiteError: false,
 
   /** 在线用户最后上报时间集 */
   onlines: {},

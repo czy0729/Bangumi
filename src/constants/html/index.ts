@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-30 21:39:48
+ * @Last Modified time: 2024-02-03 16:58:43
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, UserId } from '@types'
@@ -210,9 +210,7 @@ export const HTML_NEW_TOPIC = (group?: string) =>
 /** 添加新时间线 */
 export const HTML_NEW_TIMELINE = (userId: UserId) => `${HOST}/user/${userId}/timeline?type=say`
 
-/**
- * 电波提醒
- */
+/** 电波提醒 */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
 
 /** 收件箱 */

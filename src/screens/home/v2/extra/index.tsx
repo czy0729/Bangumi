@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-01-06 01:27:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 19:49:23
+ * @Last Modified time: 2024-02-03 20:03:04
  */
 import React from 'react'
 import { Track } from '@components'
-import { LoginNotice } from '@_'
+import { ErrorNotice, LoginNotice } from '@_'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
@@ -16,6 +16,7 @@ function Extra(props, { $, navigation }: Ctx) {
   return (
     <>
       <Track title='首页' hm={$.hm} />
+      <ErrorNotice />
       {!STORYBOOK && <LoginNotice navigation={navigation} />}
     </>
   )

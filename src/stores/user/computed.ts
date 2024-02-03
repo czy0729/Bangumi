@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 20:13:36
+ * @Last Modified time: 2024-02-03 19:41:12
  */
 import { computed } from 'mobx'
 import {
@@ -106,6 +106,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 登录是否过期 */
   @computed get outdate() {
     return this.state.outdate
+  }
+
+  /** 主站 502 */
+  @computed get websiteError() {
+    return this.state.websiteError
   }
 
   /** 某用户信息 */

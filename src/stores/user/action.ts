@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 10:59:51
+ * @Last Modified time: 2024-02-03 19:45:28
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -97,6 +97,13 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 设置主站 502 提示 */
+  setWebsiteError = () => {
+    this.setState({
+      websiteError: true
+    })
+  }
+
   /** 删掉在看收藏的条目信息 */
   removeCollection = (subjectId: SubjectId) => {
     const index = this.collection.list.findIndex(
@@ -187,6 +194,10 @@ export default class Action extends Fetch {
         setCookie
       })
       this.save('setCookie')
+    }
+
+    if (String(data?.html).includes('<title>bgm.tv | 502: Bad gateway</title>')) {
+      this.setWebsiteError()
     }
 
     return data
