@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:16:09
+ * @Last Modified time: 2024-02-04 01:31:18
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,6 +10,7 @@ import { _, rakuenStore, uiStore } from '@stores'
 import {
   confirm,
   copy,
+  feedback,
   getCommentPlainText,
   info,
   isChineseParagraph,
@@ -18,6 +19,7 @@ import {
   stl
 } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { SHARE_MODE } from '@constants'
 import { Popover } from '../../../base'
 import {
@@ -25,6 +27,7 @@ import {
   ACTION_COPY,
   ACTION_DELETE,
   ACTION_EDIT,
+  ACTION_IGNORE,
   ACTION_LIKES,
   ACTION_REPLY,
   ACTION_TRANSLATE
@@ -70,7 +73,7 @@ function IconExtra(
       ACTION_TRANSLATE,
 
     // 屏蔽
-    !erase && ACTION_BLOCK,
+    !erase && ACTION_IGNORE,
 
     // 删除
     erase && $?.doDeleteReply && ACTION_DELETE
@@ -81,45 +84,68 @@ function IconExtra(
       style={stl(styles.touch, style)}
       data={data}
       onSelect={title => {
-        if (title === ACTION_LIKES) {
-          uiStore.showLikesGrid(topicId, id, formhash, likeType, {
-            recommandPosition: 'top'
-          })
-          return
-        }
+        switch (title) {
+          case ACTION_LIKES:
+            uiStore.showLikesGrid(topicId, id, formhash, likeType, {
+              recommandPosition: 'top'
+            })
+            break
 
-        if (title === ACTION_REPLY) {
-          $?.showFixedTextarea(userName, replySub, message, msg)
-          onShowFixedTextare()
-          return
-        }
+          case ACTION_REPLY:
+            $?.showFixedTextarea(userName, replySub, message, msg)
+            onShowFixedTextare()
+            break
 
-        if (title === ACTION_EDIT) {
-          $?.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
-          return
-        }
+          case ACTION_EDIT:
+            $?.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
+            break
 
-        if (title === ACTION_COPY) {
-          copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
-          return
-        }
+          case ACTION_COPY:
+            t('帖子.复制回复')
+            copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
+            break
 
-        if (title === ACTION_TRANSLATE) {
-          $?.doTranslateFloor(id, msg)
-          return
-        }
+          case ACTION_TRANSLATE:
+            $?.doTranslateFloor(id, msg)
+            break
 
-        if (title === ACTION_BLOCK) {
-          confirm('确定屏蔽用户?', () => {
-            rakuenStore.addBlockUser(`${userName}@${userId}`)
-            info(`已屏蔽 ${userName}`)
-          })
-          return
-        }
+          case ACTION_BLOCK:
+            confirm('确定屏蔽用户?', () => {
+              rakuenStore.addBlockUser(`${userName}@${userId}`)
+              info(`已屏蔽 ${userName}`)
+            })
+            break
 
-        if (title === ACTION_DELETE) {
-          confirm('确定删除回复?', () => $?.doDeleteReply(erase))
-          return
+          case ACTION_IGNORE:
+            confirm(
+              `与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+              async () => {
+                if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
+
+                rakuenStore.doBlockUser(
+                  {
+                    keyword: String(userId)
+                  },
+                  async () => {
+                    t('帖子.绝交')
+                    info('已添加绝交')
+                    feedback()
+                    rakuenStore.fetchPrivacy()
+                  },
+                  () => {
+                    info('添加失败, 可能授权信息过期')
+                  }
+                )
+              }
+            )
+            break
+
+          case ACTION_DELETE:
+            confirm('确定删除回复?', () => $?.doDeleteReply(erase))
+            break
+
+          default:
+            break
         }
       }}
     >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 13:29:39
+ * @Last Modified time: 2024-02-03 16:30:36
  */
 
 /** Home */
@@ -74,6 +74,7 @@ export default {
   '条目.取消特别关注': 'Subject.cancelTrackComment',
   '条目.导出日程': 'Subject.ics',
   '条目.屏蔽用户': 'Subject.blockUser',
+  '条目.绝交': 'Subject.blockUser',
   '条目.切换标签类型': 'Subject.switchTyperank',
   '条目.跳转位置': 'Subject.scrollTo',
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 17:52:46
+ * @Last Modified time: 2024-02-03 16:32:05
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -215,6 +215,11 @@ export default class Action extends Fetch {
     success?: Fn,
     fail?: Fn
   ) => {
+    if (!this.formhash) {
+      if (typeof fail === 'function') fail()
+      return false
+    }
+
     const { keyword } = args || {}
     xhr(
       {

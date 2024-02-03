@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 13:52:50
+ * @Last Modified time: 2024-02-03 19:40:46
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -295,5 +295,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
         .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
         .map(item => item[1])
     }).get()
+  }
+
+  /** 绝交用户 ID, 替代旧的 rakuenStore.setting.blockUserIds */
+  @computed get blockUserIds() {
+    const { list } = this.state.blockedUsers
+    return list.map(item => `${item.userName}@${item.userId}`)
   }
 }

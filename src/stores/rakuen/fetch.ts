@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 17:53:06
+ * @Last Modified time: 2024-02-03 19:37:31
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -262,32 +262,31 @@ export default class Fetch extends Computed {
     return result
   }
 
-  /**
-   * 电波提醒
-   * @param {*} analysis 是否分析回复内容
-   */
-  fetchNotify = async (analysis: boolean = false) => {
-    const raw = await fetchHTML({
+  /** 电波提醒 */
+  fetchNotify = async (
+    /** 是否分析回复内容 */
+    analysis: boolean = false
+  ) => {
+    const res = await fetchHTML({
       url: HTML_NOTIFY(),
       raw: true
     })
 
     let setCookie: string
-    if (raw?.headers?.map?.['set-cookie']) setCookie = raw.headers.map['set-cookie']
+    if (res?.headers?.map?.['set-cookie']) setCookie = res.headers.map['set-cookie']
 
-    const html = HTMLTrim(await raw.text())
-    const { _loaded } = this.notify
+    const html = HTMLTrim(await res.text())
     let { unread, clearHref, list } = this.notify
 
-    // 清除动作
+    /** 清除动作 */
     const clearHTML = html.match(/<a id="notify_ignore_all" href="(.+?)">\[知道了\]<\/a>/)
     if (clearHTML) clearHref = clearHTML[1]
 
-    // 未读数
+    /** 未读数 */
     const countHTML = html.match(/<span id="notify_count">(.+?)<\/span>/)
     if (countHTML) unread = parseInt(countHTML[1])
 
-    // 回复内容
+    /** 回复内容 */
     if (analysis) {
       const listHTML = html.match(
         /<div id="comment_list">(.+?)<\/div><\/div><\/div><div id="footer"/
@@ -303,7 +302,7 @@ export default class Fetch extends Computed {
         list,
 
         /** @ts-expect-error */
-        _loaded: analysis ? getTimestamp() : _loaded
+        _loaded: analysis ? getTimestamp() : this.notify._loaded
       }
     })
     this.save(key)

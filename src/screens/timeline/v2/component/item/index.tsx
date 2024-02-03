@@ -31,8 +31,9 @@ function Item(
   const url = p1?.url || ''
   if (url.includes('/user/')) {
     const text = p1?.text || ''
-    const { blockUserIds } = rakuenStore.setting
-    if (getIsBlockUser(blockUserIds, text, url.split('/user/')?.[1], `Timeline|${index}`)) {
+    if (
+      getIsBlockUser(rakuenStore.blockUserIds, text, url.split('/user/')?.[1], `Timeline|${index}`)
+    ) {
       return null
     }
   }

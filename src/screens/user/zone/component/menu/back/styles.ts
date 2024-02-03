@@ -9,6 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   back: {
     zIndex: 1,
-    marginTop: _.platforms(-8, -8, -8, 0)
+    marginTop: _.platforms(-8, -8, -8, 0),
+    marginLeft: 2
   }
 })

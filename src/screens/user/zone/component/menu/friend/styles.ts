@@ -12,7 +12,7 @@ export const styles = _.create({
     overflow: 'hidden'
   },
   icon: {
-    width: 34,
+    width: 36,
     height: 36,
     marginRight: -2
   }

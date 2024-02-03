@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 01:16:46
+ * @Last Modified time: 2024-02-03 22:07:31
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import {
@@ -58,7 +58,7 @@ import i18n from '@constants/i18n'
 import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
+import { NAMESPACE, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from './ds'
 
 export default class Action extends Fetch {
   /** 显示收藏管理 */
@@ -471,7 +471,7 @@ export default class Action extends Fetch {
     return false
   }
 
-  /** 屏蔽用户 */
+  /** @deprecated 屏蔽用户 */
   addBlockUser = (values: { avatar: string; userId: UserId; userName: string }) => {
     confirm(
       `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
@@ -482,6 +482,32 @@ export default class Action extends Fetch {
 
         rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
         info(`已屏蔽 ${values.userName}`)
+      }
+    )
+  }
+
+  /** 绝交用户 */
+  doBlockUser = (values: { avatar: string; userId: UserId; userName: string }) => {
+    confirm(
+      `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+      async () => {
+        if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
+
+        rakuenStore.doBlockUser(
+          {
+            keyword: String(values.userId)
+          },
+          async () => {
+            t('条目.绝交')
+
+            info('已添加绝交')
+            feedback()
+            rakuenStore.fetchPrivacy()
+          },
+          () => {
+            info('添加失败, 可能授权信息过期')
+          }
+        )
       }
     )
   }
@@ -501,7 +527,7 @@ export default class Action extends Fetch {
       return false
     }
 
-    if (title === '贴贴') {
+    if (title === TEXT_LIKES) {
       if (!this.isLogin) {
         info('请先登录')
         return false
@@ -518,13 +544,18 @@ export default class Action extends Fetch {
       )
     }
 
-    if (title === '复制评论') {
+    if (title === TEXT_COPY_COMMENT) {
       this.onCopyComment(userData, comment)
       return
     }
 
-    if (title === '屏蔽用户') {
+    if (title === TEXT_BLOCK_USER) {
       this.addBlockUser(userData)
+      return
+    }
+
+    if (title === TEXT_IGNORE_USER) {
+      this.doBlockUser(userData)
       return
     }
 

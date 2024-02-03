@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 17:44:48
+ * @Last Modified time: 2024-02-03 23:43:35
  */
 import { _ } from '@stores'
 import {
@@ -59,3 +59,7 @@ export const STATE = {
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
+
+export const TEXT_BLOCK_USER = '屏蔽用户'
+
+export const TEXT_IGNORE_USER = '绝交'

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 16:10:20
+ * @Last Modified time: 2024-02-03 16:06:20
  */
 import React from 'react'
+import { rakuenStore } from '@stores'
 import { findSubjectCn, getIsBlockUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -33,10 +34,10 @@ function ItemWrap(
   const itemUserId = userId || getUserId(avatar)
   const replyCount = getReplyCount(replies)
   if (
-    getIsBlockKeyword($.setting.blockKeywords, title) ||
-    getIsBlockGroup($.setting.blockGroups, groupCn) ||
-    getIsBlockUser($.setting.blockUserIds, userName, itemUserId, `Rakuen|${topicId}|${index}`) ||
-    getIsAd($.setting.isBlockDefaultUser, avatar, replyCount)
+    getIsBlockKeyword(rakuenStore.setting.blockKeywords, title) ||
+    getIsBlockGroup(rakuenStore.setting.blockGroups, groupCn) ||
+    getIsBlockUser(rakuenStore.blockUserIds, userName, itemUserId, `Rakuen|${topicId}|${index}`) ||
+    getIsAd(rakuenStore.setting.isBlockDefaultUser, avatar, replyCount)
   ) {
     return null
   }

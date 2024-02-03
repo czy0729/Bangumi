@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 01:09:58
+ * @Last Modified time: 2024-02-03 16:39:50
  */
 import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
@@ -178,3 +178,11 @@ export const SORT_RELATION_DESC = {
   三次元: 30,
   其他: -10
 } as const
+
+export const TEXT_LIKES = '贴贴'
+
+export const TEXT_COPY_COMMENT = '复制评论'
+
+export const TEXT_BLOCK_USER = '屏蔽用户'
+
+export const TEXT_IGNORE_USER = '绝交'

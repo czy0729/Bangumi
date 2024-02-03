@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 18:31:47
+ * @Last Modified time: 2024-02-04 01:31:03
  */
 
 /** Rakuen */
@@ -63,10 +63,12 @@ export default {
   '帖子.编辑回复': 'Topic.doEditReply',
   '帖子.回复失败': 'Topic.recoveryContent',
   '帖子.删除回复': 'Topic.doDeleteReply',
+  '帖子.复制回复': 'Topic.copyReply',
   '帖子.UCG': 'Topic.UCGAgree',
   '帖子.楼层跳转': 'Topic.scrollTo',
   '帖子.翻译内容': 'Topic.doTranslate',
   '帖子.贴贴': 'Topic.doLike',
+  '帖子.绝交': 'Topic.blockUser',
 
   // 日志
   '日志.跳转': 'Blog.to',

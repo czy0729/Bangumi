@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
-import List from '../component/list'
-import { TABS } from '../ds'
+import { TABS } from '../../ds'
+import List from '../list'
 
 const renderScene = (item: any, index: number) => () => <List index={index} />
 

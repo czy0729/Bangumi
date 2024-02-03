@@ -4,7 +4,7 @@ import { t } from '@utils/fetch'
  * @Author: czy0729
  * @Date: 2022-09-03 11:16:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:28:04
+ * @Last Modified time: 2024-02-03 16:15:48
  */
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 import { Navigation, TopicId } from '@types'
@@ -26,8 +26,10 @@ export function getIsBlockUser(blockUserIds: string[], userName: string, userId:
   const findIndex = blockUserIds.findIndex(item => {
     const [itemUserName, itemUserId] = item.split('@')
     if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
+
     return itemUserId === userId
   })
+
   return findIndex !== -1
 }
 

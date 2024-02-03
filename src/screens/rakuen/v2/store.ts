@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:08:02
+ * @Last Modified time: 2024-02-03 23:44:43
  */
-import { observable, computed } from 'mobx'
-import { _, systemStore, rakuenStore, userStore } from '@stores'
-import { feedback, info, confirm, updateVisibleBottom } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { _, rakuenStore, systemStore, userStore } from '@stores'
+import { confirm, feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import {
   LIMIT_TOPIC_PUSH,
   MODEL_RAKUEN_TYPE,
@@ -31,7 +31,9 @@ import {
   NAMESPACE,
   PREFETCH_COUNT,
   STATE,
-  TABS
+  TABS,
+  TEXT_BLOCK_USER,
+  TEXT_IGNORE_USER
 } from './ds'
 
 export default class ScreenRakuen extends store<typeof STATE> {
@@ -98,11 +100,6 @@ export default class ScreenRakuen extends store<typeof STATE> {
     return _.select(_.colorPlain, _._colorDarkModeLevel1)
   }
 
-  /** 是否登录 (web) */
-  @computed get isWebLogin() {
-    return userStore.isWebLogin
-  }
-
   /**
    * 筛选逻辑
    *  - 主动设置屏蔽默认头像用户相关信息
@@ -163,20 +160,10 @@ export default class ScreenRakuen extends store<typeof STATE> {
     }).get()
   }
 
-  /** 超展开设置 */
-  @computed get setting() {
-    return rakuenStore.setting
-  }
-
   /** 导航栏标题 */
   @computed get title() {
     const { page } = this.state
     return TABS[page].title
-  }
-
-  /** 是否中文优先 */
-  @computed get cnFirst() {
-    return systemStore.setting.cnFirst
   }
 
   /** 获取虚拟人物Id */
@@ -286,9 +273,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
         break
 
       case '进入人物':
-        monoId = values.topicId
-          .replace('prsn/', 'person/')
-          .replace('crt/', 'character/')
+        monoId = values.topicId.replace('prsn/', 'person/').replace('crt/', 'character/')
         t(eventId, {
           title,
           monoId
@@ -313,7 +298,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
         })
         break
 
-      case '屏蔽用户':
+      case TEXT_BLOCK_USER:
         confirm(
           `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
           () => {
@@ -324,6 +309,31 @@ export default class ScreenRakuen extends store<typeof STATE> {
 
             rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
             info(`已屏蔽 ${values.userName}`)
+          }
+        )
+        break
+
+      case TEXT_IGNORE_USER:
+        confirm(
+          `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+          async () => {
+            if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
+
+            rakuenStore.doBlockUser(
+              {
+                keyword: String(values.userId)
+              },
+              async () => {
+                t('空间.绝交')
+
+                info('已添加绝交')
+                feedback()
+                rakuenStore.fetchPrivacy()
+              },
+              () => {
+                info('添加失败, 可能授权信息过期')
+              }
+            )
           }
         )
         break

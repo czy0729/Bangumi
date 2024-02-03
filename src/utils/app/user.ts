@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 06:33:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 09:28:45
+ * @Last Modified time: 2024-02-03 16:12:10
  */
 import { UserId } from '@types'
 import { syncRakuenStore } from '../async'
@@ -20,6 +20,7 @@ export function getIsBlockUser(
     if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
     return itemUserId === userId
   })
+
   const isBlock = findIndex !== -1
   if (isBlock && trackUUID) {
     const key = `${userId}|${trackUUID}`

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-06 04:36:49
+ * @Last Modified time: 2024-02-03 16:16:45
  */
 import { computed } from 'mobx'
-import { systemStore, rakuenStore, subjectStore, userStore, usersStore } from '@stores'
+import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, HTMLDecode } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { URL_DEFAULT_AVATAR } from '@constants'
@@ -278,24 +278,22 @@ export default class Computed extends State {
   /** 是否屏蔽用户 */
   isBlockUser(userId: UserId, userName: string, replySub: string = '') {
     return computed(() => {
-      const { blockUserIds } = rakuenStore.setting
-      const findIndex = blockUserIds.findIndex(item => {
+      const findIndex = rakuenStore.blockUserIds.findIndex(item => {
         const [itemUserName, itemUserId] = item.split('@')
-        if (itemUserId === 'undefined') {
-          return itemUserName === userName
-        }
+        if (itemUserId === 'undefined') return itemUserName === userName
 
-        // userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数id
-        // 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的userId进行匹配
+        /**
+         * userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数 ID
+         * 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的 userId 进行匹配
+         */
         if (replySub) {
           const splits = replySub.split(',')
-          if (splits.length === 7 && itemUserId == splits[5]) {
-            return true
-          }
+          if (splits.length === 7 && itemUserId == splits[5]) return true
         }
 
         return itemUserId == userId || itemUserName === userName
       })
+
       return findIndex !== -1
     }).get()
   }
@@ -372,9 +370,6 @@ export default class Computed extends State {
     // ep 带上章节详情
     if (this.isEp) return this.epFormHTML || this.params._desc
 
-    return (this.topic.message || this.topicFormCDN.message || '').replace(
-      /(<br>)+/g,
-      '<br>'
-    )
+    return (this.topic.message || this.topicFormCDN.message || '').replace(/(<br>)+/g, '<br>')
   }
 }

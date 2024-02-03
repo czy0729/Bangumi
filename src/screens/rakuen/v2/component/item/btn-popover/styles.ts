@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-11 20:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:15:07
+ * @Last Modified time: 2024-02-03 23:50:10
  */
 import { _ } from '@stores'
 
@@ -11,8 +11,7 @@ export const styles = _.create({
     minWidth: _._wind
   },
   touch: {
-    marginRight: 4,
-    marginTop: 2,
+    marginRight: 2,
     borderRadius: 20,
     overflow: 'hidden'
   },

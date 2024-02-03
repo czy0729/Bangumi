@@ -54,6 +54,7 @@ export default {
   '空间.添加好友': 'Zone.connect',
   '空间.解除好友': 'Zone.disconnect',
   '空间.历史': 'Zone.used',
+  '空间.绝交': 'Zone.blockUser',
 
   // 时间线
   '时间线.跳转': 'UserTimeline.to',

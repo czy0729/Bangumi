@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 19:54:14
+ * @Last Modified time: 2024-02-03 19:40:50
  */
 import {
   LIST_EMPTY,
@@ -121,7 +121,7 @@ export const INIT_SETTING = {
   /** 屏蔽的小组 string[] */
   blockGroups: [],
 
-  /** 屏蔽的用户 `${userName}@${userId}`[] */
+  /** @deprecated 屏蔽的用户 `${userName}@${userId}`[] */
   blockUserIds: [],
 
   /** 过滤用户删除的楼层 */

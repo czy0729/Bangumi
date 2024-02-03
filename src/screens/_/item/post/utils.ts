@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-26 04:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-17 17:29:03
+ * @Last Modified time: 2024-02-03 16:17:15
  */
 import { rakuenStore } from '@stores'
 import { UserId } from '@types'
@@ -14,19 +14,15 @@ export const layoutHeightMap = new Map<number, number>()
 const BLOCKED_USER_UUID = {}
 
 /** 是否屏蔽用户 */
-export function isBlockUser(
-  userId: UserId,
-  userName: string,
-  replySub = '',
-  trackUUID?: string
-) {
-  const { blockUserIds } = rakuenStore.setting
-  const findIndex = blockUserIds.findIndex(item => {
+export function isBlockUser(userId: UserId, userName: string, replySub = '', trackUUID?: string) {
+  const findIndex = rakuenStore.blockUserIds.findIndex(item => {
     const [itemUserName, itemUserId] = item.split('@')
     if (itemUserId === 'undefined') return itemUserName === userName
 
-    // userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数 id
-    // 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的 userId 进行匹配
+    /**
+     * userId 可能是用户更改后的英文单词, 但是外面屏蔽的 userId 一定是整数 ID
+     * 所以需要优先使用 subReply('group',361479,1773295,0,456208,[572818],0) 中的 userId 进行匹配
+     */
     if (replySub) {
       const splits = replySub.split(',')
       if (splits.length === 7 && itemUserId == splits[5]) return true
