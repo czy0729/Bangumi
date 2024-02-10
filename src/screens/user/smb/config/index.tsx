@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-22 13:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:18:51
+ * @Last Modified time: 2024-02-08 17:17:16
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Modal, Text, SwitchPro, SegmentedControl } from '@components'
+import { Modal, SegmentedControl, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { HTML_SINGLE_DOC, STORYBOOK } from '@constants'
+import { Ctx } from '../types'
 import {
   ACTION_DDPLAY,
   ACTION_MPV,
@@ -19,19 +20,13 @@ import {
   ACTION_VLC,
   URL_TEMPLATES
 } from '../item/folder-ep/ds'
-import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 function Config(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { configVisible, configs } = $.state
   return (
-    <Modal
-      style={styles.modal}
-      visible={configVisible}
-      title='通用配置'
-      onClose={$.onCloseConfig}
-    >
+    <Modal style={styles.modal} visible={configVisible} title='通用配置' onClose={$.onCloseConfig}>
       <View style={styles.body}>
         <Text style={_.mt.sm} type='sub' size={12} bold>
           UI
@@ -145,9 +140,7 @@ function Config(props, { $ }: Ctx) {
                 />
               }
               onInfoPress={() => {
-                open(
-                  'https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt?singleDoc#DuNXM'
-                )
+                open(`${HTML_SINGLE_DOC('nogol0viqd1flhqt')}#DuNXM`)
               }}
             />
           </>

@@ -11,6 +11,8 @@ import { Loaded } from '@types'
 
 export { USERS_MAP }
 
+export const COMPONENT = 'Sponsor'
+
 export const STATE = {
   list: true,
   _loaded: false as Loaded

@@ -2,16 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:49:12
+ * @Last Modified time: 2024-02-08 19:29:27
  */
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenTips'
+export const COMPONENT = 'Tips'
 
-export const STATE = {
-  page: 0,
-  _loaded: false as Loaded
-}
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const TABS = [
   {
@@ -59,6 +56,10 @@ export const TABS = [
     key: 'cq5vqctm7iohgldl'
   },
   {
+    title: 'PC 端网页本地管理（新）',
+    key: 'nogol0viqd1flhqt'
+  },
+  {
     title: 'Dollars',
     key: 'dlel341dipce8k1c'
   },
@@ -67,3 +68,10 @@ export const TABS = [
     key: 'kfpfze0u7old4en1'
   }
 ] as const
+
+export const STATE = {
+  /** @deprecated */
+  page: 0,
+  uri: TABS[0].key as string,
+  _loaded: false as Loaded
+}

@@ -4,16 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-05 04:05:10
  */
-import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
+import { Platform } from 'react-native'
+import { HOST, IOS, VERSION_CODE, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import events, { EventKeys } from '@constants/events'
-import { DEV, IOS_IPA } from '@/config'
+import { DEV, GITHUB_ACTION, IOS_IPA } from '@/config'
 import { syncSystemStore, syncThemeStore, syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import { runAfter, urlStringify } from '../utils'
 import { EventData, HMQuery } from './type'
 import { umami, umamiEvent, xhr } from './utils'
-import { SI_UV } from './ds'
+import { SI_UV, WEBSITE_UV } from './ds'
 
 /** 上次路由完整参数 */
 let lastQuery = ''
@@ -53,11 +54,19 @@ export function hm(url?: string, screen?: string, title?: string) {
 
 /** UV */
 export function ua() {
-  if (STORYBOOK || !syncUserStore().isWebLogin || isDevtoolsOpen()) return
+  if (STORYBOOK || isDevtoolsOpen()) return
 
   runAfter(() => {
     try {
-      xhr(SI_UV, `${syncUserStore().url}?v=${VERSION_GITHUB_RELEASE}`)
+      const u = syncUserStore()
+      xhr(SI_UV, `${u.url}?v=${VERSION_GITHUB_RELEASE}`)
+
+      const referrre: string[] = [Platform.OS]
+      if (IOS_IPA) referrre.push('ipa')
+      referrre.push(VERSION_CODE)
+      if (GITHUB_ACTION) referrre.push('github')
+
+      umami(u.url, u.userInfo.nickname, WEBSITE_UV, `https://${referrre.join('_')}.com`)
     } catch (error) {}
   })
 }

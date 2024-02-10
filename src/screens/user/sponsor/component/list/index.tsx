@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:27:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 01:35:46
+ * @Last Modified time: 2024-02-10 13:53:46
  */
 import React from 'react'
 import { Text } from '@components'
@@ -10,8 +10,9 @@ import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
-import ListItem from '../list-item'
-import { LIST } from '../ds'
+import { LIST } from '../../ds'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function List() {
   return (
@@ -31,8 +32,4 @@ function List() {
   )
 }
 
-export default obc(List)
-
-function renderItem({ item }) {
-  return <ListItem item={item} />
-}
+export default obc(List, COMPONENT)

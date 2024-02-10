@@ -215,7 +215,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户空间地址 */
   @computed get url() {
-    return `${HOST}/user/${this.myId}`
+    return `${HOST}/user/${this.myId || 0}`
   }
 
   /** 有新短信 */

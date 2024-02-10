@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:50:47
+ * @Last Modified time: 2024-02-08 17:17:42
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Touchable, Activity } from '@components'
-import { open, info } from '@utils'
+import { Activity, Flex, Header as CompHeader, Touchable } from '@components'
+import { info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { HTML_SINGLE_DOC } from '@constants'
 import { Ctx } from '../types'
 import { styles } from './styles'
 import './index.scss'
@@ -24,10 +25,7 @@ function Header(props, { $, navigation }: Ctx) {
       headerRight={() => (
         <Flex>
           {fetchingCollections && (
-            <Touchable
-              style={styles.activity}
-              onPress={() => info('批量请求收藏状态中')}
-            >
+            <Touchable style={styles.activity} onPress={() => info('批量请求收藏状态中')}>
               <Activity />
             </Touchable>
           )}
@@ -58,9 +56,7 @@ function Header(props, { $, navigation }: Ctx) {
                   break
 
                 case '功能说明':
-                  open(
-                    'https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt?singleDoc'
-                  )
+                  open(HTML_SINGLE_DOC('nogol0viqd1flhqt'))
 
                   t('SMB.功能说明')
                   break

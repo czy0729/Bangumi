@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-18 04:33:31
+ * @Last Modified time: 2024-02-10 14:25:20
  */
 import { STORYBOOK } from '../device'
 
@@ -31,7 +31,7 @@ export const TEXT_UPDATE_GAME = '2023-12-19'
 export const TEXT_UPDATE_MANGA = '2023-12-18'
 
 /** 赞助者最后更新时间 */
-export const TEXT_UPDATE_SPONSOR = '2023-09-29'
+export const TEXT_UPDATE_SPONSOR = '2024-02-09'
 
 /** 找条目数目 */
 export const TEXT_TOTAL = {

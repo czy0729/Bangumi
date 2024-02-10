@@ -2,18 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:37:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:30:24
+ * @Last Modified time: 2024-02-08 17:20:03
  */
 import React from 'react'
-import { Page, Header, Component } from '@components'
-import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { open } from '@utils'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
-import Tabs from './tabs'
+import Web from './component/web'
+import Header from './header'
 import Store from './store'
-import { TABS } from './ds'
 import { Ctx } from './types'
 
 const Versions = (props, { $ }: Ctx) => {
@@ -21,31 +18,12 @@ const Versions = (props, { $ }: Ctx) => {
     $.init()
   })
 
-  return useObserver(() => {
-    return (
-      <Component id='screen-versions'>
-        <Header
-          title='更新内容'
-          hm={['versions', 'Versions']}
-          headerRight={() => (
-            <IconTouchable
-              style={_.ml.xs}
-              name='md-open-in-new'
-              color={_.colorTitle}
-              size={18}
-              onPress={() => {
-                const { page } = $.state
-                open(
-                  `https://www.yuque.com/chenzhenyu-k0epm/znygb4/${TABS[page].key}?singleDoc`
-                )
-              }}
-            />
-          )}
-        />
-        <Page>{!!$.state._loaded && <Tabs routes={TABS} />}</Page>
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-versions'>
+      <Header />
+      <Page>{!!$.state._loaded && <Web uri={$.state.uri} />}</Page>
+    </Component>
+  ))
 }
 
 export default ic(Store, Versions)

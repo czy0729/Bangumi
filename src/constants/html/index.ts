@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:58:43
+ * @Last Modified time: 2024-02-08 17:15:54
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, UserId } from '@types'
-import { HOST } from '../constants'
+import { HOST, URL_ZHINAN } from '../constants'
 import { MODEL_TIMELINE_SCOPE } from '../model'
 import {
   CollectionsOrder,
@@ -441,3 +441,6 @@ export const HTML_SUBJECT_WIKI_COVER = (subjectId: SubjectId) =>
 
 /** 隐私 */
 export const HTML_PRIVACY = () => `${HOST}/settings/privacy`
+
+/** 语雀文档单页 */
+export const HTML_SINGLE_DOC = (page: string) => `${URL_ZHINAN}/${page}?singleDoc`

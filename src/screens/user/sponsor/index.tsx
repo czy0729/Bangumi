@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:07:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 22:32:33
+ * @Last Modified time: 2024-02-10 13:55:30
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { useObserver, useRunAfter } from '@utils/hooks'
 import { ic } from '@utils/decorators'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Chart from './component/chart'
+import List from './component/list'
 import Header from './header'
-import List from './list'
-import Chart from './chart'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -19,17 +19,14 @@ const Sponsor = (props, { $, navigation }: Ctx) => {
     $.init()
   })
 
-  return useObserver(() => {
-    const { list, _loaded } = $.state
-    return (
-      <Component id='screen-sponsor'>
-        <Page loaded={_loaded}>
-          <Header />
-          {list ? <List /> : <Chart navigation={navigation} />}
-        </Page>
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-sponsor'>
+      <Page loaded={$.state._loaded}>
+        <Header />
+        {$.state.list ? <List /> : <Chart navigation={navigation} />}
+      </Page>
+    </Component>
+  ))
 }
 
 export default ic(Store, Sponsor)

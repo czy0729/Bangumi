@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-30 08:23:04
  */
-import { Platform, ImageRequireSource } from 'react-native'
-import PropTypes from 'prop-types'
+import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
+import PropTypes from 'prop-types'
 import { Fn } from '@types'
 import { PAD, RATIO, STORYBOOK, STORYBOOK_IFRAME } from '../device'
 
@@ -23,6 +23,7 @@ export const ORIENTATION_PORTRAIT = 'PORTRAIT'
 export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
 
 const expoPackageJson = require('@/node_modules/expo/package.json')
+
 const appJson = require('@/app.json')
 
 /** @deprecated 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37 */
@@ -34,9 +35,11 @@ export const BUNDLE_IDENTIFIER = appJson?.expo?.name as string
 /** 版本号 */
 export const VERSION_GITHUB_RELEASE = appJson?.expo?.version as string
 
+/** APP 打包号 */
+export const VERSION_CODE = appJson?.expo?.android?.versionCode as string
+
 /** 小圣杯助手版本 */
-export const VERSION_TINYGRAIL_PLUGIN =
-  appJson.expo.description.split('tinygrail plugin ')[1]
+export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.description.split('tinygrail plugin ')[1]
 
 /** Google Play 版本 */
 export const VERSION_GOOGLE = appJson.expo.description.includes('google play')
@@ -120,8 +123,9 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
  * - [2021] 23045125,25475042
  * - [2022] 27168016,29260639,29987675,31072870
  * - [2023] 32279369,33457566,35103537,35103537,36237364,36996426,37896791
+ * - [2024] 39891895
  * */
-export const APP_ID_SAY_DEVELOP = '37896791'
+export const APP_ID_SAY_DEVELOP = '39891895'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'
@@ -144,9 +148,7 @@ export const SHARE_MODE = STORYBOOK && !STORYBOOK_IFRAME
 export const IOS = Platform.OS === 'ios'
 
 /** 约定 User-Agent https://bangumi.github.io/api */
-export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${
-  IOS ? 'iOS' : 'Android'
-})` as const
+export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${IOS ? 'iOS' : 'Android'})` as const
 
 /** 是否安卓 10 之前 */
 export const IS_BEFORE_ANDROID_10 = !IOS && Number(Platform.Version) < 29
@@ -176,8 +178,7 @@ export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi'
 export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases`
 
 /** 检测发版版本地址 */
-export const GITHUB_RELEASE_REPOS =
-  'https://api.github.com/repos/czy0729/Bangumi/releases'
+export const GITHUB_RELEASE_REPOS = 'https://api.github.com/repos/czy0729/Bangumi/releases'
 
 export const GITHUB_HOST = 'https://gitee.com/a296377710/bangumi-pro'
 

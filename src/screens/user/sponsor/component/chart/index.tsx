@@ -2,24 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-08 15:29:42
+ * @Last Modified time: 2024-02-10 13:56:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
-import { useObserver } from '@utils/hooks'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
+import { Navigation } from '@types'
+import { USERS_MAP } from '../../ds'
+import { useTreemapSquarify } from '../../utils'
 import Item from '../item'
-import { USERS_MAP } from '../ds'
-import { useTreemapSquarify } from '../utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Chart({ navigation }) {
+function Chart({ navigation }: { navigation: Navigation }) {
+  r(COMPONENT)
+
   const styles = memoStyles()
-  const { data, filterLength, filterCount, setFilter, resetFilter } =
-    useTreemapSquarify()
+  const { data, filterLength, filterCount, setFilter, resetFilter } = useTreemapSquarify()
   return useObserver(() => (
     <>
       <Flex style={styles.filter} justify='center'>

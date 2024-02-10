@@ -9,7 +9,7 @@ import { info } from '@utils'
 import store from '@utils/store'
 import DS from '@assets/json/advance.json'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { devGetUsersInfo } from './utils'
+// import { devLocalUsersInfo } from './utils'
 import { STATE } from './ds'
 
 const NAMESPACE = 'ScreeSponsor'
@@ -24,7 +24,7 @@ export default class ScreeSponsor extends store<typeof STATE> {
       _loaded: true
     })
 
-    // devGetUsersInfo()
+    // devLocalUsersInfo()
 
     return true
   }

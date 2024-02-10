@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 11:17:54
+ * @Last Modified time: 2024-02-10 13:55:23
  */
 import React from 'react'
-import { Header as CompHeader, Flex } from '@components'
+import { Flex, Header as CompHeader } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { timeDiff } from '../utils'
 import { Ctx } from '../types'
+import { timeDiff } from '../utils'
+import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   const { list } = $.state
@@ -50,4 +51,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

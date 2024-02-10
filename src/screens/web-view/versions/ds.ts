@@ -2,102 +2,114 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:49:44
+ * @Last Modified time: 2024-02-08 17:31:32
  */
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenVersions'
+export const COMPONENT = 'Versions'
 
-export const STATE = {
-  page: 0,
-  _loaded: false as Loaded
-}
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const TABS = [
   {
-    title: '8.3 - 23/11/5',
+    title: '8.5.0 - 24/02/09',
+    key: 'wvdw1qp60gwalxoe'
+  },
+  {
+    title: '8.4.0 - 24/01/08',
+    key: 'nfw28ddsl6bvga0y'
+  },
+  {
+    title: '8.3.0 - 23/11/05',
     key: 'lfqgis2fat1tyrnp'
   },
   {
-    title: '8.2 - 23/10/2',
+    title: '8.2.0 - 23/10/02',
     key: 'itgg9g5vv4bvlf9l'
   },
   {
-    title: '8.1 - 23/8/27',
+    title: '8.1.0 - 23/08/27',
     key: 'fcy8syh34t76t0i4'
   },
   {
-    title: '8.0 - 23/8/13',
+    title: '8.0.0 - 23/08/13',
     key: 'io0nkkukoaxztf45'
   },
 
   // 7.X
   {
-    title: '7.16 - 23/7/4',
+    title: '7.16.0 - 23/07/04',
     key: 'ric9srgg6sx9wakm'
   },
   {
-    title: '7.15 - 23/6/9',
+    title: '7.15.0 - 23/06/09',
     key: 'gaqpf9ugnl17gt38'
   },
   {
-    title: '7.14 - 23/5/19',
+    title: '7.14.0 - 23/05/19',
     key: 'sxqp62tybfww8ehw'
   },
   {
-    title: '7.13 - 23/4/29',
+    title: '7.13.0 - 23/04/29',
     key: 'nt61pb04opftxany'
   },
   {
-    title: '7.12 - 23/4/20',
+    title: '7.12.0 - 23/04/20',
     key: 'ypnsacpkn4kukqtg'
   },
   {
-    title: '7.11 - 23/4/2',
+    title: '7.11.0 - 23/04/02',
     key: 'rgqtvd27o1o7x8lz'
   },
   {
-    title: '7.10 - 23/3/17',
+    title: '7.10.0 - 23/03/17',
     key: 'ilbk1t5pv060eqvp'
   },
   {
-    title: '7.9 - 23/3/3',
+    title: '7.9.0 - 23/03/03',
     key: 'ia218hdgptzlfnrt'
   },
   {
-    title: '7.8 - 23/2/15',
+    title: '7.8.0 - 23/02/15',
     key: 'ww1hgenu9g6kb1gs'
   },
   {
-    title: '7.7 - 23/2/6',
+    title: '7.7.0 - 23/02/06',
     key: 'uymn10kytroups5m'
   },
   {
-    title: '7.6 - 23/1/23',
+    title: '7.6.0 - 23/01/23',
     key: 'csleloiptpy496h8'
   },
   {
-    title: '7.5 - 23/1/7',
+    title: '7.5.0 - 23/01/07',
     key: 'gldi9rhwbnn163pk'
   },
   {
-    title: '7.4 - 22/11/28',
+    title: '7.4.0 - 22/11/28',
     key: 'ndirq4'
   },
   {
-    title: '7.3 - 22/11/16',
+    title: '7.3.0 - 22/11/16',
     key: 'bhylmxwt0gaulnlh'
   },
   {
-    title: '7.2 - 22/11/4',
+    title: '7.2.0 - 22/11/04',
     key: 'hgwtgn'
   },
   {
-    title: '7.1 - 22/9/25',
+    title: '7.1.0 - 22/09/25',
     key: 'hog74y'
   },
   {
-    title: '7.0  - 22/9/8',
+    title: '7.0.0 - 22/09/08',
     key: 'tz5310'
   }
 ] as const
+
+export const STATE = {
+  /** @deprecated */
+  page: 0,
+  uri: TABS[0].key as string,
+  _loaded: false as Loaded
+}

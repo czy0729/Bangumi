@@ -11,9 +11,9 @@ import { queue, toFixed } from '@utils'
 import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
 import { IOS } from '@constants'
-import { AnyObject } from '@types'
 import DS from '@assets/json/advance.json'
-import { LIST, FILTER_RATE } from './ds'
+import { AnyObject } from '@types'
+import { FILTER_RATE, LIST } from './ds'
 
 export function timeDiff() {
   const start = dayjs('2019-03-30')
@@ -128,6 +128,8 @@ function caculateTotal(nodes: any[]) {
 }
 
 export async function devGetUsersInfo() {
+  console.info('devGetUsersInfo')
+
   const USERS_MAP = {}
   const items = Object.keys(DS)
   await queue(
@@ -141,10 +143,7 @@ export async function devGetUsersInfo() {
         n: data.userName
       }
       if (data.avatar) {
-        USERS_MAP[userId].a = data.avatar
-          .split('?')[0]
-          .split('/000/')[1]
-          .replace('.jpg', '')
+        USERS_MAP[userId].a = data.avatar.split('?')[0].split('/000/')[1].replace('.jpg', '')
       }
       if (data.userId !== userId) USERS_MAP[userId].i = data.userId
       return true
@@ -152,4 +151,27 @@ export async function devGetUsersInfo() {
   )
 
   update('sponsor_users_map', USERS_MAP)
+
+  console.info('done')
+}
+
+export async function devLocalUsersInfo() {
+  console.info('devLocalUsersInfo')
+
+  await usersStore.init('users')
+  const USERS_MAP = {}
+  Object.keys(DS).forEach((userId, index) => {
+    const data = usersStore.users(userId)
+    USERS_MAP[userId] = {
+      n: data.userName
+    }
+    if (data.avatar) {
+      USERS_MAP[userId].a = data.avatar.split('?')[0].split('/000/')[1].replace('.jpg', '')
+    }
+    if (data.userId !== userId) USERS_MAP[userId].i = data.userId
+  })
+
+  update('sponsor_users_map', USERS_MAP)
+
+  console.info('done')
 }

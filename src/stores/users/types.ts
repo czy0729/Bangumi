@@ -41,6 +41,7 @@ export type MyFriendsMap = Record<UserId, true | number> & {
 export type Users = {
   userId: UserId
   userName: string
+  avatar: string
   sign: HTMLText
   join: string
   hobby: '0'

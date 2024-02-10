@@ -43,7 +43,12 @@ export function xhr(si: string, u: string) {
 
 let userAgent = ''
 
-export async function umami(url: string = '', title: string = '') {
+export async function umami(
+  url: string = '',
+  title: string = '',
+  website?: string,
+  referrer?: string
+) {
   if (interceptor('umami', arguments)) return
 
   const _url = url.replace(HOST, '')
@@ -53,10 +58,10 @@ export async function umami(url: string = '', title: string = '') {
     // @ts-ignore
     window.umami.track((props: any) => ({
       ...props,
-      website: url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
+      website: website || (url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE),
       url,
       title,
-      referrer: REFERRER
+      referrer: referrer || REFERRER
     }))
 
     log('umami', url)
@@ -65,7 +70,9 @@ export async function umami(url: string = '', title: string = '') {
 
   umamiXhr({
     title: title || TITLE,
-    url: _url
+    url: _url,
+    website,
+    referrer
   })
 }
 
@@ -111,7 +118,11 @@ async function umamiXhr(payload: {
   url: string
   name?: EventKeys
   data?: AnyObject
+  website?: string
+  referrer?: string
 }) {
+  if (payload.name === '其他.启动') return
+
   if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
 
   const request = new XMLHttpRequest()
@@ -121,8 +132,10 @@ async function umamiXhr(payload: {
   request.timeout = TIMEOUT
   request.withCredentials = false
 
-  let website = payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE
-  let referrer = REFERRER
+  let website = payload.website || (payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE)
+  let referrer = payload.referrer || REFERRER
+
+  // @ts-expect-error
   if (payload.name === '其他.启动') {
     website = WEBSITE_UV
     referrer = IOS ? 'ios' : 'android'

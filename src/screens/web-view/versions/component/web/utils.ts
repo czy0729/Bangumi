@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-23 04:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-23 14:32:04
+ * @Last Modified time: 2024-02-08 17:40:06
  */
 import { _ } from '@stores'
 import { HTMLTrim } from '@utils'
 
 export function injectedJavaScript() {
-  let styles = `
+  let appStyles = `
     #openInAppBtn,
     .m-doc-comments,
     [class^='trigger-module_container_'],
@@ -25,10 +25,10 @@ export function injectedJavaScript() {
     }
   `
   if (_.isDark) {
-    styles += `
+    appStyles += `
     body,
     img {
-      filter: invert(100%) hue-rotate(180deg);
+      filter: invert(100%) hue-rotate(180deg) !important;
     }`
   }
 
@@ -36,7 +36,7 @@ export function injectedJavaScript() {
     (function() {
       var resetStyle = document.createElement("style");
       try {
-        resetStyle.appendChild(document.createTextNode("${HTMLTrim(styles)}"));
+        resetStyle.appendChild(document.createTextNode("${HTMLTrim(appStyles)}"));
       } catch (ex) {}
       document.body.append(resetStyle);
     }());

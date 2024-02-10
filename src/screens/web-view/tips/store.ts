@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:49:27
+ * @Last Modified time: 2024-02-08 19:36:27
  */
 import { observable } from 'mobx'
 import store from '@utils/store'
@@ -14,16 +14,18 @@ export default class ScreenTips extends store<typeof STATE> {
 
   params: Params
 
-  init = async () => {
-    const state = await this.getStorage(NAMESPACE)
+  init = () => {
     const { key } = this.params
     if (key) {
       const index = TABS.findIndex(item => item.key === key)
-      if (index !== -1) state.page = index
+      if (index !== -1) {
+        this.setState({
+          uri: key
+        })
+      }
     }
 
     this.setState({
-      ...state,
       _loaded: true
     })
   }
@@ -36,5 +38,15 @@ export default class ScreenTips extends store<typeof STATE> {
       page
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 菜单切换 */
+  onSelect = (title: string) => {
+    const item = TABS.find(item => item.title === title)
+    if (item && item.key !== this.state.uri) {
+      this.setState({
+        uri: item.key
+      })
+    }
   }
 }
