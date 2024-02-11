@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:37:53
+ * @Last Modified time: 2024-02-12 04:00:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,7 @@ import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST } from '@constants'
 import Award2022 from '../index/component/award-2022'
+import Award2023 from '../index/component/award-2023'
 import { YEARS } from './ds'
 import { memoStyles } from './styles'
 
@@ -39,11 +40,14 @@ const Yearbook = ({ navigation }) => {
         <Header title='Bangumi年鉴' hm={['discovery/yearbook', 'Yearbook']} />
         <Page>
           <ScrollView contentContainerStyle={styles.container} scrollToTop>
-            <Award2022
-              navigation={navigation}
-              width={styles.item2021.width}
-              height={styles.item2021.height}
-            />
+            <Award2023 width={styles.item2021.width} height={styles.item2021.height} />
+            <View style={_.mt.md}>
+              <Award2022
+                navigation={navigation}
+                width={styles.item2021.width}
+                height={styles.item2021.height}
+              />
+            </View>
             <Flex wrap='wrap'>
               {YEARS_BLOCKS.map(year => (
                 <Touchable

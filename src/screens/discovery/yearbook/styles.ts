@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-27 23:48:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 19:04:27
+ * @Last Modified time: 2024-02-12 04:00:54
  */
 import { _ } from '@stores'
 
@@ -15,6 +15,7 @@ export const memoStyles = _.memoStyles(() => {
   const widthSm = (_.window.width - 2 * _.wind - _.md * (numSm - 1)) / numSm
   return {
     container: {
+      paddingTop: _.sm,
       paddingHorizontal: _.wind,
       paddingBottom: _.bottom
     },

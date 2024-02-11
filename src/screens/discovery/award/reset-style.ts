@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-18 22:44:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-22 06:23:41
+ * @Last Modified time: 2024-02-12 03:56:18
  */
 const W_SUBJECT = '30vw'
 const W_SUBJECT_SM = '28vw'
@@ -22,6 +22,11 @@ function important(style: string) {
  *  - 3. 隐藏部分样式, 使页面更沉浸
  */
 export default {
+  2023: important(`
+    #awardWrapper {
+      padding-top: 0;
+    }
+  `),
   2020: important(`
     .pattern_bgm38:before {
       animation: initial;

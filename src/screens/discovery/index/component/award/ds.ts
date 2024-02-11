@@ -9,6 +9,6 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Award')
 
-export const YEARS_LEFT = [2022, 2021] as const
+export const YEARS_LEFT = [2022] as const
 
-export const YEARS_RIGHT = [2020, 2019, 2018] as const
+export const YEARS_RIGHT = [2021, 2020, 2019, 2018] as const

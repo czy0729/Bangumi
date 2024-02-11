@@ -1,35 +1,28 @@
 /*
- * 更沉浸的 Bgm 年鉴
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-21 17:32:54
+ * @Last Modified time: 2024-02-12 04:30:05
  */
 import React from 'react'
-import { Track, Loading, Text, Heatmap, Page, Component } from '@components'
-import { _ } from '@stores'
-import { open, appNavigate, info, removeCF, getStorage, setStorage } from '@utils'
+import { Component, Page } from '@components'
+import { appNavigate, cheerio, getStorage, info, open, removeCF, setStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { fetchHTML } from '@utils/fetch'
 import { HOST, STORYBOOK } from '@constants'
-import { Navigation } from '@types'
-import WebView from './web-view'
+import Extra from './component/extra'
+import Loading from './component/loading'
+import WebView from './component/web-view'
 import resetStyle from './reset-style'
 import { injectedStaticJavaScript } from './utils'
+import { LIGHT_CONTENT_YEARS, NAMESPACE } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-const NAMESPACE = 'ScreenAward'
-const LIGHT_CONTENT_YEARS = ['2022', '2020', '2016', '2015', '2012', '2011'] as const
 const HTML_CACHE = {}
 
-class Award extends React.Component<{
-  navigation: Navigation
-  route?: {
-    params?: {
-      uri?: string
-    }
-  }
-}> {
+/** 更沉浸的 Bgm 年鉴 */
+class Award extends React.Component<Props> {
   state = {
     loading: true,
     redirectCount: 0,
@@ -80,16 +73,13 @@ class Award extends React.Component<{
       if (this.year != '2022') html = removeCF(html)
       html = html.replace(/>\s+</g, '><')
 
-      if (this.year != '2022') {
+      if (this.year != '2022' && this.year != '2023') {
         html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
       }
 
       html = `${html
         .replace(/href="javascript:void\(0\)"/g, '')
-        .replace(
-          /<div id="headerNeue2">(.+?)<div id="awardWrapper"/g,
-          '<div id="awardWrapper"'
-        )
+        .replace(/<div id="headerNeue2">(.+?)<div id="awardWrapper"/g, '<div id="awardWrapper"')
         .replace(/<div class="shareBtn">(.+?)<\/div>/, '')
         .replace(/<div id="dock">(.+?)<div id="robot"/g, '<div id="robot"')
         .replace(
@@ -98,10 +88,7 @@ class Award extends React.Component<{
         )
         .replace(/\/r\/400\/pic/g, '/r/200/pic')}<style>${
         resetStyle[this.year]
-      }</style><script>${injectedStaticJavaScript}</script>`.replace(
-        /\/r\/400\/pic/g,
-        '/r/200/pic'
-      )
+      }</style><script>${injectedStaticJavaScript}</script>`.replace(/\/r\/400\/pic/g, '/r/200/pic')
       HTML_CACHE[this.year] = html
       this.setState({
         html
@@ -115,7 +102,7 @@ class Award extends React.Component<{
 
   onError = () => {
     const { navigation } = this.props
-    info('网络似乎出了点问题')
+    info('网络似乎出了点问题，请重试')
     navigation.goBack()
   }
 
@@ -123,25 +110,12 @@ class Award extends React.Component<{
     open(this.uri)
   }
 
-  onMessage = async event => {
-    const { navigation } = this.props
+  onMessage = async (event: any) => {
     try {
       const { type, data } = JSON.parse(event.nativeEvent.data)
       switch (type) {
         case 'onclick':
-          if (data && data.href) {
-            appNavigate(
-              data.href,
-              navigation,
-              {},
-              {
-                id: '年鉴.跳转',
-                data: {
-                  year: this.year
-                }
-              }
-            )
-          }
+          this.onDirect(data)
           break
 
         default:
@@ -152,10 +126,39 @@ class Award extends React.Component<{
     }
   }
 
-  onLoad = () =>
+  onDirect = (data: { href?: string; innerHTML?: string; nextInnerHTML?: string }) => {
+    if (data?.href) {
+      const { navigation } = this.props
+      const { href, innerHTML, nextInnerHTML } = data
+
+      const params: any = {}
+      if (href.includes('/subject/')) {
+        if (innerHTML) {
+          params._image = cheerio(innerHTML)('img').attr('src') || ''
+        }
+        if (nextInnerHTML) {
+          const $ = cheerio(nextInnerHTML)
+          params._jp = $('.title').text().trim()
+          params._cn = $('.subtitle').text().trim()
+        }
+      }
+
+      const event = {
+        id: '年鉴.跳转',
+        data: {
+          year: this.year
+        }
+      } as const
+
+      appNavigate(href, navigation, params, event)
+    }
+  }
+
+  onLoad = () => {
     this.setState({
       loading: false
     })
+  }
 
   get uri() {
     const { route } = this.props
@@ -189,32 +192,17 @@ class Award extends React.Component<{
     return (
       <Component id='screen-award'>
         <Page style={styles.container}>
-          {loading && (
-            <Loading style={styles.loading} color={_.__colorPlain__}>
-              <Text style={_.mt.md} size={13} type={_.select('plain', 'title')}>
-                {redirectCount ? `第${redirectCount}次重试` : '网页加载中, 请稍等'}
-              </Text>
-              <Text
-                style={styles.extra}
-                size={10}
-                type={_.select('plain', 'title')}
-                onPress={this.onOpen}
-              >
-                或点这里使用浏览器打开
-              </Text>
-            </Loading>
-          )}
+          {loading && <Loading redirectCount={redirectCount} onOpen={this.onOpen} />}
           {!!html && (
             <WebView
+              year={this.year}
               source={this.source}
               onLoad={this.onLoad}
               onError={this.onError}
               onMessage={this.onMessage}
             />
           )}
-          <Track title='年鉴' hm={[`award/${this.year}`, 'Award']} />
-          <Heatmap id='年鉴' screen='Award' />
-          <Heatmap right={80} bottom={40} id='年鉴.跳转' transparent />
+          <Extra year={this.year} />
         </Page>
       </Component>
     )

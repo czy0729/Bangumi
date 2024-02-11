@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:24:28
+ * @Last Modified time: 2024-02-11 05:18:26
  */
 import React, { useCallback, useState } from 'react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ScrollEvent } from '@types'
+import Award2023 from '../award-2023'
 import Block from './block'
 import More from './more'
 import ScrollViewHorizontal from './scroll-view-horizontal'
-import { COMPONENT, YEARS_LEFT, YEARS_RIGHT } from './ds'
+import { COMPONENT, YEARS_LEFT } from './ds'
 import { styles } from './styles'
 
 function Award() {
@@ -29,14 +30,15 @@ function Award() {
       contentContainerStyle={styles.container}
       onScroll={scrolled ? undefined : onScroll}
     >
+      <Award2023 />
       {YEARS_LEFT.map(year => (
         <Block key={year} year={year} />
       ))}
       {scrolled && (
         <>
-          {YEARS_RIGHT.map(year => (
+          {/* {YEARS_RIGHT.map(year => (
             <Block key={year} year={year} />
-          ))}
+          ))} */}
           <More />
         </>
       )}
