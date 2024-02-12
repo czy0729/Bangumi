@@ -2,28 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:49:08
+ * @Last Modified time: 2024-02-12 18:39:03
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { refreshControlProps } from '@tinygrail/styles'
+import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
+import { ListEmpty } from '@types'
+import { TABS } from '../../ds'
+import { Ctx } from '../../types'
 import Item from '../item'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { keyExtractor } from './utils'
+import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function List({ id }, { $ }: Ctx) {
-  const { ico, _loaded } = $.myCharaAssets
-  if (!_loaded) {
+  if (!$.myCharaAssets._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
-  const { page } = $.state
   const isMerge = id === 'merge'
   const isChara = id === 'chara'
   const isTemple = id === 'temple'
-  let data
+
+  let data: ListEmpty
   if (isMerge) {
     data = $.mergeList
   } else if (isChara) {
@@ -31,7 +34,7 @@ function List({ id }, { $ }: Ctx) {
   } else if (isTemple) {
     data = $.temple
   } else {
-    data = ico
+    data = $.myCharaAssets.ico
   }
 
   const onHeaderRefresh = () => {
@@ -39,30 +42,25 @@ function List({ id }, { $ }: Ctx) {
       $.fetchTemple()
       return $.fetchMyCharaAssets()
     }
+
     return isTemple ? $.fetchTemple() : $.fetchMyCharaAssets()
   }
 
   const numColumns = isTemple ? 3 : undefined
   return (
     <ListView
+      {...TINYGRAIL_LIST_PROPS}
       key={`${_.orientation}${numColumns}`}
+      keyExtractor={keyExtractor}
       style={_.container.flex}
-      contentContainerStyle={_.container.bottom}
-      keyExtractor={(item, index) => String(index)}
-      refreshControlProps={refreshControlProps}
-      footerTextType='tinygrailText'
+      contentContainerStyle={isTemple ? styles.temple : styles.list}
       data={data}
-      scrollToTop={id === TABS[page].key}
       numColumns={numColumns}
-      windowSize={6}
-      initialNumToRender={24}
-      maxToRenderPerBatch={24}
-      updateCellsBatchingPeriod={24}
-      lazy={24}
+      scrollToTop={id === TABS[$.state.page].key}
       renderItem={({ item, index }) => <Item id={id} index={index} item={item} />}
       onHeaderRefresh={onHeaderRefresh}
     />
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

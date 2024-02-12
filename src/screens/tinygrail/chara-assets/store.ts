@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 04:02:04
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed, getTimestamp, copy, alert, confirm, info, feedback } from '@utils'
-import store from '@utils/store'
+import { alert, confirm, copy, feedback, getTimestamp, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
-import { relation, levelList, sortList, SORT_HYD } from '@tinygrail/_/utils'
-import { NAMESPACE, PER_BATCH_COUNT, STATE, EXCLUDE_STATE } from './ds'
+import store from '@utils/store'
+import { levelList, relation, SORT_HYD, sortList } from '@tinygrail/_/utils'
+import { EXCLUDE_STATE, NAMESPACE, PER_BATCH_COUNT, STATE } from './ds'
 import { Direction, Params } from './types'
 
 export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
@@ -76,9 +76,10 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
       })
 
       alert(
-        `本次刮刮乐：${items
-          .map(item => `${item.name}x${item.num}`)
-          .join('，')}，价值${toFixed(total, 2)}`,
+        `本次刮刮乐：${items.map(item => `${item.name}x${item.num}`).join('，')}，价值${toFixed(
+          total,
+          2
+        )}`,
         '小圣杯助手'
       )
     } catch (error) {}

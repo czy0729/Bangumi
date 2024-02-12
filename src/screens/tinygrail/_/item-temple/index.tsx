@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:49:22
+ * @Last Modified time: 2024-02-12 18:32:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Image } from '@components'
-import { _, systemStore } from '@stores'
+import { Flex, Image, Text } from '@components'
 import { Avatar } from '@_'
+import { _, systemStore } from '@stores'
 import { formatNumber, HTMLDecode, stl, tinygrailOSS } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { ColorValue, Navigation } from '@types'
 import Rank from '../rank'
@@ -65,7 +65,7 @@ function ItemTemple(
           styles.wrap,
           {
             borderColor: colorLevel,
-            borderWidth: colorLevel ? _.tSelect(2, 3) : 0
+            borderWidth: colorLevel ? _.tSelect(1, 2) : 0
           }
         ]}
       >
@@ -77,10 +77,8 @@ function ItemTemple(
           imageViewer={!onPress}
           imageViewerSrc={tinygrailOSS(cover, 480)}
           resizeMode={
-            // 高度远小于宽度的图不能contain, 会留白
-            styles.imageResize.height * 1.2 >= styles.imageResize.width
-              ? 'cover'
-              : 'contain'
+            // 高度远小于宽度的图不能 contain, 会留白
+            styles.imageResize.height * 1.2 >= styles.imageResize.width ? 'cover' : 'contain'
           }
           event={{
             id: eventId,
@@ -137,7 +135,7 @@ function ItemTemple(
           </Text>
         </View>
       ) : (
-        <View style={_.mt.sm}>
+        <View style={_.mt.xs}>
           {!!avatar && (
             <Flex
               style={[

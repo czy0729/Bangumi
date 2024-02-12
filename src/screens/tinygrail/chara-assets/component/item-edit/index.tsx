@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Iconfont } from '@components'
+import { Flex, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function ItemEdit({ item, type, users, event }, { $ }: Ctx) {
@@ -47,4 +48,4 @@ function ItemEdit({ item, type, users, event }, { $ }: Ctx) {
   )
 }
 
-export default obc(ItemEdit)
+export default obc(ItemEdit, COMPONENT)

@@ -26,7 +26,9 @@ import {
 import { Loaded } from '@types'
 import { Direction } from './types'
 
-export const NAMESPACE = 'ScreenTinygrailCharaAssets'
+export const COMPONENT = 'TinygrailCharaAssets'
+
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const TABS = [
   {

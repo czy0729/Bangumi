@@ -2,24 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:48:35
+ * @Last Modified time: 2024-02-12 18:05:44
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
-import { Popover, IconTouchable } from '@_'
+import { IconTouchable, Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import IconGo from '@tinygrail/_/icon-go'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { TABS } from '../../ds'
+import { Ctx } from '../../types'
+import { COMPONENT, DATA, DATA_ICO } from './ds'
 import { styles } from './styles'
 
-const DATA = ['批量献祭', '批量出售', '批量挂卖单', '批量分享'] as const
-
-const DATA_ICO = ['批量分享'] as const
-
-function IconRight({ $ }: Ctx) {
+function Right({ $ }: Ctx) {
   const { page, editing, batchAction } = $.state
   if (editing) {
     return (
@@ -83,4 +80,4 @@ function IconRight({ $ }: Ctx) {
   )
 }
 
-export default ob(IconRight)
+export default ob(Right, COMPONENT)

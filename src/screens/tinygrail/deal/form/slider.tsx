@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Input, Text, Slider as CompSlider, Touchable } from '@components'
+import { Flex, Input, Slider as CompSlider, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
@@ -76,7 +76,7 @@ function Slider({ style }, { $ }: Ctx) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailPlain' size={12}>
-          {amount == 0 ? '--' : formatNumber(amount * value, 2, $.short)}
+          {amount == 0 ? '--' : formatNumber(amount * Number(value), 2, $.short)}
         </Text>
         <Touchable style={_.ml.sm} onPress={$.switchIsIce}>
           <Text type='tinygrailText' size={12}>

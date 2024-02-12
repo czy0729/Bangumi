@@ -2,20 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-08 11:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:52:20
+ * @Last Modified time: 2024-02-12 18:12:39
  */
 import React from 'react'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import ItemTemple from '@tinygrail/_/item-temple'
+import { Ctx } from '../../types'
 import ItemEdit from '../item-edit'
-import { Ctx } from '../types'
+import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
-
-const EVENT = {
-  id: '我的持仓.跳转'
-} as const
 
 function Item({ id, index, item }, { navigation }: Ctx) {
   if (id === 'temple') {
@@ -41,10 +38,10 @@ function Item({ id, index, item }, { navigation }: Ctx) {
     <ItemEdit
       item={item}
       type={id}
-      users={id === 'ico' ? 'ico' : undefined} // 这里api有bug
+      users={id === 'ico' ? 'ico' : undefined} // 这里 api 有 bug
       event={EVENT}
     />
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

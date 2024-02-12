@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:16:36
+ * @Last Modified time: 2024-02-12 18:13:33
  */
 import React from 'react'
-import { Page, Touchable, Flex, Iconfont, Text } from '@components'
+import { Flex, Iconfont, Page, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import ToolBar from '@tinygrail/_/tool-bar'
 import Tabs from '@tinygrail/_/tabs-v2'
-import Header from './header'
-import List from './list'
+import ToolBar from '@tinygrail/_/tool-bar'
+import Header from './component/header'
+import List from './component/list'
 import Store from './store'
-import { TABS, SORT_DS } from './ds'
+import { SORT_DS, TABS } from './ds'
 import { styles } from './styles'
 import { Ctx } from './types'
 
@@ -48,7 +48,6 @@ class TinygrailCharaAssets extends React.Component {
   renderIncreaseBtn() {
     const { $ } = this.context as Ctx
     const { editing } = $.state
-    console.log('renderIncreaseBtn', editing)
     return (
       editing && (
         <Touchable onPress={$.increaseBatchSelect}>
@@ -103,11 +102,7 @@ class TinygrailCharaAssets extends React.Component {
     return (
       <>
         <Header />
-        <Page
-          style={_.container.tinygrail}
-          loaded={_loaded}
-          loadingColor={_.colorTinygrailText}
-        >
+        <Page style={_.container.tinygrail} loaded={_loaded} loadingColor={_.colorTinygrailText}>
           <Tabs
             routes={TABS}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}
