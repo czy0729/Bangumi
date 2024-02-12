@@ -5,16 +5,16 @@
  * @Last Modified time: 2023-08-02 01:10:29
  */
 import React from 'react'
-import { useObserver } from 'mobx-react'
 import Animated, {
-  useSharedValue,
+  Easing,
   useAnimatedStyle,
-  withTiming,
-  Easing
+  useSharedValue,
+  withTiming
 } from 'react-native-reanimated'
+import { useObserver } from 'mobx-react'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { IOS, DOGE_CDN_IMG_DEFAULT } from '@constants'
+import { DOGE_CDN_IMG_DEFAULT, IOS } from '@constants'
 import { AnyObject } from '@types'
 import Image from '../image'
 
@@ -36,7 +36,7 @@ function Remote({
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(activeRef.value, {
-        duration: 640,
+        duration: 400,
         easing: Easing.linear
       })
     }
@@ -63,19 +63,20 @@ function Remote({
     }
 
     return (
-      <Animated.View
-        style={stl(containerStyle?.width === 'auto' && containerStyle, animatedStyle)}
-      >
+      <Animated.View style={stl(containerStyle?.width === 'auto' && containerStyle, animatedStyle)}>
         <Image
           {...passProps}
           onLoadEnd={() => {
             if (typeof onLoadEnd === 'function') onLoadEnd()
-            activeRef.value = 1
+
+            setTimeout(() => {
+              activeRef.value = 1
+            }, 0)
 
             // 标记已观察过, 延迟是为了防止页面同时出现这个图片多次而后面的不执行逻辑
             setTimeout(() => {
               lazyloadedMap.set(uri, true)
-            }, 800)
+            }, 400)
           }}
         />
       </Animated.View>
