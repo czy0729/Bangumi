@@ -7,3 +7,5 @@
 import { SubjectId } from '@types'
 
 export type Substrings = Record<string, SubjectId>
+
+export type TrieInitDone = 0 | 1 | 2

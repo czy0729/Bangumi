@@ -7,6 +7,7 @@
  */
 import { Fn } from '@types'
 
+/** 保存 base64 图片到相册 (安卓) */
 export async function saveBase64ImageToCameraRoll(
   base64Img: string,
   success: Fn = () => {},

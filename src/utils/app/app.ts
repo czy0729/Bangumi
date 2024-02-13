@@ -109,15 +109,13 @@ export function getUserIdFromAvatar(src: string) {
  * @param {*} url            链接
  * @param {*} navigation     路由对象
  * @param {*} passParams     传递的参数
- * @param {*} event          EVENT
+ * @param {*} event          追踪事件
  * @param {*} openWebBrowser 没路由对象或者非本站是否使用浏览器尝试打开
  */
 export function appNavigate(
   url: string = '',
   navigation?: Navigation,
-  passParams: {
-    [key: string]: any
-  } = {},
+  passParams: AnyObject = {},
   event: EventType = EVENT,
   openWebBrowser: boolean = true
 ): boolean {

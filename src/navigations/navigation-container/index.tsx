@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-07 18:02:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 13:46:25
+ * @Last Modified time: 2024-02-13 16:51:07
  */
 import React, { useRef } from 'react'
-import { useObserver } from 'mobx-react'
 import { enableScreens } from 'react-native-screens'
+import { useObserver } from 'mobx-react'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { navigationReference } from '@utils'
-import { Navigation } from '@types'
 import { IOS_IPA } from '@/config'
+import { Navigation } from '@types'
+import { useDevInfo } from './utils'
 import { Props } from './types'
 
 // iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化
@@ -23,6 +24,7 @@ if (IOS_IPA) {
 
 function NavigationContainer({ children }: Props) {
   const navigationRef = useRef<Navigation>(null)
+  useDevInfo(navigationRef.current)
 
   // useEffect(() => {
   //   const unsubscribe = navigationRef.current?.addListener('state', e => {

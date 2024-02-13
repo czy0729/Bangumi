@@ -8,7 +8,7 @@ import lazyac from 'lazy-aho-corasick'
 import { TEXT_ONLY } from '@constants'
 import { arrGroup } from '../utils'
 import { IGNORE_ITEMS, REG_SPEC, TRIE_INIT_DISTANCE } from './ds'
-import { Substrings } from './types'
+import { Substrings, TrieInitDone } from './types'
 
 /** 条目中文对应条目 id */
 const subStrings: Substrings = {}
@@ -28,8 +28,8 @@ const tries: lazyac[] = []
 /** 是否初始化 */
 let trieInit: boolean
 
-/** 是否批量初始化完毕 */
-let trieInitDone: 0 | 1 | 2 = 0
+/** 是否批量初始化完毕 (0: 没有初始化, 1: 已经初始化频率最高的数据合集, 2: 完成初始化) */
+let trieInitDone: TrieInitDone = 0
 
 /** 初始化需要好几秒, 需要触发后延迟初始化, 待下一次再用 */
 export function initLazyac() {
