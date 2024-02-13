@@ -8,7 +8,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "permissions": [
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
+      ]
     },
     "plugins": [
       [
@@ -22,12 +26,21 @@
     "slug": "bangumi-pro",
     "scheme": "bangumi",
     "privacy": "public",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "default",
     "ios": {
       "bundleIdentifier": "tv.bangumi.czy0729",
       "supportsTablet": true,
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "The app needs to access your calendar.",
+        "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
+        "NSCalendarsFullAccessUsageDescription": "The app needs to access your calendar.",
+        "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
+      }
     },
     "androidStatusBar": {
       "barStyle": "dark-content",
@@ -40,14 +53,21 @@
       "backgroundColor": "#ffffff"
     },
     "extra": {
-      "storybookEnabled": true
+      "storybookEnabled": true,
+      "eas": {
+        "projectId": "41867d2f-bc16-46fd-9da6-a38d3e4e8fe4"
+      }
     },
     "updates": {
       "enabled": false,
       "fallbackToCacheTimeout": 0,
-      "useClassicUpdates": true
+      "useClassicUpdates": true,
+      "url": "https://u.expo.dev/41867d2f-bc16-46fd-9da6-a38d3e4e8fe4"
     },
-    "assetBundlePatterns": ["**/*"],
-    "githubUrl": "https://github.com/czy0729/Bangumi"
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "githubUrl": "https://github.com/czy0729/Bangumi",
+    "runtimeVersion": "1.0.0"
   }
 }
