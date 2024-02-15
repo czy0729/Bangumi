@@ -49,7 +49,6 @@ import {
   URL_DEFAULT_AVATAR
 } from '@constants'
 import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
-import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import {
   TITLE_ANITABI,
   TITLE_BLOG,
@@ -71,6 +70,7 @@ import {
   TITLE_THUMBS,
   TITLE_TOPIC
 } from '../ds'
+import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
 import { EXCLUDE_STATE, INIT_RATING, NAMESPACE, SORT_RELATION_DESC } from './ds'
 
@@ -262,12 +262,9 @@ export default class Computed extends State {
     )
   }
 
-  /** @deprecated Ep 偏移 */
-  @computed get ningMoeEpOffset() {
-    const { eps = [] } = this.subject
-    return (
-      eps.filter(item => item.type === 0).sort((a, b) => asc(a, b, item => item.sort))[0].sort - 1
-    )
+  /** VIB 等评分数据 */
+  @computed get vib() {
+    return subjectStore.vib(this.subjectId)
   }
 
   /** 章节正版播放源 */

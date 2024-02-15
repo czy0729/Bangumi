@@ -535,6 +535,13 @@ export type Rating = Override<
   }
 >
 
+export type ComputedRating = Override<
+  Rating,
+  {
+    counts: Record<RatingStatus, number>
+  }
+>
+
 /** wiki修订历史 */
 export type Wiki = DeepPartial<{
   edits: {

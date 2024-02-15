@@ -2,19 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:27:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 07:08:29
+ * @Last Modified time: 2024-02-15 02:05:15
  */
 import { LIST_EMPTY } from '@constants'
 import { MODEL_RATING_STATUS } from '@constants/model'
-import { Actions, Origin, RatingStatus, SubjectType } from '@types'
+import { Actions, Loaded, Origin, RatingStatus, SubjectType } from '@types'
 
 /** 命名空间 */
 export const NAMESPACE = 'Subject'
 
 /** 看过 */
-export const DEFAULT_RATING_STATUS = MODEL_RATING_STATUS.getValue(
-  '看过'
-) as RatingStatus
+export const DEFAULT_RATING_STATUS = MODEL_RATING_STATUS.getValue('看过') as RatingStatus
 
 /** 条目 */
 export const INIT_SUBJECT = {
@@ -294,6 +292,19 @@ const STATE = {
     }
   },
 
+  /** VIB 相关数据 */
+  vib: {
+    0: {
+      total: 0,
+      avg: 0,
+      mal: 0,
+      malTotal: 0,
+      anidb: 0,
+      anidbTotal: 0,
+      _loaded: 0 as Loaded
+    }
+  },
+
   /** r18 */
   nsfw: {
     0: false
@@ -351,5 +362,6 @@ export const LOADED = {
   nsfw: false,
   origin: false,
   rank: false,
+  vib: false,
   subjectFromOSS: false
 }

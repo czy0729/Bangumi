@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 08:49:27
+ * @Last Modified time: 2024-02-13 20:09:46
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
@@ -89,7 +89,7 @@ export default class Store<
    */
   fetch = async (
     fetchConfig: any,
-    stateKey?: keyof T | (keyof T)[],
+    stateKey?: keyof T | [keyof T, string | number],
     otherConfig: {
       /** 本地化空间 */
       namespace?: string

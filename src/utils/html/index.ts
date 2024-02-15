@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 09:44:10
+ * @Last Modified time: 2024-02-13 20:36:55
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@/config'
-import HTMLParser from './../thirdParty/html-parser'
+import HTMLParser from '../thirdParty/html-parser'
 
 /** 去除 HTML */
 export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
@@ -33,10 +33,7 @@ const DECODE_SPECIAL_CHARS = {
 export function HTMLDecode(str: string = ''): string {
   if (str.length === 0) return ''
 
-  return str.replace(
-    /(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g,
-    match => DECODE_SPECIAL_CHARS[match]
-  )
+  return str.replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => DECODE_SPECIAL_CHARS[match])
 }
 
 const ENCODE_SPECIAL_CHARS = {
@@ -76,16 +73,11 @@ export function HTMLTrim(str: any = '', deep?: boolean) {
 }
 
 /** 匹配指定范围 html, 若没有匹配到返回原 html */
-export function htmlMatch(html: string, start: string, end: string) {
+export function htmlMatch(html: string, start: string, end: string, removeScript: boolean = true) {
   if (!html || !start || !end) return html || ''
 
-  return (
-    html
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
-      .match(new RegExp(start + '[\\s\\S]+' + end, 'g'))?.[0] ||
-    html ||
-    ''
-  )
+  if (removeScript) html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '')
+  return html.match(new RegExp(start + '[\\s\\S]+' + end, 'g'))?.[0] || html || ''
 }
 
 /**

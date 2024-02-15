@@ -5,9 +5,9 @@
  * @Last Modified time: 2023-12-23 09:49:55
  */
 import dayjs from 'dayjs'
-import { toLocal } from '../utils'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
-import { info, confirm, feedback } from '../ui'
+import { confirm, feedback, info } from '../ui'
+import { toLocal } from '../utils'
 import { getSafeValue, isNull } from './utils'
 import { YEAR } from './ds'
 
@@ -18,8 +18,8 @@ export function getOnAir(
   },
   onAirUser: {
     [x: string]: any
-    weekDayCN?: string
-    timeCN?: string
+    weekDayCN?: string | number
+    timeCN?: string | number
     _loaded?: any
   }
 ) {
@@ -65,8 +65,7 @@ export function getOnAir(
 
 /** 统一逻辑, 获取放送日函数 */
 export function getWeekDay(item: { weekDayCN?: any; weekDayJP?: any } = {}) {
-  const weekDay =
-    item?.weekDayCN == 0 ? item?.weekDayCN : item?.weekDayCN || item?.weekDayJP
+  const weekDay = item?.weekDayCN == 0 ? item?.weekDayCN : item?.weekDayCN || item?.weekDayJP
   return weekDay === '' ? '' : weekDay
 }
 
@@ -156,10 +155,7 @@ export function saveCalenderEvent(
         if (showConfirm) {
           confirm(
             `${title}
-            \n${date
-              .format(format)
-              .replace('T', ' ')
-              .replace('.000Z', '')} 到\n${dateEnd
+            \n${date.format(format).replace('T', ' ').replace('.000Z', '')} 到\n${dateEnd
               .format(format)
               .replace('T', ' ')
               .replace('.000Z', '')}

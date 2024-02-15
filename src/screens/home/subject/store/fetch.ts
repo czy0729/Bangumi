@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 22:57:49
+ * @Last Modified time: 2024-02-15 01:53:50
  */
-import { collectionStore, subjectStore, systemStore, monoStore, usersStore } from '@stores'
+import { collectionStore, monoStore, subjectStore, systemStore, usersStore } from '@stores'
 import {
-  HTMLDecode,
-  HTMLTrim,
   getBangumiUrl,
   getTimestamp,
-  unzipBangumiData,
+  HTMLDecode,
+  HTMLTrim,
   omit,
   opitimize,
+  queue,
   titleCase,
-  queue
+  unzipBangumiData
 } from '@utils'
-import { xhrCustom } from '@utils/fetch'
-import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from '@utils/douban'
 import { search as searchMV } from '@utils/bilibili'
+import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from '@utils/douban'
+import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
 import { API_ANITABI, CDN_EPS, SITES, STORYBOOK } from '@constants'
@@ -607,5 +607,39 @@ export default class Fetch extends Computed {
     } catch (error) {
       return false
     }
+  }
+
+  /**
+   * VIB 等评分数据
+   * @opitimize 12h
+   * */
+  fetchVIB = async () => {
+    if (opitimize(this.vib, 60 * 60 * 12)) return this.vib
+
+    try {
+      const key = `vib_${this.subjectId}`
+      const cloud = await get(key)
+      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= 60 * 60 * 24) {
+        subjectStore.updateVIB(this.subjectId, cloud)
+
+        if (!cloud?.avg) {
+          setTimeout(() => {
+            subjectStore.fetchVIB(this.subjectId)
+          }, 0)
+        }
+        return true
+      }
+
+      await subjectStore.fetchVIB(this.subjectId)
+      if (this.type === '动画') {
+        await subjectStore.fetchMAL(this.subjectId, this.jp || this.cn)
+        await subjectStore.fetchAniDB(this.subjectId, this.jp || this.cn)
+      }
+      if (this.vib._loaded) update(key, this.vib)
+
+      return true
+    } catch (error) {}
+
+    return false
   }
 }

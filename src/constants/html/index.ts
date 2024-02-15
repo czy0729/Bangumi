@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 17:15:54
+ * @Last Modified time: 2024-02-13 20:17:09
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, UserId } from '@types'
@@ -444,3 +444,6 @@ export const HTML_PRIVACY = () => `${HOST}/settings/privacy`
 
 /** 语雀文档单页 */
 export const HTML_SINGLE_DOC = (page: string) => `${URL_ZHINAN}/${page}?singleDoc`
+
+/** VIB */
+export const HTML_SUBJECT_STATS = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/stats`

@@ -1,21 +1,21 @@
+import { API_HOST, API_V0 } from '@constants/api'
+import { APP_ID, HOST, UA } from '@constants/constants'
 /*
  * 使用 RN.fetch 的请求 (待废弃, 尽量少用)
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 14:23:14
+ * @Last Modified time: 2024-02-15 02:39:52
  */
 import { STORYBOOK } from '@constants/device'
-import { APP_ID, HOST, UA } from '@constants/constants'
-import { API_HOST, API_V0 } from '@constants/api'
 import { HOST_PROXY } from '@/config'
-import fetch from '../thirdParty/fetch-polyfill'
-import { urlStringify, sleep, getTimestamp } from '../utils'
-import { loading } from '../ui'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
+import fetch from '../thirdParty/fetch-polyfill'
+import { loading } from '../ui'
+import { getTimestamp, sleep, urlStringify } from '../utils'
 import { log, safe } from './utils'
-import { FETCH_TIMEOUT, FETCH_RETRY, HEADERS_DEFAULT } from './ds'
+import { FETCH_RETRY, FETCH_TIMEOUT, HEADERS_DEFAULT } from './ds'
 import { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
 
 const RETRY_CACHE = {}
@@ -129,20 +129,14 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
 const LAST_FETCH_HTML = {}
 
 /**
- * 请求获取 html (携带授权信息)
+ * 携带授权信息请求获取 html
  *  - 拦截瞬间多次完全同样的请求
+ *  - args.url 开头带叹号!代表不携带授权信息
  */
 export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
-  const {
-    method = 'GET',
-    url,
-    data = {},
-    headers = {},
-    cookie,
-    raw = false
-  } = args || {}
+  const { method = 'GET', url, data = {}, headers = {}, cookie, raw = false } = args || {}
   const isGet = method === 'GET'
 
   /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
@@ -188,9 +182,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       'User-Agent': userAgent,
 
       // @issue iOS 不知道为什么会有文本乱插在cookie前面, 要加分号防止
-      Cookie: cookie
-        ? `${userCookie} ${cookie} ${setCookie}`
-        : `; ${userCookie}; ${setCookie}`,
+      Cookie: cookie ? `${userCookie} ${cookie} ${setCookie}` : `; ${userCookie}; ${setCookie}`,
       ...headers
     }
 

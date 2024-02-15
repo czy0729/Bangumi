@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 09:35:26
+ * @Last Modified time: 2024-02-15 02:36:46
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -22,30 +22,34 @@ import {
   HTML_SUBJECT_CATALOGS,
   HTML_SUBJECT_COMMENTS,
   HTML_SUBJECT_RATING,
+  HTML_SUBJECT_STATS,
   HTML_SUBJECT_WIKI_COVER,
   HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
 import { EpId, MonoId, PersonId, RatingStatus, SubjectId } from '@types'
 import timelineStore from '../timeline'
+import {
+  cheerioMAL,
+  cheerioMonoVoices,
+  cheerioMonoWorks,
+  cheerioRating,
+  cheerioSubjectCatalogs,
+  cheerioSubjectComments,
+  cheerioSubjectFromHTML,
+  cheerioVIB,
+  cheerioWikiCovers,
+  cheerioWikiEdits,
+  fetchMono
+} from './common'
 import Computed from './computed'
-import { getInt } from './utils'
 import {
   DEFAULT_RATING_STATUS,
   INIT_MONO,
   INIT_SUBJECT_FROM_CDN_ITEM,
-  INIT_SUBJECT_V2
+  INIT_SUBJECT_V2,
+  STATE
 } from './init'
-import {
-  fetchMono,
-  cheerioSubjectFromHTML,
-  cheerioMonoWorks,
-  cheerioMonoVoices,
-  cheerioRating,
-  cheerioSubjectCatalogs,
-  cheerioWikiEdits,
-  cheerioWikiCovers,
-  cheerioSubjectComments
-} from './common'
+import { getInt } from './utils'
 import { ApiSubjectResponse, MonoWorks } from './types'
 
 export default class Fetch extends Computed {
@@ -131,9 +135,7 @@ export default class Fetch extends Computed {
   fetchSubjectV2 = async (subjectId: SubjectId) => {
     try {
       await this.initSubjectV2([subjectId])
-      const data: any = await request(
-        `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
-      )
+      const data: any = await request(`${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`)
 
       const key = `subjectV2${getInt(subjectId)}` as `subjectV2${number}`
       const now = getTimestamp()
@@ -551,11 +553,7 @@ export default class Fetch extends Computed {
     },
     refresh?: boolean
   ) => {
-    const {
-      subjectId = 0,
-      status = DEFAULT_RATING_STATUS,
-      isFriend = false
-    } = args || {}
+    const { subjectId = 0, status = DEFAULT_RATING_STATUS, isFriend = false } = args || {}
 
     const key = 'rating'
     const stateKey = `${subjectId}|${status}|${isFriend}`
@@ -652,4 +650,177 @@ export default class Fetch extends Computed {
 
     return true
   }
+
+  updateVIB = (subjectId: SubjectId, data: Partial<(typeof STATE.vib)[0]>) => {
+    const key = 'vib'
+    this.setState({
+      [key]: {
+        [subjectId]: {
+          ...this.vib(subjectId),
+          ...data
+        }
+      }
+    })
+    this.save(key)
+  }
+
+  /** VIB 等评分数据 */
+  fetchVIB = async (subjectId: SubjectId) => {
+    try {
+      const html = await fetchHTML({
+        url: HTML_SUBJECT_STATS(subjectId)
+      })
+      const data = cheerioVIB(html)
+      this.updateVIB(subjectId, {
+        ...data,
+        _loaded: getTimestamp()
+      })
+
+      return true
+    } catch (error) {}
+
+    return false
+  }
+
+  /** https://greasyfork.org/zh-CN/scripts/31829-bangumi-anime-score-compare/code */
+  fetchMAL = async (subjectId: SubjectId, keyword: string) => {
+    try {
+      const { _response } = await xhrCustom({
+        url: `https://myanimelist.net/search/prefix.json?type=anime&keyword=${encodeURIComponent(
+          keyword
+        )}&v=1`
+      })
+
+      // #682
+      let startDate = null
+      let { items } = JSON.parse(_response).categories[0]
+      let pageUrl = ''
+      let date = this.date(subjectId)
+
+      // #691
+      if (date) {
+        startDate = new Date(date)
+        for (let i = 0; i < items.length; i += 1) {
+          const item = items[i]
+          let aired = null
+          if (item.payload.aired.match('to')) {
+            aired = parseDate(item.payload.aired.split('to')[0])
+          } else {
+            aired = parseDate(item.payload.aired)
+          }
+
+          // 选择第一个匹配日期的
+          if (
+            startDate.getFullYear() === aired.getFullYear() &&
+            startDate.getMonth() === aired.getMonth()
+          ) {
+            pageUrl = item.url
+            break
+          }
+        }
+      } else if (items?.[0]) {
+        pageUrl = items[0].url
+      }
+      if (!pageUrl) return false
+
+      // #718
+      const content = await fetchHTML({
+        url: `!${pageUrl}`
+      })
+      const data = cheerioMAL(content)
+
+      if (data.mal) {
+        this.updateVIB(subjectId, {
+          ...data,
+          _loaded: getTimestamp()
+        })
+        return true
+      }
+    } catch (error) {}
+
+    return false
+  }
+
+  /** https://greasyfork.org/zh-CN/scripts/31829-bangumi-anime-score-compare/code */
+  fetchAniDB = async (subjectId: SubjectId, keyword: string) => {
+    try {
+      let query = (keyword || '').trim()
+      if (!query) return false
+
+      // #748
+      // 标点符号不一致
+      // 戦闘員、派遣します！ -> 戦闘員, 派遣します!
+      query = query
+        .replace(/、|！/, ' ')
+        .replace(/\s{2,}/, ' ')
+        .trim()
+
+      const { _response } = await xhrCustom({
+        url: `https://anidb.net/perl-bin/animedb.pl?show=json&action=search&type=anime&query=${encodeURIComponent(
+          query
+        )}`,
+        headers: {
+          referrer: 'https://anidb.net/',
+          'content-type': 'application/json',
+          'accept-language': 'en-US,en;q=0.9',
+          'x-lcontrol': 'x-no-cache'
+        }
+      })
+
+      // #765
+      // [{"desc": "TV Series, 28 eps, 9.16 (414)", "hit": "葬送のフリーレン", "id": 17617, "link": "https://anidb.net/a17617", "name": "Sousou no Frieren"}]
+      const info = JSON.parse(_response)
+      if (info?.[0]?.desc) {
+        const arr = info[0].desc.split(',')
+        const data = {
+          anidb: 0,
+          anidbTotal: 0
+        }
+        if (arr && arr.length === 3) {
+          const scoreStr = arr[2]
+          if (!scoreStr.includes('N/A') && scoreStr.includes('(')) {
+            const arr = scoreStr.split('(')
+            data.anidb = Number(arr[0].trim())
+            data.anidbTotal = Number(arr[1].replace(/\).*/g, ''))
+          }
+
+          if (data.anidb) {
+            this.updateVIB(subjectId, {
+              ...data,
+              _loaded: getTimestamp()
+            })
+            return true
+          }
+        }
+      }
+    } catch (error) {}
+
+    return false
+  }
+}
+
+/**
+ * 手动解析日期字符串并创建日期对象
+ *  - Sep 29, 2023
+ * */
+function parseDate(str: string) {
+  const months = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11
+  }
+  const parts = str.split(' ')
+  const month = months[parts[0]]
+  const day = parseInt(parts[1], 10)
+  const year = parseInt(parts[2], 10)
+  return new Date(year, month, day)
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 01:31:38
+ * @Last Modified time: 2024-02-15 01:48:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ const Chart = memo(
       <>
         {!!total && (
           <Text style={styles.total} size={11} type='sub'>
-            {total} 人评分
+            {total} votes
           </Text>
         )}
         <Flex style={styles.chart}>
@@ -44,7 +44,7 @@ const Chart = memo(
                       style={[
                         styles.count,
                         {
-                          bottom: height
+                          bottom: height as number
                         }
                       ]}
                       size={10}
@@ -74,7 +74,7 @@ const Chart = memo(
                 {friend.score ? (
                   <Text size={12} type='sub'>
                     好友
-                    <Text size={12} type='main' bold>
+                    <Text size={12} type='main'>
                       {' '}
                       {friend.score}{' '}
                     </Text>
@@ -112,7 +112,7 @@ const Chart = memo(
               <Text size={12} type='sub'>
                 标准差
               </Text>
-              <Text size={12} type='main' bold>
+              <Text size={12} type='main'>
                 {' '}
                 {toFixed(deviation, 2)}{' '}
               </Text>

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 10:11:45
+ * @Last Modified time: 2024-02-13 21:15:26
  */
-import { htmlMatch, safeObject } from '@utils'
 import {
-  HTMLDecode,
-  HTMLToTree,
-  HTMLTrim,
   cheerio,
   findTreeNode,
   getCoverMedium,
+  HTMLDecode,
+  htmlMatch,
+  HTMLToTree,
+  HTMLTrim,
   matchAvatar,
   matchCover,
   matchStar,
   matchSubjectId,
-  matchUserId
+  matchUserId,
+  safeObject
 } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HOST, HTML_MONO } from '@constants'
@@ -53,9 +54,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
   let monoComments = [] // 人物吐槽箱
 
   if (HTML) {
-    const $ = cheerio(
-      htmlMatch(raw, '<div class="subjectNav">', '<div class="mainWrapper">')
-    )
+    const $ = cheerio(htmlMatch(raw, '<div class="subjectNav">', '<div class="mainWrapper">'))
     mono.eraseCollectUrl = $('li.collect > span.collect > a.break').attr('href') || ''
     if (!mono.eraseCollectUrl) {
       mono.collectUrl = $('li.collect > span.collect > a').attr('href') || ''
@@ -443,14 +442,10 @@ export function cheerioSubjectComments(html: string): Override<
     likes: Likes
   }
 > {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
   const page = Number($('.page_inner .p_cur').text().trim() || 1)
   const pagination = $('.page_inner .p_edge').text().trim().match(/\d+/g)
-  const pageTotal = Number(
-    pagination?.[1] || pagination?.[0] || $('.page_inner a.p').length || 1
-  )
+  const pageTotal = Number(pagination?.[1] || pagination?.[0] || $('.page_inner a.p').length || 1)
 
   let likes: Likes = {}
   try {
@@ -472,13 +467,9 @@ export function cheerioSubjectComments(html: string): Override<
             userName: $row.find('a.l').text().trim(),
             avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
             time: $row.find('small.grey').text().trim().replace('@ ', ''),
-            star: ($row.find('span.starlight').attr('class') || '').replace(
-              'starlight stars',
-              ''
-            ),
+            star: ($row.find('span.starlight').attr('class') || '').replace('starlight stars', ''),
             comment: $row.find('p').text().trim(),
-            relatedId:
-              ($row.find('.likes_grid').attr('id') || '').match(/\d+/g)?.[0] || ''
+            relatedId: ($row.find('.likes_grid').attr('id') || '').match(/\d+/g)?.[0] || ''
           }
         })
         .get() || [],
@@ -606,9 +597,7 @@ export function cheerioMonoVoices(html: string): MonoVoices {
 
 /** 条目评分 */
 export function cheerioRating(html: string): Rating {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
   const counts = {
     wishes: 0,
     collections: 0,
@@ -665,9 +654,7 @@ export function cheerioRating(html: string): Rating {
 
 /** 包含条目的目录 */
 export function cheerioSubjectCatalogs(html: string): SubjectCatalogs {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
   return {
     list:
       $('li.tml_item')
@@ -691,9 +678,7 @@ export function cheerioSubjectCatalogs(html: string): SubjectCatalogs {
 
 /** wiki 修订历史 */
 export function cheerioWikiEdits(html: string): Wiki['edits'] {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"')
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"'))
   return (
     $('#pagehistory li')
       .map((index: number, element: any) => {
@@ -716,9 +701,7 @@ export function cheerioWikiEdits(html: string): Wiki['edits'] {
 
 /** wiki 增改封面 */
 export function cheerioWikiCovers(html: string): Wiki['covers'] {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"')
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"'))
   return (
     $('.photoList li')
       .map((index: number, element: any) => {
@@ -733,4 +716,55 @@ export function cheerioWikiCovers(html: string): Wiki['covers'] {
       })
       .get() || []
   )
+}
+
+/** 条目 VIB 数据 */
+export function cheerioVIB(html: string) {
+  const string = htmlMatch(html, '<div id="chartVIB"', '<div id="footer">', false)
+  const pattern = /var CHART_SETS = ({.*});/
+  const result = string.match(pattern)
+
+  let data: any
+  if (result) {
+    try {
+      data = JSON.parse(result[1])
+    } catch (error) {
+      data = {}
+    }
+  }
+
+  if (Array.isArray(data?.vib?.data)) {
+    try {
+      const items = data.vib.data as {
+        title: number
+        vib: number
+      }[]
+      const totalVib = items.reduce(
+        (total, item) => total + (item?.title || 0) * (item?.vib || 0),
+        0
+      )
+      const sumVib = items.reduce((sum, item) => sum + (item?.vib || 0), 0)
+      const averageVib = totalVib / sumVib
+      return {
+        total: sumVib,
+        avg: Number(averageVib.toFixed(2))
+      }
+    } catch (error) {}
+  }
+
+  return {
+    total: 0,
+    avg: 0
+  }
+}
+
+/** 条目 MAL 数据 */
+export function cheerioMAL(html: string) {
+  const $ = cheerio(
+    htmlMatch(html, '<div class="anime-detail-header-stats', '<div class="user-status-block')
+  )
+  return {
+    mal: $('.score-label').text().trim() || 0,
+    malTotal: Number($('.fl-l.score').data('user').replace(' users', '').replace(',', '')) || 0
+  }
 }

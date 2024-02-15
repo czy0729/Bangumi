@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:34:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:21:42
+ * @Last Modified time: 2024-02-15 01:03:22
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { memo } from '@utils/decorators'
+import { TITLE_RATING } from '../../ds'
 import IconHidden from '../../icon/hidden'
 import Chart from './chart'
 import Title from './title'
-import { TITLE_RATING } from '../../ds'
+import VIB from './vib'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Rating = memo(
@@ -29,7 +30,10 @@ const Rating = memo(
         {showRating && (
           <View>
             {showScore ? (
-              <Chart />
+              <>
+                <Chart />
+                <VIB />
+              </>
             ) : (
               <Touchable onPress={() => setShowScore(true)}>
                 <Flex style={styles.hideScore} justify='center'>

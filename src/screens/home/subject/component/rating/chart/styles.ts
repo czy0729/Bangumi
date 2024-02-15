@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-06 23:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 01:28:30
+ * @Last Modified time: 2024-02-15 01:38:25
  */
 import { _ } from '@stores'
 
@@ -10,16 +10,16 @@ export const memoStyles = _.memoStyles(() => ({
   total: {
     position: 'absolute',
     zIndex: 1,
-    top: 12,
+    top: 10,
     right: -4
   },
   chart: {
-    minHeight: _.r(120),
+    minHeight: 144,
     marginTop: _.md,
     marginHorizontal: -4
   },
   item: {
-    height: _.r(120),
+    height: 144,
     paddingBottom: _.xs,
     marginTop: -_.md
   },

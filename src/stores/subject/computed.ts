@@ -13,14 +13,11 @@ import {
   HTMLText,
   MonoId,
   Origin,
-  Override,
   RatingStatus,
   StoreConstructor,
   SubjectId,
   SubjectTypeValue
 } from '@types'
-import State from './state'
-import { getInt } from './utils'
 import {
   DEFAULT_RATING_STATUS,
   INIT_MONO,
@@ -32,14 +29,16 @@ import {
   INIT_SUBJECT_WIKI,
   STATE
 } from './init'
+import { getInt } from './utils'
+import State from './state'
 import {
+  ComputedRating,
   EpV2,
   Mono,
   MonoComments,
   MonoVoices,
   MonoWorks,
   RankItem,
-  Rating,
   Subject,
   SubjectCatalogs,
   SubjectComments,
@@ -76,8 +75,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
   subjectV2(subjectId: SubjectId = 0) {
     const last = getInt(subjectId)
     const key = `subjectV2${last}` as const
-    // this.init(key)
-
     return computed<SubjectV2>(() => {
       return this.state?.[key]?.[subjectId] || INIT_SUBJECT_V2
     }).get()
@@ -180,17 +177,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
     status: RatingStatus = DEFAULT_RATING_STATUS,
     isFriend: boolean = false
   ) {
-    return computed<
-      Override<
-        Rating,
-        {
-          counts: Record<RatingStatus, number>
-        }
-      >
-    >(() => {
-      const key = `${subjectId}|${status}|${isFriend}`
+    return computed<ComputedRating>(() => {
       return (
-        this.state.rating[key] || {
+        this.state.rating[`${subjectId}|${status}|${isFriend}`] || {
           ...LIST_EMPTY,
           counts: {
             wishes: 0,
@@ -218,16 +207,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
+  /** VIB 相关数据 */
+  vib(subjectId: SubjectId) {
+    this.init('vib')
+    return computed<(typeof STATE.vib)[0]>(() => {
+      return this.state.vib[subjectId] || STATE.vib[0]
+    }).get()
+  }
+
   /** r18 */
   nsfw(subjectId: SubjectId) {
     this.init('nsfw')
     return computed<boolean>(() => {
-      return (
-        this.state.nsfw[subjectId] ||
-        this.subjectV2(subjectId).nsfw ||
-        x18(subjectId) ||
-        false
-      )
+      return this.state.nsfw[subjectId] || this.subjectV2(subjectId).nsfw || x18(subjectId) || false
     }).get()
   }
 

@@ -2,55 +2,38 @@
  * @Author: czy0729
  * @Date: 2022-07-06 23:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 11:12:03
+ * @Last Modified time: 2024-02-15 01:36:02
  */
 const min = 0.04
 
-/**
- * 比例柱子高度
- * @param {*} total
- * @param {*} current
- */
-export function getHeight(total, current) {
+/** 比例柱子高度 */
+export function getHeight(total: string | number, current: number) {
   if (!total || !current) return 0
-  let percent = current / total
+  let percent = current / Number(total)
   if (percent > 0 && percent < min) percent = min
   return `${Math.min(percent * 1.44 || min, 0.9) * 100}%`
 }
 
-/**
- * 计算标准差
- * @param {*} total
- * @param {*} count
- * @param {*} score
- */
-export function getDeviation(total, count, score) {
+/** 计算标准差 */
+export function getDeviation(total: string | number, count: any, score: string | number) {
   if (total == 0) return 0
 
   const scores = Object.values(count).reverse()
   return calculateSD(scores, score, total)
 }
 
-/**
- * 计算标准差
- * @param {*} scores
- * @param {*} score
- * @param {*} n
- */
-function calculateSD(scores, score, n) {
+/** 计算标准差 */
+function calculateSD(scores: any[], score: string | number, n: string | number) {
   let sd = 0
   scores.forEach((item, index) => {
     if (item === 0) return
-    sd += (10 - index - score) * (10 - index - score) * item
+    sd += (10 - index - Number(score)) * (10 - index - Number(score)) * item
   })
-  return Math.sqrt(sd / n)
+  return Math.sqrt(sd / Number(n))
 }
 
-/**
- * 计算争议度
- * @param {*} deviation
- */
-export function getDispute(deviation) {
+/** 计算争议度 */
+export function getDispute(deviation: number) {
   if (deviation === 0) return '-'
   if (deviation < 1) return '异口同声'
   if (deviation < 1.15) return '基本一致'

@@ -6,15 +6,9 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:18:12
+ * @Last Modified time: 2024-02-15 02:09:59
  */
-import {
-  collectionStore,
-  otaStore,
-  rakuenStore,
-  subjectStore,
-  userStore
-} from '@stores'
+import { collectionStore, otaStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { ApiSubjectResponse } from '@stores/subject/types'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
@@ -99,8 +93,9 @@ class ScreenSubject extends Action {
         () => this.fetchTrackComments(),
         () => this.fetchSubjectComments(true),
         () => this.fetchSubjectFromHTML(),
-        () => this.fetchEpsData(),
         () => this.setRendered(),
+        () => this.fetchVIB(),
+        () => this.fetchEpsData(),
         () => {
           // 对集数大于 1000 的条目, 旧 API 并不会返回大于 1000 章节的信息, 暂时到新的 API 里取
           if (this.subject.eps?.length >= 1000) {
