@@ -47,12 +47,16 @@ export function useSubjectPage({ $ }: Ctx) {
   /** 页面销毁 */
   useMount(() => {
     return () => {
+      $.setState({
+        mounted: false
+      })
+
       setTimeout(() => {
-        $.unRendered()
         $.setState({
           fixed: false
         })
-      }, 480)
+        $.unRendered()
+      }, 400)
     }
   })
 

@@ -8,14 +8,23 @@ import { DeepPartial, Expand, Loaded, Sites, SubjectId, SubjectTypeCn } from '@t
 
 export type Params = {
   subjectId: SubjectId
+
+  /**  */
   _type?: SubjectTypeCn
   _jp?: string
   _cn?: string
   _image?: string
   _imageForce?: string
   _summary?: string
+
+  /**  */
   _collection?: string
+  _rating?: any
+
+  /** */
   _aid?: number
+  _wid?: number
+  _hid?: number
 }
 
 export type EpsData = Expand<

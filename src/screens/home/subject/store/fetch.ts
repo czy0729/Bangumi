@@ -4,7 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-15 01:53:50
  */
-import { collectionStore, monoStore, subjectStore, systemStore, usersStore } from '@stores'
+import {
+  collectionStore,
+  monoStore,
+  otaStore,
+  subjectStore,
+  systemStore,
+  usersStore
+} from '@stores'
 import {
   getBangumiUrl,
   getTimestamp,
@@ -555,6 +562,19 @@ export default class Fetch extends Computed {
     }, 0)
   }
 
+  /** 装载第三方找条目数据 */
+  fetchOTA = () => {
+    if (this.type === '动画') {
+      if (this.animeInfo?.i) otaStore.fetchAnime(this.animeInfo.i)
+      return
+    }
+
+    if (this.type === '游戏') {
+      if (this.gameInfo?.i) otaStore.fetchGame(this.gameInfo.i)
+      return
+    }
+  }
+
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
     const { showAnitabi } = systemStore.setting
@@ -614,6 +634,8 @@ export default class Fetch extends Computed {
    * @opitimize 12h
    * */
   fetchVIB = async () => {
+    if (systemStore.setting.hideScore || systemStore.setting.showRating !== true) return false
+
     if (opitimize(this.vib, 60 * 60 * 12)) return this.vib
 
     try {

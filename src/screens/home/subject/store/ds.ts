@@ -99,7 +99,10 @@ export const EXCLUDE_STATE = {
   flipKey: 0,
 
   /** Eps 中按钮是否允许使用翻页动画 */
-  flipEps: false
+  flipEps: false,
+
+  /** 当前页面实例是否在路由栈中 */
+  mounted: true
 }
 
 /** 页面 state */
