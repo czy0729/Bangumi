@@ -38,7 +38,7 @@ import {
   SITE_AGEFANS
 } from '@constants'
 import { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
-import { TabLabel } from '../types'
+import { EpsItem, TabLabel } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
@@ -458,143 +458,164 @@ export default class Action extends Fetch {
     )
   }
 
+  /** 添加日历 */
+  doSaveCalenderEvent = (item: EpsItem, subjectId: SubjectId) => {
+    const subject = this.subject(subjectId)
+    saveCalenderEvent(item, cnjp(subject.name_cn, subject.name), this.onAirCustom(subjectId))
+
+    t('其他.添加日历', {
+      subjectId,
+      sort: item?.sort || 0,
+      from: 'Home'
+    })
+    return
+  }
+
+  /** 更新收视进度 */
+  doUpdateEpStatus = async (value: string, item: EpsItem, subjectId: SubjectId) => {
+    const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
+    t('首页.章节菜单操作', {
+      title: '更新收视进度',
+      subjectId,
+      status
+    })
+
+    this.prepareEpsFlip(subjectId)
+    await userStore.doUpdateEpStatus({
+      id: item.id,
+      status
+    })
+    userStore.fetchCollectionSingle(subjectId, undefined, value === '看过')
+    this.fetchUserProgress(subjectId)
+
+    webhookEp(
+      {
+        ...item,
+        status,
+        batch: false
+      },
+      this.subject(subjectId),
+      userStore.userInfo
+    )
+  }
+
+  /** 批量更新收视进度 */
+  doUpdateSubjectWatched = async (item: EpsItem, subjectId: SubjectId) => {
+    t('首页.章节菜单操作', {
+      title: '批量更新收视进度',
+      subjectId
+    })
+
+    const eps = (this.eps(subjectId) || [])
+      .slice()
+      .sort((a, b) => asc(a, b, item => item.sort || 0))
+    let sort: number
+
+    // 从小于 10 开始的番剧都认为是非多季番, 直接使用正常 sort 去更新
+    if (eps?.[0]?.sort < 10) {
+      sort = Math.max(item.sort - 1, 0)
+    } else {
+      // 因 this.eps 是分页后的结果, 所以需要从原始数据中获取
+      const eps = this.epsNoSp(subjectId)
+
+      // 多季度非 1 开始的番 (如巨人第三季) 不能直接使用 sort,
+      // 需要把 sp 去除后使用当前 item.sort 查找 index
+      if (eps?.[0]?.sort > 10) {
+        sort = eps.findIndex(i => i.sort === item.sort)
+      } else {
+        // 正常的多章节番剧
+        sort = eps.find(i => i.sort === item.sort)?.sort
+      }
+    }
+
+    if (sort === -1) {
+      sort = item.sort
+    } else if (this.epsNoSp(subjectId)?.[0]?.sort !== 1) {
+      // 原始章节第一个不是从 1 开始的, 才需要 +1
+      sort += 1
+    }
+
+    this.prepareEpsFlip(subjectId)
+    await userStore.doUpdateSubjectWatched({
+      subjectId,
+      sort
+    })
+
+    userStore.fetchCollectionSingle(subjectId)
+    this.fetchUserProgress(subjectId)
+
+    webhookEp(
+      {
+        ...item,
+        status: 'watched',
+        batch: true
+      },
+      this.subject(subjectId),
+      userStore.userInfo
+    )
+  }
+
+  /** 本集讨论 */
+  toEp = (item: EpsItem, subjectId: SubjectId, navigation: Navigation) => {
+    t('首页.章节菜单操作', {
+      title: '本集讨论',
+      subjectId
+    })
+
+    // 数据占位
+    const subject = this.subject(subjectId)
+    appNavigate(
+      item.url || `/ep/${item.id}`,
+      navigation,
+      {
+        _title: `ep${item.sort}.${item.name || item.name_cn}`,
+        _group: subject.name || subject.name_cn,
+        _groupThumb: getCoverMedium((subject.images || {})?.medium),
+        _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
+          /\r\n/g,
+          '<br />'
+        )}`
+      },
+      {
+        id: '首页.跳转'
+      }
+    )
+  }
+
   /** 章节菜单操作 */
   doEpsSelect = async (
     value: string,
-    item: {
-      id: any
-      sort: number
-      url: any
-      name: any
-      name_cn: any
-      duration: any
-      airdate: any
-      desc: any
-    },
+    item: EpsItem,
     subjectId: SubjectId,
     navigation: Navigation
   ) => {
-    if (value === '添加提醒') {
-      const subject = this.subject(subjectId)
-      saveCalenderEvent(item, cnjp(subject.name_cn, subject.name), this.onAirCustom(subjectId))
-
-      t('其他.添加日历', {
-        subjectId,
-        sort: item?.sort || 0,
-        from: 'Home'
-      })
+    const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
+    if (status) {
+      this.doUpdateEpStatus(value, item, subjectId)
       return
     }
 
-    const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
-    if (status) {
-      t('首页.章节菜单操作', {
-        title: '更新收视进度',
-        subjectId,
-        status
-      })
-
-      this.prepareEpsFlip(subjectId)
-
-      // 更新收视进度
-      await userStore.doUpdateEpStatus({
-        id: item.id,
-        status
-      })
-      userStore.fetchCollectionSingle(subjectId, undefined, value === '看过')
-      this.fetchUserProgress(subjectId)
-
-      webhookEp(
-        {
-          ...item,
-          status,
-          batch: false
-        },
-        this.subject(subjectId),
-        userStore.userInfo
-      )
-    }
-
     if (value === '看到') {
-      t('首页.章节菜单操作', {
-        title: '批量更新收视进度',
-        subjectId
-      })
-
-      // 批量更新收视进度
-      const eps = (this.eps(subjectId) || [])
-        .slice()
-        .sort((a, b) => asc(a, b, item => item.sort || 0))
-      let sort: number
-
-      // 从小于 10 开始的番剧都认为是非多季番, 直接使用正常 sort 去更新
-      if (eps?.[0]?.sort < 10) {
-        sort = Math.max(item.sort - 1, 0)
-      } else {
-        // 因 this.eps 是分页后的结果, 所以需要从原始数据中获取
-        const eps = this.epsNoSp(subjectId)
-
-        // 多季度非 1 开始的番 (如巨人第三季) 不能直接使用 sort,
-        // 需要把 sp 去除后使用当前 item.sort 查找 index
-        if (eps?.[0]?.sort > 10) {
-          sort = eps.findIndex(i => i.sort === item.sort)
-        } else {
-          // 正常的多章节番剧
-          sort = eps.find(i => i.sort === item.sort)?.sort
-        }
+      if (item?.sort > 24) {
+        confirm(`确认看到${item.sort}集?`, () => {
+          this.doUpdateSubjectWatched(item, subjectId)
+        })
+        return
       }
 
-      if (sort === -1) {
-        sort = item.sort
-      } else if (this.epsNoSp(subjectId)?.[0]?.sort !== 1) {
-        // 原始章节第一个不是从 1 开始的, 才需要 +1
-        sort += 1
-      }
-
-      this.prepareEpsFlip(subjectId)
-      await userStore.doUpdateSubjectWatched({
-        subjectId,
-        sort
-      })
-
-      userStore.fetchCollectionSingle(subjectId)
-      this.fetchUserProgress(subjectId)
-      webhookEp(
-        {
-          ...item,
-          status,
-          batch: true
-        },
-        this.subject(subjectId),
-        userStore.userInfo
-      )
+      this.doUpdateSubjectWatched(item, subjectId)
+      return
     }
 
     // iOS 是本集讨论, 安卓是 (+N)...
     if (value.includes('本集讨论') || value.includes('(+')) {
-      t('首页.章节菜单操作', {
-        title: '本集讨论',
-        subjectId
-      })
+      this.toEp(item, subjectId, navigation)
+      return
+    }
 
-      // 数据占位
-      const subject = this.subject(subjectId)
-      appNavigate(
-        item.url || `/ep/${item.id}`,
-        navigation,
-        {
-          _title: `ep${item.sort}.${item.name || item.name_cn}`,
-          _group: subject.name || subject.name_cn,
-          _groupThumb: getCoverMedium((subject.images || {})?.medium),
-          _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
-            /\r\n/g,
-            '<br />'
-          )}`
-        },
-        {
-          id: '首页.跳转'
-        }
-      )
+    if (value === '添加提醒') {
+      this.doSaveCalenderEvent(item, subjectId)
+      return
     }
   }
 

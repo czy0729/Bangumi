@@ -59,6 +59,7 @@ import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@ty
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { NAMESPACE, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from './ds'
+import { EpsItem } from './types'
 
 export default class Action extends Fetch {
   /** 显示收藏管理 */
@@ -761,102 +762,179 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 章节菜单操作 */
-  doEpsSelect = async (
-    value: string,
-    item: Partial<{
-      url: any
-      id: Id
-      sort: number
-      name: any
-      name_cn: any
-      duration: any
-      airdate: any
-      desc: any
-      type: number
-    }>,
-    navigation?: Navigation
-  ) => {
-    try {
-      // iOS 是本集讨论, 安卓是 (+N)...
-      if (value.includes('本集讨论') || value.includes('(+')) {
+  /** 本集讨论 */
+  toEp = (item: EpsItem, navigation: Navigation) => {
+    t('条目.章节菜单操作', {
+      title: '本集讨论',
+      subjectId: this.subjectId
+    })
+
+    // 数据占位
+    appNavigate(
+      item.url || `/ep/${item.id}`,
+      navigation,
+      {
+        _title: `ep${item.sort}.${item.name || item.name_cn}`,
+        _group: this.subject.name || this.subject.name_cn,
+        _groupThumb: getCoverMedium((this.subject.images || {})?.medium),
+        _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
+          /\r\n/g,
+          '<br />'
+        )}`
+      },
+      {
+        id: '条目.跳转',
+        data: {
+          from: '章节',
+          subjectId: this.subjectId
+        }
+      }
+    )
+  }
+
+  /** 正版播放 */
+  toPlay = (item: EpsItem) => {
+    setTimeout(() => {
+      showActionSheet(this.onlinePlayActionSheetData, index => {
         t('条目.章节菜单操作', {
-          title: '本集讨论',
+          title: this.onlinePlayActionSheetData[index],
           subjectId: this.subjectId
         })
 
-        // 数据占位
-        appNavigate(
-          item.url || `/ep/${item.id}`,
-          navigation,
-          {
-            _title: `ep${item.sort}.${item.name || item.name_cn}`,
-            _group: this.subject.name || this.subject.name_cn,
-            _groupThumb: getCoverMedium((this.subject.images || {})?.medium),
-            _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
-              /\r\n/g,
-              '<br />'
-            )}`
-          },
-          {
-            id: '条目.跳转',
-            data: {
-              from: '章节',
-              subjectId: this.subjectId
-            }
+        const isSp = item.type === 1
+        let url: string
+
+        // @todo 逻辑比较复杂, 暂时不处理 Ep 偏移
+        const { epsData } = this.state
+        const { eps = [] } = this.subject
+        const site: any = this.onlinePlayActionSheetData[index]
+        let epIndex: number
+        if (SITES.includes(site)) {
+          if (isSp) {
+            url = getBangumiUrl({
+              id: item.id,
+              site
+            })
+          } else {
+            epIndex = eps.filter(item => item.type === 0).findIndex(i => i.id === item.id)
+            url =
+              epsData[site][epIndex] ||
+              getBangumiUrl({
+                id: item.id,
+                site
+              })
           }
-        )
+        }
+
+        if (url) open(url)
+      })
+    }, 320)
+  }
+
+  /** 添加日历 */
+  doSaveCalenderEvent = (item: EpsItem) => {
+    saveCalenderEvent(item, cnjp(this.cn, this.jp), this.onAirCustom)
+
+    t('其他.添加日历', {
+      subjectId: this.subjectId,
+      sort: item?.sort || 0,
+      from: 'Subject'
+    })
+  }
+
+  /** 更新收视进度 */
+  doUpdateEpStatus = async (value: string, item: EpsItem) => {
+    const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
+    t('条目.章节菜单操作', {
+      title: '更新收视进度',
+      subjectId: this.subjectId,
+      status
+    })
+
+    this.prepareEpsFlip()
+
+    // 更新收视进度
+    await userStore.doUpdateEpStatus({
+      id: item.id,
+      status
+    })
+    userStore.fetchUserCollection()
+    userStore.fetchUserProgress(this.subjectId)
+    webhookEp(
+      {
+        ...item,
+        status,
+        batch: false
+      },
+      this.subject,
+      userStore.userInfo
+    )
+  }
+
+  /** 批量更新收视进度 */
+  doUpdateSubjectWatched = async (item: EpsItem) => {
+    t('条目.章节菜单操作', {
+      title: '批量更新收视进度',
+      subjectId: this.subjectId
+    })
+
+    /**
+     * 批量更新收视进度
+     * @issue 多季度非 1 开始的番不能直接使用 sort, 需要把 sp 去除后使用当前 item.sort 查找 index
+     */
+    const { eps = [] } = this.subject
+    const sort = eps
+      .filter(i => i.type === 0)
+      .sort((a, b) => asc(a, b, item => item.sort || 0))
+      .findIndex(i => i.sort === item.sort)
+
+    let value: number
+    if (sort === -1) {
+      /**
+       * @issue API bug, 多季度番剧使用item.sort不适用, 若item.sort > totalEps, 适用排序的index
+       * @date 2022/02/12
+       */
+      const totalEps = Number(this.subjectFormHTML.totalEps)
+      value = totalEps && item.sort >= totalEps ? sort + 1 : item.sort
+    } else {
+      value = sort + 1
+    }
+
+    this.prepareEpsFlip()
+    await userStore.doUpdateSubjectWatched({
+      subjectId: this.subjectId,
+      sort: value
+    })
+    userStore.fetchUserCollection()
+    userStore.fetchUserProgress(this.subjectId)
+
+    webhookEp(
+      {
+        ...item,
+        status: 'watched',
+        batch: true
+      },
+      this.subject,
+      userStore.userInfo
+    )
+  }
+
+  /** 章节菜单操作 */
+  doEpsSelect = async (value: string, item: EpsItem, navigation?: Navigation) => {
+    try {
+      // iOS 是本集讨论, 安卓是 (+N)...
+      if (value.includes('本集讨论') || value.includes('(+')) {
+        this.toEp(item, navigation)
         return
       }
 
       if (value === '正版播放') {
-        setTimeout(() => {
-          showActionSheet(this.onlinePlayActionSheetData, index => {
-            t('条目.章节菜单操作', {
-              title: this.onlinePlayActionSheetData[index],
-              subjectId: this.subjectId
-            })
-
-            const isSp = item.type === 1
-            let url
-
-            // @todo 逻辑比较复杂, 暂时不处理EP偏移
-            const { epsData } = this.state
-            const { eps = [] } = this.subject
-            const site: any = this.onlinePlayActionSheetData[index]
-            let epIndex: number
-            if (SITES.includes(site)) {
-              if (isSp) {
-                url = getBangumiUrl({
-                  id: item.id,
-                  site
-                })
-              } else {
-                epIndex = eps.filter(item => item.type === 0).findIndex(i => i.id === item.id)
-                url =
-                  epsData[site][epIndex] ||
-                  getBangumiUrl({
-                    id: item.id,
-                    site
-                  })
-              }
-            }
-
-            if (url) open(url)
-          })
-        }, 320)
-
+        this.toPlay(item)
         return
       }
 
       if (value === '添加提醒') {
-        saveCalenderEvent(item, cnjp(this.cn, this.jp), this.onAirCustom)
-
-        t('其他.添加日历', {
-          subjectId: this.subjectId,
-          sort: item?.sort || 0,
-          from: 'Subject'
-        })
+        this.doSaveCalenderEvent(item)
         return
       }
 
@@ -865,78 +943,22 @@ export default class Action extends Fetch {
       if (status.name !== '未收藏') {
         const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
         if (status) {
-          t('条目.章节菜单操作', {
-            title: '更新收视进度',
-            subjectId: this.subjectId,
-            status
-          })
-
-          this.prepareEpsFlip()
-
-          // 更新收视进度
-          await userStore.doUpdateEpStatus({
-            id: item.id,
-            status
-          })
-          userStore.fetchUserCollection()
-          userStore.fetchUserProgress(this.subjectId)
-          webhookEp(
-            {
-              ...item,
-              status,
-              batch: false
-            },
-            this.subject,
-            userStore.userInfo
-          )
+          this.doUpdateEpStatus(value, item)
+          return
         }
 
         if (value === '看到') {
-          t('条目.章节菜单操作', {
-            title: '批量更新收视进度',
-            subjectId: this.subjectId
-          })
-
-          /**
-           * 批量更新收视进度
-           * @issue 多季度非 1 开始的番不能直接使用 sort, 需要把 sp 去除后使用当前 item.sort 查找 index
-           */
-          const { eps = [] } = this.subject
-          const sort = eps
-            .filter(i => i.type === 0)
-            .sort((a, b) => asc(a, b, item => item.sort || 0))
-            .findIndex(i => i.sort === item.sort)
-
-          let value: number
-          if (sort === -1) {
-            /**
-             * @issue API bug, 多季度番剧使用item.sort不适用, 若item.sort > totalEps, 适用排序的index
-             * @date 2022/02/12
-             */
-            const totalEps = Number(this.subjectFormHTML.totalEps)
-            value = totalEps && item.sort >= totalEps ? sort + 1 : item.sort
-          } else {
-            value = sort + 1
+          if (item?.sort > 24) {
+            confirm(`确认看到${item.sort}集?`, () => {
+              this.doUpdateSubjectWatched(item)
+            })
+            return
           }
 
-          this.prepareEpsFlip()
-
-          await userStore.doUpdateSubjectWatched({
-            subjectId: this.subjectId,
-            sort: value
-          })
-          userStore.fetchUserCollection()
-          userStore.fetchUserProgress(this.subjectId)
-          webhookEp(
-            {
-              ...item,
-              status: 'watched',
-              batch: true
-            },
-            this.subject,
-            userStore.userInfo
-          )
+          this.doUpdateSubjectWatched(item)
+          return
         }
+
         return
       }
 

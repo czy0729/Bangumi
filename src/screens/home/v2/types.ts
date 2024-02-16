@@ -23,3 +23,14 @@ export type PinYinFirstCharacter = {
 }
 
 export type TabLabel = (typeof TABS_WITH_GAME)[number]['title']
+
+export type EpsItem = {
+  id: any
+  sort: number
+  url: any
+  name: any
+  name_cn: any
+  duration: any
+  airdate: any
+  desc: any
+}

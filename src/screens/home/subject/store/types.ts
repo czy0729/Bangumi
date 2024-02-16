@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-10 04:07:54
  */
-import { DeepPartial, Expand, Loaded, Sites, SubjectId, SubjectTypeCn } from '@types'
+import { DeepPartial, Expand, Id, Loaded, Sites, SubjectId, SubjectTypeCn } from '@types'
 
 export type Params = {
   subjectId: SubjectId
@@ -65,3 +65,15 @@ export type AnitabiData = {
   }[]
   _loaded?: Loaded
 }
+
+export type EpsItem = Partial<{
+  url: any
+  id: Id
+  sort: number
+  name: any
+  name_cn: any
+  duration: any
+  airdate: any
+  desc: any
+  type: number
+}>
