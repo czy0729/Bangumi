@@ -13,11 +13,11 @@ import {
   HTML_USERS_CATALOGS,
   HTML_USERS_CHARCTER,
   HTML_USERS_MONO_RECENTS,
-  HTML_USERS_PERSON
+  HTML_USERS_PERSON,
+  HTML_USERS_WIKI
 } from '@constants'
 import { UserId } from '@types'
 import userStore from '../user'
-import Computed from './computed'
 import {
   cheerioBlogs,
   cheerioCatalogs,
@@ -26,6 +26,7 @@ import {
   cheerioRecents,
   cheerioUsers
 } from './common'
+import Computed from './computed'
 import { Characters, Friend, Persons, Recents } from './types'
 
 export default class Fetch extends Computed {
@@ -274,5 +275,14 @@ export default class Fetch extends Computed {
     this.save(key)
 
     return this[key](userId, isCollect)
+  }
+
+  /** 查询是否存在用户 */
+  checkUserExist = async (userId: UserId) => {
+    const html = await fetchHTML({
+      // 因为这个页面大部分用户都没有数据会比较小, 所以选取这个页面判断
+      url: HTML_USERS_WIKI(String(userId).trim().toLocaleLowerCase())
+    })
+    return !html.includes('数据库中没有查询到该用户的信息')
   }
 }

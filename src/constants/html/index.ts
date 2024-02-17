@@ -203,6 +203,9 @@ export const HTML_USERS_CATALOGS = (
   isCollect: boolean = false
 ) => `${HOST}/user/${userId}/index${isCollect ? '/collect' : ''}?page=${page}`
 
+/** 用户的维基 */
+export const HTML_USERS_WIKI = (userId: UserId = '') => `${HOST}/user/${userId}/wiki`
+
 /** 添加新讨论 */
 export const HTML_NEW_TOPIC = (group?: string) =>
   group ? `${HOST}/group/${group}/new_topic` : `${HOST}/rakuen/new_topic`

@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-01-09 11:44:02
  */
 import { computed, observable } from 'mobx'
-import { collectionStore, searchStore, subjectStore, userStore } from '@stores'
-import { debounce, info, updateVisibleBottom, x18 } from '@utils'
+import { collectionStore, searchStore, subjectStore, usersStore, userStore } from '@stores'
+import { debounce, info, loading, updateVisibleBottom, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { HTML_SEARCH, MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
@@ -194,10 +194,27 @@ export default class ScreenSearch extends store<typeof STATE> {
   }
 
   /** 提交 */
-  onSubmit = (navigation?: Navigation) => {
+  onSubmit = async (navigation?: Navigation) => {
     if (this.isUser) {
       const { value } = this.state
-      if (!value) return info('请输入完整的用户Id')
+      if (!value) {
+        info('请输入完整的用户ID')
+        return
+      }
+
+      const chineseRegex = /[\u4e00-\u9fa5]/
+      if (chineseRegex.test(value)) {
+        info('请输入用户ID而非用户昵称')
+        return
+      }
+
+      const hide = loading('检查用户ID')
+      const isExist = await usersStore.checkUserExist(value)
+      hide()
+      if (!isExist) {
+        info('该用户ID不存在')
+        return
+      }
 
       return navigation.push('Zone', {
         userId: value
