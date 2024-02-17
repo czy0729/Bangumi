@@ -8,7 +8,7 @@ import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {
-  return cheerio(html)('li.user')
+  return cheerio(htmlMatch(html, '<div id="columnUserSingle"', '<div id="footer">'))('li.user')
     .map((index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('a.avatar')
@@ -93,79 +93,68 @@ export function cheerioUsers(html: string) {
 
 /** 用户收藏的人物 */
 export function cheerioCharacters(html: string) {
-  const $ = cheerio(html)
-  const pagination = {
-    page: 1,
-    pageTotal: $('div.page_inner > a.p').length
-  }
-
-  const list = $('ul.coversSmall > li.clearit')
-    .map((index: number, element: any) => {
-      const $li = cheerio(element)
-      const $a = $li.find('a[title]')
-      return safeObject({
-        avatar: $li.find('img').attr('src').split('?')[0],
-        id: $a.attr('href'),
-        name: $a.attr('title')
-      })
-    })
-    .get()
-
+  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper">', '<div id="footer">'))
   return {
-    pagination,
-    list
+    pagination: {
+      page: 1,
+      pageTotal: $('div.page_inner > a.p').length
+    },
+    list: $('ul.coversSmall > li.clearit')
+      .map((index: number, element: any) => {
+        const $li = cheerio(element)
+        const $a = $li.find('a[title]')
+        return safeObject({
+          id: $a.attr('href'),
+          avatar: $li.find('img').attr('src').split('?')[0],
+          name: $a.attr('title')
+        })
+      })
+      .get()
   }
 }
 
 /** 我收藏人物的最近作品 */
 export function cheerioRecents(html: string) {
-  const $ = cheerio(html)
-  const pagination = {
-    page: 1,
-    pageTotal: 100
-  }
-
-  const list = $('ul.browserFull > li.item')
-    .map((index: number, element: any) => {
-      const $li = cheerio(element)
-      const $a = $li.find('h3 > a.l')
-      return safeObject({
-        id: ($li.attr('id') || '').replace('item_', ''),
-        cover: $li.find('img.cover').attr('src'),
-        type: ($li.find('h3 > span.ll').attr('class') || '').replace(
-          /ico_subject_type subject_type_| ll/g,
-          ''
-        ),
-        href: $a.attr('href'),
-        name: $a.text(),
-        nameJP: $li.find('h3 > small.grey').text(),
-        info: trim($li.find('p.info').text()),
-        star: ($li.find('span.starlight').attr('class') || '').replace(
-          'starlight stars',
-          ''
-        ),
-        starInfo: $li.find('span.tip_j').text(),
-        actors: $li
-          .find('div.actorBadge')
-          .map((index: number, element: any) => {
-            const $li = cheerio(element)
-            return safeObject({
-              id: ($li.find('a.avatar').attr('href') || '')
-                .replace('/person', 'person')
-                .replace('/character', 'character'),
-              avatar: ($li.find('img.avatar').attr('src') || '').split('?')[0],
-              name: $li.find('a.l').text(),
-              info: trim($li.find('small.grey').text())
-            })
-          })
-          .get()
-      })
-    })
-    .get()
-
+  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper">', '<div id="footer">'))
   return {
-    pagination,
-    list
+    pagination: {
+      page: 1,
+      pageTotal: 100
+    },
+    list: $('ul.browserFull > li.item')
+      .map((index: number, element: any) => {
+        const $li = cheerio(element)
+        const $a = $li.find('h3 > a.l')
+        return safeObject({
+          id: ($li.attr('id') || '').replace('item_', ''),
+          cover: $li.find('img.cover').attr('src'),
+          type: ($li.find('h3 > span.ll').attr('class') || '').replace(
+            /ico_subject_type subject_type_| ll/g,
+            ''
+          ),
+          href: $a.attr('href'),
+          name: $a.text(),
+          nameJP: $li.find('h3 > small.grey').text(),
+          info: trim($li.find('p.info').text()),
+          star: ($li.find('span.starlight').attr('class') || '').replace('starlight stars', ''),
+          starInfo: $li.find('span.tip_j').text(),
+          actors: $li
+            .find('div.actorBadge')
+            .map((index: number, element: any) => {
+              const $li = cheerio(element)
+              return safeObject({
+                id: ($li.find('a.avatar').attr('href') || '')
+                  .replace('/person', 'person')
+                  .replace('/character', 'character'),
+                avatar: ($li.find('img.avatar').attr('src') || '').split('?')[0],
+                name: $li.find('a.l').text(),
+                info: trim($li.find('small.grey').text())
+              })
+            })
+            .get()
+        })
+      })
+      .get()
   }
 }
 
@@ -183,11 +172,7 @@ export function cheerioBlogs(html: string) {
           cover: $li.find('span.pictureFrameGroup img').attr('src'),
           time: $li.find('div.time .time').text(),
           replies: $li.find('div.time .orange').text().replace(/\(|\)/g, ''),
-          content: $li
-            .find('div.content')
-            .text()
-            .replace(' (more)', '')
-            .replace(/^\n/, ''),
+          content: $li.find('div.content').text().replace(' (more)', '').replace(/^\n/, ''),
           tags: $li
             .find('div.tags')
             .text()

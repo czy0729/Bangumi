@@ -58,7 +58,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    // 自己要生成userId哈希映射
+    // 自己要生成 userId 哈希映射
     if (userId === userStore.myId) {
       const myFriendsMap = {
         _loaded: getTimestamp()

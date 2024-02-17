@@ -1,5 +1,4 @@
 /*
- * 管理全局 Stores 和放置系统级别状态
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
@@ -33,12 +32,13 @@ import {
   COLLECTION_STORE_KEYS,
   RAKUEN_STORE_KEYS,
   SMB_STORE_KEYS,
-  USERS_STORE_KEYS,
-  USER_STORE_KEYS
+  USER_STORE_KEYS,
+  USERS_STORE_KEYS
 } from './ds'
 
 let inited = false
 
+/** 管理全局 Stores 和放置系统级别状态 */
 class GlobalStores {
   /**
    * 保证所有子 Store 初始化和加载缓存,
@@ -50,9 +50,11 @@ class GlobalStores {
 
       inited = true
 
-      /** ========== systemStore.init 和 themeStore.init 维持旧逻辑 ========== */
+      /** ========== systemStore, themeStore 维持旧逻辑 ========== */
       await systemStore.init()
       await themeStore.init()
+
+      /** ========== 状态栏 ========== */
       if (!STORYBOOK) {
         StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
       }
@@ -90,7 +92,6 @@ class GlobalStores {
       for (let i = 0; i < COLLECTION_STORE_KEYS.length; i += 1) {
         await collectionStore.init(COLLECTION_STORE_KEYS[i])
       }
-
       if (!DEV) {
         setTimeout(() => {
           collectionStore.fetchUserCollectionsQueue()
