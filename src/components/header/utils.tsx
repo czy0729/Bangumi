@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 23:35:21
+ * @Last Modified time: 2024-02-26 12:29:09
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/cn-char'
 import { IOS } from '@constants'
+import { IOS_IPA } from '@/config'
 import Back from './back'
 import { backgroundColors, colors, styles } from './styles'
 import { UpdateHeaderProps } from './types'
@@ -103,10 +104,9 @@ export const updateHeader = ({
   if (mode) {
     options.headerShown = false
 
-    // headerLeft 和headerRight 因为上面的问题迁移到了 HeaderComponent 里面实现
+    /** headerLeft 和 headerRight 因为上面的问题迁移到了 HeaderComponent 里面实现 */
     options.headerLeft = () => null
     options.headerRight = () => null
-
     options.headerStyle = {
       ...options.headerStyle,
       backgroundColor: '#000000'
@@ -130,10 +130,7 @@ export const updateHeader = ({
     }
   }
 
-  /**
-   * @fixed
-   * 文字至少留一个 fontFamily, 不然可能会触发文字截断 bug
-   */
+  /*** @fixed 文字至少留一个 fontFamily, 不然可能会触发文字截断 bug */
   options.headerTitleStyle = [
     ...options.headerTitleStyle,
     {
@@ -141,7 +138,22 @@ export const updateHeader = ({
     }
   ]
 
+  /*** @fixed iOS IPA 上有诡异 bug, headerRight 需要延迟渲染, 否则可能会渲染错位 */
+  const isDelayRender = !!(IOS_IPA && options?.headerRight)
+  let delayRenderHeaderRight: any
+  if (isDelayRender) {
+    delayRenderHeaderRight = options.headerRight
+    options.headerRight = () => null
+  }
+
   navigation.setOptions(options)
+  if (isDelayRender) {
+    setTimeout(() => {
+      navigation.setOptions({
+        headerRight: delayRenderHeaderRight
+      })
+    }, 0)
+  }
 }
 
 /** @deprecated 有性能问题, 请使用 mobx 写法替代 */

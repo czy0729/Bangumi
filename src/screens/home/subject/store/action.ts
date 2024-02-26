@@ -1,3 +1,4 @@
+import { StatusBar } from '@components'
 /*
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
@@ -6,6 +7,7 @@
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import {
+  _,
   calendarStore,
   collectionStore,
   otaStore,
@@ -62,6 +64,15 @@ import { NAMESPACE, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_L
 import { EpsItem } from './types'
 
 export default class Action extends Fetch {
+  /** 更新状态栏主题色 */
+  updateStatusBar = () => {
+    setTimeout(() => {
+      StatusBar.setBarStyle(
+        _.isDark ? 'light-content' : this.state.fixed ? 'dark-content' : 'light-content'
+      )
+    }, 80)
+  }
+
   /** 显示收藏管理 */
   showManageModel = () => {
     t('条目.显示收藏管理', {
@@ -721,6 +732,7 @@ export default class Action extends Fetch {
     this.setState({
       fixed: y > HEADER_TRANSITION_HEIGHT
     })
+    this.updateStatusBar()
   }
 
   // -------------------- action --------------------

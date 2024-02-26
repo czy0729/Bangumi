@@ -12,16 +12,16 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 10,
     paddingLeft: _.r(_._wind) - 4,
     paddingRight: _.sm,
-    marginTop: 13 - H_RADIUS_LINE,
+    marginTop: _.r(13) - H_RADIUS_LINE,
     backgroundColor: _.select('transparent', _._colorPlain),
     borderTopLeftRadius: H_RADIUS_LINE,
     borderTopRightRadius: H_RADIUS_LINE,
     overflow: 'hidden'
   },
   btn: {
-    width: 56,
+    width: _.r(56),
     height: _.ios(28, 22),
-    marginTop: _.ios(0, 3),
+    marginTop: _.ios(_.device(0, 3), 3),
     borderRadius: _.r(16)
   },
   text: {
@@ -29,6 +29,6 @@ export const memoStyles = _.memoStyles(() => ({
     lineHeight: 16
   },
   textIOS: {
-    lineHeight: 14
+    lineHeight: _.r(14)
   }
 }))

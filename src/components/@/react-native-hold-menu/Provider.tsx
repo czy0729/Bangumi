@@ -1,22 +1,21 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-02-19 10:52:44
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-02-19 10:52:44
+ */
 // @ts-nocheck
-
 import React, { memo, useEffect, useMemo } from 'react'
-import { PortalProvider } from '@gorhom/portal'
-import Animated, { useSharedValue } from 'react-native-reanimated'
-import { InternalContext } from 'react-native-hold-menu/src/context/internal'
-
-// Components
-import Backdrop from './Backdrop'
-
-// Utils
-import { HoldMenuProviderProps } from 'react-native-hold-menu/src/components/provider/types'
-import {
-  StateProps,
-  Action
-} from 'react-native-hold-menu/src/components/provider/reducer'
-import { CONTEXT_MENU_STATE } from 'react-native-hold-menu/src/constants'
 import { MenuInternalProps } from 'react-native-hold-menu/src/components/menu/types'
+import { Action, StateProps } from 'react-native-hold-menu/src/components/provider/reducer'
+import { HoldMenuProviderProps } from 'react-native-hold-menu/src/components/provider/types'
+import { CONTEXT_MENU_STATE } from 'react-native-hold-menu/src/constants'
+import { InternalContext } from 'react-native-hold-menu/src/context/internal'
+import Animated, { useSharedValue } from 'react-native-reanimated'
+import { PortalProvider } from '@gorhom/portal'
+import Backdrop from './Backdrop'
 import Menu from './Menu'
+
 export interface Store {
   state: StateProps
   dispatch?: React.Dispatch<Action>

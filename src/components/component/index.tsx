@@ -17,7 +17,7 @@ export { ComponentProps }
  * */
 export const Component = ({
   id,
-  children,
+  children = null,
   ...props
 }: ComponentProps): JSX.Element | null => {
   const filteredProps = Object.keys(props).reduce((acc, key) => {

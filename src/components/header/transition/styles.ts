@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 16:35:10
+ * @Last Modified time: 2024-02-19 11:25:31
  */
 import { _ } from '@stores'
 import { STORYBOOK, WSA } from '@constants'
@@ -30,12 +30,12 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     bottom: 8,
-    left: 48,
+    left: _.device(48, 56),
     right: STORYBOOK ? 0 : 72,
     minHeight
   },
   bodyTitle: {
-    bottom: 6
+    bottom: _.device(6, 10)
   },
   scrollView: {
     maxWidth: STORYBOOK ? '100%' : '80%'

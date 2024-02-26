@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 16:45:45
+ * @Last Modified time: 2024-02-26 12:47:59
  */
-import { Platform, Dimensions } from 'react-native'
+import { Dimensions, Platform } from 'react-native'
 
 /** 是否 WSA 子系统 */
 export const WSA = false
@@ -36,7 +36,7 @@ export const PAD = process.env.STORYBOOK === 'true' ? 0 : isPad
 export const STORYBOOK = false
 
 /** 平板放大比例 */
-export const RATIO = PAD === 2 ? 1.64 : PAD === 1 ? 1.44 : 1
+export const RATIO = PAD === 2 ? 1.44 : PAD === 1 ? 1.28 : 1
 
 /** 是否 Storybook iframe.html 中 */
 export const STORYBOOK_IFRAME = false

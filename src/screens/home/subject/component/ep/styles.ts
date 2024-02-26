@@ -27,7 +27,7 @@ export const memoStyles = _.memoStyles(() => ({
   total: {
     position: 'absolute',
     zIndex: 100,
-    top: _.r(9),
+    top: _.device(9, 5),
     right: 10
   },
   btn: {

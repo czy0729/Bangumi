@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-26 07:47:12
+ * @Last Modified time: 2024-02-19 11:42:31
  */
 import { Dimensions, StyleSheet } from 'react-native'
-import * as Device from 'expo-device'
 import Constants from 'expo-constants'
+import * as Device from 'expo-device'
 import { IOS } from '@constants/constants'
 import {
   PAD,
@@ -84,9 +84,7 @@ export const logoWidth = 124 * ratio
 export const statusBarHeight = STORYBOOK || WSA ? 0 : Constants.statusBarHeight
 
 /** [待重构] 头部高度 (顶部 Tab) */
-export const appBarHeight = IOS
-  ? statusBarHeight
-  : 56 - (WSA ? Constants.statusBarHeight : 0)
+export const appBarHeight = IOS ? statusBarHeight : 56 - (WSA ? Constants.statusBarHeight : 0)
 
 /** 最大头部高度 */
 const MAX_HEADER_HEIGHT = STORYBOOK ? 48 : 80
@@ -153,9 +151,7 @@ export function getAppLayout() {
       ? Math.min(portraitWidth, portraitMaxWidth)
       : portraitMaxWidth - 2 * portraitMobileWind
   }
-  const wind = isPad
-    ? Math.floor((window.width - window.contentWidth) / 2)
-    : portraitMobileWind // 两翼
+  const wind = isPad ? Math.floor((window.width - window.contentWidth) / 2) : portraitMobileWind // 两翼
 
   // 水平窗口值
   const landscapeWidth = Math.max(width, height)
@@ -171,9 +167,7 @@ export function getAppLayout() {
     maxWidth: landscapeMaxWidth,
     contentWidth: Math.min(landscapeWidth, landscapeMaxWidth)
   }
-  const landscapeWind = Math.floor(
-    (landscapeWindow.width - landscapeWindow.contentWidth) / 2
-  )
+  const landscapeWind = Math.floor((landscapeWindow.width - landscapeWindow.contentWidth) / 2)
 
   // 页面收窄的水平窗口值 (用于部分使用正常水平模式依然觉得布局很长的页面)
   const landscapeMaxWidthSm = isPad
@@ -187,9 +181,7 @@ export function getAppLayout() {
     maxWidth: landscapeMaxWidthSm,
     contentWidth: Math.min(landscapeWidth, landscapeMaxWidthSm)
   }
-  const landscapeWindSm = Math.floor(
-    (landscapeWindowSm.width - landscapeWindowSm.contentWidth) / 2
-  )
+  const landscapeWindSm = Math.floor((landscapeWindowSm.width - landscapeWindowSm.contentWidth) / 2)
 
   return {
     /** 垂直窗口布局常用值 */

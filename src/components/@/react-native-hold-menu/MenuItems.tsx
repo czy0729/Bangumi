@@ -1,7 +1,13 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-02-19 10:52:35
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-02-19 10:52:35
+ */
 import React, { memo } from 'react'
-import MenuItem from './MenuItem'
-import isEqual from 'lodash.isequal'
 import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
+import isEqual from 'lodash.isequal'
+import MenuItem from './MenuItem'
 
 const MenuItemsComponent = ({ items }: { items: MenuItemProps[] }) => {
   return (

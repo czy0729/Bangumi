@@ -6,7 +6,6 @@
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
-import { StatusBar } from '@components'
 import { _ } from '@stores'
 import { feedback } from '@utils'
 import { scrollToTop } from '@utils/dom'
@@ -37,11 +36,7 @@ export function useSubjectPage({ $ }: Ctx) {
 
   /** 动态改变状态栏主题 */
   useFocusEffect(() => {
-    setTimeout(() => {
-      StatusBar.setBarStyle(
-        _.isDark ? 'light-content' : $.state.fixed ? 'dark-content' : 'light-content'
-      )
-    }, 80)
+    $.updateStatusBar()
   })
 
   /** 页面销毁 */

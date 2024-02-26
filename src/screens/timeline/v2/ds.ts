@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-14 06:25:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:55:20
+ * @Last Modified time: 2024-02-19 11:43:33
  */
 import { _ } from '@stores'
-import { MODEL_TIMELINE_SCOPE, TIMELINE_TYPE } from '@constants'
+import { IOS, MODEL_TIMELINE_SCOPE, PAD, TIMELINE_TYPE } from '@constants'
 import { Loaded, TimeLineScope } from '@types'
 
 export const COMPONENT = 'Timeline'
@@ -17,7 +17,7 @@ export const TABS = TIMELINE_TYPE.map(item => ({
   key: item.value
 })).filter(item => !!item.title)
 
-export const H_TABBAR = 48
+export const H_TABBAR = 48 + (IOS && PAD ? _.statusBarHeight : 0)
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

@@ -10,8 +10,8 @@ export const memoStyles = _.memoStyles(() => ({
   dot: {
     position: 'absolute',
     zIndex: 2,
-    top: 6,
-    left: 25,
+    top: _.device(6, 8),
+    left: _.device(25, 32),
     width: 12,
     height: 12,
     backgroundColor: _.colorMain,

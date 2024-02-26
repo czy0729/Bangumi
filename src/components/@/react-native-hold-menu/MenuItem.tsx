@@ -1,24 +1,27 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-02-19 10:52:31
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-02-19 11:14:07
+ */
 // @ts-nocheck
-
 import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
-import Animated, { useAnimatedStyle } from 'react-native-reanimated'
-
+import {
+  BORDER_DARK_COLOR,
+  BORDER_LIGHT_COLOR
+} from 'react-native-hold-menu/src/components/menu/constants'
 import Separator from 'react-native-hold-menu/src/components/menu/Separator'
 import styles from 'react-native-hold-menu/src/components/menu/styles'
-
 import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
-import { useInternal } from 'react-native-hold-menu/src/hooks'
-import { CONTEXT_MENU_STATE, IS_IOS } from 'react-native-hold-menu/src/constants'
-import {
-  BORDER_LIGHT_COLOR,
-  BORDER_DARK_COLOR
-} from 'react-native-hold-menu/src/components/menu/constants'
-import isEqual from 'lodash.isequal'
-import { getColor } from 'react-native-hold-menu/src/components/menu/calculations'
 import { AnimatedIcon } from 'react-native-hold-menu/src/components/provider/Provider'
+import { CONTEXT_MENU_STATE, IS_IOS } from 'react-native-hold-menu/src/constants'
+import { useInternal } from 'react-native-hold-menu/src/hooks'
+import Animated, { useAnimatedStyle } from 'react-native-reanimated'
+import isEqual from 'lodash.isequal'
 import { onPressEventEmit } from './addition'
+import { getColor } from './menu/calculations'
 
 const ItemComponent = IS_IOS ? TouchableOpacity : GHTouchableOpacity
 const AnimatedTouchable = Animated.createAnimatedComponent(ItemComponent)
@@ -36,8 +39,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
   } = useInternal()
 
   const borderStyles = useAnimatedStyle(() => {
-    const borderBottomColor =
-      theme.value === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR
+    const borderBottomColor = theme.value === 'dark' ? BORDER_DARK_COLOR : BORDER_LIGHT_COLOR
 
     return {
       borderBottomColor,
@@ -69,10 +71,7 @@ const MenuItemComponent = ({ item, isLast }: MenuItemComponentProps) => {
         style={[styles.menuItem, borderStyles]}
       >
         <Animated.Text
-          style={[
-            item.isTitle ? styles.menuItemTitleText : styles.menuItemText,
-            textColor
-          ]}
+          style={[item.isTitle ? styles.menuItemTitleText : styles.menuItemText, textColor]}
           numberOfLines={item.isTitle ? undefined : 1}
         >
           {item.text}

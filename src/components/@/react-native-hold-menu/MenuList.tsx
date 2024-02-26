@@ -1,7 +1,22 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-02-19 10:52:38
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-02-19 11:18:52
+ */
 // @ts-nocheck
-
 import React from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import styles from 'react-native-hold-menu/src/components/menu/styles'
+import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
+import {
+  CONTEXT_MENU_STATE,
+  HOLD_ITEM_TRANSFORM_DURATION,
+  IS_IOS,
+  SPRING_CONFIGURATION_MENU
+} from 'react-native-hold-menu/src/constants'
+import { useInternal } from 'react-native-hold-menu/src/hooks'
+import { deepEqual } from 'react-native-hold-menu/src/utils/validations'
 import Animated, {
   runOnJS,
   useAnimatedProps,
@@ -12,20 +27,11 @@ import Animated, {
   withSpring,
   withTiming
 } from 'react-native-reanimated'
-import { calculateMenuHeight, menuAnimationAnchor } from './utils/calculations'
 import { BlurView } from 'expo-blur'
+import { MENU_WIDTH } from './constants'
+import { leftOrRight } from './menu/calculations'
 import MenuItems from './MenuItems'
-import {
-  SPRING_CONFIGURATION_MENU,
-  HOLD_ITEM_TRANSFORM_DURATION,
-  IS_IOS,
-  CONTEXT_MENU_STATE
-} from 'react-native-hold-menu/src/constants'
-import styles from 'react-native-hold-menu/src/components/menu/styles'
-import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
-import { useInternal } from 'react-native-hold-menu/src/hooks'
-import { deepEqual } from 'react-native-hold-menu/src/utils/validations'
-import { leftOrRight } from 'react-native-hold-menu/src/components/menu/calculations'
+import { calculateMenuHeight, menuAnimationAnchor } from './utils/calculations'
 
 const MenuContainerComponent = IS_IOS ? BlurView : View
 // const AnimatedView = Animated.createAnimatedComponent<{
@@ -123,7 +129,13 @@ const MenuListComponent = () => {
     <AnimatedView
       intensity={80}
       animatedProps={animatedProps}
-      style={[styles.menuContainer, messageStyles]}
+      style={[
+        styles.menuContainer,
+        messageStyles,
+        {
+          width: MENU_WIDTH
+        }
+      ]}
     >
       <Animated.View
         style={[

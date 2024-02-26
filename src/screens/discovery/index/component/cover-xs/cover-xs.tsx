@@ -56,6 +56,7 @@ const CoverXs = memo(
             <Text
               style={styles.desc}
               size={7}
+              lineHeight={_.r(7)}
               type={_.select('plain', 'title')}
               numberOfLines={2}
               bold

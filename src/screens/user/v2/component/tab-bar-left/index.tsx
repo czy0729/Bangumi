@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-01 11:42:19
  */
 import React from 'react'
-import { Flex, Button, Heatmap } from '@components'
+import { Button, Flex, Heatmap } from '@components'
 import { Popover } from '@_'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'

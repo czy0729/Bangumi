@@ -13,7 +13,7 @@ import { IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Menu } from '../../menu'
-import { Popover as CompPopover } from '../../popover'
+import { Popover as PopoverComp } from '../../popover'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
@@ -31,30 +31,33 @@ function Popover({
 }: Props) {
   r(COMPONENT)
 
-  const popoverProps = IOS
-    ? {
-        overlay: (
-          <Menu
-            style={menuStyle}
-            data={data}
-            onSelect={(title: string) => setTimeout(() => onSelect(title), 0)}
-          />
-        )
-      }
-    : {
-        data,
-        onSelect
-      }
-
   return (
-    <CompPopover style={stl(styles.touch, style)} placement='bottom' {...popoverProps} {...other}>
+    <PopoverComp
+      style={stl(styles.touch, style)}
+      placement='bottom'
+      {...(IOS
+        ? {
+            overlay: (
+              <Menu
+                style={menuStyle}
+                data={data}
+                onSelect={(title: string) => setTimeout(() => onSelect(title), 0)}
+              />
+            )
+          }
+        : {
+            data,
+            onSelect
+          })}
+      {...other}
+    >
       {!!name && (
         <Flex style={styles.icon} justify='center'>
           <Iconfont size={size} name={name} color={color || _.colorTitle} />
         </Flex>
       )}
       {children}
-    </CompPopover>
+    </PopoverComp>
   )
 }
 

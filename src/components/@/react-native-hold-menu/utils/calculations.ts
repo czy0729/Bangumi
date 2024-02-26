@@ -1,24 +1,23 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-02-19 11:00:24
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-02-19 11:16:27
+ */
+import { FONT_SCALE, MENU_TRANSFORM_ORIGIN_TOLERENCE } from 'react-native-hold-menu/src/constants'
 import styleGuide from 'react-native-hold-menu/src/styleGuide'
-import {
-  MENU_WIDTH,
-  MENU_TRANSFORM_ORIGIN_TOLERENCE,
-  FONT_SCALE
-} from 'react-native-hold-menu/src/constants'
+import { MENU_WIDTH } from '../constants'
 
 export const MenuItemHeight = () => {
   'worklet'
-  return (
-    styleGuide.typography.callout.lineHeight * FONT_SCALE + styleGuide.spacing * 2.5
-  )
+  return styleGuide.typography.callout.lineHeight * FONT_SCALE + styleGuide.spacing * 2.5
 }
 
 /** 修改成带最大高度, 配合 ScrollView 实现无限项 */
 export const calculateMenuHeight = (itemLength: number, separatorCount: number) => {
   'worklet'
   return Math.min(
-    MenuItemHeight() * itemLength +
-      (itemLength - 1) +
-      separatorCount * styleGuide.spacing,
+    MenuItemHeight() * itemLength + (itemLength - 1) + separatorCount * styleGuide.spacing,
     360
   )
 }

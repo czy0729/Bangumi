@@ -1,22 +1,13 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-02-19 10:52:15
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-02-19 10:53:22
+ */
 // @ts-nocheck
-
 import React, { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  withDelay,
-  withTiming
-} from 'react-native-reanimated'
-import {
-  TapGestureHandler,
-  TapGestureHandlerGestureEvent
-} from 'react-native-gesture-handler'
-
-// Components
-// import { BlurView } from 'expo-blur'
-
-// Utils
+import { TapGestureHandler, TapGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 import { styles } from 'react-native-hold-menu/src/components/backdrop/styles'
 import {
   CONTEXT_MENU_STATE,
@@ -24,6 +15,12 @@ import {
   WINDOW_HEIGHT
 } from 'react-native-hold-menu/src/constants'
 import { useInternal } from 'react-native-hold-menu/src/hooks'
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  withDelay,
+  withTiming
+} from 'react-native-reanimated'
 
 const AnimatedBlurView = Animated.createAnimatedComponent(View)
 export const BACKDROP_LIGHT_BACKGROUND_COLOR = 'rgba(0,0,0,0.1)'
@@ -39,10 +36,7 @@ type Context = {
 const BackdropComponent = () => {
   const { state, theme } = useInternal()
 
-  const tapGestureEvent = useAnimatedGestureHandler<
-    TapGestureHandlerGestureEvent,
-    Context
-  >(
+  const tapGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent, Context>(
     {
       onStart: (event, context) => {
         context.startPosition = { x: event.x, y: event.y }
@@ -90,18 +84,13 @@ const BackdropComponent = () => {
 
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
     const backgroundColor =
-      theme.value === 'light'
-        ? BACKDROP_LIGHT_BACKGROUND_COLOR
-        : BACKDROP_DARK_BACKGROUND_COLOR
+      theme.value === 'light' ? BACKDROP_LIGHT_BACKGROUND_COLOR : BACKDROP_DARK_BACKGROUND_COLOR
 
     return { backgroundColor }
   }, [theme])
 
   return (
-    <TapGestureHandler
-      onGestureEvent={tapGestureEvent}
-      onHandlerStateChange={tapGestureEvent}
-    >
+    <TapGestureHandler onGestureEvent={tapGestureEvent} onHandlerStateChange={tapGestureEvent}>
       <AnimatedBlurView
         // intensity={100}
         // tint='default'

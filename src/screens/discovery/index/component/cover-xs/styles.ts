@@ -29,7 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 2,
     right: 3,
     bottom: 3,
-    left: AVATAR_SIZE + 1,
+    left: _.r(AVATAR_SIZE + 1),
     minHeight: 13,
     opacity: 0.92
   },

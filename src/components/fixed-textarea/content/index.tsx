@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 06:12:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 06:22:29
+ * @Last Modified time: 2024-02-19 11:57:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -10,10 +10,10 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { desc } from '@utils'
 import { IOS, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
-import { Text } from '../../text'
 import { Bgm } from '../../bgm'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
+import { Text } from '../../text'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
 
@@ -38,7 +38,7 @@ function Content({
       style={{
         height: (WSA ? 280 : keyboardHeight) + 1
       }}
-      contentContainerStyle={styles.bgms}
+      contentContainerStyle={styles.contentContainerStyle}
       {...SCROLL_VIEW_RESET_PROPS}
     >
       {showReplyHistory ? (

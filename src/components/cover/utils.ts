@@ -9,24 +9,15 @@ import { IMG_DEFAULT, STORYBOOK } from '@constants'
 import { CoverPrefix, CoverSize, Props } from './types'
 
 /** 修正封面图地址 */
-export function getCoverSrc(
-  src: Props['src'],
-  width: number,
-  cdn: boolean,
-  noDefault: boolean
-) {
+export function getCoverSrc(src: Props['src'], width: number, cdn: boolean, noDefault: boolean) {
   const { prefix, size } = getCoverPramas(width)
   return (
-    getCover400(cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src, size) ||
-    IMG_DEFAULT
+    getCover400(cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src, size) || IMG_DEFAULT
   )
 }
 
 /** 相册模式强制大图 */
-export function getImageViewerSrc(
-  imageViewerSrc: Props['imageViewerSrc'],
-  src: Props['src']
-) {
+export function getImageViewerSrc(imageViewerSrc: Props['imageViewerSrc'], src: Props['src']) {
   if (imageViewerSrc && typeof src === 'string' && src.includes('/bgm_poster')) {
     return src.replace(/\/bgm_poster_(100|200|400)/g, '/bgm_poster')
   }
@@ -48,6 +39,12 @@ function getCoverPramas(width: number) {
   } else if (width > 67) {
     prefix = 'bgm_poster_200'
     size = 200
+  }
+
+  // 主站封面大图实在太慢, 为了兼顾实用度暂限制为最大 400
+  if (size > 400) {
+    prefix = 'bgm_poster'
+    size = 400
   }
 
   return { prefix, size }

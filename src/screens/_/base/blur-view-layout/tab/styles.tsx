@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:29:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 21:29:28
+ * @Last Modified time: 2024-02-19 11:39:55
  */
 import { _ } from '@stores'
 import { ViewStyle } from '@types'
@@ -17,13 +17,15 @@ export const memoStyles = _.memoStyles(() => {
   const tabs: ViewStyle = {
     position: 'absolute',
     zIndex: 1,
-    top: -_.statusBarHeight || 0,
     right: 0,
     height: _.headerHeight + H_TABBAR + (_.statusBarHeight || 0),
     backgroundColor
   }
   return {
-    ios: tabs,
+    ios: {
+      ...tabs,
+      top: _.device(-_.statusBarHeight || 0, 0)
+    },
     android: {
       ...tabs,
       top: 0,

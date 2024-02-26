@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 23:43:35
+ * @Last Modified time: 2024-02-19 11:44:08
  */
 import { _ } from '@stores'
 import {
+  IOS,
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE_GROUP,
   MODEL_RAKUEN_TYPE_MONO,
+  PAD,
   RAKUEN_TYPE,
   STORYBOOK
 } from '@constants'
@@ -18,7 +20,7 @@ export const COMPONENT = 'Rakuen'
 
 export const NAMESPACE = 'ScreenRakuen'
 
-export const H_TABBAR = 48
+export const H_TABBAR = 48 + (IOS && PAD ? _.statusBarHeight : 0)
 
 export const TABS = RAKUEN_TYPE.map(item => ({
   title: item.label,
