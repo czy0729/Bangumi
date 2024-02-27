@@ -14,7 +14,7 @@ export const NAMESPACE = `Screen${COMPONENT}`
 
 export const DEFAULT_CAT = MODEL_SEARCH_CAT.getValue<SearchCat>('动画')
 
-export const DEFAULT_LEGACY = MODEL_SEARCH_LEGACY.getValue<SearchLegacy>('精确')
+export const DEFAULT_LEGACY = MODEL_SEARCH_LEGACY.getValue<SearchLegacy>('模糊')
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

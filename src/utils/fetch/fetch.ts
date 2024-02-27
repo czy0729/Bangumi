@@ -1,5 +1,3 @@
-import { API_HOST, API_V0 } from '@constants/api'
-import { APP_ID, HOST, UA } from '@constants/constants'
 /*
  * 使用 RN.fetch 的请求 (待废弃, 尽量少用)
  * @Author: czy0729
@@ -7,6 +5,8 @@ import { APP_ID, HOST, UA } from '@constants/constants'
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-15 02:39:52
  */
+import { API_HOST, API_V0 } from '@constants/api'
+import { APP_ID, HOST, UA } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import { HOST_PROXY } from '@/config'
 import { syncUserStore } from '../async'
@@ -14,7 +14,7 @@ import { isDevtoolsOpen } from '../dom'
 import fetch from '../thirdParty/fetch-polyfill'
 import { loading } from '../ui'
 import { getTimestamp, sleep, urlStringify } from '../utils'
-import { log, safe } from './utils'
+import { log, safe, safeCookie } from './utils'
 import { FETCH_RETRY, FETCH_TIMEOUT, HEADERS_DEFAULT } from './ds'
 import { Body, Config, FetchAPIArgs, FetchHTMLArgs } from './types'
 
@@ -158,9 +158,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       LAST_FETCH_HTML[cacheKey] = ts
     } else {
       const distance = ts - LAST_FETCH_HTML[cacheKey]
-      if (distance <= 2000) {
-        return Promise.reject(new Error(`[prevent] ${url} ${distance}ms`))
-      }
+      if (distance <= 2000) return Promise.reject(new Error(`[prevent] ${url} ${distance}ms`))
 
       LAST_FETCH_HTML[cacheKey] = ts
     }
@@ -196,6 +194,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       _config.headers.Cookie = `${_config.headers.Cookie}; chii_cookietime=2592000;`
     }
   }
+  _config.headers.Cookie = safeCookie(_config.headers.Cookie)
 
   let hideCb: () => void
   if (isGet) {
@@ -230,8 +229,9 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
       return Promise.resolve(raw ? res : res.text())
     })
     .catch(error => {
-      log('fetchHTML', 'catch error:', url, error)
       if (hideCb) hideCb()
+      log('fetchHTML', 'catch error:', url, error)
+
       return Promise.reject(error)
     })
 }

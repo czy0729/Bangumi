@@ -13,6 +13,8 @@ import { Props as $ } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemSearch')
 
+export const COMPONENT_MAIN = rc(COMPONENT)
+
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,

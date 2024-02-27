@@ -10,20 +10,17 @@ import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import {
+  IMG_HEIGHT_LG,
   IMG_WIDTH,
   IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
   MODEL_COLLECTION_STATUS,
   STORYBOOK
 } from '@constants'
 import { CollectionStatus } from '@types'
-import { InView, Tag, Cover, Stars, Rank, Manage } from '../../base'
+import { Cover, InView, Manage, Rank, Stars, Tag } from '../../base'
 import Title from './title'
-import { DEFAULT_PROPS } from './ds'
-
-const ITEM_HEIGHT = 148
+import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Item = memo(
   ({
@@ -46,14 +43,11 @@ const Item = memo(
     showManage,
     event
   }) => {
-    rerender('Component.ItemSearch.Main')
-
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !String(id).includes('/subject/')
     const isMusic = typeCn === '音乐'
     const justify = tip || position.length ? 'between' : 'start'
     const subjectId = String(id).replace('/subject/', '')
-
     const width = isMono ? IMG_WIDTH : IMG_WIDTH_LG
     const height = isMono ? IMG_WIDTH : isMusic ? IMG_WIDTH_LG : IMG_HEIGHT_LG
     return (
@@ -81,24 +75,19 @@ const Item = memo(
               minWidth: width,
               minHeight: height
             }}
-            y={ITEM_HEIGHT * index + 1}
+            y={height * index + 1}
           >
             <Cover
               src={cover}
               placeholder={!isMono}
               width={width}
               height={height}
-              radius
-              shadow
               type={typeCn}
+              radius
             />
           </InView>
           <Flex
-            style={stl(
-              styles.content,
-              !!comments && styles.flux,
-              isMusic && styles.musicContent
-            )}
+            style={stl(styles.content, !!comments && styles.flux, isMusic && styles.musicContent)}
             direction='column'
             justify={justify}
             align='start'
@@ -118,10 +107,7 @@ const Item = memo(
                         subjectId,
                         title: cnjp(nameCn, name),
                         desc: cnjp(name, nameCn),
-                        status:
-                          MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(
-                            collection
-                          ),
+                        status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                         action: getAction(typeCn)
                       })
                     }}
@@ -158,7 +144,8 @@ const Item = memo(
       </Touchable>
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
 
 export default Item

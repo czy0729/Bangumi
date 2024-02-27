@@ -7,7 +7,6 @@
 import React from 'react'
 import { Component } from '@components'
 import { ob } from '@utils/decorators'
-import { rerender } from '@utils/dev'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -36,8 +35,6 @@ export const ItemSearch = ob(
     position,
     event
   }: ItemSearchProps) => {
-    rerender('Component.ItemSearch')
-
     return (
       <Component id='item-search' data-key={id}>
         <Item
