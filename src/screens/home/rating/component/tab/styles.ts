@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-09-01 10:48:21
  */
 import { _ } from '@stores'
-import { TABS } from '../ds'
+import { TABS } from '../../ds'
 
 export const memoStyles = _.memoStyles(() => {
   const W_TAB = _.window.width / TABS.length
@@ -16,10 +16,7 @@ export const memoStyles = _.memoStyles(() => {
         'transparent',
         _.select('transparent', _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)
       ),
-      borderBottomWidth: _.select(
-        _.ios(0, _.hairlineWidth),
-        _.deepDark ? 0 : _.hairlineWidth
-      ),
+      borderBottomWidth: _.select(_.ios(0, _.hairlineWidth), _.deepDark ? 0 : _.hairlineWidth),
       borderBottomColor: _.colorBorder,
       elevation: 0
     },

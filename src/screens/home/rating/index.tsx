@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:54:37
+ * @Last Modified time: 2024-02-28 11:16:21
  */
 import React from 'react'
-import { Component, Page, Heatmap } from '@components'
+import { Component, Heatmap, Page } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Tab from './component/tab'
 import Header from './header'
-import Tab from './tab'
 import Store from './store'
 import { Ctx } from './types'
 

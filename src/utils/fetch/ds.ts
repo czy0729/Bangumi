@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:07:50
+ * @Last Modified time: 2024-02-28 11:22:11
  */
-import { STORYBOOK } from '@constants/device'
 import { HOST } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 
 /** 开发显示请求信息 */
 export const SHOW_LOG = true
 
 /** API 超时时间 */
-export const FETCH_TIMEOUT = STORYBOOK ? 12000 : 6400
+export const FETCH_TIMEOUT = 12000
 
 /** GET 请求失败自动重试次数 */
-export const FETCH_RETRY = STORYBOOK ? 0 : 4
+export const FETCH_RETRY = STORYBOOK ? 0 : 2
 
 /** 默认请求头 */
 export const HEADERS_DEFAULT = {

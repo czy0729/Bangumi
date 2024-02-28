@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:04:44
+ * @Last Modified time: 2024-02-28 11:16:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,12 +11,9 @@ import { Avatar, Stars } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
-
-const EVENT = {
-  id: '用户评分.跳转'
-} as const
 
 function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
   const styles = memoStyles()
@@ -24,14 +21,7 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
     <View style={styles.container}>
       <Flex>
         <UserStatus userId={id}>
-          <Avatar
-            navigation={navigation}
-            size={36}
-            event={EVENT}
-            userId={id}
-            src={avatar}
-            radius
-          />
+          <Avatar navigation={navigation} size={36} event={EVENT} userId={id} src={avatar} radius />
         </UserStatus>
         <Flex.Item style={_.ml.sm}>
           <Text size={12} bold>
@@ -55,4 +45,4 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

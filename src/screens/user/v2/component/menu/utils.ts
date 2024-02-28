@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-31 10:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 10:51:08
+ * @Last Modified time: 2024-02-28 10:56:09
  */
+import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { Navigation } from '@types'
 import { DATA_ME, DATA_OTHER } from './ds'

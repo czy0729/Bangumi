@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-01 10:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:20:51
+ * @Last Modified time: 2024-02-28 11:11:06
  */
 import { RATING_STATUS } from '@constants'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenRating'
+export const COMPONENT = 'Rating'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   page: 2,

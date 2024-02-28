@@ -2,25 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 17:02:25
+ * @Last Modified time: 2024-02-28 11:14:35
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
-import { TabView, TabBar, Flex, Text, Heatmap } from '@components'
+import { Flex, Heatmap, TabBar, TabView, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { TABS } from '../../ds'
+import { Ctx } from '../../types'
 import List from '../list'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { COMPONENT, STATUS_MAP } from './ds'
 import { memoStyles } from './styles'
-
-const STATUS_MAP = {
-  wishes: 'wish',
-  collections: 'collect',
-  doings: 'doing',
-  on_hold: 'onHold',
-  dropped: 'dropped'
-} as const
 
 function Tab(props, { $ }: Ctx) {
   const styles = memoStyles()
@@ -95,4 +88,4 @@ function Tab(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tab)
+export default obc(Tab, COMPONENT)

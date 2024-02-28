@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:35:45
+ * @Last Modified time: 2024-02-28 11:13:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Filter({ $ }: Ctx) {
@@ -28,4 +29,4 @@ function Filter({ $ }: Ctx) {
   )
 }
 
-export default ob(Filter)
+export default ob(Filter, COMPONENT)

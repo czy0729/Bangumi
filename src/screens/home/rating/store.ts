@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-28 10:22:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:21:31
+ * @Last Modified time: 2024-02-28 11:16:24
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { HTML_SUBJECT_RATING, URL_DEFAULT_AVATAR } from '@constants'
 import { RatingStatus } from '@types'
 import { NAMESPACE, STATE, STATUS_MAP, TABS } from './ds'
