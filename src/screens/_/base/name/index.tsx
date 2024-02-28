@@ -39,23 +39,25 @@ export const Name = ({
     friendsMap[userId]?.lastUserName &&
     friendsMap[userId]?.lastUserName?.trim() !== friendsMap[userId]?.userName?.trim()
 
+  const textLineHeight = lineHeight || size
+
   return useObserver(() => (
     <Component id='base-name'>
       <Text
         size={size}
-        lineHeight={lineHeight}
+        lineHeight={textLineHeight}
         numberOfLines={lines}
         onPress={disabled ? undefined : setLines2}
         {...other}
       >
         {children}
         {hasChangedName && (
-          <Text type='sub' size={11} lineHeight={lineHeight || size}>
+          <Text type='sub' size={11} lineHeight={textLineHeight}>
             ({friendsMap[userId].lastUserName}){' '}
           </Text>
         )}
         {showFriend && isFriend && (
-          <Text type='warning' size={11} lineHeight={lineHeight || size}>
+          <Text type='warning' size={11} lineHeight={textLineHeight}>
             {' '}
             好友
           </Text>

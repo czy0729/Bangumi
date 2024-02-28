@@ -6,7 +6,7 @@
  */
 import React, { useState } from 'react'
 import { Button, Flex, Text } from '@components'
-import { _, timelineStore } from '@stores'
+import { _, timelineStore, usersStore } from '@stores'
 import { confirm, feedback, getStorage, setStorage } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
@@ -15,7 +15,7 @@ import { Tag } from '../../../base'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Extra({ connectUserId, repeat }) {
+function Extra({ userId, connectUserId, repeat }) {
   r(COMPONENT)
 
   const [connect, setConnect] = useState<boolean | string>(false)
@@ -23,6 +23,11 @@ function Extra({ connectUserId, repeat }) {
     if (!connectUserId) return
 
     async function init() {
+      if (userId && usersStore?.friendsMap?.[userId]) {
+        setConnect('已处理')
+        return
+      }
+
       const result = await getStorage(`${COMPONENT}|${connectUserId}`)
       if (result === null) {
         setConnect(true)

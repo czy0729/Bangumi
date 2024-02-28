@@ -62,7 +62,7 @@ export const ItemNotify = ob(
                 href={href}
               />
             </Flex.Item>
-            <Extra connectUserId={connectUserId} repeat={repeat} />
+            <Extra userId={userId} connectUserId={connectUserId} repeat={repeat} />
           </Flex>
         </Flex.Item>
         {children}
