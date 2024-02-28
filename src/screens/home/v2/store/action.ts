@@ -513,7 +513,7 @@ export default class Action extends Fetch {
 
     // 从小于 10 开始的番剧都认为是非多季番, 直接使用正常 sort 去更新
     if (eps?.[0]?.sort < 10) {
-      sort = Math.max(item.sort - 1, 0)
+      sort = Math.max(item.sort, 0)
     } else {
       // 因 this.eps 是分页后的结果, 所以需要从原始数据中获取
       const eps = this.epsNoSp(subjectId)
@@ -540,7 +540,6 @@ export default class Action extends Fetch {
       subjectId,
       sort
     })
-
     userStore.fetchCollectionSingle(subjectId)
     this.fetchUserProgress(subjectId)
 

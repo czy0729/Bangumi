@@ -903,7 +903,7 @@ export default class Action extends Fetch {
     let value: number
     if (sort === -1) {
       /**
-       * @issue API bug, 多季度番剧使用item.sort不适用, 若item.sort > totalEps, 适用排序的index
+       * @issue API bug, 多季度番剧使用 item.sort 不适用, 若item.sort > totalEps, 适用排序的 index
        * @date 2022/02/12
        */
       const totalEps = Number(this.subjectFormHTML.totalEps)
@@ -917,7 +917,7 @@ export default class Action extends Fetch {
       subjectId: this.subjectId,
       sort: value
     })
-    userStore.fetchUserCollection()
+    userStore.fetchCollectionSingle(this.subjectId)
     userStore.fetchUserProgress(this.subjectId)
 
     webhookEp(
