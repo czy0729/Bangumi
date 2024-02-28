@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 16:53:45
+ * @Last Modified time: 2024-02-28 04:32:30
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Layout from './component/layout'
+import Pagination from './component/pagination'
+import ToolBar from './component/tool-bar'
 import Header from './header'
-import ToolBar from './tool-bar'
-import List from './list'
-import Pagination from './pagination'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -20,19 +20,16 @@ const Rank = (props, { $ }: Ctx) => {
     $.init()
   })
 
-  return useObserver(() => {
-    const { _loaded, fixed, fixedPagination } = $.state
-    return (
-      <Component id='screen-rank'>
-        <Header />
-        <Page>
-          {fixed && <ToolBar />}
-          {_loaded && <List />}
-          {fixedPagination && <Pagination />}
-        </Page>
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-rank'>
+      <Header />
+      <Page>
+        {$.state.fixed && <ToolBar />}
+        {$.state._loaded && <Layout />}
+        {$.state.fixedPagination && <Pagination />}
+      </Page>
+    </Component>
+  ))
 }
 
 export default ic(Store, Rank)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:45:20
+ * @Last Modified time: 2024-02-28 10:42:59
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -333,9 +333,17 @@ export const ListView = observer(
         'footerTextType',
         'showMesume'
       ]) as any
-      const { _filter } = data
+      const { pagination, _filter } = data
 
-      return <Footer refreshState={refreshState} filterText={_filter} {...other} />
+      return (
+        <Footer
+          refreshState={refreshState}
+          filterText={_filter}
+          page={pagination.page}
+          pageTotal={pagination.pageTotal}
+          {...other}
+        />
+      )
     }
 
     /** @deprecated */

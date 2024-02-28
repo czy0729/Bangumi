@@ -22,7 +22,7 @@ function More({ onRefreshOffset }, { $ }: Ctx) {
       }
       icon='md-more-vert'
       iconColor={_.colorDesc}
-      iconSize={20}
+      iconSize={16}
       type='desc'
       transparent
       onSelect={title => {

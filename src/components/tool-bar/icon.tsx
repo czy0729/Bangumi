@@ -7,8 +7,8 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex } from '../flex'
-import { Touchable } from '../touchable'
 import { Iconfont } from '../iconfont'
+import { Touchable } from '../touchable'
 import { memoStyles } from './styles'
 import { ToolBarIconProps } from './types'
 
@@ -18,9 +18,7 @@ export const ToolBarIcon = observer(
     return (
       <Touchable style={styles.iconTouch} onPress={onSelect}>
         <Flex style={styles.iconItem} justify='center'>
-          {!!icon && (
-            <Iconfont style={iconStyle} name={icon} size={17} color={iconColor} />
-          )}
+          {!!icon && <Iconfont style={iconStyle} name={icon} size={17} color={iconColor} />}
         </Flex>
       </Touchable>
     )

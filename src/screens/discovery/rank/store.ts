@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-13 00:30:03
+ * @Last Modified time: 2024-02-28 04:35:00
  */
-import { observable, computed } from 'mobx'
-import { tagStore, collectionStore, subjectStore, userStore } from '@stores'
-import { info, getTimestamp, x18, updateVisibleBottom } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { collectionStore, subjectStore, tagStore, userStore } from '@stores'
+import { getTimestamp, info, updateVisibleBottom, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
-import { MODEL_SUBJECT_TYPE, HTML_RANK, LIST_EMPTY } from '@constants'
+import store from '@utils/store'
+import { HTML_RANK, LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectId, SubjectType, SubjectTypeCn } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { StoreRank, ToolBarKeys } from './types'
 
 /** 若更新过则不会再主动更新 */
@@ -92,12 +92,9 @@ export default class ScreenRank extends store<typeof STATE> {
   /** 云端数据键值 */
   @computed get thirdPartyKey() {
     const { currentPage, type, filter, airtime, month } = this.state
-    const query = [
-      type,
-      filter,
-      month ? `${airtime}-${month}` : airtime,
-      currentPage[type]
-    ].join('_')
+    const query = [type, filter, month ? `${airtime}-${month}` : airtime, currentPage[type]].join(
+      '_'
+    )
     return `rank_${query}`
   }
 

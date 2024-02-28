@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:02:09
+ * @Last Modified time: 2024-02-28 04:25:46
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
@@ -15,7 +15,9 @@ import {
   SubjectType
 } from '@types'
 
-export const NAMESPACE = 'ScreenRank'
+export const COMPONENT = 'Rank'
+
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const DEFAULT_TYPE = MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画')
 

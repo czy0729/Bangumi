@@ -9,10 +9,10 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Flex } from '../flex'
-import { Text } from '../text'
-import { Popover } from '../popover/comp'
-import { Iconfont } from '../iconfont'
 import { Heatmap } from '../heatmap'
+import { Iconfont } from '../iconfont'
+import { Popover } from '../popover/comp'
+import { Text } from '../text'
 import { memoStyles } from './styles'
 import { ToolBarPopoverProps } from './types'
 
@@ -42,12 +42,7 @@ export const ToolBarPopover = observer(
           justify='center'
         >
           {!!icon && (
-            <Iconfont
-              style={!!text && _.mr.xs}
-              name={icon}
-              size={iconSize}
-              color={iconColor}
-            />
+            <Iconfont style={!!text && _.mr.xs} name={icon} size={iconSize} color={iconColor} />
           )}
           {!!text && (
             <Text size={12} type={type} bold noWrap selectable={false}>

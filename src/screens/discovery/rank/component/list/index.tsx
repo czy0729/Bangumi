@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 04:06:34
+ * @Last Modified time: 2024-02-28 04:34:30
  */
 import React from 'react'
 import { Empty, Heatmap } from '@components'
-import { ItemSearch, FilterText } from '@_'
+import { FilterText, ItemSearch } from '@_'
 import { _, collectionStore } from '@stores'
-import { MODEL_SUBJECT_TYPE } from '@constants'
 import { obc } from '@utils/decorators'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
-import { EVENT_LIST } from './ds'
+import { COMPONENT, EVENT_LIST } from './ds'
 
 function List(props, { $, navigation }: Ctx) {
-  const { type } = $.state
   const { list } = $.list
   const { _filter } = $.rank
   return (
@@ -23,7 +22,7 @@ function List(props, { $, navigation }: Ctx) {
       {list.length ? (
         list.map((item, index) => {
           const id = String(item.id).replace('/subject/', '')
-          const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+          const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)
           const collection = collectionStore.collect(id, typeCn)
           return (
             <ItemSearch
@@ -48,4 +47,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

@@ -8,7 +8,7 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function More(props, { $ }: Ctx) {
   const { list, fixed, fixedPagination, collected } = $.state
@@ -22,7 +22,7 @@ function More(props, { $ }: Ctx) {
       ]}
       icon='md-more-vert'
       iconColor={_.colorDesc}
-      iconSize={20}
+      iconSize={16}
       type='desc'
       transparent
       onSelect={title => {

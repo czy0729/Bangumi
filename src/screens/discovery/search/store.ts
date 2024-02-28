@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 11:44:02
+ * @Last Modified time: 2024-02-28 10:53:01
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, searchStore, subjectStore, usersStore, userStore } from '@stores'
-import { debounce, info, loading, updateVisibleBottom, x18 } from '@utils'
+import { info, loading, updateVisibleBottom, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { HTML_SEARCH, MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
@@ -154,12 +154,12 @@ export default class ScreenSearch extends store<typeof STATE> {
   }
 
   /** 输入框值提交, 反应数据 */
-  onChangeTextConfirm = debounce((text: string) => {
+  onChangeTextConfirm = (text: string) => {
     const state: Partial<typeof EXCLUDE_STATE> = {
       value: text
     }
     this.setState(state)
-  })
+  }
 
   /** 选择历史 */
   selectHistory = (value: string) => {

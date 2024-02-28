@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:09:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-25 17:53:22
+ * @Last Modified time: 2024-02-28 04:34:18
  */
 import React from 'react'
-import { Flex, Empty } from '@components'
-import { ItemCollectionsGrid, FilterText } from '@_'
+import { Empty, Flex } from '@components'
+import { FilterText, ItemCollectionsGrid } from '@_'
 import { _, collectionStore } from '@stores'
 import { matchYear } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
+import { COMPONENT, EVENT_GRID } from './ds'
 import { memoStyles } from './styles'
-import { EVENT_GRID } from './ds'
 
 function Grid(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { type, airtime } = $.state
   const { list } = $.list
   const { _filter } = $.rank
   const num = _.portrait(3, 5)
@@ -35,14 +34,14 @@ function Grid(props, { $, navigation }: Ctx) {
               style={!(index % num) && styles.left}
               num={num}
               event={EVENT_GRID}
-              airtime={airtime === '' && matchYear(item.tip)}
+              airtime={$.state.airtime === '' && matchYear(item.tip)}
               {...item}
               id={id}
               cover={item.cover || $.cover(item.id)}
-              typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)}
+              typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)}
               collection={collection}
               isCollect={item.collected}
-              isRectangle={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type) === '音乐'}
+              isRectangle={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type) === '音乐'}
             />
           )
         })
@@ -54,4 +53,4 @@ function Grid(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Grid)
+export default obc(Grid, COMPONENT)

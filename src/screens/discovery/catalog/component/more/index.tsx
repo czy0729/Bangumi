@@ -21,10 +21,10 @@ function More({ $ }: Ctx) {
       ]}
       icon='md-more-vert'
       iconColor={_.colorDesc}
-      iconSize={20}
+      iconSize={16}
       type='desc'
       transparent
-      onSelect={(title: string) => {
+      onSelect={title => {
         if (title.includes('选项')) return $.onToggleFixed('fixedFilter')
         if (title.includes('分页')) return $.onToggleFixed('fixedPagination')
       }}

@@ -8,14 +8,14 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { obc } from '@utils/decorators'
 import {
-  MODEL_SUBJECT_TYPE,
   MODEL_RANK_ANIME_FILTER,
   MODEL_RANK_BOOK_FILTER,
   MODEL_RANK_GAME_FILTER,
-  MODEL_RANK_REAL_FILTER
+  MODEL_RANK_REAL_FILTER,
+  MODEL_SUBJECT_TYPE
 } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Filter(props, { $ }: Ctx) {
   const { type, filter } = $.state

@@ -2,20 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:08:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 18:29:40
+ * @Last Modified time: 2024-02-28 04:26:50
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { STORYBOOK, URL_SPA } from '@constants'
+import { URL_SPA } from '@constants'
 import { Ctx } from '../types'
-
-const TEXT_BROWSER = '浏览器查看'
-const TEXT_SPA = '网页版查看'
-const DATA = [TEXT_BROWSER]
-if (!STORYBOOK) DATA.push(TEXT_SPA)
+import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
@@ -32,9 +28,13 @@ function Header(props, { $ }: Ctx) {
 
             if (key === TEXT_BROWSER) {
               open($.url)
-            } else if (key === TEXT_SPA) {
+              return
+            }
+
+            if (key === TEXT_SPA) {
               const url = `${URL_SPA}/${getSPAParams('Rank')}`
               open(url)
+              return
             }
           }}
         >
@@ -45,4 +45,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

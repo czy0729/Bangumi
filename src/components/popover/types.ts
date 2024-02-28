@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-22 05:03:41
  */
-import { ViewStyle, ReactNode } from '@types'
+import { ReactNode, ViewStyle } from '@types'
 
-export type Props<T extends string[] | readonly string[]> = {
+export type Props<T extends string[] | readonly string[] = string[]> = {
   style?: ViewStyle
 
   /** 菜单项 */

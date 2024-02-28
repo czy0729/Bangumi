@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Type(props, { $ }: Ctx) {
   const { type } = $.state
