@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-26 15:28:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 16:03:13
+ * @Last Modified time: 2024-02-29 23:56:31
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { Cover, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../types'
-import { memoStyles, WIDTH, HEIGHT } from './styles'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
+import { HEIGHT, memoStyles, WIDTH } from './styles'
 
 function Item({ subject, action }, { navigation }: Ctx) {
   const styles = memoStyles()
@@ -28,10 +29,7 @@ function Item({ subject, action }, { navigation }: Ctx) {
         if (action.includes('听')) type = '音乐'
         if (action.includes('玩')) type = '游戏'
         return (
-          <View
-            key={String(i.id)}
-            style={subject.length > 1 ? styles.subjectHalf : styles.subject}
-          >
+          <View key={String(i.id)} style={subject.length > 1 ? styles.subjectHalf : styles.subject}>
             <Touchable
               animate
               onPress={() => {
@@ -76,4 +74,4 @@ function Item({ subject, action }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

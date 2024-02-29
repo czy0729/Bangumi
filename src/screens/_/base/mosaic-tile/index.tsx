@@ -2,21 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:28:53
+ * @Last Modified time: 2024-03-01 00:48:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Touchable, Text, Heatmap } from '@components'
+import { Flex, Heatmap, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { date, getTimestamp, info, stl } from '@utils'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../types'
 import { getDates } from './utils'
-import { memoStyles, PX, MARGIN } from './styles'
+import { COMPONENT } from './ds'
+import { MARGIN, memoStyles, PX } from './styles'
+import { MosaicTileType } from './types'
 
-function MosaicTile(props, { $ }: Ctx) {
+export const MosaicTile = ob(({ mosaicTile }: { mosaicTile: MosaicTileType }) => {
+  if (!mosaicTile) return null
+
   const styles = memoStyles()
   const measureDays = {
     '01-25': 0,
@@ -132,18 +135,16 @@ function MosaicTile(props, { $ }: Ctx) {
                   key={String(item)}
                   style={stl(styles.item, item === today && styles.itemToday, {
                     backgroundColor:
-                      colors[$.mosaicTile[item]] ||
-                      ($.mosaicTile[item]
-                        ? colors[5]
-                        : _.select(_.colorBg, _._colorDarkModeLevel1))
+                      colors[mosaicTile[item]] ||
+                      (mosaicTile[item] ? colors[5] : _.select(_.colorBg, _._colorDarkModeLevel1))
                   })}
                   onPress={() => {
                     t('时间线.点击瓷砖', {
                       date: item,
-                      value: $.mosaicTile[item] || 0
+                      value: mosaicTile[item] || 0
                     })
 
-                    info(`${item}：${$.mosaicTile[item] || 0}`)
+                    info(`${item}：${mosaicTile[item] || 0}`)
                   }}
                 />
               ))}
@@ -154,6 +155,4 @@ function MosaicTile(props, { $ }: Ctx) {
       <Heatmap id='时间线.点击瓷砖' />
     </Flex>
   )
-}
-
-export default obc(MosaicTile)
+}, COMPONENT)

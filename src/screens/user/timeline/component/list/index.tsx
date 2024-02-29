@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:51:31
+ * @Last Modified time: 2024-02-29 23:55:13
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Heatmap } from '@components'
+import { Flex, Heatmap, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 import Item from '../item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Ctx } from '../types'
 
 function List(props, { $ }: Ctx) {
   const styles = memoStyles()
@@ -107,11 +108,7 @@ function List(props, { $ }: Ctx) {
                       <View>
                         <View style={styles.line} />
                         {item.data.map(item => (
-                          <Item
-                            key={item.id}
-                            subject={item.subject}
-                            action={item.action}
-                          />
+                          <Item key={item.id} subject={item.subject} action={item.action} />
                         ))}
                       </View>
                     </View>
@@ -126,4 +123,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

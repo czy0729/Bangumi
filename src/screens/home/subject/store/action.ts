@@ -870,7 +870,7 @@ export default class Action extends Fetch {
       id: item.id,
       status
     })
-    userStore.fetchUserCollection()
+    userStore.fetchCollectionSingle(this.subjectId)
     userStore.fetchUserProgress(this.subjectId)
     webhookEp(
       {
@@ -1049,7 +1049,7 @@ export default class Action extends Fetch {
           watchedVols: vol
         },
         async () => {
-          userStore.fetchUserCollection()
+          userStore.fetchCollectionSingle(this.subjectId)
           await userStore.fetchUserProgress(this.subjectId)
           await this.fetchSubjectFromHTML()
           this.save()
@@ -1103,7 +1103,7 @@ export default class Action extends Fetch {
       })
       feedback()
 
-      userStore.fetchUserCollection()
+      userStore.fetchCollectionSingle(this.subjectId)
       userStore.fetchUserProgress(this.subjectId)
     } catch (error) {
       console.error(NAMESPACE, 'doEpsLongPress', error)

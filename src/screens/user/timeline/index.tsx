@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:23:18
+ * @Last Modified time: 2024-02-29 23:57:33
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, ListView, Component } from '@components'
+import { Component, ListView, Page } from '@components'
+import { MosaicTile } from '@_'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
 import Header from './header'
-import MosaicTile from './mosaic-tile'
-import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -29,7 +29,7 @@ const UserTimeline = (props, { $ }: Ctx) => {
           scrollToTop
           ListHeaderComponent={
             <>
-              <MosaicTile />
+              <MosaicTile mosaicTile={$.mosaicTile} />
               <List />
             </>
           }
