@@ -55,9 +55,7 @@ class GlobalStores {
       await themeStore.init()
 
       /** ========== 状态栏 ========== */
-      if (!STORYBOOK) {
-        StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
-      }
+      if (!STORYBOOK) StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
 
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来

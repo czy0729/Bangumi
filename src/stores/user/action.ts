@@ -174,9 +174,7 @@ export default class Action extends Fetch {
   doCheckCookie = async () => {
     const data = await RakuenStore.fetchNotify()
     const { setCookie = '', html } = data
-    if (html.includes('抱歉，当前操作需要您') && !DEV) {
-      this.setOutdate()
-    }
+    if (html.includes('抱歉，当前操作需要您') && !DEV) this.setOutdate()
 
     const matchLogout = html.match(/.tv\/logout(.+?)">登出<\/a>/)
     if (Array.isArray(matchLogout) && matchLogout[1]) {

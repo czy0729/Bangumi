@@ -2,30 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 18:38:38
+ * @Last Modified time: 2024-03-02 00:09:20
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Image, Iconfont, Touchable, CountDown } from '@components'
+import { CountDown, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import {
-  caculateICO,
-  formatNumber,
-  getCoverLarge,
-  getTimestamp,
-  tinygrailOSS
-} from '@utils'
+import { caculateICO, formatNumber, getCoverLarge, getTimestamp, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import Rank from '@tinygrail/_/rank'
+import { Ctx } from '../../types'
 import Bar from '../bar'
-import { Ctx } from '../types'
+import { COMPONENT, MAX_SIZE } from './ds'
 import { memoStyles } from './styles'
-
-const maxSize = _.window.width / 3
 
 function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { icon, monoId, name, total, end = '' } = $.chara
+  const { icon, monoId, name, total, end = '', bonus } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
   const endTime = getTimestamp(end.replace('T', ' '))
   const EVENT = {
@@ -34,7 +28,6 @@ function Info(props, { $, navigation }: Ctx) {
       monoId
     }
   } as const
-
   return (
     <View style={styles.container}>
       {!!icon && (
@@ -42,7 +35,7 @@ function Info(props, { $, navigation }: Ctx) {
           <Image
             style={styles.image}
             src={tinygrailOSS(getCoverLarge(icon))}
-            autoSize={maxSize}
+            autoSize={MAX_SIZE}
             shadow
             placeholder={false}
             imageViewer
@@ -67,8 +60,23 @@ function Info(props, { $, navigation }: Ctx) {
       >
         <Flex justify='center'>
           <Text type='tinygrailPlain' size={15} bold>
-            #{monoId} - {name}
+            #{monoId} -
           </Text>
+          {!!level && (
+            <Text type='ask' size={15} bold>
+              {' '}
+              lv{level}
+            </Text>
+          )}
+          <Text type='tinygrailPlain' size={15} bold>
+            {name}
+          </Text>
+          {!!bonus && (
+            <Text type='warning' size={15} bold>
+              {' '}
+              x{bonus}
+            </Text>
+          )}
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
       </Touchable>
@@ -85,15 +93,16 @@ function Info(props, { $, navigation }: Ctx) {
         />
       </Flex>
       <Text style={_.mt.md} type='tinygrailPlain' align='center'>
-        <Text type='warning'>已筹 {formatNumber(total, 0, $.short)}</Text> /
-        下一等级需要 {formatNumber(next, 0, $.short)}
+        已筹
+        <Text type='warning'> {formatNumber(total, 0, $.short)}</Text> / 下一等级需要{' '}
+        {formatNumber(next, 0, $.short)}
       </Text>
       <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
-        预计发行量 约{formatNumber(amount, 0, $.short)}股 / 发行价 {formatNumber(price)}
+        预计发行量: 约 {formatNumber(amount, 0, $.short)} 股 / 发行价 {formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>
   )
 }
 
-export default obc(Info)
+export default obc(Info, COMPONENT)

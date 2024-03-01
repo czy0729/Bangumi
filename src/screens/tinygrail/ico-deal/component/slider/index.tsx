@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:05:24
+ * @Last Modified time: 2024-03-01 23:30:28
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Input, Text, Button, Slider as CompSlider } from '@components'
+import { Button, Flex, Input, Slider as CompSlider, Text } from '@components'
 import { _ } from '@stores'
-import { formatNumber, stl } from '@utils'
+import { formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Slider({ style }, { $ }: Ctx) {
+function Slider(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { loading, amount } = $.state
   const { balance } = $.assets
   return (
-    <View style={stl(styles.container, style)}>
+    <View style={styles.container}>
       <Flex>
         <Flex.Item>
           <View style={styles.inputWrap}>
@@ -69,4 +70,4 @@ function Slider({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Slider)
+export default obc(Slider, COMPONENT)

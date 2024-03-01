@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-05 03:19:39
+ * @Last Modified time: 2024-03-02 00:10:57
  */
 import { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
-import { Props as PopoverProps } from './popover/types'
 import { Props as PlaceholderProps } from './placeholder/types'
+import { Props as PopoverProps } from './popover/types'
 
 export type Props = {
   /** 模式 */
@@ -51,7 +51,7 @@ export type Props = {
   /** 是否变动状态栏主题 */
   statusBarEvents?: boolean
 
-  /** @deprecated 预设的状态栏主题 */
+  /** 预设的状态栏主题 */
   statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
 
   /** 覆写后退点击回调 */

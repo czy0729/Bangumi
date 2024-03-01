@@ -2,34 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:52:20
+ * @Last Modified time: 2024-03-02 00:00:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Flex } from '@components'
-import { _ } from '@stores'
-import { formatNumber, stl, tinygrailOSS } from '@utils'
+import { Flex, Text } from '@components'
 import { Avatar } from '@_'
+import { _ } from '@stores'
+import { caculateICO, formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Initial({ style }, { $, navigation }: Ctx) {
+function Initial(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { users } = $.chara
   const { list } = $.initial
+  const { nextUser } = caculateICO($.chara)
   const EVENT = {
     id: 'ICO交易.跳转'
   } as const
-
   return (
-    <View style={stl(styles.container, style)}>
+    <View style={styles.container}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
         <Text type='warning' size={16}>
           参与者 {users}
         </Text>{' '}
-        / 15
+        / {nextUser}
       </Text>
       <Flex style={_.mt.sm} wrap='wrap'>
         {list.map((item, index) => (
@@ -63,4 +64,4 @@ function Initial({ style }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Initial)
+export default obc(Initial, COMPONENT)

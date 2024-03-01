@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:53:13
+ * @Last Modified time: 2024-03-01 23:37:14
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore, userStore, systemStore } from '@stores'
-import { getTimestamp, info, feedback } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { systemStore, tinygrailStore, userStore } from '@stores'
+import { feedback, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { Id } from '@types'
 import { STATE } from './ds'
 import { Params } from './types'
@@ -34,10 +34,7 @@ export default class ScreenTinygrailICODeal extends store<typeof STATE> {
   }
 
   refresh = async () => {
-    await Promise.all([
-      tinygrailStore.fetchCharacters([this.monoId]),
-      tinygrailStore.fetchAssets()
-    ])
+    await Promise.all([tinygrailStore.fetchCharacters([this.monoId]), tinygrailStore.fetchAssets()])
 
     const { id } = this.chara
     return tinygrailStore.fetchInitial(id)

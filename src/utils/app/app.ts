@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:26:56
+ * @Last Modified time: 2024-03-01 23:58:02
  */
 import { Alert, BackHandler } from 'react-native'
 import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
@@ -189,7 +189,7 @@ export function caculateICO(ico: { users?: any; total?: number; Users?: number }
   let level = 0
   let price = 10
   let amount = 0
-  let next = 100000
+  let next = 600000
   let nextUser = 15
 
   // 人数等级
@@ -204,7 +204,7 @@ export function caculateICO(ico: { users?: any; total?: number; Users?: number }
   }
 
   amount = 10000 + (level - 1) * 7500
-  price = ico.total / amount
+  price = (ico.total - 500000) / amount
   nextUser = (level + 1) * 5 + 10
 
   return {
@@ -212,6 +212,7 @@ export function caculateICO(ico: { users?: any; total?: number; Users?: number }
     next,
     price,
     amount,
+    nextUser,
     users: nextUser - ico.Users
   }
 }

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-08 18:27:22
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-08 18:27:22
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-03-02 00:12:12
  */
 import { _ } from '@stores'
 
@@ -29,6 +29,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     top: 3,
-    right: _.wind
+    right: 0,
+    left: 0
   }
 }))

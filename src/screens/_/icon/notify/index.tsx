@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:19:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:18:36
+ * @Last Modified time: 2024-03-01 01:04:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,12 +30,12 @@ export const IconNotify = ob(
       if (!isSetTimeout) {
         isSetTimeout = true
 
-        setTimeout(() => {
+        setInterval(() => {
           if (userStore.isWebLogin) {
             rakuenStore.fetchNotify()
             userStore.fetchPM(true, 'pmIn')
           }
-        }, 30000)
+        }, 60000)
       }
     }
 
