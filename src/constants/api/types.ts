@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:02:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-22 14:27:40
+ * @Last Modified time: 2024-03-02 06:01:58
  */
 export type CollectionAction = 'create' | 'update'
 
 /**
  * 列表类型
- *
  *  - mvc: 最高市值
  *  - mrc: 最大涨幅
  *  - mfc: 最大跌幅
@@ -36,16 +35,10 @@ export type TinygrailType =
 
 /**
  * 道具类型
- *
  *  - chaos: 混沌魔方
  *  - guidepost: 虚空道标
  *  - stardust: 星光碎片
  *  - starbreak: 闪光结晶
  *  - fisheye: 鲤鱼之眼
  */
-export type TinygrailMagic =
-  | 'chaos'
-  | 'guidepost'
-  | 'stardust'
-  | 'starbreak'
-  | 'fisheye'
+export type TinygrailMagic = 'chaos' | 'guidepost' | 'stardust' | 'starbreak' | 'fisheye'

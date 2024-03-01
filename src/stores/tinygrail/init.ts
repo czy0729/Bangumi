@@ -2,41 +2,97 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:46:31
+ * @Last Modified time: 2024-03-02 05:56:24
  */
 import { LIST_EMPTY } from '@constants'
 
 export const NAMESPACE = 'Tinygrail'
 
 export const INIT_CHARACTERS_ITEM = {
-  // assets: 0, // 塔可用资产
-  // state: 0, // 活股
-  amount: 0, // 英灵殿数量
-  asks: 0, // 当前市场卖出数
-  bids: 0, // 当前市场买入数
-  bonus: 0, // 新番加成(周)
-  change: 0, // 今天成交量
-  current: 0, // 当前价
-  end: '', // 若角色当前是ico状态, 返回ico结束时间
-  fluctuation: 0, // 涨跌幅
-  icoId: 0, // 若角色当前是ico状态, 返回ico的id
-  icon: '', // 头像
-  id: 0, // 角色bgm id
-  lastDeal: '', // 最近交易时间
-  lastOrder: '', // 最近挂单时间
-  level: 0, // 角色等级
-  marketValue: 0, // 总市值
-  monoId: 0, // 人物id
-  name: '', // 人物中文名
-  price: 0, // 英灵殿底价
-  rank: 0, // 通天塔等级
-  rate: 0, // 基本股息
-  starForces: 0, // 通天塔献祭量
-  stars: 0, // 通天塔星星
-  total: 0, // 发行量
-  type: 0, // 不详
-  users: 0 // 若角色当前是ico状态, 返回当前参与ico人数
-}
+  /** 塔可用资产 */
+  // assets: 0,
+
+  /** 活股 */
+  // state: 0,
+
+  /** 英灵殿数量 */
+  amount: 0,
+
+  /** 当前市场卖出数 */
+  asks: 0,
+
+  /** 当前市场买入数 */
+  bids: 0,
+
+  /** 新番加成 (周) */
+  bonus: 0,
+
+  /** 今天成交量 */
+  change: 0,
+
+  /** 当前价 */
+  current: 0,
+
+  /**  若角色当前是 ICO 状态, 返回 ICO 结束时间 */
+  end: '', //
+
+  /** 涨跌幅 */
+  fluctuation: 0,
+
+  /** 若角色当前是 ICO 状态, 返回 ICO 的 ID */
+  icoId: 0,
+
+  /** 头像 */
+  icon: '',
+
+  /** 角色 MonoId */
+  id: 0,
+
+  /** 最近交易时间 */
+  lastDeal: '',
+
+  /** 最近挂单时间 */
+  lastOrder: '',
+
+  /** 角色等级 */
+  level: 0,
+
+  /** 总市值 */
+  marketValue: 0,
+
+  /** 人物 ID */
+  monoId: 0,
+
+  /** 人物中文名 */
+  name: '',
+
+  /** 英灵殿底价 */
+  price: 0,
+
+  /** 通天塔等级 */
+  rank: 0,
+
+  /** 基本股息 */
+  rate: 0,
+
+  /** 通天塔献祭量 */
+  starForces: 0,
+
+  /** 通天塔星星 */
+  stars: 0,
+
+  /** 发行量 */
+  total: 0,
+
+  /** 不详 */
+  type: 0,
+
+  /** 若角色当前是 ICO 状态, 返回当前参与 ICO 人数 */
+  users: 0,
+
+  /** 献祭数目 */
+  sa: 0
+} as const
 
 export const INIT_RICH = {
   '1/50': LIST_EMPTY, // INIT_RICH_ITEM

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:40:12
+ * @Last Modified time: 2024-03-02 05:39:37
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -35,10 +35,10 @@ import {
   API_TINYGRAIL_TEMPLE,
   API_TINYGRAIL_TEMPLE_LAST,
   API_TINYGRAIL_TOP_WEEK,
-  API_TINYGRAIL_USERS,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_USER_CHARA_TOTAL,
   API_TINYGRAIL_USER_TEMPLE_TOTAL,
+  API_TINYGRAIL_USERS,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
   GITHUB_HOST,
@@ -48,8 +48,6 @@ import {
 import { Id, MonoId, UserId } from '@types'
 import UserStore from '../user'
 import Computed from './computed'
-import { calculateRate, throttleInfo, toCharacter } from './utils'
-import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import {
   INIT_ASSETS,
   INIT_AUCTION_STATUS,
@@ -59,6 +57,8 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
+import { calculateRate, throttleInfo, toCharacter } from './utils'
+import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
 
 export default class Fetch extends Computed {
@@ -79,8 +79,6 @@ export default class Fetch extends Computed {
   /** 小圣杯统一请求入口 */
   // @ts-expect-error
   fetch = (url: string, isPost?: boolean, data?: any, showError?: boolean) => {
-    // global.log(`⚡️ ${url}`)
-
     // @ts-expect-error
     axios.defaults.withCredentials = false
     const config: any = {
@@ -136,9 +134,7 @@ export default class Fetch extends Computed {
       const data = {}
       const iconsCache = {}
 
-      const target = Array.isArray(result.data.Value)
-        ? result.data.Value
-        : [result.data.Value]
+      const target = Array.isArray(result.data.Value) ? result.data.Value : [result.data.Value]
       target.forEach(item => {
         const id = item.CharacterId || item.Id
         if (item.Icon) iconsCache[id] = item.Icon
@@ -157,39 +153,49 @@ export default class Fetch extends Computed {
 
   /**
    * 总览列表
-   *  - 自行添加顺序index, 以支持二次排序显示
+   *  - 自行添加顺序 index, 以支持二次排序显示
    *  - 20210306 optimize
    */
   fetchList = async (key: ListKey = defaultKey) => {
     const result = await this.fetch(API_TINYGRAIL_LIST(key))
-
     if (result.data.State === 0) {
       const iconsCache = {}
       const data = {
         ...LIST_EMPTY,
-        list: (result.data.Value.Items || result.data.Value).map((item, index) => {
-          const character: any = toCharacter(item)
-          const id = item.CharacterId || item.Id
-          const { icon } = character
-          if (icon) iconsCache[id] = icon
+        list: (result.data.Value.Items || result.data.Value).map(
+          (
+            item: {
+              CharacterId: any
+              Id: any
+              End: any
+            },
+            index: number
+          ) => {
+            const character: any = toCharacter(item)
+            const id = item.CharacterId || item.Id
+            const { icon } = character
+            if (icon) iconsCache[id] = icon
 
-          if (item.End) {
+            if (item.End) {
+              return {
+                ...character,
+                _index: index + 1,
+                id,
+                icoId: item.End ? item.Id : 0
+              }
+            }
+
             return {
               ...character,
-              _index: index + 1,
-              id,
-              icoId: item.End ? item.Id : 0
+              _index: index + 1
             }
           }
-          return {
-            ...character,
-            _index: index + 1
-          }
-        }),
+        ),
         pagination: paginationOnePage,
         _loaded: getTimestamp()
       }
 
+      console.log(JSON.stringify(data.list[0]))
       this.updateIconsCache(iconsCache)
       this.setState({
         [key]: data
@@ -197,7 +203,7 @@ export default class Fetch extends Computed {
       this.save(key)
     }
 
-    return Promise.resolve(this.state[key])
+    return this.state[key]
   }
 
   /** 番市首富 */
@@ -471,18 +477,8 @@ export default class Fetch extends Computed {
       const data = {
         list: result.data.Value.Items.map(item => {
           const character: any = toCharacter(item, keys)
-          const {
-            bonus,
-            current,
-            fluctuation,
-            icon,
-            id,
-            level,
-            rank,
-            rate,
-            sacrifices,
-            stars
-          } = character
+          const { bonus, current, fluctuation, icon, id, level, rank, rate, sacrifices, stars } =
+            character
 
           if (icon) iconsCache[id] = icon
           characters[id] = {
@@ -547,18 +543,8 @@ export default class Fetch extends Computed {
       const data = {
         list: result.data.Value.Items.map(item => {
           const character: any = toCharacter(item, keys)
-          const {
-            bonus,
-            current,
-            fluctuation,
-            icon,
-            id,
-            level,
-            rank,
-            rate,
-            sacrifices,
-            stars
-          } = character
+          const { bonus, current, fluctuation, icon, id, level, rank, rate, sacrifices, stars } =
+            character
 
           if (icon) iconsCache[id] = icon
           characters[id] = {
@@ -909,9 +895,7 @@ export default class Fetch extends Computed {
 
   /** 当前拍卖状态 */
   fetchAuctionStatus = async monoId => {
-    const result = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, [
-      parseInt(monoId)
-    ])
+    const result = await this.fetch(API_TINYGRAIL_AUCTION_STATUS(), true, [parseInt(monoId)])
 
     const { State, Value } = result.data
     let data: any = INIT_AUCTION_STATUS
@@ -1380,12 +1364,7 @@ export default class Fetch extends Computed {
 
     // @tofixed 这个接口坏了, 不支持limit > 100
     for (let i = 1; i <= 5; i += 1) {
-      result = await this.fetch(
-        API_TINYGRAIL_LIST('recent', i, 80),
-        undefined,
-        undefined,
-        true
-      )
+      result = await this.fetch(API_TINYGRAIL_LIST('recent', i, 80), undefined, undefined, true)
 
       if (result.data.State !== 0) break
       Value = [...Value, ...result.data.Value.Items]
@@ -1398,9 +1377,7 @@ export default class Fetch extends Computed {
     const iconsCache = toJS(this.state.iconsCache)
     list = Value
       // 规则
-      .filter(
-        item => item.Asks >= 10 && calculateRate(item.Rate, item.Rank, item.Stars) >= 2
-      )
+      .filter(item => item.Asks >= 10 && calculateRate(item.Rate, item.Rank, item.Stars) >= 2)
       .map(item => {
         const id = item.CharacterId || item.Id
         if (item.Icon) {
@@ -1450,8 +1427,7 @@ export default class Fetch extends Computed {
                 firstAsks: asks[0].price,
                 firstAmount: asks[0].amount,
                 mark: toFixed(
-                  (calculateRate(item.rate, item.rank, item.stars) / asks[0].price) *
-                    100,
+                  (calculateRate(item.rate, item.rank, item.stars) / asks[0].price) * 100,
                   1
                 )
               }
@@ -1555,9 +1531,7 @@ export default class Fetch extends Computed {
 
   /** 拍卖推荐 (从英灵殿中查找) */
   fetchAdvanceAuctionList = async () => {
-    const result = await this.fetch(
-      API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT)
-    )
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT))
     const { State, Value } = result.data
 
     let data: any = {
@@ -1580,11 +1554,7 @@ export default class Fetch extends Computed {
             mark:
               item.Rank > 500
                 ? 0
-                : toFixed(
-                    (calculateRate(item.Rate, item.Rank, item.Stars) / item.Price) *
-                      100,
-                    1
-                  )
+                : toFixed((calculateRate(item.Rate, item.Rank, item.Stars) / item.Price) * 100, 1)
           }))
           .filter(item => parseFloat(item.mark) >= 5)
           .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
@@ -1604,9 +1574,7 @@ export default class Fetch extends Computed {
 
   /** 拍卖推荐 (按假设角色是通天塔250名来计算, 从英灵殿中查找) */
   fetchAdvanceAuctionList2 = async () => {
-    const result = await this.fetch(
-      API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT)
-    )
+    const result = await this.fetch(API_TINYGRAIL_VALHALL_LIST(1, TINYGRAIL_ASSETS_LIMIT))
     const { State, Value } = result.data
 
     let data: any = {
@@ -1629,11 +1597,7 @@ export default class Fetch extends Computed {
             rank: item.Rank || 0,
             stars: item.Stars || 0,
             mark: toFixed(
-              (calculateRate(
-                item.Rate,
-                (item.Rank > 500 ? 500 : item.Rank) || 500,
-                item.Stars
-              ) /
+              (calculateRate(item.Rate, (item.Rank > 500 ? 500 : item.Rank) || 500, item.Stars) /
                 item.Price) *
                 100,
               1

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:29:38
+ * @Last Modified time: 2024-03-02 05:51:39
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import Auction from './auction'
 import Control from './control'
@@ -29,7 +29,7 @@ function Item(props, { $, navigation }) {
 
   const onPress = () => {
     if (isICO) {
-      // ICO不受复写go参数影响跳转
+      // ICO 不受复写 go 参数影响跳转
       t(event.id, {
         to: 'TinygrailICODeal',
         monoId: monoId || id,
@@ -42,15 +42,14 @@ function Item(props, { $, navigation }) {
     }
 
     const _id = isAuction || isValhall ? monoId || id : id
-    if (go) {
-      return getOnPress(_id, go, navigation, event.id, event.data)()
-    }
+    if (go) return getOnPress(_id, go, navigation, event.id, event.data)()
 
     t(event.id, {
       to: 'TinygrailDeal',
       monoId: _id,
       ...event.data
     })
+
     return navigation.push('TinygrailDeal', {
       monoId: `character/${_id}`
     })
@@ -62,11 +61,7 @@ function Item(props, { $, navigation }) {
       <Flex.Item style={styles.wrap}>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>
-            <Touchable
-              style={styles.item}
-              withoutFeedback={withoutFeedback}
-              onPress={onPress}
-            >
+            <Touchable style={styles.item} withoutFeedback={withoutFeedback} onPress={onPress}>
               <Flex align='start'>
                 <Flex.Item>
                   <Title {...props} />

@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 18:23:45
+ * @Last Modified time: 2024-03-02 06:01:58
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -51,12 +51,10 @@ export const API_TINYGRAIL_ISSUE_PRICE = (monoId: Id = 0) =>
   `${API_HOST_TINYGRAIL}/api/chara/charts/${monoId}/2021-08-08`
 
 /** 角色详情 */
-export const API_TINYGRAIL_CHARA = (monoId: Id = 0) =>
-  `${API_HOST_TINYGRAIL}/api/chara/${monoId}`
+export const API_TINYGRAIL_CHARA = (monoId: Id = 0) => `${API_HOST_TINYGRAIL}/api/chara/${monoId}`
 
 /** 角色深度图 */
-export const API_TINYGRAIL_DEPTH = (monoId: Id) =>
-  `${API_HOST_TINYGRAIL}/api/chara/depth/${monoId}`
+export const API_TINYGRAIL_DEPTH = (monoId: Id) => `${API_HOST_TINYGRAIL}/api/chara/depth/${monoId}`
 
 /** 登出 */
 export const API_TINYGRAIL_LOGOUT = () => `${API_HOST_TINYGRAIL}/api/account/logout`
@@ -115,20 +113,17 @@ export const API_TINYGRAIL_CANCEL_ASK = (id: Id) =>
   `${API_HOST_TINYGRAIL}/api/chara/ask/cancel/${id}`
 
 /** 我的买单 */
-export const API_TINYGRAIL_CHARA_BID = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/400`
+export const API_TINYGRAIL_CHARA_BID = () => `${API_HOST_TINYGRAIL}/api/chara/bids/0/1/400`
 
 /** 我的卖单 */
-export const API_TINYGRAIL_CHARA_ASKS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/400`
+export const API_TINYGRAIL_CHARA_ASKS = () => `${API_HOST_TINYGRAIL}/api/chara/asks/0/1/400`
 
 /** 我的持仓 */
 export const API_TINYGRAIL_MY_CHARA_ASSETS = () =>
   `${API_HOST_TINYGRAIL}/api/chara/user/assets/0/true`
 
 /** 资金日志 */
-export const API_TINYGRAIL_BALANCE = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/200`
+export const API_TINYGRAIL_BALANCE = () => `${API_HOST_TINYGRAIL}/api/chara/user/balance/1/200`
 
 /** ICO 参与者 */
 export const API_TINYGRAIL_INITIAL = (icoId: Id, page = 1) =>
@@ -143,8 +138,7 @@ export const API_TINYGRAIL_USERS = (monoId: Id) =>
   `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/80`
 
 /** 股息预测 */
-export const API_TINYGRAIL_TEST = () =>
-  `${API_HOST_TINYGRAIL}/api/event/share/bonus/test`
+export const API_TINYGRAIL_TEST = () => `${API_HOST_TINYGRAIL}/api/event/share/bonus/test`
 
 /** 角色圣殿 */
 export const API_TINYGRAIL_CHARA_TEMPLE = (monoId: Id) =>
@@ -163,12 +157,10 @@ export const API_TINYGRAIL_TEMPLE_LAST = (page: number = 1, limit: number = 24) 
   `${API_HOST_TINYGRAIL}/api/chara/temple/last/${page}/${limit}`
 
 /** 环保刮刮乐 */
-export const API_TINYGRAIL_SCRATCH = () =>
-  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2`
+export const API_TINYGRAIL_SCRATCH = () => `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2`
 
 /** 幻想乡刮刮乐 */
-export const API_TINYGRAIL_SCRATCH2 = () =>
-  `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2/true`
+export const API_TINYGRAIL_SCRATCH2 = () => `${API_HOST_TINYGRAIL}/api/event/scratch/bonus2/true`
 
 /** 可拍卖信息 */
 export const API_TINYGRAIL_VALHALL_CHARA = (monoId: Id) =>
@@ -191,8 +183,7 @@ export const API_TINYGRAIL_AUCTION_LIST = (monoId: Id) =>
  *
  * @query [monoId]
  */
-export const API_TINYGRAIL_AUCTION_STATUS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/auction/list`
+export const API_TINYGRAIL_AUCTION_STATUS = () => `${API_HOST_TINYGRAIL}/api/chara/auction/list`
 
 /** 拍卖 */
 export const API_TINYGRAIL_AUCTION = (monoId: Id, price: string, amount: number) =>
@@ -205,11 +196,8 @@ export const API_TINYGRAIL_AUCTION = (monoId: Id, price: string, amount: number)
  * @param {*} count
  * @param {*} isSale 是否股权融资 (卖给英灵殿, 没有道具, 结算日也可以操作)
  */
-export const API_TINYGRAIL_SACRIFICE = (
-  monoId: Id,
-  amount: number,
-  isSale: boolean = false
-) => `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}/${isSale}`
+export const API_TINYGRAIL_SACRIFICE = (monoId: Id, amount: number, isSale: boolean = false) =>
+  `${API_HOST_TINYGRAIL}/api/chara/sacrifice/${monoId}/${amount}/${isSale}`
 
 /** 我的拍卖列表 */
 export const API_TINYGRAIL_MY_AUCTION_LIST = () =>
@@ -227,16 +215,13 @@ export const API_TINYGRAIL_LINK = (monoId: Id, toMonoId: Id) =>
 export const API_TINYGRAIL_BONUS = () => `${API_HOST_TINYGRAIL}/api/event/share/bonus`
 
 /** 每日签到 */
-export const API_TINYGRAIL_BONUS_DAILY = () =>
-  `${API_HOST_TINYGRAIL}/api/event/bangumi/bonus/daily`
+export const API_TINYGRAIL_BONUS_DAILY = () => `${API_HOST_TINYGRAIL}/api/event/bangumi/bonus/daily`
 
 /** 节日奖励 */
-export const API_TINYGRAIL_BONUS_HOLIDAY = () =>
-  `${API_HOST_TINYGRAIL}/api/event/holiday/bonus`
+export const API_TINYGRAIL_BONUS_HOLIDAY = () => `${API_HOST_TINYGRAIL}/api/event/holiday/bonus`
 
 /** 我的道具 */
-export const API_TINYGRAIL_ITEMS = () =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/item/0/1/50`
+export const API_TINYGRAIL_ITEMS = () => `${API_HOST_TINYGRAIL}/api/chara/user/item/0/1/50`
 
 /** 使用道具 */
 export const API_TINYGRAIL_MAGIC = (
@@ -250,9 +235,7 @@ export const API_TINYGRAIL_MAGIC = (
     return `${API_HOST_TINYGRAIL}/api/magic/stardust/${monoId}/${toMonoId}/${amount}/${isTemple}`
   }
 
-  return `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}${
-    toMonoId ? `/${toMonoId}` : ''
-  }`
+  return `${API_HOST_TINYGRAIL}/api/magic/${type}/${monoId}${toMonoId ? `/${toMonoId}` : ''}`
 }
 
 /** 每周萌王 */
@@ -271,8 +254,7 @@ export const API_TINYGRAIL_SEARCH = (keyword: string) =>
   `${API_HOST_TINYGRAIL}/api/chara/search?keyword=${keyword}`
 
 /** 查询今天刮刮乐刮了多少次 */
-export const API_TINYGRAIL_DAILY_COUNT = () =>
-  `${API_HOST_TINYGRAIL}/api/event/daily/count/10`
+export const API_TINYGRAIL_DAILY_COUNT = () => `${API_HOST_TINYGRAIL}/api/event/daily/count/10`
 
 /** 启动ICO */
 export const API_TINYGRAIL_INIT = (monoId: Id) =>

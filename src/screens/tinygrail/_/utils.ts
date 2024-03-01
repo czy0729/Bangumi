@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 22:51:33
+ * @Last Modified time: 2024-03-02 05:35:31
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -178,7 +178,7 @@ export function sortList(sort: string, direction: string, list: any[]) {
 }
 
 /** 等级筛选列表 */
-export function levelList(level: string, list: any[]) {
+export function levelList(level: string | number, list: any[]) {
   if (level === undefined) return list
   return list.filter(item => item.level == level)
 }
@@ -192,7 +192,7 @@ export function relation(data) {
       const i = {
         ...item
       }
-      const { s, r } = XSBRelationData.data[item.monoId || item.id] || {}
+      const { s, r = [] } = XSBRelationData.data[item.monoId || item.id] || {}
       if (s) {
         i._subject = XSBRelationData.name[s]
         i._subjectId = s

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:02:59
+ * @Last Modified time: 2024-03-02 05:20:58
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
-import { Flex, Touchable, Text, Iconfont } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -63,17 +63,9 @@ function ToolBar({
           {data.map(item => {
             const isActive = sort === item.value
             return (
-              <Touchable
-                key={item.label}
-                withoutFeedback
-                onPress={() => onSortPress(item.value)}
-              >
+              <Touchable key={item.label} withoutFeedback onPress={() => onSortPress(item.value)}>
                 <Flex style={styles.item} justify='center'>
-                  <Text
-                    type={isActive ? 'warning' : 'tinygrailText'}
-                    size={13}
-                    bold={isActive}
-                  >
+                  <Text type={isActive ? 'warning' : 'tinygrailText'} size={13} bold={isActive}>
                     {item.label}
                   </Text>
                   {isActive && !!direction && (

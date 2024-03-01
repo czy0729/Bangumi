@@ -2,24 +2,37 @@
  * @Author: czy0729
  * @Date: 2021-03-05 10:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 15:07:55
+ * @Last Modified time: 2024-03-02 06:01:39
  */
 import {
-  SORT_RK,
-  SORT_XX,
-  SORT_SC,
-  SORT_GX,
-  SORT_SSGX,
   SORT_DJ,
-  SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
   SORT_DQJ,
   SORT_DQZD,
-  SORT_XFJL
+  SORT_FHL,
+  SORT_GX,
+  SORT_HYD,
+  SORT_RK,
+  SORT_SC,
+  SORT_SCJ,
+  SORT_SSGX,
+  SORT_XFJL,
+  SORT_XX
 } from '@tinygrail/_/utils'
+import { Loaded } from '@types'
+import { Direction } from './types'
 
-export const NAMESPACE = 'ScreenTinygrailOverview'
+export const COMPONENT = 'TinygrailOverview'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
+
+export const STATE = {
+  page: 0,
+  level: '' as string | number,
+  sort: '',
+  direction: '' as Direction,
+  go: '卖出',
+  _loaded: false as Loaded
+}
 
 /** @deprecated */
 export const sortDS = [
@@ -41,10 +54,10 @@ export const SORT_DS = sortDS
 
 /** @deprecated */
 export const tabs = [
-  {
-    title: '最近活跃',
-    key: 'recent'
-  },
+  // {
+  //   title: '最近活跃',
+  //   key: 'recent'
+  // },
   {
     title: '最高市值',
     key: 'mvc'

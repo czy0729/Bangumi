@@ -2,44 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 16:42:55
+ * @Last Modified time: 2024-03-02 06:01:19
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { getTimestamp } from '@utils'
-import store from '@utils/store'
-import { t } from '@utils/fetch'
-import { levelList, sortList, relation } from '@tinygrail/_/utils'
 import { ListKey } from '@stores/tinygrail/types'
-import { NAMESPACE, TABS } from './ds'
+import { getTimestamp } from '@utils'
+import { t } from '@utils/fetch'
+import store from '@utils/store'
+import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { NAMESPACE, STATE, TABS } from './ds'
+import { Direction } from './types'
 
-export default class ScreenTinygrailOverview extends store {
-  state = observable({
-    page: 0,
-    level: '',
-    sort: '',
-    direction: '' as '' | 'up' | 'down',
-    go: '卖出',
-    _loaded: false
-  })
+export default class ScreenTinygrailOverview extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
     const needFetch = !_loaded || current - Number(_loaded) > 60
-
-    const res = this.getStorage(NAMESPACE)
-    const state = await res
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       _loaded: needFetch ? current : _loaded
     })
 
-    if (needFetch) {
-      this.fetchList(this.currentKey)
-    }
+    if (needFetch) this.fetchList(this.currentKey)
 
-    return res
+    return true
   }
 
   // -------------------- fetch --------------------
@@ -118,9 +107,9 @@ export default class ScreenTinygrailOverview extends store {
   }
 
   tabChangeCallback = (page: number) => {
-    const { title, key } = TABS[page]
+    const { key } = TABS[page]
     const { _loaded } = this.list(key)
-    if (!_loaded || title === '最近活跃') this.fetchList(key)
+    if (!_loaded) this.fetchList(key)
   }
 
   onLevelSelect = (level: number) => {
@@ -138,7 +127,7 @@ export default class ScreenTinygrailOverview extends store {
     const { sort, direction } = this.state
     if (item === sort) {
       let nextSort = item
-      let nextDirection = 'down'
+      let nextDirection: Direction = 'down'
       if (direction === 'down') {
         nextDirection = 'up'
       } else if (direction === 'up') {
