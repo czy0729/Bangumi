@@ -54,17 +54,21 @@ export const SORT_DS = sortDS
 
 /** @deprecated */
 export const tabs = [
+  {
+    title: '精炼排行',
+    key: 'refine/temple'
+  },
   // {
   //   title: '最近活跃',
   //   key: 'recent'
   // },
   {
-    title: '最高市值',
-    key: 'mvc'
-  },
-  {
     title: '最高股息',
     key: 'msrc'
+  },
+  {
+    title: '最高市值',
+    key: 'mvc'
   },
   {
     title: '最大涨幅',

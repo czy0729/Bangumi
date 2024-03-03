@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 06:01:19
+ * @Last Modified time: 2024-03-03 06:42:46
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { ListKey } from '@stores/tinygrail/types'
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { levelList, sortList } from '@tinygrail/_/utils'
 import { NAMESPACE, STATE, TABS } from './ds'
-import { Direction } from './types'
+import { Direction, TabsKey } from './types'
 
 export default class ScreenTinygrailOverview extends store<typeof STATE> {
   state = observable(STATE)
@@ -32,8 +31,12 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
   }
 
   // -------------------- fetch --------------------
-  fetchList = (key: ListKey) => {
-    return tinygrailStore.fetchList(key)
+  fetchList = (key: TabsKey) => {
+    if (!key) key = this.currentKey
+
+    return key === 'refine/temple'
+      ? tinygrailStore.fetchRefineTemple()
+      : tinygrailStore.fetchList(key)
   }
 
   // -------------------- get --------------------
@@ -51,28 +54,29 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
     return data
   }
 
-  list(key: ListKey = 'recent') {
-    return computed(() => relation(tinygrailStore.list(key))).get()
+  list(key: TabsKey = TABS[0].key) {
+    return computed(() =>
+      key === 'refine/temple' ? tinygrailStore.refine_temple : tinygrailStore.list(key)
+    ).get()
   }
 
-  computedList(key: ListKey) {
-    const { sort, level, direction } = this.state
+  computedList(key: TabsKey) {
     return computed(() => {
       const list = this.list(key)
-      if (!list._loaded) return list
+      if (key === 'refine/temple' || !list._loaded) return list
 
       let _list = list
-      if (level) {
+      if (this.state.level) {
         _list = {
           ..._list,
-          list: levelList(level, _list.list)
+          list: levelList(this.state.level, _list.list)
         }
       }
 
-      if (sort) {
+      if (this.state.sort) {
         _list = {
           ..._list,
-          list: sortList(sort, direction, _list.list)
+          list: sortList(this.state.sort, this.state.direction, _list.list)
         }
       }
 
@@ -81,6 +85,7 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
   }
 
   // -------------------- page --------------------
+  /** 标签页切换 */
   onChange = (page: number) => {
     if (page === this.state.page) return
 
@@ -92,9 +97,13 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
       page
     })
     this.setStorage(NAMESPACE)
-    this.tabChangeCallback(page)
+
+    const { key } = TABS[page]
+    const { _loaded } = this.list(key)
+    if (!_loaded) this.fetchList(key)
   }
 
+  /** 设置前往 */
   onSelectGo = (title: string) => {
     t('热门榜单.设置前往', {
       title
@@ -106,12 +115,7 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
     this.setStorage(NAMESPACE)
   }
 
-  tabChangeCallback = (page: number) => {
-    const { key } = TABS[page]
-    const { _loaded } = this.list(key)
-    if (!_loaded) this.fetchList(key)
-  }
-
+  /** 列表等级筛选排序 */
   onLevelSelect = (level: number) => {
     t('热门榜单.筛选', {
       level
@@ -123,6 +127,7 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
     this.setStorage(NAMESPACE)
   }
 
+  /** 列表排序 */
   onSortPress = (item: string) => {
     const { sort, direction } = this.state
     if (item === sort) {

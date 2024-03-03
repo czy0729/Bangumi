@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:42:19
+ * @Last Modified time: 2024-03-03 07:27:53
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -60,7 +60,9 @@ function CompText(
     })
   }
 
-  if (align) _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
+  if (align && align !== 'left') {
+    _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
+  }
   if (shadow) _style.push(styles.shadow)
   if (noWrap) _style.push(styles.noWrap)
   if (style) _style.push(style)

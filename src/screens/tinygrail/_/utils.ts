@@ -6,8 +6,17 @@
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
-import { desc, formatNumber, info, throttle, toFixed } from '@utils'
-import { B, getXsbRelationOTA, IOS, M } from '@constants'
+import {
+  desc,
+  formatNumber,
+  getTimestamp,
+  info,
+  lastDate,
+  throttle,
+  tinygrailFixedTime,
+  toFixed
+} from '@utils'
+import { B, IOS, M } from '@constants'
 import { ColorValue } from '@types'
 
 /** 等级背景颜色 */
@@ -183,24 +192,31 @@ export function levelList(level: string | number, list: any[]) {
   return list.filter(item => item.level == level)
 }
 
-/** 获取角色关联条目信息 */
-export function relation(data) {
-  const XSBRelationData = getXsbRelationOTA()
-  return {
-    ...data,
-    list: data.list.map(item => {
-      const i = {
-        ...item
-      }
-      const { s, r = [] } = XSBRelationData.data[item.monoId || item.id] || {}
-      if (s) {
-        i._subject = XSBRelationData.name[s]
-        i._subjectId = s
-      }
-      if (r) i._relation = r
-      return i
-    })
-  }
+/** 小圣杯用最近时间 */
+export function tinygrailLastDate(time: string) {
+  return lastDate(getTimestamp(tinygrailFixedTime(time)))
+}
+
+/** @deprecated 获取角色关联条目信息 */
+export function relation(data: any) {
+  return data
+
+  // const XSBRelationData = getXsbRelationOTA()
+  // return {
+  //   ...data,
+  //   list: data.list.map(item => {
+  //     const i = {
+  //       ...item
+  //     }
+  //     const { s, r = [] } = XSBRelationData.data[item.monoId || item.id] || {}
+  //     if (s) {
+  //       i._subject = XSBRelationData.name[s]
+  //       i._subjectId = s
+  //     }
+  //     if (r) i._relation = r
+  //     return i
+  //   })
+  // }
 }
 
 export const SORT_RK = {

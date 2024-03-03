@@ -8,17 +8,17 @@ import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
 import { LIST_EMPTY } from '@constants'
 import { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
-import State from './state'
 import {
   INIT_ASSETS,
   INIT_AUCTION_STATUS,
-  INIT_CHARACTERS_ITEM,
   INIT_CHARA_ASSETS,
+  INIT_CHARACTERS_ITEM,
   INIT_DEPTH_ITEM,
   INIT_KLINE_ITEM,
   INIT_USER_LOGS,
   STATE
 } from './init'
+import State from './state'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { Characters, ListKey } from './types'
 
@@ -155,6 +155,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 最高股息 */
   @computed get msrc() {
     return this.state.msrc
+  }
+
+  /** 精炼排行 */
+  @computed get refine_temple() {
+    return this.state.refine_temple
   }
 
   /** 我的买单 */

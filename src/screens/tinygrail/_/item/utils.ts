@@ -12,8 +12,8 @@ export function getOnPress(
   charaId: MonoId,
   go: string,
   navigation: Navigation,
-  eventId: EventKeys,
-  eventData: any
+  eventId?: EventKeys,
+  eventData?: AnyObject
 ) {
   return () => {
     let to: Paths
@@ -45,11 +45,14 @@ export function getOnPress(
         return
     }
 
-    t(eventId, {
-      to,
-      monoId: charaId,
-      ...eventData
-    })
+    if (eventId) {
+      t(eventId, {
+        to,
+        monoId: charaId,
+        ...eventData
+      })
+    }
+
     navigation.push(to, {
       monoId: `character/${charaId}`,
       ...params

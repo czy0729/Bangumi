@@ -262,6 +262,9 @@ export const STATE = {
   /** 最高股息 */
   msrc: LIST_EMPTY,
 
+  /** 精炼排行 */
+  refine_temple: LIST_EMPTY,
+
   /** 番市首富 */
   rich: {
     ...INIT_RICH
@@ -415,6 +418,7 @@ export const LOADED = {
   myCharaAssets: false,
   nbc: false,
   recent: false,
+  refine_temple: false,
   rich: false,
   star: false,
   temple: false,

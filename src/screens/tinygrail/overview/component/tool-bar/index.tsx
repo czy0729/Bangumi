@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-02 04:49:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 04:51:26
+ * @Last Modified time: 2024-03-02 16:56:13
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -12,6 +12,8 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function ToolBar(props, { $ }: Ctx) {
+  if ($.currentKey === 'refine/temple') return null
+
   return (
     <ToolBarComp
       data={SORT_DS}

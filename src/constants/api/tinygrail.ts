@@ -38,6 +38,10 @@ export const API_TINYGRAIL_LIST = (
   limit: number = TINYGRAIL_LIMIT
 ) => `${API_HOST_TINYGRAIL}/api/chara/${type}/${page}/${limit}`
 
+/** 精炼排行 */
+export const API_TINYGRAIL_REFINE_TEMPLE = () =>
+  `${API_HOST_TINYGRAIL}/api/chara/refine/temple/1/100`
+
 /** 番市首富 */
 export const API_TINYGRAIL_RICH = (page: number = 1, limit: number = TINYGRAIL_LIMIT) =>
   `${API_HOST_TINYGRAIL}/api/chara/top/${page}/${limit}`

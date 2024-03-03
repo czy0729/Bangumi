@@ -7,11 +7,11 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar } from '@components'
-import { _, tinygrailStore, systemStore } from '@stores'
+import { _, systemStore, tinygrailStore } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { t } from '@utils/fetch'
-import { obc } from '@utils/decorators'
 import { HOST_IMAGE } from '@utils/app/ds'
+import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { CDN_OSS_MAGMA_MONO } from '@constants'
 import { Navigation } from '@types'
 
@@ -28,12 +28,7 @@ function Icon(
   const { cdn, cdnOrigin } = systemStore.setting
   let src = tinygrailOSS(icon)
   if (typeof src === 'string') src = src.replace('/r/400/pic/crt/l/', '/pic/crt/g/')
-  if (
-    cdn &&
-    cdnOrigin === 'magma' &&
-    typeof src === 'string' &&
-    src.includes(HOST_IMAGE)
-  ) {
+  if (cdn && cdnOrigin === 'magma' && typeof src === 'string' && src.includes(HOST_IMAGE)) {
     src = CDN_OSS_MAGMA_MONO(src)
   }
 

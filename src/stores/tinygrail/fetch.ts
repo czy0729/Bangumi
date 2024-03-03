@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 05:39:37
+ * @Last Modified time: 2024-03-03 06:41:59
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -29,6 +29,7 @@ import {
   API_TINYGRAIL_LIST,
   API_TINYGRAIL_MY_AUCTION_LIST,
   API_TINYGRAIL_MY_CHARA_ASSETS,
+  API_TINYGRAIL_REFINE_TEMPLE,
   API_TINYGRAIL_RICH,
   API_TINYGRAIL_STAR,
   API_TINYGRAIL_STAR_LOGS,
@@ -57,6 +58,7 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
+import { REFINE_TEMPLE_ITEM } from './mock'
 import { calculateRate, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
@@ -195,7 +197,6 @@ export default class Fetch extends Computed {
         _loaded: getTimestamp()
       }
 
-      console.log(JSON.stringify(data.list[0]))
       this.updateIconsCache(iconsCache)
       this.setState({
         [key]: data
@@ -204,6 +205,40 @@ export default class Fetch extends Computed {
     }
 
     return this.state[key]
+  }
+
+  /** 精炼排行 */
+  fetchRefineTemple = async () => {
+    const result = await this.fetch(API_TINYGRAIL_REFINE_TEMPLE())
+
+    let data = {
+      ...LIST_EMPTY
+    }
+    if (result.data.State === 0) {
+      data = {
+        ...LIST_EMPTY,
+        list: result.data.Value.Items.map((item: typeof REFINE_TEMPLE_ITEM) => ({
+          monoId: item.CharacterId,
+          cover: item.Cover,
+          name: item.CharacterName,
+          userId: item.Name,
+          userName: item.Nickname,
+          refine: item.Refine,
+          assets: item.Assets,
+          sacrifices: item.Sacrifices,
+          lastActive: item.LastActive
+        })),
+        pagination: paginationOnePage,
+        _loaded: getTimestamp()
+      }
+
+      const key = 'refine_temple'
+      this.setState({
+        [key]: data
+      })
+    }
+
+    return data
   }
 
   /** 番市首富 */
