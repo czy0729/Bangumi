@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 18:39:03
+ * @Last Modified time: 2024-03-05 03:55:41
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -11,13 +11,20 @@ import { obc } from '@utils/decorators'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
 import { ListEmpty } from '@types'
 import { TABS } from '../../ds'
-import { Ctx } from '../../types'
+import { Ctx, TabsKey } from '../../types'
 import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List({ id }, { $ }: Ctx) {
+function List(
+  {
+    id
+  }: {
+    id: TabsKey
+  },
+  { $ }: Ctx
+) {
   if (!$.myCharaAssets._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }

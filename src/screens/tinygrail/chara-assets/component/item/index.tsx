@@ -2,19 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-06-08 11:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 18:12:39
+ * @Last Modified time: 2024-03-05 03:56:49
  */
 import React from 'react'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import ItemTemple from '@tinygrail/_/item-temple'
-import { Ctx } from '../../types'
+import { Ctx, TabsKey } from '../../types'
 import ItemEdit from '../item-edit'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function Item({ id, index, item }, { navigation }: Ctx) {
+function Item(
+  {
+    id,
+    index,
+    item
+  }: {
+    id: TabsKey
+    index: number
+    item: any
+  },
+  { navigation }: Ctx
+) {
   if (id === 'temple') {
     return (
       <ItemTemple

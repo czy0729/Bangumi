@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-03 07:28:05
+ * @Last Modified time: 2024-03-05 05:00:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,14 +15,17 @@ import { memoStyles } from './styles'
 
 function Progress({
   style,
+  size = 'md',
   assets,
   sacrifices
 }: {
   style?: ViewStyle
+  size?: 'md' | 'sm'
   assets: number
   sacrifices: number
 }) {
   const styles = memoStyles()
+  const isMini = size === 'sm'
 
   let barColor: ColorValue = _.colorSuccess
   let percent = 1
@@ -34,6 +37,9 @@ function Progress({
       barColor = _.colorWarning
     }
   }
+
+  let text = formatNumber(assets, 0)
+  if (!isMini || assets !== sacrifices) text += ` / ${formatNumber(sacrifices, 0)}`
 
   return (
     <View style={stl(styles.progress, style)}>
@@ -49,13 +55,14 @@ function Progress({
       <Text
         style={styles.text}
         type='__plain__'
-        size={12}
+        size={isMini ? 9 : 12}
         lineHeight={1}
         bold
         align={percent > 0.5 ? 'center' : 'left'}
+        numberOfLines={1}
         shadow
       >
-        {formatNumber(assets, 0)} / {formatNumber(sacrifices, 0)}
+        {text}
       </Text>
     </View>
   )

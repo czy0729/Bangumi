@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2024-03-03 06:46:05
+ * @Date: 2024-03-05 04:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 04:57:50
+ * @Last Modified time: 2024-03-05 04:58:20
  */
 import React from 'react'
 import { Text } from '@components'
@@ -11,7 +11,7 @@ import { ob } from '@utils/decorators'
 import { TextStyle } from '@types'
 import { styles } from './styles'
 
-function Refine({
+function Level({
   style,
   size = 10,
   value
@@ -20,13 +20,13 @@ function Refine({
   size?: number
   value: string | number
 }) {
-  if (!value) return null
+  if (Number(value) <= 1) return null
 
   return (
-    <Text style={stl(styles.refine, style)} size={size} bold>
-      +{value}
+    <Text style={stl(styles.level, style)} type='ask' size={size} bold>
+      lv{value}
     </Text>
   )
 }
 
-export default ob(Refine)
+export default ob(Level)

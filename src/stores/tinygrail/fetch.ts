@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 19:01:19
+ * @Last Modified time: 2024-03-05 05:02:47
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -1154,16 +1154,21 @@ export default class Fetch extends Computed {
         ...LIST_EMPTY,
         list: result.data.Value.Items.map(item => ({
           id: item.CharacterId,
-          assets: item.Assets, // 用户献祭剩余资产
+
+          /** 用户献祭剩余资产 */
+          assets: item.Assets,
           cLevel: item.CharacterLevel,
           cover: item.Cover,
           level: item.Level,
           name: item.Name,
           rank: item.CharacterRank,
           rate: Number(toFixed(item.Rate, 2)),
-          sacrifices: item.Sacrifices, // 用户献祭总数
+
+          /** 用户献祭总数 */
+          sacrifices: item.Sacrifices,
           starForces: item.CharacterStarForces,
-          stars: item.CharacterStars
+          stars: item.CharacterStars,
+          refine: item.Refine
         })),
         _loaded: getTimestamp()
       }

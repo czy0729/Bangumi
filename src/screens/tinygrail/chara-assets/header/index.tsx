@@ -7,8 +7,8 @@
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
-import Right from '../right'
+import Right from '../component/right'
+import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {

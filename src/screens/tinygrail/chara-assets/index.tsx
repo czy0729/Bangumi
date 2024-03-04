@@ -2,117 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 18:13:33
+ * @Last Modified time: 2024-03-05 03:43:23
  */
 import React from 'react'
-import { Flex, Iconfont, Page, Text, Touchable } from '@components'
+import { Page } from '@components'
 import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
-import Tabs from '@tinygrail/_/tabs-v2'
-import ToolBar from '@tinygrail/_/tool-bar'
-import Header from './component/header'
-import List from './component/list'
+import { ic } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
+import Tabs from './component/tabs'
+import Header from './header'
+import { useTinygrailCharaAssetsPage } from './hooks'
 import Store from './store'
-import { SORT_DS, TABS } from './ds'
-import { styles } from './styles'
 import { Ctx } from './types'
 
-class TinygrailCharaAssets extends React.Component {
-  async componentDidMount() {
-    const { $ } = this.context as Ctx
-    const { form } = $.params
-    if (form === 'lottery') {
-      $.initFormLottery()
-    } else {
-      $.init()
-    }
-  }
+/** 热门榜单 */
+const TinygrailCharaAssets = (props, context: Ctx) => {
+  useTinygrailCharaAssetsPage(context)
 
-  getCount = (route: { key: any }) => {
-    const { $ } = this.context as Ctx
-    switch (route.key) {
-      case 'chara':
-        return $.myCharaAssets?.chara?.list?.length || 0
-
-      case 'temple':
-        return $.temple?.list?.length === 2000 ? '2000+' : $.temple?.list?.length || 0
-
-      case 'ico':
-        return $.myCharaAssets?.ico?.list?.length || 0
-
-      default:
-        return 0
-    }
-  }
-
-  renderIncreaseBtn() {
-    const { $ } = this.context as Ctx
-    const { editing } = $.state
-    return (
-      editing && (
-        <Touchable onPress={$.increaseBatchSelect}>
-          <Flex style={styles.check}>
-            <Iconfont name='md-done-all' size={16} color={_.colorTinygrailText} />
-          </Flex>
-        </Touchable>
-      )
-    )
-  }
-
-  renderContentHeaderComponent() {
-    const { $ } = this.context as Ctx
-    const { page, level, sort, direction } = $.state
-    if (page > 1) return undefined
-
-    return (
-      <ToolBar
-        data={SORT_DS}
-        level={level}
-        levelMap={$.levelMap}
-        sort={sort}
-        direction={direction}
-        renderLeft={this.renderIncreaseBtn()}
-        onLevelSelect={$.onLevelSelect}
-        onSortPress={$.onSortPress}
-      />
-    )
-  }
-
-  renderItem = item => {
-    return <List key={item.key} id={item.key} />
-  }
-
-  renderLabel = ({ route, focused }) => (
-    <Flex style={styles.labelText} justify='center'>
-      <Text type='tinygrailPlain' size={13} bold={focused}>
-        {route.title}
-      </Text>
-      {!!this.getCount(route) && (
-        <Text type='tinygrailText' size={11} bold lineHeight={13}>
-          {' '}
-          {this.getCount(route)}{' '}
-        </Text>
-      )}
-    </Flex>
-  )
-
-  render() {
-    const { $ } = this.context as Ctx
-    const { _loaded } = $.state
-    return (
-      <>
-        <Header />
-        <Page style={_.container.tinygrail} loaded={_loaded} loadingColor={_.colorTinygrailText}>
-          <Tabs
-            routes={TABS}
-            renderContentHeaderComponent={this.renderContentHeaderComponent()}
-            renderItem={this.renderItem}
-            renderLabel={this.renderLabel}
-          />
-        </Page>
-      </>
-    )
-  }
+  const { $ } = context
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page
+        style={_.container.tinygrail}
+        loaded={$.state._loaded}
+        loadingColor={_.colorTinygrailText}
+      >
+        <Tabs />
+      </Page>
+    </>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailCharaAssets))
+export default ic(Store, TinygrailCharaAssets)
