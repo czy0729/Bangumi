@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-09 23:42:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-26 08:09:02
+ * @Last Modified time: 2024-03-03 21:13:32
  */
 import React from 'react'
-import { SafeAreaBottom, Flex, Touchable, Iconfont, Text } from '@components'
+import { Flex, SafeAreaBottom } from '@components'
 import { BlurView } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { IOS, WSA } from '@constants'
+import { IOS } from '@constants'
 import { Navigation } from '@types'
 import { routesConfig } from './config'
+import TabBarItem, { EVENT_APP_TAB_PRESS } from './item'
 import { memoStyles } from './styles'
 import { Descriptors, State } from './types'
 
-export const EVENT_APP_TAB_PRESS = 'appTabPress'
+export { EVENT_APP_TAB_PRESS }
 
 function TabBar({
   state,
@@ -30,73 +31,20 @@ function TabBar({
   if (focusedOptions.tabBarVisible === false) return null
 
   const styles = memoStyles()
-  const style = [
-    styles.item,
-    {
-      width: _.window.width / state.routes.length
-    }
-  ]
   return (
-    <SafeAreaBottom
-      style={_.ios(styles.tabBar, undefined)}
-      type={_.ios('height', 'bottom')}
-    >
+    <SafeAreaBottom style={_.ios(styles.tabBar, undefined)} type={_.ios('height', 'bottom')}>
       <Flex style={styles.tabBar} align={_.ios('start', 'center')}>
         {IOS && <BlurView style={_.absoluteFill} />}
-        {state.routes.map((route, index: number) => {
-          const isHorizontal = WSA || _.isPad || _.isLandscape
-          const isFocused = state.index === index
-          const config = routesConfig[route.name]
-          return (
-            <Touchable
-              key={route.name}
-              style={style}
-              animate
-              scale={0.9}
-              onPress={() => {
-                const event = navigation.emit({
-                  type: 'tabPress',
-                  target: route.key,
-                  canPreventDefault: true
-                })
-
-                if (!isFocused && !event.defaultPrevented) {
-                  navigation.navigate(route.name as any)
-                } else if (isFocused && !event.defaultPrevented) {
-                  // 通知点击了底栏
-                  navigation.emit({
-                    type: `${EVENT_APP_TAB_PRESS}|${route.name}`,
-                    target: route.key,
-                    canPreventDefault: true
-                  })
-                }
-              }}
-            >
-              <Flex
-                style={styles.item}
-                direction={isHorizontal ? undefined : 'column'}
-                justify='center'
-              >
-                <Flex style={styles.icon} justify='center'>
-                  <Iconfont
-                    name={config.icon}
-                    size={config.size || 24}
-                    color={isFocused ? _.colorMain : _.colorDesc}
-                  />
-                </Flex>
-                {isFocused && (
-                  <Text
-                    style={isHorizontal && _.ml.sm}
-                    type={isFocused ? 'main' : 'desc'}
-                    size={12}
-                  >
-                    {config.label}
-                  </Text>
-                )}
-              </Flex>
-            </Touchable>
-          )
-        })}
+        {state.routes.map((route, index: number) => (
+          <TabBarItem
+            key={route.name}
+            navigation={navigation}
+            route={route}
+            length={state.routes.length}
+            config={routesConfig[route.name]}
+            isFocused={state.index === index}
+          />
+        ))}
       </Flex>
     </SafeAreaBottom>
   )

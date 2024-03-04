@@ -2,28 +2,27 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:15:25
+ * @Last Modified time: 2024-03-04 17:33:00
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, Header, Component } from '@components'
+import { Component, Header, ScrollView } from '@components'
 import { _, userStore } from '@stores'
-import { useRunAfter, useObserver } from '@utils/hooks'
-import { initXsbRelationOTA } from '@constants/cdn'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Base from './base'
-import ScreenOrientation from './screen-orientation'
-import UpdateTourist from './update-tourist'
-import UpdateAdvance from './update-advance'
-import UsersAdvance from './users-advance'
-import UpdateKey from './update-key'
 import Detail from './detail'
+import ScreenOrientation from './screen-orientation'
+import UpdateAdvance from './update-advance'
+import UpdateKey from './update-key'
+import UpdateTourist from './update-tourist'
+import UsersAdvance from './users-advance'
 import { memoStyles } from './styles'
 
 const DEV = ({ navigation }: NavigationProps) => {
-  useRunAfter(() => {
-    initXsbRelationOTA()
-  })
+  // useRunAfter(() => {
+  //   initXsbRelationOTA()
+  // })
 
   return useObserver(() => {
     const styles = memoStyles()

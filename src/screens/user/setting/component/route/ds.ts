@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 09:46:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:37:41
+ * @Last Modified time: 2024-03-03 21:21:05
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -16,7 +16,8 @@ export const TEXTS = {
     timeline: '时间胶囊',
     home: '进度',
     rakuen: '超展开',
-    user: '时光机'
+    user: '时光机',
+    tinygrail: '小圣杯'
   },
   initialPage: {
     setting: '启动页',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 14:03:17
+ * @Last Modified time: 2024-03-04 18:20:59
  */
 import React from 'react'
 import { Flex, Text, TextType, Touchable } from '@components'
@@ -11,7 +11,8 @@ import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { M } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Assets(props, { $ }: Ctx) {
@@ -119,4 +120,4 @@ function Assets(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Assets)
+export default obc(Assets, COMPONENT)

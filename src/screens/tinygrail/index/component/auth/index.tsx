@@ -2,40 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:55:03
+ * @Last Modified time: 2024-03-04 19:47:53
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { IconBack, IconTouchable, Avatar } from '@_'
+import { Avatar, IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 import Btns from '../btns'
-import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Auth(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { _loaded } = $.state
   const { nickname, avatar } = $.userInfo
-
   return (
     <Flex style={_.mb.sm}>
-      <IconBack
-        style={styles.back}
-        navigation={navigation}
-        color={_.colorTinygrailPlain}
+      {!$.params.fromBottomTab && (
+        <IconBack style={styles.back} navigation={navigation} color={_.colorTinygrailPlain} />
+      )}
+      <Avatar
+        key={tinygrailOSS(avatar?.large)}
+        src={tinygrailOSS(avatar?.large)}
+        size={36}
+        name={nickname}
+        borderColor='transparent'
       />
-      <View style={_.ml.xs}>
-        <Avatar
-          key={tinygrailOSS(avatar?.large)}
-          src={tinygrailOSS(avatar?.large)}
-          size={36}
-          name={nickname}
-          borderColor='transparent'
-        />
-      </View>
       <Flex.Item>
         <Flex>
           <Touchable style={styles.touch} onPress={() => navigation.push('Qiafan')}>
@@ -47,7 +41,7 @@ function Auth(props, { $, navigation }: Ctx) {
                 高级会员
               </Text>
             ) : (
-              !!_loaded && (
+              !!$.state._loaded && (
                 <Text type='tinygrailText' size={11} lineHeight={12}>
                   普通会员
                 </Text>
@@ -74,4 +68,4 @@ function Auth(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Auth)
+export default obc(Auth, COMPONENT)

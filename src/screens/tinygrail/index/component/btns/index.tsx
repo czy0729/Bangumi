@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-26 01:28:25
+ * @Last Modified time: 2024-03-04 19:01:43
  */
 import React from 'react'
 import { Button } from '@components'
@@ -11,10 +11,9 @@ import { _ } from '@stores'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT, DATA_MORE } from './ds'
 import { memoStyles } from './styles'
-
-const DATA_MORE = ['重新授权', '粘贴板', '意见反馈', '设置'] as const
 
 function Btns(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
@@ -65,12 +64,7 @@ function Btns(props, { $, navigation }: Ctx) {
           }, 400)
         }}
       >
-        <Button
-          style={styles.btn}
-          styleText={styles.text}
-          size='sm'
-          // loading={loadingBonus}
-        >
+        <Button style={styles.btn} styleText={styles.text} size='sm'>
           每日
         </Button>
       </Popover>
@@ -112,4 +106,4 @@ function Btns(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Btns)
+export default obc(Btns, COMPONENT)

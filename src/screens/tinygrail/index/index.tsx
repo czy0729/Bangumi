@@ -2,91 +2,48 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:35:18
+ * @Last Modified time: 2024-03-04 19:14:00
  */
 import React from 'react'
-import { ScrollView, RefreshControl } from 'react-native'
 import { UM } from '@components'
 import { StatusBarPlaceholder } from '@_'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
-import { hm } from '@utils/fetch'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { refreshControlProps } from '@tinygrail/styles'
-import Auth from './auth'
-import Menus from './menus'
-import Footer from './footer'
-import BonusModal from './bonus-modal'
+import { ic } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
+import ScrollView from '@tinygrail/_/scroll-view'
+import Auth from './component/auth'
+import BonusModal from './component/bonus-modal'
+import Footer from './component/footer'
+import Menus from './component/menus'
+import { useTinygrailPage } from './hooks'
 import Store from './store'
+import { TITLE } from './ds'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
-const title = '小圣杯'
+/** 小圣杯首页 */
+const Tinygrail = (props, context: Ctx) => {
+  useTinygrailPage(context)
 
-class Tinygrail extends React.Component {
-  state = {
-    refreshing: false
-  }
-
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-
-    hm('tinygrail', 'Tinygrail')
-  }
-
-  onRefresh = () => {
-    return this.setState(
-      {
-        refreshing: true
-      },
-      async () => {
-        const { $ } = this.context as Ctx
-        await $.refresh()
-
-        setTimeout(() => {
-          this.setState({
-            refreshing: false
-          })
-        }, 1200)
-      }
-    )
-  }
-
-  render() {
-    const { $ } = this.context as Ctx
-    const { visible } = $.state
-    const { refreshing } = this.state
+  const { $ } = context
+  return useObserver(() => {
+    const styles = memoStyles()
     return (
       <>
         <ScrollView
-          style={this.styles.container}
-          contentContainerStyle={this.styles.contentContainerStyle}
-          refreshControl={
-            <RefreshControl
-              {...refreshControlProps}
-              progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
-              colors={[_.colorMain]}
-              refreshing={refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-          {...SCROLL_VIEW_RESET_PROPS}
+          style={styles.container}
+          contentContainerStyle={styles.contentContainerStyle}
+          onRefresh={$.refresh}
         >
-          <UM title={title} />
+          <UM title={TITLE} />
           <StatusBarPlaceholder />
           <Auth />
           <Menus />
           <Footer />
         </ScrollView>
-        <BonusModal visible={visible} />
+        <BonusModal visible={$.state.visible} />
       </>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default inject(Store)(obc(Tinygrail))
+export default ic(Store, Tinygrail)

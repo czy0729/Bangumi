@@ -1,12 +1,13 @@
+import { computed, observable } from 'mobx'
 /*
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 03:49:37
+ * @Last Modified time: 2024-03-04 18:04:54
  */
 import cheerio from 'cheerio-without-node-native'
-import { observable, computed } from 'mobx'
-import { userStore, tinygrailStore, systemStore } from '@stores'
+import { systemStore, tinygrailStore, userStore } from '@stores'
+import { ListKey } from '@stores/tinygrail/types'
 import {
   alert,
   confirm,
@@ -14,12 +15,11 @@ import {
   formatNumber,
   getTimestamp,
   info,
-  runAfter,
   toFixed,
   urlStringify
 } from '@utils'
-import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
+import store from '@utils/store'
 import axios from '@utils/thirdParty/axios'
 import {
   API_TINYGRAIL_LOGOUT,
@@ -28,15 +28,16 @@ import {
   HOST,
   M,
   TINYGRAIL_APP_ID,
-  TINYGRAIL_URL_OAUTH_REDIRECT,
-  initXsbRelationOTA
+  TINYGRAIL_URL_OAUTH_REDIRECT
 } from '@constants'
 import i18n from '@constants/i18n'
-import { ListKey } from '@stores/tinygrail/types'
 import { Navigation } from '@types'
 import { ERROR_STR, EXCLUDE_STATE, MAX_ERROR_COUNT, NAMESPACE, STATE } from './ds'
+import { Params } from './types'
 
 export default class ScreenTinygrail extends store<typeof STATE> {
+  params: Params
+
   state = observable(STATE)
 
   formhash = ''
@@ -72,9 +73,9 @@ export default class ScreenTinygrail extends store<typeof STATE> {
     this.fetchCount()
     this.checkCount()
 
-    runAfter(() => {
-      initXsbRelationOTA()
-    })
+    // runAfter(() => {
+    //   initXsbRelationOTA()
+    // })
 
     return true
   }
@@ -111,10 +112,7 @@ export default class ScreenTinygrail extends store<typeof STATE> {
   }
 
   refresh = async () => {
-    const results = await Promise.all([
-      tinygrailStore.fetchAssets(),
-      this.fetchCharaAssets()
-    ])
+    const results = await Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
     this.caculateChange()
 
     setTimeout(() => {
@@ -247,8 +245,7 @@ export default class ScreenTinygrail extends store<typeof STATE> {
         _Total = Total > M ? `${toFixed(Total / M, 1)}万` : formatNumber(Total, 2)
         _Share = Share > M ? `${toFixed(Share / M, 1)}万` : formatNumber(Share, 2)
         _Tax = Tax > M ? `${toFixed(Tax / M, 1)}万` : formatNumber(Tax, 2)
-        _AfterTax =
-          AfterTax > M ? `${toFixed(AfterTax / M, 1)}万` : formatNumber(AfterTax, 2)
+        _AfterTax = AfterTax > M ? `${toFixed(AfterTax / M, 1)}万` : formatNumber(AfterTax, 2)
       } else {
         _Total = formatNumber(Total, 0)
         _Share = formatNumber(Share, 2)

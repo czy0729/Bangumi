@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 11:55:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:37:50
+ * @Last Modified time: 2024-03-03 21:33:11
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -47,7 +47,8 @@ function Route({ filter }) {
     if (STORYBOOK || !shows) return null
 
     const styles = memoStyles()
-    const { homeRenderTabs, initialPage, tinygrail } = systemStore.setting
+    const { homeRenderTabs } = systemStore.setting
+    const showTinygrail = homeRenderTabs.includes('Tinygrail')
     const showDiscovery = homeRenderTabs.includes('Discovery')
     const showTimeline = homeRenderTabs.includes('Timeline')
     const showRakuen = homeRenderTabs.includes('Rakuen')
@@ -161,6 +162,34 @@ function Route({ filter }) {
                     </Flex>
                   </Touchable>
                 </Flex.Item>
+                {systemStore.setting.tinygrail && (
+                  <>
+                    <View style={styles.split} />
+                    <Flex.Item>
+                      <Touchable animate onPress={() => setHomeRenderTabs('Tinygrail')}>
+                        <Flex style={styles.tab} justify='center' direction='column'>
+                          <View style={styles.icon}>
+                            <Iconfont
+                              style={styles.iconTrophy}
+                              name='trophy'
+                              color={showTinygrail ? _.colorDesc : _.colorIcon}
+                              size={16}
+                            />
+                          </View>
+                          <Highlight
+                            type={showTinygrail ? undefined : 'icon'}
+                            size={11}
+                            bold
+                            value={filter}
+                          >
+                            {TEXTS.blocks.tinygrail}
+                          </Highlight>
+                          {!showTinygrail && <View style={styles.disabledLine} />}
+                        </Flex>
+                      </Touchable>
+                    </Flex.Item>
+                  </>
+                )}
               </Flex>
               <Heatmap id='设置.切换' title='首页功能块' />
             </View>
@@ -194,7 +223,9 @@ function Route({ filter }) {
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
-                    {initialPage === 'Discovery' && <View style={styles.activeLine} />}
+                    {systemStore.setting.initialPage === 'Discovery' && (
+                      <View style={styles.activeLine} />
+                    )}
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
@@ -218,7 +249,9 @@ function Route({ filter }) {
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
-                    {initialPage === 'Timeline' && <View style={styles.activeLine} />}
+                    {systemStore.setting.initialPage === 'Timeline' && (
+                      <View style={styles.activeLine} />
+                    )}
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
@@ -238,7 +271,9 @@ function Route({ filter }) {
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
-                    {initialPage === 'Home' && <View style={styles.activeLine} />}
+                    {systemStore.setting.initialPage === 'Home' && (
+                      <View style={styles.activeLine} />
+                    )}
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
@@ -263,7 +298,9 @@ function Route({ filter }) {
                     </Flex>
                   </Touchable>
                   <Flex style={styles.activeBar} justify='center'>
-                    {initialPage === 'Rakuen' && <View style={styles.activeLine} />}
+                    {systemStore.setting.initialPage === 'Rakuen' && (
+                      <View style={styles.activeLine} />
+                    )}
                   </Flex>
                 </Flex.Item>
                 <Flex.Item>
@@ -273,15 +310,17 @@ function Route({ filter }) {
                         <Iconfont name='md-person-outline' color={_.colorDesc} size={21} />
                       </View>
                       <Highlight size={11} bold value={filter}>
-                        {TEXTS.initialPage.timeline}
+                        {TEXTS.initialPage.user}
                       </Highlight>
                     </Flex>
                     <Flex style={styles.activeBar} justify='center'>
-                      {initialPage === 'User' && <View style={styles.activeLine} />}
+                      {systemStore.setting.initialPage === 'User' && (
+                        <View style={styles.activeLine} />
+                      )}
                     </Flex>
                   </Touchable>
                 </Flex.Item>
-                {tinygrail && (
+                {systemStore.setting.tinygrail && (
                   <>
                     <View style={styles.split} />
                     <Flex.Item>
@@ -300,7 +339,9 @@ function Route({ filter }) {
                           </Highlight>
                         </Flex>
                         <Flex style={styles.activeBar} justify='center'>
-                          {initialPage === 'Tinygrail' && <View style={styles.activeLine} />}
+                          {systemStore.setting.initialPage === 'Tinygrail' && (
+                            <View style={styles.activeLine} />
+                          )}
                         </Flex>
                       </Touchable>
                     </Flex.Item>

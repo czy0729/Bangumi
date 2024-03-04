@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-28 14:22:49
+ * @Last Modified time: 2024-03-03 21:23:55
  */
 import { confirm, info, titleCase } from '@utils'
 import { read } from '@utils/db'
@@ -40,6 +40,7 @@ import {
 import UserStore from '../user'
 import Fetch from './fetch'
 import { INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
+import { HomeRenderTabs } from './types'
 
 export default class Actions extends Fetch {
   /** 还原 CDN */
@@ -157,14 +158,17 @@ export default class Actions extends Fetch {
   }
 
   /** 设置 `首页功能块` */
-  setHomeRenderTabs = (label: 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User') => {
+  setHomeRenderTabs = (
+    label: 'Tinygrail' | 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
+  ) => {
     const { homeRenderTabs } = this.setting
 
-    let data: string[]
+    let data: HomeRenderTabs
     if (homeRenderTabs.includes(label)) {
       data = homeRenderTabs.filter(item => item !== label)
     } else {
       data = []
+      if (label === 'Tinygrail' || homeRenderTabs.includes('Tinygrail')) data.push('Tinygrail')
       if (label === 'Discovery' || homeRenderTabs.includes('Discovery')) data.push('Discovery')
       if (label === 'Timeline' || homeRenderTabs.includes('Timeline')) data.push('Timeline')
       data.push('Home')

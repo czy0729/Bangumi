@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:54:15
+ * @Last Modified time: 2024-03-03 21:44:55
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -216,13 +216,15 @@ class ScreenHomeV2 extends Action {
 
   /** 设置应用初始页面 */
   updateInitialPage = (navigation: Navigation) => {
-    const { initialPage } = systemStore.setting
+    const { initialPage, homeRenderTabs } = systemStore.setting
     if (initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')) {
-      return this.init()
+      this.init()
+      return
     }
 
     if (initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('小圣杯')) {
-      return navigation.push('Tinygrail')
+      if (!homeRenderTabs.includes('Tinygrail')) navigation.push('Tinygrail')
+      return
     }
   }
 }

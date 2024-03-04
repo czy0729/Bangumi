@@ -30,7 +30,7 @@ import {
   SettingUserGridNum
 } from '@types'
 import { IOS_IMAGE_CACHE_V2 } from '../../../config'
-import { LayoutValue } from './types'
+import { HomeRenderTabs, LayoutValue } from './types'
 
 export const NAMESPACE = 'System'
 
@@ -274,7 +274,7 @@ export const INIT_SETTING = {
   homeEpStartAtLastWathed: true,
 
   /** 首页 Tabs 项 */
-  homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'],
+  homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'] as HomeRenderTabs,
 
   /** 首页收藏布局 */
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),

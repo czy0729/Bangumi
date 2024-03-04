@@ -2,27 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:07:04
+ * @Last Modified time: 2024-03-04 18:59:45
  */
 import React from 'react'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
 function MenuItem(
-  {
-    style = undefined,
-    index = undefined,
-    iconStyle = undefined,
-    pathname = undefined,
-    config = undefined,
-    title = undefined,
-    icon = undefined
-  },
+  { style, index, iconStyle, pathname, config, title, icon }: Props,
   { navigation }: Ctx
 ) {
   const styles = memoStyles()
@@ -43,14 +37,10 @@ function MenuItem(
         <Text type='tinygrailPlain' size={18} bold>
           {title}
         </Text>
-        <Iconfont
-          style={iconStyle ? [styles.icon, iconStyle] : styles.icon}
-          name={icon}
-          size={46}
-        />
+        <Iconfont style={stl(styles.icon, iconStyle)} name={icon} size={46} />
       </Flex>
     </Touchable>
   )
 }
 
-export default obc(MenuItem)
+export default obc(MenuItem, COMPONENT)

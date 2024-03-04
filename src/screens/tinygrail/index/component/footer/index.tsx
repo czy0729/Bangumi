@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-05-04 16:25:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 14:12:27
+ * @Last Modified time: 2024-03-04 18:25:44
  */
 import React from 'react'
-import { Touchable, Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TINYGRAIL_UPDATES_LOGS_URL, VERSION_TINYGRAIL_PLUGIN } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Btns(props, { $, navigation }: Ctx) {
+function Footer(props, { $, navigation }: Ctx) {
   return (
     <Flex style={_.mb.md} justify='center'>
       <Touchable
@@ -78,4 +79,4 @@ function Btns(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Btns)
+export default obc(Footer, COMPONENT)

@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 12:57:59
+ * @Last Modified time: 2024-03-04 19:01:08
  */
 import React from 'react'
-import { View, BackHandler } from 'react-native'
-import { StatusBar, Modal, Touchable, Flex, Text, Image, Button } from '@components'
+import { BackHandler, View } from 'react-native'
+import { Button, Flex, Image, Modal, StatusBar, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { toFixed, tinygrailOSS, stl } from '@utils'
+import { stl, tinygrailOSS, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { IOS } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 class BonusModal extends React.Component<{
@@ -29,7 +31,7 @@ class BonusModal extends React.Component<{
     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: { visible: boolean }) {
     if (!IOS) StatusBar.setHidden(nextProps.visible)
   }
 
@@ -48,14 +50,10 @@ class BonusModal extends React.Component<{
     const { $ } = this.context as Ctx
     const { bonus } = $.state
     if (bonus.length <= 4) {
-      return Math.floor(
-        (Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5
-      )
+      return Math.floor((Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5)
     }
 
-    return Math.floor(
-      (Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33
-    )
+    return Math.floor((Math.min(_.window.width - 2 * _.wind, 400) - 2 * (_._wind + _.md)) * 0.33)
   }
 
   get imageHeight() {
@@ -69,6 +67,8 @@ class BonusModal extends React.Component<{
   }
 
   render() {
+    r(COMPONENT)
+
     const { $, navigation } = this.context as Ctx
     const { bonus, isBonus2, loadingBonus } = $.state
     const { visible } = this.props

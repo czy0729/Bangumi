@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-07 14:24:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:44:39
+ * @Last Modified time: 2024-03-03 22:01:54
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -26,7 +26,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     block: {
       width,
-      height: width * _.device(0.39, 0.34),
+      height: width * 0.36,
       paddingLeft: 20,
       backgroundColor: _.tSelect(_.colorTinygrailBorder, _.colorTinygrailBg)
     },

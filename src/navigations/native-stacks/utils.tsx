@@ -7,10 +7,12 @@
 import { useEffect } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { urlStringify } from '@utils'
 import { useMount } from '@utils/hooks'
 import { IOS } from '@constants'
+import { ColorValue } from '@types'
+import { ANIMATIONS, DEFAULT_SCREEN_OPTIONS } from './ds'
 
 let hideSplashScreen = false
 
@@ -41,7 +43,39 @@ export function useAutoHideSplashScreen(): boolean {
   return bottom <= 20
 }
 
-/** 构建页面参数 */
+/** 构建路由页面通用参数 */
+export function getScreenOptions(isFullScreen: boolean) {
+  let navigationBarColor: ColorValue = _.colorPlain
+  if (
+    IOS ||
+    isFullScreen ||
+    (!IOS && systemStore.setting.androidBlur && systemStore.setting.blurBottomTabs && _.isDark)
+  ) {
+    navigationBarColor = 'transparent'
+  }
+
+  const screenOptions = {
+    ...DEFAULT_SCREEN_OPTIONS,
+    contentStyle: {
+      backgroundColor: _.colorPlain
+    },
+    animation: ANIMATIONS[systemStore.setting.transition],
+    navigationBarColor
+  }
+
+  /**
+   * IOS 13 以上需要修改 plist 才能使用 react-navigation 的修改 statusbar 特性
+   * 所以使用 react-native 的方式
+   */
+  if (!IOS) {
+    // @ts-ignore
+    screenOptions.statusBarStyle = _.select('dark', 'light')
+  }
+
+  return screenOptions
+}
+
+/** 构建独立页面参数 */
 export function getOptions(name: string) {
   if (IOS) return
 
@@ -62,7 +96,7 @@ export function getId({ params }) {
   return params ? urlStringify(params) : undefined
 }
 
-function convertToPath(inputStr: string): string {
-  const convertedStr = inputStr.replace(/([A-Z])/g, '/$1').toLowerCase()
-  return convertedStr.startsWith('/') ? convertedStr.slice(1) : convertedStr
+/** 空占位组件 */
+export function Placeholder() {
+  return null
 }

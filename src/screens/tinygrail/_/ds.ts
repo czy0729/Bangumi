@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-23 03:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 18:22:38
+ * @Last Modified time: 2024-03-04 18:15:19
  */
 import { _ } from '@stores'
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Base')
 
 export const VALHALL_PRICE = {}
 

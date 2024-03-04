@@ -4,17 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-06-25 03:05:08
  */
-import { IconfontNames } from '@types'
-
-type RoutesConfig = {
-  [key: string]: {
-    icon: IconfontNames
-    size?: number
-    label: string
-  }
-}
+import { RoutesConfig } from './types'
 
 export const routesConfig: RoutesConfig = {
+  Tinygrail: {
+    icon: 'trophy',
+    size: 19,
+    label: '小圣杯'
+  },
   Discovery: {
     icon: 'home',
     size: 19,

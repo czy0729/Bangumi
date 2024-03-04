@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 19:36:44
+ * @Last Modified time: 2024-03-04 18:27:35
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
-import MenuItem from '../menu-item'
+import { Ctx } from '../../types'
 import Assets from '../assets'
-import { Ctx } from '../types'
+import MenuItem from '../menu-item'
+import { COMPONENT } from './ds'
 
 function Menus(props, { $ }: Ctx) {
   const bids = $.list('bid').list.length
@@ -19,24 +20,9 @@ function Menus(props, { $ }: Ctx) {
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
     <Flex style={IOS && _.mt.sm} wrap='wrap'>
-      <MenuItem
-        index={0}
-        title='热门榜单'
-        pathname='TinygrailOverview'
-        icon='md-whatshot'
-      />
-      <MenuItem
-        index={1}
-        title='新番榜单'
-        pathname='TinygrailNew'
-        icon='md-local-play'
-      />
-      <MenuItem
-        index={2}
-        title='ICO榜单'
-        pathname='TinygrailICO'
-        icon='md-attach-money'
-      />
+      <MenuItem index={0} title='热门榜单' pathname='TinygrailOverview' icon='md-whatshot' />
+      <MenuItem index={1} title='新番榜单' pathname='TinygrailNew' icon='md-local-play' />
+      <MenuItem index={2} title='ICO榜单' pathname='TinygrailICO' icon='md-attach-money' />
       <MenuItem index={3} title='番市首富' pathname='TinygrailRich' icon='md-money' />
       <MenuItem index={4} title='英灵殿' pathname='TinygrailValhall' icon='md-looks' />
       <MenuItem
@@ -45,18 +31,8 @@ function Menus(props, { $ }: Ctx) {
         pathname='TinygrailTemples'
         icon='md-image-aspect-ratio'
       />
-      <MenuItem
-        index={6}
-        title='每周萌王'
-        pathname='TinygrailTopWeek'
-        icon='md-favorite-outline'
-      />
-      <MenuItem
-        index={7}
-        title='通天塔(α)'
-        pathname='TinygrailStar'
-        icon='md-change-history'
-      />
+      <MenuItem index={6} title='每周萌王' pathname='TinygrailTopWeek' icon='md-favorite-outline' />
+      <MenuItem index={7} title='通天塔(α)' pathname='TinygrailStar' icon='md-change-history' />
       <Assets />
       <MenuItem
         index={8}
@@ -115,24 +91,14 @@ function Menus(props, { $ }: Ctx) {
         }}
         icon='md-gavel'
       />
-      <MenuItem
-        index={11}
-        title='我的持仓'
-        pathname='TinygrailCharaAssets'
-        icon='md-inbox'
-      />
+      <MenuItem index={11} title='我的持仓' pathname='TinygrailCharaAssets' icon='md-inbox' />
       <MenuItem
         index={12}
         title='资金日志'
         pathname='TinygrailLogs'
         icon='md-insert-chart-outlined'
       />
-      <MenuItem
-        index={13}
-        title='人物查询'
-        pathname='TinygrailSearch'
-        icon='md-search'
-      />
+      <MenuItem index={13} title='人物查询' pathname='TinygrailSearch' icon='md-search' />
       <MenuItem
         index={14}
         style={{
@@ -152,4 +118,4 @@ function Menus(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Menus)
+export default obc(Menus, COMPONENT)
