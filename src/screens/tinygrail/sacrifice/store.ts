@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:55:53
+ * @Last Modified time: 2024-03-05 18:57:02
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore, systemStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { systemStore, tinygrailStore } from '@stores'
 import {
   alert,
   feedback,
@@ -16,19 +16,13 @@ import {
   setStorage,
   toFixed
 } from '@utils'
-import store from '@utils/store'
 import { queue, t, xhrCustom } from '@utils/fetch'
+import store from '@utils/store'
 import { API_TINYGRAIL_STAR, getXsbRelationOTA } from '@constants'
-import { decimal, calculateRate } from '@tinygrail/_/utils'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
+import { calculateRate, decimal } from '@tinygrail/_/utils'
 import { AnyObject, MonoId } from '@types'
-import {
-  NAMESPACE,
-  INIT_LAST_AUCTION,
-  INIT_LAST_SACRIFICE,
-  EXCLUDE_STATE,
-  STATE
-} from './ds'
+import { EXCLUDE_STATE, INIT_LAST_AUCTION, INIT_LAST_SACRIFICE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
 export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
@@ -40,10 +34,8 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}
-    const lastAuction =
-      (await getStorage(this.namespaceLastAuction)) || INIT_LAST_AUCTION
-    const lastSacrifice =
-      (await getStorage(this.namespaceLastSacrifice)) || INIT_LAST_SACRIFICE
+    const lastAuction = (await getStorage(this.namespaceLastAuction)) || INIT_LAST_AUCTION
+    const lastSacrifice = (await getStorage(this.namespaceLastSacrifice)) || INIT_LAST_SACRIFICE
 
     const current = getTimestamp()
     this.setState({
@@ -246,12 +238,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
     const ranks = rank <= 100 ? [20, 40, 60, 80] : [100, 200, 300, 400, 500]
     ranks.forEach(r => {
-      if (
-        max &&
-        rank > r &&
-        rankStarForces[r] &&
-        assets + starForces > rankStarForces[r]
-      ) {
+      if (max && rank > r && rankStarForces[r] && assets + starForces > rankStarForces[r]) {
         const _rate = calculateRate(rate, r, stars)
         const distance = rankStarForces[r] - starForces + 1
         data.push({

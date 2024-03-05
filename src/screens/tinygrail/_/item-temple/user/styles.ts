@@ -14,7 +14,12 @@ export const styles = _.create({
     left: 0,
     width: 36,
     height: 36,
-    marginTop: -36,
+    marginTop: -38,
     marginLeft: -6
+  },
+  avatar: {
+    padding: 2,
+    borderRadius: 10,
+    overflow: 'hidden'
   }
 })

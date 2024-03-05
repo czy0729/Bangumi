@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:48:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 03:56:36
+ * @Last Modified time: 2024-03-05 18:40:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,6 +39,7 @@ function Icon(
         name={name}
         borderWidth={favor ? 2 : 0}
         borderColor={favor ? '#ffc107' : 'transparent'}
+        skeletonType='tinygrail'
         onPress={() => {
           t(event.id, {
             to: 'Mono',

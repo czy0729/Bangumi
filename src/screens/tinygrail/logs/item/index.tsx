@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:42:36
+ * @Last Modified time: 2024-03-05 18:42:49
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont, TextType } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Iconfont, Text, TextType, Touchable } from '@components'
 import { _ } from '@stores'
-import { lastDate, getTimestamp, formatNumber, tinygrailOSS, stl } from '@utils'
-import { t } from '@utils/fetch'
+import { formatNumber, getTimestamp, lastDate, stl, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { AnyObject, ColorValue, MonoId, Navigation, Paths } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -21,10 +20,7 @@ const ITEMS = ['买入', '卖出', '交易', '混沌魔方'] as const
 const ITEMS_2 = ['竞拍', 'ICO'] as const
 const ITEMS_3 = ['刮刮乐获奖'] as const
 
-function Item(
-  { index, balance, desc = '', change, time, charaId }: Props,
-  { $, navigation }: Ctx
-) {
+function Item({ index, balance, desc = '', change, time, charaId }: Props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { go } = $.state
   const isTop = index === 0
@@ -97,6 +93,7 @@ function Item(
                       src={tinygrailOSS(icons)}
                       size={28}
                       borderColor='transparent'
+                      skeletonType='tinygrail'
                       onPress={() => {
                         // ICO的记录没有人物id
                         if (!onPress) {
@@ -145,9 +142,7 @@ function Item(
                 {changeNum}
               </Text>
             )}
-            {!!onPress && (
-              <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
-            )}
+            {!!onPress && <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />}
           </Flex>
         </Flex>
       </Touchable>

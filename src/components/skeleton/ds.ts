@@ -10,10 +10,16 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Skeleton')
 
-export const shimmerColors = [_.colorBg, _.colorIcon, _.colorBg]
+export const SHIMMER_COLORS = [_.colorBg, _.colorIcon, _.colorBg]
 
-export const shimmerColorsDark = [
+export const SHIMMER_COLORS_DARK = [
   _._colorDarkModeLevel1,
   _._colorDarkModeLevel2,
   _._colorDarkModeLevel1
+]
+
+export const SHIMMER_COLORS_TINYGRAIL_DARK = [
+  _.colorTinygrailBorder,
+  _.colorTinygrailIcon,
+  _.colorTinygrailBorder
 ]

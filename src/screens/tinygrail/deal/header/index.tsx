@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:36:36
+ * @Last Modified time: 2024-03-05 18:43:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, TextType } from '@components'
-import { Avatar, IconBack, IconTouchable } from '@_'
+import { Avatar, Flex, Text, TextType } from '@components'
+import { IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
-import { toFixed, tinygrailOSS } from '@utils'
+import { tinygrailOSS, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Rank from '@tinygrail/_/rank'
@@ -35,17 +35,14 @@ function Header(props, { $, navigation }: Ctx) {
     <Flex style={styles.container}>
       <Flex.Item>
         <Flex>
-          <IconBack
-            style={styles.back}
-            navigation={navigation}
-            color={_.colorTinygrailPlain}
-          />
+          <IconBack style={styles.back} navigation={navigation} color={_.colorTinygrailPlain} />
           {!!icon && (
             <View style={styles.avatar}>
               <Avatar
                 src={tinygrailOSS(icon)}
                 size={40}
                 borderColor='transparent'
+                skeletonType='tinygrail'
                 name={name}
                 onPress={() => {
                   t('交易.跳转', {
@@ -76,14 +73,7 @@ function Header(props, { $, navigation }: Ctx) {
               <Text style={_.ml.xs} type='ask' size={11} bold lineHeight={13}>
                 lv{level}
               </Text>
-              <Text
-                style={_.ml.xs}
-                type={color}
-                size={12}
-                lineHeight={13}
-                align='center'
-                bold
-              >
+              <Text style={_.ml.xs} type={color} size={12} lineHeight={13} align='center' bold>
                 {fluctuationText}
               </Text>
             </Flex>

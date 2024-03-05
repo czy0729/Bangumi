@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-22 02:09:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:28:26
+ * @Last Modified time: 2024-03-05 18:42:28
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, UserStatus, Touchable, Iconfont } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
-import { formatNumber, toFixed, getTimestamp } from '@utils'
+import { formatNumber, getTimestamp, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../types'
@@ -54,6 +53,7 @@ function Users(props, { $, navigation }: Ctx) {
                     size={32}
                     userId={item.name}
                     name={item.nickName}
+                    skeletonType='tinygrail'
                     event={EVENT}
                     params={PARAMS}
                   />
@@ -62,20 +62,13 @@ function Users(props, { $, navigation }: Ctx) {
               <Flex.Item style={_.ml.sm}>
                 <Flex style={!!item.balance && _.mt.xs}>
                   <Rank style={styles.rank} value={item.lastIndex} />
-                  <Text
-                    type='tinygrailPlain'
-                    size={11}
-                    lineHeight={12}
-                    bold
-                    numberOfLines={1}
-                  >
+                  <Text type='tinygrailPlain' size={11} lineHeight={12} bold numberOfLines={1}>
                     {item.nickName}
                   </Text>
                 </Flex>
                 {!!item.balance && (
                   <Text type='tinygrailText' size={10} lineHeight={12} bold>
-                    +{formatNumber(item.balance, 0)}{' '}
-                    {toFixed((item.balance / amount) * 100, 2)}%
+                    +{formatNumber(item.balance, 0)} {toFixed((item.balance / amount) * 100, 2)}%
                   </Text>
                 )}
               </Flex.Item>

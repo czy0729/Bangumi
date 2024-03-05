@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:55:37
+ * @Last Modified time: 2024-03-05 18:42:39
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont, UserStatus, TextType } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Iconfont, Text, TextType, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, lastDate, stl, tinygrailOSS } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { decimal } from '@tinygrail/_/utils'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -86,6 +85,7 @@ function Item(
               src={tinygrailOSS(avatar)}
               size={36}
               borderColor='transparent'
+              skeletonType='tinygrail'
               name={nickname}
               onPress={() => {
                 t('番市首富.跳转', {
@@ -124,11 +124,7 @@ function Item(
                       <Text style={styles.rank} size={12} bold align='center'>
                         {rank}
                       </Text>
-                      <Text
-                        type={state === 666 ? 'ask' : 'tinygrailPlain'}
-                        size={15}
-                        bold
-                      >
+                      <Text type={state === 666 ? 'ask' : 'tinygrailPlain'} size={15} bold>
                         {nickname}
                         {!!changeText && (
                           <Text type={changeColor} size={15}>

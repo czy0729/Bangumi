@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-03 15:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:34:12
+ * @Last Modified time: 2024-03-05 18:39:47
  */
 import React from 'react'
-import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
@@ -20,6 +19,7 @@ function ItemBottom({ src, name, level, change, type, onPress }) {
           size={40}
           name={name}
           borderColor='transparent'
+          skeletonType='tinygrail'
         />
         <Flex.Item style={_.ml.sm}>
           <Text type='tinygrailPlain' size={10} bold numberOfLines={1}>

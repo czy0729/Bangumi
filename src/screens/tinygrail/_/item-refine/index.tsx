@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 06:24:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-03 07:35:58
+ * @Last Modified time: 2024-03-05 18:36:20
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -41,6 +41,7 @@ function ItemRefine(
           width={IMG_WIDTH_SM * 0.88}
           height={IMG_HEIGHT_SM * 0.88}
           radius
+          skeletonType='tinygrail'
         />
       </Touchable>
       <Flex.Item style={_.ml.sm}>

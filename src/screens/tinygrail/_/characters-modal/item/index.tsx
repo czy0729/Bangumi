@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:33:52
+ * @Last Modified time: 2024-03-05 18:39:29
  */
 import React from 'react'
-import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
@@ -19,7 +18,7 @@ function Item({ type, src, id, level, rank, name, extra, disabled, item, onPress
     <Touchable onPress={() => onPress(item)}>
       <Flex style={stl(styles.item, !disabled && styles[type])}>
         {src ? (
-          <Avatar src={tinygrailOSS(src)} size={40} />
+          <Avatar src={tinygrailOSS(src)} size={40} skeletonType='tinygrail' />
         ) : (
           <Text type='tinygrailPlain' size={9} lineHeight={10} bold numberOfLines={1}>
             #{id}{' '}

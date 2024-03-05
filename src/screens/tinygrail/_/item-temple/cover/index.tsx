@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 05:08:57
+ * @Last Modified time: 2024-03-05 18:35:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,6 +43,7 @@ function Cover({ level, cover, name, refine, event, onPress }) {
           // 高度远小于宽度的图不能 contain, 会留白
           styles.imageResize.height * 1.2 >= styles.imageResize.width ? 'cover' : 'contain'
         }
+        skeletonType='tinygrail'
         event={{
           id: event?.id,
           data: {

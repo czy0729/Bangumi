@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:23:46
+ * @Last Modified time: 2024-03-05 18:29:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { COMPONENT, shimmerColors, shimmerColorsDark } from './ds'
+import { COMPONENT, SHIMMER_COLORS, SHIMMER_COLORS_DARK, SHIMMER_COLORS_TINYGRAIL_DARK } from './ds'
 import { styles } from './styles'
 import { Props as SkeletonProps } from './types'
 
@@ -20,7 +20,7 @@ export { SkeletonProps }
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
 
 /** 骨架屏渐变动画 */
-export const Skeleton = observer(({ width, height }: SkeletonProps) => {
+export const Skeleton = observer(({ type = 'app', width, height }: SkeletonProps) => {
   r(COMPONENT)
 
   if (
@@ -38,7 +38,10 @@ export const Skeleton = observer(({ width, height }: SkeletonProps) => {
         visible={false}
         width={width}
         height={height}
-        shimmerColors={_.select(shimmerColors, shimmerColorsDark)}
+        shimmerColors={_.select(
+          SHIMMER_COLORS,
+          type === 'tinygrail' ? SHIMMER_COLORS_TINYGRAIL_DARK : SHIMMER_COLORS_DARK
+        )}
         duration={1600}
         isInteraction={false}
       />

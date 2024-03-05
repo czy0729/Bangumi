@@ -1,10 +1,13 @@
 /*
  * @Author: czy0729
  * @Date: 2023-03-11 17:36:25
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-03-11 17:36:25
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-03-05 18:28:51
  */
 export type Props = {
+  /** 渐变颜色风格 */
+  type?: 'app' | 'tinygrail'
+
   /** 容器宽度 */
   width?: number
 

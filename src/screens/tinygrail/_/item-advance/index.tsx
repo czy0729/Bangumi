@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:34:51
+ * @Last Modified time: 2024-03-05 18:40:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable } from '@components'
-import { Avatar } from '@_'
+import PropTypes from 'prop-types'
+import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { calculateRate } from '@tinygrail/_/utils'
 import Rank from '@tinygrail/_/rank'
+import { calculateRate } from '@tinygrail/_/utils'
 import { memoStyles } from './styles'
 
 function Item(props, { navigation }) {
@@ -52,6 +51,7 @@ function Item(props, { navigation }) {
           src={tinygrailOSS(icon)}
           name={name}
           borderColor='transparent'
+          skeletonType='tinygrail'
           onPress={() => {
             t(eventId, {
               to: 'Mono',
@@ -141,9 +141,8 @@ function Item(props, { navigation }) {
                   </Text>
                 )}
                 {assets && ' / '}
-                {!!firstAmount && ' / '}₵{toFixed(firstAsks || firstBids || current, 2)}{' '}
-                / +{toFixed(rate, 1)} (
-                {Number(toFixed(calculateRate(rate, rank, stars), 1))})
+                {!!firstAmount && ' / '}₵{toFixed(firstAsks || firstBids || current, 2)} / +
+                {toFixed(rate, 1)} ({Number(toFixed(calculateRate(rate, rank, stars), 1))})
               </Text>
             </Flex.Item>
             {isAuctioning && (

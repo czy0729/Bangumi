@@ -44,6 +44,9 @@ export const DEFAULT_PROPS = {
   onError: undefined
 }
 
+/** 渐出动画时长 */
+export const IMAGE_FADE_DURATION = 400
+
 /** 最大失败重试次数 */
 export const MAX_ERROR_COUNT = 1
 

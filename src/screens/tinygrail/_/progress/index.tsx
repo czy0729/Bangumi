@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 05:00:31
+ * @Last Modified time: 2024-03-05 18:50:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { formatNumber, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { ColorValue, ViewStyle } from '@types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Progress({
@@ -30,7 +31,7 @@ function Progress({
   let barColor: ColorValue = _.colorSuccess
   let percent = 1
   if (assets && sacrifices) {
-    percent = Math.min(assets / sacrifices, 1)
+    percent = Math.max(Math.min(assets / sacrifices, 1), 0.06)
     if (percent <= 0.25) {
       barColor = _.colorDanger
     } else if (percent <= 0.5) {
@@ -68,4 +69,4 @@ function Progress({
   )
 }
 
-export default ob(Progress)
+export default ob(Progress, COMPONENT)

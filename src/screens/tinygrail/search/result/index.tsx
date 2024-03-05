@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:58:44
+ * @Last Modified time: 2024-03-05 18:42:17
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
@@ -29,6 +28,7 @@ function Result({ style }, { $, navigation }: Ctx) {
                   src={tinygrailOSS(item.icon)}
                   size={28}
                   borderColor='transparent'
+                  skeletonType='tinygrail'
                   onPress={() => {
                     t('人物直达.跳转', {
                       to: 'Mono',

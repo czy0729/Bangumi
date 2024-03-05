@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 00:00:56
+ * @Last Modified time: 2024-03-05 18:43:08
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { caculateICO, formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
@@ -42,6 +41,7 @@ function Initial(props, { $, navigation }: Ctx) {
               userId={item.name}
               name={item.nickName}
               borderColor='transparent'
+              skeletonType='tinygrail'
               event={EVENT}
             />
             <Flex.Item style={_.ml.sm}>

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-12 16:04:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 10:10:23
+ * @Last Modified time: 2024-03-05 18:38:43
  */
 import { AnyObject, ColorValue, EventType, Fn, Navigation, Source, ViewStyle } from '@types'
+import { ImageProps } from '../image'
 
 export type Props = {
   /** 图片容器样式 */
@@ -46,7 +47,11 @@ export type Props = {
   /** 是否显示底色 */
   placeholder?: boolean
 
+  /** 错误回滚地址 */
   fallbackSrc?: string
+
+  /** 骨架屏渐变颜色风格 */
+  skeletonType?: ImageProps['skeletonType']
 
   /** 点击回调, 会覆盖跳转到用户空间的事件 */
   onPress?: Fn

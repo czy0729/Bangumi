@@ -16,6 +16,7 @@ import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { DOGE_CDN_IMG_DEFAULT, IOS } from '@constants'
 import { AnyObject } from '@types'
+import { IMAGE_FADE_DURATION } from '../ds'
 import Image from '../image'
 
 const lazyloadedMap = new Map<string, boolean>()
@@ -36,7 +37,7 @@ function Remote({
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(activeRef.value, {
-        duration: 400,
+        duration: IMAGE_FADE_DURATION,
         easing: Easing.linear
       })
     }
@@ -76,7 +77,7 @@ function Remote({
             // 标记已观察过, 延迟是为了防止页面同时出现这个图片多次而后面的不执行逻辑
             setTimeout(() => {
               lazyloadedMap.set(uri, true)
-            }, 400)
+            }, IMAGE_FADE_DURATION)
           }}
         />
       </Animated.View>

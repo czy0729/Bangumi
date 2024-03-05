@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 20:09:08
+ * @Last Modified time: 2024-03-05 18:34:31
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -641,6 +641,8 @@ export const Image = observer(
         cache,
         fadeDuration,
         errorToHide,
+        skeleton,
+        skeletonType,
         textOnly,
         onPress,
         onLongPress,
@@ -702,8 +704,16 @@ export const Image = observer(
     }
 
     renderTouchableImage(onPress: Fn) {
-      const { textOnly, placeholder, delay, scale, skeleton, withoutFeedback, onLongPress } =
-        this.props
+      const {
+        textOnly,
+        placeholder,
+        delay,
+        scale,
+        skeleton,
+        skeletonType,
+        withoutFeedback,
+        onLongPress
+      } = this.props
       const { loaded } = this.state
       return (
         <Component id='component-image' style={this.computedStyle.container}>
@@ -741,6 +751,7 @@ export const Image = observer(
           {!IOS_IPA && skeleton && (
             <Skeleton
               style={this.computedStyle.image}
+              type={skeletonType}
               textOnly={textOnly}
               placeholder={placeholder}
               loaded={loaded}
@@ -760,6 +771,7 @@ export const Image = observer(
         imageViewer,
         imageViewerSrc,
         skeleton,
+        skeletonType,
         event,
         onPress,
         onLongPress
@@ -789,6 +801,7 @@ export const Image = observer(
           {!IOS_IPA && skeleton && (
             <Skeleton
               style={this.computedStyle.image}
+              type={skeletonType}
               textOnly={textOnly}
               placeholder={placeholder}
               loaded={loaded}

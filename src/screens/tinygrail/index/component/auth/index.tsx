@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 19:47:53
+ * @Last Modified time: 2024-03-05 18:42:58
  */
 import React from 'react'
-import { Flex, Text, Touchable } from '@components'
-import { Avatar, IconBack, IconTouchable } from '@_'
+import { Avatar, Flex, Text, Touchable } from '@components'
+import { IconBack, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
@@ -29,6 +29,7 @@ function Auth(props, { $, navigation }: Ctx) {
         size={36}
         name={nickname}
         borderColor='transparent'
+        skeletonType='tinygrail'
       />
       <Flex.Item>
         <Flex>

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:27:31
+ * @Last Modified time: 2024-03-05 18:41:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
-import { Avatar, IconHeader, IconTouchable } from '@_'
+import { Avatar, Flex, Text } from '@components'
+import { IconHeader, IconTouchable } from '@_'
 import { _ } from '@stores'
-import { toFixed, tinygrailOSS } from '@utils'
-import { t } from '@utils/fetch'
+import { tinygrailOSS, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import Today from './today'
 import { memoStyles } from './styles'
@@ -48,6 +48,7 @@ function Header({ goBack = () => {} }, { $, navigation }: Ctx) {
               src={tinygrailOSS(icon)}
               borderColor='transparent'
               name={name}
+              skeletonType='tinygrail'
               onPress={() => {
                 t('K线.跳转', {
                   to: 'Mono',
@@ -60,13 +61,7 @@ function Header({ goBack = () => {} }, { $, navigation }: Ctx) {
                 })
               }}
             />
-            <Text
-              style={_.ml.md}
-              type='tinygrailPlain'
-              size={16}
-              bold
-              numberOfLines={1}
-            >
+            <Text style={_.ml.md} type='tinygrailPlain' size={16} bold numberOfLines={1}>
               {name}
               {!!bonus && (
                 <Text size={12} lineHeight={16} type='warning'>

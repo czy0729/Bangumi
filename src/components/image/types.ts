@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 18:29:01
+ * @Last Modified time: 2024-03-05 18:31:36
  */
 import { ColorValue, ImageProps } from 'react-native'
-import { Override, ViewStyle, ImageStyle, EventType, Source } from '@types'
+import { EventType, ImageStyle, Override, Source, ViewStyle } from '@types'
+import { SkeletonProps } from '../skeleton'
 
 export type Props = Override<
   Omit<ImageProps, 'source'>,
@@ -95,6 +96,9 @@ export type Props = Override<
 
     /** 是否显示骨架屏动画 */
     skeleton?: boolean
+
+    /** 骨架屏渐变颜色风格 */
+    skeletonType?: SkeletonProps['type']
 
     /** 图片点击回调 */
     onPress?: (arg0?: any) => any

@@ -48,3 +48,47 @@ export const REFINE_TEMPLE_ITEM = {
   Upgrade: '2020-09-11T09:21:18',
   UserId: 5413
 }
+
+/** 2024-03-05 */
+export const CHARA_TEMPLE_ITEM = {
+  Nickname: '北国语雪',
+  Name: 'kexi',
+  Avatar: 'http://lain.bgm.tv/pic/user/l/000/47/37/473749.jpg?r=1681533589&hd=1',
+  Rate: 0,
+  Price: 0,
+  Extra: 0,
+  CharacterLevel: 0,
+  CharacterName: null,
+  CharacterRank: 0,
+  CharacterStars: 0,
+  CharacterStarForces: 0,
+  Link: null,
+  Id: 233100,
+  UserId: 3955,
+  CharacterId: 3589,
+  Cover:
+    'https://tinygrail.oss-cn-hangzhou.aliyuncs.com/cover/6ffdf87821dac95d956068f29ef74079.jpg',
+  LargeCover: null,
+  Line: null,
+  Source: null,
+  Slots: null,
+  LinkId: 0,
+  LinkedAssets: 0,
+  Create: '2021-03-07T00:05:17',
+  Upgrade: '2021-03-07T00:05:17',
+  LastActive: '2021-03-07T00:05:17',
+  LastUpdate: '0001-01-01T00:00:00',
+  LastLink: '0001-01-01T00:00:00',
+  LastModifier: 738,
+  Assets: 4833,
+  Sacrifices: 578077,
+  Level: 3,
+  StarForces: 578018,
+  Refine: 0,
+  RaidWin: 0,
+  RaidLose: 0,
+  BattleWin: 0,
+  BattleLose: 0,
+  Type: 0,
+  State: 0
+}

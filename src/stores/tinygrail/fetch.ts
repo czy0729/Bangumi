@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 05:02:47
+ * @Last Modified time: 2024-03-05 18:53:33
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -58,7 +58,7 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
-import { REFINE_TEMPLE_ITEM } from './mock'
+import { CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM } from './mock'
 import { calculateRate, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
@@ -1242,7 +1242,7 @@ export default class Fetch extends Computed {
     if (result.data.State === 0) {
       data = {
         ...LIST_EMPTY,
-        list: result.data.Value.map(item => ({
+        list: result.data.Value.map((item: typeof CHARA_TEMPLE_ITEM) => ({
           avatar: item.Avatar,
           id: item.CharacterId,
           cover: item.Cover,
@@ -1250,7 +1250,8 @@ export default class Fetch extends Computed {
           nickname: item.Nickname,
           level: item.Level,
           assets: item.Assets,
-          sacrifices: item.Sacrifices
+          sacrifices: item.Sacrifices,
+          refine: item.Refine
         })),
         _loaded: getTimestamp()
       }
@@ -1262,9 +1263,7 @@ export default class Fetch extends Computed {
         [id]: data
       }
     })
-    // this.save(key)
-
-    return Promise.resolve(data)
+    return data
   }
 
   /** 可拍卖信息 */

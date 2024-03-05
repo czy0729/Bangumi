@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:41:32
+ * @Last Modified time: 2024-03-05 18:42:08
  */
 import React from 'react'
-import { Touchable, Flex, Text } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
@@ -26,6 +25,7 @@ function Item(
         size={36}
         name={name}
         borderColor='transparent'
+        skeletonType='tinygrail'
         onPress={() => {
           navigation.push('Mono', {
             monoId: `character/${monoId}`,

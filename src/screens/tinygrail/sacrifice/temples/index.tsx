@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:06:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:10:24
+ * @Last Modified time: 2024-03-05 18:47:11
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, stl, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
@@ -121,13 +121,11 @@ class Temples extends React.Component<{
               固定资产{' '}
               <Text type='tinygrailText' size={11} lineHeight={13}>
                 {list.length || '-'}{' '}
-                {!!list.length &&
-                  `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`}{' '}
-                /{' '}
+                {!!list.length && `(${this.levelMap[3]}+${this.levelMap[2]}+${this.levelMap[1]})`} /{' '}
               </Text>
               <Text type='warning' size={11} lineHeight={13}>
-                +{rate ? formatNumber(rate, 1) : '-'}(
-                {toFixed(calculateRate(rate, rank, stars), 1)})
+                +{rate ? formatNumber(rate, 1) : '-'}({toFixed(calculateRate(rate, rank, stars), 1)}
+                )
               </Text>
             </Text>
           </Flex.Item>
@@ -146,15 +144,15 @@ class Temples extends React.Component<{
             {this.list.map(item => (
               <ItemTemple
                 key={item.nickname}
-                event={EVENT}
-                cover={item.cover}
+                assets={item.assets}
                 avatar={item.avatar}
-                name={item.name}
+                cover={item.cover}
+                level={item.level}
+                userId={item.name}
                 nickname={item.nickname}
                 sacrifices={item.sacrifices}
-                assets={item.assets}
-                level={item.level}
-                // count={item.count}
+                refine={item.refine}
+                event={EVENT}
               />
             ))}
           </Flex>

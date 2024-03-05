@@ -20,7 +20,7 @@ function Level({
   size?: number
   value: string | number
 }) {
-  if (Number(value) <= 1) return null
+  if (!value || Number(value) <= 1) return null
 
   return (
     <Text style={stl(styles.level, style)} type='ask' size={size} bold>

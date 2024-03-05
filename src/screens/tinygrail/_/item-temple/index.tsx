@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 05:03:44
+ * @Last Modified time: 2024-03-05 18:47:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode, stl } from '@utils'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { Navigation } from '@types'
-import Level from '../level'
 import Progress from '../progress'
-import Rank from '../rank'
 import Cover from './cover'
+import Title from './title'
+import { Props } from './type'
 import User from './user'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemTemple(
   {
-    style = undefined,
+    style,
     assets,
     avatar,
     cover,
@@ -29,14 +29,14 @@ function ItemTemple(
     level,
     cLevel,
     name,
-    rank = undefined,
+    rank,
     nickname,
     sacrifices,
     refine,
-    type = undefined,
-    userId = undefined,
-    onPress = undefined
-  },
+    type,
+    userId,
+    onPress
+  }: Props,
   {
     navigation
   }: {
@@ -60,20 +60,17 @@ function ItemTemple(
       />
       <User
         navigation={navigation}
-        userId={isFromTemplesPage ? userId : name}
+        userId={(isFromTemplesPage ? userId : name) || userId}
         avatar={avatar}
         nickname={nickname}
         event={event || EVENT}
       />
-      <Flex style={isFromTemplesPage && _.mt.xs}>
-        {!isFromTemplesPage && <Rank value={rank} />}
-        <Level value={cLevel} />
-        <Flex.Item>
-          <Text type='tinygrailPlain' size={11} bold numberOfLines={isFromTemplesPage ? 2 : 1}>
-            {HTMLDecode(name)}
-          </Text>
-        </Flex.Item>
-      </Flex>
+      <Title
+        style={isFromTemplesPage && _.mt.xs}
+        name={name || nickname}
+        rank={rank}
+        cLevel={cLevel}
+      />
       {!isFromTemplesPage && (
         <Progress style={_.mt.sm} size='sm' assets={assets} sacrifices={sacrifices} />
       )}
@@ -81,4 +78,4 @@ function ItemTemple(
   )
 }
 
-export default obc(ItemTemple)
+export default obc(ItemTemple, COMPONENT)

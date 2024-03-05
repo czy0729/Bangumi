@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:15:56
+ * @Last Modified time: 2024-03-05 18:41:55
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Header, Page, ScrollView, Flex, Text, Touchable, TextType } from '@components'
-import { Avatar, IconHeader } from '@_'
+import { Avatar, Flex, Header, Page, ScrollView, Text, TextType, Touchable } from '@components'
+import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { formatNumber, info, tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
@@ -71,6 +71,7 @@ class TinygrailTopWeek extends React.Component {
             size={36}
             borderColor='transparent'
             name={item.name}
+            skeletonType='tinygrail'
             onPress={() => {
               t('每周萌王.跳转', {
                 to: 'Mono',
@@ -143,9 +144,7 @@ class TinygrailTopWeek extends React.Component {
                   </Flex>
                   <Text style={_.mt.xs} type='tinygrailText' size={11} align='right'>
                     平均拍价：
-                    {formatNumber(
-                      (item.extra + item.price * item.sacrifices) / item.assets
-                    )}
+                    {formatNumber((item.extra + item.price * item.sacrifices) / item.assets)}
                   </Text>
                 </View>
               </Flex>
