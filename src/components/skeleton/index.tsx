@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:29:55
+ * @Last Modified time: 2024-03-06 13:17:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,11 +11,12 @@ import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { getSkeletonColor } from './utils'
 import { COMPONENT, SHIMMER_COLORS, SHIMMER_COLORS_DARK, SHIMMER_COLORS_TINYGRAIL_DARK } from './ds'
 import { styles } from './styles'
 import { Props as SkeletonProps } from './types'
 
-export { SkeletonProps }
+export { SkeletonProps, getSkeletonColor }
 
 const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
 

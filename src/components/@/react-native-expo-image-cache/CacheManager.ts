@@ -1,3 +1,9 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-03-06 11:38:59
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-03-06 11:38:59
+ */
 import SHA1 from 'crypto-js/sha1'
 import * as FileSystem from 'expo-file-system'
 import uniqueId from 'lodash.uniqueid'

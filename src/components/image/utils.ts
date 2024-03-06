@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 20:02:58
+ * @Last Modified time: 2024-03-06 12:02:44
  */
+import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _ } from '@stores'
 import { getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
+import hash from '@utils/thirdParty/hash'
 import { DEV, HOST_CDN } from '@constants'
 import { OSS_BGM_EMOJI_PREFIX } from './ds'
 
@@ -186,6 +188,32 @@ export function timeoutPromise() {
       reject('download timed out')
     }, 10000)
   })
+}
+
+const LOCAL_CACHE_MAP = new Map<
+  string,
+  {
+    path: string
+    size: number
+  }
+>()
+
+/** 检测图片是否存在本地缓存 (通常只有 iOS 使用) */
+export async function getLocalCache(src: string, headers?: Record<string, string>) {
+  const id = hash(src)
+  if (LOCAL_CACHE_MAP.has(id)) return LOCAL_CACHE_MAP.get(id)
+
+  const result = await CacheManager.get(src, {
+    headers
+  }).getPath()
+  if (result) LOCAL_CACHE_MAP.set(id, result)
+  return result
+}
+
+/** 检测图片是否存在本地缓存, 静态 (通常只有 iOS 使用) */
+export function getLocalCacheStatic(src: string) {
+  const id = hash(src)
+  if (LOCAL_CACHE_MAP.has(id)) return LOCAL_CACHE_MAP.get(id)
 }
 
 /** [DEV] */
