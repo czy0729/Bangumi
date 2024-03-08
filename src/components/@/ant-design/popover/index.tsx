@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:04:35
+ * @Last Modified time: 2024-03-08 19:31:51
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
-import { Popover as Pop, PopoverController } from 'react-native-modal-popover'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { WithTheme } from '../style'
+import { Popover as PopoverComp } from '../../react-native-modal-popover/Popover'
+import { PopoverController } from '../../react-native-modal-popover/PopoverController'
 import PopoverStyles from './style'
 
 export class PopoverItem extends React.PureComponent {
@@ -130,7 +131,7 @@ export default class Popover extends React.PureComponent {
                 >
                   {children}
                 </TouchableOpacity>
-                <Pop
+                <PopoverComp
                   popoverStyle={s.popover}
                   contentStyle={[s.content, contentStyle]} // @add
                   arrowStyle={{
@@ -147,7 +148,7 @@ export default class Popover extends React.PureComponent {
                   useNativeDriver
                 >
                   {this.renderOverlay(closePopover)}
-                </Pop>
+                </PopoverComp>
               </View>
             )}
           </PopoverController>
