@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:52:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:06:21
+ * @Last Modified time: 2024-03-06 02:11:08
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Touchable, Iconfont } from '@components'
+import { Flex, Header as CompHeader, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
@@ -80,4 +81,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

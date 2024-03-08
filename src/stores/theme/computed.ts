@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 16:26:51
+ * @Last Modified time: 2024-03-07 05:51:20
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -139,6 +139,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** margin-vertical (工具类) */
   readonly mv = _.mv
+
+  /** margin-horizontal (工具类) */
+  readonly mh = _.mh
 
   /** 阴影 (工具类) */
   readonly shadow = _.shadow

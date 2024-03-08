@@ -2,30 +2,30 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 17:46:42
+ * @Last Modified time: 2024-03-07 05:51:08
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
 import { DEV } from '@/config'
+import { colorBorder, colorPlain, colorShadow } from './colors'
 import {
-  ratio,
-  xs,
-  sm,
-  md,
-  lg,
-  wind,
   _wind,
-  space,
   bottom,
-  radiusXs,
-  radiusSm,
-  radiusMd,
-  statusBarHeight,
   headerHeight,
+  IS_IOS_5_6_7_8,
+  lg,
+  md,
+  radiusMd,
+  radiusSm,
+  radiusXs,
+  ratio,
+  sm,
+  space,
+  statusBarHeight,
   tabsHeaderHeight,
-  IS_IOS_5_6_7_8
+  wind,
+  xs
 } from './layout'
-import { colorPlain, colorBorder, colorShadow } from './colors'
 import { fontSize } from './utils'
 
 /** 容器布局 (工具类) */
@@ -225,6 +225,22 @@ export const mv = StyleSheet.create({
   },
   lg: {
     marginVertical: lg
+  }
+} as const)
+
+/** margin-horizontal (工具类) */
+export const mh = StyleSheet.create({
+  xs: {
+    marginHorizontal: xs
+  },
+  sm: {
+    marginHorizontal: sm
+  },
+  md: {
+    marginHorizontal: md
+  },
+  lg: {
+    marginHorizontal: lg
   }
 } as const)
 

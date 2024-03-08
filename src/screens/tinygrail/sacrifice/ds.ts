@@ -2,19 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:08:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 05:43:28
+ * @Last Modified time: 2024-03-07 06:52:32
  */
-export const NAMESPACE = 'ScreenTinygrailSacrifice'
+import { Loaded } from '@types'
+
+export const COMPONENT = 'TinygrailSacrifice'
+
+export const NAMESPACE = `Screen${COMPONENT}`
 
 export const INIT_LAST_AUCTION = {
-  price: '',
-  amount: '',
+  price: '' as string | number,
+  amount: '' as string | number,
   time: 0
 }
 
 export const INIT_LAST_SACRIFICE = {
-  amount: '',
-  total: '',
+  amount: '' as string | number,
+  total: '' as string | number,
   time: 0
 }
 
@@ -29,35 +33,35 @@ export const EXCLUDE_STATE = {
   expand: false,
   auctionLoading: false,
   auctionAmount: 0,
-  auctionPrice: 0,
+  auctionPrice: 0 as string | number,
   starForcesValue: 0,
   loading: false
 }
 
 export const STATE = {
   /** 显示封面 */
-  showCover: true,
+  showCover: false,
 
   /** 显示记录 */
-  showLogs: true,
+  showLogs: false,
 
   /** 显示圣殿 */
-  showTemples: true,
+  showTemples: false,
 
   /** 显示董事会 */
-  showUsers: true,
+  showUsers: false,
 
   /** 显示献祭模块 */
-  showSacrifice: true,
+  showSacrifice: false,
 
   /** 显示星之力模块 */
-  showStarForces: true,
+  showStarForces: false,
 
   /** 显示竞拍模块 */
-  showAuction: true,
+  showAuction: false,
 
   /** 显示道具模块 */
-  showItems: true,
+  showItems: false,
 
   /** 通天塔各分段排名需要的献祭数 */
   rankStarForces: {
@@ -79,5 +83,6 @@ export const STATE = {
   lastAuction: INIT_LAST_AUCTION,
 
   /** 角色独立 */
-  lastSacrifice: INIT_LAST_SACRIFICE
+  lastSacrifice: INIT_LAST_SACRIFICE,
+  _loaded: 0 as Loaded
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:47:52
+ * @Last Modified time: 2024-03-08 18:29:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ function ItemTemple(
     nickname,
     sacrifices,
     refine,
+    lastActive,
     type,
     userId,
     onPress
@@ -63,6 +64,7 @@ function ItemTemple(
         userId={(isFromTemplesPage ? userId : name) || userId}
         avatar={avatar}
         nickname={nickname}
+        lastActive={lastActive}
         event={event || EVENT}
       />
       <Title

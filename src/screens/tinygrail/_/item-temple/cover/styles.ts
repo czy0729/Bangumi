@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:21:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 05:09:53
+ * @Last Modified time: 2024-03-06 13:22:51
  */
 import { _ } from '@stores'
 
@@ -23,8 +23,7 @@ export const memoStyles = _.memoStyles(() => {
       zIndex: 1,
       top: 0,
       left: 0,
-      marginLeft: -(imageResizeWidth - width) / 2,
-      backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
+      marginLeft: -(imageResizeWidth - width) / 2
     },
     imageResize: {
       width: imageResizeWidth,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 18:01:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:03:35
+ * @Last Modified time: 2024-03-08 18:29:42
  */
 import { EventType, Fn, UserId, ViewStyle } from '@types'
 
@@ -19,6 +19,7 @@ export type Props = {
   nickname: string
   sacrifices: number
   refine: number
+  lastActive?: string
   type?: 'view'
   userId?: UserId
   onPress?: Fn

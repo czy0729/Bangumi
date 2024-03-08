@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 05:56:24
+ * @Last Modified time: 2024-03-07 06:48:13
  */
 import { LIST_EMPTY } from '@constants'
 
@@ -75,7 +75,7 @@ export const INIT_CHARACTERS_ITEM = {
   /** 基本股息 */
   rate: 0,
 
-  /** 通天塔献祭量 */
+  /** 通天塔星之力 */
   starForces: 0,
 
   /** 通天塔星星 */
@@ -91,7 +91,10 @@ export const INIT_CHARACTERS_ITEM = {
   users: 0,
 
   /** 献祭数目 */
-  sa: 0
+  sa: 0,
+
+  /** 上市时间 */
+  listedDate: ''
 } as const
 
 export const INIT_RICH = {
@@ -308,6 +311,9 @@ export const STATE = {
 
   /** 董事会 */
   users: {},
+
+  /** 角色奖池 */
+  charaPool: {},
 
   /** 用户圣殿 */
   temple: {},

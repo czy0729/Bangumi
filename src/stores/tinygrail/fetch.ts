@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:53:33
+ * @Last Modified time: 2024-03-08 18:38:44
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -18,6 +18,7 @@ import {
   API_TINYGRAIL_CHARA_ASKS,
   API_TINYGRAIL_CHARA_ASSETS,
   API_TINYGRAIL_CHARA_BID,
+  API_TINYGRAIL_CHARA_POOL,
   API_TINYGRAIL_CHARA_TEMPLE,
   API_TINYGRAIL_CHARTS,
   API_TINYGRAIL_DEPTH,
@@ -58,7 +59,7 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
-import { CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM } from './mock'
+import { CHARA, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM } from './mock'
 import { calculateRate, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
@@ -130,14 +131,14 @@ export default class Fetch extends Computed {
    */
   fetchCharacters = async (ids: any[]) => {
     const key = 'characters'
-    const result = await this.fetch(API_TINYGRAIL_CHARA(parseInt(ids[0])))
+    const result = await this.fetch(API_TINYGRAIL_CHARA(Number(ids[0])))
 
     if (result.data.State === 0) {
       const data = {}
       const iconsCache = {}
 
       const target = Array.isArray(result.data.Value) ? result.data.Value : [result.data.Value]
-      target.forEach(item => {
+      target.forEach((item: typeof CHARA) => {
         const id = item.CharacterId || item.Id
         if (item.Icon) iconsCache[id] = item.Icon
         data[id] = toCharacter(item)
@@ -1140,6 +1141,23 @@ export default class Fetch extends Computed {
     })
 
     return Promise.resolve(data)
+  }
+
+  /** 角色奖池 */
+  fetchCharaPool = async (monoId: MonoId) => {
+    const result = await this.fetch(API_TINYGRAIL_CHARA_POOL(monoId))
+
+    const key = 'charaPool'
+    if (result.data.State === 0) {
+      const value = result.data.Value || 0
+      this.setState({
+        [key]: {
+          [monoId]: value
+        }
+      })
+    }
+
+    return this[key](monoId)
   }
 
   /** 用户圣殿 */

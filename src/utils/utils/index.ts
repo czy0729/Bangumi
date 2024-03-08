@@ -2,20 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 13:38:46
+ * @Last Modified time: 2024-03-07 18:46:51
  */
 import { ComponentType } from 'react'
-import {
-  // InteractionManager
-  Linking
-} from 'react-native'
+import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from 'p-limit'
-import { B, M, IOS, TIMEZONE_IS_GMT8 } from '@constants/constants'
+import { B, IOS, M, TIMEZONE_IS_GMT8 } from '@constants/constants'
 import { AnyObject, Fn } from '@types'
-import { log } from './utils'
-import { getTimestamp, date } from '../date'
+import { date, getTimestamp } from '../date'
 import { info } from '../ui'
+import { log } from './utils'
 
 export * from '../date'
 
@@ -116,7 +113,7 @@ export function throttle(callback: (arg?: any) => void, delay: number = 400) {
 }
 
 /** 防抖 */
-export function debounce(fn: Fn, ms: number = 400): typeof fn {
+export function debounce(fn: Fn, ms: number = 320): typeof fn {
   // 创建一个标记用来存放定时器的返回值
   let timeout = null
 
@@ -225,11 +222,7 @@ export function omit<T extends Record<string, any>, K extends keyof T>(
 const INTERCEPTOR_FINGERPRINTS: Record<string, true> = {}
 
 /** 拦截器, 若拦截中返回 true */
-export function interceptor(
-  key: string = '',
-  obj: AnyObject = {},
-  distance: number = 1200
-) {
+export function interceptor(key: string = '', obj: AnyObject = {}, distance: number = 1200) {
   const fingerprint = `${key}|${JSON.stringify(obj)}`
 
   // 检查指纹是否存在于记录中
@@ -282,10 +275,7 @@ export function open(url: any, encode: boolean = false): boolean {
 }
 
 /** url 字符串化 */
-export function urlStringify(
-  data?: Record<string, any>,
-  encode: boolean = true
-): string {
+export function urlStringify(data?: Record<string, any>, encode: boolean = true): string {
   if (!data) return ''
 
   const arr = Object.entries(data).map(
@@ -323,9 +313,7 @@ export function parseIOS8601(isostr: string, format = 'Y-m-d'): string {
   if (!isostr) return ''
 
   const [year, month, day, hour, minute, second] = isostr.trim().match(/\d+/g) ?? []
-  const timestamp = new Date(
-    `${year}-${month}-${day} ${hour}:${minute}:${second}`
-  ).getTime()
+  const timestamp = new Date(`${year}-${month}-${day} ${hour}:${minute}:${second}`).getTime()
   return date(format, timestamp / 1000)
 }
 
@@ -398,9 +386,9 @@ export function gradientColor(startRGB: any[], endRGB: any[], step: number) {
   const colorArr = []
   for (let i = 0; i < step; i += 1) {
     // 计算每一步的hex值
-    const rgb = `rgb(${parseInt(sR * i + startR)}, ${parseInt(
-      sG * i + startG
-    )}, ${parseInt(sB * i + startB)})`
+    const rgb = `rgb(${parseInt(sR * i + startR)}, ${parseInt(sG * i + startG)}, ${parseInt(
+      sB * i + startB
+    )})`
     colorArr.push(rgb)
   }
   return colorArr
@@ -435,8 +423,8 @@ export function random(start: number, end: number) {
  */
 export function formatNumber(s: string | number, n: number = 2, xsb?: boolean) {
   if (xsb) {
-    if (s >= B) return `${formatNumber((s as number) / B, 1)}亿`
-    if (s >= M) return `${formatNumber((s as number) / M, 1)}万`
+    if (Number(s) >= B) return `${formatNumber((s as number) / B, 1)}亿`
+    if (Number(s) >= M) return `${formatNumber((s as number) / M, 1)}万`
     return formatNumber(s, n)
   }
 
@@ -566,16 +554,10 @@ export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
 }
 
 /** 文字中间省略 */
-export function truncateMiddle(
-  text: string = '',
-  maxLength: number = 20,
-  charsToShow: number = 4
-) {
+export function truncateMiddle(text: string = '', maxLength: number = 20, charsToShow: number = 4) {
   if (text.length <= maxLength) return text
 
   const startLength = Math.ceil((maxLength - charsToShow) / 2)
   const endLength = Math.floor((maxLength - charsToShow) / 2)
-  return (
-    text.substring(0, startLength) + '...' + text.substring(text.length - endLength)
-  )
+  return text.substring(0, startLength) + '...' + text.substring(text.length - endLength)
 }

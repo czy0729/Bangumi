@@ -8,7 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   refine: {
-    marginRight: 2,
     color: '#d965ff'
   }
 })

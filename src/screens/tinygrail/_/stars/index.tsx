@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-07 20:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 17:25:29
+ * @Last Modified time: 2024-03-07 06:32:59
  */
 import React from 'react'
 import { Iconfont } from '@components'
@@ -24,37 +24,19 @@ function Stars({ value = 0, size = 11 }) {
         new Array(sun)
           .fill('')
           .map((item, index) => (
-            <Iconfont
-              key={index}
-              style={style}
-              name='ios-sunny'
-              size={size}
-              color='#ffc107'
-            />
+            <Iconfont key={index} style={style} name='ios-sunny' size={size} color='#ffc107' />
           ))}
       {!!moon &&
         new Array(moon)
           .fill('')
           .map((item, index) => (
-            <Iconfont
-              key={index}
-              style={style}
-              name='ios-moon'
-              size={size}
-              color='#ffc107'
-            />
+            <Iconfont key={index} style={style} name='ios-moon' size={size} color='#ffc107' />
           ))}
       {!!star &&
         new Array(star)
           .fill('')
           .map((item, index) => (
-            <Iconfont
-              key={index}
-              style={style}
-              name='ios-star'
-              size={size}
-              color='#ffc107'
-            />
+            <Iconfont key={index} style={style} name='ios-star' size={size} color='#ffc107' />
           ))}
     </>
   )

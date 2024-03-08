@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 05:35:31
+ * @Last Modified time: 2024-03-07 19:33:50
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -54,9 +54,14 @@ export function getLevelBackground(level: number) {
   return backgroundColor
 }
 
+/** 计算角色当前股息比率 */
+export function calculateRatio(rank = 0) {
+  return Math.max(Number(toFixed((601 - rank) * 0.005, 2)), 0)
+}
+
 /** 计算角色当前股息 */
 export function calculateRate(rate = 0, rank = 0, stars = 0) {
-  if (rank < 501 && rate > 0) return (601 - rank) * 0.005 * rate
+  if (rank < 501 && rate > 0) return calculateRatio(rank) * rate
   return stars * 2
 }
 

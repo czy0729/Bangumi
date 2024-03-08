@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:26:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 04:36:30
+ * @Last Modified time: 2024-03-08 18:31:23
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   fixed: {
     position: 'absolute',
     zIndex: 1,
@@ -21,5 +21,8 @@ export const styles = _.create({
     padding: 2,
     borderRadius: 10,
     overflow: 'hidden'
+  },
+  userStatus: {
+    backgroundColor: _.colorTinygrailContainer
   }
-})
+}))

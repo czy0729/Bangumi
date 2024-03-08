@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 06:01:58
+ * @Last Modified time: 2024-03-06 11:15:45
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -140,6 +140,10 @@ export const API_TINYGRAIL_JOIN = (icoId: Id, amount: number) =>
 /** 董事会 */
 export const API_TINYGRAIL_USERS = (monoId: Id) =>
   `${API_HOST_TINYGRAIL}/api/chara/users/${monoId}/1/80`
+
+/** 角色奖池 */
+export const API_TINYGRAIL_CHARA_POOL = (monoId: Id) =>
+  `${API_HOST_TINYGRAIL}/api/chara/pool/${monoId}`
 
 /** 股息预测 */
 export const API_TINYGRAIL_TEST = () => `${API_HOST_TINYGRAIL}/api/event/share/bonus/test`

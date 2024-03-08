@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-02 16:43:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 16:45:01
+ * @Last Modified time: 2024-03-07 05:21:16
  */
 
 /** 2024-03-02 */
@@ -91,4 +91,46 @@ export const CHARA_TEMPLE_ITEM = {
   BattleLose: 0,
   Type: 0,
   State: 0
+}
+
+/** 2024-03-07 */
+export const CHARA = {
+  CharacterId: 86066,
+  Change: 0,
+  UserTotal: 0,
+  UserAmount: 0,
+  Id: 86066,
+  Name: '派蒙',
+  Icon: 'https://tinygrail.oss-cn-hangzhou.aliyuncs.com/avatar/1a39328ea21e7e2a9473c0c920a97c85.jpg',
+  Total: 61474,
+  Current: 700,
+  Fluctuation: 0,
+  Asks: 946,
+  Bids: 7992,
+  LastOrder: '2024-03-06T07:09:18.8444915+08:00',
+  LastDeal: '2024-03-06T07:09:18.834346+08:00',
+  LastModifier: 5568,
+  MarketValue: 426619200,
+  Sacrifices: 547982,
+  StarForces: 12501,
+  NextStar: 0,
+  Stars: 6,
+  Rank: 488,
+  SubjectId: 0,
+  SubjectName: null,
+  AirDate: '0001-01-01T00:00:00',
+  ListedDate: '2020-10-05T20:29:50',
+  LastUpdate: '2024-01-18T03:00:21',
+  Bonus: 0,
+  Level: 9,
+  Price: 400,
+  Rate: 28.201696947588932,
+  Crown: 0,
+  RaidWin: 0,
+  RaidLose: 0,
+  BattleWin: 0,
+  BattleLose: 0,
+  ZeroCount: 0,
+  State: 0,
+  Type: 0
 }

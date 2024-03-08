@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:37:52
+ * @Last Modified time: 2024-03-06 11:20:58
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -209,6 +209,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
       }
     >(() => {
       return this.state.users[monoId] || LIST_EMPTY
+    }).get()
+  }
+
+  /** 角色奖池 */
+  charaPool(monoId: MonoId) {
+    return computed<number>(() => {
+      return this.state.charaPool[monoId] || 0
     }).get()
   }
 

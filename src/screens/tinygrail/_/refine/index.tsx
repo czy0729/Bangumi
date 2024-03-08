@@ -24,7 +24,7 @@ function Refine({
 
   return (
     <Text style={stl(styles.refine, style)} size={size} bold>
-      +{value}
+      +{value}{' '}
     </Text>
   )
 }

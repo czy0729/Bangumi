@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:57:02
+ * @Last Modified time: 2024-03-07 19:25:42
  */
 import { computed, observable } from 'mobx'
 import { systemStore, tinygrailStore } from '@stores'
@@ -57,27 +57,56 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
   refresh = async (update: boolean = false) => {
     if (!update) {
       return queue([
-        () => tinygrailStore.fetchCharacters([this.monoId]), // 角色小圣杯信息
-        () => tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
-        () => tinygrailStore.fetchAssets(), // 自己的资产
-        () => tinygrailStore.fetchIssuePrice(this.monoId), // 角色发行价
-        () => this.fetchValhallChara(), // 本次拍卖信息
-        () => tinygrailStore.fetchCharaTemple(this.monoId), // 所有人固定资产 (可以得到自己的可用资产)
-        () => tinygrailStore.fetchAuctionStatus(this.monoId), // 当前拍卖状态
-        () => tinygrailStore.fetchAuctionList(this.monoId), // 上周拍卖信息
-        () => tinygrailStore.fetchUsers(this.monoId) // 董事会
+        /** 角色小圣杯信息 */
+        () => tinygrailStore.fetchCharacters([this.monoId]),
+
+        /** 本角色我的交易信息 */
+        () => tinygrailStore.fetchUserLogs(this.monoId),
+
+        /** 自己的资产 */
+        () => tinygrailStore.fetchAssets(),
+
+        /** 角色发行价 */
+        () => tinygrailStore.fetchIssuePrice(this.monoId),
+
+        /** 本次拍卖信息 */
+        () => this.fetchValhallChara(),
+
+        /** 所有人固定资产 (可以得到自己的可用资产) */
+        () => tinygrailStore.fetchCharaTemple(this.monoId),
+
+        /** 当前拍卖状态 */
+        () => tinygrailStore.fetchAuctionStatus(this.monoId),
+
+        /** 上周拍卖信息 */
+        () => tinygrailStore.fetchAuctionList(this.monoId),
+
+        /** 董事会 */
+        () => tinygrailStore.fetchUsers(this.monoId),
+
+        /** 角色奖池 */
+        () => tinygrailStore.fetchCharaPool(this.monoId)
       ])
     }
 
     await queue([
-      () => tinygrailStore.fetchUserLogs(this.monoId), // 本角色我的交易信息
-      () => tinygrailStore.fetchAssets(), // 自己的资产
-      () => tinygrailStore.fetchAuctionStatus(this.monoId) // 当前拍卖状态
+      /** 本角色我的交易信息 */
+      () => tinygrailStore.fetchUserLogs(this.monoId),
+
+      /** 自己的资产 */
+      () => tinygrailStore.fetchAssets(),
+
+      /** 当前拍卖状态 */
+      () => tinygrailStore.fetchAuctionStatus(this.monoId)
     ])
 
     // 更新我的资产
     const { amount = 0, sacrifices = 0 } = this.userLogs
     return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
+  }
+
+  save = () => {
+    this.setStorage(NAMESPACE)
   }
 
   /** 可拍卖信息 */
@@ -100,6 +129,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     const rankStarForces = {
       _loaded: getTimestamp()
     }
+
     try {
       for (let i = 1; i <= 5; i += 1) {
         const { _response } = await xhrCustom({
@@ -121,7 +151,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       rankStarForces
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   // -------------------- get --------------------
@@ -193,6 +223,12 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     return tinygrailStore.users(this.monoId)
   }
 
+  /** 角色奖池 */
+  @computed get charaPool() {
+    return tinygrailStore.charaPool(this.monoId)
+  }
+
+  /** 我的圣殿 */
   @computed get myTemple() {
     const { list } = this.charaTemple
     return list.find(item => item.name === this.hash) || {}
@@ -223,7 +259,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     const { state = 0, rank = 0, rate, stars, starForces = 0 } = this.chara
     const { sacrifices = 0 } = this.userLogs
     const { assets = 0 } = this.myTemple
-    const max = parseInt(assets || sacrifices)
+    const max = Number(assets || sacrifices)
 
     const data = []
     const currentRate = calculateRate(rate, rank, stars)
@@ -245,8 +281,12 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
           left: `${((rankStarForces[r] - starForces + 1) / max) * 100}%`,
           rank: r,
           text: decimal(rankStarForces[r]),
-          distance, // 距离段位差多少星之力
-          rate: toFixed(_rate, 1), // 打到段位可以提升多少生效股息
+
+          /** 距离段位差多少星之力 */
+          distance,
+
+          /** 达到该段位可以提升多少生效股息 */
+          rate: toFixed(_rate, 1),
           totalRate: decimal((state + assets - distance) * _rate - current.totalRate)
         })
       }
@@ -301,7 +341,9 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
         ? `融资完成！获得资金 ${formatNumber(Value.Balance)}`
         : `融资完成！获得资金 ${formatNumber(Value.Balance)} ${
             Value.Items.length ? '掉落道具' : ''
-          } ${Value.Items.map(item => `「${item.Name}」×${item.Count}`).join(' ')}`,
+          } ${Value.Items.map(
+            (item: { Name: any; Count: any }) => `「${item.Name}」×${item.Count}`
+          ).join(' ')}`,
       '小圣杯助手'
     )
     this.setState({
@@ -612,7 +654,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
   }
 
   /** 记忆上次出价 */
-  cacheLastAuction = (price: number, amount: number) => {
+  cacheLastAuction = (price: string | number, amount: number) => {
     const lastAuction = {
       price,
       amount,
@@ -655,7 +697,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showCover: !showCover
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起记录 */
@@ -668,7 +710,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showLogs: !showLogs
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起圣殿板块 */
@@ -681,7 +723,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showTemples: !showTemples
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起董事会 */
@@ -694,7 +736,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showUsers: !showUsers
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起献祭模块 */
@@ -703,7 +745,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showSacrifice: !showSacrifice
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起拍卖模块 */
@@ -712,7 +754,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showAuction: !showAuction
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起星之力模块 */
@@ -721,7 +763,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showStarForces: !showStarForces
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 展开收起道具模块 */
@@ -730,6 +772,6 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     this.setState({
       showItems: !showItems
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 }
