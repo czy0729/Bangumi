@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-03-02 09:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 07:01:59
+ * @Last Modified time: 2024-03-09 05:23:17
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { Header, Touchable, Flex, ListView } from '@components'
+import { Flex, Header, ListView, Touchable } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
 import { keyExtractor } from '@utils/app'
+import { obc } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { refreshControlProps } from '@tinygrail/styles'
+import { Ctx } from '../../types'
 import Label from '../label'
 import Log from '../log'
-import { Ctx } from '../types'
+import { COMPONENT, DRAWER_WITDH } from './ds'
 import { memoStyles } from './styles'
-
-const width = _.r(256)
 
 class Logs extends React.Component {
   state = {
@@ -77,6 +77,8 @@ class Logs extends React.Component {
   renderItem = ({ item, index }) => <Log index={index} {...item} />
 
   render() {
+    r(COMPONENT)
+
     const { $ } = this.context as Ctx
     const { show, x } = this.state
     return (
@@ -118,7 +120,7 @@ class Logs extends React.Component {
                   {
                     translateX: x.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [width, 0]
+                      outputRange: [DRAWER_WITDH, 0]
                     })
                   }
                 ]

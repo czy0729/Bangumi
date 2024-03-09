@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:42:08
+ * @Last Modified time: 2024-03-09 05:20:53
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
+function Log(
   { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time },
   { navigation }: Ctx
 ) {
@@ -35,11 +36,11 @@ function Item(
       />
       <Flex.Item style={_.ml.sm}>
         <Touchable
-          onPress={() =>
+          onPress={() => {
             navigation.push('TinygrailSacrifice', {
               monoId: `character/${monoId}`
             })
-          }
+          }}
         >
           <Flex>
             <Text
@@ -108,4 +109,4 @@ function Item(
   )
 }
 
-export default obc(Item)
+export default obc(Log, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 02:06:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 02:55:53
+ * @Last Modified time: 2024-03-09 05:49:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,8 +34,8 @@ function LastWeek(props, { $ }: Ctx) {
           {successAmount ? formatNumber(successAmount, 0) : '-'} 股
         </Text>
       ) : (
-        <Flex style={_.mt.md} direction='column'>
-          <Text style={_.mt.sm} type='tinygrailPlain' size={13}>
+        <Flex direction='column'>
+          <Text style={_.mb.sm} type='tinygrailPlain' size={13}>
             上周没有拍卖纪录
           </Text>
         </Flex>

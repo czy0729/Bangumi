@@ -217,14 +217,25 @@ export function caculateICO(ico: { users?: any; total?: number; Users?: number }
   }
 }
 
-/** 小圣杯 OSS 修正 */
-export function tinygrailOSS(str: string, w = 150) {
-  if (typeof str !== 'string' || str.includes('!w')) return str
+/**
+ * 小圣杯 OSS 修正
+ *  - https://lain.bgm.tv/pic/crt/g/b7/fe/88670_crt_Zv4H2.jpg -> https://lain.bgm.tv/{r/200|400/}pic/crt/l/b7/fe/88670_crt_Zv4H2.jpg
+ *  - https://tinygrail.oss-cn-hangzhou.aliyuncs.com -> https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
+ * */
+export function tinygrailOSS(str: string, w: 120 | 150 = 120) {
+  if (typeof str !== 'string') return str
 
-  // https://tinygrail.oss-cn-hangzhou.aliyuncs.com
-  // https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
+  if (str.includes('lain.bgm.tv')) {
+    let cover = str
+      .replace(/lain.bgm.tv\/pic\/crt\/(g|s|c|m)\//, `lain.bgm.tv/pic/crt/l/`)
+      .replace(/r\/\d+\//, '')
+    return w === 120 ? cover.replace('/l/', '/g/') : cover.replace('pic/crt/', `r/200/pic/crt/`)
+  }
+
   if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {
-    return `${str}!w${w}`.replace('tinygrail.oss-cn-hangzhou.aliyuncs.com', 'tinygrail.mange.cn')
+    return `${str
+      .replace('tinygrail.oss-cn-hangzhou.aliyuncs.com', 'tinygrail.mange.cn')
+      .replace(/!w\d+/g, '')}!w${w}`
   }
 
   return str

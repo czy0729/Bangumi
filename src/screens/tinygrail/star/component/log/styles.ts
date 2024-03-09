@@ -21,7 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
     },
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.48)',
-    borderRadius: _.radiusXs,
+    borderRadius: 4,
     overflow: 'hidden'
   },
   change: {
@@ -35,7 +35,7 @@ export const memoStyles = _.memoStyles(() => ({
     },
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.32)',
-    borderRadius: _.radiusXs,
+    borderRadius: 4,
     overflow: 'hidden'
   }
 }))

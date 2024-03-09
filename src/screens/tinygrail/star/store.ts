@@ -2,31 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:48:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:47:53
+ * @Last Modified time: 2024-03-09 05:41:48
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import store from '@utils/store'
+import { EXCLUD_STATE, NAMESPACE, STATE } from './ds'
 
-const NAMESPACE = 'ScreenTinygrailStar'
-const EXCLUD_ESTATE = {
-  hover: 0
-}
-
-export default class ScreenTinygrailStar extends store {
-  state = observable({
-    page: 1,
-    limit: 100,
-    label: '全局',
-    ...EXCLUD_ESTATE,
-    _loaded: false
-  })
+export default class ScreenTinygrailStar extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
-      ...EXCLUD_ESTATE,
+      ...(await this.getStorage(NAMESPACE)),
+      ...EXCLUD_STATE,
       _loaded: true
     })
 
@@ -58,7 +47,7 @@ export default class ScreenTinygrailStar extends store {
     return tinygrailStore.starLogs
   }
 
-  @computed get mergeListMap() {
+  mergeListMap() {
     const { list } = tinygrailStore.mergeList
     const map = {}
     list.forEach((item: any) => (map[item.id] = item))
@@ -67,9 +56,10 @@ export default class ScreenTinygrailStar extends store {
 
   // -------------------- page --------------------
   setHover = (id: number) => {
-    return this.setState({
+    this.setState({
       hover: id
     })
+    return
   }
 
   setPage = async (page: number, limit: number) => {
