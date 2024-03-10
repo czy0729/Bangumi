@@ -1,10 +1,10 @@
-import { computed, observable } from 'mobx'
 /*
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:04:54
+ * @Last Modified time: 2024-03-10 03:59:31
  */
+import { computed, observable } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
 import { systemStore, tinygrailStore, userStore } from '@stores'
 import { ListKey } from '@stores/tinygrail/types'
@@ -561,5 +561,12 @@ export default class ScreenTinygrail extends store<typeof STATE> {
         count: Value
       })
     }
+  }
+
+  onToggleLogs = () => {
+    const { show } = this.state
+    this.setState({
+      show: !show
+    })
   }
 }

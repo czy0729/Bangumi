@@ -124,7 +124,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     return res
   }
 
-  /** 通天塔(α) */
+  /** 通天塔(β) */
   fetchStarForcesRankValues = async () => {
     const rankStarForces = {
       _loaded: getTimestamp()

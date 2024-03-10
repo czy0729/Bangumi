@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:27:35
+ * @Last Modified time: 2024-03-10 04:15:47
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -32,7 +32,7 @@ function Menus(props, { $ }: Ctx) {
         icon='md-image-aspect-ratio'
       />
       <MenuItem index={6} title='每周萌王' pathname='TinygrailTopWeek' icon='md-favorite-outline' />
-      <MenuItem index={7} title='通天塔(α)' pathname='TinygrailStar' icon='md-change-history' />
+      <MenuItem index={7} title='通天塔(β)' pathname='TinygrailStar' icon='md-change-history' />
       <Assets />
       <MenuItem
         index={8}

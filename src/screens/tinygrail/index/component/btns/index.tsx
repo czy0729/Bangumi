@@ -2,106 +2,103 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 19:01:43
+ * @Last Modified time: 2024-03-10 04:17:35
  */
 import React from 'react'
-import { Button } from '@components'
+import { View } from 'react-native'
+import { Button, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 import { Ctx } from '../../types'
-import { COMPONENT, DATA_MORE } from './ds'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Btns(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { loading, count = 0, _loaded } = $.state
-  if (!_loaded) {
-    return (
-      <Button
-        style={styles.btn}
-        styleText={styles.text}
-        size='sm'
-        loading={loading}
-        onPress={$.doAuth}
-      >
-        授权
-      </Button>
-    )
-  }
-
-  const price = 2000 * 2 ** count
+  const price = 2000 * 2 ** ($.state.count || 0)
   return (
     <>
-      <Popover
-        style={styles.touch}
-        data={['刮刮乐', `幻想乡刮刮乐(${price})`, '每周分红', '每日签到', '节日福利']}
-        onSelect={title => {
-          setTimeout(() => {
-            switch (title) {
-              case '刮刮乐':
-                $.doLottery(navigation)
-                break
+      {$.state._loaded ? (
+        <Popover
+          style={styles.touch}
+          data={[
+            '刮刮乐',
+            `幻想乡刮刮乐(${price})`,
+            '每周分红',
+            '每日签到',
+            // '节日福利',
+            '重新授权',
+            '粘贴板',
+            // '意见反馈',
+            '设置'
+          ]}
+          onSelect={title => {
+            setTimeout(() => {
+              switch (title) {
+                case '刮刮乐':
+                  $.doLottery(navigation)
+                  break
 
-              case '每周分红':
-                confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
-                break
+                case '每周分红':
+                  confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
+                  break
 
-              case '每日签到':
-                $.doGetBonusDaily()
-                break
+                case '每日签到':
+                  $.doGetBonusDaily()
+                  break
 
-              case '节日福利':
-                $.doGetBonusHoliday()
-                break
+                case '节日福利':
+                  $.doGetBonusHoliday()
+                  break
 
-              default:
-                $.doLottery(navigation, true)
-                break
-            }
-          }, 400)
-        }}
-      >
-        <Button style={styles.btn} styleText={styles.text} size='sm'>
-          每日
+                case '重新授权':
+                  $.doAuth()
+                  break
+
+                case '粘贴板':
+                  navigation.push('TinygrailClipboard')
+                  break
+
+                case '意见反馈':
+                  navigation.push('Say', {
+                    sayId: APP_ID_SAY_TINYGRAIL
+                  })
+                  break
+
+                case '设置':
+                  navigation.push('Setting')
+                  break
+
+                default:
+                  $.doLottery(navigation, true)
+                  break
+              }
+            }, 400)
+          }}
+        >
+          <Button style={styles.btn} styleText={styles.text} size='sm'>
+            <Iconfont name='md-menu' color={_.colorTinygrailPlain} />
+          </Button>
+        </Popover>
+      ) : (
+        <Button
+          style={styles.btn}
+          styleText={styles.text}
+          size='sm'
+          loading={$.state.loading}
+          onPress={$.doAuth}
+        >
+          授权
         </Button>
-      </Popover>
-      <Popover
-        style={[styles.touch, _.ml.sm]}
-        data={DATA_MORE}
-        onSelect={title => {
-          setTimeout(() => {
-            switch (title) {
-              case '重新授权':
-                $.doAuth()
-                break
-
-              case '粘贴板':
-                navigation.push('TinygrailClipboard')
-                break
-
-              case '意见反馈':
-                navigation.push('Say', {
-                  sayId: APP_ID_SAY_TINYGRAIL
-                })
-                break
-
-              case '设置':
-                navigation.push('Setting')
-                break
-
-              default:
-                break
-            }
-          }, 400)
-        }}
-      >
-        <Button style={styles.btn} styleText={styles.text} size='sm'>
-          更多
+      )}
+      <View style={styles.touch}>
+        <Button style={styles.btn} styleText={styles.text} size='sm' onPress={$.onToggleLogs}>
+          <Iconfont name='md-menu-open' color={_.colorTinygrailPlain} />
         </Button>
-      </Popover>
+      </View>
     </>
   )
 }

@@ -8,11 +8,12 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   touch: {
+    marginLeft: 12,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
   btn: {
-    width: _.r(64),
+    width: _.r(56),
     height: _.r(36),
     backgroundColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg),
     borderColor: _.tSelect(_.colorTinygrailIcon, _.colorTinygrailBg)

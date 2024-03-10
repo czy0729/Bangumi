@@ -2,20 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-09 05:20:53
+ * @Last Modified time: 2024-03-10 03:56:54
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { Navigation } from '@types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Log(
   { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time },
-  { navigation }: Ctx
+  {
+    navigation
+  }: {
+    navigation: Navigation
+  }
 ) {
   const styles = memoStyles()
   const rankChange = oldRank - rank

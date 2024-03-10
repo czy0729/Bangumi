@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:48:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-09 05:41:48
+ * @Last Modified time: 2024-03-10 04:14:26
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -21,30 +21,19 @@ export default class ScreenTinygrailStar extends store<typeof STATE> {
 
     const { page, limit } = this.state
     this.fetchStar(page, limit)
-    this.fetchStarLogs()
   }
 
   // -------------------- fetch --------------------
-  /** 通天塔(α) */
+  /** 通天塔(β) */
   fetchStar = (page: number, limit: number) => {
     return tinygrailStore.fetchStar(page, limit)
   }
 
-  /** 通天塔(α)记录 */
-  fetchStarLogs = () => {
-    return tinygrailStore.fetchStarLogs(1, 100)
-  }
-
   // -------------------- get --------------------
-  /** 通天塔(α) */
+  /** 通天塔(β) */
   @computed get star() {
     const { page, limit } = this.state
     return tinygrailStore.star(`${page}|${limit}`)
-  }
-
-  /** 通天塔(α)记录 */
-  @computed get starLogs() {
-    return tinygrailStore.starLogs
   }
 
   mergeListMap() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-09 05:26:49
+ * @Last Modified time: 2024-03-10 04:13:59
  */
 import React from 'react'
 import { Page } from '@components'
@@ -10,8 +10,8 @@ import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import List from './component/list'
-import Logs from './component/logs'
 import ToolBar from './component/tool-bar'
+import Header from './header'
 import { useTinygrailStarPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
@@ -22,9 +22,9 @@ const TinygrailStar = (props, context: Ctx) => {
 
   return useObserver(() => (
     <Page style={_.container.tinygrail}>
+      <Header />
       <ToolBar />
       <List />
-      <Logs />
     </Page>
   ))
 }
