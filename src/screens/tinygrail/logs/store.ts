@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:43:35
+ * @Last Modified time: 2024-03-11 07:18:41
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore, systemStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { MonoId } from '@types'
 import { NAMESPACE, STATE } from './ds'
 
@@ -20,13 +20,12 @@ export default class ScreenTinygrailLogs extends store<typeof STATE> {
     const current = getTimestamp()
     const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const state = await this.getStorage(undefined, NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       _loaded: needFetch ? current : _loaded
     })
     if (needFetch) this.fetchBalance()
-    return state
+    return true
   }
 
   // -------------------- fetch --------------------
@@ -36,11 +35,6 @@ export default class ScreenTinygrailLogs extends store<typeof STATE> {
   }
 
   // -------------------- get --------------------
-  /** 小圣杯缩短资金数字显示 */
-  @computed get short() {
-    return systemStore.setting.xsbShort
-  }
-
   /** 资金日志 */
   @computed get balance() {
     return tinygrailStore.balance

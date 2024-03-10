@@ -1,0 +1,60 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-03-11 06:51:12
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-03-11 07:18:18
+ */
+import React from 'react'
+import { Flex, Text, TextProps } from '@components'
+import { _, systemStore } from '@stores'
+import { formatNumber } from '@utils'
+import { obc } from '@utils/decorators'
+import { Ctx } from '../../../types'
+
+function Item({ desc, change }, { $ }: Ctx) {
+  let type: TextProps['type']
+  if (change > 0) {
+    type = 'bid'
+  } else if (change < 0) {
+    type = 'ask'
+  } else {
+    type = 'tinygrailText'
+  }
+
+  let changeType: TextProps['type']
+  let changeNum: string
+  if (!change) {
+    const match = desc.match(/\d+股/g)
+    if (match && match.length) {
+      if (['买入', '获得', '获奖'].some(item => desc.includes(item))) {
+        changeType = 'bid'
+        changeNum = `+${match[0].replace('股', '')}`
+      } else {
+        changeType = 'ask'
+        changeNum = `-${match[0].replace('股', '')}`
+      }
+    }
+  }
+
+  return (
+    <Flex style={_.ml.md} justify='end'>
+      {change ? (
+        <Text type={type} size={15} bold align='right'>
+          {change
+            ? `${type === 'bid' ? '+' : '-'}${formatNumber(
+                Math.abs(change),
+                2,
+                systemStore.setting.xsbShort
+              )}`
+            : ''}
+        </Text>
+      ) : (
+        <Text type={changeType} size={15} bold align='right'>
+          {changeNum}
+        </Text>
+      )}
+    </Flex>
+  )
+}
+
+export default obc(Item)

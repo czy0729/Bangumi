@@ -2,23 +2,30 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 05:47:52
+ * @Last Modified time: 2024-03-10 16:51:28
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
 import { ListEmpty } from '@types'
+import { TABS } from '../../ds'
+import { Ctx, TabsTitle } from '../../types'
 import Item from '../item'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
-function List({ title = '全部' }, { $ }: Ctx) {
-  if (!$.balance._loaded) {
-    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
-  }
+function List(
+  {
+    title = '全部'
+  }: {
+    title: TabsTitle
+  },
+  { $ }: Ctx
+) {
+  if (!$.balance._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
   let data: ListEmpty
   switch (title) {
@@ -28,46 +35,49 @@ function List({ title = '全部' }, { $ }: Ctx) {
         list: $.balance.list.filter(item => item.desc.includes('刮刮乐'))
       }
       break
+
     case '道具':
       data = {
         ...$.balance,
         list: $.balance.list.filter(item => item.desc.includes('使用「'))
       }
       break
+
     case '卖出':
       data = {
         ...$.balance,
-        list: $.balance.list.filter(
-          item => item.desc.includes('卖出') && item.change > 0
-        )
+        list: $.balance.list.filter(item => item.desc.includes('卖出') && item.change > 0)
       }
       break
+
     case '买入':
       data = {
         ...$.balance,
-        list: $.balance.list.filter(
-          item => item.desc.includes('买入') && item.change < 0
-        )
+        list: $.balance.list.filter(item => item.desc.includes('买入') && item.change < 0)
       }
       break
+
     case '圣殿':
       data = {
         ...$.balance,
         list: $.balance.list.filter(item => item.desc.includes('融资'))
       }
       break
+
     case '竞拍':
       data = {
         ...$.balance,
         list: $.balance.list.filter(item => item.desc.includes('竞拍'))
       }
       break
+
     case 'ICO':
       data = {
         ...$.balance,
         list: $.balance.list.filter(item => item.desc.includes('ICO'))
       }
       break
+
     case '分红':
       data = {
         ...$.balance,
@@ -76,12 +86,12 @@ function List({ title = '全部' }, { $ }: Ctx) {
         )
       }
       break
+
     default:
       data = $.balance
       break
   }
 
-  const { page } = $.state
   return (
     <ListView
       style={_.container.flex}
@@ -95,15 +105,11 @@ function List({ title = '全部' }, { $ }: Ctx) {
       maxToRenderPerBatch={24}
       updateCellsBatchingPeriod={24}
       lazy={24}
-      scrollToTop={TABS[page].title === title}
+      scrollToTop={TABS[$.state.page].title === title}
       renderItem={renderItem}
-      onHeaderRefresh={() => $.fetchBalance()}
+      onHeaderRefresh={$.fetchBalance}
     />
   )
 }
 
-export default obc(List)
-
-function renderItem({ item, index }) {
-  return <Item index={index} {...item} />
-}
+export default obc(List, COMPONENT)

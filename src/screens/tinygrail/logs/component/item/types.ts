@@ -7,7 +7,6 @@
 import { MonoId } from '@types'
 
 export type Props = {
-  index: number
   balance: number
   desc: string
   change: number

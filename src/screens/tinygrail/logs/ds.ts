@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-06 05:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:43:08
+ * @Last Modified time: 2024-03-10 15:55:24
  */
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenTinygrailLogs'
+export const COMPONENT = 'TinygrailLogs'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   page: 0,
