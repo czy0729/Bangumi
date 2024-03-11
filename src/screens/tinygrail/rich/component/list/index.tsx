@@ -2,27 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:28:33
+ * @Last Modified time: 2024-03-11 16:59:01
  */
 import React from 'react'
 import { toJS } from 'mobx'
-import { Loading, ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
+import { TABS } from '../../ds'
+import { Ctx } from '../../types'
 import Item from '../item'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function List({ id, title = '全部' }, { $ }: Ctx) {
   const rich = $.rich(id)
-  if (!rich._loaded) {
-    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
-  }
+  if (!rich._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
-  const [page, limit] = id.split('/')
-
-  // top100 余额最多处理
+  // top 100 余额最多处理
   let data = rich
   if (title === '股息') {
     data = toJS(rich)
@@ -32,10 +29,10 @@ function List({ id, title = '全部' }, { $ }: Ctx) {
     data.list = data.list.slice().sort((a, b) => parseInt(b.total) - parseInt(a.total))
   } else if (title === '初始') {
     data = toJS(rich)
-    data.list = data.list
-      .slice()
-      .sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
+    data.list = data.list.slice().sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
   }
+
+  const [page, limit] = id.split('/')
   return (
     <ListView
       style={_.container.flex}
@@ -51,17 +48,11 @@ function List({ id, title = '全部' }, { $ }: Ctx) {
       lazy={24}
       scrollToTop={TABS[$.state.page].title === title}
       renderItem={({ item, index }) => (
-        <Item
-          index={index}
-          title={title}
-          page={parseInt(page)}
-          limit={parseInt(limit)}
-          {...item}
-        />
+        <Item index={index} title={title} page={parseInt(page)} limit={parseInt(limit)} {...item} />
       )}
       onHeaderRefresh={() => $.fetchRich(id)}
     />
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

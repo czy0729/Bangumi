@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:42:39
+ * @Last Modified time: 2024-03-11 17:37:46
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Flex, Iconfont, Text, TextType, Touchable, UserStatus } from '@components'
+import { Flex, Iconfont, Text, TextType, Touchable } from '@components'
 import { _ } from '@stores'
-import { getTimestamp, lastDate, stl, tinygrailOSS } from '@utils'
+import { getTimestamp, lastDate } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { decimal } from '@tinygrail/_/utils'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import Avatar from './avatar'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Item(
@@ -35,7 +37,6 @@ function Item(
   { navigation }: Ctx
 ) {
   const styles = memoStyles()
-  const isTop = index === 0
   const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
 
   const totalText = decimal(Math.abs(total))
@@ -62,46 +63,30 @@ function Item(
   let text = ''
   let right = ''
   if (title === '股息') {
-    text = `总值${assetsText} / 余${totalText}`
+    text = `总值${assetsText} / 流动资金${totalText}`
     right = shareText
   } else if (title === '余额') {
     text = `总值${assetsText} / 股息${shareText}`
     right = totalText
   } else if (title === '初始') {
     const principalText = decimal(Math.abs(principal))
-    text = `总值${assetsText} / 股息${shareText} / 余${totalText}`
+    text = `总值${assetsText} / 股息${shareText} / 流动资金${totalText}`
     right = principalText
   } else {
-    text = `股息${shareText} / 余${totalText} / ${lastDate(lastActiveTS)}`
+    text = `周股息${shareText} / 流动资金${totalText} / ${lastDate(lastActiveTS)}`
     right = assetsText
   }
 
   return (
     <View style={styles.container}>
       <Flex align='start'>
-        <View style={_.mt.md}>
-          <UserStatus style={styles.userStatus} last={lastActiveTS}>
-            <Avatar
-              src={tinygrailOSS(avatar)}
-              size={36}
-              borderColor='transparent'
-              skeletonType='tinygrail'
-              name={nickname}
-              onPress={() => {
-                t('番市首富.跳转', {
-                  to: 'Zone',
-                  userId
-                })
-
-                navigation.push('Zone', {
-                  userId,
-                  from: 'tinygrail'
-                })
-              }}
-            />
-          </UserStatus>
-        </View>
-        <Flex.Item style={stl(styles.wrap, !isTop && !_.flat && styles.border)}>
+        <Avatar
+          avatar={avatar}
+          nickname={nickname}
+          userId={userId}
+          lastActiveDate={lastActiveDate}
+        />
+        <Flex.Item style={styles.wrap}>
           <Flex align='start'>
             <Flex.Item style={_.mr.sm}>
               <Touchable
@@ -124,7 +109,7 @@ function Item(
                       <Text style={styles.rank} size={12} bold align='center'>
                         {rank}
                       </Text>
-                      <Text type={state === 666 ? 'ask' : 'tinygrailPlain'} size={15} bold>
+                      <Text type={state === 666 ? 'ask' : 'tinygrailPlain'} bold>
                         {nickname}
                         {!!changeText && (
                           <Text type={changeColor} size={15}>
@@ -134,14 +119,14 @@ function Item(
                         )}
                       </Text>
                     </Flex>
-                    <Text style={_.mt.xs} type='tinygrailText' size={12}>
+                    <Text style={_.mt.xs} type='tinygrailText' size={12} lineHeight={13}>
                       {text}
                     </Text>
                   </Flex.Item>
-                  <Text style={_.ml.xs} type='tinygrailPlain'>
+                  <Text style={_.ml.sm} type='tinygrailPlain'>
                     {right}
                   </Text>
-                  <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
+                  <Iconfont style={_.mr._xs} name='md-navigate-next' color={_.colorTinygrailText} />
                 </Flex>
               </Touchable>
             </Flex.Item>
@@ -152,4 +137,4 @@ function Item(
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 06:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 06:56:06
+ * @Last Modified time: 2024-03-11 17:33:44
  */
 import { _ } from '@stores'
 
@@ -14,18 +14,11 @@ export const memoStyles = _.memoStyles(() => ({
   wrap: {
     paddingRight: _.wind - _._wind
   },
-  userStatus: {
-    backgroundColor: _.colorTinygrailContainer
-  },
   item: {
     paddingVertical: _.md,
     paddingHorizontal: _.sm,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
-  },
-  border: {
-    borderTopColor: _.colorTinygrailBorder,
-    borderTopWidth: _.hairlineWidth
   },
   bonus: {
     position: 'absolute',
@@ -49,7 +42,11 @@ export const memoStyles = _.memoStyles(() => ({
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.48)',
     backgroundColor: '#ffc107',
-    borderRadius: _.radiusXs,
+    borderRadius: 4,
     overflow: 'hidden'
+  },
+  amount: {
+    marginRight: -_.xs,
+    marginLeft: _.md
   }
 }))
