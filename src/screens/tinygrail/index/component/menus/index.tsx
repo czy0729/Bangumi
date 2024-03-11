@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:15:47
+ * @Last Modified time: 2024-03-11 10:39:57
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -22,7 +22,7 @@ function Menus(props, { $ }: Ctx) {
     <Flex style={IOS && _.mt.sm} wrap='wrap'>
       <MenuItem index={0} title='热门榜单' pathname='TinygrailOverview' icon='md-whatshot' />
       <MenuItem index={1} title='新番榜单' pathname='TinygrailNew' icon='md-local-play' />
-      <MenuItem index={2} title='ICO榜单' pathname='TinygrailICO' icon='md-attach-money' />
+      <MenuItem index={2} title='ICO 榜单' pathname='TinygrailICO' icon='md-attach-money' />
       <MenuItem index={3} title='番市首富' pathname='TinygrailRich' icon='md-money' />
       <MenuItem index={4} title='英灵殿' pathname='TinygrailValhall' icon='md-looks' />
       <MenuItem
@@ -32,7 +32,7 @@ function Menus(props, { $ }: Ctx) {
         icon='md-image-aspect-ratio'
       />
       <MenuItem index={6} title='每周萌王' pathname='TinygrailTopWeek' icon='md-favorite-outline' />
-      <MenuItem index={7} title='通天塔(β)' pathname='TinygrailStar' icon='md-change-history' />
+      <MenuItem index={7} title='通天塔 (β)' pathname='TinygrailStar' icon='md-change-history' />
       <Assets />
       <MenuItem
         index={8}

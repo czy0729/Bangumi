@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 03:43:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 10:52:12
+ * @Last Modified time: 2024-03-11 10:44:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,7 +83,7 @@ function Footer({
               lineHeight={16}
             >
               {footerRefreshingText}
-              {page && pageTotal ? ` ${Number(page) + 1} / ${Number(pageTotal)}` : ''}
+              {page && pageTotal && pageTotal != 100 ? ` ${Number(page) + 1} / ${pageTotal}` : ''}
             </Text>
           </Flex>
         )

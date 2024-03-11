@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 23:58:02
+ * @Last Modified time: 2024-03-11 09:26:15
  */
 import { Alert, BackHandler } from 'react-native'
 import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
@@ -222,7 +222,7 @@ export function caculateICO(ico: { users?: any; total?: number; Users?: number }
  *  - https://lain.bgm.tv/pic/crt/g/b7/fe/88670_crt_Zv4H2.jpg -> https://lain.bgm.tv/{r/200|400/}pic/crt/l/b7/fe/88670_crt_Zv4H2.jpg
  *  - https://tinygrail.oss-cn-hangzhou.aliyuncs.com -> https://tinygrail.mange.cn/cover/1e5f9be0dfe62372a69e9a4f04acd0e1.jpg!w150
  * */
-export function tinygrailOSS(str: string, w: 120 | 150 = 120) {
+export function tinygrailOSS(str: string, w: 120 | 150 | 480 = 120) {
   if (typeof str !== 'string') return str
 
   if (str.includes('lain.bgm.tv')) {

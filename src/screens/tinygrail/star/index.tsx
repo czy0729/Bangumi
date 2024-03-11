@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 14:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:13:59
+ * @Last Modified time: 2024-03-11 08:30:59
  */
 import React from 'react'
 import { Page } from '@components'
@@ -21,11 +21,13 @@ const TinygrailStar = (props, context: Ctx) => {
   useTinygrailStarPage(context)
 
   return useObserver(() => (
-    <Page style={_.container.tinygrail}>
+    <>
       <Header />
-      <ToolBar />
-      <List />
-    </Page>
+      <Page style={_.container.tinygrail}>
+        <ToolBar />
+        <List />
+      </Page>
+    </>
   ))
 }
 

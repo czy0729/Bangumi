@@ -2,16 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 17:26:52
+ * @Last Modified time: 2024-03-11 09:35:33
  */
 import React from 'react'
 import { Text } from '@components'
-import { tinygrailStore, _ } from '@stores'
-import { formatNumber, getTimestamp, lastDate, toFixed } from '@utils'
-import { formatTime, tinygrailFixedTime } from '@utils/app'
+import { _, tinygrailStore } from '@stores'
+import {
+  caculateICO,
+  formatNumber,
+  formatTime,
+  getTimestamp,
+  lastDate,
+  tinygrailFixedTime,
+  toFixed
+} from '@utils'
 import { ob } from '@utils/decorators'
-import { decimal, calculateRate, calculateTotalRate } from '@tinygrail/_/utils'
 import Stars from '@tinygrail/_/stars'
+import { calculateRate, calculateTotalRate, decimal } from '@tinygrail/_/utils'
 
 const TYPES = ['bid', 'asks', 'chara', 'merge'] as const
 const COLOR_MAP = {
@@ -27,6 +34,7 @@ let timezone: any = new Date().getTimezoneOffset() / -60
 if (String(timezone).length === 1) timezone = `0${timezone}`
 
 function Detail({
+  Users,
   assets,
   end,
   lastOrder,
@@ -66,9 +74,7 @@ function Detail({
     extra.push(formatTime(_end)) // ICO结束时间
     extra.push(`已筹${totalText}`) // ICO已筹资金
   } else {
-    extra.push(
-      `+${toFixed(rate, 1)}(${Number(toFixed(calculateRate(rate, rank, stars), 1))})`
-    )
+    extra.push(`+${toFixed(rate, 1)}(${Number(toFixed(calculateRate(rate, rank, stars), 1))})`)
 
     if (show && (state || sacrifices)) {
       extra2.push(
@@ -117,8 +123,12 @@ function Detail({
   let icoUser: number
   let icoHighlight: boolean
   if (users && users !== 'ico') {
+    const { nextUser } = caculateICO({ users, total, Users })
     icoUser = users
-    icoHighlight = Number(icoUser || 0) > 9 && Number(icoUser || 0) < 15
+
+    // 人数差一点就达成条件
+    const distance = Math.abs(nextUser - icoUser)
+    icoHighlight = distance === 1 || distance === 2
   }
 
   let prevText: string
@@ -142,10 +152,7 @@ function Detail({
         )}
         {!!sacrifices && (
           <Text type='bid' size={size} bold lineHeight={12}>
-            塔
-            {!show || !assets || assets === sacrifices
-              ? sacrifices
-              : `${sacrifices}(${assets})`}
+            塔{!show || !assets || assets === sacrifices ? sacrifices : `${sacrifices}(${assets})`}
             <Text type='tinygrailText' size={size} lineHeight={12}>
               {' / '}
             </Text>

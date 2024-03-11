@@ -11,8 +11,5 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: _.sm,
     paddingHorizontal: _.wind,
     paddingBottom: _.md
-  },
-  image: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))

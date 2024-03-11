@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:42:58
+ * @Last Modified time: 2024-03-11 10:39:30
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -38,12 +38,12 @@ function Auth(props, { $, navigation }: Ctx) {
               {nickname}
             </Text>
             {$.advance ? (
-              <Text size={11} lineHeight={12} type='warning'>
+              <Text size={11} lineHeight={13} type='warning'>
                 高级会员
               </Text>
             ) : (
               !!$.state._loaded && (
-                <Text type='tinygrailText' size={11} lineHeight={12}>
+                <Text type='tinygrailText' size={11} lineHeight={13}>
                   普通会员
                 </Text>
               )

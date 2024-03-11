@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 05:31:45
+ * @Last Modified time: 2024-03-11 09:23:10
  */
 import React from 'react'
 import { IconTouchable } from '@_'
-import { tinygrailStore, _ } from '@stores'
+import { _, tinygrailStore } from '@stores'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
 import Popover from '../../popover'

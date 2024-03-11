@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:43:08
+ * @Last Modified time: 2024-03-11 10:30:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { caculateICO, formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 function Initial(props, { $, navigation }: Ctx) {
@@ -20,9 +20,7 @@ function Initial(props, { $, navigation }: Ctx) {
   const { users } = $.chara
   const { list } = $.initial
   const { nextUser } = caculateICO($.chara)
-  const EVENT = {
-    id: 'ICO交易.跳转'
-  } as const
+
   return (
     <View style={styles.container}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
@@ -52,7 +50,7 @@ function Initial(props, { $, navigation }: Ctx) {
                 </Text>
               </Flex>
               {!!item.amount && (
-                <Text type='tinygrailText' size={10} lineHeight={13}>
+                <Text type='warning' size={10} lineHeight={13} bold>
                   +{formatNumber(item.amount, 0, $.short)}
                 </Text>
               )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 03:56:54
+ * @Last Modified time: 2024-03-11 09:10:43
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import { Navigation } from '@types'
+import Rank from '../../rank'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -48,6 +49,7 @@ function Log(
         >
           <Flex>
             <Text
+              style={_.mr.xs}
               type='tinygrailPlain'
               size={name.length > 12 ? 8 : name.length > 8 ? 10 : 12}
               bold
@@ -55,19 +57,7 @@ function Log(
             >
               {name}
             </Text>
-            <Text
-              style={[
-                styles.rank,
-                {
-                  backgroundColor: rank <= 500 ? '#ffc107' : '#aaa'
-                }
-              ]}
-              size={10}
-              bold
-              align='center'
-            >
-              {rank}
-            </Text>
+            <Rank value={rank} />
             {rankChange !== 0 && (
               <Text
                 style={[
@@ -76,9 +66,11 @@ function Log(
                     backgroundColor: rankChange >= 0 ? _.colorBid : _.colorAsk
                   }
                 ]}
-                size={10}
+                size={9}
+                lineHeight={1}
                 bold
                 align='center'
+                shadow
               >
                 {rankChange >= 0 ? '↑' : '↓'}
                 {Math.abs(rankChange)}

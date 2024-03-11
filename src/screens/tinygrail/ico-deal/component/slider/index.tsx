@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 23:30:28
+ * @Last Modified time: 2024-03-11 10:29:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Flex, Input, Slider as CompSlider, Text } from '@components'
+import { Button, Flex, Input, Slider as SliderComp, Text } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { debounce, formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -45,14 +45,14 @@ function Slider(props, { $ }: Ctx) {
       </Flex>
       <Flex style={styles.slider}>
         <View style={_.container.block}>
-          <CompSlider
+          <SliderComp
             value={amount}
             min={5000}
             max={balance < 5000 ? 5000 : Number(balance)}
-            step={100}
+            step={1000}
             minimumTrackTintColor={_.colorBid}
             maximumTrackTintColor={_.colorTinygrailBorder}
-            onChange={value => $.changeAmount(value < 5000 ? 5000 : value)}
+            onChange={debounce(value => $.changeAmount(value < 5000 ? 5000 : value))}
           />
         </View>
       </Flex>

@@ -2,44 +2,32 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:46:07
+ * @Last Modified time: 2024-03-11 09:04:58
  */
 import React from 'react'
-import { Header, Page } from '@components'
+import { Page } from '@components'
 import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
-import Tabs from '@tinygrail/_/tabs-v2'
-import List from './list'
+import { ic } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
+import Tabs from './component/tabs'
+import Header from './header'
+import { useTinygrailICOPage } from './hooks'
 import Store from './store'
-import { TABS } from './ds'
 import { Ctx } from './types'
 
-class TinygrailICO extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+/** ICO 榜单 */
+const TinygrailICO = (props, context: Ctx) => {
+  useTinygrailICOPage(context)
 
-  render() {
-    const { $ } = this.context as Ctx
-    const { _loaded } = $.state
-    return (
-      <>
-        <Header
-          title='ICO榜单'
-          hm={['tinygrail/ico', 'TinygrailICO']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
-        />
-        <Page style={_.container.tinygrail} loaded={_loaded}>
-          <Tabs
-            routes={TABS}
-            renderItem={item => <List key={item.key} id={item.key} />}
-          />
-        </Page>
-      </>
-    )
-  }
+  const { $ } = context
+  return useObserver(() => (
+    <>
+      <Header />
+      <Page style={_.container.tinygrail} loaded={$.state._loaded}>
+        <Tabs />
+      </Page>
+    </>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailICO))
+export default ic(Store, TinygrailICO)

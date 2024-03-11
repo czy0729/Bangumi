@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:02:23
+ * @Last Modified time: 2024-03-11 09:23:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { toFixed, caculateICO, stl } from '@utils'
+import { caculateICO, stl, toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
 import { Id, ViewStyle } from '@types'
@@ -53,6 +53,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
           size={11}
           align='center'
           bold
+          shadow
         >
           lv{level} {percent}%
         </Text>
@@ -77,8 +78,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
   }
 
   render() {
-    const { style, current, fluctuation, change, bids, asks, users, _loaded } =
-      this.props
+    const { style, current, fluctuation, change, bids, asks, users, _loaded } = this.props
     if (!_loaded) return null
 
     if (users) return this.renderICO()
@@ -178,10 +178,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
               )}
               {show && (
                 <Flex
-                  style={stl(
-                    show ? this.styles.floorShowDetail : this.styles.floor,
-                    _.ml.xs
-                  )}
+                  style={stl(show ? this.styles.floorShowDetail : this.styles.floor, _.ml.xs)}
                   justify='between'
                 >
                   <View

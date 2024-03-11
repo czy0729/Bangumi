@@ -2,9 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-05 14:43:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:42:30
+ * @Last Modified time: 2024-03-11 10:31:43
  */
-export const NAMESPACE = 'ScreenTinygrailICO'
+import { Loaded } from '@types'
+
+export const COMPONENT = 'TinygrailICO'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
   {
@@ -12,15 +16,20 @@ export const TABS = [
     key: 'mvi'
   },
   {
-    title: '最近活跃',
-    key: 'rai'
+    title: '最高人气',
+    key: 'mpi'
   },
   {
     title: '即将结束',
     key: 'mri'
   },
   {
-    title: '最高人气',
-    key: 'mpi'
+    title: '最近活跃',
+    key: 'rai'
   }
 ] as const
+
+export const STATE = {
+  page: 0,
+  _loaded: false as Loaded
+}

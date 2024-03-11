@@ -2,30 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:44:49
+ * @Last Modified time: 2024-03-11 08:43:04
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { ListKey } from '@stores/tinygrail/types'
-import { NAMESPACE, TABS } from './ds'
+import store from '@utils/store'
+import { NAMESPACE, STATE, TABS } from './ds'
+import { TabsKey } from './types'
 
-export default class ScreenTinygrailICO extends store {
-  state = observable({
-    page: 0,
-    _loaded: false
-  })
+export default class ScreenTinygrailICO extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state
     const current = getTimestamp()
     const needFetch = !_loaded || current - Number(_loaded) > 60
 
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       _loaded: needFetch ? current : _loaded
     })
 
@@ -34,16 +30,16 @@ export default class ScreenTinygrailICO extends store {
       this.fetchList(TABS[page].key)
     }
 
-    return state
+    return true
   }
 
   // -------------------- fetch --------------------
-  fetchList = (key: ListKey) => {
+  fetchList = (key: TabsKey) => {
     return tinygrailStore.fetchList(key)
   }
 
   // -------------------- get --------------------
-  list(key: ListKey = 'recent') {
+  list(key: TabsKey = TABS[0]['key']) {
     return computed(() => tinygrailStore.list(key)).get()
   }
 

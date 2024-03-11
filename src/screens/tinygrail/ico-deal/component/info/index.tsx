@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 00:09:20
+ * @Last Modified time: 2024-03-11 10:26:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,13 +33,12 @@ function Info(props, { $, navigation }: Ctx) {
       {!!icon && (
         <Flex justify='center'>
           <Image
-            style={styles.image}
-            src={tinygrailOSS(getCoverLarge(icon))}
+            src={tinygrailOSS(getCoverLarge(icon), 150)}
             autoSize={MAX_SIZE}
             shadow
-            placeholder={false}
             imageViewer
             imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
+            skeletonType='tinygrail'
             event={EVENT}
           />
         </Flex>
@@ -65,7 +64,7 @@ function Info(props, { $, navigation }: Ctx) {
           {!!level && (
             <Text type='ask' size={15} bold>
               {' '}
-              lv{level}
+              lv{level}{' '}
             </Text>
           )}
           <Text type='tinygrailPlain' size={15} bold>
@@ -98,7 +97,7 @@ function Info(props, { $, navigation }: Ctx) {
         {formatNumber(next, 0, $.short)}
       </Text>
       <Text style={_.mt.sm} type='tinygrailPlain' align='center'>
-        预计发行量: 约 {formatNumber(amount, 0, $.short)} 股 / 发行价 {formatNumber(price)}
+        预计发行量: 约 {formatNumber(amount, 0, $.short)} 股 / 发行价 ₵{formatNumber(price)}
       </Text>
       <Bar style={_.mt.md} total={total} level={level} next={next} />
     </View>

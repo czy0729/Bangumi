@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:46:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 23:37:14
+ * @Last Modified time: 2024-03-11 10:28:35
  */
 import { computed, observable } from 'mobx'
 import { systemStore, tinygrailStore, userStore } from '@stores'
@@ -24,12 +24,12 @@ export default class ScreenTinygrailICODeal extends store<typeof STATE> {
     const { _loaded } = this.state
     const current = getTimestamp()
     const needFetch = !_loaded || current - _loaded > 60
-
     this.setState({
       _loaded: needFetch ? current : _loaded
     })
 
     if (needFetch) return this.refresh()
+
     return true
   }
 
@@ -124,7 +124,7 @@ export default class ScreenTinygrailICODeal extends store<typeof STATE> {
   }
 
   /** 数量改变 */
-  changeAmount = (amount: string) => {
+  changeAmount = (amount: any) => {
     let _amount = parseInt(amount)
 
     if (isNaN(_amount)) _amount = 0
