@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 18:38:44
+ * @Last Modified time: 2024-03-12 06:35:56
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -36,6 +36,7 @@ import {
   API_TINYGRAIL_STAR_LOGS,
   API_TINYGRAIL_TEMPLE,
   API_TINYGRAIL_TEMPLE_LAST,
+  API_TINYGRAIL_TEST,
   API_TINYGRAIL_TOP_WEEK,
   API_TINYGRAIL_USER_CHARA,
   API_TINYGRAIL_USER_CHARA_TOTAL,
@@ -1902,5 +1903,22 @@ export default class Fetch extends Computed {
     })
 
     return Promise.resolve(data)
+  }
+
+  /** 预测股息 */
+  fetchTest = async () => {
+    const result = await this.fetch(API_TINYGRAIL_TEST())
+    const key = 'test'
+    if (result.data.State === 0) {
+      this.setState({
+        [key]: {
+          ...result.data.Value,
+          _loaded: getTimestamp()
+        }
+      })
+      this.save(key)
+    }
+
+    return this[key]
   }
 }

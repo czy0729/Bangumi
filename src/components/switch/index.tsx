@@ -14,7 +14,7 @@ import { Props as SwitchProps } from './types'
 
 export { SwitchProps }
 
-/** @deprecated 开关 */
+/** 开关 */
 export const Switch = observer(
   ({
     style,

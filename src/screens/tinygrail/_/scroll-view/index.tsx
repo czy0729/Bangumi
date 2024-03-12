@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-01 23:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 19:15:07
+ * @Last Modified time: 2024-03-13 06:40:47
  */
 import React, { useCallback, useState } from 'react'
 import { RefreshControl } from 'react-native'
@@ -41,6 +41,7 @@ function ScrollView({ style, contentContainerStyle, onRefresh, children }: Props
           onRefresh={onRefreshCallback}
         />
       }
+      keyboardDismissMode='on-drag'
       scrollToTop
     >
       {children}

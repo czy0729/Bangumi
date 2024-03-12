@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 15:57:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 18:46:53
+ * @Last Modified time: 2024-03-13 06:20:58
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -47,7 +47,7 @@ function List(props, { $ }: Ctx) {
     list.unshift(myTemple)
   }
 
-  if (!$.state.expand) list = list.filter((item, index) => index < 15)
+  if (!$.state.expand) list = list.filter((item, index) => index < 9)
 
   // 活跃时间
   const lastActiveMap = {}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 04:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:57:27
+ * @Last Modified time: 2024-03-11 18:20:32
  */
 import React from 'react'
 import { Page } from '@components'
@@ -14,6 +14,7 @@ import Auction from './component/auction'
 import AuctionList from './component/auction-list'
 import Info from './component/info'
 import Items from './component/items'
+import Refine from './component/refine'
 import Sacrifice from './component/sacrifice'
 import Starforces from './component/starforces'
 import Temples from './component/temples'
@@ -36,6 +37,7 @@ const TinygrailSacrifice = (props, context: Ctx) => {
           <Info />
           <Sacrifice />
           <Starforces />
+          <Refine />
           <Auction />
           <AuctionList />
           <Items />

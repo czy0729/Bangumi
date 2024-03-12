@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:02:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 06:01:58
+ * @Last Modified time: 2024-03-11 18:44:08
  */
 export type CollectionAction = 'create' | 'update'
 
@@ -40,5 +40,6 @@ export type TinygrailType =
  *  - stardust: 星光碎片
  *  - starbreak: 闪光结晶
  *  - fisheye: 鲤鱼之眼
+ *  - refine: 精炼
  */
-export type TinygrailMagic = 'chaos' | 'guidepost' | 'stardust' | 'starbreak' | 'fisheye'
+export type TinygrailMagic = 'chaos' | 'guidepost' | 'stardust' | 'starbreak' | 'fisheye' | 'refine'

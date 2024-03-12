@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:11:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 19:25:42
+ * @Last Modified time: 2024-03-12 07:04:39
  */
 import { computed, observable } from 'mobx'
 import { systemStore, tinygrailStore } from '@stores'
@@ -36,6 +36,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     const state = (await this.getStorage(NAMESPACE)) || {}
     const lastAuction = (await getStorage(this.namespaceLastAuction)) || INIT_LAST_AUCTION
     const lastSacrifice = (await getStorage(this.namespaceLastSacrifice)) || INIT_LAST_SACRIFICE
+    await tinygrailStore.init('test')
 
     const current = getTimestamp()
     this.setState({
@@ -57,8 +58,13 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
   refresh = async (update: boolean = false) => {
     if (!update) {
       return queue([
+        this.fetchTest,
+
         /** 角色小圣杯信息 */
         () => tinygrailStore.fetchCharacters([this.monoId]),
+
+        /** 所有人固定资产 (可以得到自己的可用资产) */
+        () => tinygrailStore.fetchCharaTemple(this.monoId),
 
         /** 本角色我的交易信息 */
         () => tinygrailStore.fetchUserLogs(this.monoId),
@@ -71,9 +77,6 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
         /** 本次拍卖信息 */
         () => this.fetchValhallChara(),
-
-        /** 所有人固定资产 (可以得到自己的可用资产) */
-        () => tinygrailStore.fetchCharaTemple(this.monoId),
 
         /** 当前拍卖状态 */
         () => tinygrailStore.fetchAuctionStatus(this.monoId),
@@ -107,6 +110,14 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
   save = () => {
     this.setStorage(NAMESPACE)
+  }
+
+  /** 预测股息 */
+  fetchTest = () => {
+    if (this.test._loaded && getTimestamp() - Number(this.test._loaded) < 60 * 60 * 24 * 7) {
+      return true
+    }
+    return tinygrailStore.fetchTest()
   }
 
   /** 可拍卖信息 */
@@ -176,6 +187,11 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
   /** 用户唯一标识 */
   @computed get hash() {
     return tinygrailStore.hash
+  }
+
+  /** 预测股息 */
+  @computed get test() {
+    return tinygrailStore.test
   }
 
   /** 全局人物数据 */
@@ -273,12 +289,12 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     }
 
     const ranks = rank <= 100 ? [20, 40, 60, 80] : [100, 200, 300, 400, 500]
-    ranks.forEach(r => {
+    ranks.forEach((r, index) => {
       if (max && rank > r && rankStarForces[r] && assets + starForces > rankStarForces[r]) {
         const _rate = calculateRate(rate, r, stars)
         const distance = rankStarForces[r] - starForces + 1
         data.push({
-          left: `${((rankStarForces[r] - starForces + 1) / max) * 100}%`,
+          left: `${Math.min(40 - index * 2, ((rankStarForces[r] - starForces + 1) / max) * 100)}%`,
           rank: r,
           text: decimal(rankStarForces[r]),
 
@@ -539,6 +555,32 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     }
   }
 
+  /** 精炼 */
+  doRefine = async () => {
+    const { loadingRefine } = this.state
+    if (loadingRefine) return
+
+    this.setState({
+      loadingRefine: true
+    })
+
+    const { Value, Message } = await tinygrailStore.doMagic({
+      monoId: this.monoId,
+      type: 'refine'
+    })
+    feedback()
+    t('资产重组.使用道具', {
+      type: '精炼',
+      monoId: this.monoId
+    })
+
+    info(Message || Value)
+    this.setState({
+      loadingRefine: false
+    })
+    tinygrailStore.fetchCharaTemple(this.monoId)
+  }
+
   // -------------------- page --------------------
   /** 金额格式过滤 */
   moneyNatural = (v: any) => {
@@ -687,6 +729,15 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     })
   }
 
+  /** 切换是否二次确认精炼 */
+  switchConfirmRefine = () => {
+    const { confirmRefine } = this.state
+    this.setState({
+      confirmRefine: !confirmRefine
+    })
+    this.save()
+  }
+
   /** 展开收起封面 */
   toggleCover = () => {
     const { showCover } = this.state
@@ -762,6 +813,15 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
     const { showStarForces } = this.state
     this.setState({
       showStarForces: !showStarForces
+    })
+    this.save()
+  }
+
+  /** 展开收起精炼模块 */
+  toggleRefine = () => {
+    const { showRefine } = this.state
+    this.setState({
+      showRefine: !showRefine
     })
     this.save()
   }

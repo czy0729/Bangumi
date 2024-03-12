@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 19:33:50
+ * @Last Modified time: 2024-03-11 19:56:54
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -59,9 +59,17 @@ export function calculateRatio(rank = 0) {
   return Math.max(Number(toFixed((601 - rank) * 0.005, 2)), 0)
 }
 
-/** 计算角色当前股息 */
+/** 计算角色当前股息 (活股) */
 export function calculateRate(rate = 0, rank = 0, stars = 0) {
-  if (rank < 501 && rate > 0) return calculateRatio(rank) * rate
+  if (rank && rank < 501 && rate > 0) return calculateRatio(rank) * rate
+  return stars * 2
+}
+
+/** 计算角色当前股息 (固定资产) */
+export function calculateTempleRate(rate = 0, rank = 0, stars = 0, level = 0, refine = 0) {
+  if (rank && rank < 501 && rate > 0) {
+    return (calculateRate(rate, rank, stars) / (2 * level + 1)) * (2 * (level + refine) + 1)
+  }
   return stars * 2
 }
 
@@ -79,6 +87,11 @@ export function calculateTotalRate(
 ) {
   const currentRate = isBase ? item.rate || 0 : calculateRate(item.rate, item.rank, item.stars)
   return ((item.state || 0) + (item.assets || item.sacrifices || 0)) * currentRate
+}
+
+/** 计算角色精炼消耗 */
+export function calculateRefineCost(refine: number = 0) {
+  return Math.floor(Math.pow(1.3, refine) * 10000)
 }
 
 /** 数目缩略 */

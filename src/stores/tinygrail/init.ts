@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:48:13
+ * @Last Modified time: 2024-03-12 06:28:10
  */
 import { LIST_EMPTY } from '@constants'
+import { Loaded } from '@types'
 
 export const NAMESPACE = 'Tinygrail'
 
@@ -387,6 +388,16 @@ export const STATE = {
   /** 幻想乡 */
   fantasy: LIST_EMPTY,
 
+  /** 股息预测 */
+  test: {
+    Daily: 0,
+    Share: 0,
+    Tax: 0,
+    Temples: 0,
+    Total: 0,
+    _loaded: 0 as Loaded
+  },
+
   /** @deprecated */
   _webview: true,
 
@@ -428,6 +439,7 @@ export const LOADED = {
   rich: false,
   star: false,
   temple: false,
+  test: false,
   topWeek: false,
   userLogs: false,
   valhallList: false

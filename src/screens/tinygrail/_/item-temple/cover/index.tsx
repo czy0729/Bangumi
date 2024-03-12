@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:35:55
+ * @Last Modified time: 2024-03-11 18:41:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { ob } from '@utils/decorators'
 import { ColorValue } from '@types'
 import { memoStyles } from './styles'
 
-function Cover({ level, cover, name, refine, event, onPress }) {
+function Cover({ level, cover, coverSize = 150, name, refine, event, onPress }) {
   const styles = memoStyles()
   let colorLevel: ColorValue
   if (level === 3) {
@@ -36,7 +36,7 @@ function Cover({ level, cover, name, refine, event, onPress }) {
         style={styles.image}
         size={styles.imageResize.width}
         height={styles.imageResize.height}
-        src={tinygrailOSS(cover)}
+        src={tinygrailOSS(cover, coverSize as 150 | 480)}
         imageViewer={!onPress}
         imageViewerSrc={tinygrailOSS(cover, 480)}
         resizeMode={

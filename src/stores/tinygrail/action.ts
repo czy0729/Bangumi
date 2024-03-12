@@ -87,13 +87,13 @@ export default class Action extends Fetch {
 
   /** 更新我的持仓角色 */
   updateMyCharaAssets = (id, state, sacrifices) => {
-    // 只有这里能检测到未献祭满500角色的圣殿资产变化, 需要联动圣殿资产里面的对应项
+    // 只有这里能检测到未献祭满 500 角色的圣殿资产变化, 需要联动圣殿资产里面的对应项
     this.updateMyTemples(id, sacrifices)
 
     const key = 'myCharaAssets'
     const { chara = {} } = this[key] as any
     const { list = [] } = chara
-    const index = list.findIndex(item => item.monoId === parseInt(id))
+    const index = list.findIndex((item: { monoId: number }) => item.monoId === parseInt(id))
     if (index !== -1) {
       const newList = toJS(list)
 
@@ -120,7 +120,7 @@ export default class Action extends Fetch {
     return false
   }
 
-  /** 批量根据角色id更新我的持仓角色 */
+  /** 批量根据角色 id 更新我的持仓角色 */
   batchUpdateMyCharaAssetsByIds = async ids => {
     for (const id of ids) {
       const { amount, sacrifices } = (await this.fetchUserLogs(id)) as any
@@ -128,7 +128,7 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 批量根据角色id更新我的圣殿资产 */
+  /** 批量根据角色 id 更新我的圣殿资产 */
   batchUpdateTemplesByIds = async ids => {
     if (!this.hash) return
 
@@ -144,8 +144,8 @@ export default class Action extends Fetch {
         if (index !== -1) {
           flag = true
 
-          // 若sacrifices为0需要删除项
-          // @notice 其实这里不可能找到sacrifices为0的圣殿, 只能通过updateMyCharaAssets信息找到
+          // 若 sacrifices 为 0 需要删除项
+          // @notice 其实这里不可能找到 sacrifices 为 0 的圣殿, 只能通过 updateMyCharaAssets 信息找到
           if (find.sacrifices === 0) {
             const { name } = temple.list[index]
             info(`${name} 已耗尽`)
@@ -200,10 +200,7 @@ export default class Action extends Fetch {
   // -------------------- action --------------------
   /** 买入 */
   doBid = async ({ monoId, price, amount, isIce }) => {
-    const result = await this.fetch(
-      API_TINYGRAIL_BID(monoId, price, amount, isIce),
-      true
-    )
+    const result = await this.fetch(API_TINYGRAIL_BID(monoId, price, amount, isIce), true)
     if (result.data.State === 0) {
       return true
     }
@@ -212,10 +209,7 @@ export default class Action extends Fetch {
 
   /** 卖出 */
   doAsk = async ({ monoId, price, amount, isIce }): Promise<any> => {
-    const result = await this.fetch(
-      API_TINYGRAIL_ASK(monoId, price, amount, isIce),
-      true
-    )
+    const result = await this.fetch(API_TINYGRAIL_ASK(monoId, price, amount, isIce), true)
     if (result.data.State === 0) return true
     return false
   }
@@ -249,19 +243,13 @@ export default class Action extends Fetch {
 
   /** 资产重组 */
   doSacrifice = async ({ monoId, amount, isSale }) => {
-    const { data } = await this.fetch(
-      API_TINYGRAIL_SACRIFICE(monoId, amount, isSale),
-      true
-    )
+    const { data } = await this.fetch(API_TINYGRAIL_SACRIFICE(monoId, amount, isSale), true)
     return data
   }
 
   /** 拍卖 */
   doAuction = async ({ monoId, price, amount }) => {
-    const { data } = await this.fetch(
-      API_TINYGRAIL_AUCTION(monoId, price, amount),
-      true
-    )
+    const { data } = await this.fetch(API_TINYGRAIL_AUCTION(monoId, price, amount), true)
     return data
   }
 

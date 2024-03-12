@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 17:40:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 19:35:31
+ * @Last Modified time: 2024-03-11 19:11:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,7 +42,7 @@ function RankPercents(props, { $ }: Ctx) {
             </Text>
             <Text style={_.ml.xs} size={10} type='tinygrailText'>
               +{item.rate} (x{calculateRatio(item.rank)}
-              {item.rank !== rank && `, 总 +${item.totalRate}`})
+              {item.rank !== rank && `, 总 ${item.totalRate >= 0 ? '+' : ''}${item.totalRate}`})
             </Text>
           </Flex>
         </Touchable>

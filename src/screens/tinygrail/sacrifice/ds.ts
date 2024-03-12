@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:08:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:52:32
+ * @Last Modified time: 2024-03-11 18:05:01
  */
 import { Loaded } from '@types'
 
@@ -35,7 +35,8 @@ export const EXCLUDE_STATE = {
   auctionAmount: 0,
   auctionPrice: 0 as string | number,
   starForcesValue: 0,
-  loading: false
+  loading: false,
+  loadingRefine: false
 }
 
 export const STATE = {
@@ -59,6 +60,9 @@ export const STATE = {
 
   /** 显示竞拍模块 */
   showAuction: false,
+
+  /** 显示精炼模块 */
+  showRefine: false,
 
   /** 显示道具模块 */
   showItems: false,
@@ -84,5 +88,9 @@ export const STATE = {
 
   /** 角色独立 */
   lastSacrifice: INIT_LAST_SACRIFICE,
+
+  /** 精炼二次确认 */
+  confirmRefine: true,
+
   _loaded: 0 as Loaded
 }

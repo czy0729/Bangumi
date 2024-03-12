@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 03:59:31
+ * @Last Modified time: 2024-03-12 06:39:21
  */
 import { computed, observable } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -23,7 +23,6 @@ import store from '@utils/store'
 import axios from '@utils/thirdParty/axios'
 import {
   API_TINYGRAIL_LOGOUT,
-  API_TINYGRAIL_TEST,
   DEV,
   HOST,
   M,
@@ -222,25 +221,14 @@ export default class ScreenTinygrail extends store<typeof STATE> {
     t('小圣杯.预测股息')
 
     try {
-      // @ts-expect-error
-      axios.defaults.withCredentials = false
+      await tinygrailStore.fetchTest()
 
-      // @ts-expect-error
-      const res = axios({
-        method: 'get',
-        url: API_TINYGRAIL_TEST(),
-        headers: {
-          Cookie: tinygrailStore.cookie
-        }
-      })
-
-      const data = await res
-      const { Total, Temples, Share, Tax, Daily } = data.data.Value
+      const { Total, Temples, Share, Tax, Daily } = tinygrailStore.test
       const AfterTax = Share - Tax
-      let _Total
-      let _Share
-      let _Tax
-      let _AfterTax
+      let _Total: string
+      let _Share: string
+      let _Tax: string
+      let _AfterTax: string
       if (this.short) {
         _Total = Total > M ? `${toFixed(Total / M, 1)}万` : formatNumber(Total, 2)
         _Share = Share > M ? `${toFixed(Share / M, 1)}万` : formatNumber(Share, 2)

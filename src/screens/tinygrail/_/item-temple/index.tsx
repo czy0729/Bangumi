@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 18:29:53
+ * @Last Modified time: 2024-03-11 18:37:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,6 +25,7 @@ function ItemTemple(
     assets,
     avatar,
     cover,
+    coverSize,
     event,
     level,
     cLevel,
@@ -54,6 +55,7 @@ function ItemTemple(
       <Cover
         level={level}
         cover={cover}
+        coverSize={coverSize}
         name={name}
         refine={refine}
         event={event || EVENT}
@@ -73,7 +75,7 @@ function ItemTemple(
         rank={rank}
         cLevel={cLevel}
       />
-      {!isFromTemplesPage && (
+      {!isFromTemplesPage && !!sacrifices && (
         <Progress style={_.mt.sm} size='sm' assets={assets} sacrifices={sacrifices} />
       )}
     </View>

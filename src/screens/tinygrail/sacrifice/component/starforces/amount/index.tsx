@@ -30,7 +30,7 @@ function Amount(props, { $ }: Ctx) {
           />
           {!!starForces && (
             <Text style={styles.starforce} type='ask' size={12} pointerEvents='none'>
-              {formatNumber(starForces, 0)} 星之力
+              已转化 {formatNumber(starForces, 0)} 星之力
             </Text>
           )}
         </View>

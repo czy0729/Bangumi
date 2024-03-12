@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-06 11:20:58
+ * @Last Modified time: 2024-03-12 06:51:01
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -382,6 +382,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.fantasy
   }
 
+  /** 股息预测 */
+  @computed get test() {
+    this.init('test')
+    return this.state.test
+  }
+
   /**
    * @deprecated iOS 此刻是否显示 WebView
    *  - 此bug在 sdk37 下已不存在
@@ -444,5 +450,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
       pagination: paginationOnePage,
       _loaded: getTimestamp()
     }
+  }
+
+  /** 税后股息比率 */
+  @computed get testRatio() {
+    const { Share, Tax } = this.test
+    if (Share === 0 || Tax === 0) return 1
+    return 1 - Tax / Share
   }
 }
