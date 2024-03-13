@@ -8,7 +8,8 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   contentContainerStyle: {
-    paddingVertical: _.sm,
-    paddingHorizontal: _.md
+    paddingTop: _.sm + _.ios(0, _.statusBarHeight + 1),
+    paddingHorizontal: _.md,
+    paddingBottom: _.sm
   }
 })

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:17:35
+ * @Last Modified time: 2024-03-13 22:39:30
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Iconfont } from '@components'
+import { Button, Flex, Iconfont, Touchable } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { confirm } from '@utils'
@@ -79,9 +79,9 @@ function Btns(props, { $, navigation }: Ctx) {
             }, 400)
           }}
         >
-          <Button style={styles.btn} styleText={styles.text} size='sm'>
+          <Flex style={styles.btn} justify='center'>
             <Iconfont name='md-menu' color={_.colorTinygrailPlain} />
-          </Button>
+          </Flex>
         </Popover>
       ) : (
         <Button
@@ -95,9 +95,11 @@ function Btns(props, { $, navigation }: Ctx) {
         </Button>
       )}
       <View style={styles.touch}>
-        <Button style={styles.btn} styleText={styles.text} size='sm' onPress={$.onToggleLogs}>
-          <Iconfont name='md-menu-open' color={_.colorTinygrailPlain} />
-        </Button>
+        <Touchable onPress={$.onToggleLogs}>
+          <Flex style={styles.btn} justify='center'>
+            <Iconfont name='md-menu-open' color={_.colorTinygrailPlain} />
+          </Flex>
+        </Touchable>
       </View>
     </>
   )

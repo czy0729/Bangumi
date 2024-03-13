@@ -9,9 +9,9 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   assets: {
     width: '100%',
-    minHeight: _.ios(56, 32),
-    paddingBottom: _.ios(16, 0),
-    marginTop: _.ios(-20, 0)
+    minHeight: 56,
+    paddingBottom: 16,
+    marginTop: -20
   },
   touch: {
     paddingVertical: _.xs,

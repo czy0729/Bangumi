@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:39:57
+ * @Last Modified time: 2024-03-13 22:45:54
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
 import { Ctx } from '../../types'
 import Assets from '../assets'
 import MenuItem from '../menu-item'
@@ -19,7 +18,7 @@ function Menus(props, { $ }: Ctx) {
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
-    <Flex style={IOS && _.mt.sm} wrap='wrap'>
+    <Flex style={_.mt.sm} wrap='wrap'>
       <MenuItem index={0} title='热门榜单' pathname='TinygrailOverview' icon='md-whatshot' />
       <MenuItem index={1} title='新番榜单' pathname='TinygrailNew' icon='md-local-play' />
       <MenuItem index={2} title='ICO 榜单' pathname='TinygrailICO' icon='md-attach-money' />

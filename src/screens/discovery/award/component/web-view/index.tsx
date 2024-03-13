@@ -23,7 +23,7 @@ function WebView({ year, source, ...other }) {
       style={
         showInset &&
         !IOS && {
-          marginTop: _.statusBarHeight
+          marginTop: _.statusBarHeight + 1
         }
       }
       forceInset={{
