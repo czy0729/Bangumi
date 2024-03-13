@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-06 12:02:44
+ * @Last Modified time: 2024-03-13 20:56:27
  */
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _ } from '@stores'
 import { getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
-import { DEV, HOST_CDN } from '@constants'
+import { DEV, HOST_CDN, IOS } from '@constants'
 import { OSS_BGM_EMOJI_PREFIX } from './ds'
 
 const NAMESPACE = 'Component|Image'
@@ -194,23 +194,39 @@ const LOCAL_CACHE_MAP = new Map<
   string,
   {
     path: string
-    size: number
+    size?: number
   }
 >()
 
-/** 检测图片是否存在本地缓存 (通常只有 iOS 使用) */
+/**
+ * 检测图片是否存在本地缓存
+ *  - iOS 会返回 CacheManager 的结果
+ *  - 安卓只会记录这个图片记录过
+ * */
 export async function getLocalCache(src: string, headers?: Record<string, string>) {
   const id = hash(src)
   if (LOCAL_CACHE_MAP.has(id)) return LOCAL_CACHE_MAP.get(id)
 
-  const result = await CacheManager.get(src, {
-    headers
-  }).getPath()
+  let result: {
+    path: string
+    size?: number
+  }
+  if (IOS) {
+    result = await CacheManager.get(src, {
+      headers
+    }).getPath()
+  } else {
+    result = {
+      path: src
+    }
+  }
+
   if (result) LOCAL_CACHE_MAP.set(id, result)
+
   return result
 }
 
-/** 检测图片是否存在本地缓存, 静态 (通常只有 iOS 使用) */
+/** 检测图片是否存在本地缓存 */
 export function getLocalCacheStatic(src: string) {
   const id = hash(src)
   if (LOCAL_CACHE_MAP.has(id)) return LOCAL_CACHE_MAP.get(id)

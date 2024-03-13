@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-06 14:07:17
+ * @Last Modified time: 2024-03-13 20:58:58
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -142,10 +142,10 @@ export const Image = observer(
     /** 若图片已明确知道在本地有缓存, 忽略大部分预置规则, 直接取出渲染 */
     preGetLocalCache = () => {
       const { src } = this.props
-      if (IOS && typeof src === 'string') {
+      if (typeof src === 'string') {
         const result = getLocalCacheStatic(src)
         if (result) {
-          this._size = result.size
+          this._size = result.size || 0
           this.setState({
             uri: result.path
           })
@@ -268,6 +268,7 @@ export const Image = observer(
       if (uri === 'https:') return false
 
       if (uri) {
+        if (typeof uri === 'string' && !IOS) getLocalCache(uri)
         this.setState({
           uri
         })
