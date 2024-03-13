@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:15:54
+ * @Last Modified time: 2024-03-13 20:21:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,8 @@ import { getTimestamp, HTMLDecode, matchUserIdFromAvatar, removeHTMLTag, stl } f
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
-import { Avatar, HTML, Likes, Name } from '../../../base'
+import { Avatar, Likes, Name } from '../../../base'
+import CollapsedHtml from '../collapsed-html'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import Mark from '../mark'
@@ -183,7 +184,7 @@ export default memo(
             </Flex>
             <FloorText time={time} floor={floor} isNew={isNew} />
             <View style={styles.html}>
-              <HTML
+              <CollapsedHtml
                 navigation={navigation}
                 style={wide && styles.wide}
                 id={id}

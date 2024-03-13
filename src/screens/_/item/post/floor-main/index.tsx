@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 18:56:20
+ * @Last Modified time: 2024-03-13 20:20:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, Text } from '@components'
 import { HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IMAGES_MAX_WIDTH } from '../ds'
-import { HTML, Likes, Name } from '../../../base'
+import { Likes, Name } from '../../../base'
+import CollapsedHtml from '../collapsed-html'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import UserLabel from '../user-label'
@@ -77,7 +78,7 @@ function FloorMain(
       </Flex>
       <FloorText time={time} floor={floor} isNew={isNew} />
       <View style={styles.html}>
-        <HTML
+        <CollapsedHtml
           navigation={navigation}
           id={id}
           msg={msg}

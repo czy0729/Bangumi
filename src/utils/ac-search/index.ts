@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-02 13:06:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 21:12:59
+ * @Last Modified time: 2024-03-13 20:05:51
  */
+import { DEV } from '@/config'
 import hash from '../thirdParty/hash'
 import { desc } from '../utils'
 import { getSubStrings, getTries, initLazyac } from './utils'
@@ -18,6 +19,8 @@ const cacheMap = new Map<string, string[]>()
  * @doc https://github.com/theLAZYmd/aho-corasick
  */
 export function acSearch(str: string) {
+  if (DEV) return
+
   const trieInitDone = initLazyac()
   const id = hash(str)
   if (trieInitDone === 2 && cacheMap.has(id)) return cacheMap.get(id)
