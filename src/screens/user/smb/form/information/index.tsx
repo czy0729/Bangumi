@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:16:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 14:16:51
+ * @Last Modified time: 2024-03-13 20:00:41
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Text } from '@components'
+import { Text, Touchable } from '@components'
+import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { styles } from './styles'
