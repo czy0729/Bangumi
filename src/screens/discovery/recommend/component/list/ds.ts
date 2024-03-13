@@ -2,8 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-05-24 15:33:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-24 16:52:29
+ * @Last Modified time: 2024-03-13 18:43:23
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'List')
+
+export const EVENT = {
+  id: '推荐.跳转'
+} as const
+
 export const SORT = [
   {
     key: 'top',

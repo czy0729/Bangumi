@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 20:24:24
+ * @Last Modified time: 2024-03-13 19:57:28
  */
 import { computed, observable } from 'mobx'
 import { subjectStore, userStore } from '@stores'
 import { desc, getTimestamp, info, pick, updateVisibleBottom } from '@utils'
-import axios from '@utils/thirdParty/axios'
-import store from '@utils/store'
-import { gets } from '@utils/kv'
 import { t } from '@utils/fetch'
+import { gets } from '@utils/kv'
+import store from '@utils/store'
+import axios from '@utils/thirdParty/axios'
 import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import { SubjectId, SubjectTypeValue } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE, HOST_REC } from './ds'
+import { EXCLUDE_STATE, HOST_REC, NAMESPACE, STATE } from './ds'
 
 export default class ScreenRecommend extends store<typeof STATE> {
   state = observable(STATE)
@@ -130,8 +130,7 @@ export default class ScreenRecommend extends store<typeof STATE> {
 
             if (!data[key].director) {
               director = data[key].staff.find(
-                item =>
-                  item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
+                item => item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
               )
               data[key].director = director?.name || director?.nameJP || ''
             }

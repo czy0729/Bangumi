@@ -6,10 +6,12 @@
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
-import { Loaded } from '@types'
 import { HOST_PROXY } from '@/config'
+import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenRecommend'
+export const COMPONENT = 'Recommend'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const HOST_REC = STORYBOOK ? HOST_PROXY : 'https://bangrecs.net'
 

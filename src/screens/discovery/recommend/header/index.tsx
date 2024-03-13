@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 07:04:42
+ * @Last Modified time: 2024-03-13 18:37:36
  */
 import React from 'react'
 import { Header as CompHeader } from '@components'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { navigation }: Ctx) {
   return (
@@ -39,4 +40,4 @@ function Header(props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

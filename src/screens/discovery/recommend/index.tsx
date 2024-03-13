@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 06:58:27
+ * @Last Modified time: 2024-03-13 18:45:15
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, Flex, Button, Component } from '@components'
+import { Button, Component, Flex, Page } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
+import Category from './component/category'
+import List from './component/list'
+import SearchBar from './component/search-bar'
 import Header from './header'
-import Category from './category'
-import SearchBar from './search-bar'
-import List from './list'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
@@ -36,16 +36,9 @@ const Recommend = (props, { $, navigation }: Ctx) => {
             <Flex.Item>
               <SearchBar />
             </Flex.Item>
-            <View style={_.ml.sm}>
-              <Button
-                style={styles.btn}
-                type='ghostPlain'
-                size='sm'
-                onPress={$.doSearchV2}
-              >
-                查询
-              </Button>
-            </View>
+            <Button style={styles.btn} type='ghostPlain' size='sm' onPress={$.doSearchV2}>
+              查询
+            </Button>
           </Flex>
           <List />
         </Page>

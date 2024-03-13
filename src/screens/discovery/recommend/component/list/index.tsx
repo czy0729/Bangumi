@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 12:33:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 21:50:03
+ * @Last Modified time: 2024-03-13 18:44:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,17 +13,12 @@ import { desc } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT, EVENT, SORT } from './ds'
 import { styles } from './styles'
-import { SORT } from './ds'
-
-const EVENT = {
-  id: '推荐.跳转'
-} as const
 
 function List(props, { $, navigation }: Ctx) {
-  const { searching } = $.state
-  if (searching) return <Loading style={_.container.flex} />
+  if ($.state.searching) return <Loading style={_.container.flex} />
 
   const { cat } = $.state
   if (cat === 'v1') {
@@ -68,9 +63,7 @@ function List(props, { $, navigation }: Ctx) {
                       score={subject.rating.score || oss.rating?.score}
                       total={`(${subject.rating.total || oss.rating?.total || 0})`}
                       tip={[
-                        subject.eps || oss.totalEps
-                          ? `${subject.eps || oss.totalEps}话`
-                          : '',
+                        subject.eps || oss.totalEps ? `${subject.eps || oss.totalEps}话` : '',
                         subject.date || oss.date,
                         oss.origin,
                         oss.director
@@ -144,4 +137,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)
