@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 09:35:33
+ * @Last Modified time: 2024-03-13 08:17:13
  */
 import React from 'react'
 import { Text } from '@components'
@@ -74,7 +74,7 @@ function Detail({
     extra.push(formatTime(_end)) // ICO结束时间
     extra.push(`已筹${totalText}`) // ICO已筹资金
   } else {
-    extra.push(`+${toFixed(rate, 1)}(${Number(toFixed(calculateRate(rate, rank, stars), 1))})`)
+    extra.push(`+${toFixed(rate, 1)} (${Number(toFixed(calculateRate(rate, rank, stars), 1))}) `)
 
     if (show && (state || sacrifices)) {
       extra2.push(

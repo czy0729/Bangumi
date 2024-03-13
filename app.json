@@ -1,6 +1,6 @@
 {
   "expo": {
-    "description": "A React Native App for https://bgm.tv, tinygrail plugin 4.5.1",
+    "description": "A React Native App for https://bgm.tv, tinygrail plugin 5.0.0",
     "version": "8.5.1",
     "android": {
       "versionCode": 85100,

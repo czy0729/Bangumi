@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:28:05
+ * @Last Modified time: 2024-03-13 08:23:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Header, Page, Touchable, Flex, Image, Text, Iconfont } from '@components'
+import { Flex, Header, Iconfont, Image, Page, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
@@ -50,10 +50,10 @@ class TinygrailItems extends React.Component {
                 >
                   <Flex style={this.styles.wrap} align='start'>
                     <Image
-                      style={this.styles.image}
                       size={36}
                       src={tinygrailOSS(item.icon)}
                       radius
+                      skeletonType='tinygrail'
                     />
                     <Flex.Item style={_.ml.md}>
                       <Text type='tinygrailPlain' size={15} bold>
@@ -79,12 +79,7 @@ class TinygrailItems extends React.Component {
             return (
               <View key={item.id} style={this.styles.item}>
                 <Flex style={this.styles.wrap} align='start'>
-                  <Image
-                    style={this.styles.image}
-                    size={36}
-                    src={tinygrailOSS(item.icon)}
-                    radius
-                  />
+                  <Image size={36} src={tinygrailOSS(item.icon)} radius skeletonType='tinygrail' />
                   <Flex.Item style={_.ml.md}>
                     <Text type='tinygrailPlain' bold>
                       {item.name}

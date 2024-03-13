@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:24:37
+ * @Last Modified time: 2024-03-13 08:21:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -83,18 +83,15 @@ function Item({ w, h, x, y, id, icon, name, price, percent, onPress, onLongPress
         >
           {showAvatar && (
             <Image
-              style={[
-                styles.image,
-                {
-                  marginBottom: Math.floor(5.6 * ratio)
-                }
-              ]}
+              style={{
+                marginBottom: Math.floor(5.6 * ratio)
+              }}
               src={icon}
               size={Math.floor(ratioHeight * 240)}
               height={Math.floor(ratioHeight * 240)}
               radius={Math.floor(ratioHeight * 120)}
               placeholder={false}
-              quality={false}
+              skeletonType='tinygrail'
             />
           )}
           <Text

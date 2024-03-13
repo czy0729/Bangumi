@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-05 04:21:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-06 13:22:51
+ * @Last Modified time: 2024-03-13 08:02:31
  */
 import { _ } from '@stores'
 
@@ -28,6 +28,12 @@ export const memoStyles = _.memoStyles(() => {
     imageResize: {
       width: imageResizeWidth,
       height: imageResizeHeight
+    },
+    absolute: {
+      position: 'absolute',
+      zIndex: 2,
+      top: 0,
+      left: 0
     },
     refine: {
       position: 'absolute',

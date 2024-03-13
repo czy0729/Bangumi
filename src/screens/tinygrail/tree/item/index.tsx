@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-23 22:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 01:47:40
+ * @Last Modified time: 2024-03-13 08:22:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -113,20 +113,15 @@ function Item({
         >
           {showAvatar && (
             <Image
-              style={[
-                styles.image,
-                {
-                  marginBottom: Math.floor(5.6 * ratio)
-                }
-              ]}
+              style={{
+                marginBottom: Math.floor(5.6 * ratio)
+              }}
               src={icon}
               size={Math.floor(ratioHeight * 240)}
-              height={
-                isTemple ? Math.floor(ratioHeight * 320) : Math.floor(ratioHeight * 240)
-              }
+              height={isTemple ? Math.floor(ratioHeight * 320) : Math.floor(ratioHeight * 240)}
               radius={isTemple ? 4 : Math.floor(ratioHeight * 120)}
               placeholder={false}
-              quality={false}
+              skeletonType='tinygrail'
             />
           )}
           <Text

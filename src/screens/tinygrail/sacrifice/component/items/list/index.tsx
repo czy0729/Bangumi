@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 05:30:25
+ * @Last Modified time: 2024-03-13 08:22:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,12 @@ function List(
           }}
         >
           <Flex style={_.mr.sm} align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/cube.png`)} />
+            <Image
+              size={28}
+              radius
+              src={tinygrailOSS(`${OSS}/cube.png`)}
+              skeletonType='tinygrail'
+            />
             <Flex.Item style={_.ml.sm}>
               <Text type='tinygrailPlain' size={12} bold>
                 混沌魔方
@@ -72,7 +77,12 @@ function List(
           }}
         >
           <Flex align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/sign.png`)} />
+            <Image
+              size={28}
+              radius
+              src={tinygrailOSS(`${OSS}/sign.png`)}
+              skeletonType='tinygrail'
+            />
             <Flex.Item style={_.ml.sm}>
               <Text type='tinygrailPlain' size={12} bold>
                 虚空道标
@@ -96,7 +106,12 @@ function List(
           }}
         >
           <Flex style={_.mr.sm} align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/star.png`)} />
+            <Image
+              size={28}
+              radius
+              src={tinygrailOSS(`${OSS}/star.png`)}
+              skeletonType='tinygrail'
+            />
             <Flex.Item style={_.ml.sm}>
               <Text type='tinygrailPlain' size={12} bold>
                 星光碎片
@@ -120,7 +135,12 @@ function List(
           }}
         >
           <Flex align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/fire.png`)} />
+            <Image
+              size={28}
+              radius
+              src={tinygrailOSS(`${OSS}/fire.png`)}
+              skeletonType='tinygrail'
+            />
             <Flex.Item style={_.ml.sm}>
               <Text type='tinygrailPlain' size={12} bold>
                 闪光结晶
@@ -144,7 +164,12 @@ function List(
           }}
         >
           <Flex align='start'>
-            <Image size={28} radius src={tinygrailOSS(`${OSS}/eye2.png`)} />
+            <Image
+              size={28}
+              radius
+              src={tinygrailOSS(`${OSS}/eye2.png`)}
+              skeletonType='tinygrail'
+            />
             <Flex.Item style={_.ml.sm}>
               <Text type='tinygrailPlain' size={12} bold>
                 鲤鱼之眼

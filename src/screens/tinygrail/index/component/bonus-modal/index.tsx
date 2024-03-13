@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 19:01:08
+ * @Last Modified time: 2024-03-13 08:23:44
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -100,6 +100,7 @@ class BonusModal extends React.Component<{
                   radius
                   imageViewer
                   imageViewerSrc={tinygrailOSS(item.Cover, 480)}
+                  skeletonType='tinygrail'
                 />
                 <Touchable
                   style={_.mt.sm}

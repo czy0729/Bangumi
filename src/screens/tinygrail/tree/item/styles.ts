@@ -12,8 +12,5 @@ export const memoStyles = _.memoStyles(() => ({
     borderWidth: _.tSelect(1, _.hairlineWidth),
     borderColor: _.colorTinygrailBorder,
     overflow: 'hidden'
-  },
-  image: {
-    backgroundColor: _.tSelect(_._colorDarkModeLevel2, _.colorTinygrailBg)
   }
 }))
