@@ -9,7 +9,7 @@ import { IMG_DEFAULT, STORYBOOK } from '@constants'
 import { CoverPrefix, CoverSize, Props } from './types'
 
 /** 修正封面图地址 */
-export function getCoverSrc(src: Props['src'], width: number, cdn: boolean, noDefault: boolean) {
+export function getCoverSrc(src: Props['src'], width: number, cdn?: boolean, noDefault?: boolean) {
   const { prefix, size } = getCoverPramas(width)
   return (
     getCover400(cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src, size) || IMG_DEFAULT

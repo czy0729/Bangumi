@@ -21,7 +21,6 @@ import { _ } from '@stores'
 import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { API_MONO_COVER, IOS } from '@constants'
 import { TopicId } from '@types'
 import { Ctx } from '../../types'
 import Collabs from '../collabs'
@@ -38,12 +37,6 @@ function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const maxSize = _.r(_.window.contentWidth * 0.5)
   const isCharacter = $.monoId.includes('character/')
-
-  // 安卓端 autoSize 对 API 不起作用
-  const src = IOS
-    ? API_MONO_COVER($.id, 'large', isCharacter ? 'characters' : 'persons')
-    : getCoverLarge($.cover)
-
   const { _count } = $.params
   return (
     <View style={styles.info}>
@@ -59,11 +52,11 @@ function Info(props, { $, navigation }: Ctx) {
         </Flex>
         <Flex style={_.mt.md} justify='center'>
           <Image
-            key={src}
-            src={src}
+            src={getCoverLarge($.cover, 200)}
             autoSize={maxSize}
             shadow
             imageViewer
+            imageViewerSrc={getCoverLarge($.cover)}
             fallback
             event={{
               id: '人物.封面图查看',

@@ -7,9 +7,11 @@
 import React, { PropsWithChildren } from 'react'
 import { View } from 'react-native'
 import { Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { IMG_WIDTH } from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT, TITLE_HIT_SLOPS } from './ds'
@@ -47,7 +49,7 @@ function ContainerTouchable(
             subjectId,
             _jp: name,
             _cn: name_cn || name,
-            _image: image,
+            _image: getCoverSrc(image, IMG_WIDTH),
             _collection: '在看',
             _type: typeCn
           })

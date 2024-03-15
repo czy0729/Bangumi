@@ -418,7 +418,7 @@ export function getCoverSmall(
 }
 
 /** 获取高质量 bgm 图片 */
-export function getCoverLarge(src = '') {
+export function getCoverLarge(src = '', size: 200 | 400 = 400) {
   if (
     typeof src !== 'string' ||
     src === '' ||
@@ -428,7 +428,9 @@ export function getCoverLarge(src = '') {
     return src
   }
 
-  return fixedRemoteImageUrl(src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/'))
+  let cover = fixedRemoteImageUrl(src.replace(/\/g\/|\/s\/|\/m\/|\/c\//, '/l/'))
+  if (size !== 400) return cover.replace('/r/400/', `/r/${size}/`)
+  return cover
 }
 
 /** 获取新格式 bgm 封面大图 */

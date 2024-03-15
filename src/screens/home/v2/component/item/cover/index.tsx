@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover as CompCover, InView } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -37,6 +38,7 @@ function Cover(
 ) {
   const { homeListCompact } = systemStore.setting
   const style = homeListCompact ? styles.inViewCompact : styles.inView
+  const size = style.minWidth
   return (
     <Touchable
       animate
@@ -50,7 +52,7 @@ function Cover(
           subjectId,
           _jp: name,
           _cn: name_cn || name,
-          _image: image,
+          _image: getCoverSrc(image, size),
           _collection: '在看',
           _type: typeCn
         })
@@ -62,7 +64,7 @@ function Cover(
       >
         <CompCover
           src={image}
-          size={style.minWidth}
+          size={size}
           height={homeListCompact ? style.minHeight : IMG_HEIGHT}
           type={typeCn}
           radius
