@@ -7,9 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Stars } from '@_'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { getType, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
@@ -23,7 +24,6 @@ const ItemGrid = memo(
     if (!!time && time !== '2359') {
       middle.push(`${time.slice(0, 2)}:${time.slice(2)}`)
     }
-    if (collection) middle.push(collection)
     middle = middle.join(' · ')
 
     return (
@@ -40,12 +40,22 @@ const ItemGrid = memo(
             navigation.push('Subject', {
               subjectId,
               _cn: name,
-              _image: image
+              _image: getCoverSrc(image, width)
             })
           }}
         >
           <Cover width={width} height={height} src={image} radius />
           <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={2} bold>
+            {!!collection && (
+              <>
+                <Text type={getType(collection)} size={13} lineHeight={15} bold>
+                  {collection}
+                </Text>
+                <Text size={13} lineHeight={15} bold>
+                  ·
+                </Text>
+              </>
+            )}
             {HTMLDecode(name)}
           </Text>
           <Flex style={_.mt.xs}>

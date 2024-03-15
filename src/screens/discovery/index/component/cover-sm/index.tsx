@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 import { Squircle, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { LinearGradient } from 'expo-linear-gradient'
 import { linearColor } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -42,8 +43,7 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
           _jp: data.title,
           _cn: cn,
           _type: title,
-          _image: src,
-          _imageForce: src
+          _image: getCoverSrc(src, width)
         })
       }}
     >

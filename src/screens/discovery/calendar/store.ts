@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 10:21:15
+ * @Last Modified time: 2024-03-16 04:16:24
  */
-import { observable, computed } from 'mobx'
-import { calendarStore, subjectStore, collectionStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { calendarStore, collectionStore, subjectStore } from '@stores'
 import { desc, getTimestamp, updateVisibleBottom } from '@utils'
-import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
 import { decode, get } from '@utils/protobuf'
+import store from '@utils/store'
 import { SubjectId } from '@types'
 import { getTime } from './utils'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, LAYOUT_DS, NAMESPACE, STATE, TYPE_DS } from './ds'
 
 export default class ScreenCalendar extends store<typeof STATE> {
   state = observable(STATE)
@@ -124,31 +124,29 @@ export default class ScreenCalendar extends store<typeof STATE> {
 
   // -------------------- page --------------------
   /** 切换布局 */
-  onSwitchLayout = () => {
-    const _layout = this.isList ? 'grid' : 'list'
-    t('每日放送.切换布局', {
-      layout: _layout
-    })
-
+  onSwitchLayout = (label: string) => {
+    const layout = LAYOUT_DS.find(item => item.title === label)?.['key']
     this.setState({
-      layout: _layout
+      layout
     })
     this.save()
+
+    t('每日放送.切换布局', {
+      layout
+    })
   }
 
   /** 切换类型 */
   onToggleType = (label: string) => {
-    const { type } = this.state
-    const isAll = type === 'all'
-    if (label) {
-      if (label === '全部' && isAll) return
-      if (label === '收藏' && type === 'collect') return
-    }
-
+    const type = TYPE_DS.find(item => item.title === label)?.['key']
     this.setState({
-      type: type === 'all' ? 'collect' : 'all'
+      type
     })
     this.save()
+
+    t('每日放送.切换类型', {
+      type
+    })
   }
 
   /** 切换展开 */

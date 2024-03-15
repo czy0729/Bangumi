@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 import { Squircle, Text, Touchable, UserStatus } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { LinearGradient } from 'expo-linear-gradient'
 import { linearColor } from '../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { AVATAR_SIZE } from './styles'
@@ -41,7 +42,7 @@ const CoverXs = memo(
               subjectId: data.id,
               _jp: data.name,
               _type: title,
-              _image: data.cover
+              _image: getCoverSrc(data.cover, width)
             })
           }}
         >

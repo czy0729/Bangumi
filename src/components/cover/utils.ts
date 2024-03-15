@@ -21,7 +21,6 @@ export function getImageViewerSrc(imageViewerSrc: Props['imageViewerSrc'], src: 
   if (imageViewerSrc && typeof src === 'string' && src.includes('/bgm_poster')) {
     return src.replace(/\/bgm_poster_(100|200|400)/g, '/bgm_poster')
   }
-
   return imageViewerSrc
 }
 

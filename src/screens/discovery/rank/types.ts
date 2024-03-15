@@ -1,3 +1,4 @@
+import { Rank } from '@stores/tag/types'
 /*
  * @Author: czy0729
  * @Date: 2022-07-21 19:50:47
@@ -5,7 +6,6 @@
  * @Last Modified time: 2022-07-21 19:50:47
  */
 import { factory } from '@utils'
-import { Rank } from '@stores/tag/types'
 import { Navigation, Override } from '@types'
 import Store from './store'
 

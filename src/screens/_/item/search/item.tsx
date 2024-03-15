@@ -7,6 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
@@ -61,7 +62,7 @@ const Item = memo(
             {
               _jp: name,
               _cn: nameCn,
-              _image: cover,
+              _image: getCoverSrc(cover, width),
               _type: typeCn,
               _collection: collection
             },

@@ -5,15 +5,15 @@
  * @Last Modified time: 2023-11-14 00:48:46
  */
 import React from 'react'
-import { Touchable, Flex, Text, Component } from '@components'
+import { Component, Flex, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { cnjp, stl } from '@utils'
-import { t } from '@utils/fetch'
 import { memo } from '@utils/decorators'
-import { rerender } from '@utils/dev'
-import { Cover, Stars, Rank } from '../../base'
+import { t } from '@utils/fetch'
+import { Cover, Rank, Stars } from '../../base'
 import Collection from './collection'
-import { HIT_SLOP, DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 const Item = memo(
   ({
@@ -37,15 +37,14 @@ const Item = memo(
     isRectangle,
     event
   }) => {
-    rerender('Component.ItemCollectionsGrid.Main')
-
+    const { width } = gridStyles
     return (
       <Component
         id='item-collections-grid'
         data-key={id}
         style={stl(
           {
-            width: gridStyles.width,
+            width,
             marginBottom: gridStyles.marginLeft + _.xs,
             marginLeft: gridStyles.marginLeft
           },
@@ -69,7 +68,7 @@ const Item = memo(
               subjectId,
               _jp: name,
               _cn: nameCn,
-              _image: cover,
+              _image: getCoverSrc(cover, width),
               _aid: aid,
               _wid: wid,
               _mid: mid,
@@ -79,21 +78,14 @@ const Item = memo(
           }}
         >
           <Cover
-            size={gridStyles.width}
-            height={isRectangle ? gridStyles.width : gridStyles.height}
+            size={width}
+            height={isRectangle ? width : gridStyles.height}
             src={cover}
             radius
             shadow
             type={typeCn}
           />
-          <Text
-            style={_.mt.sm}
-            size={12}
-            lineHeight={13}
-            numberOfLines={3}
-            bold
-            align='center'
-          >
+          <Text style={_.mt.sm} size={12} lineHeight={13} numberOfLines={3} bold align='center'>
             {cnjp(nameCn, name)}
           </Text>
           <Collection collection={collection} typeCn={typeCn} airtime={airtime} />
@@ -120,7 +112,8 @@ const Item = memo(
       </Component>
     )
   },
-  DEFAULT_PROPS
+  DEFAULT_PROPS,
+  COMPONENT_MAIN
 )
 
 export default Item

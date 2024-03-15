@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-03 16:57:23
+ * @Last Modified time: 2024-03-16 04:16:19
  */
 
 /** Discovery */
@@ -41,6 +41,7 @@ export default {
   '每日放送.跳转': 'Calendar.to',
   '每日放送.右上角菜单': 'Calendar.topRightMenu',
   '每日放送.切换布局': 'Calendar.switchLayout',
+  '每日放送.切换类型': 'Calendar.onToggleType',
 
   // 目录
   '目录.跳转': 'Catalog.to',

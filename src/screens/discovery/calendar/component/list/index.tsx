@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 15:44:58
+ * @Last Modified time: 2024-03-16 04:10:45
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -21,7 +21,7 @@ function List(props, { $ }: Ctx) {
   return (
     <ListView
       key={`${layout}${numColumns}`}
-      style={_.container.plain}
+      style={_.mt._sm}
       contentContainerStyle={styles.contentContainerStyle}
       keyExtractor={keyExtractor}
       sections={$.sections}

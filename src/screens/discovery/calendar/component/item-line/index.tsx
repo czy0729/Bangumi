@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 15:31:36
+ * @Last Modified time: 2024-03-16 04:21:14
  */
 import React from 'react'
 import { collectionStore, systemStore } from '@stores'
@@ -18,13 +18,9 @@ function ItemLineWrap(
 ) {
   if (!$.state.expand && !time) return null
 
-  let collection: string
-  if ($.state.type === 'collect') {
-    collection = collectionStore.collect(subjectId)
-    if (!collection) return null
-  }
+  const collection = collectionStore.collect(subjectId)
+  if ($.state.type === 'collect' && !collection) return null
 
-  const sites = $.sites(subjectId)
   return (
     <ItemLine
       navigation={navigation}
@@ -44,7 +40,7 @@ function ItemLineWrap(
       rank={rank}
       score={score}
       total={total}
-      sites={sites}
+      sites={$.sites(subjectId)}
       onToggleExpand={$.onToggleExpand}
     />
   )

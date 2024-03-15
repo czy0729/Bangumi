@@ -13,6 +13,8 @@ import { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'ItemCollectionsGrid')
 
+export const COMPONENT_MAIN = rc(COMPONENT)
+
 export const HIT_SLOP = {
   top: _.device(2, 4),
   right: _.device(4, 4),

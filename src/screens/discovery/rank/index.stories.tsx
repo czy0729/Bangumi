@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-12 10:20:40
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import Component from './index'
 
 export default {

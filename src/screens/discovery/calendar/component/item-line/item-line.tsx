@@ -7,6 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, Katakana, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { InView, Manage, Rank, Stars } from '@_'
 import { _, uiStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
@@ -29,7 +30,7 @@ const ItemLine = memo(
     name,
     desc,
     image,
-    air,
+    // air,
     time,
     prevTime,
     expand,
@@ -79,7 +80,7 @@ const ItemLine = memo(
                     navigation.push('Subject', {
                       subjectId,
                       _cn: name,
-                      _image: image
+                      _image: getCoverSrc(image, width)
                     })
                   }}
                 >
@@ -104,11 +105,16 @@ const ItemLine = memo(
                       </Flex.Item>
                     </Flex>
                   </View>
-                  {!!air ? (
+                  {/* {!!air ? (
                     <Text type='sub' size={12} bold>
                       至第 {air} 话 {s.length ? ` · ${s.join('、')}` : ''}
                     </Text>
                   ) : s.length ? (
+                    <Text type='sub' size={12} bold>
+                      {s.join('、')}
+                    </Text>
+                  ) : null} */}
+                  {s.length ? (
                     <Text type='sub' size={12} bold>
                       {s.join('、')}
                     </Text>

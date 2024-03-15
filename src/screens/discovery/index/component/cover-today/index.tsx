@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 import { Squircle, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { cnjp, getCoverMedium, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { LinearGradient } from 'expo-linear-gradient'
 import { linearColor } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT, WEEKDAY_CN } from './ds'
@@ -37,7 +38,7 @@ function CoverToday({ data }, { navigation }: Ctx) {
           subjectId: data.id,
           _jp: data.name,
           _cn: data.name_cn,
-          _image: data?.images?.common
+          _image: getCoverSrc(data?.images?.common, width)
         })
       }}
     >
