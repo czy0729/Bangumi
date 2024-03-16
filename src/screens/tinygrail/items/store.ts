@@ -2,22 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 16:29:43
+ * @Last Modified time: 2024-03-16 16:15:22
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { toFixed, info, feedback, alert } from '@utils'
-import store from '@utils/store'
+import { alert, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import { FnParams } from '@types'
+import { STATE } from './ds'
 
-export default class ScreenTinygrailItems extends store {
-  state = observable({
-    title: '',
-    visible: false,
-    _loaded: false
-  })
+export default class ScreenTinygrailItems extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = () => {
     return this.fetchItems()

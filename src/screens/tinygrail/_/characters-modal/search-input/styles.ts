@@ -1,16 +1,16 @@
 /*
  * @Author: czy0729
  * @Date: 2022-11-11 07:01:45
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-11-11 07:01:45
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-03-16 17:32:52
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
-    paddingLeft: 8,
     borderColor: _.colorTinygrailBorder,
-    borderWidth: 1
+    borderWidth: 1,
+    borderRadius: _.radiusXs
   },
   input: {
     height: 26,

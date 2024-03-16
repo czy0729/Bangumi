@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-12 06:35:56
+ * @Last Modified time: 2024-03-16 17:46:46
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -60,7 +60,7 @@ import {
   INIT_USER_LOGS,
   NAMESPACE
 } from './init'
-import { CHARA, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM } from './mock'
+import { CHARA_ITEM, CHARA_TEMPLE_ITEM, REFINE_TEMPLE_ITEM, STAR_LOGS_ITEM } from './mock'
 import { calculateRate, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 import { ListKey } from './types'
@@ -139,7 +139,7 @@ export default class Fetch extends Computed {
       const iconsCache = {}
 
       const target = Array.isArray(result.data.Value) ? result.data.Value : [result.data.Value]
-      target.forEach((item: typeof CHARA) => {
+      target.forEach((item: typeof CHARA_ITEM) => {
         const id = item.CharacterId || item.Id
         if (item.Icon) iconsCache[id] = item.Icon
         data[id] = toCharacter(item)
@@ -1879,7 +1879,7 @@ export default class Fetch extends Computed {
     if (result.data.State === 0) {
       data = {
         ...LIST_EMPTY,
-        list: result.data.Value.Items.map(item => ({
+        list: result.data.Value.Items.map((item: typeof STAR_LOGS_ITEM) => ({
           id: item.Id,
           monoId: item.CharacterId,
           fromMonoId: item.FromCharacterId,
@@ -1890,7 +1890,8 @@ export default class Fetch extends Computed {
           rank: item.Rank,
           userName: item.Nickname,
           userId: item.UserName,
-          time: lastDate(getTimestamp(item.LogTime.replace('T', ' ')))
+          time: lastDate(getTimestamp(item.LogTime.replace('T', ' '))),
+          type: item.Type
         })),
         pagination: paginationOnePage,
         _loaded: getTimestamp()

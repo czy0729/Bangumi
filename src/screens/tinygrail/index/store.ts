@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-12 06:39:21
+ * @Last Modified time: 2024-03-16 17:55:41
  */
 import { computed, observable } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -241,9 +241,12 @@ export default class ScreenTinygrail extends store<typeof STATE> {
         _AfterTax = formatNumber(AfterTax, 2)
       }
 
-      let message = `本期计息共${_Total}股, 圣殿${Temples}座, 预期股息${_Share}`
-      if (Tax) message += `, 个人所得税${_Tax}, 税后${_AfterTax}`
-      if (Daily) message += `, 签到奖励${Daily}`
+      let message = `本期计息共${_Total}股，圣殿${Temples}座，预期股息${_Share}`
+      if (Tax)
+        message += `，个人所得税${_Tax}，税后${_AfterTax}（${((AfterTax / Share) * 100).toFixed(
+          1
+        )}%）`
+      if (Daily) message += `，签到奖励${Daily}`
 
       alert(message, '股息预测')
     } catch (error) {

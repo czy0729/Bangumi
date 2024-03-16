@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-03 15:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:39:47
+ * @Last Modified time: 2024-03-16 17:33:10
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -16,7 +16,7 @@ function ItemBottom({ src, name, level, change, type, onPress }) {
       <Flex>
         <Avatar
           src={tinygrailOSS(src)}
-          size={40}
+          size={32}
           name={name}
           borderColor='transparent'
           skeletonType='tinygrail'

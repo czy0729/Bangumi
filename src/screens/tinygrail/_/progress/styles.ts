@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 05:00:17
+ * @Last Modified time: 2024-03-16 17:21:05
  */
 import { _ } from '@stores'
 
-const PADDING = 3
+const PADDING = 4
 
 export const memoStyles = _.memoStyles(() => ({
   progress: {
@@ -16,17 +16,26 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 8,
     overflow: 'hidden'
   },
+  progressXs: {
+    padding: PADDING - 2,
+    borderRadius: 6
+  },
   bar: {
-    position: 'absolute',
-    zIndex: 1,
-    top: PADDING,
-    bottom: PADDING,
-    left: PADDING,
+    height: 12,
     borderRadius: 4,
     overflow: 'hidden'
   },
+  barXs: {
+    height: 8,
+    borderRadius: 3
+  },
   text: {
+    position: 'absolute',
     zIndex: 2,
+    top: 0.5,
+    right: 0,
+    bottom: 0,
+    left: 0,
     paddingHorizontal: _.sm
   }
 }))

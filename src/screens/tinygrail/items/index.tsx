@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 08:23:20
+ * @Last Modified time: 2024-03-16 17:35:53
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Header, Iconfont, Image, Page, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { tinygrailOSS } from '@utils'
+import { formatNumber, tinygrailOSS } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
@@ -64,7 +64,7 @@ class TinygrailItems extends React.Component {
                       </Text>
                     </Flex.Item>
                     <Flex style={_.ml.sm}>
-                      <Text type='warning'>x{item.amount}</Text>
+                      <Text type='warning'>x{formatNumber(item.amount, 0)}</Text>
                       <Iconfont
                         style={_.mr._sm}
                         name='md-navigate-next'
@@ -89,7 +89,7 @@ class TinygrailItems extends React.Component {
                     </Text>
                   </Flex.Item>
                   <Text style={_.ml.sm} type='warning'>
-                    x{item.amount}
+                    x{formatNumber(item.amount, 0)}
                   </Text>
                 </Flex>
               </View>

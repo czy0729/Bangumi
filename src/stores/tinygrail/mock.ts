@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-02 16:43:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 05:21:16
+ * @Last Modified time: 2024-03-16 17:46:21
  */
 
 /** 2024-03-02 */
@@ -94,7 +94,7 @@ export const CHARA_TEMPLE_ITEM = {
 }
 
 /** 2024-03-07 */
-export const CHARA = {
+export const CHARA_ITEM = {
   CharacterId: 86066,
   Change: 0,
   UserTotal: 0,
@@ -133,4 +133,24 @@ export const CHARA = {
   ZeroCount: 0,
   State: 0,
   Type: 0
+}
+
+/** 2024-03-16 */
+export const STAR_LOGS_ITEM = {
+  Icon: 'https://tinygrail.oss-cn-hangzhou.aliyuncs.com/avatar/306fefde4049de71dbfa89f5a97af7ce.jpg',
+  Id: 50489,
+  CharacterId: 19528,
+  CharacterName: '冰芽川四糸乃',
+  UserId: 3206,
+  UserName: 'yuewenchan',
+  Nickname: '白虎酱',
+  Amount: 11,
+  FromCharacterId: 108636,
+  Stars: 7,
+  StarForces: 178523,
+  Rank: 2,
+  OldRank: 2,
+  Loss: 0,
+  LogTime: '2024-03-15T23:03:04',
+  Type: 3
 }

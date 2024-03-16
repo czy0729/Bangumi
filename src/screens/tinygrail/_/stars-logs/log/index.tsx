@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 09:10:43
+ * @Last Modified time: 2024-03-16 17:48:31
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -15,13 +15,15 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Log(
-  { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time },
+  { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time, type },
   {
     navigation
   }: {
     navigation: Navigation
   }
 ) {
+  console.log(type)
+
   const styles = memoStyles()
   const rankChange = oldRank - rank
   return (
@@ -85,6 +87,7 @@ function Log(
                     @{userName}{' '}
                   </Text>
                   +{formatNumber(amount, 0)}
+                  {type === 3 && ' 精炼成功'}
                 </Text>
               ) : (
                 <Text type='ask' size={10}>

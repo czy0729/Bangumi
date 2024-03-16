@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:50:44
+ * @Last Modified time: 2024-03-16 17:39:22
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { formatNumber, stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -21,18 +21,19 @@ function Progress({
   sacrifices
 }: {
   style?: ViewStyle
-  size?: 'md' | 'sm'
+  size?: 'md' | 'sm' | 'xs'
   assets: number
   sacrifices: number
 }) {
   const styles = memoStyles()
-  const isMini = size === 'sm'
 
   let barColor: ColorValue = _.colorSuccess
   let percent = 1
   if (assets && sacrifices) {
     percent = Math.max(Math.min(assets / sacrifices, 1), 0.06)
-    if (percent <= 0.25) {
+    if (assets < 250) {
+      barColor = _.colorDisabled
+    } else if (percent <= 0.3) {
       barColor = _.colorDanger
     } else if (percent <= 0.5) {
       barColor = _.colorWarning
@@ -40,31 +41,40 @@ function Progress({
   }
 
   let text = formatNumber(assets, 0)
-  if (!isMini || assets !== sacrifices) text += ` / ${formatNumber(sacrifices, 0)}`
+  if (size === 'md' || assets !== sacrifices) text += ` / ${formatNumber(sacrifices, 0)}`
+
+  let textSize = 12
+  if (size === 'sm') {
+    textSize = 9
+  } else if (size === 'xs') {
+    textSize = 8
+  }
 
   return (
-    <View style={stl(styles.progress, style)}>
+    <View style={stl(styles.progress, size === 'xs' && styles.progressXs, style)}>
       <View
         style={[
           styles.bar,
+          size === 'xs' && styles.barXs,
           {
             width: `${percent * 100}%`,
             backgroundColor: barColor
           }
         ]}
       />
-      <Text
-        style={styles.text}
-        type='__plain__'
-        size={isMini ? 9 : 12}
-        lineHeight={1}
-        bold
-        align={percent > 0.5 ? 'center' : 'left'}
-        numberOfLines={1}
-        shadow
-      >
-        {text}
-      </Text>
+      <Flex style={styles.text} justify='center'>
+        <Text
+          type='__plain__'
+          size={textSize}
+          lineHeight={1}
+          bold
+          align={percent > 0.5 ? 'center' : 'left'}
+          numberOfLines={1}
+          shadow
+        >
+          {text}
+        </Text>
+      </Flex>
     </View>
   )
 }

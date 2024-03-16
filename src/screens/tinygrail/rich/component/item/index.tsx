@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 17:37:46
+ * @Last Modified time: 2024-03-16 17:51:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -126,7 +126,7 @@ function Item(
                   <Text style={_.ml.sm} type='tinygrailPlain'>
                     {right}
                   </Text>
-                  <Iconfont style={_.mr._xs} name='md-navigate-next' color={_.colorTinygrailText} />
+                  <Iconfont style={_.mr._sm} name='md-navigate-next' color={_.colorTinygrailText} />
                 </Flex>
               </Touchable>
             </Flex.Item>

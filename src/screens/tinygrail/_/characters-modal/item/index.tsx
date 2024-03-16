@@ -2,44 +2,61 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:39:29
+ * @Last Modified time: 2024-03-16 17:31:19
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
+import Level from '../../level'
+import Progress from '../../progress'
 import Rank from '../../rank'
 import { memoStyles } from './styles'
 
-function Item({ type, src, id, level, rank, name, extra, disabled, item, onPress }) {
+function Item({
+  type,
+  src,
+  id,
+  level,
+  rank,
+  name,
+  extra,
+  assets = 0,
+  sacrifices = 0,
+  disabled,
+  item,
+  onPress
+}) {
   const styles = memoStyles()
   return (
     <Touchable onPress={() => onPress(item)}>
       <Flex style={stl(styles.item, !disabled && styles[type])}>
         {src ? (
-          <Avatar src={tinygrailOSS(src)} size={40} skeletonType='tinygrail' />
+          <Avatar src={tinygrailOSS(src)} size={30} radius={_.radiusXs} skeletonType='tinygrail' />
         ) : (
           <Text type='tinygrailPlain' size={9} lineHeight={10} bold numberOfLines={1}>
             #{id}{' '}
           </Text>
         )}
-        <Flex.Item style={_.ml.sm}>
+        <Flex.Item style={_.ml.xs}>
           <Flex>
-            {rank <= 500 && <Rank style={styles.rank} value={rank} />}
+            {rank <= 500 && <Rank style={styles.rank} size={8} value={rank} />}
             <Flex.Item>
               <Text type='tinygrailPlain' size={9} bold numberOfLines={1}>
-                <Text type='ask' size={9} bold lineHeight={10}>
-                  lv{level}{' '}
-                </Text>
+                <Level value={level} size={9} lineHeight={9} />
                 {name}
               </Text>
             </Flex.Item>
           </Flex>
-          {!!extra && (
-            <Text style={_.mt.xs} type='tinygrailText' size={9} numberOfLines={2}>
-              {extra}
-            </Text>
+          {assets && sacrifices ? (
+            <Progress style={_.mt.xs} size='xs' assets={assets} sacrifices={sacrifices} />
+          ) : (
+            !!extra && (
+              <Text style={_.mt.xs} type='tinygrailText' size={9} numberOfLines={1}>
+                {extra}
+              </Text>
+            )
           )}
         </Flex.Item>
       </Flex>

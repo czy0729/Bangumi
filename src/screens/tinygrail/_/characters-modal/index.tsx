@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 12:57:46
+ * @Last Modified time: 2024-03-16 17:26:42
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
 import { computed } from 'mobx'
-import { StatusBar, Modal, Flex, Text, Button, Iconfont } from '@components'
+import { Button, Flex, Iconfont, Modal, StatusBar, Text } from '@components'
 import { Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import {
@@ -25,11 +25,11 @@ import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Fn } from '@types'
 import { calculateRate } from '../utils'
-import SearchInput from './search-input'
-import List from './list'
 import Item from './item'
 import ItemBottom from './item-bottom'
-import { lv, cover, assets, charge, bottomTextType } from './utils'
+import List from './list'
+import SearchInput from './search-input'
+import { assets, bottomTextType, charge, cover, lv, rk } from './utils'
 import { memoStyles } from './styles'
 
 export const ITEMS_TYPE = {
@@ -313,24 +313,15 @@ class CharactersModal extends React.Component<{
       this.fetchTemple()
     }
 
-    if (
-      !this.chara._loaded ||
-      (this.chara._loaded && current - Number(this.chara._loaded) > 120)
-    ) {
+    if (!this.chara._loaded || (this.chara._loaded && current - Number(this.chara._loaded) > 120)) {
       this.fetchMyCharaAssets()
     }
 
-    if (
-      !this.msrc._loaded ||
-      (this.msrc._loaded && current - Number(this.msrc._loaded) > 120)
-    ) {
+    if (!this.msrc._loaded || (this.msrc._loaded && current - Number(this.msrc._loaded) > 120)) {
       this.fetchMsrc()
     }
 
-    if (
-      !this.star._loaded ||
-      (this.star._loaded && current - Number(this.star._loaded) > 120)
-    ) {
+    if (!this.star._loaded || (this.star._loaded && current - Number(this.star._loaded) > 120)) {
       this.fetchStar()
     }
 
@@ -460,13 +451,11 @@ class CharactersModal extends React.Component<{
               if (leftValue) {
                 if (isTemple) {
                   return (
-                    item.name.includes(leftValue) &&
-                    lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
+                    item.name.includes(leftValue) && lv(item) + (isTemple ? 0 : 1) >= lv(rightItem)
                   )
                 }
                 return (
-                  item.name.includes(leftValue) &&
-                  assets(item) >= Math.min(32, 2 ** -(_lv + 1))
+                  item.name.includes(leftValue) && assets(item) >= Math.min(32, 2 ** -(_lv + 1))
                 )
               }
 
@@ -542,9 +531,7 @@ class CharactersModal extends React.Component<{
     )
     const leftDS = [
       `全部 (${sum})`,
-      ...Object.keys(this.leftLevelMap).map(
-        level => `lv${level} (${this.leftLevelMap[level]})`
-      )
+      ...Object.keys(this.leftLevelMap).map(level => `lv${level} (${this.leftLevelMap[level]})`)
     ]
     return leftDS
   }
@@ -606,7 +593,7 @@ class CharactersModal extends React.Component<{
 
             return true
           })
-          .sort((a, b) => lv(b) - lv(a))
+          .sort((a, b) => rk(a) - rk(b))
       }
     }
 
@@ -627,8 +614,7 @@ class CharactersModal extends React.Component<{
               if (rightValue) {
                 if (isTemple) {
                   return (
-                    item.name.includes(rightValue) &&
-                    lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
+                    item.name.includes(rightValue) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
                   )
                 }
                 return item.name.includes(rightValue)
@@ -681,10 +667,7 @@ class CharactersModal extends React.Component<{
 
           if (leftItem) {
             if (rightValue) {
-              return (
-                item.name.includes(rightValue) &&
-                lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
-              )
+              return item.name.includes(rightValue) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
             }
 
             return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
@@ -829,11 +812,7 @@ class CharactersModal extends React.Component<{
             })
           )}
           <Flex.Item style={_.ml.sm}>
-            <SearchInput
-              placeholder='消耗'
-              value={leftValue}
-              onChangeText={this.onChangeLeft}
-            />
+            <SearchInput placeholder='消耗' value={leftValue} onChangeText={this.onChangeLeft} />
           </Flex.Item>
         </Flex>
         <List data={this.computedLeft} renderItem={this.renderLeftItem} />
@@ -848,10 +827,7 @@ class CharactersModal extends React.Component<{
     if (!this.isStarDust) {
       if (item.assets !== (item.sacrifices || item.state)) {
         extra.push(
-          `${formatNumber(item.assets, 0)} (${formatNumber(
-            item.sacrifices || item.state,
-            0
-          )})`
+          `${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices || item.state, 0)})`
         )
       } else {
         extra.push(formatNumber(item.sacrifices || item.state, 0))
@@ -862,10 +838,7 @@ class CharactersModal extends React.Component<{
       extra.push(formatNumber(item.state, 0))
     }
     extra.push(
-      `+${toFixed(item.rate, 1)} (${toFixed(
-        calculateRate(item.rate, item.rank, item.stars),
-        1
-      )})`
+      `+${toFixed(item.rate, 1)} (${toFixed(calculateRate(item.rate, item.rank, item.stars), 1)})`
     )
     return (
       <Item
@@ -876,6 +849,8 @@ class CharactersModal extends React.Component<{
         name={item.name}
         rank={item.rank}
         extra={extra.join(' / ')}
+        assets={item.assets}
+        sacrifices={item.sacrifices}
         disabled={disabled}
         item={item}
         onPress={this.onSelectLeft}
@@ -923,9 +898,7 @@ class CharactersModal extends React.Component<{
     const extra = []
 
     if (item.assets && item.assets !== item.sacrifices) {
-      extra.push(
-        `${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices, 0)})`
-      )
+      extra.push(`${formatNumber(item.assets, 0)} (${formatNumber(item.sacrifices, 0)})`)
     } else if (item.sacrifices) {
       extra.push(formatNumber(item.sacrifices, 0))
     }
@@ -933,10 +906,7 @@ class CharactersModal extends React.Component<{
     if (item.userAmount) extra.push(formatNumber(item.userAmount, 0))
     if (item.rate) {
       extra.push(
-        `+${toFixed(item.rate, 1)} (${toFixed(
-          calculateRate(item.rate, item.rank, item.stars),
-          1
-        )})`
+        `+${toFixed(item.rate, 1)} (${toFixed(calculateRate(item.rate, item.rank, item.stars), 1)})`
       )
     }
 
