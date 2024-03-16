@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 23:59:48
  */
-import { LIST_EMPTY } from '@constants'
+import { _ } from '@stores'
 import {
   ANIME_AREA,
   ANIME_BEGIN,
@@ -17,10 +17,12 @@ import {
   ANIME_TYPE,
   ANIME_YEAR
 } from '@utils/subject/anime'
-import { _ } from '@stores'
+import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenAnime'
+export const COMPONENT = 'Anime'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
@@ -62,9 +64,7 @@ ANIME_TAGS.forEach((item, index) => ANIME_TAGS_GROUP[index % 2 ? 1 : 0].push(ite
 
 // 制作分组
 const ANIME_OFFICIAL_GROUP = [[], []]
-ANIME_OFFICIAL.forEach((item, index) =>
-  ANIME_OFFICIAL_GROUP[index % 2 ? 1 : 0].push(item)
-)
+ANIME_OFFICIAL.forEach((item, index) => ANIME_OFFICIAL_GROUP[index % 2 ? 1 : 0].push(item))
 
 export const filterDS = [
   {

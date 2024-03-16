@@ -2,22 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:51:09
+ * @Last Modified time: 2024-03-16 15:49:55
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
-import { IconLayout, IconHeader } from '@_'
+import { IconHeader, IconLayout } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { Override } from '@types'
-import { Ctx, TitleType } from '../types'
-
-type Props = Override<
-  Ctx,
-  {
-    title: TitleType
-  }
->
+import { COMPONENT } from './ds'
+import { Props } from './types'
 
 let isList: any
 
@@ -34,11 +27,7 @@ function Extra({ $, title = 'Anime' }: Props) {
   return (
     <Flex style={_.mr.xs}>
       {showLayoutIcon && (
-        <IconLayout
-          style={_.mr.xs}
-          list={currenIsList}
-          onPress={$?.switchLayout || (() => {})}
-        >
+        <IconLayout style={_.mr.xs} list={currenIsList} onPress={$?.switchLayout || (() => {})}>
           <Heatmap right={30} id={`${title}.切换布局`} />
         </IconLayout>
       )}
@@ -49,4 +38,4 @@ function Extra({ $, title = 'Anime' }: Props) {
   )
 }
 
-export default ob(Extra)
+export default ob(Extra, COMPONENT)

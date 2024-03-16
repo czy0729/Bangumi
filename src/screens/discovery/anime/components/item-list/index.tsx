@@ -2,26 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:45:36
+ * @Last Modified time: 2024-03-16 19:39:31
  */
 import React from 'react'
-import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
-import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { InView, Tags, Cover, Stars, Rank, Manage } from '@_'
+import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { Cover, InView, Manage, Rank, Stars, Tags } from '@_'
+import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import {
-  IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
-  IMG_DEFAULT,
-  MODEL_COLLECTION_STATUS
-} from '@constants'
+import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { navigation }: Ctx) {
+function ItemList({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const {
@@ -68,6 +65,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
     .filter(item => !!item)
     .join(' / ')
   const collection = collectionStore.collect(id)
+
   return (
     <Touchable
       style={styles.container}
@@ -76,7 +74,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
         navigation.push('Subject', {
           subjectId: id,
           _cn: cn,
-          _image: cover,
+          _image: getCoverSrc(cover, IMG_WIDTH_LG),
           _aid: ageId
         })
 
@@ -87,23 +85,12 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
     >
       <Flex style={styles.wrap} align='start'>
         <InView style={styles.inView} y={_.window.height * 0.4 + IMG_HEIGHT_LG * index}>
-          <Cover
-            src={cover}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            shadow
-          />
+          <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
         </InView>
         <Flex.Item style={_.ml.wind}>
           <Flex align='start'>
             <Flex.Item>
-              <Flex
-                style={styles.content}
-                direction='column'
-                justify='between'
-                align='start'
-              >
+              <Flex style={styles.content} direction='column' justify='between' align='start'>
                 <Text size={size} bold numberOfLines={2}>
                   {title}
                 </Text>
@@ -121,8 +108,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                     subjectId: id,
                     title: cnjp(cn, jp),
                     desc: cnjp(jp, cn),
-                    status:
-                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                    status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
                   },
                   '找番剧'
                 )
@@ -150,4 +136,4 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(ItemList, COMPONENT)
