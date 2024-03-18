@@ -13,7 +13,6 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 
 function IconEp(props, { $, navigation }: Ctx) {
-  const { epsThumbs, epsThumbsHeader, filterEps } = $.state
   return (
     <IconTouchable
       style={_.ml.xs}
@@ -28,9 +27,9 @@ function IconEp(props, { $, navigation }: Ctx) {
         navigation.push('Episodes', {
           subjectId: $.subjectId,
           name: $.cn || $.jp,
-          epsThumbs,
-          epsThumbsHeader,
-          filterEps
+          epsThumbs: $.state.epsThumbs,
+          epsThumbsHeader: $.state.epsThumbsHeader,
+          filterEps: $.state.filterEps
         })
       }}
     >

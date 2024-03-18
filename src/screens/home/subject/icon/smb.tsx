@@ -14,8 +14,7 @@ import { Ctx } from '../types'
 import styles from './styles'
 
 function IconSMB(props, { navigation }: Ctx) {
-  const { showSMB } = systemStore.setting
-  if (STORYBOOK || !showSMB) return null
+  if (STORYBOOK || !systemStore.setting.showSMB) return null
 
   return (
     <Touchable

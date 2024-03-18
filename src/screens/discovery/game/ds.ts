@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:30:44
+ * @Last Modified time: 2024-03-18 21:33:17
  */
 import {
   GAME_CATE,
@@ -17,7 +17,9 @@ import {
 import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenGame'
+export const COMPONENT = 'Game'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   query: {

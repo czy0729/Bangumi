@@ -2,38 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 14:08:24
+ * @Last Modified time: 2024-03-18 22:45:29
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Flex,
-  Text,
-  Touchable,
-  Heatmap,
-  HorizontalList,
-  Image,
-  Loading
-} from '@components'
-import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { Tags, Cover, Stars, Rank, Manage } from '@_'
+import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { Cover, Manage, Rank, Stars, Tags } from '@_'
+import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
-  IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
   IMG_DEFAULT,
+  IMG_HEIGHT_LG,
+  IMG_WIDTH_LG,
   MODEL_COLLECTION_STATUS,
   STORYBOOK
 } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../types'
-import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
-import { getThumbs } from './utils'
+import { Ctx } from '../../types'
+import { getThumbs, toArray } from './utils'
+import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { navigation }: Ctx) {
+function ItemList({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.gameSubjectId(pickIndex)
   const game = otaStore.game(subjectId)
@@ -68,15 +61,9 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   const publish = toArray(game, 'p')
   const platform = toArray(game, 'pl')
   const _dev = dev.map((item: any) => String(item).trim()).filter((item: any) => !!item)
-  const _publish = publish
-    .map((item: any) => String(item).trim())
-    .filter((item: any) => !!item)
+  const _publish = publish.map((item: any) => String(item).trim()).filter((item: any) => !!item)
 
-  const tip = [
-    platform.join('、'),
-    time,
-    timeCn && timeCn !== time ? `中文 ${timeCn}` : ''
-  ]
+  const tip = [platform.join('、'), time, timeCn && timeCn !== time ? `中文 ${timeCn}` : '']
   if (_dev.join('、') === _publish.join('、')) {
     tip.push(_dev.join('、'))
   } else {
@@ -84,6 +71,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   }
   const tipStr = tip.filter((item: string) => !!item).join(' / ')
   const collection = collectionStore.collect(id)
+
   return (
     <Touchable
       style={styles.container}
@@ -91,7 +79,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _image: cover
+          _image: getCoverSrc(cover, IMG_WIDTH_LG)
         })
 
         t('游戏.跳转', {
@@ -100,14 +88,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover
-          src={cover}
-          width={IMG_WIDTH_LG}
-          height={IMG_HEIGHT_LG}
-          radius
-          shadow
-          type='游戏'
-        />
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow type='游戏' />
         <Flex style={styles.content} direction='column' align='start'>
           <View style={styles.body}>
             <Flex style={_.container.block} align='start'>
@@ -140,8 +121,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                     {
                       subjectId: id,
                       title,
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                      status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                       action: '玩'
                     },
                     '找游戏'
@@ -161,10 +141,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                 })}
                 renderItem={(item, index) => (
                   <Image
-                    style={stl(
-                      !!index && _.ml.sm,
-                      index === thumbs.length - 1 && _.mr.md
-                    )}
+                    style={stl(!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md)}
                     key={item}
                     src={item}
                     size={THUMB_WIDTH}
@@ -212,10 +189,4 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
-
-function toArray(item = {}, key: string) {
-  return (
-    typeof item?.[key] === 'object' ? item?.[key] : [item?.[key] || undefined]
-  ).filter((item: any) => item !== undefined)
-}
+export default obc(ItemList)

@@ -13,15 +13,13 @@ import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
 import IconActions from './actions'
-import { HIT_SLOP, ORIGINS_MANAGE, ACTIONS_MANAGE, ICS_MANAGE } from './ds'
+import { ACTIONS_MANAGE, HIT_SLOP, ICS_MANAGE, ORIGINS_MANAGE } from './ds'
 import { IconProps } from './types'
 
 function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
   if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
-
-  const { exportICS } = systemStore.setting
-  if (exportICS) data.push(ICS_MANAGE)
+  if (systemStore.setting.exportICS) data.push(ICS_MANAGE)
 
   return (
     <>

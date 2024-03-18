@@ -5,8 +5,8 @@
  * @Last Modified time: 2022-07-06 03:05:29
  */
 import React from 'react'
-import { Flex, Text, Heatmap } from '@components'
-import { IconTouchable, FolderManageModal } from '@_'
+import { Flex, Heatmap, Text } from '@components'
+import { FolderManageModal, IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
@@ -15,17 +15,11 @@ import { Ctx } from '../types'
 function IconFolder(props, { $ }: Ctx) {
   if (SHARE_MODE) return null
 
-  const { folder } = $.state
   const isInclude = !!$.catalogIncludes
   return (
     <>
       <Flex style={isInclude && _.mr.xs}>
-        <IconTouchable
-          name='md-folder-open'
-          size={20}
-          color={_.colorIcon}
-          onPress={$.toggleFolder}
-        >
+        <IconTouchable name='md-folder-open' size={20} color={_.colorIcon} onPress={$.toggleFolder}>
           <Heatmap id='条目.管理目录' />
         </IconTouchable>
         {isInclude && (
@@ -34,7 +28,7 @@ function IconFolder(props, { $ }: Ctx) {
           </Text>
         )}
       </Flex>
-      <FolderManageModal id={$.subjectId} visible={folder} onClose={$.toggleFolder} />
+      <FolderManageModal id={$.subjectId} visible={$.state.folder} onClose={$.toggleFolder} />
     </>
   )
 }

@@ -13,8 +13,7 @@ import { Ctx } from '../types'
 import styles from './styles'
 
 function IconStaff(props, { $, navigation }: Ctx) {
-  const { showStaff } = systemStore.setting
-  if (!showStaff) return null
+  if (!systemStore.setting.showStaff) return null
 
   return (
     <Touchable

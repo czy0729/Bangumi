@@ -13,8 +13,7 @@ import { Ctx } from '../types'
 import styles from './styles'
 
 function IconWiki(props, { $, navigation }: Ctx) {
-  const { showInfo } = systemStore.setting
-  if (!showInfo) return null
+  if (!systemStore.setting.showInfo) return null
 
   return (
     <Touchable

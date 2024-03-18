@@ -17,8 +17,6 @@ import { Ctx } from '../types'
 function IconClose(props, { $ }: Ctx) {
   if (SHARE_MODE) return null
 
-  const { status = { name: '未收藏' } } = $.collection
-  const { formhash } = $.subjectFormHTML
   return (
     <IconTouchable
       style={styles.touch}
@@ -31,12 +29,13 @@ function IconClose(props, { $ }: Ctx) {
         left: _.device(2, 4)
       }}
       onPress={() => {
+        const { status = { name: '未收藏' } } = $.collection
         if (status.name === '未收藏') {
           info('当前未收藏')
           return
         }
 
-        if (!formhash) {
+        if (!$.subjectFormHTML.formhash) {
           info(`无法操作, 请检查${i18n.login()}状态`)
           return
         }

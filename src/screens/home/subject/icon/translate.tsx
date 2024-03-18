@@ -13,23 +13,16 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function IconTranslate({ content = '' }, { $ }: Ctx) {
-  const { showSummary } = systemStore.setting
-  const { translateResult } = $.state
   if (
-    !showSummary ||
-    translateResult.length ||
+    !systemStore.setting.showSummary ||
+    $.state.translateResult.length ||
     (content && isChineseParagraph(content))
   ) {
     return null
   }
 
   return (
-    <IconTouchable
-      style={_.mr._sm}
-      name='md-g-translate'
-      size={18}
-      onPress={$.doTranslate}
-    >
+    <IconTouchable style={_.mr._sm} name='md-g-translate' size={18} onPress={$.doTranslate}>
       <Heatmap id='条目.翻译简介' />
     </IconTouchable>
   )

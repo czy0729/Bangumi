@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:31:05
+ * @Last Modified time: 2024-03-18 21:33:03
  */
-import { observable, computed } from 'mobx'
-import { systemStore, collectionStore, otaStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { collectionStore, otaStore, systemStore } from '@stores'
+import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/game'
-import { t } from '@utils/fetch'
 import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
@@ -125,6 +125,10 @@ export default class ScreenGame extends store<typeof STATE> {
   }
 
   scrollToOffset = null
+
+  forwardRef = (ref: { scrollToOffset: any }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
 
   /** 到顶 */
   scrollToTop = () => {

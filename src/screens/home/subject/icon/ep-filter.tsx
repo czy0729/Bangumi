@@ -13,21 +13,12 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
 function IconEpFilter(props, { $ }: Ctx) {
-  const { filterEps } = $.state
-  const showFilter = $.eps.length >= 160 // 32 * 5 = 160
   return (
     <View>
-      {showFilter && (
-        <Popover
-          style={styles.touch}
-          data={$.filterEpsData}
-          onSelect={$.updateFilterEps}
-        >
+      {$.eps.length >= 160 && (
+        <Popover style={styles.touch} data={$.filterEpsData} onSelect={$.updateFilterEps}>
           <Flex style={styles.btn} justify='center'>
-            <Iconfont
-              name='md-filter-list'
-              color={filterEps ? _.colorMain : _.colorIcon}
-            />
+            <Iconfont name='md-filter-list' color={$.state.filterEps ? _.colorMain : _.colorIcon} />
           </Flex>
         </Popover>
       )}

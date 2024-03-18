@@ -13,8 +13,7 @@ import { Ctx } from '../types'
 import styles from './styles'
 
 function IconPreview({ data, headers }, { $, navigation }: Ctx) {
-  const { showThumbs } = systemStore.setting
-  if (!showThumbs) return null
+  if (!systemStore.setting.showThumbs) return null
 
   return (
     <Touchable

@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import HeaderComponent from '../../header-component'
+import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 

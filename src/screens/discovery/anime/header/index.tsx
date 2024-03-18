@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-03-16 15:52:48
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
 import Extra from '../components/extra'
 import { Ctx, TitleType } from '../types'
@@ -24,7 +24,7 @@ function Header(
   { $ }: Ctx
 ) {
   return (
-    <CompHeader
+    <HeaderComp
       title={title}
       alias={alias}
       hm={hm || ['anime', 'Anime']}

@@ -2,31 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:21:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 07:33:22
+ * @Last Modified time: 2024-03-18 21:18:37
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
-import { _, otaStore, collectionStore } from '@stores'
+import { _, collectionStore, otaStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
-
-const EVENT = {
-  id: '游戏.跳转'
-} as const
 
 function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   const subjectId = otaStore.gameSubjectId(pickIndex)
-  const {
-    id,
-    t: title,
-    c: image,
-    sc: score,
-    r: rank,
-    en: time
-  } = otaStore.game(subjectId)
+  const { id, t: title, c: image, sc: score, r: rank, en: time } = otaStore.game(subjectId)
   if (!id) {
     const gridStyles = _.grid(num)
     return (
@@ -62,4 +52,4 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid)
+export default obc(ItemGrid, COMPONENT)
