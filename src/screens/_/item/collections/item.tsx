@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 06:07:09
+ * @Last Modified time: 2024-03-19 04:46:12
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { memo } from '@utils/decorators'
@@ -61,6 +62,7 @@ const Item = memo(
 
     const subjectId = String(id).replace('/subject/', '')
     const titleLength = name.length + nameCn.length
+    const width = IMG_WIDTH * 1.1
     return (
       <Component id='item-collections' data-key={id}>
         <Touchable
@@ -79,7 +81,7 @@ const Item = memo(
               subjectId: id,
               _jp: name,
               _cn: nameCn,
-              _image: cover,
+              _image: getCoverSrc(cover, width),
               _type: type,
               _collection: collection || userCollection
             })
@@ -87,14 +89,7 @@ const Item = memo(
         >
           <Flex style={styles.wrap} align='start'>
             <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
-              <Cover
-                src={cover}
-                width={IMG_WIDTH * 1.1}
-                height={IMG_HEIGHT * 1.1}
-                radius
-                shadow
-                type={type}
-              />
+              <Cover src={cover} width={width} height={IMG_HEIGHT * 1.1} radius type={type} />
             </InView>
             <Flex.Item style={styles.body}>
               <Flex

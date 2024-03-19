@@ -39,13 +39,13 @@ class ScreenSubject extends Action {
       // 手动刷新全局条目收藏状态
       collectionStore.fetchCollectionStatusQueue([this.subjectId])
       return this.onHeaderRefresh()
-    } catch (error) {
-      this.setState({
-        ...EXCLUDE_STATE,
-        _loaded
-      })
-      return true
-    }
+    } catch (error) {}
+
+    this.setState({
+      ...EXCLUDE_STATE,
+      _loaded
+    })
+    return true
   }
 
   /**
@@ -57,18 +57,11 @@ class ScreenSubject extends Action {
       [
         () => {
           if (!this.state.mounted || SHARE_MODE) return
-
-          // 用户每集收看进度
           return this.fetchCollection()
         },
         () => {
-          if (!this.state.mounted) return
-
-          // 用户收藏状态
+          if (!this.state.mounted || SHARE_MODE) return
           if (userStore.isStorybookLogin) return userStore.fetchUserProgressV0(this.subjectId)
-
-          if (SHARE_MODE) return
-
           return userStore.fetchUserProgress(this.subjectId)
         }
       ],
@@ -153,8 +146,11 @@ class ScreenSubject extends Action {
 
           // NSFW 条目若从 v0 接口中返回了条目信息, 是没有帖子短列表信息的
           // 需要从单独的对应子页面里面获取一页信息
-          if ((data as ApiSubjectResponse)?.v0)
-            return rakuenStore.fetchBoard({ subjectId: this.subjectId })
+          if ((data as ApiSubjectResponse)?.v0) {
+            return rakuenStore.fetchBoard({
+              subjectId: this.subjectId
+            })
+          }
         },
         () => {
           if (!this.state.mounted) return

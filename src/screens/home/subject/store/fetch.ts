@@ -160,7 +160,7 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 用户收藏信息 */
+  /** 用户每集收看进度 */
   fetchCollection = () => {
     return collectionStore.fetchCollection(this.subjectId)
   }
@@ -577,6 +577,8 @@ export default class Fetch extends Computed {
 
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
+    if (this.type !== '动画') return false
+
     const { showAnitabi } = systemStore.setting
     if (showAnitabi === -1 || !showAnitabi) return false
 

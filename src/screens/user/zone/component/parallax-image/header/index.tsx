@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:41:01
+ * @Last Modified time: 2024-03-19 04:53:41
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -49,6 +49,7 @@ function Header({ style }, { $ }: Ctx) {
           type={_.select('plain', 'title')}
           align='center'
           bold
+          shadow
           numberOfLines={1}
         >
           {HTMLDecode(nickname || _name)}

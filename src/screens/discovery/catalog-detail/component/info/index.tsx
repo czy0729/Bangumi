@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 05:53:28
+ * @Last Modified time: 2024-03-19 04:38:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -142,7 +142,7 @@ function Info(props, { $, navigation }: Ctx) {
           {userStore.isLogin && (
             <Text type='sub' size={12} bold>
               完成度{'  '}
-              {progress.replace('/', ' / ')}
+              {String(progress).replace('/', ' / ')}
             </Text>
           )}
         </Flex>

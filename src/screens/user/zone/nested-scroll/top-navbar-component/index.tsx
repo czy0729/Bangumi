@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 15:07:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:50:40
+ * @Last Modified time: 2024-03-19 04:52:44
  */
 import React from 'react'
 import { Avatar, Flex, Text } from '@components'
@@ -25,7 +25,14 @@ function TopNavbarComponent(props, { $ }: Ctx) {
         fallbackSrc={avatar.large}
         borderWidth={0}
       />
-      <Text style={_.ml.sm} type={_.select('plain', 'title')} align='center' bold numberOfLines={1}>
+      <Text
+        style={_.ml.sm}
+        type={_.select('plain', 'title')}
+        align='center'
+        bold
+        shadow
+        numberOfLines={1}
+      >
         {HTMLDecode(nickname)}
       </Text>
     </Flex>

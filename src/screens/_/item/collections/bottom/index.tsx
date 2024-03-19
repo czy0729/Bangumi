@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-04 08:46:21
+ * @Last Modified time: 2024-03-19 04:47:06
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
 import { _, subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { Rank, Stars, Tags, Tag } from '../../../base'
+import { Rank, Stars, Tag, Tags } from '../../../base'
 import { memoStyles } from './styles'
-import { View } from 'react-native'
 
 function Bottom({
   id,
@@ -64,9 +64,7 @@ function Bottom({
       {hasLeft && (
         <>
           {showRank && <Rank value={rank} />}
-          {showScore && (
-            <Stars style={showRank && _.ml.sm} value={score} simple={simpleStars} />
-          )}
+          {showScore && <Stars value={score} simple={simpleStars} />}
           {showTotal && (
             <Text style={(showRank || showScore) && _.ml.sm} type='sub' size={10}>
               ({total}人评分)

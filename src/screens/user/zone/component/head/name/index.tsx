@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:56:51
+ * @Last Modified time: 2024-03-19 04:50:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,11 +22,11 @@ function Name(props, { $ }: Ctx) {
   return (
     <View style={_.mt.md}>
       <Flex>
-        <Text type={type} bold>
+        <Text type={type} bold shadow>
           {$.nickname}
         </Text>
         {!!(username || userId) && (
-          <Text style={_.ml.xs} type={type} bold>
+          <Text style={_.ml.xs} type={type} bold shadow>
             @{originUid ? userId : username || userId}
           </Text>
         )}

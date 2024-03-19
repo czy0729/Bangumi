@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
@@ -46,7 +47,7 @@ const Relations = memo(
                 navigation.push('Subject', {
                   subjectId: id,
                   _jp: name,
-                  _image: image,
+                  _image: getCoverSrc(image, COVER_WIDTH),
                   _type: type
                 })
               }}

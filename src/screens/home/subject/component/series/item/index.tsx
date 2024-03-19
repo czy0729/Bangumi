@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover as CompCover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -33,7 +34,7 @@ function Item({ from, data }, { $, navigation }: Ctx) {
         navigation.push('Subject', {
           subjectId: data.id,
           _jp: data.title,
-          _image: data.image
+          _image: getCoverSrc(data.image, COVER_WIDTH)
         })
       }}
     >

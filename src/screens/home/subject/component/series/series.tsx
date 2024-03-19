@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover as CompCover, IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
@@ -68,7 +69,7 @@ const Series = memo(
           navigation.push('Subject', {
             subjectId: subjectSeries.id,
             _jp: subjectSeries.title,
-            _image: subjectSeries.image
+            _image: getCoverSrc(subjectSeries.image, COVER_WIDTH)
           })
         }}
       >

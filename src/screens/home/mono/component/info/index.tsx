@@ -2,23 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 21:31:23
+ * @Last Modified time: 2024-03-19 19:40:32
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Divider,
-  Flex,
-  HeaderPlaceholder,
-  Heatmap,
-  Iconfont,
-  Image,
-  Text,
-  Touchable
-} from '@components'
+import { Divider, Flex, HeaderPlaceholder, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
-import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TopicId } from '@types'
@@ -26,6 +16,7 @@ import { Ctx } from '../../types'
 import Collabs from '../collabs'
 import Collected from '../collected'
 import Content from '../content'
+import Cover from '../cover'
 import Detail from '../detail'
 import Jobs from '../jobs'
 import Voice from '../voice'
@@ -35,7 +26,6 @@ import { memoStyles } from './styles'
 
 function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const maxSize = _.r(_.window.contentWidth * 0.5)
   const isCharacter = $.monoId.includes('character/')
   const { _count } = $.params
   return (
@@ -50,23 +40,7 @@ function Info(props, { $, navigation }: Ctx) {
             {$.nameBottom}
           </Text>
         </Flex>
-        <Flex style={_.mt.md} justify='center'>
-          <Image
-            src={getCoverLarge($.cover, 200)}
-            autoSize={maxSize}
-            shadow
-            imageViewer
-            imageViewerSrc={getCoverLarge($.cover)}
-            fallback
-            event={{
-              id: '人物.封面图查看',
-              data: {
-                monoId: $.monoId
-              }
-            }}
-          />
-          <Heatmap id='人物.封面图查看' />
-        </Flex>
+        <Cover thumb={$.thumb} src={$.cover} monoId={$.monoId} />
         <Content />
         <Detail />
         {!!$.cn && (

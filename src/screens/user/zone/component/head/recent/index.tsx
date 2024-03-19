@@ -30,7 +30,7 @@ function Recent({ style }, { $ }: Ctx) {
           $.openUsedModal()
         }}
       >
-        <Text type={_.select('plain', 'title')} size={11} bold noWrap>
+        <Text type={_.select('plain', 'title')} size={11} bold shadow noWrap>
           {activeText}
         </Text>
       </Touchable>

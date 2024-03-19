@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:04:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:05:17
+ * @Last Modified time: 2024-03-19 04:49:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,7 +29,7 @@ function Blogs({ style }, { $, navigation }: Ctx) {
           })
         }}
       >
-        <Text type={_.select('plain', 'title')} size={11} bold noWrap>
+        <Text type={_.select('plain', 'title')} size={11} bold shadow noWrap>
           日志
         </Text>
       </Touchable>

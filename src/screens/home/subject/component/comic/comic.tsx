@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Heatmap } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { HorizontalList, InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { truncateMiddle } from '@utils'
@@ -38,10 +39,11 @@ const Comic = memo(
               from: TITLE_COMIC,
               subjectId
             })
+
             navigation.push('Subject', {
               subjectId: id,
               _jp: name,
-              _image: image,
+              _image: getCoverSrc(image, COVER_WIDTH),
               _type: type
             })
           }}

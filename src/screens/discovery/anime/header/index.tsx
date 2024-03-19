@@ -7,7 +7,7 @@
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
-import Extra from '../components/extra'
+import Extra from '../component/extra'
 import { Ctx, TitleType } from '../types'
 import { COMPONENT } from './ds'
 

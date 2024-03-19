@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:42:25
+ * @Last Modified time: 2024-03-19 19:49:13
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
-import { cnjp, desc, HTMLDecode } from '@utils'
+import { cnjp, desc, getMonoCoverSmall, HTMLDecode } from '@utils'
 import { HOST } from '@constants'
 import State from './state'
 
@@ -76,6 +76,11 @@ export default class Computed extends State {
   @computed get nameBottom() {
     const text = cnjp(this.jp, this.cn)
     return text !== this.nameTop ? text : ''
+  }
+
+  /** 人物头像 */
+  @computed get thumb() {
+    return getMonoCoverSmall(this.params._image || this.cover || '')
   }
 
   // -------------------- get: cdn fallback --------------------

@@ -297,8 +297,8 @@ export const Image = observer(
     getSize = () => {
       if (this._getSized) return
 
-      const { autoSize, autoHeight } = this.props
-      const { uri } = this.state
+      const { src, autoSize, autoHeight } = this.props
+      const uri = this.state.uri || src
       if (
         typeof uri !== 'string' ||
         (typeof autoSize !== 'number' && typeof autoHeight !== 'number')
