@@ -3,9 +3,11 @@
 <p align="center">
   <img alt="release" src="https://img.shields.io/github/v/release/czy0729/Bangumi" />
   <img alt="license" src="https://img.shields.io/github/license/czy0729/Bangumi" />
+  <img alt="stars" src="https://img.shields.io/github/stars/czy0729/Bangumi" />
+  <img alt="forks" src="https://img.shields.io/github/forks/czy0729/Bangumi" />
+  <img alt="issues" src="https://img.shields.io/github/issues/czy0729/Bangumi" />
   <img alt="codacy" src="https://img.shields.io/codacy/grade/473bdb1186484703b4069148730a3c12" />
   <img alt="downloads" src="https://img.shields.io/github/downloads/czy0729/Bangumi/total" />
-  <img alt="issues" src="https://img.shields.io/github/issues/czy0729/Bangumi" />
 </p>
 
 # Bangumi
@@ -65,10 +67,10 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 ## 特色功能
 
 - 其他站点同步到 bgm 功能（bilibili、豆瓣）
-- 封面图片和大部分脱敏静态数据覆盖到自费 CDN 中间层，访问高速化（大概是网页版挂掉了也能看）
+- 封面图片和大部分脱敏静态数据覆盖到自费 CDN 中间层，访问高速化（意思大概是网页版遇到很慢或者挂掉的情况客户端也能正常获取数据）
 - 番剧、游戏截图预览
 - ~~当季番剧精准到单集网络播放源~~、漫画源查询，找番剧、文库、游戏、音乐
-- [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏，App 独立设计 UI 和交互）
+- [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏，客户端独立设计 UI 和交互）
 
 # 版本
 
@@ -99,13 +101,13 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 在线
 
-基于 @storybook/react-native 生成的 iframe.html，尽量少入侵原项目，自己开发了一个完整的单页面流程
+基于 @storybook/react-native 生成的 iframe.html，尽量少入侵原项目的基础上，开发了一个完整的单页面流程（当然这样是不考虑性能问题的，不可能与正常开发的，例如使用 Next.js 的相提并论）
 
 ## Storybook 组件面板预览
 
 [国内部署](https://bangumi-app.5t5.top) | [gh-pages](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
 
-## SPA 应用预览 (仍在开发中，已支持基本预览，移动端最佳)
+## SPA 应用预览（网页收藏管理条目相关功能不定期开发中，已支持基本的信息展示，移动端最佳）
 
 [国内部署](https://bangumi-app.5t5.top/iframe.html?viewMode=story&id=screens-discovery--discovery) | [gh-pages](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)
 
@@ -230,7 +232,7 @@ yarn
 
 # 投食
 
-开发迭代不易，觉得 App 好用的，有能力的请投喂一下，也可以给个星星
+开发迭代不易，觉得客户端好用的，有能力的可以投喂一下，也可以给个星星
 
 <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
 
