@@ -24,7 +24,7 @@ import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { EXCLUDE_STATE, LAYOUT_DS, NAMESPACE, SORT_DS, STATE } from './ds'
 import { List, Params } from './types'
 
 export default class ScreenCatalogDetail extends store<typeof STATE> {
@@ -33,9 +33,8 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -167,7 +166,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
     })
 
     // 时间
-    if (sort === 1) {
+    if (String(sort) === '1') {
       return CacheManager.set(
         key,
         list.slice().sort((a, b) => {
@@ -180,7 +179,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
     }
 
     // 分数
-    if (sort === 2) {
+    if (String(sort) === '2') {
       return CacheManager.set(
         key,
         list
@@ -233,19 +232,6 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
     this.doCollect()
   }
 
-  /** 排序 */
-  sort = (title: string) => {
-    const sort = title === '评分' ? 2 : title === '时间' ? 1 : 0
-    t('目录详情.排序', {
-      sort
-    })
-
-    this.setState({
-      sort
-    })
-    this.save()
-  }
-
   /** 编辑自己的目录 */
   onEdit = (modify: string) => {
     const item = this.list.find(i => i.modify == modify)
@@ -290,16 +276,29 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
   }
 
   /** 切换布局 */
-  switchLayout = () => {
-    const _layout = this.isList ? 'grid' : 'list'
-    t('目录详情.切换布局', {
-      layout: _layout
-    })
-
+  onSwitchLayout = (label: string) => {
+    const layout = LAYOUT_DS.find(item => item.title === label)?.['key']
     this.setState({
-      layout: _layout
+      layout
     })
     this.save()
+
+    t('目录详情.切换布局', {
+      layout
+    })
+  }
+
+  /** 切换类型 */
+  onToggleSort = (label: string) => {
+    const sort = SORT_DS.find(item => item.title === label)?.['key']
+    this.setState({
+      sort
+    })
+    this.save()
+
+    t('目录详情.排序', {
+      sort
+    })
   }
 
   /** 更新可视范围底部 y */

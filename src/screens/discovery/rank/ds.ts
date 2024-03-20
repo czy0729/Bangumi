@@ -17,7 +17,7 @@ import {
 
 export const COMPONENT = 'Rank'
 
-export const NAMESPACE = `Screen${COMPONENT}`
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const DEFAULT_TYPE = MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画')
 

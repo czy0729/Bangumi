@@ -7,7 +7,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import {
-  Button,
   Expand,
   Flex,
   Header,
@@ -15,7 +14,6 @@ import {
   Image,
   Loading,
   RenderHtml,
-  SegmentedControl,
   Text,
   Touchable
 } from '@components'
@@ -25,16 +23,16 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Ctx } from '../../types'
-import { COMPONENT, LAYOUT_DS, SORT_DS } from './ds'
+import ToolBar from '../tool-bar'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Info(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { sort } = $.state
   const catalogDetail = $.catalogDetail.title ? $.catalogDetail : $.catalogDetailFromOSS
   const { title, avatar, content, progress, nickname, userId, time, replyCount, _loaded } =
     catalogDetail
-  const replyText = replyCount == 5 ? `5+` : replyCount
+  const replyText = replyCount == 5 ? '5+' : replyCount
   return (
     <View style={styles.container}>
       <Header.Placeholder />
@@ -146,38 +144,10 @@ function Info(props, { $, navigation }: Ctx) {
             </Text>
           )}
         </Flex>
-        <Flex style={_.mt.lg}>
-          <Flex.Item>
-            <Button
-              style={styles.btn}
-              styleText={_.fontSize11}
-              type='plain'
-              bold
-              onPress={$.fetchSubjectsQueue}
-            >
-              更新分数
-            </Button>
-          </Flex.Item>
-          {$.state._loaded && (
-            <>
-              <SegmentedControl
-                style={styles.layout}
-                size={11}
-                values={LAYOUT_DS}
-                selectedIndex={$.isList ? 0 : 1}
-                onValueChange={$.switchLayout}
-              />
-              <SegmentedControl
-                style={styles.sort}
-                size={11}
-                values={SORT_DS}
-                selectedIndex={sort || 0}
-                onValueChange={$.sort}
-              />
-              <Heatmap id='目录详情.排序' />
-            </>
-          )}
-        </Flex>
+        <View style={_.mt.lg}>
+          <ToolBar />
+          <Heatmap id='目录详情.排序' />
+        </View>
       </View>
       {!_loaded && (
         <Flex style={styles.loading} justify='center'>

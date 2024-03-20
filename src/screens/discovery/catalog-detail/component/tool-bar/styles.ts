@@ -6,11 +6,11 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
-  container: {
-    minHeight: _.window.contentWidth
-  },
-  loading: {
-    height: 240
+export const styles = _.create({
+  btn: {
+    width: 76,
+    height: 30,
+    marginLeft: 4,
+    borderRadius: 30
   }
-}))
+})
