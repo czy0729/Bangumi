@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-02 02:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 02:16:35
+ * @Last Modified time: 2024-03-22 08:15:20
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
-import { appNavigate, HTMLDecode } from '@utils'
+import { appNavigate, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import IconDisc from '../../icon/disc'
-import IconSearchDisc from '../../icon/search-disc'
+import IconDisc from '../icon/disc'
+import IconSearchDisc from '../icon/search-disc'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Disc = memo(
@@ -55,12 +55,9 @@ const Disc = memo(
                           translate = _discTranslateResult.shift().dst
                         }
                         return (
-                          <View
-                            key={i.href}
-                            style={idx % 2 === 0 ? [styles.item, styles.odd] : styles.item}
-                          >
+                          <View key={i.href} style={stl(styles.item, idx % 2 === 0 && styles.odd)}>
                             <Text
-                              onPress={() =>
+                              onPress={() => {
                                 appNavigate(
                                   i.href,
                                   navigation,
@@ -73,7 +70,7 @@ const Disc = memo(
                                     }
                                   }
                                 )
-                              }
+                              }}
                             >
                               {HTMLDecode(i.title)}
                             </Text>

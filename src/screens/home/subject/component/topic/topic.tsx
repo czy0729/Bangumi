@@ -12,8 +12,8 @@ import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import { TITLE_TOPIC } from '../../ds'
-import IconHidden from '../../icon/hidden'
-import IconTopic from '../../icon/topic'
+import IconHidden from '../icon/hidden'
+import IconTopic from '../icon/topic'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Topic = memo(

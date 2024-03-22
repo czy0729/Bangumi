@@ -13,7 +13,7 @@ import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TITLE_LIKE } from '../../ds'
-import IconHidden from '../../icon/hidden'
+import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 

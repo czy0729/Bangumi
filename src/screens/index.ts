@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-27 16:30:34
+ * @Last Modified time: 2024-03-22 06:11:27
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -73,6 +73,7 @@ export { default as Rakuen } from './rakuen/v2'
 export { default as RakuenHistory } from './rakuen/history'
 export { default as RakuenSearch } from './rakuen/search'
 export { default as RakuenSetting } from './rakuen/setting'
+export { default as Replies } from './rakuen/replies'
 export { default as Reviews } from './rakuen/reviews'
 export { default as Topic } from './rakuen/topic'
 export { default as UGCAgree } from './rakuen/ugc-agree'

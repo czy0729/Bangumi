@@ -12,8 +12,8 @@ import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import { TITLE_BLOG } from '../../ds'
-import IconBlog from '../../icon/blog'
-import IconHidden from '../../icon/hidden'
+import IconBlog from '../icon/blog'
+import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Blog = memo(

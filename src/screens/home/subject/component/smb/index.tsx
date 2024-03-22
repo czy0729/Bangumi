@@ -11,8 +11,8 @@ import { smbStore, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS, STORYBOOK } from '@constants'
 import { Ctx } from '../../types'
-import IconHidden from '../../icon/hidden'
-import IconSMB from '../../icon/smb'
+import IconHidden from '../icon/hidden'
+import IconSMB from '../icon/smb'
 import { memoStyles } from './styles'
 
 function SMB(props, { $ }: Ctx) {

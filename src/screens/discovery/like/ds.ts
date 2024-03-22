@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:35:04
+ * @Last Modified time: 2024-03-22 06:58:31
  */
 import { Loaded, SubjectId, SubjectType, SubjectTypeValue, UserId } from '@types'
 import { CollectionsItem, ListItem } from './types'
 
-export const NAMESPACE = 'ScreenLike'
+export const COMPONENT = 'Like'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   fetching: false,

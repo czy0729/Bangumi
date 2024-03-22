@@ -15,7 +15,7 @@ import { t } from '@utils/fetch'
 import { useHorizontalLazy } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
-import IconHidden from '../../icon/hidden'
+import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
 const Anitabi = memo(

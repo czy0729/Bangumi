@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 23:44:43
+ * @Last Modified time: 2024-03-22 06:50:40
  */
 import { computed, observable } from 'mobx'
 import { _, rakuenStore, systemStore, userStore } from '@stores'
@@ -40,9 +40,8 @@ export default class ScreenRakuen extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...INIT_PREFETCH_STATE,
       ...EXCLUDE_STATE,
       _loaded: true
@@ -107,8 +106,8 @@ export default class ScreenRakuen extends store<typeof STATE> {
    *  - 限制用户群体 (iOS 的游客和审核员) 强制屏蔽默认头像用户和 18x
    */
   rakuen(type: RakuenType | RakuenTypeMono | RakuenTypeGroup) {
-    const { scope } = this.state
     return computed(() => {
+      const { scope } = this.state
       const rakuen = type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(scope, type)
       const { filterDefault, filter18x } = systemStore.setting
       if (filterDefault || filter18x || userStore.isLimit) {

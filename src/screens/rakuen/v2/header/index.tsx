@@ -8,8 +8,8 @@ import React from 'react'
 import { LogoHeader } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import IconGroup from '../icon/group'
-import IconMore from '../icon/more'
+import IconGroup from '../component/icon/group'
+import IconMore from '../component/icon/more'
 import { COMPONENT } from './ds'
 
 function Header() {

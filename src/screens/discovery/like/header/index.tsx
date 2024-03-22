@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-07-13 07:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-13 07:30:21
+ * @Last Modified time: 2024-03-22 08:03:43
  */
 import React from 'react'
-import { Header as CompHeader, Flex } from '@components'
+import { Flex, Header as CompHeader } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Setting from '../setting'
+import Setting from '../component/setting'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
-  const { type, list } = $.state
   return (
     <CompHeader
       title='猜你喜欢'
       hm={['like', 'Like']}
       headerRight={() => (
         <Flex>
-          <Setting length={list[type]?.length} />
+          <Setting length={$.state.list[$.state.type]?.length} />
           <IconTouchable
             style={_.ml.xs}
             name='md-info-outline'
@@ -37,4 +37,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

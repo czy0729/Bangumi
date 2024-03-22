@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-23 03:58:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 17:52:10
+ * @Last Modified time: 2024-03-22 11:26:40
  */
 import React from 'react'
 import WebView from 'react-native-webview'
-import { Loading } from '@components'
+import { Loading, Text } from '@components'
 import { SafeAreaView } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
@@ -22,9 +22,17 @@ function Web({ uri }) {
   const { state, setTrue } = useBoolean(false)
   return useObserver(() => {
     const styles = memoStyles()
+    const html = HTML_SINGLE_DOC(uri)
     return (
       <SafeAreaView style={styles.webview}>
-        {!state && <Loading style={styles.loading} />}
+        {!state && (
+          <Loading style={styles.loading}>
+            <Text style={styles.text} type='sub' size={12} align='center'>
+              正在加载网页...{'\n'}
+              {html}
+            </Text>
+          </Loading>
+        )}
         <WebView
           style={{
             backgroundColor: _.colorPlain,
@@ -32,7 +40,7 @@ function Web({ uri }) {
           }}
           originWhitelist={['*']}
           source={{
-            uri: HTML_SINGLE_DOC(uri)
+            uri: html
           }}
           // androidHardwareAccelerationDisabled
           // androidLayerType='software'

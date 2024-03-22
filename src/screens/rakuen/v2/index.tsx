@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 22:31:19
+ * @Last Modified time: 2024-03-22 06:52:02
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -15,6 +15,7 @@ import { useRakuenPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 超展开 */
 const Rakuen = (props, context: Ctx) => {
   useRakuenPage(context)
 

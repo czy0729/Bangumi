@@ -194,7 +194,11 @@ export default class Action extends Fetch {
       this.save('setCookie')
     }
 
-    if (String(data?.html).includes('<title>bgm.tv | 502: Bad gateway</title>')) {
+    const responseHtml = String(data?.html || '')
+    if (
+      responseHtml.includes('<title>bgm.tv | 502: Bad gateway</title>') ||
+      responseHtml.includes('Can not connect to MySQL server')
+    ) {
       this.setWebsiteError()
     }
 

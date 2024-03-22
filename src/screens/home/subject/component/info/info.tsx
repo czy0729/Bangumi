@@ -11,8 +11,8 @@ import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
-import IconHidden from '../../icon/hidden'
-import IconWiki from '../../icon/wiki'
+import IconHidden from '../icon/hidden'
+import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Info = memo(

@@ -11,8 +11,8 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, URL_SPA } from '@constants'
 import HeaderTitle from '../component/header-title'
+import IconFavor from '../component/icon/favor'
 import { Ctx } from '../types'
-import IconFavor from '../icon/favor'
 import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {

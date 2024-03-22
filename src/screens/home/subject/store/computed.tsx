@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:19:33
+ * @Last Modified time: 2024-03-22 08:10:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -590,7 +590,7 @@ export default class Computed extends State {
     return (
       (
         this.info.match(
-          /<li><span>(发售日|放送开始|上映年度|上映时间|发行日期): <\/span>(.+?)<\/li>/
+          /<li><span>(发售日|发售日期|放送开始|上映年度|上映时间|发行日期): <\/span>(.+?)<\/li>/
         )?.[2] || ''
       ).match(/(\d{4})/)?.[0] || ''
     )
