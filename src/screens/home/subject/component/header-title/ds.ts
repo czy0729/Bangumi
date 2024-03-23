@@ -18,6 +18,7 @@ export const IMAGE_HEIGHT = IMAGE_WIDTH * 1.28
 
 export const DEFAULT_PROPS = {
   common: '' as string,
+  rank: '' as string | number,
   score: '' as $['rating']['score'],
   type: '' as $['type'],
   cn: '' as $['cn'],

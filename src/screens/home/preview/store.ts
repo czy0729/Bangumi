@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 10:20:17
  */
-import { observable, computed } from 'mobx'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
 import { getPreview, matchMovie, search } from '@utils/douban'
+import store from '@utils/store'
 import { HOST } from '@constants'
 import { NAMESPACE, STATE } from './ds'
 import { Params } from './types'
@@ -44,7 +44,7 @@ export default class ScreenPreview extends store<typeof STATE> {
   }
 
   // -------------------- method --------------------
-  /** 从donban匹配条目, 并获取官方剧照信息 */
+  /** 从 donban 匹配条目, 并获取官方剧照信息 */
   fetchMovieFromDouban = async () => {
     const { cn, jp } = this.params
     const q = cn || jp

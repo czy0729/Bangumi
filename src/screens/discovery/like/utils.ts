@@ -156,6 +156,7 @@ export function calc(item: CollectionsItem, length = 1) {
   }
 }
 
+/** 构建推荐理由 */
 export function getReasonsInfo(reasons: number[]) {
   return reasons
     .map((item, index) => {
@@ -198,4 +199,24 @@ export function dayDiff(updatedAt: string) {
   } catch (error) {
     return null
   }
+}
+
+/** 从条目快照中匹配年份 */
+export function matchYear(info: string) {
+  if (!info || typeof info !== 'string') return ''
+
+  // 连载开始为最优先
+  const year =
+    (info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
+      /(\d{4})/
+    )?.[0] || ''
+  if (year) return year
+
+  return (
+    (
+      info.match(
+        /<li><span>(发售日|发售日期|放送开始|上映年度|上映时间|发行日期): <\/span>(.+?)<\/li>/
+      )?.[2] || ''
+    ).match(/(\d{4})/)?.[0] || ''
+  )
 }

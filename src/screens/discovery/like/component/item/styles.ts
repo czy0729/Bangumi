@@ -25,6 +25,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.xs
   },
   title: {
-    marginRight: 60
+    marginRight: 64
   }
 }))

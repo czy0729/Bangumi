@@ -6,38 +6,30 @@
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, uiStore, userStore } from '@stores'
-import {
-  asc,
-  desc,
-  HTMLDecode,
-  info,
-  queue,
-  sleep,
-  confirm,
-  getTimestamp
-} from '@utils'
-import store from '@utils/store'
+import { asc, confirm, desc, getTimestamp, HTMLDecode, info, queue, sleep } from '@utils'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { get, gets, update } from '@utils/kv'
+import store from '@utils/store'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import i18n from '@constants/i18n'
 import { CollectionStatusValue, SubjectId, SubjectType, SubjectTypeValue } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE, LIMIT, API_COLLECTIONS } from './ds'
-import { calc, dayDiff, mergeArrays } from './utils'
+import { calc, dayDiff, matchYear, mergeArrays } from './utils'
+import { API_COLLECTIONS, EXCLUDE_STATE, LIMIT, MAX_COLLECT_PAGE, NAMESPACE, STATE } from './ds'
 import { CollectionsItem, ListItem } from './types'
 
 export default class ScreenLike extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: true
     })
     this.getList()
+
+    return true
   }
 
   /** 获取用户在看和看过的收藏 */
@@ -58,7 +50,7 @@ export default class ScreenLike extends store<typeof STATE> {
       fetching: true,
       message: '获取用户收藏',
       current: 1,
-      total: 5
+      total: MAX_COLLECT_PAGE
     })
     const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(type)
     let result = await request<any>(
@@ -71,9 +63,9 @@ export default class ScreenLike extends store<typeof STATE> {
     if (Array.isArray(result?.data) && result.data.length) {
       data.push(...result.data)
 
-      // 最多 5 页
+      // 最多 MAX_COLLECT_PAGE 页
       if (result?.total > 100) {
-        for (let i = 2; i <= Math.min(Math.ceil(result.total / LIMIT), 5); i += 1) {
+        for (let i = 2; i <= Math.min(Math.ceil(result.total / LIMIT), MAX_COLLECT_PAGE); i += 1) {
           result = await request(
             API_COLLECTIONS(
               this.userId,
@@ -136,7 +128,7 @@ export default class ScreenLike extends store<typeof STATE> {
 
     // 抛弃 1 页
     this.setState({
-      current: 5
+      current: MAX_COLLECT_PAGE
     })
     result = await request<any>(
       API_COLLECTIONS(
@@ -245,13 +237,11 @@ export default class ScreenLike extends store<typeof STATE> {
         ? data.like.map(subject => ({
             id: Number(subject.id),
             name: HTMLDecode(subject.name),
-            image: subject.image
-              .replace('//lain.bgm.tv/pic/cover/m/', '')
-              .replace('.jpg', '')
+            image: subject.image.replace('//lain.bgm.tv/pic/cover/m/', '').replace('.jpg', '')
           }))
         : []
 
-      console.info('update', `like_${key}`)
+      // console.info('update', `like_${key}`)
       await update(`like_${key}`, {
         list: likes[key]
       })
@@ -278,10 +268,7 @@ export default class ScreenLike extends store<typeof STATE> {
 
           const { reasons, rate } = calc(item, subjects[subject.id].relates.length)
           subjects[subject.id].rate += rate
-          subjects[subject.id].reasons = mergeArrays(
-            subjects[subject.id].reasons,
-            reasons
-          )
+          subjects[subject.id].reasons = mergeArrays(subjects[subject.id].reasons, reasons)
         } else {
           relates[item.id] = {
             ...item
@@ -343,7 +330,6 @@ export default class ScreenLike extends store<typeof STATE> {
     if (!fetchIds.length) return
 
     const datas = await gets(fetchIds)
-
     const values = {
       ...subjects
     }
@@ -359,6 +345,7 @@ export default class ScreenLike extends store<typeof STATE> {
           rank: item.rank || 0,
           score: item?.rating?.score || 0,
           total: item?.rating?.total || 0,
+          year: matchYear(item?.info),
           _loaded: getTimestamp()
         }
       }
@@ -410,14 +397,17 @@ export default class ScreenLike extends store<typeof STATE> {
     }, 2000)
   }
 
+  /** 刷新 */
   onHeaderRefresh = () => {
     return this.getList(true)
   }
 
+  /** 滑动时关闭 Popable 组件 */
   onScroll = () => {
     uiStore.closePopableSubject()
   }
 
+  /** 本地化 */
   save = () => {
     this.saveStorage(NAMESPACE, EXCLUDE_STATE)
   }

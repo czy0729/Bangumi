@@ -5,10 +5,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-03-23 19:53:27
  */
-import { similar } from '../utils'
 import { xhrCustom } from '../fetch'
-import { HTMLDecode } from '../html'
+import { cheerio, htmlMatch } from '../html'
 import { t2s } from '../thirdParty/cn-char'
+import { similar } from '../utils'
 
 /** 搜索页 */
 const HTML_SEARCH = (q: string) => {
@@ -25,59 +25,51 @@ export async function search(q: string, artist: string) {
   if (_q.length <= 10 && artist && artist.length <= 6) _q += ` ${artist}`
 
   const { _response } = await xhrCustom({
-    url: HTML_SEARCH(_q)
+    url: HTML_SEARCH(encodeURIComponent(_q))
   })
 
   try {
-    let data: any
-
-    // eslint-disable-next-line no-eval
-    eval(
-      _response
-        .split('<script>')[1]
-        .split('</script>')[0]
-        .split(';(function()')[0]
-        .replace('window.__INITIAL_STATE__=', 'data=')
-    )
-
-    const target = data.flow[data.flow.fields[0]].result
-    const index = target.findIndex(item => item.result_type === 'video')
-    if (index !== -1) {
-      const SIMILAR_RATE = 0.7
-      const _q = t2s(q.toLocaleUpperCase()).replace(REG_FIXED, '').trim()
-
-      return target[index].data
-        .map(item => ({
-          title: HTMLDecode(
-            item.title.replace(/<em class="keyword">|<\/em>/g, '') || ''
-          ),
-          cover: item.pic.indexOf('http') === 0 ? item.pic : `https:${item.pic}`,
-          href: `https://m.bilibili.com/video/${item.bvid}`
-        }))
-        .filter((item: { title: string }) => {
-          const title = item.title.toLocaleUpperCase().replace(REG_FIXED, '').trim()
-
-          if (similar(title, _q) >= SIMILAR_RATE || title.includes(_q)) {
-            return true
+    const SIMILAR_RATE = 0.7
+    const _q = t2s(q.toLocaleUpperCase()).replace(REG_FIXED, '').trim()
+    return (
+      cheerio(htmlMatch(_response, '<div class="search-content', '<div id="biliMainFooter"'))(
+        '.bili-video-card'
+      )
+        .map((index: number, element: any) => {
+          const $row = cheerio(element)
+          return {
+            result_type: 'video',
+            title: $row.find('h3').text().trim(),
+            cover: `https:${$row.find('picture img').attr('src') || ''}`,
+            href: `https:${$row.find('a').attr('href') || ''}`
           }
-
-          if (_q.includes('/')) {
-            const splits = _q.split('/')
-            if (splits.some(item => title.includes(item))) return true
-          }
-
-          if (_q.includes('／')) {
-            const splits = _q.split('／')
-            if (splits.some(item => title.includes(item))) return true
-          }
-
-          return false
         })
-        .filter((item, index: number) => index <= 6)
-    }
+        .get() as {
+        result_type: 'video'
+        title: string
+        cover: string
+        href: string
+      }[]
+    )
+      .filter(item => {
+        const title = item.title.toLocaleUpperCase().replace(REG_FIXED, '').trim()
+        if (similar(title, _q) >= SIMILAR_RATE || title.includes(_q)) return true
+
+        if (_q.includes('/')) {
+          const splits = _q.split('/')
+          if (splits.some(item => title.includes(item))) return true
+        }
+
+        if (_q.includes('／')) {
+          const splits = _q.split('／')
+          if (splits.some(item => title.includes(item))) return true
+        }
+
+        return false
+      })
+      .filter((item, index: number) => index <= 6)
   } catch (ex) {
     console.error(ex)
-    return []
   }
 
   return []

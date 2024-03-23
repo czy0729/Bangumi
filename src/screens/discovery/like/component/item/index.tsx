@@ -43,6 +43,14 @@ function Item(
 
   const { width } = styles.cover
   let height = typeCn === '音乐' ? width : styles.cover.height
+
+  let size = 14
+  if (item.name.length >= 36) {
+    size = 10
+  } else if (item.name.length >= 24) {
+    size = 12
+  }
+
   return (
     <Flex style={styles.item} align='start'>
       <Cover
@@ -78,10 +86,17 @@ function Item(
           align='start'
         >
           <Flex direction='column' align='start'>
-            <Text style={styles.title} bold numberOfLines={2}>
+            <Text style={styles.title} size={size} bold numberOfLines={3}>
               {item.name}
+              {!!subject.year && (
+                <Text size={size} bold>
+                  {' '}
+                  ({subject.year})
+                </Text>
+              )}
             </Text>
             <Manage
+              style={_.ml.xxs}
               subjectId={item.id}
               collection={collection}
               typeCn={typeCn}

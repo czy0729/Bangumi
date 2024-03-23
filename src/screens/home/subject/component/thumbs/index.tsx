@@ -85,14 +85,12 @@ class Thumbs extends React.Component<{
   }
 
   renderRight() {
-    const { showThumbs } = systemStore.setting
+    if (!systemStore.setting.showThumbs) return <IconHidden name={this.title} value='showThumbs' />
+
     const { $ } = this.context as Ctx
-    const { epsThumbsHeader } = $.state
-    if (!showThumbs) return <IconHidden name={this.title} value='showThumbs' />
+    if (this.reference !== 'douban.com' || $.isLimit) return null
 
-    if ($.isLimit) return null
-
-    return <IconPreview data={$.state.epsThumbs} headers={epsThumbsHeader} />
+    return <IconPreview data={$.state.epsThumbs} headers={$.state.epsThumbsHeader} />
   }
 
   render() {

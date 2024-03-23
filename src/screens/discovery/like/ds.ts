@@ -42,6 +42,7 @@ export const STATE = {
       rank?: number
       score?: number
       total?: number
+      year?: string
       _loaded: Loaded
     }
   >,
@@ -50,6 +51,8 @@ export const STATE = {
 }
 
 export const HOST_API_V0 = 'https://api.bgm.tv/v0'
+
+export const MAX_COLLECT_PAGE = 8
 
 export const LIMIT = 100
 

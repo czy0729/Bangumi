@@ -15,6 +15,7 @@ function HeaderTitleWrap({ $ }: Ctx) {
   return (
     <HeaderTitle
       common={getCoverMedium($.subject.images?.common || $.coverPlaceholder || $.cover)}
+      rank={$.subject.rank || $.subjectFromOSS?.rating?.rank || '-'}
       score={$.rating.score}
       type={$.type}
       cn={$.cn}
