@@ -1,16 +1,16 @@
+import { getTimestamp } from '@utils'
+import { fetchHTML } from '@utils/fetch'
 /*
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-03 01:12:44
  */
-import { HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
-import { Id, TimeLineScope, TimeLineType, UserId } from '@types'
-import { getTimestamp } from '@utils'
-import { fetchHTML } from '@utils/fetch'
+import { DEV, HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
+import { Id, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
 import userStore from '../user'
-import Computed from './computed'
 import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
+import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 
 export default class Fetch extends Computed {
@@ -80,6 +80,67 @@ export default class Fetch extends Computed {
     })
 
     return next
+  }
+
+  /** 获取条目评论关联贴贴 */
+  fetchUsersCollectionsTimeline = async (
+    args: {
+      /** 需要改过后的 Id */
+      userId?: UserId
+    },
+    page: number
+  ) => {
+    const { userId = userStore.myUserId } = args || {}
+
+    // 范围是自己返回的是某个人的请求地址
+    const scope = MODEL_TIMELINE_SCOPE.getValue<TimeLineScope>('自己')
+    const { likes, ...next } = await fetchTimeline({ scope, type: 'subject', userId }, page === 1, {
+      list: [],
+      pagination: {
+        page,
+        pageTotal: 100
+      }
+    })
+    this.updateLikes(likes)
+
+    const data: Record<SubjectId, Id> = {}
+    next.list.forEach(item => {
+      const relatedId = item?.like?.relatedId || 0
+      if (relatedId) {
+        const url = String(item?.p3?.url?.[0] || '')
+        if (url && url.includes('/subject/')) {
+          const subjectId = url.split('/subject/')?.[1] || 0
+          if (subjectId) {
+            data[subjectId] = relatedId
+          }
+        }
+      }
+    })
+
+    const key = 'collectionsTimeline'
+    this.setState({
+      [key]: {
+        [userId]: {
+          ...this[key](userId),
+          ...data,
+          _loaded: getTimestamp()
+        }
+      }
+    })
+    this.save(key)
+
+    if (DEV) {
+      console.info(
+        `timelineStore.fetch.fetchUsersCollectionsTimeline`,
+        {
+          userId,
+          page
+        },
+        data
+      )
+    }
+
+    return data
   }
 
   /** 吐槽 */

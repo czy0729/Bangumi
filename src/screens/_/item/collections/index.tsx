@@ -37,6 +37,7 @@ export const ItemCollections = ob(
     numberOfLines,
     showLabel,
     hideScore,
+    relatedId,
     isDo,
     isOnHold,
     isDropped,
@@ -73,6 +74,7 @@ export const ItemCollections = ob(
         modify={modify}
         showLabel={showLabel}
         hideScore={hideScore}
+        relatedId={relatedId}
         isDo={isDo}
         isOnHold={isOnHold}
         isDropped={isDropped}

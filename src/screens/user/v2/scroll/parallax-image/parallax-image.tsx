@@ -6,10 +6,10 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
-import { Flex, Text, Iconfont, Heatmap } from '@components'
-import { Popover, IconHeader, IconBack, Avatar } from '@_'
+import { Flex, Heatmap, Iconfont, Text } from '@components'
+import { Avatar, IconBack, IconHeader, Popover } from '@_'
 import { _ } from '@stores'
-import { open, HTMLDecode, getBlurRadius } from '@utils'
+import { getBlurRadius, HTMLDecode, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS, TEXT_ONLY } from '@constants'
@@ -185,7 +185,7 @@ export default memo(
                 borderWidth={0}
                 fallbackSrc={avatar.large}
               />
-              <Text style={_.ml.sm} type={textType} align='center' bold numberOfLines={1}>
+              <Text style={_.ml.sm} type={textType} align='center' bold shadow numberOfLines={1}>
                 {HTMLDecode(nickname)}
               </Text>
             </Flex>

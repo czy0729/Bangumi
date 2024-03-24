@@ -6,6 +6,7 @@
  */
 import { LIST_EMPTY, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { TimeLineScope, TimeLineType } from '@types'
+import { CollectionsTimeline } from './types'
 
 export const NAMESPACE = 'Timeline'
 
@@ -30,6 +31,11 @@ export const STATE = {
     0: LIST_EMPTY
   },
 
+  /** 用户条目吐槽联动回复表情 */
+  collectionsTimeline: {
+    0: {}
+  } as CollectionsTimeline,
+
   /** 时间胶囊回复表情 */
   likes: {
     0: {}
@@ -48,6 +54,8 @@ export const STATE = {
 }
 
 export const LOADED = {
-  say: false,
-  hidden: false
+  collectionsTimeline: false,
+  hidden: false,
+  likes: false,
+  say: false
 }

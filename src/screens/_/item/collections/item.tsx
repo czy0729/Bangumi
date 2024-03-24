@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:46:12
+ * @Last Modified time: 2024-03-25 07:04:54
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
@@ -16,6 +16,7 @@ import { CollectionStatus } from '@types'
 import { Cover, InView, Manage } from '../../base'
 import { IconTouchable } from '../../icon/touchable'
 import Bottom from './bottom'
+import Likes from './likes'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
@@ -45,6 +46,7 @@ const Item = memo(
     modify,
     numberOfLines,
     hideScore,
+    relatedId,
     isDo,
     isOnHold,
     isDropped,
@@ -131,7 +133,7 @@ const Item = memo(
                   <Text
                     size={11}
                     lineHeight={12}
-                    numberOfLines={numberOfLines - (titleLength >= 36 ? 1 : 0)}
+                    numberOfLines={Math.max(2, numberOfLines - (titleLength >= 36 ? 1 : 0))}
                   >
                     {HTMLDecode(tip)}
                   </Text>
@@ -162,10 +164,15 @@ const Item = memo(
                 </Flex>
               </Flex>
               {!!comments && comments !== 'undefined' && (
-                <Text style={styles.comments} size={14} lineHeight={17}>
+                <Text
+                  style={styles.comments}
+                  size={comments.length >= 80 ? 12 : comments.length >= 40 ? 13 : 14}
+                  lineHeight={16}
+                >
                   {comments}
                 </Text>
               )}
+              <Likes relatedId={relatedId} subjectId={id} />
             </Flex.Item>
           </Flex>
         </Touchable>

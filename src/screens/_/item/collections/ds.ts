@@ -39,6 +39,7 @@ export const DEFAULT_PROPS = {
   modify: '' as Props['modify'],
   showLabel: true as Props['showLabel'],
   hideScore: false as Props['hideScore'],
+  relatedId: 0 as Props['relatedId'],
   isDo: false as Props['isDo'],
   isOnHold: false as Props['isOnHold'],
   isDropped: false as Props['isDropped'],

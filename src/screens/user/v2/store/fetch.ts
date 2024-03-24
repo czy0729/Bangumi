@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-05-12 09:17:52
  */
-import { userStore, collectionStore, usersStore } from '@stores'
-import { info } from '@utils'
+import { collectionStore, systemStore, timelineStore, usersStore, userStore } from '@stores'
+import { getTimestamp, info, queue } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus, SubjectType } from '@types'
 import { TABS } from '../ds'
@@ -83,11 +83,7 @@ export default class Fetch extends Computed {
     }
 
     info('正在获取所有评分, 实际排序会在之后呈现')
-    await collectionStore.sortUserCollectionsByScore(
-      this.username,
-      subjectType,
-      this.type
-    )
+    await collectionStore.sortUserCollectionsByScore(this.username, subjectType, this.type)
 
     return true
   }
@@ -109,12 +105,7 @@ export default class Fetch extends Computed {
 
     const { subjectType, page } = this.state
     const { key: type } = TABS[page]
-    const { pagination } = collectionStore.userCollections(
-      this.username,
-      subjectType,
-      type
-    )
-
+    const { pagination } = collectionStore.userCollections(this.username, subjectType, type)
     if (pagination.page >= pagination.pageTotal) {
       if (isNext) {
         console.info('fetchUntilTheEnd end')
@@ -150,5 +141,41 @@ export default class Fetch extends Computed {
     }
 
     return this.fetchUserCollections(true)
+  }
+
+  /** 按需获取条目评论关联贴贴 */
+  fetchUsersCollectionsTimelineQueue = async () => {
+    const userId = this.username || this.userId
+    if (!userId) return false
+
+    await timelineStore.init('collectionsTimeline')
+    const { _loaded } = timelineStore.collectionsTimeline(userId)
+
+    const current = getTimestamp()
+    const needRefresh = current - Number(_loaded || 0) > 60 * 60
+    if (!needRefresh) return true
+
+    // 非付费用户仅获取一页
+    if (!systemStore.advance) return this.fetchUsersCollectionsTimeline()
+
+    const fetchs = [() => this.fetchUsersCollectionsTimeline()]
+    const needDeepRefresh = current - Number(_loaded || 0) > 60 * 60 * 24 * 4
+    if (needDeepRefresh) {
+      for (let i = 2; i <= 6; i += 1) {
+        fetchs.push(() => this.fetchUsersCollectionsTimeline(i))
+      }
+    }
+    return queue(fetchs, 1)
+  }
+
+  /** 获取条目评论关联贴贴 */
+  fetchUsersCollectionsTimeline = (page: number = 1) => {
+    const userId = this.username || this.userId
+    return timelineStore.fetchUsersCollectionsTimeline(
+      {
+        userId
+      },
+      page
+    )
   }
 }

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-19 20:34:40
  */
-import { EventType, Navigation, SubjectId, SubjectTypeCn } from '@types'
+import { EventType, Id, Navigation, SubjectId, SubjectTypeCn } from '@types'
 
 export type Props = {
   navigation?: Navigation
@@ -29,6 +29,7 @@ export type Props = {
   modify?: string
   showLabel?: boolean
   hideScore?: boolean
+  relatedId?: Id
   isDo?: boolean
   isOnHold?: boolean
   isDropped?: boolean

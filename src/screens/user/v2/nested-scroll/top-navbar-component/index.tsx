@@ -5,13 +5,13 @@
  * @Last Modified time: 2024-01-01 11:45:00
  */
 import React from 'react'
-import { Flex, Avatar, Text } from '@components'
+import { Avatar, Flex, Text } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { styles } from './styles'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function TopNavbarComponent(props, { $ }: Ctx) {
   const { avatar, nickname } = $.usersInfo
@@ -24,7 +24,14 @@ function TopNavbarComponent(props, { $ }: Ctx) {
         fallbackSrc={avatar.large}
         borderWidth={0}
       />
-      <Text style={_.ml.sm} type={_.select('plain', 'title')} align='center' bold numberOfLines={1}>
+      <Text
+        style={_.ml.sm}
+        type={_.select('plain', 'title')}
+        align='center'
+        bold
+        shadow
+        numberOfLines={1}
+      >
         {HTMLDecode(nickname)}
       </Text>
     </Flex>

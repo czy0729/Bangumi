@@ -7,8 +7,8 @@
 import { observable } from 'mobx'
 import Store from '@utils/store'
 import { DEV } from '@constants'
-import { Likes } from '../rakuen/types'
 import { LOG_INIT } from '../ds'
+import { Likes } from '../rakuen/types'
 import { LOADED, NAMESPACE, STATE } from './init'
 
 type CacheKey = keyof typeof LOADED
@@ -49,5 +49,6 @@ export default class State extends Store<typeof STATE> {
     this.setState({
       [key]: data
     })
+    this.save(key)
   }
 }

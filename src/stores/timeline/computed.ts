@@ -7,11 +7,11 @@
 import { computed } from 'mobx'
 import { desc } from '@utils'
 import { LIST_EMPTY } from '@constants'
-import { Id, StoreConstructor, TimeLineScope, TimeLineType, UserId } from '@types'
-import userStore from '../user'
+import { Id, StoreConstructor, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
 import { Likes } from '../rakuen/types'
-import State from './state'
+import userStore from '../user'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, STATE } from './init'
+import State from './state'
 import { Hidden, Say, Timeline } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
@@ -31,24 +31,21 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** 时间胶囊回复表情 */
-  likes(id: Id) {
-    return computed<Likes>(() => {
-      return {
-        [id]: this.state.likes[id] || {}
-      }
+  /** 用户条目吐槽联动回复表情 */
+  collectionsTimeline(userId: UserId) {
+    this.init('collectionsTimeline')
+    return computed(() => {
+      return this.state.collectionsTimeline[userId] || {}
     }).get()
   }
 
   /** 时间胶囊回复表情 */
-  likesList(id: Id) {
-    return computed(() => {
-      const likes = this.likes(id)?.[id]
-      if (!Object.keys(likes).length) return null
-
-      return Object.entries(likes)
-        .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
-        .map(item => item[1])
+  likes(id: Id) {
+    this.init('likes')
+    return computed<Likes>(() => {
+      return {
+        [id]: this.state.likes[id] || {}
+      }
     }).get()
   }
 
@@ -70,5 +67,25 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get hidden(): Hidden {
     this.init('hidden')
     return this.state.hidden
+  }
+
+  /** ==================== computed ==================== */
+  /** 时间胶囊回复表情 */
+  likesList(id: Id) {
+    return computed(() => {
+      const likes = this.likes(id)?.[id]
+      if (!Object.keys(likes).length) return null
+
+      return Object.entries(likes)
+        .sort((a, b) => desc(Number(a[1]?.total || 0), Number(b[1]?.total || 0)))
+        .map(item => item[1])
+    }).get()
+  }
+
+  /** 用户条目吐槽联动回复表情关联 Id */
+  relatedId(userId: UserId, subjectId: SubjectId) {
+    return computed(() => {
+      return this.collectionsTimeline(userId)?.[subjectId] || 0
+    }).get()
   }
 }

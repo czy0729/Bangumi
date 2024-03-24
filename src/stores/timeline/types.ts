@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 11:08:33
  */
-import { Avatar, Cover, ListEmpty, SubjectId, UrlUser, UserId } from '@types'
+import { Avatar, Cover, Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
 
 export type TimelineItem = {
   date: string
@@ -48,6 +48,14 @@ export type TimelineItem = {
 
 /** 时间胶囊 */
 export type Timeline = ListEmpty<TimelineItem>
+
+/** 用户条目吐槽联动回复表情 */
+export type CollectionsTimeline = Record<
+  UserId,
+  Record<SubjectId, Id> & {
+    _loaded?: Loaded
+  }
+>
 
 /** 吐槽 */
 export type Say = ListEmpty<

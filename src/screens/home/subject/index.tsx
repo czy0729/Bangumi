@@ -18,6 +18,7 @@ import { useSubjectPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 条目 */
 const Subject = (props, context: Ctx) => {
   const { forwardRef, onBlockRef, onScrollIntoViewIfNeeded, onScrollTo } = useSubjectPage(context)
 
