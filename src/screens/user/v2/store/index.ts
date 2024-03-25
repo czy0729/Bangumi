@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 08:50:53
+ * @Last Modified time: 2024-03-25 11:42:54
  */
-import { systemStore, userStore } from '@stores'
+import { systemStore, timelineStore, userStore } from '@stores'
 import { queue } from '@utils'
 import { MODEL_COLLECTIONS_ORDERBY } from '@constants'
 import { CollectionsOrderCn } from '@types'
@@ -34,7 +34,7 @@ export default class ScreenUser extends Action {
         }
       },
       () => this.fetchUsers(),
-      () => this.fetchUsersCollectionsTimelineQueue()
+      () => timelineStore.fetchUsersCollectionsTimelineQueue(this.username || this.userId)
     ])
 
     return true

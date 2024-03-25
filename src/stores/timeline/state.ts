@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:05:18
+ * @Last Modified time: 2024-03-25 11:41:54
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'
@@ -32,7 +32,9 @@ export default class State extends Store<typeof STATE> {
   }
 
   /** 修正并更新回复表情数据 */
-  updateLikes = (response: Likes) => {
+  updateLikes = async (response: Likes) => {
+    await this.init('likes')
+
     const data = {}
     Object.entries(response).forEach(([key, value]) => {
       /** @issue 接口有严重 bug, 若返回是对象 { 0: {} } 这样的, 接口返回变成了数组 */

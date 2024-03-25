@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 11:55:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 07:09:25
+ * @Last Modified time: 2024-03-25 12:54:02
  */
 import React from 'react'
 import { ItemCollections } from '@_'
@@ -43,7 +43,7 @@ function ItemList({ item, index, page }, { $, navigation }: Ctx) {
       simpleStars
       rank={rankText}
       collection={!$.isMe ? collectionStore.collect(item.id) : undefined}
-      relatedId={timelineStore.relatedId($.userId, item.id)}
+      relatedId={timelineStore.relatedId($.username || $.userId, item.id)}
       onManagePress={$.onManagePress}
     />
   )

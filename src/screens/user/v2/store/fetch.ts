@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-12 09:17:52
+ * @Last Modified time: 2024-03-25 11:43:04
  */
-import { collectionStore, systemStore, timelineStore, usersStore, userStore } from '@stores'
-import { getTimestamp, info, queue } from '@utils'
+import { collectionStore, usersStore, userStore } from '@stores'
+import { info } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus, SubjectType } from '@types'
 import { TABS } from '../ds'
@@ -141,41 +141,5 @@ export default class Fetch extends Computed {
     }
 
     return this.fetchUserCollections(true)
-  }
-
-  /** 按需获取条目评论关联贴贴 */
-  fetchUsersCollectionsTimelineQueue = async () => {
-    const userId = this.username || this.userId
-    if (!userId) return false
-
-    await timelineStore.init('collectionsTimeline')
-    const { _loaded } = timelineStore.collectionsTimeline(userId)
-
-    const current = getTimestamp()
-    const needRefresh = current - Number(_loaded || 0) > 60 * 60
-    if (!needRefresh) return true
-
-    // 非付费用户仅获取一页
-    if (!systemStore.advance) return this.fetchUsersCollectionsTimeline()
-
-    const fetchs = [() => this.fetchUsersCollectionsTimeline()]
-    const needDeepRefresh = current - Number(_loaded || 0) > 60 * 60 * 24 * 4
-    if (needDeepRefresh) {
-      for (let i = 2; i <= 6; i += 1) {
-        fetchs.push(() => this.fetchUsersCollectionsTimeline(i))
-      }
-    }
-    return queue(fetchs, 1)
-  }
-
-  /** 获取条目评论关联贴贴 */
-  fetchUsersCollectionsTimeline = (page: number = 1) => {
-    const userId = this.username || this.userId
-    return timelineStore.fetchUsersCollectionsTimeline(
-      {
-        userId
-      },
-      page
-    )
   }
 }

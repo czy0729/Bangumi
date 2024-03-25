@@ -1,13 +1,14 @@
-import { getTimestamp } from '@utils'
-import { fetchHTML } from '@utils/fetch'
 /*
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-03 01:12:44
+ * @Last Modified time: 2024-03-25 12:57:38
  */
+import { getTimestamp, queue } from '@utils'
+import { fetchHTML } from '@utils/fetch'
 import { DEV, HOST, HTML_SAY, MODEL_TIMELINE_SCOPE } from '@constants'
 import { Id, SubjectId, TimeLineScope, TimeLineType, UserId } from '@types'
+import systemStore from '../system'
 import userStore from '../user'
 import { cheerioFormHash, cheerioSay, fetchTimeline } from './common'
 import Computed from './computed'
@@ -97,7 +98,7 @@ export default class Fetch extends Computed {
     const { likes, ...next } = await fetchTimeline({ scope, type: 'subject', userId }, page === 1, {
       list: [],
       pagination: {
-        page,
+        page: page - 1,
         pageTotal: 100
       }
     })
@@ -131,7 +132,7 @@ export default class Fetch extends Computed {
 
     if (DEV) {
       console.info(
-        `timelineStore.fetch.fetchUsersCollectionsTimeline`,
+        `this.fetch.fetchUsersCollectionsTimeline`,
         {
           userId,
           page
@@ -183,5 +184,51 @@ export default class Fetch extends Computed {
     })
 
     return formhash
+  }
+
+  /** 按需获取条目评论关联贴贴 */
+  fetchUsersCollectionsTimelineQueue = async (userId: UserId) => {
+    if (!userId) return false
+
+    await this.init('collectionsTimeline')
+    const { _loaded } = this.collectionsTimeline(userId)
+
+    const current = getTimestamp()
+    const needRefresh = current - Number(_loaded || 0) > 60 * 60
+    if (!needRefresh) return true
+
+    // 非付费用户仅获取一页
+    if (!systemStore.advance) {
+      return this.fetchUsersCollectionsTimeline(
+        {
+          userId
+        },
+        1
+      )
+    }
+
+    const fetchs = [
+      () =>
+        this.fetchUsersCollectionsTimeline(
+          {
+            userId
+          },
+          1
+        )
+    ]
+    const needDeepRefresh = current - Number(_loaded || 0) > 60 * 60 * 24 * 4
+    if (needDeepRefresh) {
+      for (let i = 2; i <= 6; i += 1) {
+        fetchs.push(() =>
+          this.fetchUsersCollectionsTimeline(
+            {
+              userId
+            },
+            i
+          )
+        )
+      }
+    }
+    return queue(fetchs, 1)
   }
 }
