@@ -21,8 +21,8 @@ const Sponsor = (props, { $, navigation }: Ctx) => {
 
   return useObserver(() => (
     <Component id='screen-sponsor'>
+      <Header />
       <Page loaded={$.state._loaded}>
-        <Header />
         {$.state.list ? <List /> : <Chart navigation={navigation} />}
       </Page>
     </Component>

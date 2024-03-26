@@ -9,19 +9,21 @@ import { Flex, Text, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { IMG_DEFAULT_AVATAR } from '@constants'
 import { USERS_MAP } from '../../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function ListItem({ item }, { navigation }) {
   const data = USERS_MAP[item.data]
-  const userId = data?.i || item.data
+  const userId = item.data
   return (
     <Flex style={styles.item}>
       <UserStatus userId={userId}>
         <Avatar
           navigation={navigation}
-          src={data?.a ? `https://lain.bgm.tv/pic/user/l/000/${data?.a}.jpg` : ''}
+          src={data?.a ? `https://lain.bgm.tv/pic/user/l/000/${data?.a}.jpg` : IMG_DEFAULT_AVATAR}
+          name={data?.n}
           userId={userId}
           size={32}
         />

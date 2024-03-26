@@ -11,14 +11,14 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
-import { renderItem } from './utils'
+import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List() {
   return (
     <PaginationList2
       contentContainerStyle={_.container.bottom}
-      keyExtractor={(item: any) => String(item.data)}
+      keyExtractor={keyExtractor}
       data={LIST}
       numColumns={2}
       limit={40}

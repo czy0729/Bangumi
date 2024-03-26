@@ -58,7 +58,7 @@ function Chart({ navigation }: { navigation: Navigation }) {
             onLongPress={
               systemStore.advance
                 ? () => {
-                    const userId = USERS_MAP[item.data]?.i || item.data
+                    const userId = item.data
                     navigation.push('Zone', {
                       userId,
                       _name: USERS_MAP[item.data]?.n

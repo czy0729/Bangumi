@@ -7,6 +7,10 @@
 import React from 'react'
 import ListItem from '../list-item'
 
+export function keyExtractor(item: any) {
+  return String(item.data)
+}
+
 export function renderItem({ item }) {
   return <ListItem item={item} />
 }

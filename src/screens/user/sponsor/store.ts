@@ -8,8 +8,6 @@ import { computed, observable } from 'mobx'
 import { info } from '@utils'
 import store from '@utils/store'
 import DS from '@assets/json/advance.json'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { devLocalUsersInfo } from './utils'
 import { STATE } from './ds'
 
 const NAMESPACE = 'ScreeSponsor'
@@ -18,13 +16,10 @@ export default class ScreeSponsor extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       _loaded: true
     })
-
-    // devLocalUsersInfo()
 
     return true
   }

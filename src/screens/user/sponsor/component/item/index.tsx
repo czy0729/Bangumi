@@ -10,6 +10,7 @@ import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { IMG_DEFAULT_AVATAR } from '@constants'
 import { ViewStyle } from '@types'
 import { USERS_MAP } from '../../ds'
 import { COMPONENT } from './ds'
@@ -81,7 +82,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
                   src={
                     USERS_MAP[data]?.a
                       ? `https://lain.bgm.tv/pic/user/l/000/${USERS_MAP[data]?.a}.jpg`
-                      : ''
+                      : IMG_DEFAULT_AVATAR
                   }
                   size={avatarSize}
                   radius={avatarSize * 0.36}
