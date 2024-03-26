@@ -1,11 +1,11 @@
-import { appNavigate, confirm } from '@utils'
-import { t } from '@utils/fetch'
 /*
  * @Author: czy0729
  * @Date: 2022-09-03 11:16:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:15:48
+ * @Last Modified time: 2024-03-26 19:05:57
  */
+import { appNavigate, confirm, open } from '@utils'
+import { t } from '@utils/fetch'
 import { HOST, IMG_DEFAULT_AVATAR, LIMIT_TOPIC_PUSH } from '@constants'
 import { Navigation, TopicId } from '@types'
 import { StoreType as $ } from '../../types'

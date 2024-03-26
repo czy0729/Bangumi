@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-26 04:02:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-26 04:57:23
+ * @Last Modified time: 2024-03-26 19:09:48
  */
 import React from 'react'
 import { Flex, Image, Text } from '@components'
 import { _, userStore } from '@stores'
+import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { styles } from '../../styles'
 

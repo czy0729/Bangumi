@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:51:45
+ * @Last Modified time: 2024-03-26 19:09:17
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader, LogoHeader } from '@_'
-import { info } from '@utils'
+import { info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, STORYBOOK } from '@constants'
