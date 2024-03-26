@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:23:20
+ * @Last Modified time: 2024-03-26 04:56:34
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,7 +11,7 @@ import { systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { APP_ID_SAY_DEVELOP } from '@constants'
+import { APP_ID_SAY_DEVELOP, TEXT_UPDATE_QIAFAN } from '@constants'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -55,7 +55,7 @@ function Contact({ navigation, filter }) {
           information={systemStore.advance && '已收到巨款，您已成为高级会员，感谢支持'}
           informationType='success'
           filter={filter}
-          ft='23-04-20'
+          ft={TEXT_UPDATE_QIAFAN}
           onPress={() => {
             t('设置.跳转', {
               to: 'Qiafan'

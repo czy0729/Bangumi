@@ -27,8 +27,10 @@ function Web({ uri }) {
       <SafeAreaView style={styles.webview}>
         {!state && (
           <Loading style={styles.loading}>
-            <Text style={styles.text} type='sub' size={12} align='center'>
-              正在加载网页...{'\n'}
+            <Text style={[styles.text, _.mt.md]} type='sub' size={13} align='center'>
+              正在加载网页...
+            </Text>
+            <Text style={styles.text} type='sub' size={11} align='center'>
               {html}
             </Text>
           </Loading>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-10 14:25:20
+ * @Last Modified time: 2024-03-25 23:09:40
  */
 import { STORYBOOK } from '../device'
 
@@ -33,6 +33,9 @@ export const TEXT_UPDATE_MANGA = '2023-12-18'
 /** 赞助者最后更新时间 */
 export const TEXT_UPDATE_SPONSOR = '2024-02-09'
 
+/** 打赏最后更新时间 */
+export const TEXT_UPDATE_QIAFAN = '2024-03-25'
+
 /** 找条目数目 */
 export const TEXT_TOTAL = {
   番剧: 4313,
@@ -45,3 +48,6 @@ export const TEXT_TOTAL = {
 
 /** 空格 */
 export const TEXT_SPACE = STORYBOOK ? '\u00A0' : ' '
+
+/** 中文段落开头空格 */
+export const TEXT_SECTION_INDENT = '　　'

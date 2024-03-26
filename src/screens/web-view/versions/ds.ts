@@ -8,9 +8,13 @@ import { Loaded } from '@types'
 
 export const COMPONENT = 'Versions'
 
-export const NAMESPACE = `Screen${COMPONENT}`
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
+  {
+    title: '8.6.0 - 24/03/13',
+    key: 'rxxbx8530fxq0e04'
+  },
   {
     title: '8.5.0 - 24/02/09',
     key: 'wvdw1qp60gwalxoe'
