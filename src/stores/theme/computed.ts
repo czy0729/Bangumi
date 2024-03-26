@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 05:51:20
+ * @Last Modified time: 2024-03-27 05:22:25
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -323,6 +323,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 背景 */
   @computed get colorBg(): Color<'colorBg'> {
     return this.state.colorBg
+  }
+
+  /** 背景 (RGB) */
+  @computed get colorBgRaw(): Color<'colorBgRaw'> {
+    return this.state.colorBgRaw
   }
 
   /** 边框 */

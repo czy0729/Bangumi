@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 23:50:53
+ * @Last Modified time: 2024-03-27 05:22:59
  */
 import { ORIENTATION_PORTRAIT, STORYBOOK } from '@constants'
 import _ from '@styles'
@@ -26,6 +26,7 @@ export const DEFAULT_TINYGRAIL_THEME_MODE = 'dark'
 export const STYLES_LIGHT = {
   colorAvatar: _.colorAvatar,
   colorBg: _.colorBg,
+  colorBgRaw: _.colorBgRaw,
   colorBorder: _.colorBorder,
   colorDanger: _.colorDanger,
   colorDarkModeLevel1: _._colorDarkModeLevel1,
@@ -54,6 +55,7 @@ export const STYLES_LIGHT = {
 export const STYLES_DARK = {
   colorAvatar: _.colorAvatar,
   colorBg: _._colorBg,
+  colorBgRaw: _._colorBgRaw,
   colorBorder: _._colorBorder,
   colorDanger: _.colorDanger,
   colorDarkModeLevel1: _._colorDarkModeLevel1,

@@ -1,10 +1,9 @@
 /*
  * 与 bgm.tv 有关的数据结构
- *
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-06 04:21:56
+ * @Last Modified time: 2024-03-27 05:43:23
  */
 import { SubjectTypeValue } from '@constants/model/types'
 

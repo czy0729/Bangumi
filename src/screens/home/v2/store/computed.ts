@@ -7,18 +7,8 @@
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { Ep } from '@stores/subject/types'
-import {
-  desc,
-  findLastIndex,
-  getOnAir,
-  getPinYinFilterValue,
-  HTMLDecode,
-  t2s,
-  unzipBangumiData,
-  x18
-} from '@utils'
+import { desc, findLastIndex, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
-import { get } from '@utils/protobuf'
 import {
   IOS,
   MODEL_COLLECTION_STATUS,
@@ -46,22 +36,19 @@ import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 export default class Computed extends State {
   /** 置顶的映射 */
   getTopMap() {
-    const { top } = this.state
     const topMap = {}
-    top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
+    this.state.top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
     return topMap
   }
 
   /** Tabs data */
   @computed get tabs() {
-    const { showGame } = systemStore.setting
-    return showGame ? TABS_WITH_GAME : TABS
+    return systemStore.setting.showGame ? TABS_WITH_GAME : TABS
   }
 
   @computed get navigationState() {
-    const { page } = this.state
     return {
-      index: page,
+      index: this.state.page,
       routes: this.tabs
     }
   }
@@ -83,8 +70,7 @@ export default class Computed extends State {
 
   /** 当前 Tabs label */
   @computed get tabsLabel() {
-    const { page } = this.state
-    return this.tabs[page].title
+    return this.tabs[this.state.page].title
   }
 
   /** 每个 Item 的状态 */
@@ -116,10 +102,8 @@ export default class Computed extends State {
 
   /** 过滤条件文字 */
   @computed get filter() {
-    const { filter } = this.state
-
     // 转大写和简体
-    return t2s(filter.toUpperCase())
+    return t2s(this.state.filter.toUpperCase())
   }
 
   /** 列表当前数据 */
@@ -131,9 +115,7 @@ export default class Computed extends State {
         if (data) return CacheManager.get(key)
       }
 
-      if (title === '游戏') {
-        return CacheManager.set(key, this.games)
-      }
+      if (title === '游戏') return CacheManager.set(key, this.games)
 
       const data = {
         ...this.collection
@@ -145,11 +127,9 @@ export default class Computed extends State {
 
       // 若当前 Tab 有文字过滤
       if (this.isFilter(title)) {
-        const { filter } = this.state
-
         // 转大写和简体
         data.list = data.list.filter(item => {
-          if (!filter.length) return true
+          if (!this.state.filter.length) return true
 
           // 暂时只用中文名来过滤 (忽略日文优先设置)
           const cn = (
@@ -185,17 +165,17 @@ export default class Computed extends State {
     return computed(() => {
       if (!list.length) return []
 
-      const { homeSorting } = systemStore.setting
       const topMap = this.getTopMap()
 
       // 网页顺序: 不需要处理
-      if (homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')) {
+      if (
+        systemStore.setting.homeSorting ===
+        MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('网页')
+      ) {
         return list.slice().sort((a, b) => desc(a, b, item => topMap[item.subject_id] || 0))
       }
 
       try {
-        const { homeSortSink } = systemStore.setting
-
         // 计算每一个条目看过 ep 的数量
         const weightMap = {}
 
@@ -220,7 +200,7 @@ export default class Computed extends State {
             }
 
             // 看完下沉逻辑
-            if (homeSortSink && !this.hasNewEp(subjectId)) {
+            if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
               weightMap[subjectId] = weightMap[subjectId] - 10000
             }
           })
@@ -251,7 +231,7 @@ export default class Computed extends State {
           }
 
           // 看完下沉逻辑
-          if (homeSortSink && !this.hasNewEp(subjectId)) {
+          if (systemStore.setting.homeSortSink && !this.hasNewEp(subjectId)) {
             weightMap[subjectId] = weightMap[subjectId] - 100001
           }
         })
@@ -273,9 +253,9 @@ export default class Computed extends State {
   /** 当前列表有过滤 */
   isFilter(title: TabLabel) {
     return computed(() => {
-      const { filter, filterPage } = this.state
+      const { filterPage } = this.state
       if (filterPage >= 0 && filterPage <= this.tabs.length) {
-        return this.tabs[filterPage].title === title && !!filter
+        return this.tabs[filterPage].title === title && !!this.state.filter
       }
 
       return false
@@ -284,9 +264,8 @@ export default class Computed extends State {
 
   /** 在玩的游戏 */
   @computed get games() {
-    const { username } = this.usersInfo
     const userCollections = collectionStore.userCollections(
-      username || this.userId,
+      this.usersInfo.username || this.userId,
       MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏'),
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看')
     )
@@ -327,24 +306,21 @@ export default class Computed extends State {
   eps(subjectId: SubjectId) {
     return computed(() => {
       try {
-        const { homeLayout } = systemStore.setting
         const eps = this.epsNoSp(subjectId)
         const { length } = eps
 
         // 集数超过了 1 页的显示个数
-        const isGrid = homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
+        const isGrid =
+          systemStore.setting.homeLayout ===
+          MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
         if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
           const userProgress = this.userProgress(subjectId)
           const index = eps.findIndex(item => userProgress[item.id] !== '看过')
 
           // 找不到未看集数, 返回最后的数据
-          if (index === -1) {
-            return eps.slice(length - PAGE_LIMIT_LIST - 1, length - 1)
-          }
+          if (index === -1) return eps.slice(length - PAGE_LIMIT_LIST - 1, length - 1)
 
-          const { homeEpStartAtLastWathed } = systemStore.setting
-
-          if (homeEpStartAtLastWathed) {
+          if (systemStore.setting.homeEpStartAtLastWathed) {
             let lastIndex: number
 
             // @ts-ignore
@@ -395,9 +371,7 @@ export default class Computed extends State {
 
       // 若第一集为第 0 集, +1
       let flagZero = false
-      if (eps.length && eps[eps.length - 1].sort === 0) {
-        flagZero = true
-      }
+      if (eps.length && eps[eps.length - 1].sort === 0) flagZero = true
 
       const current = eps.find(item => item.status === 'Air')?.sort || 0
       return flagZero && current ? current + 1 : current
@@ -459,15 +433,16 @@ export default class Computed extends State {
   epStatus(subjectId: SubjectId) {
     return computed(() => {
       const userProgress = this.userProgress(subjectId)
-      const eps = this.epsNoSp(subjectId)
-      return eps.filter(item => userProgress[item.id] === '看过').length
+      return this.epsNoSp(subjectId).filter(item => userProgress[item.id] === '看过').length
     }).get()
   }
 
   /** 放送顺序 */
   @computed get sortOnAir() {
-    const { homeSorting } = systemStore.setting
-    return homeSorting === MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
+    return (
+      systemStore.setting.homeSorting ===
+      MODEL_SETTING_HOME_SORTING.getValue<SettingHomeSorting>('放送')
+    )
   }
 
   /** 云端 onAir 和自定义 onAir 组合判断 (自定义最优先) */
@@ -511,29 +486,29 @@ export default class Computed extends State {
       }
     }
 
-    return computed(() => {
-      if (!this.state.loadedBangumiData) {
-        return {
-          title: '',
-          type: 'tv',
-          sites: [],
-          titleTranslate: {
-            'zh-Hans': []
-          }
-        }
-      }
+    // return computed(() => {
+    //   if (!this.state.loadedBangumiData) {
+    //     return {
+    //       title: '',
+    //       type: 'tv',
+    //       sites: [],
+    //       titleTranslate: {
+    //         'zh-Hans': []
+    //       }
+    //     }
+    //   }
 
-      const { name_cn, name } = this.subject(subjectId)
-      return unzipBangumiData(
-        get('bangumi-data').find(
-          item =>
-            item.j === HTMLDecode(name_cn) ||
-            item.j === HTMLDecode(name) ||
-            item.c === HTMLDecode(name_cn) ||
-            item.c === HTMLDecode(name)
-        )
-      )
-    }).get()
+    //   const { name_cn, name } = this.subject(subjectId)
+    //   return unzipBangumiData(
+    //     get('bangumi-data').find(
+    //       item =>
+    //         item.j === HTMLDecode(name_cn) ||
+    //         item.j === HTMLDecode(name) ||
+    //         item.c === HTMLDecode(name_cn) ||
+    //         item.c === HTMLDecode(name)
+    //     )
+    //   )
+    // }).get()
   }
 
   /** 在线源头数据 */
@@ -561,7 +536,6 @@ export default class Computed extends State {
       const bangumiInfo = this.bangumiInfo(subjectId)
       const { sites = [] } = bangumiInfo
       sites
-        // @ts-expect-error
         .filter(item => SITES_DS.includes(item.site))
         .forEach(item => {
           data.push(item.site)
@@ -585,6 +559,7 @@ export default class Computed extends State {
   showItem(title: TabLabel) {
     return computed(() => {
       if (!IOS) return true
+
       const index = this.tabs.findIndex(item => item.title === title)
       return this.state.renderedTabsIndex.includes(index)
     }).get()
@@ -615,7 +590,6 @@ export default class Computed extends State {
   /** 显示数字组合 */
   countRight(subjectId: SubjectId) {
     return computed(() => {
-      const { homeCountView } = systemStore.setting
       const current = this.currentOnAir(subjectId)
 
       // 二季度的番剧，首集非 1 开始的需要从所有章节里面获取最大集数
@@ -623,7 +597,7 @@ export default class Computed extends State {
       if (total !== '??' && Number(current) > Number(total)) total = current
 
       let right = ''
-      switch (homeCountView) {
+      switch (systemStore.setting.homeCountView) {
         case 'B':
           right = `${current}`
           if (total !== current) right += ` (${total})`
@@ -665,8 +639,7 @@ export default class Computed extends State {
     if (IOS) return false
 
     return computed(() => {
-      const { isFocused, page } = this.state
-      return isFocused && TABS_WITH_GAME[page].title === title
+      return this.state.isFocused && TABS_WITH_GAME[this.state.page].title === title
     }).get()
   }
 

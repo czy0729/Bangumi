@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 22:06:33
+ * @Last Modified time: 2024-03-27 05:42:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { OnairProgress } from '@_'
-import { _, systemStore } from '@stores'
+import { systemStore } from '@stores'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -48,7 +48,7 @@ function GridItem({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) 
       </Opacity>
       {!isGame && <OnairProgress epStatus={epStatus} total={total} current={current} />}
       {homeGridTitle && (
-        <Text style={[_.mt.sm, _.mb.xs]} size={11} bold numberOfLines={2}>
+        <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
           {cnjp(subject.name_cn, subject.name)}
         </Text>
       )}

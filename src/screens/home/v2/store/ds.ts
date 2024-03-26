@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 05:23:37
+ * @Last Modified time: 2024-03-27 05:12:44
  */
 import { _ } from '@stores'
-import { Loaded, Subject, SubjectId } from '@types'
+import { Loaded, Override, Subject, SubjectId } from '@types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenHomeV2'
@@ -61,12 +61,22 @@ export const STATE = {
 
   /** 格子布局当前选中的条目 Id */
   current: 0 as SubjectId,
+
+  /** 格子布局当前选中的条目临时存放信息 */
   grid: {
     subject_id: 0 as SubjectId,
-    subject: {} as Subject,
+    subject: {} as Override<
+      Subject,
+      {
+        time?: string
+      }
+    >,
     ep_status: '' as string | number
   },
+
+  /** 初始化次数 */
   boot: 0,
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

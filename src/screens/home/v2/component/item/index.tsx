@@ -24,6 +24,7 @@ function ItemWrap(
       name={subject.name}
       name_cn={subject.name_cn}
       doing={subject.collection?.doing}
+      time={subject.time}
       epStatus={Math.max(Number(epStatus) || 0, $.epStatus(subjectId))}
     />
   )

@@ -9,7 +9,7 @@ import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeValue } from '@types'
 import Item from '../item'
 
-export function keyExtractor(item) {
+export function keyExtractor(item: { subject_id: any; id: any }) {
   return String(item.subject_id || item.id)
 }
 
@@ -33,7 +33,8 @@ export function renderItem({ item, index, title }) {
           name_cn: item.nameCn,
           summary: '',
           type: MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>('游戏'),
-          url: ''
+          url: '',
+          time: item.time
         }
       }
       epStatus={item.ep_status}

@@ -11,4 +11,5 @@ export type Props = {
   subject?: Subject
   epStatus?: string | number
   tip?: string
+  time?: string
 }

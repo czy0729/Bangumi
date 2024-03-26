@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:25:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-02 23:53:33
+ * @Last Modified time: 2024-03-27 05:23:17
  */
 import { ColorRaw } from './types'
 
@@ -88,21 +88,17 @@ export const colorIcon = 'rgb(200, 200, 200)'
 
 export const colorMainRaw = colorMain.match(regColor) as ColorRaw<typeof colorMain>
 
-export const colorPrimaryRaw = colorPrimary.match(regColor) as ColorRaw<
-  typeof colorPrimary
->
+export const colorPrimaryRaw = colorPrimary.match(regColor) as ColorRaw<typeof colorPrimary>
 
-export const colorSuccessRaw = colorSuccess.match(regColor) as ColorRaw<
-  typeof colorSuccess
->
+export const colorSuccessRaw = colorSuccess.match(regColor) as ColorRaw<typeof colorSuccess>
 
-export const colorWarningRaw = colorWarning.match(regColor) as ColorRaw<
-  typeof colorWarning
->
+export const colorWarningRaw = colorWarning.match(regColor) as ColorRaw<typeof colorWarning>
 
 export const colorPlainRaw = colorPlain.match(regColor) as ColorRaw<typeof colorPlain>
 
 export const colorTitleRaw = colorTitle.match(regColor) as ColorRaw<typeof colorTitle>
+
+export const colorBgRaw = colorBg.match(regColor) as ColorRaw<typeof colorBg>
 
 /** 粉 (最浅) */
 export const colorMainLight = 'rgb(255, 244, 244)'
@@ -184,11 +180,11 @@ export const _colorDarkModeLevel1Raw = _colorDarkModeLevel1.match(regColor) as C
   typeof _colorDarkModeLevel1
 >
 
-export const _colorPlainRaw = _colorPlain.match(regColor) as ColorRaw<
-  typeof _colorPlain
->
+export const _colorPlainRaw = _colorPlain.match(regColor) as ColorRaw<typeof _colorPlain>
 
 export const _colorTitleRaw = [255, 255, 255] as const
+
+export const _colorBgRaw = _colorBg.match(regColor) as ColorRaw<typeof _colorBg>
 
 const __colorDarkModeLevel1 = 'rgb(32, 32, 32)'
 const __colorPlain = 'rgb(0, 0, 0)'

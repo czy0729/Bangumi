@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 19:22:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 21:16:42
+ * @Last Modified time: 2024-03-27 05:30:10
  */
 import { _ } from '@stores'
 
@@ -18,7 +18,6 @@ export const memoStyles = _.memoStyles(() => {
       zIndex: 1000,
       width: '100%',
       height,
-      backgroundColor: _.select(_.colorPlain, _.deep(_.colorPlain, _.colorBg)),
       overflow: 'hidden'
     },
     gameInfo: {

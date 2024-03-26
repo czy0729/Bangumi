@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-21 06:55:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 21:16:56
+ * @Last Modified time: 2024-03-27 05:24:46
  */
 import React from 'react'
-import { View } from 'react-native'
 import { PaginationList2 } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -27,8 +26,6 @@ function List({ title }, { $ }: Ctx) {
       progressViewOffset={20}
       limit={homeGridCoverLayout === 'square' ? 20 : 16}
       numColumns={numColumns}
-      footerNoMoreDataComponent={<View />}
-      footerNoMoreDataText=''
       renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
     />

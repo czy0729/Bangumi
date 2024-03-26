@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 21:18:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:00:35
+ * @Last Modified time: 2024-03-27 05:09:56
  */
 import React from 'react'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -30,7 +30,8 @@ export function renderItem({ item }) {
           name_cn: item.nameCn,
           summary: '',
           type: MODEL_SUBJECT_TYPE.getValue('游戏'),
-          url: ''
+          url: '',
+          time: item.time
         }
       }
       epStatus={item.ep_status}

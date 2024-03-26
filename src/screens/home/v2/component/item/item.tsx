@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:52:40
+ * @Last Modified time: 2024-03-27 05:03:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Heatmap } from '@components'
 import { memo } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+import Time from '../time'
 import Collapsible from './collapsible'
 import Container from './container'
 import ContentContainer from './container-content'
@@ -26,7 +27,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Item = memo(
-  ({ index, title, subjectId, type, image, name, name_cn, doing, epStatus }) => {
+  ({ index, title, subjectId, type, image, name, name_cn, time, doing, epStatus }) => {
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const isFirst = index === 0
     return (
@@ -80,7 +81,11 @@ const Item = memo(
                   isFirst={isFirst}
                 />
               </ContentContainer>
-              {title !== '游戏' && <Progress subjectId={subjectId} epStatus={epStatus} />}
+              {title === '游戏' ? (
+                <Time value={time} />
+              ) : (
+                <Progress subjectId={subjectId} epStatus={epStatus} />
+              )}
             </View>
           </Flex.Item>
           {isFirst && (

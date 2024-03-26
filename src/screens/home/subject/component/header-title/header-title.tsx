@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 17:14:42
+ * @Last Modified time: 2024-03-27 05:41:39
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -21,7 +21,7 @@ const HeaderTitle = memo(
           src={common}
           size={type === '音乐' ? IMAGE_HEIGHT : IMAGE_WIDTH}
           height={IMAGE_HEIGHT}
-          radius={_.radiusSm}
+          radius={_.radiusXs}
           fadeDuration={0}
         />
         <Flex.Item style={_.ml.sm}>

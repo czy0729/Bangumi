@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:28:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 07:40:56
+ * @Last Modified time: 2024-03-27 05:13:15
  */
 import React from 'react'
 import { Touchable } from '@components'
@@ -17,10 +17,10 @@ import { COMPONENT } from './ds'
 
 function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
   const styles = memoStyles()
-  const { homeGridCoverLayout } = systemStore.setting
   const homeGridCoverLayoutCn =
-    MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getLabel<SettingHomeGridCoverLayoutCn>(homeGridCoverLayout)
-
+    MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getLabel<SettingHomeGridCoverLayoutCn>(
+      systemStore.setting.homeGridCoverLayout
+    )
   return (
     <Touchable
       animate

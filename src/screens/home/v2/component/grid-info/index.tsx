@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 23:05:58
+ * @Last Modified time: 2024-03-27 05:18:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
@@ -23,7 +23,7 @@ import { memoStyles } from './styles'
 import { Props } from './types'
 
 function GridInfo(
-  { subjectId = 0, subject = {}, epStatus = '', tip = '' }: Props,
+  { subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props,
   { $, navigation }: Ctx
 ) {
   const styles = memoStyles()
@@ -60,6 +60,11 @@ function GridInfo(
           <ToolBar subjectId={subjectId} subject={subject} />
         </Flex>
         <Eps subjectId={subjectId} />
+        {!!time && (
+          <Text style={_.mt.md} size={12} type='sub'>
+            {time} 在玩
+          </Text>
+        )}
       </Flex.Item>
       {isTop && <View style={styles.dot} />}
     </Flex>

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-11-21 02:33:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-26 04:54:58
+ * @Last Modified time: 2024-03-27 05:22:30
  */
 import React from 'react'
+import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { LinearGradient } from 'expo-linear-gradient'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -17,12 +17,20 @@ function Linear() {
   return (
     <LinearGradient
       style={styles.linear}
-      colors={[
-        `rgba(${_.colorPlainRaw.join()}, 1)`,
-        `rgba(${_.colorPlainRaw.join()}, 0.8)`,
-        `rgba(${_.colorPlainRaw.join()}, 0.24)`,
-        `rgba(${_.colorPlainRaw.join()}, 0)`
-      ]}
+      colors={_.ios(
+        [
+          `rgba(${_.colorBgRaw.join()}, 1)`,
+          `rgba(${_.colorBgRaw.join()}, 0.8)`,
+          `rgba(${_.colorBgRaw.join()}, 0.24)`,
+          `rgba(${_.colorBgRaw.join()}, 0)`
+        ],
+        [
+          `rgba(${_.colorPlainRaw.join()}, 1)`,
+          `rgba(${_.colorPlainRaw.join()}, 0.8)`,
+          `rgba(${_.colorPlainRaw.join()}, 0.24)`,
+          `rgba(${_.colorPlainRaw.join()}, 0)`
+        ]
+      )}
     />
   )
 }
