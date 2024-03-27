@@ -20,9 +20,8 @@ export default class ScreenSearch extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -168,6 +167,7 @@ export default class ScreenSearch extends store<typeof STATE> {
     })
 
     this.setState({
+      _value: value,
       value
     })
   }

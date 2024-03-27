@@ -35,7 +35,7 @@ export default class Fetch extends Computed {
       url: HTML_SEARCH(encodeURIComponent(_text), cat, page, legacy),
 
       /** 搜索不加这个会无条件返回错误 */
-      cookie: `; chii_searchDateLine=${getTimestamp()};`
+      cookie: `; chii_searchDateLine=${legacy == 1 ? 0 : getTimestamp()};`
     })
     if (html.includes('秒内只能进行一次搜索')) return Promise.reject()
 
