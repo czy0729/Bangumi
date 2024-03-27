@@ -66,9 +66,8 @@ export default class ScreenTimeline extends store<typeof STATE> {
   // -------------------- get --------------------
   /** Tab navigationState */
   @computed get navigationState() {
-    const { page } = this.state
     return {
-      index: page,
+      index: this.state.page,
       routes: TABS
     }
   }
@@ -94,17 +93,16 @@ export default class ScreenTimeline extends store<typeof STATE> {
   timeline(scope: TimeLineScope, type: TimeLineType) {
     return computed(() => {
       const timeline = timelineStore.timeline(scope, type)
-      const { filterDefault, filter18x } = systemStore.setting
-      if (filterDefault || filter18x || userStore.isLimit) {
+      if (systemStore.setting.filterDefault || systemStore.setting.filter18x || userStore.isLimit) {
         const list = timeline.list.filter(item => {
           if (
-            (filterDefault || userStore.isLimit) &&
+            (systemStore.setting.filterDefault || userStore.isLimit) &&
             item.avatar?.src?.includes(URL_DEFAULT_AVATAR)
           ) {
             return false
           }
 
-          if ((filter18x || userStore.isLimit) && item?.p3?.url?.[0]) {
+          if ((systemStore.setting.filter18x || userStore.isLimit) && item?.p3?.url?.[0]) {
             const url = String(item.p3.url[0])
             if (url.match(/\/subject\/\d+/)) {
               return !x18(url.replace('https://bgm.tv/subject/', ''))
@@ -119,6 +117,7 @@ export default class ScreenTimeline extends store<typeof STATE> {
           list
         }
       }
+
       return timeline
     }).get()
   }
@@ -127,6 +126,7 @@ export default class ScreenTimeline extends store<typeof STATE> {
   showItem(title: TabLabel) {
     return computed(() => {
       if (!IOS) return true
+
       const index = TABS.findIndex(item => item.title === title)
       return this.state.renderedTabsIndex.includes(index)
     }).get()

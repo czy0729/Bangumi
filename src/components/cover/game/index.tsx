@@ -10,9 +10,9 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { Component } from '../../component'
-import { Squircle } from '../../squircle'
 import { Flex } from '../../flex'
 import { Image } from '../../image'
+import { Squircle } from '../../squircle'
 import { memoStyles } from './styles'
 
 function Game({
@@ -45,11 +45,7 @@ function Game({
         height: containerHeight
       }}
     >
-      <Flex
-        style={stl(styles.game, containerStyle)}
-        direction='column'
-        justify='center'
-      >
+      <Flex style={stl(styles.game, containerStyle)} direction='column' justify='center'>
         <View style={[styles.head, bodyStyle]} />
         <Squircle width={gameWidth} height={gameHeight} radius={_.radiusXs}>
           <Image

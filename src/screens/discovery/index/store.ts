@@ -126,8 +126,7 @@ export default class ScreenDiscovery extends store<typeof STATE> {
 
   /** 今日上映 - 部。共 - 人收看今日番组 */
   @computed get today() {
-    const { today } = calendarStore.home
-    return today
+    return calendarStore.home.today
   }
 
   /** 是否限制内容展示的用户 */
@@ -213,20 +212,17 @@ export default class ScreenDiscovery extends store<typeof STATE> {
 
   /** 发现页自定义菜单 */
   @computed get discoveryMenu() {
-    const { setting } = systemStore
-    return setting.discoveryMenu
+    return systemStore.setting.discoveryMenu
   }
 
   /** 发现页今日放送 */
   @computed get discoveryTodayOnair() {
-    const { setting } = systemStore
-    return setting.discoveryTodayOnair
+    return systemStore.setting.discoveryTodayOnair
   }
 
   /** 发现菜单一列个数 */
   @computed get discoveryMenuNum() {
-    const { setting } = systemStore
-    return setting.discoveryMenuNum
+    return systemStore.setting.discoveryMenuNum
   }
 
   // -------------------- action --------------------

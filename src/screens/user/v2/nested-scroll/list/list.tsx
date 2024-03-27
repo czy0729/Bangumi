@@ -6,12 +6,12 @@
  */
 import React, { useCallback } from 'react'
 import { ListView, ListViewProps } from '@components'
-import { _ } from '@stores'
+
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
-import ToolBar from '../../component/tool-bar'
 import Item from '../../component/item'
 import Pagination from '../../component/pagination'
+import ToolBar from '../../component/tool-bar'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const List = memo(
@@ -46,7 +46,6 @@ const List = memo(
       <ListView
         keyExtractor={keyExtractor}
         nestedScrollEnabled
-        contentContainerStyle={_.container.bottom}
         data={data}
         numColumns={numColumns}
         keyboardDismissMode='on-drag'

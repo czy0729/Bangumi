@@ -11,11 +11,11 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: -_.parallaxImageHeight
   },
   list: {
-    paddingBottom: _.bottom
+    paddingBottom: _.bottom + _.tabBarHeight
   },
   grid: {
     paddingLeft: _.wind - _._wind - _.device(0, 8),
     paddingRight: _.wind - _._wind,
-    paddingBottom: _.bottom
+    paddingBottom: _.bottom + _.tabBarHeight
   }
 }))

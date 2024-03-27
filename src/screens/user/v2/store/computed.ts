@@ -32,8 +32,7 @@ export default class Computed extends State {
 
   /** * 用户原始 userId (数字) */
   @computed get userId() {
-    const { userId } = this.params
-    return userId || this.myUserId
+    return this.params.userId || this.myUserId
   }
 
   /** 用户自定义唯一 userId */
@@ -72,20 +71,17 @@ export default class Computed extends State {
 
   /** 当前类型 key */
   @computed get type() {
-    const { page } = this.state
-    return MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(TABS[page].title)
+    return MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(TABS[this.state.page].title)
   }
 
   /** 当前类型 label */
   @computed get label() {
-    const { page } = this.state
-    return TABS[page].title
+    return TABS[this.state.page].title
   }
 
   /** 条目动作 */
   @computed get action() {
-    const { subjectType } = this.state
-    switch (MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)) {
+    switch (MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.state.subjectType)) {
       case '书籍':
         return '读'
 
@@ -141,14 +137,16 @@ export default class Computed extends State {
    */
   isTabActive(subjectType: SubjectType, type: CollectionStatus, isBetween: boolean = false) {
     return computed(() => {
-      const { subjectType: _subjectType, page } = this.state
+      const { subjectType: _subjectType } = this.state
       if (subjectType !== _subjectType) return false
 
+      const { page } = this.state
       if (isBetween) {
         return (
           TABS[page]?.key === type || TABS[page - 1]?.key === type || TABS[page + 1]?.key === type
         )
       }
+
       return TABS[page]?.key === type
     }).get()
   }
@@ -158,15 +156,13 @@ export default class Computed extends State {
     return computed(() => {
       if (!this.isTabActive(subjectType, type)) return false
 
-      const { showFilter, filter, fetching } = this.state
-      return !!(showFilter && filter && fetching)
+      return !!(this.state.showFilter && this.state.filter && this.state.fetching)
     }).get()
   }
 
   /** 过滤 */
   @computed get filter() {
-    const { filter } = this.state
-    return t2s(filter.toUpperCase())
+    return t2s(this.state.filter.toUpperCase())
   }
 
   /** 用户收藏 */
@@ -202,8 +198,7 @@ export default class Computed extends State {
 
   /** 是否根据网站评分排序 */
   @computed get isSortByScore() {
-    const { order } = this.state
-    return MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) === '网站评分'
+    return MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(this.state.order) === '网站评分'
   }
 
   /** 自定义背景 */
@@ -220,15 +215,13 @@ export default class Computed extends State {
 
   /** 长列表列数 */
   @computed get numColumns() {
-    const { list } = this.state
-    return list ? undefined : Number(systemStore.setting.userGridNum)
+    return this.state.list ? undefined : Number(systemStore.setting.userGridNum)
   }
 
   /** 检查 tabbar 此页是否已经渲染过 */
   loadedPage(index: number) {
     return computed(() => {
-      const { loadedPage } = this.state
-      return loadedPage.includes(index)
+      return this.state.loadedPage.includes(index)
     }).get()
   }
 }

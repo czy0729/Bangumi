@@ -6,28 +6,33 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
-  game: {
-    backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
-    borderWidth: 5,
-    borderBottomWidth: 1,
-    borderRadius: _.radiusSm,
-    borderBottomLeftRadius: _.radiusLg
-  },
-  head: {
-    width: 24,
-    height: 3,
-    marginBottom: 3,
-    backgroundColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2),
-    borderRadius: 2
-  },
-  angle: {
-    width: 8,
-    height: 6,
-    marginTop: 3,
-    borderWidth: 6,
-    borderColor: 'transparent',
-    borderTopColor: _.select('rgba(0, 0, 0, 0.2)', _._colorDarkModeLevel2)
+export const memoStyles = _.memoStyles(() => {
+  const color = _.select('rgba(0, 0, 0, 0.2)', 'rgba(255, 255, 255, 0.2)')
+  return {
+    game: {
+      backgroundColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
+      borderColor: _.select(_.colorBorder, _._colorDarkModeLevel1),
+      borderWidth: 5,
+      borderBottomWidth: 1,
+      borderRadius: _.radiusSm,
+      borderBottomLeftRadius: _.radiusLg
+    },
+    head: {
+      width: 24,
+      height: 3,
+      marginBottom: 3,
+      backgroundColor: color,
+      borderRadius: 2
+    },
+    angle: {
+      width: 8,
+      height: 6,
+      marginTop: 3,
+      borderWidth: 6,
+      borderTopColor: color,
+      borderRightColor: 'transparent',
+      borderBottomColor: 'transparent',
+      borderLeftColor: 'transparent'
+    }
   }
-}))
+})
