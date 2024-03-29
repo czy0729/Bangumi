@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-26 04:31:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 04:26:50
+ * @Last Modified time: 2024-03-29 12:36:23
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
@@ -12,6 +12,15 @@ export const COMPONENT = 'Calendar'
 export const NAMESPACE = `Screen${COMPONENT}`
 
 export const EXCLUDE_STATE = {
+  /** 改编 */
+  adapt: '',
+
+  /** 标签 */
+  tag: '',
+
+  /** 动画制作 */
+  origin: '',
+
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
 

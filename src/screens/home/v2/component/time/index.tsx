@@ -17,7 +17,7 @@ function Time({ value }: { value: string }) {
       style={[
         styles.time,
         {
-          bottom: systemStore.setting.homeListCompact ? 8 : 12
+          bottom: systemStore.setting.homeListCompact ? 4 : 8
         }
       ]}
       type='sub'

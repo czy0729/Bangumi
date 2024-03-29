@@ -75,6 +75,7 @@ const Item = memo(
                 <Flex.Item />
                 <ToolBar
                   subjectId={subjectId}
+                  typeCn={typeCn}
                   epStatus={epStatus}
                   name={name}
                   name_cn={name_cn}

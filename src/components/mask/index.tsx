@@ -7,6 +7,7 @@
 import React from 'react'
 import { Animated } from 'react-native'
 import { r } from '@utils/dev'
+import { IOS } from '@constants'
 import { Component } from '../component'
 import { Touchable } from '../touchable'
 import { COMPONENT } from './ds'
@@ -19,7 +20,7 @@ export const Mask = ({ style, onPress }) => {
   return (
     <Component id='component-mask'>
       {/* @ts-ignore */}
-      <Animated.View style={[styles.mask, style]} pointerEvents='none' />
+      <Animated.View style={[styles.mask, style]} pointerEvents={IOS ? 'none' : 'auto'} />
       <Touchable style={styles.press} useRN ripple={false} onPress={onPress} />
     </Component>
   )

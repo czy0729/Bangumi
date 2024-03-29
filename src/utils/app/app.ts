@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 09:26:15
+ * @Last Modified time: 2024-03-29 10:45:03
  */
 import { Alert, BackHandler } from 'react-native'
+import { ON_AIR } from '@stores/calendar/onair'
 import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import { DEV } from '@/config'
-import { AnyObject, EventType, Navigation } from '@types'
+import { AnyObject, EventType, Navigation, SubjectId } from '@types'
 import { s2tAsync } from '../async'
 import { globalLog, globalWarn, rerender } from '../dev'
 import { t } from '../fetch'
@@ -102,6 +103,17 @@ export function getUserIdFromAvatar(src: string) {
   } catch (error) {
     return 0
   }
+}
+
+/** 获取本地每日放送数据 */
+export function getOnAirItem(subjectId: SubjectId): {
+  weekDayCN: number
+  timeCN: string
+  type?: string
+  tag?: string
+  origin?: string
+} {
+  return ON_AIR[subjectId] || {}
 }
 
 /**

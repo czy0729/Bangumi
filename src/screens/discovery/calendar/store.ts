@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 04:16:24
+ * @Last Modified time: 2024-03-29 13:26:59
  */
 import { computed, observable } from 'mobx'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
@@ -12,21 +12,20 @@ import { decode, get } from '@utils/protobuf'
 import store from '@utils/store'
 import { SubjectId } from '@types'
 import { getTime } from './utils'
-import { EXCLUDE_STATE, LAYOUT_DS, NAMESPACE, STATE, TYPE_DS } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenCalendar extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: true
     })
 
-    await queue(
+    return queue(
       [
         () => calendarStore.fetchOnAir(),
         () => calendarStore.fetchCalendar(),
@@ -39,8 +38,7 @@ export default class ScreenCalendar extends store<typeof STATE> {
 
   /** 全局管理单独条目的收藏状态 */
   fetchCollectionsQueue = () => {
-    const { _lastQueue } = this.state
-    if (getTimestamp() - _lastQueue <= 24 * 60 * 60) return
+    if (getTimestamp() - this.state._lastQueue <= 24 * 60 * 60) return
 
     setTimeout(async () => {
       try {
@@ -104,8 +102,7 @@ export default class ScreenCalendar extends store<typeof STATE> {
 
   /** 是否列表 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 条目信息 */
@@ -124,8 +121,8 @@ export default class ScreenCalendar extends store<typeof STATE> {
 
   // -------------------- page --------------------
   /** 切换布局 */
-  onSwitchLayout = (label: string) => {
-    const layout = LAYOUT_DS.find(item => item.title === label)?.['key']
+  onSwitchLayout = () => {
+    const layout = this.state.layout === 'list' ? 'grid' : 'list'
     this.setState({
       layout
     })
@@ -137,8 +134,8 @@ export default class ScreenCalendar extends store<typeof STATE> {
   }
 
   /** 切换类型 */
-  onToggleType = (label: string) => {
-    const type = TYPE_DS.find(item => item.title === label)?.['key']
+  onToggleType = () => {
+    const type = this.state.type === 'all' ? 'collect' : 'all'
     this.setState({
       type
     })
@@ -151,11 +148,61 @@ export default class ScreenCalendar extends store<typeof STATE> {
 
   /** 切换展开 */
   onToggleExpand = () => {
-    const { expand } = this.state
     this.setState({
-      expand: !expand
+      expand: !this.state.expand
     })
     this.save()
+  }
+
+  /** 切换改编 */
+  onAdapt = (adapt: string) => {
+    let value: string
+    if (adapt === '全部') {
+      value = ''
+    } else {
+      value = adapt.split(' (')?.[0] || ''
+    }
+    this.setState({
+      adapt: value
+    })
+
+    t('每日放送.切换改编', {
+      adapt: value
+    })
+  }
+
+  /** 切换标签 */
+  onTag = (tag: string) => {
+    let value: string
+    if (tag === '全部') {
+      value = ''
+    } else {
+      value = tag.split(' (')?.[0] || ''
+    }
+    this.setState({
+      tag: value
+    })
+
+    t('每日放送.切换标签', {
+      tag: value
+    })
+  }
+
+  /** 切换标签 */
+  onOrigin = (origin: string) => {
+    let value: string
+    if (origin === '全部') {
+      value = ''
+    } else {
+      value = origin.split(' (')?.[0] || ''
+    }
+    this.setState({
+      origin: value
+    })
+
+    t('每日放送.切换动画制作', {
+      origin: value
+    })
   }
 
   /** 更新可视范围底部 y */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 15:56:06
+ * @Last Modified time: 2024-03-29 04:00:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,9 +34,7 @@ function Item({ item, section }, { $ }: Ctx) {
 
         const prevItem = items?.[idx - 1]
         let prevTime = ''
-        if (prevItem) {
-          prevTime = getTime(prevItem, prevItem.id)
-        }
+        if (prevItem) prevTime = getTime(prevItem, prevItem.id)
 
         // 放送到多少集, 自增 1
         let { air } = i
