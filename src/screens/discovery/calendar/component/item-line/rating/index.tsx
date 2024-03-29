@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 10:32:54
+ * @Last Modified time: 2024-03-30 06:20:18
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -17,7 +17,7 @@ function Rating({ hideScore, rank, score, total }) {
       {showScore && (
         <>
           <Rank value={rank} />
-          <Stars style={_.mr.xs} simple value={score} type='desc' />
+          <Stars style={_.mr.xs} value={score} type='desc' />
           {!!total && (
             <Text type='sub' size={11} bold>
               ({total})

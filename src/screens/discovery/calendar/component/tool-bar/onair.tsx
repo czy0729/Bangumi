@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 13:23:58
+ * @Last Modified time: 2024-03-30 06:49:51
  */
 import React from 'react'
 import { ToolBar } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { getData } from './utils'
@@ -46,6 +47,9 @@ function Onair(props, { $ }: Ctx) {
           type='desc'
           onSelect={$.onOrigin}
         />
+      )}
+      {!!(adapt || tag || origin) && (
+        <ToolBar.Icon icon='md-close' iconColor={_.colorDesc} onSelect={$.onClear} />
       )}
     </>
   )

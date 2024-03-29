@@ -2,11 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:28:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 13:23:23
+ * @Last Modified time: 2024-03-30 06:46:47
  */
 import { Calendar } from '@stores/calendar/types'
 import { desc, getOnAirItem } from '@utils'
 
+const cacheMap = new Map<
+  number,
+  {
+    adapts: string[]
+    origins: string[]
+    tags: string[]
+  }
+>()
+
+/** 构建筛选数据 */
 export function getData(
   data: Calendar['list'],
   filter?: {
@@ -15,6 +25,9 @@ export function getData(
     origin: string
   }
 ) {
+  const { length } = JSON.stringify(data)
+  if (cacheMap.has(length)) return cacheMap.get(length)
+
   try {
     const adapts = {}
     const origins = {}
@@ -23,6 +36,7 @@ export function getData(
     data.forEach(item => {
       item.items.forEach(item => {
         const { type: adpat, origin, tag } = getOnAirItem(item.id)
+        // 筛选联动
         // if (
         //   (filter.adapt && adpat !== filter.adapt) ||
         //   (filter.tag && !tag?.includes(filter.tag)) ||
@@ -74,6 +88,8 @@ export function getData(
         .sort((a, b) => desc(a[1], b[1]))
         .map(([key, value]) => `${key} (${value})`)
     }
+    cacheMap.set(length, result)
+
     return result
   } catch (error) {}
 

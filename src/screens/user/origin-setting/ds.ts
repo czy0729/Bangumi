@@ -105,13 +105,13 @@ export const TYPES_DS = [
 ] as const
 
 export const SITES_ANIME = [
-  // {
-  //   id: 'anime|agefans',
-  //   name: 'AGE动漫',
-  //   url: 'https://www.agedm.org/search?query=[CN]',
-  //   sort: 0,
-  //   active: 1
-  // },
+  {
+    id: 'anime|agefans',
+    name: 'AGE动漫',
+    url: 'https://www.agedm.org/search?query=[CN]',
+    sort: 0,
+    active: 1
+  },
   {
     id: 'anime|dmys3',
     name: '大米星球',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 13:26:59
+ * @Last Modified time: 2024-03-30 06:43:21
  */
 import { computed, observable } from 'mobx'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
@@ -202,6 +202,15 @@ export default class ScreenCalendar extends store<typeof STATE> {
 
     t('每日放送.切换动画制作', {
       origin: value
+    })
+  }
+
+  /** 清除筛选 */
+  onClear = () => {
+    this.setState({
+      adapt: '',
+      tag: '',
+      origin: ''
     })
   }
 
