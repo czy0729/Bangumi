@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:47:28
+ * @Last Modified time: 2024-04-02 12:18:50
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { Loading } from '@components'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { refreshControlProps } from '@tinygrail/styles'
 import Item from '@tinygrail/_/item'
+import { refreshControlProps } from '@tinygrail/styles'
 import { tabs } from '../ds'
 import { Ctx, TabsKeys } from '../types'
 
@@ -38,18 +39,13 @@ function List(
 
   const { page } = $.state
   return (
-    <ListView
+    <PaginationList2
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={(item, index) => String(index)}
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
-      data={list}
-      windowSize={6}
-      initialNumToRender={24}
-      maxToRenderPerBatch={24}
-      updateCellsBatchingPeriod={24}
-      lazy={24}
+      data={list.list}
       scrollToTop={tabs[page].key === id}
       renderItem={({ item, index }) => (
         <Item

@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 03:55:41
+ * @Last Modified time: 2024-04-02 11:52:00
  */
 import React from 'react'
-import { ListView, Loading } from '@components'
+import { Loading } from '@components'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
 import { ListEmpty } from '@types'
-import { TABS } from '../../ds'
+
 import { Ctx, TabsKey } from '../../types'
 import Item from '../item'
 import { keyExtractor } from './utils'
@@ -55,15 +56,14 @@ function List(
 
   const numColumns = isTemple ? 3 : undefined
   return (
-    <ListView
+    <PaginationList2
       {...TINYGRAIL_LIST_PROPS}
       key={`${_.orientation}${numColumns}`}
       keyExtractor={keyExtractor}
       style={_.container.flex}
       contentContainerStyle={isTemple ? styles.temple : styles.list}
-      data={data}
+      data={data.list}
       numColumns={numColumns}
-      scrollToTop={id === TABS[$.state.page].key}
       renderItem={({ item, index }) => <Item id={id} index={index} item={item} />}
       onHeaderRefresh={onHeaderRefresh}
     />

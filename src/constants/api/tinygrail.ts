@@ -5,7 +5,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-06 11:15:45
+ * @Last Modified time: 2024-04-02 12:00:14
  */
 import { Id, UserId } from '@types'
 import { TinygrailMagic, TinygrailType } from './types'
@@ -14,7 +14,7 @@ import { TinygrailMagic, TinygrailType } from './types'
 export const API_HOST_TINYGRAIL = 'https://tinygrail.com'
 
 /** 小圣杯财产列表 limit */
-export const TINYGRAIL_ASSETS_LIMIT = 2000
+export const TINYGRAIL_ASSETS_LIMIT = 1000
 
 /** 小圣杯列表 limit */
 const TINYGRAIL_LIMIT = 200

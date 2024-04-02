@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 16:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:02:56
+ * @Last Modified time: 2024-04-02 12:09:50
  */
 import {
   SORT_CCJZ,
@@ -51,17 +51,17 @@ export const TABS = [
 
 export const SORT_DS = [
   SORT_SC,
+  SORT_CGS,
+  SORT_GDZC,
+  SORT_RK,
+  SORT_DJ,
+  SORT_XX,
   SORT_GX,
   SORT_ZGX,
   SORT_SSGX,
   SORT_SSZGX,
-  SORT_CGS,
-  SORT_GDZC,
-  SORT_RK,
-  SORT_XX,
   SORT_DQJ,
   SORT_HYD,
-  SORT_DJ,
   SORT_SCJ,
   SORT_DQZD,
   SORT_CCJZ,
@@ -90,4 +90,4 @@ export const STATE = {
   _loaded: false as Loaded
 }
 
-export const PER_BATCH_COUNT = 10
+export const PER_BATCH_COUNT = 50

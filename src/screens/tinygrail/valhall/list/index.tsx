@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 19:52:25
+ * @Last Modified time: 2024-04-02 12:17:39
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { Loading } from '@components'
+import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { refreshControlProps } from '@tinygrail/styles'
 import Item from '@tinygrail/_/item'
+import { refreshControlProps } from '@tinygrail/styles'
 import { Ctx } from '../types'
 
 const EVENT = {
@@ -24,13 +25,13 @@ function List(props, { $ }: Ctx) {
   }
 
   return (
-    <ListView
+    <PaginationList2
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
-      data={$.computedList}
+      data={$.computedList.list}
       windowSize={6}
       initialNumToRender={24}
       maxToRenderPerBatch={24}

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-05 03:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 03:54:07
+ * @Last Modified time: 2024-04-02 12:02:18
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { TINYGRAIL_ASSETS_LIMIT } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
@@ -19,7 +20,10 @@ function Label({ route, focused }, { $ }: Ctx) {
       break
 
     case 'temple':
-      count = $.temple?.list?.length === 2000 ? '2000+' : $.temple?.list?.length || 0
+      count =
+        $.temple?.list?.length === TINYGRAIL_ASSETS_LIMIT
+          ? `${TINYGRAIL_ASSETS_LIMIT}+`
+          : $.temple?.list?.length || 0
       break
 
     case 'ico':
