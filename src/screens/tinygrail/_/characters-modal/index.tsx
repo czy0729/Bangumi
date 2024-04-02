@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:26:42
+ * @Last Modified time: 2024-04-02 11:31:58
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -23,48 +23,19 @@ import {
 } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
-import { Fn } from '@types'
 import { calculateRate } from '../utils'
 import Item from './item'
 import ItemBottom from './item-bottom'
 import List from './list'
 import SearchInput from './search-input'
 import { assets, bottomTextType, charge, cover, lv, rk } from './utils'
+import { HIT_SLOP, ITEMS_TYPE, ITEMS_USED, NAMESPACE } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-export const ITEMS_TYPE = {
-  混沌魔方: 'chaos',
-  虚空道标: 'guidepost',
-  星光碎片: 'stardust',
-  闪光结晶: 'starbreak',
-  鲤鱼之眼: 'fisheye'
-} as const
+export { ITEMS_TYPE, ITEMS_USED }
 
-export const ITEMS_USED = {
-  混沌魔方: 100,
-  虚空道标: 90,
-  星光碎片: 80,
-  闪光结晶: 70,
-  鲤鱼之眼: 60
-} as const
-
-const NAMESPACE = 'TinygrailCompCharactersModal'
-
-const HIT_SLOP = {
-  top: 6,
-  right: 6,
-  bottom: 6,
-  left: 6
-} as const
-
-class CharactersModal extends React.Component<{
-  title?: string
-  visible?: boolean
-  leftItem?: any
-  rightItem?: any
-  onClose?: Fn
-  onSubmit?: Fn
-}> {
+class CharactersModal extends React.Component<Props> {
   static defaultProps = {
     title: '',
     visible: false,
@@ -261,11 +232,13 @@ class CharactersModal extends React.Component<{
       keyword: rightValue
     })
     if (result.data && result.data.State === 0) {
-      const search = result.data.Value.filter(item => !item.ICO).map(item => ({
-        id: item.Id,
-        name: item.Name,
-        level: item.Level
-      }))
+      const search = result.data.Value.filter((item: { ICO: any }) => !item.ICO).map(
+        (item: { Id: any; Name: any; Level: any }) => ({
+          id: item.Id,
+          name: item.Name,
+          level: item.Level
+        })
+      )
       this.setState({
         search,
         rightItem: null
@@ -406,24 +379,16 @@ class CharactersModal extends React.Component<{
         ...this.temple,
         list: this.temple.list
           .filter(item => {
-            if (this.props.leftItem) {
-              return item.id === this.props.leftItem.id
-            }
+            if (this.props.leftItem) return item.id === this.props.leftItem.id
 
             // 一次消耗100且成塔
-            if (item.assets < 100 || item.sacrifices < 500) {
-              return false
-            }
+            if (item.assets < 100 || item.sacrifices < 500) return false
 
             if (rightItem) {
-              if (leftValue) {
-                return item.name.includes(leftValue)
-              }
+              if (leftValue) return item.name.includes(leftValue)
             }
 
-            if (leftValue) {
-              return item.name.includes(leftValue)
-            }
+            if (leftValue) return item.name.includes(leftValue)
 
             return true
           })
@@ -442,9 +407,7 @@ class CharactersModal extends React.Component<{
         ...data,
         list: data.list
           .filter(item => {
-            if (assets(item) < 10) {
-              return false
-            }
+            if (assets(item) < 10) return false
 
             if (rightItem) {
               const _lv = lv(item) - lv(rightItem)
@@ -464,13 +427,11 @@ class CharactersModal extends React.Component<{
                 : assets(item) >= Math.min(32, 2 ** -(_lv + 1))
             }
 
-            if (leftValue) {
-              return item.name.includes(leftValue)
-            }
+            if (leftValue) return item.name.includes(leftValue)
 
             return true
           })
-          .sort((a, b) => a.rate - b.rate)
+          .sort((a, b) => lv(b) - lv(a))
       }
     }
 
@@ -479,18 +440,12 @@ class CharactersModal extends React.Component<{
       ...this.temple,
       list: this.temple.list
         .filter(item => {
-          if (this.props.leftItem) {
-            return item.id === this.props.leftItem.id
-          }
+          if (this.props.leftItem) return item.id === this.props.leftItem.id
 
           // 一次消耗10且成塔
-          if (assets(item) < 250 || item.sacrifices < 500) {
-            return false
-          }
+          if (assets(item) < 250 || item.sacrifices < 500) return false
 
-          if (leftValue) {
-            return item.name.includes(leftValue)
-          }
+          if (leftValue) return item.name.includes(leftValue)
 
           return true
         })
@@ -500,9 +455,7 @@ class CharactersModal extends React.Component<{
 
   @computed get computedLeft() {
     const { leftFilter } = this.state
-    if (!leftFilter || !this.left?.list?.length) {
-      return this.left
-    }
+    if (!leftFilter || !this.left?.list?.length) return this.left
 
     return {
       ...this.left,
@@ -521,6 +474,7 @@ class CharactersModal extends React.Component<{
     } catch (error) {
       console.error(error)
     }
+
     return data
   }
 
@@ -538,22 +492,17 @@ class CharactersModal extends React.Component<{
 
   @computed get leftChangeText() {
     const { amount, isTemple } = this.state
-    if (this.isChaos) {
-      return '-10'
-    }
+    if (this.isChaos) return '-10'
 
-    if (this.isGuidePost || this.isStarBreak || this.isFishEye) {
-      return '-100'
-    }
+    if (this.isGuidePost || this.isStarBreak || this.isFishEye) return '-100'
 
     if (this.isStarDust) {
       const { leftItem, rightItem } = this.state
       if (!isTemple && leftItem && rightItem) {
         const _lv = lv(leftItem) - lv(rightItem)
-        if (_lv < 0) {
-          return `每 -${Math.min(32, 2 ** -(_lv + 1))}`
-        }
+        if (_lv < 0) return `每 -${Math.min(32, 2 ** -(_lv + 1))}`
       }
+
       return `-${amount || '?'}`
     }
 
@@ -582,14 +531,10 @@ class CharactersModal extends React.Component<{
         list: this.msrc.list
           .filter(item => {
             if (leftItem) {
-              if (rightValue) {
-                return item.name.includes(rightValue)
-              }
+              if (rightValue) return item.name.includes(rightValue)
             }
 
-            if (rightValue) {
-              return item.name.includes(rightValue)
-            }
+            if (rightValue) return item.name.includes(rightValue)
 
             return true
           })
@@ -602,13 +547,9 @@ class CharactersModal extends React.Component<{
         ...this.temple,
         list: this.temple.list
           .filter(item => {
-            if (this.props.rightItem) {
-              return item.id === this.props.rightItem.id
-            }
+            if (this.props.rightItem) return item.id === this.props.rightItem.id
 
-            if (item.assets === item.sacrifices) {
-              return false
-            }
+            if (item.assets === item.sacrifices) return false
 
             if (leftItem) {
               if (rightValue) {
@@ -617,19 +558,18 @@ class CharactersModal extends React.Component<{
                     item.name.includes(rightValue) && lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
                   )
                 }
+
                 return item.name.includes(rightValue)
               }
 
               return isTemple ? lv(item) <= lv(leftItem) + (isTemple ? 0 : 1) : true
             }
 
-            if (rightValue) {
-              return item.name.includes(rightValue)
-            }
+            if (rightValue) return item.name.includes(rightValue)
 
             return true
           })
-          .sort((a, b) => lv(b) - lv(a))
+          .sort((a, b) => rk(a) - rk(b))
       }
     }
 
@@ -637,9 +577,8 @@ class CharactersModal extends React.Component<{
       return {
         ...this.star,
         list: this.star.list.filter(item => {
-          if (rightValue) {
-            return item.name.includes(rightValue)
-          }
+          if (rightValue) return item.name.includes(rightValue)
+
           return true
         })
       }
@@ -649,9 +588,8 @@ class CharactersModal extends React.Component<{
       return {
         ...this.fantasy,
         list: this.fantasy.list.filter(item => {
-          if (rightValue) {
-            return item.name.includes(rightValue)
-          }
+          if (rightValue) return item.name.includes(rightValue)
+
           return true
         })
       }
@@ -661,9 +599,7 @@ class CharactersModal extends React.Component<{
       ...this.temple,
       list: this.temple.list
         .filter(item => {
-          if (item.assets === item.sacrifices) {
-            return false
-          }
+          if (item.assets === item.sacrifices) return false
 
           if (leftItem) {
             if (rightValue) {
@@ -673,9 +609,7 @@ class CharactersModal extends React.Component<{
             return lv(item) <= lv(leftItem) + (isTemple ? 0 : 1)
           }
 
-          if (rightValue) {
-            return item.name.includes(rightValue)
-          }
+          if (rightValue) return item.name.includes(rightValue)
 
           return true
         })
@@ -684,18 +618,16 @@ class CharactersModal extends React.Component<{
   }
 
   @computed get computedRight() {
-    if (!this.right) {
-      return this.right
-    }
+    if (!this.right) return this.right
 
     const { rightFilter } = this.state
-    if (!rightFilter || !this.right?.list?.length) {
-      return this.right
-    }
+    if (!rightFilter || !this.right?.list?.length) return this.right
 
     return {
       ...this.right,
-      list: this.right?.list.filter(item => lv(item) == rightFilter)
+      list: this.right?.list.filter(
+        (item: { cLevel?: any; level?: any }) => lv(item) == rightFilter
+      )
     }
   }
 
@@ -704,12 +636,13 @@ class CharactersModal extends React.Component<{
     const data = {}
 
     try {
-      ;(list || []).forEach(item =>
+      ;(list || []).forEach((item: { cLevel: any; level: any }) =>
         data[lv(item) || 0] ? (data[lv(item) || 0] += 1) : (data[lv(item) || 0] = 1)
       )
     } catch (error) {
       console.error(error)
     }
+
     return data
   }
 
@@ -728,22 +661,14 @@ class CharactersModal extends React.Component<{
   }
 
   @computed get rightChangeText() {
+    if (this.isChaos) return '+10-100'
+
+    if (this.isGuidePost) return '+10-100'
+
     const { amount } = this.state
-    if (this.isChaos) {
-      return '+10-100'
-    }
+    if (this.isStarDust || this.isFishEye) return `+${amount || '?'}`
 
-    if (this.isGuidePost) {
-      return '+10-100'
-    }
-
-    if (this.isStarDust || this.isFishEye) {
-      return `+${amount || '?'}`
-    }
-
-    if (this.isStarBreak) {
-      return '-20-200'
-    }
+    if (this.isStarBreak) return '-20-200'
 
     return ''
   }
@@ -751,13 +676,9 @@ class CharactersModal extends React.Component<{
   // -------------------- status --------------------
   @computed get canSubmit() {
     const { leftItem, rightItem, amount } = this.state
-    if (this.isGuidePost) {
-      return !!(leftItem && rightItem)
-    }
+    if (this.isGuidePost) return !!(leftItem && rightItem)
 
-    if (this.isStarDust) {
-      return !!(leftItem && rightItem && amount)
-    }
+    if (this.isStarDust) return !!(leftItem && rightItem && amount)
 
     return !!leftItem
   }
@@ -774,13 +695,18 @@ class CharactersModal extends React.Component<{
     return '混沌魔方：消耗10点塔值，抽取随机目标10-100的股份。\n当前每天可使用3次。'
   }
 
-  renderFilter(filter, data, map, onSelect) {
+  renderFilter(
+    filter: string,
+    data: string[],
+    map: { [x: string]: any },
+    onSelect: { (lv: any): void; (lv: any): void; (arg0: any): void }
+  ) {
     return (
       // @ts-expect-error
       <Popover.Old
         data={data}
         hitSlop={HIT_SLOP}
-        onSelect={title => {
+        onSelect={(title: string) => {
           const lv = title.split(' ')[0]
           onSelect(lv === '全部' ? '' : lv.replace('lv', ''))
         }}
@@ -806,7 +732,7 @@ class CharactersModal extends React.Component<{
     return (
       <>
         <Flex style={_.ml.xs}>
-          {this.renderFilter(leftFilter, this.leftDS, this.leftLevelMap, lv =>
+          {this.renderFilter(leftFilter, this.leftDS, this.leftLevelMap, (lv: any) =>
             this.setState({
               leftFilter: lv
             })
@@ -837,9 +763,11 @@ class CharactersModal extends React.Component<{
     } else {
       extra.push(formatNumber(item.state, 0))
     }
+    if (item.current) extra.push(`₵${formatNumber(item.current, 0)}`)
     extra.push(
       `+${toFixed(item.rate, 1)} (${toFixed(calculateRate(item.rate, item.rank, item.stars), 1)})`
     )
+
     return (
       <Item
         type='ask'
@@ -918,6 +846,8 @@ class CharactersModal extends React.Component<{
         level={lv(item)}
         name={item.name}
         extra={extra.join(' / ')}
+        assets={item.assets}
+        sacrifices={item.sacrifices}
         rank={item.rank}
         disabled={disabled}
         item={item}

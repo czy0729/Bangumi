@@ -22,8 +22,6 @@ function Log(
     navigation: Navigation
   }
 ) {
-  console.log(type)
-
   const styles = memoStyles()
   const rankChange = oldRank - rank
   return (

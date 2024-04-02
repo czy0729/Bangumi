@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
-    borderColor: _.colorTinygrailBorder,
+    borderColor: _.select('rgba(0, 0, 0, 0.16)', 'rgba(255, 255, 255, 0.16)'),
     borderWidth: 1,
     borderRadius: _.radiusXs
   },

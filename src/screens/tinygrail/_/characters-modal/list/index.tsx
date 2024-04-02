@@ -5,9 +5,9 @@
  * @Last Modified time: 2022-11-11 07:01:05
  */
 import React from 'react'
-import { ListView } from '@components'
-import { ob } from '@utils/decorators'
+import { PaginationList2 } from '@_'
 import { keyExtractor } from '@utils/app'
+import { ob } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
 import { styles } from './styles'
 
@@ -15,12 +15,11 @@ function List({ data, renderItem }) {
   if (!data) return null
 
   return (
-    <ListView
+    <PaginationList2
       style={styles.listView}
       keyExtractor={keyExtractor}
       refreshControlProps={refreshControlProps}
-      data={data}
-      lazy={12}
+      data={data.list}
       showMesume={false}
       footerTextType='tinygrailText'
       footerEmptyDataText='没有符合的结果'
