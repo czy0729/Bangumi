@@ -11,29 +11,20 @@ import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { useIsFocused, useObserver } from '@utils/hooks'
+import { useIsFocused, useNavigation, useObserver } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
-import { Navigation } from '@types'
 import { getHtml } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Award2022({
-  navigation,
-  width,
-  height
-}: {
-  navigation: Navigation
-  width?: number
-  height?: number
-}) {
+function Award2022({ width, height }: { width?: number; height?: number }) {
   r(COMPONENT)
 
+  const navigation = useNavigation()
   const show = useIsFocused()
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { coverRadius } = systemStore.setting
     const w = width || styles.item2022.width
     const h = height || styles.item2022.height
     return (
@@ -67,7 +58,7 @@ function Award2022({
             })
           }}
         >
-          <Squircle width={w} height={h} radius={coverRadius}>
+          <Squircle width={w} height={h} radius={systemStore.setting.coverRadius}>
             {!TEXT_ONLY && (
               <View
                 style={[

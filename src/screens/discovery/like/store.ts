@@ -306,12 +306,13 @@ export default class ScreenLike extends store<typeof STATE> {
       this.setState({
         list: {
           [type]: Object.entries(subjects)
+            .filter(([, item]) => !!item)
             .map(([key, item]) => ({
               id: Number(key),
               // @ts-expect-error
               ...item
             }))
-            .sort((a, b) => desc(a.rate, b.rate))
+            .sort((a, b) => desc(a?.rate || -100, b?.rate || -100))
         }
       })
       this.save()

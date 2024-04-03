@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-07-13 07:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 08:03:43
+ * @Last Modified time: 2024-04-03 22:00:43
  */
 import React from 'react'
-import { Flex, Header as CompHeader } from '@components'
+import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='猜你喜欢'
       hm={['like', 'Like']}
       headerRight={() => (

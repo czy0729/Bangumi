@@ -34,14 +34,7 @@ function Award() {
       {YEARS_LEFT.map(year => (
         <Block key={year} year={year} />
       ))}
-      {scrolled && (
-        <>
-          {/* {YEARS_RIGHT.map(year => (
-            <Block key={year} year={year} />
-          ))} */}
-          <More />
-        </>
-      )}
+      {scrolled && <More />}
     </ScrollViewHorizontal>
   ))
 }
