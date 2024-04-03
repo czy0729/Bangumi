@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:10:59
+ * @Last Modified time: 2024-04-04 07:35:13
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
-import { NAMESPACE, KEYS, TOP_DS, TYPE_DS, RELATION_DS, LAST_DS, STATE } from './ds'
+import { KEYS, LAST_DS, NAMESPACE, RELATION_DS, STATE, TOP_DS, TYPE_DS } from './ds'
+import { TopIndex } from './types'
 
 export default class ScreenWiki extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const res = this.getStorage(NAMESPACE)
-    const state = await res
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       _loaded: true
     })
+
     return discoveryStore.fetchWiki()
   }
 
@@ -28,22 +28,23 @@ export default class ScreenWiki extends store<typeof STATE> {
   }
 
   @computed get segement() {
-    const { top, type, relation, last } = this.state
-    let key
-    let values
-    let selectedIndex
+    const { top } = this.state
+
+    let key: string
+    let values: typeof RELATION_DS | typeof LAST_DS | typeof TYPE_DS
+    let selectedIndex: number
     if (top === 1) {
       key = 'relation'
       values = RELATION_DS
-      selectedIndex = relation
+      selectedIndex = this.state.relation
     } else if (top === 2) {
       key = 'last'
       values = LAST_DS
-      selectedIndex = last
+      selectedIndex = this.state.last
     } else {
       key = 'type'
       values = TYPE_DS
-      selectedIndex = type
+      selectedIndex = this.state.type
     }
 
     return {
@@ -54,25 +55,27 @@ export default class ScreenWiki extends store<typeof STATE> {
   }
 
   @computed get list() {
-    const { timeline = {}, last: wikiLast = {} } = this.wiki
-    const { top, type, relation, last } = this.state
-    if (top === 0) return timeline[KEYS[`${top}|${type}`]] || []
-    if (top === 1) return timeline[KEYS[`${top}|${relation}`]] || []
-    return wikiLast[KEYS[`${top}|${last}`]] || []
+    const { timeline = {} } = this.wiki
+    const { top } = this.state
+    if (top === 0) return timeline[KEYS[`${top}|${this.state.type}`]] || []
+    if (top === 1) return timeline[KEYS[`${top}|${this.state.relation}`]] || []
+
+    const { last = {} } = this.wiki
+    return last[KEYS[`${top}|${this.state.last}`]] || []
   }
 
   // -------------------- page --------------------
-  onChangeTop = title => {
+  onChangeTop = (title: string) => {
     this.setState({
-      top: TOP_DS.findIndex(item => item === title)
+      top: TOP_DS.findIndex(item => item === title) as TopIndex
     })
     this.setStorage(NAMESPACE)
   }
 
-  onChangeSub = title => {
+  onChangeSub = (title: string) => {
     const { key, values } = this.segement
     this.setState({
-      [key]: values.findIndex(item => item === title)
+      [key]: values.findIndex((item: string) => item === title)
     })
     this.setStorage(NAMESPACE)
   }

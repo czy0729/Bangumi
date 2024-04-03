@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-27 21:13:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 21:32:17
+ * @Last Modified time: 2024-04-04 07:06:22
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
+    paddingTop: _.sm,
     paddingHorizontal: _.wind,
     paddingLeft: _.wind - _.sm,
     minHeight: _.r(56)

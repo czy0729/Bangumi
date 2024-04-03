@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:55:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 21:26:00
+ * @Last Modified time: 2024-04-04 07:25:20
  */
 import React from 'react'
 import { ScrollView } from '@components'
-import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../../types'
 import Item from '../item'
-import { Ctx } from '../types'
+import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function List(props, { $ }: Ctx) {
   return (
-    <ScrollView contentContainerStyle={[_.mt.md, _.container.bottom]}>
-      {$.list.map((item, index) => (
+    <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      {$.list.map((item: any, index: number) => (
         <Item key={index} {...item} />
       ))}
     </ScrollView>
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 11:33:55
+ * @Last Modified time: 2024-04-04 07:09:21
  */
 import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -21,22 +21,18 @@ import {
   LIST_EMPTY
 } from '@constants'
 import { Id, SubjectId, SubjectType } from '@types'
-import Computed from './computed'
-import { getInt } from './utils'
 import {
+  cheerioBlog,
   cheerioCatalog,
   cheerioCatalogDetail,
-  cheerioTags,
-  cheerioBlog,
   cheerioChannel,
   cheerioDollars,
+  cheerioTags,
   cheerioWiki
 } from './common'
-import {
-  DEFAULT_TYPE,
-  INIT_ANITAMA_TIMELINE_ITEM,
-  INIT_NINGMOE_DETAIL_ITEM
-} from './init'
+import Computed from './computed'
+import { DEFAULT_TYPE, INIT_ANITAMA_TIMELINE_ITEM, INIT_NINGMOE_DETAIL_ITEM } from './init'
+import { getInt } from './utils'
 
 export default class Fetch extends Computed {
   /** 动漫之家资讯 */
@@ -133,8 +129,7 @@ export default class Fetch extends Computed {
 
   /** 动漫之家资讯 */
   fetchHeXieSheTimeline = async (page: number = 1) => {
-    const url =
-      'https://www.hexieshe.cn/wp-admin/admin-ajax.php?action=zrz_load_more_posts'
+    const url = 'https://www.hexieshe.cn/wp-admin/admin-ajax.php?action=zrz_load_more_posts'
     let data: any = INIT_ANITAMA_TIMELINE_ITEM
     try {
       const { _response } = await xhrCustom({

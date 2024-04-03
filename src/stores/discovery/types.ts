@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:53:00
+ * @Last Modified time: 2024-04-04 07:23:32
  */
 import {
   Avatar,
@@ -149,6 +149,7 @@ type WikiItem = {
   userId: UserId
   userName: string
   detail: string
+  time: string
 }
 
 /** 维基人 */
@@ -156,15 +157,7 @@ export type Wiki = DeepPartial<{
   counts: string[]
   lastCounts: string[]
   timeline: Record<
-    | 'all'
-    | 'lock'
-    | 'merge'
-    | 'crt'
-    | 'prsn'
-    | 'ep'
-    | 'relation'
-    | 'subjectPerson'
-    | 'subjectCrt',
+    'all' | 'lock' | 'merge' | 'crt' | 'prsn' | 'ep' | 'relation' | 'subjectPerson' | 'subjectCrt',
     WikiItem[]
   >
   last: Record<'all' | 'anime' | 'book' | 'music' | 'game' | 'real', WikiItem[]>

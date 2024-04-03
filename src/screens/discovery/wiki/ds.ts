@@ -2,17 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-08-27 21:10:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:10:38
+ * @Last Modified time: 2024-04-04 07:32:05
  */
 import { Loaded } from '@types'
+import { LastIndex, RelationIndex, TopIndex, TypeIndex } from './types'
 
-export const NAMESPACE = 'ScreenWiki'
+export const COMPONENT = 'Wiki'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
-  top: 0,
-  type: 0,
-  relation: 0,
-  last: 0,
+  top: 2 as TopIndex,
+  type: 0 as TypeIndex,
+  relation: 0 as RelationIndex,
+  last: 1 as LastIndex,
   _loaded: false as Loaded
 }
 

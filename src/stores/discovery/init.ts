@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-15 10:55:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 17:15:48
+ * @Last Modified time: 2024-04-04 07:10:14
  */
 import { LIST_EMPTY } from '@constants'
+import { Wiki } from './types'
 
 export const NAMESPACE = 'Discovery'
 
@@ -109,7 +110,7 @@ const STATE = {
       game: [],
       real: []
     }
-  },
+  } as Wiki,
 
   /** 动漫之家资讯 */
   dmzjTimeline: {

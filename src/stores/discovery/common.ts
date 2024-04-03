@@ -2,16 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 11:35:37
+ * @Last Modified time: 2024-04-04 07:22:47
  */
-import {
-  HTMLDecode,
-  cheerio,
-  getCoverMedium,
-  htmlMatch,
-  matchUserId,
-  safeObject
-} from '@utils'
+import { cheerio, getCoverMedium, HTMLDecode, htmlMatch, matchUserId, safeObject } from '@utils'
 import { SubjectTypeCn } from '@types'
 
 /** 标签 */
@@ -114,9 +107,7 @@ export function cheerioCatalogDetail(html: string) {
     .get()
 
   const $a = $('div.grp_box > a.l')
-  const [time = '', collect = ''] = (
-    $('div.grp_box > span.tip_j').text().trim() || ''
-  ).split('\n/')
+  const [time = '', collect = ''] = ($('div.grp_box > span.tip_j').text().trim() || '').split('\n/')
 
   const href = $('div.rr > a').attr('href') || ''
   let joinUrl = ''
@@ -145,9 +136,7 @@ export function cheerioCatalogDetail(html: string) {
 
 /** 全站日志 */
 export function cheerioBlog(html: string) {
-  const $ = cheerio(
-    htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"')
-  )
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
   return (
     $('div#news_list > div.item')
       .map((index: number, element: any) => {
@@ -157,35 +146,22 @@ export function cheerioBlog(html: string) {
         return safeObject({
           id: $a.attr('href').replace('/blog/', ''),
           title: $a.text().trim(),
-          cover: $li
-            .find('span.pictureFrameGroup img')
-            .attr('src')
-            .replace('/g/', '/l/'),
+          cover: $li.find('span.pictureFrameGroup img').attr('src').replace('/g/', '/l/'),
           time: String(times[times.length - 1]).replace('\n', ''),
           replies: $li.find('div.content .blue').text().trim().replace(/\(|\)/g, ''),
           content: `${$li.find('div.content').text().trim().split('...')[0]}...`,
-          username: String($li.find('div.time small.blue a').text().trim()).replace(
-            '\n',
-            ''
-          ),
-          subject: String($li.find('div.time small.grey a').text().trim()).replace(
-            '\n',
-            ''
-          ),
+          username: String($li.find('div.time small.blue a').text().trim()).replace('\n', ''),
+          subject: String($li.find('div.time small.grey a').text().trim()).replace('\n', ''),
           tags: ''
         })
       })
       .get() || []
-  ).filter(
-    (item: { cover: string }) => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg'
-  )
+  ).filter((item: { cover: string }) => item.cover !== '//lain.bgm.tv/pic/user/l/icon.jpg')
 }
 
 /** 频道聚合 */
 export function cheerioChannel(html: string) {
-  const $ = cheerio(
-    htmlMatch(html, '<div class="columns clearit">', '<div id="footer">')
-  )
+  const $ = cheerio(htmlMatch(html, '<div class="columns clearit">', '<div id="footer">'))
   return {
     rankTop:
       $('table.mediumImageChart tr')
@@ -248,11 +224,7 @@ export function cheerioChannel(html: string) {
           return safeObject({
             id: $a.attr('href').replace('/subject/topic', 'subject'),
             title: HTMLDecode($a.text().trim()),
-            replies: $li
-              .find(' > td > a.l + small.grey')
-              .text()
-              .trim()
-              .replace(/\(|\)/g, ''),
+            replies: $li.find(' > td > a.l + small.grey').text().trim().replace(/\(|\)/g, ''),
             subjectId: $subject.attr('href').replace('/subject/', ''),
             subjectName: $subject.text().trim().replace(/"/g, ''),
             userId: $user.attr('href').replace('/user/', ''),
@@ -304,7 +276,8 @@ export function cheerioWiki(html: string) {
             userName: userId === userName ? '' : userName,
             detail: HTMLDecode($small.text().trim().split('by ')[0])
               .trim()
-              .replace(/^\(|\)$/g, '')
+              .replace(/^\(|\)$/g, ''),
+            time: $li.find('.rr').text().trim()
           }
         })
         .get() || []
@@ -316,15 +289,15 @@ export function cheerioWiki(html: string) {
         .map((index: number, element: any) => $(element).text())
         .get() || [],
     timeline: {
-      all: getList('#wiki_wiki-all li'),
-      lock: getList('#wiki_wiki-lock li'),
-      merge: getList('#wiki_wiki-merge li'),
-      crt: getList('#wiki_wiki-crt li'),
-      prsn: getList('#wiki_wiki-prsn li'),
-      ep: getList('#wiki_wiki-ep li'),
-      relation: getList('#wiki_wiki-subject-relation li'),
-      subjectPerson: getList('#wiki_wiki-subject-person li'),
-      subjectCrt: getList('#wiki_wiki-subject-crt li')
+      all: getList('#wiki_act-all li'),
+      lock: getList('#wiki_act-lock li'),
+      merge: getList('#wiki_act-merge li'),
+      crt: getList('#wiki_act-crt li'),
+      prsn: getList('#wiki_act-prsn li'),
+      ep: getList('#wiki_act-ep li'),
+      relation: getList('#wiki_act-subject-relation li'),
+      subjectPerson: getList('#wiki_act-subject-person li'),
+      subjectCrt: getList('#wiki_act-subject-crt li')
     },
     last: {
       all: getList('#latest_all li'),

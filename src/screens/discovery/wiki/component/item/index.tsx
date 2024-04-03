@@ -2,38 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:57:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:22:12
+ * @Last Modified time: 2024-04-04 07:27:32
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Divider } from '@components'
-import { Cover } from '@_'
-import { userStore, _ } from '@stores'
+import { Divider, Flex, Text, Touchable } from '@components'
+import { _ } from '@stores'
 import { appNavigate, findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
-import { API_COVER, IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ id, name, detail, userName, userId }, { navigation }: Ctx) {
+function Item({ id, name, detail, userName, userId, time }, { navigation }: Ctx) {
   const styles = memoStyles()
-  const subjectId = String(id).includes('/subject/')
-    ? String(id).replace('/subject/', '')
-    : 0
   return (
     <View style={styles.item}>
-      <Flex align='start'>
-        {!!subjectId && (
-          <View style={_.mr.md}>
-            <Cover
-              size={IMG_WIDTH_SM}
-              height={IMG_HEIGHT_SM}
-              src={API_COVER(subjectId)}
-              radius
-              headers={userStore.requestHeaders}
-            />
-          </View>
-        )}
+      <Flex>
         <Flex.Item>
           <Touchable style={styles.touch} onPress={() => appNavigate(id, navigation)}>
             <Text type='main' lineHeight={15} bold>
@@ -42,11 +27,11 @@ function Item({ id, name, detail, userName, userId }, { navigation }: Ctx) {
           </Touchable>
           <Text
             style={_.mt.xs}
-            onPress={() =>
+            onPress={() => {
               navigation.push('Zone', {
                 userId
               })
-            }
+            }}
           >
             {!!detail && (
               <Text type='sub' size={12} lineHeight={14}>
@@ -65,10 +50,13 @@ function Item({ id, name, detail, userName, userId }, { navigation }: Ctx) {
             )}
           </Text>
         </Flex.Item>
+        <Text type='sub' size={12}>
+          {time}
+        </Text>
       </Flex>
       <Divider style={_.mt.sm} />
     </View>
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)
