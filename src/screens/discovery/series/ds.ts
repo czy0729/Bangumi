@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:03:41
+ * @Last Modified time: 2024-04-03 10:17:45
  */
 import { RANK_ANIME_FILTER } from '@constants'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenSeries'
+export const COMPONENT = 'Series'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   fetching: false,
@@ -26,7 +28,7 @@ export const STATE = {
   filter: '',
   airtime: '',
   status: '',
-  fixed: false,
+  fixed: true,
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
@@ -35,14 +37,7 @@ export const DATA_SORT = ['默认', '关联数', '新放送', '评分'] as const
 
 export const DATA_FILTER = RANK_ANIME_FILTER.map(item => item.label)
 
-export const DATA_STATUS = [
-  '全部',
-  '有关联系列',
-  '未收藏',
-  '看过',
-  '在看',
-  '未看完'
-] as const
+export const DATA_STATUS = ['全部', '有关联系列', '未收藏', '看过', '在看', '未看完'] as const
 
 export const HOST_API_V0 = 'https://api.bgm.tv/v0'
 

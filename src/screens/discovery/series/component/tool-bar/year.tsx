@@ -8,7 +8,7 @@ import React from 'react'
 import { ToolBar } from '@components'
 import { obc } from '@utils/decorators'
 import { DATA_AIRTIME } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 
 function Year(props, { $ }: Ctx) {
   const { airtime } = $.state

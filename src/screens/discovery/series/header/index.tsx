@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:21:52
+ * @Last Modified time: 2024-04-02 17:04:09
  */
 import React from 'react'
-import { Header as CompHeader, Flex } from '@components'
+import { Flex, Header as CompHeader } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
@@ -23,12 +24,9 @@ function Header(props, { $, navigation }: Ctx) {
             style={_.mr.xs}
             name='md-refresh'
             color={_.colorDesc}
-            onPress={() =>
-              confirm(
-                '刷新涉及大量请求与计算，若非必要请勿重复刷新，确定?',
-                $.fetchSeries
-              )
-            }
+            onPress={() => {
+              confirm('刷新涉及大量请求与计算，若非必要请勿重复刷新，确定?', $.fetchSeries)
+            }}
           />
           <IconTouchable
             name='md-info-outline'
@@ -55,4 +53,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

@@ -2,19 +2,34 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 17:32:02
+ * @Last Modified time: 2024-04-03 10:16:57
  */
 import React from 'react'
-import { Flex, Text, Loading, Touchable } from '@components'
-import { Cover, Rank, Stars, Manage } from '@_'
-import { _, uiStore, collectionStore } from '@stores'
+import { View } from 'react-native'
+import { Flex, Loading, Text, Touchable } from '@components'
+import { Cover, Manage, Rank, Stars } from '@_'
+import { _, collectionStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM } from '@constants'
+import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import { SubjectId, ViewStyle } from '@types'
+import { Ctx } from '../../types'
+import Progress from '../progress'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Ctx } from '../types'
 
-function Subject({ style = undefined, id, small = false }, { $, navigation }: Ctx) {
+function Subject(
+  {
+    style,
+    id,
+    small = false
+  }: {
+    style?: ViewStyle
+    id: SubjectId
+    small?: boolean
+  },
+  { $, navigation }: Ctx
+) {
   const styles = memoStyles()
   const subject = $.subject(id)
   if (subject._loaded === 0) {
@@ -39,13 +54,21 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
 
   const platform = subject.platform && subject.platform !== 'TV' && subject.platform
   const bottom = [
-    !!subject.total && `(${subject.total}人)`,
-    subject.date || '未放送',
+    !!subject.total && `(${subject.total})`,
+    String(subject.date).slice(0, 7) || '未放送',
     platform
   ].filter(item => !!item)
 
   const { length } = subject.name
   const size = length > 24 ? 11 : length > 16 ? 12 : length > 8 ? 13 : 14
+
+  const manageCollection =
+    collectionStore.collect(id) || MODEL_COLLECTION_STATUS.getLabel(collection?.type) || ''
+  const elText = (
+    <Text style={_.mt.xs} size={11} lineHeight={1} bold numberOfLines={1} shadow>
+      {eps.join(' / ')}
+    </Text>
+  )
 
   return (
     <Touchable
@@ -75,14 +98,20 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
             <Text style={_.mr.sm} size={size} bold numberOfLines={2}>
               {subject.name}
             </Text>
-            <Text size={11} bold>
-              {eps.join(' / ')}
-            </Text>
+            <View style={_.container.block}>
+              {manageCollection ? (
+                <Progress current={collection?.ep || 0} total={subject?.eps || 0}>
+                  {elText}
+                </Progress>
+              ) : (
+                elText
+              )}
+            </View>
             <Flex style={_.mt.sm}>
               <Rank style={_.mr.xs} value={subject.rank} />
               <Stars style={_.mr.xs} value={subject.score} simple />
               <Text size={11} type='sub'>
-                {bottom.join(' / ')}
+                {bottom.join(' · ')}
               </Text>
             </Flex>
           </Flex>
@@ -90,7 +119,7 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
         <Manage
           style={styles.manage}
           subjectId={id}
-          collection={collectionStore.collect(id)}
+          collection={manageCollection}
           onPress={() => {
             uiStore.showManageModal(
               {
@@ -107,4 +136,4 @@ function Subject({ style = undefined, id, small = false }, { $, navigation }: Ct
   )
 }
 
-export default obc(Subject)
+export default obc(Subject, COMPONENT)

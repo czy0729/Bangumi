@@ -2,51 +2,35 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:17:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 22:12:59
+ * @Last Modified time: 2024-04-02 17:33:07
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { PaginationList } from '@_'
-import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
+import Tips from './component/tips'
+import ToolBar from './component/tool-bar'
 import Header from './header'
-import ToolBar from './tool-bar'
-import Item from './item'
-import Tips from './tips'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 关联系列 */
 const Series = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
 
-  return useObserver(() => {
-    const { fixed } = $.state
-    return (
-      <Component id='screen-series'>
-        <Header />
-        <Page loaded={$.state._loaded}>
-          {fixed && <ToolBar />}
-          <PaginationList
-            key={$.state.sort}
-            contentContainerStyle={_.container.bottom}
-            data={$.data}
-            limit={6}
-            ListHeaderComponent={!fixed && <ToolBar />}
-            renderItem={renderItem}
-            onPage={$.onPage}
-          />
-          <Tips />
-        </Page>
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-series'>
+      <Header />
+      <Page loaded={$.state._loaded}>
+        {$.state.fixed && <ToolBar />}
+        <List />
+        <Tips />
+      </Page>
+    </Component>
+  ))
 }
 
 export default ic(Store, Series)
-
-function renderItem({ item }) {
-  return <Item item={item} />
-}

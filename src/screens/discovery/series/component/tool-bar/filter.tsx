@@ -7,8 +7,8 @@
 import React from 'react'
 import { ToolBar } from '@components'
 import { obc } from '@utils/decorators'
-import { DATA_FILTER } from '../ds'
-import { Ctx } from '../types'
+import { DATA_FILTER } from '../../ds'
+import { Ctx } from '../../types'
 
 function Filter(props, { $ }: Ctx) {
   const { filter } = $.state

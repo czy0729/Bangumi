@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:34:24
+ * @Last Modified time: 2024-04-02 17:19:29
  */
-import { StoreType as $ } from '../types'
+import { rc } from '@utils/dev'
+import { StoreType as $ } from '../../types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+export const COMPONENT = rc(PARENT, 'Item')
+
+export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,

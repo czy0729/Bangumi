@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2022-04-19 17:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 12:18:22
+ * @Last Modified time: 2024-04-02 17:17:43
  */
 import React from 'react'
-import { ToolBar as CompToolBar } from '@components'
+import { ToolBar as ToolBarComp } from '@components'
 import { ob } from '@utils/decorators'
-import Sort from './sort'
-import Year from './year'
 import Filter from './filter'
-import Status from './status'
 import More from './more'
+import Sort from './sort'
+import Status from './status'
+import Year from './year'
+import { COMPONENT } from './ds'
 
 function ToolBar() {
   return (
-    <CompToolBar>
+    <ToolBarComp>
       <Sort />
       <Year />
       <Filter />
       <Status />
       <More />
-    </CompToolBar>
+    </ToolBarComp>
   )
 }
 
-export default ob(ToolBar)
+export default ob(ToolBar, COMPONENT)

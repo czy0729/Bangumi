@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:04:13
+ * @Last Modified time: 2024-04-02 17:24:39
  */
-import { observable, computed, toJS } from 'mobx'
-import { userStore, systemStore } from '@stores'
-import { getTimestamp, cnjp, asc, desc, info } from '@utils'
-import store from '@utils/store'
+import { computed, observable, toJS } from 'mobx'
+import { systemStore, userStore } from '@stores'
+import { asc, cnjp, desc, getTimestamp, info } from '@utils'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
+import store from '@utils/store'
 import i18n from '@constants/i18n'
 import { SubjectId } from '@types'
 import {
@@ -32,9 +32,8 @@ export default class ScreenSeries extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: getTimestamp()
     })
@@ -196,9 +195,7 @@ export default class ScreenSeries extends store<typeof STATE> {
         }
 
         relations[subjectId] = data
-          .filter(
-            item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation)
-          )
+          .filter(item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation))
           .sort((a, b) => asc(a.id, b.id))
           .map(item => item.id)
         return true
@@ -245,9 +242,7 @@ export default class ScreenSeries extends store<typeof STATE> {
           }
 
           relations[sub] = data
-            .filter(
-              item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation)
-            )
+            .filter(item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation))
             .sort((a, b) => asc(a.id, b.id))
             .map(item => item.id)
 
@@ -437,8 +432,7 @@ export default class ScreenSeries extends store<typeof STATE> {
 
   filterData(item: SubjectId[]) {
     return computed(() => {
-      const { filter, airtime, status } = this.state
-
+      const { filter } = this.state
       let data = item
       if (filter) {
         data = data.filter(subjectId => {
@@ -447,6 +441,7 @@ export default class ScreenSeries extends store<typeof STATE> {
         })
       }
 
+      const { airtime } = this.state
       if (airtime) {
         data = data.filter(subjectId => {
           const subject = this.subject(subjectId)
@@ -454,6 +449,7 @@ export default class ScreenSeries extends store<typeof STATE> {
         })
       }
 
+      const { status } = this.state
       if (status === '未收藏') {
         data = data.filter(subjectId => !this.collection(subjectId))
       } else if (status === '看过') {
@@ -474,19 +470,17 @@ export default class ScreenSeries extends store<typeof STATE> {
 
   @computed get data() {
     const { data, sort } = this.state
-    if (sort === '关联数') {
-      return data.slice().sort((a, b) => desc(a.length, b.length))
-    }
+    if (sort === '关联数') return data.slice().sort((a, b) => desc(a.length, b.length))
 
     if (sort === '新放送') {
       return data.slice().sort((a, b) => {
         const dateA = Math.max(
-          ...a.map(item =>
+          ...a.map((item: SubjectId) =>
             Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
           )
         )
         const dateB = Math.max(
-          ...b.map(item =>
+          ...b.map((item: SubjectId) =>
             Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
           )
         )
@@ -496,8 +490,8 @@ export default class ScreenSeries extends store<typeof STATE> {
 
     if (sort === '评分') {
       return data.slice().sort((a, b) => {
-        const rankA = Math.min(...a.map(item => this.subject(item).rank || 9999))
-        const rankB = Math.min(...b.map(item => this.subject(item).rank || 9999))
+        const rankA = Math.min(...a.map((item: SubjectId) => this.subject(item).rank || 9999))
+        const rankB = Math.min(...b.map((item: SubjectId) => this.subject(item).rank || 9999))
         return asc(rankA, rankB)
       })
     }
