@@ -2,18 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 16:08:00
+ * @Last Modified time: 2024-04-05 04:51:43
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
+import { ListView, Loading } from '@components'
 import { Notice } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { SubjectType } from '@types'
+import { TABS } from '../../ds'
+import { Ctx } from '../../types'
 import Filter from '../filter'
 import Item from '../item'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { keyExtractor } from './utils'
+import { COMPONENT } from './ds'
 
 class List extends React.Component<{
   title: string
@@ -24,27 +27,28 @@ class List extends React.Component<{
   }
 
   renderItem = ({ item, index }) => {
-    const { id } = this.props
-    return <Item type={id} index={index} {...item} />
+    return <Item type={this.id} index={index} {...item} />
   }
 
   onHeaderRefresh = () => {
     const { $ } = this.context as Ctx
-    const { id } = this.props
-    return $.fetchList(id, true)
+    return $.fetchList(this.id, true)
   }
 
   onFooterRefresh = () => {
     const { $ } = this.context as Ctx
-    const { id } = this.props
-    return $.fetchList(id)
+    return $.fetchList(this.id)
+  }
+
+  get id() {
+    return this.props.id
   }
 
   render() {
+    r(COMPONENT)
+
     const { $ } = this.context as Ctx
-    const { id } = this.props
-    const { page, rec } = $.state
-    const list = $.list(id)
+    const list = $.list(this.id)
     const numColumns = _.num(4)
     return (
       <>
@@ -57,10 +61,10 @@ class List extends React.Component<{
             data={list}
             lazy={32}
             numColumns={numColumns}
-            scrollToTop={TABS[page].key === id}
+            scrollToTop={TABS[$.state.page].key === this.id}
             keyboardDismissMode='on-drag'
             ListHeaderComponent={
-              rec && (
+              $.state.rec && (
                 <Notice style={_.mb.md}>
                   「排名」为作者整理的对应标签下评分最高的前 100
                   个条目。若没有足够数据则跳转到正常的标签页面。
@@ -80,7 +84,3 @@ class List extends React.Component<{
 }
 
 export default obc(List)
-
-function keyExtractor(item: { name: any; nums: any }) {
-  return `${item.name}|${item.nums}`
-}

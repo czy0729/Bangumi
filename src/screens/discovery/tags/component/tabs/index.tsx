@@ -2,25 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:48:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 13:09:26
+ * @Last Modified time: 2024-04-05 04:42:00
  */
 import React from 'react'
 import { TabsV2 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { SubjectType } from '@types'
-import List from '../list'
-import { TABS } from '../ds'
-import { Ctx } from '../types'
+import { TABS } from '../../ds'
+import { Ctx } from '../../types'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function Tabs(props, { $ }: Ctx) {
-  const { page } = $.state
   return (
     <TabsV2
       key={_.orientation}
       style={_.mt._sm}
       routes={TABS}
-      page={page}
+      page={$.state.page}
       backgroundColor={_.colorPlain}
       renderItem={renderItem}
       onChange={$.onChange}
@@ -28,8 +27,4 @@ function Tabs(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tabs)
-
-function renderItem(item) {
-  return <List key={item.key} id={item.key as SubjectType} />
-}
+export default obc(Tabs, COMPONENT)

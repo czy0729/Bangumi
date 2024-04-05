@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 18:04:16
+ * @Last Modified time: 2024-04-05 04:46:26
  */
 import React from 'react'
-import { Touchable, Squircle, Text, Flex, Heatmap, Highlight } from '@components'
+import { Flex, Heatmap, Highlight, Squircle, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
-import { memoStyles } from './styles'
+import { Ctx } from '../../types'
 import { getTyperankNums } from './utils'
+import { COMPONENT } from './ds'
+import { memoStyles } from './styles'
 
 function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { width, height } = styles.item
-  const { filter, rec } = $.state
 
   let numsText = nums
-  if (rec) {
+  if ($.state.rec) {
     numsText = getTyperankNums(type, name)
   } else {
     if (nums > 10000) numsText = `${formatNumber(nums / 10000, 1)}w`
@@ -37,7 +37,7 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
       animate
       scale={0.85}
       onPress={() => {
-        if (rec && numsText) {
+        if ($.state.rec && numsText) {
           t('标签索引.跳转', {
             to: 'Typerank',
             type,
@@ -50,12 +50,13 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
           return
         }
 
-        t('标签索引.跳转', {
-          to: 'Tag',
+        navigation.push('Tag', {
           type,
           tag
         })
-        navigation.push('Tag', {
+
+        t('标签索引.跳转', {
+          to: 'Tag',
           type,
           tag
         })
@@ -63,7 +64,7 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
     >
       <Squircle width={width} height={height} radius>
         <Flex style={styles.item} direction='column' justify='center'>
-          <Highlight align='center' size={12} bold numberOfLines={3} value={filter}>
+          <Highlight align='center' size={12} bold numberOfLines={3} value={$.state.filter}>
             {tag}
           </Highlight>
           <Text style={_.mt.xs} type='sub' align='center' size={10}>
@@ -76,4 +77,4 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

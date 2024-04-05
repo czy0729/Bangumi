@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-04 15:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 15:44:18
+ * @Last Modified time: 2024-04-05 04:48:23
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
+import { ob } from '@utils/decorators'
+import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
-
-const DS = ['数量', '排名'] as const
 
 function RecSegement({ value, onValueChange }) {
   return (
@@ -22,4 +22,4 @@ function RecSegement({ value, onValueChange }) {
   )
 }
 
-export default RecSegement
+export default ob(RecSegement, COMPONENT)

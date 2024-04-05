@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 18:02:28
+ * @Last Modified time: 2024-04-05 04:51:55
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { getTimestamp, x18s } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import { HTML_TAGS, LIST_EMPTY } from '@constants'
 import { SubjectType } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE, TABS } from './ds'
@@ -21,9 +21,8 @@ export default class ScreenTags extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: true
     })
