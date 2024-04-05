@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:07:34
+ * @Last Modified time: 2024-04-05 13:02:09
  */
-import { observable, computed } from 'mobx'
-import { usersStore, discoveryStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { discoveryStore, usersStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
-import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
+import store from '@utils/store'
 import { Id } from '@types'
 import { STATE } from './ds'
 
@@ -20,6 +20,7 @@ export default class ScreenStaff extends store<typeof STATE> {
     this.setState({
       _loaded: true
     })
+
     return this.fetchCatalogs(true)
   }
 
@@ -67,7 +68,7 @@ export default class ScreenStaff extends store<typeof STATE> {
   }
 
   /** 上传目录详情 */
-  updateCatalogDetail = data => {
+  updateCatalogDetail = (data: any) => {
     setTimeout(() => {
       const { id, title, avatar, nickname, userId, time, collect, list } = data
       update(`catalog_${id}`, {
@@ -79,8 +80,8 @@ export default class ScreenStaff extends store<typeof STATE> {
         time,
         collect,
         list: list
-          .filter((item, index) => index < 100)
-          .map(item => ({
+          .filter((item: any, index: number) => index < 100)
+          .map((item: any) => ({
             id: item.id,
             image: item.image,
             title: item.title,
@@ -92,7 +93,13 @@ export default class ScreenStaff extends store<typeof STATE> {
     }, 2000)
   }
 
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    return this.fetchCatalogs(true)
+  }
+
   // -------------------- get --------------------
+  /** 目录创建者 */
   @computed get userId() {
     return 'lilyurey'
   }

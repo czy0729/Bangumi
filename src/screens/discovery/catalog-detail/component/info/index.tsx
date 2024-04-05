@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:38:07
+ * @Last Modified time: 2024-04-05 13:27:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import {
   Text,
   Touchable
 } from '@components'
+import { Progress } from '@_'
 import { _, userStore } from '@stores'
 import { appNavigate, getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
@@ -33,6 +34,7 @@ function Info(props, { $, navigation }: Ctx) {
   const { title, avatar, content, progress, nickname, userId, time, replyCount, _loaded } =
     catalogDetail
   const replyText = replyCount == 5 ? '5+' : replyCount
+  const [current, total] = String(progress || '').split('/')
   return (
     <View style={styles.container}>
       <Header.Placeholder />
@@ -137,11 +139,14 @@ function Info(props, { $, navigation }: Ctx) {
               </Touchable>
             </Flex>
           </Flex.Item>
-          {userStore.isLogin && (
-            <Text type='sub' size={12} bold>
-              完成度{'  '}
-              {String(progress).replace('/', ' / ')}
-            </Text>
+          {userStore.isLogin && !!(current || total) && (
+            <View>
+              <Progress current={Number(current || 0)} total={Number(total || 0)}>
+                <Text type='sub' size={12} bold>
+                  完成度 {current} / {total}
+                </Text>
+              </Progress>
+            </View>
           )}
         </Flex>
         <View style={_.mt.lg}>

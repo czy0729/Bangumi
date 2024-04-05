@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-29 18:43:22
+ * @Last Modified time: 2024-04-05 13:21:27
  */
 // export * from './navigation-bar-events'
 export * from './app-common'
@@ -40,6 +40,7 @@ export * from './pagination-list-2'
 export * from './popable'
 export * from './popover'
 export * from './prevent-touch-placeholder'
+export * from './progress'
 export * from './rank'
 export * from './rate'
 export * from './safe-area-view'
