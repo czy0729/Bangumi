@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Component, Page, ScrollView } from '@components'
 import { _ } from '@stores'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useObserver } from '@utils/hooks'
 import Award2022 from '../index/component/award-2022'
 import Award2023 from '../index/component/award-2023'
 import Blocks from './component/blocks'
@@ -16,8 +16,8 @@ import Years from './component/years'
 import Header from './header'
 import { memoStyles } from './styles'
 
+/** 年鉴 */
 const Yearbook = () => {
-  const navigation = useNavigation()
   return useObserver(() => {
     const styles = memoStyles()
     return (

@@ -20,6 +20,7 @@ import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** AI 推荐 */
 const Recommend = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     $.init()

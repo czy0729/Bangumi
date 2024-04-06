@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-27 15:38:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:22:49
+ * @Last Modified time: 2024-04-06 03:14:46
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenDollars'
+export const COMPONENT = 'Dollars'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

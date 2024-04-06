@@ -17,6 +17,7 @@ import Store from './store'
 import { styles } from './styles'
 import { Ctx } from './types'
 
+/** 维基人 */
 const Wiki = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

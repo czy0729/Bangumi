@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 20:13:00
+ * @Last Modified time: 2024-04-06 12:36:22
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, UserStatus, Text } from '@components'
-import { InView, Avatar } from '@_'
+import { Flex, Text, UserStatus } from '@components'
+import { Avatar, InView } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-
-const ITEM_HEIGHT = 64
 
 function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
   const styles = memoStyles()
@@ -31,7 +30,7 @@ function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
               size={52}
               borderWidth={2}
               borderColor={_.select(_.colorBorder, 'rgba(255, 255, 255, 0.88)')}
-              radius={4}
+              radius={_.radiusSm}
               onPress={() => $.onToggleShow(nickname)}
               onLongPress={() => {
                 if (!userId) return
@@ -70,4 +69,4 @@ function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

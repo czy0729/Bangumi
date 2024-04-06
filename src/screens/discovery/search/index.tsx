@@ -23,6 +23,7 @@ import Store from './store'
 import { styles } from './styles'
 import { Ctx } from './types'
 
+/** 搜索 */
 const Search = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:09:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:35:21
+ * @Last Modified time: 2024-04-06 03:14:11
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
-import Header from '../anime/header'
 import List from './component/list'
+import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 找游戏 */
 const Game = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
@@ -20,7 +21,7 @@ const Game = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <Component id='screen-game'>
-      <Header title='找游戏' alias='游戏' hm={['game', 'Game']} />
+      <Header />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>

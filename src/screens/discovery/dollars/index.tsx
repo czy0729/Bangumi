@@ -2,36 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:22:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 20:10:29
+ * @Last Modified time: 2024-04-06 12:33:19
  */
-import React, { useRef } from 'react'
+import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver, useMount } from '@utils/hooks'
+import { useObserver } from '@utils/hooks'
+import List from './component/list'
+import Textarea from './component/textarea'
 import Header from './header'
-import Textarea from './textarea'
-import List from './list'
+import { useDollarsPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
-const Dollars = (props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+/** Dollars */
+const Dollars = (props, context: Ctx) => {
+  useDollarsPage(context)
 
-  const interval = useRef(null)
-  useMount(() => {
-    interval.current = setInterval(() => {
-      $.updateDollars()
-    }, 8000)
-
-    return () => {
-      $.scrollViewRef = null
-      $.inputRef = null
-      clearInterval(interval.current)
-    }
-  })
-
+  const { $ } = context
   return useObserver(() => (
     <Component id='screen-dollars'>
       <Header />

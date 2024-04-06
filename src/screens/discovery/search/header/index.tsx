@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-09 04:30:58
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -14,11 +14,11 @@ import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='搜索'
       hm={[$.url, 'Search']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -29,7 +29,7 @@ function Header(props, { $ }: Ctx) {
           }}
         >
           <Heatmap id='搜索.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

@@ -14,6 +14,7 @@ import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 标签 */
 const Tags = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

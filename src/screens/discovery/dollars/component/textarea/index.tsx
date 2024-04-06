@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-04-27 15:04:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 20:06:51
+ * @Last Modified time: 2024-04-06 10:34:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Text, Input } from '@components'
+import { Input, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Textarea(props, { $ }: Ctx) {
-  const { show, text } = $.state
-  if (!show) return null
+  if (!$.state.show) return null
 
   const styles = memoStyles()
   return (
@@ -25,8 +25,8 @@ function Textarea(props, { $ }: Ctx) {
         inputStyle={styles.input}
         multiline
         numberOfLines={3}
-        value={text}
-        placeholder='单击头像可以@某人，长按前往空间'
+        value={$.state.text}
+        placeholder='单击头像可以@某人，长按则前往空间'
         autoFocus
         returnKeyType='done'
         returnKeyLabel='发送'
@@ -44,4 +44,4 @@ function Textarea(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Textarea)
+export default obc(Textarea, COMPONENT)

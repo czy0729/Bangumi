@@ -8,7 +8,7 @@ import React from 'react'
 import { Heatmap, Track } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import LinkModal from '../component/link-modal'
+import LinkModal from '../link-modal'
 import { COMPONENT } from './ds'
 
 function Extra() {

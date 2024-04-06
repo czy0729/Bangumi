@@ -15,6 +15,7 @@ import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 排行榜 */
 const Rank = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:25:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:23:16
+ * @Last Modified time: 2024-04-06 12:55:15
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { EXCLUDE_STATE, STATE } from './ds'
 
 export default class ScreenDollars extends store<typeof STATE> {
@@ -23,6 +23,7 @@ export default class ScreenDollars extends store<typeof STATE> {
       ...EXCLUDE_STATE,
       _loaded: true
     })
+
     return this.fetchDollars()
   }
 
@@ -55,14 +56,13 @@ export default class ScreenDollars extends store<typeof STATE> {
 
   /** 滚动到顶 */
   scrollToTop = (animated = false) => {
-    if (this.scrollViewRef?.scrollTo) {
+    if (this.scrollViewRef?.scrollToIndex) {
       setTimeout(() => {
         try {
-          this.scrollViewRef.scrollTo({
-            x: 0,
-            y: 0,
-            animated,
-            duration: 640
+          this.scrollViewRef.scrollToIndex({
+            animated: true,
+            index: 0,
+            viewOffset: 0
           })
         } catch (error) {}
       }, 160)

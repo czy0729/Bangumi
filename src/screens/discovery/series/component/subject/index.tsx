@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-03 10:16:57
+ * @Last Modified time: 2024-04-05 13:50:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, Text, Touchable } from '@components'
-import { Cover, Manage, Rank, Stars } from '@_'
+import { Cover, Manage, Progress, Rank, Stars } from '@_'
 import { _, collectionStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { SubjectId, ViewStyle } from '@types'
 import { Ctx } from '../../types'
-import Progress from '../progress'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
