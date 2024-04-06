@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 17:04:09
+ * @Last Modified time: 2024-04-06 13:35:43
  */
 import React from 'react'
-import { Flex, Header as CompHeader } from '@components'
+import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { confirm } from '@utils'
@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='关联系列'
       hm={['series', 'Series']}
       headerRight={() => (

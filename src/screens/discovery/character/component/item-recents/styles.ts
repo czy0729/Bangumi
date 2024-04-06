@@ -1,19 +1,19 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-28 01:11:26
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-28 01:11:26
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-04-06 14:52:30
  */
 import { _ } from '@stores'
-import { IMG_WIDTH } from '@constants'
+import { IMG_WIDTH_LG } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     backgroundColor: _.colorPlain
   },
   imgContainer: {
-    width: IMG_WIDTH,
-    marginRight: _.md + 4
+    width: IMG_WIDTH_LG,
+    marginRight: _.md
   },
   wrap: {
     paddingVertical: _.md

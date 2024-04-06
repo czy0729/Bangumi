@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-27 16:45:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 12:56:59
+ * @Last Modified time: 2024-04-06 13:46:24
  */
 import React from 'react'
-import { Flex, Header as CompHeader } from '@components'
+import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 function Header(props, { $ }: Ctx) {
   const { show } = $.state
   return (
-    <CompHeader
+    <HeaderComp
       title='DOLLARS'
       hm={['dollars', 'Dollars']}
       headerRight={() => (

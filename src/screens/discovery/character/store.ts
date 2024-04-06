@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:21:36
+ * @Last Modified time: 2024-04-06 16:11:35
  */
-import { observable, computed } from 'mobx'
-import { userStore, usersStore } from '@stores'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { usersStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { HOST } from '@constants'
-import { NAMESPACE, STATE } from './ds'
+import { STATE, TABS, TABS_SELF } from './ds'
 import { Params } from './types'
 
 export default class ScreenCharacter extends store<typeof STATE> {
@@ -20,34 +20,30 @@ export default class ScreenCharacter extends store<typeof STATE> {
   init = async () => {
     const { page } = this.state
     const { key } = this.tabs[page]
-    const { _loaded } = this.list(key)
-    if (!_loaded) return this.fetchList(key, true)
+    if (!this.list(key)._loaded) return this.fetchList(key, true)
 
     return true
   }
 
   // -------------------- fetch --------------------
   fetchList = (key: string, refresh: boolean = false) => {
-    switch (key) {
-      case 'recents':
-        return usersStore.fetchRecents(refresh)
+    if (key === 'recents') return usersStore.fetchRecents(refresh)
 
-      case 'persons':
-        return usersStore.fetchPersons(
-          {
-            userId: this.userId
-          },
-          refresh
-        )
-
-      default:
-        return usersStore.fetchCharacters(
-          {
-            userId: this.userId
-          },
-          refresh
-        )
+    if (key === 'persons') {
+      return usersStore.fetchPersons(
+        {
+          userId: this.userId
+        },
+        refresh
+      )
     }
+
+    return usersStore.fetchCharacters(
+      {
+        userId: this.userId
+      },
+      refresh
+    )
   }
 
   // -------------------- get --------------------
@@ -57,46 +53,15 @@ export default class ScreenCharacter extends store<typeof STATE> {
   }
 
   @computed get tabs() {
-    if (this.userId === userStore.myId) {
-      return [
-        {
-          title: '人物近况',
-          key: 'recents'
-        },
-        {
-          title: '虚拟角色',
-          key: 'characters'
-        },
-        {
-          title: '现实人物',
-          key: 'persons'
-        }
-      ]
-    }
-
-    return [
-      {
-        title: '虚拟角色',
-        key: 'characters'
-      },
-      {
-        title: '现实人物',
-        key: 'persons'
-      }
-    ]
+    return this.userId === userStore.myId ? TABS_SELF : TABS
   }
 
   list(key: string) {
-    switch (key) {
-      case 'persons':
-        return computed(() => usersStore.persons(this.userId)).get()
-
-      case 'recents':
-        return computed(() => usersStore.recents).get()
-
-      default:
-        return computed(() => usersStore.characters(this.userId)).get()
-    }
+    return computed(() => {
+      if (key === 'persons') return usersStore.persons(this.userId)
+      if (key === 'recents') return usersStore.recents
+      return usersStore.characters(this.userId)
+    }).get()
   }
 
   @computed get url() {
@@ -108,18 +73,12 @@ export default class ScreenCharacter extends store<typeof STATE> {
     if (page === this.state.page) return
 
     t('收藏的人物.标签页切换')
+
     this.setState({
       page
     })
-    this.setStorage(undefined, undefined, NAMESPACE)
-    this.tabChangeCallback(page)
-  }
 
-  tabChangeCallback = (page: number) => {
     const { key } = this.tabs[page]
-    const { _loaded } = this.list(key)
-    if (!_loaded) {
-      this.fetchList(key, true)
-    }
+    if (!this.list(key)._loaded) this.fetchList(key, true)
   }
 }

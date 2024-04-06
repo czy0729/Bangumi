@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 18:37:36
+ * @Last Modified time: 2024-04-06 13:35:58
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../types'
@@ -13,14 +13,14 @@ import { COMPONENT } from './ds'
 
 function Header(props, { navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='AI 推荐'
       hm={['recommend', 'Recommend']}
       headerRight={() => {
         if (STORYBOOK) return null
 
         return (
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={['说明', '帖子讨论']}
             onSelect={key => {
               if (key === '说明') {

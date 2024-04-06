@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 00:20:04
+ * @Last Modified time: 2024-04-06 14:27:37
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='用户人物'
       hm={[$.url, 'Character']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -27,10 +28,10 @@ function Header(props, { $ }: Ctx) {
           }}
         >
           <Heatmap id='收藏的人物.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)
