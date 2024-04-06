@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-05-04 15:40:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:27:30
+ * @Last Modified time: 2024-04-06 22:04:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { SectionTitle, ItemBlog } from '@_'
+import { ItemBlog, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 
 function Blog(props, { $ }: Ctx) {
   const { blog = [] } = $.channel
@@ -35,4 +36,4 @@ function Blog(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Blog)
+export default obc(Blog, COMPONENT)

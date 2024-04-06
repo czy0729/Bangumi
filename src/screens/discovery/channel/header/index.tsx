@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:32:46
+ * @Last Modified time: 2024-04-06 22:06:41
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={`${$.typeCn}频道`}
       alias='频道'
       hm={[$.url, 'Channel']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           name='md-menu'
-          data={[...MODEL_SUBJECT_TYPE.data.map(item => item.title), '浏览器查看']}
+          data={[...SUBJECT_TYPE.map(item => item.title), '浏览器查看']}
           onSelect={key => {
             t('频道.右上角菜单', {
               key
@@ -44,10 +45,10 @@ function Header(props, { $, navigation }: Ctx) {
           }}
         >
           <Heatmap id='频道.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

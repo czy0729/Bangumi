@@ -2,25 +2,26 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 00:51:03
+ * @Last Modified time: 2024-04-06 22:04:37
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Katakana, Text } from '@components'
-import { SectionTitle, Cover } from '@_'
+import { Flex, Katakana, Text, Touchable } from '@components'
+import { Cover, SectionTitle } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { COVER_WIDTH_SM, COVER_HEIGHT_SM } from '../rank/ds'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COVER_HEIGHT_SM, COVER_WIDTH_SM } from '../rank/ds'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Friends(props, { $, navigation }: Ctx) {
-  const styles = memoStyles()
   const { friends = [] } = $.channel
   if (!friends.length) return null
 
+  const styles = memoStyles()
   return (
     <View style={_.mt.lg}>
       <SectionTitle style={_.container.wind}>好友最近关注</SectionTitle>
@@ -97,4 +98,4 @@ function Friends(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Friends)
+export default obc(Friends, COMPONENT)

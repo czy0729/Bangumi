@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:48:04
+ * @Last Modified time: 2024-04-06 22:05:15
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Katakana, Text } from '@components'
-import { SectionTitle, Cover, Tag } from '@_'
+import { Flex, Katakana, Text, Touchable } from '@components'
+import { Cover, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
-import { COVER_WIDTH_SM, COVER_HEIGHT_SM, COVER_HEIGHT, COVER_WIDTH } from './ds'
+import { Ctx } from '../../types'
+import { COMPONENT, COVER_HEIGHT, COVER_HEIGHT_SM, COVER_WIDTH, COVER_WIDTH_SM } from './ds'
 import { memoStyles } from './styles'
 
 function Rank(props, { $, navigation }: Ctx) {
@@ -85,12 +85,7 @@ function Rank(props, { $, navigation }: Ctx) {
                         <View>{!!collection && <Tag value={collection} />}</View>
                       </Flex>
                     </Flex.Item>
-                    <Text
-                      style={_.ml.md}
-                      type={index === 0 ? 'danger' : 'main'}
-                      size={15}
-                      bold
-                    >
+                    <Text style={_.ml.md} type={index === 0 ? 'danger' : 'main'} size={15} bold>
                       {index + 1}
                     </Text>
                   </Flex>
@@ -180,4 +175,4 @@ function Rank(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Rank)
+export default obc(Rank, COMPONENT)

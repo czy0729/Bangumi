@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-05-04 17:27:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:39:24
+ * @Last Modified time: 2024-04-06 22:05:46
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Touchable, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Tags(props, { $, navigation }: Ctx) {
@@ -51,4 +52,4 @@ function Tags(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Tags)
+export default obc(Tags, COMPONENT)

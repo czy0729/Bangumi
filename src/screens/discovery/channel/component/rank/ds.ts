@@ -2,10 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-02 14:35:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:36:37
+ * @Last Modified time: 2024-04-06 22:05:00
  */
 import { _ } from '@stores'
-import { IMG_WIDTH, IMG_HEIGHT } from '@constants'
+import { rc } from '@utils/dev'
+import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
+import { COMPONENT as PARENT } from '../ds'
+
+export const COMPONENT = rc(PARENT, 'Rank')
 
 export const COVER_WIDTH = IMG_WIDTH * 1.2
 

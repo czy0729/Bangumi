@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-02 14:29:18
+ * @Last Modified time: 2024-04-06 22:03:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Katakana, Text } from '@components'
+import { Flex, Katakana, Text, Touchable } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Discuss(props, { $, navigation }: Ctx) {
@@ -56,11 +57,7 @@ function Discuss(props, { $, navigation }: Ctx) {
                       </Text>
                     )}
                   </Text>
-                  <Katakana.Provider
-                    style={_.mt.sm}
-                    itemStyle={styles.katakanas}
-                    size={12}
-                  >
+                  <Katakana.Provider style={_.mt.sm} itemStyle={styles.katakanas} size={12}>
                     <Katakana type='sub' size={12}>
                       {findSubjectCn(item.subjectName)}
                     </Katakana>
@@ -83,4 +80,4 @@ function Discuss(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Discuss)
+export default obc(Discuss, COMPONENT)

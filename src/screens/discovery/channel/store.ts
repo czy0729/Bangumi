@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:04:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:20:29
+ * @Last Modified time: 2024-04-06 22:07:29
  */
-import { observable, computed } from 'mobx'
-import { discoveryStore, collectionStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { collectionStore, discoveryStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
-import store from '@utils/store'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import { HTML_CHANNEL, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectType, SubjectTypeCn } from '@types'
 import { STATE } from './ds'
@@ -31,8 +31,7 @@ export default class ScreenChannel extends store<typeof STATE> {
 
   // -------------------- get --------------------
   @computed get type() {
-    const { type } = this.state
-    return type || this.params.type || 'anime'
+    return this.state.type || this.params.type || 'anime'
   }
 
   @computed get typeCn() {
@@ -41,8 +40,7 @@ export default class ScreenChannel extends store<typeof STATE> {
 
   /** 云快照 */
   @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
+    return this.state.ota[this.thirdPartyKey]
   }
 
   /** 频道聚合 */
