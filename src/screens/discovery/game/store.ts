@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-18 21:33:03
+ * @Last Modified time: 2024-04-07 09:10:58
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, otaStore, systemStore } from '@stores'
@@ -62,14 +62,12 @@ export default class ScreenGame extends store<typeof STATE> {
 
   /** 是否列表布局 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 对应项搜索后总数 */
   @computed get total() {
-    const { data } = this.state
-    return data.list.length
+    return this.state.data.list.length
   }
 
   /** 对应项实际显示列表 */

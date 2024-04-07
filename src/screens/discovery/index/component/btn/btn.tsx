@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:03:49
+ * @Last Modified time: 2024-04-07 09:09:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT_MAIN } from './ds'
@@ -17,7 +17,7 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
   const styles = memoStyles()
   const { key, name, text, icon, size } = item
 
-  const isSm = $.discoveryMenuNum >= 5
+  const isSm = systemStore.setting.discoveryMenuNum >= 5
   const wrapStyle = isSm ? styles.wrapSm : styles.wrap
   const itemStyle = isSm ? styles.itemSm : styles.item
 

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 06:01:41
+ * @Last Modified time: 2024-04-06 22:44:35
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { userStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -19,7 +19,7 @@ import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 function Header({ fixed }, { $, navigation }: Ctx) {
   const catalogDetail = $.catalogDetail.title ? $.catalogDetail : $.catalogDetailFromOSS
   return (
-    <CompHeader
+    <HeaderComp
       mode='float'
       fixed={fixed}
       title={catalogDetail.title}
@@ -29,7 +29,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
         <Flex>
           {userStore.isLogin && <IconCopy $={$} navigation={navigation} />}
           {!!(catalogDetail.joinUrl || catalogDetail.byeUrl) && <IconFavor $={$} />}
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={DATA}
             onSelect={key => {
               t('目录详情.右上角菜单', {
@@ -47,7 +47,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
             }}
           >
             <Heatmap id='目录详情.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

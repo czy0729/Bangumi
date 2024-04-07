@@ -5,10 +5,10 @@
  * @Last Modified time: 2023-11-04 18:34:51
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
@@ -17,12 +17,12 @@ function Header(props, { $ }: Ctx) {
   const { type, tag } = $.params
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type) || '动画'
   return (
-    <CompHeader
+    <HeaderComp
       title={tag ? `${typeCn} · ${tag}` : `${typeCn}标签`}
       alias='用户标签'
       hm={[$.url, 'Tag']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -32,7 +32,7 @@ function Header(props, { $ }: Ctx) {
           }}
         >
           <Heatmap id='用户标签.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

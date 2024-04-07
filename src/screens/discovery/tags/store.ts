@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 04:51:55
+ * @Last Modified time: 2024-04-07 09:03:19
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -99,32 +99,27 @@ export default class ScreenTags extends store<typeof STATE> {
 
   // -------------------- get --------------------
   @computed get type() {
-    const { page } = this.state
-    return TABS[page].key
+    return TABS[this.state.page].key
   }
 
   @computed get url() {
-    const { page, filter } = this.state
-    return HTML_TAGS(this.type, page, filter)
+    return HTML_TAGS(this.type, this.state.page, this.state.filter)
   }
 
   @computed get thirdPartyKey() {
-    const { filter } = this.state
-    const query = [this.type, filter].join('_')
+    const query = [this.type, this.state.filter].join('_')
     return `tags_${query}`
   }
 
   /** 云快照 */
   @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
+    return this.state.ota[this.thirdPartyKey]
   }
 
   /** 标签 */
   list(type: SubjectType) {
     return computed(() => {
-      const { filter } = this.state
-      const tags = discoveryStore.tags(type, filter)
+      const tags = discoveryStore.tags(type, this.state.filter)
       if (!tags._loaded) {
         return this.ota
           ? {

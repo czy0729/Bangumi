@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-13 16:29:07
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
@@ -13,11 +13,11 @@ import { COMPONENT } from './ds'
 
 function Header(props, { navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='自定义源头'
       hm={['origin-setting', 'OriginSetting']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['说明']}
           onSelect={key => {
             t('自定义源头.右上角菜单', {
@@ -32,7 +32,7 @@ function Header(props, { navigation }: Ctx) {
           }}
         >
           <Heatmap id='自定义源头.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

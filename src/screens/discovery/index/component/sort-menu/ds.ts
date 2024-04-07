@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:55:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:54:08
+ * @Last Modified time: 2024-04-07 09:09:51
  */
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { rc } from '@utils/dev'
 import { Navigation } from '@types'
 import { StoreType as $ } from '../../types'
@@ -20,9 +20,9 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   orientation: _.orientation,
   dragging: false as $['state']['dragging'],
-  discoveryMenu: [] as $['discoveryMenu'],
-  discoveryTodayOnair: true as $['discoveryTodayOnair'],
-  discoveryMenuNum: 4 as $['discoveryMenuNum'],
+  discoveryMenu: [] as typeof systemStore.setting.discoveryMenu,
+  discoveryTodayOnair: true as typeof systemStore.setting.discoveryTodayOnair,
+  discoveryMenuNum: 4 as typeof systemStore.setting.discoveryMenuNum,
   onToggle: (() => {}) as $['toggleDragging'],
   onSubmit: (() => {}) as $['saveDiscoveryMenu']
 }

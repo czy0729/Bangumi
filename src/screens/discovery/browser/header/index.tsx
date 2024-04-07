@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-11 05:28:54
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -15,12 +15,12 @@ import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='索引'
       hm={[$.url, 'Browser']}
       headerRight={() => (
         <Flex>
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={DATA}
             onSelect={key => {
               t('索引.右上角菜单', {
@@ -36,7 +36,7 @@ function Header(props, { $ }: Ctx) {
             }}
           >
             <Heatmap id='索引.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

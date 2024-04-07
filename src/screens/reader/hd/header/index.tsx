@@ -5,16 +5,16 @@
  * @Last Modified time: 2022-09-29 06:33:43
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { IconHeader } from '@_'
 import { alert } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={$.params?.cn || 'HD'}
       alias='HD'
       hm={['hd', 'HD']}

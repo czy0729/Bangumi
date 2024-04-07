@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-04 01:15:11
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { cnjp, copy, info, open } from '@utils'
@@ -39,7 +39,7 @@ function Header({ index, onScrollTo }, { $, navigation }: Ctx) {
 
   const showHomeIcon = !fixed && index >= 4
   return (
-    <CompHeader
+    <HeaderComp
       mode='transition'
       statusBarEventsType='Subject'
       fixed={fixed}
@@ -61,7 +61,7 @@ function Header({ index, onScrollTo }, { $, navigation }: Ctx) {
       headerTitle={<HeaderTitle $={$} />}
       headerRight={() => (
         <Flex>
-          <CompHeader.Popover
+          <HeaderComp.Popover
             key={String($.locationDS.length)}
             style={_.mr.xs}
             data={$.locationDS}
@@ -73,7 +73,7 @@ function Header({ index, onScrollTo }, { $, navigation }: Ctx) {
               }, 0)
             }}
           />
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={data}
             color={color}
             onSelect={key => {
@@ -120,7 +120,7 @@ function Header({ index, onScrollTo }, { $, navigation }: Ctx) {
             }}
           >
             <Heatmap id='条目.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

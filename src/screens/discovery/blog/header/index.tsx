@@ -5,10 +5,10 @@
  * @Last Modified time: 2023-10-20 08:02:47
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
-import { t } from '@utils/fetch'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { STORYBOOK, URL_SPA } from '@constants'
 
 const TEXT_BROWSER = '浏览器查看'
@@ -18,12 +18,12 @@ if (!STORYBOOK) DATA.push(TEXT_SPA)
 
 function Header() {
   return (
-    <CompHeader
+    <HeaderComp
       title='日志'
       alias='全站日志'
       hm={['discovery/blog', 'DiscoveryBlog']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={DATA}
           onSelect={key => {
             t('全站日志.右上角菜单', {
@@ -39,7 +39,7 @@ function Header() {
           }}
         >
           <Heatmap id='全站日志.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

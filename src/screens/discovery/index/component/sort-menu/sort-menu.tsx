@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:29:16
+ * @Last Modified time: 2024-04-07 09:07:28
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,6 @@ const SortMenu = memo(
     }, [discoveryMenu, onToggle])
 
     const onSave = useCallback(() => {
-      // @ts-expect-error
       onSubmit(menu)
       setTimeout(() => {
         onToggle()

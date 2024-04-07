@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-02-02 10:53:35
  */
 import React from 'react'
-import { Header as CompHeader, Flex } from '@components'
+import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -16,7 +16,7 @@ import { Ctx } from '../types'
 function Header(props, { $, navigation }: Ctx) {
   const { hide } = $.state
   return (
-    <CompHeader
+    <HeaderComp
       title='bilibili 同步'
       hm={['bilibili-sync', 'BilibiliSync']}
       headerRight={() => (

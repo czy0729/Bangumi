@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-18 05:56:25
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -14,11 +14,11 @@ import { COMPONENT } from './ds'
 
 function Header() {
   return (
-    <CompHeader
+    <HeaderComp
       title='电波提醒'
       hm={['notify/all', 'Notify']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -28,7 +28,7 @@ function Header() {
           }}
         >
           <Heatmap id='电波提醒.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

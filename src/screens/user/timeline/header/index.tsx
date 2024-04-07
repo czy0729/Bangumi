@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-20 15:46:07
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 function Header(props, { $ }: Ctx) {
   const { userName } = $.params
   return (
-    <CompHeader
+    <HeaderComp
       title={userName ? `${userName}的时间线` : '时间线'}
       alias='时间线'
       hm={['user/timeline', 'UserTimeline']}

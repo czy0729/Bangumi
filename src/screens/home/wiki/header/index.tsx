@@ -5,22 +5,22 @@
  * @Last Modified time: 2022-09-26 20:46:48
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={$.params?.name ? `${$.params.name}的修订历史` : '修订历史'}
       alias='修订历史'
       hm={[$.url, 'SubjectWiki']}
       headerTitleStyle={styles.title}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -30,7 +30,7 @@ function Header(props, { $ }: Ctx) {
           }}
         >
           <Heatmap id='修订历史.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

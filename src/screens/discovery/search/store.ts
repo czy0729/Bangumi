@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 10:53:01
+ * @Last Modified time: 2024-04-07 09:05:04
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, searchStore, subjectStore, usersStore, userStore } from '@stores'
@@ -62,15 +62,18 @@ export default class ScreenSearch extends store<typeof STATE> {
 
   /** 当前是否在搜索用户 */
   @computed get isUser() {
-    const { cat } = this.state
-    const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(cat)
+    const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(this.state.cat)
     return label === '用户'
   }
 
   /** 是否显示推荐词 */
   @computed get showAdvance() {
-    const { focus, cat } = this.state
-    if (!focus || cat === 'mono_all' || cat === 'user' || this.search.list.length) {
+    if (
+      !this.state.focus ||
+      this.state.cat === 'mono_all' ||
+      this.state.cat === 'user' ||
+      this.search.list.length
+    ) {
       return false
     }
 

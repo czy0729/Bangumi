@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-02-02 13:00:36
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -14,7 +14,7 @@ import { Ctx } from '../types'
 function Header(props, { $, navigation }: Ctx) {
   const { name } = $.params
   return (
-    <CompHeader
+    <HeaderComp
       title={name || '自定义跳转'}
       hm={['actions', 'Actions']}
       headerRight={() => (

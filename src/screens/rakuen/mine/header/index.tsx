@@ -5,19 +5,13 @@
  * @Last Modified time: 2022-09-29 17:28:31
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
-import Extra from '../extra'
 import { Ctx } from '../types'
+import Extra from '../extra'
 
 function Header(props, { $ }: Ctx) {
-  return (
-    <CompHeader
-      title='小组'
-      hm={['group/mine', 'Mine']}
-      headerRight={() => <Extra $={$} />}
-    />
-  )
+  return <HeaderComp title='小组' hm={['group/mine', 'Mine']} headerRight={() => <Extra $={$} />} />
 }
 
 export default obc(Header)

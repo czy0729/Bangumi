@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-10 13:55:23
  */
 import React from 'react'
-import { Flex, Header as CompHeader } from '@components'
+import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -16,7 +16,7 @@ import { COMPONENT } from './ds'
 function Header(props, { $, navigation }: Ctx) {
   const { list } = $.state
   return (
-    <CompHeader
+    <HeaderComp
       title='赞助者'
       hm={['sponsor', 'Sponsor']}
       headerRight={() => (

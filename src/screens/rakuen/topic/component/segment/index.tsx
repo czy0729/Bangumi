@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 23:49:29
+ * @Last Modified time: 2024-04-07 09:35:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,6 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Segement(props, { $ }: Ctx) {
-  const { filterMe, filterFriends } = $.state
-
   const segmentedControlDS = ['全部']
   const hasLogin = !!$.myId
   if (hasLogin && $.commentMeCount) segmentedControlDS.push(`我 ${$.commentMeCount}`)
@@ -23,9 +21,9 @@ function Segement(props, { $ }: Ctx) {
 
   let selectedIndex = 0
   if (segmentedControlDS.length > 1) {
-    if (filterMe && segmentedControlDS.find(item => item.includes('我'))) {
+    if ($.state.filterMe && segmentedControlDS.find(item => item.includes('我'))) {
       selectedIndex = 1
-    } else if (filterFriends) {
+    } else if ($.state.filterFriends) {
       selectedIndex = segmentedControlDS.length - 1
     }
   }
@@ -46,11 +44,17 @@ function Segement(props, { $ }: Ctx) {
         values={segmentedControlDS}
         selectedIndex={selectedIndex}
         onValueChange={title => {
-          if ((title.includes('我') && !filterMe) || (title === '全部' && filterMe)) {
+          if (
+            (title.includes('我') && !$.state.filterMe) ||
+            (title === '全部' && $.state.filterMe)
+          ) {
             return $.toggleFilterMe()
           }
 
-          if ((title.includes('好友') && !filterFriends) || (title === '全部' && filterFriends)) {
+          if (
+            (title.includes('好友') && !$.state.filterFriends) ||
+            (title === '全部' && $.state.filterFriends)
+          ) {
             $.toggleFilterFriends()
           }
         }}

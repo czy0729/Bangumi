@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-03-13 06:39:11
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Iconfont, Touchable } from '@components'
+import { Flex, Header as HeaderComp, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='资产重组'
       hm={[`tinygrail/sacrifice/${$.monoId}`, 'TinygrailSacrifice']}
       statusBarEvents={false}

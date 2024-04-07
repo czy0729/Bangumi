@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 20:28:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 16:21:42
+ * @Last Modified time: 2024-04-07 09:12:43
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -119,8 +119,7 @@ export default class ScreenCatalog extends store<typeof STATE> {
   // -------------------- get --------------------
   /** 目录 (高级) */
   @computed get catalogAdvance() {
-    const { loadedCatalog } = this.state
-    if (!loadedCatalog) return []
+    if (!this.state.loadedCatalog) return []
 
     return get('catalog').map(item => {
       // 计算这个目录大部分是什么类型的条目
@@ -188,16 +187,16 @@ export default class ScreenCatalog extends store<typeof STATE> {
 
   /** 目录 */
   @computed get catalog() {
-    const { type, page } = this.state
-    if (type === 'advance') return this.catalogAdvanceFilter
+    if (this.state.type === 'advance') return this.catalogAdvanceFilter
 
-    const catalog = discoveryStore.catalog(type, page)
+    const catalog = discoveryStore.catalog(this.state.type, this.state.page)
     if (userStore.isLimit) {
       return {
         ...catalog,
         list: catalog.list.filter(item => !x18s(item.title))
       }
     }
+
     return catalog
   }
 
@@ -205,8 +204,7 @@ export default class ScreenCatalog extends store<typeof STATE> {
   @computed get isLimit() {
     if (STORYBOOK) return false
 
-    const { type } = this.state
-    if (type !== 'advance') return false
+    if (this.state.type !== 'advance') return false
 
     if (!userStore.isLogin) return true
 

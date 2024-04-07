@@ -5,15 +5,15 @@
  * @Last Modified time: 2023-03-17 01:57:20
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, HTML_NEW_TOPIC } from '@constants'
-import HeaderTitle from '../header-title'
 import { Ctx } from '../types'
+import HeaderTitle from '../header-title'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   const { joinUrl, byeUrl } = $.groupInfo
@@ -22,7 +22,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   if (byeUrl) data.push('退出小组')
 
   return (
-    <CompHeader
+    <HeaderComp
       mode='transition'
       statusBarEventsType='Topic'
       fixed={fixed}
@@ -52,7 +52,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
               })
             }}
           />
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={data}
             onSelect={async key => {
               t('小组.右上角菜单', {
@@ -85,7 +85,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
             }}
           >
             <Heatmap id='小组.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </>
       )}
     />

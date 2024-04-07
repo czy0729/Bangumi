@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-10-22 13:14:00
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -14,7 +14,7 @@ import { styles } from './styles'
 function Header(props, { $ }: Ctx) {
   const name = cnjp($.params?.cn, $.params?.jp)
   return (
-    <CompHeader
+    <HeaderComp
       title={name ? `${name}的预览` : '预览'}
       alias='预览'
       hm={[$.url, 'Preview']}

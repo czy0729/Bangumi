@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-19 11:21:30
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -24,10 +24,8 @@ function Header(props, { $ }: Ctx) {
   } catch (error) {}
 
   return (
-    <CompHeader
-      title={`短信${list.length ? ` (${list.length})` : ''}${
-        title ? ` · ${title}` : ''
-      }`}
+    <HeaderComp
+      title={`短信${list.length ? ` (${list.length})` : ''}${title ? ` · ${title}` : ''}`}
       hm={['pm', 'PM']}
       headerTitleAlign='left'
       headerRight={() => (
@@ -53,7 +51,7 @@ function Header(props, { $ }: Ctx) {
               />
             </>
           )}
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={['浏览器查看']}
             onSelect={key => {
               if (key === '浏览器查看') {
@@ -63,7 +61,7 @@ function Header(props, { $ }: Ctx) {
             }}
           >
             <Heatmap id='短信.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

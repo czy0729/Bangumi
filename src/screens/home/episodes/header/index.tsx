@@ -5,20 +5,20 @@
  * @Last Modified time: 2022-09-01 09:53:52
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={$.params?.name ? `${$.params.name}的章节` : '章节'}
       alias='章节'
       hm={[$.url, 'Episodes']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -28,7 +28,7 @@ function Header(props, { $ }: Ctx) {
           }}
         >
           <Heatmap id='章节.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

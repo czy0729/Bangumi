@@ -5,17 +5,17 @@
  * @Last Modified time: 2022-08-07 04:37:25
  */
 import React from 'react'
-import { Header as CompHeader, Flex, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
-import Sort from '../sort'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
+import Sort from '../sort'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='好友'
       headerTitleAlign='left'
       headerTitleStyle={_.ml._md}
@@ -23,7 +23,7 @@ function Header(props, { $ }: Ctx) {
       headerRight={() => (
         <Flex>
           <Sort $={$} />
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={['浏览器查看']}
             onSelect={key => {
               if (key === '浏览器查看') {
@@ -33,7 +33,7 @@ function Header(props, { $ }: Ctx) {
             }}
           >
             <Heatmap id='好友.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

@@ -5,22 +5,22 @@
  * @Last Modified time: 2023-11-12 07:37:11
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
-import { t } from '@utils/fetch'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { styles } from './styles'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={$.params?.name ? `包含${$.params.name}的目录` : '条目目录'}
       alias='条目目录'
       hm={[$.url, 'SubjectCatalogs']}
       headerTitleStyle={styles.title}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={['浏览器查看']}
           onSelect={key => {
             if (key === '浏览器查看') {
@@ -30,7 +30,7 @@ function Header(props, { $ }: Ctx) {
           }}
         >
           <Heatmap id='条目目录.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

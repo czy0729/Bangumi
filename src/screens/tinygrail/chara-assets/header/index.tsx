@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-12 18:02:36
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
 import Right from '../component/right'
 import { Ctx } from '../types'
@@ -13,7 +13,7 @@ import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={$.params?.userName ? `${$.params.userName}的持仓` : '我的持仓'}
       alias='我的持仓'
       hm={['tinygrail/chara/assets', 'TinygrailCharaAssets']}

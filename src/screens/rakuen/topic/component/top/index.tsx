@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:28:52
+ * @Last Modified time: 2024-04-07 09:35:33
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -15,12 +15,10 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function TopWrap(props, { $, navigation }: Ctx) {
-  const { _replies } = $.params
-  const { cdn, cdnOrigin } = systemStore.setting
   let groupThumb = $.groupThumb
   if (
-    cdn &&
-    cdnOrigin === 'magma' &&
+    systemStore.setting.cdn &&
+    systemStore.setting.cdnOrigin === 'magma' &&
     typeof groupThumb === 'string' &&
     groupThumb.includes(HOST_IMAGE)
   ) {
@@ -36,7 +34,7 @@ function TopWrap(props, { $, navigation }: Ctx) {
       title={$.title}
       subTitle={$.subTitle}
       time={$.time}
-      replies={_replies}
+      replies={$.params._replies}
       group={$.group}
       groupHref={$.groupHref}
       groupThumb={groupThumb}

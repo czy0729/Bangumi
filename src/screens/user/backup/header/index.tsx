@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-02-02 11:10:40
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 
 function Header(props, { navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='本地备份'
       hm={['backup', 'Backup']}
       headerRight={() => (

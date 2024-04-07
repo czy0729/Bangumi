@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:33:11
+ * @Last Modified time: 2024-04-07 09:25:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,9 +54,6 @@ class Filter extends React.Component<Props> {
     if (!this.show) return null
 
     const { $ } = this.context as Ctx
-    const { progress } = $.state
-    const { length } = this.props
-    const { focus } = this.state
     return (
       <View style={this.styles.filter}>
         <Input
@@ -67,16 +64,16 @@ class Filter extends React.Component<Props> {
           onBlur={this.onBlur}
           onChangeText={$.onFilterChange}
         />
-        {!focus && !this.filter && (
+        {!this.state.focus && !this.filter && (
           <Flex style={this.styles.icon} justify='center' pointerEvents='none'>
-            {progress.fetching && (
+            {$.state.progress.fetching && (
               <View style={this.styles.loading}>
                 <Loading.Medium color={_.colorSub} size={16} />
               </View>
             )}
-            {length ? (
+            {this.props.length ? (
               <Text type='icon' bold size={15}>
-                {length}
+                {this.props.length}
               </Text>
             ) : (
               <Iconfont name='md-search' size={18} />

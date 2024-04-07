@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-05 22:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 06:01:57
+ * @Last Modified time: 2024-04-06 22:46:34
  */
 import { computed, observable } from 'mobx'
 import { _, collectionStore, discoveryStore, subjectStore, userStore } from '@stores'
@@ -120,8 +120,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
   // -------------------- get --------------------
   /** 目录 id */
   @computed get catalogId() {
-    const { catalogId = '' } = this.params
-    return catalogId
+    return this.params.catalogId || ''
   }
 
   /** 目录详情 */
@@ -142,7 +141,6 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
       if (data) return data
     }
 
-    const { sort } = this.state
     let list = []
     if (this.catalogDetail.list.length) {
       list = this.catalogDetail.list
@@ -166,6 +164,7 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
     })
 
     // 时间
+    const { sort } = this.state
     if (String(sort) === '1') {
       return CacheManager.set(
         key,
@@ -193,26 +192,22 @@ export default class ScreenCatalogDetail extends store<typeof STATE> {
 
   /** 目录是否已收藏 */
   @computed get isCollect() {
-    const { byeUrl } = this.catalogDetail
-    return !!byeUrl
+    return !!this.catalogDetail.byeUrl
   }
 
   /** 隐藏分数? */
   @computed get hideScore() {
-    const { _hideScore } = this.params
-    return _hideScore
+    return this.params._hideScore
   }
 
   /** 是否自己创建的目录 */
   @computed get isSelf() {
-    const { joinUrl, byeUrl } = this.catalogDetail
-    return userStore.isLogin && !joinUrl && !byeUrl
+    return userStore.isLogin && !this.catalogDetail.joinUrl && !this.catalogDetail.byeUrl
   }
 
   /** 是否列表布局 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 网格布局个数 */

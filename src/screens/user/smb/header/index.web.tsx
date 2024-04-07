@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-08 17:17:42
  */
 import React from 'react'
-import { Activity, Flex, Header as CompHeader, Touchable } from '@components'
+import { Activity, Flex, Header as HeaderComp, Touchable } from '@components'
 import { info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -17,7 +17,7 @@ import './index.scss'
 function Header(props, { $, navigation }: Ctx) {
   const { fetchingCollections } = $.state
   return (
-    <CompHeader
+    <HeaderComp
       title='本地管理'
       mode='float'
       fixed
@@ -29,7 +29,7 @@ function Header(props, { $, navigation }: Ctx) {
               <Activity />
             </Touchable>
           )}
-          <CompHeader.Popover
+          <HeaderComp.Popover
             name='md-menu'
             data={['新增服务', '通用配置', '扩展刮削词', '用户令牌', '功能说明']}
             onSelect={key => {

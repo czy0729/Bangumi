@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-15 22:16:20
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -19,7 +19,7 @@ function Header(props, { $ }: Ctx) {
   const { list } = $.say
   const date = list[list.length - 1]?.date
   return (
-    <CompHeader
+    <HeaderComp
       title={
         $.isNew ? '新吐槽' : `吐槽 (${list.length})${date ? ` · ${date.split(' ')?.[0]}` : ''}`
       }
@@ -52,7 +52,7 @@ function Header(props, { $ }: Ctx) {
                 />
               </>
             )}
-            <CompHeader.Popover
+            <HeaderComp.Popover
               data={['浏览器查看']}
               onSelect={key => {
                 if (key === '浏览器查看') {
@@ -62,7 +62,7 @@ function Header(props, { $ }: Ctx) {
               }}
             >
               <Heatmap id='吐槽.右上角菜单' />
-            </CompHeader.Popover>
+            </HeaderComp.Popover>
           </Flex>
         )
       }}

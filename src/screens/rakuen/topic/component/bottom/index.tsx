@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:38:45
+ * @Last Modified time: 2024-04-07 09:33:33
  */
 import React from 'react'
 import { FixedTextarea, Flex, SafeAreaBottom, Text } from '@components'
@@ -18,8 +18,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   if (!$.isWebLogin || $.isLimit) return null
 
   const styles = memoStyles()
-  const { placeholder, value } = $.state
-  const { tip = '', close } = $.topic
+  const { tip = '' } = $.topic
   if (tip.includes('半公开')) {
     return (
       <SafeAreaBottom style={styles.fixedBottom} type={_.ios('height', 'bottom')}>
@@ -33,6 +32,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
     )
   }
 
+  const { close } = $.topic
   if (close) {
     return (
       <SafeAreaBottom style={styles.fixedBottom} type={_.ios('height', 'bottom')}>
@@ -44,6 +44,7 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
     )
   }
 
+  const { placeholder, value } = $.state
   return (
     <FixedTextarea
       ref={fixedTextareaRef}

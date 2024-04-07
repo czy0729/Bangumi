@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-08 17:18:46
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -14,7 +14,7 @@ import { HTML_SINGLE_DOC } from '@constants'
 
 function Header() {
   return (
-    <CompHeader
+    <HeaderComp
       title='Webhook'
       hm={['webhook', 'Webhook']}
       headerRight={() => (

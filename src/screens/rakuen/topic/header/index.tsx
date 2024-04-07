@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-03 23:39:52
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { copy, getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -19,7 +19,7 @@ function Header(props, { $, navigation }: Ctx) {
   const { fixed } = $.state
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
-    <CompHeader
+    <HeaderComp
       mode='transition'
       statusBarEventsType='Topic'
       fixed={fixed}
@@ -30,7 +30,7 @@ function Header(props, { $, navigation }: Ctx) {
       headerRight={() => (
         <Flex>
           <IconFavor $={$} />
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={[`帖子 · ${$.topicId}`, ...DATA]}
             onSelect={key => {
               t('帖子.右上角菜单', {
@@ -65,7 +65,7 @@ function Header(props, { $, navigation }: Ctx) {
             }}
           >
             <Heatmap id='帖子.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

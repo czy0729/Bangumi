@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:33:52
+ * @Last Modified time: 2024-04-07 09:24:25
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
@@ -16,7 +16,6 @@ import { COMPONENT } from './ds'
 let rendered = false
 
 function CheckLogin(props, { $, navigation }: Ctx) {
-  const { initialPage } = systemStore.setting
   return (
     <NavigationEvents
       onWillFocus={() => {
@@ -29,7 +28,8 @@ function CheckLogin(props, { $, navigation }: Ctx) {
           if (!rendered) {
             if (
               !$.isLogin &&
-              initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')
+              systemStore.setting.initialPage ===
+                MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')
             ) {
               navigation.navigate('Auth')
             }

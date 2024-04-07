@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-30 18:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 05:29:10
+ * @Last Modified time: 2024-04-07 09:15:43
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, subjectStore, tagStore, userStore } from '@stores'
@@ -131,14 +131,12 @@ export default class ScreenBrowser extends store<typeof STATE> {
 
   /** 云快照 */
   @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
+    return this.state.ota[this.thirdPartyKey]
   }
 
   /** 索引 */
   @computed get browser() {
-    const { type, sort } = this.state
-    const browser = tagStore.browser(type, this.airtime, sort)
+    const browser = tagStore.browser(this.state.type, this.airtime, this.state.sort)
     if (userStore.isLimit) {
       let _filter = 0
       const list = browser.list.filter(item => {
@@ -171,8 +169,7 @@ export default class ScreenBrowser extends store<typeof STATE> {
         : LIST_EMPTY
     }
 
-    const { collected } = this.state
-    if (collected) return this.browser
+    if (this.state.collected) return this.browser
 
     return {
       ...this.browser,
@@ -182,14 +179,12 @@ export default class ScreenBrowser extends store<typeof STATE> {
 
   /** 索引网址 */
   @computed get url() {
-    const { type, sort } = this.state
-    return HTML_BROSWER(type as SubjectType, this.airtime, 1, sort)
+    return HTML_BROSWER(this.state.type as SubjectType, this.airtime, 1, this.state.sort)
   }
 
   /** 是否列表布局 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 条目信息 */
@@ -198,8 +193,7 @@ export default class ScreenBrowser extends store<typeof STATE> {
   }
 
   @computed get thirdPartyKey() {
-    const { type, sort } = this.state
-    const query = [type, this.airtime, sort].join('_')
+    const query = [this.state.type, this.airtime, this.state.sort].join('_')
     return `browser_${query}`
   }
 
@@ -246,8 +240,7 @@ export default class ScreenBrowser extends store<typeof STATE> {
 
   /** 月选择 */
   onMonthSelect = month => {
-    const { airtime } = this.state
-    if (!airtime) {
+    if (!this.state.airtime) {
       info('请先选择年')
       return
     }

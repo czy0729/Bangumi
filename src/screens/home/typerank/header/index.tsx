@@ -5,18 +5,18 @@
  * @Last Modified time: 2023-11-01 11:20:28
  */
 import React from 'react'
-import { Header as CompHeader } from '@components'
+import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+import { Ctx } from '../types'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
-      title={`分类排行 · ${MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.type)} · ${
-        $.tag
-      } (${$.ids.length})`}
+    <HeaderComp
+      title={`分类排行 · ${MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.type)} · ${$.tag} (${
+        $.ids.length
+      })`}
       hm={['typerank', 'Typerank']}
       headerTitleAlign='left'
     />

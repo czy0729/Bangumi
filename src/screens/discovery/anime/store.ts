@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 19:32:00
+ * @Last Modified time: 2024-04-07 09:22:05
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, otaStore, systemStore } from '@stores'
@@ -65,14 +65,12 @@ export default class ScreenAnime extends store<typeof STATE> {
 
   /** 是否列表布局 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 对应项搜索后总数 */
   @computed get total() {
-    const { data } = this.state
-    return data.list.length
+    return this.state.data.list.length
   }
 
   /** 对应项实际显示列表 */

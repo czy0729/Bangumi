@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-28 11:12:25
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { userStore } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
@@ -17,7 +17,7 @@ import { styles } from './styles'
 
 function Header(props, { $ }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title={$.params?.name || '用户评分'}
       headerTitleAlign='left'
       headerTitleStyle={styles.title}
@@ -26,7 +26,7 @@ function Header(props, { $ }: Ctx) {
       headerRight={() => (
         <Flex>
           {userStore.isLogin && <Filter $={$} />}
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={DATA}
             onSelect={key => {
               if (key === TEXT_BROWSER) {
@@ -36,7 +36,7 @@ function Header(props, { $ }: Ctx) {
             }}
           >
             <Heatmap id='用户评分.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

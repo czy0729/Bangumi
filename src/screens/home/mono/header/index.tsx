@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-25 19:26:02
  */
 import React from 'react'
-import { Flex, Header as CompHeader, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { cnjp, copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -16,7 +16,7 @@ import { COMPONENT } from './ds'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       mode='transition'
       statusBarEventsType='Topic'
       fixed={fixed}
@@ -27,7 +27,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       headerRight={() => (
         <Flex>
           <Extra $={$} navigation={navigation} />
-          <CompHeader.Popover
+          <HeaderComp.Popover
             data={['浏览器查看', '复制链接', '复制分享']}
             onSelect={key => {
               t('人物.右上角菜单', {
@@ -53,7 +53,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
             }}
           >
             <Heatmap id='人物.右上角菜单' />
-          </CompHeader.Popover>
+          </HeaderComp.Popover>
         </Flex>
       )}
     />

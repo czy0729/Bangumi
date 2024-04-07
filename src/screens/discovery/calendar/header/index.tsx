@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 12:31:44
+ * @Last Modified time: 2024-04-07 09:13:55
  */
 import React from 'react'
-import { Header as CompHeader, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -15,11 +15,11 @@ import { COMPONENT, DATA, TEXT_BROWSER, TEXT_INFOR, TEXT_SPA } from './ds'
 
 function Header(props, { navigation }: Ctx) {
   return (
-    <CompHeader
+    <HeaderComp
       title='每日放送'
       hm={['calendar', 'Calendar']}
       headerRight={() => (
-        <CompHeader.Popover
+        <HeaderComp.Popover
           data={DATA}
           onSelect={key => {
             t('每日放送.右上角菜单', {
@@ -51,7 +51,7 @@ function Header(props, { navigation }: Ctx) {
           }}
         >
           <Heatmap id='每日放送.右上角菜单' />
-        </CompHeader.Popover>
+        </HeaderComp.Popover>
       )}
     />
   )

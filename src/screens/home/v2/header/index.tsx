@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:35:52
+ * @Last Modified time: 2024-04-07 09:24:00
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -16,9 +16,8 @@ import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
 function Header(props, { navigation }: Ctx) {
-  const { homeTopLeftCustom, homeTopRightCustom } = systemStore.setting
-  const left = MENU_MAP[homeTopLeftCustom]
-  const right = MENU_MAP[homeTopRightCustom]
+  const left = MENU_MAP[systemStore.setting.homeTopLeftCustom]
+  const right = MENU_MAP[systemStore.setting.homeTopRightCustom]
   return (
     <LogoHeader
       left={

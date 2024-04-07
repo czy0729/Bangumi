@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 04:35:00
+ * @Last Modified time: 2024-04-07 09:05:52
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, subjectStore, tagStore, userStore } from '@stores'
@@ -22,9 +22,8 @@ export default class ScreenRank extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: true
     })
@@ -35,8 +34,7 @@ export default class ScreenRank extends store<typeof STATE> {
   // -------------------- get --------------------
   /** 排行榜云快照 */
   @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
+    return this.state.ota[this.thirdPartyKey]
   }
 
   /** 排行榜 */
@@ -69,8 +67,7 @@ export default class ScreenRank extends store<typeof STATE> {
   @computed get list(): StoreRank {
     if (!this.rank._loaded) return this.ota || LIST_EMPTY
 
-    const { collected } = this.state
-    if (collected) return this.rank
+    if (this.state.collected) return this.rank
 
     return {
       ...this.rank,

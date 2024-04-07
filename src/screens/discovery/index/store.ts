@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 14:18:46
+ * @Last Modified time: 2024-04-07 09:08:46
  */
 import { computed, observable } from 'mobx'
 import { calendarStore, discoveryStore, systemStore, usersStore, userStore } from '@stores'
@@ -208,21 +208,6 @@ export default class ScreenDiscovery extends store<typeof STATE> {
     } catch (error) {
       return []
     }
-  }
-
-  /** 发现页自定义菜单 */
-  @computed get discoveryMenu() {
-    return systemStore.setting.discoveryMenu
-  }
-
-  /** 发现页今日放送 */
-  @computed get discoveryTodayOnair() {
-    return systemStore.setting.discoveryTodayOnair
-  }
-
-  /** 发现菜单一列个数 */
-  @computed get discoveryMenuNum() {
-    return systemStore.setting.discoveryMenuNum
   }
 
   // -------------------- action --------------------
