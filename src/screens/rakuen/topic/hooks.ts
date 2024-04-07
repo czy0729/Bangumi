@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 17:36:17
+ * @Last Modified time: 2024-04-07 16:23:27
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -152,14 +152,14 @@ export function useTopicPage({ $ }: Ctx) {
   /** 提醒页面进入跳转到指定提醒楼层 */
   const onJumpTo = useCallback(
     (postId?: Id) => {
-      console.log('onJumpTo', postId)
+      console.info('onJumpTo', postId)
       const value = postId || $.postId
       if (!value) return
 
       const { list, _loaded } = $.comments
       if (_loaded) {
         try {
-          let scrollIndex = 0
+          let scrollIndex: number
           list.forEach(
             (
               item: {
@@ -174,19 +174,19 @@ export function useTopicPage({ $ }: Ctx) {
 
               if (item.id === value) {
                 scrollIndex = index
-                console.log('scrollIndex', scrollIndex)
+                console.info('scrollIndex', scrollIndex)
               } else if (item.sub) {
                 item.sub.forEach((i: { id: any }) => {
-                  if (i.id === value) scrollIndex = index
-                  console.log('scrollIndex sub', scrollIndex)
+                  if (i.id === value) {
+                    scrollIndex = index
+                    console.info('scrollIndex sub', scrollIndex)
+                  }
                 })
               }
             }
           )
 
-          if (scrollIndex) {
-            scrollTo(scrollIndex)
-          }
+          if (scrollIndex !== undefined) scrollTo(scrollIndex)
         } catch (error) {
           console.error('topic/index.js', 'onJumpTo', error)
         }

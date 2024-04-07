@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 23:39:52
+ * @Last Modified time: 2024-04-07 15:41:59
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -16,13 +16,12 @@ import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
-  const { fixed } = $.state
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <HeaderComp
       mode='transition'
       statusBarEventsType='Topic'
-      fixed={fixed}
+      fixed={$.state.fixed}
       title={$.topic.title}
       alias='帖子'
       hm={[url, 'Topic']}

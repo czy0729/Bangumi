@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 23:22:32
+ * @Last Modified time: 2024-04-07 16:21:14
  */
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 let loadedFavor = false
 
@@ -16,19 +16,24 @@ class ScreenTopic extends Action {
     const { _loaded } = this.state
     const current = getTimestamp()
     const needFetch = !_loaded || current - Number(_loaded) > 60
-    const commonState = (await this.getStorage(NAMESPACE)) || {}
+    const commonState = await this.getStorage(NAMESPACE)
 
     try {
-      const state = (await this.getStorage(this.namespace)) || {}
-      this.setState({
-        ...state,
+      const state: typeof STATE = {
+        ...(await this.getStorage(this.namespace)),
         ...EXCLUDE_STATE,
         reverse: commonState.reverse,
         _loaded: needFetch ? current : _loaded
-      })
+      }
+
+      // 若跳转只显示自己可以更快跳到指定楼层
+      if (this.postId) {
+        state.filterMe = true
+        state.filterFriends = false
+      }
+      this.setState(state)
 
       this.fetchTopicFromOSS()
-
       if (!loadedFavor) {
         rakuenStore.getFavor()
         loadedFavor = true
@@ -54,16 +59,15 @@ class ScreenTopic extends Action {
           return true
         }
       }
-
-      return true
     } catch (error) {
       this.setState({
         ...EXCLUDE_STATE,
         reverse: commonState.reverse,
         _loaded: needFetch ? current : _loaded
       })
-      return true
     }
+
+    return true
   }
 }
 

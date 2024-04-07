@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:21:50
+ * @Last Modified time: 2024-04-07 16:11:45
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,13 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
 
   useEffect(() => {
     if (show) return
+
+    if (y && y < top) setTop(y)
+  }, [show, y])
+
+  useEffect(() => {
+    if (show) return
+
     if (top && visibleBottom + PRE_DISTANCE >= top) setShow(true)
   }, [show, visibleBottom, top])
 

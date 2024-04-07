@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:36:08
+ * @Last Modified time: 2024-04-07 15:41:38
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -28,25 +28,23 @@ const Topic = (props, context: Ctx) => {
     onDirect
   } = useTopicPage(context)
 
-  return useObserver(() => {
-    return (
-      <Component id='screen-topic'>
-        <TapListener>
-          <Page statusBarEvent={false}>
-            <List
-              forwardRef={forwardRef}
-              onScrollToIndexFailed={onScrollToIndexFailed}
-              onShowFixedTextarea={onShowFixedTextarea}
-            />
-            <TouchScroll onPress={onFloorPress} />
-          </Page>
-        </TapListener>
-        <Header />
-        <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
-        <Heatmaps />
-      </Component>
-    )
-  })
+  return useObserver(() => (
+    <Component id='screen-topic'>
+      <TapListener>
+        <Page statusBarEvent={false}>
+          <List
+            forwardRef={forwardRef}
+            onScrollToIndexFailed={onScrollToIndexFailed}
+            onShowFixedTextarea={onShowFixedTextarea}
+          />
+          <TouchScroll onPress={onFloorPress} />
+        </Page>
+      </TapListener>
+      <Header />
+      <Bottom fixedTextareaRef={fixedTextareaRef} onDirect={onDirect} />
+      <Heatmaps />
+    </Component>
+  ))
 }
 
 export default ic(Store, Topic)

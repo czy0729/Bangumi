@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:16:45
+ * @Last Modified time: 2024-04-07 13:15:50
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -21,15 +21,13 @@ export default class Computed extends State {
   /** 帖子 id */
   @computed get topicId() {
     const { topicId = '' } = this.params
-    if (!topicId) return '0' as TopicId
-    return (topicId.split('#')?.[0] || '') as TopicId
+    return (topicId ? topicId.split('#')?.[0] || '' : '0') as TopicId
   }
 
   /** 需要跳转到的楼层 id */
   @computed get postId() {
     const { topicId = '' } = this.params
-    const [, postId] = topicId.split('#post_')
-    return postId
+    return topicId.split('#post_')?.[1]
   }
 
   /** 本地化数据键名 */
