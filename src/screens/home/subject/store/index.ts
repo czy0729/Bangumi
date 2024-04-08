@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 02:09:59
+ * @Last Modified time: 2024-04-08 12:44:12
  */
 import { collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { ApiSubjectResponse } from '@stores/subject/types'
@@ -27,7 +27,7 @@ class ScreenSubject extends Action {
 
     try {
       this.setState({
-        ...((await this.getStorage(this.namespace)) || {}),
+        ...(await this.getStorage(this.namespace)),
         ...EXCLUDE_STATE,
         _loaded
       })

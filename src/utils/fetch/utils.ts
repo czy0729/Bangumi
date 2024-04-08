@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-15 14:18:11
+ * @Last Modified time: 2024-04-08 21:04:03
  */
 import pLimit from 'p-limit'
 import { DEV } from '@/config'
@@ -29,7 +29,7 @@ export function safeCookie(cookie: string) {
  * @param {*} fetchs fetchFn[]
  * @param {*} num default: 2
  */
-export async function queue(fetchs: any[] = [], num: any = 2) {
+export async function queue(fetchs: any[] = [], num: number = 2) {
   if (!fetchs.length) return false
 
   const limit = pLimit(num)

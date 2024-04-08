@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 18:42:30
+ * @Last Modified time: 2024-04-08 18:41:39
  */
 import React from 'react'
-import { uiStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import ParallaxImage from '../component/parallax-image'
@@ -35,8 +34,6 @@ class Zone extends React.Component {
   }) => {
     const { $ } = this.context as Ctx
     $.onScroll(e)
-    uiStore.closePopableSubject()
-    uiStore.closeLikesGrid()
   }
 
   render() {

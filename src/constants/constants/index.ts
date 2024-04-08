@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 23:00:42
+ * @Last Modified time: 2024-04-08 20:48:19
  */
 import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
@@ -123,9 +123,9 @@ export const APP_SECRET = '1da52e7834bbb73cca90302f9ddbc8dd'
  * - [2021] 23045125,25475042
  * - [2022] 27168016,29260639,29987675,31072870
  * - [2023] 32279369,33457566,35103537,35103537,36237364,36996426,37896791
- * - [2024] 39891895
+ * - [2024] 39891895,41146160
  * */
-export const APP_ID_SAY_DEVELOP = '39891895'
+export const APP_ID_SAY_DEVELOP = '41146160'
 
 /** 小圣杯意见反馈入口 */
 export const APP_ID_SAY_TINYGRAIL = '19820034'

@@ -1,10 +1,10 @@
-import { StatusBar } from '@components'
 /*
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 22:07:31
+ * @Last Modified time: 2024-04-08 18:27:39
  */
+import { StatusBar } from '@components'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import {
   _,

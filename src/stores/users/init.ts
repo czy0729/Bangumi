@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:51:12
+ * @Last Modified time: 2024-04-08 22:01:57
  */
 import { LIST_EMPTY } from '@constants'
+import { Users } from './types'
 
 export const NAMESPACE = 'Users'
 
@@ -17,9 +18,10 @@ export const INIT_FRIENDS_ITEM = {
 export const INIT_USERS = {
   userId: '',
   userName: '',
+  avatar: '',
   sign: '',
   join: '',
-  hobby: '',
+  hobby: '0',
   percent: '',
   recent: '',
   doing: '',
@@ -35,7 +37,6 @@ export const INIT_USERS = {
     avg: '',
     chart: {
       '1': '',
-      '10': '',
       '2': '',
       '3': '',
       '4': '',
@@ -43,15 +44,17 @@ export const INIT_USERS = {
       '6': '',
       '7': '',
       '8': '',
-      '9': ''
+      '9': '',
+      '10': ''
     },
     collect: '',
     percent: '',
     scored: '',
     std: '',
     total: ''
-  }
-}
+  },
+  networkService: []
+} as Users
 
 export const INIT_USERS_INFO = {
   avatar: '',

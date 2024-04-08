@@ -1,46 +1,16 @@
 /*
  * @Author: czy0729
- * @Date: 2021-11-30 02:04:12
- * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:40:01
+ * @Date: 2024-04-08 18:38:22
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-04-08 18:38:22
  */
-import { INIT_USERS } from '@stores/users/init'
-import { Loaded } from '@types'
-
 export const COMPONENT = 'Zone'
 
-export const NAMESPACE = 'ScreenZone'
-
-export const EXCLUDE_STATE = {
-  visible: false,
-  timeout: false,
-  originUid: false,
-
-  /** 头部是否置顶 */
-  fixed: false,
-
-  /** 云端快照 */
-  users: {
-    ...INIT_USERS,
-    _loaded: false
-  }
-}
-
-export const STATE = {
-  expand: {
-    在看: true,
-    看过: false,
-    想看: false,
-    搁置: false,
-    抛弃: false
-  },
-  page: 0,
-  recent: {},
-  ...EXCLUDE_STATE,
-  _loaded: false as Loaded
-}
-
 export const TABS = [
+  {
+    title: '关于',
+    key: 'about'
+  },
   {
     title: '番剧',
     key: 'bangumi'
@@ -56,10 +26,6 @@ export const TABS = [
   {
     title: '超展开',
     key: 'rakuen'
-  },
-  {
-    title: '关于TA',
-    key: 'about'
   }
 ] as const
 

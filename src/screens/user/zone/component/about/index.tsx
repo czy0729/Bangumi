@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 17:46:47
+ * @Last Modified time: 2024-04-08 22:09:39
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -21,7 +21,7 @@ function About(props: Props, { $ }: Ctx) {
   return (
     <Animated.ScrollView
       ref={ref => {
-        const index = TABS.findIndex(item => item.title === '关于TA')
+        const index = TABS.findIndex(item => item.title === '关于')
         return $.connectRef(ref, index)
       }}
       contentContainerStyle={styles.contentContainerStyle}

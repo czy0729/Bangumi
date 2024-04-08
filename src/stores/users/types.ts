@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-03 15:21:08
+ * @Last Modified time: 2024-04-08 22:02:18
  */
 import {
   Avatar,
+  ColorValue,
   Cover,
   CoverCrt,
   DeepPartial,
@@ -47,11 +48,11 @@ export type Users = {
   hobby: '0'
   percent: any
   recent: string
-  doing: number
-  collect: number
-  wish: number
-  onHold: number
-  dropped: number
+  doing: string | number
+  collect: string | number
+  wish: string | number
+  onHold: string | number
+  dropped: string | number
   connectUrl: string
   disconnectUrl: string
   formhash: string
@@ -76,7 +77,13 @@ export type Users = {
     std: string
     total: string
   }
-  _loaded: number
+  networkService: {
+    label: string
+    value: string
+    color: ColorValue
+    href: string
+  }[]
+  _loaded?: Loaded
 }
 
 /** 用户简短信息 */

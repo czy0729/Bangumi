@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:46:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:55:59
+ * @Last Modified time: 2024-04-08 22:04:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ function Avatar(props, { $ }: Ctx) {
   const fallback = typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
   const userStatus = getUserStatus(username)
   const size = _.r(88)
-  console.log($.src)
   return (
     <View>
       <Image

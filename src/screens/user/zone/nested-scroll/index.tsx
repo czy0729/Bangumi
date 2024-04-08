@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:54:56
+ * @Last Modified time: 2024-04-08 18:39:03
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
@@ -24,13 +24,12 @@ import { memoStyles } from './styles'
 /** 安卓用 */
 function NestedScroll(props, { $ }: Ctx) {
   const styles = memoStyles()
-  const { page } = $.state
   return (
     <>
       <NestedScrollParallaxHeader
         tabStyle={styles.tab}
         pages={TABS.map(item => item.title)}
-        initialPage={page}
+        initialPage={$.state.page}
         imageSource={$.imageSource}
         blurRadius={$.blurRadius}
         tabBarLocalKey='Zone|NestedScroll'
@@ -39,11 +38,11 @@ function NestedScroll(props, { $ }: Ctx) {
         renderLabel={renderLabel}
         onIndexChange={$.onTabChange}
       >
+        <About />
         <BangumiList />
         <Stats />
         <TimelineList />
         <RakuenList />
-        <About />
       </NestedScrollParallaxHeader>
       <Menu />
     </>

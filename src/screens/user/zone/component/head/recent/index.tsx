@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:58:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-02 01:26:35
+ * @Last Modified time: 2024-04-08 11:16:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ function Recent({ style }, { $ }: Ctx) {
   if ($.usersTimeline.list.length && $.usersTimeline.list?.[0]?.time) {
     activeText = `${String($.usersTimeline.list[0]?.time.split(' ·')?.[0]).replace('·', '')}活跃`
   }
+
   return (
     <View style={style}>
       <Touchable

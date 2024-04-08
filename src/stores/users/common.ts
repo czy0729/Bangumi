@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 12:49:42
+ * @Last Modified time: 2024-04-08 22:20:20
  */
 import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
+import { Users } from './types'
 
 /** 好友列表 */
 export function cheerioFriends(html: string) {
@@ -31,9 +32,9 @@ export function cheerioUsers(html: string) {
   ).replace('@', '')
 
   const hobby = $('small.hot').text().match(/\d+/g)
+  const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
   let disconnectUrl = ''
   let formhash = ''
-  const matchDisconnect = $('a.chiiBtn[onclick]').attr('onclick')
   if (matchDisconnect) {
     const [idPath, , , hash] = matchDisconnect.split("'")
     if (idPath) {
@@ -45,26 +46,25 @@ export function cheerioUsers(html: string) {
 
   const $gridItems = $('.gridStats .item')
   const $chartItems = $('.horizontalChart li .count')
-
   let avatar: string = matchAvatar($('.headerAvatar .avatarNeue').attr('style'))
   if (avatar.includes('icon.jpg')) avatar = ''
 
   const counts = $('#anime .horizontalOptions').text().trim()
-  return safeObject({
+  return safeObject<Users>({
     userId,
     userName: $('.nameSingle .name a').text().trim(),
     avatar,
     sign: $('.bio').html() || '',
-    join: $('span.tip').first().text(),
-    hobby: hobby ? hobby[0] : '0',
-    percent: parseFloat($('span.percent_text').text().replace('%', '')),
-    recent: $('.timeline small.time').first().text(),
+    join: $('span.tip').first().text().trim(),
+    hobby: hobby?.[0] || '0',
+    percent: parseFloat($('span.percent_text').text().trim().replace('%', '')),
+    recent: $('.timeline small.time').first().text().trim(),
     doing: Number(counts.match(/(\d+)部在看/)?.[1] || 0),
     collect: Number(counts.match(/(\d+)部看过/)?.[1] || 0),
     wish: Number(counts.match(/(\d+)部想看/)?.[1] || 0),
     onHold: Number(counts.match(/(\d+)部搁置/)?.[1] || 0),
     dropped: Number(counts.match(/(\d+)部抛弃/)?.[1] || 0),
-    connectUrl: $('#connectFrd').attr('href'),
+    connectUrl: $('#connectFrd').attr('href') || '',
     disconnectUrl,
     formhash,
     ban: $('.tipIntro .tip').text().trim(),
@@ -87,7 +87,20 @@ export function cheerioUsers(html: string) {
         2: $chartItems.eq(8).text().trim().replace(/\(|\)/g, ''),
         1: $chartItems.eq(9).text().trim().replace(/\(|\)/g, '')
       }
-    }
+    },
+    networkService: $('.network_service li')
+      .map((index: number, element: any) => {
+        const $li = cheerio(element)
+        const $label = $li.find('.service')
+        return safeObject({
+          label: $label.text().trim(),
+          value: $li.find('.tip').text().trim(),
+          color: (($label.attr('style') || '').split(':')?.[1] || '').replace(';', '').trim(),
+          href: $li.find('a.l').attr('href') || ''
+        })
+      })
+      .get()
+      .filter((item: { label: string }) => item.label !== 'Bangumi')
   })
 }
 
