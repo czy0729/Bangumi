@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:50:46
+ * @Last Modified time: 2024-04-08 10:49:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Progress, Rank, Stars } from '@_'
 import { _, collectionStore, uiStore } from '@stores'
 import { stl } from '@utils'
@@ -60,6 +61,7 @@ function Subject(
 
   const { length } = subject.name
   const size = length > 24 ? 11 : length > 16 ? 12 : length > 8 ? 13 : 14
+  const width = small ? IMG_WIDTH_SM * 0.88 : IMG_WIDTH_SM
 
   const manageCollection =
     collectionStore.collect(id) || MODEL_COLLECTION_STATUS.getLabel(collection?.type) || ''
@@ -76,14 +78,14 @@ function Subject(
         navigation.push('Subject', {
           subjectId: subject.id,
           _cn: subject.name,
-          _image: subject.image
+          _image: getCoverSrc(subject.image, width)
         })
       }}
     >
       <Flex style={stl(styles.item, style)} align='start'>
         <Cover
           src={subject.image}
-          width={small ? IMG_WIDTH_SM * 0.88 : IMG_WIDTH_SM}
+          width={width}
           height={small ? IMG_HEIGHT_SM * 0.88 : IMG_HEIGHT_SM}
           radius
         />

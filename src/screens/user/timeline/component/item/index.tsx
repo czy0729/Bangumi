@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-26 15:28:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-29 23:56:31
+ * @Last Modified time: 2024-04-08 10:59:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
@@ -42,7 +43,7 @@ function Item({ subject, action }, { navigation }: Ctx) {
                   subjectId: i.id,
                   _cn: cn,
                   _jp: i.name,
-                  _image: i.cover,
+                  _image: getCoverSrc(i.cover, WIDTH),
                   _type: type
                 })
               }}

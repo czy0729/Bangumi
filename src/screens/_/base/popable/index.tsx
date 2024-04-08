@@ -8,6 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Popover } from 'react-native-popable'
 import { Component, Flex, Portal, Skeleton, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _, subjectStore, systemStore, uiStore } from '@stores'
 import { cnjp, navigationReference } from '@utils'
 import { ob } from '@utils/decorators'
@@ -23,12 +24,12 @@ import { memoStyles } from './styles'
 
 export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
   const styles = memoStyles()
-  const { hideScore } = systemStore.setting
   const { images, name, name_cn, air_date, rank, rating, _loaded } = subjectStore.subject(subjectId)
   const year = String(air_date).match(/\d{4}/)
   const textTop = cnjp(name_cn, name)
   const textBottom = cnjp(name, name_cn)
   const position = getPosition(x, y)
+  const src = images?.medium
   return (
     <Component id='base-popable'>
       <Portal key={String(portalKey)}>
@@ -54,7 +55,10 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
                       uiStore.closePopableSubject()
                       setTimeout(() => {
                         navigation.push('Subject', {
-                          subjectId
+                          subjectId,
+                          _jp: name,
+                          _cn: name_cn,
+                          _image: getCoverSrc(src, IMG_WIDTH)
                         })
                       }, 40)
                     }
@@ -64,7 +68,7 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
                     <Cover
                       key={subjectId}
                       style={styles.cover}
-                      src={images?.medium}
+                      src={src}
                       width={IMG_WIDTH}
                       height={IMG_HEIGHT}
                       borderWidth={_.hairlineWidth}
@@ -92,7 +96,7 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
                           <Rank style={styles.rank} value={rank} />
                           <Stars style={styles.stars} value={rating?.score} simple size={10} />
                           {!!rating?.total && (
-                            <Flex.Item style={!hideScore && _.ml.xs}>
+                            <Flex.Item style={!systemStore.setting.hideScore && _.ml.xs}>
                               <Text type='sub' size={10} numberOfLines={1}>
                                 ({rating.total}人评分)
                               </Text>

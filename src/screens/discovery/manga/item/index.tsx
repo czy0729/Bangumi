@@ -2,20 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 15:24:26
+ * @Last Modified time: 2024-04-08 10:46:19
  */
 import React from 'react'
-import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
-import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { Tag, Cover, Stars, Rank, Manage } from '@_'
+import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { Cover, Manage, Rank, Stars, Tag } from '@_'
+import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import {
-  IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
-  IMG_DEFAULT,
-  MODEL_COLLECTION_STATUS
-} from '@constants'
+import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -23,20 +19,8 @@ import { memoStyles } from './styles'
 function Item({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
-  const {
-    id,
-    mid,
-    author,
-    title,
-    cates,
-    ep,
-    image,
-    score,
-    rank,
-    total,
-    status,
-    publish
-  } = otaStore.manga(subjectId)
+  const { id, mid, author, title, cates, ep, image, score, rank, total, status, publish } =
+    otaStore.manga(subjectId)
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -58,7 +42,8 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
         navigation.push('Subject', {
           subjectId: id,
           _cn: title,
-          _image: cover,
+          _image: getCoverSrc(cover, IMG_WIDTH_LG),
+          _type: '书籍',
           _mid: mid
         })
 
@@ -72,12 +57,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
         <Flex.Item style={_.ml.wind}>
           <Flex align='start'>
             <Flex.Item>
-              <Flex
-                style={styles.content}
-                direction='column'
-                justify='between'
-                align='start'
-              >
+              <Flex style={styles.content} direction='column' justify='between' align='start'>
                 <Text size={size} bold numberOfLines={2}>
                   {title}
                 </Text>
@@ -95,8 +75,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                   {
                     subjectId: id,
                     title,
-                    status:
-                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                    status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                     action: '读'
                   },
                   '找漫画'

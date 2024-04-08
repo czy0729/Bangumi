@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:45:06
+ * @Last Modified time: 2024-04-08 10:45:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -43,8 +43,8 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
           subjectId: data.subjectId,
           _jp: data.title,
           _cn: cn,
-          _type: title,
-          _image: getCoverSrc(src, width)
+          _image: getCoverSrc(src, width),
+          _type: title
         })
       }}
     >

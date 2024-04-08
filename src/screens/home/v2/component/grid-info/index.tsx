@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:18:19
+ * @Last Modified time: 2024-04-08 10:55:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { IMG_WIDTH_SM } from '@constants'
 import { Ctx } from '../../types'
 import Count from './count'
 import Cover from './cover'
@@ -44,8 +46,8 @@ function GridInfo(
             navigation.push('Subject', {
               subjectId,
               _jp: subject.name,
-              _cn: subject.name_cn || subject.name,
-              _image: subject?.images?.medium || ''
+              _cn: subject.name_cn,
+              _image: getCoverSrc(subject?.images?.medium || '', IMG_WIDTH_SM)
             })
           }}
         />

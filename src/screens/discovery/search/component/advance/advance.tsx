@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 10:55:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 11:04:57
+ * @Last Modified time: 2024-04-08 10:49:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,6 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const Advance = memo(
   ({ navigation, styles, cat, value, onSubmit }) => {
     const { result, substrings } = useResult(cat, value)
-
     return (
       <View>
         {result.map(item => (

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:33:06
+ * @Last Modified time: 2024-04-08 10:28:53
  */
 import React from 'react'
 import { Component, Expand, Flex, Image, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { r } from '@utils/dev'
@@ -96,9 +97,9 @@ export const ItemVoice = ({
 
                     navigation.push('Subject', {
                       subjectId: item.id,
-                      _jp: item.name,
-                      _cn: item.nameCn,
-                      _image: item.cover
+                      _jp: jp,
+                      _cn: cn,
+                      _image: getCoverSrc(item.cover, IMG_WIDTH_SM)
                     })
                   }}
                 >

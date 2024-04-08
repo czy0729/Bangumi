@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:50:04
+ * @Last Modified time: 2024-04-08 10:56:11
  */
 import React from 'react'
 import { Touchable } from '@components'
@@ -51,7 +51,7 @@ function Cover(
         navigation.push('Subject', {
           subjectId,
           _jp: name,
-          _cn: name_cn || name,
+          _cn: name_cn,
           _image: getCoverSrc(image, size),
           _collection: '在看',
           _type: typeCn

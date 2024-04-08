@@ -2,32 +2,33 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:02:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 17:42:40
+ * @Last Modified time: 2024-04-08 11:01:07
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Loading, Touchable, Iconfont } from '@components'
+import { Flex, Iconfont, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _ } from '@stores'
 import { copy, open } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_WIDTH_SM, IMG_HEIGHT_SM, MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusCn, CollectionStatus } from '@types'
+import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
+import { CollectionStatus, CollectionStatusCn } from '@types'
+import Btn from '../../bilibili-sync/btn'
 import Column from '../../bilibili-sync/column'
 import ColumnBgm from '../../bilibili-sync/column-bgm'
 import ColumnSelect from '../../bilibili-sync/column-select'
-import Btn from '../../bilibili-sync/btn'
 import {
-  useSelectStatus,
-  useSelectEp,
-  useSelectScore,
-  useSelectComment,
+  getSelectComment,
   getSelectEp,
   getSelectScore,
-  getSelectComment
+  useSelectComment,
+  useSelectEp,
+  useSelectScore,
+  useSelectStatus
 } from '../../bilibili-sync/utils'
-import { BILIBILI_STATUS, HIT_SLOP, DEFAULT_PROPS } from './ds'
+import { BILIBILI_STATUS, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 export default memo(
   ({
@@ -52,24 +53,16 @@ export default memo(
       progress = totalEps
     }
 
-    const score = item.score
-      ? Number(item.score) * 2 - (scoreMinuesOne ? 1 : 0)
-      : item.score * 2
+    const score = item.score ? Number(item.score) * 2 - (scoreMinuesOne ? 1 : 0) : item.score * 2
     const create_time = String(item.create_time).split(' ')[0]
     const content = noCommentUseCreateDate ? item.content || create_time : item.content
 
     // hooks
     const [loading, setLoading] = useState(false)
-    const [selectStatus, setSelectStatus] = useSelectStatus(
-      item.status,
-      collection?.status
-    )
+    const [selectStatus, setSelectStatus] = useSelectStatus(item.status, collection?.status)
     const [selectEp, setSelectEp] = useSelectEp(progress, collection?.ep_status)
     const [selectScore, setSelectScore] = useSelectScore(score, collection?.rating)
-    const [selectComment, setSelectComment] = useSelectComment(
-      content,
-      collection?.comment
-    )
+    const [selectComment, setSelectComment] = useSelectComment(content, collection?.comment)
 
     // 隐藏进度一致
     const bili = {
@@ -79,8 +72,7 @@ export default memo(
       comment: content || ''
     }
     const bgm = {
-      status:
-        MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection?.status) || '',
+      status: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection?.status) || '',
       ep: collection?.ep_status && `${collection.ep_status}话`,
       score: collection?.rating || '',
       comment: collection?.comment || ''
@@ -104,10 +96,11 @@ export default memo(
     }
     const onPress = () => {
       if (!isSubject) return
+
       navigation.push('Subject', {
         subjectId,
-        _image: item.cover,
-        _cn: item.title
+        _cn: item.title,
+        _image: getCoverSrc(item.cover, IMG_WIDTH_SM)
       })
     }
 
@@ -145,10 +138,7 @@ export default memo(
                 <Column text='douban' type='sub' />
                 <Column style={_.mt.md} text={bili.status} />
                 <Column style={_.mt.md} text={bili.ep} />
-                <Column
-                  style={_.mt.md}
-                  text={bili.score ? `${bili.score}★` : bili.score}
-                />
+                <Column style={_.mt.md} text={bili.score ? `${bili.score}★` : bili.score} />
                 <Column
                   style={_.mt.md}
                   text={bili.comment}
@@ -179,26 +169,10 @@ export default memo(
                 {isSubject ? (
                   isLoaded ? (
                     <>
-                      <ColumnBgm
-                        select={selectStatus}
-                        text={bgm.status}
-                        next={next.status}
-                      />
-                      <ColumnBgm
-                        select={selectEp}
-                        text={bgm.ep}
-                        next={`${next.ep}话`}
-                      />
-                      <ColumnBgm
-                        select={selectScore}
-                        text={bgm.score}
-                        next={next.score}
-                      />
-                      <ColumnBgm
-                        select={selectComment}
-                        text={bgm.comment}
-                        next={next.comment}
-                      />
+                      <ColumnBgm select={selectStatus} text={bgm.status} next={next.status} />
+                      <ColumnBgm select={selectEp} text={bgm.ep} next={`${next.ep}话`} />
+                      <ColumnBgm select={selectScore} text={bgm.score} next={next.score} />
+                      <ColumnBgm select={selectComment} text={bgm.comment} next={next.comment} />
                     </>
                   ) : (
                     <Flex style={styles.loading}>
@@ -265,11 +239,7 @@ export default memo(
                         })
                       }}
                     />
-                    <Btn
-                      style={_.ml.sm}
-                      text='置底'
-                      onPress={() => onBottom(item.id)}
-                    />
+                    <Btn style={_.ml.sm} text='置底' onPress={() => onBottom(item.id)} />
                   </Flex>
                 </Flex.Item>
                 {isSubject && (
@@ -277,8 +247,7 @@ export default memo(
                     style={_.ml.md}
                     type='success'
                     disabled={
-                      !isLoaded ||
-                      !(selectStatus || selectEp || selectScore || selectComment)
+                      !isLoaded || !(selectStatus || selectEp || selectScore || selectComment)
                     }
                     loading={loading}
                     onPress={async () => {
@@ -309,8 +278,9 @@ export default memo(
                       } else if (bgm.status) {
                         // 即使不更新状态也需要提交当前的状态，不然会变成想看
                         flag.status = true
-                        collectionData.status =
-                          MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(bgm.status)
+                        collectionData.status = MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(
+                          bgm.status
+                        )
                       }
 
                       if (selectScore) {

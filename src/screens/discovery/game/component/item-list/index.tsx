@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-18 22:45:29
+ * @Last Modified time: 2024-04-08 10:44:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -79,7 +79,9 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _image: getCoverSrc(cover, IMG_WIDTH_LG)
+          _cn: _title,
+          _image: getCoverSrc(cover, IMG_WIDTH_LG),
+          _type: '游戏'
         })
 
         t('游戏.跳转', {

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 13:24:44
+ * @Last Modified time: 2024-04-08 10:59:37
  */
 import React from 'react'
 import { View } from 'react-native'
-import { ScrollView, ModalFixed, Flex, Cover } from '@components'
+import { Cover, Flex, ModalFixed, ScrollView } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
-import Subject from '../subject'
-import Folders from '../item/folders'
 import { Ctx } from '../types'
+import Folders from '../item/folders'
+import Subject from '../subject'
 import { memoStyles } from './styles'
 
 function ModalFolders(props, { $, navigation }: Ctx) {
@@ -21,6 +22,7 @@ function ModalFolders(props, { $, navigation }: Ctx) {
   const { folders } = $.state
   const { visible, subjectId, folder, merge } = folders
   const { jp, cn, image } = $.subjectV2(subjectId)
+  const width = IMG_WIDTH_SM / 1.2
   return (
     <ModalFixed style={styles.modal} visible={visible} onClose={$.onCloseModalFolders}>
       {!!subjectId && (
@@ -28,14 +30,14 @@ function ModalFolders(props, { $, navigation }: Ctx) {
           <View style={_.mr.md}>
             <Cover
               src={image}
-              size={IMG_WIDTH_SM / 1.2}
+              size={width}
               height={IMG_HEIGHT_SM / 1.2}
               onPress={() => {
                 navigation.push('Subject', {
                   subjectId,
                   _jp: jp,
                   _cn: cn,
-                  _image: image
+                  _image: getCoverSrc(image, width)
                 })
 
                 t('SMB.跳转', {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 18:54:55
+ * @Last Modified time: 2024-04-08 10:57:38
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -113,6 +113,7 @@ function Popover(
               monoId: id,
               ...eventData
             })
+
             navigation.push('Subject', {
               subjectId
             })

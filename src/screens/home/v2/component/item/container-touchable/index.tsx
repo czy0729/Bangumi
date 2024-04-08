@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-20 08:46:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:57:12
+ * @Last Modified time: 2024-04-08 10:56:05
  */
 import React, { PropsWithChildren } from 'react'
 import { View } from 'react-native'
@@ -48,7 +48,7 @@ function ContainerTouchable(
           navigation.push('Subject', {
             subjectId,
             _jp: name,
-            _cn: name_cn || name,
+            _cn: name_cn,
             _image: getCoverSrc(image, IMG_WIDTH),
             _collection: '在看',
             _type: typeCn

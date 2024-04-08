@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-02-22 02:21:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 10:18:07
+ * @Last Modified time: 2024-04-08 10:58:08
  */
 import React from 'react'
 import { Image } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover as CoverComp } from '@_'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { ASSETS_ICONS, IMG_DEFAULT, IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
+import { ASSETS_ICONS, IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
 
 function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
   if (!loaded) {
@@ -42,7 +43,7 @@ function Cover({ navigation, loaded, subjectId, image, typeCn, jp, cn }) {
           subjectId,
           _jp: jp,
           _cn: cn,
-          _image: image,
+          _image: getCoverSrc(image, IMG_WIDTH_LG),
           _type: typeCn
         })
       }}

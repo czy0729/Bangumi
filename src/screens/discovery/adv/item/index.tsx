@@ -2,51 +2,29 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 13:50:37
+ * @Last Modified time: 2024-04-08 10:30:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Flex,
-  Text,
-  Touchable,
-  Heatmap,
-  HorizontalList,
-  Image,
-  Loading
-} from '@components'
-import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { Cover, Stars, Rank, Manage } from '@_'
+import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { Cover, Manage, Rank, Stars } from '@_'
+import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import {
-  IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
-  IMG_DEFAULT,
-  MODEL_COLLECTION_STATUS
-} from '@constants'
+import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
-import { THUMB_WIDTH, THUMB_HEIGHT } from './ds'
 import { getThumbs } from './utils'
+import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.advSubjectId(pickIndex)
   const game = otaStore.game(subjectId)
-  const {
-    id,
-    t: title,
-    c: image,
-    en: time,
-    sc: score,
-    r: rank,
-    o: total,
-    l: length,
-    d: dev
-  } = game
+  const { id, t: title, c: image, en: time, sc: score, r: rank, o: total, l: length, d: dev } = game
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -71,7 +49,9 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _image: cover
+          _cn: title,
+          _image: getCoverSrc(cover, IMG_WIDTH_LG),
+          _type: '游戏'
         })
 
         t('ADV.跳转', {
@@ -80,14 +60,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover
-          src={cover}
-          width={IMG_WIDTH_LG}
-          height={IMG_HEIGHT_LG}
-          radius
-          shadow
-          type='游戏'
-        />
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow type='游戏' />
         <Flex style={styles.content} direction='column' align='start'>
           <View style={styles.body}>
             <Flex style={_.container.block} align='start'>
@@ -117,8 +90,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                     {
                       subjectId: id,
                       title,
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                      status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                       action: '玩'
                     },
                     '找游戏'
@@ -133,10 +105,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                 data={thumbs.filter((item, index) => index < 3)}
                 renderItem={(item, index) => (
                   <Image
-                    style={stl(
-                      !!index && _.ml.sm,
-                      index === thumbs.length - 1 && _.mr.md
-                    )}
+                    style={stl(!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md)}
                     key={item}
                     src={item}
                     size={THUMB_WIDTH}

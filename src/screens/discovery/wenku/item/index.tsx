@@ -2,21 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-11 17:01:32
+ * @Last Modified time: 2024-04-08 10:50:47
  */
 import React from 'react'
-import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
-import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { Tag, Cover, Stars, Rank, Manage } from '@_'
-import { fill } from '@utils/dev'
+import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { Cover, Manage, Rank, Stars, Tag } from '@_'
+import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { obc } from '@utils/decorators'
+import { fill } from '@utils/dev'
 import { t } from '@utils/fetch'
-import {
-  IMG_WIDTH_LG,
-  IMG_HEIGHT_LG,
-  IMG_DEFAULT,
-  MODEL_COLLECTION_STATUS
-} from '@constants'
+import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../types'
 import Tags from './tags'
@@ -79,7 +75,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         navigation.push('Subject', {
           subjectId: id,
           _cn: cn,
-          _image: cover,
+          _image: getCoverSrc(cover, IMG_WIDTH_LG),
+          _type: '书籍',
           _wid: wid
         })
 
@@ -89,23 +86,11 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover
-          src={cover}
-          width={IMG_WIDTH_LG}
-          height={IMG_HEIGHT_LG}
-          radius
-          shadow
-          type='书籍'
-        />
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow type='书籍' />
         <Flex.Item style={_.ml.wind}>
           <Flex align='start'>
             <Flex.Item>
-              <Flex
-                style={styles.content}
-                direction='column'
-                justify='between'
-                align='start'
-              >
+              <Flex style={styles.content} direction='column' justify='between' align='start'>
                 <Text size={size} bold numberOfLines={3}>
                   {cn || '-'}
                 </Text>
@@ -139,8 +124,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   {
                     subjectId: id,
                     title: cn,
-                    status:
-                      MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                    status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
                     action: '读'
                   },
                   '找文库'

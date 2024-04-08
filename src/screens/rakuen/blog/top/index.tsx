@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:57:47
+ * @Last Modified time: 2024-04-08 10:57:08
  */
 import React from 'react'
 import { View } from 'react-native'
 import {
-  HeaderPlaceholder,
-  Flex,
-  Text,
-  UserStatus,
-  RenderHtml,
   Divider,
-  Loading
+  Flex,
+  HeaderPlaceholder,
+  Loading,
+  RenderHtml,
+  Text,
+  UserStatus
 } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, HorizontalList } from '@_'
 import { _ } from '@stores'
-import { simpleTime, appNavigate } from '@utils'
+import { appNavigate, simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import SectionTitle from '../section-title'
 import { Ctx } from '../types'
+import SectionTitle from '../section-title'
 import { styles } from './styles'
 
 function Top(props, { $, navigation }: Ctx) {
@@ -45,6 +46,7 @@ function Top(props, { $, navigation }: Ctx) {
     )
   }
 
+  const width = 80
   return (
     <>
       <HeaderPlaceholder />
@@ -95,7 +97,7 @@ function Top(props, { $, navigation }: Ctx) {
         <HorizontalList
           style={_.mt.sm}
           data={related}
-          width={80}
+          width={width}
           height={106}
           findCn
           onPress={({ id, name, image }) => {
@@ -104,10 +106,11 @@ function Top(props, { $, navigation }: Ctx) {
               from: '关联条目',
               subjectId: id
             })
+
             navigation.push('Subject', {
               subjectId: id,
               _jp: name,
-              _image: image
+              _image: getCoverSrc(image, width)
             })
           }}
         />

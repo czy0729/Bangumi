@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 15:03:45
+ * @Last Modified time: 2024-04-08 10:58:46
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Touchable, Flex, Image, Cover, Text, Hover, HoverProps } from '@components'
+import { Cover, Flex, Hover, HoverProps, Image, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
@@ -24,10 +25,7 @@ const colors = [
   'rgba(0, 0, 0, 0.92)'
 ]
 
-function ItemGrid(
-  { subjectId, merge, ...folder }: MergeListItem,
-  { $, navigation }: Ctx
-) {
+function ItemGrid({ subjectId, merge, ...folder }: MergeListItem, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { jp, cn, image, type } = $.subjectV2(subjectId)
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
@@ -67,11 +65,7 @@ function ItemGrid(
   }
   const elTitle = (
     <>
-      <LinearGradient
-        style={StyleSheet.absoluteFill}
-        colors={colors}
-        pointerEvents='none'
-      />
+      <LinearGradient style={StyleSheet.absoluteFill} colors={colors} pointerEvents='none' />
       <View style={stl(styles.content, !subjectId && styles.folderContent)}>
         <Touchable onPress={showModalFoldersHandle}>
           <Flex style={styles.title} align='end'>
@@ -98,7 +92,7 @@ function ItemGrid(
             subjectId,
             _jp: jp,
             _cn: cn,
-            _image: image,
+            _image: getCoverSrc(image, width),
             _type: typeCn
           })
 

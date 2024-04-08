@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-06-16 23:23:00
  */
-import { EventType, Images, Navigation, SubjectId, ViewStyle } from '@types'
+import { EventType, Navigation, SubjectId, ViewStyle } from '@types'
 
 export type Props = {
   navigation?: Navigation
   style?: ViewStyle
   event?: EventType
   subjectId?: SubjectId
-  images?: Images
+  image?: string
   name?: string
 }

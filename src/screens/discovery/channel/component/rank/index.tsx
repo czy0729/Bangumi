@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 22:05:15
+ * @Last Modified time: 2024-04-08 10:40:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
@@ -40,8 +41,9 @@ function Rank(props, { $, navigation }: Ctx) {
 
                 navigation.push('Subject', {
                   subjectId: item.id,
-                  _image: item.cover,
-                  _jp: item.name
+                  _jp: item.name,
+                  _image: getCoverSrc(item.cover, COVER_WIDTH),
+                  _type: $.typeCn
                 })
               }}
             >
@@ -114,8 +116,9 @@ function Rank(props, { $, navigation }: Ctx) {
 
                     navigation.push('Subject', {
                       subjectId: item.id,
-                      _image: item.cover,
-                      _jp: item.name
+                      _image: getCoverSrc(item.cover, COVER_WIDTH_SM),
+                      _jp: item.name,
+                      _type: $.typeCn
                     })
                   }}
                 >

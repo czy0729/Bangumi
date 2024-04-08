@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:29:20
+ * @Last Modified time: 2024-04-08 10:45:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,8 +41,8 @@ const CoverXs = memo(
             navigation.push('Subject', {
               subjectId: data.id,
               _jp: data.name,
-              _type: title,
-              _image: getCoverSrc(data.cover, width)
+              _image: getCoverSrc(data.cover, width),
+              _type: title
             })
           }}
         >

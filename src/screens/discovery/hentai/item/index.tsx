@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-28 15:33:41
+ * @Last Modified time: 2024-04-08 10:44:44
  */
 import React from 'react'
-import { Flex, Text, Touchable, Heatmap, Loading } from '@components'
-import { _, otaStore, collectionStore, uiStore } from '@stores'
-import { Tag, Cover, Stars, Rank, Manage } from '@_'
+import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { Cover, Manage, Rank, Stars, Tag } from '@_'
+import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
@@ -58,7 +59,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
         navigation.push('Subject', {
           subjectId: id,
           _cn: cn,
-          _image: cover,
+          _image: getCoverSrc(cover, IMG_WIDTH_LG),
           _hid: hid
         })
 
@@ -100,8 +101,7 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                     {
                       subjectId: id,
                       title: cn,
-                      status:
-                        MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                      status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
                     },
                     '找Hentai'
                   )

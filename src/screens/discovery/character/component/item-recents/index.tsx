@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 15:34:39
+ * @Last Modified time: 2024-04-08 10:43:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function ItemRecents(
   { navigation }: Ctx
 ) {
   const styles = memoStyles()
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const onPress = () => {
     t('收藏的人物.跳转', {
       to: 'Subject',
@@ -34,10 +35,10 @@ function ItemRecents(
       subjectId: id,
       _jp: nameJP,
       _cn: name,
-      _image: getCoverSrc(cover, IMG_WIDTH_LG)
+      _image: getCoverSrc(cover, IMG_WIDTH_LG),
+      _type: typeCn
     })
   }
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const left = cnjp(name, nameJP)
   const right = cnjp(nameJP, name)
   return (
