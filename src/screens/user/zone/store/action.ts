@@ -129,11 +129,14 @@ export default class Action extends Fetch {
 
     this.setState({
       expand: {
-        ...expand,
+        在看: false,
+        看过: false,
+        想看: false,
+        搁置: false,
+        抛弃: false,
         [title]: !expand[title]
       }
     })
-    this.save()
   }
 
   /** 去用户的所有收藏页面 */

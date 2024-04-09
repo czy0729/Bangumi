@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:47:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-13 16:06:56
+ * @Last Modified time: 2024-04-09 08:20:04
  */
 import React from 'react'
 import { Heatmap, Iconfont, Text, Touchable } from '@components'
@@ -15,7 +15,6 @@ import { memoStyles } from './styles'
 
 function SectionHeader({ title, count }, { $ }: Ctx) {
   const styles = memoStyles()
-  const { expand } = $.state
   return (
     <Touchable
       style={stl(styles.section, title === '在看' && _.mt.sm)}
@@ -28,13 +27,13 @@ function SectionHeader({ title, count }, { $ }: Ctx) {
         right={
           <Iconfont
             style={styles.arrow}
-            name={expand[title] ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
+            name={$.state.expand[title] ? 'md-keyboard-arrow-down' : 'md-keyboard-arrow-up'}
           />
         }
       >
         {title}{' '}
-        <Text type='sub' size={12} bold lineHeight={15}>
-          {count}{' '}
+        <Text type='sub' size={13} bold lineHeight={15}>
+          {count}
         </Text>
       </SectionHeaderComp>
       {title === '在看' && <Heatmap id='空间.展开分组' />}

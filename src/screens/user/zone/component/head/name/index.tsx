@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:50:37
+ * @Last Modified time: 2024-04-09 09:05:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,12 +13,10 @@ import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function Name(props, { $ }: Ctx) {
-  const { _id } = $.params
-  const { originUid } = $.state
   const { id, username } = $.usersInfo
-  const type = _.select('plain', 'title')
-  const userId = id || _id
+  const userId = id || $.params._id
   const isRename = !!username && username != userId
+  const type = _.select('plain', 'title')
   return (
     <View style={_.mt.md}>
       <Flex>
@@ -27,7 +25,7 @@ function Name(props, { $ }: Ctx) {
         </Text>
         {!!(username || userId) && (
           <Text style={_.ml.xs} type={type} bold shadow>
-            @{originUid ? userId : username || userId}
+            @{$.state.originUid ? userId : username || userId}
           </Text>
         )}
       </Flex>

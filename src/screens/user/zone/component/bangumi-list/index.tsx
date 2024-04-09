@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 22:09:28
+ * @Last Modified time: 2024-04-09 08:21:24
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -13,7 +13,6 @@ import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
-import Footer from './footer'
 import Item from './item'
 import SectionHeader from './section-header'
 import { COMPONENT } from './ds'
@@ -33,10 +32,6 @@ class BangumiList extends React.Component<Props> {
 
   renderItem = ({ item, section: { title } }) => {
     return <Item item={item} title={title} />
-  }
-
-  ListFooterComponent = () => {
-    return <Footer />
   }
 
   get sections() {
@@ -69,7 +64,6 @@ class BangumiList extends React.Component<Props> {
         showFooter={false}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
-        ListFooterComponent={this.ListFooterComponent}
         {...this.props}
         onScroll={
           STORYBOOK

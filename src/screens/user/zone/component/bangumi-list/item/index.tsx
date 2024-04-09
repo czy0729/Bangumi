@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:54:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:17:29
+ * @Last Modified time: 2024-04-09 08:18:37
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -29,13 +29,13 @@ function Item(
   return (
     <Flex wrap='wrap' align='start'>
       {item.list
-        .filter((item, index) => index < 15)
+        .filter((item, index) => index < 16)
         .map(item => (
           <ItemBangumiList
             key={item.id}
             navigation={navigation}
             subjectId={item.id}
-            image={item.images?.small}
+            image={item.images?.medium}
             name={cnjp(item.name_cn, item.name)}
             event={EVENT}
           />

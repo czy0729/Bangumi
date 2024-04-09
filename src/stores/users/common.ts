@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 22:20:20
+ * @Last Modified time: 2024-04-09 09:08:16
  */
 import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { Users } from './types'
@@ -92,11 +92,12 @@ export function cheerioUsers(html: string) {
       .map((index: number, element: any) => {
         const $li = cheerio(element)
         const $label = $li.find('.service')
+        const $a = $li.find('a.l')
         return safeObject({
           label: $label.text().trim(),
-          value: $li.find('.tip').text().trim(),
+          value: $li.find('.tip').text().trim() || $a.text().trim(),
           color: (($label.attr('style') || '').split(':')?.[1] || '').replace(';', '').trim(),
-          href: $li.find('a.l').attr('href') || ''
+          href: $a.attr('href') || ''
         })
       })
       .get()

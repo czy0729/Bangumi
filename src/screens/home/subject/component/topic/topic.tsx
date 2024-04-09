@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 08:02:49
+ * @Last Modified time: 2024-04-09 11:04:25
  */
 import React from 'react'
 import { Expand, Heatmap } from '@components'
@@ -31,7 +31,7 @@ const Topic = memo(
         </SectionTitle>
         {showTopic && (
           <>
-            <Expand style={_.mt.sm} onExpand={onExpand}>
+            <Expand key={topic?.length} style={_.mt.sm} onExpand={onExpand}>
               {list.map(item => (
                 <ItemArticle
                   key={item.id}

@@ -15,6 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: _.window.height + _.parallaxImageHeight - _.tabBarHeight
   },
   page: {
+    paddingTop: _.md,
     minHeight: _.window.height - _.parallaxImageHeight
   },
   nestScroll: {

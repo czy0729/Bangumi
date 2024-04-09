@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 21:05:36
+ * @Last Modified time: 2024-04-09 11:07:35
  */
 import { INIT_USERS } from '@stores/users/init'
 import { Loaded } from '@types'
@@ -11,6 +11,15 @@ import { COMPONENT } from '../ds'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
+  /** 各种状态动画缩略折叠 */
+  expand: {
+    在看: true,
+    看过: false,
+    想看: false,
+    搁置: false,
+    抛弃: false
+  },
+
   /** 是否显示历史头像模态框 */
   visible: false,
 
@@ -34,15 +43,6 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
-  /** 各种状态动画缩略折叠 */
-  expand: {
-    在看: true,
-    看过: false,
-    想看: false,
-    搁置: false,
-    抛弃: false
-  },
-
   /** Tabs index */
   page: 0,
 

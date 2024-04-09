@@ -1,11 +1,11 @@
+import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 /*
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 14:55:58
+ * @Last Modified time: 2024-04-09 11:02:53
  */
 import * as Screens from '@screens'
-import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
 import { Fn } from './utils'
 
@@ -34,6 +34,7 @@ export type NavigationPushType = RouteActions &
   RouteNotify &
   RoutePM &
   RouteRating &
+  RouteReviews &
   RouteSay &
   RouteSearch &
   RouteSetting &
@@ -50,6 +51,14 @@ export type NavigationPushType = RouteActions &
   RouteWenku &
   RouteZone &
   ((path: Paths) => any)
+
+type RouteReviews = (
+  path: 'Reviews',
+  params: {
+    subjectId: SubjectId
+    name: string
+  }
+) => any
 
 type RouteNotify = (
   path: 'Notify',
