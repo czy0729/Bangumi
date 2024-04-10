@@ -9,12 +9,14 @@ import { Track } from '@components'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Heatmaps from '../heatmaps'
+import RemarkModal from '../remark-modal'
 import UsedModal from '../used-modal'
 
 function Extra(props, { $ }: Ctx) {
   return (
     <>
       <UsedModal visible={$.state.visible} defaultAvatar={$.src} />
+      <RemarkModal />
       <Track title='空间' hm={[`user/${$.params.userId}?route=zone`, 'Zone']} />
       <Heatmaps />
     </>

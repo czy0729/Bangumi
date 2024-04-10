@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:53:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 06:21:48
+ * @Last Modified time: 2024-04-09 12:02:39
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Touchable, Flex } from '@components'
+import { Flex, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { AVATAR_COVER_WIDTH } from '../ds'
 import { Cover } from '../../../base'
 import { matchSubjectId } from '../utils'
-import { AVATAR_COVER_WIDTH } from '../ds'
 import { styles } from './styles'
 
 function Images({ type, image, p3Text, p3Url, onNavigate }) {
@@ -33,7 +34,7 @@ function Images({ type, image, p3Text, p3Url, onNavigate }) {
               _cn: findSubjectCn(!!p3Text.length && p3Text[index], subjectId),
               _jp: !!p3Text.length && p3Text[index],
               _name: !!p3Text.length && p3Text[index],
-              _image: item,
+              _image: isAvatar ? item : getCoverSrc(item, IMG_WIDTH_SM),
               _type: type
             })
           }}
@@ -43,7 +44,6 @@ function Images({ type, image, p3Text, p3Url, onNavigate }) {
             size={isAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
             height={isAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
             radius
-            shadow
             type={type}
           />
         </Touchable>

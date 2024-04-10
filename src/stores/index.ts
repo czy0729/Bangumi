@@ -143,16 +143,19 @@ class GlobalStores {
 
     /** 超展开 */
     await rakuenStore.init('setting')
-    await rakuenStore.init('favor')
     rakuenStore.save('setting')
+
+    await rakuenStore.init('favor')
     rakuenStore.save('favor')
 
     /** 用户 */
     await userStore.init('accessToken')
-    await userStore.init('userInfo')
-    await userStore.init('userCookie')
     userStore.save('accessToken')
+
+    await userStore.init('userInfo')
     userStore.save('userInfo')
+
+    await userStore.init('userCookie')
     userStore.save('userCookie')
     userStore.checkLogin()
 

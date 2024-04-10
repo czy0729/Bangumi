@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-03 21:23:55
+ * @Last Modified time: 2024-04-10 10:48:35
  */
 import { confirm, info, titleCase } from '@utils'
 import { read } from '@utils/db'
@@ -39,7 +39,7 @@ import {
 } from '@types'
 import UserStore from '../user'
 import Fetch from './fetch'
-import { INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
+import { INIT_DEV_EVENT, INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
 import { HomeRenderTabs } from './types'
 
 export default class Actions extends Fetch {
@@ -237,11 +237,22 @@ export default class Actions extends Fetch {
     this.save(key)
   }
 
+  /** 更新用户备注 */
+  updateUserRemark = (userId: UserId, text: string) => {
+    this.setSetting('userRemark', {
+      ...this.setting.userRemark,
+      [userId]: String(text || '').trim()
+    })
+  }
+
   /** 恢复默认设置 */
   resetSetting = () => {
     const key = 'setting'
     this.setState({
-      [key]: INIT_SETTING
+      [key]: {
+        ...INIT_SETTING,
+        userRemark: this.setting.userRemark
+      }
     })
     this.save(key)
   }
@@ -319,7 +330,7 @@ export default class Actions extends Fetch {
   }
 
   /** 切换显示埋点统计 */
-  toggleDevEvent = (value: 'enabled' | 'grid' | 'text' | 'sum' | 'mini' = 'enabled') => {
+  toggleDevEvent = (value: keyof typeof INIT_DEV_EVENT = 'enabled') => {
     const { devEvent } = this.state
     const key = 'devEvent'
     this.setState({

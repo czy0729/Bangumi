@@ -1,4 +1,10 @@
-import { timelineStore, uiStore, userStore } from '@stores'
+/*
+ * @Author: czy0729
+ * @Date: 2024-04-08 18:28:30
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-04-10 10:51:43
+ */
+import { systemStore, timelineStore, uiStore, userStore } from '@stores'
 import { feedback, HTMLDecode, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import { webhookFriend } from '@utils/webhooks'
@@ -7,11 +13,11 @@ import { Navigation, TimeLineScope, TimeLineType } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
-  y = 0
+  private y = 0
 
-  scrollToOffset = {}
+  private scrollToOffset = {}
 
-  scrollTo = {}
+  private scrollTo = {}
 
   /** 收集 ListView | ScrollView 引用 */
   connectRef = (ref: any, index: number) => {
@@ -24,7 +30,6 @@ export default class Action extends Fetch {
   /** 使用合适的方法滚动到指定位置 */
   updatePageOffset = (index: number[] = [-1, 1]) => {
     const { page, fixed } = this.state
-
     const offset = fixed ? this.h_fixed : this.y
     index.forEach(item => {
       const scrollToOffset = this.scrollToOffset[page + item]
@@ -172,6 +177,46 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 显示备注弹窗 */
+  openRemarkModal = () => {
+    this.setState({
+      remarkModalVisible: true,
+      remarkModalInput: this.userRemark || ''
+    })
+  }
+
+  /** 隐藏备注弹窗 */
+  closeRemarkModal = () => {
+    this.setState({
+      remarkModalVisible: false
+    })
+  }
+
+  /** 改变备注弹窗输入 */
+  changeRemarkModal = (text: string) => {
+    this.setState({
+      remarkModalInput: text
+    })
+  }
+
+  /** 提交备注 */
+  submitRemarkModal = () => {
+    if (!this.username) return
+
+    systemStore.updateUserRemark(this.username, this.state.remarkModalInput)
+    this.resetRemarkModal()
+    info('已保存')
+    feedback()
+  }
+
+  /** 重置备注弹窗 */
+  resetRemarkModal = () => {
+    this.setState({
+      remarkModalVisible: false,
+      remarkModalInput: ''
+    })
+  }
+
   /** 显示好友状态 (在 timelineStore 查找添加好友的时间, 最多请求 3 页) */
   logFriendStatus = async () => {
     const { username } = this.usersInfo
@@ -195,7 +240,8 @@ export default class Action extends Fetch {
     if (!find) return info('是你的好友')
 
     const { time } = find
-    return info(`${time.split(' · ')[0]}加为了好友`)
+    info(`${time.split(' · ')[0]}加为了好友`)
+    return
   }
 
   /** 添加好友 */
@@ -238,14 +284,13 @@ export default class Action extends Fetch {
   doDelete = async (href: string) => {
     if (!href) return false
 
-    const res = fetchHTML({
+    const result = await fetchHTML({
       method: 'POST',
       url: href
     })
-    await res
     feedback()
 
     this.fetchUsersTimeline(true)
-    return res
+    return result
   }
 }

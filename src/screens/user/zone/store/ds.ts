@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:07:35
+ * @Last Modified time: 2024-04-09 16:03:35
  */
 import { INIT_USERS } from '@stores/users/init'
 import { Loaded } from '@types'
@@ -37,6 +37,9 @@ export const EXCLUDE_STATE = {
     ...INIT_USERS,
     _loaded: false
   },
+
+  remarkModalVisible: false,
+  remarkModalInput: '',
 
   /** 当前页面实例是否在路由栈中 */
   mounted: true

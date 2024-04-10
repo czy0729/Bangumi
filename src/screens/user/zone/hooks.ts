@@ -19,6 +19,7 @@ export function useZonePage({ $ }: Ctx) {
   const isFocused = useIsFocused()
   useEffect(() => {
     if (!isFocused) {
+      $.resetRemarkModal()
       uiStore.closePopableSubject()
       uiStore.closeLikesGrid()
     }

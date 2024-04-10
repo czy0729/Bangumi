@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-09 08:03:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 09:28:20
+ * @Last Modified time: 2024-04-10 12:20:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -30,7 +30,7 @@ function Service(props, { $ }: Ctx) {
                 }
               )}
             >
-              <Text size={10} bold shadow>
+              <Text size={10} type='__plain__' bold shadow>
                 {item.label}
               </Text>
             </View>

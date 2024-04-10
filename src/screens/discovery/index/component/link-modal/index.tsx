@@ -11,6 +11,7 @@ import { ActionSheet, Flex, Iconfont, Input, Modal, Text, Touchable } from '@com
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
+import { Ctx } from '../../types'
 import { COMPONENT, LINKS } from './ds'
 import { memoStyles } from './styles'
 
@@ -21,7 +22,7 @@ export default obc(
     }
 
     componentDidMount() {
-      const { $ } = this.context
+      const { $ } = this.context as Ctx
       autorun(() => {
         if ($.state.visible) {
           setTimeout(() => {
@@ -70,13 +71,13 @@ export default obc(
     }
 
     onSelect = (text: string) => {
-      const { $ } = this.context
+      const { $ } = this.context as Ctx
       $.onChangeText(text)
       this.onCloseActionSheet()
     }
 
     renderModal() {
-      const { $, navigation } = this.context
+      const { $, navigation } = this.context as Ctx
       const { visible, link } = $.state
       return (
         <Modal

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 13:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 14:03:33
+ * @Last Modified time: 2024-04-10 12:06:50
  */
 import { computed } from 'mobx'
 import { HTMLDecode } from '@utils'
@@ -10,8 +10,8 @@ import { fixedRemote } from '@utils/user-setting'
 import { LIST_EMPTY } from '@constants'
 import { StoreConstructor, UserId } from '@types'
 import userStore from '../user'
-import State from './state'
 import { INIT_USERS, INIT_USERS_INFO, STATE } from './init'
+import State from './state'
 import {
   Blogs,
   Catalogs,
@@ -106,7 +106,7 @@ export default class Computed
   }
 
   // -------------------- computed --------------------
-  /** 好友对象 */
+  /** @deprecated 好友对象 */
   @computed get friendsMap(): FriendsMap {
     const { list } = this.friends()
     const map = {}

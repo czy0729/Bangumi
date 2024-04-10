@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 18:57:46
+ * @Last Modified time: 2024-04-10 12:29:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,10 +64,10 @@ const ItemComment = memo(
           <Flex>
             <Flex.Item>
               <Name
-                userId={userId}
-                showFriend
                 size={14}
                 bold
+                userId={userId}
+                showFriend
                 right={
                   <Text type='sub' size={11} lineHeight={14}>
                     {'  '}

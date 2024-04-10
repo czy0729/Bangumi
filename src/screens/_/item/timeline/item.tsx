@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:32:17
+ * @Last Modified time: 2024-04-10 12:27:51
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable } from '@components'
+import { Cover, Flex, Iconfont, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore, userStore } from '@stores'
 import { appNavigate, confirm, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Cover, InView, Likes, Popover, Stars } from '../../base'
+import { InView, Likes, Popover, Stars } from '../../base'
 import Avatar from './avatar'
 import Desc from './desc'
 import Images from './images'
@@ -165,7 +166,7 @@ const Item = memo(
                       onNavigate(!!p3Url.length && p3Url[0], {
                         _jp: !!p3Text.length && p3Text[0],
                         _name: !!p3Text.length && p3Text[0],
-                        _image,
+                        _image: rightCoverIsAvatar ? _image : getCoverSrc(_image, IMG_WIDTH_SM),
                         _type: type
                       })
                     }}

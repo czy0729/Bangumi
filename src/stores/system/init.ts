@@ -30,12 +30,17 @@ import {
   SettingUserGridNum
 } from '@types'
 import { IOS_IMAGE_CACHE_V2 } from '../../../config'
-import { HomeRenderTabs, LayoutValue } from './types'
+import { HomeRenderTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
 
 export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
-/** 条目页面: true 显示 | false 折叠 | -1 永久隐藏 */
+/**
+ * 条目页面
+ *  - true 显示
+ *  - false 折叠
+ *  - -1 永久隐藏
+ * */
 export const INIT_SUBJECT_LAYOUT = {
   /** 其他用户收藏数量 */
   showCount: true as LayoutValue,
@@ -249,6 +254,9 @@ export const INIT_SETTING = {
   /** 时光机分页 */
   userPagination: true,
 
+  /** 用户备注 */
+  userRemark: {} as UserRemark,
+
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
 
@@ -350,19 +358,19 @@ export const INIT_SETTING = {
   exportICS: false,
 
   /** 追踪用户动画评论 ids */
-  commentAnime: [],
+  commentAnime: [] as TrackIds,
 
   /** 追踪用户书籍评论 ids */
-  commentBook: [],
+  commentBook: [] as TrackIds,
 
   /** 追踪用户游戏评论 ids */
-  commentGame: [],
+  commentGame: [] as TrackIds,
 
   /** 追踪用户音乐评论 ids */
-  commentMusic: [],
+  commentMusic: [] as TrackIds,
 
   /** 追踪用户三次元评论 ids */
-  commentReal: [],
+  commentReal: [] as TrackIds,
 
   /** 是否启用 webhook */
   webhook: false,
@@ -375,7 +383,7 @@ export const INIT_SETTING = {
    * ['自己评分', '收藏状态', '条目排名', '条目分数', '已看集数',
    *  '自己点评', '私密收藏', '最近收藏', '标签倾向', '多次推荐']
    */
-  likeRec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] as (1 | 0)[],
+  likeRec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] as LikeRec,
 
   /** 猜你喜欢显示已收藏条目 */
   likeCollected: true,

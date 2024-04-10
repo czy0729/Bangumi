@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 18:37:17
+ * @Last Modified time: 2024-04-10 10:45:45
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@_/base/avatar/utils'
@@ -152,6 +152,11 @@ export default class Computed extends State {
   /** 用户昵称 */
   @computed get nickname() {
     return HTMLDecode(this.usersInfo.nickname || this.params._name)
+  }
+
+  /** 用户备注 */
+  @computed get userRemark() {
+    return systemStore.userRemark(this.username)
   }
 
   /** 小圣杯 / 用户资产 */

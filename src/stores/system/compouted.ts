@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-02 11:28:38
+ * @Last Modified time: 2024-04-10 10:45:28
  */
 import { computed } from 'mobx'
 import { radiusMd } from '@styles'
 import { AnyObject, StoreConstructor, UserId } from '@types'
-import State from './state'
 import { STATE } from './init'
+import State from './state'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 是否开发环境 */
@@ -87,6 +87,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** @deprecated iOS 首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
   @computed get isUGCAgree() {
     return true
+  }
+
+  /** 某用户备注 */
+  userRemark(userId: UserId) {
+    return computed(() => {
+      return this.setting.userRemark[userId] || ''
+    }).get()
   }
 
   /** 是否高级用户 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 18:27:39
+ * @Last Modified time: 2024-04-09 12:00:32
  */
 import { StatusBar } from '@components'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -713,19 +713,22 @@ export default class Action extends Fetch {
     })
   })
 
+  /** 更新可视范围底部 y */
   updateVisibleBottom = updateVisibleBottom.bind(this)
 
   onScrollY = 0
 
-  /** 更新可视范围底部 y */
+  /** 滑动回调 */
   onScroll = (e: ScrollEvent) => {
     this.updateVisibleBottom(e)
-    uiStore.closeLikesGrid()
+    setTimeout(() => {
+      uiStore.closeLikesGrid()
+    }, 0)
 
-    // 计算头部是否需要固定
     const { y } = e.nativeEvent.contentOffset
     this.onScrollY = y
 
+    // 计算头部是否需要固定
     const { fixed } = this.state
     if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
 

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:30:39
+ * @Last Modified time: 2024-04-09 12:04:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn, stl } from '@utils'
@@ -45,7 +46,7 @@ const Works = memo(
                     navigation,
                     {
                       _jp: item.name,
-                      _image: item.cover,
+                      _image: getCoverSrc(item.cover, COVER_WIDTH),
                       _type: type
                     },
                     EVENT

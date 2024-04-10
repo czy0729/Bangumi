@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:03:16
+ * @Last Modified time: 2024-04-10 12:26:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -53,7 +53,7 @@ export const ItemArticle = ob(
             <Flex.Item style={styles.item}>
               <Text bold>{HTMLDecode(title)}</Text>
               <Flex style={_.mt.xs}>
-                <Name userId={userId} showFriend size={12} bold>
+                <Name size={12} bold userId={userId} showFriend>
                   {HTMLDecode(nickname)}
                 </Name>
                 <Text type='sub' style={_.ml.xs} size={12}>

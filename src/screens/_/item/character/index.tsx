@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:12:29
+ * @Last Modified time: 2024-04-09 12:02:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -48,6 +48,7 @@ export const ItemCharacter = obc(
         to: 'Mono',
         monoId
       })
+
       navigation.push('Mono', {
         monoId,
         _name: cn,

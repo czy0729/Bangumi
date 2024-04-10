@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:21:34
+ * @Last Modified time: 2024-04-09 12:03:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Expand, Flex, Heatmap, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { InView, SectionTitle, Tag } from '@_'
 import { _, systemStore } from '@stores'
 import { appNavigate, cnjp, getCoverMedium, stl } from '@utils'
@@ -43,7 +44,7 @@ const Jobs = memo(
                         {
                           _jp: item.name,
                           _cn: item.nameCn,
-                          _image: item.cover,
+                          _image: getCoverSrc(item.cover, COVER_WIDTH),
                           _type: type
                         },
                         EVENT

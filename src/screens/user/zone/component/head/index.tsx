@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 01:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:20:46
+ * @Last Modified time: 2024-04-09 15:49:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,10 +12,10 @@ import { ViewStyle } from '@types'
 import Avatar from './avatar'
 import Blogs from './blogs'
 import Catalogs from './catalogs'
-import Character from './character'
 import Join from './join'
 import Name from './name'
 import Recent from './recent'
+import Remark from './remark'
 import Sync from './sync'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -29,9 +29,10 @@ function Head({ style }: { style?: ViewStyle }) {
         <Join style={styles.l1} />
         <Sync style={styles.l2} />
         <Recent style={styles.l3} />
-        <Character style={styles.r1} />
-        <Blogs style={styles.r2} />
-        <Catalogs style={styles.r3} />
+        {/* <Character style={styles.r1} /> */}
+        <Blogs style={styles.r1} />
+        <Catalogs style={styles.r2} />
+        <Remark style={styles.r3} />
       </View>
       <Name />
     </Flex>

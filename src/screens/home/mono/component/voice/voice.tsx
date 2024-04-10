@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:22:18
+ * @Last Modified time: 2024-04-09 12:04:31
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { InView, SectionTitle, Tag } from '@_'
 import { _ } from '@stores'
 import { appNavigate, cnjp, stl } from '@utils'
@@ -48,7 +49,7 @@ const Voice = memo(
                         {
                           _jp: item.name,
                           _cn: item.nameCn,
-                          _image: item.cover
+                          _image: getCoverSrc(item.cover, IMAGE_WIDTH)
                         },
                         EVENT
                       )
