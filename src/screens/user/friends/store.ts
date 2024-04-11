@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:22:58
+ * @Last Modified time: 2024-04-12 03:16:57
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { usersStore, userStore } from '@stores'
-import { desc, getPinYinFilterValue, getTimestamp } from '@utils'
-import store from '@utils/store'
-import { t, queue } from '@utils/fetch'
+import { debounce, desc, getPinYinFilterValue, getTimestamp } from '@utils'
 import CacheManager from '@utils/cache-manager'
+import { queue, t } from '@utils/fetch'
+import store from '@utils/store'
 import { HTML_FRIENDS } from '@constants'
 import { UserId } from '@types'
 import { sortByRecent } from './utils'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
-import { Params } from './types'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
+import { Params, Sort } from './types'
 
 export default class ScreenFriends extends store<typeof STATE> {
   params: Params
@@ -22,27 +22,16 @@ export default class ScreenFriends extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: true
     })
 
-    await this.fetchUsers()
-
-    this.onRefresh()
-    return true
+    return this.fetchFriends()
   }
 
   // -------------------- fetch --------------------
-  /** 下拉刷新 */
-  onRefresh = async () => {
-    await this.fetchFriends()
-    this.fetchUsersBatch()
-    return true
-  }
-
   /** 好友列表 */
   fetchFriends = () => {
     return usersStore.fetchFriends({
@@ -50,17 +39,9 @@ export default class ScreenFriends extends store<typeof STATE> {
     })
   }
 
-  /** 用户信息 (他人视角) */
-  fetchUsers = () => {
-    return usersStore.fetchUsers({
-      userId: this.userId
-    })
-  }
-
-  /** 批量获取所有好友信息 */
+  /** @deprecated 批量获取所有好友信息 */
   fetchUsersBatch = async () => {
-    const { fetching } = this.state
-    if (fetching) return false
+    if (this.state.fetching) return false
 
     this.setState({
       fetching: true
@@ -87,9 +68,9 @@ export default class ScreenFriends extends store<typeof STATE> {
   }
 
   // -------------------- get --------------------
+  /** 查询的用户 ID */
   @computed get userId() {
-    const { userId } = this.params
-    return userId
+    return this.params.userId
   }
 
   /** 用户信息 */
@@ -102,6 +83,7 @@ export default class ScreenFriends extends store<typeof STATE> {
     return usersStore.friends(this.userId)
   }
 
+  /** 筛选列表 */
   @computed get list() {
     const key = `${NAMESPACE}|list|${this.userId}`
     if (this.state.fetching) {
@@ -109,9 +91,9 @@ export default class ScreenFriends extends store<typeof STATE> {
       if (data) return CacheManager.get(key)
     }
 
-    let { list } = this.friends
-    const { filter, sort } = this.state
+    const { filter } = this.state
     const _filter = filter.toUpperCase()
+    let { list } = this.friends
     if (_filter.length) {
       list = list.filter(item => {
         const { userName } = item
@@ -121,18 +103,15 @@ export default class ScreenFriends extends store<typeof STATE> {
       })
     }
 
+    const { sort } = this.state
     if (sort === 'percent') {
-      list = list
-        .slice()
-        .sort((a, b) => desc(a, b, item => this.users(item.userId)?.percent))
+      list = list.slice().sort((a, b) => desc(a, b, item => this.users(item.userId)?.percent))
     }
 
     if (sort === 'recent') {
       list = list
         .slice()
-        .sort((a, b) =>
-          sortByRecent(this.users(a.userId).recent, this.users(b.userId).recent)
-        )
+        .sort((a, b) => sortByRecent(this.users(a.userId).recent, this.users(b.userId).recent))
     }
 
     return CacheManager.set(key, list)
@@ -150,7 +129,7 @@ export default class ScreenFriends extends store<typeof STATE> {
       title
     })
 
-    let sort = ''
+    let sort: Sort = ''
     if (title === '同步率') sort = 'percent'
     if (title === '最近') sort = 'recent'
 
@@ -161,9 +140,9 @@ export default class ScreenFriends extends store<typeof STATE> {
   }
 
   /** 过滤 */
-  onFilterChange = (filter: string) => {
+  onFilterChange = debounce((filter: string) => {
     this.setState({
       filter: filter.trim()
     })
-  }
+  })
 }

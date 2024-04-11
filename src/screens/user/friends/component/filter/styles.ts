@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-07 04:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-28 03:55:30
+ * @Last Modified time: 2024-04-10 14:15:03
  */
 import { _ } from '@stores'
 
@@ -21,14 +21,6 @@ export const memoStyles = _.memoStyles(() => ({
     textAlign: 'center',
     backgroundColor: _.select(_.colorBorder, _.colorPlain),
     borderRadius: 40
-  },
-  icon: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
   },
   loading: {
     position: 'absolute',

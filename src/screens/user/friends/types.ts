@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-07 04:01:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-07 04:21:56
+ * @Last Modified time: 2024-04-12 02:55:32
  */
 import { factory } from '@utils'
 import { Navigation, UserId } from '@types'
@@ -20,3 +20,5 @@ export type Ctx = {
 export type Params = {
   userId: UserId
 }
+
+export type Sort = '' | 'percent' | 'recent'

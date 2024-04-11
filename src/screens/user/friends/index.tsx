@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:15:41
+ * @Last Modified time: 2024-04-12 03:16:42
  */
 import React from 'react'
-import { Page, Heatmap, Component } from '@components'
-import { PaginationList2 } from '@_'
+import { Component, Heatmap, Page } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Filter from './component/filter'
+import List from './component/list'
 import Header from './header'
-import Filter from './filter'
-import { renderItem, keyExtractor } from './utils'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 好友 */
 const Friends = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
@@ -26,13 +26,7 @@ const Friends = (props, { $ }: Ctx) => {
       <Header />
       <Page>
         <Filter />
-        <PaginationList2
-          keyExtractor={keyExtractor}
-          data={$.list}
-          scrollToTop
-          renderItem={renderItem}
-          onHeaderRefresh={$.onRefresh}
-        />
+        <List />
       </Page>
       <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
     </Component>
