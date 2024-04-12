@@ -36,7 +36,7 @@ const Head = memo(
     titleLabel,
     hideScore,
     rating,
-    x18,
+    nsfw,
     hasSeries
   }) => {
     const top = cnjp(jp, cn)
@@ -167,7 +167,7 @@ const Head = memo(
                   {rating.score === '' ? '-' : toFixed(rating.score, 1)}{' '}
                 </Text>
                 {rating.score !== '' && <ScoreTag style={_.ml.sm} value={Number(rating.score)} />}
-                {x18 && <Tag style={_.ml.sm} size={13} value='NSFW' />}
+                {nsfw && <Tag style={_.ml.sm} size={13} value='NSFW' />}
               </>
             )}
           </Flex>

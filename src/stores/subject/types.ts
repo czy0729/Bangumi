@@ -156,6 +156,9 @@ export type Subject = {
   topic: Topic[]
   type: SubjectTypeValue
   url: UrlSubject
+
+  /** 若有此值表示非旧 API 成功获取到的数据, 通常可以用于判断 NSFW */
+  v0?: boolean
   _responseGroup: 'small' | 'medium' | 'large'
   _loaded: Loaded
 }

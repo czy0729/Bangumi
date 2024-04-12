@@ -458,21 +458,37 @@ export default class Action extends Fetch {
     )
   }
 
-  /** 添加日历 */
-  doSaveCalenderEvent = (item: EpsItem, subjectId: SubjectId) => {
-    const subject = this.subject(subjectId)
-    saveCalenderEvent(item, cnjp(subject.name_cn, subject.name), this.onAirCustom(subjectId))
+  /** 章节更新统一入口 */
+  doUpdateEp = async (value: string | number, item: EpsItem, subjectId: SubjectId) => {
+    try {
+      this.prepareEpsFlip(subjectId)
 
-    t('其他.添加日历', {
-      subjectId,
-      sort: item?.sort || 0,
-      from: 'Home'
-    })
-    return
+      collectionStore.doUpdateSubjectEp(
+        {
+          subjectId,
+          watchedEps: value
+        },
+        () => {
+          userStore.fetchCollectionSingle(subjectId)
+          this.fetchUserProgress(subjectId)
+          webhookEp(
+            {
+              ...item,
+              status: 'watched',
+              batch: true
+            },
+            this.subject(subjectId),
+            userStore.userInfo
+          )
+        }
+      )
+    } catch (error) {
+      console.error(NAMESPACE, 'doUpdateEp', error)
+    }
   }
 
   /** 更新收视进度 */
-  doUpdateEpStatus = async (value: string, item: EpsItem, subjectId: SubjectId) => {
+  doUpdateEpStatus = async (value: string | number, item: EpsItem, subjectId: SubjectId) => {
     const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
     t('首页.章节菜单操作', {
       title: '更新收视进度',
@@ -533,6 +549,12 @@ export default class Action extends Fetch {
     } else if (this.epsNoSp(subjectId)?.[0]?.sort !== 1) {
       // 原始章节第一个不是从 1 开始的, 才需要 +1
       sort += 1
+    }
+
+    // [待迁移] 老 API 不支持任何 NSFW 的修改
+    if (this.subject(subjectId)?.v0) {
+      this.doUpdateEp(sort, item, subjectId)
+      return
     }
 
     this.prepareEpsFlip(subjectId)
@@ -649,6 +671,19 @@ export default class Action extends Fetch {
 
     userStore.fetchCollectionSingle(subjectId)
     this.fetchUserProgress(subjectId)
+  }
+
+  /** 添加日历 */
+  doSaveCalenderEvent = (item: EpsItem, subjectId: SubjectId) => {
+    const subject = this.subject(subjectId)
+    saveCalenderEvent(item, cnjp(subject.name_cn, subject.name), this.onAirCustom(subjectId))
+
+    t('其他.添加日历', {
+      subjectId,
+      sort: item?.sort || 0,
+      from: 'Home'
+    })
+    return
   }
 
   /** 批量添加提醒 */

@@ -123,13 +123,13 @@ export default class Fetch extends Computed {
         item.j === HTMLDecode(data.name) ||
         item.c === HTMLDecode(data.name)
     )
-    let _item
 
+    let _item: ReturnType<typeof unzipBangumiData>
     if (item) {
       _item = unzipBangumiData(item)
       this.setState({
         bangumiInfo: {
-          sites: _item.sites,
+          sites: _item.sites as any,
           type: _item.type
         }
       })
@@ -156,7 +156,7 @@ export default class Fetch extends Computed {
       // 此方法需要用到 subjectFromHTML.info 需要延迟一下
       setTimeout(() => {
         this.fetchMVFromBilibili(this.cn, this.jp, this.artist)
-      }, 2000)
+      }, 2400)
     }
   }
 
@@ -230,33 +230,31 @@ export default class Fetch extends Computed {
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
-    if (STORYBOOK) return false
+    if (STORYBOOK || this.type !== '动画' || this.nsfw) return false
 
-    if (this.type === '动画') {
-      try {
-        const { _response } = await xhrCustom({
-          url: CDN_EPS(this.subjectId)
-        })
+    try {
+      const { _response } = await xhrCustom({
+        url: CDN_EPS(this.subjectId)
+      })
 
-        const epsData = {
-          _loaded: getTimestamp()
-        }
-        SITES.forEach(item => (epsData[item] = {}))
-        JSON.parse(_response).eps.forEach((item, index) => {
-          item.sites.forEach(i => {
-            if (SITES.includes(i.site)) {
-              epsData[i.site][index] = i.url
-            }
-          })
-        })
-
-        this.setState({
-          epsData
-        })
-        this.save()
-      } catch (error) {
-        console.error(NAMESPACE, 'fetchEpsData', error)
+      const epsData = {
+        _loaded: getTimestamp()
       }
+      SITES.forEach(item => (epsData[item] = {}))
+      JSON.parse(_response).eps.forEach((item: any, index: number) => {
+        item.sites.forEach((i: any) => {
+          if (SITES.includes(i.site)) {
+            epsData[i.site][index] = i.url
+          }
+        })
+      })
+
+      this.setState({
+        epsData
+      })
+      this.save()
+    } catch (error) {
+      console.error(NAMESPACE, 'fetchEpsData', error)
     }
   }
 
@@ -268,7 +266,7 @@ export default class Fetch extends Computed {
   }
 
   /** 获取章节的缩略图 */
-  fetchEpsThumbs = async bangumiData => {
+  fetchEpsThumbs = async (bangumiData: ReturnType<typeof unzipBangumiData>) => {
     if (STORYBOOK) return false
 
     if (this.state.epsThumbs.length >= 12) return false
@@ -297,7 +295,8 @@ export default class Fetch extends Computed {
               epsThumbs: Array.from(
                 new Set(
                   result.main_section.episodes.map(
-                    item => `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
+                    (item: { cover: string }) =>
+                      `${item.cover.replace('http://', 'https://')}@192w_120h_1c.jpg`
                   )
                 )
               ),
@@ -332,7 +331,7 @@ export default class Fetch extends Computed {
                     .replace(/(\\"|"\\)/g, '"')
                     .match(/<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim) || []
                 )
-                  .map(item => {
+                  .map((item: string) => {
                     const match = item.match(/src="(.+?)"/)
                     if (match) {
                       return match[1].replace(/\\\//g, '/').replace('http://', 'https://')
@@ -364,8 +363,8 @@ export default class Fetch extends Computed {
             epsThumbs: Array.from(
               new Set(
                 match
-                  .map(item => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
-                  .filter((item, index) => !!index)
+                  .map((item: string) => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
+                  .filter((item: any, index: number) => !!index)
               )
             ),
             epsThumbsHeader: {
@@ -385,7 +384,7 @@ export default class Fetch extends Computed {
 
   /** 从 donban 匹配条目, 并获取官方剧照信息 */
   fetchMovieFromDouban = async (cn: string, jp: string) => {
-    if (STORYBOOK || this.x18) return false
+    if (STORYBOOK || this.nsfw) return false
 
     const q = cn || jp
     if (q) {
@@ -418,7 +417,7 @@ export default class Fetch extends Computed {
 
   /** 从 donban 匹配条目, 并获取预告视频 */
   fetchGameFromDouban = async (cn: string, jp: string) => {
-    if (STORYBOOK || this.x18) return false
+    if (STORYBOOK || this.nsfw) return false
 
     const q = cn || jp
     if (q) {
@@ -577,7 +576,7 @@ export default class Fetch extends Computed {
 
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
-    if (this.type !== '动画') return false
+    if (this.type !== '动画' || this.nsfw) return false
 
     const { showAnitabi } = systemStore.setting
     if (showAnitabi === -1 || !showAnitabi) return false

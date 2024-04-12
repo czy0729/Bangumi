@@ -69,6 +69,7 @@ class ScreenSubject extends Action {
     )
 
     if (!this.state.mounted) return
+
     const data = await this.fetchSubject()
     queue(
       [

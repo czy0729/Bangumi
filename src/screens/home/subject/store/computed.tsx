@@ -90,7 +90,7 @@ export default class Computed extends State {
   }
 
   /** 是否敏感条目 */
-  @computed get x18() {
+  @computed get nsfw() {
     return x18(this.subjectId, this.cn || this.jp)
   }
 
@@ -324,7 +324,7 @@ export default class Computed extends State {
     if (['动画'].includes(this.type)) {
       if (systemStore?.ota?.X18 && this.isLogin) {
         let flagX18: boolean
-        if (this.x18) flagX18 = true
+        if (this.nsfw) flagX18 = true
         if (!flagX18) {
           flagX18 = this.tags.some(item => item.name.includes('里番'))
         }
@@ -416,7 +416,7 @@ export default class Computed extends State {
 
   /** 第三方 Hentai 标签 */
   @computed get hentaiTags() {
-    if (this.type !== '动画' && !this.x18) return null
+    if (this.type !== '动画' && !this.nsfw) return null
 
     const item = findHentai(this.subjectId)
     if (isArray(item?.t)) return item.t.map(item => HENTAI_TAGS[item])

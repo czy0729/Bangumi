@@ -897,8 +897,7 @@ export default class Action extends Fetch {
      * 批量更新收视进度
      * @issue 多季度非 1 开始的番不能直接使用 sort, 需要把 sp 去除后使用当前 item.sort 查找 index
      */
-    const { eps = [] } = this.subject
-    const sort = eps
+    const sort = (this.subject.eps || [])
       .filter(i => i.type === 0)
       .sort((a, b) => asc(a, b, item => item.sort || 0))
       .findIndex(i => i.sort === item.sort)
@@ -906,13 +905,21 @@ export default class Action extends Fetch {
     let value: number
     if (sort === -1) {
       /**
-       * @issue API bug, 多季度番剧使用 item.sort 不适用, 若item.sort > totalEps, 适用排序的 index
+       * @issue 老 API bug, 多季度番剧使用 item.sort 不适用, 若item.sort > totalEps, 适用排序的 index
        * @date 2022/02/12
        */
       const totalEps = Number(this.subjectFormHTML.totalEps)
       value = totalEps && item.sort >= totalEps ? sort + 1 : item.sort
     } else {
       value = sort + 1
+    }
+
+    // [待迁移] 老 API 不支持任何 NSFW 的修改
+    if (this.nsfw) {
+      this.doUpdateEp({
+        eps: value
+      })
+      return
     }
 
     this.prepareEpsFlip()
@@ -922,7 +929,6 @@ export default class Action extends Fetch {
     })
     userStore.fetchCollectionSingle(this.subjectId)
     userStore.fetchUserProgress(this.subjectId)
-
     webhookEp(
       {
         ...item,
@@ -932,6 +938,7 @@ export default class Action extends Fetch {
       this.subject,
       userStore.userInfo
     )
+    return
   }
 
   /** 章节菜单操作 */
@@ -998,7 +1005,7 @@ export default class Action extends Fetch {
       [name]: next
     }
 
-    // 20220414 x18 无效，待废弃，改用 doUpdateSubjectEp
+    // 20220414 nsfw 无效，待废弃，改用 doUpdateSubjectEp
     this.doUpdateEp(
       {
         eps: query.chap,
@@ -1016,7 +1023,7 @@ export default class Action extends Fetch {
 
     const { chap, vol } = this.state
 
-    // 20220414 x18 无效，待废弃，改用 doUpdateEp
+    // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp(
       {
         eps: chap,
@@ -1034,7 +1041,7 @@ export default class Action extends Fetch {
 
     const { watchedEps } = this.state
 
-    // 20220414 x18 无效，待废弃，改用 doUpdateEp
+    // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp({
       eps: watchedEps
     })

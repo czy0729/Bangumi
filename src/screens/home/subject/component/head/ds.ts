@@ -32,6 +32,6 @@ export const DEFAULT_PROPS = {
   titleLabel: '' as $['titleLabel'],
   hideScore: false as $['hideScore'],
   rating: {} as $['rating'],
-  x18: false as $['x18'],
+  nsfw: false as $['nsfw'],
   hasSeries: false as $['hasSeries']
 }

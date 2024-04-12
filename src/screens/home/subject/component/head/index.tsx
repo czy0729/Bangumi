@@ -41,7 +41,7 @@ function HeadWrap({ onBlockRef }, { $ }: Ctx) {
         titleLabel={$.titleLabel}
         hideScore={$.hideScore}
         rating={$.rating}
-        x18={$.x18}
+        nsfw={$.nsfw}
         hasSeries={$.hasSeries}
       />
     </View>

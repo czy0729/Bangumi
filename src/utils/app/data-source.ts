@@ -544,7 +544,10 @@ export function unzipBangumiData(
     t?: string
   } = {}
 ) {
-  const sites = [
+  const sites: {
+    site: 'bangumi' | 'bilibili' | 'qq' | 'iqiyi' | 'acfun' | 'youku'
+    id: string
+  }[] = [
     {
       site: 'bangumi',
       id: String(item.id)
