@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:35:33
+ * @Last Modified time: 2024-04-12 16:27:00
  */
 import React from 'react'
 import { systemStore } from '@stores'
@@ -43,6 +43,7 @@ function TopWrap(props, { $, navigation }: Ctx) {
       userId={$.userId}
       userName={$.userName}
       userSign={$.userSign}
+      filterPost={$.state.filterPost}
       monoId={$.monoId}
       isMono={$.isMono}
       delete={$.topic.delete}

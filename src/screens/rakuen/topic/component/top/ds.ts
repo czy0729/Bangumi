@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 13:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:16:49
+ * @Last Modified time: 2024-04-12 16:26:02
  */
 import { rc } from '@utils/dev'
 import { Navigation } from '@types'
@@ -30,6 +30,7 @@ export const DEFAULT_PROPS = {
   userId: '' as $['userId'],
   userName: '' as $['userName'],
   userSign: '' as $['userSign'],
+  filterPost: '' as $['state']['filterPost'],
   monoId: '' as $['monoId'],
   isMono: false as $['isMono'],
   delete: false as $['topic']['delete']

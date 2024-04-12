@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:16:30
+ * @Last Modified time: 2024-04-12 16:28:09
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import {
   Avatar,
   Cover,
   Divider,
+  Expand,
   Flex,
   HeaderPlaceholder,
   Heatmap,
@@ -44,6 +45,7 @@ const Top = memo(
     userId,
     userName,
     userSign,
+    filterPost,
     monoId,
     isMono,
     delete: topicDelete
@@ -159,7 +161,13 @@ const Top = memo(
               <Heatmap id='帖子.跳转' to='Zone' alias='空间' />
             </Flex>
           )}
-          <Content />
+          {filterPost ? (
+            <Expand ratio={1.28}>
+              <Content />
+            </Expand>
+          ) : (
+            <Content />
+          )}
           {!!topicDelete && (
             <Text style={_.mb.md} size={15} lineHeight={18} bold align='center'>
               数据库中没有查询到指定话题{'\n'}话题可能正在审核或已被删除

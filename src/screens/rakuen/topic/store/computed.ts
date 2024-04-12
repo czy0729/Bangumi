@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 13:15:50
+ * @Last Modified time: 2024-04-12 16:22:17
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -47,31 +47,54 @@ export default class Computed extends State {
     return rakuenStore.topicFormCDN(this.topicId.replace('group/', ''))
   }
 
-  /**
-   * 筛选逻辑
-   *  - 主动设置屏蔽默认头像用户相关信息
-   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
-   */
+  /** 筛选逻辑 */
   @computed get comments() {
-    const comments = rakuenStore.comments(this.topicId)
-    const _comments = comments._loaded ? comments : this.state.comments
+    // 只显示跳转楼层
+    if (this.state.filterPost) {
+      const data = rakuenStore.comments(this.topicId)
+      return {
+        ...data,
+        list: data.list.filter(item => {
+          if (item.id === this.state.filterPost) return true
 
-    let list = this.state.reverse ? _comments.list.slice().reverse() : _comments.list
-    if (systemStore.setting.filterDefault || this.isLimit) {
+          let flag = false
+          item.sub.forEach((i: { id: string }) => {
+            if (i.id === this.state.filterPost) flag = true
+          })
+          return flag
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        }
+      }
+    }
+
+    const data = rakuenStore.comments(this.topicId)
+    const comments = data._loaded ? data : this.state.comments
+    let list = comments.list
+
+    // 楼层翻转
+    if (this.state.reverse) list = comments.list.slice().reverse()
+
+    // 主动设置屏蔽默认头像用户相关信息
+    if (systemStore.setting.filterDefault) {
       list = list
         .filter(item => !item.avatar?.includes(URL_DEFAULT_AVATAR))
         .map(item => ({
           ...item,
-          sub: item.sub.filter(i => !i.avatar?.includes(URL_DEFAULT_AVATAR))
+          sub: item.sub.filter((i: { avatar: string }) => !i.avatar?.includes(URL_DEFAULT_AVATAR))
         }))
     }
 
     // 只显示自己参与评论
     if (this.state.filterMe) {
       return {
-        ..._comments,
+        ...comments,
         list: list.filter(item => {
-          if (item.sub.findIndex(i => i.userId === this.myId) !== -1) return true
+          if (item.sub.findIndex((i: { userId: UserId }) => i.userId === this.myId) !== -1) {
+            return true
+          }
 
           return item.userId === this.myId
         }),
@@ -85,9 +108,11 @@ export default class Computed extends State {
     // 只显示好友相关评论
     if (this.state.filterFriends) {
       return {
-        ..._comments,
+        ...comments,
         list: list.filter(item => {
-          if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) return true
+          if (item.sub.findIndex((i: { userId: UserId }) => this.myFriendsMap[i.userId]) !== -1) {
+            return true
+          }
 
           return this.myFriendsMap[item.userId]
         }),
@@ -99,7 +124,7 @@ export default class Computed extends State {
     }
 
     return {
-      ..._comments,
+      ...comments,
       list
     }
   }

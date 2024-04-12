@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 01:17:13
+ * @Last Modified time: 2024-04-12 16:14:12
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, uiStore } from '@stores'
@@ -56,7 +56,8 @@ export default class Action extends Fetch {
 
     this.setState({
       filterMe: !filterMe,
-      filterFriends: false
+      filterFriends: false,
+      filterPost: ''
     })
     this.save()
   }
@@ -71,9 +72,17 @@ export default class Action extends Fetch {
 
     this.setState({
       filterMe: false,
-      filterFriends: !filterFriends
+      filterFriends: !filterFriends,
+      filterPost: ''
     })
     this.save()
+  }
+
+  /** 取消只显示跳转楼层 */
+  clearFilterPost = () => {
+    this.setState({
+      filterPost: ''
+    })
   }
 
   /** 显示评论框 */

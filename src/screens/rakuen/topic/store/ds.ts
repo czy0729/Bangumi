@@ -59,7 +59,10 @@ export const EXCLUDE_STATE = {
     },
     _list: [],
     _loaded: 0
-  } as Comments
+  } as Comments,
+
+  /** 评论是否只看跳转楼层 */
+  filterPost: ''
 }
 
 export const STATE = {
