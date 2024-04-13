@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 23:16:25
+ * @Last Modified time: 2024-04-12 17:17:10
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -15,26 +15,25 @@ import Label from '../label'
 import { COMPONENT } from './ds'
 
 function TabBarLabel({ route, focused }, { $ }: Ctx) {
-  const { page, group, mono } = $.state
-  if (route.title === '小组' && TABS[page].title === '小组') {
+  if (route.title === '小组' && TABS[$.state.page].title === '小组') {
     return (
       <Label
         focused={focused}
         model={MODEL_RAKUEN_TYPE_GROUP}
         label='小组'
-        value={group}
+        value={$.state.group}
         onSelect={$.onGroupMenuPress}
       />
     )
   }
 
-  if (route.title === '人物' && TABS[page].title === '人物') {
+  if (route.title === '人物' && TABS[$.state.page].title === '人物') {
     return (
       <Label
         focused={focused}
         model={MODEL_RAKUEN_TYPE_MONO}
         label='人物'
-        value={mono}
+        value={$.state.mono}
         onSelect={$.onMonoMenuPress}
       />
     )

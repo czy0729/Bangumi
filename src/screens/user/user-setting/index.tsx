@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 13:22:15
+ * @Last Modified time: 2024-04-12 16:53:41
  */
 import React from 'react'
 import { Component } from '@components'
@@ -13,6 +13,7 @@ import Scroll from './scroll'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 个人设置 */
 const UserSetting = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

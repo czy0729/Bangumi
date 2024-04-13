@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 23:15:27
+ * @Last Modified time: 2024-04-12 17:17:30
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -16,8 +16,7 @@ import TabBar from './tab-bar'
 import { COMPONENT } from './ds'
 
 function Tab(props, { $ }: Ctx) {
-  const { _loaded } = $.state
-  if (!_loaded) return null
+  if (!$.state._loaded) return null
 
   return (
     <BlurViewRoot>

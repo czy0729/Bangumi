@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 23:00:17
+ * @Last Modified time: 2024-04-13 13:36:08
  */
 import { get } from '@utils/crypto'
 
 /** DogeCloud */
 export const HOST_DOGE = get(
-  'U2FsdGVkX1/PXY2zMa9hDyRFAFjsZXNSzJvNrxUaQ3gBWUMfsMwK2psySTo4/gKoeTo2WcMavXPewMdpH0G+AA=='
+  'U2FsdGVkX1+2qULvXezwI6fbFGIL7st4kYo0Q2RAf8JEKUaEyfYwKrhjaJ6FHS3ErIS9X8w8Oq1O88AEI37otA=='
 ) as string
 
 /** DogeCloud */

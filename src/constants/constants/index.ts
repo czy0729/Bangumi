@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 20:48:19
+ * @Last Modified time: 2024-04-13 13:36:26
  */
 import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
@@ -201,8 +201,7 @@ export const IMG_EMPTY_DARK = {
 /** 空头像 */
 export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 
-export const DOGE_CDN_IMG_DEFAULT =
-  'https://s-sh-4501-bangumi-cdn.oss.dogecdn.com/assets/default.png'
+export const DOGE_CDN_IMG_DEFAULT = 'http://bangumi-app-assets.5t5.top/assets/default.png'
 
 /** 默认图 */
 export const IMG_DEFAULT = STORYBOOK

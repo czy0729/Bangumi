@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:35
+ * @Last Modified time: 2024-04-12 17:17:47
  */
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
@@ -14,8 +14,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
 function IconPrefetch(props, { $ }: Ctx) {
-  const { prefetching, prefetchTotal, prefetchCurrent } = $.state
-  if (prefetching) {
+  if ($.state.prefetching) {
     return (
       <Touchable
         onPress={() => {
@@ -25,7 +24,7 @@ function IconPrefetch(props, { $ }: Ctx) {
         <Flex>
           <ActivityIndicator size='small' color={_.colorSub} />
           <Text style={_.ml.sm} type='sub' size={12}>
-            {prefetchCurrent} / {prefetchTotal}
+            {$.state.prefetchCurrent} / {$.state.prefetchTotal}
           </Text>
         </Flex>
       </Touchable>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:24:25
+ * @Last Modified time: 2024-04-12 17:21:50
  */
 import React from 'react'
 import { NavigationEvents } from '@components'
@@ -19,8 +19,7 @@ function CheckLogin(props, { $, navigation }: Ctx) {
   return (
     <NavigationEvents
       onWillFocus={() => {
-        const { _loaded } = $.state
-        if (!_loaded) $.init()
+        if (!$.state._loaded) $.init()
 
         // popToTop 回来时需要延时才能获得正确的登出后的 isLogin 状态
         setTimeout(() => {

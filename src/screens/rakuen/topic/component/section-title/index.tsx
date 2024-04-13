@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 20:50:21
+ * @Last Modified time: 2024-04-12 17:18:58
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
@@ -17,8 +17,6 @@ import { memoStyles } from './styles'
 function SectionTitle(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { list = [] } = $.comments
-  const { reverse } = $.state
-
   let commentsCount = 0
   list.forEach(item => {
     commentsCount += 1
@@ -32,9 +30,9 @@ function SectionTitle(props, { $ }: Ctx) {
         <>
           <Segment />
           <IconReverse
-            style={reverse ? styles.reverse : undefined}
+            style={$.state.reverse ? styles.reverse : undefined}
             iconStyle={styles.reverseIcon}
-            color={reverse ? _.colorMain : _.colorIcon}
+            color={$.state.reverse ? _.colorMain : _.colorIcon}
             size={18}
             onPress={$.toggleReverseComments}
           >

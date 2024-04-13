@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:22:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 01:35:09
+ * @Last Modified time: 2024-04-12 17:20:17
  */
 import React from 'react'
 import { ManageModal } from '@_'
@@ -11,14 +11,14 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 function Modal(props, { $ }: Ctx) {
-  const { visible, subjectId, modal } = $.state
+  const { subjectId } = $.state
   const { name, name_cn: nameCn } = $.subject(subjectId)
   return (
     <ManageModal
-      visible={visible}
+      visible={$.state.visible}
       subjectId={subjectId}
-      title={nameCn || name || modal.title}
-      desc={name || modal.desc}
+      title={nameCn || name || $.state.modal.title}
+      desc={name || $.state.modal.desc}
       onSubmit={$.doUpdateCollection}
       onClose={$.closeManageModal}
     />

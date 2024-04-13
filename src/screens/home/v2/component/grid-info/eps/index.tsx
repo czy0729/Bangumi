@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-20 09:33:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 10:43:16
+ * @Last Modified time: 2024-04-12 17:20:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,6 @@ import { styles } from './styles'
 
 function Eps({ subjectId }, { $, navigation }: Ctx) {
   const { homeGridEpAutoAdjust } = systemStore.setting
-  const { flip } = $.state
   const eps = $.eps(subjectId)
   type Ep = InferArray<typeof eps>
 
@@ -36,7 +35,7 @@ function Eps({ subjectId }, { $, navigation }: Ctx) {
         subjectId={subjectId}
         eps={eps}
         userProgress={$.userProgress(subjectId)}
-        flip={flip === subjectId}
+        flip={$.state.flip === subjectId}
         onFliped={$.afterFlipEps}
         onSelect={(value, item: Ep) => {
           $.doEpsSelect(value, item, subjectId, navigation)

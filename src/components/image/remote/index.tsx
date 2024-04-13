@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:32:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-02 01:10:29
+ * @Last Modified time: 2024-04-13 13:58:40
  */
 import React from 'react'
 import Animated, {
@@ -48,7 +48,8 @@ function Remote({
       headers,
 
       // 安卓新版本不允许非 https 的图片了
-      uri: uri.replace('http://', 'https://')
+      // uri: uri.replace('http://', 'https://')
+      uri
     }
     if (IOS) source.cache = 'force-cache'
 

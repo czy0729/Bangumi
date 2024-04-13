@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-12 15:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:25:07
+ * @Last Modified time: 2024-04-12 17:21:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,9 +41,7 @@ class Filter extends React.Component<Props> {
     const { $ } = this.context as Ctx
     const { filterPage } = $.state
     if (filterPage >= 0 && filterPage <= $.tabs.length) {
-      const { filter } = $.state
-      const { title } = this.props
-      if (title === $.tabs[filterPage].title) return filter
+      if (this.props.title === $.tabs[filterPage].title) return $.state.filter
     }
     return ''
   }
