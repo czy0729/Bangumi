@@ -3,21 +3,15 @@
  * @Author: czy0729
  * @Date: 2021-01-15 09:55:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:15:58
+ * @Last Modified time: 2024-04-13 17:41:55
  */
 import React from 'react'
-import {
-  Animated,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  View,
-  Platform
-} from 'react-native'
+import { Animated, TouchableWithoutFeedback, StyleSheet, View, Platform } from 'react-native'
 import { observer } from 'mobx-react'
 import { SafeAreaView } from '@react-navigation/native'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { PAD } from '@constants'
 import CrossFadeIcon from './CrossFadeIcon'
 import withDimensions from './utils/withDimensions'
@@ -226,9 +220,7 @@ class TabBarBottom extends React.Component {
             route
           })
           const testID = this.props.getTestID({ route })
-          const backgroundColor = focused
-            ? activeBackgroundColor
-            : inactiveBackgroundColor
+          const backgroundColor = focused ? activeBackgroundColor : inactiveBackgroundColor
           const ButtonComponent =
             this.props.getButtonComponent({ route }) || TouchableWithoutFeedbackWrapper
           return (
@@ -241,9 +233,7 @@ class TabBarBottom extends React.Component {
               style={[
                 styles.tab,
                 { backgroundColor },
-                this._shouldUseHorizontalLabels()
-                  ? styles.tabLandscape
-                  : styles.tabPortrait,
+                this._shouldUseHorizontalLabels() ? styles.tabLandscape : styles.tabPortrait,
                 tabStyle,
                 { backgroundColor: 'transparent' }
               ]}

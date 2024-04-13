@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-12 08:32:47
+ * @Last Modified time: 2024-04-13 17:31:49
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
 import { setDefaultProps } from '@utils'
-import { s2t } from '@utils/thirdParty/cn-char'
-import { PAD, IOS } from '@constants'
+import { s2t } from '@utils/thirdParty/open-cc'
+import { IOS, PAD } from '@constants'
 
 /** 平板设备统一放大单位 */
 export const PAD_INCREASE = PAD === 2 ? 4 : 2
@@ -29,9 +29,8 @@ export function computedLineHeight(
   contextLineHeightIncrease?: number
 ) {
   const _lineHeightIncrease =
-    (lineHeightIncrease === undefined
-      ? contextLineHeightIncrease
-      : lineHeightIncrease) + _.device(0, PAD_INCREASE)
+    (lineHeightIncrease === undefined ? contextLineHeightIncrease : lineHeightIncrease) +
+    _.device(0, PAD_INCREASE)
 
   if (lineHeight !== undefined || _lineHeightIncrease) {
     const _lineHeight = Math.max(lineHeight || 14, size) + _lineHeightIncrease
@@ -44,6 +43,8 @@ export function computedLineHeight(
 /** 文字递归简转繁 */
 export function format(children: any) {
   if (typeof children === 'string') return s2t(children)
+
   if (Array.isArray(children)) return children.map(item => format(item))
+
   return children
 }

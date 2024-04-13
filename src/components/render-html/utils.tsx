@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 14:31:48
+ * @Last Modified time: 2024-04-13 17:42:44
  */
-import { _, systemStore, subjectStore, rakuenStore } from '@stores'
-import { sleep, HTMLDecode } from '@utils'
+import { _, rakuenStore, subjectStore, systemStore } from '@stores'
+import { HTMLDecode, sleep } from '@utils'
 import { acSearch, getSubStrings } from '@utils/ac-search'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { DEV, IOS } from '@constants'
 import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 

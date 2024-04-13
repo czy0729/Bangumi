@@ -1,17 +1,16 @@
 /*
- * 繁体简体互转
  * @Doc: https://github.com/RobinQu/simplebig/blob/master/index.js
  * @Author: czy0729
  * @Date: 2021-04-12 15:29:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 20:33:11
+ * @Last Modified time: 2024-04-13 18:53:55
  */
 import sc from './sc.json'
 import tc from './tc.json'
 
-const s2tMemo = {}
+const memo = {}
 
-/** 简转繁 */
+/** @deprecated 简转繁 */
 export function s2t(str: string) {
   var ret = '',
     i: number,
@@ -20,13 +19,13 @@ export function s2t(str: string) {
   str = str || this
   for (i = 0, len = str.length; i < len; i++) {
     var s = str.charAt(i)
-    var t = s2tMemo[s]
+    var t = memo[s]
     if (t) {
       ret += t
     } else {
       idx = sc.indexOf(s)
-      s2tMemo[s] = idx === -1 ? s : tc.charAt(idx)
-      ret += s2tMemo[s]
+      memo[s] = idx === -1 ? s : tc.charAt(idx)
+      ret += memo[s]
     }
   }
   return ret

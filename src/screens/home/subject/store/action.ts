@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 12:00:32
+ * @Last Modified time: 2024-04-13 17:43:09
  */
 import { StatusBar } from '@components'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -40,7 +40,7 @@ import {
 import { baiduTranslate, t } from '@utils/fetch'
 import { download, temp } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
   CDN_OSS_SUBJECT,

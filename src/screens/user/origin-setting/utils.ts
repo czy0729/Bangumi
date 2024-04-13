@@ -9,11 +9,11 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 16:29:27
+ * @Last Modified time: 2024-04-13 17:43:19
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { SITE_AGEFANS, SITE_MANGABZ, SITE_WK8, SITE_WNACG } from '@constants'
 import { Origin, SubjectId } from '@types'
 import {

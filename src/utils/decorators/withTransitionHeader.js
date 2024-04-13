@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:14:25
+ * @Last Modified time: 2024-04-13 17:43:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { computed } from 'mobx'
 import { Popover, Menu, Flex, Iconfont, UM, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { gradientColor } from '@utils'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS } from '@constants/constants'
 import IconBack from './cycles/back'
 import ob from './ob'
@@ -65,11 +65,7 @@ const withTransitionHeader =
             const popoverProps = IOS
               ? {
                   overlay: (
-                    <Menu
-                      title={popover.title}
-                      data={popover.data}
-                      onSelect={popover.onSelect}
-                    />
+                    <Menu title={popover.title} data={popover.data} onSelect={popover.onSelect} />
                   )
                 }
               : {
@@ -79,12 +75,7 @@ const withTransitionHeader =
             headerRight = (
               <Flex>
                 {extra || defaultExtra}
-                <Popover
-                  style={styles.icon}
-                  placement='bottom'
-                  hitSlop={hitSlop}
-                  {...popoverProps}
-                >
+                <Popover style={styles.icon} placement='bottom' hitSlop={hitSlop} {...popoverProps}>
                   <Iconfont name='md-more-horiz' color={headerTintColor} />
                   {!!heatmap && <Heatmap id={heatmap} />}
                 </Popover>
@@ -107,9 +98,7 @@ const withTransitionHeader =
           }
 
           const options = {
-            title: this._s2t
-              ? s2t(navigation.getParam('title'))
-              : navigation.getParam('title'),
+            title: this._s2t ? s2t(navigation.getParam('title')) : navigation.getParam('title'),
             headerTitleStyle: {
               width: '100%',
               textAlign: 'left',
@@ -242,13 +231,8 @@ const withTransitionHeader =
           return (
             <>
               <UM screen={screen} />
-              <ComposedComponent
-                navigation={navigation}
-                onScroll={this.headerTransitionCallback}
-              />
-              {!!hm?.[1] && (
-                <Heatmap bottom={_.bottom + _.sm} id={screen} screen={hm[1]} />
-              )}
+              <ComposedComponent navigation={navigation} onScroll={this.headerTransitionCallback} />
+              {!!hm?.[1] && <Heatmap bottom={_.bottom + _.sm} id={screen} screen={hm[1]} />}
             </>
           )
         }

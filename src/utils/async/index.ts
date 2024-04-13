@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 11:04:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 09:33:36
+ * @Last Modified time: 2024-04-13 17:43:33
  */
 import { RakuenStoreType } from '../../stores/rakuen'
 import { SystemStoreType } from '../../stores/system'
@@ -41,5 +41,5 @@ export function s2tAsync(str: any = ''): string {
   if (typeof str !== 'string') return str
 
   const { s2t: _s2t } = syncSystemStore().setting
-  return _s2t ? require('../thirdParty/cn-char').s2t(str) : str
+  return _s2t ? require('../thirdParty/open-cc').s2t(str) : str
 }

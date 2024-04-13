@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:17:05
+ * @Last Modified time: 2024-04-13 17:43:42
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Menu, Popover, UM } from '@components'
 import { _, systemStore } from '@stores'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { hm as utilsHM } from '@utils/fetch'
 import { s2tAsync } from '@utils/async'
 import { IOS } from '@constants/constants'
@@ -47,11 +47,7 @@ const withHeader =
             const popoverProps = IOS
               ? {
                   overlay: (
-                    <Menu
-                      title={popover.title}
-                      data={popover.data}
-                      onSelect={popover.onSelect}
-                    />
+                    <Menu title={popover.title} data={popover.data} onSelect={popover.onSelect} />
                   )
                 }
               : {
@@ -120,9 +116,7 @@ const withHeader =
           if (_title || screen || typeof title === 'function') {
             const { s2t: _s2t } = systemStore.setting
             const str =
-              _title ||
-              (typeof title === 'function' && title(navigation.state.params)) ||
-              screen
+              _title || (typeof title === 'function' && title(navigation.state.params)) || screen
             params.title = _s2t ? s2t(str) : str
           }
 

@@ -71,6 +71,7 @@
     "lodash.uniqueid": "^4.0.1",
     "mobx": "6.8.0",
     "mobx-react": "7.6.0",
+    "opencc-js": "^1.0.5",
     "p-limit": "^4.0.0",
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",

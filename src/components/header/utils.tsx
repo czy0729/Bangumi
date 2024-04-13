@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-26 12:29:09
+ * @Last Modified time: 2024-04-13 17:42:13
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS } from '@constants'
 import { IOS_IPA } from '@/config'
 import Back from './back'

@@ -1,16 +1,16 @@
 /*
- * Android风格的弹出层, 这个官方文档是找不到的
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 19:20:25
+ * @Last Modified time: 2024-04-13 17:42:32
  */
 import React from 'react'
-import { StyleSheet, UIManager, findNodeHandle, View } from 'react-native'
+import { findNodeHandle, StyleSheet, UIManager, View } from 'react-native'
 import { systemStore } from '@stores'
-import { s2t } from '@utils/thirdParty/cn-char'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { Touchable } from '../../touchable'
 
+/** Android 风格的弹出层, 这个官方文档是找不到的 */
 export default class Popover extends React.Component<any> {
   static defaultProps = {
     data: [],
