@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-03-27 05:41:39
  */
 import React from 'react'
-import { Flex, Text } from '@components'
-import { Cover, Rank, Stars } from '@_'
+import { Cover, Flex, Text } from '@components'
+import { Rank, Stars } from '@_'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
 import { memo } from '@utils/decorators'

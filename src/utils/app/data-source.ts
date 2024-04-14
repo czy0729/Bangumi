@@ -434,7 +434,7 @@ export function getCoverLarge(src = '', size: 200 | 400 = 400) {
 }
 
 /** 获取新格式 bgm 封面大图 */
-export function getCover400(src: string = '', size: 100 | 200 | 400 | 600 | 800 = 400) {
+export function getCover400(src: string = '', size: 100 | 200 | 400 | 600 | 800 = 400): string {
   if (typeof src === 'string' && src.includes('lain.bgm.tv')) {
     return fixedRemoteImageUrl(
       src

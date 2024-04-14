@@ -7,10 +7,6 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  cover: {
-    marginLeft: _.sm,
-    backgroundColor: _.select(_.colorBg, _.colorPlain)
-  },
   relation: {
     paddingLeft: 2,
     marginTop: _.sm + 4,

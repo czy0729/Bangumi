@@ -9,8 +9,8 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { Component } from '../../component'
-import { Squircle } from '../../squircle'
 import { Image } from '../../image'
+import { Squircle } from '../../squircle'
 import { memoStyles } from './styles'
 
 function Catalog({
@@ -25,10 +25,10 @@ function Catalog({
   ...other
 }) {
   const styles = memoStyles()
-  const CatalogSize = Math.min(size || 1000, width || 1000, height || 1000)
+  const catalogSize = Math.min(size || 1000, width || 1000, height || 1000)
   const catalogStyle = {
-    width: CatalogSize,
-    height: CatalogSize
+    width: catalogSize,
+    height: catalogSize
   }
   return (
     <Component id='component-cover' data-type='catalog' style={catalogStyle}>
@@ -37,8 +37,8 @@ function Catalog({
           styles.catalog,
           styles.catalogLevel2,
           {
-            width: CatalogSize,
-            height: CatalogSize - 8
+            width: catalogSize,
+            height: catalogSize - 8
           }
         ]}
       />
@@ -47,17 +47,12 @@ function Catalog({
           styles.catalog,
           styles.catalogLevel1,
           {
-            width: CatalogSize,
-            height: CatalogSize - 4
+            width: catalogSize,
+            height: catalogSize - 4
           }
         ]}
       />
-      <Squircle
-        style={styles.image}
-        width={CatalogSize}
-        height={CatalogSize}
-        radius={_.radiusSm}
-      >
+      <Squircle style={styles.image} width={catalogSize} height={catalogSize} radius={_.radiusSm}>
         <Image
           style={imageStyle}
           src={src}
@@ -65,9 +60,9 @@ function Catalog({
           textOnly={textOnly}
           fallback={fallback}
           {...other}
-          size={CatalogSize}
-          width={CatalogSize}
-          height={CatalogSize}
+          size={catalogSize}
+          width={catalogSize}
+          height={catalogSize}
           radius={0}
         />
       </Squircle>

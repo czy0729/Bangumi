@@ -34,8 +34,6 @@ function HeadWrap({ onBlockRef }, { $ }: Ctx) {
         jp={$.jp}
         release={$.release}
         year={year}
-        coverPlaceholder={$.coverPlaceholder}
-        image={$.subject.images?.common}
         imageWidth={$.imageWidth}
         imageHeight={$.imageHeight}
         titleLabel={$.titleLabel}

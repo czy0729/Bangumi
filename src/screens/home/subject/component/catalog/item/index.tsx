@@ -5,9 +5,8 @@
  * @Last Modified time: 2023-07-03 07:22:36
  */
 import React from 'react'
-import { Flex, Text, Touchable } from '@components'
+import { Cover, Flex, Text, Touchable } from '@components'
 import { fixedAll } from '@components/avatar/utils'
-import { Cover } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'

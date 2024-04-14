@@ -5,9 +5,9 @@
  * @Last Modified time: 2023-01-18 02:20:20
  */
 import React from 'react'
-import { Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
+import { Cover, Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover as CompCover, IconTouchable } from '@_'
+import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -75,18 +75,13 @@ const Series = memo(
       >
         <Flex>
           <Text size={13}>⤷</Text>
-          <Squircle
-            style={styles.cover}
-            width={COVER_WIDTH}
-            height={COVER_HEIGHT}
-            radius={_.radiusSm}
-          >
-            <CompCover
+          <Squircle style={_.ml.sm} width={COVER_WIDTH} height={COVER_HEIGHT} radius={4}>
+            <Cover
               src={subjectSeries.image}
               size={COVER_WIDTH}
               height={COVER_HEIGHT}
-              placeholder={false}
               fadeDuration={0}
+              skeleton={false}
               noDefault
             />
           </Squircle>

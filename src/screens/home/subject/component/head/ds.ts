@@ -25,8 +25,6 @@ export const DEFAULT_PROPS = {
   jp: '' as $['jp'],
   release: '' as $['release'],
   year: '' as $['year'],
-  coverPlaceholder: '' as $['coverPlaceholder'],
-  image: '' as string,
   imageWidth: 0 as $['imageWidth'],
   imageHeight: 0 as $['imageHeight'],
   titleLabel: '' as $['titleLabel'],

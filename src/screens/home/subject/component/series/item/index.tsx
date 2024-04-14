@@ -5,9 +5,8 @@
  * @Last Modified time: 2023-03-09 15:26:06
  */
 import React from 'react'
-import { Flex, Heatmap, Text, Touchable } from '@components'
+import { Cover, Flex, Heatmap, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover as CompCover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -39,14 +38,16 @@ function Item({ from, data }, { $, navigation }: Ctx) {
       }}
     >
       <Flex>
-        <CompCover
-          src={data.image || IMG_DEFAULT}
-          size={COVER_WIDTH}
-          height={COVER_HEIGHT}
-          radius={4}
-          fadeDuration={0}
-          noDefault
-        />
+        <Squircle width={COVER_WIDTH} height={COVER_HEIGHT} radius={4}>
+          <Cover
+            src={data.image || IMG_DEFAULT}
+            size={COVER_WIDTH}
+            height={COVER_HEIGHT}
+            fadeDuration={0}
+            skeleton={false}
+            noDefault
+          />
+        </Squircle>
         <Text style={_.ml.sm} size={11}>
           {from}
         </Text>

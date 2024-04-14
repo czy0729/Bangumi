@@ -29,8 +29,6 @@ const Head = memo(
     jp,
     release,
     year,
-    coverPlaceholder,
-    image,
     imageWidth,
     imageHeight,
     titleLabel,
@@ -172,7 +170,7 @@ const Head = memo(
             )}
           </Flex>
         </View>
-        <Cover image={image} placeholder={coverPlaceholder} />
+        <Cover />
       </View>
     )
   },

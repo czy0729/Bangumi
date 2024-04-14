@@ -11,6 +11,8 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Image')
 
+export const NAMESPACE = 'Component|Image|v2'
+
 /** 默认请求头 */
 export const DEFAULT_HEADERS = {
   Referer: `${HOST}/`
@@ -61,3 +63,12 @@ export const OSS_MEGMA_PREFIX = '/bgm_poster' // bgm_poster | bgm_thumb
 
 /** bgm 没有做本地化的不常用表情 */
 export const OSS_BGM_EMOJI_PREFIX = '/img/smiles/' // img/smiles/tv/14.gif | img/smiles/bgm/13.png
+
+/** 451 错误标记, 用于忽略下次错误 */
+export const CACHE_KEY_451 = `${NAMESPACE}|CACHE_ERROR_451` as const
+
+/** 404 错误标记, 用于忽略下次错误 */
+export const CACHE_KEY_404 = `${NAMESPACE}|CACHE_ERROR_404` as const
+
+/** 超时错误标记, 用于忽略下次错误 */
+export const CACHE_KEY_TIMEOUT = `${NAMESPACE}|CACHE_ERROR_TIMEOUT` as const

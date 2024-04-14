@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { observer } from 'mobx-react'
+import { checkLocalError, getRecoveryBgmCover } from '@components/image/utils'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { Component } from '../component'
@@ -43,15 +44,22 @@ export const Cover = observer(
   }: CoverProps) => {
     r(COMPONENT)
 
-    const { width, radius, onPress } = other
+    const { width, radius } = other
     const coverWidth = width || size
     const coverHeight = height || size
     if (textOnly) {
-      return <TextOnly width={coverWidth} height={coverHeight} radius={radius} onPress={onPress} />
+      return (
+        <TextOnly width={coverWidth} height={coverHeight} radius={radius} onPress={other.onPress} />
+      )
     }
 
-    const { coverThings } = systemStore.setting
-    const coverSrc = getCoverSrc(src, coverWidth, cdn, noDefault)
+    let coverSrc = getCoverSrc(src, coverWidth, cdn, noDefault)
+
+    // 能使已确定不能成功加载的图片, 使用回滚路径尽早渲染
+    if (checkLocalError(coverSrc)) {
+      coverSrc = getRecoveryBgmCover(coverSrc, coverWidth, coverHeight, size)
+    }
+
     const passProps = {
       ...other,
       src: coverSrc,
@@ -63,7 +71,7 @@ export const Cover = observer(
     }
 
     // 封面拟物
-    if (coverThings || useType) {
+    if (systemStore.setting.coverThings || useType) {
       if (type === '音乐') {
         return (
           <Disc

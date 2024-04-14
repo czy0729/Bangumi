@@ -8,7 +8,7 @@ import React from 'react'
 import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { getCover400, getTimestamp } from '@utils'
+import { getTimestamp } from '@utils'
 import { r } from '@utils/dev'
 import { HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
 import { IOS_IPA } from '@/config'
@@ -24,14 +24,14 @@ import Remote from './remote'
 import Skeleton from './skeleton'
 import TextOnly from './text-only'
 import {
-  checkBgmEmoji,
-  checkError404,
-  checkError451,
   checkErrorTimeout,
+  checkLocalError,
   fixedRemoteImageUrl,
+  getAutoSize,
   getDevStyles,
   getLocalCache,
   getLocalCacheStatic,
+  getRecoveryBgmCover,
   imageViewerCallback,
   log,
   setError404,
@@ -44,7 +44,6 @@ import {
   DEFAULT_HEADERS,
   DEFAULT_PROPS,
   MAX_ERROR_COUNT,
-  OSS_BGM,
   OSS_MEGMA_PREFIX,
   RETRY_DISTANCE
 } from './ds'
@@ -99,29 +98,27 @@ export const Image = observer(
     private _size = 0
 
     componentDidMount() {
-      const { src, cache, textOnly, sync } = this.props
-      if (textOnly) return
+      if (this.props.textOnly) return
 
-      if (!cache || STORYBOOK) {
+      if (!this.props.cache || STORYBOOK) {
         this.setState({
-          uri: fixedRemoteImageUrl(src)
+          uri: fixedRemoteImageUrl(this.props.src)
         })
         return
       }
 
       if (this.preGetLocalCache()) return
 
-      /** 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理 */
-      if (sync) return this.preCache()
+      if (this.props.sync) return this.preCache()
 
+      // 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理
       setTimeout(() => {
         this.preCache()
       }, 0)
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: { src: ImageProps['src'] }) {
-      const { textOnly } = this.props
-      if (textOnly) return
+      if (this.props.textOnly) return
 
       if (nextProps.src !== this.props.src) {
         if (STORYBOOK) {
@@ -163,8 +160,7 @@ export const Image = observer(
 
     /** 判断是否需要获取远程图片宽高 */
     checkAutoSize = () => {
-      const { autoSize, autoHeight } = this.props
-      if (autoSize || autoHeight) {
+      if (this.props.autoSize || this.props.autoHeight) {
         setTimeout(() => {
           this.getSize()
         }, 0)
@@ -244,9 +240,8 @@ export const Image = observer(
 
     /** 缓存图片 (使用系统默认图片策略) */
     cacheV2 = async (src: ImageProps['src']) => {
-      let uri: ImageProps['src']
       if (typeof src === 'string') {
-        if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
+        if (checkLocalError(src)) {
           this.recoveryToBgmCover()
           return
         }
@@ -257,11 +252,9 @@ export const Image = observer(
         }
       }
 
-      uri = src || ''
-      if (typeof uri === 'string') {
-        if (uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
-          uri = `https:${uri}`
-        }
+      let uri: ImageProps['src'] = src || ''
+      if (typeof uri === 'string' && uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
+        uri = `https:${uri}`
       }
 
       // 空地址不作处理
@@ -297,8 +290,8 @@ export const Image = observer(
     getSize = () => {
       if (this._getSized) return
 
-      const { src, autoSize, autoHeight } = this.props
-      const uri = this.state.uri || src
+      const { autoSize, autoHeight } = this.props
+      const uri = this.state.uri || this.props.src
       if (
         typeof uri !== 'string' ||
         (typeof autoSize !== 'number' && typeof autoHeight !== 'number')
@@ -306,34 +299,23 @@ export const Image = observer(
         return
       }
 
-      const cb = (width: number, height: number) => {
-        let w: number
-        let h: number
-        if (autoSize && typeof autoSize === 'number') {
-          // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
-          if (width < autoSize) {
-            w = width
-            h = height
-          } else {
-            w = autoSize
-            h = Math.floor((autoSize / width) * height)
-          }
-        } else {
-          w = Math.floor((autoHeight / height) * width)
-          h = autoHeight
-        }
-
-        this._getSized = true
-        this.setState({
-          width: w,
-          height: h
-        })
-      }
-
       setTimeout(() => {
-        RNImage.getSizeWithHeaders(uri, this.headers, cb, () => {
-          this.commitError('error: getSizeWithHeaders')
-        })
+        RNImage.getSizeWithHeaders(
+          uri,
+          this.headers,
+          (width: number, height: number) => {
+            this._getSized = true
+
+            const sizes = getAutoSize(width, height, autoSize, autoHeight)
+            this.setState({
+              width: sizes.width,
+              height: sizes.height
+            })
+          },
+          () => {
+            this.commitError('error: getSizeWithHeaders')
+          }
+        )
       }, 0)
     }
 
@@ -345,7 +327,7 @@ export const Image = observer(
         src.includes(OSS_MEGMA_PREFIX) &&
         this._errorCount < MAX_ERROR_COUNT
       ) {
-        if (checkBgmEmoji(src) || checkError451(src) || checkError404(src)) {
+        if (checkLocalError(src)) {
           this.recoveryToBgmCover()
           return
         }
@@ -403,8 +385,7 @@ export const Image = observer(
       }
 
       const { fallbackSrc } = this.props
-      const { uri } = this.state
-      if (fallbackSrc && uri !== fallbackSrc && !this._fallbacked) {
+      if (fallbackSrc && this.state.uri !== fallbackSrc && !this._fallbacked) {
         this._fallbacked = true
         this.setState({
           uri: fixedRemoteImageUrl(fallbackSrc)
@@ -416,8 +397,10 @@ export const Image = observer(
 
     /** 其他源头回退到 bgm 源头 */
     recoveryToBgmCover = () => {
+      if (this._recoveried) return
+
       const { src, fallbackSrc } = this.props
-      if (typeof src !== 'string' || this._recoveried) return
+      if (typeof src !== 'string') return
 
       this._recoveried = true
       if (fallbackSrc) {
@@ -427,28 +410,8 @@ export const Image = observer(
         return
       }
 
-      // 提取原来的封面图片地址
-      let s = src.split('/pic/')?.[1] || ''
-      if (s) s = s.replace(/\/bgm_poster(_100|_200)?/g, '')
-
-      // 如果是触发回滚机制的图, 通常是游戏类的横屏图, 所以可以使用 height 去检查加大一个级别
-      const width = Math.max(this.props.width || 0, this.props.height || 0, this.props.size || 0)
-      let coverSize: 100 | 200 | 400 = 100
-      if (STORYBOOK) {
-        if (width > 200) {
-          coverSize = 400
-        } else if (width > 100) {
-          coverSize = 200
-        }
-      } else {
-        if (width > 134) {
-          coverSize = 400
-        } else if (width > 67) {
-          coverSize = 200
-        }
-      }
       this.setState({
-        uri: getCover400(`${OSS_BGM}/pic/${s}`, coverSize)
+        uri: getRecoveryBgmCover(src, this.props.width, this.props.height, this.props.size)
       })
     }
 

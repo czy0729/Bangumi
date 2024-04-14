@@ -6,91 +6,111 @@
  */
 import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _ } from '@stores'
-import { getStorage, setStorage, showImageViewer } from '@utils'
+import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
-import { DEV, HOST_CDN, IOS } from '@constants'
-import { OSS_BGM_EMOJI_PREFIX } from './ds'
+import { DEV, HOST_CDN, IOS, STORYBOOK } from '@constants'
+import {
+  CACHE_KEY_404,
+  CACHE_KEY_451,
+  CACHE_KEY_TIMEOUT,
+  OSS_BGM,
+  OSS_BGM_EMOJI_PREFIX
+} from './ds'
 
-const NAMESPACE = 'Component|Image'
+/** 记录 451 (OSS 鉴定为敏感) 的图片 */
+let memo451: Map<string, boolean>
 
-const CACHE_KEY_451 = `${NAMESPACE}|CACHE_ERROR_451`
+/** 记录 404 的图片 */
+let memo404: Map<string, boolean>
 
-const CACHE_KEY_404 = `${NAMESPACE}|CACHE_ERROR_404`
+/** 记录超时的图片 */
+let memoTimeout: Map<string, boolean>
 
-const CACHE_KEY_TIMEOUT = `${NAMESPACE}|CACHE_ERROR_TIMEOUT`
-
-/** 记录 code=451 的图片 */
-let CACHE_ERROR_451: {
-  [uri: string]: 1
-} = {}
-
-/** 记录 code=404 的图片 */
-let CACHE_ERROR_404: {
-  [uri: string]: 1
-} = {}
-
-/** 记录 timeout 的图片 */
-let CACHE_ERROR_TIMEOUT: {
-  [uri: string]: 1
-} = {}
-
-setTimeout(async () => {
+  /** 初始化 */
+;(async () => {
   try {
-    CACHE_ERROR_451 = (await getStorage(CACHE_KEY_451)) || {}
-    CACHE_ERROR_404 = (await getStorage(CACHE_KEY_404)) || {}
-    CACHE_ERROR_TIMEOUT = (await getStorage(CACHE_KEY_TIMEOUT)) || {}
-  } catch (error) {}
-}, 0)
+    memo451 = new Map(Object.entries((await getStorage(CACHE_KEY_451)) || {}))
+  } catch (error) {
+    memo451 = new Map()
+  }
 
-/** 记录 code=451 的图片地址 */
+  try {
+    memo404 = new Map(Object.entries((await getStorage(CACHE_KEY_404)) || {}))
+  } catch (error) {
+    memo404 = new Map()
+  }
+
+  try {
+    memoTimeout = new Map(Object.entries((await getStorage(CACHE_KEY_TIMEOUT)) || {}))
+  } catch (error) {
+    memoTimeout = new Map()
+  }
+})()
+
+/** 记录 451 (OSS 鉴定为敏感) 的图片地址 */
 export function setError451(src: string) {
-  if (typeof src !== 'string') return false
-  if (CACHE_ERROR_451[src]) return true
+  if (!memo451 || typeof src !== 'string') return false
 
-  CACHE_ERROR_451[src] = 1
-  setStorage(CACHE_KEY_451, CACHE_ERROR_451)
+  const id = hash(src)
+  if (memo451.has(id)) return true
+
+  memo451.set(id, true)
+  setStorage(CACHE_KEY_451, Object.fromEntries(memo451))
 }
 
-/** 检查是否存在过 code=451 返回 */
+/** 检查是否存在过 451 (OSS 鉴定为敏感) 返回 */
 export function checkError451(src: string): boolean {
-  if (typeof src !== 'string') return false
-  return !!CACHE_ERROR_451[src]
+  if (!memo451 || typeof src !== 'string') return false
+
+  return memo451.has(hash(src))
 }
 
-/** 记录 code=404 的图片地址 */
+/** 记录 404 的图片地址 */
 export function setError404(src: string) {
-  if (typeof src !== 'string') return false
-  if (CACHE_ERROR_404[src]) return true
+  if (!memo404 || typeof src !== 'string') return false
 
-  CACHE_ERROR_404[src] = 1
-  setStorage(CACHE_KEY_404, CACHE_ERROR_404)
+  const id = hash(src)
+  if (memo404.has(id)) return true
+
+  memo404.set(id, true)
+  setStorage(CACHE_KEY_404, Object.fromEntries(memo404))
 }
 
-/** 检查是否存在过 code=404 返回 */
+/** 检查是否存在过 404 返回 */
 export function checkError404(src: string): boolean {
-  if (typeof src !== 'string') return false
-  return !!CACHE_ERROR_404[src]
+  if (!memo404 || typeof src !== 'string') return false
+
+  return memo404.has(hash(src))
 }
 
-/** 记录 timeout 的图片地址 */
+/** 记录超时的图片地址 */
 export function setErrorTimeout(src: string) {
-  if (typeof src !== 'string') return false
-  if (CACHE_ERROR_TIMEOUT[src]) return true
+  if (!memoTimeout || typeof src !== 'string') return false
 
-  CACHE_ERROR_TIMEOUT[src] = 1
-  setStorage(CACHE_KEY_TIMEOUT, CACHE_ERROR_TIMEOUT)
+  const id = hash(src)
+  if (memoTimeout.has(id)) return true
+
+  memoTimeout.set(id, true)
+  setStorage(CACHE_KEY_TIMEOUT, Object.fromEntries(memoTimeout))
 }
 
-/** 检查是否存在过 timeout 返回 */
+/** 检查是否存在过超时返回 */
 export function checkErrorTimeout(src: string): boolean {
-  if (typeof src !== 'string') return false
-  return !!CACHE_ERROR_TIMEOUT[src]
+  if (!memoTimeout || typeof src !== 'string') return false
+
+  return memoTimeout.has(hash(src))
+}
+
+/** 检查图片地址在本地是否已标记成错误 */
+export function checkLocalError(src: any) {
+  return checkBgmEmoji(src) || checkError451(src) || checkError404(src)
 }
 
 /** 检查是否 bgm 没有做本地化的不常用表情 */
 export function checkBgmEmoji(src: string): boolean {
   if (typeof src !== 'string') return false
+
   return src.includes(OSS_BGM_EMOJI_PREFIX)
 }
 
@@ -144,6 +164,64 @@ export function getDevStyles(src: any, fallback: boolean = false, size: number) 
   return false
 }
 
+/** 计算自适应图片宽高 */
+export function getAutoSize(
+  width: number,
+  height: number,
+  autoSize: number | boolean,
+  autoHeight: number
+) {
+  let w: number
+  let h: number
+
+  if (autoSize && typeof autoSize === 'number') {
+    // 假如图片本身的宽度没有超过给定的最大宽度, 直接沿用图片原尺寸
+    if (width < autoSize) {
+      w = width
+      h = height
+    } else {
+      w = autoSize
+      h = Math.floor((autoSize / width) * height)
+    }
+  } else {
+    w = Math.floor((autoHeight / height) * width)
+    h = autoHeight
+  }
+
+  return {
+    width: w,
+    height: h
+  }
+}
+
+/** 获取回滚的 bgm 原始格式封面地址 */
+export function getRecoveryBgmCover(src: any, width: number, height: number, size: number) {
+  if (typeof src !== 'string') return src
+
+  // 提取原来的封面图片地址
+  let path = src.split('/pic/')?.[1] || ''
+  if (path) path = path.replace(/\/bgm_poster(_100|_200)?/g, '')
+
+  // 如果是触发回滚机制的图, 通常是游戏类的横屏图, 所以可以使用 height 去检查加大一个级别
+  const w = Math.max(width || 0, height || 0, size || 0)
+  let coverSize: 100 | 200 | 400 = 100
+  if (STORYBOOK) {
+    if (w > 200) {
+      coverSize = 400
+    } else if (w > 100) {
+      coverSize = 200
+    }
+  } else {
+    if (w > 134) {
+      coverSize = 400
+    } else if (w > 67) {
+      coverSize = 200
+    }
+  }
+
+  return getCover400(`${OSS_BGM}/pic/${path}`, coverSize)
+}
+
 /** 调用 ImageViewer 弹窗 */
 export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }) {
   return () => {
@@ -169,16 +247,10 @@ export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }
 export function fixedRemoteImageUrl(url: any) {
   if (typeof url !== 'string') return url
 
-  let _url = url
-
   // 协议
-  if (_url.indexOf('https:') === -1 && _url.indexOf('http:') === -1) {
-    _url = `https:${_url}`
-  }
+  if (url.indexOf('https:') === -1 && url.indexOf('http:') === -1) return `https:${url}`
 
-  // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
-  // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
-  return _url.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '').replace('http://', 'https://')
+  return url
 }
 
 /** 用于下载超时 */

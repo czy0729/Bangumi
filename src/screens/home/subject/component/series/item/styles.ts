@@ -12,5 +12,8 @@ export const memoStyles = _.memoStyles(() => ({
     marginLeft: _.sm,
     borderRadius: 4,
     overflow: 'hidden'
+  },
+  cover: {
+    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1)
   }
 }))

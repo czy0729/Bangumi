@@ -20,7 +20,7 @@ export type Props = Override<
     /** 图片地址 */
     src?: Source | string
 
-    /** 此组件禁用source */
+    /** 此组件禁用 source */
     // source: never
 
     /** 大小 | 宽度 */
@@ -32,7 +32,7 @@ export type Props = Override<
     /** 高度 */
     height?: number
 
-    /** 是否带边框, truely则显示 */
+    /** 是否带边框, truely 则显示 */
     border?: number | boolean | ColorValue
 
     /** 边框大小 */
@@ -53,13 +53,13 @@ export type Props = Override<
     /** 支持自动计算远端图片高度, 传递图片的高度, 宽度适应比例 */
     autoHeight?: number
 
-    /** @deprecated 是否自动选择Bangumi图片质量 */
+    /** @deprecated 是否自动选择 Bangumi 图片质量 */
     quality?: boolean
 
-    /** 是否点击显示全局的ImageViewer, 此值打开会覆盖onPress */
+    /** 是否点击显示全局的 ImageViewer, 此值打开会覆盖 onPress */
     imageViewer?: boolean
 
-    /** 若有值, 打开ImageViewer时使用此src */
+    /** 若有值, 打开 ImageViewer 时使用此 src */
     imageViewerSrc?: string
 
     withoutFeedback?: boolean
@@ -67,7 +67,7 @@ export type Props = Override<
     /** 埋点事件 */
     event?: EventType
 
-    /** <Touchable> delay */
+    /** Touchable delay */
     delay?: boolean
 
     /** 是否本地缓存  */
@@ -76,13 +76,13 @@ export type Props = Override<
     /** 图片请求头 */
     headers?: object
 
-    /** 开发模式，强制不显示图片 */
+    /** 开发模式, 强制不显示图片 */
     textOnly?: boolean
 
     /** 获取本地缓存地址的方法是否同步进行 */
     sync?: boolean
 
-    /** 是否退回使用 rn 的 <Image> (安卓 only) */
+    /** 是否退回使用 rn 的 Image (安卓 only) */
     fallback?: boolean
 
     /** 确定加载失败后若有值使用此地址 fallback */
@@ -124,5 +124,6 @@ export type State = {
   /** 图片当前高度 */
   height: number
 
+  /** 加载步骤是否完成 */
   loaded: boolean
 }
