@@ -5,14 +5,20 @@
  * @Last Modified time: 2024-03-27 06:17:26
  */
 import React from 'react'
-import { Animated } from 'react-native'
-import { ob } from '@utils/decorators'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { Animated, View } from 'react-native'
+import { userStore } from '@stores'
+import { obc } from '@utils/decorators'
+import { DEV, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { Ctx } from '../../types'
+import Lock from '../lock'
+import U from '../u'
 import Content from './content'
+import Service from './service'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function About() {
+function About(props: Props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <Animated.ScrollView
@@ -20,9 +26,14 @@ function About() {
       contentContainerStyle={styles.nestScroll}
       {...SCROLL_VIEW_RESET_PROPS}
     >
-      <Content />
+      <View style={styles.page}>
+        <Lock />
+        <Service />
+        <Content />
+        {!DEV && userStore.isDeveloper && !!$.usersInfo.username && <U />}
+      </View>
     </Animated.ScrollView>
   )
 }
 
-export default ob(About, COMPONENT)
+export default obc(About, COMPONENT)
