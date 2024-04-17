@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 17:07:23
+ * @Last Modified time: 2024-04-17 17:47:45
  */
 import {
   cheerio,
@@ -79,7 +79,7 @@ export async function fetchRakuen(args: {
     })
   }
 
-  return Promise.resolve(rakuen)
+  return rakuen
 }
 
 /** 留言层信息 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 23:42:52
+ * @Last Modified time: 2024-04-17 18:20:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,12 +12,12 @@ import { _, rakuenStore } from '@stores'
 import { open, stl } from '@utils'
 import { IOS } from '@constants'
 import { Flex } from '../../flex'
-import { Image } from '../../image'
-import { Touchable } from '../../touchable'
-import { Text } from '../../text'
 import { Iconfont } from '../../iconfont'
-import { memoStyles } from './styles'
+import { Image } from '../../image'
+import { Text } from '../../text'
+import { Touchable } from '../../touchable'
 import { getSize } from './utils'
+import { memoStyles } from './styles'
 import { Props, State } from './types'
 
 class ToggleImage extends React.Component<Props, State> {
@@ -88,22 +88,12 @@ class ToggleImage extends React.Component<Props, State> {
       if (isRemote && !IOS && (this.src as string).includes('.webp')) {
         return (
           <Touchable style={this.styles.image} onPress={onImageFallback}>
-            <Flex
-              style={this.styles.imagePlaceholder}
-              direction='column'
-              justify='center'
-            >
+            <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
               <Text size={10} type='sub'>
                 框架暂不支持 webp, 使用浏览器打开
               </Text>
               {isRemote && (
-                <Text
-                  style={this.styles.textSrc}
-                  size={10}
-                  type='sub'
-                  selectable
-                  numberOfLines={1}
-                >
+                <Text style={this.styles.textSrc} size={10} type='sub' selectable numberOfLines={1}>
                   {this.src as string}
                 </Text>
               )}
@@ -137,11 +127,7 @@ class ToggleImage extends React.Component<Props, State> {
             onPress={this.toggleShow}
             onLongPress={() => open(this.src as string)}
           >
-            <Flex
-              style={this.styles.imagePlaceholder}
-              direction='column'
-              justify='center'
-            >
+            <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
               <Text size={11} type='sub' bold>
                 {text.join(' ')}
               </Text>
@@ -171,26 +157,22 @@ class ToggleImage extends React.Component<Props, State> {
 
     return (
       <View style={this.styles.image}>
-        <Flex
-          style={stl(!loaded && this.styles.isLoad)}
-          justify={this.isIcon ? 'start' : 'center'}
-        >
+        <Flex style={stl(!loaded && this.styles.isLoad)} justify={this.isIcon ? 'start' : 'center'}>
           {show && (
-            <Image
-              {...this.props}
-              autoSize={_autoSize}
-              radius={_.radiusXs}
-              fallback
-              withoutFeedback
-              onLoadEnd={loaded ? undefined : this.onLoadEnd}
-              onError={loaded ? undefined : this.onLoadEnd}
-            />
+            <View style={this.styles.remoteImage}>
+              <Image
+                {...this.props}
+                autoSize={_autoSize}
+                radius={_.radiusXs}
+                fallback
+                withoutFeedback
+                onLoadEnd={this.onLoadEnd}
+                onError={this.onLoadEnd}
+              />
+            </View>
           )}
           <View style={this.styles.closeImageWrap}>
-            <Touchable
-              onPress={this.toggleShow}
-              onLongPress={() => open(this.src as string)}
-            >
+            <Touchable onPress={this.toggleShow} onLongPress={() => open(this.src as string)}>
               <Flex style={this.styles.closeImage} justify='center'>
                 <Iconfont size={16} name='md-close' color={_.colorIcon} />
               </Flex>

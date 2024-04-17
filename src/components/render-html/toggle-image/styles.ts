@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-03 01:23:27
+ * @Last Modified time: 2024-04-17 18:19:42
  */
 import { _ } from '@stores'
 
@@ -47,6 +47,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: 24,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     overflow: 'hidden'
+  },
+  remoteImage: {
+    marginLeft: -8
   },
   textSrc: {
     maxWidth: '96%',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 13:09:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:50:40
+ * @Last Modified time: 2024-04-17 17:49:34
  */
 import { computed, observable } from 'mobx'
 import { _, rakuenStore, systemStore, userStore } from '@stores'
@@ -46,7 +46,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
       ...EXCLUDE_STATE,
       _loaded: true
     })
-    this.fetchRakuen(true)
+    this.fetchRakuen()
 
     // 延迟加载标记
     setTimeout(() => {
@@ -60,7 +60,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
 
   /** 下拉刷新 */
   onHeaderRefresh = () => {
-    return this.fetchRakuen(true)
+    return this.fetchRakuen()
   }
 
   save = () => {
@@ -69,19 +69,15 @@ export default class ScreenRakuen extends store<typeof STATE> {
 
   // -------------------- fetch --------------------
   /** 超展开列表 */
-  fetchRakuen = async (refresh: boolean = false) => {
+  fetchRakuen = async () => {
     const { scope, page } = this.state
     const type = this.type(page)
-
-    if (type === 'hot') return rakuenStore.fetchRakuenHot()
-
-    return rakuenStore.fetchRakuen(
-      {
-        scope,
-        type
-      },
-      refresh
-    )
+    return type === 'hot'
+      ? rakuenStore.fetchRakuenHot()
+      : rakuenStore.fetchRakuen({
+          scope,
+          type
+        })
   }
 
   // -------------------- get --------------------
@@ -192,7 +188,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
   /** 超展开列表 */
   shouldFetchRakuen = page => {
     const { _loaded, list } = this.rakuen(this.type(page))
-    if (!_loaded || list.length === 0) this.fetchRakuen(true)
+    if (!_loaded || list.length === 0) this.fetchRakuen()
     this.save()
   }
 
@@ -205,7 +201,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
     this.setState({
       group: MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>(title)
     })
-    this.fetchRakuen(true)
+    this.fetchRakuen()
     this.save()
   }
 
@@ -218,7 +214,7 @@ export default class ScreenRakuen extends store<typeof STATE> {
     this.setState({
       mono: MODEL_RAKUEN_TYPE_MONO.getValue<RakuenTypeMono>(title)
     })
-    this.fetchRakuen(true)
+    this.fetchRakuen()
     this.save()
   }
 

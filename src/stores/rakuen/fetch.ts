@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 19:37:31
+ * @Last Modified time: 2024-04-17 17:48:04
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -22,7 +22,6 @@ import {
   HTML_REVIEWS,
   HTML_TOPIC,
   HTML_TOPIC_EDIT,
-  LIMIT_LIST,
   LIST_EMPTY
 } from '@constants'
 import {
@@ -54,61 +53,31 @@ import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
 import { getInt } from './utils'
 
 export default class Fetch extends Computed {
-  /**
-   * 获取超展开聚合列表 (高流量, 20k左右1次)
-   * @issue 官网没有分页, 这接口居然一次返回250项
-   * 为了提高体验, 做模拟分页加载效果
-   */
-  fetchRakuen = async (
-    args: {
-      scope?: RakuenScope
-      type?: RakuenType | RakuenTypeMono | RakuenTypeGroup
-    },
-    refresh?: boolean
-  ) => {
+  /** 获取超展开聚合列表 */
+  fetchRakuen = async (args: {
+    scope?: RakuenScope
+    type?: RakuenType | RakuenTypeMono | RakuenTypeGroup
+  }) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = args || {}
+    const list = await fetchRakuen({ scope, type })
 
     const key = 'rakuen'
     const stateKey = `${scope}|${type}`
-    let res
-
-    // 制造分页数据
-    if (refresh) {
-      const res = fetchRakuen({ scope, type })
-      const rakuen = await res
-      this.setState({
-        [key]: {
-          [stateKey]: {
-            list: rakuen.slice(0, LIMIT_LIST),
-            pagination: {
-              page: 1,
-              pageTotal: Math.ceil(rakuen.length / LIMIT_LIST)
-            },
-            _list: rakuen,
-            _loaded: getTimestamp()
-          }
+    this.setState({
+      [key]: {
+        [stateKey]: {
+          list,
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          },
+          _loaded: getTimestamp()
         }
-      })
-    } else {
-      // 加载下一页
-      const rakuen = this.rakuen(scope, type)
-      const page = rakuen.pagination.page + 1
-      this.setState({
-        [key]: {
-          [stateKey]: {
-            ...rakuen,
-            list: rakuen._list.slice(0, LIMIT_LIST * page),
-            pagination: {
-              ...rakuen.pagination,
-              page
-            }
-          }
-        }
-      })
-    }
+      }
+    })
     this.save(key)
 
-    return res
+    return list
   }
 
   /** 获取帖子内容和留言 */
