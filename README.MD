@@ -12,7 +12,7 @@
 
 # Bangumi
 
-一个基于 `React-Native` 的 [Bangumi](https://bgm.tv) 第三方客户端
+一个基于 `react-native` 的 [Bangumi](https://bgm.tv) 第三方客户端
 
 Bangumi 是一个用于管理追番进度（不限于动漫、音乐、日剧、游戏、AVG），发现和讨论番组的网站
 
@@ -20,7 +20,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 目前已开发不少于 100 个页面，基于移动端重新设计布局，几乎涵盖网站所有页面
 
-本人并没有原生开发经验，用于练手 React-Native，希望通过这个平台去学习更多
+本人并没有原生开发经验，用于练手 react-native，希望通过这个平台去学习更多
 
 更多涉及到本项目的说明，可前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4) 查看
 
@@ -127,7 +127,9 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 开发心得
 
-使用 React-Native 开发一个 App，想做到流畅是需要下很大的功夫的，但不要说什么 RN 不行了，被放弃了不如 Flutter，写法没问题的话，一样流畅得很。其实跟开发 Web 应用没多大区别，但几年开发下来，关键影响到流畅度，无非就几个点：
+这个 repo 已经持续开发多年，当年并没有今天如此多简单而且优秀的方案和第三方库，比如 react hooks、react-native-fast-image、react-native-reanimated、expo libraries，甚至连 pressable、color scheme 的概念都没有。所以代码上会存在大量老旧的，又或者与你现在了解到的 react-native 很多雷同的实现，都已经很难通过使用新的方案迭代过来了。
+
+使用 react-native 开发一个 App，想做到流畅是需要下很大的功夫的，但不要说什么 rn 不行了，被放弃了不如 Flutter，写法没问题的话一样流畅得很。其实跟开发 web 应用没多大区别，但几年开发下来，关键影响到流畅度，无非就几个点：
 
 - 图片不要渲染过大的（图片是所有里面最影响流畅性的）
 - 尽量减少同时请求数、慢请求（包括图片的请求）

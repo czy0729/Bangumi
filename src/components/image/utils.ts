@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 20:56:27
+ * @Last Modified time: 2024-04-17 17:30:54
  */
-import { CacheManager } from '@components/@/react-native-expo-image-cache'
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
+import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
 import { DEV, HOST_CDN, IOS, STORYBOOK } from '@constants'
 import {
   CACHE_KEY_404,
@@ -272,7 +272,7 @@ const LOCAL_CACHE_MAP = new Map<
 
 /**
  * 检测图片是否存在本地缓存
- *  - iOS 会返回 CacheManager 的结果
+ *  - iOS 会返回 ImageCacheManager 的结果
  *  - 安卓只会记录这个图片记录过
  * */
 export async function getLocalCache(src: string, headers?: Record<string, string>) {
@@ -284,7 +284,7 @@ export async function getLocalCache(src: string, headers?: Record<string, string
     size?: number
   }
   if (IOS) {
-    result = await CacheManager.get(src, {
+    result = await ImageCacheManager.get(src, {
       headers
     }).getPath()
   } else {

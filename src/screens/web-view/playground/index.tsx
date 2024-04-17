@@ -6,7 +6,8 @@
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
-import { Component, Flex, Header, Page, Text } from '@components'
+import { Image } from 'expo-image'
+import { Component, Flex, Header, Page } from '@components'
 
 const Playground = () => {
   return useObserver(() => (
@@ -14,7 +15,13 @@ const Playground = () => {
       <Header title=' ' />
       <Page>
         <Flex justify='center'>
-          <Text>Playground</Text>
+          <Image
+            style={{
+              width: 300,
+              height: 300
+            }}
+            source='https://p.sda1.dev/15/050132c6c9521d02f371e2b332b2c0d0/fight.webp'
+          />
         </Flex>
       </Page>
     </Component>
