@@ -2,27 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 00:59:06
+ * @Last Modified time: 2024-04-18 15:49:28
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
-import { ScrollView, Flex, Text, Image, Touchable, Heatmap } from '@components'
+import { Flex, Heatmap, Image, ScrollView, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { desc, cnjp, HTMLDecode, showImageViewer, stl } from '@utils'
+import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
+import { Ctx } from '../../types'
+import { COMPONENT, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { memoStyles } from './styles'
-import { Ctx } from '../types'
-
-const IMAGE_WIDTH = _.r(128)
-const IMAGE_HEIGHT = IMAGE_WIDTH * 0.56
 
 function List(props, { $, navigation }: Ctx) {
   const styles = memoStyles()
 
-  // sp排在正常章节后面, 已播放优先
+  // sp 排在正常章节后面, 已播放优先
   const eps = $.eps
     .slice()
     .sort((a, b) => desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10)))
@@ -30,11 +28,7 @@ function List(props, { $, navigation }: Ctx) {
   const { filterEps = 0, epsThumbsHeader = {} } = $.params
 
   return (
-    <ScrollView
-      style={_.container.plain}
-      contentContainerStyle={_.container.bottom}
-      scrollToTop
-    >
+    <ScrollView style={_.container.plain} contentContainerStyle={_.container.bottom} scrollToTop>
       {eps.map((item, index) => (
         <Touchable
           key={item.id}
@@ -86,7 +80,7 @@ function List(props, { $, navigation }: Ctx) {
                   height={IMAGE_HEIGHT}
                   radius
                   headers={epsThumbsHeader}
-                  onPress={() =>
+                  onPress={() => {
                     showImageViewer(
                       epsThumbs.map(item => ({
                         url: item.split('@')[0],
@@ -94,7 +88,7 @@ function List(props, { $, navigation }: Ctx) {
                       })),
                       index
                     )
-                  }
+                  }}
                 />
               </View>
             )}
@@ -106,4 +100,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List)
+export default obc(List, COMPONENT)

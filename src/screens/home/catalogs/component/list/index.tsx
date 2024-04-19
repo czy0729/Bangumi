@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:18:52
+ * @Last Modified time: 2024-04-17 19:51:52
  */
 import React from 'react'
 import { ListView } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import Item from '../item'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { renderItem } from './utils'
+import { COMPONENT } from './ds'
 
 function List(props, { $ }: Ctx) {
   return (
@@ -19,16 +20,12 @@ function List(props, { $ }: Ctx) {
       keyExtractor={keyExtractor}
       data={$.list}
       lazy={4}
-      renderItem={renderItem}
       scrollToTop
+      renderItem={renderItem}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectCatalogs}
     />
   )
 }
 
-export default obc(List)
-
-function renderItem({ item, index }) {
-  return <Item item={item} index={index} />
-}
+export default obc(List, COMPONENT)

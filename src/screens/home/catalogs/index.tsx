@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:16:54
+ * @Last Modified time: 2024-04-17 21:37:58
  */
 import React from 'react'
-import { Page, Heatmap, Component } from '@components'
-import { _ } from '@stores'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Extra from './component/extra'
+import List from './component/list'
 import Header from './header'
-import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 条目目录 */
 const Catalogs = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
@@ -24,8 +25,8 @@ const Catalogs = (props, { $ }: Ctx) => {
       <Header />
       <Page loaded={$.list._loaded}>
         <List />
-        <Heatmap bottom={_.bottom} id='条目目录' screen='SubjectCatalogs' />
       </Page>
+      <Extra />
     </Component>
   ))
 }

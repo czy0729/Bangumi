@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 07:44:11
+ * @Last Modified time: 2024-04-18 15:35:25
  */
 import React from 'react'
-import { Page, Heatmap, Component } from '@components'
-import { _ } from '@stores'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
+import Extra from './component/extra'
+import List from './component/list'
 import Header from './header'
-import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 条目更多角色 */
 const Characters = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
@@ -24,8 +25,8 @@ const Characters = (props, { $ }: Ctx) => {
       <Header />
       <Page loaded={$.characters._loaded}>
         <List />
-        <Heatmap bottom={_.bottom} id='更多角色' screen='Characters' />
       </Page>
+      <Extra />
     </Component>
   ))
 }

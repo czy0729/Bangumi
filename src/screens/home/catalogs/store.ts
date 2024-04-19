@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:13:42
+ * @Last Modified time: 2024-04-17 21:32:49
  */
-import { observable, computed } from 'mobx'
-import { subjectStore, discoveryStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { discoveryStore, subjectStore } from '@stores'
+import { CatalogDetail } from '@stores/discovery/types'
 import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
-import store from '@utils/store'
 import { queue } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
-import { Id } from '@types'
+import { Id, Override } from '@types'
 import { STATE } from './ds'
 import { Params } from './types'
 
@@ -172,20 +173,18 @@ export default class ScreenSubjectCatalogs extends store<typeof STATE> {
   }
 
   /** 上传目录详情 */
-  updateCatalogDetail = data => {
+  updateCatalogDetail = (
+    data: Override<
+      CatalogDetail,
+      {
+        id: Id
+        info?: string
+        _loaded?: any
+      }
+    >
+  ) => {
     setTimeout(() => {
-      const {
-        id,
-        title,
-        info,
-        content,
-        avatar,
-        nickname,
-        userId,
-        time,
-        collect,
-        list
-      } = data
+      const { id, title, info, content, avatar, nickname, userId, time, collect, list } = data
 
       const desc = HTMLDecode(removeHTMLTag(info || content))
       update(`catalog_${id}`, {

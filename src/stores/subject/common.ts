@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-13 21:15:26
+ * @Last Modified time: 2024-04-18 17:01:29
  */
 import {
   cheerio,
@@ -153,7 +153,14 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
           href: $a.attr('href'),
           name: HTMLDecode($row.find('small.grey').text().trim() || $a.text().trim()),
           cover: $row.find('img.cover').attr('src'),
-          staff: $row.find('span.badge_job').text().trim(),
+          staff: $row
+            .find('span.badge_job')
+            .map((index: number, element: any) => {
+              const $row = cheerio(element)
+              return $row.text().trim()
+            })
+            .get()
+            .join(' / '),
           type: $row.find('span.ico_subject_type').attr('class').substring(30, 31)
         })
       })

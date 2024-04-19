@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-17 10:15:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:15:37
+ * @Last Modified time: 2024-04-18 14:39:02
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
+
+export const COMPONENT = 'Characters'
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
