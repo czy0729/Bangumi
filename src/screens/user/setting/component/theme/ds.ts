@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:16:26
+ * @Last Modified time: 2024-04-20 16:05:16
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -21,8 +21,8 @@ export const TEXTS = {
       title: '明亮'
     },
     deepDark: {
-      title: '纯黑'
-      // information: 'AMOLED 更省电'
+      title: '纯黑',
+      information: 'AMOLED 更省电'
     },
     dark: {
       title: '黑暗'
@@ -30,7 +30,7 @@ export const TEXTS = {
   },
   autoColorScheme: {
     hd: '跟随系统',
-    information: '启动 App 时黑白主题是否跟随系统'
+    information: '启动客户端时黑白主题是否跟随系统'
   },
   androidBlur: {
     hd: '[实验性] 毛玻璃布局',

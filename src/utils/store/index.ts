@@ -1,5 +1,4 @@
 /*
- * 状态公共继承
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
@@ -7,7 +6,6 @@
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
-// import { STORYBOOK } from '@constants/device'
 import { AnyObject, DeepPartial, Loaded } from '@types'
 import fetch from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
@@ -17,10 +15,10 @@ import { getTimestamp, omit } from '../utils'
 
 configure({
   enforceActions: 'observed',
-  // useProxies: STORYBOOK ? 'always' : 'never'
   useProxies: 'always'
 })
 
+/** 状态公共继承 */
 export default class Store<
   T extends AnyObject<{
     _loaded?: Loaded
@@ -44,6 +42,7 @@ export default class Store<
         return
       }
 
+      // 第一层观察对象整个应用的逻辑都是增量修改
       if (!Array.isArray(item)) {
         observerTarget[key] = {
           ...observerTarget[key],

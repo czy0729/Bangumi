@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:31:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:20:17
+ * @Last Modified time: 2024-04-18 18:58:50
  */
 import { computed, observable } from 'mobx'
 import { getPreview, matchMovie, search } from '@utils/douban'
@@ -17,9 +17,8 @@ export default class ScreenPreview extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(this.namespace)) || {}
     this.setState({
-      ...state,
+      ...(await this.getStorage(this.namespace)),
       _loaded: true
     })
 
