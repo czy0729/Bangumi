@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:29:30
+ * @Last Modified time: 2024-04-21 18:01:19
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
@@ -43,7 +43,7 @@ export const ActionSheet = ({
     setTimeout(() => {
       Animated.timing(y.current, {
         toValue: 1,
-        duration: 160,
+        duration: 240,
         useNativeDriver: true
       }).start()
     }, 0)
@@ -53,7 +53,7 @@ export const ActionSheet = ({
       onClose()
       Animated.timing(y.current, {
         toValue: 0,
-        duration: 160,
+        duration: 240,
         useNativeDriver: true
       }).start()
       setTimeout(() => {

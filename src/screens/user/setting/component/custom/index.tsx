@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 12:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-19 21:37:11
+ * @Last Modified time: 2024-04-20 20:36:29
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -24,22 +24,25 @@ function Custom({ filter }) {
 
   const { state, setTrue, setFalse } = useBoolean(false)
   const shows = getShows(filter, TEXTS)
-  if (!shows) return null
 
-  return useObserver(() => (
-    <>
-      <ItemSetting hd='定制' arrow highlight filter={filter} onPress={setTrue} />
-      <ActionSheet show={state} title='定制' height={filter ? 400 : 760} onClose={setFalse}>
-        {shows.cnFirst && <CnFirst filter={filter} />}
-        {shows.heatMap && <HeatMap filter={filter} />}
-        {shows.s2t && <S2T filter={filter} />}
-        {shows.openInfo && <OpenInfo filter={filter} />}
-        {shows.hideScore && <HideScore filter={filter} />}
-        {shows.filterDefault && <FilterDefault filter={filter} />}
-        {shows.filter18x && <FilterNSFW filter={filter} />}
-      </ActionSheet>
-    </>
-  ))
+  return useObserver(() => {
+    if (!shows) return null
+
+    return (
+      <>
+        <ItemSetting hd='定制' arrow highlight filter={filter} onPress={setTrue} />
+        <ActionSheet show={state} title='定制' height={filter ? 400 : 760} onClose={setFalse}>
+          {shows.cnFirst && <CnFirst filter={filter} />}
+          {shows.heatMap && <HeatMap filter={filter} />}
+          {shows.s2t && <S2T filter={filter} />}
+          {shows.openInfo && <OpenInfo filter={filter} />}
+          {shows.hideScore && <HideScore filter={filter} />}
+          {shows.filterDefault && <FilterDefault filter={filter} />}
+          {shows.filter18x && <FilterNSFW filter={filter} />}
+        </ActionSheet>
+      </>
+    )
+  })
 }
 
 export default Custom

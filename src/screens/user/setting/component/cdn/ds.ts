@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:49:05
+ * @Last Modified time: 2024-04-21 17:58:43
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -36,7 +36,7 @@ export const TEXTS = {
     }
   },
   test: {
-    title: '测试',
+    title: '域名测试',
     information: '有 ms 并不代表能顺利加载，只是 ping 后立马返回结果的时间'
   },
   deprecated: {
