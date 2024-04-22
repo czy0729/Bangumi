@@ -7,14 +7,14 @@
  */
 import React from 'react'
 import {
-  StyleProp,
-  ViewStyle as RNViewStyle,
-  TextStyle as RNTextStyle,
-  ImageStyle as RNImageStyle,
   ColorValue as RNColorValue,
   ImageProps,
+  ImageStyle as RNImageStyle,
+  NativeScrollEvent,
   NativeSyntheticEvent,
-  NativeScrollEvent
+  StyleProp,
+  TextStyle as RNTextStyle,
+  ViewStyle as RNViewStyle
 } from 'react-native'
 
 /** <View> StyleProp */
@@ -102,3 +102,19 @@ export type Join<T extends string[], D extends string> = T extends [infer F, ...
   ? // @ts-expect-error
     `${F}${R extends [] ? '' : D}${Join<R, D>}`
   : ''
+
+/** 取对象 Boolean 的值的键 */
+export type BooleanKeys<T> = Extract<
+  {
+    [K in keyof T]: T[K] extends boolean ? K : never
+  }[keyof T],
+  keyof T
+>
+
+/** 取对象非 Boolean 的值的键 */
+export type NonBooleanKeys<T> = Extract<
+  {
+    [K in keyof T]: T[K] extends boolean ? never : K
+  }[keyof T],
+  keyof T
+>

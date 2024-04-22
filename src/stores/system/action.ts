@@ -157,8 +157,8 @@ export default class Actions extends Fetch {
     }
   }
 
-  /** 设置 `首页功能块` */
-  setHomeRenderTabs = (
+  /** 计算 `首页功能块` */
+  calcHomeRenderTabs = (
     label: 'Tinygrail' | 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
   ) => {
     const { homeRenderTabs } = this.setting
@@ -176,11 +176,18 @@ export default class Actions extends Fetch {
       data.push('User')
     }
 
+    return data
+  }
+
+  /** 设置 `首页功能块` */
+  setHomeRenderTabs = (
+    label: 'Tinygrail' | 'Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User'
+  ) => {
     const key = 'setting'
     this.setState({
       [key]: {
         ...this.setting,
-        homeRenderTabs: data
+        homeRenderTabs: this.calcHomeRenderTabs(label)
       }
     })
     this.save(key)

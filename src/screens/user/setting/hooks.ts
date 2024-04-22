@@ -7,11 +7,10 @@
 import { useCallback, useState } from 'react'
 import { systemStore } from '@stores'
 import { INIT_SETTING } from '@stores/system/init'
+import { BooleanKeys, NonBooleanKeys } from '@types'
 
-type Keys = keyof typeof INIT_SETTING
-
-/** 延迟设置, 更快响应, 且避免卡住 UI */
-export function useAsyncSwitchSetting(key: Keys) {
+/** 延迟切换设置, 更快响应且避免卡住 UI */
+export function useAsyncSwitchSetting(key: BooleanKeys<typeof INIT_SETTING>) {
   const [value, setValue] = useState(systemStore.setting[key])
   const handleSwitch = useCallback(() => {
     setValue(!value)
@@ -21,7 +20,26 @@ export function useAsyncSwitchSetting(key: Keys) {
   }, [value])
 
   return {
-    value: value as boolean,
+    value,
     handleSwitch
+  }
+}
+
+/** 延迟更新设置, 更快响应且避免卡住 UI */
+export function useAsyncSetSetting<T extends NonBooleanKeys<typeof INIT_SETTING>>(key: T) {
+  const [value, setValue] = useState(systemStore.setting[key])
+  const handleSet = useCallback(
+    (updateValue: (typeof INIT_SETTING)[T]) => {
+      setValue(updateValue)
+      setTimeout(() => {
+        systemStore.setSetting(key, updateValue)
+      }, 40)
+    },
+    [value]
+  )
+
+  return {
+    value,
+    handleSet
   }
 }
