@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-31 19:17:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 18:09:29
+ * @Last Modified time: 2024-04-23 04:25:56
  */
 import React, { useCallback, useState } from 'react'
 import { Flex, Iconfont, Input, Text, Touchable } from '@components'
@@ -40,7 +40,7 @@ function BlockedUsers({ navigation, onNavigate }: { navigation: Navigation; onNa
           <History
             navigation={navigation}
             data={rakuenStore.blockedUsers.list}
-            showAvatar
+            // showAvatar
             onNavigate={onNavigate}
             onDelete={handleDeleteBlockUser}
           />

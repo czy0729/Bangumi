@@ -2,25 +2,29 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:18:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:50:49
+ * @Last Modified time: 2024-04-23 04:23:55
  */
-import React from 'react'
-import { View } from 'react-native'
+import React, { useEffect } from 'react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
+import { rakuenStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
 import RakuenBlocks from '../../../../rakuen/setting/component/blockeds'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
-import { styles } from './styles'
 
 function Blocks({ navigation, filter }) {
   r(COMPONENT)
 
   const { state, setTrue, setFalse } = useBoolean(false)
   const shows = getShows(filter, TEXTS)
+
+  useEffect(() => {
+    if (!userStore.isWebLogin || !state) return
+
+    rakuenStore.fetchPrivacy()
+  }, [state])
 
   return useObserver(() => {
     if (!shows) return null
@@ -29,17 +33,15 @@ function Blocks({ navigation, filter }) {
       <>
         <ItemSetting hd='屏蔽' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='屏蔽' height={760} onClose={setFalse}>
-          <View style={!STORYBOOK && styles.container}>
-            <RakuenBlocks
-              navigation={navigation}
-              onNavigate={(path: any, params: any) => {
-                setFalse()
-                setTimeout(() => {
-                  navigation.push(path, params)
-                }, 240)
-              }}
-            />
-          </View>
+          <RakuenBlocks
+            navigation={navigation}
+            onNavigate={(path: any, params: any) => {
+              setFalse()
+              setTimeout(() => {
+                navigation.push(path, params)
+              }, 240)
+            }}
+          />
         </ActionSheet>
       </>
     )
