@@ -2,20 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-02-13 04:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:33:53
+ * @Last Modified time: 2024-04-23 22:57:23
  */
 import React from 'react'
-import { ActionSheet, Heatmap, SegmentedControl, SwitchPro } from '@components'
+import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { STORYBOOK } from '@constants'
-import styles from '../../styles'
 import { getShows } from '../../utils'
+import DiscoveryMenuNum from './discovery-menu-num'
+import DiscoveryTodayOnair from './discovery-today-onair'
+import Live2D from './live-2d'
+import Live2DVoice from './live-2d-voice'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 发现 */
 function Discovery({ filter, open = false }) {
   r(COMPONENT)
 
@@ -25,108 +28,16 @@ function Discovery({ filter, open = false }) {
   return useObserver(() => {
     if (!shows) return null
 
-    const { discoveryMenuNum, discoveryTodayOnair, live2D, live2DVoice } = systemStore.setting
     return (
       <>
         <ItemSetting hd='发现' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='发现' onClose={setFalse}>
-          {/* 菜单每行个数 */}
-          <ItemSetting
-            show={shows.discoveryMenuNum}
-            ft={
-              <SegmentedControl
-                style={styles.segmentedControl}
-                size={12}
-                values={['4', '5']}
-                selectedIndex={discoveryMenuNum === 4 ? 0 : 1}
-                onValueChange={label => {
-                  if (label) {
-                    t('设置.切换', {
-                      title: '发现菜单个数',
-                      label
-                    })
-
-                    systemStore.setSetting('discoveryMenuNum', discoveryMenuNum === 4 ? 5 : 4)
-                  }
-                }}
-              />
-            }
-            filter={filter}
-            {...TEXTS.discoveryMenuNum}
-          >
-            <Heatmap id='设置.切换' title='菜单每行个数' />
-          </ItemSetting>
-
-          {/* 看板娘 Live2D */}
-          <ItemSetting
-            show={!STORYBOOK && shows.live2D}
-            ft={
-              <SwitchPro
-                style={styles.switch}
-                value={live2D}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '看板娘 Live2D',
-                    checked: !live2D
-                  })
-
-                  systemStore.switchSetting('live2D')
-                }}
-              />
-            }
-            filter={filter}
-            {...TEXTS.live2D}
-          >
-            <Heatmap id='设置.切换' title='看板娘 Live2D' />
-          </ItemSetting>
-
-          {/* 看板娘 Live2D 声音 */}
-          {live2D && (
-            <ItemSetting
-              show={!STORYBOOK && shows.live2DVoice}
-              ft={
-                <SwitchPro
-                  style={styles.switch}
-                  value={live2DVoice}
-                  onSyncPress={() => {
-                    t('设置.切换', {
-                      title: '看板娘 Live2D 声音',
-                      checked: !live2DVoice
-                    })
-
-                    systemStore.switchSetting('live2DVoice')
-                  }}
-                />
-              }
-              filter={filter}
-              {...TEXTS.live2DVoice}
-            >
-              <Heatmap id='设置.切换' title='看板娘 Live2D 声音' />
-            </ItemSetting>
+          {shows.discoveryMenuNum && <DiscoveryMenuNum filter={filter} />}
+          {!STORYBOOK && shows.live2D && <Live2D filter={filter} />}
+          {!STORYBOOK && shows.live2DVoice && systemStore.setting.live2D && (
+            <Live2DVoice filter={filter} />
           )}
-
-          {/* 今日放送 */}
-          <ItemSetting
-            show={shows.discoveryTodayOnair}
-            ft={
-              <SwitchPro
-                style={styles.switch}
-                value={discoveryTodayOnair}
-                onSyncPress={() => {
-                  t('设置.切换', {
-                    title: '发现今日放送',
-                    checked: !discoveryTodayOnair
-                  })
-
-                  systemStore.switchSetting('discoveryTodayOnair')
-                }}
-              />
-            }
-            filter={filter}
-            {...TEXTS.discoveryTodayOnair}
-          >
-            <Heatmap id='设置.切换' title='发现今日放送' />
-          </ItemSetting>
+          {shows.discoveryTodayOnair && <DiscoveryTodayOnair filter={filter} />}
         </ActionSheet>
       </>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 11:55:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 03:29:44
+ * @Last Modified time: 2024-04-23 05:34:31
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -15,6 +15,7 @@ import HomeRenderTabs from './home-render-tabs'
 import InitialPage from './initial-page'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 底栏 */
 function Route({ filter }) {
   r(COMPONENT)
 

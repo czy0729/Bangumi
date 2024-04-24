@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-28 07:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-28 07:40:19
+ * @Last Modified time: 2024-04-23 21:59:20
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -18,7 +18,9 @@ function Dev({ navigation }: { navigation: Navigation }) {
       <IconTouchable
         style={styles.transparent}
         name='md-more-horiz'
-        onPress={() => navigation.push('DEV')}
+        onPress={() => {
+          navigation.push('DEV')
+        }}
       />
     </Flex>
   )

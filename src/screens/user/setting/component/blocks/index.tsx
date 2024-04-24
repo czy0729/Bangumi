@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:18:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 04:23:55
+ * @Last Modified time: 2024-04-23 05:34:12
  */
 import React, { useEffect } from 'react'
 import { ActionSheet } from '@components'
@@ -14,6 +14,7 @@ import RakuenBlocks from '../../../../rakuen/setting/component/blockeds'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 屏蔽 */
 function Blocks({ navigation, filter }) {
   r(COMPONENT)
 

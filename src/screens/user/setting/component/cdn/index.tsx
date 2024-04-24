@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 18:02:09
+ * @Last Modified time: 2024-04-23 05:34:02
  */
 import React from 'react'
 import { ActionSheet, Text } from '@components'
@@ -20,6 +20,7 @@ import ImageSkeleton from './image-skeleton'
 import IOSImageCache from './ios-image-cache'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 图片 */
 function CDN({ navigation, filter }) {
   r(COMPONENT)
 

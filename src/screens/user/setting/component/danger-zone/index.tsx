@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 18:08:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:26:57
+ * @Last Modified time: 2024-04-23 21:59:11
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
@@ -16,6 +16,7 @@ import i18n from '@constants/i18n'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 谨慎操作 */
 function DangerZone({ navigation, filter }) {
   r(COMPONENT)
 
