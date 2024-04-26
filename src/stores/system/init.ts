@@ -35,12 +35,7 @@ import { HomeRenderTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './ty
 export const NAMESPACE = 'System'
 
 // -------------------- init --------------------
-/**
- * 条目页面
- *  - true 显示
- *  - false 折叠
- *  - -1 永久隐藏
- * */
+/** 条目页面 */
 export const INIT_SUBJECT_LAYOUT = {
   /** 其他用户收藏数量 */
   showCount: true as LayoutValue,
@@ -256,6 +251,9 @@ export const INIT_SETTING = {
 
   /** 用户备注 */
   userRemark: {} as UserRemark,
+
+  /** 空间番剧自动折叠 */
+  zoneCollapse: false,
 
   /** 启动页 */
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),

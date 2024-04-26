@@ -7,6 +7,7 @@
 import Constants from 'expo-constants'
 import { HOST, IOS } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
+import events from '@constants/events'
 import { DEV } from '@/config'
 import { AnyObject, EventKeys } from '@types'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
@@ -83,7 +84,7 @@ export async function umamiEvent(
   title: string = ''
 ) {
   // 由于已经合并了页面浏览量的计算, 所以此旧事件忽略
-  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments)) return
+  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments) || !events?.[eventId]) return
 
   const _url = url.replace(HOST, '')
   if (STORYBOOK) {
@@ -104,6 +105,7 @@ export async function umamiEvent(
     return
   }
 
+  // console.log(`${events?.[eventId]}/?${urlStringify(data, false, true)}`)
   umamiXhr({
     title: title || TITLE,
     url: _url,

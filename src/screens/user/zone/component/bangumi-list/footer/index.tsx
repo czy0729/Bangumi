@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
@@ -26,8 +26,22 @@ function Footer(props, { $, navigation }: Ctx) {
           $.navigateToUser(navigation)
         }}
       >
-        <Text type={_.select('desc', 'main')} bold>
+        <Text type='sub' size={12} bold>
           查看TA的所有收藏
+        </Text>
+        <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
+      </Touchable>
+      <Text style={styles.touch} type='sub'>
+        ·
+      </Text>
+      <Touchable
+        style={styles.touch}
+        onPress={() => {
+          systemStore.switchSetting('zoneCollapse')
+        }}
+      >
+        <Text type='sub' size={12} bold>
+          自动折叠 [{systemStore.setting.zoneCollapse ? '开' : '关'}]
         </Text>
         <Heatmap id='空间.跳转' to='User' alias='所有收藏' />
       </Touchable>

@@ -29,7 +29,7 @@ function Item(
   return (
     <Flex wrap='wrap' align='start'>
       {item.list
-        .filter((item, index) => index < 16)
+        .filter((item, index) => index < 20)
         .map(item => (
           <ItemBangumiList
             key={item.id}

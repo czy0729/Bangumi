@@ -90,6 +90,7 @@ export default class Action extends Fetch {
     this.setState({
       page
     })
+    this.save()
     this.onTabChangeCallback(page)
   }
 
@@ -132,16 +133,27 @@ export default class Action extends Fetch {
       expand: !expand[title]
     })
 
+    if (systemStore.setting.zoneCollapse) {
+      this.setState({
+        expand: {
+          在看: false,
+          看过: false,
+          想看: false,
+          搁置: false,
+          抛弃: false,
+          [title]: !expand[title]
+        }
+      })
+      return
+    }
+
     this.setState({
       expand: {
-        在看: false,
-        看过: false,
-        想看: false,
-        搁置: false,
-        抛弃: false,
+        ...expand,
         [title]: !expand[title]
       }
     })
+    this.save()
   }
 
   /** 去用户的所有收藏页面 */

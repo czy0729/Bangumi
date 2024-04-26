@@ -13,12 +13,11 @@ import { memoStyles } from './styles'
 
 function Bg({ style }, { $ }: Ctx) {
   const styles = memoStyles()
-  const { avatar } = $.usersInfo
   return (
     <Animated.Image
       style={[styles.parallaxImage, style]}
       source={$.imageSource}
-      blurRadius={getBlurRadius($.imageSource.uri, $.bg, avatar?.large)}
+      blurRadius={getBlurRadius($.imageSource.uri, $.bg, $.usersInfo.avatar?.large)}
     />
   )
 }

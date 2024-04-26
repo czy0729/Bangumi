@@ -6,6 +6,11 @@
  */
 import { UserId } from '@types'
 
+/**
+ * - true 显示
+ * - false 折叠
+ * - -1 永久隐藏
+ */
 export type LayoutValue = true | false | -1
 
 export type HomeRenderTabs = ('Discovery' | 'Timeline' | 'Home' | 'Rakuen' | 'User' | 'Tinygrail')[]

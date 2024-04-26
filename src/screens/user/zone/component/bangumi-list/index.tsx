@@ -13,6 +13,7 @@ import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
+import Footer from './footer'
 import Item from './item'
 import SectionHeader from './section-header'
 import { COMPONENT } from './ds'
@@ -53,7 +54,6 @@ class BangumiList extends React.Component<Props> {
     const { $ } = this.context as Ctx
     if (!$.userCollections._loaded) return <Loading style={this.styles.loading} />
 
-    const { onScroll } = this.props
     return (
       <ListView
         ref={this.connectRef}
@@ -64,6 +64,7 @@ class BangumiList extends React.Component<Props> {
         showFooter={false}
         renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
+        ListFooterComponent={<Footer />}
         {...this.props}
         onScroll={
           STORYBOOK
@@ -80,7 +81,7 @@ class BangumiList extends React.Component<Props> {
                 ],
                 {
                   useNativeDriver: true,
-                  listener: onScroll
+                  listener: this.props.onScroll
                 }
               )
         }

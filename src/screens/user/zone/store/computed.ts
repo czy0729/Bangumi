@@ -127,18 +127,8 @@ export default class Computed extends State {
     if (TEXT_ONLY) {
       source = IMG_EMPTY_DARK
     } else {
-      if (typeof _image === 'string') {
-        if (_image?.indexOf('http') === 0) {
-          source.uri = _image
-        } else {
-          source.uri = `https:${_image}`
-        }
-      }
-
+      if (typeof _image === 'string') source.uri = _image
       source.uri = fixedHD(this.bg || this.avatar || source.uri)
-      if (typeof source.uri === 'string') {
-        source.uri = source.uri.replace('http://', 'https://')
-      }
     }
 
     return source

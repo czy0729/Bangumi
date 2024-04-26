@@ -275,13 +275,23 @@ export function open(url: any, encode: boolean = false): boolean {
 }
 
 /** url 字符串化 */
-export function urlStringify(data?: Record<string, any>, encode: boolean = true): string {
+export function urlStringify(
+  data?: Record<string, any>,
+  encode: boolean = true,
+  sort: boolean = false
+): string {
   if (!data) return ''
 
-  const arr = Object.entries(data).map(
-    ([key, value]) => `${key}=${encode ? encodeURIComponent(value) : value}`
-  )
-  return arr.join('&')
+  if (sort) {
+    return Object.entries(data)
+      .sort((a, b) => asc(a[0], b[0]))
+      .map(([key, value]) => `${key}=${encode ? encodeURIComponent(value) : value}`)
+      .join('&')
+  }
+
+  return Object.entries(data)
+    .map(([key, value]) => `${key}=${encode ? encodeURIComponent(value) : value}`)
+    .join('&')
 }
 
 /** 补零 */

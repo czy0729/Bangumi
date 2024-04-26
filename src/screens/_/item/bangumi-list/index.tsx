@@ -44,7 +44,7 @@ export const ItemBangumiList = ob(
           }}
         >
           <Cover size={width} src={image} radius />
-          <Text style={_.mt.sm} size={12} bold align='center' numberOfLines={3}>
+          <Text style={_.mt.sm} size={11} bold numberOfLines={3}>
             {HTMLDecode(name)}
           </Text>
         </Touchable>
