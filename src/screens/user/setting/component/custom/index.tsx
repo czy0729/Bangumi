@@ -32,7 +32,7 @@ function Custom({ filter }) {
     return (
       <>
         <ItemSetting hd='定制' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} title='定制' height={filter ? 400 : 760} onClose={setFalse}>
+        <ActionSheet show={state} title='定制' height={filter ? 440 : 760} onClose={setFalse}>
           {shows.cnFirst && <CnFirst filter={filter} />}
           {shows.heatMap && <HeatMap filter={filter} />}
           {shows.s2t && <S2T filter={filter} />}

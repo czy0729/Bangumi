@@ -50,7 +50,7 @@ function CDN({ navigation, filter }) {
         <ActionSheet
           show={state}
           title='图片'
-          height={filter || STORYBOOK ? 400 : 640}
+          height={filter || STORYBOOK ? 440 : 640}
           onClose={setFalse}
         >
           {!STORYBOOK && shows.cover && (

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:19:26
+ * @Last Modified time: 2024-04-26 04:39:58
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { DataSource } from '@types'
 import { Component } from '../component'
 import Comp from './comp'
 import { COMPONENT } from './ds'
@@ -20,7 +21,13 @@ export { SegmentedControlProps }
  * @doc https://github.com/react-native-community/segmented-control/tree/master/js
  */
 export const SegmentedControl = observer(
-  ({ tintColor, fontStyle, activeFontStyle, backgroundColor, ...other }: SegmentedControlProps) => {
+  <T extends DataSource>({
+    tintColor,
+    fontStyle,
+    activeFontStyle,
+    backgroundColor,
+    ...other
+  }: SegmentedControlProps<T>) => {
     r(COMPONENT)
 
     return (

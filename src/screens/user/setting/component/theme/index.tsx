@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 20:36:48
+ * @Last Modified time: 2024-04-25 04:43:02
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -18,6 +18,7 @@ import AppTheme from './app-theme'
 import AutoColorScheme from './auto-color-scheme'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 主题 */
 function Theme({ navigation, filter }) {
   r(COMPONENT)
 

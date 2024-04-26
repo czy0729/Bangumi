@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:11:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:33:06
+ * @Last Modified time: 2024-04-24 13:35:00
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,6 +13,7 @@ import { t } from '@utils/fetch'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 超展开 */
 function Rakuen({ navigation, filter }) {
   r(COMPONENT)
 

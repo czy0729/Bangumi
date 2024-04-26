@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:01:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:46:10
+ * @Last Modified time: 2024-04-26 04:41:43
  */
 import React from 'react'
-import { ActionSheet, Heatmap, SegmentedControl } from '@components'
+import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
-import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { SETTING_USER_GRID_NUM, STORYBOOK } from '@constants'
-import styles from '../../styles'
-import { getShows, getYuqueThumbs } from '../../utils'
+import { STORYBOOK } from '@constants'
+import { getShows } from '../../utils'
+import UserGridNum from './user-grid-num'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 时光机 */
 function User({ filter }) {
   r(COMPONENT)
 
@@ -25,41 +24,11 @@ function User({ filter }) {
   return useObserver(() => {
     if (STORYBOOK || !shows) return null
 
-    const { userGridNum } = systemStore.setting
     return (
       <>
         <ItemSetting hd='时光机' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='时光机' onClose={setFalse}>
-          {/* 网格布局个数 */}
-          <ItemSetting
-            show={shows.userGridNum}
-            ft={
-              <SegmentedControl
-                style={styles.segmentedControl}
-                size={12}
-                values={SETTING_USER_GRID_NUM.map(({ label }) => label)}
-                selectedIndex={SETTING_USER_GRID_NUM.findIndex(item => item.value === userGridNum)}
-                onValueChange={label => {
-                  if (label) {
-                    t('设置.切换', {
-                      title: '网格布局个数',
-                      label
-                    })
-                    systemStore.setUserGridNum(label)
-                  }
-                }}
-              />
-            }
-            filter={filter}
-            thumb={getYuqueThumbs([
-              '0/2022/png/386799/1661208352105-3fa86285-01cd-4d4d-9a1b-cc45f70ef80f.png',
-              '0/2022/png/386799/1661208356246-d2be037e-2770-4d8c-911f-3ce549dc46b0.png',
-              '0/2022/png/386799/1661208362277-16206efc-d59d-49a1-b023-b3a9626ff2c3.png'
-            ])}
-            {...TEXTS.userGridNum}
-          >
-            <Heatmap id='设置.切换' title='网格布局个数' />
-          </ItemSetting>
+          {shows.userGridNum && <UserGridNum filter={filter} />}
         </ActionSheet>
       </>
     )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-14 20:29:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:43:37
+ * @Last Modified time: 2024-04-25 05:04:27
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
 
+/** 时区 */
 function Timezone({ filter }) {
   r(COMPONENT)
 
@@ -72,7 +73,7 @@ function Timezone({ filter }) {
     return (
       <>
         <ItemSetting hd='时区' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} height={filter ? 400 : 640} title='时区' onClose={setFalse}>
+        <ActionSheet show={state} height={filter ? 440 : 640} title='时区' onClose={setFalse}>
           {/* 设置时区 */}
           <ItemSetting show={shows.timezone} filter={filter} {...TEXTS.timezone}>
             <Heatmap id='设置.切换' title='设置时区' />

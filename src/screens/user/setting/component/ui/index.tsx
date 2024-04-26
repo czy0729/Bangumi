@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 17:17:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 20:36:01
+ * @Last Modified time: 2024-04-25 17:44:10
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -19,8 +19,9 @@ import Speech from './speech'
 import Squircle from './squircle'
 import Transition from './transition'
 import Vibration from './vibration'
-import { COMPONENT, height, TEXTS } from './ds'
+import { COMPONENT, TEXTS } from './ds'
 
+/** 画面 */
 function UI({ filter }) {
   r(COMPONENT)
 
@@ -33,7 +34,7 @@ function UI({ filter }) {
     return (
       <>
         <ItemSetting hd='画面' arrow highlight filter={filter} onPress={setTrue} />
-        <ActionSheet show={state} title='画面' height={filter ? 400 : 760} onClose={setFalse}>
+        <ActionSheet show={state} title='画面' height={filter ? 440 : 760} onClose={setFalse}>
           {shows.font && <CustomFontFamily filter={filter} />}
           {shows.coverThings && <CoverThings filter={filter} />}
           {shows.avatarRound && <AvatarRound filter={filter} />}

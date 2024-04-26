@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-28 12:41:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-28 12:49:19
+ * @Last Modified time: 2024-04-25 04:40:50
  */
 import { useState } from 'react'
 import { userStore } from '@stores'
@@ -22,7 +22,7 @@ export function useCloud() {
 
         const data = await get(`setting_${id}`)
         if (data) {
-          setText(date('y-m-d H:i', data?.ts))
+          setText(date('y/m/d H:i', data?.ts))
           return
         }
 

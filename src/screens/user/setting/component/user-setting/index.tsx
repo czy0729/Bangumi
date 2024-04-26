@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-21 16:53:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:46:57
+ * @Last Modified time: 2024-04-26 04:42:18
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { STORYBOOK } from '@constants'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 个人设置 */
 function UserSetting({ navigation, filter }) {
   r(COMPONENT)
 

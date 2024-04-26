@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-23 06:17:26
+ * @Last Modified time: 2024-04-26 04:38:01
  */
 import { ModelValueOf } from '@types'
 import {
   BROWSER_SORT,
-  COLLECTIONS_ORDERBY,
   COLLECTION_STATUS,
+  COLLECTIONS_ORDERBY,
   EP_STATUS,
   EP_TYPE,
   MONO_WORKS_ORDERBY,
@@ -43,6 +43,8 @@ import {
   TINYGRAIL_CACULATE_RICH_TYPE,
   TINYGRAIL_CACULATE_TYPE
 } from './index'
+
+export type DataSource = string[] | readonly string[]
 
 export type ModelItem = {
   /** 键值名称 */

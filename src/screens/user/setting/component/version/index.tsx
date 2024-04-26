@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:25:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 20:48:05
+ * @Last Modified time: 2024-04-26 04:42:34
  */
 import React from 'react'
 import { Text } from '@components'
@@ -15,6 +15,7 @@ import { URL_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
+/** 版本 */
 function Version({ filter }) {
   const shows = getShows(filter, TEXTS)
   if (!shows) return null
