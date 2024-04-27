@@ -24,6 +24,7 @@ function ContentWrap(props, { $, navigation }: Ctx) {
     },
     [$.topicId, navigation]
   )
+
   return (
     <Content
       topicId={$.topicId}
@@ -32,7 +33,7 @@ function ContentWrap(props, { $, navigation }: Ctx) {
       id={$.topic?.id}
       formhash={$.topic?.formhash}
       likeType={$.topic?.likeType}
-      translateResult={$.state.translateResult}
+      translateResult={$.state.translateResult.slice()}
       doTranslate={$.doTranslate}
       onLinkPress={onLinkPress}
     />

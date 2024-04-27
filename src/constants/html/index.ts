@@ -7,7 +7,7 @@
  * @Last Modified time: 2024-02-13 20:17:09
  */
 import { urlStringify } from '@utils/utils'
-import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, UserId } from '@types'
+import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, TopicType, UserId } from '@types'
 import { HOST, URL_ZHINAN } from '../constants'
 import { MODEL_TIMELINE_SCOPE } from '../model'
 import {
@@ -123,7 +123,13 @@ export const HTML_RAKUEN_HOT = () => HOST
 export const HTML_TOPIC = (topicId: TopicId) => `${HOST}/rakuen/topic/${topicId}`
 
 /** 帖子编辑 */
-export const HTML_TOPIC_EDIT = (postId: Id) => `https://bgm.tv/group/reply/${postId}/edit`
+export const HTML_TOPIC_EDIT = (postId: Id, type: TopicType = 'group') => {
+  if (type === 'group') return `https://bgm.tv/group/reply/${postId}/edit`
+  if (type === 'ep') return `https://bgm.tv/subject/ep/edit_reply/${postId}`
+  if (type === 'subject') return `https://bgm.tv/subject/reply/${postId}/edit`
+  if (type === 'crt') return `https://bgm.tv/character/edit_reply/${postId}`
+  return `https://bgm.tv/person/edit_reply/${postId}`
+}
 
 /** 小组详情 */
 export const HTML_GROUP_INFO = (groupId: Id) => `${HOST}/group/${groupId}`

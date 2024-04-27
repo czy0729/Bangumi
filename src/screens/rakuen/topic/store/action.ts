@@ -13,7 +13,7 @@ import { update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { AnyObject, Fn, Id, ScrollEvent } from '@types'
+import { AnyObject, Fn, Id, ScrollEvent, TopicType } from '@types'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
@@ -118,7 +118,10 @@ export default class Action extends Fetch {
 
   /** 显示编辑评论框 */
   showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: Fn) => {
-    const value = await rakuenStore.fetchTopicEdit(postId)
+    const value = await rakuenStore.fetchTopicEdit(
+      postId,
+      String(this.topicId).split('/')?.[0] as TopicType
+    )
     if (value === true) {
       info('此楼层不再允许修改，可能已被回复过')
       return
@@ -302,6 +305,7 @@ export default class Action extends Fetch {
     rakuenStore.doEditReply(
       {
         postId,
+        topicType: String(this.topicId).split('/')?.[0] as TopicType,
         content,
         formhash
       },

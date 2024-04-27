@@ -28,8 +28,11 @@ export type CharacterId = `character/${Id}`
 /** 人物 ID */
 export type MonoId = CharacterId | PersonId
 
+/** 帖子类型 */
+export type TopicType = 'group' | 'subject' | 'ep' | 'prsn' | 'crt'
+
 /** 帖子 ID */
-export type TopicId = `${'group' | 'subject' | 'ep' | 'prsn'}/${Id}`
+export type TopicId = `${TopicType}/${Id}`
 
 export type Url = '//lain.bgm.tv'
 

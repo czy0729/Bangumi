@@ -18,7 +18,7 @@ import {
   HTML_TOPIC_EDIT
 } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { Fn, Id, RakuenScrollDirection, RakuenSubExpand, TopicId, UserId } from '@types'
+import { Fn, Id, RakuenScrollDirection, RakuenSubExpand, TopicId, TopicType, UserId } from '@types'
 import Fetch from './fetch'
 import { INIT_SETTING } from './init'
 
@@ -87,16 +87,17 @@ export default class Action extends Fetch {
   doEditReply = async (
     args: {
       postId: Id
+      topicType: TopicType
       content: string
       formhash: string
     },
     success?: Fn,
     fail?: Fn
   ) => {
-    const { postId, content, formhash } = args || {}
+    const { postId, topicType, content, formhash } = args || {}
     xhr(
       {
-        url: HTML_TOPIC_EDIT(postId),
+        url: HTML_TOPIC_EDIT(postId, topicType),
         data: {
           content,
           formhash,

@@ -32,6 +32,7 @@ import {
   RakuenTypeMono,
   SubjectId,
   TopicId,
+  TopicType,
   UserId
 } from '@types'
 import {
@@ -502,9 +503,9 @@ export default class Fetch extends Computed {
   }
 
   /** 获取回复楼层的 BBCODE */
-  fetchTopicEdit = async (postId: Id) => {
+  fetchTopicEdit = async (postId: Id, type: TopicType) => {
     const html = await fetchHTML({
-      url: HTML_TOPIC_EDIT(postId)
+      url: HTML_TOPIC_EDIT(postId, type)
     })
     return cheerioTopicEdit(html)
   }
