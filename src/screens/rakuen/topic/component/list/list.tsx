@@ -37,6 +37,7 @@ const List = memo(
       contentContainerStyle: _.container.bottom,
       lazy: postId ? undefined : 4,
       progressViewOffset: _.ios(_.statusBarHeight, 0),
+      removeClippedSubviews: false,
       renderItem,
       onScroll,
       onScrollToIndexFailed,

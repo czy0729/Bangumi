@@ -7,25 +7,18 @@
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
-import { AnimatedSectionList, AnimatedFlatList } from './ds'
+import { AnimatedFlatList, AnimatedSectionList } from './ds'
 import { ListProps } from './types'
 
-function List({
-  connectRef,
-  animated,
-  sectionKey,
-  sections,
-  data,
-  ...other
-}: ListProps) {
+function List({ connectRef, animated, sectionKey, sections, data, ...other }: ListProps) {
   let Component: any
   const passProps: any = {
     ref: connectRef,
+    removeClippedSubviews: true,
     ...other,
     overScrollMode: 'always',
     alwaysBounceHorizontal: false,
     alwaysBounceVertical: false,
-    removeClippedSubviews: true,
     legacyImplementation: false
   }
 
