@@ -364,6 +364,7 @@ export default class Fetch extends Computed {
     let page: number
     let isReverse = reverse
     if (!isReverse && !refresh) isReverse = _reverse
+
     if (isReverse) {
       /** @issue 官网某些条目留言不知道为什么会多出一页空白 */
       page = refresh ? pagination.pageTotal - 1 : pagination.page - 1
@@ -376,7 +377,6 @@ export default class Fetch extends Computed {
     const html = await fetchHTML({
       url: HTML_SUBJECT_COMMENTS(subjectId, page)
     })
-
     const { likes, ...next } = cheerioSubjectComments(html)
     timelineStore.updateLikes(likes)
 

@@ -7,6 +7,7 @@
 import React from 'react'
 import { Component } from '@components'
 import { ob } from '@utils/decorators'
+import { CollectionStatusCn } from '@types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -26,6 +27,9 @@ function ItemCommentWrap({
   comment,
   subjectId,
   relatedId,
+  action,
+  mainId,
+  mainName,
   event,
   popoverData,
   like,
@@ -42,10 +46,12 @@ function ItemCommentWrap({
         userId={userId}
         userName={userName}
         star={star}
-        status={status}
+        status={(status || action) as CollectionStatusCn}
         comment={comment}
         subjectId={subjectId}
         relatedId={relatedId}
+        mainId={mainId}
+        mainName={mainName}
         event={event}
         popoverData={popoverData}
         like={like}

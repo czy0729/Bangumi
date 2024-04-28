@@ -29,6 +29,8 @@ const ItemComment = memo(
     comment,
     subjectId,
     relatedId,
+    mainId,
+    mainName,
     event,
     popoverData,
     like,
@@ -71,6 +73,7 @@ const ItemComment = memo(
                 right={
                   <Text type='sub' size={11} lineHeight={14}>
                     {'  '}
+                    {status ? `${status} · ` : ''}
                     {String(time).includes('ago') ? correctAgo(formatTime(time)) : time}
                   </Text>
                 }
@@ -102,14 +105,33 @@ const ItemComment = memo(
               </Popover>
             )}
           </Flex>
-          {!!(star || status) && (
+          {!!(star || mainName) && (
             <Flex style={styles.stars}>
               <Stars value={star} />
-              {!!status && (
-                <Text type='sub' size={11}>
-                  {!!star && ' · '}
-                  {status}
-                </Text>
+              {!!mainName && (
+                <>
+                  {!!star && (
+                    <Text type='sub' size={11}>
+                      {' · '}
+                    </Text>
+                  )}
+                  <Text
+                    type='sub'
+                    size={11}
+                    underline
+                    numberOfLines={1}
+                    onPress={() => {
+                      if (navigation && mainId) {
+                        navigation.push('Subject', {
+                          subjectId: mainId,
+                          _jp: mainName
+                        })
+                      }
+                    }}
+                  >
+                    {mainName}
+                  </Text>
+                </>
               )}
             </Flex>
           )}

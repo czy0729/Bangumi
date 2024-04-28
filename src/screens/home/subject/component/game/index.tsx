@@ -9,7 +9,7 @@ import { ScrollView, View } from 'react-native'
 import { Expand, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, otaStore, systemStore } from '@stores'
-import { open, showImageViewer } from '@utils'
+import { open, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
@@ -185,7 +185,7 @@ class Game extends React.Component<{
     return (
       <>
         <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_GAME)} />
-        <InView style={this.styles.container}>
+        <InView style={stl(this.styles.container, !showGameInfo && _.short)}>
           <Expand>
             <SectionTitle
               style={_.container.wind}

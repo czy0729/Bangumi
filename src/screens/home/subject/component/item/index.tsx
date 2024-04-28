@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'
 
 function Item(
-  { index, time, avatar, userId, userName, star, comment, relatedId },
+  { index, time, avatar, userId, userName, star, comment, relatedId, action, mainId, mainName },
   { $, navigation }: Ctx
 ) {
   if (
@@ -44,6 +44,9 @@ function Item(
         comment={comment}
         subjectId={$.subjectId}
         relatedId={relatedId}
+        action={action}
+        mainId={mainId}
+        mainName={mainName}
         popoverData={POPOVER_DATA[$.type]}
         onSelect={$.onTrackUsersCollection}
       />

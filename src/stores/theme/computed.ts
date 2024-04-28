@@ -146,7 +146,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 阴影 (工具类) */
   readonly shadow = _.shadow
 
-  /** @deprecated 垂直缩小 (工具类) */
+  /** 垂直缩小 (工具类) */
   readonly short = _.short
 
   /** -------------------- 缩短引用 -------------------- */

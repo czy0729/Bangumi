@@ -27,6 +27,8 @@ export const DEFAULT_PROPS = {
   comment: '' as string,
   subjectId: 0 as SubjectId,
   relatedId: '' as string | number,
+  mainId: '' as string,
+  mainName: '' as string,
   event: EVENT as EventType,
   popoverData: undefined as string[] | readonly string[],
   like: false,

@@ -5,19 +5,9 @@
  * @Last Modified time: 2024-01-09 16:19:59
  */
 import React from 'react'
+import { SubjectCommentsItem } from '@stores/subject/types'
 import Item from '../item'
 
-export function renderItem({ item, index }) {
-  return (
-    <Item
-      index={index}
-      time={item.time}
-      avatar={item.avatar}
-      userId={item.userId}
-      userName={item.userName}
-      star={item.star}
-      comment={item.comment}
-      relatedId={item.relatedId}
-    />
-  )
+export function renderItem({ item, index }: { item: SubjectCommentsItem; index: number }) {
+  return <Item {...item} index={index} />
 }

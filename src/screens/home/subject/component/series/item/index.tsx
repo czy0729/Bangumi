@@ -49,7 +49,7 @@ function Item({ from, data }, { $, navigation }: Ctx) {
           />
         </Squircle>
         <Text style={_.ml.sm} size={11}>
-          {from}
+          {data.type || from}
         </Text>
       </Flex>
       <Heatmap right={-19} id='条目.跳转' from={_from} />

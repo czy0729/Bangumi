@@ -468,15 +468,25 @@ export function cheerioSubjectComments(html: string): Override<
       $('#comment_box .item')
         .map((index: number, element: any) => {
           const $row = cheerio(element)
+          const $subject = $row.find('.thumbTip')
+
+          /**
+           * - 玩过 @ 2024-4-24 23:53
+           * - 在玩 オーディンスフィア @ 2024-4-12 17:58
+           */
+          const text = $row.find('small.grey').text().trim()
           return {
             id: `${page}|${index}`,
             userId: matchUserId($row.find('a.avatar').attr('href')),
             userName: $row.find('a.l').text().trim(),
             avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
-            time: $row.find('small.grey').text().trim().replace('@ ', ''),
+            time: text.split('@ ')?.[1] || '',
             star: ($row.find('span.starlight').attr('class') || '').replace('starlight stars', ''),
             comment: $row.find('p').text().trim(),
-            relatedId: ($row.find('.likes_grid').attr('id') || '').match(/\d+/g)?.[0] || ''
+            relatedId: ($row.find('.likes_grid').attr('id') || '').match(/\d+/g)?.[0] || '',
+            action: text.split(' ')?.[0] || '',
+            mainId: String($subject.attr('href') || '').replace('/subject/', ''),
+            mainName: $subject.text().trim()
           }
         })
         .get() || [],

@@ -374,12 +374,16 @@ type SubjectCommentsAttrs = {
   userSign: string
   replySub: string
   message: string
+  comment: string
   star: string | number
   relatedId: string | number
+  action: string
+  mainId: string
+  mainName: string
 }
 
 /** 回复项 */
-type SubjectCommentsItem = Override<
+export type SubjectCommentsItem = Override<
   SubjectCommentsAttrs,
   {
     /** 子回复 */

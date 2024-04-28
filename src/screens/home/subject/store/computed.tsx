@@ -946,7 +946,19 @@ export default class Computed extends State {
 
   /** 不同演绎 */
   @computed get subjectDiff() {
-    return this.subjectRelations.find(item => item.type === '不同演绎')
+    let find = this.subjectRelations.find(item => item.type === '不同演绎')
+    if (find) return find
+
+    find = this.subjectRelations.find(item => item.type === '主版本')
+    if (find) return find
+
+    find = this.subjectRelations.find(item => item.type === '主线故事')
+    if (find) return find
+
+    find = this.subjectRelations.find(item => item.type === '外传')
+    if (find) return find
+
+    return null
   }
 
   /** 是否有相关系列 */
