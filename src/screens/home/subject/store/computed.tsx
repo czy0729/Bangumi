@@ -91,7 +91,7 @@ export default class Computed extends State {
 
   /** 是否敏感条目 */
   @computed get nsfw() {
-    return x18(this.subjectId, this.cn || this.jp)
+    return this.subject?.v0 || x18(this.subjectId, this.cn || this.jp)
   }
 
   /** 用户自定义播放信息 */
