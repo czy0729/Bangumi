@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:46:44
+ * @Last Modified time: 2024-04-30 01:29:31
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
@@ -10,7 +10,8 @@ import { SectionTitle } from '@_'
 import { memo } from '@utils/decorators'
 import IconComment from '../icon/comment'
 import IconHidden from '../icon/hidden'
-import RateSegement from '../rate-segment'
+import RateSegment from '../rate-segment'
+import StatusSegement from '../status-segment'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Comment = memo(
@@ -22,7 +23,8 @@ const Comment = memo(
           right={
             showComment ? (
               <>
-                <RateSegement />
+                <StatusSegement />
+                <RateSegment />
                 <IconComment />
               </>
             ) : (

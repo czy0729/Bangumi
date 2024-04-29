@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 02:36:46
+ * @Last Modified time: 2024-04-30 00:29:13
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -350,11 +350,12 @@ export default class Fetch extends Computed {
   fetchSubjectComments = async (
     args: {
       subjectId: SubjectId
+      interest_type: '' | RatingStatus
     },
     refresh: boolean = false,
     reverse: boolean = false
   ) => {
-    const { subjectId } = args || {}
+    const { subjectId, interest_type } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
 
     /**
@@ -375,7 +376,7 @@ export default class Fetch extends Computed {
     }
 
     const html = await fetchHTML({
-      url: HTML_SUBJECT_COMMENTS(subjectId, page)
+      url: HTML_SUBJECT_COMMENTS(subjectId, page, interest_type)
     })
     const { likes, ...next } = cheerioSubjectComments(html)
     timelineStore.updateLikes(likes)

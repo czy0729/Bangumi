@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-13 20:17:09
+ * @Last Modified time: 2024-04-30 00:26:20
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, TopicType, UserId } from '@types'
@@ -34,8 +34,14 @@ import { RakuenReplyType } from './types'
 export const HTML_SUBJECT = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}`
 
 /** 条目吐槽 */
-export const HTML_SUBJECT_COMMENTS = (subjectId: SubjectId, page: number = 1) =>
-  `${HOST}/subject/${subjectId}/comments?page=${page}`
+export const HTML_SUBJECT_COMMENTS = (
+  subjectId: SubjectId,
+  page: number = 1,
+  interest_type?: '' | RatingStatus
+) =>
+  `${HOST}/subject/${subjectId}/comments?page=${page}${
+    interest_type ? `&interest_type=${interest_type}` : ''
+  }`
 
 /** 所有人评分 */
 export const HTML_SUBJECT_RATING = (

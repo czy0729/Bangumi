@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:39:50
+ * @Last Modified time: 2024-04-30 01:13:25
  */
 import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, STORYBOOK } from '@constants'
@@ -12,6 +12,7 @@ import {
   Loaded,
   Override,
   Rating,
+  RatingStatus,
   Sites,
   SubjectId,
   SubjectTypeValue
@@ -64,6 +65,9 @@ export const EXCLUDE_STATE = {
 
   /** 书籍卷 */
   vol: '' as string | number,
+
+  /** 吐槽分数分组 */
+  filterScores: [],
 
   /** 翻译缓存 */
   translateResult: [],
@@ -118,8 +122,8 @@ export const STATE = {
   /** 筛选章节的开头 */
   filterEps: 0,
 
-  /** 吐槽分数分组 */
-  filterScores: [],
+  /** 吐槽状态筛选 */
+  filterStatus: '' as '' | RatingStatus,
 
   /** bangumi-data 中找到的 item */
   bangumiInfo: {

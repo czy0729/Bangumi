@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 01:53:50
+ * @Last Modified time: 2024-04-30 01:09:16
  */
 import {
   collectionStore,
@@ -169,7 +169,8 @@ export default class Fetch extends Computed {
   fetchSubjectComments = async (refresh?: boolean, reverse?: boolean) => {
     const data = await subjectStore.fetchSubjectComments(
       {
-        subjectId: this.subjectId
+        subjectId: this.subjectId,
+        interest_type: this.state.filterStatus
       },
       refresh,
       reverse
@@ -534,12 +535,14 @@ export default class Fetch extends Computed {
 
   /** 上传留言预数据 */
   updateCommentsThirdParty = () => {
+    if (this.state.filterStatus !== '') return
+
     setTimeout(() => {
       const data = this.subjectComments
       if (!data?.list?.length || !data?._loaded || data?._reverse) return false
 
       update(`comments_${this.subjectId}`, {
-        list: data.list.slice(0, 20),
+        list: data.list.slice(0, 40),
         pagination: {
           page: 1,
           pageTotal: 1

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:43:09
+ * @Last Modified time: 2024-04-30 01:35:12
  */
 import { StatusBar } from '@components'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -49,6 +49,7 @@ import {
   LIKE_TYPE_TIMELINE,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
+  MODEL_RATING_STATUS,
   SITE_AGEFANS,
   SITE_MANHUADB,
   SITE_WK8,
@@ -361,7 +362,26 @@ export default class Action extends Fetch {
     this.setState({
       filterScores: label === '全部' ? [] : label.split('-')
     })
+  }
+
+  /** 筛选吐槽状态 */
+  filterStatus = async (label: string) => {
+    const filterStatus = label === '全部' ? '' : MODEL_RATING_STATUS.getValue(label) || ''
+    if (filterStatus === this.state.filterStatus) return
+
+    t('条目.筛选吐槽状态', {
+      subjectId: this.subjectId,
+      label
+    })
+
+    this.setState({
+      filterStatus,
+      filterScores: []
+    })
     this.save()
+
+    await this.fetchSubjectComments(true, false)
+    feedback()
   }
 
   /** 去用户评分页面 */

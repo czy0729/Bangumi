@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:13:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-17 07:12:26
+ * @Last Modified time: 2024-04-29 22:56:57
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -28,7 +28,7 @@ export default obc(IconComment)
 
 const styles = _.create({
   touch: {
-    marginRight: -_.sm
+    marginRight: -12
   },
   reverse: {
     transform: [

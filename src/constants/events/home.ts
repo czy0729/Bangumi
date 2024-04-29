@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:30:36
+ * @Last Modified time: 2024-04-30 00:57:56
  */
 
 /** Home */
@@ -63,6 +63,7 @@ export default {
   '条目.预览': 'Subject.viewThumbs',
   '条目.游戏截图': 'Subject.viewGameThumbs',
   '条目.筛选分数': 'Subject.filterScores',
+  '条目.筛选吐槽状态': 'Subject.filterStatus',
   '条目.复制标题': 'Subject.copyTitle',
   '条目.展开收起功能块': 'Subject.switchBlock',
   '条目.管理目录': 'Subject.manageFolder',
