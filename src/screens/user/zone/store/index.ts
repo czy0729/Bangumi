@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 21:24:46
+ * @Last Modified time: 2024-04-30 01:43:31
  */
 import { queue } from '@utils'
 import { STORYBOOK } from '@constants'
 import { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '@screens/user/v2/ds'
 import Action from './action'
+import { updateTrackUserInfo } from './utils'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export { H_RADIUS_LINE, H_HEADER, H_TABBAR }
@@ -66,6 +67,10 @@ class ScreenZone extends Action {
       () => {
         if (!this.state.mounted || STORYBOOK) return
         return this.fetchRecent()
+      },
+      () => {
+        if (!this.state.mounted || STORYBOOK) return
+        updateTrackUserInfo(this.usersInfo)
       }
     ])
   }

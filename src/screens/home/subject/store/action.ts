@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 01:35:12
+ * @Last Modified time: 2024-04-30 01:39:15
  */
 import { StatusBar } from '@components'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -555,9 +555,7 @@ export default class Action extends Fetch {
     comment: string,
     relatedId: Id
   ) => {
-    if (!userData?.userId) {
-      return false
-    }
+    if (!userData?.userId) return false
 
     if (title === TEXT_LIKES) {
       if (!this.isLogin) {

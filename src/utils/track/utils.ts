@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 22:09:38
+ * @Last Modified time: 2024-04-30 02:29:38
  */
+import { Platform } from 'react-native'
 import Constants from 'expo-constants'
-import { HOST, IOS } from '@constants/constants'
+import { HOST, VERSION_CODE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import events from '@constants/events'
-import { DEV } from '@/config'
+import { DEV, GITHUB_ACTION, IOS_IPA } from '@/config'
 import { AnyObject, EventKeys } from '@types'
+import { syncUserStore } from '../async'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
 import { EventData } from './type'
 import {
@@ -21,8 +23,7 @@ import {
   TITLE,
   WEBSITE,
   WEBSITE_FATAL_ERROR,
-  WEBSITE_TINGRAIL,
-  WEBSITE_UV
+  WEBSITE_TINGRAIL
 } from './ds'
 
 export function xhr(si: string, u: string) {
@@ -135,15 +136,7 @@ async function umamiXhr(payload: {
   request.withCredentials = false
 
   let website = payload.website || (payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE)
-  let referrer = payload.referrer || REFERRER
-
-  // @ts-expect-error
-  if (payload.name === '其他.启动') {
-    website = WEBSITE_UV
-    referrer = IOS ? 'ios' : 'android'
-  } else if (payload.name === '其他.崩溃') {
-    website = WEBSITE_FATAL_ERROR
-  }
+  if (payload.name === '其他.崩溃') website = WEBSITE_FATAL_ERROR
 
   request.send(
     JSON.stringify({
@@ -153,11 +146,20 @@ async function umamiXhr(payload: {
         hostname: 'bgm.tv',
         screen: SCREEN,
         language: 'zh-CN',
-        referrer
+        referrer: payload.referrer || getReferer(String(syncUserStore().myId || 0))
       },
       type: 'event'
     })
   )
+}
+
+export function getReferer(beforeKey?: string) {
+  const referrre: string[] = [Platform.OS]
+  if (IOS_IPA) referrre.push('ipa')
+  referrre.push(VERSION_CODE)
+  if (GITHUB_ACTION) referrre.push('github')
+  if (beforeKey) referrre.unshift(beforeKey)
+  return `https://${referrre.join('_')}.com`
 }
 
 /** [DEV] */
