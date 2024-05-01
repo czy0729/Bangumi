@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:53:00
+ * @Last Modified time: 2024-05-01 13:36:54
  */
+import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
 import {
   appNavigate,
@@ -16,7 +17,6 @@ import {
   genICSCalenderEventDate,
   getBangumiUrl,
   getCalenderEventTitle,
-  getCoverMedium,
   HTMLDecode,
   info,
   loading,
@@ -31,6 +31,7 @@ import { t } from '@utils/fetch'
 import { download, temp } from '@utils/kv'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
+  IMG_WIDTH,
   IOS,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
@@ -591,7 +592,7 @@ export default class Action extends Fetch {
       {
         _title: `ep${item.sort}.${item.name || item.name_cn}`,
         _group: subject.name || subject.name_cn,
-        _groupThumb: getCoverMedium((subject.images || {})?.medium),
+        _groupThumb: getCoverSrc((subject.images || {})?.medium, IMG_WIDTH),
         _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
           /\r\n/g,
           '<br />'

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:34:07
+ * @Last Modified time: 2024-05-01 13:01:12
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Cover as CompCover, Heatmap, Squircle } from '@components'
+import { Cover as CoverComp, Heatmap, Squircle } from '@components'
 import { systemStore } from '@stores'
 import { getCoverLarge } from '@utils'
 import { obc } from '@utils/decorators'
@@ -57,7 +57,7 @@ class Cover extends React.Component<Props> {
     if (!STORYBOOK && this.isLoaded && this.props.image) return null
 
     return (
-      <CompCover
+      <CoverComp
         style={[
           this.styles.placeholder,
           {
@@ -79,7 +79,7 @@ class Cover extends React.Component<Props> {
     if (!image) return null
 
     return (
-      <CompCover
+      <CoverComp
         src={image}
         size={this.props.width}
         height={this.props.height}

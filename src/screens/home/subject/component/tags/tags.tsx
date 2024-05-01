@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:35:01
+ * @Last Modified time: 2024-05-01 13:33:14
  */
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, ScrollView, Text, Touchable } from '@components'
 import { PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -43,68 +43,85 @@ const Tags = memo(
     wenkuTags,
     onSwitchBlock
   }) => {
+    const [expand, setExpand] = useState(false)
+
     const elTags = (
       <>
-        {tags.map(({ name, count }, index) => {
-          const isSelected = tag.includes(name)
-          const showTyperank = !!rank && subjectTagsRec
-          return (
-            <Touchable
-              key={index}
-              animate
-              scale={0.9}
-              onPress={() => {
-                if (
-                  showTyperank &&
-                  exist(MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType), name)
-                ) {
+        {tags
+          .filter((item, index) => (expand ? true : index < 16))
+          .map(({ name, count }, index) => {
+            const isSelected = tag.includes(name)
+            const showTyperank = !!rank && subjectTagsRec
+            return (
+              <Touchable
+                key={index}
+                animate
+                scale={0.9}
+                onPress={() => {
+                  if (
+                    showTyperank &&
+                    exist(MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType), name)
+                  ) {
+                    t('条目.跳转', {
+                      to: 'Typerank',
+                      from: TITLE_TAGS,
+                      subjectId
+                    })
+
+                    navigation.push('Typerank', {
+                      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
+                      tag: name,
+                      subjectId
+                    })
+                    return
+                  }
+
                   t('条目.跳转', {
-                    to: 'Typerank',
+                    to: 'Tag',
                     from: TITLE_TAGS,
                     subjectId
                   })
 
-                  navigation.push('Typerank', {
+                  navigation.push('Tag', {
                     type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
-                    tag: name,
-                    subjectId
+                    tag: name
                   })
-                  return
-                }
-
-                t('条目.跳转', {
-                  to: 'Tag',
-                  from: TITLE_TAGS,
-                  subjectId
-                })
-
-                navigation.push('Tag', {
-                  type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
-                  tag: name
-                })
-              }}
-            >
-              <Flex style={stl(styles.item, isSelected && styles.selected)}>
-                <Text type={_.select('desc', isSelected ? 'main' : 'desc')} size={13} bold>
-                  {name}
-                </Text>
-                {showTyperank ? (
-                  <Typerank tag={name} />
-                ) : (
-                  <Text
-                    type={_.select('sub', isSelected ? 'main' : 'sub')}
-                    size={12}
-                    lineHeight={13}
-                    bold
-                  >
-                    {' '}
-                    {count}
+                }}
+              >
+                <Flex style={stl(styles.item, isSelected && styles.selected)}>
+                  <Text type={_.select('desc', isSelected ? 'main' : 'desc')} size={13} bold>
+                    {name}
                   </Text>
-                )}
-              </Flex>
-            </Touchable>
-          )
-        })}
+                  {showTyperank ? (
+                    <Typerank tag={name} />
+                  ) : (
+                    <Text
+                      type={_.select('sub', isSelected ? 'main' : 'sub')}
+                      size={12}
+                      lineHeight={13}
+                      bold
+                    >
+                      {' '}
+                      {count}
+                    </Text>
+                  )}
+                </Flex>
+              </Touchable>
+            )
+          })}
+        {!expand && tags.length > 16 && (
+          <Touchable
+            animate
+            scale={0.9}
+            onPress={() => {
+              setExpand(true)
+            }}
+          >
+            <Flex style={styles.item}>
+              <Iconfont name='md-more-horiz' size={16} color={_.colorSub} />
+            </Flex>
+          </Touchable>
+        )}
         <Block path='Anime' tags={animeTags} />
         <Block path='Hentai' tags={hentaiTags} />
         <Block path='Game' tags={gameTags} />

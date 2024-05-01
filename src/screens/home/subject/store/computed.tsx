@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 08:10:29
+ * @Last Modified time: 2024-05-01 13:36:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -749,11 +749,11 @@ export default class Computed extends State {
 
   /** 标签 */
   @computed get tags() {
-    const data =
+    return (
       (this.subjectFormHTML._loaded
         ? this.subjectFormHTML.tags
         : this.subjectFromOSS.tags || this.subjectFormCDN.tags) || []
-    return data.filter(item => !!item.name).filter((item, index) => index < 20)
+    ).filter(item => !!item.name)
   }
 
   /** 网页版详情 */

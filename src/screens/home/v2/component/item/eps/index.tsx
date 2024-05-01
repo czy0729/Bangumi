@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:46:24
+ * @Last Modified time: 2024-05-01 12:49:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
-import { Eps as CompEps } from '@_'
+import { Eps as EpsComp } from '@_'
 import { obc } from '@utils/decorators'
 import { window } from '@styles'
 import { SubjectId } from '@types'
@@ -27,7 +27,7 @@ function Eps(
 ) {
   return (
     <View style={styles.eps}>
-      <CompEps
+      <EpsComp
         layoutWidth={window.contentWidth}
         login={$.isLogin}
         subjectId={subjectId}

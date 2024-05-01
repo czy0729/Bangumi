@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 01:39:15
+ * @Last Modified time: 2024-05-01 13:01:45
  */
 import { StatusBar } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import {
   _,
@@ -46,6 +47,7 @@ import {
   CDN_OSS_SUBJECT,
   HOST,
   HOST_CDN,
+  IMG_WIDTH,
   LIKE_TYPE_TIMELINE,
   MODEL_COLLECTION_STATUS,
   MODEL_EP_STATUS,
@@ -809,7 +811,7 @@ export default class Action extends Fetch {
       {
         _title: `ep${item.sort}.${item.name || item.name_cn}`,
         _group: this.subject.name || this.subject.name_cn,
-        _groupThumb: getCoverMedium((this.subject.images || {})?.medium),
+        _groupThumb: getCoverSrc((this.subject.images || {})?.medium, IMG_WIDTH),
         _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${(item.desc || '').replace(
           /\r\n/g,
           '<br />'
