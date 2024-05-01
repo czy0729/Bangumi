@@ -33,6 +33,11 @@ allprojects {
       url(new File(['node', '--print', "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), '../dist'))
     }
 
+    maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+    maven { url = 'https://maven.aliyun.com/repository/public/' }
+    maven { url = 'https://repo.huaweicloud.com/repository/maven/' }
+    maven { url = 'https://mirrors.cloud.tencent.com/repository/maven/' }
+    maven { url = 'https://repo1.maven.org/maven2/' }
     google()
     mavenCentral()
     maven { url 'https://www.jitpack.io' }

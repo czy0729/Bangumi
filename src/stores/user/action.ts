@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 19:45:28
+ * @Last Modified time: 2024-04-30 04:43:58
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -277,9 +277,15 @@ export default class Action extends Fetch {
   /** 存放 loading.hide */
   private hide: any
 
+  /** 重新授权次数 */
+  private reOauthCount: number = 0
+
   /** 获取授权表单码 */
   reOauth = async () => {
-    this.hide = loading('正在重新授权...')
+    if (this.reOauthCount < 2) {
+      this.hide = loading('正在重新授权...')
+      this.reOauthCount += 1
+    }
 
     // @ts-expect-error
     axios.defaults.withCredentials = false
