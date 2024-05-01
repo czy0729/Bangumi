@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-11-30 02:04:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 16:03:35
+ * @Last Modified time: 2024-05-01 10:32:55
  */
 import { INIT_USERS } from '@stores/users/init'
-import { Loaded } from '@types'
+import { TIMELINE_TYPE } from '@constants'
+import { Loaded, TimeLineType } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
-  /** 各种状态动画缩略折叠 */
+  /** 番剧收藏状态折叠 */
   expand: {
     在看: true,
     看过: false,
@@ -38,7 +39,13 @@ export const EXCLUDE_STATE = {
     _loaded: false
   },
 
+  /** 时间线类型 */
+  timelineType: TIMELINE_TYPE[0].value as TimeLineType,
+
+  /** 是否显示备注弹窗 */
   remarkModalVisible: false,
+
+  /** 备注弹窗输入框 */
   remarkModalInput: '',
 
   /** 当前页面实例是否在路由栈中 */
@@ -46,7 +53,7 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
-  /** Tabs index */
+  /** 选项卡索引位置 */
   page: 0,
 
   /** 是否最近活跃，用于判断是否显示该用户自定义头像和背景 */

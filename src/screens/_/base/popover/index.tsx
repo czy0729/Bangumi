@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:47:10
+ * @Last Modified time: 2024-05-01 11:05:25
  */
 import React from 'react'
-import { Component, Menu, Popover as CompPopover, PopoverProps } from '@components'
-import { Popover as CompPopoverOld } from '@components/popover/old'
+import { Component, Menu, Popover as PopoverComp, PopoverProps } from '@components'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
+import PopoverOld from './old'
 import { COMPONENT } from './ds'
 
 const Popover = ob(
@@ -36,37 +36,16 @@ const Popover = ob(
 
     return (
       <Component id='base-popover'>
-        <CompPopover key={String(data.length)} placement='bottom' {...popoverProps} {...other}>
+        <PopoverComp key={String(data.length)} placement='bottom' {...popoverProps} {...other}>
           {children}
-        </CompPopover>
+        </PopoverComp>
       </Component>
     )
   },
   COMPONENT
 )
 
-// @ts-expect-error
-Popover.Old = ob(({ data = [], menuStyle, onSelect = Function.prototype, children, ...other }) => {
-  const popoverProps = IOS
-    ? {
-        overlay: (
-          <Menu
-            style={menuStyle}
-            data={data}
-            onSelect={title => setTimeout(() => onSelect(title), 0)}
-          />
-        )
-      }
-    : {
-        data,
-        onSelect
-      }
-
-  return (
-    <CompPopoverOld key={String(data.length)} placement='bottom' {...popoverProps} {...other}>
-      {children}
-    </CompPopoverOld>
-  )
-})
+// @ts-ignore
+Popover.Old = PopoverOld
 
 export { Popover }

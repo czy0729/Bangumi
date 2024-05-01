@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 22:00:35
+ * @Last Modified time: 2024-05-01 10:14:03
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { Flex, SceneMap, TabBar, TabView, Text } from '@components'
+import { Flex, SceneMap, TabBar, TabView } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Fn } from '@types'
 import { Ctx } from '../../types'
 import { H_HEADER } from '../../store'
 import About from '../about'
@@ -18,17 +17,14 @@ import BangumiList from '../bangumi-list'
 import ListHeader from '../list-header'
 import RakuenList from '../rakuen-list'
 import Stats from '../stats'
+import TabBarLabel from '../tab-bar-label'
 import TimelineList from '../timeline-list'
 import Tinygrail from '../tinygrail'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-class Tab extends React.Component<{
-  scrollEventThrottle: number
-  onIndexChange: Fn
-  onScroll: Fn
-  onSwipeStart: Fn
-}> {
+class Tab extends React.Component<Props> {
   onIndexChange = (index: number) => {
     const { $ } = this.context as Ctx
     const { onIndexChange } = this.props
@@ -109,11 +105,9 @@ class Tab extends React.Component<{
     }
   }
 
-  renderLabel = ({ route, focused }) => (
+  renderLabel = ({ route }) => (
     <Flex style={this.styles.labelText} justify='center'>
-      <Text type='title' size={13} bold={focused} noWrap>
-        {route.title}
-      </Text>
+      <TabBarLabel title={route.title} />
     </Flex>
   )
 
@@ -155,6 +149,7 @@ class Tab extends React.Component<{
         key={_.orientation}
         lazy
         lazyPreloadDistance={0}
+        // @ts-expect-error
         navigationState={this.navigationState}
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 10:51:43
+ * @Last Modified time: 2024-05-01 10:45:11
  */
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
 import { feedback, HTMLDecode, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { Navigation, TimeLineScope, TimeLineType } from '@types'
+import { Navigation, TimeLineScope, TimeLineType, TimeLineTypeCn } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -187,6 +187,17 @@ export default class Action extends Fetch {
     this.setState({
       originUid: !originUid
     })
+  }
+
+  /** 选择时间线类型 */
+  onSelectTimelineType = (label: TimeLineTypeCn) => {
+    const timelineType = MODEL_TIMELINE_TYPE.getValue(label)
+    if (!timelineType || timelineType === this.state.timelineType) return
+
+    this.setState({
+      timelineType
+    })
+    this.fetchUsersTimeline(true, true)
   }
 
   /** 显示备注弹窗 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 18:30:34
+ * @Last Modified time: 2024-05-01 10:45:30
  */
 import { rakuenStore, timelineStore, tinygrailStore, usersStore, userStore } from '@stores'
 import { getTimestamp, omit, opitimize } from '@utils'
@@ -54,18 +54,14 @@ export default class Fetch extends Computed {
     return userStore.fetchUserCollections('anime', this.userId)
   }
 
-  /**
-   * 用户时间胶囊
-   * @opitimize 60s
-   * */
-  fetchUsersTimeline = (refresh: boolean = false) => {
-    if (refresh && opitimize(this.usersTimeline, 60)) {
-      return this.usersTimeline
-    }
+  /** 用户时间胶囊 (60s) */
+  fetchUsersTimeline = (refresh: boolean = false, force: boolean = false) => {
+    if (!force && refresh && opitimize(this.usersTimeline, 60)) return this.usersTimeline
 
     return timelineStore.fetchUsersTimeline(
       {
-        userId: this.userId
+        userId: this.userId,
+        type: this.state.timelineType
       },
       refresh
     )

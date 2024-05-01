@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-26 04:38:01
+ * @Last Modified time: 2024-05-01 10:36:00
  */
 import { ModelValueOf } from '@types'
 import {
@@ -150,6 +150,7 @@ export type TimeLineScope = ModelValueOf<typeof TIMELINE_SCOPE>
 export type TimeLineScopeCn = ModelValueOf<typeof TIMELINE_SCOPE, 'label'>
 
 export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE>
+export type TimeLineTypeCn = ModelValueOf<typeof TIMELINE_TYPE, 'label'>
 
 export type TinygrailCaculateType = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE>
 export type TinygrailCaculateTypeCn = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE, 'label'>

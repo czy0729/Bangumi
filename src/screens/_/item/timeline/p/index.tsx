@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:17:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 12:15:35
+ * @Last Modified time: 2024-05-01 11:13:26
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
@@ -34,7 +34,7 @@ function P({ image, p1Text, p1Url, p2Text, p3Text, p3Url, p4Text, userId, avatar
         </Name>
       )}
       <Text type='sub' lineHeight={16}>
-        {' '}
+        {!!p1Text && ' '}
         {p2Text}{' '}
       </Text>
       <P3 image={image} p3Text={p3Text} p3Url={p3Url} onNavigate={onNavigate} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 12:51:04
+ * @Last Modified time: 2024-05-01 10:58:58
  */
 import { cheerio, getTimestamp, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -222,7 +222,7 @@ export async function fetchTimeline(
     list: page === 1 ? list : [...oldData.list, ...list],
     pagination: {
       page,
-      pageTotal: scopeCn === '全站' ? 1 : 100
+      pageTotal: scopeCn === '全站' ? 1 : list.length ? 100 : page
     },
     likes,
     _loaded: getTimestamp()

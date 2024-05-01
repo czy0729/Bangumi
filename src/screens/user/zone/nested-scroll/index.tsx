@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 18:39:03
+ * @Last Modified time: 2024-05-01 08:15:28
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
@@ -16,8 +16,8 @@ import TimelineList from '../component/timeline-list'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 import HeaderComponent from './header-component'
-import TabBarLabel from './tab-bar-label'
 import TopNavbarComponent from './top-navbar-component'
+import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -50,7 +50,3 @@ function NestedScroll(props, { $ }: Ctx) {
 }
 
 export default obc(NestedScroll, COMPONENT)
-
-function renderLabel({ style, title }) {
-  return <TabBarLabel style={style} title={title} />
-}
