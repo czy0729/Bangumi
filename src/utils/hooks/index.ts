@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 06:32:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-05 03:14:13
+ * @Last Modified time: 2024-05-01 13:59:07
  */
 export { default as useAppState } from './useAppState'
 export { default as useBackHandler } from './useBackHandler'
@@ -32,3 +32,7 @@ export { default as useRunAfter } from './useRunAfter'
 // export { default as useShortcutsAndroid } from './useShortcutsAndroid'
 export { default as useToggle } from './useToggle'
 export { default as useViewport } from './useViewport'
+
+import { useAsyncSetSetting, useAsyncSwitchSetting } from './useSetting'
+
+export { useAsyncSwitchSetting, useAsyncSetSetting }

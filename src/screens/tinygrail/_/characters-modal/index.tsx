@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 11:31:58
+ * @Last Modified time: 2024-05-01 16:13:36
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -223,8 +223,23 @@ class CharactersModal extends React.Component<Props> {
 
   doSearch = async () => {
     const { rightValue } = this.state
-    if (!rightValue) {
+    let keyword = String(rightValue).trim()
+    if (!keyword) {
       info('请输入关键字')
+      return
+    }
+
+    if (/^\d+$/.test(keyword)) {
+      this.setState({
+        search: [
+          {
+            id: Number(keyword),
+            name: '指定 ID 人物',
+            level: 0
+          }
+        ],
+        rightItem: null
+      })
       return
     }
 
@@ -956,6 +971,7 @@ class CharactersModal extends React.Component<Props> {
         style={stl(this.styles.modal, focus && this.styles.focus)}
         visible={visible}
         title={title}
+        focus={false}
         type='tinygrailPlain'
         onClose={this.onClose}
       >

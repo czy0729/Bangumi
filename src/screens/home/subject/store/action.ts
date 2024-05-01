@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 13:01:45
+ * @Last Modified time: 2024-05-01 14:48:00
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'

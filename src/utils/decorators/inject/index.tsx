@@ -2,50 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 01:44:24
+ * @Last Modified time: 2024-05-01 14:43:55
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { contextTypes } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { AnyObject, Fn, Navigation } from '@types'
-// import { DEV } from '@/config'
-import { urlStringify } from '../index'
-import observer from './observer'
+import { DEV } from '@/config'
+import { getScreenKey } from './utils'
+import { Config, Props, WrapComponentProps } from './types'
 
-type Config = {
-  /** 页面 store 是否缓存 */
-  cache?: boolean
-
-  /** 页面是否监听聚焦 */
-  listenIsFocused?: boolean
-}
-
-type WrapComponentProps = {
-  /** 页面是否在最顶 */
-  isFocused?: boolean
-}
-
-type Props = {
-  navigation: Navigation
-
-  route?: {
-    params?: any
-    name?: any
-  }
-
-  /** Storybook */
-  onMounted?: Fn
-}
-
-/**
- * 封装应用主要功能实现的装饰器
- * */
+/** 封装应用主要功能实现的装饰器 */
 const Inject = (Store, config?: Config) => {
   const { cache = true, listenIsFocused = false } = config || {}
-  return (WrapComponent: React.ComponentType<WrapComponentProps>) => {
-    return observer(
+
+  return (WrapComponent: React.ComponentType<WrapComponentProps>) =>
+    observer(
       class InjectComponent extends React.Component<Props> {
         /** @deprecated */
         static navigationOptions =
@@ -61,9 +35,8 @@ const Inject = (Store, config?: Config) => {
           const key = getScreenKey(route)
           this.$ = Stores.get(key)
 
-          // DEV 环境下也需要每次新建, 保证热更新能获取到最新的 store 代码
-          // if (!this.$ || DEV) {
-          if (!this.$) {
+          // DEV 环境下也需要每次新建, 保证热更新能获取到最新的代码
+          if (!this.$ || DEV) {
             this.$ = new Store()
 
             // 把 navigation 的页面参数插入 store 方便使用
@@ -124,35 +97,13 @@ const Inject = (Store, config?: Config) => {
             <>
               <WrapComponent {...this.passProps} />
               {listenIsFocused && (
-                <NavigationEvents
-                  onWillFocus={this.onWillFocus}
-                  onWillBlur={this.onWillBlur}
-                />
+                <NavigationEvents onWillFocus={this.onWillFocus} onWillBlur={this.onWillBlur} />
               )}
             </>
           )
         }
       }
     )
-  }
 }
 
 export default Inject
-
-function getScreenKey(
-  route: {
-    params?: AnyObject
-    routeName?: string
-    name?: string
-  } = {}
-) {
-  const params = Object.entries(route?.params || {})
-    // 后期对页面跳转传递数据进行了优化, 排除 params 里面 _ 开头的 key, 如 _name, _image
-    .filter(([key]) => !key.startsWith('_'))
-    .reduce((obj, [key, value]) => {
-      obj[key] = value
-      return obj
-    }, {})
-
-  return `${route.routeName || route.name}?${urlStringify(params, false)}`
-}

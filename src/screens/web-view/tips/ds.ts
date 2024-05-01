@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 19:29:27
+ * @Last Modified time: 2024-05-01 15:07:34
  */
 import { Loaded } from '@types'
 
@@ -11,6 +11,10 @@ export const COMPONENT = 'Tips'
 export const NAMESPACE = `Screen${COMPONENT}`
 
 export const TABS = [
+  {
+    title: '图片无法加载',
+    key: 'wya8znvzb65pl3k4'
+  },
   {
     title: '封面加速',
     key: 'mhhaa6ufuev051vu'

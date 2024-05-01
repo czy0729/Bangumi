@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 10:48:35
+ * @Last Modified time: 2024-05-01 13:49:52
  */
 import { confirm, info, titleCase } from '@utils'
 import { read } from '@utils/db'
@@ -40,7 +40,7 @@ import {
 import UserStore from '../user'
 import Fetch from './fetch'
 import { INIT_DEV_EVENT, INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
-import { HomeRenderTabs } from './types'
+import { HomeRenderTabs, SettingKeys } from './types'
 
 export default class Actions extends Fetch {
   /** 还原 CDN */
@@ -209,7 +209,7 @@ export default class Actions extends Fetch {
   }
 
   /** 切换 */
-  switchSetting = (switchKey: keyof typeof INIT_SETTING) => {
+  switchSetting = (switchKey: SettingKeys) => {
     const key = 'setting'
     this.setState({
       [key]: {
@@ -221,7 +221,7 @@ export default class Actions extends Fetch {
   }
 
   /** 对指定设置直接赋值 (暂用于永久隐藏条目页面板块) */
-  setSetting = (switchKey: keyof typeof INIT_SETTING, value: unknown = true) => {
+  setSetting = (switchKey: SettingKeys, value: unknown = true) => {
     const key = 'setting'
     this.setState({
       [key]: {
