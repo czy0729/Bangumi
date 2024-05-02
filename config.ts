@@ -1,19 +1,20 @@
 /*
- * 开发调试时用配置
  * @Author: czy0729
  * @Date: 2019-06-02 14:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-13 21:20:19
+ * @Last Modified time: 2024-05-01 16:16:42
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { Paths } from '@types'
 
+/** ==================== 开发调试时用配置 ==================== */
 /** @ts-ignore 是否开发模式 */
 export const DEV = global.__DEV__ || window?.CONFIG_TYPE === 'DEVELOPMENT'
 // export const DEV = global.__DEV__
 
 /** ==================== 常用配置 ==================== */
+/** 观察组件 */
 const rerenderShow = 'ZZZ.'
 const rerenderNotShow = []
 
@@ -41,9 +42,9 @@ export const HOST_PROXY = 'https://bangumi-app-webproxy-dev.magmablock.top'
 const CONFIGS: Configs = {
   initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
   initialRouteParams: {
-    // subjectId: 400602 // anime: 296870, music: 302514, book: 267358, game: 137458
-    // topicId: 'group/391427' // group/366561
-    // userId: 456208 // 456208, 419012, 'lilyurey'
+    // subjectId: 283730 // anime: 296870, music: 302514, book: 267358, game: 137458
+    // topicId: 'ep/1308344' // group/366561
+    // userId: 'magma' // 456208, 419012, 'lilyurey'
     // monoId: 'character/76270' // character/70323 person/5745
     // id: 37896791
     // ids: [72649, 59610, 59611, 72648, 72650, 72651, 72652, 74522, 75203, 75207]

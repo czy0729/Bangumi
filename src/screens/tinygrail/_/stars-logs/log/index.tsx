@@ -7,7 +7,7 @@
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { formatNumber, tinygrailOSS } from '@utils'
+import { formatNumber, navigationReference, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import { Navigation } from '@types'
 import Rank from '../../rank'
@@ -24,6 +24,7 @@ function Log(
 ) {
   const styles = memoStyles()
   const rankChange = oldRank - rank
+
   return (
     <Flex style={styles.container}>
       <Avatar
@@ -33,7 +34,10 @@ function Log(
         borderColor='transparent'
         skeletonType='tinygrail'
         onPress={() => {
-          navigation.push('Mono', {
+          const navigationRef = navigation || navigationReference()
+          if (!navigationRef) return
+
+          navigationRef.push('Mono', {
             monoId: `character/${monoId}`,
             _name: name
           })
@@ -42,6 +46,9 @@ function Log(
       <Flex.Item style={_.ml.sm}>
         <Touchable
           onPress={() => {
+            const navigationRef = navigation || navigationReference()
+            if (!navigationRef) return
+
             navigation.push('TinygrailSacrifice', {
               monoId: `character/${monoId}`
             })
