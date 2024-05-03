@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-07 06:48:24
+ * @Last Modified time: 2024-05-03 05:18:57
  */
-import { setStorage, getStorage } from '@utils'
+import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
+import { Fn } from '@types'
 import { CACHE_KEY, CACHES } from './ds'
 
 let cache = {
@@ -28,38 +29,19 @@ export async function getCache() {
   }
 }
 
-const katakana =
+const KATAKANA_REG =
   /[\u30A1-\u30FA\u30FD-\u30FF][\u3099\u309A\u30A1-\u30FF]*[\u3099\u309A\u30A1-\u30FA\u30FC-\u30FF]|[\uFF66-\uFF6F\uFF71-\uFF9D][\uFF65-\uFF9F]*[\uFF66-\uFF9F]/g
 
 export function matchKatakanas(str: string) {
-  return str.match(katakana)
+  return str.match(KATAKANA_REG)
 }
 
-const interval = 5000
-let jps = [] // 用于收集日文, 合并多个翻译请求用
-let cbs = []
-export async function translate(jp: string, cb = Function.prototype) {
-  // jp不是字符串直接抛弃
-  if (typeof jp !== 'string') {
-    return
-  }
+/** 检查是否需要翻译的间隔 */
+const interval = 6400
 
-  // 命中缓存马上回调
-  if (cache[jp]) {
-    cb(cache)
-    return
-  }
-
-  cbs.push(cb)
-  if (jps.includes(jp)) {
-    return
-  }
-
-  if (!jps.length) {
-    setTimeout(() => doTranslate(), interval)
-  }
-  jps.push(jp)
-}
+/** 用于收集日文, 合并多个翻译请求用 */
+let jps: string[] = []
+let cbs: Fn[] = []
 
 async function doTranslate() {
   try {
@@ -69,9 +51,14 @@ async function doTranslate() {
     const { trans_result: transResult } = JSON.parse(response as string)
 
     if (Array.isArray(transResult)) {
+      console.log({
+        transResult
+      })
+
       // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
       transResult.forEach(item => (cache[item.src] = item.dst))
-      setStorage(CACHE_KEY, cache)
+
+      // setStorage(CACHE_KEY, cache)
     }
 
     cbs.forEach(cb => cb(cache))
@@ -82,6 +69,26 @@ async function doTranslate() {
   }
 }
 
+/** 翻译 */
+export async function translate(jp: string, cb: Fn = () => {}) {
+  // jp 不是字符串直接抛弃
+  if (typeof jp !== 'string') return
+
+  // 命中缓存马上回调
+  if (cache[jp]) {
+    cb(cache)
+    return
+  }
+
+  cbs.push(cb)
+  if (jps.includes(jp)) return
+
+  if (!jps.length) setTimeout(() => doTranslate(), interval)
+
+  jps.push(jp)
+}
+
+/** 翻译全部 (提供给渲染富文本用) */
 export async function translateAll(str: string) {
   try {
     const match = matchKatakanas(str)

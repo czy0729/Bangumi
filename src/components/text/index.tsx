@@ -2,44 +2,40 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-03 07:27:53
+ * @Last Modified time: 2024-05-03 07:02:08
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
 import { observer } from 'mobx-react'
-import PropTypes from 'prop-types'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { STORYBOOK } from '@constants'
 import { computedLineHeight, format, PAD_INCREASE, setComponentsDefaultProps } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Context, Props as TextProps, TextType } from './types'
+import { Props as TextProps, TextType } from './types'
 
 export { setComponentsDefaultProps, TextType, TextProps }
 
 /** 统一封装文字 */
-function CompText(
-  {
-    forwardRef,
-    style,
-    overrideStyle,
-    type = 'desc',
-    size = 14,
-    lineHeight,
-    lineHeightIncrease,
-    align,
-    bold = false,
-    underline = false,
-    shadow = false,
-    selectable = STORYBOOK,
-    noWrap = false,
-    s2t = true,
-    children,
-    ...other
-  }: TextProps,
-  { lineHeightIncrease: contextLineHeightIncrease = 0 }: Context
-) {
+function TextComp({
+  forwardRef,
+  style,
+  overrideStyle,
+  type = 'desc',
+  size = 14,
+  lineHeight,
+  lineHeightIncrease,
+  align,
+  bold = false,
+  underline = false,
+  shadow = false,
+  selectable = STORYBOOK,
+  noWrap = false,
+  s2t = true,
+  children,
+  ...other
+}: TextProps) {
   r(COMPONENT)
 
   const styles = memoStyles()
@@ -48,21 +44,16 @@ function CompText(
   if (type) _style.push(styles[type])
   if (underline) _style.push(styles.underline)
   if (size) _style.push(_[`fontSize${size + _.device(0, PAD_INCREASE)}`])
-  const _lineHeight = computedLineHeight(
-    size,
-    lineHeight,
-    lineHeightIncrease,
-    contextLineHeightIncrease
-  )
+
+  const _lineHeight = computedLineHeight(size, lineHeight, lineHeightIncrease)
   if (_lineHeight) {
     _style.push({
       lineHeight: _lineHeight
     })
   }
 
-  if (align && align !== 'left') {
+  if (align && align !== 'left')
     _style.push(align === 'right' ? styles.alignRight : styles.alignCenter)
-  }
   if (shadow) _style.push(styles.shadow)
   if (noWrap) _style.push(styles.noWrap)
   if (style) _style.push(style)
@@ -91,8 +82,4 @@ function CompText(
   )
 }
 
-CompText.contextTypes = {
-  lineHeightIncrease: PropTypes.number
-}
-
-export const Text = observer(CompText)
+export const Text = observer(TextComp)

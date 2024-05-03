@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:31:49
+ * @Last Modified time: 2024-05-03 06:45:39
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -23,20 +23,16 @@ export function setComponentsDefaultProps() {
 
 /** 文字自适应增加行高 */
 export function computedLineHeight(
-  size?: number,
-  lineHeight?: number,
-  lineHeightIncrease?: number,
-  contextLineHeightIncrease?: number
+  size: number = 14,
+  lineHeight: number = 14,
+  lineHeightIncrease: number = 0
 ) {
-  const _lineHeightIncrease =
-    (lineHeightIncrease === undefined ? contextLineHeightIncrease : lineHeightIncrease) +
-    _.device(0, PAD_INCREASE)
-
-  if (lineHeight !== undefined || _lineHeightIncrease) {
-    const _lineHeight = Math.max(lineHeight || 14, size) + _lineHeightIncrease
-    return _lineHeight <= 2 + _lineHeightIncrease
-      ? _lineHeight * (size + _.fontSizeAdjust)
-      : (_lineHeight + _.fontSizeAdjust) * _.lineHeightRatio
+  const lhc = lineHeightIncrease + _.device(0, PAD_INCREASE)
+  if (lineHeight !== undefined || lhc) {
+    const lh = Math.max(lineHeight || 14, size) + lhc
+    return Math.floor(
+      lh <= 2 + lhc ? lh * (size + _.fontSizeAdjust) : (lh + _.fontSizeAdjust) * _.lineHeightRatio
+    )
   }
 }
 

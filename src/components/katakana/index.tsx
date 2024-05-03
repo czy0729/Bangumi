@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-06-16 13:53:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:42:38
+ * @Last Modified time: 2024-05-03 07:09:59
  */
 import React from 'react'
-import { observer } from 'mobx-react'
 import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { Text } from '../text'
-import { KatakanaProvider } from './provider'
+import { KatakanaProvider, KatakanaProviderProps } from './provider'
 import { getCache, matchKatakanas, translate } from './utils'
 import { COMPONENT } from './ds'
-import { KatakanaProps, KatakanaProviderProps } from './types'
+import { Props as KatakanaProps } from './types'
 
 export { KatakanaProviderProps, KatakanaProps }
 
@@ -24,7 +23,7 @@ let inited: boolean
 })()
 
 /**
- * [实验性] 在片假名上方显示英文
+ * [实验性] 片假名终结者在片 (假名上方显示罗马音)
  *  - 可匹配嵌套 Text 内的片假名
  *  - 百度翻译得到英文
  *  - 容器 Provider 统一管理英文需要插入的具体位置
@@ -32,80 +31,80 @@ let inited: boolean
  *  - 短时间合并多个翻译请求
  *  - 富文本内文字支持
  */
-const Katakana = observer(
-  class KatakanaComponent extends React.Component<KatakanaProps> {
-    static contextTypes = {
-      active: PropTypes.bool,
-      onKatakana: PropTypes.func
+const Katakana = class KatakanaComponent extends React.Component<KatakanaProps> {
+  /** 片假名终结者包裹容器 */
+  static Provider: typeof KatakanaProvider
+
+  static contextTypes = {
+    active: PropTypes.bool,
+    lineHeightIncrease: PropTypes.number,
+    onKatakana: PropTypes.func
+  }
+
+  componentDidMount() {
+    this.init()
+  }
+
+  UNSAFE_componentWillReceiveProps() {
+    this.init()
+  }
+
+  init = () => {
+    if (!this.isOn) return
+
+    if (inited) {
+      this.translate()
+    } else {
+      setTimeout(() => {
+        this.init()
+      }, 200)
     }
+  }
 
-    static Provider: any
+  translate = async () => {
+    const { children } = this.props
+    if (!children || !(typeof children === 'string' || Array.isArray(children))) return
 
-    componentDidMount() {
-      this.init()
-    }
+    const match = matchKatakanas(this.text)
+    if (!match) return
 
-    UNSAFE_componentWillReceiveProps() {
-      this.init()
-    }
-
-    init = () => {
-      if (!this.isOn) return
-
-      if (inited) {
-        this.translate()
-      } else {
-        setTimeout(() => {
-          this.init()
-        }, 200)
-      }
-    }
-
-    translate = async () => {
-      const { children } = this.props
-      if (!children || !(typeof children === 'string' || Array.isArray(children))) {
-        return
-      }
-
-      const match = matchKatakanas(this.text)
-      if (!match) return
-
-      match.forEach(jp =>
-        translate(jp, cache => {
-          const en = cache[jp]
-          if (en) {
-            const { onKatakana } = this.context
-            if (onKatakana) {
+    match.forEach((jp, index: number) =>
+      translate(jp, (cache: { [x: string]: any }) => {
+        const en = cache[jp]
+        if (en) {
+          const { onKatakana } = this.context
+          if (onKatakana) {
+            setTimeout(() => {
               onKatakana({
                 jp,
                 en
               })
-            }
+            }, 40 * (index + 1))
           }
-        })
-      )
-    }
-
-    get text() {
-      const { children } = this.props
-      if (typeof children === 'string') return children
-      if (Array.isArray(children)) return children.map(item => item || '').join('')
-      return ''
-    }
-
-    get isOn() {
-      const { katakana } = systemStore.setting
-      const { active } = this.context
-      return katakana || active
-    }
-
-    render() {
-      r(COMPONENT)
-
-      return <Text {...this.props} />
-    }
+        }
+      })
+    )
   }
-)
+
+  get text() {
+    const { children } = this.props
+    if (typeof children === 'string') return children
+
+    if (Array.isArray(children)) return children.map((item: any) => item || '').join('')
+
+    return ''
+  }
+
+  get isOn() {
+    return this.context.active || systemStore.setting.katakana
+  }
+
+  render() {
+    r(COMPONENT)
+
+    return <Text {...this.props} lineHeightIncrease={this.context.lineHeightIncrease} />
+  }
+}
 
 Katakana.Provider = KatakanaProvider
 
