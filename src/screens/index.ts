@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:11:27
+ * @Last Modified time: 2024-05-03 22:43:37
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -35,6 +35,7 @@ export { default as Search } from './discovery/search'
 export { default as Series } from './discovery/series'
 export { default as Staff } from './discovery/staff'
 export { default as Tags } from './discovery/tags'
+export { default as VIB } from './discovery/vib'
 export { default as Wenku } from './discovery/wenku'
 export { default as Wiki } from './discovery/wiki'
 export { default as Yearbook } from './discovery/yearbook'

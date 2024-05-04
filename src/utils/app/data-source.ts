@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 23:32:10
+ * @Last Modified time: 2024-05-04 00:06:40
  */
 import { isObservableArray } from 'mobx'
 import { STORYBOOK } from '@constants'
@@ -28,6 +28,7 @@ import { getSetting } from './utils'
 import {
   BANGUMI_URL_TEMPLATES,
   FIND_SUBJECT_CN_CACHE_MAP,
+  FIND_SUBJECT_JP_CACHE_MAP,
   GET_AVATAR_CACHE_MAP,
   HEIGHT,
   HOST_IMAGE,
@@ -102,6 +103,29 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
 
   FIND_SUBJECT_CN_CACHE_MAP.set(jp, jp)
   return jp
+}
+
+/** 查找条目日文名 */
+export function findSubjectJp(cn: string = '', subjectId?: SubjectId): string {
+  if (FIND_SUBJECT_JP_CACHE_MAP.has(cn)) return FIND_SUBJECT_JP_CACHE_MAP.get(cn)
+
+  const bangumiData = get('bangumi-data') || []
+  if (!bangumiData.length) return cn
+
+  const item = bangumiData.find(
+    // 没有 id 则使用 jp 在 bangumi-data 里面匹配
+    item => subjectId == item.id || item.c === HTMLDecode(cn)
+  )
+  if (item) {
+    const jp = item.j || ''
+    if (jp) {
+      FIND_SUBJECT_JP_CACHE_MAP.set(cn, jp)
+      return jp
+    }
+  }
+
+  FIND_SUBJECT_JP_CACHE_MAP.set(cn, cn)
+  return cn
 }
 
 /** 简单控制请求频率工具函数, 若不需要发请求返回 true */

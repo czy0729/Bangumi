@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:18:20
+ * @Last Modified time: 2024-05-04 20:41:17
  */
 import React, { useRef } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
@@ -20,6 +20,7 @@ export const ScrollView = ({
   contentContainerStyle,
   horizontal,
   scrollToTop,
+  forwardRef,
   connectRef,
   animated,
 
@@ -39,8 +40,8 @@ export const ScrollView = ({
   let ref: React.LegacyRef<RNScrollView>
   if (scrollToTop) {
     ref = ref => (scrollViewEl.current = ref?.scrollTo)
-  } else if (connectRef) {
-    ref = ref => connectRef(ref?.scrollTo)
+  } else if (forwardRef || connectRef) {
+    ref = ref => (forwardRef || connectRef)(ref?.scrollTo)
   }
 
   const Component: any = animated ? Animated.ScrollView : RNScrollView

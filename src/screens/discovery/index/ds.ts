@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 14:19:51
+ * @Last Modified time: 2024-05-04 21:00:05
  */
 import { _ } from '@stores'
 import { getTimestamp } from '@utils'
@@ -122,6 +122,12 @@ export const MENU_MAP: MenuMapType = {
     name: 'AI 推荐',
     icon: 'md-favorite-outline',
     size: 21
+  },
+  VIB: {
+    key: 'VIB',
+    name: '评分月刊',
+    text: 'VIB',
+    size: 14
   },
   Dollars: {
     key: 'Dollars',

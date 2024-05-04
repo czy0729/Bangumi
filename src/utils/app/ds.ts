@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-11 09:18:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-03 11:34:06
+ * @Last Modified time: 2024-05-04 00:03:15
  */
 import { Dimensions } from 'react-native'
 import { HOST } from '@constants/constants'
@@ -84,6 +84,8 @@ export const BLOCKED_USER_UUID = {}
 export const { height: HEIGHT } = Dimensions.get('window')
 
 export const FIND_SUBJECT_CN_CACHE_MAP = new Map<string, string>()
+
+export const FIND_SUBJECT_JP_CACHE_MAP = new Map<string, string>()
 
 export const X18_CACHE_MAP = new Map<SubjectId, boolean>()
 
