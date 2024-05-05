@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:41:24
+ * @Last Modified time: 2024-05-05 16:40:53
  */
 import React from 'react'
-import { Page, ListView, Heatmap, Component } from '@components'
+import { Component, Heatmap, ListView, Page } from '@components'
 import { ItemBlog } from '@_'
 import { _ } from '@stores'
-import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
 import { keyExtractor } from '@utils/app'
+import { ic } from '@utils/decorators'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
@@ -19,6 +19,7 @@ const event = {
   id: '用户日志.跳转'
 }
 
+/** 用户日志 */
 const UserBlogs = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     $.init()

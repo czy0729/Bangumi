@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-30 16:45:03
+ * @Last Modified time: 2024-05-05 16:43:05
  */
 import React, { useState } from 'react'
 import { Component, Header, Input, Page, ScrollView } from '@components'
@@ -38,6 +38,7 @@ import Version from './component/version'
 import Zhinan from './component/zhinan'
 import { styles } from './styles'
 
+/** 设置 */
 const Setting = ({ navigation, route }: NavigationProps) => {
   const [filter, setFilter] = useState('')
   useRunAfter(() => {

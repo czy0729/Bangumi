@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:16:31
+ * @Last Modified time: 2024-05-04 22:35:07
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -15,6 +15,7 @@ import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 二次元资讯 */
 const Anitama = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

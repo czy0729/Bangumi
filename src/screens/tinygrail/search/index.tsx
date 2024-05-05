@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:13:09
+ * @Last Modified time: 2024-05-05 16:26:06
  */
 import React from 'react'
-import { Header, Page, Flex } from '@components'
+import { Flex, Header, Page } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import SearchBar from './search-bar'
 import History from './history'
 import Result from './result'
+import SearchBar from './search-bar'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** 人物直达 */
 class TinygrailSearch extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

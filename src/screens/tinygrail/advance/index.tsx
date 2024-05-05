@@ -14,6 +14,7 @@ import { t } from '@utils/fetch'
 import { Navigation } from '@types'
 import Menus from './menus'
 
+/** 高级分析 */
 class TinygrailAdvance extends React.Component<{
   navigation: Navigation
 }> {

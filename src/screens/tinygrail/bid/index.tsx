@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:11:44
+ * @Last Modified time: 2024-05-05 16:03:17
  */
 import React from 'react'
-import { Header, Page, Flex, Text } from '@components'
+import { Flex, Header, Page, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { confirm } from '@utils'
@@ -14,10 +14,11 @@ import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
 import List from './list'
 import Store from './store'
-import { tabs, sortDS } from './ds'
+import { sortDS, tabs } from './ds'
 import { styles } from './styles'
 import { Ctx } from './types'
 
+/** 我的委托 */
 class TinygrailBid extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx
@@ -80,11 +81,7 @@ class TinygrailBid extends React.Component {
             />
           )}
         />
-        <Page
-          style={_.container.tinygrail}
-          loaded={_loaded}
-          loadingColor={_.colorTinygrailText}
-        >
+        <Page style={_.container.tinygrail} loaded={_loaded} loadingColor={_.colorTinygrailText}>
           <Tabs
             routes={tabs}
             renderContentHeaderComponent={this.renderContentHeaderComponent()}

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:13:05
+ * @Last Modified time: 2024-05-05 02:35:02
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
-import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
+import ToolBar from './tool-bar'
 import { Ctx } from './types'
 
+/** 人物的作品 */
 const Works = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

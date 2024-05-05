@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:09:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 14:47:10
+ * @Last Modified time: 2024-05-04 22:15:05
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from '../anime/header'
 import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 找 Gal */
 const ADV = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
@@ -20,7 +21,7 @@ const ADV = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <Component id='screen-adv'>
-      <Header title='找 Gal' alias='Gal' hm={['adv', 'ADV']} />
+      <Header title='找 Gal' alias='ADV' hm={['adv', 'ADV']} />
       <Page loaded={$.state._loaded}>
         <List />
       </Page>

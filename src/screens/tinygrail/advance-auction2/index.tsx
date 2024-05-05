@@ -16,6 +16,7 @@ import List from './list'
 import Store, { sortDS } from './store'
 import { Ctx } from './types'
 
+/** 拍卖推荐 B */
 class TinygrailAdvanceAuction2 extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

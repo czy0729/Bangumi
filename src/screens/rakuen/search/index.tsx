@@ -6,17 +6,18 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, Header, Flex, Button, Heatmap, Component } from '@components'
+import { Button, Component, Flex, Header, Heatmap, Page } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
-import SearchBar from './search-bar'
 import History from './history'
 import List from './list'
+import SearchBar from './search-bar'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** 小组搜索 */
 const RakuenSearch = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
@@ -33,12 +34,7 @@ const RakuenSearch = (props, { $ }: Ctx) => {
               <SearchBar />
             </Flex.Item>
             <View style={_.ml.sm}>
-              <Button
-                style={styles.btn}
-                type='ghostPlain'
-                size='sm'
-                onPress={$.doSearch}
-              >
+              <Button style={styles.btn} type='ghostPlain' size='sm' onPress={$.doSearch}>
                 查询
               </Button>
               <Heatmap id='帖子搜索.搜索' />

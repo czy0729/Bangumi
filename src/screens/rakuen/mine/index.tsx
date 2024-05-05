@@ -7,13 +7,14 @@
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import ListAll from './list-all'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 小组 */
 const Mine = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

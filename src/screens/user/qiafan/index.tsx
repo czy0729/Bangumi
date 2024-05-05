@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-26 04:23:47
+ * @Last Modified time: 2024-05-05 16:42:45
  */
 import React from 'react'
 import { Component, Divider, Header, ScrollView } from '@components'
@@ -13,6 +13,7 @@ import Section2 from './component/section-2'
 import Section3 from './component/section-3'
 import Section4 from './component/section-4'
 
+/** 关于客户端 */
 function Qiafan() {
   return (
     <Component id='screen-qiafan'>

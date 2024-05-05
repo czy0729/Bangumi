@@ -2,29 +2,30 @@
  * @Author: czy0729
  * @Date: 2023-11-27 16:28:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:15:08
+ * @Last Modified time: 2024-05-05 02:36:47
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import {
-  Page,
-  Header,
-  Mesume,
-  Flex,
-  Text,
+  Avatar,
   Component,
-  Input,
-  Touchable,
+  Flex,
+  Header,
   Iconfont,
-  Avatar
+  Input,
+  Mesume,
+  Page,
+  Text,
+  Touchable
 } from '@components'
-import { _, userStore, collectionStore } from '@stores'
+import { _, collectionStore, userStore } from '@stores'
 import { getTimestamp, info } from '@utils'
-import { useMount } from '@utils/hooks'
 import { fetchMeV0 } from '@utils/fetch.v0'
+import { useMount } from '@utils/hooks'
 import { styles } from './styles'
 
+/**  SPA 网页版更新授权 */
 const LoginToken = () => {
   const [token, setToken] = useState('')
 

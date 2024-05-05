@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 11:11:34
+ * @Last Modified time: 2024-05-05 02:34:32
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
-import ToolBar from './tool-bar'
 import List from './list'
 import Store from './store'
+import ToolBar from './tool-bar'
 import { Ctx } from './types'
 
+/** 人物的角色 */
 const Voices = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

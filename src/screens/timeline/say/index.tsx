@@ -15,6 +15,7 @@ import { useSayPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 吐槽 */
 const Say = (props, context: Ctx) => {
   useSayPage(context)
 

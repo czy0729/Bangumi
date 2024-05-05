@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:29:20
+ * @Last Modified time: 2024-05-05 16:49:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,15 +10,16 @@ import { Component, Header } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
-import { loading, info, feedback, getStorage, setStorage } from '@utils'
-import { ob } from '@utils/decorators'
+import { feedback, getStorage, info, loading, setStorage } from '@utils'
 import { saveBase64ImageToCameraRoll } from '@utils/android'
+import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 import { html } from './utils'
 import { styles } from './styles'
 
 const NAMESPACE = 'ScreenWebViewShare'
 
+/** 条目分享 */
 class WebViewShare extends React.Component<{
   route: any
 }> {

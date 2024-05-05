@@ -2,29 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:22:20
+ * @Last Modified time: 2024-05-05 16:42:55
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Activity,
-  Button,
-  Component,
-  Flex,
-  Header,
-  Heatmap,
-  ScrollView,
-  Text
-} from '@components'
+import { Activity, Button, Component, Flex, Header, Heatmap, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { t, ping } from '@utils/fetch'
+import { ping, t } from '@utils/fetch'
 import { getSitesList } from './utils'
 import { memoStyles } from './styles'
 
 /** 最大尝试访问次数 */
 const PING_COUNTS = 4
 
+/** 网络探针 */
 class ServerStatus extends React.Component {
   state = {
     list: getSitesList(),

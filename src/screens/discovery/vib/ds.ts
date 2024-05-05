@@ -1,10 +1,10 @@
-import VIB_202311 from '@assets/json/vib/202311'
 /*
  * @Author: czy0729
  * @Date: 2024-05-04 05:25:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-04 18:19:23
  */
+import VIB_202311 from '@assets/json/vib/202311'
 import VIB_202312 from '@assets/json/vib/202312'
 import VIB_202401 from '@assets/json/vib/202401'
 import VIB_202402 from '@assets/json/vib/202402'

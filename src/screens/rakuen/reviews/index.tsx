@@ -8,12 +8,13 @@ import React from 'react'
 import { Component, Page, ScrollView } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
 import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 影评 */
 const Reviews = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

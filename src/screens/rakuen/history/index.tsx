@@ -7,13 +7,14 @@
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
-import SectionList from './section-list'
 import List from './list'
+import SectionList from './section-list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 本地帖子 */
 const RakuenHistory = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

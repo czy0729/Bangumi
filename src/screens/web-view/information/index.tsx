@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-02-02 08:17:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 12:29:04
+ * @Last Modified time: 2024-05-05 16:46:31
  */
 import React from 'react'
 import { Component, Header, Page, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import Images from './images'
 
+/** 说明 */
 const Information = ({ navigation, route }) => {
   const { title = '', message = [], images = [], advance = false } = route.params
   const messageData: string[] = typeof message === 'string' ? message.split(',') : message
   const imagesData: string[] = typeof images === 'string' ? images.split(',') : images
   return (
     <Component id='screen-information'>
-      <Header title='' />
+      <Header title='' hm={['information', 'Information']} />
       <Page>
         <ScrollView style={_.container.wind} contentContainerStyle={_.container.bottom}>
           {!!title && (

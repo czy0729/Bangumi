@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 23:48:05
+ * @Last Modified time: 2024-05-05 02:37:16
  */
 import React from 'react'
 import { View } from 'react-native'
-import Constants from 'expo-constants'
 import cheerio from 'cheerio-without-node-native'
+import Constants from 'expo-constants'
 import {
   Component,
   Flex,
@@ -19,7 +19,7 @@ import {
   UM
 } from '@components'
 import { Notice, StatusBarPlaceholder } from '@_'
-import { _, userStore, usersStore, rakuenStore } from '@stores'
+import { _, rakuenStore, usersStore, userStore } from '@stores'
 import {
   confirm,
   feedback,
@@ -31,30 +31,18 @@ import {
   urlStringify
 } from '@utils'
 import { ob } from '@utils/decorators'
-import { xhrCustom, hm, t, queue } from '@utils/fetch'
+import { hm, queue, t, xhrCustom } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import {
-  APP_ID,
-  APP_SECRET,
-  HOST,
-  STORYBOOK,
-  URL_OAUTH_REDIRECT,
-  URL_PRIVACY
-} from '@constants'
+import { APP_ID, APP_SECRET, HOST, STORYBOOK, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
 import { HOST_PROXY } from '@/config'
-import Preview from './preview'
+import { Navigation } from '@types'
 import Form from './form'
-import {
-  TITLE,
-  NAMESPACE,
-  AUTH_RETRY_COUNT,
-  URL_TOURIST,
-  UA_EKIBUN_BANGUMI_APP
-} from './ds'
+import Preview from './preview'
+import { AUTH_RETRY_COUNT, NAMESPACE, TITLE, UA_EKIBUN_BANGUMI_APP, URL_TOURIST } from './ds'
 import { memoStyles } from './styles'
 
+/** 账号密码登录 */
 class LoginV2 extends React.Component<{
   navigation: Navigation
 }> {
@@ -250,9 +238,7 @@ class LoginV2 extends React.Component<{
   }
 
   getCookies = (headers = {}) => {
-    this.updateCookie(
-      STORYBOOK ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0]
-    )
+    this.updateCookie(STORYBOOK ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0])
   }
 
   /** 获取表单 hash */
@@ -436,13 +422,7 @@ class LoginV2 extends React.Component<{
 
   /** 更新 responseHeader 的 set-cookie */
   updateCookie = (setCookie = '') => {
-    const setCookieKeys = [
-      '__cfduid',
-      'chii_sid',
-      'chii_sec_id',
-      'chii_cookietime',
-      'chii_auth'
-    ]
+    const setCookieKeys = ['__cfduid', 'chii_sid', 'chii_sec_id', 'chii_cookietime', 'chii_auth']
 
     setCookieKeys.forEach(item => {
       const reg = new RegExp(`${item}=(.+?);`)
@@ -571,17 +551,7 @@ class LoginV2 extends React.Component<{
 
   renderForm() {
     const { navigation } = this.props
-    const {
-      host,
-      email,
-      password,
-      captcha,
-      base64,
-      isCommonUA,
-      loading,
-      info,
-      failed
-    } = this.state
+    const { host, email, password, captcha, base64, isCommonUA, loading, info, failed } = this.state
     return (
       <Form
         forwardRef={ref => (this.codeRef = ref)}
@@ -610,9 +580,7 @@ class LoginV2 extends React.Component<{
     const { clicked, focus } = this.state
     return (
       <>
-        <View style={_.container.flex}>
-          {clicked ? this.renderForm() : this.renderPreview()}
-        </View>
+        <View style={_.container.flex}>{clicked ? this.renderForm() : this.renderPreview()}</View>
         {clicked ? (
           !focus && (
             <View style={this.styles.ps}>
@@ -645,12 +613,7 @@ class LoginV2 extends React.Component<{
                   <Text size={11} type='sub' bold>
                     注册
                   </Text>
-                  <Iconfont
-                    style={_.ml.xxs}
-                    name='md-open-in-new'
-                    color={_.colorSub}
-                    size={12}
-                  />
+                  <Iconfont style={_.ml.xxs} name='md-open-in-new' color={_.colorSub} size={12} />
                 </Flex>
                 <Heatmap id='登陆.跳转' to='Signup' alias='注册' />
               </Touchable>
@@ -668,12 +631,7 @@ class LoginV2 extends React.Component<{
                 <Text size={11} type='sub' bold>
                   隐私保护政策
                 </Text>
-                <Iconfont
-                  style={_.ml.xxs}
-                  name='md-open-in-new'
-                  color={_.colorSub}
-                  size={12}
-                />
+                <Iconfont style={_.ml.xxs} name='md-open-in-new' color={_.colorSub} size={12} />
               </Flex>
               <Heatmap id='登陆.跳转' to='Privacy' alias='隐私保护政策' />
             </Touchable>
@@ -707,9 +665,7 @@ class LoginV2 extends React.Component<{
         <UM title={TITLE} />
         <StatusBarPlaceholder />
         {STORYBOOK && (
-          <Notice style={_.mv.lg}>
-            当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用
-          </Notice>
+          <Notice style={_.mv.lg}>当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用</Notice>
         )}
         {this.renderContent()}
         <KeyboardSpacer topSpacing={_.ios(-120, 0)} />

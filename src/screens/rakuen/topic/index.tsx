@@ -18,6 +18,7 @@ import { useTopicPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 帖子 */
 const Topic = (props, context: Ctx) => {
   const {
     forwardRef,

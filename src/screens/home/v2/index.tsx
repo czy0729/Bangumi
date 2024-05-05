@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 20:01:58
+ * @Last Modified time: 2024-05-05 02:33:24
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -19,6 +19,7 @@ import { useHomePage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 进度 */
 const Home = (props, context: Ctx) => {
   useHomePage(context)
 

@@ -2,20 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-10 18:42:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:31:04
+ * @Last Modified time: 2024-05-05 16:51:14
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Component,
-  Expand,
-  Flex,
-  Input,
-  Page,
-  ScrollView,
-  SwitchPro,
-  Text
-} from '@components'
+import { Component, Expand, Flex, Input, Page, ScrollView, SwitchPro, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { date } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -23,6 +14,7 @@ import { logs } from '@utils/webhooks'
 import Header from './header'
 import { memoStyles } from './styles'
 
+/** Webhook */
 const Webhook = () => {
   return useObserver(() => {
     const styles = memoStyles()

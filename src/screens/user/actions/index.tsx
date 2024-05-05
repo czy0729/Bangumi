@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:40:52
+ * @Last Modified time: 2024-05-05 16:40:30
  */
 import React from 'react'
-import { ScrollView, Page, Component } from '@components'
+import { Component, Page, ScrollView } from '@components'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
+import Create from './create'
 import Header from './header'
 import List from './list'
-import Create from './create'
 import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** 自定义跳转 */
 const Actions = (props, { $ }: Ctx) => {
   useMount(() => {
     $.init()

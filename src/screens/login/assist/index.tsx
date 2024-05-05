@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:17:35
+ * @Last Modified time: 2024-05-05 02:36:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,10 +19,10 @@ import {
   Text
 } from '@components'
 import { _, userStore } from '@stores'
-import { copy, getTimestamp, info, feedback } from '@utils'
+import { copy, feedback, getTimestamp, info } from '@utils'
 import { ob } from '@utils/decorators'
-import { xhrCustom, t } from '@utils/fetch'
-import { HOST, APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
+import { t, xhrCustom } from '@utils/fetch'
+import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
 import { memoStyles } from './styles'
@@ -32,6 +32,7 @@ const code = `JSON.stringify({
   cookie: document.cookie
 });`
 
+/** 辅助登录 */
 class LoginAssist extends React.Component<{
   navigation: Navigation
 }> {
@@ -102,8 +103,7 @@ class LoginAssist extends React.Component<{
       }
 
       if (cookie) {
-        const matchSid =
-          cookie.match(/chii_sid=(.+?);/) || cookie.match(/chii_sid=(.+?)$/)
+        const matchSid = cookie.match(/chii_sid=(.+?);/) || cookie.match(/chii_sid=(.+?)$/)
         if (matchSid) {
           this.cookie.chiiSid = matchSid[1]
         } else {
@@ -114,8 +114,7 @@ class LoginAssist extends React.Component<{
           return
         }
 
-        const matchAuth =
-          cookie.match(/chii_auth=(.+?);/) || cookie.match(/chii_auth=(.+?)$/)
+        const matchAuth = cookie.match(/chii_auth=(.+?);/) || cookie.match(/chii_auth=(.+?)$/)
         if (matchAuth) {
           this.cookie.chiiAuth = matchAuth[1]
         } else {
@@ -299,25 +298,19 @@ class LoginAssist extends React.Component<{
             </Text>
             <Text style={_.mt.sm} type='sub' size={12}>
               第三方{i18n.login()}
-              失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，
-              又或者碰上bgm速度不佳 (当然还有代码有bug)。
+              失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异， 又或者碰上bgm速度不佳
+              (当然还有代码有bug)。
             </Text>
             <Text style={_.mt.sm} type='sub' size={12}>
               本人能力有限，部分设备无论如何都不能走通新版和旧版的{i18n.login()}流程，
-              若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试，
-              又或者过来干我)。
+              若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试， 又或者过来干我)。
             </Text>
             <Text style={_.mt.lg}>1. 复制框里的代码。</Text>
             <View style={_.mt.sm}>
               <Text style={this.styles.code} size={12}>
                 {code}
               </Text>
-              <Text
-                style={this.styles.copy}
-                size={12}
-                type='success'
-                onPress={this.copy}
-              >
+              <Text style={this.styles.copy} size={12} type='success' onPress={this.copy}>
                 点击复制
               </Text>
               <Heatmap id='辅助登陆.复制' />
@@ -326,8 +319,8 @@ class LoginAssist extends React.Component<{
               2. 使用电脑打开浏览器，访问 {HOST} (一定要是这个域名) 并{i18n.login()}。
             </Text>
             <Text style={_.mt.md}>
-              3. {i18n.login()}成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ +
-              i)， 之后运行复制的代码。
+              3. {i18n.login()}成功后，打开控制台 (chrome为例，window是F12，mac是⎇ + ⌘ + i)，
+              之后运行复制的代码。
             </Text>
             <Text style={_.mt.md}>4. 把结果复制到下面的输入框内，提交。</Text>
             <View style={_.mt.sm}>
@@ -343,13 +336,7 @@ class LoginAssist extends React.Component<{
               />
               <Heatmap id='辅助登陆.提交' />
             </View>
-            <Button
-              style={_.mt.lg}
-              type='main'
-              shadow
-              loading={loading}
-              onPress={this.submit}
-            >
+            <Button style={_.mt.lg} type='main' shadow loading={loading} onPress={this.submit}>
               {i18n.login()}
             </Button>
             <Text style={_.mt.md} size={12} lineHeight={16} type='sub'>

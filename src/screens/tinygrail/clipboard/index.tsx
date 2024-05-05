@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:11:54
+ * @Last Modified time: 2024-05-05 16:03:35
  */
 import React from 'react'
-import { Header, Page, Flex } from '@components'
+import { Flex, Header, Page } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import List from './list'
 import Btn from './btn'
+import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 粘贴板 */
 class TinygrailClipboard extends React.Component {
   async componentDidMount() {
     const { $, navigation } = this.context as Ctx

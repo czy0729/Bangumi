@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:35:53
+ * @Last Modified time: 2024-05-05 16:21:57
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -17,6 +17,7 @@ import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** 我的道具 */
 class TinygrailItems extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

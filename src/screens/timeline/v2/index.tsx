@@ -16,6 +16,7 @@ import { useTimelinePage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 时间胶囊 */
 const Timeline = (props, context: Ctx) => {
   useTimelinePage(context)
 

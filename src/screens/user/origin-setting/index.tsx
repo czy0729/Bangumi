@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 16:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:16:06
+ * @Last Modified time: 2024-05-05 16:41:39
  */
 import React from 'react'
 import { Component, Page, ScrollView } from '@components'
@@ -15,6 +15,7 @@ import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** 自定义源头 */
 const OriginSetting = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

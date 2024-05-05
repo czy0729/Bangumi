@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:11:42
+ * @Last Modified time: 2024-05-05 16:01:05
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -16,6 +16,7 @@ import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 低价股 */
 class TinygrailAdvanceState extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

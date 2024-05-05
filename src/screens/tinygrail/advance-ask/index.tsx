@@ -16,6 +16,7 @@ import List from './list'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 买入推荐 */
 class TinygrailAdvanceAsk extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

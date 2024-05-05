@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:24:51
+ * @Last Modified time: 2024-05-05 03:39:54
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Page, ScrollView, Pagination, Heatmap, Component } from '@components'
+import { Component, Heatmap, Page, Pagination, ScrollView } from '@components'
 import { useOnScroll } from '@components/header/utils'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
 import Info from './info'
 import List from './list'
 import Store from './store'
-import { Ctx } from './types'
 import { styles } from './styles'
+import { Ctx } from './types'
 
 const HEAT_MAPS = {
   prev: '小组.上一页',
@@ -24,6 +24,7 @@ const HEAT_MAPS = {
   search: '小组.页码跳转'
 } as const
 
+/** 小组 */
 const RakuenGroup = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

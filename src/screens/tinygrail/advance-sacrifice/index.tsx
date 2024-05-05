@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
-import { inject, withHeader, obc } from '@utils/decorators'
+import { inject, obc, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { alert } from '@utils/ui'
 import { withHeaderParams } from '../styles'
@@ -18,6 +18,7 @@ import { Ctx } from './types'
 
 const title = '献祭推荐'
 
+/** 献祭推荐 */
 class TinygrailAdvanceSacrifice extends React.Component {
   componentDidMount() {
     const { $, navigation } = this.context as Ctx

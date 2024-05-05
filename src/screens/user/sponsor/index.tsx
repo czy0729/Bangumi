@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:07:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-10 13:55:30
+ * @Last Modified time: 2024-05-05 16:43:30
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -14,6 +14,7 @@ import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
 
+/** 赞助者 */
 const Sponsor = (props, { $, navigation }: Ctx) => {
   useRunAfter(() => {
     $.init()

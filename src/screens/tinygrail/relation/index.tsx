@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:56:11
+ * @Last Modified time: 2024-05-05 16:25:45
  */
 import React from 'react'
 import { Header, Page } from '@components'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
-import ToolBar from '../_/tool-bar'
 import IconGo from '../_/icon-go'
+import ToolBar from '../_/tool-bar'
 import List from './list'
 import Store, { SORT_DS } from './store'
 import { Ctx } from './types'
 
+/** 关联角色 */
 class TinygrailRelation extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

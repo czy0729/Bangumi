@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:27:52
+ * @Last Modified time: 2024-05-05 16:46:00
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -10,11 +10,12 @@ import { runAfter } from '@utils'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Header from './header'
-import Login from './login'
 import List from './list'
+import Login from './login'
 import Store from './store'
 import { Ctx } from './types'
 
+/** bilibili 同步 */
 const BilibiliSync = (props, { $ }: Ctx) => {
   useMount(() => {
     runAfter(() => {

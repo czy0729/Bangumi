@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:13:37
+ * @Last Modified time: 2024-05-05 16:28:26
  */
 import React from 'react'
 import { View } from 'react-native'
-import { NavigationEvents, ScrollView, Flex, Button, Touchable, UM } from '@components'
+import { Button, Flex, NavigationEvents, ScrollView, Touchable, UM } from '@components'
 import { SafeAreaView, StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { IOS } from '@constants'
-import Store from './store'
-import Header from './header'
 import Bar from './bar'
-import KLine from './k-line'
-import DepthMap from './depth-map'
 import DepthList from './depth-list'
+import DepthMap from './depth-map'
+import Header from './header'
+import KLine from './k-line'
+import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 const title = 'K线'
 
+/** K线 */
 class TinygrailTrade extends React.Component {
   static navigationOptions = {
     header: null
@@ -112,29 +113,19 @@ class TinygrailTrade extends React.Component {
           >
             <View style={this.styles.kline}>
               <KLine focus={focus} />
-              {showMask && (
-                <Touchable style={this.styles.mask} useRN onPress={this.hideMask} />
-              )}
+              {showMask && <Touchable style={this.styles.mask} useRN onPress={this.hideMask} />}
             </View>
             <DepthMap />
             <DepthList style={_.mt.md} />
           </ScrollView>
           <Flex style={this.styles.fixed}>
             <Flex.Item>
-              <Button
-                style={this.styles.btnBid}
-                type='main'
-                onPress={() => this.jump('bid')}
-              >
+              <Button style={this.styles.btnBid} type='main' onPress={() => this.jump('bid')}>
                 买入
               </Button>
             </Flex.Item>
             <Flex.Item style={_.ml.sm}>
-              <Button
-                style={this.styles.btnAsk}
-                type='main'
-                onPress={() => this.jump('ask')}
-              >
+              <Button style={this.styles.btnAsk} type='main' onPress={() => this.jump('ask')}>
                 卖出
               </Button>
             </Flex.Item>

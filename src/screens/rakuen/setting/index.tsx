@@ -12,6 +12,7 @@ import Scroll from './component/scroll'
 import Header from './header'
 import { useRakuenSettingPage } from './hooks'
 
+/** 超展开设置 */
 const RakuenSetting = ({ navigation }) => {
   useRakuenSettingPage()
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-30 20:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:30:39
+ * @Last Modified time: 2024-05-05 16:50:38
  */
 import React, { useState } from 'react'
 import { Component, Flex, Header, Text } from '@components'
@@ -22,6 +22,7 @@ const SCRIPTS = {
 
 let show = true
 
+/** 浏览器 */
 const WebBrowser = ({ route }) => {
   const [key, setKey] = useState(0)
   const [showDesc, setShowDesc] = useState(show)
@@ -32,13 +33,10 @@ const WebBrowser = ({ route }) => {
     <Component id='screen-web-browser'>
       <Header
         title={title || '浏览器'}
+        hm={['web-browser', 'WebBrowser']}
         headerRight={() => (
           <Flex>
-            <IconTouchable
-              name='md-refresh'
-              color={_.colorTitle}
-              onPress={() => setKey(key + 1)}
-            />
+            <IconTouchable name='md-refresh' color={_.colorTitle} onPress={() => setKey(key + 1)} />
             <IconTouchable
               style={_.ml.xs}
               name='md-open-in-new'

@@ -1,32 +1,20 @@
 /*
- * Oauth获取用户accessToken
- * 过程中捕获用户cookie
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:18:06
+ * @Last Modified time: 2024-05-05 02:36:21
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Button,
-  Component,
-  Flex,
-  Heatmap,
-  Loading,
-  Mesume,
-  Text,
-  UM,
-  WebView
-} from '@components'
+import { Button, Component, Flex, Heatmap, Loading, Mesume, Text, UM, WebView } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
 import { ob } from '@utils/decorators'
-import { info, feedback } from '@utils/ui'
 import { hm, t } from '@utils/fetch'
 import { HTMLTrim } from '@utils/html'
-import { SDK, APP_ID, HOST, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
+import { feedback, info } from '@utils/ui'
+import { APP_ID, HOST, SDK, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
 import { memoStyles } from './styles'
@@ -38,6 +26,7 @@ const uri = `${URL_OAUTH}?${urlStringify({
   redirect_uri: URL_OAUTH_REDIRECT
 })}`
 
+/** @deprecated 授权登录 */
 class Login extends React.Component<{
   navigation: Navigation
 }> {
@@ -238,9 +227,7 @@ class Login extends React.Component<{
         var __isBridgeOk = false;
 
         function waitForBridge() {
-          if (!__isBridgeOk && !window${
-            SDK >= 36 ? '.ReactNativeWebView' : ''
-          }.postMessage) {
+          if (!__isBridgeOk && !window${SDK >= 36 ? '.ReactNativeWebView' : ''}.postMessage) {
             __timeoutId = setTimeout(waitForBridge, 400);
           } else {
             clearTimeout(__timeoutId);
@@ -248,9 +235,7 @@ class Login extends React.Component<{
             __isBridgeOk = true;
 
             setTimeout(() => {
-              window${
-                SDK >= 36 ? '.ReactNativeWebView' : ''
-              }.postMessage(JSON.stringify({
+              window${SDK >= 36 ? '.ReactNativeWebView' : ''}.postMessage(JSON.stringify({
                 type: 'onload',
                 data: {
                   href: document.location.href,
@@ -290,18 +275,8 @@ class Login extends React.Component<{
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}
         </View>
-        <Heatmap
-          right={_.wind}
-          bottom={_.bottom + 120}
-          id='授权登陆.登陆'
-          transparent
-        />
-        <Heatmap
-          right={_.wind + 31}
-          bottom={_.bottom + 86}
-          id='授权登陆.成功'
-          transparent
-        />
+        <Heatmap right={_.wind} bottom={_.bottom + 120} id='授权登陆.登陆' transparent />
+        <Heatmap right={_.wind + 31} bottom={_.bottom + 86} id='授权登陆.成功' transparent />
         <Heatmap right={_.wind} bottom={_.bottom + 86} id='授权登陆.错误' transparent />
         <Heatmap right={_.wind} bottom={_.bottom + 52} id='授权登陆.乱逛' transparent />
         <Heatmap id='授权登陆' screen='LoginV1' />

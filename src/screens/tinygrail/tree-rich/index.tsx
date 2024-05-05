@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:22:13
+ * @Last Modified time: 2024-05-05 16:28:52
  */
 import React from 'react'
-import { Header, Page, Loading, Text } from '@components'
+import { Header, Loading, Page, Text } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
 import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import ToolBar from './tool-bar'
 import Chart from './chart'
 import Store from './store'
+import ToolBar from './tool-bar'
 import { Ctx } from './types'
 
+/** 前百首富 */
 class TinygrailTree extends React.Component {
   state = {
     refreshing: false

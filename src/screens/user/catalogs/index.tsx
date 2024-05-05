@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 21:15:13
+ * @Last Modified time: 2024-05-05 16:41:04
  */
 import React from 'react'
-import { Page, Heatmap, Component } from '@components'
+import { Component, Heatmap, Page } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
-import { useRunAfter, useObserver } from '@utils/hooks'
+import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from './header'
-import Tabs from './tabs'
 import Store from './store'
+import Tabs from './tabs'
 import { Ctx } from './types'
 
+/** 用户目录 */
 const Catelogs = (props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()

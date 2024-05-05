@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:41:55
+ * @Last Modified time: 2024-05-05 16:28:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ import Store from './store'
 import { memoStyles } from './styles'
 import { Ctx } from './types'
 
+/** 每周萌王 */
 class TinygrailTopWeek extends React.Component {
   componentDidMount() {
     const { $ } = this.context as Ctx

@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:46:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:30:48
+ * @Last Modified time: 2024-05-05 16:19:30
  */
 import React from 'react'
-import { ScrollView, View, RefreshControl } from 'react-native'
-import { Page, Flex, UM } from '@components'
+import { RefreshControl, ScrollView, View } from 'react-native'
+import { Flex, Page, UM } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
 import { hm } from '@utils/fetch'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { refreshControlProps } from '@tinygrail/styles'
-import Header from './header'
-import Form from './form'
 import Depth from './depth'
+import Form from './form'
+import Header from './header'
 import Logs from './logs'
 import Records from './records'
 import Store from './store'
