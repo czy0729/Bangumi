@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-12-06 05:47:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:10:04
+ * @Last Modified time: 2024-05-06 20:45:48
  */
 import { Loaded, SubjectId } from '@types'
 import { Item } from './types'
 
-export const NAMESPACE = 'ScreenActions'
+export const COMPONENT = 'Backup'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const HOST_API = 'https://api.bgm.tv'
 

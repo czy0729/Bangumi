@@ -7,6 +7,8 @@
 import { Loaded } from '@types'
 import { Item } from './types'
 
+export const COMPONENT = 'Actions'
+
 export const STATE = {
   data: {
     data: []

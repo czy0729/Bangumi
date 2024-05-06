@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 15:39:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 13:00:36
+ * @Last Modified time: 2024-05-06 14:57:44
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
@@ -10,12 +10,12 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $, navigation }: Ctx) {
-  const { name } = $.params
   return (
     <HeaderComp
-      title={name || '自定义跳转'}
+      title={$.params.name || '自定义跳转'}
       hm={['actions', 'Actions']}
       headerRight={() => (
         <IconTouchable
@@ -37,4 +37,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

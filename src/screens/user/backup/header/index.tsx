@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:17:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 11:10:40
+ * @Last Modified time: 2024-05-06 15:28:35
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
@@ -10,6 +10,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { navigation }: Ctx) {
   return (
@@ -35,4 +36,4 @@ function Header(props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

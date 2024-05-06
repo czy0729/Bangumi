@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:40:53
+ * @Last Modified time: 2024-05-06 20:50:41
  */
 import React from 'react'
 import { Component, Heatmap, ListView, Page } from '@components'
@@ -34,13 +34,7 @@ const UserBlogs = (props, { $, navigation }: Ctx) => {
           data={$.blogs}
           scrollToTop
           renderItem={({ item, index }) => (
-            <ItemBlog
-              key={item.userId}
-              navigation={navigation}
-              event={event}
-              index={index}
-              {...item}
-            />
+            <ItemBlog navigation={navigation} event={event} index={index} {...item} />
           )}
           onHeaderRefresh={$.refresh}
           onFooterRefresh={() => $.fetchBlogs()}

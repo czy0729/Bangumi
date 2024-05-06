@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:14:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:10:15
+ * @Last Modified time: 2024-05-06 20:45:17
  */
 import { computed, observable, toJS } from 'mobx'
-import { Parser } from 'json2csv'
 import csv2json from 'csvjson-csv2json'
+import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc, date, feedback, getTimestamp, info, open } from '@utils'
-import store from '@utils/store'
-import { temp, download } from '@utils/kv'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
 import { Collection } from '@utils/fetch.v0/types'
+import { download, temp } from '@utils/kv'
+import store from '@utils/store'
 import {
   COLLECTION_STATUS,
   MODEL_COLLECTION_STATUS,
@@ -30,7 +30,7 @@ import {
   SubjectTypeValue
 } from '@types'
 import { actionStatus } from './utils'
-import { NAMESPACE, LIMIT, EXCLUDE_STATE, CSV_HEADS, HOST_API, STATE } from './ds'
+import { CSV_HEADS, EXCLUDE_STATE, HOST_API, LIMIT, NAMESPACE, STATE } from './ds'
 import { Item } from './types'
 
 export default class ScreenActions extends store<typeof STATE> {
@@ -69,18 +69,13 @@ export default class ScreenActions extends store<typeof STATE> {
       let current = 0
       for (let i = 0; i < SUBJECT_TYPE.length; i += 1) {
         for (let j = 0; j < COLLECTION_STATUS.length; j += 1) {
-          const subjectType = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(
-            SUBJECT_TYPE[i].value
-          )
+          const subjectType = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(SUBJECT_TYPE[i].value)
 
           current += 1
           this.setState({
             progress: {
               current,
-              message: `${subjectType} (${actionStatus(
-                COLLECTION_STATUS[j].title,
-                subjectType
-              )}) `
+              message: `${subjectType} (${actionStatus(COLLECTION_STATUS[j].title, subjectType)}) `
             }
           })
 
@@ -191,9 +186,7 @@ export default class ScreenActions extends store<typeof STATE> {
         [CSV_HEADS[8]]: subject.score || '',
         [CSV_HEADS[9]]: subject.eps || '',
         [CSV_HEADS[10]]: item.ep_status || '',
-        [CSV_HEADS[11]]: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
-          item.type
-        ),
+        [CSV_HEADS[11]]: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type),
         [CSV_HEADS[12]]: item.tags.join(' '),
         [CSV_HEADS[13]]: item.rate || '',
         [CSV_HEADS[14]]: item.comment || '',
