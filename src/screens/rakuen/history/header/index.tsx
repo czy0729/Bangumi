@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 10:30:07
+ * @Last Modified time: 2024-05-08 02:51:50
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
+import IconFavor from '../component/icon-favor'
 import { Ctx } from '../types'
-import IconFavor from '../icon-favor'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
-  const { favor } = $.state
   return (
     <HeaderComp
-      title={favor ? `收藏 (${$.list.length})` : `缓存 (${$.keys.length})`}
+      title={$.state.favor ? `收藏 (${$.list.length})` : `缓存 (${$.keys.length})`}
       alias='本地帖子'
       hm={['rakuen/history', 'RakuenHistory']}
       headerTitleAlign='left'
@@ -23,4 +23,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-11 05:18:18
  */
 import React from 'react'
-import { ToolBar as CompToolBar } from '@components'
+import { ToolBar as ToolBarComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -20,7 +20,7 @@ import { COMPONENT } from './ds'
 
 function ToolBar(props, { $ }: Ctx) {
   return (
-    <CompToolBar style={!$.isList && _.mb.xs}>
+    <ToolBarComp style={!$.isList && _.mb.xs}>
       <Filter />
       {/* <Sort /> */}
       <Back />
@@ -28,7 +28,7 @@ function ToolBar(props, { $ }: Ctx) {
       <Month />
       <Next />
       <More />
-    </CompToolBar>
+    </ToolBarComp>
   )
 }
 

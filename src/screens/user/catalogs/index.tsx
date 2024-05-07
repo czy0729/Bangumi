@@ -9,9 +9,9 @@ import { Component, Heatmap, Page } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
+import Tabs from './component/tabs'
 import Header from './header'
 import Store from './store'
-import Tabs from './tabs'
 import { Ctx } from './types'
 
 /** 用户目录 */

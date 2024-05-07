@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-22 05:19:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:09:33
+ * @Last Modified time: 2024-05-08 01:02:28
  */
 import { observable } from 'mobx'
 import store from '@utils/store'
@@ -19,8 +19,4 @@ export default class ScreenReplies extends store<typeof STATE> {
 
     return true
   }
-
-  // -------------------- get --------------------
-
-  // -------------------- page --------------------
 }

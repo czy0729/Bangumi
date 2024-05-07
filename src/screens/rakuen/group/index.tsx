@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 03:39:54
+ * @Last Modified time: 2024-05-08 04:31:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,18 +11,13 @@ import { useOnScroll } from '@components/header/utils'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
+import Info from './component/info'
+import List from './component/list'
 import Header from './header'
-import Info from './info'
-import List from './list'
 import Store from './store'
+import { HEAT_MAPS } from './ds'
 import { styles } from './styles'
 import { Ctx } from './types'
-
-const HEAT_MAPS = {
-  prev: '小组.上一页',
-  next: '小组.下一页',
-  search: '小组.页码跳转'
-} as const
 
 /** 小组 */
 const RakuenGroup = (props, { $ }: Ctx) => {

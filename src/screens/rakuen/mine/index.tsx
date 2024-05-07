@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-13 20:25:22
+ * @Last Modified time: 2024-05-08 01:34:25
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
+import ListAll from './component/list-all'
 import Header from './header'
-import List from './list'
-import ListAll from './list-all'
 import Store from './store'
 import { Ctx } from './types'
 

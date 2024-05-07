@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:22:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-23 10:31:30
+ * @Last Modified time: 2024-05-08 00:03:01
  */
 import SMBClient from 'react-native-smb'
-import { asc, desc, alert, info, loading } from '@utils'
+import { alert, asc, desc, info, loading } from '@utils'
 import { queue } from '@utils/fetch'
 import { SubjectId } from '@types'
-import { SMBRawItem, SMBListItem } from '../types'
+import { SMBListItem, SMBRawItem } from '../types'
 import { getFileMediaType, matchTags } from './utils'
 
 let smbClient: {
@@ -74,12 +74,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
 
     smbClient.list(
       path,
-      async (data: {
-        success: any
-        errorCode: any
-        message: any
-        list: SMBRawItem[]
-      }) => {
+      async (data: { success: any; errorCode: any; message: any; list: SMBRawItem[] }) => {
         if (!data?.success) {
           smbClient.disconnect(() => console.info('Disconnect'))
           smbClient = null
@@ -91,11 +86,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
 
         const list: SMBListItem[] = data.list
           .filter(
-            item =>
-              !item.hidden &&
-              item.isDirectory &&
-              item.name !== '.' &&
-              item.name !== '..'
+            item => !item.hidden && item.isDirectory && item.name !== '.' && item.name !== '..'
           )
           .map(item => ({
             name: item.name,
@@ -130,9 +121,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
                           )
                           .map(item => ({
                             name: item.name,
-                            type: item.isDirectory
-                              ? 'folder'
-                              : getFileMediaType(item.name),
+                            type: item.isDirectory ? 'folder' : getFileMediaType(item.name),
                             lastModified: item.lastModified
                           }))
                           .sort((a, b) => asc(a.name, b.name))
@@ -140,9 +129,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
                         // subjects
                         let ids: SubjectId[] = []
                         if (typeof item.name === 'string') {
-                          const temp = item.name
-                            .toLocaleLowerCase()
-                            .match(/bangumi-\d+/g)
+                          const temp = item.name.toLocaleLowerCase().match(/bangumi-\d+/g)
                           if (temp) {
                             temp.forEach(item => {
                               const id = Number(item.replace('bangumi-', ''))
@@ -158,11 +145,7 @@ function _smbList(path = ''): Promise<SMBListItem[] | false> {
                             )
                             .sort((a, b) => desc(a.name, b.name))
                             .map(item =>
-                              Number(
-                                item.name
-                                  .toLocaleLowerCase()
-                                  .replace(/(\.bgm)|(\.txt)/g, '')
-                              )
+                              Number(item.name.toLocaleLowerCase().replace(/(\.bgm)|(\.txt)/g, ''))
                             )
                         }
 

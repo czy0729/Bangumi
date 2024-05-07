@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 11:21:30
+ * @Last Modified time: 2024-05-07 22:01:23
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -13,6 +13,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   const { list } = $.pmDetail
@@ -68,4 +69,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

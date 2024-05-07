@@ -2,18 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:26:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:30:11
+ * @Last Modified time: 2024-05-08 00:02:36
  */
 import { factory } from '@utils'
-import {
-  Cover,
-  Expand,
-  Navigation,
-  Override,
-  Rating,
-  SubjectId,
-  SubjectTypeValue
-} from '@types'
+import { Cover, Expand, Navigation, Override, Rating, SubjectId, SubjectTypeValue } from '@types'
 import Store from './store'
 import { ACTIONS_SORT } from './ds'
 

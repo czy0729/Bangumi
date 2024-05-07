@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 16:09:52
+ * @Last Modified time: 2024-05-08 04:48:02
  */
 import React from 'react'
 import { Text } from '@components'
@@ -29,7 +29,7 @@ function Title({ topicId, title, replyCount, isGroup }, { $ }: Ctx) {
   }
 
   return (
-    <Text bold>
+    <Text lineHeight={14} bold>
       {title}
       {!!replyCount && (
         <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={14} bold>

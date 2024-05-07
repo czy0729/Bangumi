@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:28:31
+ * @Last Modified time: 2024-05-08 01:34:17
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
+import Extra from '../component/extra'
 import { Ctx } from '../types'
-import Extra from '../extra'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return <HeaderComp title='小组' hm={['group/mine', 'Mine']} headerRight={() => <Extra $={$} />} />
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

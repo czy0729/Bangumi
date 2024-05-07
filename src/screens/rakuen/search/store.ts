@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:49:03
+ * @Last Modified time: 2024-05-08 00:59:02
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { searchStore, systemStore } from '@stores'
 import { info } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenRakuenSearch extends store<typeof STATE> {

@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-10-28 08:27:25
  */
 import React from 'react'
-import { ToolBar as CompToolBar } from '@components'
+import { ToolBar as ToolBarComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_MONO_WORKS_ORDERBY, MONO_WORKS_ORDERBY } from '@constants'
@@ -16,8 +16,8 @@ function ToolBar(props, { $ }: Ctx) {
   const { order, position, list, fixed, collected } = $.state
   const { filters } = $.monoWorks
   return (
-    <CompToolBar>
-      <CompToolBar.Popover
+    <ToolBarComp>
+      <ToolBarComp.Popover
         data={MONO_WORKS_ORDERBY.map(item => item.label)}
         icon='md-sort'
         iconColor={_.colorDesc}
@@ -32,7 +32,7 @@ function ToolBar(props, { $ }: Ctx) {
           title: '全部'
         }
         return (
-          <CompToolBar.Popover
+          <ToolBarComp.Popover
             key={item.title}
             data={data}
             text={find.title === '全部' ? item.title : find.title || item.title}
@@ -42,7 +42,7 @@ function ToolBar(props, { $ }: Ctx) {
           />
         )
       })}
-      <CompToolBar.Popover
+      <ToolBarComp.Popover
         data={[
           `选项 · ${fixed ? '锁定上方' : '浮动'}`,
           `布局 · ${list ? '列表' : '网格'}`,
@@ -59,7 +59,7 @@ function ToolBar(props, { $ }: Ctx) {
           if (title.includes('收藏')) return $.onToggleToolbar('collected')
         }}
       />
-    </CompToolBar>
+    </ToolBarComp>
   )
 }
 

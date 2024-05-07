@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:47:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:21:52
+ * @Last Modified time: 2024-05-07 21:44:07
  */
-import { observable, computed } from 'mobx'
-import { userStore, usersStore, discoveryStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { discoveryStore, usersStore, userStore } from '@stores'
+import { queue, t } from '@utils/fetch'
 import store from '@utils/store'
-import { t, queue } from '@utils/fetch'
 import { HTML_USERS_CATALOGS } from '@constants'
 import { Id } from '@types'
 import { NAMESPACE, STATE, TABS } from './ds'

@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-07-30 11:01:38
  */
 import React from 'react'
-import { ToolBar as CompToolBar } from '@components'
+import { ToolBar as ToolBarComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_TAG_ORDERBY, TAG_ORDERBY } from '@constants'
@@ -15,7 +15,7 @@ import { Ctx } from '../types'
 function Sort(props, { $ }: Ctx) {
   const { order } = $.state
   return (
-    <CompToolBar.Popover
+    <ToolBarComp.Popover
       data={TAG_ORDERBY.map(item => item.label)}
       icon='md-sort'
       iconColor={_.colorDesc}

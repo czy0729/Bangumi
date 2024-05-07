@@ -2,22 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 20:50:41
+ * @Last Modified time: 2024-05-07 18:12:13
  */
 import React from 'react'
-import { Component, Heatmap, ListView, Page } from '@components'
-import { ItemBlog } from '@_'
+import { Component, Heatmap, Page } from '@components'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils/app'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
 import Header from './header'
 import Store from './store'
 import { Ctx } from './types'
-
-const event = {
-  id: '用户日志.跳转'
-}
 
 /** 用户日志 */
 const UserBlogs = (props, { $, navigation }: Ctx) => {
@@ -29,16 +24,7 @@ const UserBlogs = (props, { $, navigation }: Ctx) => {
     <Component id='screen-user-blogs'>
       <Header />
       <Page>
-        <ListView
-          keyExtractor={keyExtractor}
-          data={$.blogs}
-          scrollToTop
-          renderItem={({ item, index }) => (
-            <ItemBlog navigation={navigation} event={event} index={index} {...item} />
-          )}
-          onHeaderRefresh={$.refresh}
-          onFooterRefresh={() => $.fetchBlogs()}
-        />
+        <List />
       </Page>
       <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
     </Component>

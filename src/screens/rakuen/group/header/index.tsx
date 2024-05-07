@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-17 01:57:20
+ * @Last Modified time: 2024-05-08 04:28:17
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -12,8 +12,9 @@ import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, HTML_NEW_TOPIC } from '@constants'
+import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
-import HeaderTitle from '../header-title'
+import { COMPONENT } from './ds'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   const { joinUrl, byeUrl } = $.groupInfo
@@ -92,4 +93,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

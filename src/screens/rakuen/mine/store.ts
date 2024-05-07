@@ -2,29 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:50:47
+ * @Last Modified time: 2024-05-08 01:35:08
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { rakuenStore } from '@stores'
 import { desc } from '@utils'
 import store from '@utils/store'
-import { STATE } from './ds'
-
-const namespace = 'ScreenMine'
-const excludeState = {
-  ipt: '',
-  filter: '',
-  isFocused: true
-}
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 export default class ScreenMine extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = await this.getStorage(namespace)
+    const state = await this.getStorage(NAMESPACE)
     this.setState({
       ...state,
-      ...excludeState,
+      ...EXCLUDE_STATE,
       _loaded: true
     })
 
@@ -51,7 +44,7 @@ export default class ScreenMine extends store<typeof STATE> {
     this.setState({
       type: label === '全部' ? 'all' : 'mine'
     })
-    this.setStorage(namespace)
+    this.setStorage(NAMESPACE)
   }
 
   onFilterChange = (ipt: string) => {

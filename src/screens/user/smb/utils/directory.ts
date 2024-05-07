@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-15 21:28:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 18:12:24
+ * @Last Modified time: 2024-05-08 00:02:45
  */
 import { findJA } from '@utils/thirdParty/ja'
 import { SubjectId } from '@types'
@@ -32,9 +32,7 @@ export function transformData(
 
   inputData
     // 排除标点.开头的文件夹和文件
-    .filter(
-      item => !item.webkitRelativePath.startsWith('.') && !item.name.startsWith('.')
-    )
+    .filter(item => !item.webkitRelativePath.startsWith('.') && !item.name.startsWith('.'))
     .forEach(item => {
       const folderName = item.webkitRelativePath.split('/').slice(0, -1).join('/')
 

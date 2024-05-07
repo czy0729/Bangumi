@@ -2,23 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-10-30 04:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:28:46
+ * @Last Modified time: 2024-05-07 22:09:47
  */
 import { IOS, STORYBOOK } from '@constants'
 import { Id, Loaded, SubjectId } from '@types'
 import { SubjectOSS } from './types'
 
+export const COMPONENT = 'SMB'
+
 /** 数据分页项数 */
 export const LIMIT = 24
 
 /** 排序菜单 */
-export const ACTIONS_SORT = [
-  '日期',
-  '评分',
-  '评分人数',
-  '名称',
-  '文件夹修改时间'
-] as const
+export const ACTIONS_SORT = ['日期', '评分', '评分人数', '名称', '文件夹修改时间'] as const
 
 export const ACTION_EDIT = '编辑'
 
@@ -36,12 +32,7 @@ export const ACTION_COPY_AND_CREATE_FOLDER = '创建用户目录'
 
 /** 服务菜单 */
 export const ACTIONS_SMB = STORYBOOK
-  ? ([
-      ACTION_EDIT,
-      ACTION_OPEN_DIRECTORY,
-      ACTION_CLOSE_DIRECTORY,
-      ACTION_DELETE
-    ] as const)
+  ? ([ACTION_EDIT, ACTION_OPEN_DIRECTORY, ACTION_CLOSE_DIRECTORY, ACTION_DELETE] as const)
   : ([
       ACTION_CONNECT,
       ACTION_EDIT,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:20:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:06:46
+ * @Last Modified time: 2024-05-08 04:35:59
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -10,8 +10,9 @@ import { copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
-import HeaderTitle from '../header-title'
+import { COMPONENT } from './ds'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   const url = $.params?._url || `${HOST}/blog/${$.blogId}`
@@ -57,4 +58,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

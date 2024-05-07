@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:34:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 04:50:08
+ * @Last Modified time: 2024-05-07 18:19:18
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
   return (
@@ -33,4 +34,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

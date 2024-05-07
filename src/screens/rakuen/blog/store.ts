@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 06:55:11
+ * @Last Modified time: 2024-05-08 04:42:56
  */
-import { observable, computed } from 'mobx'
-import { systemStore, rakuenStore, userStore, usersStore } from '@stores'
-import { IOS, HOST } from '@constants'
-import { removeHTMLTag, info, feedback, getTimestamp, omit } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { rakuenStore, systemStore, usersStore, userStore } from '@stores'
+import { feedback, getTimestamp, info, omit, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { HOST, IOS } from '@constants'
 import { TopicId } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
@@ -306,13 +306,8 @@ export default class ScreenBlog extends store<typeof STATE> {
     const [, blogId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
-      const _message = decoder(message).replace(
-        /<div class="quote"><q>.*<\/q><\/div>/,
-        ''
-      )
-      _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(
-        _message
-      )}[/quote]\n${content}`
+      const _message = decoder(message).replace(/<div class="quote"><q>.*<\/q><\/div>/, '')
+      _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(_message)}[/quote]\n${content}`
     }
     rakuenStore.doReplyBlog(
       {

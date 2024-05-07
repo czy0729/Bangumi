@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-17 06:54:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:39:56
+ * @Last Modified time: 2024-05-08 04:35:04
  */
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenBlog'
+export const COMPONENT = 'Blog'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 回复框 placeholder */

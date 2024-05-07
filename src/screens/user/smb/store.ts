@@ -2,41 +2,35 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:04:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 05:38:39
+ * @Last Modified time: 2024-05-08 00:02:38
  */
-import { observable, computed, toJS } from 'mobx'
-import {
-  collectionStore,
-  discoveryStore,
-  smbStore,
-  subjectStore,
-  userStore
-} from '@stores'
+import { computed, observable, toJS } from 'mobx'
+import { collectionStore, discoveryStore, smbStore, subjectStore, userStore } from '@stores'
 import { SMB } from '@stores/smb/types'
 import { alert, cnjp, confirm, desc, getTimestamp, info, pick, sleep } from '@utils'
-import store from '@utils/store'
-import { queue, t } from '@utils/fetch'
-import { decode } from '@utils/protobuf'
-import { get, gets, update } from '@utils/kv'
 import Crypto from '@utils/crypto'
+import { queue, t } from '@utils/fetch'
+import { get, gets, update } from '@utils/kv'
+import { decode } from '@utils/protobuf'
+import store from '@utils/store'
 import { IOS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { InferArray, Navigation, SubjectId, SubjectTypeCn } from '@types'
 import { fixedUrl, smbList, webDAVList } from './utils'
 import {
-  NAMESPACE,
-  STATE,
-  EXCLUDE_STATE,
-  DICT_ORDER,
-  LIMIT,
+  ACTION_CLOSE_DIRECTORY,
   ACTION_CONNECT,
-  ACTION_EDIT,
   ACTION_COPY_AND_CREATE,
   ACTION_COPY_AND_CREATE_FOLDER,
   ACTION_DELETE,
+  ACTION_EDIT,
   ACTION_OPEN_DIRECTORY,
-  ACTION_CLOSE_DIRECTORY,
-  REG_AIRDATE
+  DICT_ORDER,
+  EXCLUDE_STATE,
+  LIMIT,
+  NAMESPACE,
+  REG_AIRDATE,
+  STATE
 } from './ds'
 import { ListItem, MergeListItem, SMBListItem, Sort, SubjectOSS } from './types'
 
@@ -259,9 +253,7 @@ export default class ScreenSmb extends store<typeof STATE> {
       })
     }, 1600)
 
-    await collectionStore.fetchCollectionStatusQueue(
-      this.pageList.map(item => item.subjectId)
-    )
+    await collectionStore.fetchCollectionStatusQueue(this.pageList.map(item => item.subjectId))
     this.setState({
       fetchingCollections: false
     })
@@ -372,8 +364,7 @@ export default class ScreenSmb extends store<typeof STATE> {
   // -------------------- get --------------------
   /** 因为性能, 列表没有参与反应, 自己维护了一个值用于监控更新 */
   @computed get refreshKey() {
-    const { uuid, sort, tags, subjectTags, page, filter, refreshKey, configs } =
-      this.state
+    const { uuid, sort, tags, subjectTags, page, filter, refreshKey, configs } = this.state
     const { layoutList } = configs
     return JSON.stringify({
       uuid,
@@ -473,9 +464,7 @@ export default class ScreenSmb extends store<typeof STATE> {
 
   /** 条目云端快照 */
   subjectOSS(id: SubjectId) {
-    return computed(
-      () => this.state.subjects[`subject_${id}`] || ({} as SubjectOSS)
-    ).get()
+    return computed(() => this.state.subjects[`subject_${id}`] || ({} as SubjectOSS)).get()
   }
 
   /** 条目收藏状态 */
@@ -810,9 +799,7 @@ export default class ScreenSmb extends store<typeof STATE> {
         }
 
         const statusName =
-          collectionStore.collect(subjectId) ||
-          this.collection(subjectId)?.status?.name ||
-          '未收藏'
+          collectionStore.collect(subjectId) || this.collection(subjectId)?.status?.name || '未收藏'
         if (!data[statusName]) {
           data[statusName] = 1
         } else {
@@ -881,9 +868,7 @@ export default class ScreenSmb extends store<typeof STATE> {
   /** 对标签进行排序 */
   tagsSubjectActions = () => {
     const tagsCount = this.tagsSubjectCount()
-    return Object.keys(tagsCount).sort((a, b) =>
-      desc(tagsCount[a] || 0, tagsCount[b] || 0)
-    )
+    return Object.keys(tagsCount).sort((a, b) => desc(tagsCount[a] || 0, tagsCount[b] || 0))
   }
 
   /** 展开表单 */
@@ -962,19 +947,8 @@ export default class ScreenSmb extends store<typeof STATE> {
 
   /** 新增服务或者编辑当前服务 */
   onSubmit = () => {
-    const {
-      id,
-      name,
-      ip,
-      port,
-      username,
-      password,
-      sharedFolder,
-      workGroup,
-      path,
-      url,
-      webDAV
-    } = this.state
+    const { id, name, ip, port, username, password, sharedFolder, workGroup, path, url, webDAV } =
+      this.state
 
     if (STORYBOOK) {
       // if (!sharedFolder) {
@@ -1167,12 +1141,9 @@ export default class ScreenSmb extends store<typeof STATE> {
     }
 
     if (title === ACTION_COPY_AND_CREATE_FOLDER) {
-      confirm(
-        `以 ${this.current?.smb?.name} 为名字, 用当前筛选的条目来创建用户目录, 确定?`,
-        () => {
-          this.doCreateCatalog(navigation)
-        }
-      )
+      confirm(`以 ${this.current?.smb?.name} 为名字, 用当前筛选的条目来创建用户目录, 确定?`, () => {
+        this.doCreateCatalog(navigation)
+      })
       return
     }
 

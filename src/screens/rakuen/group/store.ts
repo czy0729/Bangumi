@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:42:28
+ * @Last Modified time: 2024-05-08 04:31:49
  */
-import { observable, computed } from 'mobx'
-import { rakuenStore, userStore, systemStore } from '@stores'
-import { info, feedback, getTimestamp } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { rakuenStore, systemStore, userStore } from '@stores'
+import { feedback, getTimestamp, info } from '@utils'
+import { HOST_IMAGE } from '@utils/app/ds'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import { webhookGroup } from '@utils/webhooks'
-import { HOST_IMAGE } from '@utils/app/ds'
 import { CDN_OSS_MAGMA_PIC, HOST, LIST_EMPTY } from '@constants'
 import { TopicId } from '@types'
 import { NAMESPACE, STATE } from './ds'
@@ -158,12 +158,7 @@ export default class ScreenGroup extends store<typeof STATE> {
     }
 
     const { cdn, cdnOrigin } = systemStore.setting
-    if (
-      cdn &&
-      cdnOrigin === 'magma' &&
-      typeof src === 'string' &&
-      src.includes(HOST_IMAGE)
-    ) {
+    if (cdn && cdnOrigin === 'magma' && typeof src === 'string' && src.includes(HOST_IMAGE)) {
       src = CDN_OSS_MAGMA_PIC(src)
     }
 

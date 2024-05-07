@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-10-11 19:52:22
  */
 import React from 'react'
-import { Heatmap, ToolBar as CompToolBar } from '@components'
+import { Heatmap, ToolBar as ToolBarComp } from '@components'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
@@ -13,14 +13,14 @@ function ToolBar(props, { $ }: Ctx) {
   const { position } = $.state
   const { filters = [] } = $.monoVoices
   return (
-    <CompToolBar>
+    <ToolBarComp>
       {filters.map(item => {
         const data = item.data.map(i => i.title)
         const find = item.data.find(i => i.value === position) || {
           title: '全部'
         }
         return (
-          <CompToolBar.Popover
+          <ToolBarComp.Popover
             key={item.title}
             data={data}
             text={find.title === '全部' ? item.title : find.title || item.title}
@@ -30,7 +30,7 @@ function ToolBar(props, { $ }: Ctx) {
         )
       })}
       <Heatmap id='角色.职位选择' />
-    </CompToolBar>
+    </ToolBarComp>
   )
 }
 

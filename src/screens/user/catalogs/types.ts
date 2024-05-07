@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:03:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 05:38:14
+ * @Last Modified time: 2024-05-07 21:44:09
  */
 import { factory } from '@utils'
 import { Navigation, UserId } from '@types'
@@ -22,4 +22,4 @@ export type Params = {
   userId?: UserId
 }
 
-export type TabsLabel = typeof TABS[number]['key']
+export type TabsLabel = (typeof TABS)[number]['key']
