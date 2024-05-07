@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-03 05:18:57
+ * @Last Modified time: 2024-05-07 01:47:36
  */
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
+import CACHE from '@assets/json/katakana.json'
 import { Fn } from '@types'
-import { CACHE_KEY, CACHES } from './ds'
+import { CACHE_KEY } from './ds'
 
 let cache = {
   スクールアイドル: 'Idol school',
@@ -17,13 +18,13 @@ let cache = {
 export async function getCache() {
   try {
     cache = {
-      ...CACHES,
+      ...CACHE,
       ...(await getStorage(CACHE_KEY))
     }
     return true
   } catch (error) {
     cache = {
-      ...CACHES
+      ...CACHE
     }
     return true
   }
@@ -57,8 +58,7 @@ async function doTranslate() {
 
       // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
       transResult.forEach(item => (cache[item.src] = item.dst))
-
-      // setStorage(CACHE_KEY, cache)
+      save()
     }
 
     cbs.forEach(cb => cb(cache))
@@ -100,7 +100,7 @@ export async function translateAll(str: string) {
       const { trans_result: transResult } = JSON.parse(response as string)
       if (Array.isArray(transResult)) {
         transResult.forEach(item => (cache[item.src] = item.dst))
-        setStorage(CACHE_KEY, cache)
+        save()
       }
     }
 
@@ -110,4 +110,12 @@ export async function translateAll(str: string) {
   } catch (error) {
     return null
   }
+}
+
+function save() {
+  const data = {
+    ...cache
+  }
+  Object.keys(CACHE).forEach(item => delete data[item])
+  setStorage(CACHE_KEY, data)
 }

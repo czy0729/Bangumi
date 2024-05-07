@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:41:39
+ * @Last Modified time: 2024-05-07 01:52:08
  */
 import React from 'react'
-import { Cover, Flex, Text } from '@components'
+import { Cover, Flex, Katakana, Text } from '@components'
 import { Rank, Stars } from '@_'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
@@ -25,15 +25,17 @@ const HeaderTitle = memo(
           fadeDuration={0}
         />
         <Flex.Item style={_.ml.sm}>
-          <Text size={12} numberOfLines={1}>
-            {cnjp(cn, jp)}
-            {!!titleLabel && (
-              <Text size={12} type='sub'>
-                {' '}
-                · {titleLabel}
-              </Text>
-            )}
-          </Text>
+          <Katakana.Provider style={styles.itemStyle} size={12} numberOfLines={1}>
+            <Katakana size={12} numberOfLines={1}>
+              {cnjp(cn, jp)}
+              {!!titleLabel && (
+                <Text size={12} type='sub'>
+                  {' '}
+                  · {titleLabel}
+                </Text>
+              )}
+            </Katakana>
+          </Katakana.Provider>
           {score ? (
             <Flex style={_.mt.xxs}>
               <Rank style={_.mr.xs} value={rank} size={9} />

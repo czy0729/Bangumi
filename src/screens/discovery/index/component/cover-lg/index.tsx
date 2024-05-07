@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:45:04
+ * @Last Modified time: 2024-05-07 05:51:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Squircle, Text, Touchable } from '@components'
+import { Katakana, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
@@ -65,9 +65,20 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
           <Text type={_.select('plain', 'desc')} bold>
             {data.info}
           </Text>
-          <Text style={_.mt.xs} size={22} type={_.select('plain', 'title')} bold numberOfLines={2}>
-            {HTMLDecode(cn)}
-          </Text>
+          <View style={_.mt.sm}>
+            <Katakana.Provider
+              itemStyle={styles.itemStyle}
+              itemSecondStyle={styles.itemSecondStyle}
+              type={_.select('plain', 'title')}
+              size={22}
+              bold
+              numberOfLines={2}
+            >
+              <Katakana size={22} type={_.select('plain', 'title')} bold numberOfLines={2}>
+                {HTMLDecode(cn)}
+              </Katakana>
+            </Katakana.Provider>
+          </View>
         </View>
       </Squircle>
     </Touchable>

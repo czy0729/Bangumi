@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 06:42:50
+ * @Last Modified time: 2024-05-07 01:58:36
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -41,7 +41,6 @@ const Character = memo(
               style={_.mt.sm}
               data={crt}
               counts={crtCounts}
-              quality={false}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
               onPress={({ id, name, nameJP, _image }) => {
                 t('条目.跳转', {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-03 06:45:39
+ * @Last Modified time: 2024-05-07 05:14:42
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -24,7 +24,7 @@ export function setComponentsDefaultProps() {
 /** 文字自适应增加行高 */
 export function computedLineHeight(
   size: number = 14,
-  lineHeight: number = 14,
+  lineHeight: number = size,
   lineHeightIncrease: number = 0
 ) {
   const lhc = lineHeightIncrease + _.device(0, PAD_INCREASE)

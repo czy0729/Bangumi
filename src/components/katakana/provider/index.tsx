@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-03 07:43:52
+ * @Last Modified time: 2024-05-07 06:00:53
  */
 import React from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -146,12 +146,22 @@ export const KatakanaProvider = observer(
       return this.state.matches.filter(item => !!item.width)
     }
 
-    /**
-     * 用于往嵌套 Text 传递需要增大行高的标记
-     *  - 假如英文的 top 都为 0 不需要放大
-     */
+    get size() {
+      return Math.max(8, (this.props.size || 14) - 6)
+    }
+
+    /** 用于往嵌套 Text 传递需要增大行高的标记 */
     get lineHeightIncrease() {
-      return this.state.matches.some(item => item.top !== undefined && item.top !== 0) ? 4 : 0
+      const { matches } = this.state
+      if (!matches.length) return 0
+
+      return this.state.matches.some(
+        item =>
+          item.top > 0 &&
+          !(this.props.numberOfLines && item.top > this.props.numberOfLines * this.size * 1.2)
+      )
+        ? 5
+        : 2
     }
 
     /** 是否启用此功能 */
@@ -201,6 +211,16 @@ export const KatakanaProvider = observer(
     renderKatakanas() {
       return this.measuredKatakanas.map(item => {
         const isLineFirst = item.top === 0
+        if (!isLineFirst && this.props.numberOfLines === 1) return null
+
+        if (
+          !isLineFirst &&
+          this.props.numberOfLines &&
+          item.top > this.props.numberOfLines * this.size * 1.2
+        ) {
+          return null
+        }
+
         return (
           <Text
             key={item.jp}
@@ -210,15 +230,15 @@ export const KatakanaProvider = observer(
                 top: item.top,
                 left: item.left,
                 minWidth: item.width,
-                marginTop: isLineFirst ? -10 : 0 // 这里还没解决好行高问题, 大概调到好看
+                marginTop: Math.ceil((isLineFirst ? -this.size + 1 : 0) * 1.1)
               },
               this.props.itemStyle,
               !isLineFirst && this.props.itemSecondStyle
             )}
             type={item.type}
-            size={9}
-            lineHeight={9}
-            lineHeightIncrease={0}
+            size={this.size}
+            lineHeight={this.size}
+            lineHeightIncrease={this.lineHeightIncrease}
             numberOfLines={1}
             bold={item.bold}
             align={getKatakanaAlign(item, this.state.rootWidth)}

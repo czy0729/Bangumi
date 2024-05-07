@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:04:31
+ * @Last Modified time: 2024-05-07 00:00:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Squircle, Text, Touchable } from '@components'
+import { Katakana, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
@@ -60,16 +60,25 @@ function CoverToday({ data }, { navigation }: Ctx) {
           >
             {data.timeCN.slice(0, 2)}:{data.timeCN.slice(2)} · 周{WEEKDAY_CN[data.weekday]}
           </Text>
-          <Text
-            style={_.mt.xs}
-            size={_.device(10, 12)}
-            type={_.select('plain', 'title')}
-            numberOfLines={2}
-            bold
-            pointerEvents='none'
-          >
-            {HTMLDecode(cnjp(data.name_cn, data.name))}
-          </Text>
+          <View style={_.mt.xs} pointerEvents='none'>
+            <Katakana.Provider
+              itemStyle={styles.itemStyle}
+              itemSecondStyle={styles.itemSecondStyle}
+              size={_.device(10, 12)}
+              type={_.select('plain', 'title')}
+              numberOfLines={2}
+              bold
+            >
+              <Katakana
+                size={_.device(10, 12)}
+                type={_.select('plain', 'title')}
+                numberOfLines={2}
+                bold
+              >
+                {HTMLDecode(cnjp(data.name_cn, data.name))}
+              </Katakana>
+            </Katakana.Provider>
+          </View>
         </View>
       </Squircle>
     </Touchable>
