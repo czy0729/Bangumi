@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
@@ -83,3 +84,5 @@ function TextComp({
 }
 
 export const Text = observer(TextComp)
+
+export const AnimatedText = Animated.createAnimatedComponent(Text)

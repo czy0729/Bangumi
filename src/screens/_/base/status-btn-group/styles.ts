@@ -12,7 +12,15 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
+  block: {
+    position: 'absolute',
+    top: 0,
+    height: 44,
+    borderRadius: _.radiusSm,
+    overflow: 'hidden',
+    pointerEvents: 'none'
+  },
   btn: {
-    borderRadius: _.radiusSm
+    height: 44
   }
 }))
