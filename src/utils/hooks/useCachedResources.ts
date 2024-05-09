@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:04:38
+ * @Last Modified time: 2024-05-09 20:19:38
  */
 import { useState } from 'react'
+import { loadAsync } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
-import * as Font from 'expo-font'
 import { devLog } from '@components/dev'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores from '@stores'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
-function loadBaseFontsAsync() {
-  return Font.loadAsync({
-    bgm: require('@assets/fonts/AppleColorEmoji.ttf')
+async function loadBaseFontsAsync() {
+  return loadAsync({
+    bgm: require('@assets/fonts/Bgm.ttf')
   })
 }
 
@@ -25,7 +25,7 @@ export function loadAppFontsAsync() {
   if (loadAppFontsAsyncLoaded) return true
 
   loadAppFontsAsyncLoaded = true
-  return Font.loadAsync({
+  return loadAsync({
     rhrm: require('@assets/fonts/ResourceHanRoundedCN-Medium.ttf'),
     rhrb: require('@assets/fonts/ResourceHanRoundedCN-Bold.ttf')
   })
@@ -58,7 +58,7 @@ export default function useCachedResources() {
         }
         setState(3)
 
-        setTimeout(async () => {
+        setTimeout(() => {
           setComponentsDefaultProps()
         }, 0)
       } catch (e) {
