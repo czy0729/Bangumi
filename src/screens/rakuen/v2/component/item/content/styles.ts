@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   item: {
-    paddingTop: _.md - _.web(7, 1),
+    paddingTop: _.md - _.web(7, 3),
     paddingBottom: _.md - 4,
     paddingLeft: _.sm + 1,
     marginTop: -3,

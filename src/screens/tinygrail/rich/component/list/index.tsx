@@ -21,13 +21,13 @@ function List({ id, title = '全部' }, { $ }: Ctx) {
 
   // top 100 余额最多处理
   let data = rich
-  if (title === '股息') {
+  if (title === TABS[1].title) {
     data = toJS(rich)
     data.list = data.list.slice().sort((a, b) => parseInt(b.share) - parseInt(a.share))
-  } else if (title === '余额') {
+  } else if (title === TABS[2].title) {
     data = toJS(rich)
     data.list = data.list.slice().sort((a, b) => parseInt(b.total) - parseInt(a.total))
-  } else if (title === '初始') {
+  } else if (title === TABS[3].title) {
     data = toJS(rich)
     data.list = data.list.slice().sort((a, b) => parseInt(b.principal) - parseInt(a.principal))
   }

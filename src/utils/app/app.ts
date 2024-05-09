@@ -241,7 +241,11 @@ export function tinygrailOSS(str: string, w: 120 | 150 | 480 = 120) {
     let cover = str
       .replace(/lain.bgm.tv\/pic\/crt\/(g|s|c|m)\//, `lain.bgm.tv/pic/crt/l/`)
       .replace(/r\/\d+\//, '')
-    return w === 120 ? cover.replace('/l/', '/g/') : cover.replace('pic/crt/', `r/200/pic/crt/`)
+    return cover.includes('/user/')
+      ? cover
+      : w === 120
+      ? cover.replace('/l/', '/g/')
+      : cover.replace('pic/crt/', `r/200/pic/crt/`)
   }
 
   if (str.includes('aliyuncs.com') || str.includes('tinygrail.mange.cn')) {
