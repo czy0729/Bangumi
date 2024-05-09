@@ -9,12 +9,12 @@ import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Provider from '@ant-design/react-native/lib/provider'
-import Stacks from '@src/navigations/native-stacks'
 import { DeepLink, DEV } from '@components'
 import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import { useCachedResources, useOrientation } from '@utils/hooks'
+import Stacks from '@src/navigations/native-stacks'
 import theme from '@styles/theme'
 
 LogBox.ignoreAllLogs(true)

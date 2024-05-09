@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 15:23:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:05:37
+ * @Last Modified time: 2024-05-10 05:40:09
  */
 import React from 'react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
@@ -20,7 +20,7 @@ export const BlurView = ob(({ style, intensity = 100, children, ...other }: Blur
     <Component id='base-blur-view'>
       <ExpoBlurView
         style={style}
-        tint={_.isDark ? 'dark' : 'default'}
+        tint={_.isDark ? 'dark' : 'extraLight'}
         intensity={intensity}
         {...other}
       >

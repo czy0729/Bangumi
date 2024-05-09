@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-08 16:38:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:05:37
+ * @Last Modified time: 2024-05-10 05:40:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,7 +39,7 @@ export const HardwareTextureBlurView = ({
           height: _.flatten(style)?.height || '100%',
           ...containerStyle
         }}
-        tint={_.select('light', 'dark')}
+        tint={_.select('extraLight', 'dark')}
         intensity={100}
       />
     </Animated.View>

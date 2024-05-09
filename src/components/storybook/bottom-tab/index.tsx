@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:30:58
+ * @Last Modified time: 2024-05-10 05:40:00
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -38,7 +38,7 @@ export const StorybookBottomTab = () => {
     const styles = memoStyles()
     return (
       <Component id='component-storybook-bottom-tab' style={styles.bottomTab}>
-        <BlurView style={styles.blurView} tint={_.select('light', 'dark')} intensity={100}>
+        <BlurView style={styles.blurView} tint={_.select('extraLight', 'dark')} intensity={100}>
           <Flex>
             {DS.map((item: (typeof BOTTOM_TAB_WITH_AUTH_DS)[number]) => {
               const storyId = getSPAId(item.id)

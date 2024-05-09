@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-19 10:52:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:18:52
+ * @Last Modified time: 2024-05-10 07:33:36
  */
 // @ts-nocheck
 import React from 'react'
@@ -33,14 +33,12 @@ import { leftOrRight } from './menu/calculations'
 import MenuItems from './MenuItems'
 import { calculateMenuHeight, menuAnimationAnchor } from './utils/calculations'
 
-const MenuContainerComponent = IS_IOS ? BlurView : View
-// const AnimatedView = Animated.createAnimatedComponent<{
-//   animatedProps: Partial<{ blurType: string }>
-// }>(MenuContainerComponent)
+const AnimatedView = Animated.createAnimatedComponent<{
+  animatedProps: Partial<{ tint: string }>
+}>(IS_IOS ? BlurView : View)
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal()
-
   const [itemList, setItemList] = React.useState<MenuItemProps[]>([])
 
   const menuHeight = useDerivedValue(() => {
@@ -92,18 +90,14 @@ const MenuListComponent = () => {
   const animatedInnerContainerStyle = useAnimatedStyle(() => {
     return {
       backgroundColor:
-        theme.value === 'light'
-          ? IS_IOS
-            ? 'rgba(255, 255, 255, .75)'
-            : 'rgba(255, 255, 255, .95)'
-          : IS_IOS
-          ? 'rgba(0,0,0,0.5)'
-          : 'rgba(39, 39, 39, .8)'
+        theme.value === 'light' ? 'rgba(255, 255, 255, .5)' : 'rgba(255, 255, 255, .05)'
     }
   }, [theme])
 
   const animatedProps = useAnimatedProps(() => {
-    return { blurType: theme.value }
+    return {
+      tint: theme.value === 'light' ? 'extraLight' : 'dark'
+    }
   }, [theme])
 
   const setter = (items: MenuItemProps[]) => {
@@ -121,14 +115,8 @@ const MenuListComponent = () => {
     [menuProps]
   )
 
-  const AnimatedView = Animated.createAnimatedComponent<{
-    animatedProps: Partial<{ blurType: string }>
-  }>(MenuContainerComponent)
-
   return (
-    <AnimatedView
-      intensity={80}
-      animatedProps={animatedProps}
+    <Animated.View
       style={[
         styles.menuContainer,
         messageStyles,
@@ -144,15 +132,23 @@ const MenuListComponent = () => {
           animatedInnerContainerStyle
         ]}
       >
-        <ScrollView
-          contentContainerStyle={additionStyles.contentContainerStyle}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
+        <AnimatedView
+          style={{
+            ...StyleSheet.absoluteFillObject
+          }}
+          intensity={80}
+          animatedProps={animatedProps}
         >
-          <MenuItems items={itemList} />
-        </ScrollView>
+          <ScrollView
+            contentContainerStyle={additionStyles.contentContainerStyle}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
+            <MenuItems items={itemList} />
+          </ScrollView>
+        </AnimatedView>
       </Animated.View>
-    </AnimatedView>
+    </Animated.View>
   )
 }
 

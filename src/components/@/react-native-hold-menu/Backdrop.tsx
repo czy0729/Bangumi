@@ -6,7 +6,7 @@
  */
 // @ts-nocheck
 import React, { memo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { TapGestureHandler, TapGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 import { styles } from 'react-native-hold-menu/src/components/backdrop/styles'
 import {
@@ -22,7 +22,6 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 
-const AnimatedBlurView = Animated.createAnimatedComponent(View)
 export const BACKDROP_LIGHT_BACKGROUND_COLOR = 'rgba(0,0,0,0.1)'
 export const BACKDROP_DARK_BACKGROUND_COLOR = 'rgba(0,0,0,0.5)'
 
@@ -91,15 +90,11 @@ const BackdropComponent = () => {
 
   return (
     <TapGestureHandler onGestureEvent={tapGestureEvent} onHandlerStateChange={tapGestureEvent}>
-      <AnimatedBlurView
-        // intensity={100}
-        // tint='default'
-        style={[styles.container, animatedContainerStyle]}
-      >
+      <Animated.View style={[styles.container, animatedContainerStyle]}>
         <Animated.View
           style={[{ ...StyleSheet.absoluteFillObject }, animatedInnerContainerStyle]}
         />
-      </AnimatedBlurView>
+      </Animated.View>
     </TapGestureHandler>
   )
 }

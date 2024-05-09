@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:37:32
+ * @Last Modified time: 2024-05-10 06:29:58
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -26,7 +26,14 @@ export { BlurViewProps }
  * @doc https://docs.expo.io/versions/latest/sdk/blur-view
  * */
 export const BlurView = observer(
-  ({ style, src, tint = 'light', intensity = 100, blurRadius = 16, children }: BlurViewProps) => {
+  ({
+    style,
+    src,
+    tint = 'extraLight',
+    intensity = 100,
+    blurRadius = 16,
+    children
+  }: BlurViewProps) => {
     r(COMPONENT)
 
     if (!src) return null
