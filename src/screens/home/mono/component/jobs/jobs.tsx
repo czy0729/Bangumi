@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 12:03:42
+ * @Last Modified time: 2024-05-12 05:55:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,15 @@ const Jobs = memo(
         <Expand ratio={2.8}>
           <View style={stl(styles.container, style)}>
             <View>
-              <SectionTitle>出演</SectionTitle>
+              <SectionTitle
+                left={
+                  <Text style={_.ml.xs} type='sub' lineHeight={20}>
+                    {jobs.length}
+                  </Text>
+                }
+              >
+                出演
+              </SectionTitle>
               <Heatmap id='人物.跳转' from='出演' />
             </View>
             <View style={_.mt.md}>

@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-02-19 10:52:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-10 07:33:36
+ * @Last Modified time: 2024-05-11 08:18:44
  */
 // @ts-nocheck
 import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import styles from 'react-native-hold-menu/src/components/menu/styles'
 import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
 import {
   CONTEXT_MENU_STATE,
   HOLD_ITEM_TRANSFORM_DURATION,
-  IS_IOS,
   SPRING_CONFIGURATION_MENU
 } from 'react-native-hold-menu/src/constants'
 import { useInternal } from 'react-native-hold-menu/src/hooks'
@@ -32,10 +31,6 @@ import { MENU_WIDTH } from './constants'
 import { leftOrRight } from './menu/calculations'
 import MenuItems from './MenuItems'
 import { calculateMenuHeight, menuAnimationAnchor } from './utils/calculations'
-
-const AnimatedView = Animated.createAnimatedComponent<{
-  animatedProps: Partial<{ tint: string }>
-}>(IS_IOS ? BlurView : View)
 
 const MenuListComponent = () => {
   const { state, theme, menuProps } = useInternal()
@@ -87,13 +82,6 @@ const MenuListComponent = () => {
     }
   })
 
-  const animatedInnerContainerStyle = useAnimatedStyle(() => {
-    return {
-      backgroundColor:
-        theme.value === 'light' ? 'rgba(255, 255, 255, .5)' : 'rgba(255, 255, 255, .05)'
-    }
-  }, [theme])
-
   const animatedProps = useAnimatedProps(() => {
     return {
       tint: theme.value === 'light' ? 'extraLight' : 'dark'
@@ -115,6 +103,10 @@ const MenuListComponent = () => {
     [menuProps]
   )
 
+  const AnimatedView = Animated.createAnimatedComponent<{
+    animatedProps: Partial<{ tint: string }>
+  }>(BlurView)
+
   return (
     <Animated.View
       style={[
@@ -125,29 +117,19 @@ const MenuListComponent = () => {
         }
       ]}
     >
-      <Animated.View
-        style={[
-          StyleSheet.absoluteFillObject,
-          styles.menuInnerContainer,
-          animatedInnerContainerStyle
-        ]}
+      <AnimatedView
+        style={StyleSheet.absoluteFillObject}
+        intensity={80}
+        animatedProps={animatedProps}
       >
-        <AnimatedView
-          style={{
-            ...StyleSheet.absoluteFillObject
-          }}
-          intensity={80}
-          animatedProps={animatedProps}
+        <ScrollView
+          contentContainerStyle={additionStyles.contentContainerStyle}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView
-            contentContainerStyle={additionStyles.contentContainerStyle}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-          >
-            <MenuItems items={itemList} />
-          </ScrollView>
-        </AnimatedView>
-      </Animated.View>
+          <MenuItems items={itemList} />
+        </ScrollView>
+      </AnimatedView>
     </Animated.View>
   )
 }

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-23 13:59:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-23 14:00:38
+ * @Last Modified time: 2024-05-12 05:10:19
  */
 import React from 'react'
 import { Katakana, Text } from '@components'
 import { cnjp } from '@utils'
 import { ob } from '@utils/decorators'
+import { styles } from './styles'
 
 function Title({ name, nameCn, comments }) {
   const top = cnjp(nameCn, name)
@@ -36,6 +37,7 @@ function Title({ name, nameCn, comments }) {
       )}
       {showBottom && (
         <Katakana.Provider
+          itemStyle={styles.itemStyle}
           type='sub'
           size={sizeBottom}
           lineHeight={13}

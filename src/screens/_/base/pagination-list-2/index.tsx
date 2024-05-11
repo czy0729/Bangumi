@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:41:48
+ * @Last Modified time: 2024-05-12 06:04:16
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -53,7 +53,7 @@ export const PaginationList2 = ({
       list: next,
       pagination: {
         page: page + 1,
-        pageTotal: next.length >= limit * page ? 100 : page + 1
+        pageTotal: next.length >= limit * page ? pageTotal : page + 1
       }
     })
     lastPage.current = page + 1
@@ -73,7 +73,7 @@ export const PaginationList2 = ({
       list,
       pagination: {
         page: lastPage.current,
-        pageTotal: 100
+        pageTotal: Math.floor(data.length / limit) + 1
       },
       _loaded: getTimestamp()
     })

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-02-19 10:52:44
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-02-19 10:52:44
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-05-11 08:25:45
  */
 // @ts-nocheck
 import React, { memo, useEffect, useMemo } from 'react'
@@ -47,7 +47,6 @@ const ProviderComponent = ({
 
   useEffect(() => {
     theme.value = selectedTheme || 'light'
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTheme])
 
   const internalContextVariables = useMemo(

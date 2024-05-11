@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 19:40:32
+ * @Last Modified time: 2024-05-12 05:57:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -91,7 +91,7 @@ function Info(props, { $, navigation }: Ctx) {
       >
         吐槽{' '}
         {!!_count && (
-          <Text size={12} type='sub' lineHeight={24}>
+          <Text type='sub' lineHeight={24}>
             {_count}+
           </Text>
         )}
