@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 22:44:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:36:10
+ * @Last Modified time: 2024-05-11 06:53:27
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -10,8 +10,8 @@ import { COMPONENT as PARENT } from '../ds'
 export const COMPONENT = rc(PARENT, 'BgmText')
 
 export const bgmMap = [
-  '',
-  '',
+  // '',
+  // '',
   '',
   '',
   '',
