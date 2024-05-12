@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 18:16:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 16:25:24
+ * @Last Modified time: 2024-05-12 19:44:29
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -16,7 +16,7 @@ const Title = ({ type, name }, { $ }: Ctx) => {
   const data = $.data[type].filter(item => item.active === 1)
   const activeData = data.map(item => item.name)
   return (
-    <Flex>
+    <Flex style={_.mb.sm}>
       <Flex.Item>
         <Text size={20} bold>
           {name}
@@ -35,7 +35,12 @@ const Title = ({ type, name }, { $ }: Ctx) => {
           })
         }}
       >
-        <Iconfont name='md-airplay' size={20} color={_.colorDesc} />
+        <Flex>
+          <Iconfont name='md-airplay' size={18} color={_.colorSub} />
+          <Text style={_.ml.sm} type='sub' lineHeight={15} bold>
+            预览
+          </Text>
+        </Flex>
       </Popover>
     </Flex>
   )

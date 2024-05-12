@@ -2,56 +2,52 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 16:26:42
+ * @Last Modified time: 2024-05-12 23:39:27
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text } from '@components'
-import { Popover, Tag } from '@_'
+import { Flex, Image, Text } from '@components'
+import { Popover } from '@_'
 import { _ } from '@stores'
 import { confirm, stl } from '@utils'
 import { obc } from '@utils/decorators'
+import { AnyObject } from '@types'
 import { Ctx } from '../../types'
 import Form from '../form'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
-const Item = ({ type, id, uuid, active, name, url, sort }, { $ }: Ctx) => {
+const Item = (
+  {
+    type,
+    id,
+    uuid,
+    active,
+    icon,
+    iconSquare,
+    name,
+    url,
+    sort
+  }: AnyObject<{
+    uuid?: string
+  }>,
+  { $ }: Ctx
+) => {
+  const styles = memoStyles()
   const actions = []
   const isBase = !!id
   const isActive = !!active
-  actions.push(isBase ? '编辑排序' : '编辑', isActive ? '停用' : '启用')
+  actions.push(isActive ? '停用' : '启用', isBase ? '编辑排序' : '编辑')
   if (!isBase) actions.push('删除')
-  actions.push('测试')
+  actions.push('预览')
 
   const { edit } = $.state
   const isEdit =
     edit.type === type && ((id && edit.item.id === id) || (uuid && edit.item.uuid === uuid))
   return (
     <>
-      <Flex style={stl(styles.item, !isActive && styles.disabled)}>
-        <Flex.Item>
-          <Text size={15} bold>
-            {name}
-            {isBase && (
-              <Text type='sub' size={10} lineHeight={15} bold>
-                {' '}
-                示例
-              </Text>
-            )}
-          </Text>
-          <Flex style={_.mt.sm}>
-            {sort >= 0 && <Tag style={_.mr.sm} value={sort} />}
-            <Flex.Item>
-              <Text size={12} type='sub' numberOfLines={1}>
-                {url}
-              </Text>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        {isActive && <Tag style={_.ml.md} value='生效' />}
+      <View style={styles.container}>
         <Popover
-          style={_.ml.md}
           data={actions}
           onSelect={title => {
             switch (title) {
@@ -102,7 +98,7 @@ const Item = ({ type, id, uuid, active, name, url, sort }, { $ }: Ctx) => {
                 })
                 break
 
-              case '测试':
+              case '预览':
                 $.go({
                   type,
                   url
@@ -114,11 +110,44 @@ const Item = ({ type, id, uuid, active, name, url, sort }, { $ }: Ctx) => {
             }
           }}
         >
-          <View style={styles.touch}>
-            <Iconfont name='md-more-vert' color={_.colorDesc} />
-          </View>
+          <Flex
+            style={stl(styles.item, isActive && styles.itemActive)}
+            direction='column'
+            justify='center'
+          >
+            {icon ? (
+              <Flex style={stl(styles.icon, !iconSquare && styles.iconRound)} justify='center'>
+                <Image
+                  size={iconSquare ? 24 : 28}
+                  src={icon}
+                  placeholder={false}
+                  skeleton={false}
+                  sync
+                />
+              </Flex>
+            ) : (
+              <Flex style={styles.badge} justify='center'>
+                <Text bold>
+                  {String(name || uuid)
+                    .replace('[DL]', '')
+                    .trim()
+                    .slice(0, 1)
+                    .toLocaleUpperCase()}
+                </Text>
+              </Flex>
+            )}
+            <Text style={_.mt.sm} size={11} bold numberOfLines={1}>
+              {name}
+            </Text>
+            {(!!sort || !isBase) && (
+              <Text type='sub' size={8} lineHeight={12} bold>
+                {sort ? `[${sort}] ` : ''}
+                自定义
+              </Text>
+            )}
+          </Flex>
         </Popover>
-      </Flex>
+      </View>
       {isEdit && <Form name={name} url={url} isBase={isBase} />}
     </>
   )

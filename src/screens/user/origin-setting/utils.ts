@@ -9,7 +9,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:43:19
+ * @Last Modified time: 2024-05-12 23:29:19
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -28,10 +28,12 @@ import {
 import { Keys } from './types'
 
 export type OriginItem = {
+  uuid?: string
   id: string
   name: string
   url: string
   sort: number
+  icon?: string
   active: number
   desc?: string
 }
@@ -44,6 +46,7 @@ export function getBaseOriginConfig(): Record<Keys, OriginItem[]> {
         id: 'anime|age',
         name: 'AGE动漫',
         url: `${SITE_AGEFANS()}/search?query=[CN]&page=1`,
+        icon: require('@assets/images/icon/agefans.png'),
         sort: 0,
         active: 1
       },
@@ -51,21 +54,21 @@ export function getBaseOriginConfig(): Record<Keys, OriginItem[]> {
     ],
     hanime: [...SITES_NSFW],
     manga: [
+      ...SITES_MANGA,
       {
         id: 'manga|wnacg',
         name: '绅士漫画',
         url: `${SITE_WNACG()}/search/?q=[CN]&f=_all&s=create_time_DESC`,
         sort: 0,
-        active: 1
+        active: 0
       },
       {
         id: 'manga|mangabz',
         name: 'Mangabz',
         url: `${SITE_MANGABZ()}/search?title=[CN]`,
         sort: 0,
-        active: 1
-      },
-      ...SITES_MANGA
+        active: 0
+      }
     ],
     wenku: [
       {
@@ -84,13 +87,16 @@ export function getBaseOriginConfig(): Record<Keys, OriginItem[]> {
 }
 
 /** 获取设置数据 */
-export function getOriginConfig(userOriginSetting: Origin): Record<Keys, OriginItem>
+export function getOriginConfig(userOriginSetting: Origin): Record<Keys, OriginItem[]>
 export function getOriginConfig(userOriginSetting: Origin, pickType: Keys): OriginItem[]
-export function getOriginConfig(userOriginSetting: Origin, pickType?: Keys): unknown {
+export function getOriginConfig(
+  userOriginSetting: Origin,
+  pickType?: Keys
+): Record<Keys, OriginItem[]> | OriginItem[] {
   const { base = {}, custom = {} } = toJS(userOriginSetting)
   const mergeConfig = getBaseOriginConfig()
 
-  // 合并用户自定义和APP自维护数据
+  // 合并用户自定义和客户端自维护数据
   Object.keys(mergeConfig).forEach((type: Keys) => {
     if (typeof pickType !== 'undefined' && pickType !== type) return
 
@@ -115,10 +121,8 @@ export function getOriginConfig(userOriginSetting: Origin, pickType?: Keys): unk
     }
 
     // 排序
-    mergeConfig[type] = self
-      .slice()
-      .sort((a, b) => desc(a.sort, b.sort))
-      .sort((a, b) => desc(a.active, b.active))
+    mergeConfig[type] = self.slice().sort((a, b) => desc(a.sort, b.sort))
+    // .sort((a, b) => desc(a.active, b.active))
   })
 
   if (typeof pickType !== 'undefined' && pickType) return mergeConfig[pickType]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 13:01:12
+ * @Last Modified time: 2024-05-12 23:50:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,14 +28,11 @@ class Cover extends React.Component<Props> {
     if (typeof image === 'string') memoLoaded.set(image, true)
 
     try {
-      setTimeout(
-        () => {
-          this.setState({
-            isLoaded: true
-          })
-        },
-        systemStore.setting.imageFadeIn ? 880 : 0
-      )
+      setTimeout(() => {
+        this.setState({
+          isLoaded: true
+        })
+      }, (systemStore.setting.imageFadeIn ? 880 : 0) + 800)
     } catch (error) {}
   }
 

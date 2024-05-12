@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 16:28:35
+ * @Last Modified time: 2024-05-12 19:37:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,8 +25,8 @@ const Form = ({ style = undefined, name = '', url = '', isBase = false }, { $ }:
           名字
           {isBase && (
             <Text type='sub' size={10} lineHeight={13} bold>
-              {' '}
-              示例不允许修改
+              {'  '}
+              默认项不允许修改
             </Text>
           )}
         </Text>
@@ -34,18 +34,19 @@ const Form = ({ style = undefined, name = '', url = '', isBase = false }, { $ }:
           style={[styles.input, _.mt.sm]}
           defaultValue={String(name)}
           placeholder='菜单显示名称，唯一'
-          onChangeText={isBase ? undefined : text => $.onChangeText('name', text)}
+          editable={!isBase}
+          onChangeText={text => $.onChangeText('name', text)}
         />
         <Text style={_.mt.md} size={13} bold>
           网址
           {isBase && (
             <Text type='sub' size={10} lineHeight={13} bold>
-              {' '}
+              {'  '}
               默认项不允许修改
             </Text>
           )}
         </Text>
-        <Text style={_.mt.sm} type='sub' size={10} lineHeight={13} bold>
+        <Text style={_.mt.xs} type='sub' size={10} lineHeight={13} bold>
           支持参数：
           <Text type='warning' size={10} lineHeight={13} bold>
             [CN]
@@ -75,15 +76,18 @@ const Form = ({ style = undefined, name = '', url = '', isBase = false }, { $ }:
           numberOfLines={4}
           textAlignVertical='top'
           placeholder='https://'
-          onChangeText={isBase ? undefined : text => $.onChangeText('url', text)}
+          editable={!isBase}
+          onChangeText={text => $.onChangeText('url', text)}
         />
         <Text style={_.mt.md} size={13} bold>
           排序
         </Text>
+        <Text style={_.mt.xs} type='sub' size={10} lineHeight={13} bold>
+          数字，越大越前，选填
+        </Text>
         <Input
           style={[styles.input, _.mt.sm]}
           value={String(edit.item.sort)}
-          placeholder='数字，越大越前，选填'
           keyboardType='number-pad'
           onChangeText={text => $.onChangeText('sort', text)}
         />
