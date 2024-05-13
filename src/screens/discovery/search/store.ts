@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:05:04
+ * @Last Modified time: 2024-05-13 18:35:11
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, searchStore, subjectStore, usersStore, userStore } from '@stores'
-import { info, loading, updateVisibleBottom, x18 } from '@utils'
+import { info, loading, t2s, updateVisibleBottom, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { HTML_SEARCH, MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
@@ -151,6 +151,7 @@ export default class ScreenSearch extends store<typeof STATE> {
       _value: text
     }
     if (text) state.focus = true
+
     this.setState(state)
     this.onChangeTextConfirm(text)
   }
@@ -219,9 +220,10 @@ export default class ScreenSearch extends store<typeof STATE> {
         return
       }
 
-      return navigation.push('Zone', {
+      navigation.push('Zone', {
         userId: value
       })
+      return
     }
 
     return this.doSearch(true)
@@ -251,6 +253,12 @@ export default class ScreenSearch extends store<typeof STATE> {
 
   /** 更新可视范围底部 y */
   onScroll = updateVisibleBottom.bind(this)
+
+  /** 输入框繁体转简体 */
+  onT2S = () => {
+    info('输入内容已转换为简体')
+    this.onChangeText(t2s(this.state.value || this.state._value))
+  }
 
   // -------------------- action --------------------
   /** 搜索 */
