@@ -7,7 +7,7 @@
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
-import { navigationReference, showImageViewer, stl } from '@utils'
+import { navigationReference, open, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
 import Item from './item'
@@ -27,6 +27,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
     size = 16,
     filter,
     thumb,
+    url,
     align,
     children
   }) => {
@@ -42,7 +43,7 @@ const ItemSettingBlock: IItemSettingBlock = ob(
             </Highlight>
             {!!thumb && (
               <Touchable
-                style={_.ml.xs}
+                style={styles.icon}
                 onPress={() => {
                   if (STORYBOOK) {
                     const navigation = navigationReference()
@@ -60,6 +61,16 @@ const ItemSettingBlock: IItemSettingBlock = ob(
                 }}
               >
                 <Iconfont name='md-info-outline' size={16} />
+              </Touchable>
+            )}
+            {!!url && (
+              <Touchable
+                style={styles.icon}
+                onPress={() => {
+                  open(url)
+                }}
+              >
+                <Iconfont name='md-open-in-new' size={16} />
               </Touchable>
             )}
           </Flex>

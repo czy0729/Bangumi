@@ -38,6 +38,7 @@ export type ItemSettingBlockProps = {
         _url?: string
         headers?: object
       }[]
+  url?: string
   align?: any
   children?: any
 }

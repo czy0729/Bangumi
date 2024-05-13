@@ -573,7 +573,7 @@ export const Image = observer(
 
     /** 圆角 */
     get borderRadius() {
-      return systemStore.setting.coverRadius || _.radiusXs
+      return systemStore.coverRadius || _.radiusXs
     }
 
     /** 开发模式 */

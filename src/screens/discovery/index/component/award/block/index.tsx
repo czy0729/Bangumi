@@ -17,7 +17,6 @@ import { memoStyles } from './styles'
 
 function Block({ year }, { navigation }: Ctx) {
   const styles = memoStyles()
-  const { coverRadius } = systemStore.setting
   const { width, height } = styles.item
   return (
     <Touchable
@@ -35,7 +34,7 @@ function Block({ year }, { navigation }: Ctx) {
         })
       }}
     >
-      <Squircle width={width} height={height} radius={coverRadius}>
+      <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <View style={styles[`item${year}`]}>
           <Image
             src={ASSETS_AWARDS[year]}

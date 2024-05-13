@@ -177,9 +177,6 @@ export const INIT_SETTING = {
   /** CDN 源头 */
   cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma'),
 
-  /** @deprecated 头像使用 CDN */
-  cdnAvatar: false,
-
   /** 头像启用付费 CDN */
   cdnAvatarV2: false,
 
@@ -215,9 +212,6 @@ export const INIT_SETTING = {
 
   /** 片假名终结者 */
   katakana: false,
-
-  /** @deprecated 点击水纹效果 (android) */
-  ripple: false,
 
   /** Bangumi 娘话语 */
   speech: true,
@@ -445,9 +439,6 @@ export const STATE = {
 
   /** 是否显示图片预览 */
   imageViewer: INIT_IMAGE_VIEWER,
-
-  /** @deprecated 是否 wifi */
-  wifi: false,
 
   /** 是否开发环境 */
   dev: false,

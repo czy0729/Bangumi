@@ -32,7 +32,6 @@ function Award2021(
 
   return useObserver(() => {
     const styles = memoStyles()
-    const { coverRadius } = systemStore.setting
     // const { showBlockTrain } = $.state
     const { width, height } = styles.item2021
     return (
@@ -51,7 +50,7 @@ function Award2021(
             })
           }}
         >
-          <Squircle width={width} height={height} radius={coverRadius}>
+          <Squircle width={width} height={height} radius={systemStore.coverRadius}>
             <View style={styles.item2021}>
               {/* {!TEXT_ONLY &&
                 (showBlockTrain ? (

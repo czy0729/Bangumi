@@ -102,7 +102,7 @@ class Cover extends React.Component<Props> {
         style={this.styles.container}
         width={width}
         height={height}
-        radius={systemStore.setting.coverRadius}
+        radius={systemStore.coverRadius}
       >
         <View
           style={{

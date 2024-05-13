@@ -42,7 +42,7 @@ function Blocks() {
               })
             }}
           >
-            <Squircle width={width} height={height} radius={systemStore.setting.coverRadius}>
+            <Squircle width={width} height={height} radius={systemStore.coverRadius}>
               <View style={styles[`item${year}`]}>
                 <Image
                   src={ASSETS_AWARDS[year]}

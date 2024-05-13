@@ -16,7 +16,6 @@ import { memoStyles } from './styles'
 function More(props, { navigation }: Ctx) {
   const styles = memoStyles()
   const { width, height } = styles.more
-  const { coverRadius } = systemStore.setting
   const type = _.select('plain', 'title')
   return (
     <Touchable
@@ -31,7 +30,7 @@ function More(props, { navigation }: Ctx) {
         navigation.push('Yearbook')
       }}
     >
-      <Squircle width={width} height={height} radius={coverRadius}>
+      <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Flex style={styles.more} justify='center' direction='column'>
           <Text size={18} type={type} bold>
             更多

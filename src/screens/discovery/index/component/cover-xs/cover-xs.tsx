@@ -20,7 +20,6 @@ import { AVATAR_SIZE } from './styles'
 
 const CoverXs = memo(
   ({ navigation, styles, imageWidth, avatarRound, title, avatar, data }) => {
-    const { coverRadius } = systemStore.setting
     const isMusic = title === '音乐'
 
     const width = imageWidth
@@ -46,11 +45,10 @@ const CoverXs = memo(
             })
           }}
         >
-          <Squircle width={width} height={height} radius={coverRadius}>
+          <Squircle width={width} height={height} radius={systemStore.coverRadius}>
             <Cover src={getCoverMedium(data.cover)} width={width} height={height} />
             <LinearGradient
               style={stl(styles.linear, isMusic && styles.linearMusic)}
-              // @ts-expect-error
               colors={linearColor}
               pointerEvents='none'
             />

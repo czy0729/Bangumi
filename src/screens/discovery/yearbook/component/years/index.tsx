@@ -44,7 +44,7 @@ function Years() {
             <Squircle
               width={styles.itemBody.width}
               height={styles.itemBody.height}
-              radius={systemStore.setting.coverRadius}
+              radius={systemStore.coverRadius}
             >
               <Flex style={styles.itemBody} justify='center' direction='column'>
                 <Text size={18} type={_.select('plain', 'title')} bold>

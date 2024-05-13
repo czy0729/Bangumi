@@ -38,7 +38,7 @@ function Award2022({ width, height }: { width?: number; height?: number }) {
         }
       ]}
     >
-      <Squircle width={w} height={h} radius={systemStore.setting.coverRadius}>
+      <Squircle width={w} height={h} radius={systemStore.coverRadius}>
         <Touchable
           style={[
             styles.item2022,

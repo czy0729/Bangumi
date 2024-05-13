@@ -22,7 +22,6 @@ import { memoStyles } from './styles'
 function CoverToday({ data }, { navigation }: Ctx) {
   const styles = memoStyles()
   const { width, height } = styles.cover
-  const { coverRadius } = systemStore.setting
   return (
     <Touchable
       style={styles.item}
@@ -42,14 +41,9 @@ function CoverToday({ data }, { navigation }: Ctx) {
         })
       }}
     >
-      <Squircle width={width} height={height} radius={coverRadius}>
+      <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Cover src={getCoverMedium(data?.images?.common)} width={width} height={height} />
-        <LinearGradient
-          style={styles.linear}
-          // @ts-expect-error
-          colors={linearColor}
-          pointerEvents='none'
-        />
+        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.info} pointerEvents='none'>
           <Text
             size={_.device(10, 13)}

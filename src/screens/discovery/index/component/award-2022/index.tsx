@@ -58,7 +58,7 @@ function Award2022({ width, height }: { width?: number; height?: number }) {
             })
           }}
         >
-          <Squircle width={w} height={h} radius={systemStore.setting.coverRadius}>
+          <Squircle width={w} height={h} radius={systemStore.coverRadius}>
             {!TEXT_ONLY && (
               <View
                 style={[

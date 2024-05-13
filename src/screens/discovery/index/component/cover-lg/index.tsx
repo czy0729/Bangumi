@@ -21,8 +21,7 @@ import { memoStyles } from './styles'
 
 function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
   const styles = memoStyles()
-  const { coverRadius, cdnOrigin } = systemStore.setting
-  const isUseCDN = cdnOrigin === 'magma'
+  const isUseCDN = systemStore.setting.cdnOrigin === 'magma'
   const isMusic = title === '音乐'
 
   const { width, height: h } = styles.cover
@@ -48,19 +47,14 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
         })
       }}
     >
-      <Squircle width={width} height={height} radius={coverRadius}>
+      <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Cover
           src={isUseCDN ? matchCoverUrl(src, false) : getCoverLarge(src)}
           size={width}
           height={height}
           cdn={isUseCDN}
         />
-        <LinearGradient
-          style={styles.linear}
-          // @ts-expect-error
-          colors={linearColor}
-          pointerEvents='none'
-        />
+        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.desc} pointerEvents='none'>
           <Text type={_.select('plain', 'desc')} bold>
             {data.info}

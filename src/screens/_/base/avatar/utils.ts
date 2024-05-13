@@ -83,11 +83,7 @@ export function getCDNAvatar(
   src: any,
   prefix: 'bgm_poster_100' | 'bgm_poster_200' = 'bgm_poster_100'
 ) {
-  if (
-    !systemStore.setting.cdnAvatarV2 ||
-    typeof src !== 'string' ||
-    !src.includes(HOST_IMAGE)
-  ) {
+  if (!systemStore.setting.cdnAvatarV2 || typeof src !== 'string' || !src.includes(HOST_IMAGE)) {
     return src
   }
 
@@ -103,18 +99,14 @@ export function getCDNAvatar(
 }
 
 /** 计算圆角参数值 */
-export function getRadius(
-  radius: Props['radius'],
-  round: Props['round'],
-  size: Props['size']
-) {
+export function getRadius(radius: Props['radius'], round: Props['round'], size: Props['size']) {
   // 默认带圆角, 若大小的一半比设置的圆角还小, 为避免方形头像变成原型, 则覆盖成sm
   let _radius: boolean | number = true
   if (radius) {
     _radius = radius
   } else if (round || systemStore.setting.avatarRound) {
     _radius = size / 2
-  } else if (size / 2 <= systemStore.setting.coverRadius) {
+  } else if (size / 2 <= systemStore.coverRadius) {
     _radius = _.radiusSm
   }
 

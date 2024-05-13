@@ -18,6 +18,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   },
+  icon: {
+    paddingHorizontal: _.sm
+  },
   active: {
     borderColor: _.colorSuccess
   },

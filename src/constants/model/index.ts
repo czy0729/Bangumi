@@ -351,10 +351,7 @@ export const MONO_WORKS_ORDERBY = [
 ] as const
 
 /** 人物排序 */
-export const MODEL_MONO_WORKS_ORDERBY = new Model(
-  MONO_WORKS_ORDERBY,
-  'MONO_WORKS_ORDERBY'
-)
+export const MODEL_MONO_WORKS_ORDERBY = new Model(MONO_WORKS_ORDERBY, 'MONO_WORKS_ORDERBY')
 
 /** 搜索类型 */
 export const SEARCH_CAT = [
@@ -469,10 +466,7 @@ export const SETTING_HOME_LAYOUT = [
 ] as const
 
 /** [设置] 首页收藏布局 */
-export const MODEL_SETTING_HOME_LAYOUT = new Model(
-  SETTING_HOME_LAYOUT,
-  'SETTING_HOME_LAYOUT'
-)
+export const MODEL_SETTING_HOME_LAYOUT = new Model(SETTING_HOME_LAYOUT, 'SETTING_HOME_LAYOUT')
 
 /** [设置] 首页收藏网格布局时，条目封面形状 */
 export const SETTING_HOME_GRID_COVER_LAYOUT = [
@@ -535,10 +529,7 @@ export const SETTING_HOME_SORTING = [
 ] as const
 
 /** [设置] 首页收藏排序 */
-export const MODEL_SETTING_HOME_SORTING = new Model(
-  SETTING_HOME_SORTING,
-  'SETTING_HOME_SORTING'
-)
+export const MODEL_SETTING_HOME_SORTING = new Model(SETTING_HOME_SORTING, 'SETTING_HOME_SORTING')
 
 /** [设置] 启动页面 */
 export const SETTING_INITIAL_PAGE = [
@@ -569,10 +560,7 @@ export const SETTING_INITIAL_PAGE = [
 ] as const
 
 /** [设置] 启动页面 */
-export const MODEL_SETTING_INITIAL_PAGE = new Model(
-  SETTING_INITIAL_PAGE,
-  'SETTING_INITIAL_PAGE'
-)
+export const MODEL_SETTING_INITIAL_PAGE = new Model(SETTING_INITIAL_PAGE, 'SETTING_INITIAL_PAGE')
 
 /** [设置] 图片质量 */
 export const SETTING_QUALITY = [
@@ -580,10 +568,6 @@ export const SETTING_QUALITY = [
     label: '默认',
     value: 'default'
   },
-  // {
-  //   label: 'WiFi下高质量',
-  //   value: 'wifi-best'
-  // },
   {
     label: '高',
     value: 'best'
@@ -648,10 +632,7 @@ export const SETTING_USER_GRID_NUM = [
 ] as const
 
 /** [设置] 用户空间网格个数 */
-export const MODEL_SETTING_USER_GRID_NUM = new Model(
-  SETTING_USER_GRID_NUM,
-  'SETTING_USER_GRID_NUM'
-)
+export const MODEL_SETTING_USER_GRID_NUM = new Model(SETTING_USER_GRID_NUM, 'SETTING_USER_GRID_NUM')
 
 /** [设置] 切页动画 */
 export const SETTING_TRANSITION = [
@@ -670,10 +651,7 @@ export const SETTING_TRANSITION = [
 ] as const
 
 /** [设置] 切页动画 */
-export const MODEL_SETTING_TRANSITION = new Model(
-  SETTING_TRANSITION,
-  'SETTING_TRANSITION'
-)
+export const MODEL_SETTING_TRANSITION = new Model(SETTING_TRANSITION, 'SETTING_TRANSITION')
 
 /** [设置] 同步设置 */
 export const SETTING_SYNC = [
@@ -715,10 +693,7 @@ export const SETTING_CDN_ORIGIN = [
 ] as const
 
 /** [设置] CDN 源头 */
-export const MODEL_SETTING_CDN_ORIGIN = new Model(
-  SETTING_CDN_ORIGIN,
-  'SETTING_CDN_ORIGIN'
-)
+export const MODEL_SETTING_CDN_ORIGIN = new Model(SETTING_CDN_ORIGIN, 'SETTING_CDN_ORIGIN')
 
 /** [设置] 楼层导航条方向 */
 export const RAKUEN_SCROLL_DIRECTION = [
@@ -794,10 +769,7 @@ export const COLLECTIONS_ORDERBY = [
 ] as const
 
 /** 收藏排序 */
-export const MODEL_COLLECTIONS_ORDERBY = new Model(
-  COLLECTIONS_ORDERBY,
-  'COLLECTIONS_ORDERBY'
-)
+export const MODEL_COLLECTIONS_ORDERBY = new Model(COLLECTIONS_ORDERBY, 'COLLECTIONS_ORDERBY')
 
 /** 标签排序 */
 export const TAG_ORDERBY = [
@@ -1059,10 +1031,7 @@ export const TINYGRAIL_ASSETS_TYPE = [
 ] as const
 
 /** [小圣杯] 股类型 */
-export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model(
-  TINYGRAIL_ASSETS_TYPE,
-  'TINYGRAIL_ASSETS_TYPE'
-)
+export const MODEL_TINYGRAIL_ASSETS_TYPE = new Model(TINYGRAIL_ASSETS_TYPE, 'TINYGRAIL_ASSETS_TYPE')
 
 /** [小圣杯] 工具条类型 */
 export const TINYGRAIL_CACULATE_TYPE = [

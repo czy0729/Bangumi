@@ -36,7 +36,7 @@ function Counts(props, { $ }: Ctx) {
               style={[
                 styles.count,
                 {
-                  borderRadius: systemStore.setting.coverRadius
+                  borderRadius: systemStore.coverRadius
                 }
               ]}
             >

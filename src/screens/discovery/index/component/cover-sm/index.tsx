@@ -21,7 +21,6 @@ import { memoStyles } from './styles'
 
 function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
   const styles = memoStyles()
-  const { coverRadius } = systemStore.setting
   const isMusic = title === '音乐'
 
   const { width, height: h } = styles.cover
@@ -47,11 +46,10 @@ function CoverSm({ title, src, cn, data }, { navigation }: Ctx) {
         })
       }}
     >
-      <Squircle width={width} height={height} radius={coverRadius}>
+      <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Cover src={getCoverMedium(src)} size={width} height={height} />
         <LinearGradient
           style={stl(styles.linear, isMusic && styles.linearMusic)}
-          // @ts-expect-error
           colors={linearColor}
           pointerEvents='none'
         />

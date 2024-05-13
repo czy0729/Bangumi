@@ -18,24 +18,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 基本设置 */
   @computed get setting() {
-    return {
-      ...this.state.setting,
+    return this.state.setting
+  }
 
-      /** 版本迭代后废弃的设置覆盖 */
-      cdnAvatar: false,
-      coverRadius: radiusMd,
-      ripple: false
-    }
+  /** 图片圆角 */
+  @computed get coverRadius() {
+    return radiusMd
   }
 
   /** 发布版本 */
   @computed get release() {
     return this.state.release
-  }
-
-  /** @deprecated 是否 wifi */
-  @computed get wifi() {
-    return this.state.wifi
   }
 
   /** @deprecated iOS首次进入, 观看用户产生内容需有同意规则选项, 否则不能过审 */
