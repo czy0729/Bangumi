@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-03 22:43:37
+ * @Last Modified time: 2024-05-14 04:22:25
  */
 // Login
 export { default as Login } from './login/index/index'
@@ -15,6 +15,7 @@ export { default as ADV } from './discovery/adv'
 export { default as Anime } from './discovery/anime'
 export { default as Anitama } from './discovery/anitama'
 export { default as Award } from './discovery/award'
+export { default as BiWeekly } from './discovery/bi-weekly'
 export { default as Browser } from './discovery/browser'
 export { default as Calendar } from './discovery/calendar'
 export { default as Catalog } from './discovery/catalog'

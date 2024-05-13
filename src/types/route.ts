@@ -1,10 +1,10 @@
-import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 /*
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:02:53
+ * @Last Modified time: 2024-05-14 05:45:13
  */
+import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import * as Screens from '@screens'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
 import { Fn } from './utils'
@@ -247,6 +247,7 @@ type RouteTopic = (
     _title?: string
     _replies?: string
     _group?: string
+    _groupThumb?: string
     _desc?: string
     _time?: string
     _avatar?: string

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:22:17
+ * @Last Modified time: 2024-05-14 05:54:30
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -381,6 +381,9 @@ export default class Computed extends State {
     // ep 带上章节详情
     if (this.isEp) return this.epFormHTML || this.params._desc
 
-    return (this.topic.message || this.topicFormCDN.message || '').replace(/(<br>)+/g, '<br>')
+    return (this.topic.message || this.topicFormCDN.message || '').replace(
+      /(<br\s*\/?>){3,}/g,
+      '<br><br>'
+    )
   }
 }
