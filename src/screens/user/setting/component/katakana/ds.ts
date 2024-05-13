@@ -20,10 +20,14 @@ export const TEXTS = {
     google: {
       title: '谷歌翻译',
       information: '因服务已退出国内\n故无限期搁置'
+    },
+    custom: {
+      title: '自定义百度翻译账号',
+      information: '需填写 APP ID 和秘钥，当两项都有值的时候才会使用'
     }
   },
   katakana: {
-    title: '[实验性] 片假名终结者',
+    title: '片假名终结者',
     information:
       '匹配日语片假名延迟翻译，翻译成功后在上方标注英文原词\n开启后资源消耗增大，非必要请勿开启'
   },

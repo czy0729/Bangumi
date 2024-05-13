@@ -5,11 +5,12 @@
  * @Last Modified time: 2023-12-04 00:51:50
  */
 import { STORYBOOK } from '@constants/device'
-import { asc, urlStringify } from '../utils'
-import { get, update } from '../kv'
+import { syncSystemStore } from '../async'
 import Crypto from '../crypto'
-import md5 from '../thirdParty/md5'
+import { get, update } from '../kv'
 import hash from '../thirdParty/hash'
+import md5 from '../thirdParty/md5'
+import { asc, urlStringify } from '../utils'
 import { xhrCustom } from './xhr'
 
 const s = new Date().getSeconds()
@@ -62,10 +63,17 @@ export async function baiduTranslate(query: string, to = 'zh') {
       return ''
     }
 
-    const appid = APP_BAIDU_ID
+    const { baiduAppId, baiduKey } = syncSystemStore().setting
+    let appid = APP_BAIDU_ID
+    let appkey = APP_BAIDU_KEY
+    if (baiduAppId && baiduKey) {
+      appid = baiduAppId
+      appkey = appkey
+    }
+
     const salt = new Date().getTime()
     const from = 'auto'
-    const sign = md5(`${appid}${q}${salt}${APP_BAIDU_KEY}`)
+    const sign = md5(`${appid}${q}${salt}${appkey}`)
     const { _response } = await xhrCustom({
       url: `https://api.fanyi.baidu.com/api/trans/vip/translate?${urlStringify({
         q,

@@ -392,6 +392,12 @@ export const INIT_SETTING = {
   /** 毛玻璃: 模态框 (android) */
   blurModal: true,
 
+  /** 自定义百度翻译 APP ID */
+  baiduAppId: '',
+
+  /** 自定义百度翻译秘钥 */
+  baiduKey: '',
+
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT
 }

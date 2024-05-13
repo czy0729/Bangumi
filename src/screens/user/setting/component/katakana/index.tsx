@@ -33,7 +33,7 @@ function Katakana({ navigation, filter }) {
         <ItemSetting hd='其他' arrow highlight filter={filter} onPress={setTrue}>
           <Heatmap id='设置.切换' title='片假名终结者' />
         </ItemSetting>
-        <ActionSheet show={state} title='其他' height={filter ? 440 : 640} onClose={setFalse}>
+        <ActionSheet show={state} title='其他' height={filter ? 440 : 760} onClose={setFalse}>
           {shows.origin && (
             <OriginSetting navigation={navigation} filter={filter} setFalse={setFalse} />
           )}
