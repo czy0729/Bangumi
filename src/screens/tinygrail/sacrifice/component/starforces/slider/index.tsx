@@ -17,7 +17,6 @@ function Slider(props, { $ }: Ctx) {
     <>
       <SliderComp
         value={$.state.starForcesValue}
-        step={1}
         min={0}
         max={max}
         disabled={!max}

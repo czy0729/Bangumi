@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Amount from './amount'
@@ -21,11 +22,11 @@ function Sacrifice(props, { $ }: Ctx) {
     <View style={styles.container}>
       <Head />
       {$.state.showSacrifice && (
-        <>
+        <View style={_.mb.sm}>
           <Amount />
           <Check />
           <Slider />
-        </>
+        </View>
       )}
     </View>
   )

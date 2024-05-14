@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Amount from './amount'
@@ -20,10 +21,10 @@ function Auction(props, { $ }: Ctx) {
     <View style={styles.container}>
       <Head />
       {$.state.showAuction && (
-        <>
+        <View style={_.mb.sm}>
           <Amount />
           <Slider />
-        </>
+        </View>
       )}
     </View>
   )

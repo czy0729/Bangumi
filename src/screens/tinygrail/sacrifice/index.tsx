@@ -38,9 +38,9 @@ const TinygrailSacrifice = (props, context: Ctx) => {
           <Sacrifice />
           <Starforces />
           <Refine />
+          <Items />
           <Auction />
           <AuctionList />
-          <Items />
           <Temples />
           <Users />
         </ScrollView>

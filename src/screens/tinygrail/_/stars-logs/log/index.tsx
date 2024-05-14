@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Log(
-  { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time, type },
+  { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time, type, onToggle },
   {
     navigation
   }: {
@@ -37,10 +37,13 @@ function Log(
           const navigationRef = navigation || navigationReference()
           if (!navigationRef) return
 
-          navigationRef.push('Mono', {
-            monoId: `character/${monoId}`,
-            _name: name
-          })
+          if (typeof onToggle === 'function') onToggle()
+          setTimeout(() => {
+            navigationRef.push('Mono', {
+              monoId: `character/${monoId}`,
+              _name: name
+            })
+          }, 160)
         }}
       />
       <Flex.Item style={_.ml.sm}>
@@ -49,9 +52,12 @@ function Log(
             const navigationRef = navigation || navigationReference()
             if (!navigationRef) return
 
-            navigation.push('TinygrailSacrifice', {
-              monoId: `character/${monoId}`
-            })
+            if (typeof onToggle === 'function') onToggle()
+            setTimeout(() => {
+              navigationRef.push('TinygrailSacrifice', {
+                monoId: `character/${monoId}`
+              })
+            }, 160)
           }}
         >
           <Flex>

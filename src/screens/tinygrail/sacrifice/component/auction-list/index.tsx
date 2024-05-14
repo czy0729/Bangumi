@@ -16,6 +16,8 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function AuctionList(props, { $ }: Ctx) {
+  if (!$.state.showAuction) return null
+
   const styles = memoStyles()
   return (
     <View style={styles.container}>

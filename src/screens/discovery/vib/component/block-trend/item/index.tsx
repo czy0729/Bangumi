@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 18:38:19
+ * @Last Modified time: 2024-05-14 06:34:11
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -49,8 +49,8 @@ function Item({ navigation, item, index }) {
           }}
         >
           <Flex style={styles.value} align='start'>
-            <Text type={up ? 'bid' : 'ask'} size={28}>
-              {up ? '▴' : '▾'}
+            <Text style={up && styles.reverse} type={up ? 'bid' : 'ask'} size={28}>
+              ▾
             </Text>
             <Text size={16} lineHeight={30}>
               {' '}

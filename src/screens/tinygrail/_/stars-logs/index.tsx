@@ -76,7 +76,7 @@ function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
               }
             ]}
           >
-            <List onHeaderRefresh={onHeaderRefresh} />
+            <List onHeaderRefresh={onHeaderRefresh} onToggle={onToggle} />
           </Animated.View>
         </Flex>
       </Portal>

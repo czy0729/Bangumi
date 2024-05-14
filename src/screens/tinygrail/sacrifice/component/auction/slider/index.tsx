@@ -6,18 +6,22 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Slider as CompSlider, Text } from '@components'
+import { Flex, Slider as SliderComp, Text } from '@components'
 import { _ } from '@stores'
-import { formatNumber } from '@utils'
+import { debounce, formatNumber } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function Slider(props, { $ }: Ctx) {
   const { auctionAmount, auctionPrice } = $.state
-  const { price = 0 } = $.valhallChara
+  const { price = 0, amount } = $.valhallChara
   const { balance } = $.assets
   const { state, type } = $.auctionStatus
+  const max = Math.min(
+    amount || 0,
+    Math.floor(balance / Math.max(Number(auctionPrice), price || 1))
+  )
   return (
     <>
       <Flex style={_.mt.md}>
@@ -33,27 +37,25 @@ function Slider(props, { $ }: Ctx) {
           当前竞拍 {state} 人 / {formatNumber(type, 0)} 股
         </Text>
       </Flex>
-      <Flex style={styles.slider}>
-        <View style={_.container.block}>
-          <CompSlider
-            value={auctionAmount}
-            min={0}
-            max={Math.floor(balance / Math.max(Number(auctionPrice), price || 1))}
-            step={1}
-            minimumTrackTintColor={_.colorAsk}
-            maximumTrackTintColor={_.colorTinygrailBorder}
-            onChange={value => $.changeAuctionAmount(value)}
-          />
-        </View>
-      </Flex>
+      <View style={styles.slider}>
+        <SliderComp
+          value={auctionAmount}
+          min={0}
+          max={max}
+          disabled={!max}
+          minimumTrackTintColor={_.colorAsk}
+          maximumTrackTintColor={_.colorTinygrailBorder}
+          onChange={debounce($.changeAuctionAmount)}
+        />
+      </View>
       <Flex>
         <Flex.Item>
           <Text type='tinygrailText' size={12}>
-            余额 0
+            可用余额 {formatNumber(balance, 2, $.short)}
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          {formatNumber(balance, 2, $.short)}
+          满拍 {formatNumber(Number(auctionPrice || 0) * (max || 0), 2, $.short)}
         </Text>
       </Flex>
     </>

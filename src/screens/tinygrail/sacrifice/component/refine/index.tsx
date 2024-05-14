@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Action from './action'
@@ -20,10 +21,10 @@ function Refine(props, { $ }: Ctx) {
     <View style={styles.container}>
       <Head />
       {$.state.showRefine && (
-        <>
+        <View style={_.mb.sm}>
           <Temple />
           <Action />
-        </>
+        </View>
       )}
     </View>
   )
