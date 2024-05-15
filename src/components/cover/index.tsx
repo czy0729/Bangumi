@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:34:43
+ * @Last Modified time: 2024-05-15 10:09:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -21,7 +21,7 @@ import { getCoverSrc, getImageViewerSrc } from './utils'
 import { COMPONENT } from './ds'
 import { Props as CoverProps } from './types'
 
-export { CoverProps }
+export { CoverProps, getCoverSrc }
 
 /** 封面 */
 export const Cover = observer(
@@ -71,7 +71,7 @@ export const Cover = observer(
     }
 
     // 封面拟物
-    if (systemStore.setting.coverThings || useType) {
+    if (useType || systemStore.setting.coverThings) {
       if (type === '音乐') {
         return (
           <Disc
@@ -109,9 +109,7 @@ export const Cover = observer(
         )
       }
 
-      if (type === '目录') {
-        return <Catalog {...passProps} imageStyle={style} width={width} />
-      }
+      if (type === '目录') return <Catalog {...passProps} imageStyle={style} width={width} />
     }
 
     if (radius) {

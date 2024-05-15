@@ -5,8 +5,7 @@
  * @Last Modified time: 2024-03-27 05:13:15
  */
 import React from 'react'
-import { Touchable } from '@components'
-import { Cover as CompCover } from '@_'
+import { Cover as CoverComp, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
@@ -32,7 +31,7 @@ function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
         })
       }}
     >
-      <CompCover
+      <CoverComp
         size={styles.item.width}
         height={styles.item.width * (homeGridCoverLayoutCn === '长方形' ? 1.4 : 1)}
         src={subject?.images?.medium || ''}

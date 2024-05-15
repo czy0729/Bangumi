@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 18:46:51
+ * @Last Modified time: 2024-05-15 10:36:49
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -200,11 +200,7 @@ export function pick<T extends Record<string, any>, K extends keyof T>(
   obj: T,
   arr: K[]
 ): Pick<T, K> {
-  return arr.reduce(
-    // eslint-disable-next-line no-sequences
-    (acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc),
-    {} as Pick<T, K>
-  )
+  return arr.reduce((acc, curr) => (curr in obj && (acc[curr] = obj[curr]), acc), {} as Pick<T, K>)
 }
 
 /** 对象中选择排除 key */

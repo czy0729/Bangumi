@@ -2,43 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-01-21 11:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:56:11
+ * @Last Modified time: 2024-05-15 11:04:50
  */
 import React from 'react'
-import { Touchable } from '@components'
-import { getCoverSrc } from '@components/cover/utils'
-import { Cover as CompCover, InView } from '@_'
+import { Cover as CoverComp, getCoverSrc, Touchable } from '@components'
+import { InView } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_HEIGHT } from '@constants'
-import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import Heatmaps from './heatmaps'
-import { COMPONENT, ITEM_HEIGHT, ITEM_HEIGHT_COMPACT } from './ds'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Cover(
-  {
-    index,
-    subjectId,
-    typeCn,
-    name,
-    name_cn,
-    image
-  }: {
-    index: number
-    subjectId: SubjectId
-    typeCn: SubjectTypeCn
-    name: string
-    name_cn: string
-    image: string
-  },
-  { navigation }: Ctx
-) {
+function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props, { navigation }: Ctx) {
   const { homeListCompact } = systemStore.setting
   const style = homeListCompact ? styles.inViewCompact : styles.inView
-  const size = style.minWidth
+  const width = style.minWidth
+  const height = style.minHeight
   return (
     <Touchable
       animate
@@ -52,22 +34,20 @@ function Cover(
           subjectId,
           _jp: name,
           _cn: name_cn,
-          _image: getCoverSrc(image, size),
+          _image: getCoverSrc(image, width),
           _collection: '在看',
           _type: typeCn
         })
       }}
     >
-      <InView
-        style={style}
-        y={(homeListCompact ? ITEM_HEIGHT_COMPACT : ITEM_HEIGHT) * index + _.headerHeight}
-      >
-        <CompCover
+      <InView style={style} y={height * index + _.headerHeight}>
+        <CoverComp
           src={image}
-          size={size}
-          height={homeListCompact ? style.minHeight : IMG_HEIGHT}
+          size={width}
+          height={height}
           type={typeCn}
           radius
+          priority={index < 4 ? 'high' : 'normal'}
         />
       </InView>
       {index === 0 && <Heatmaps />}

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-03-05 18:31:36
  */
 import { ColorValue, ImageProps } from 'react-native'
-import { EventType, ImageStyle, Override, Source, ViewStyle } from '@types'
+import { EventType, Fn, ImageStyle, Override, Source, ViewStyle } from '@types'
 import { SkeletonProps } from '../skeleton'
 
 export type Props = Override<
@@ -20,31 +20,28 @@ export type Props = Override<
     /** 图片地址 */
     src?: Source | string
 
-    /** 此组件禁用 source */
-    // source: never
-
     /** 大小 | 宽度 */
     size?: number
 
-    /** 宽度 */
+    /** 宽度, 优先级比 size 高 */
     width?: number
 
-    /** 高度 */
+    /** 高度, 优先级比 size 高 */
     height?: number
 
-    /** 是否带边框, truely 则显示 */
+    /** @deprecated 是否带边框, truely 则显示 */
     border?: number | boolean | ColorValue
 
-    /** 边框大小 */
+    /** @deprecated 边框大小 */
     borderWidth?: number
 
     /** 是否带圆角 */
     radius?: number | boolean
 
-    /** 是否带阴影 */
+    /** @deprecated 是否带阴影 */
     shadow?: boolean | 'lg'
 
-    /** 是否有底色 */
+    /** 是否有默认底色 */
     placeholder?: boolean
 
     /** 支持自动计算远端图片高度, 传递图片的宽度, 高度适应比例 */
@@ -53,24 +50,25 @@ export type Props = Override<
     /** 支持自动计算远端图片高度, 传递图片的高度, 宽度适应比例 */
     autoHeight?: number
 
-    /** @deprecated 是否自动选择 Bangumi 图片质量 */
-    quality?: boolean
-
     /** 是否点击显示全局的 ImageViewer, 此值打开会覆盖 onPress */
     imageViewer?: boolean
 
     /** 若有值, 打开 ImageViewer 时使用此 src */
     imageViewerSrc?: string
 
-    withoutFeedback?: boolean
-
     /** 埋点事件 */
     event?: EventType
 
-    /** Touchable delay */
+    /** Touchable 禁用触摸效果 */
+    withoutFeedback?: boolean
+
+    /** Touchable 是否防止快速多次点击 */
     delay?: boolean
 
-    /** 是否本地缓存  */
+    /** Touchable 点击中动画缩放比例 */
+    scale?: number
+
+    /** 是否本地缓存 */
     cache?: boolean
 
     /** 图片请求头 */
@@ -79,8 +77,11 @@ export type Props = Override<
     /** 开发模式, 强制不显示图片 */
     textOnly?: boolean
 
-    /** 获取本地缓存地址的方法是否同步进行 */
+    /** @deprecated 获取本地缓存地址的方法是否同步进行 */
     sync?: boolean
+
+    /** 图片同一时间有复数加载时的优先级 */
+    priority?: 'low' | 'normal' | 'high'
 
     /** 是否退回使用 rn 的 Image (安卓 only) */
     fallback?: boolean
@@ -91,9 +92,6 @@ export type Props = Override<
     /** 确定加载失败后隐藏组件 */
     errorToHide?: boolean
 
-    /** 点击中动画缩放比例 */
-    scale?: number
-
     /** 是否显示骨架屏动画 */
     skeleton?: boolean
 
@@ -101,13 +99,13 @@ export type Props = Override<
     skeletonType?: SkeletonProps['type']
 
     /** 图片点击回调 */
-    onPress?: (arg0?: any) => any
+    onPress?: Fn
 
     /** 图片长按回调 */
-    onLongPress?: (arg0?: any) => any
+    onLongPress?: Fn
 
     /** 图片加载失败回调 */
-    onError?: (arg0?: any) => any
+    onError?: Fn
   }
 >
 

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 20:58:58
+ * @Last Modified time: 2024-05-15 12:02:38
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getTimestamp, omit, pick } from '@utils'
 import { r } from '@utils/dev'
-import { HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
-import { IOS_IPA } from '@/config'
+import { EVENT, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
+import { IOS_IPA, TEXT_ONLY } from '@/config'
 import { AnyObject, Fn } from '@types'
 import { Component } from '../component'
 import { devLog } from '../dev'
@@ -39,14 +39,7 @@ import {
   setErrorTimeout,
   timeoutPromise
 } from './utils'
-import {
-  COMPONENT,
-  DEFAULT_HEADERS,
-  DEFAULT_PROPS,
-  MAX_ERROR_COUNT,
-  OSS_MEGMA_PREFIX,
-  RETRY_DISTANCE
-} from './ds'
+import { COMPONENT, DEFAULT_HEADERS, MAX_ERROR_COUNT, OSS_MEGMA_PREFIX, RETRY_DISTANCE } from './ds'
 import { memoStyles } from './styles'
 import { Props as ImageProps, State } from './types'
 
@@ -66,7 +59,22 @@ export { ImageProps }
  */
 export const Image = observer(
   class ImageComponent extends React.Component<ImageProps, State> {
-    static defaultProps: ImageProps = DEFAULT_PROPS
+    static defaultProps: ImageProps = {
+      autoSize: 0,
+      border: false,
+      borderWidth: _.hairlineWidth,
+      cache: !STORYBOOK,
+      delay: !STORYBOOK,
+      event: EVENT,
+      imageViewer: false,
+      withoutFeedback: false,
+      placeholder: true,
+      shadow: false,
+      size: 40,
+      textOnly: TEXT_ONLY,
+      priority: 'normal',
+      skeleton: true
+    }
 
     state: State = {
       uri: STORYBOOK ? fixedRemoteImageUrl(this.props.src) : undefined,
@@ -77,44 +85,61 @@ export const Image = observer(
     }
 
     /** 图片下载失败次数 */
-    private _errorCount = 0
+    _errorCount = 0
 
     /** 图片下载失败重试间隔 */
-    private _timeoutId = null
+    _timeoutId = null
 
     /** 是否已获取远程图片宽高 */
-    private _getSized = false
+    _getSized = false
 
     /** 是否已回退到 props.fallback 地址 */
-    private _fallbacked = false
+    _fallbacked = false
 
     /** 是否已回退到 bgm 源头  */
-    private _recoveried = false
+    _recoveried = false
 
     /** 是否已确定加载失败 */
-    private _commited = false
+    _commited = false
 
     /** 当前图片大小 */
-    private _size = 0
+    _size = 0
 
     componentDidMount() {
       if (this.props.textOnly) return
 
+      const { src } = this.props
+
+      // 不缓存图片
       if (!this.props.cache || STORYBOOK) {
         this.setState({
-          uri: fixedRemoteImageUrl(this.props.src)
+          uri: fixedRemoteImageUrl(src)
         })
         return
       }
 
-      if (this.preGetLocalCache()) return
+      // 本地图片
+      if (typeof src !== 'string') {
+        this.setState({
+          uri: src
+        })
+        return
+      }
 
-      if (this.props.sync) return this.preCache()
+      // 优先响应图片
+      const { priority } = this.props
+      if (priority === 'high') {
+        if (this.preGetLocalCache()) return
+        return this.preCache()
+      }
 
-      // 若同一时间存在大量低速度图片, 会把整个运行时卡住, 暂时使用 setTimeout 处理
-      setTimeout(() => {
-        this.preCache()
-      }, 0)
+      setTimeout(
+        () => {
+          if (this.preGetLocalCache()) return
+          this.preCache()
+        },
+        priority === 'low' ? 40 : 0
+      )
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: { src: ImageProps['src'] }) {
@@ -169,24 +194,21 @@ export const Image = observer(
 
     /** 缓存图片 */
     cache = async (src: ImageProps['src']) => {
-      if (!IOS || (IOS && systemStore.setting.iosImageCacheV2)) return this.cacheV2(src)
+      // 通常只有安卓走 V2 流程
+      if (!IOS || (IOS && systemStore.setting.iosImageCacheV2)) {
+        return this.cacheV2(src)
+      }
 
       try {
         if (typeof src === 'string') {
           const fixedSrc = fixedRemoteImageUrl(src)
 
           // 空地址不作处理
-          if (fixedSrc === 'https:') {
+          if (
+            fixedSrc === 'https:' ||
+            (typeof fixedSrc === 'string' && fixedSrc.includes('https:/img/'))
+          ) {
             this.commitError('error: cache 1')
-            return false
-          }
-
-          /**
-           * 检查本地有没有图片缓存
-           * @issue 这个地方没判断同时一个页面有相同图片, 同时检测本地地址的会触发 unmounted
-           */
-          if (typeof fixedSrc === 'string' && fixedSrc.includes('https:/img/')) {
-            this.commitError('error: cache 2')
             return false
           }
 
@@ -228,7 +250,7 @@ export const Image = observer(
             const uri = path || fixedSrc
             if (this.state.uri !== uri) {
               this.setState({
-                uri: path || fixedSrc
+                uri
               })
             }
           }
@@ -582,44 +604,11 @@ export const Image = observer(
     }
 
     renderImage() {
-      const {
-        style,
-        imageStyle,
-        src,
-        size,
-        height,
-        border,
-        borderWidth,
-        radius,
-        shadow,
-        placeholder,
-        autoSize,
-        autoHeight,
-        quality,
-        imageViewer,
-        imageViewerSrc,
-        withoutFeedback,
-        headers,
-        event,
-        delay,
-        scale,
-        cache,
-        fadeDuration,
-        errorToHide,
-        skeleton,
-        skeletonType,
-        textOnly,
-        onPress,
-        onLongPress,
-        onError,
-        ...other
-      } = this.props
-      if (textOnly) return <TextOnly style={this.computedStyle.image} />
+      if (this.props.textOnly) return <TextOnly style={this.computedStyle.image} />
 
-      const { error, uri } = this.state
-      if (error) {
+      if (this.state.error) {
         // 加载错误后销毁容器
-        if (errorToHide) return null
+        if (this.props.errorToHide) return null
 
         // 加载错误后显示显示图形
         if (!STORYBOOK) {
@@ -629,11 +618,47 @@ export const Image = observer(
         }
       }
 
+      const otherProps = omit(this.props, [
+        'style',
+        'imageStyle',
+        'src',
+        'size',
+        'height',
+        'border',
+        'borderWidth',
+        'radius',
+        'shadow',
+        'placeholder',
+        'autoSize',
+        'autoHeight',
+        'imageViewer',
+        'imageViewerSrc',
+        'withoutFeedback',
+        'headers',
+        'event',
+        'delay',
+        'scale',
+        'cache',
+        'fadeDuration',
+        'errorToHide',
+        'skeleton',
+        'skeletonType',
+        'textOnly',
+        'priority',
+        'onPress',
+        'onLongPress',
+        'onError'
+      ])
+      const { src } = this.props
       if (typeof src === 'string' || typeof src === 'undefined') {
+        const { uri } = this.state
+
         // 显示图片占位
         if (!uri) return <Placeholder style={this.computedStyle.image} />
 
         if (typeof uri === 'string') {
+          const { autoSize, autoHeight } = this.props
+
           // 获取图片的宽高中, 占位
           if (
             !(IOS || STORYBOOK) &&
@@ -645,14 +670,15 @@ export const Image = observer(
           // 网络图片
           return (
             <Remote
-              {...other}
+              {...otherProps}
               style={this.computedStyle.image}
               containerStyle={this.computedStyle.container}
               headers={this.headers}
               uri={uri}
               autoSize={autoSize}
               autoHeight={autoHeight}
-              fadeDuration={fadeDuration}
+              fadeDuration={this.props.fadeDuration}
+              priority={this.props.priority}
               onError={this.onError}
               onLoadEnd={this.onLoadEnd}
             />
@@ -663,9 +689,9 @@ export const Image = observer(
       // 本地图片
       return (
         <Local
-          {...other}
+          {...otherProps}
           style={this.computedStyle.image}
-          headers={headers}
+          headers={this.props.headers}
           overrideHeaders={this.headers}
           src={src}
           onError={this.onError}
@@ -674,59 +700,57 @@ export const Image = observer(
       )
     }
 
+    renderSkeleton() {
+      if (IOS_IPA || !this.props.skeleton) return null
+
+      return (
+        <Skeleton
+          style={this.computedStyle.image}
+          type={this.props.skeletonType}
+          textOnly={this.props.textOnly}
+          placeholder={this.props.placeholder}
+          loaded={this.state.loaded}
+        />
+      )
+    }
+
     renderTouchableImage(onPress: Fn) {
-      const {
-        textOnly,
-        placeholder,
-        delay,
-        scale,
-        skeleton,
-        skeletonType,
-        withoutFeedback,
-        onLongPress
-      } = this.props
-      const { loaded } = this.state
-      const onLongPressHandle = this.dev
-        ? () => {
-            devLog(
-              JSON.stringify(
-                {
-                  _size: `${Math.floor(this._size / 1024)} kb`,
-                  _errorCount: this._errorCount,
-                  _timeoutId: this._timeoutId,
-                  _getSized: this._getSized,
-                  _fallbacked: this._fallbacked,
-                  _recoveried: this._recoveried,
-                  _commited: this._commited,
-                  ...this.props,
-                  ...this.state
-                },
-                null,
-                2
-              )
-            )
-          }
-        : onLongPress
       return (
         <Component id='component-image' style={this.computedStyle.container}>
           <Touchable
-            delay={delay}
-            scale={scale}
-            withoutFeedback={withoutFeedback}
+            delay={this.props.delay}
+            scale={this.props.scale}
+            withoutFeedback={this.props.withoutFeedback}
             onPress={onPress}
-            onLongPress={onLongPressHandle}
+            onLongPress={
+              this.dev
+                ? () => {
+                    devLog(
+                      JSON.stringify(
+                        {
+                          _size: `${Math.floor(this._size / 1024)} kb`,
+                          ...pick(this, [
+                            '_errorCount',
+                            '_timeoutId',
+                            '_getSized',
+                            '_fallbacked',
+                            '_recoveried',
+                            '_commited'
+                          ]),
+                          ...this.props,
+                          ...this.state
+                        },
+                        null,
+                        2
+                      )
+                    )
+                  }
+                : this.props.onLongPress
+            }
           >
             {this.renderImage()}
           </Touchable>
-          {!IOS_IPA && skeleton && (
-            <Skeleton
-              style={this.computedStyle.image}
-              type={skeletonType}
-              textOnly={textOnly}
-              placeholder={placeholder}
-              loaded={loaded}
-            />
-          )}
+          {this.renderSkeleton()}
         </Component>
       )
     }
@@ -734,47 +758,28 @@ export const Image = observer(
     render() {
       r(COMPONENT)
 
-      const {
-        src,
-        textOnly,
-        placeholder,
-        imageViewer,
-        imageViewerSrc,
-        skeleton,
-        skeletonType,
-        event,
-        onPress,
-        onLongPress
-      } = this.props
-      const { uri, loaded } = this.state
-      let onPressHandle = onPress
+      let onPressHandle = this.props.onPress
 
       // 需要调用 ImageViewer 弹窗
-      if (imageViewer) {
+      if (this.props.imageViewer) {
         onPressHandle = imageViewerCallback({
-          imageViewerSrc,
-          uri,
-          src,
+          imageViewerSrc: this.props.imageViewerSrc,
           headers: this.headers,
-          event
+          src: this.props.src,
+          uri: this.state.uri,
+          event: this.props.event
         })
       }
 
       // 带点击事件
-      if (this.dev || onPressHandle || onLongPress) return this.renderTouchableImage(onPressHandle)
+      if (this.dev || onPressHandle || this.props.onLongPress) {
+        return this.renderTouchableImage(onPressHandle)
+      }
 
       return (
         <Component id='component-image' style={this.computedStyle.container}>
           {this.renderImage()}
-          {!IOS_IPA && skeleton && (
-            <Skeleton
-              style={this.computedStyle.image}
-              type={skeletonType}
-              textOnly={textOnly}
-              placeholder={placeholder}
-              loaded={loaded}
-            />
-          )}
+          {this.renderSkeleton()}
         </Component>
       )
     }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 17:30:54
+ * @Last Modified time: 2024-05-15 11:15:21
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
@@ -27,7 +27,16 @@ let memo404: Map<string, boolean>
 /** 记录超时的图片 */
 let memoTimeout: Map<string, boolean>
 
-  /** 初始化 */
+/** 记录加载过的图片 */
+const memoLocal = new Map<
+  string,
+  {
+    path: string
+    size?: number
+  }
+>()
+
+/** 初始化 */
 ;(async () => {
   try {
     memo451 = new Map(Object.entries((await getStorage(CACHE_KEY_451)) || {}))
@@ -253,7 +262,7 @@ export function fixedRemoteImageUrl(url: any) {
   return url
 }
 
-/** 用于下载超时 */
+/** 用于下载超时, 默认 10s */
 export function timeoutPromise() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -262,14 +271,6 @@ export function timeoutPromise() {
   })
 }
 
-const LOCAL_CACHE_MAP = new Map<
-  string,
-  {
-    path: string
-    size?: number
-  }
->()
-
 /**
  * 检测图片是否存在本地缓存
  *  - iOS 会返回 ImageCacheManager 的结果
@@ -277,7 +278,7 @@ const LOCAL_CACHE_MAP = new Map<
  * */
 export async function getLocalCache(src: string, headers?: Record<string, string>) {
   const id = hash(src)
-  if (LOCAL_CACHE_MAP.has(id)) return LOCAL_CACHE_MAP.get(id)
+  if (memoLocal.has(id)) return memoLocal.get(id)
 
   let result: {
     path: string
@@ -293,7 +294,7 @@ export async function getLocalCache(src: string, headers?: Record<string, string
     }
   }
 
-  if (result) LOCAL_CACHE_MAP.set(id, result)
+  if (result) memoLocal.set(id, result)
 
   return result
 }
@@ -301,7 +302,7 @@ export async function getLocalCache(src: string, headers?: Record<string, string
 /** 检测图片是否存在本地缓存 */
 export function getLocalCacheStatic(src: string) {
   const id = hash(src)
-  if (LOCAL_CACHE_MAP.has(id)) return LOCAL_CACHE_MAP.get(id)
+  if (memoLocal.has(id)) return memoLocal.get(id)
 }
 
 /** [DEV] */
