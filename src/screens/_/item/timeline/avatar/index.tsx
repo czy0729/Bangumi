@@ -8,8 +8,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { UserStatus } from '@components'
 import { ob } from '@utils/decorators'
-import { Avatar as CompAvatar } from '../../../base'
 import { AVATAR_WIDTH } from '../ds'
+import { Avatar as AvatarComp } from '../../../base'
 import { memoStyles } from './styles'
 
 function Avatar({ navigation, p1Text, userId, avatarSrc, event }) {
@@ -18,7 +18,7 @@ function Avatar({ navigation, p1Text, userId, avatarSrc, event }) {
     <View style={styles.avatar}>
       {!!avatarSrc && (
         <UserStatus userId={userId}>
-          <CompAvatar
+          <AvatarComp
             navigation={navigation}
             size={AVATAR_WIDTH}
             userId={userId}

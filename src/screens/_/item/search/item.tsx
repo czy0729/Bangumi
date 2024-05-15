@@ -84,6 +84,7 @@ const Item = memo(
               width={width}
               height={height}
               type={typeCn}
+              priority={index < 4 ? 'high' : 'normal'}
               radius
             />
           </InView>

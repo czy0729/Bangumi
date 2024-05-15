@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-12 16:04:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:38:43
+ * @Last Modified time: 2024-05-15 12:26:56
  */
 import { AnyObject, ColorValue, EventType, Fn, Navigation, Source, ViewStyle } from '@types'
 import { ImageProps } from '../image'
@@ -49,6 +49,9 @@ export type Props = {
 
   /** 错误回滚地址 */
   fallbackSrc?: string
+
+  /** 图片同一时间有复数加载时的优先级 */
+  priority?: ImageProps['priority']
 
   /** 骨架屏渐变颜色风格 */
   skeletonType?: ImageProps['skeletonType']

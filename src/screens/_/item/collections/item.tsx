@@ -91,7 +91,14 @@ const Item = memo(
         >
           <Flex style={styles.wrap} align='start'>
             <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
-              <Cover src={cover} width={width} height={IMG_HEIGHT * 1.1} radius type={type} />
+              <Cover
+                src={cover}
+                width={width}
+                height={IMG_HEIGHT * 1.1}
+                radius
+                type={type}
+                priority={index < 4 ? 'high' : 'normal'}
+              />
             </InView>
             <Flex.Item style={styles.body}>
               <Flex

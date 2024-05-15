@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 16:21:19
+ * @Last Modified time: 2024-05-15 12:28:14
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
@@ -38,7 +38,12 @@ const Item = memo(
           <Flex align='start'>
             <UserStatus userId={userId}>
               <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
-                <Avatar avatar={avatar} userName={userName} userId={userId} />
+                <Avatar
+                  avatar={avatar}
+                  userName={userName}
+                  userId={userId}
+                  priority={index < 10 ? 'high' : 'normal'}
+                />
               </InView>
             </UserStatus>
             <Flex.Item style={styles.wrap}>

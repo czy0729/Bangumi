@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:39:02
+ * @Last Modified time: 2024-05-15 12:27:09
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -36,6 +36,7 @@ export const Avatar = ({
   borderWidth,
   borderColor = _.colorBorder,
   fallbackSrc,
+  priority,
   skeletonType,
   event = {},
   params = {},
@@ -71,6 +72,7 @@ export const Avatar = ({
       ),
       src: isFromApi ? _.select(IMG_EMPTY, IMG_EMPTY_DARK) : avatarSrc,
       fallbackSrc: fixedHD(fixedSize(String(fallbackSrc || src))),
+      priority,
       skeletonType,
       size: avatarSize,
       border: borderColor,

@@ -5,21 +5,14 @@
  * @Last Modified time: 2024-01-15 02:04:21
  */
 import React, { useRef } from 'react'
-import { enableScreens } from 'react-native-screens'
 import { useObserver } from 'mobx-react'
+import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { navigationReference } from '@utils'
 import { r } from '@utils/dev'
-import { IOS_IPA } from '@/config'
-import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { Navigation } from '@types'
 import { Component } from '../component'
 import { COMPONENT_CONTAINER } from './ds'
 import { Props } from './types'
-
-// iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化
-if (IOS_IPA) {
-  enableScreens(false)
-}
 
 // const enabledLimit = 5
 // let enabled = false

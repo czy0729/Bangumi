@@ -2,20 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 12:00:35
+ * @Last Modified time: 2024-05-15 12:30:04
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { DEV } from '@constants'
 import { COMPONENT } from './ds'
 
 /** 提前渲染的 y 轴距离 */
 let preDistance = 0
-setTimeout(() => {
-  preDistance = _.window.height * 0.5
-}, 20000)
+if (!DEV) {
+  setTimeout(() => {
+    preDistance = _.window.height * 0.5
+  }, 20000)
+}
 
 export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
   r(COMPONENT)
