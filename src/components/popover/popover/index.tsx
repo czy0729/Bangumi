@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 11:48:02
+ * @Last Modified time: 2024-05-16 15:34:28
  */
-import React, { useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
 import { HoldItem } from 'react-native-hold-menu'
 import { _ } from '@stores'
-import { useMount } from '@utils/hooks'
 import { IOS } from '@constants'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'
@@ -35,18 +34,22 @@ function Popover({ children, ...other }) {
     return _items
   }, [title, data, eventType])
 
-  useMount(() => {
-    const subscription = DeviceEventEmitter.addListener(eventType, value => {
-      let index = -1
-      try {
-        index = data.findIndex((item: any) => item === value)
-      } catch (error) {}
+  useEffect(() => {
+    const subscription = DeviceEventEmitter.addListener(
+      eventType,
+      value => {
+        let index = -1
+        try {
+          index = data.findIndex((item: any) => item === value)
+        } catch (error) {}
 
-      setTimeout(() => {
-        onSelect(value, index)
-      }, 0)
-      return
-    })
+        setTimeout(() => {
+          onSelect(value, index)
+        }, 0)
+      },
+      [onSelect]
+    )
+
     return () => subscription.remove()
   })
 

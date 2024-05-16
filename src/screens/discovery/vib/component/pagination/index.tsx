@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-05-04 19:28:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 20:38:51
+ * @Last Modified time: 2024-05-16 14:40:22
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { DATA } from '../../ds'
 import Title from '../title'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function Pagination({ index, onSelect }: { index: number; onSelect: (index: number) => void }) {
-  const { length } = DATA
+function Pagination({ data, index, onSelect }: Props) {
+  const { length } = data
   const prev = index >= length - 1 ? -1 : index + 1
   const next = index <= 0 ? -1 : index - 1
   return (
@@ -24,7 +24,7 @@ function Pagination({ index, onSelect }: { index: number; onSelect: (index: numb
             onSelect(prev)
           }}
         >
-          <Title text={DATA[prev].title} size='primary' />
+          <Title text={data[prev].title} size='primary' />
         </Touchable>
       )}
       <Flex.Item />
@@ -34,7 +34,7 @@ function Pagination({ index, onSelect }: { index: number; onSelect: (index: numb
             onSelect(next)
           }}
         >
-          <Title text={DATA[next].title} size='primary' />
+          <Title text={data[next].title} size='primary' />
         </Touchable>
       )}
     </Flex>

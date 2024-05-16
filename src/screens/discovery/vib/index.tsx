@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:42:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 22:23:46
+ * @Last Modified time: 2024-05-16 14:31:36
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
 import { TapListener } from '@_'
@@ -14,61 +14,52 @@ import BlockTrend from './component/block-trend'
 import Pagination from './component/pagination'
 import Title from './component/title'
 import Header from './header'
-import { initBangumiData } from './utils'
-import { DATA } from './ds'
+import { useVIBPage } from './hooks'
 import { memoStyles } from './styles'
-import { Data, Props } from './types'
+import { Props } from './types'
 
+/** 评分月刊 */
 const VIB = ({ navigation }: Props) => {
-  const scrollTo = useRef(null)
-  const [loaded, setLoaded] = useState(false)
-  const [index, setIndex] = useState(0)
-  const handleSelect = useCallback(
-    (index: number) => {
-      setIndex(index)
-      setTimeout(() => {
-        if (typeof scrollTo.current === 'function') {
-          scrollTo.current({
-            x: 0,
-            y: 0,
-            animated: true,
-            duration: 640
-          })
-        }
-      }, 40)
-    },
-    [setIndex]
-  )
+  const { data, index, loaded, scrollTo, handleSelect } = useVIBPage()
+  const current = data[index]
+  const handleForwardRef = useCallback((fn: any) => (scrollTo.current = fn), [])
+  const handleScroll = useCallback(() => {
+    uiStore.closePopableSubject()
+  }, [])
 
-  useEffect(() => {
-    initBangumiData(() => {
-      setLoaded(true)
-    })
-  })
-
-  const data: Data = DATA[index]
   return useObserver(() => {
     const styles = memoStyles()
     return (
       <Component id='screen-vib'>
-        <Header navigation={navigation} onSelect={handleSelect} />
+        <Header
+          navigation={navigation}
+          data={data.map(item => item.title)}
+          onSelect={handleSelect}
+        />
         <Page loaded={loaded}>
           <TapListener>
             <ScrollView
-              forwardRef={fn => (scrollTo.current = fn)}
+              forwardRef={handleForwardRef}
               contentContainerStyle={styles.contentContainerStyle}
-              onScroll={() => {
-                uiStore.closePopableSubject()
-              }}
+              onScroll={handleScroll}
             >
-              <Title text={`${data.title} (${data.desc})`.replace('日到', '至')} size='primary' />
-              {data.data.map((item, index) => {
+              <Title
+                text={`${current.title} (${current.desc})`.replace('日到', '至')}
+                size='primary'
+              />
+              {current.data.map((item, index) => {
                 const Component = index ? BlockTrend : BlockNew
                 return (
-                  <Component key={item.key} style={_.mt.lg} navigation={navigation} raw={item} />
+                  <Component
+                    key={item.title}
+                    style={_.mt.lg}
+                    navigation={navigation}
+                    title={item.title}
+                    data={item.data}
+                  />
                 )
               })}
-              <Pagination index={index} onSelect={handleSelect} />
+              <Pagination data={data} index={index} onSelect={handleSelect} />
             </ScrollView>
           </TapListener>
         </Page>

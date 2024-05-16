@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:56:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:14:02
+ * @Last Modified time: 2024-05-16 15:37:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -41,7 +41,11 @@ function Popover({
               <Menu
                 style={menuStyle}
                 data={data}
-                onSelect={(title: string) => setTimeout(() => onSelect(title), 0)}
+                onSelect={(title: string) => {
+                  setTimeout(() => {
+                    onSelect(title)
+                  }, 0)
+                }}
               />
             )
           }

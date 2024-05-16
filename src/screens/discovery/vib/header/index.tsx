@@ -2,22 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-05-04 18:58:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 21:16:54
+ * @Last Modified time: 2024-05-16 15:35:23
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
-import { Navigation } from '@types'
-import { DATA } from '../ds'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function Header({
-  navigation,
-  onSelect
-}: {
-  navigation: Navigation
-  onSelect: (index: number) => void
-}) {
+function Header({ navigation, data, onSelect }: Props) {
   return (
     <HeaderComp
       title='VIB 数据月刊'
@@ -25,7 +18,7 @@ function Header({
       headerRight={() => (
         <HeaderComp.Popover
           name='md-menu'
-          data={['小组讨论', ...DATA.map(item => item.title)]}
+          data={['小组讨论', ...data]}
           onSelect={label => {
             if (label === '小组讨论') {
               navigation.push('Group', {
@@ -35,7 +28,7 @@ function Header({
               return
             }
 
-            onSelect(DATA.findIndex(item => item.title === label))
+            onSelect(data.findIndex(item => item === label))
           }}
         />
       )}

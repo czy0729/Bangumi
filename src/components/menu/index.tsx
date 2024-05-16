@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:58:00
+ * @Last Modified time: 2024-05-16 15:31:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -31,17 +31,21 @@ export const Menu = observer(
         <View style={stl(styles.container, style)}>
           {title.length !== 0 && (
             <View style={styles.title}>
-              {title.map((item, index) => (
-                <Text
-                  key={index}
-                  style={index !== 0 && _.mt.sm}
-                  type='sub'
-                  size={12}
-                  align='center'
-                >
-                  {item}
-                </Text>
-              ))}
+              {title.map((item, index) => {
+                if (typeof item !== 'string') return null
+
+                return (
+                  <Text
+                    key={index}
+                    style={index !== 0 && _.mt.sm}
+                    type='sub'
+                    size={12}
+                    align='center'
+                  >
+                    {item}
+                  </Text>
+                )
+              })}
             </View>
           )}
           {!!desc && (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 06:34:11
+ * @Last Modified time: 2024-05-16 14:10:25
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,8 +11,9 @@ import { findSubjectJp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Item({ navigation, item, index }) {
+function Item({ navigation, item, index }: Props) {
   const jp = findSubjectJp(item.title, item.id)
   const up = item.value.includes('+')
   let value: string | number = Math.abs(Number(item.value))
