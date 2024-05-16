@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:28:09
+ * @Last Modified time: 2024-05-16 18:27:02
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -107,6 +107,7 @@ const Top = memo(
                       size={isEp ? 40 : 20}
                       src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
                       radius={_.radiusXs}
+                      priority='high'
                       fallback
                       fallbackSrc={String(groupThumbFallback).replace('/r/100x100', '')}
                     />
@@ -138,6 +139,7 @@ const Top = memo(
                     src={avatar}
                     userId={userId}
                     name={userName}
+                    priority='high'
                   />
                 </UserStatus>
               )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:15:31
+ * @Last Modified time: 2024-05-16 16:41:36
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -42,7 +42,7 @@ export { RenderHtmlProps }
  */
 export const RenderHtml = observer(
   class RenderHtmlComponent extends React.Component<RenderHtmlProps> {
-    static defaultProps = {
+    static defaultProps: RenderHtmlProps = {
       style: undefined,
       baseFontStyle: {},
       linkStyle: {},
@@ -60,11 +60,9 @@ export const RenderHtml = observer(
     }
 
     async componentDidMount() {
-      const { katakana, html } = this.props
-      if (katakana) {
-        const { katakana: settingKatakana } = systemStore.setting
-        if (settingKatakana) {
-          const katakanaResult = await translateAll(html)
+      if (this.props.katakana) {
+        if (systemStore.setting.katakana) {
+          const katakanaResult = await translateAll(this.props.html)
           if (katakanaResult) {
             this.setState({
               katakanaResult
@@ -105,29 +103,21 @@ export const RenderHtml = observer(
 
       // 渲染定义tag前回调
       renderers: {
-        img: ({ src = '' }, children: any, convertedCSSStyles: any, { key }) => {
-          const { autoShowImage, onImageFallback } = this.props
-          return (
-            <ToggleImage
-              key={key}
-              style={_.mt.xs}
-              src={src}
-              autoSize={imagesMaxWidth}
-              placeholder={false}
-              imageViewer
-              show={autoShowImage}
-              onImageFallback={() => onImageFallback(src)}
-            />
-          )
-        },
-        span: (
-          { style = '' },
-          children: any,
-          convertedCSSStyles: any,
-          { rawChildren, key, baseFontStyle }
-        ) => {
+        img: ({ src = '' }, children: any, css: any, { key }) => (
+          <ToggleImage
+            key={key}
+            style={_.mt.xs}
+            src={src}
+            autoSize={imagesMaxWidth}
+            placeholder={false}
+            imageViewer
+            show={this.props.autoShowImage}
+            onImageFallback={() => this.props.onImageFallback(src)}
+          />
+        ),
+        span: ({ style = '' }, children: any, css: any, { rawChildren, key, baseFontStyle }) => {
           try {
-            // @todo 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
+            // 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
             // 防剧透字
             if (style.includes(SPAN_MARK.mask)) {
               const text = []
@@ -212,14 +202,12 @@ export const RenderHtml = observer(
 
           return children
         },
-        q: (attrs: any, children: any, convertedCSSStyles: any, { key }) => (
+        q: (attrs: any, children: any, css: any, { key }) => (
           <QuoteText key={key}>{children}</QuoteText>
         ),
-        li: (attrs: any, children: any, convertedCSSStyles: any, { key }) => (
-          <Li key={key}>{children}</Li>
-        ),
+        li: (attrs: any, children: any, css: any, { key }) => <Li key={key}>{children}</Li>,
         a: matchLink
-          ? (attrs: any, children: any, convertedCSSStyles: any, passProps: any) => (
+          ? (attrs: any, children: any, css: any, passProps: any) => (
               <A
                 key={passProps.key}
                 style={{
@@ -250,9 +238,6 @@ export const RenderHtml = observer(
       const { katakanaResult } = this.state
 
       try {
-        /** iOS 碰到过文本里巨大会遇到 Maximun stack size exceeded 的错误 */
-        // if (IOS && html.length > 100000) return html
-
         let _html = html
 
         /** 把 bgm 表情替换成 bgm 字体文字 */

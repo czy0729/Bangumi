@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-06 15:45:32
+ * @Last Modified time: 2024-05-16 16:35:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _, subjectStore, rakuenStore } from '@stores'
+import { _, rakuenStore, subjectStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
-import { runAfter, navigationReference } from '@utils'
+import { navigationReference, runAfter } from '@utils'
 import { IOS } from '@constants'
 import { Fn, ReactNode } from '@types'
-import { Touchable } from '../../touchable'
+import { Cover } from '../../cover'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
-import { Cover } from '../../cover'
+import { Touchable } from '../../touchable'
 import { fetchMediaQueue } from '../utils'
 import ACText from './ac-text'
 import Subject from './subject'
@@ -22,9 +22,7 @@ import Topic from './topic'
 import { memoStyles } from './styles'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
-export function filterChildren(
-  children: ReactNode | ReactNode[]
-): ReactNode | ReactNode[] {
+export function filterChildren(children: ReactNode | ReactNode[]): ReactNode | ReactNode[] {
   if (IOS) return children
 
   const childrens = React.Children.toArray(children)
@@ -85,10 +83,7 @@ export function getACSearch({ style, passProps, params, onPress }) {
 }
 
 /** 条目媒体块 */
-export async function getSubject(
-  { passProps, params, href, onLinkPress },
-  render?: Fn
-) {
+export async function getSubject({ passProps, params, href, onLinkPress }, render?: Fn) {
   try {
     const text = getRawChildrenText(passProps)
     if (!text) return
@@ -189,7 +184,7 @@ export async function getMono({ passProps, params, onLinkPress }) {
           <View style={styles.wrap}>
             <Touchable animate onPress={onLinkPress}>
               <Flex style={styles.body}>
-                <Cover src={gCover} size={48} radius quality={false} />
+                <Cover src={gCover} size={48} radius />
                 <View style={_.ml.sm}>
                   <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
                     {text}

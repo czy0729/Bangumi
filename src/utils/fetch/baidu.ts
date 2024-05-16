@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:57:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 00:51:50
+ * @Last Modified time: 2024-05-16 16:55:06
  */
 import { STORYBOOK } from '@constants/device'
 import { syncSystemStore } from '../async'
@@ -13,18 +13,18 @@ import md5 from '../thirdParty/md5'
 import { asc, urlStringify } from '../utils'
 import { xhrCustom } from './xhr'
 
-const s = new Date().getSeconds()
+const balancing = new Date().getSeconds() % 2
 
 /** 百度翻译 App ID */
 export const APP_BAIDU_ID = Crypto.get(
-  s % 2
+  balancing
     ? 'U2FsdGVkX1/PgfGcvWiRli4uwkj4v2Zo5B8sxnVSCxZiKQt+z9eDURCS+EEvIomH'
     : 'U2FsdGVkX19bwyf/ZvZiDMdnB4nRHPF554e9ZN93Shthw9bUszYQFzU1qJ0WasgF'
 ) as string
 
 /** 百度翻译 App Key */
 export const APP_BAIDU_KEY = Crypto.get(
-  s % 2
+  balancing
     ? 'U2FsdGVkX1+4+Bn6mVxpU2dYn05udk5XYq0OBQraqtuD7IpYvPtxCT9MaSIbga6c'
     : 'U2FsdGVkX19ba4ukVC6zTHsld0T9vUEVF3uPRuM9FsN4SWhMY/BiHywAMXfHvRIW'
 ) as string
@@ -68,7 +68,7 @@ export async function baiduTranslate(query: string, to = 'zh') {
     let appkey = APP_BAIDU_KEY
     if (baiduAppId && baiduKey) {
       appid = baiduAppId
-      appkey = appkey
+      appkey = baiduKey
     }
 
     const salt = new Date().getTime()

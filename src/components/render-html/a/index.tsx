@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 04:06:57
+ * @Last Modified time: 2024-05-16 16:41:48
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -10,11 +10,10 @@ import { rakuenStore } from '@stores'
 import { matchBgmLink } from '@utils'
 import { STORYBOOK } from '@constants'
 import { Text } from '../../text'
-import { getACSearch, getSubject, getTopic, getMono, filterChildren } from './utils'
+import { filterChildren, getACSearch, getMono, getSubject, getTopic } from './utils'
 import { Props } from './types'
 
 function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props) {
-  const { matchLink, acSearch } = rakuenStore.setting
   const { href } = attrs
   const { route, params = {}, app } = matchBgmLink(href) || {}
 
@@ -32,11 +31,11 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
 
     ;(async () => {
       if (app && route === 'Subject') {
-        if (acSearch) setEl(getACSearch(args))
+        if (rakuenStore.setting.acSearch) setEl(getACSearch(args))
         return
       }
 
-      if (matchLink) {
+      if (rakuenStore.setting.matchLink) {
         if (route === 'Subject') {
           setEl(await getSubject(args, setEl))
           return

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 18:19:42
+ * @Last Modified time: 2024-05-16 16:12:47
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
   isLoad: {
     width: _.window.contentWidth * 0.64,
     height: _.r(64),
-    borderRadius: _.radiusXs
+    borderRadius: _.radiusSm
   },
   loading: {
     position: 'absolute',
@@ -30,7 +30,7 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.r(64),
     borderWidth: 1,
     borderColor: _.colorBorder,
-    borderRadius: _.radiusXs,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   closeImageWrap: {
@@ -44,6 +44,7 @@ export const memoStyles = _.memoStyles(() => ({
   closeImage: {
     width: 24,
     height: 24,
+    marginRight: 4,
     borderRadius: 24,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     overflow: 'hidden'
@@ -52,7 +53,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginLeft: -8
   },
   textSrc: {
-    maxWidth: '96%',
+    maxWidth: '72%',
     marginTop: _.xs
   }
 }))

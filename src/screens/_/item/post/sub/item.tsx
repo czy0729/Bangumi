@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 20:21:38
+ * @Last Modified time: 2024-05-16 16:57:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -195,7 +195,7 @@ export default memo(
                 event={event}
               />
               {!!translate && (
-                <Text style={styles.translate} size={11}>
+                <Text style={styles.translate} size={11} lineHeight={13}>
                   {translate}
                 </Text>
               )}

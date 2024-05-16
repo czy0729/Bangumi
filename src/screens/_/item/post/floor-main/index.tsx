@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 20:20:23
+ * @Last Modified time: 2024-05-16 16:57:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -96,7 +96,7 @@ function FloorMain(
         />
       </View>
       {!!translate && (
-        <Text style={styles.translate} size={11}>
+        <Text style={styles.translate} size={11} lineHeight={13}>
           {translate}
         </Text>
       )}

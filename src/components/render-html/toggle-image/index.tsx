@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 18:20:19
+ * @Last Modified time: 2024-05-16 16:19:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,7 @@ class ToggleImage extends React.Component<Props, State> {
   state = {
     show: this.props.show || false,
     loaded: false,
-    size: '-'
+    size: ''
   }
 
   async componentDidMount() {
@@ -36,7 +36,7 @@ class ToggleImage extends React.Component<Props, State> {
     const size = await getSize(src as string)
     this.setState(
       {
-        size: size || '?'
+        size: size || ''
       },
       () => {
         if (rakuenStore.setting.autoLoadImage && size <= 2000) {
@@ -56,7 +56,7 @@ class ToggleImage extends React.Component<Props, State> {
   }
 
   onLoadEnd = () => {
-    return this.setState({
+    this.setState({
       loaded: true
     })
   }
@@ -115,11 +115,11 @@ class ToggleImage extends React.Component<Props, State> {
 
       if (!show) {
         const text = []
-        if (ext) text.push(`[${ext}]`)
+        if (ext) text.push(ext)
         if (typeof size === 'number' && size === 0) {
-          text.push('[获取大小失败]')
-        } else {
-          text.push(`[${size}kb]`)
+          text.push('获取大小失败')
+        } else if (size) {
+          text.push(`${size}kb`)
         }
         return (
           <Touchable
@@ -129,7 +129,7 @@ class ToggleImage extends React.Component<Props, State> {
           >
             <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
               <Text size={11} type='sub' bold>
-                {text.join(' ')}
+                {text.join('·')}
               </Text>
               {isRemote && (
                 <Text

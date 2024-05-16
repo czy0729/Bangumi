@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:27:00
+ * @Last Modified time: 2024-05-16 19:13:57
  */
 import React from 'react'
 import { systemStore } from '@stores'
+import { getGroupThumbStatic } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
 import { obc } from '@utils/decorators'
 import { CDN_OSS_MAGMA_PIC } from '@constants'
@@ -15,7 +16,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function TopWrap(props, { $, navigation }: Ctx) {
-  let groupThumb = $.groupThumb
+  let groupThumb = getGroupThumbStatic($.groupThumb)
   if (
     systemStore.setting.cdn &&
     systemStore.setting.cdnOrigin === 'magma' &&

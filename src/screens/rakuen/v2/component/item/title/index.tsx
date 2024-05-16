@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:48:02
+ * @Last Modified time: 2024-05-16 17:33:43
  */
 import React from 'react'
 import { Text } from '@components'
@@ -15,7 +15,7 @@ function Title({ topicId, title, replyCount, isGroup }, { $ }: Ctx) {
 
   // 处理 (+30) +10 样式
   const replyText = `+${replyCount}`
-  let replyAdd: {}
+  let replyAdd: string
   if (isReaded) {
     const readed = $.readed(topicId)
     if (replyCount > readed.replies) replyAdd = `+${replyCount - readed.replies}`
@@ -44,7 +44,7 @@ function Title({ topicId, title, replyCount, isGroup }, { $ }: Ctx) {
         </Text>
       )}
       {isOldTopic && (
-        <Text size={11} lineHeight={14} type='warning'>
+        <Text size={11} lineHeight={14} type='sub'>
           {' '}
           旧帖
         </Text>

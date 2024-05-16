@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:06:20
+ * @Last Modified time: 2024-05-16 18:12:59
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -57,7 +57,7 @@ function ItemWrap(
       topicId={topicId}
       replyCount={replyCount}
       isGroup={getIsGroup(topicId)}
-      onPress={() =>
+      onPress={() => {
         handlePress(navigation, $.onItemPress, {
           avatar,
           group,
@@ -69,7 +69,7 @@ function ItemWrap(
           userId,
           userName
         })
-      }
+      }}
     />
   )
 }
