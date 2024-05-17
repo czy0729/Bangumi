@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-08-11 17:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-11 17:53:19
+ * @Last Modified time: 2024-05-17 11:40:19
  */
-import { Fn, ListEmpty } from '@types'
+import { Fn, ListEmpty, Override } from '@types'
+import { Props as ListViewProps } from '../types'
 
-export type ListProps = {
-  connectRef?: Fn
-  animated?: boolean
-  sections?: any
-  sectionKey?: string
-  data?: ListEmpty<any>
-}
+export type ListProps<ItemT> = Override<
+  ListViewProps<ItemT>,
+  {
+    connectRef?: Fn
+    data?: ItemT[]
+  }
+>
 
 export type PassProps = {
   ref?: Fn

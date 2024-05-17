@@ -2,15 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-12 18:38:00
+ * @Last Modified time: 2024-05-17 11:42:36
  */
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
+import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 import { ListProps } from './types'
 
-function List({ connectRef, animated, sectionKey, sections, data, ...other }: ListProps) {
+function List<ItemT>({
+  connectRef,
+  animated,
+  skipEnteringExitingAnimations,
+  sectionKey,
+  sections,
+  data,
+  ...other
+}: ListProps<ItemT>) {
   let Component: any
   const passProps: any = {
     ref: connectRef,
@@ -22,7 +31,10 @@ function List({ connectRef, animated, sectionKey, sections, data, ...other }: Li
     legacyImplementation: false
   }
 
-  if (sections) {
+  if (skipEnteringExitingAnimations) {
+    passProps.data = data
+    Component = EnteringExiting
+  } else if (sections) {
     passProps.sections = sections
     Component = animated ? AnimatedSectionList : SectionList
   } else {

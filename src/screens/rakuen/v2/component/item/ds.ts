@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 16:21:13
+ * @Last Modified time: 2024-05-17 04:40:21
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -15,7 +15,7 @@ export const COMPONENT = rc(PARENT, 'Item')
 export const COMPONENT_MAIN = rc(COMPONENT)
 
 /** 限制首次渲染项数 */
-export const LIMIT_HEAVY = _.device(10, 20)
+export const LIMIT_HEAVY = _.device(12, 20)
 
 /** 项高度 */
 export const ITEM_HEIGHT = 60

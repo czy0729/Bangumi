@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 11:23:24
+ * @Last Modified time: 2024-05-17 15:23:11
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -10,39 +10,71 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { date, omit, pick, simpleTime, sleep } from '@utils'
 import { r } from '@utils/dev'
-import { LIST_EMPTY, STORYBOOK } from '@constants'
+import {
+  LIST_EMPTY,
+  STORYBOOK,
+  TEXT_EMPTY,
+  TEXT_FAIL,
+  TEXT_NO_MORE,
+  TEXT_REFRESHING
+} from '@constants'
 import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
 import Footer from './footer'
 import List from './list'
-import { COMPONENT, DEFAULT_PROPS, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
-import { Props as ListViewProps, RefreshState, RenderListProps, ScrollToFunction } from './types'
+import { COMPONENT, REFRESH_STATE, SCROLL_CALLBACK } from './ds'
+import {
+  Props as ListViewProps,
+  RefreshState,
+  RenderListProps,
+  ScrollToEnd,
+  ScrollToIndex,
+  ScrollToItem,
+  ScrollToLocation,
+  ScrollToOffset,
+  State
+} from './types'
 
-export { ListViewProps }
+export { ListViewProps, ScrollToEnd, ScrollToIndex, ScrollToItem, ScrollToLocation, ScrollToOffset }
 
 /**
- * 通用长列表，整合了 FlatList 和 SectionList
- * @doc https://www.react-native.cn/docs/flatlist
- */
+ * 客户端通用长列表
+ *  - 整合了 FlatList 和 SectionList
+ *  - FlatList 需要给 data 传递客户端统一列表结构 ListEmpty<ItemT>
+ *  - SectionList 需要传递 sections, sectionKey
+ *  - skipEnteringExitingAnimations 能制造进场效果
+ * */
 export const ListView = observer(
-  class ListViewComponent extends React.Component<ListViewProps> {
-    static defaultProps = DEFAULT_PROPS
+  class ListViewComponent<ItemT> extends React.Component<ListViewProps<ItemT>, State> {
+    static defaultProps = {
+      data: LIST_EMPTY,
+      sectionKey: '',
+      refreshControlProps: {},
+      footerRefreshingText: TEXT_REFRESHING,
+      footerFailureText: TEXT_FAIL,
+      footerNoMoreDataText: TEXT_NO_MORE,
+      footerEmptyDataText: TEXT_EMPTY,
+      footerTextType: 'sub',
+      showFooter: true,
+      showMesume: true,
+      optimize: true,
+      scrollToTop: false,
+      lazy: 0,
+      scrollIndicatorInsets: {
+        right: 1
+      }
+    } as ListViewProps<any>
 
-    state = {
-      refreshState: REFRESH_STATE.Idle as RefreshState,
-
-      /** @deprecated */
-      rendered: true // STORYBOOK
+    state: State = {
+      refreshState: REFRESH_STATE.Idle,
+      rendered: true
     }
 
     componentDidMount() {
-      const { data, lazy } = this.props
-      this.updateRefreshState(data)
-
-      if (lazy) {
+      this.updateRefreshState(this.props.data)
+      if (this.props.lazy) {
         setTimeout(() => {
-          const { rendered } = this.state
-          if (!rendered) {
+          if (!this.state.rendered) {
             this.setState({
               rendered: true
             })
@@ -52,60 +84,70 @@ export const ListView = observer(
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-      const { data } = nextProps
-      this.updateRefreshState(data)
+      this.updateRefreshState(nextProps.data)
     }
 
-    scrollToIndex: ScrollToFunction = SCROLL_CALLBACK
+    scrollToIndex: ScrollToIndex = SCROLL_CALLBACK
 
-    scrollToOffset: ScrollToFunction = SCROLL_CALLBACK
+    scrollToOffset: ScrollToOffset = SCROLL_CALLBACK
 
-    scrollToItem: ScrollToFunction = SCROLL_CALLBACK
+    scrollToItem: ScrollToItem = SCROLL_CALLBACK
 
-    scrollToLocation: ScrollToFunction = SCROLL_CALLBACK
+    scrollToEnd: ScrollToEnd = SCROLL_CALLBACK
 
-    scrollToEnd: ScrollToFunction = SCROLL_CALLBACK
+    scrollToLocation: ScrollToLocation = SCROLL_CALLBACK
 
     connectRef = (ref: React.RefObject<FlatList>['current']) => {
       if (ref?.scrollToIndex) {
-        this.scrollToIndex = (params: any) => ref.scrollToIndex(params)
+        this.scrollToIndex = params => {
+          ref.scrollToIndex(params)
+        }
       }
 
       if (ref?.scrollToOffset) {
-        this.scrollToOffset = (params: any) => ref.scrollToOffset(params)
+        this.scrollToOffset = params => {
+          ref.scrollToOffset(params)
+        }
       } else if (
         // @ts-expect-error
         ref?._wrapperListRef?._listRef?.scrollToOffset
       ) {
-        this.scrollToOffset = (params: any) =>
+        this.scrollToOffset = params => {
           // @ts-expect-error
           ref._wrapperListRef._listRef.scrollToOffset(params)
+        }
       }
 
       if (ref?.scrollToItem) {
-        this.scrollToItem = (params: any) => ref.scrollToItem(params)
-      }
-
-      // @ts-expect-error
-      if (ref?.scrollToLocation) {
-        this.scrollToLocation = (params: any) =>
-          // @ts-expect-error
-          ref.scrollToLocation(params)
+        this.scrollToItem = params => {
+          ref.scrollToItem(params)
+        }
       }
 
       if (ref?.scrollToEnd) {
-        this.scrollToEnd = (params: any) => ref.scrollToEnd(params)
+        this.scrollToEnd = params => {
+          ref.scrollToEnd(params)
+        }
       } else if (
         // @ts-expect-error
         ref?._wrapperListRef?._listRef?.scrollToEnd
       ) {
-        this.scrollToEnd = (params: any) =>
+        this.scrollToEnd = params => {
           // @ts-expect-error
           ref._wrapperListRef._listRef.scrollToEnd(params)
+        }
+      }
+
+      // @ts-expect-error
+      if (ref?.scrollToLocation) {
+        this.scrollToLocation = params => {
+          // @ts-expect-error
+          ref.scrollToLocation(params)
+        }
       }
     }
 
-    updateRefreshState = (data: ListEmpty) => {
+    updateRefreshState = (data: ListEmpty<ItemT>) => {
       const {
         list = [],
         pagination = {
@@ -114,7 +156,7 @@ export const ListView = observer(
         },
         _loaded
       } = data
-      let refreshState: number
+      let refreshState: RefreshState
 
       if (!_loaded) {
         refreshState = REFRESH_STATE.Idle
@@ -135,8 +177,7 @@ export const ListView = observer(
 
     onHeaderRefresh = async () => {
       const { lazy, onHeaderRefresh } = this.props
-      const { rendered } = this.state
-      if (lazy && !rendered) return undefined
+      if (lazy && !this.state.rendered) return undefined
 
       if (onHeaderRefresh) {
         this.setState({
@@ -160,13 +201,13 @@ export const ListView = observer(
 
     onFooterRefresh = async () => {
       const { lazy, onFooterRefresh } = this.props
-      const { rendered } = this.state
-      if (lazy && !rendered) return undefined
+      if (lazy && !this.state.rendered) return undefined
 
       if (typeof onFooterRefresh === 'function') {
         this.setState({
           refreshState: REFRESH_STATE.FooterRefreshing
         })
+
         await sleep(640)
         onFooterRefresh()
       }
@@ -195,8 +236,7 @@ export const ListView = observer(
     }
 
     shouldStartFooterRefreshing = () => {
-      const { refreshState } = this.state
-      return refreshState === REFRESH_STATE.Idle
+      return this.state.refreshState === REFRESH_STATE.Idle
     }
 
     get commonProps() {
@@ -208,12 +248,11 @@ export const ListView = observer(
         onHeaderRefresh,
         onFooterRefresh
       } = this.props
-      const { refreshState } = this.state
       return {
         style,
         connectRef: this.connectRef,
         ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
-        refreshing: refreshState === REFRESH_STATE.HeaderRefreshing,
+        refreshing: this.state.refreshState === REFRESH_STATE.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
         onRefresh: onHeaderRefresh ? this.onHeaderRefresh : undefined,
         onEndReached: onFooterRefresh ? this.onEndReached : undefined,
@@ -233,32 +272,30 @@ export const ListView = observer(
 
     get sections() {
       const { data, sectionKey, sections, lazy } = this.props
-      const { rendered } = this.state
-      let _sections = []
+      let computedSections = []
       if (sections) {
-        _sections = lazy && !rendered ? sections.slice(0, lazy) : sections.slice()
+        computedSections = lazy && !this.state.rendered ? sections.slice(0, lazy) : sections.slice()
       } else {
         const sectionsMap = {}
         data.list.forEach(item => {
           const title = item[sectionKey]
           if (sectionsMap[title] === undefined) {
-            sectionsMap[title] = _sections.length
-            _sections.push({
+            sectionsMap[title] = computedSections.length
+            computedSections.push({
               title,
               data: [item]
             })
           } else {
-            _sections[sectionsMap[title]].data.push(item)
+            computedSections[sectionsMap[title]].data.push(item)
           }
         })
       }
-      return _sections
+      return computedSections
     }
 
     get data() {
       const { data, lazy } = this.props
-      const { rendered } = this.state
-      if (lazy && !rendered) return data.list.slice(0, lazy)
+      if (lazy && !this.state.rendered) return data.list.slice(0, lazy)
 
       return data.list
     }
@@ -268,11 +305,10 @@ export const ListView = observer(
       const { data, progressViewOffset, refreshControlProps, onHeaderRefresh } = this.props
       if (!onHeaderRefresh) return null
 
-      const { refreshState } = this.state
       return (
         <RefreshControl
           enabled={!!onHeaderRefresh}
-          refreshing={refreshState === REFRESH_STATE.HeaderRefreshing}
+          refreshing={this.state.refreshState === REFRESH_STATE.HeaderRefreshing}
           title={
             data._loaded ? `上次刷新时间: ${simpleTime(date(String(data._loaded)))}` : undefined
           }
@@ -288,7 +324,7 @@ export const ListView = observer(
     }
 
     renderList() {
-      const props: RenderListProps = omit(this.props, [
+      const props: RenderListProps<ItemT> = omit(this.props, [
         'style',
         'data',
         'lazy',
@@ -300,7 +336,7 @@ export const ListView = observer(
         'showsVerticalScrollIndicator'
       ])
       const { sectionKey, sections, ...rest } = props
-      const passProps: AnyObject = {
+      const passProps: AnyObject<typeof rest> = {
         ...rest
       }
       if (sectionKey || sections) {
@@ -319,9 +355,7 @@ export const ListView = observer(
     }
 
     renderFooter() {
-      const { lazy } = this.props
-      const { rendered, refreshState } = this.state
-      if (lazy && !rendered) return null
+      if (this.props.lazy && !this.state.rendered) return null
 
       const { data = LIST_EMPTY, ...other } = pick(this.props, [
         'data',
@@ -337,28 +371,13 @@ export const ListView = observer(
 
       return (
         <Footer
-          refreshState={refreshState}
+          refreshState={this.state.refreshState}
           filterText={_filter}
           page={pagination?.page}
           pageTotal={pagination?.pageTotal}
           {...other}
         />
       )
-    }
-
-    /** @deprecated */
-    renderScrollToTop() {
-      return null
-
-      // const { scrollToTop } = this.props
-      // if (IOS || !scrollToTop) return null
-
-      // return (
-      //   <ScrollToTop
-      //     scrollToIndex={this.scrollToIndex}
-      //     scrollToLocation={this.scrollToLocation}
-      //   />
-      // )
     }
 
     render() {
