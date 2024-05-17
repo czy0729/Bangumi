@@ -11,41 +11,42 @@ import { IOS } from '@constants'
 import PopoverOld from './old'
 import { COMPONENT } from './ds'
 
-const Popover = ob(
-  ({
-    data = [],
-    menuStyle,
-    onSelect = () => {},
-    children,
-    ...other
-  }: PopoverProps<typeof data>) => {
-    const popoverProps = IOS
-      ? {
-          overlay: (
-            <Menu
-              style={menuStyle}
-              data={data}
-              onSelect={title => setTimeout(() => onSelect(title), 0)}
-            />
-          )
-        }
-      : {
-          data,
-          onSelect
-        }
+function PopoverWithMenu<ItemT extends string[] | readonly string[]>({
+  data,
+  menuStyle,
+  onSelect = () => {},
+  children,
+  ...other
+}: PopoverProps<ItemT>) {
+  const passProps = IOS
+    ? {
+        ...other,
+        overlay: (
+          <Menu
+            style={menuStyle}
+            data={data || []}
+            onSelect={title => setTimeout(() => onSelect(title), 0)}
+          />
+        )
+      }
+    : {
+        ...other,
+        data: data || [],
+        onSelect
+      }
 
-    return (
-      <Component id='base-popover'>
-        <PopoverComp key={String(data.length)} placement='bottom' {...popoverProps} {...other}>
-          {children}
-        </PopoverComp>
-      </Component>
-    )
-  },
-  COMPONENT
-)
+  return (
+    <Component id='base-popover'>
+      <PopoverComp key={String((data || []).length)} placement='bottom' {...passProps}>
+        {children}
+      </PopoverComp>
+    </Component>
+  )
+}
 
-// @ts-ignore
+const Popover = ob(PopoverWithMenu, COMPONENT)
+
+// @ts-expect-error
 Popover.Old = PopoverOld
 
 export { Popover }

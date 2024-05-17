@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-05-17 04:22:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 15:21:04
+ * @Last Modified time: 2024-05-17 15:58:13
  */
 import React, { forwardRef, useCallback } from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
-import Animated, { FadeInUp } from 'react-native-reanimated'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 import { Props } from './types'
 
 function EnteringExiting<ItemT>(
@@ -18,14 +18,7 @@ function EnteringExiting<ItemT>(
       const el = renderItem(info)
       if (info.index >= skipEnteringExitingAnimations) return el
 
-      return (
-        <Animated.View
-          entering={FadeInUp.duration(640)}
-          // exiting={FadeOutUp.duration(560)}
-        >
-          {el}
-        </Animated.View>
-      )
+      return <Animated.View entering={FadeInDown.duration(640)}>{el}</Animated.View>
     },
     [skipEnteringExitingAnimations, renderItem]
   )

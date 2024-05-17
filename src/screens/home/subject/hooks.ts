@@ -63,12 +63,12 @@ export function useSubjectPage({ $ }: Ctx) {
 
   return {
     /** 收集 ListView.ref */
-    forwardRef: useCallback(ref => {
+    forwardRef: useCallback((ref: any) => {
       scrollViewRef.current = ref
     }, []),
 
     /** 收集子组件的 ref */
-    onBlockRef: useCallback((ref, component: string) => {
+    onBlockRef: useCallback((ref: any, component: string) => {
       blockRefs.current[component] = ref
     }, []),
 

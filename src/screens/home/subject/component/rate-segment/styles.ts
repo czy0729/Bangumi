@@ -14,6 +14,7 @@ export const styles = _.create({
   btn: {
     minWidth: 38,
     height: 38,
+    marginRight: 3,
     paddingHorizontal: 4
   }
 })

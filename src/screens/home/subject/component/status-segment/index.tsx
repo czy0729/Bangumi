@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-29 22:36:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 00:28:58
+ * @Last Modified time: 2024-05-18 05:04:49
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -16,8 +16,16 @@ import { styles } from './styles'
 
 function StatusSegement(props, { $ }: Ctx) {
   const { filterStatus } = $.state
+  const isAnime = $.action === '看'
+  const data = isAnime ? STATUS_DS : STATUS_DS.map(item => item.replace('看', $.action))
   return (
-    <Popover style={styles.touch} data={STATUS_DS} onSelect={$.filterStatus}>
+    <Popover
+      style={styles.touch}
+      data={data}
+      onSelect={label => {
+        $.filterStatus(isAnime ? label : label.replace($.action, '看'))
+      }}
+    >
       <Flex style={styles.btn} justify='center'>
         <Iconfont
           name='md-filter-list'
@@ -26,7 +34,7 @@ function StatusSegement(props, { $ }: Ctx) {
         />
         {!!filterStatus && (
           <Text style={_.ml.xs} type='main' size={13} bold>
-            {filterStatus ? MODEL_RATING_STATUS.getLabel(filterStatus) : ''}
+            {filterStatus ? MODEL_RATING_STATUS.getLabel(filterStatus).replace('看', $.action) : ''}
           </Text>
         )}
       </Flex>
