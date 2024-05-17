@@ -23,9 +23,13 @@ function Transition({ fixed, title, headerTitle }: Props) {
     })
   }))
   const bodyStyles = useAnimatedStyle(() => ({
-    marginBottom: withTiming(fixed ? 0 : -24, {
-      duration: 160
-    })
+    transform: [
+      {
+        translateY: withTiming(fixed ? 0 : 24, {
+          duration: 160
+        })
+      }
+    ]
   }))
 
   return useObserver(() => {

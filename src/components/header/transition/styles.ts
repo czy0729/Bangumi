@@ -31,7 +31,7 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     bottom: 8,
     left: _.device(48, 56),
-    right: STORYBOOK ? 0 : 72,
+    right: STORYBOOK ? 0 : 56,
     minHeight
   },
   bodyTitle: {

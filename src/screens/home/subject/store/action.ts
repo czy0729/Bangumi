@@ -67,12 +67,17 @@ import { NAMESPACE, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_L
 import { EpsItem } from './types'
 
 export default class Action extends Fetch {
+  private updateStatusBarTimeoutId = null
+
   /** 更新状态栏主题色 */
   updateStatusBar = () => {
-    setTimeout(() => {
+    if (this.updateStatusBarTimeoutId) return
+
+    this.updateStatusBarTimeoutId = setTimeout(() => {
       StatusBar.setBarStyle(
         _.isDark ? 'light-content' : this.state.fixed ? 'dark-content' : 'light-content'
       )
+      this.updateStatusBarTimeoutId = null
     }, 80)
   }
 
@@ -738,19 +743,29 @@ export default class Action extends Fetch {
 
   onScrollY = 0
 
+  private closeLikesGridTimeoutId = null
+
   /** 滑动回调 */
   onScroll = (e: ScrollEvent) => {
-    this.updateVisibleBottom(e)
-    setTimeout(() => {
-      uiStore.closeLikesGrid()
-    }, 0)
-
     const { y } = e.nativeEvent.contentOffset
     this.onScrollY = y
+    this.updateVisibleBottom(e)
+
+    // 关闭吐槽区可能展开的回复表情选择弹出层
+    if (!this.closeLikesGridTimeoutId && y >= _.window.height * 2) {
+      this.closeLikesGridTimeoutId = setTimeout(() => {
+        uiStore.closeLikesGrid()
+        this.closeLikesGridTimeoutId = null
+      }, 80)
+    }
 
     // 计算头部是否需要固定
-    const { fixed } = this.state
-    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
+    if (
+      (this.state.fixed && y > HEADER_TRANSITION_HEIGHT) ||
+      (!this.state.fixed && y <= HEADER_TRANSITION_HEIGHT)
+    ) {
+      return
+    }
 
     this.setState({
       fixed: y > HEADER_TRANSITION_HEIGHT
