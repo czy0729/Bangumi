@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-08 23:45:19
+ * @Last Modified time: 2024-05-18 18:18:12
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
@@ -25,7 +25,7 @@ const List = memo(
     onFooterRefresh
   }) => {
     const { length } = data.list
-    const emptyComponent = <Empty title={title} length={length} />
+    const elEmpty = <Empty title={title} length={length} />
     const _renderItem = useCallback(
       ({ item, index }) => {
         // iOS 因为头顶毛玻璃的问题, 不能懒加载 Tab, 所以在 Item 渲染的时候控制是否渲染
@@ -57,8 +57,8 @@ const List = memo(
         keyboardDismissMode='on-drag'
         ListHeaderComponent={ListHeaderComponent}
         renderItem={_renderItem}
-        footerEmptyDataComponent={emptyComponent}
-        footerNoMoreDataComponent={emptyComponent}
+        footerEmptyDataComponent={elEmpty}
+        footerNoMoreDataComponent={elEmpty}
         footerNoMoreDataText=''
         scrollEventThrottle={4}
         onScroll={onScroll}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 06:00:53
+ * @Last Modified time: 2024-05-18 21:36:24
  */
 import React from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -11,12 +11,13 @@ import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { TextStyle } from '@types'
 import { COMPONENT_PROVIDER } from '../ds'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { getKatakanaAlign } from './utils'
 import { styles } from './styles'
-import { Props as KatakanaProviderProps, State } from './types'
+import { Mathces, Props as KatakanaProviderProps, State } from './types'
 
 export { KatakanaProviderProps }
 
@@ -143,7 +144,17 @@ export const KatakanaProvider = observer(
 
     /** 计算过位置的片假名数据 */
     get measuredKatakanas() {
-      return this.state.matches.filter(item => !!item.width)
+      return this.state.matches
+        .filter(item => !!item.width)
+        .reduce((acc, item) => {
+          const index = acc.findIndex(group => group[0].top === item.top)
+          if (index !== -1) {
+            acc[index].push(item)
+          } else {
+            acc.push([item])
+          }
+          return acc
+        }, []) as Mathces[][]
     }
 
     get size() {
@@ -208,43 +219,78 @@ export const KatakanaProvider = observer(
       )
     }
 
+    renderKatakanasItem(item: Mathces, style?: TextStyle) {
+      return (
+        <Text
+          key={item.jp}
+          style={style}
+          type={item.type}
+          size={this.size}
+          lineHeight={this.size}
+          lineHeightIncrease={this.lineHeightIncrease}
+          numberOfLines={1}
+          bold={item.bold}
+          align={getKatakanaAlign(item, this.state.rootWidth)}
+        >
+          {item.en}
+        </Text>
+      )
+    }
+
     renderKatakanas() {
+      if (!this.measuredKatakanas.length) return null
+
       return this.measuredKatakanas.map(item => {
-        const isLineFirst = item.top === 0
+        const isLineFirst = item[0].top === 0
         if (!isLineFirst && this.props.numberOfLines === 1) return null
 
-        if (
-          !isLineFirst &&
-          this.props.numberOfLines &&
-          item.top > this.props.numberOfLines * this.size * 1.2
-        ) {
-          return null
+        const marginTop = Math.ceil((isLineFirst ? -this.size + 1 : 0) * 1.1)
+        if (item.length === 1) {
+          if (
+            !isLineFirst &&
+            this.props.numberOfLines &&
+            item[0].top > this.props.numberOfLines * this.size * 1.2
+          ) {
+            return null
+          }
+
+          return this.renderKatakanasItem(
+            item[0],
+            stl(
+              styles.katakana,
+              {
+                top: item[0].top,
+                left: item[0].left,
+                minWidth: item[0].width,
+                marginTop
+              },
+              this.props.itemStyle,
+              !isLineFirst && this.props.itemSecondStyle
+            )
+          )
         }
 
         return (
-          <Text
-            key={item.jp}
+          <Flex
             style={stl(
               styles.katakana,
               {
-                top: item.top,
-                left: item.left,
-                minWidth: item.width,
-                marginTop: Math.ceil((isLineFirst ? -this.size + 1 : 0) * 1.1)
+                top: item[0].top,
+                left: 0,
+                right: 0,
+                marginTop
               },
               this.props.itemStyle,
               !isLineFirst && this.props.itemSecondStyle
             )}
-            type={item.type}
-            size={this.size}
-            lineHeight={this.size}
-            lineHeightIncrease={this.lineHeightIncrease}
-            numberOfLines={1}
-            bold={item.bold}
-            align={getKatakanaAlign(item, this.state.rootWidth)}
+            justify='center'
           >
-            {item.en}
-          </Text>
+            {item.map(item =>
+              this.renderKatakanasItem(item, {
+                marginRight: '10%'
+              })
+            )}
+          </Flex>
         )
       })
     }

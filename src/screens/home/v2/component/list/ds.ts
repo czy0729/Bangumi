@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:57:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-25 18:16:30
+ * @Last Modified time: 2024-05-18 17:58:10
  */
 import { rc } from '@utils/dev'
 import { IOS, LIST_EMPTY } from '@constants'
@@ -25,3 +25,5 @@ export const DEFAULT_PROPS = {
   onHeaderRefresh: (() => {}) as $['onHeaderRefresh'],
   onFooterRefresh: undefined as $['onFooterRefresh'] | undefined
 }
+
+export const ENTERING_EXITING_ANIMATIONS_NUM = 4

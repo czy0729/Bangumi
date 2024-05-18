@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 06:04:16
+ * @Last Modified time: 2024-05-18 18:09:57
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -16,7 +16,7 @@ import { Props as PaginationList2Props } from './types'
 export { PaginationList2Props }
 
 /** 支持分页的长列表 */
-export const PaginationList2 = ({
+export const PaginationList2 = <ItemT extends any[]>({
   forwardRef,
   connectRef,
   data,
@@ -24,7 +24,7 @@ export const PaginationList2 = ({
   onPage,
   onNextPage,
   ...other
-}: PaginationList2Props) => {
+}: PaginationList2Props<ItemT>) => {
   r(COMPONENT)
 
   // 用户记住列表看到多少页, 在触发更新后需要使用此值去重新划归数组当前页数

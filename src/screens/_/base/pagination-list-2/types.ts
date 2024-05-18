@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-14 19:50:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-04 18:46:41
+ * @Last Modified time: 2024-05-18 17:58:49
  */
 import { ListViewProps } from '@components'
 import { Fn, Override } from '@types'
 
-export type Props = Override<
-  ListViewProps,
+export type Props<ItemT> = Override<
+  ListViewProps<ItemT>,
   {
-    data: any[]
+    data: ItemT[]
 
     /** 链接 ref */
     forwardRef?: Fn
@@ -22,9 +22,9 @@ export type Props = Override<
     limit?: number
 
     /** 下一页回调 */
-    onPage?: (nextPageData?: any[]) => any
+    onPage?: (nextPageData?: ItemT[]) => any
 
     /** 下下一页回调 */
-    onNextPage?: (nextPageData?: any[]) => any
+    onNextPage?: (nextPageData?: ItemT[]) => any
   }
 >
