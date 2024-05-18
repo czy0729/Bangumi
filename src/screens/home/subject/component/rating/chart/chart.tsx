@@ -20,7 +20,7 @@ const Chart = memo(
     return (
       <>
         {!!total && (
-          <Text style={styles.total} size={11} type='sub'>
+          <Text style={styles.total} size={12} type='sub'>
             {total} votes
           </Text>
         )}

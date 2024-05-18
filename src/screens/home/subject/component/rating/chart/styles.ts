@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'absolute',
     zIndex: 1,
     top: 10,
-    right: -4
+    right: 0
   },
   chart: {
     minHeight: 144,

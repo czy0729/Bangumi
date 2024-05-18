@@ -10,11 +10,13 @@ export const memoStyles = _.memoStyles(() => ({
   vib: {
     position: 'absolute',
     zIndex: 1,
-    top: 32,
-    right: -4,
+    top: 34,
+    right: -4
+  },
+  container: {
     paddingTop: 4,
-    paddingHorizontal: 6,
-    paddingBottom: 5,
+    paddingHorizontal: 8,
+    paddingBottom: 6,
     backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1),
     borderRadius: _.radiusXs,
     overflow: 'hidden'

@@ -51,7 +51,9 @@ export const ItemArticle = ob(
               </UserStatus>
             </View>
             <Flex.Item style={styles.item}>
-              <Text bold>{HTMLDecode(title)}</Text>
+              <Text lineHeight={16} bold>
+                {HTMLDecode(title)}
+              </Text>
               <Flex style={_.mt.xs}>
                 <Name size={12} bold userId={userId} showFriend>
                   {HTMLDecode(nickname)}

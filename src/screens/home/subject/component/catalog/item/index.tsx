@@ -16,6 +16,7 @@ import { memoStyles } from './styles'
 
 function Item({ item }, { navigation }: Ctx) {
   const styles = memoStyles()
+  const title = HTMLDecode(item.title)
   return (
     <Touchable
       style={styles.item}
@@ -33,13 +34,14 @@ function Item({ item }, { navigation }: Ctx) {
       }}
     >
       <Flex>
-        <Cover src={fixedAll(item.avatar, _.r(40))} size={_.r(40)} radius shadow type='目录' />
+        <Cover src={fixedAll(item.avatar, _.r(40))} size={_.r(40)} radius type='目录' />
         <Flex.Item style={_.ml.md}>
-          <Text style={styles.text} size={11} lineHeight={12} bold numberOfLines={1}>
-            {HTMLDecode(item.title)}
-          </Text>
-          <Text size={10} lineHeight={11} type='sub' numberOfLines={1}>
-            {HTMLDecode(item.name)}
+          <Text style={styles.text} size={11} lineHeight={12} bold numberOfLines={2}>
+            {title}
+            {title.length <= 6 ? '\n' : ' '}
+            <Text size={9} lineHeight={12} type='sub'>
+              {HTMLDecode(item.name)}
+            </Text>
           </Text>
         </Flex.Item>
       </Flex>

@@ -7,7 +7,6 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { InView } from '@_'
 import { memo } from '@utils/decorators'
 import { TITLE_RATING } from '../../ds'
 import IconHidden from '../icon/hidden'
@@ -20,7 +19,7 @@ const Rating = memo(
   ({ styles, hideScore, showRating }) => {
     const [showScore, setShowScore] = useState(!hideScore)
     return (
-      <InView style={showRating ? styles.container : styles.hide}>
+      <View style={showRating ? styles.container : styles.hide}>
         <Flex>
           <Flex.Item>
             <Title showScore={showScore} />
@@ -28,7 +27,7 @@ const Rating = memo(
           {!showRating && <IconHidden name={TITLE_RATING} value='showRating' />}
         </Flex>
         {showRating && (
-          <View>
+          <View style={styles.rate}>
             {showScore ? (
               <>
                 <Chart />
@@ -43,7 +42,7 @@ const Rating = memo(
             )}
           </View>
         )}
-      </InView>
+      </View>
     )
   },
   DEFAULT_PROPS,

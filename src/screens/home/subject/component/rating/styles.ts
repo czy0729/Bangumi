@@ -12,6 +12,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingHorizontal: _.wind,
     marginTop: _.lg
   },
+  rate: {
+    marginTop: -32
+  },
   hide: {
     paddingHorizontal: _.wind,
     marginTop: _.lg,

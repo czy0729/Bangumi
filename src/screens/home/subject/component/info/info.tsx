@@ -7,7 +7,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, RenderHtml } from '@components'
-import { InView, SectionTitle } from '@_'
+import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
@@ -30,7 +30,7 @@ const Info = memo(
     }
 
     return (
-      <InView style={showInfo ? styles.container : styles.hide}>
+      <View style={showInfo ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
           right={showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />}
@@ -67,7 +67,7 @@ const Info = memo(
             <Heatmap id='条目.跳转' from='详情' />
           </View>
         )}
-      </InView>
+      </View>
     )
   },
   DEFAULT_PROPS,

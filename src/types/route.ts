@@ -40,6 +40,7 @@ export type NavigationPushType = RouteActions &
   RouteSetting &
   RouteShare &
   RouteSubject &
+  RouteSubjectCatalogs &
   RouteTag &
   RouteTinygrail &
   RouteTips &
@@ -319,6 +320,14 @@ type RouteSubject = (
     _wid?: Id
     _mid?: Id
     _hid?: Id
+  }
+) => any
+
+type RouteSubjectCatalogs = (
+  path: 'SubjectCatalogs',
+  params: {
+    subjectId: SubjectId
+    name?: string
   }
 ) => any
 
