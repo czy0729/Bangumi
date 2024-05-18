@@ -2,109 +2,82 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 20:44:17
+ * @Last Modified time: 2024-05-18 17:48:24
  */
-import React from 'react'
-import { ListView, Loading } from '@components'
-import { Login, SectionHeader } from '@_'
+import React, { useCallback } from 'react'
+import { ListView, Loading, ScrollToIndex } from '@components'
+import { Login } from '@_'
 import { uiStore } from '@stores'
-import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { TimeLineScope, TimeLineScopeCn, TimeLineType } from '@types'
+import { ScrollEvent } from '@types'
 import { TABS } from '../../ds'
 import { Ctx, TabLabel } from '../../types'
 import Item from '../item'
-import { COMPONENT } from './ds'
+import { keyExtractor } from './utils'
+import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
 import { styles } from './styles'
 
-class List extends React.Component<{
-  scope?: TimeLineScope
-  title?: TabLabel
-}> {
-  state = {
-    /**
-     * @issue 列表的滚回顶部 scrollToLocation 不知道如何正确使用
-     * 暂时使用重新渲染的办法解决列表变换置顶问题
-     */
-    hide: false
-  }
+function List(
+  {
+    title
+  }: {
+    title?: TabLabel
+  },
+  { $ }: Ctx
+) {
+  r(COMPONENT)
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.scope !== this.props.scope) {
-      this.setState({
-        hide: true
-      })
-
-      setTimeout(() => {
-        this.setState({
-          hide: false
-        })
-      }, 0)
-    }
-  }
-
-  forwardRef = (ref: any) => {
-    const { $ } = this.context as Ctx
-    const { title } = this.props
-    const index = TABS.findIndex(item => item.title === title)
-    return $.forwardRef(ref, index)
-  }
-
-  onScroll = evt => {
+  const handleForwardRef = useCallback(
+    (ref: { scrollToIndex: ScrollToIndex }) => {
+      return $.forwardRef(
+        ref,
+        TABS.findIndex(item => item.title === title)
+      )
+    },
+    [title]
+  )
+  const handleScroll = useCallback((evt: ScrollEvent) => {
     uiStore.closePopableSubject()
     uiStore.closeLikesGrid()
-
-    const { $ } = this.context as Ctx
     $.onScroll(evt)
-  }
+  }, [])
+  const renderItem = useCallback(
+    ({ item, index }) => <Item title={title} item={item} index={index} />,
+    [title]
+  )
 
-  renderItem = ({ item, index }) => {
-    const { title } = this.props
-    return <Item title={title} item={item} index={index} />
-  }
+  return useObserver(() => {
+    if (!$.isWebLogin && ['好友', '自己'].includes(MODEL_TIMELINE_SCOPE.getLabel($.state.scope))) {
+      return <Login />
+    }
 
-  render() {
-    r(COMPONENT)
-
-    const { $ } = this.context as Ctx
-    const { scope, page, isFocused } = $.state
-    const { title } = this.props
-    const label = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)
-    if (!$.isWebLogin && ['好友', '自己'].includes(label)) return <Login />
-
-    const { hide } = this.state
-    if (hide) return null
-
-    const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue<TimeLineType>(title))
+    const { scope } = $.state
+    const timeline = $.timeline(scope, MODEL_TIMELINE_TYPE.getValue(title))
     if (!timeline._loaded) return <Loading />
 
     if (!$.showItem(title)) return null
 
     return (
       <ListView
-        ref={this.forwardRef}
-        contentContainerStyle={styles.contentContainerStyle}
+        key={scope}
+        ref={handleForwardRef}
         keyExtractor={keyExtractor}
+        skipEnteringExitingAnimations={ENTERING_EXITING_ANIMATIONS_NUM}
+        contentContainerStyle={styles.contentContainerStyle}
         data={timeline}
-        sectionKey='date'
-        stickySectionHeadersEnabled={false}
         progressViewOffset={styles.contentContainerStyle.paddingTop}
-        scrollToTop={isFocused && TABS[page].title === title}
-        renderSectionHeader={renderSectionHeader}
-        renderItem={this.renderItem}
+        // scrollToTop={$.state.isFocused && TABS[$.state.page].title === title}
+        renderItem={renderItem}
         scrollEventThrottle={4}
-        onScroll={this.onScroll}
+        onScroll={handleScroll}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}
       />
     )
-  }
+  })
 }
 
-export default obc(List)
-
-function renderSectionHeader({ section: { title } }) {
-  return <SectionHeader>{title}</SectionHeader>
-}
+export default c(List)

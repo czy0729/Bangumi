@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:14:51
+ * @Last Modified time: 2024-05-18 17:52:23
  */
 import { computed, observable } from 'mobx'
+import { ScrollToIndex } from '@components'
 import { _, systemStore, timelineStore, userStore } from '@stores'
 import { feedback, updateVisibleBottom, x18 } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
@@ -93,8 +94,9 @@ export default class ScreenTimeline extends store<typeof STATE> {
   timeline(scope: TimeLineScope, type: TimeLineType) {
     return computed(() => {
       const timeline = timelineStore.timeline(scope, type)
+      let { list } = timeline
       if (systemStore.setting.filterDefault || systemStore.setting.filter18x || userStore.isLimit) {
-        const list = timeline.list.filter(item => {
+        list = list.filter(item => {
           if (
             (systemStore.setting.filterDefault || userStore.isLimit) &&
             item.avatar?.src?.includes(URL_DEFAULT_AVATAR)
@@ -104,21 +106,20 @@ export default class ScreenTimeline extends store<typeof STATE> {
 
           if ((systemStore.setting.filter18x || userStore.isLimit) && item?.p3?.url?.[0]) {
             const url = String(item.p3.url[0])
-            if (url.match(/\/subject\/\d+/)) {
-              return !x18(url.replace('https://bgm.tv/subject/', ''))
-            }
+            if (url.match(/\/subject\/\d+/)) return !x18(url.replace('https://bgm.tv/subject/', ''))
           }
 
           return true
         })
-
-        return {
-          ...timeline,
-          list
-        }
       }
 
-      return timeline
+      return {
+        ...timeline,
+        list: list.map((item, index) => ({
+          ...item,
+          date: index === 0 || list[index - 1]?.date !== item.date ? item.date : ''
+        }))
+      }
     }).get()
   }
 
@@ -173,34 +174,30 @@ export default class ScreenTimeline extends store<typeof STATE> {
   }
 
   /** 保存滚动到顶方法的引用 */
-  scrollToLocation = {}
+  scrollToIndex: Record<number, ScrollToIndex> = {}
 
   /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
-  forwardRef = (ref: any, index: number) => {
-    this.scrollToLocation[index] = ref?.scrollToLocation
+  forwardRef = (ref: { scrollToIndex: ScrollToIndex }, index: number) => {
+    this.scrollToIndex[index] = ref?.scrollToIndex
   }
 
   /** 刷新到顶 */
-  onRefreshThenScrollTop = () => {
+  onRefreshThenScrollTop = async () => {
     try {
       const { page } = this.state
-      if (typeof this.scrollToLocation[page] === 'function') {
+      if (typeof this.scrollToIndex[page] === 'function') {
         t('其他.刷新到顶', {
           screen: 'Timeline'
         })
 
-        this.scrollToLocation[page]({
+        this.scrollToIndex[page]({
           animated: true,
-          itemIndex: 0,
-          sectionIndex: 0,
-          viewOffset: 800,
-          viewPosition: 0
+          index: 0,
+          viewOffset: 8000
         })
-        setTimeout(() => {
-          feedback()
-        }, 400)
 
-        this.onHeaderRefresh()
+        await this.onHeaderRefresh()
+        feedback()
       }
     } catch (error) {
       console.error('Timeline', 'onRefreshThenScrollTop', error)

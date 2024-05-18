@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 15:03:51
+ * @Last Modified time: 2024-05-18 17:49:35
  */
 import { ScrollToIndex } from '@components'
 import { rakuenStore } from '@stores'
@@ -285,7 +285,7 @@ export default class Action extends Fetch {
   }
 
   /** 刷新到顶 */
-  onRefreshThenScrollTop = () => {
+  onRefreshThenScrollTop = async () => {
     try {
       const { page } = this.state
       if (typeof this.scrollToIndex[page] === 'function') {
@@ -298,11 +298,9 @@ export default class Action extends Fetch {
           index: 0,
           viewOffset: 8000
         })
-        setTimeout(() => {
-          feedback()
-        }, 400)
 
-        this.onHeaderRefresh()
+        await this.onHeaderRefresh()
+        feedback()
       }
     } catch (error) {
       console.error('Rakuen', 'onRefreshThenScrollTop', error)

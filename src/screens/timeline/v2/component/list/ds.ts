@@ -8,3 +8,5 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../../ds'
 
 export const COMPONENT = rc(PARENT, 'List')
+
+export const ENTERING_EXITING_ANIMATIONS_NUM = 6

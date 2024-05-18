@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-14 02:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 21:02:09
+ * @Last Modified time: 2024-05-18 17:26:54
  */
 import React from 'react'
-import { ItemTimeline } from '@_'
+import { ItemTimeline, SectionHeader } from '@_'
 import { _, rakuenStore } from '@stores'
 import { TimelineItem } from '@stores/timeline/types'
 import { getIsBlockUser } from '@utils'
@@ -41,6 +41,7 @@ function Item(
   const { scope } = $.state
   return (
     <>
+      {!!item.date && <SectionHeader>{item.date}</SectionHeader>}
       <ItemTimeline
         style={_.container._item}
         navigation={navigation}

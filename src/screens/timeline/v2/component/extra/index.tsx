@@ -7,7 +7,7 @@
 import React from 'react'
 import { Track } from '@components'
 import { ob } from '@utils/decorators'
-import Heatmaps from '../component/heatmaps'
+import Heatmaps from '../heatmaps'
 import { COMPONENT } from './ds'
 
 function Extra() {
