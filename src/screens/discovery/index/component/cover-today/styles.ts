@@ -35,10 +35,10 @@ export const memoStyles = _.memoStyles(() => {
       opacity: 0.92
     },
     itemStyle: {
-      marginTop: -5
+      marginTop: -7
     },
     itemSecondStyle: {
-      marginTop: 1
+      marginTop: -1
     }
   }
 })

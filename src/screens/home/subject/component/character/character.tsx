@@ -39,7 +39,18 @@ const Character = memo(
           <>
             <HorizontalList
               style={_.mt.sm}
-              data={crt}
+              data={crt.map((item: any) => {
+                try {
+                  return {
+                    ...item,
+                    image: item.image.includes('/r/')
+                      ? `https://lain.bgm.tv/pic/crt/g/${item.image.split('/l/')?.[1]}`
+                      : item.image
+                  }
+                } catch (error) {
+                  return item
+                }
+              })}
               counts={crtCounts}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / 56) + 1, 8)}
               onPress={({ id, name, nameJP, _image }) => {
