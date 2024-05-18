@@ -7,13 +7,13 @@
 import { rakuenStore } from '@stores'
 import { t } from '@utils/fetch'
 
-/** 取消屏蔽小组条目 */
+/** 取消屏蔽小组 */
 export function handleDeleteBlockGroup(item: string) {
-  t('超展开设置.取消关键字', {
+  t('超展开设置.取消屏蔽小组', {
     item
   })
 
-  rakuenStore.deleteBlockKeyword(item)
+  rakuenStore.deleteBlockGroup(item)
 
   setTimeout(() => {
     rakuenStore.uploadSetting()

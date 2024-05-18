@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.r(_._wind) - 4,
     paddingRight: _.sm,
     marginTop: _.r(13) - H_RADIUS_LINE,
-    backgroundColor: _.select('transparent', _._colorPlain),
+    backgroundColor: 'transparent',
     borderTopLeftRadius: H_RADIUS_LINE,
     borderTopRightRadius: H_RADIUS_LINE,
     overflow: 'hidden'

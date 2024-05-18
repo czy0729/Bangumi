@@ -335,10 +335,7 @@ export default class Action extends Fetch {
     this.save(key)
   }
 
-  /**
-   * 添加屏蔽小组
-   * @param {string} group 小组名字
-   */
+  /** 添加屏蔽小组 */
   addBlockGroup = (group: string) => {
     const { blockGroups } = this.setting
     if (blockGroups.includes(group)) return
@@ -353,10 +350,7 @@ export default class Action extends Fetch {
     this.save(key)
   }
 
-  /**
-   * 删除屏蔽小组
-   * @param {string} group 小组名字
-   */
+  /** 删除屏蔽小组 */
   deleteBlockGroup = (group: string) => {
     const { blockGroups } = this.setting
     const key = 'setting'

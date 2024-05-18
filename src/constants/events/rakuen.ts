@@ -47,6 +47,7 @@ export default {
   '超展开设置.右上角菜单': 'RakuenSetting.topRightMenu',
   '超展开设置.切换': 'RakuenSetting.switch',
   '超展开设置.取消关键字': 'RakuenSetting.cancelBlock',
+  '超展开设置.取消屏蔽小组': 'RakuenSetting.cancelBlock',
   '超展开设置.取消用户': 'RakuenSetting.cancelUser',
   '超展开设置.绝交': 'RakuenSetting.blockUser',
   '超展开设置.取消绝交': 'RakuenSetting.cancelBlockUser',
