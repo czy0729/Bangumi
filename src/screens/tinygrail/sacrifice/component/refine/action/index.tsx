@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-11 18:21:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-12 07:40:25
+ * @Last Modified time: 2024-05-19 15:35:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function Action(props, { $ }: Ctx) {
-  if (!$.myTemple.cover) return null
+  if (!$.myTemple.assets) return null
 
   return (
     <View>

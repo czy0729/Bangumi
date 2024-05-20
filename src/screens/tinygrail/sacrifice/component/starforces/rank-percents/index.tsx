@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 17:40:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 19:11:15
+ * @Last Modified time: 2024-05-19 11:54:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,6 @@ import { Ctx } from '../../../types'
 import { styles } from './styles'
 
 function RankPercents(props, { $ }: Ctx) {
-  const { rank = 0 } = $.chara
   return (
     <View style={styles.rankPercents}>
       {$.rankPercents.map((item, index: number) => (
@@ -31,7 +30,7 @@ function RankPercents(props, { $ }: Ctx) {
           <Flex>
             <Rank
               style={
-                item.rank !== rank && {
+                item.rank !== $.rank && {
                   backgroundColor: _.colorTinygrailIcon
                 }
               }
@@ -42,7 +41,7 @@ function RankPercents(props, { $ }: Ctx) {
             </Text>
             <Text style={_.ml.xs} size={10} type='tinygrailText'>
               +{item.rate} (x{calculateRatio(item.rank)}
-              {item.rank !== rank && `, 总 ${item.totalRate >= 0 ? '+' : ''}${item.totalRate}`})
+              {item.rank !== $.rank && `, 总 ${item.totalRate >= 0 ? '+' : ''}${item.totalRate}`})
             </Text>
           </Flex>
         </Touchable>

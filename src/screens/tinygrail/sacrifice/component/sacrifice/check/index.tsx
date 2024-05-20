@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 16:28:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 16:31:35
+ * @Last Modified time: 2024-05-19 11:53:49
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -35,7 +35,7 @@ function Check(props, { $ }: Ctx) {
           最近 (单价{formatNumber(Number(lastSacrifice.total) / Number(lastSacrifice.amount), 1)} /
           效率
           {formatNumber(
-            (Number(lastSacrifice.total) / Number(lastSacrifice.amount) / $.chara.current) * 100,
+            (Number(lastSacrifice.total) / Number(lastSacrifice.amount) / $.current) * 100,
             0
           )}
           % / {lastDate(lastSacrifice.time)})

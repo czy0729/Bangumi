@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-07 16:48:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 16:55:37
+ * @Last Modified time: 2024-05-19 11:14:22
  */
 import { t } from '@utils/fetch'
 import { AnyObject, EventKeys, MonoId, Navigation, Paths } from '@types'
@@ -13,7 +13,8 @@ export function getOnPress(
   go: string,
   navigation: Navigation,
   eventId?: EventKeys,
-  eventData?: AnyObject
+  eventData?: AnyObject,
+  props?: AnyObject
 ) {
   return () => {
     let to: Paths
@@ -55,7 +56,8 @@ export function getOnPress(
 
     navigation.push(to, {
       monoId: `character/${charaId}`,
-      ...params
+      ...params,
+      _props: props
     })
   }
 }

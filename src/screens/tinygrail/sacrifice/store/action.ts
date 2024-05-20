@@ -1,322 +1,38 @@
 /*
  * @Author: czy0729
- * @Date: 2019-11-17 12:11:10
+ * @Date: 2024-05-19 08:33:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-12 07:04:39
+ * @Last Modified time: 2024-05-19 14:08:52
  */
-import { computed, observable } from 'mobx'
-import { systemStore, tinygrailStore } from '@stores'
+import { tinygrailStore } from '@stores'
 import {
   alert,
   feedback,
   formatNumber,
-  getStorage,
   getTimestamp,
   info,
+  queue,
   setStorage,
   toFixed
 } from '@utils'
-import { queue, t, xhrCustom } from '@utils/fetch'
-import store from '@utils/store'
-import { API_TINYGRAIL_STAR, getXsbRelationOTA } from '@constants'
+import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
-import { calculateRate, decimal } from '@tinygrail/_/utils'
-import { AnyObject, MonoId } from '@types'
-import { EXCLUDE_STATE, INIT_LAST_AUCTION, INIT_LAST_SACRIFICE, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import { AnyObject } from '@types'
+import Fetch from './fetch'
 
-export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  prev: any = 0
-
-  init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
-    const lastAuction = (await getStorage(this.namespaceLastAuction)) || INIT_LAST_AUCTION
-    const lastSacrifice = (await getStorage(this.namespaceLastSacrifice)) || INIT_LAST_SACRIFICE
-    await tinygrailStore.init('test')
-
-    const current = getTimestamp()
-    this.setState({
-      ...state,
-      ...EXCLUDE_STATE,
-      lastAuction,
-      lastSacrifice,
-      _loaded: current
-    })
-
-    const { rankStarForces } = this.state
-    if (!rankStarForces._loaded || current - rankStarForces._loaded > 600) {
-      this.fetchStarForcesRankValues()
-    }
-
-    return this.refresh()
-  }
-
-  refresh = async (update: boolean = false) => {
-    if (!update) {
-      return queue([
-        this.fetchTest,
-
-        /** 角色小圣杯信息 */
-        () => tinygrailStore.fetchCharacters([this.monoId]),
-
-        /** 所有人固定资产 (可以得到自己的可用资产) */
-        () => tinygrailStore.fetchCharaTemple(this.monoId),
-
-        /** 本角色我的交易信息 */
-        () => tinygrailStore.fetchUserLogs(this.monoId),
-
-        /** 自己的资产 */
-        () => tinygrailStore.fetchAssets(),
-
-        /** 角色发行价 */
-        () => tinygrailStore.fetchIssuePrice(this.monoId),
-
-        /** 本次拍卖信息 */
-        () => this.fetchValhallChara(),
-
-        /** 当前拍卖状态 */
-        () => tinygrailStore.fetchAuctionStatus(this.monoId),
-
-        /** 上周拍卖信息 */
-        () => tinygrailStore.fetchAuctionList(this.monoId),
-
-        /** 董事会 */
-        () => tinygrailStore.fetchUsers(this.monoId),
-
-        /** 角色奖池 */
-        () => tinygrailStore.fetchCharaPool(this.monoId)
-      ])
-    }
-
-    await queue([
-      /** 本角色我的交易信息 */
-      () => tinygrailStore.fetchUserLogs(this.monoId),
-
-      /** 自己的资产 */
-      () => tinygrailStore.fetchAssets(),
-
-      /** 当前拍卖状态 */
-      () => tinygrailStore.fetchAuctionStatus(this.monoId)
+export default class Action extends Fetch {
+  refresh = () => {
+    return queue([
+      this.fetchUserLogs,
+      this.fetchAssets,
+      this.fetchAuctionStatus,
+      this.updateMyCharaAssets
     ])
-
-    // 更新我的资产
-    const { amount = 0, sacrifices = 0 } = this.userLogs
-    return tinygrailStore.updateMyCharaAssets(this.monoId, amount, sacrifices)
   }
 
-  save = () => {
-    this.setStorage(NAMESPACE)
-  }
-
-  /** 预测股息 */
-  fetchTest = () => {
-    if (this.test._loaded && getTimestamp() - Number(this.test._loaded) < 60 * 60 * 24 * 7) {
-      return true
-    }
-    return tinygrailStore.fetchTest()
-  }
-
-  /** 可拍卖信息 */
-  fetchValhallChara = async () => {
-    let res: any
-    try {
-      res = tinygrailStore.fetchValhallChara(this.monoId)
-      const { price } = await res
-      if (price) {
-        this.setState({
-          auctionPrice: toFixed(price + 0.01, 2)
-        })
-      }
-    } catch (error) {}
-    return res
-  }
-
-  /** 通天塔(β) */
-  fetchStarForcesRankValues = async () => {
-    const rankStarForces = {
-      _loaded: getTimestamp()
-    }
-
-    try {
-      for (let i = 1; i <= 5; i += 1) {
-        const { _response } = await xhrCustom({
-          url: API_TINYGRAIL_STAR(i * 100, 1)
-        })
-        const { Value } = JSON.parse(_response)
-        rankStarForces[i * 100] = Value[0].StarForces
-      }
-
-      for (let i = 1; i <= 4; i += 1) {
-        const { _response } = await xhrCustom({
-          url: API_TINYGRAIL_STAR(i * 20, 1)
-        })
-        const { Value } = JSON.parse(_response)
-        rankStarForces[i * 20] = Value[0].StarForces
-      }
-    } catch (error) {}
-
-    this.setState({
-      rankStarForces
-    })
-    this.save()
-  }
-
-  // -------------------- get --------------------
-  @computed get monoId() {
-    const { monoId = '' } = this.params
-    return monoId.replace('character/', '') as MonoId
-  }
-
-  /** 小圣杯缩短资金数字显示 */
-  @computed get short() {
-    return systemStore.setting.xsbShort
-  }
-
-  @computed get namespaceLastAuction() {
-    return `${NAMESPACE}|lastAuction|${this.monoId}`
-  }
-
-  @computed get namespaceLastSacrifice() {
-    return `${NAMESPACE}|lastSacrifice|${this.monoId}`
-  }
-
-  /** 用户唯一标识 */
-  @computed get hash() {
-    return tinygrailStore.hash
-  }
-
-  /** 预测股息 */
-  @computed get test() {
-    return tinygrailStore.test
-  }
-
-  /** 全局人物数据 */
-  @computed get chara() {
-    return tinygrailStore.characters(this.monoId)
-  }
-
-  /** 我的挂单和交易记录 */
-  @computed get userLogs() {
-    return tinygrailStore.userLogs(this.monoId)
-  }
-
-  /** 角色圣殿 */
-  @computed get charaTemple() {
-    return tinygrailStore.charaTemple(this.monoId)
-  }
-
-  /** 用户资产 */
-  @computed get assets() {
-    return tinygrailStore.assets
-  }
-
-  /** 可拍卖信息 */
-  @computed get valhallChara() {
-    return tinygrailStore.valhallChara(this.monoId)
-  }
-
-  /** 上周拍卖记录 */
-  @computed get auctionList() {
-    return tinygrailStore.auctionList(this.monoId)
-  }
-
-  /** 当前拍卖状态 */
-  @computed get auctionStatus() {
-    return tinygrailStore.auctionStatus(this.monoId)
-  }
-
-  /** 角色发行价 */
-  @computed get issuePrice() {
-    return tinygrailStore.issuePrice(this.monoId)
-  }
-
-  /** 董事会 */
-  @computed get users() {
-    return tinygrailStore.users(this.monoId)
-  }
-
-  /** 角色奖池 */
-  @computed get charaPool() {
-    return tinygrailStore.charaPool(this.monoId)
-  }
-
-  /** 我的圣殿 */
-  @computed get myTemple() {
-    const { list } = this.charaTemple
-    return list.find(item => item.name === this.hash) || {}
-  }
-
-  /** 测试献祭效率最少数量 */
-  @computed get testAmount() {
-    const { sacrifices = 0 } = this.myTemple
-    const { amount } = this.userLogs
-    if (sacrifices >= 500) return 1
-    return amount >= 100 ? 100 : amount
-  }
-
-  /** 关联角色数据 */
-  @computed get relation() {
-    const XSBRelationData = getXsbRelationOTA()
-    const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
-    return {
-      s,
-      subject: s ? XSBRelationData.name[s] : '',
-      r: [Number(this.monoId), ...r]
-    }
-  }
-
-  /** 计算通天塔各分段等级需要的星之力在 slider 上面的位置 */
-  @computed get rankPercents() {
-    const { rankStarForces } = this.state
-    const { state = 0, rank = 0, rate, stars, starForces = 0 } = this.chara
-    const { sacrifices = 0 } = this.userLogs
-    const { assets = 0 } = this.myTemple
-    const max = Number(assets || sacrifices)
-
-    const data = []
-    const currentRate = calculateRate(rate, rank, stars)
-    const current = {
-      left: 0,
-      rank,
-      text: formatNumber(starForces, 0),
-      distance: 0,
-      rate: toFixed(currentRate, 1),
-      totalRate: (state + assets) * currentRate
-    }
-
-    const ranks = rank <= 100 ? [20, 40, 60, 80] : [100, 200, 300, 400, 500]
-    ranks.forEach((r, index) => {
-      if (max && rank > r && rankStarForces[r] && assets + starForces > rankStarForces[r]) {
-        const _rate = calculateRate(rate, r, stars)
-        const distance = rankStarForces[r] - starForces + 1
-        data.push({
-          left: `${Math.min(40 - index * 2, ((rankStarForces[r] - starForces + 1) / max) * 100)}%`,
-          rank: r,
-          text: decimal(rankStarForces[r]),
-
-          /** 距离段位差多少星之力 */
-          distance,
-
-          /** 达到该段位可以提升多少生效股息 */
-          rate: toFixed(_rate, 1),
-          totalRate: decimal((state + assets - distance) * _rate - current.totalRate)
-        })
-      }
-    })
-    data.push(current) // 当前
-
-    return data
-  }
-
-  // -------------------- action --------------------
   /** 资产重组 */
   doSacrifice = async () => {
-    const { loading } = this.state
-    if (loading) return
+    if (this.state.loading) return
 
     this.setState({
       loading: true
@@ -366,13 +82,12 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
       loading: false
     })
     this.cacheLastSacrifice(amount, Value.Balance)
-    this.refresh(true)
+    this.refresh()
   }
 
   /** 测试献祭效率 */
   doTestSacrifice = async () => {
-    const { loading } = this.state
-    if (loading) return
+    if (this.state.loading) return
 
     this.setState({
       loading: true
@@ -402,13 +117,12 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
       loading: false
     })
     this.cacheLastSacrifice(this.testAmount, Value.Balance)
-    this.refresh(true)
+    this.refresh()
   }
 
   /** 竞拍 */
   doAuction = async () => {
-    const { auctionLoading } = this.state
-    if (auctionLoading) return
+    if (this.state.auctionLoading) return
 
     this.setState({
       auctionLoading: true
@@ -456,13 +170,12 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
       auctionLoading: false,
       auctionAmount: 0
     })
-    this.refresh(true)
+    this.refresh()
   }
 
   /** 灌注星之力 */
   doStarForces = async () => {
-    const { loading } = this.state
-    if (loading) return
+    if (this.state.loading) return
 
     this.setState({
       loading: true
@@ -557,8 +270,7 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
   /** 精炼 */
   doRefine = async () => {
-    const { loadingRefine } = this.state
-    if (loadingRefine) return
+    if (this.state.loadingRefine) return
 
     this.setState({
       loadingRefine: true
@@ -582,6 +294,8 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
   }
 
   // -------------------- page --------------------
+  private prev = 0
+
   /** 金额格式过滤 */
   moneyNatural = (v: any) => {
     if (v && !/^(([1-9]\d*)|0)(\.\d{0,2}?)?$/.test(v)) {
@@ -723,17 +437,15 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
   /** 切换股权融资 */
   switchIsSale = () => {
-    const { isSale } = this.state
     this.setState({
-      isSale: !isSale
+      isSale: !this.state.isSale
     })
   }
 
   /** 切换是否二次确认精炼 */
   switchConfirmRefine = () => {
-    const { confirmRefine } = this.state
     this.setState({
-      confirmRefine: !confirmRefine
+      confirmRefine: !this.state.confirmRefine
     })
     this.save()
   }
@@ -792,45 +504,40 @@ export default class ScreenTinygrailSacrifice extends store<typeof STATE> {
 
   /** 展开收起献祭模块 */
   toggleSacrifice = () => {
-    const { showSacrifice } = this.state
     this.setState({
-      showSacrifice: !showSacrifice
+      showSacrifice: !this.state.showSacrifice
     })
     this.save()
   }
 
   /** 展开收起拍卖模块 */
   toggleAuction = () => {
-    const { showAuction } = this.state
     this.setState({
-      showAuction: !showAuction
+      showAuction: !this.state.showAuction
     })
     this.save()
   }
 
   /** 展开收起星之力模块 */
   toggleStarForces = () => {
-    const { showStarForces } = this.state
     this.setState({
-      showStarForces: !showStarForces
+      showStarForces: !this.state.showStarForces
     })
     this.save()
   }
 
   /** 展开收起精炼模块 */
   toggleRefine = () => {
-    const { showRefine } = this.state
     this.setState({
-      showRefine: !showRefine
+      showRefine: !this.state.showRefine
     })
     this.save()
   }
 
   /** 展开收起道具模块 */
   toggleItems = () => {
-    const { showItems } = this.state
     this.setState({
-      showItems: !showItems
+      showItems: !this.state.showItems
     })
     this.save()
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 09:22:48
+ * @Last Modified time: 2024-05-19 11:11:58
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -42,7 +42,7 @@ function Item(props, { $, navigation }) {
     }
 
     const _id = isAuction || isValhall ? monoId || id : id
-    if (go) return getOnPress(_id, go, navigation, event.id, event.data)()
+    if (go) return getOnPress(_id, go, navigation, event.id, event.data, props)()
 
     t(event.id, {
       to: 'TinygrailDeal',

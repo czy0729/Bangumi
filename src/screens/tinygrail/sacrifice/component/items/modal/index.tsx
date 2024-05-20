@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 05:35:58
+ * @Last Modified time: 2024-05-19 11:52:51
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -24,12 +24,12 @@ function Modal(
 ) {
   const item = {
     assets: $.myTemple.assets || 0,
-    icon: $.chara.icon,
-    id: $.chara.id,
-    level: $.chara.level,
-    name: $.chara.name,
-    rank: $.chara.rank,
-    rate: $.chara.rate,
+    icon: $.icon,
+    id: $.id,
+    level: $.level,
+    name: $.name,
+    rank: $.rank,
+    rate: $.rate,
     sacrifices: $.userLogs.sacrifices || 0
   }
 

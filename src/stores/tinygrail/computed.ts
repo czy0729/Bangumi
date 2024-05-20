@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-12 06:51:01
+ * @Last Modified time: 2024-05-19 15:19:09
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -20,7 +20,7 @@ import {
 } from './init'
 import State from './state'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
-import { Characters, ListKey } from './types'
+import { Characters, ListKey, MyTemple } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 授权 cookie */
@@ -235,10 +235,18 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
+  /** 我的某角色圣殿 */
+  myTemple(monoId: MonoId) {
+    this.init('myTemple')
+    return computed<MyTemple>(() => {
+      return this.state.myTemple[monoId] || {}
+    }).get()
+  }
+
   /** 角色圣殿 */
   charaTemple(monoId: MonoId) {
     this.init('charaTemple')
-    return computed<ListEmpty>(() => {
+    return computed<ListEmpty<MyTemple>>(() => {
       return this.state.charaTemple[monoId] || LIST_EMPTY
     }).get()
   }

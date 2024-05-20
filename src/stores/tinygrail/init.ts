@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-12 06:28:10
+ * @Last Modified time: 2024-05-19 14:37:35
  */
 import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
@@ -322,6 +322,9 @@ export const STATE = {
   /** 用户所有角色信息 */
   charaAll: {},
 
+  /** 我的圣殿 */
+  myTemple: {},
+
   /** 角色圣殿 */
   charaTemple: {},
 
@@ -420,6 +423,7 @@ export const LOADED = {
   bid: false,
   charaAll: false,
   charaAssets: false,
+  myTemple: false,
   charaTemple: false,
   characters: false,
   collected: false,

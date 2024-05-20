@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 18:35:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 18:37:34
+ * @Last Modified time: 2024-05-19 15:19:21
  */
 import React from 'react'
 import { Flex, Slider as SliderComp, Text } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 
 function Slider(props, { $ }: Ctx) {
-  const max = parseInt($.myTemple.assets || $.userLogs.sacrifices || 0)
+  const max = Number($.myTemple.assets || $.userLogs.sacrifices || 0)
   return (
     <>
       <SliderComp

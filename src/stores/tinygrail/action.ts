@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:42:12
+ * @Last Modified time: 2024-05-19 14:07:21
  */
 import { toJS } from 'mobx'
 import { getTimestamp, info } from '@utils'
@@ -86,7 +86,7 @@ export default class Action extends Fetch {
   }
 
   /** 更新我的持仓角色 */
-  updateMyCharaAssets = (id, state, sacrifices) => {
+  updateMyCharaAssets = (id: string, state: number, sacrifices: number) => {
     // 只有这里能检测到未献祭满 500 角色的圣殿资产变化, 需要联动圣殿资产里面的对应项
     this.updateMyTemples(id, sacrifices)
 
@@ -117,6 +117,7 @@ export default class Action extends Fetch {
       this.save(key)
       return true
     }
+
     return false
   }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-07 05:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:36:38
+ * @Last Modified time: 2024-05-19 11:32:14
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -15,7 +15,6 @@ import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../../types'
 
 function Title(props, { $, navigation }: Ctx) {
-  const { id, name, bonus, level, rank } = $.chara
   const size = 13
   return (
     <Flex style={$.state.showCover && _.mt.md} justify='center'>
@@ -24,17 +23,17 @@ function Title(props, { $, navigation }: Ctx) {
           t('资产重组.跳转', {
             to: 'Mono',
             from: '顶部',
-            monoId: $.monoId
+            monoId: $.id
           })
 
           navigation.push('Mono', {
-            monoId: `character/${id}`,
-            _name: name
+            monoId: `character/${$.id}`,
+            _name: $.name
           })
         }}
       >
         <Flex justify='center'>
-          <Rank value={rank} />
+          <Rank value={$.rank} />
           <Text
             style={_.mh.xs}
             type='tinygrailPlain'
@@ -43,10 +42,10 @@ function Title(props, { $, navigation }: Ctx) {
             align='center'
             bold
           >
-            #{id} - {name}
+            #{$.id} - {$.name}
           </Text>
-          <Bonus value={bonus} lineHeight={size} />
-          <Level value={level} lineHeight={size} />
+          <Bonus value={$.bonus} lineHeight={size} />
+          <Level value={$.level} lineHeight={size} />
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
       </Touchable>

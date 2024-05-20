@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:46:46
+ * @Last Modified time: 2024-05-19 14:56:48
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -30,6 +30,7 @@ import {
   API_TINYGRAIL_LIST,
   API_TINYGRAIL_MY_AUCTION_LIST,
   API_TINYGRAIL_MY_CHARA_ASSETS,
+  API_TINYGRAIL_MY_TEMPLE,
   API_TINYGRAIL_REFINE_TEMPLE,
   API_TINYGRAIL_RICH,
   API_TINYGRAIL_STAR,
@@ -776,7 +777,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 我的买单 */
@@ -1251,6 +1252,36 @@ export default class Fetch extends Computed {
     return Promise.resolve(data)
   }
 
+  /** 我的某角色圣殿 */
+  fetchMyTemple = async (id: Id = 0) => {
+    const result = await this.fetch(API_TINYGRAIL_MY_TEMPLE(this.hash, id))
+
+    let data = {}
+    if (result.data.State === 0) {
+      const item = result.data.Value.Items[0]
+      data = {
+        avatar: item.Avatar,
+        id: item.CharacterId,
+        cover: item.Cover,
+        name: item.Name,
+        nickname: item.Nickname,
+        level: item.Level,
+        assets: item.Assets,
+        sacrifices: item.Sacrifices,
+        refine: item.Refine,
+        _loaded: getTimestamp()
+      }
+    }
+
+    const key = 'myTemple'
+    this.setState({
+      [key]: {
+        [id]: data
+      }
+    })
+    return data
+  }
+
   /** 角色圣殿 */
   fetchCharaTemple = async (id: Id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_CHARA_TEMPLE(id))
@@ -1289,7 +1320,11 @@ export default class Fetch extends Computed {
   fetchValhallChara = async (id: Id = 0) => {
     const result = await this.fetch(API_TINYGRAIL_VALHALL_CHARA(id))
 
-    let data = {}
+    let data: {
+      amount?: number
+      price?: number
+      _loaded?: number
+    } = {}
     const { State, Value } = result.data
     if (State === 0) {
       data = {
@@ -1306,7 +1341,7 @@ export default class Fetch extends Computed {
       }
     })
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 上周拍卖记录 */
@@ -1363,7 +1398,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return Promise.resolve(data)
+    return data
   }
 
   /** 最近圣殿 */

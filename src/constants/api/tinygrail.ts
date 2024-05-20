@@ -21,7 +21,7 @@ const TINYGRAIL_LIMIT = 200
 
 const d = new Date()
 
-/** 小圣杯 K线时间 */
+/** 小圣杯 K 线时间 */
 const TINYGRAIL_START = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T00:00:00+08:00`
 
 /**
@@ -278,4 +278,8 @@ export const API_TINYGRAIL_STAR_LOGS = (page: number = 1, limit: number = 50) =>
 
 /** 灌注星之力 */
 export const API_TINYGRAIL_CHARA_STAR = (monoId: number = 0, amount: number = 0) =>
-  `https://tinygrail.com/api/chara/star/${monoId}/${amount}`
+  `${API_HOST_TINYGRAIL}/api/chara/star/${monoId}/${amount}`
+
+/** 我的圣殿 */
+export const API_TINYGRAIL_MY_TEMPLE = (hash: UserId, keyword: Id) =>
+  `${API_HOST_TINYGRAIL}/api/chara/user/temple/${hash}/1/1?keyword=${keyword}`

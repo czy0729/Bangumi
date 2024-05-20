@@ -13,8 +13,5 @@ export const memoStyles = _.memoStyles(() => ({
   },
   userStatus: {
     backgroundColor: _.colorTinygrailContainer
-  },
-  rank: {
-    minWidth: 24
   }
 }))

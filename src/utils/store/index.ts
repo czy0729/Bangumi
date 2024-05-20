@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-13 20:09:46
+ * @Last Modified time: 2024-05-19 19:27:12
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
-import { AnyObject, DeepPartial, Loaded } from '@types'
-import fetch from '../fetch'
+import { AnyObject, DeepPartial, Fn, Loaded } from '@types'
+import fetch, { queue } from '../fetch'
 import { fetchSubjectV0 } from '../fetch.v0'
 import { setStorage } from '../storage'
 import { getItem } from '../storage/utils'
@@ -286,4 +286,24 @@ export default class Store<
    */
   // @ts-expect-error
   toJS = (key: string): object => toJS(this.state[key] || this.state)
+
+  /** 唯一队列请求 */
+  private memoFetched = new Map<Fn, true>()
+
+  /** 唯一队列请求 */
+  fetchQueueUnique = (fetchs: Fn[]) => {
+    setTimeout(() => {
+      queue(
+        fetchs.map(callback => {
+          return async () => {
+            if (!this.memoFetched.has(callback)) {
+              this.memoFetched.set(callback, true)
+              await callback()
+            }
+            return true
+          }
+        })
+      )
+    }, 200 * this.memoFetched.size)
+  }
 }

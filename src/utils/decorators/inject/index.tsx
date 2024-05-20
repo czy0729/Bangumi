@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 14:43:55
+ * @Last Modified time: 2024-05-19 11:01:54
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -10,7 +10,6 @@ import { NavigationEvents } from '@components'
 import Stores from '@stores'
 import { contextTypes } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { DEV } from '@/config'
 import { getScreenKey } from './utils'
 import { Config, Props, WrapComponentProps } from './types'
 
@@ -36,7 +35,8 @@ const Inject = (Store, config?: Config) => {
           this.$ = Stores.get(key)
 
           // DEV 环境下也需要每次新建, 保证热更新能获取到最新的代码
-          if (!this.$ || DEV) {
+          // if (!this.$ || DEV) {
+          if (!this.$) {
             this.$ = new Store()
 
             // 把 navigation 的页面参数插入 store 方便使用

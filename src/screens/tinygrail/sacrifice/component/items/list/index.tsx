@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 08:22:51
+ * @Last Modified time: 2024-05-19 16:09:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { confirm, info, tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { c } from '@utils/decorators'
+import { useMount, useObserver } from '@utils/hooks'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import { Fn } from '@types'
 import { Ctx } from '../../../types'
@@ -24,9 +25,11 @@ function List(
   },
   { $ }: Ctx
 ) {
-  if (!$.state.showItems) return null
+  useMount(() => {
+    $.fetchQueueUnique([$.fetchUserLogs, $.fetchMyTemple])
+  })
 
-  return (
+  return useObserver(() => (
     <Flex wrap='wrap' align='start'>
       <View style={styles.item}>
         <Touchable
@@ -182,7 +185,7 @@ function List(
         </Touchable>
       </View>
     </Flex>
-  )
+  ))
 }
 
-export default obc(List)
+export default c(List)
