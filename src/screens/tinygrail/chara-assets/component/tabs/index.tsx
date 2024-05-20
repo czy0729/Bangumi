@@ -9,7 +9,6 @@ import { ob } from '@utils/decorators'
 import TabsComp from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import ToolBar from '../tool-bar'
-import Label from './label'
 import { renderItem, renderLabel } from './utils'
 import { COMPONENT } from './ds'
 

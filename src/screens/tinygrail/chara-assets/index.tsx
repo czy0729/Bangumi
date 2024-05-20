@@ -15,7 +15,7 @@ import { useTinygrailCharaAssetsPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
 
-/** 热门榜单 */
+/** 我的持仓 */
 const TinygrailCharaAssets = (props, context: Ctx) => {
   useTinygrailCharaAssetsPage(context)
 

@@ -147,7 +147,23 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
 
   /** 用户圣殿 */
   @computed get temple() {
-    return tinygrailStore.temple(this.userId)
+    const { sort, level, direction } = this.state
+    let data = tinygrailStore.temple(this.userId)
+    if (level) {
+      data = {
+        ...data,
+        list: levelList(level, data.list)
+      }
+    }
+
+    if (sort) {
+      data = {
+        ...data,
+        list: sortList(sort, direction, data.list)
+      }
+    }
+
+    return data
   }
 
   /** ICO 最高人气, 用于显示自己当前参与的 ICO */

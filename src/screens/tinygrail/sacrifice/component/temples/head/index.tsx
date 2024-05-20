@@ -24,7 +24,7 @@ function Head(props, { $ }: Ctx) {
       <Text style={_.ml.xs} type='warning' size={16}>
         {$.charaTemple.list.length || '-'}
       </Text>
-      <Text style={_.ml.xs} type='tinygrailText' size={12}>
+      <Text style={_.ml.xs} type='tinygrailText' size={10}>
         / +{$.rate} / 活股{toFixed(calculateRate($.rate, $.rank, $.stars), 1)}
       </Text>
       <Refine rate={$.rate} rank={$.rank} stars={$.stars} level={$.level} />

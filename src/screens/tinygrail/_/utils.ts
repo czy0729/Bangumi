@@ -207,7 +207,8 @@ export function sortList(sort: string, direction: string, list: any[]) {
 /** 等级筛选列表 */
 export function levelList(level: string | number, list: any[]) {
   if (level === undefined) return list
-  return list.filter(item => item.level == level)
+
+  return list.filter(item => (item.cLevel || item.level) == level)
 }
 
 /** 小圣杯用最近时间 */

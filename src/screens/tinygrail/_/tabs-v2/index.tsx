@@ -10,13 +10,12 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 
 function Tabs({ routes, renderItem, ...other }, { $ }) {
-  const { page } = $.state
   return (
     <TabsV2
       key={_.orientation}
       style={_.mt._sm}
       routes={routes}
-      page={page}
+      page={$.state.page}
       textColor={_.colorTinygrailPlain}
       backgroundColor={_.colorTinygrailContainer}
       borderBottomColor={_.colorTinygrailBorder}

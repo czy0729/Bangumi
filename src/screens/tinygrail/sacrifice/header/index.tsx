@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:52:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 06:39:11
+ * @Last Modified time: 2024-05-20 10:29:52
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Iconfont, Touchable } from '@components'
@@ -12,6 +12,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function Header(props, { $, navigation }: Ctx) {
   return (
@@ -23,12 +24,7 @@ function Header(props, { $, navigation }: Ctx) {
       headerRight={() => (
         <Flex>
           <Touchable
-            style={[
-              {
-                paddingVertical: _.sm
-              },
-              _.mr.md
-            ]}
+            style={styles.touch}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -50,12 +46,7 @@ function Header(props, { $, navigation }: Ctx) {
             <Iconfont name='md-attach-money' color={_.colorTinygrailPlain} />
           </Touchable>
           <Touchable
-            style={[
-              {
-                paddingVertical: _.sm
-              },
-              _.mr.md
-            ]}
+            style={styles.touch}
             onPress={() => {
               const { form, monoId } = $.params
               t('资产重组.跳转', {
@@ -77,12 +68,7 @@ function Header(props, { $, navigation }: Ctx) {
             <Iconfont name='md-waterfall-chart' color={_.colorTinygrailPlain} />
           </Touchable>
           <Touchable
-            style={[
-              {
-                paddingVertical: _.sm
-              },
-              _.mr.sm
-            ]}
+            style={[styles.touch, _.mr.xs]}
             onPress={() => {
               const { monoId } = $.params
               open(`https://fuyuake.top/xsb/chara/${monoId?.replace('character/', '')}`)

@@ -11,7 +11,6 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
 import { ListEmpty } from '@types'
-
 import { Ctx, TabsKey } from '../../types'
 import Item from '../item'
 import { keyExtractor } from './utils'

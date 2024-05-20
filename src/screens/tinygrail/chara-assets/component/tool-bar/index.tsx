@@ -13,7 +13,7 @@ import BatchBtn from '../batch-btn'
 import { COMPONENT } from './ds'
 
 function ToolBar(props, { $ }: Ctx) {
-  if ($.state.page > 1) return null
+  if ($.state.page > 2) return null
 
   return (
     <ToolBarComp

@@ -19,7 +19,7 @@ function Refine({ rate, rank, stars, level }) {
     const styles = memoStyles()
     return (
       <>
-        <Text type='tinygrailText' size={12}>
+        <Text type='tinygrailText' size={10}>
           {' '}
           / 圣殿{toFixed(calculateTempleRate(rate, rank, stars, level, refine), 1)} (x
           {calculateRatio(rank)})
