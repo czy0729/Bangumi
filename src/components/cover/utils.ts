@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 16:46:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 18:16:52
+ * @Last Modified time: 2024-05-21 21:10:37
  */
 import { getCover400, matchCoverUrl } from '@utils'
 import { IMG_DEFAULT, STORYBOOK } from '@constants'
@@ -10,7 +10,7 @@ import { CoverPrefix, CoverSize, Props } from './types'
 
 /** 修正封面图地址 */
 export function getCoverSrc(src: Props['src'], width: number, cdn?: boolean, noDefault?: boolean) {
-  if (typeof src !== 'string') return src
+  if (src && typeof src !== 'string') return src
 
   const { prefix, size } = getCoverPramas(width)
   return (
@@ -23,6 +23,7 @@ export function getImageViewerSrc(imageViewerSrc: Props['imageViewerSrc'], src: 
   if (imageViewerSrc && typeof src === 'string' && src.includes('/bgm_poster')) {
     return src.replace(/\/bgm_poster_(100|200|400)/g, '/bgm_poster')
   }
+
   return imageViewerSrc
 }
 

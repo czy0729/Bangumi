@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 04:53:26
+ * @Last Modified time: 2024-05-21 21:10:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,7 +34,6 @@ function Item({ item, count, width, height, findCn, ellipsizeMode, isFirst, onPr
 
   const isMusic = typeCn === '音乐'
   const w = _.r(isMusic ? width * 1.16 : width)
-
   return (
     <View
       style={stl(

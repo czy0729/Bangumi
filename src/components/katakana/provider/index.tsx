@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-06 21:11:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 21:36:24
+ * @Last Modified time: 2024-05-21 20:52:18
  */
 import React from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
@@ -248,9 +248,7 @@ export const KatakanaProvider = observer(
         const isLineFirst = item[0].top === 0
         if (!isLineFirst && this.props.numberOfLines === 1) return null
 
-        const marginTop = Math.ceil(
-          IOS ? (isLineFirst ? -this.size + 1 : 0) : (-this.size - 1) * 1.1
-        )
+        const marginTop = Math.ceil((IOS ? (isLineFirst ? -this.size : -3) : -this.size - 1) * 1.1)
         if (item.length === 1) {
           if (
             !isLineFirst &&
@@ -268,7 +266,7 @@ export const KatakanaProvider = observer(
                 top: item[0].top,
                 left: item[0].left,
                 minWidth: item[0].width,
-                marginTop
+                marginTop: marginTop
               },
               IOS && this.props.itemStyle,
               IOS && !isLineFirst && this.props.itemSecondStyle
@@ -284,7 +282,7 @@ export const KatakanaProvider = observer(
                 top: item[0].top,
                 left: 0,
                 right: 0,
-                marginTop
+                marginTop: marginTop
               },
               IOS && this.props.itemStyle,
               IOS && !isLineFirst && this.props.itemSecondStyle

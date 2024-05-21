@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:18:18
+ * @Last Modified time: 2024-05-21 21:09:04
  */
 import React from 'react'
 import { Component } from '@components'
@@ -67,7 +67,6 @@ export const HorizontalList = ob(
         counts,
         width,
         height,
-        quality,
         findCn,
         ellipsizeMode,
         initialRenderNums,
@@ -88,7 +87,6 @@ export const HorizontalList = ob(
                 count={counts[item.id] || 0}
                 width={width}
                 height={height}
-                quality={quality}
                 findCn={findCn}
                 ellipsizeMode={ellipsizeMode}
                 isFirst={index === 0}
