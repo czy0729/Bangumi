@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 08:23:44
+ * @Last Modified time: 2024-05-21 19:44:39
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
-import { Button, Flex, Image, Modal, StatusBar, Text, Touchable } from '@components'
+import { Button, Flex, Image, Modal, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS, toFixed } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { IOS } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -32,7 +31,7 @@ class BonusModal extends React.Component<{
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: { visible: boolean }) {
-    if (!IOS) StatusBar.setHidden(nextProps.visible)
+    // if (!IOS) StatusBar.setHidden(nextProps.visible)
   }
 
   onBackAndroid = () => {

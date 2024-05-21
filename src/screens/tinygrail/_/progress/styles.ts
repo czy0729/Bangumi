@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-03 07:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:21:05
+ * @Last Modified time: 2024-05-21 19:51:41
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
   progress: {
     padding: PADDING,
     borderWidth: 1,
-    borderColor: _.tSelect('rgba(255, 255, 255, 0.36)', _.colorTinygrailBorder),
+    borderColor: _.select('rgba(0, 0, 0, 0.16)', _.colorTinygrailBorder),
     borderRadius: 8,
     overflow: 'hidden'
   },

@@ -4,11 +4,11 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 14:20:43
+ * @Last Modified time: 2024-05-21 13:31:18
  */
 import { queue } from '../utils'
 import { getItem, setItem } from './utils'
-import { CACHE_MAP, LAZY_SET_STORAGE_SIZE, LAZY_SET_STORAGE_INTERVAL } from './ds'
+import { CACHE_MAP, LAZY_SET_STORAGE_INTERVAL, LAZY_SET_STORAGE_SIZE } from './ds'
 
 let setStorageInterval: any
 if (setStorageInterval) clearInterval(setStorageInterval)

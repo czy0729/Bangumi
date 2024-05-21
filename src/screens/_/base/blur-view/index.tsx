@@ -20,7 +20,7 @@ export const BlurView = ob(({ style, intensity = 100, children, ...other }: Blur
     <Component id='base-blur-view'>
       <ExpoBlurView
         style={style}
-        tint={_.isDark ? 'dark' : 'extraLight'}
+        tint={_.isDark ? 'dark' : _.ios('extraLight', 'light')}
         intensity={intensity}
         {...other}
       >

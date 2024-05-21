@@ -108,8 +108,10 @@ const Top = memo(
                       src={groupThumb || _.select(IMG_EMPTY, IMG_EMPTY_DARK)}
                       radius={_.radiusXs}
                       priority='high'
-                      fallback
-                      fallbackSrc={String(groupThumbFallback).replace('/r/100x100', '')}
+                      fallback={isEp}
+                      fallbackSrc={
+                        isEp ? String(groupThumbFallback).replace('/r/100x100', '') : undefined
+                      }
                     />
                     <Text style={styles.group} size={13} numberOfLines={1}>
                       {HTMLDecode(findSubjectCn(group))}

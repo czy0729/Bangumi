@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:34:24
+ * @Last Modified time: 2024-05-21 13:22:49
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -14,7 +14,6 @@ import { HOST_DOGE, IOS } from '@constants'
 import { Component } from '../component'
 import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
 import { Iconfont } from '../iconfont'
-import { StatusBar } from '../status-bar'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { ACTION_SHEET_DS, COMPONENT } from './ds'
@@ -34,19 +33,6 @@ export const ImageViewer = observer(
       visible: false,
       imageUrls: [],
       onCancel: () => {}
-    }
-
-    componentDidUpdate() {
-      if (!IOS) {
-        const { visible } = this.props
-        if (visible) {
-          StatusBar.setHidden(true)
-        } else {
-          setTimeout(() => {
-            StatusBar.setHidden(false)
-          }, 400)
-        }
-      }
     }
 
     onRequestClose = () => {

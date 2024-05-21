@@ -10,6 +10,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
+import { _ } from '@stores'
 import { matchCoverUrl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
@@ -29,7 +30,7 @@ export const BlurView = observer(
   ({
     style,
     src,
-    tint = 'extraLight',
+    tint = _.ios('extraLight', 'light'),
     intensity = 100,
     blurRadius = 16,
     children

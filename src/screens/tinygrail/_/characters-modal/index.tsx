@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 16:13:36
+ * @Last Modified time: 2024-05-21 19:42:47
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
 import { computed } from 'mobx'
-import { Button, Flex, Iconfont, Modal, StatusBar, Text } from '@components'
+import { Button, Flex, Iconfont, Modal, Text } from '@components'
 import { Popover } from '@_'
 import { _, tinygrailStore } from '@stores'
 import {
@@ -22,7 +22,6 @@ import {
   trim
 } from '@utils'
 import { obc } from '@utils/decorators'
-import { IOS } from '@constants'
 import { calculateRate } from '../utils'
 import Item from './item'
 import ItemBottom from './item-bottom'
@@ -97,7 +96,7 @@ class CharactersModal extends React.Component<Props> {
       this.title = nextProps.title
     }
 
-    if (!IOS) StatusBar.setHidden(nextProps.visible)
+    // if (!IOS) StatusBar.setHidden(nextProps.visible)
   }
 
   onBackAndroid = () => {

@@ -43,7 +43,7 @@ export const BlurView = observer(({ style, intensity = 100, children }: BlurView
     return (
       <ExpoBlurView
         style={stl(styles.blurView, style)}
-        tint={_.select('extraLight', 'dark')}
+        tint={_.select(_.ios('extraLight', 'light'), 'dark')}
         intensity={intensity}
       >
         {children}

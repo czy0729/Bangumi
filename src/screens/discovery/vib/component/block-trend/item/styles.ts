@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-03 23:08:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 06:34:31
+ * @Last Modified time: 2024-05-21 17:43:33
  */
 import { _ } from '@stores'
 
@@ -16,7 +16,7 @@ export const styles = _.create({
     marginLeft: 40
   },
   reverse: {
-    marginTop: 4,
+    marginTop: _.ios(4, -1),
     transform: [
       {
         rotate: '180deg'

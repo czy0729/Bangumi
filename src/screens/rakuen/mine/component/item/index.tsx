@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 19:18:05
+ * @Last Modified time: 2024-05-21 13:01:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
-import { Cover } from '@_'
+import { Cover, Flex, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { getGroupThumbStatic } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
@@ -46,7 +45,7 @@ function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
         }}
       >
         <Flex align='start'>
-          <Cover size={styles.body.height} src={src} border radius />
+          <Cover size={styles.body.height} src={src} radius />
           <Flex.Item style={_.ml.sm}>
             <Flex style={styles.body} direction='column' align='start' justify='center'>
               <Text size={11} numberOfLines={2} bold>

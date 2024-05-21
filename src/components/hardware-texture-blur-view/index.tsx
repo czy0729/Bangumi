@@ -39,7 +39,7 @@ export const HardwareTextureBlurView = ({
           height: _.flatten(style)?.height || '100%',
           ...containerStyle
         }}
-        tint={_.select('extraLight', 'dark')}
+        tint={_.select(_.ios('extraLight', 'light'), 'dark')}
         intensity={100}
       />
     </Animated.View>

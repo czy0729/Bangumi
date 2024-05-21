@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 15:23:40
+ * @Last Modified time: 2024-05-21 17:30:47
  */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -16,6 +16,11 @@ import { Props } from './types'
 
 function Transition({ fixed, title, headerTitle }: Props) {
   r(COMPONENT)
+
+  const [show, setShow] = useState(fixed)
+  useEffect(() => {
+    if (!show) setShow(true)
+  }, [fixed, show])
 
   const wrapStyles = useAnimatedStyle(() => ({
     opacity: withTiming(fixed ? 1 : 0, {
@@ -33,6 +38,8 @@ function Transition({ fixed, title, headerTitle }: Props) {
   }))
 
   return useObserver(() => {
+    if (!show) return null
+
     const styles = memoStyles()
     return (
       <Animated.View style={[styles.view, wrapStyles]}>

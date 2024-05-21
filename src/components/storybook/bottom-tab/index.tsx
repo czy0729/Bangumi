@@ -38,7 +38,11 @@ export const StorybookBottomTab = () => {
     const styles = memoStyles()
     return (
       <Component id='component-storybook-bottom-tab' style={styles.bottomTab}>
-        <BlurView style={styles.blurView} tint={_.select('extraLight', 'dark')} intensity={100}>
+        <BlurView
+          style={styles.blurView}
+          tint={_.select(_.ios('extraLight', 'light'), 'dark')}
+          intensity={100}
+        >
           <Flex>
             {DS.map((item: (typeof BOTTOM_TAB_WITH_AUTH_DS)[number]) => {
               const storyId = getSPAId(item.id)
