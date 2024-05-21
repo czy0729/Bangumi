@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { IOS } from '@constants'
 import { TextStyle } from '@types'
 import { COMPONENT_PROVIDER } from '../ds'
 import { Flex } from '../../flex'
@@ -21,14 +22,15 @@ import { Mathces, Props as KatakanaProviderProps, State } from './types'
 
 export { KatakanaProviderProps }
 
-/** 片假名终结者包裹容器 */
+/**
+ * 片假名终结者包裹容器
+ *  - 安卓因文字行高不稳定, 暂时只显示第一行
+ * */
 export const KatakanaProvider = observer(
   class KatakanaProviderComponent extends React.Component<KatakanaProviderProps, State> {
     static defaultProps = {
-      itemStyle: undefined,
-      itemSecondStyle: undefined,
       active: false
-    }
+    } as KatakanaProviderProps
 
     static childContextTypes = {
       active: PropTypes.bool,
@@ -145,7 +147,10 @@ export const KatakanaProvider = observer(
     /** 计算过位置的片假名数据 */
     get measuredKatakanas() {
       return this.state.matches
-        .filter(item => !!item.width)
+        .filter(item => {
+          if (!IOS) return !!item.width && item.top === 0
+          return !!item.width
+        })
         .reduce((acc, item) => {
           const index = acc.findIndex(group => group[0].top === item.top)
           if (index !== -1) {
@@ -163,8 +168,7 @@ export const KatakanaProvider = observer(
 
     /** 用于往嵌套 Text 传递需要增大行高的标记 */
     get lineHeightIncrease() {
-      const { matches } = this.state
-      if (!matches.length) return 0
+      if (!IOS || !this.state.matches.length) return 0
 
       return this.state.matches.some(
         item =>
@@ -244,7 +248,9 @@ export const KatakanaProvider = observer(
         const isLineFirst = item[0].top === 0
         if (!isLineFirst && this.props.numberOfLines === 1) return null
 
-        const marginTop = Math.ceil((isLineFirst ? -this.size + 1 : 0) * 1.1)
+        const marginTop = Math.ceil(
+          IOS ? (isLineFirst ? -this.size + 1 : 0) : (-this.size - 1) * 1.1
+        )
         if (item.length === 1) {
           if (
             !isLineFirst &&
@@ -264,8 +270,8 @@ export const KatakanaProvider = observer(
                 minWidth: item[0].width,
                 marginTop
               },
-              this.props.itemStyle,
-              !isLineFirst && this.props.itemSecondStyle
+              IOS && this.props.itemStyle,
+              IOS && !isLineFirst && this.props.itemSecondStyle
             )
           )
         }
@@ -280,16 +286,12 @@ export const KatakanaProvider = observer(
                 right: 0,
                 marginTop
               },
-              this.props.itemStyle,
-              !isLineFirst && this.props.itemSecondStyle
+              IOS && this.props.itemStyle,
+              IOS && !isLineFirst && this.props.itemSecondStyle
             )}
-            justify='center'
+            justify='around'
           >
-            {item.map(item =>
-              this.renderKatakanasItem(item, {
-                marginRight: '10%'
-              })
-            )}
+            {item.map(item => this.renderKatakanasItem(item))}
           </Flex>
         )
       })

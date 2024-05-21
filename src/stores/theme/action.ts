@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 04:06:46
+ * @Last Modified time: 2024-05-21 07:02:45
  */
 import { StyleSheet } from 'react-native'
 import { androidDayNightToggle, runAfter } from '@utils'
@@ -186,15 +186,6 @@ export default class Action extends Computed {
 
     runAfter(() => {
       try {
-        // changeNavigationBarColor(
-        //   this.select(
-        //     _.colorPlainHex,
-        //     this.deepDark
-        //       ? _._colorThemeDeepDark.colorPlainHex
-        //       : _._colorDarkModeLevel1Hex
-        //   ),
-        //   !this.isDark
-        // )
         androidDayNightToggle(this.isDark)
       } catch (error) {
         console.error('[ThemeStore] changeNavigationBarColor', error)
@@ -208,7 +199,6 @@ export default class Action extends Computed {
 
     runAfter(() => {
       try {
-        // changeNavigationBarColor(this.colorTinygrailContainerHex, !this.isTinygrailDark)
         androidDayNightToggle(this.isTinygrailDark)
       } catch (error) {
         console.error('[ThemeStore] changeNavigationBarColorTinygrail', error)

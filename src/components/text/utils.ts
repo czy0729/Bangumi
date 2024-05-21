@@ -9,6 +9,8 @@ import { _ } from '@stores'
 import { setDefaultProps } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS, PAD } from '@constants'
+import { memoStyles } from './styles'
+import { Props as TextProps } from './types'
 
 /** 平板设备统一放大单位 */
 export const PAD_INCREASE = PAD === 2 ? 4 : 2
@@ -43,4 +45,49 @@ export function format(children: any) {
   if (Array.isArray(children)) return children.map(item => format(item))
 
   return children
+}
+
+/** 计算文字样式 */
+export function getTextStyle({
+  style,
+  overrideStyle,
+  type = 'desc',
+  size = 14,
+  lineHeight,
+  lineHeightIncrease,
+  align,
+  bold = false,
+  underline = false,
+  shadow = false,
+  noWrap = false
+}: Partial<TextProps>) {
+  const styles = memoStyles()
+  const textStyle: TextProps['style'][] = []
+
+  if (type) textStyle.push(styles[type])
+  if (underline) textStyle.push(styles.underline)
+  if (size) textStyle.push(_[`fontSize${size + _.device(0, PAD_INCREASE)}`])
+
+  const _lineHeight = computedLineHeight(size, lineHeight, lineHeightIncrease)
+  if (_lineHeight) {
+    textStyle.push({
+      lineHeight: _lineHeight
+    })
+  }
+
+  if (align && align !== 'left')
+    textStyle.push(align === 'right' ? styles.alignRight : styles.alignCenter)
+  if (shadow) textStyle.push(styles.shadow)
+  if (noWrap) textStyle.push(styles.noWrap)
+  if (style) textStyle.push(style)
+
+  /**
+   * 若需要设置字体, rn 环境下与 web 不同, 若 font-weight 设置是该字体没有支持的,
+   * 依然不会显示成该字体, 所以需要在最后设置
+   */
+  textStyle.push(styles.text)
+  if (bold) textStyle.push(styles.bold)
+  if (overrideStyle) textStyle.push(overrideStyle)
+
+  return textStyle
 }

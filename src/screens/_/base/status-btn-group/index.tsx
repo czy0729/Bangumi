@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
-import { AnimatedText, Component, Flex, Touchable } from '@components'
+import { Component, Flex, getTextStyle, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -48,9 +48,17 @@ export const StatusBtnGroup = ({
                 }}
               >
                 <Flex style={styles.btn} justify='center'>
-                  <AnimatedText style={_.select(getButtonStyle(index), undefined)} type='__plain__'>
+                  <Animated.Text
+                    style={getTextStyle({
+                      style: _.select(getButtonStyle(index), undefined),
+                      type: '__plain__'
+                    })}
+                    suppressHighlighting
+                    textBreakStrategy='simple'
+                    android_hyphenationFrequency='none'
+                  >
                     {item.label.replace('看', action)}
-                  </AnimatedText>
+                  </Animated.Text>
                 </Flex>
               </Touchable>
             </Flex.Item>

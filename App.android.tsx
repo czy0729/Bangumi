@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-26 06:04:32
+ * @Last Modified time: 2024-05-21 05:29:57
  */
 import React, { useEffect } from 'react'
 import { LogBox, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { enableScreens } from 'react-native-screens'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { enableScreens } from 'react-native-screens'
 import Provider from '@ant-design/react-native/lib/provider'
-import Stacks from '@src/navigations/native-stacks'
-import { DEV, DeepLink, BackAndroid } from '@components'
+import { BackAndroid, DeepLink, DEV } from '@components'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import {
   useCachedResources,
-  useOrientation,
+  useDimensions,
   useErrorHandlerAndroid,
-  useDimensions
+  useOrientation
 } from '@utils/hooks'
 import { WSA } from '@constants'
+import Stacks from '@src/navigations/native-stacks'
 import theme from '@styles/theme'
 import { ANDROID_DEV_MENU } from './config'
 

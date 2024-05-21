@@ -6,12 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Katakana } from '@components'
+import { Text } from '@components'
 import { _ } from '@stores'
 import { findSubjectCn, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { STORYBOOK } from '@constants'
-import { styles } from './styles'
+
 
 function Title({ id, name, findCn, typeCn, ellipsizeMode }) {
   const title = findCn ? findSubjectCn(name, id) : name
@@ -23,18 +23,9 @@ function Title({ id, name, findCn, typeCn, ellipsizeMode }) {
 
   return (
     <View style={_.mt.sm}>
-      <Katakana.Provider
-        itemStyle={styles.itemStyle}
-        itemSecondStyle={styles.itemSecondStyle}
-        size={size}
-        numberOfLines={numberOfLines}
-        ellipsizeMode={ellipsizeMode}
-        bold
-      >
-        <Katakana size={size} numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode} bold>
-          {HTMLDecode(title)}
-        </Katakana>
-      </Katakana.Provider>
+      <Text size={size} numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode} bold>
+        {HTMLDecode(title)}
+      </Text>
     </View>
   )
 }
