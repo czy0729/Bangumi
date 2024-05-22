@@ -6,7 +6,7 @@
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="android:windowBackground">@drawable/splashscreen</item>
     <!-- <item name="android:windowFullscreen">true</item> -->
-    <item name="android:windowTranslucentStatus">true</item>
+    <!-- <item name="android:windowTranslucentStatus">true</item> -->
     <item name="android:windowLightStatusBar">true</item>
     <item name="android:statusBarColor">@color/splashscreen_statusbar_color</item>
   </style>
