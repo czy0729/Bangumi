@@ -38,7 +38,7 @@ export const memoStyles = _.memoStyles(() => {
       marginTop: -7
     },
     itemSecondStyle: {
-      marginTop: -1
+      marginTop: -3
     }
   }
 })

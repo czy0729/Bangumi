@@ -55,7 +55,9 @@ const Head = memo(
     }
 
     const maxLen = 28
-    let tops: any = [`${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`]
+    let tops: any = []
+    if (top !== bottom)
+      `${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`
 
     if (titleLabel) tops.push(titleLabel)
     tops = tops.join(' · ')

@@ -112,18 +112,20 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 预览
 
-以下为 2023 年 10 月份截屏，通常 2-3 周更新一次版本，因还在高速迭代阶段，版本之间 UI 可能存在较大差别
+以下为 2024 年 5 月份，一些 UI 相对不重复的页面截屏
 
-![101](https://github.com/czy0729/Bangumi/assets/13514316/964c1e0a-d130-4f78-b45f-cbad9273620e)
-![102](https://github.com/czy0729/Bangumi/assets/13514316/b88bd1c2-e18f-4809-b28d-776cbedd5a35)
-![103](https://github.com/czy0729/Bangumi/assets/13514316/d9220c19-3a9d-481a-bbab-b2d2b9a03efc)
-![104](https://github.com/czy0729/Bangumi/assets/13514316/4be25bb5-a85a-46a6-a21c-4699612f7824)
-![105](https://github.com/czy0729/Bangumi/assets/13514316/b20a579f-443d-4181-a627-cf9129e894d1)
-![106](https://github.com/czy0729/Bangumi/assets/13514316/209da7d4-e7f8-441d-9ae8-b7ee6c31d94a)
-![107](https://github.com/czy0729/Bangumi/assets/13514316/c15d75df-5b10-4911-b957-1f0b3fd4bc74)
-![108](https://github.com/czy0729/Bangumi/assets/13514316/4ca73742-7484-4ebd-8c5c-82b108ffc799)
-![109](https://github.com/czy0729/Bangumi/assets/13514316/fa7a145e-9c9a-407f-bad8-74c5a46c294a)
-![110](https://github.com/czy0729/Bangumi/assets/13514316/8307835a-3549-4806-a2db-0754c0edcf21)
+![00](https://github.com/czy0729/Bangumi/assets/13514316/82961f80-172a-4dc6-b068-68d9a54e7210)
+![10](https://github.com/czy0729/Bangumi/assets/13514316/0f067075-af96-42eb-8120-6eee1d2eaaa7)
+![20](https://github.com/czy0729/Bangumi/assets/13514316/07ead8c8-fcc1-4fe8-ad25-43c5906aef3b)
+![30](https://github.com/czy0729/Bangumi/assets/13514316/6abd6475-ae22-46dd-833c-67bd914eaeac)
+![40](https://github.com/czy0729/Bangumi/assets/13514316/9460a475-e1bb-4a07-b3dc-bd71ccaee2ed)
+![50](https://github.com/czy0729/Bangumi/assets/13514316/981d4b30-cc0a-4865-a049-0ea654d71669)
+![60](https://github.com/czy0729/Bangumi/assets/13514316/eb3e6f5c-b43f-4c61-a03f-830c3082d718)
+![70](https://github.com/czy0729/Bangumi/assets/13514316/a753a8a7-701e-46cb-95e6-ea172ff1137b)
+![80](https://github.com/czy0729/Bangumi/assets/13514316/8e05e8fe-15bc-4801-9834-575d9ad59a2d)
+![90](https://github.com/czy0729/Bangumi/assets/13514316/bbd669e9-1752-40d5-a318-626d13c10704)
+![100](https://github.com/czy0729/Bangumi/assets/13514316/027d8499-51a8-4f89-b81e-652fc8210e6f)
+![110](https://github.com/czy0729/Bangumi/assets/13514316/9e0bfb5d-c5e7-48cb-988d-5a79f5f3cf14)
 
 # 开发心得
 
