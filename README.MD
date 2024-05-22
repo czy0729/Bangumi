@@ -126,6 +126,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 ![90](https://github.com/czy0729/Bangumi/assets/13514316/bbd669e9-1752-40d5-a318-626d13c10704)
 ![100](https://github.com/czy0729/Bangumi/assets/13514316/027d8499-51a8-4f89-b81e-652fc8210e6f)
 ![110](https://github.com/czy0729/Bangumi/assets/13514316/9e0bfb5d-c5e7-48cb-988d-5a79f5f3cf14)
+![120](https://github.com/czy0729/Bangumi/assets/13514316/b92b92f4-387e-4a9c-8a90-c35e6245d925)
 
 # 开发心得
 
