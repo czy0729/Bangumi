@@ -44,7 +44,7 @@ function Initial(props, { $, navigation }: Ctx) {
             />
             <Flex.Item style={_.ml.sm}>
               <Flex>
-                <Rank style={styles.rank} value={item.lastIndex} />
+                <Rank value={item.lastIndex} />
                 <Text type='tinygrailPlain' size={12} bold numberOfLines={1}>
                   {item.nickName}
                 </Text>

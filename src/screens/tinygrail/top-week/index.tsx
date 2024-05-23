@@ -168,7 +168,6 @@ class TinygrailTopWeek extends React.Component {
           statusBarEventsType='Tinygrail'
           headerRight={() => (
             <IconHeader
-              style={_.mr._sm}
               name='md-refresh'
               color={_.colorTinygrailPlain}
               onPress={async () => {

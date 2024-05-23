@@ -29,9 +29,12 @@ function Progress({
 
   let barColor: ColorValue = _.colorSuccess
   let percent = 1
-  if (assets && sacrifices) {
+  if (assets === 0) {
+    percent = 0.04
+    barColor = _.colorDanger
+  } else if (assets && sacrifices) {
     percent = Math.max(Math.min(assets / sacrifices, 1), 0.06)
-    if (assets < 250) {
+    if (sacrifices < 500 || assets < 250) {
       barColor = _.colorDisabled
     } else if (percent <= 0.3) {
       barColor = _.colorDanger

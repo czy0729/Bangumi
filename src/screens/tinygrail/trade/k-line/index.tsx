@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import WebView from '@components/@/web-view'
 import { Loading, Text } from '@components'
+import WebView from '@components/@/web-view'
 import { _, tinygrailStore } from '@stores'
 import { info } from '@utils'
 import { obc } from '@utils/decorators'
@@ -81,10 +81,7 @@ class KLine extends React.Component<{
             useWebKit
             originWhitelist={['*']}
             source={{
-              html: html(
-                JSON.stringify(getKData($.kline.data, distance)),
-                this.coverStyle
-              ),
+              html: html(JSON.stringify(getKData($.kline.data, distance)), this.coverStyle),
               baseUrl: HOST_CDN
             }}
             bounces={false}

@@ -7,6 +7,7 @@
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import Rank from '../../rank'
 
@@ -20,7 +21,7 @@ function Title({ rank, name = '', level, bonus }) {
         lineHeight={14}
         bold
       >
-        {name}
+        {HTMLDecode(name)}
       </Text>
       {parseInt(level) > 1 && (
         <Text style={_.ml.xs} type='ask' size={11} lineHeight={14} bold>

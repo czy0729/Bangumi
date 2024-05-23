@@ -17,8 +17,5 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm,
     paddingRight: _.md,
     marginRight: '3%'
-  },
-  rank: {
-    minWidth: 24
   }
 }))

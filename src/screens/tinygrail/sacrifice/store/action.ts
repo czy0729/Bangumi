@@ -23,7 +23,9 @@ import Fetch from './fetch'
 export default class Action extends Fetch {
   refresh = () => {
     return queue([
+      this.fetchCharacters,
       this.fetchUserLogs,
+      this.fetchMyTemple,
       this.fetchAssets,
       this.fetchAuctionStatus,
       this.updateMyCharaAssets

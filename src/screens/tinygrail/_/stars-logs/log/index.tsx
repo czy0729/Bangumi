@@ -7,7 +7,7 @@
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { formatNumber, navigationReference, tinygrailOSS } from '@utils'
+import { formatNumber, HTMLDecode, navigationReference, tinygrailOSS } from '@utils'
 import { obc } from '@utils/decorators'
 import { Navigation } from '@types'
 import Rank from '../../rank'
@@ -93,13 +93,17 @@ function Log(
           <Flex style={_.mt.xs}>
             <Flex.Item>
               {userName ? (
-                <Text type='bid' size={10} numberOfLines={1}>
-                  <Text type='tinygrailText' size={10}>
-                    @{userName}{' '}
+                <Flex>
+                  <Text style={styles.user} type='tinygrailText' size={10} numberOfLines={1}>
+                    @{HTMLDecode(userName)}
                   </Text>
-                  +{formatNumber(amount, 0)}
-                  {type === 3 && ' 精炼成功'}
-                </Text>
+                  <Flex.Item style={_.ml.xs}>
+                    <Text type='bid' size={10} numberOfLines={1}>
+                      +{formatNumber(amount, 0)}
+                      {type === 3 && ' 精炼成功'}
+                    </Text>
+                  </Flex.Item>
+                </Flex>
               ) : (
                 <Text type='ask' size={10}>
                   <Text type='tinygrailText' size={10}>
@@ -109,7 +113,7 @@ function Log(
                 </Text>
               )}
             </Flex.Item>
-            <Text type='tinygrailText' size={10}>
+            <Text style={_.ml.sm} type='tinygrailText' size={10}>
               {time}
             </Text>
           </Flex>

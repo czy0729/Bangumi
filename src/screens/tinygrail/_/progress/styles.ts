@@ -12,7 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
   progress: {
     padding: PADDING,
     borderWidth: 1,
-    borderColor: _.select('rgba(0, 0, 0, 0.16)', _.colorTinygrailBorder),
+    borderColor: _.select('rgba(0, 0, 0, 0.16)', 'rgba(255, 255, 255, 0.24)'),
     borderRadius: 8,
     overflow: 'hidden'
   },

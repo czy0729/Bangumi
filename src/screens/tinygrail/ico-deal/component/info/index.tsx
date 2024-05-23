@@ -8,7 +8,14 @@ import React from 'react'
 import { View } from 'react-native'
 import { CountDown, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { caculateICO, formatNumber, getCoverLarge, getTimestamp, tinygrailOSS } from '@utils'
+import {
+  caculateICO,
+  formatNumber,
+  getCoverLarge,
+  getTimestamp,
+  HTMLDecode,
+  tinygrailOSS
+} from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Rank from '@tinygrail/_/rank'
@@ -35,7 +42,6 @@ function Info(props, { $, navigation }: Ctx) {
           <Image
             src={tinygrailOSS(getCoverLarge(icon), 150)}
             autoSize={MAX_SIZE}
-            shadow
             imageViewer
             imageViewerSrc={tinygrailOSS(getCoverLarge(icon), 480)}
             skeletonType='tinygrail'
@@ -68,7 +74,7 @@ function Info(props, { $, navigation }: Ctx) {
             </Text>
           )}
           <Text type='tinygrailPlain' size={15} bold>
-            {name}
+            {HTMLDecode(name)}
           </Text>
           {!!bonus && (
             <Text type='warning' size={15} bold>

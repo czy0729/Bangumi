@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-03-13 22:43:03
  */
 import React from 'react'
-import { UM } from '@components'
+import { Page, UM } from '@components'
 import { StatusBarPlaceholder } from '@_'
+import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
 import StarsLogs from '@tinygrail/_/stars-logs'
@@ -26,17 +27,17 @@ const Tinygrail = (props, context: Ctx) => {
 
   const { $ } = context
   return useObserver(() => (
-    <>
+    <Page style={_.container.tinygrail}>
+      <StatusBarPlaceholder />
       <Scroll>
-        <UM title={TITLE} />
-        <StatusBarPlaceholder />
         <Auth />
         <Menus />
         <Footer />
       </Scroll>
       <BonusModal visible={$.state.visible} />
       <StarsLogs show={$.state.show} onToggle={$.onToggleLogs} />
-    </>
+      <UM title={TITLE} />
+    </Page>
   ))
 }
 

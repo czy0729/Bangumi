@@ -10,6 +10,6 @@ export const styles = _.create({
   segment: {
     width: _.r(96),
     height: _.r(28),
-    marginRight: _.xs
+    marginRight: _.sm
   }
 })
