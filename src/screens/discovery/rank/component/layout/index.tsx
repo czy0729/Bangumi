@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 04:33:13
+ * @Last Modified time: 2024-05-24 15:22:51
  */
 import React from 'react'
 import { Flex, Loading, ScrollView } from '@components'
@@ -19,8 +19,8 @@ function Layout(props, { $ }: Ctx) {
   if ($.state.show && $.list._loaded) {
     return (
       <ScrollView
+        forwardRef={$.forwardRef}
         contentContainerStyle={styles.scrollView}
-        scrollToTop
         scrollEventThrottle={4}
         onScroll={$.onScroll}
       >
