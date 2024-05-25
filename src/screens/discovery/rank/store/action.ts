@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:14:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-24 15:24:28
+ * @Last Modified time: 2024-05-25 10:39:18
  */
 import { ScrollTo } from '@components'
 import { info, updateVisibleBottom } from '@utils'
@@ -32,7 +32,6 @@ export default class Action extends Fetch {
     }
 
     setTimeout(() => {
-      console.log(this.scrollTo)
       if (typeof this.scrollTo === 'function') {
         this.scrollTo({
           x: 0,

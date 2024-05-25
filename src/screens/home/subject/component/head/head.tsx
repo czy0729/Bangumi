@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 01:10:37
+ * @Last Modified time: 2024-05-25 10:16:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,8 +56,9 @@ const Head = memo(
 
     const maxLen = 28
     let tops: any = []
-    if (top !== bottom)
-      `${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`
+    if (top !== bottom) {
+      tops.push(`${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`)
+    }
 
     if (titleLabel) tops.push(titleLabel)
     tops = tops.join(' · ')
