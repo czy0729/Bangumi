@@ -90,7 +90,7 @@ export function useStatusBtnGroup(value: Props['value']) {
     if (index !== -1) {
       setTimeout(() => {
         animate.value = true
-      }, 0)
+      }, 40)
     }
 
     activeIndex.value = index

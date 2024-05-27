@@ -61,6 +61,9 @@ export const ManageModal = ob(
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
 
+    /** 用于判断用户在数据更新前就已经操作, 不再改变选定的状态 */
+    private _changedStatus = false
+
     commentRef: any
 
     async componentDidMount() {
@@ -107,12 +110,12 @@ export const ManageModal = ob(
           } = await collectionStore.fetchCollection(subjectId)
           this.fetchUserTags()
 
-          const state: any = {
+          const state: State = {
             rating,
             tags: tag.join(' '),
-            comment,
-            status: _status.type
+            comment
           }
+          if (!this._changedStatus) state.status = _status.type
           if (privacy !== undefined) state.privacy = privacy
           this.setState(state)
         }
@@ -141,6 +144,7 @@ export const ManageModal = ob(
     }
 
     changeStatus = (status: RatingStatus) => {
+      this._changedStatus = true
       this.setState({
         status
       })

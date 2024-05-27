@@ -25,7 +25,7 @@ function More(props, { $ }: Ctx) {
       iconSize={16}
       type='desc'
       transparent
-      onSelect={title => {
+      onSelect={(title: string) => {
         if (title.includes('选项')) return $.onToggleToolbar('fixed')
         if (title.includes('布局')) return $.onToggleList()
         if (title.includes('收藏')) return $.onToggleToolbar('collected')

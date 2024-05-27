@@ -7,10 +7,11 @@
 import React from 'react'
 import Animated from 'react-native-reanimated'
 import { Component, Flex, getTextStyle, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { COLLECTION_STATUS } from '@constants'
 import { useStatusBtnGroup } from './hooks'
 import { COMPONENT } from './ds'
@@ -22,7 +23,7 @@ export { StatusBtnGroupProps }
 /** 条目状态选择按钮组 */
 export const StatusBtnGroup = ({
   style,
-  value = 'doings',
+  value = '',
   action = '看',
   onSelect = () => {}
 }: StatusBtnGroupProps) => {
@@ -37,32 +38,35 @@ export const StatusBtnGroup = ({
       <Component id='base-status-btn-group'>
         <Flex style={stl(styles.group, style)} onLayout={handleContainerLayout}>
           <Animated.View style={[styles.block, blockStyle]} />
-          {COLLECTION_STATUS.map((item, index) => (
-            <Flex.Item key={item.label}>
-              <Touchable
-                onPress={() => {
-                  handleButtonPress(index)
-                  setTimeout(() => {
-                    onSelect(item.value)
-                  }, 0)
-                }}
-              >
-                <Flex style={styles.btn} justify='center'>
-                  <Animated.Text
-                    style={getTextStyle({
-                      style: _.select(getButtonStyle(index), undefined),
-                      type: '__plain__'
-                    })}
-                    suppressHighlighting
-                    textBreakStrategy='simple'
-                    android_hyphenationFrequency='none'
-                  >
-                    {item.label.replace('看', action)}
-                  </Animated.Text>
-                </Flex>
-              </Touchable>
-            </Flex.Item>
-          ))}
+          {COLLECTION_STATUS.map((item, index) => {
+            const text = item.label.replace('看', action)
+            return (
+              <Flex.Item key={item.label}>
+                <Touchable
+                  onPress={() => {
+                    handleButtonPress(index)
+                    setTimeout(() => {
+                      onSelect(item.value)
+                    }, 0)
+                  }}
+                >
+                  <Flex style={styles.btn} justify='center'>
+                    <Animated.Text
+                      style={getTextStyle({
+                        style: _.select(getButtonStyle(index), undefined),
+                        type: '__plain__'
+                      })}
+                      suppressHighlighting
+                      textBreakStrategy='simple'
+                      android_hyphenationFrequency='none'
+                    >
+                      {systemStore.setting.s2t ? s2t(text) : text}
+                    </Animated.Text>
+                  </Flex>
+                </Touchable>
+              </Flex.Item>
+            )
+          })}
         </Flex>
       </Component>
     )
