@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 05:28:54
+ * @Last Modified time: 2024-05-25 14:07:34
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Header as HeaderComp, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -19,25 +19,23 @@ function Header(props, { $ }: Ctx) {
       title='索引'
       hm={[$.url, 'Browser']}
       headerRight={() => (
-        <Flex>
-          <HeaderComp.Popover
-            data={DATA}
-            onSelect={key => {
-              t('索引.右上角菜单', {
-                key
-              })
+        <HeaderComp.Popover
+          data={DATA}
+          onSelect={key => {
+            t('索引.右上角菜单', {
+              key
+            })
 
-              if (key === TEXT_BROWSER) {
-                open($.url)
-              } else if (key === TEXT_SPA) {
-                const url = `${URL_SPA}/${getSPAParams('Browser')}`
-                open(url)
-              }
-            }}
-          >
-            <Heatmap id='索引.右上角菜单' />
-          </HeaderComp.Popover>
-        </Flex>
+            if (key === TEXT_BROWSER) {
+              open($.url)
+            } else if (key === TEXT_SPA) {
+              const url = `${URL_SPA}/${getSPAParams('Browser')}`
+              open(url)
+            }
+          }}
+        >
+          <Heatmap id='索引.右上角菜单' />
+        </HeaderComp.Popover>
       )}
     />
   )

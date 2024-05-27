@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-26 19:09:17
+ * @Last Modified time: 2024-05-27 11:00:09
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader, LogoHeader } from '@_'
+import { userStore } from '@stores'
 import { info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -29,7 +30,7 @@ function Header(props, { $, navigation }: Ctx) {
               return
             }
 
-            if (!$.isWebLogin) {
+            if (!userStore.isWebLogin) {
               info(`请先${i18n.login()}`)
               return
             }

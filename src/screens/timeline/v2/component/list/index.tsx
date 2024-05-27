@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 17:48:24
+ * @Last Modified time: 2024-05-27 11:00:01
  */
 import React, { useCallback } from 'react'
 import { ListView, Loading, ScrollToIndex } from '@components'
 import { Login } from '@_'
-import { uiStore } from '@stores'
+import { uiStore, userStore } from '@stores'
 import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -50,7 +50,10 @@ function List(
   )
 
   return useObserver(() => {
-    if (!$.isWebLogin && ['好友', '自己'].includes(MODEL_TIMELINE_SCOPE.getLabel($.state.scope))) {
+    if (
+      !userStore.isWebLogin &&
+      ['好友', '自己'].includes(MODEL_TIMELINE_SCOPE.getLabel($.state.scope))
+    ) {
       return <Login />
     }
 
