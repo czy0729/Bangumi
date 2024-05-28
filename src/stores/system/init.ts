@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-30 23:06:44
+ * @Last Modified time: 2024-05-28 13:57:37
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -155,6 +155,9 @@ export const INIT_DISCOVERY_MENU = STORYBOOK
 export const INIT_SETTING = {
   /** 简体转繁体 */
   s2t: false,
+
+  /** 简体转繁体词库 */
+  s2tLocal: 'tw' as 'tw' | 'hk',
 
   /** 黑暗模式是否纯黑 */
   deepDark: true,
