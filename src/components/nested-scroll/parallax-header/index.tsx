@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:48:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 21:04:15
+ * @Last Modified time: 2024-05-30 07:39:29
  */
 import React from 'react'
 import { Animated, ImageBackground, useWindowDimensions, View } from 'react-native'
@@ -60,6 +60,7 @@ export function ParallaxHeader({
           source={imageSource}
           blurRadius={blurRadius}
         >
+          <View style={styles.layer} />
           <Animated.View
             style={[
               styles.mask,

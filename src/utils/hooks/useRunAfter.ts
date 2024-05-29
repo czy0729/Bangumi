@@ -11,6 +11,6 @@ export default function useRunAfter(fn = () => {}) {
   return useMount(() => {
     setTimeout(() => {
       requestAnimationFrame(() => fn())
-    }, 240)
+    }, 400)
   })
 }

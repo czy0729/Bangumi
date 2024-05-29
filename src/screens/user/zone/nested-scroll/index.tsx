@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 08:15:28
+ * @Last Modified time: 2024-05-30 07:19:51
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
@@ -21,6 +21,8 @@ import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+const PAGES = TABS.map(item => item.title)
+
 /** 安卓用 */
 function NestedScroll(props, { $ }: Ctx) {
   const styles = memoStyles()
@@ -28,7 +30,7 @@ function NestedScroll(props, { $ }: Ctx) {
     <>
       <NestedScrollParallaxHeader
         tabStyle={styles.tab}
-        pages={TABS.map(item => item.title)}
+        pages={PAGES}
         initialPage={$.state.page}
         imageSource={$.imageSource}
         blurRadius={$.blurRadius}
