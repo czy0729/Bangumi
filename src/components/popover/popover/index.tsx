@@ -2,35 +2,49 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 05:04:27
+ * @Last Modified time: 2024-05-30 11:06:14
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
 import { HoldItem } from 'react-native-hold-menu'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS } from '@constants'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'
 let id = 0
 
 function Popover({ children, ...other }) {
-  const { style, overlay } = other
-  const data = other?.data || overlay?.props?.data
-  const title = other?.title || overlay?.props?.title || ''
-  const onSelect = other?.onSelect || overlay?.props?.onSelect || Function.prototype
+  const data = other.data || other.overlay?.props?.data || []
+  const title = other.title || other.overlay?.props?.title || ''
+  const onSelect = other.onSelect || other.overlay?.props?.onSelect || Function.prototype
+
   const eventId = useRef((id += 1))
   const eventType = `${EVENT_TYPE}|${eventId.current}`
-  const items = useMemo(() => {
-    const _items = (data || []).map((item: any) => ({
+
+  const items = useMemo<
+    {
+      text: string
+      eventType?: string
+      isTitle?: boolean
+    }[]
+  >(() => {
+    const _items = (
+      systemStore.setting.s2t
+        ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
+        : data
+    ).map((item: any) => ({
       text: item,
       eventType
     }))
+
     if (title) {
       _items.unshift({
-        text: title,
+        text: systemStore.setting.s2t ? s2t(title) : title,
         isTitle: true
       })
     }
+
     return _items
   }, [title, data, eventType])
 
@@ -40,11 +54,11 @@ function Popover({ children, ...other }) {
       value => {
         let index = -1
         try {
-          index = data.findIndex((item: any) => item === value)
+          index = items.filter(item => !item.isTitle).findIndex(item => item.text === value)
         } catch (error) {}
 
         setTimeout(() => {
-          onSelect(value, index)
+          onSelect(data[index], index)
         }, 0)
       },
       [onSelect]
@@ -54,7 +68,7 @@ function Popover({ children, ...other }) {
   })
 
   return (
-    <View style={style}>
+    <View style={other.style}>
       <HoldItem
         // @ts-expect-error
         styles={styles.holdItem}

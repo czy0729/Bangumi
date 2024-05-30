@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-28 15:14:05
+ * @Last Modified time: 2024-05-30 10:02:05
  */
 import * as OpenCC from 'opencc-js/dist/esm-lib/core'
 import CN from 'opencc-js/dist/esm-lib/from/cn'
@@ -21,6 +21,8 @@ let converterTW: OpenCC.Converter
 
 /** 简转繁 */
 export function s2t(str: string) {
+  if (typeof str !== 'string') return str
+
   let converter: typeof converterTW | typeof converterHK
   let memo: typeof memoTW | typeof memoHK
   if (getSetting().s2tLocal === 'hk') {

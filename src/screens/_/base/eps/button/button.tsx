@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-26 16:44:50
+ * @Last Modified time: 2024-05-30 11:14:52
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { Button, Menu, Popover } from '@components'
 import { _ } from '@stores'
@@ -70,30 +70,39 @@ export default memo(({ styles, heatMap, props, item, eps, isSp, num }) => {
     type
   } as const
 
+  const elHeatMap = useMemo(
+    () =>
+      heatMap && (
+        <View
+          style={[
+            styles.bar,
+            {
+              /** 1.68 是比率, 增大少回复与高回复的透明度幅度 */
+              opacity: (item.comment - min / 1.68) / max
+            }
+          ]}
+        />
+      ),
+    [heatMap, item.comment]
+  )
+
   return (
     <View style={containerStyle}>
       {flip && <View style={styles.flip} />}
       <View style={style}>
-        <Popover {...popoverProps}>
-          {flip ? (
+        {flip ? (
+          <View>
             <FlipButton {...btnPassProps} text={item.sort} onAnimated={onFliped} />
-          ) : (
+            {elHeatMap}
+          </View>
+        ) : (
+          <Popover {...popoverProps}>
             <Button {...btnPassProps} size='sm' animate={false}>
               {item.sort}
             </Button>
-          )}
-          {heatMap && (
-            <View
-              style={[
-                styles.bar,
-                {
-                  /** 1.68 是比率, 增大少回复与高回复的透明度幅度 */
-                  opacity: (item.comment - min / 1.68) / max
-                }
-              ]}
-            />
-          )}
-        </Popover>
+            {elHeatMap}
+          </Popover>
+        )}
       </View>
     </View>
   )

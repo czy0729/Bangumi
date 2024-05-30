@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:42:32
+ * @Last Modified time: 2024-05-30 09:37:19
  */
 import React from 'react'
 import { findNodeHandle, StyleSheet, UIManager, View } from 'react-native'
@@ -19,26 +19,26 @@ export default class Popover extends React.Component<any> {
     onLongPress: Function.prototype
   }
 
-  ref
+  ref: any
 
-  forwardRef = ref => {
+  forwardRef = (ref: any) => {
     this.ref = ref
   }
 
   showPopupAndroid = () => {
     const { data } = this.props
-    const { s2t: _s2t } = systemStore.setting
     UIManager.showPopupMenu(
       findNodeHandle(this.ref),
-      _s2t ? data.map(item => (typeof item === 'string' ? s2t(item) : item)) : data,
+      systemStore.setting.s2t
+        ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
+        : data,
       () => {}, // err callback
       this.onPopupItemPress
     )
   }
 
-  onPopupItemPress = (evt, index) => {
-    const { data, onSelect } = this.props
-    if (index !== undefined) onSelect(data[index], index)
+  onPopupItemPress = (_evt: any, index: string | number) => {
+    if (index !== undefined) this.props.onSelect(this.props.data[index], index)
   }
 
   render() {

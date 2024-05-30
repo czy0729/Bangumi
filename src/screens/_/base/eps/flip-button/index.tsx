@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-03-02 20:50:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 22:19:14
+ * @Last Modified time: 2024-05-30 10:42:10
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, {
-  useSharedValue,
+  Easing,
   useAnimatedStyle,
-  withTiming,
-  Easing
+  useSharedValue,
+  withTiming
 } from 'react-native-reanimated'
 import { Button } from '@components'
 import { _ } from '@stores'
