@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 05:36:00
+ * @Last Modified time: 2024-05-30 11:42:44
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -19,7 +19,7 @@ import {
   Touchable
 } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { getStorage, getTimestamp, setStorage, sleep, stl } from '@utils'
+import { getStorage, getTimestamp, info, setStorage, sleep, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
@@ -212,8 +212,13 @@ export const ManageModal = ob(
     }
 
     onSubmit = async () => {
-      const { subjectId, onSubmit } = this.props
       const { rating, tags, comment, status, privacy } = this.state
+      if (!status) {
+        info('状态数据未就绪')
+        return
+      }
+
+      const { subjectId, onSubmit } = this.props
       this.setCommentHistory(comment)
 
       await onSubmit({
