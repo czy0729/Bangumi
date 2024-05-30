@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:39:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-04 05:27:47
+ * @Last Modified time: 2024-05-30 09:24:17
  */
 import React from 'react'
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
-import * as SplashScreen from 'expo-splash-screen'
 import { useObserver } from 'mobx-react'
-import * as Screens from '@screens'
+import * as SplashScreen from 'expo-splash-screen'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { systemStore } from '@stores'
 import { urlStringify } from '@utils'
 import { useMount } from '@utils/hooks'
 import navigationsParams from '@/config'
-import NavigationContainer from '../navigation-container'
+import * as Screens from '@screens'
 import BottomTabNavigator from '../bottom-tab-navigator'
+import NavigationContainer from '../navigation-container'
 
 const defaultScreenOptions = {
   headerShown: false,
@@ -25,7 +25,7 @@ const defaultScreenOptions = {
 
 const Stack = createStackNavigator()
 
-/** @deprecated */
+/** @deprecated use NativeStack instead */
 function Stacks() {
   const { initialRouteName, initialRouteParams } = navigationsParams
   useMount(() => {

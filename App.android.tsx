@@ -24,7 +24,7 @@ import Stacks from '@src/navigations/native-stacks'
 import theme from '@styles/theme'
 import { ANDROID_DEV_MENU } from './config'
 
-enableScreens(true)
+enableScreens(false)
 LogBox.ignoreAllLogs(true)
 StatusBar.setBarStyle('dark-content')
 StatusBar.setBackgroundColor('transparent')

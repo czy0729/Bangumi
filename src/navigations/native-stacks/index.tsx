@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:33:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-13 16:56:10
+ * @Last Modified time: 2024-05-30 09:24:01
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -16,7 +16,7 @@ import { getId, getOptions, getScreenOptions, Placeholder, useAutoHideSplashScre
 
 const Stack = createNativeStackNavigator()
 
-function Stacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
+function NativeStack({ isLoadingComplete }: { isLoadingComplete: boolean }) {
   const isFullScreen = useAutoHideSplashScreen()
   const { initialRouteName, initialRouteParams } = navigationsParams
   return useObserver(() => (
@@ -45,4 +45,4 @@ function Stacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
   ))
 }
 
-export default Stacks
+export default NativeStack

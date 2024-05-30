@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:17:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 18:43:32
+ * @Last Modified time: 2024-05-28 15:20:37
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -24,7 +24,7 @@ export const TEXTS = {
   },
   s2t: {
     hd: '繁体',
-    information: '已于 24 年 4 月使用 OpenCC 替换原来的暴力转换方案，默认使用中国香港字典'
+    information: '已于 24 年 4 月使用 OpenCC 替换原来的暴力转换'
   },
   hideScore: {
     hd: '隐藏评分'

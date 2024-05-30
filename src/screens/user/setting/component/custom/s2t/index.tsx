@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-19 04:11:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-28 15:16:16
+ * @Last Modified time: 2024-05-28 17:06:35
  */
 import React from 'react'
 import { Heatmap, SwitchPro, Text } from '@components'
@@ -80,7 +80,7 @@ function S2T({ filter }) {
               handleSet('tw')
 
               t('设置.切换', {
-                title: '繁体 Locals',
+                title: '繁体词典',
                 value: 'tw'
               })
             }}
@@ -91,7 +91,7 @@ function S2T({ filter }) {
             <Text type='sub' size={11} lineHeight={13} align='center' s2t={false}>
               末日列車去哪裡?
             </Text>
-            <Heatmap id='设置.切换' title='繁体 Locals' />
+            <Heatmap id='设置.切换' title='繁体词典' />
           </ItemSettingBlock.Item>
         </ItemSettingBlock>
       )}

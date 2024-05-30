@@ -69,7 +69,9 @@ export function useSubjectPage({ $ }: Ctx) {
 
     /** 收集子组件的 ref */
     onBlockRef: useCallback((ref: any, component: string) => {
-      blockRefs.current[component] = ref
+      setTimeout(() => {
+        blockRefs.current[component] = ref
+      }, 0)
     }, []),
 
     /** 子组件可以调用此方法定位到指定 y 轴坐标 */
