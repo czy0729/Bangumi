@@ -17,7 +17,7 @@ export const HOST_IMAGE = '//lain.bgm.tv'
 export const RANDOM_FACTOR = Number(String(date.getSeconds()).slice(0, 1))
 
 /** 敏感字符串集 */
-export const X18_TITLE = ['乳', '妻', '淫'] as const
+export const X18_TITLE = ['乳', '淫'] as const
 
 /** 敏感字符串集 (标签) */
 export const X18_DS = [
