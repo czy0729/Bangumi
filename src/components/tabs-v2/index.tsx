@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 15:41:11
+ * @Last Modified time: 2024-05-31 16:32:47
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -14,7 +14,7 @@ import { TabBar } from '../@/react-native-tab-view/TabBar'
 import { TabView } from '../@/react-native-tab-view/TabView'
 import { Flex } from '../flex'
 import { Text } from '../text'
-import { COMPONENT } from './ds'
+import { ANDROID_RIPPLE, COMPONENT } from './ds'
 import { memoStyles, W_INDICATOR } from './styles'
 import { Props as TabsV2Props } from './types'
 
@@ -119,6 +119,7 @@ export const TabsV2 = ({
             pressOpacity={1}
             pressColor='transparent'
             scrollEnabled
+            android_ripple={ANDROID_RIPPLE}
             renderLabel={
               renderLabel ||
               (({ route, focused }) => (

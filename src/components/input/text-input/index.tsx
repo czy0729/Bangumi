@@ -2,20 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-03-11 13:09:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-07 17:49:28
+ * @Last Modified time: 2024-05-31 16:11:29
  */
 import React from 'react'
-import { TextInput as RNTextInput, TextInputProps } from 'react-native'
+import { TextInput as RNTextInput } from 'react-native'
 import { observer } from 'mobx-react'
+import { systemStore } from '@stores'
 import { stl } from '@utils'
-import { Fn } from '@types'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-type Props = TextInputProps & {
-  forwardRef: Fn
-}
-
-function TextInput({ style, forwardRef, multiline, ...other }: Props) {
+function TextInput({ style, forwardRef, multiline, placeholder, ...other }: Props) {
   const styles = memoStyles()
   return (
     <RNTextInput
@@ -23,6 +21,7 @@ function TextInput({ style, forwardRef, multiline, ...other }: Props) {
       style={stl(multiline ? styles.inputMulti : styles.input, style)}
       multiline={multiline}
       {...other}
+      placeholder={systemStore.setting.s2t ? s2t(placeholder) : placeholder}
       textAlignVertical={multiline ? 'top' : 'center'}
     />
   )
