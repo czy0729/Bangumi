@@ -11,7 +11,7 @@ import { Squircle, Text, Touchable, UserStatus } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, Cover } from '@_'
 import { _, systemStore } from '@stores'
-import { getCoverMedium, HTMLDecode, stl } from '@utils'
+import { getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { linearColor } from '../../ds'
@@ -19,9 +19,22 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { AVATAR_SIZE } from './styles'
 
 const CoverXs = memo(
-  ({ navigation, styles, imageWidth, avatarRound, title, avatar, data }) => {
+  ({
+    navigation,
+    styles,
+    imageWidth,
+    avatarRound,
+    title,
+    avatar,
+    subjectId,
+    cover,
+    cn,
+    jp,
+    name,
+    userId,
+    userName
+  }) => {
     const isMusic = title === '音乐'
-
     const width = imageWidth
     const height = isMusic ? width : width * 1.38
 
@@ -33,20 +46,21 @@ const CoverXs = memo(
           onPress={() => {
             t('发现.跳转', {
               to: 'Subject',
-              subjectId: data.id,
+              subjectId,
               from: `CoverXs|${title}`
             })
 
             navigation.push('Subject', {
-              subjectId: data.id,
-              _jp: data.name,
-              _image: getCoverSrc(data.cover, width),
+              subjectId,
+              _jp: jp,
+              _cn: cn,
+              _image: getCoverSrc(cover, width),
               _type: title
             })
           }}
         >
           <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-            <Cover src={getCoverMedium(data.cover)} width={width} height={height} />
+            <Cover src={getCoverMedium(cover)} width={width} height={height} />
             <LinearGradient
               style={stl(styles.linear, isMusic && styles.linearMusic)}
               colors={linearColor}
@@ -61,19 +75,19 @@ const CoverXs = memo(
               bold
               pointerEvents='none'
             >
-              {HTMLDecode(data.name)}
+              {name}
             </Text>
           </Squircle>
         </Touchable>
         {!!avatar && (
           <View style={styles.fixed}>
-            <UserStatus userId={data.userId} mini>
+            <UserStatus userId={userId} mini>
               <Avatar
                 navigation={navigation}
                 size={AVATAR_SIZE}
                 src={avatar}
-                userId={data.userId}
-                name={data.userName}
+                userId={userId}
+                name={userName}
                 radius={avatarRound ? AVATAR_SIZE : true}
               />
             </UserStatus>

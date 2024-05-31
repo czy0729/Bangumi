@@ -20,11 +20,11 @@ export const DEFAULT_PROPS = {
   avatarRound: false as boolean,
   title: '' as SubjectTypeCn,
   avatar: '' as string,
-  data: {} as {
-    id: SubjectId
-    cover: string
-    name: string
-    userId: UserId
-    userName: string
-  }
+  subjectId: 0 as SubjectId,
+  cover: '' as string,
+  cn: '' as string,
+  jp: '' as string,
+  name: '' as string,
+  userId: '' as UserId,
+  userName: '' as string
 }

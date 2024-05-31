@@ -10,8 +10,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Katakana, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
-import { _, systemStore } from '@stores'
-import { getCoverLarge, HTMLDecode, matchCoverUrl } from '@utils'
+import { _, subjectStore, systemStore } from '@stores'
+import { cnjp, getCoverLarge, HTMLDecode, matchCoverUrl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { linearColor } from '../../ds'
@@ -21,11 +21,15 @@ import { memoStyles } from './styles'
 
 function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
   const styles = memoStyles()
-  const isUseCDN = systemStore.setting.cdnOrigin === 'magma'
-  const isMusic = title === '音乐'
+  const { subjectId } = data
+  const subjectJP = subjectStore.jp(subjectId) || data.title
+  const subjectCN = subjectStore.cn(subjectId) || cn
 
+  const isMusic = title === '音乐'
   const { width, height: h } = styles.cover
   const height = isMusic ? width : h
+
+  const isUseCDN = systemStore.setting.cdnOrigin === 'magma'
 
   return (
     <Touchable
@@ -34,14 +38,14 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
       onPress={() => {
         t('发现.跳转', {
           to: 'Subject',
-          subjectId: data.subjectId,
+          subjectId,
           from: `CoverLg|${title}`
         })
 
         navigation.push('Subject', {
-          subjectId: data.subjectId,
-          _jp: data.title,
-          _cn: cn,
+          subjectId,
+          _jp: subjectJP,
+          _cn: subjectCN,
           _image: getCoverSrc(src, width),
           _type: title
         })
@@ -69,7 +73,7 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
               numberOfLines={2}
             >
               <Katakana size={22} type={_.select('plain', 'title')} bold numberOfLines={2}>
-                {HTMLDecode(cn)}
+                {HTMLDecode(cnjp(subjectCN, subjectJP))}
               </Katakana>
             </Katakana.Provider>
           </View>

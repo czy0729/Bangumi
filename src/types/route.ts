@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-14 05:45:13
  */
+import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import * as Screens from '@screens'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
@@ -310,7 +311,7 @@ type RouteSubject = (
     subjectId: SubjectId
     _jp?: string
     _cn?: string
-    _image?: string | number
+    _image?: string | ImageSourcePropType
     _imageForce?: string
     _collection?: string
     _type?: SubjectTypeCn
