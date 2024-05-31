@@ -24,6 +24,8 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:allowBackup="false"
     android:usesCleartextTraffic="true"
+    android:largeHeap="true"
+    android:hardwareAccelerated="true"
     android:theme="@style/AppTheme">
     <meta-data android:name="UMENT_APPKEY" android:value="5ddceaa10cafb2ea9900066a" />
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="YOUR-APP-URL-HERE"/>
@@ -45,64 +47,16 @@
 
       <intent-filter>
         <action android:name="android.intent.action.VIEW"/>
+        <action android:name="android.intent.action.BROWSABLE"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="bangumi"/>
         <data android:scheme="com.czy0729.bangumi"/>
-      </intent-filter>
-
-      <intent-filter>
-        <data
-          android:host="bgm.tv"
-          android:scheme="http" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <action android:name="android.intent.action.VIEW"/>
-        <action android:name="android.intent.action.BROWSABLE" />
-      </intent-filter>
-
-      <intent-filter>
-        <data
-          android:host="bgm.tv"
-          android:scheme="https" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <action android:name="android.intent.action.VIEW"/>
-        <action android:name="android.intent.action.BROWSABLE" />
-      </intent-filter>
-
-      <intent-filter>
-        <data
-          android:host="bangumi.tv"
-          android:scheme="http" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <action android:name="android.intent.action.VIEW"/>
-        <action android:name="android.intent.action.BROWSABLE" />
-      </intent-filter>
-
-      <intent-filter>
-        <data
-          android:host="bangumi.tv"
-          android:scheme="https" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <action android:name="android.intent.action.VIEW"/>
-        <action android:name="android.intent.action.BROWSABLE" />
-      </intent-filter>
-
-      <intent-filter>
-        <data
-          android:host="chii.in"
-          android:scheme="http" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <action android:name="android.intent.action.VIEW"/>
-        <action android:name="android.intent.action.BROWSABLE" />
-      </intent-filter>
-
-      <intent-filter>
-        <data
-          android:host="chii.in"
-          android:scheme="https" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <action android:name="android.intent.action.VIEW"/>
-        <action android:name="android.intent.action.BROWSABLE" />
+        <data android:scheme="http"/>
+        <data android:scheme="https"/>
+        <data android:host="bgm.tv"/>
+        <data android:host="bangumi.tv"/>
+        <data android:host="chii.in"/>
       </intent-filter>
     </activity>
 
