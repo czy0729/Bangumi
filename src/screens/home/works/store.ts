@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:39:29
+ * @Last Modified time: 2024-06-02 16:34:16
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { collectionStore, subjectStore } from '@stores'
 import { getTimestamp, updateVisibleBottom } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import store from '@utils/store'
 import { HTML_MONO_WORKS, LIST_EMPTY, MODEL_MONO_WORKS_ORDERBY } from '@constants'
 import { SubjectId } from '@types'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params, ToolBarKeys } from './types'
 
 /** 若更新过则不会再主动更新 */
@@ -24,9 +24,8 @@ export default class ScreenWorks extends store<typeof STATE> {
   state = observable(STATE)
 
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...((await this.getStorage(NAMESPACE)) || {}),
       ...EXCLUDE_STATE,
       _loaded: true
     })

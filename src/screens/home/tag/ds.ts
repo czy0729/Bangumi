@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:31:42
+ * @Last Modified time: 2024-06-02 17:54:07
  */
 import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
 import { Loaded, TagOrder } from '@types'
 
-export const NAMESPACE = 'ScreenTag'
+export const COMPONENT = 'Tag'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const DEFAULT_ORDER = MODEL_TAG_ORDERBY.getValue<TagOrder>('标注数')
 

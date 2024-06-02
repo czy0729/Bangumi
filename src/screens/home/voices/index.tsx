@@ -8,10 +8,10 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
+import List from './component/list'
+import ToolBar from './component/tool-bar'
 import Header from './header'
-import List from './list'
 import Store from './store'
-import ToolBar from './tool-bar'
 import { Ctx } from './types'
 
 /** 人物的角色 */

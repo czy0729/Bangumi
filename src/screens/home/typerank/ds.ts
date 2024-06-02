@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:44:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:32:03
+ * @Last Modified time: 2024-06-02 17:16:10
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenTyperank'
+export const COMPONENT = 'Typerank'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

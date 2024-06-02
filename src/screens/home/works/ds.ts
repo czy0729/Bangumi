@@ -8,7 +8,9 @@ import { _ } from '@stores'
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants'
 import { Loaded, MonoWorksOrderby } from '@types'
 
-export const NAMESPACE = 'ScreenWorks'
+export const COMPONENT = 'Works'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */

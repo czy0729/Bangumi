@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:32:10
+ * @Last Modified time: 2024-06-02 17:17:27
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, subjectStore } from '@stores'
 import { getTimestamp, pick, updateVisibleBottom } from '@utils'
-import store from '@utils/store'
 import { gets } from '@utils/kv'
+import store from '@utils/store'
 import { SubjectId } from '@types'
 import { getIds } from './utils'
-import { NAMESPACE, STATE, EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
 export default class ScreenTyperank extends store<typeof STATE> {
@@ -80,9 +80,7 @@ export default class ScreenTyperank extends store<typeof STATE> {
           delete data[key].info
 
           if (!data[key].date && Array.isArray(data[key].tags)) {
-            let find = data[key].tags.find((item: any) =>
-              /^\d+年\d+月$/.test(item.name)
-            )
+            let find = data[key].tags.find((item: any) => /^\d+年\d+月$/.test(item.name))
             if (find) data[key].date = find.name
 
             find = data[key].tags.find((item: any) => /^\d{4}$/.test(item.name))
@@ -101,8 +99,7 @@ export default class ScreenTyperank extends store<typeof STATE> {
 
             if (!data[key].director) {
               director = data[key].staff.find(
-                (item: any) =>
-                  item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
+                (item: any) => item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
               )
               data[key].director = director?.name || director?.nameJP || ''
             }

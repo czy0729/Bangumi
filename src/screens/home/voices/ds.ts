@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-01 11:01:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:38:35
+ * @Last Modified time: 2024-06-02 16:27:03
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenVoices'
+export const COMPONENT = 'Voices'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
