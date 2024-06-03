@@ -469,6 +469,12 @@ export const DATA_ALPHABET = [
   'Z'
 ] as const
 
+/** 1 天 */
+export const D = 60 * 60 * 24
+
+/** 7 天 */
+export const D7 = D * 7
+
 /** 1 亿 */
 export const B = 100000000
 

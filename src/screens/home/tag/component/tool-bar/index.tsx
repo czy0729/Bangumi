@@ -16,9 +16,8 @@ import Year from './year'
 import { COMPONENT } from './ds'
 
 function ToolBar(props, { $ }: Ctx) {
-  const { list } = $.state
   return (
-    <ToolBarComp style={!list && _.mb.sm}>
+    <ToolBarComp style={!$.state.list && _.mb.sm}>
       <Sort />
       <Year />
       <Month />
