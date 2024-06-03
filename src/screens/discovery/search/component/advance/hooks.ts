@@ -2,22 +2,27 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 04:26:56
+ * @Last Modified time: 2024-06-03 12:08:53
  */
 import { useEffect, useRef, useState } from 'react'
-import { asc, t2s } from '@utils'
+import { asc, desc, t2s } from '@utils'
 import { decode, get } from '@utils/protobuf'
-import { SearchCat } from '@types'
+import { SearchCat, SubjectId } from '@types'
 
-const searchMap = new Map<string, any[]>()
-let anime = {}
-let book = {}
-let game = {}
+type SubjectTitle = string
+
+const memo = new Map<string, SubjectTitle[]>()
+let anime: Record<SubjectTitle, SubjectId> = {}
+let book: Record<SubjectTitle, SubjectId> = {}
+let game: Record<SubjectTitle, SubjectId> = {}
 
 export function useResult(cat: SearchCat, value: string) {
-  const [result, setResult] = useState<string[]>([])
+  const [result, setResult] = useState<SubjectTitle[]>([])
   const substrings = useRef({})
+
   useEffect(() => {
+    if (value.length < 2) return
+
     async function callback() {
       try {
         const _value = t2s(value.toLocaleUpperCase()).trim()
@@ -44,8 +49,8 @@ export function useResult(cat: SearchCat, value: string) {
           }
         }
 
-        if (searchMap.has(_value)) {
-          setResult(searchMap.get(_value))
+        if (memo.has(_value)) {
+          setResult(memo.get(_value))
           return
         }
 
@@ -66,9 +71,10 @@ export function useResult(cat: SearchCat, value: string) {
           if (_result.length >= 10) return
           if (item.toLocaleUpperCase().includes(_value)) _result.push(item)
         })
+        _result.sort((a, b) => desc(substrings.current[a], substrings.current[b]))
 
         setResult(_result)
-        searchMap.set(_value, _result)
+        memo.set(_value, _result)
       } catch (error) {}
     }
     callback()

@@ -1,91 +1,18 @@
 /*
  * @Author: czy0729
- * @Date: 2019-05-15 02:20:29
+ * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-13 18:35:11
+ * @Last Modified time: 2024-06-03 11:48:25
  */
-import { computed, observable } from 'mobx'
-import { collectionStore, searchStore, subjectStore, usersStore, userStore } from '@stores'
-import { info, loading, t2s, updateVisibleBottom, x18 } from '@utils'
+import { usersStore } from '@stores'
+import { info, loading, t2s, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
-import { HTML_SEARCH, MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
-import { Navigation, SearchCat, SearchCatCn, SearchLegacy, SubjectId } from '@types'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
+import { Navigation, SearchCat, SearchLegacy } from '@types'
+import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenSearch extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = async () => {
-    this.setState({
-      ...(await this.getStorage(NAMESPACE)),
-      ...EXCLUDE_STATE,
-      _loaded: true
-    })
-
-    this.initState()
-    return true
-  }
-
-  /** 下拉刷新 */
-  onHeaderRefresh = () => {
-    return this.doSearch(true)
-  }
-
-  /** 本地化数据 */
-  save = () => {
-    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
-  }
-
-  // -------------------- get --------------------
-  /** 搜索结果 */
-  @computed get search() {
-    const { cat, legacy, value } = this.state
-    const search = searchStore.search(value, cat, legacy)
-    if (!userStore.isLimit) return search
-
-    return {
-      ...search,
-      list: search.list.filter(item => !x18(item.id))
-    }
-  }
-
-  /** 搜索具体网址 */
-  @computed get url() {
-    const { value = '', cat, legacy = '' } = this.state
-    const _text = value.replace(/ /g, '+')
-    return HTML_SEARCH(encodeURIComponent(_text), cat, 1, legacy)
-  }
-
-  /** 当前是否在搜索用户 */
-  @computed get isUser() {
-    const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>(this.state.cat)
-    return label === '用户'
-  }
-
-  /** 是否显示推荐词 */
-  @computed get showAdvance() {
-    if (
-      !this.state.focus ||
-      this.state.cat === 'mono_all' ||
-      this.state.cat === 'user' ||
-      this.search.list.length
-    ) {
-      return false
-    }
-
-    return true
-  }
-
-  /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
-  }
-
-  // -------------------- page --------------------
+export default class Action extends Fetch {
   /** 处理初始参数 */
   initState = () => {
     setTimeout(() => {
@@ -229,6 +156,7 @@ export default class ScreenSearch extends store<typeof STATE> {
     return this.doSearch(true)
   }
 
+  /** 本地快速搜索索引点击 */
   onAdvance = (text: string, navigation?: Navigation) => {
     this.setState({
       value: text,
@@ -258,59 +186,5 @@ export default class ScreenSearch extends store<typeof STATE> {
   onT2S = () => {
     info('输入内容已转换为简体')
     this.onChangeText(t2s(this.state.value || this.state._value))
-  }
-
-  // -------------------- action --------------------
-  /** 搜索 */
-  doSearch = async (refresh?: boolean) => {
-    const { history, cat, legacy, value } = this.state
-    if (value === '') {
-      info('请输入内容')
-      return
-    }
-
-    t('搜索.搜索', {
-      cat,
-      value
-    })
-
-    const _history = [...history]
-    if (!history.includes(value)) _history.unshift(value)
-
-    if (refresh) {
-      if (_history.length > 10) _history.pop()
-
-      this.setState({
-        history: _history,
-        searching: true
-      })
-      this.save()
-    }
-
-    try {
-      const data = await searchStore.fetchSearch(
-        {
-          cat,
-          legacy,
-          text: value
-        },
-        refresh
-      )
-
-      // 延迟获取收藏中的条目的具体收藏状态
-      setTimeout(() => {
-        collectionStore.fetchCollectionStatusQueue(
-          data.list
-            .filter(item => item.collected)
-            .map(item => String(item.id).replace('/subject/', ''))
-        )
-      }, 160)
-    } catch (ex) {
-      info('请稍候再查询')
-    }
-
-    this.setState({
-      searching: false
-    })
   }
 }

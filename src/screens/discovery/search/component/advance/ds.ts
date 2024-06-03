@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:17:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 11:01:01
+ * @Last Modified time: 2024-06-03 11:51:18
  */
 import { rc } from '@utils/dev'
 import { FN } from '@constants'
 import { Navigation } from '@types'
-import { STATE } from '../../ds'
-
 import { COMPONENT as PARENT } from '../ds'
+import { STATE } from '../../store/ds'
 import { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Advance')
