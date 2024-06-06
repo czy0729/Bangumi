@@ -195,6 +195,7 @@ export type Group = {
     userName: string
     replies: string
     time: string
+    tip?: string
   }>[]
   _loaded: number
 }

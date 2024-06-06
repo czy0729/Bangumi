@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:32:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:25:23
+ * @Last Modified time: 2024-06-05 14:49:07
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -11,12 +11,12 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { DS } from '../../ds'
 import { Ctx } from '../../types'
-import ItemLazy from '../item-lazy'
+import ItemLazy from './item'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function FavorList(props, { $ }: Ctx) {
   const styles = memoStyles()
   const { type } = $.state
   return (
@@ -27,7 +27,7 @@ function List(props, { $ }: Ctx) {
         size={11}
         values={DS}
         selectedIndex={DS.findIndex(item => item === type)}
-        onValueChange={$.onChange}
+        onValueChange={$.onValueChange}
       />
       <PaginationList2
         keyExtractor={keyExtractor}
@@ -42,4 +42,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default obc(FavorList, COMPONENT)

@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import { keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 
-function SectionList(props, { $ }: Ctx) {
+function LocalList(props, { $ }: Ctx) {
   return (
     <ListView
       key={$.sections.length}
@@ -26,4 +26,4 @@ function SectionList(props, { $ }: Ctx) {
   )
 }
 
-export default obc(SectionList, COMPONENT)
+export default obc(LocalList, COMPONENT)

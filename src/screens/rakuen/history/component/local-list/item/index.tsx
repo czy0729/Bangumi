@@ -1,36 +1,26 @@
 /*
  * @Author: czy0729
- * @Date: 2022-11-28 05:50:50
+ * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:24:05
+ * @Last Modified time: 2024-05-08 04:23:39
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Loading, Text, Touchable, UserStatus } from '@components'
+import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
-import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemLazy({ item: topicId }, { $, navigation }: Ctx) {
+function Item(
+  { topicId, avatar, userName, title, group, time = '', userId },
+  { $, navigation }: Ctx
+) {
   const styles = memoStyles()
-  const topic = $.topic(topicId)
-  if (!topic) {
-    return (
-      <Flex style={styles.loading} justify='center'>
-        <Loading.Raw />
-      </Flex>
-    )
-  }
-
-  const { userId, avatar, userName, title, group, time } = topic
-  const desc = [time.includes('首播') ? time : simpleTime(time), userName, group]
-    .filter(item => !!item)
-    .join(' / ')
+  const desc = [time.split(' ')?.[1], userName, group].filter(item => !!item).join(' / ')
   return (
     <Touchable
       animate
@@ -76,4 +66,4 @@ function ItemLazy({ item: topicId }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ItemLazy, COMPONENT)
+export default obc(Item, COMPONENT)

@@ -191,7 +191,7 @@ export async function fetchTimeline(
             p4,
             ...subject,
             time,
-            star: ($row.find('.comment .starlight').attr('class') || '').replace(
+            star: ($row.find('.collectInfo .starlight').attr('class') || '').replace(
               'starlight stars',
               ''
             ),

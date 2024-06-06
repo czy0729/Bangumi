@@ -1,26 +1,36 @@
 /*
  * @Author: czy0729
- * @Date: 2019-11-28 17:16:15
+ * @Date: 2022-11-28 05:50:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:23:39
+ * @Last Modified time: 2024-06-05 13:40:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
+import { Flex, Iconfont, Loading, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
+import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
-  { topicId, avatar, userName, title, group, time = '', userId },
-  { $, navigation }: Ctx
-) {
+function Item({ item: topicId }, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const desc = [time.split(' ')?.[1], userName, group].filter(item => !!item).join(' / ')
+  const topic = $.topic(topicId)
+  if (!topic) {
+    return (
+      <Flex style={styles.loading} justify='center'>
+        <Loading.Raw />
+      </Flex>
+    )
+  }
+
+  const { userId, avatar, userName, title, group, time } = topic
+  const desc = [time.includes('首播') ? time : simpleTime(time), userName, group]
+    .filter(item => !!item)
+    .join(' / ')
   return (
     <Touchable
       animate
@@ -51,8 +61,10 @@ function Item(
         <Flex.Item>
           <Flex style={styles.item} align='start'>
             <Flex.Item>
-              <Text bold>{title === 'undefined' ? '(此帖子已删除)' : title}</Text>
-              <Text style={_.mt.sm} type='sub' size={11}>
+              <Text style={styles.title} bold>
+                {title === 'undefined' ? '(此帖子已删除)' : title}
+              </Text>
+              <Text style={_.mt.xs} type='sub' size={11} lineHeight={12}>
                 {desc}
               </Text>
             </Flex.Item>

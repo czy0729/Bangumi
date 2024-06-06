@@ -1,15 +1,12 @@
 /*
  * @Author: czy0729
- * @Date: 2022-11-28 05:51:01
+ * @Date: 2022-09-29 17:36:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-28 06:20:18
+ * @Last Modified time: 2024-06-04 15:50:43
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  loading: {
-    height: 60
-  },
   container: {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
@@ -22,10 +19,6 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.md,
     paddingLeft: _.sm,
     paddingRight: _.wind
-  },
-  border: {
-    borderTopColor: _.colorBorder,
-    borderTopWidth: _.hairlineWidth
   },
   favor: {
     marginTop: 1

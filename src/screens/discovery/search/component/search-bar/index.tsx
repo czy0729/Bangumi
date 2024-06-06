@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 13:27:12
+ * @Last Modified time: 2024-06-04 17:50:46
  */
 import React from 'react'
 import { Input } from '@components'
@@ -29,6 +29,7 @@ function SearchBar(props, { $, navigation }: Ctx) {
       onFocus={$.onFocus}
       onBlur={$.onBlur}
       onSubmitEditing={() => $.onSubmit(navigation)}
+      accessibilityRole='search'
     />
   )
 }

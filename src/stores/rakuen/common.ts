@@ -172,7 +172,8 @@ export function cheerioGroup(html: string) {
         userId: $user.attr('href').replace('/user/', ''),
         userName: HTMLDecode($user.text().trim()),
         replies: $tr.find('.posts').text().trim(),
-        time: $tr.find('.time').text().trim()
+        time: $tr.find('.time').text().trim(),
+        tip: $tr.find('.tip_j').text().trim()
       }
     })
     .get()

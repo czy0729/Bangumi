@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 00:26:20
+ * @Last Modified time: 2024-06-05 19:52:02
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, TopicType, UserId } from '@types'
@@ -142,7 +142,7 @@ export const HTML_GROUP_INFO = (groupId: Id) => `${HOST}/group/${groupId}`
 
 /** 小组帖子列表 */
 export const HTML_GROUP = (groupId: Id, page: number = 1) =>
-  `${HOST}/group/${groupId}/forum?page=${page}`
+  `${HOST}/group/${groupId}${groupId === 'my_reply' ? '' : '/forum'}?page=${page}`
 
 /** 我的小组 */
 export const HTML_GROUP_MINE = () => `${HOST}/group/mine`

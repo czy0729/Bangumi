@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:32:05
+ * @Last Modified time: 2024-06-05 14:52:06
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -410,7 +410,7 @@ export default class Action extends Fetch {
     this.save(key)
   }
 
-  /** 设置收藏 */
+  /** 获取收藏索引 */
   getFavor = async () => {
     await this.init('favorV2')
 

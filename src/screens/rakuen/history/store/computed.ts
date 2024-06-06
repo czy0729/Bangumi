@@ -1,60 +1,30 @@
 /*
  * @Author: czy0729
- * @Date: 2019-11-28 17:18:49
+ * @Date: 2024-06-04 15:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:27:09
+ * @Last Modified time: 2024-06-05 20:25:40
  */
-import { computed, observable } from 'mobx'
-import { rakuenStore, userStore } from '@stores'
-import { desc, info } from '@utils'
-import { t } from '@utils/fetch'
-import { gets } from '@utils/kv'
-import store from '@utils/store'
-import i18n from '@constants/i18n'
+import { computed } from 'mobx'
+import { rakuenStore } from '@stores'
+import { desc } from '@utils'
 import { TopicId } from '@types'
-import { NAMESPACE, STATE } from './ds'
-import { Types } from './types'
+import State from './state'
 
-export default class ScreenRakuenHistory extends store<typeof STATE> {
-  state = observable(STATE)
-
-  init = async () => {
-    const state = await this.getStorage(NAMESPACE)
-    await rakuenStore.init('topic')
-    await rakuenStore.init('cloudTopic')
-
-    this.setState({
-      ...state,
-      _loaded: true
-    })
-
-    rakuenStore.getFavor()
-    // await rakuenStore.downloadFavorTopic()
-    // this.sync()
-
-    return state
-  }
-
-  // -------------------- get --------------------
-  @computed get isLogin() {
-    return userStore.isLogin
-  }
-
+export default class Computed extends State {
   /** 需要把 rakuenStore.state.topic 和 rakuenStore.state.cloudTopic key 值合并计算 */
   @computed get keys() {
-    const { favor } = this.state
     const { topic, cloudTopic } = rakuenStore.state
     return Array.from(new Set([...Object.keys(topic), ...Object.keys(cloudTopic)]))
       .filter((topicId: TopicId) => {
         // 不知道哪里有问题, 有时会出现 undefined 的 key 值, 过滤掉
         if (!topicId.includes('group/') || topicId.includes('undefined')) return false
         if (!/^group\/(\d+)$/.test(topicId)) return false
-        if (favor) return this.isFavor(topicId)
         return true
       })
       .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1])))
   }
 
+  /** 本地缓存帖子 */
   @computed get sections() {
     const sections = []
     const map = {}
@@ -109,59 +79,13 @@ export default class ScreenRakuenHistory extends store<typeof STATE> {
     }).get()
   }
 
-  // -------------------- page --------------------
-  /** 切换收藏 */
-  toggleFavor = (label: string) => {
-    const { favor } = this.state
-    if (label) {
-      if (label === '收藏' && favor) return
-      if (label === '缓存' && !favor) return
-    }
-
-    const nextFavor = !favor
-    t('本地帖子.切换收藏', {
-      favor: nextFavor
-    })
-
-    this.setState({
-      favor: nextFavor
-    })
-    this.setStorage(NAMESPACE)
+  /** 我回复的帖子 */
+  @computed get myReply() {
+    return rakuenStore.group('my_reply', this.state.replyPage)
   }
 
-  /** 加载一页云端帖子数据 */
-  onPage = async (data: string[]) => {
-    if (!data.length) return true
-
-    const keys = []
-    data.forEach(item => {
-      const key = `favor_${item.replace('/', '_')}`
-      keys.push(key)
-    })
-
-    if (!keys.length) return true
-    const datas = await gets(keys)
-    this.setState({
-      topics: datas
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  /** 切换类型 */
-  onChange = (title: Types) => {
-    this.setState({
-      type: title
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  /** @deprecated 同步到云 */
-  sync = () => {
-    if (!this.isLogin || !userStore.userInfo.id) {
-      info(`云同步需先${i18n.login()}`)
-      return
-    }
-
-    rakuenStore.uploadFavorTopic()
+  /** 帖子历史查看记录 */
+  readed(topicId: TopicId) {
+    return computed(() => rakuenStore.readed(topicId)).get()
   }
 }
