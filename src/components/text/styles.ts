@@ -2,20 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 13:48:07
+ * @Last Modified time: 2024-06-13 23:59:51
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   /** base style */
+  base: {
+    includeFontPadding: false,
+    verticalAlign: 'middle',
+    textAlignVertical: 'center'
+  },
   text: _.fontStyle,
   bold: _.fontBoldStyle,
   underline: {
     textDecorationLine: 'underline',
-    textDecorationColor: STORYBOOK
-      ? 'rgba(254, 138, 149, 0.88)'
-      : _.select(_.colorMain, _.colorSub)
+    textDecorationColor: STORYBOOK ? 'rgba(254, 138, 149, 0.88)' : _.select(_.colorMain, _.colorSub)
   },
   alignCenter: {
     textAlign: 'center'

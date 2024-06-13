@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 18:27:02
+ * @Last Modified time: 2024-06-14 00:44:35
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import {
   Touchable,
   UserStatus
 } from '@components'
+import { Name } from '@_'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn, HTMLDecode, simpleTime } from '@utils'
 import { memo } from '@utils/decorators'
@@ -147,9 +148,9 @@ const Top = memo(
               )}
               {!!userId && (
                 <Flex.Item style={_.ml.sm}>
-                  <Text numberOfLines={1} bold>
+                  <Name userId={userId} numberOfLines={1} bold>
                     {userName}
-                  </Text>
+                  </Name>
                   <Text
                     style={_.mt.xs}
                     type='sub'

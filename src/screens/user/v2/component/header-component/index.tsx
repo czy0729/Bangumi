@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-30 07:06:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:34:26
+ * @Last Modified time: 2024-06-14 01:05:22
  */
 import React from 'react'
-import { Flex, Text } from '@components'
+import { Flex } from '@components'
+import { VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
@@ -20,10 +21,10 @@ function HeaderComponent({ style }: Props, { $ }: Ctx) {
     <Flex style={style} direction='column' justify='center'>
       <CenterAvatar />
       <Flex style={_.mt.md}>
-        <Text type={_.select('plain', 'title')} bold shadow>
+        <VerticalAlign text={nickname} type={_.select('plain', 'title')} bold shadow>
           {HTMLDecode(nickname)}
           {username || id ? ` @${username || id}` : ''}
-        </Text>
+        </VerticalAlign>
       </Flex>
     </Flex>
   )

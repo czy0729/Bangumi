@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-30 15:07:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:45:00
+ * @Last Modified time: 2024-06-14 01:04:38
  */
 import React from 'react'
-import { Avatar, Flex, Text } from '@components'
+import { Avatar, Flex } from '@components'
+import { VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
@@ -24,8 +25,9 @@ function TopNavbarComponent(props, { $ }: Ctx) {
         fallbackSrc={avatar.large}
         borderWidth={0}
       />
-      <Text
+      <VerticalAlign
         style={_.ml.sm}
+        text={nickname}
         type={_.select('plain', 'title')}
         align='center'
         bold
@@ -33,7 +35,7 @@ function TopNavbarComponent(props, { $ }: Ctx) {
         numberOfLines={1}
       >
         {HTMLDecode(nickname)}
-      </Text>
+      </VerticalAlign>
     </Flex>
   )
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:51:13
+ * @Last Modified time: 2024-06-14 01:10:18
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -26,10 +26,14 @@ const User = (props, context: Ctx) => {
   return useObserver(() => (
     <Component id='screen-user'>
       <Page>
-        {/* 自己并且没登录 */}
         {!$.usersInfo.id && !userStore.isLogin ? (
+          // 自己并且没登录
           <Login style={_.container.plain} />
+        ) : $.params.userId ? (
+          // 来自于别人的空间
+          !!$.state._loaded && (!IOS && !STORYBOOK ? <NestedScroll /> : <Scroll />)
         ) : (
+          // 来自时光机
           <BlurViewRoot>
             {!!$.state._loaded && (!IOS && !STORYBOOK ? <NestedScroll /> : <Scroll />)}
             <BlurViewBottomTab />

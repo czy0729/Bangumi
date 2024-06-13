@@ -39,6 +39,7 @@ function Preview(
     <Touchable
       style={stl(styles.image, !index && styles.side)}
       animate
+      withoutFeedback
       onPress={() => {
         t('条目.预览', {
           subjectId: $.subjectId

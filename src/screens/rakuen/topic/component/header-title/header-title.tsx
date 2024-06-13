@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:24:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:38:13
+ * @Last Modified time: 2024-06-14 00:32:51
  */
 import React from 'react'
 import { Flex, Text, UserStatus } from '@components'
-import { Avatar } from '@_'
+import { Avatar, VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMG_WIDTH } from './ds'
@@ -33,9 +33,16 @@ const HeaderTitle = memo(
             {title}
           </Text>
           {!!texts && (
-            <Text type='sub' size={10} lineHeight={12} bold numberOfLines={1}>
+            <VerticalAlign
+              type='sub'
+              text={userName || group}
+              size={10}
+              lineHeight={12}
+              bold
+              numberOfLines={1}
+            >
               {texts}
-            </Text>
+            </VerticalAlign>
           )}
         </Flex.Item>
       </Flex>

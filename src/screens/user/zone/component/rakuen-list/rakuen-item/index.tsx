@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 20:40:33
+ * @Last Modified time: 2024-06-14 00:02:20
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -36,7 +36,6 @@ function RakuenItem(
               _title: title,
               _group: group,
               _time: `${date} ${time}`,
-              _avatar: avatar,
               _userName: userName,
               _userId: userId
             })

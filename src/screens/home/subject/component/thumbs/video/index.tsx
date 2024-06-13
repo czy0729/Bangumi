@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:27:52
+ * @Last Modified time: 2024-06-13 19:18:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ function Video({ item, epsThumbsHeader, showTitle }) {
 
   return (
     <View style={styles.video}>
-      <Touchable animate onPress={() => open(item.src || item.href)}>
+      <Touchable animate withoutFeedback onPress={() => open(item.src || item.href)}>
         <Image
           src={item.cover}
           size={THUMB_WIDTH}

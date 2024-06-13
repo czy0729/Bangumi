@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 05:14:42
+ * @Last Modified time: 2024-06-13 21:53:31
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -62,7 +62,7 @@ export function getTextStyle({
   noWrap = false
 }: Partial<TextProps>) {
   const styles = memoStyles()
-  const textStyle: TextProps['style'][] = []
+  const textStyle: TextProps['style'][] = [styles.base]
 
   if (type) textStyle.push(styles[type])
   if (underline) textStyle.push(styles.underline)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:21:27
+ * @Last Modified time: 2024-06-13 22:36:13
  */
 // export * from './navigation-bar-events'
 export * from './app-common'
@@ -55,3 +55,4 @@ export * from './stock-preview'
 export * from './tag'
 export * from './tags'
 export * from './tap-listener'
+export * from './vertical-align'

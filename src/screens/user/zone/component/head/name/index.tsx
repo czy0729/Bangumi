@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 15:43:34
+ * @Last Modified time: 2024-06-14 00:38:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
+import { VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
@@ -20,9 +21,9 @@ function Name(props, { $ }: Ctx) {
   return (
     <View style={_.mt.md}>
       <Flex>
-        <Text type={type} bold shadow>
+        <VerticalAlign text={$.nickname} type={type} lineHeight={14} bold shadow>
           {$.nickname}
-        </Text>
+        </VerticalAlign>
         {!!(username || userId) && (
           <Text style={_.ml.xs} type={type} bold shadow>
             @{$.state.originUid ? userId : username || userId}
