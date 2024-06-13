@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 13:36:26
+ * @Last Modified time: 2024-06-13 16:25:57
  */
 import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
@@ -469,8 +469,14 @@ export const DATA_ALPHABET = [
   'Z'
 ] as const
 
+/** 1 小时 */
+export const H = 60 * 60
+
+/** 12 小时 */
+export const H12 = H * 12
+
 /** 1 天 */
-export const D = 60 * 60 * 24
+export const D = H * 24
 
 /** 7 天 */
 export const D7 = D * 7

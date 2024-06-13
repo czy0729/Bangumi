@@ -5,10 +5,12 @@
  * @Last Modified time: 2024-06-05 20:25:40
  */
 import { computed } from 'mobx'
-import { rakuenStore } from '@stores'
+import { rakuenStore, systemStore, userStore } from '@stores'
+import { CommentsItemWithSub } from '@stores/rakuen/types'
 import { desc } from '@utils'
-import { TopicId } from '@types'
+import { Id, TopicId } from '@types'
 import State from './state'
+import { COMMENT_LIMIT, COMMENT_LIMIT_ADVANCE } from './ds'
 
 export default class Computed extends State {
   /** 需要把 rakuenStore.state.topic 和 rakuenStore.state.cloudTopic key 值合并计算 */
@@ -87,5 +89,52 @@ export default class Computed extends State {
   /** 帖子历史查看记录 */
   readed(topicId: TopicId) {
     return computed(() => rakuenStore.readed(topicId)).get()
+  }
+
+  /** 我的回复数统计 */
+  comment(topicId: TopicId) {
+    return computed(() => {
+      const limit = systemStore.isAdvance ? COMMENT_LIMIT_ADVANCE : COMMENT_LIMIT
+      const items: {
+        id: Id
+        floor: string
+        time: string
+        message: string
+      }[] = []
+
+      rakuenStore
+        .comments(topicId)
+        .list.slice()
+        .reverse()
+        .forEach((item: CommentsItemWithSub) => {
+          if (items.length >= limit) return
+
+          if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
+            items.push({
+              id: item.id,
+              floor: item.floor,
+              time: item.time,
+              message: item.message
+            })
+            if (items.length >= limit) return
+          }
+
+          item.sub.forEach(item => {
+            if (items.length >= limit) return
+
+            if (item.userId === userStore.myId && !item.message.includes('删除了回复')) {
+              items.push({
+                id: item.id,
+                floor: item.floor,
+                time: item.time,
+                message: item.message
+              })
+              if (items.length >= limit) return
+            }
+          })
+        })
+
+      return items
+    }).get()
   }
 }

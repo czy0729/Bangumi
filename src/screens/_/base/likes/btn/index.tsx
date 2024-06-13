@@ -2,27 +2,33 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 16:47:41
+ * @Last Modified time: 2024-06-13 18:15:04
  */
 import React from 'react'
-import { Touchable, Flex, BgmText, Text, Bgm } from '@components'
+import { Bgm, BgmText, Flex, Text, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IOS, STORYBOOK } from '@constants'
+import { STORYBOOK } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { memoStyles } from './styles'
 
-function Btn({ topicId, id, formhash, onLongPress, ...item }) {
+function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }) {
   const styles = memoStyles()
   const emoji = Number(item.emoji)
   const type = Number(item.type)
+
   return (
     <Touchable
       animate
       hitSlop={HIT_SLOP}
       onPress={() => {
+        if (typeof onPress === 'function') {
+          onPress(item.users || [], emoji)
+          return
+        }
+
         if (!formhash) return
 
         uiStore.preFlipLikes(topicId, id)
@@ -66,25 +72,11 @@ function Btn({ topicId, id, formhash, onLongPress, ...item }) {
           : undefined
       }
     >
-      <Flex
-        style={stl(styles.item, item.selected && styles.itemActive)}
-        justify='center'
-      >
+      <Flex style={stl(styles.item, item.selected && styles.itemActive)} justify='center'>
         {STORYBOOK || emoji > 100 ? (
-          <Bgm
-            style={styles.image}
-            index={emoji}
-            size={IOS ? 18 : 16}
-            textOnly={false}
-          />
+          <Bgm style={styles.image} index={emoji} size={16} textOnly={false} />
         ) : (
-          <BgmText
-            style={styles.bgm}
-            size={15}
-            lineHeight={17}
-            index={emoji}
-            selectable={false}
-          />
+          <BgmText style={styles.bgm} size={15} lineHeight={17} index={emoji} selectable={false} />
         )}
         <Text
           style={styles.text}

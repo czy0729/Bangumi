@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:26:26
+ * @Last Modified time: 2024-06-07 07:26:04
  */
 import {
   Avatar,
@@ -188,7 +188,7 @@ export type Notify = {
 
 /** 小组帖子列表 */
 export type Group = {
-  list: Partial<{
+  list: {
     href: string
     title: string
     userId: UserId
@@ -196,7 +196,7 @@ export type Group = {
     replies: string
     time: string
     tip?: string
-  }>[]
+  }[]
   _loaded: number
 }
 

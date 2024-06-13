@@ -94,7 +94,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  /** @deprecated 帖子内容CDN自维护数据 (用于帖子首次渲染加速) */
+  /** @deprecated 帖子内容 CDN 自维护数据 (用于帖子首次渲染加速) */
   topicFormCDN(topicId: string | number) {
     return computed<Topic>(() => {
       return this.state.topicFormCDN[topicId] || INIT_TOPIC

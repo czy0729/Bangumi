@@ -4,10 +4,26 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 14:51:29
  */
+import React from 'react'
+import { View } from 'react-native'
+import { Image } from '@components'
+import { _ } from '@stores'
+import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Images({ data }: { data: string[] }) {
-  return null
+  if (!data.length) return null
+
+  const styles = memoStyles()
+  return (
+    <>
+      {data.map(item => (
+        <View key={item} style={styles.image}>
+          <Image src={item} autoSize={_.window.width - _.wind * 2 - 2} placeholder={false} />
+        </View>
+      ))}
+    </>
+  )
 }
 
-export default Images
+export default ob(Images)

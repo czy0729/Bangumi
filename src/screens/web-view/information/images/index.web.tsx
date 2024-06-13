@@ -6,11 +6,13 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { styles } from './styles'
+import { ob } from '@utils/decorators'
+import { memoStyles } from './styles'
 
 function Images({ data = [] }: { data: string[] }) {
   if (!data.length) return null
 
+  const styles = memoStyles()
   return (
     <>
       {data.map(item => (
@@ -22,4 +24,4 @@ function Images({ data = [] }: { data: string[] }) {
   )
 }
 
-export default Images
+export default ob(Images)

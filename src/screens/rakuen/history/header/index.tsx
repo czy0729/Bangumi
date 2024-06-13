@@ -10,8 +10,34 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
-  return <HeaderComp title='帖子聚合' alias='本地帖子' hm={['rakuen/history', 'RakuenHistory']} />
+function Header(props, { navigation }: Ctx) {
+  return (
+    <HeaderComp
+      title='帖子聚合'
+      alias='本地帖子'
+      hm={['rakuen/history', 'RakuenHistory']}
+      headerRight={() => (
+        <HeaderComp.Popover
+          data={['说明']}
+          onSelect={key => {
+            if (key === '说明') {
+              navigation.push('Information', {
+                title: '帖子聚合',
+                advance: true,
+                message: [
+                  '能快速查看回复和贴贴信息，图 1 为普通用户示例，图 2 为会员示例支持同时显示更多自己的回复'
+                ],
+                images: [
+                  'https://cdn.nlark.com/yuque/0/2024/png/386799/1718099312472-ca3d7ec4-ebc9-4091-891c-52a10241c0b0.png',
+                  'https://cdn.nlark.com/yuque/0/2024/png/386799/1718099326689-d6f24f78-4f63-4bef-af1a-d9d21839b52b.png'
+                ]
+              })
+            }
+          }}
+        />
+      )}
+    />
+  )
 }
 
 export default obc(Header, COMPONENT)

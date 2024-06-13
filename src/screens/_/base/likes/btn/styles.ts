@@ -19,11 +19,11 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select('rgba(255, 208, 214, 0.4)', _.colorMainLight)
   },
   bgm: {
-    marginTop: _.ios(0, 3)
+    marginTop: 3
   },
   image: {
-    marginTop: _.ios(-2, -1),
-    opacity: _.ios(1, 0.64)
+    marginTop: -2,
+    opacity: 1
   },
   text: {
     marginLeft: 6

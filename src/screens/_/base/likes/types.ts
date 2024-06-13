@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-05 14:59:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-30 21:31:09
+ * @Last Modified time: 2024-06-13 18:13:05
  */
 import { rakuenStore } from '@stores'
 import { Fn, Id, ViewStyle } from '@types'
@@ -22,7 +22,7 @@ export type Props = {
   id: Id
 
   /** 操作凭证 */
-  formhash: string
+  formhash?: string
 
   /** 贴贴类型 */
   likeType: Id
@@ -33,6 +33,9 @@ export type Props = {
     x?: number
     y?: number
   }
+
+  /** 点击按钮 */
+  onPress?: Fn
 
   /** 长按按钮 */
   onLongPress?: Fn

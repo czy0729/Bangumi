@@ -6,11 +6,11 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   image: {
     width: '100%',
     marginTop: _.md,
     borderWidth: 1,
     borderColor: _.colorBorder
   }
-})
+}))

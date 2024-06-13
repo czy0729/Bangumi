@@ -35,6 +35,7 @@ const Information = ({ navigation, route }) => {
                   .replace(/\)/g, '」')}
               </Text>
             ))}
+          <Images data={imagesData} />
           {!!advance && (
             <Text
               style={_.mt.lg}
@@ -46,7 +47,6 @@ const Information = ({ navigation, route }) => {
               关于会员 〉
             </Text>
           )}
-          <Images data={imagesData} />
         </ScrollView>
       </Page>
     </Component>

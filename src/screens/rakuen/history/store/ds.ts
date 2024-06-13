@@ -18,3 +18,7 @@ export const STATE = {
   type: '小组' as (typeof DS)[number],
   _loaded: false as Loaded
 }
+
+export const COMMENT_LIMIT = 3
+
+export const COMMENT_LIMIT_ADVANCE = 10

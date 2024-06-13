@@ -5,12 +5,12 @@
  * @Last Modified time: 2023-10-30 19:40:51
  */
 import React from 'react'
-import { Flex, Bgm, BgmText, Touchable } from '@components'
+import { Bgm, BgmText, Flex, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
-import { t } from '@utils/fetch'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { IOS, LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
+import { t } from '@utils/fetch'
+import { LIKE_TYPE_RAKUEN, LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
 import { HIT_SLOP } from './ds'
 import { styles } from './styles'
 
@@ -80,19 +80,11 @@ function Grid({ data, value, topicId, floorId, formhash, likeType }) {
           }}
         >
           <Flex
-            style={stl(
-              styles.item,
-              String(value) === String(item[1]) && styles.itemActive
-            )}
+            style={stl(styles.item, String(value) === String(item[1]) && styles.itemActive)}
             justify='center'
           >
             {STORYBOOK || item[0] > 100 ? (
-              <Bgm
-                style={styles.bgm}
-                index={item[0]}
-                size={IOS ? 21 : 18}
-                textOnly={false}
-              />
+              <Bgm style={styles.bgm} index={item[0]} size={18} textOnly={false} />
             ) : (
               <BgmText index={item[0]} size={18} />
             )}

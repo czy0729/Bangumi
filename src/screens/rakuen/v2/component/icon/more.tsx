@@ -26,12 +26,15 @@ function IconMore({ style }, { navigation }: Ctx) {
     <Flex style={_.mr.xs}>
       {!STORYBOOK && (
         <Touchable
+          style={{
+            marginRight: -2
+          }}
           onPress={() => {
             navigation.push('RakuenHistory')
           }}
         >
           <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-star-outline' color={_.colorTitle} />
+            <Iconfont name='md-inbox' color={_.colorTitle} size={20} />
           </Flex>
         </Touchable>
       )}

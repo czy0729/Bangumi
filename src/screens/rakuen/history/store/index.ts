@@ -19,6 +19,7 @@ class ScreenRakuenHistory extends Action {
       ...state,
       _loaded: true
     })
+
     rakuenStore.getFavor()
     this.fetchGroup()
 

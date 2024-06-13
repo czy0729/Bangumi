@@ -9,7 +9,7 @@ export const COMPONENT = 'RakuenHistory'
 export const TABS = [
   {
     key: 'reply',
-    title: '回复'
+    title: '我回复的'
   },
   {
     key: 'favor',
