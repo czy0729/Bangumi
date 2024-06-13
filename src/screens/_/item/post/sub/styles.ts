@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:20:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 20:05:28
+ * @Last Modified time: 2024-06-13 18:45:06
  */
 import { _ } from '@stores'
 import { AVATAR_WIDTH } from './ds'
@@ -64,6 +64,7 @@ export const memoStyles = _.memoStyles(() => {
       overflow: 'hidden'
     },
     directJump: {
+      borderWidth: 1,
       borderColor: _.colorSuccess
     }
   }

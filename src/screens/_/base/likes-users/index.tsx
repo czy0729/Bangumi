@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:28:03
+ * @Last Modified time: 2024-06-13 19:10:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { desc, navigationReference } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
+import { Name } from '../name'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -39,7 +40,7 @@ export const LikesUsers = ob(
         <View style={_.container.wind}>
           {list
             .slice()
-            .sort((a, b) =>
+            .sort((a: { username: any }, b: { username: any }) =>
               desc(
                 CacheManager.has(`avatar|${a.username}`),
                 CacheManager.has(`avatar|${b.username}`)
@@ -71,12 +72,19 @@ export const LikesUsers = ob(
                         <Avatar size={32} src={avatar} />
                       </View>
                     )}
-                    <Text size={13} bold>
-                      {item.nickname}{' '}
-                      <Text type='sub' size={10} lineHeight={13} bold>
-                        @{item.username}
-                      </Text>
-                    </Text>
+                    <Name
+                      userId={item.username}
+                      showFriend
+                      bold
+                      right={
+                        <Text type='sub' size={12} lineHeight={13} bold>
+                          {' '}
+                          @{item.username}
+                        </Text>
+                      }
+                    >
+                      {item.nickname}
+                    </Name>
                   </Flex>
                 </Touchable>
               )
