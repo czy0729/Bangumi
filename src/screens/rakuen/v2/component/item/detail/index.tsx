@@ -2,18 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 12:25:37
+ * @Last Modified time: 2024-06-14 17:39:33
  */
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text } from '@components'
-import { Name } from '@_'
+import { Name, VerticalAlign } from '@_'
 import { _ } from '@stores'
 import { correctAgo } from '@utils'
-import { ob } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 
 function Detail({ time, groupCn, userName, userId }) {
-  return (
-    <Text style={_.mt.xs} size={11} lineHeight={13} numberOfLines={1}>
+  const [name, setName] = useState(userName)
+  const handleHit = useCallback(
+    (removeSpecText: string) => {
+      setName(removeSpecText)
+    },
+    [name, setName]
+  )
+
+  return useObserver(() => (
+    <VerticalAlign
+      text={userName}
+      style={_.mt.xs}
+      size={11}
+      lineHeight={13}
+      numberOfLines={1}
+      onHit={handleHit}
+    >
       <Text type='sub' size={11} lineHeight={13}>
         {time ? correctAgo(time) : ''}
         {groupCn && time ? ' / ' : ''}
@@ -21,19 +36,19 @@ function Detail({ time, groupCn, userName, userId }) {
       <Text type='sub' size={11} lineHeight={13}>
         {groupCn}
       </Text>
-      {!!userName && (
+      {!!name && (
         <>
           <Text type='sub' size={11} lineHeight={13}>
             {' '}
             /{' '}
           </Text>
           <Name type='sub' size={11} lineHeight={13} userId={userId} showFriend disabled>
-            {userName}
+            {name}
           </Name>
         </>
       )}
-    </Text>
-  )
+    </VerticalAlign>
+  ))
 }
 
-export default ob(Detail)
+export default Detail

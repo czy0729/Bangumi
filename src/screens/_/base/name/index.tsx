@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 01:00:26
+ * @Last Modified time: 2024-06-14 21:30:17
  */
 import React, { useCallback, useState } from 'react'
 import { Component, Text } from '@components'
 import { systemStore, usersStore } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { VerticalAlign } from '../vertical-align'
+import VerticalAlignWithRemoveSpec from './vertical-align-with-remove-spec'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as NameProps } from './types'
@@ -39,19 +41,64 @@ export const Name = ({
   return useObserver(() => {
     let userRemark: string
     if (userId) userRemark = systemStore.userRemark(userId)
+    const text = userRemark || children
+
+    const showLabel = showFriend && !!usersStore.myFriendsMap[userId]
+    const showRight = showLabel || right
+    const elRight = showRight ? (
+      <>
+        {showLabel && (
+          <Text type='warning' size={11} lineHeight={textLineHeight}>
+            {' '}
+            好友
+          </Text>
+        )}
+        {right}
+      </>
+    ) : null
+
+    const passProps = {
+      style,
+      size,
+      lineHeight: textLineHeight,
+      bold,
+      numberOfLines: lines,
+      onPress: disabled ? undefined : setLines2,
+      ...other
+    }
+
+    if (typeof text === 'string') {
+      if (showRight) {
+        return (
+          <Component id='base-name'>
+            <VerticalAlignWithRemoveSpec
+              {...passProps}
+              text={text}
+              userId={userId}
+              showFriend={showFriend}
+              userRemark={userRemark}
+              right={elRight}
+            />
+          </Component>
+        )
+      }
+
+      return (
+        <Component id='base-name'>
+          <VerticalAlign
+            {...passProps}
+            style={stl(passProps.style, userRemark && memoStyles().highlight)}
+            text={text}
+          >
+            {text}
+          </VerticalAlign>
+        </Component>
+      )
+    }
 
     return (
       <Component id='base-name'>
-        <VerticalAlign
-          style={style}
-          size={size}
-          lineHeight={textLineHeight}
-          bold={bold}
-          numberOfLines={lines}
-          onPress={disabled ? undefined : setLines2}
-          {...other}
-          text={typeof children === 'string' ? children : undefined}
-        >
+        <Text {...passProps}>
           {userRemark ? (
             <Text
               style={memoStyles().highlight}
@@ -60,19 +107,13 @@ export const Name = ({
               bold={bold}
               numberOfLines={lines}
             >
-              {userRemark}
+              {text}
             </Text>
           ) : (
-            children
+            text
           )}
-          {showFriend && !!usersStore.myFriendsMap[userId] && (
-            <Text type='warning' size={11} lineHeight={textLineHeight}>
-              {' '}
-              好友
-            </Text>
-          )}
-          {right}
-        </VerticalAlign>
+          {elRight}
+        </Text>
       </Component>
     )
   })

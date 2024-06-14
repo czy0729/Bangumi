@@ -2,25 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-06-13 22:34:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 00:52:34
+ * @Last Modified time: 2024-06-14 17:36:38
  */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { NativeSyntheticEvent, TextLayoutEventData } from 'react-native'
 import { Text } from '@components'
 import { stl } from '@utils'
+import { calcStyles, removeSpecCharacters } from './utils'
 import { Props as VerticalAlignProps } from './types'
 
 export { VerticalAlignProps }
 
 const memo = new Map<string, boolean>()
-
-function calc(lineHeight: number) {
-  const value = lineHeight * 2
-  return {
-    lineHeight: value,
-    marginBottom: Math.floor(lineHeight / 2) * -1
-  }
-}
 
 /**
  * 对于安卓端某些特殊字符, 存在超过行高的高度会看不全,
@@ -30,52 +23,45 @@ export const VerticalAlign = ({
   style,
   text,
   lineHeight = 14,
+  onHit,
   children,
   ...other
 }: VerticalAlignProps) => {
-  let temp1 = lineHeight
-  let temp2 = 0
-  if (typeof text === 'string' && text && memo.get(text) === true) {
-    const values = calc(lineHeight)
-    temp1 = values.lineHeight
-    temp2 = values.marginBottom
-  }
+  const [flag, setFlag] = useState(typeof text === 'string' && text && memo.get(text) === true)
 
-  const [currentLineHeight, setLineHeight] = useState(temp1)
-  const [marginBottom, setMarginBottom] = useState(temp2)
-
+  // ascender 正常显示的文字是有值的, 但是撑满的时候都会很小
   const handleTextLayout = useCallback(
     (e: NativeSyntheticEvent<TextLayoutEventData>) => {
-      if (typeof text === 'string' && text) {
-        const line = e.nativeEvent.lines?.[0]
+      if (flag) return
 
-        // ascender 正常显示的文字是有值的, 但是撑满的时候都会很小
-        if (line?.ascender <= 2) {
-          const values = calc(lineHeight)
-          setLineHeight(values.lineHeight)
-          setMarginBottom(values.marginBottom)
-          memo.set(text, true)
-        } else {
-          memo.set(text, false)
-        }
+      if (typeof text === 'string' && text) {
+        const next = e.nativeEvent.lines?.[0]?.ascender <= 2
+        if (next) setFlag(true)
+        memo.set(text, next)
       }
     },
-    [lineHeight, text]
+    [flag, text]
   )
+
+  useEffect(() => {
+    if (flag && typeof onHit === 'function') onHit(removeSpecCharacters(text))
+  }, [flag, text, onHit])
+
+  const needOptimizeStyles = flag && typeof onHit !== 'function'
+  let styles = null
+  if (needOptimizeStyles) styles = calcStyles(lineHeight)
 
   return (
     <Text
       {...other}
       style={stl(
         style,
-        marginBottom && {
-          marginBottom
+        needOptimizeStyles && {
+          marginBottom: styles.marginBottom
         }
       )}
-      lineHeight={currentLineHeight}
-      onTextLayout={
-        typeof text === 'string' && text && marginBottom === 0 ? handleTextLayout : undefined
-      }
+      lineHeight={needOptimizeStyles ? styles.lineHeight : lineHeight}
+      onTextLayout={memo.has(text) ? undefined : handleTextLayout}
     >
       {children}
     </Text>

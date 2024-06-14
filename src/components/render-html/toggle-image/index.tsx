@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 16:19:40
+ * @Last Modified time: 2024-06-14 21:33:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,6 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, rakuenStore } from '@stores'
 import { open, stl } from '@utils'
-import { IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Image } from '../../image'
@@ -80,27 +79,27 @@ class ToggleImage extends React.Component<Props, State> {
 
   render() {
     // RN 不使用第三方 link 包暂时不支持 webp, 暂时使用浏览器跳转
-    const { onImageFallback } = this.props
+    // const { onImageFallback } = this.props
     const { show, loaded, size } = this.state
 
     if (!this.isIcon) {
       const isRemote = typeof this.src === 'string'
-      if (isRemote && !IOS && (this.src as string).includes('.webp')) {
-        return (
-          <Touchable style={this.styles.image} onPress={onImageFallback}>
-            <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
-              <Text size={10} type='sub'>
-                框架暂不支持 webp, 使用浏览器打开
-              </Text>
-              {isRemote && (
-                <Text style={this.styles.textSrc} size={10} type='sub' selectable numberOfLines={1}>
-                  {this.src as string}
-                </Text>
-              )}
-            </Flex>
-          </Touchable>
-        )
-      }
+      // if (isRemote && !IOS && (this.src as string).includes('.webp')) {
+      //   return (
+      //     <Touchable style={this.styles.image} onPress={onImageFallback}>
+      //       <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
+      //         <Text size={10} type='sub'>
+      //           框架暂不支持 webp, 使用浏览器打开
+      //         </Text>
+      //         {isRemote && (
+      //           <Text style={this.styles.textSrc} size={10} type='sub' selectable numberOfLines={1}>
+      //             {this.src as string}
+      //           </Text>
+      //         )}
+      //       </Flex>
+      //     </Touchable>
+      //   )
+      // }
 
       let ext = ''
       if (isRemote) {
@@ -110,7 +109,7 @@ class ToggleImage extends React.Component<Props, State> {
           ? 'png'
           : (this.src as string).includes('.gif')
           ? 'gif'
-          : ''
+          : 'img'
       }
 
       if (!show) {
