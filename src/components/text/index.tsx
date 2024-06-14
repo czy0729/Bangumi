@@ -63,7 +63,8 @@ function TextComp(
       numberOfLines={0}
       {...other}
       suppressHighlighting
-      textBreakStrategy='simple'
+      lineBreakStrategyIOS='push-out'
+      textBreakStrategy='balanced'
       android_hyphenationFrequency='none'
     >
       {s2t && systemStore.setting.s2t ? format(children) : children}
