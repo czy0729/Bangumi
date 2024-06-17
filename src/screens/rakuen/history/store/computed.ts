@@ -91,6 +91,13 @@ export default class Computed extends State {
     return computed(() => rakuenStore.readed(topicId)).get()
   }
 
+  /** 帖子头像 */
+  avatar(topicId: TopicId) {
+    return computed(() => {
+      return rakuenStore.topic(topicId).avatar
+    }).get()
+  }
+
   /** 我的回复数统计 */
   comment(topicId: TopicId) {
     return computed(() => {

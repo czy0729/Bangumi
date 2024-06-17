@@ -6,7 +6,8 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Avatar, Flex, Text, Touchable, UserStatus } from '@components'
+import { Name } from '@_'
 import { _, rakuenStore } from '@stores'
 import { correctAgo, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
@@ -16,7 +17,10 @@ import Comment from '../comment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ title, href, replies, userName, tip = '', time }, { $, navigation }: Ctx) {
+function Item(
+  { title, href, replies, userName, tip = '', tipHref = '', time },
+  { $, navigation }: Ctx
+) {
   const styles = memoStyles()
   const topicId = href.replace('/group/topic/', 'group/') as TopicId
   const readed = $.readed(topicId)
@@ -31,44 +35,62 @@ function Item({ title, href, replies, userName, tip = '', time }, { $, navigatio
     }
   }
 
+  const avatar = $.avatar(topicId)
+  const userId = tipHref.split('/user/')?.[1]
+
   return (
     <>
-      <Touchable
-        style={styles.item}
-        animate
-        onPress={() => {
-          // 记录帖子查看历史详情
-          rakuenStore.updateTopicReaded(topicId, Number(replies))
+      <Flex style={styles.item} align='start'>
+        {!!avatar && (
+          <View style={styles.avatar}>
+            <UserStatus userId={userId}>
+              <Avatar navigation={navigation} src={avatar} userId={userId} />
+            </UserStatus>
+          </View>
+        )}
+        <Flex.Item>
+          <Touchable
+            animate
+            onPress={() => {
+              // 记录帖子查看历史详情
+              rakuenStore.updateTopicReaded(topicId, Number(replies))
 
-          navigation.push('Topic', {
-            topicId,
-            _title: title,
-            _replies: `+${replies}`,
-            _time: time
-          })
-        }}
-      >
-        <View style={styles.wrap}>
-          <Text size={15} bold>
-            {HTMLDecode(title)}
-            <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={15}>
-              {' '}
-              {replyText}
-            </Text>
-            {!!replyAdd && (
-              <Text type='main' size={11} lineHeight={15}>
-                {' '}
-                {replyAdd}
+              navigation.push('Topic', {
+                topicId,
+                _title: title,
+                _replies: `+${replies}`,
+                _time: time
+              })
+            }}
+          >
+            <View style={styles.wrap}>
+              <Text size={15} bold>
+                {HTMLDecode(title)}
+                <Text type={isReaded ? 'sub' : 'main'} size={11} lineHeight={15}>
+                  {' '}
+                  {replyText}
+                </Text>
+                {!!replyAdd && (
+                  <Text type='main' size={11} lineHeight={15}>
+                    {' '}
+                    {replyAdd}
+                  </Text>
+                )}
               </Text>
-            )}
-          </Text>
-          <Flex style={_.mt.sm}>
-            <Text type='sub' size={11}>
-              最后回复 {correctAgo(time)} / {tip} / {userName}
-            </Text>
-          </Flex>
-        </View>
-      </Touchable>
+              <Flex style={_.mt.xs}>
+                <Text type='sub' size={11} lineHeight={12}>
+                  最后回复 {correctAgo(time)} /{' '}
+                  <Name userId={userId} type='sub' size={11} lineHeight={12} showFriend>
+                    {tip}
+                  </Name>{' '}
+                  / {userName}
+                </Text>
+              </Flex>
+            </View>
+          </Touchable>
+        </Flex.Item>
+      </Flex>
+
       <Comment topicId={topicId} />
     </>
   )

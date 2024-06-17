@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Name } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -51,9 +51,15 @@ function Item(
         <Flex.Item>
           <Flex style={styles.item} align='start'>
             <Flex.Item>
-              <Text bold>{title === 'undefined' ? '(此帖子已删除)' : title}</Text>
-              <Text style={_.mt.sm} type='sub' size={11}>
-                {desc}
+              <Text size={15} bold>
+                {title === 'undefined' ? '(此帖子已删除)' : title}
+              </Text>
+              <Text style={_.mt.xs} type='sub' size={11} lineHeight={12}>
+                {time.split(' ')?.[1]} /{' '}
+                <Name userId={userId} type='sub' size={11} lineHeight={12} showFriend>
+                  {userName}
+                </Name>{' '}
+                / {group}
               </Text>
             </Flex.Item>
             {$.isFavor(topicId) && (

@@ -166,14 +166,16 @@ export function cheerioGroup(html: string) {
       const $tr = cheerio(element)
       const $title = $tr.find('.subject > a')
       const $user = $tr.find('.author > a')
+      const $tip = $tr.find('a.tip_j')
       return {
-        href: $title.attr('href'),
+        href: $title.attr('href') || '',
         title: $title.attr('title'),
-        userId: $user.attr('href').replace('/user/', ''),
+        userId: ($user.attr('href') || '').replace('/user/', ''),
         userName: HTMLDecode($user.text().trim()),
         replies: $tr.find('.posts').text().trim(),
         time: $tr.find('.time').text().trim(),
-        tip: $tr.find('.tip_j').text().trim()
+        tip: $tip.text().trim(),
+        tipHref: $tip.attr('href') || ''
       }
     })
     .get()

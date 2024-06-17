@@ -61,7 +61,7 @@ export const lg = isPad ? 40 : 32
 export const space = isPad ? 24 : 20
 
 /** 文字行高自动放大比例 */
-export const lineHeightRatio = 1.28
+export const lineHeightRatio = 1.32
 
 // -------------------- 圆角 --------------------
 /** 圆角超小 */

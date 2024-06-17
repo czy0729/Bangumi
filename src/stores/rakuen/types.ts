@@ -196,6 +196,7 @@ export type Group = {
     replies: string
     time: string
     tip?: string
+    tipHref?: string
   }[]
   _loaded: number
 }

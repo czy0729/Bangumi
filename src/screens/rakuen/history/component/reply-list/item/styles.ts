@@ -13,5 +13,9 @@ export const memoStyles = _.memoStyles(() => ({
   wrap: {
     paddingVertical: _.md,
     paddingRight: _.wind
+  },
+  avatar: {
+    marginTop: _.md,
+    marginRight: 12
   }
 }))

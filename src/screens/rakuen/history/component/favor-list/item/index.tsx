@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Loading, Text, Touchable, UserStatus } from '@components'
-import { Avatar } from '@_'
+import { Avatar, Name } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
@@ -28,9 +28,6 @@ function Item({ item: topicId }, { $, navigation }: Ctx) {
   }
 
   const { userId, avatar, userName, title, group, time } = topic
-  const desc = [time.includes('首播') ? time : simpleTime(time), userName, group]
-    .filter(item => !!item)
-    .join(' / ')
   return (
     <Touchable
       animate
@@ -64,9 +61,21 @@ function Item({ item: topicId }, { $, navigation }: Ctx) {
               <Text style={styles.title} bold>
                 {title === 'undefined' ? '(此帖子已删除)' : title}
               </Text>
-              <Text style={_.mt.xs} type='sub' size={11} lineHeight={12}>
-                {desc}
-              </Text>
+              {$.state.type === '小组' ? (
+                <Text style={_.mt.xs} type='sub' size={11} lineHeight={12}>
+                  {time.includes('首播') ? time : simpleTime(time)} /{' '}
+                  <Name userId={userId} type='sub' size={11} lineHeight={12} showFriend>
+                    {userName}
+                  </Name>{' '}
+                  / {group}
+                </Text>
+              ) : (
+                <Text style={_.mt.xs} type='sub' size={11} lineHeight={12}>
+                  {[time.includes('首播') ? time : simpleTime(time), userName, group]
+                    .filter(item => !!item)
+                    .join(' / ')}
+                </Text>
+              )}
             </Flex.Item>
             {$.isFavor(topicId) && (
               <Iconfont style={styles.favor} size={16} name='md-star' color={_.colorYellow} />

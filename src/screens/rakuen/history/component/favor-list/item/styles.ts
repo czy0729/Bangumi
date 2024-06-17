@@ -27,6 +27,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: 6
   },
   favor: {
-    marginLeft: _.sm
+    marginTop: 6,
+    marginLeft: _.md
   }
 }))

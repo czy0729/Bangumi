@@ -10,6 +10,7 @@ import { systemStore, usersStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { IOS } from '@constants'
 import { VerticalAlign } from '../vertical-align'
 import VerticalAlignWithRemoveSpec from './vertical-align-with-remove-spec'
 import { COMPONENT } from './ds'
@@ -67,7 +68,7 @@ export const Name = ({
       ...other
     }
 
-    if (typeof text === 'string') {
+    if (typeof text === 'string' && !IOS) {
       if (showRight) {
         return (
           <Component id='base-name'>
