@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 13:36:33
+ * @Last Modified time: 2024-06-20 20:34:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,6 +19,7 @@ import {
   usersStore,
   userStore
 } from '@stores'
+import { ON_AIR } from '@stores/calendar/onair'
 import {
   asc,
   desc,
@@ -405,13 +406,55 @@ export default class Computed extends State {
 
   /** 第三方动画标签 */
   @computed get animeTags() {
-    if (!this.animeInfo) return null
+    const calendarInfo = ON_AIR[this.subjectId]
+    if (!this.animeInfo && !calendarInfo) return null
 
+    let animeInfoTags: string[]
     if (isArray(this.animeInfo?.t)) {
-      return this.animeInfo.t.map(item => ANIME_TAGS[item]).filter(item => !!item)
+      animeInfoTags = this.animeInfo.t.map(item => ANIME_TAGS[item]).filter(item => !!item)
+    }
+    if (!animeInfoTags && !calendarInfo) return null
+
+    const tags = []
+    let exist = {}
+    if (animeInfoTags) {
+      animeInfoTags.forEach(item => {
+        tags.push({
+          pressable: true,
+          value: item
+        })
+        exist[item] = true
+      })
     }
 
-    return []
+    if (calendarInfo) {
+      if (!exist[calendarInfo.type]) {
+        tags.push({
+          pressable: false,
+          value: calendarInfo.type
+        })
+      }
+
+      calendarInfo.origin.split('/').forEach((item: string) => {
+        if (!exist[item]) {
+          tags.push({
+            pressable: false,
+            value: item
+          })
+        }
+      })
+
+      calendarInfo.tag.split('/').forEach((item: string) => {
+        if (!exist[item]) {
+          tags.push({
+            pressable: false,
+            value: item
+          })
+        }
+      })
+    }
+
+    return tags
   }
 
   /** 第三方 Hentai 标签 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 01:56:47
+ * @Last Modified time: 2024-06-20 20:42:47
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -154,7 +154,9 @@ const Tags = memo(
           <>
             {subjectTagsExpand ? (
               <View style={_.container.windMtSm}>
-                <Flex wrap='wrap'>{elTags}</Flex>
+                <Flex wrap='wrap' align='start'>
+                  {elTags}
+                </Flex>
                 <Heatmap id='条目.跳转' from={TITLE_TAGS} />
               </View>
             ) : (
