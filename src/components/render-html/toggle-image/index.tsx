@@ -31,11 +31,11 @@ class ToggleImage extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    const { src } = this.props
-    const size = await getSize(src as string)
+    const size = await getSize(this.props.src as string)
     this.setState(
       {
-        size: size || ''
+        size: size || '',
+        loaded: Boolean(size)
       },
       () => {
         if (rakuenStore.setting.autoLoadImage && size <= 2000) {
@@ -48,9 +48,8 @@ class ToggleImage extends React.Component<Props, State> {
   }
 
   toggleShow = () => {
-    const { show } = this.state
     this.setState({
-      show: !show
+      show: !this.state.show
     })
   }
 
@@ -63,97 +62,90 @@ class ToggleImage extends React.Component<Props, State> {
   get src() {
     const { src } = this.props
     if (typeof src !== 'string') return src
+
     return src.replace(/ /g, '%20')
+  }
+
+  get isRemote() {
+    return typeof this.src === 'string'
   }
 
   get isIcon() {
     if (typeof this.src !== 'string') return false
 
-    if (this.src.includes('https://static.saraba1st.com/image/smiley/')) {
-      return true
-    }
+    if (this.src.includes('https://static.saraba1st.com/image/smiley/')) return true
 
     const { size } = this.state
-    if (typeof size === 'number' && size <= 10) return true
+    if (typeof size === 'number' && size <= 2) return true
+  }
+
+  get ext() {
+    let ext = ''
+    if (this.isRemote) {
+      ext = (this.src as string).includes('.jpg')
+        ? 'jpg'
+        : (this.src as string).includes('.png')
+        ? 'png'
+        : (this.src as string).includes('.gif')
+        ? 'gif'
+        : 'img'
+    }
+    return ext
+  }
+
+  get info() {
+    const text = []
+    if (this.ext) text.push(this.ext)
+
+    const { size } = this.state
+    if (typeof size === 'number' && size === 0) {
+      text.push('获取大小失败')
+    } else if (size) {
+      text.push(`${size}kb`)
+    }
+
+    return text.join('·')
+  }
+
+  get autoSize() {
+    let autoSize: number | boolean
+    if (typeof this.props.autoSize === 'number' && this.props.autoSize) {
+      autoSize = this.props.autoSize - _.sm
+    }
+    return autoSize
   }
 
   render() {
-    // RN 不使用第三方 link 包暂时不支持 webp, 暂时使用浏览器跳转
-    // const { onImageFallback } = this.props
-    const { show, loaded, size } = this.state
-
-    if (!this.isIcon) {
-      const isRemote = typeof this.src === 'string'
-      // if (isRemote && !IOS && (this.src as string).includes('.webp')) {
-      //   return (
-      //     <Touchable style={this.styles.image} onPress={onImageFallback}>
-      //       <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
-      //         <Text size={10} type='sub'>
-      //           框架暂不支持 webp, 使用浏览器打开
-      //         </Text>
-      //         {isRemote && (
-      //           <Text style={this.styles.textSrc} size={10} type='sub' selectable numberOfLines={1}>
-      //             {this.src as string}
-      //           </Text>
-      //         )}
-      //       </Flex>
-      //     </Touchable>
-      //   )
-      // }
-
-      let ext = ''
-      if (isRemote) {
-        ext = (this.src as string).includes('.jpg')
-          ? 'jpg'
-          : (this.src as string).includes('.png')
-          ? 'png'
-          : (this.src as string).includes('.gif')
-          ? 'gif'
-          : 'img'
-      }
-
-      if (!show) {
-        const text = []
-        if (ext) text.push(ext)
-        if (typeof size === 'number' && size === 0) {
-          text.push('获取大小失败')
-        } else if (size) {
-          text.push(`${size}kb`)
-        }
-        return (
-          <Touchable
-            style={stl(this.styles.image, this.styles.isLoad)}
-            onPress={this.toggleShow}
-            onLongPress={() => open(this.src as string)}
-          >
-            <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
-              <Text size={11} type='sub' bold>
-                {text.join('·')}
+    const { show } = this.state
+    if (!this.isIcon && !show) {
+      return (
+        <Touchable
+          style={stl(this.styles.image, this.styles.isLoad)}
+          onPress={this.toggleShow}
+          onLongPress={() => open(this.src as string)}
+        >
+          <Flex style={this.styles.imagePlaceholder} direction='column' justify='center'>
+            <Text size={11} type='sub' bold>
+              {this.info}
+            </Text>
+            {this.isRemote && (
+              <Text
+                style={this.styles.textSrc}
+                size={9}
+                lineHeight={10}
+                type='sub'
+                align='center'
+                numberOfLines={2}
+              >
+                {this.src as string}
               </Text>
-              {isRemote && (
-                <Text
-                  style={this.styles.textSrc}
-                  size={9}
-                  lineHeight={10}
-                  type='sub'
-                  align='center'
-                  // selectable
-                  numberOfLines={2}
-                >
-                  {this.src as string}
-                </Text>
-              )}
-            </Flex>
-          </Touchable>
-        )
-      }
+            )}
+          </Flex>
+        </Touchable>
+      )
     }
 
-    let _autoSize: number | boolean
-    if (typeof this.props.autoSize === 'number' && this.props.autoSize) {
-      _autoSize = this.props.autoSize - _.sm
-    }
-
+    const { loaded } = this.state
     return (
       <View style={this.styles.image}>
         <Flex style={stl(!loaded && this.styles.isLoad)} justify={this.isIcon ? 'start' : 'center'}>
@@ -161,7 +153,7 @@ class ToggleImage extends React.Component<Props, State> {
             <View style={this.styles.remoteImage}>
               <Image
                 {...this.props}
-                autoSize={_autoSize}
+                autoSize={this.autoSize}
                 radius={_.radiusXs}
                 fallback
                 withoutFeedback

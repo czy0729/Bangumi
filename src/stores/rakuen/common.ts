@@ -338,7 +338,7 @@ export function cheerioBlog(html: string) {
   let blogComments = []
 
   try {
-    const $ = cheerio(html)
+    const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="footer">'))
     const titleText = $('#pageHeader > h1').text() || ''
     let title: string
     if (titleText.includes(' » ')) {
