@@ -6,6 +6,7 @@
  */
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, usersStore, userStore } from '@stores'
+import { HTMLDecode } from '@utils'
 import State from './state'
 import { NAMESPACE } from './ds'
 
@@ -77,7 +78,7 @@ export default class Computed extends State {
 
   // -------------------- cdn fallback --------------------
   @computed get title() {
-    return this.blog.title || this.params._title || ''
+    return HTMLDecode(this.blog.title || this.params._title || '')
   }
 
   @computed get time() {

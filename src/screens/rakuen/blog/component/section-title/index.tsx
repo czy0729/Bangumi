@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Text } from '@components'
-import { SectionTitle as CompSectionTitle } from '@_'
+import { SectionTitle as SectionTitleComp } from '@_'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -22,14 +22,14 @@ function SectionTitle(props, { $ }: Ctx) {
   })
 
   return (
-    <CompSectionTitle style={styles.title}>
+    <SectionTitleComp style={styles.title}>
       吐槽{' '}
       {commentsCount !== 0 && (
         <Text size={12} type='sub' lineHeight={24}>
           {commentsCount}
         </Text>
       )}
-    </CompSectionTitle>
+    </SectionTitleComp>
   )
 }
 

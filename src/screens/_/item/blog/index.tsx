@@ -81,18 +81,18 @@ export const ItemBlog = obc(
               </Text>
               {!!line.length && (
                 <View style={_.mt.xs}>
-                  <Katakana.Provider size={11} bold>
-                    <Katakana type='sub' size={11} bold>
+                  <Katakana.Provider size={12} bold>
+                    <Katakana type='sub' size={12} bold>
                       {line.join(' · ')}
                     </Katakana>
                   </Katakana.Provider>
                 </View>
               )}
-              <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={4}>
+              <Text style={_.mt.sm} size={14} lineHeight={15} numberOfLines={5}>
                 {HTMLDecode(content)}
               </Text>
               {!!tags.length && (
-                <Flex style={_.mt.sm}>
+                <Flex style={_.mt.md}>
                   <Flex.Item />
                   <Text style={styles.tags} size={13}>
                     tags: {typeof tags === 'string' ? tags : tags.join(' ')}

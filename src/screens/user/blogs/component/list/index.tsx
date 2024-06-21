@@ -7,7 +7,8 @@
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
 import { ItemBlog } from '@_'
-import { keyExtractor } from '@utils/app'
+import { _ } from '@stores'
+import { keyExtractor } from '@utils'
 import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
@@ -25,6 +26,7 @@ function List(props, { $, navigation }: Ctx) {
   return useObserver(() => (
     <ListView
       keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
       data={$.blogs}
       scrollToTop
       renderItem={renderItem}

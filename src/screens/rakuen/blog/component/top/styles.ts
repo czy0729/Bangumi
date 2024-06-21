@@ -25,5 +25,10 @@ export const styles = _.create({
   },
   loading: {
     height: 240
+  },
+  title: {
+    paddingLeft: _.wind,
+    marginTop: _.md,
+    marginBottom: _.md
   }
 })

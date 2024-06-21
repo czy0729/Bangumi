@@ -16,7 +16,7 @@ import {
   UserStatus
 } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Avatar, HorizontalList } from '@_'
+import { Avatar, HorizontalList, Name } from '@_'
 import { _ } from '@stores'
 import { appNavigate, simpleTime } from '@utils'
 import { obc } from '@utils/decorators'
@@ -56,7 +56,7 @@ function Top(props, { $, navigation }: Ctx) {
           {$.title}
           {!!$.time && (
             <Text type='sub' size={13} lineHeight={20}>
-              {' '}
+              {'  '}
               {simpleTime($.time)}
             </Text>
           )}
@@ -76,9 +76,11 @@ function Top(props, { $, navigation }: Ctx) {
           )}
           {!!$.userId && (
             <Flex.Item style={_.ml.sm}>
-              <Text numberOfLines={2}>
+              <Name userId={$.userId} numberOfLines={1} bold>
                 {$.userName}
-                <Text type='sub'> @{$.userId}</Text>
+              </Name>
+              <Text style={_.mt.xs} type='sub' size={12}>
+                @{$.userId}
               </Text>
             </Flex.Item>
           )}
@@ -95,26 +97,30 @@ function Top(props, { $, navigation }: Ctx) {
       </View>
       <Divider />
       {!!related.length && (
-        <HorizontalList
-          style={_.mt.sm}
-          data={related}
-          width={width}
-          height={106}
-          findCn
-          onPress={({ id, name, image }) => {
-            t('日志.跳转', {
-              to: 'Subject',
-              from: '关联条目',
-              subjectId: id
-            })
+        <>
+          <Text style={styles.title} type='title' size={20} bold>
+            关联条目
+          </Text>
+          <HorizontalList
+            data={related}
+            width={width}
+            height={106}
+            findCn
+            onPress={({ id, name, image }) => {
+              t('日志.跳转', {
+                to: 'Subject',
+                from: '关联条目',
+                subjectId: id
+              })
 
-            navigation.push('Subject', {
-              subjectId: id,
-              _jp: name,
-              _image: getCoverSrc(image, width)
-            })
-          }}
-        />
+              navigation.push('Subject', {
+                subjectId: id,
+                _jp: name,
+                _image: getCoverSrc(image, width)
+              })
+            }}
+          />
+        </>
       )}
       <SectionTitle />
     </>
