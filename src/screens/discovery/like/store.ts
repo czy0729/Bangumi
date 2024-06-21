@@ -191,7 +191,7 @@ export default class ScreenLike extends store<typeof STATE> {
         return {
           id: item.subject_id,
           name: HTMLDecode(item.subject.name_cn || item.subject.name),
-          image: item.subject.images.large.split('/l/')?.[1].split('.jpg')?.[0] || '',
+          image: item.subject.images?.large?.split('/l/')?.[1]?.split('.jpg')?.[0] || '',
           rank: item.subject.rank || 0,
           score: item.subject.score || 0,
           rate: item.rate || 0,
