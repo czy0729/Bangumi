@@ -29,6 +29,7 @@ import { styles } from './styles'
 const Item = memo(
   ({ index, title, subjectId, type, image, name, name_cn, time, doing, epStatus }) => {
     const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+    const isGame = typeCn === '游戏' || title === '游戏'
     const isFirst = index === 0
     return (
       <Container subjectId={subjectId}>
@@ -82,7 +83,7 @@ const Item = memo(
                   isFirst={isFirst}
                 />
               </ContentContainer>
-              {title === '游戏' ? (
+              {isGame ? (
                 <Time value={time} />
               ) : (
                 <Progress subjectId={subjectId} epStatus={epStatus} />
