@@ -1,45 +1,21 @@
 /*
  * @Author: czy0729
- * @Date: 2023-05-24 11:13:26
+ * @Date: 2024-06-22 05:14:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 19:57:28
+ * @Last Modified time: 2024-06-22 05:22:45
  */
-import { computed, observable } from 'mobx'
-import { subjectStore, userStore } from '@stores'
-import { desc, getTimestamp, info, pick, updateVisibleBottom } from '@utils'
+import { desc, getTimestamp, info, pick } from '@utils'
 import { t } from '@utils/fetch'
 import { gets } from '@utils/kv'
-import store from '@utils/store'
 import axios from '@utils/thirdParty/axios'
 import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
-import { SubjectId, SubjectTypeValue } from '@types'
-import { EXCLUDE_STATE, HOST_REC, NAMESPACE, STATE } from './ds'
+import { SubjectTypeValue } from '@types'
+import Computed from './computed'
+import { HOST_REC, NAMESPACE } from './ds'
 
-export default class ScreenRecommend extends store<typeof STATE> {
-  state = observable(STATE)
-
-  init = async () => {
-    const state = await this.getStorage(NAMESPACE)
-    this.setState({
-      ...state,
-      ...EXCLUDE_STATE,
-      _loaded: true
-    })
-
-    if (!STORYBOOK) {
-      if (!this.state.value && userStore.myId) {
-        this.setState({
-          value: String(userStore.myId)
-        })
-      }
-
-      await this.fetchSubjects()
-    }
-    this.fetchSubjectsFromOSS()
-  }
-
+export default class Fetch extends Computed {
+  /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
   fetchSubjects = async () => {
-    // 这个接口太慢了, 而且不太依赖, 暂时屏蔽
     return true
 
     // const ids = [...this.ids]
@@ -62,6 +38,7 @@ export default class ScreenRecommend extends store<typeof STATE> {
     // return queue(fetchs)
   }
 
+  /** 从云端快照加载条目基本数据 */
   fetchSubjectsFromOSS = async () => {
     const ids = [...this.ids]
     if (!ids.length) return true
@@ -148,113 +125,7 @@ export default class ScreenRecommend extends store<typeof STATE> {
     } catch (error) {}
   }
 
-  // -------------------- get --------------------
-  @computed get ids() {
-    const ids: SubjectId[] = []
-    const { cat } = this.state
-    if (cat === 'v1') {
-      const { data } = this.state
-      ;['top', 'pop', 'tv', 'old_tv', 'movie', 'old_movie', 'nsfw'].forEach(key => {
-        data[key].forEach((id: SubjectId) => {
-          ids.push(id)
-        })
-      })
-    } else {
-      const data = this.state.dataV2[cat] || []
-      data.forEach(item => ids.push(item.sid))
-    }
-
-    return ids
-  }
-
-  subject(id: SubjectId) {
-    return computed(() => {
-      return subjectStore.subjectV2(id)
-    }).get()
-  }
-
-  subjectOSS(id: SubjectId) {
-    return computed(() => {
-      return this.state.subjects[`subject_${id}`] || {}
-    }).get()
-  }
-
-  // -------------------- page --------------------
-  onChange = ({ nativeEvent }) => {
-    const { text } = nativeEvent
-    this.setState({
-      value: text
-    })
-  }
-
-  onChangeE = ({ nativeEvent }) => {
-    const { text } = nativeEvent
-    this.setState({
-      e: text
-    })
-  }
-
-  onSelect = (cat: string) => {
-    setTimeout(async () => {
-      this.setState({
-        cat
-      })
-
-      await this.doSearchV2()
-
-      if (!STORYBOOK) await this.fetchSubjects()
-      await this.fetchSubjectsFromOSS()
-      this.setStorage(NAMESPACE)
-    }, 16)
-  }
-
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
-
-  // -------------------- action --------------------
-  doSearch = async () => {
-    try {
-      const { value } = this.state
-      if (!value) return
-
-      this.setState({
-        searching: true
-      })
-
-      // @ts-expect-error
-      const { data } = await axios({
-        method: 'get',
-        url: `http://101.43.236.40/api/rec/${value.trim()}`
-      })
-
-      t('推荐.刷新', {
-        value: value.trim(),
-        type: 'v1'
-      })
-
-      if ('tv' in data) {
-        data.old_tv = data.old_tv || data['old tv']
-        delete data['old tv']
-
-        data.old_movie = data.old_movie || data['old movie']
-        delete data['old movie']
-
-        this.setState({
-          data
-        })
-        if (!STORYBOOK) await this.fetchSubjects()
-        await this.fetchSubjectsFromOSS()
-        this.setStorage(NAMESPACE)
-      }
-    } catch (ex) {
-      console.log(ex)
-    }
-
-    this.setState({
-      searching: false
-    })
-  }
-
+  /** 查询 AI 推荐结果 */
   doSearchV2 = async () => {
     try {
       const { cat, value } = this.state
@@ -267,6 +138,8 @@ export default class ScreenRecommend extends store<typeof STATE> {
       })
 
       const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(cat)
+
+      console.log(`${HOST_REC}/api/v4/rec/${value.trim()}`)
 
       // @ts-expect-error
       let { data } = await axios({
@@ -320,6 +193,7 @@ export default class ScreenRecommend extends store<typeof STATE> {
         info(data.message)
       }
     } catch (ex) {
+      console.log(ex)
       info('获取出错，请重试')
     }
 
