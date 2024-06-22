@@ -7,9 +7,9 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { Avatar } from '@_'
-import { _ } from '@stores'
-import { correctAgo, HTMLDecode } from '@utils'
+import { Avatar, Name } from '@_'
+import { _, rakuenStore } from '@stores'
+import { correctAgo, getIsBlockUser, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -19,6 +19,8 @@ function Item(
   { id, title, replies, time, content, avatar, userId, userName },
   { navigation }: Ctx
 ) {
+  if (getIsBlockUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
+
   const styles = memoStyles()
   return (
     <Touchable
@@ -46,9 +48,9 @@ function Item(
           </Text>
           <Text style={_.mt.sm} type='sub' size={12}>
             {correctAgo(time)} /{' '}
-            <Text type='sub' size={12} bold>
+            <Name userId={userId} showFriend type='sub' size={12} bold>
               {userName}
-            </Text>
+            </Name>
           </Text>
           <Text style={_.mt.sm} size={13} lineHeight={15} numberOfLines={4}>
             {content}
