@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 18:15:37
+ * @Last Modified time: 2024-06-22 16:31:07
  */
 import { collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { ApiSubjectResponse } from '@stores/subject/types'
@@ -139,8 +139,9 @@ class ScreenSubject extends Action {
 
           // NSFW 条目若从 v0 接口中返回了条目信息, 是没有日志短列表信息的
           // 需要从单独的对应子页面里面获取一页信息
-          if ((data as ApiSubjectResponse)?.v0)
-            return rakuenStore.fetchReviews({ subjectId: this.subjectId })
+          if ((data as ApiSubjectResponse)?.v0) {
+            return rakuenStore.fetchReviews(this.subjectId, true)
+          }
         },
         () => {
           if (!this.state.mounted) return

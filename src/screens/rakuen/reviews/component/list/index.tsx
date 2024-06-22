@@ -2,21 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 01:01:09
+ * @Last Modified time: 2024-06-22 17:56:53
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Flex, Heatmap, Mesume, ScrollView, Text, Touchable } from '@components'
-import { Avatar } from '@_'
+import { Flex, ListView, Mesume, Text } from '@components'
 import { _ } from '@stores'
-import { correctAgo, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
 function List(props, { $, navigation }: Ctx) {
-  const styles = memoStyles()
   const { list, _loaded } = $.reviews
   if (_loaded && !list.length) {
     return (
@@ -30,44 +27,14 @@ function List(props, { $, navigation }: Ctx) {
   }
 
   return (
-    <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
-      {list.map(({ id, title, replies, time, avatar, userId, userName }, index) => (
-        <Touchable
-          key={id}
-          style={styles.item}
-          animate
-          onPress={() => {
-            navigation.push('Blog', {
-              blogId: id
-            })
-          }}
-        >
-          <Flex style={styles.wrap} align='start'>
-            <View style={_.mr.sm}>
-              <Avatar navigation={navigation} userId={userId} name={userName} src={avatar} />
-            </View>
-            <Flex.Item>
-              <Text size={15}>
-                {HTMLDecode(title)}
-                {replies !== '+0' && (
-                  <Text type='main' size={12} lineHeight={15} bold>
-                    {' '}
-                    {replies}
-                  </Text>
-                )}
-              </Text>
-              <Text style={_.mt.xs} type='sub' size={12}>
-                {correctAgo(time)} /{' '}
-                <Text size={12} bold>
-                  {userName}
-                </Text>
-              </Text>
-              {!index && <Heatmap id='讨论版.跳转' />}
-            </Flex.Item>
-          </Flex>
-        </Touchable>
-      ))}
-    </ScrollView>
+    <ListView
+      keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
+      data={$.reviews}
+      renderItem={renderItem}
+      onHeaderRefresh={$.onHeaderRefresh}
+      onFooterRefresh={$.fetchReviews}
+    />
   )
 }
 

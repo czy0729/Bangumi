@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:18:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 01:01:30
+ * @Last Modified time: 2024-06-22 16:45:04
  */
 import React from 'react'
-import { Component, Page, ScrollView } from '@components'
-import { _ } from '@stores'
+import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import List from './component/list'
@@ -24,9 +23,7 @@ const Reviews = (props, { $ }: Ctx) => {
     <Component id='screen-reviews'>
       <Header />
       <Page loaded={$.reviews._loaded}>
-        <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
-          <List />
-        </ScrollView>
+        <List />
       </Page>
     </Component>
   ))

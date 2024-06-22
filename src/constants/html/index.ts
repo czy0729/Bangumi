@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 19:52:02
+ * @Last Modified time: 2024-06-22 15:59:56
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, TopicType, UserId } from '@types'
@@ -445,7 +445,8 @@ export const HTML_ACTION_CATALOG_MODIFY_SUBJECT = (itemId: Id) =>
 export const HTML_BOARD = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/board`
 
 /** 条目影评 */
-export const HTML_REVIEWS = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/reviews`
+export const HTML_REVIEWS = (subjectId: SubjectId, page: number = 1) =>
+  `${HOST}/subject/${subjectId}/reviews/${page}.html`
 
 /** 条目修订历史 */
 export const HTML_SUBJECT_WIKI_EDIT = (subjectId: SubjectId) => `${HOST}/subject/${subjectId}/edit`

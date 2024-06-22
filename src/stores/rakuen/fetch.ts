@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 17:48:04
+ * @Last Modified time: 2024-06-22 17:59:36
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -348,10 +348,11 @@ export default class Fetch extends Computed {
   }
 
   /** 条目影评列表 (日志) */
-  fetchReviews = async (args: { subjectId: SubjectId }) => {
-    const { subjectId } = args || {}
+  fetchReviews = async (subjectId: SubjectId, refresh: boolean = false) => {
+    const { pagination, list } = this.reviews(subjectId)
+    const page = refresh ? 1 : pagination.page + 1
     const html = await fetchHTML({
-      url: HTML_REVIEWS(subjectId)
+      url: HTML_REVIEWS(subjectId, page)
     })
 
     const data = cheerioReviews(html)
@@ -359,7 +360,11 @@ export default class Fetch extends Computed {
     this.setState({
       [key]: {
         [subjectId]: {
-          list: data || [],
+          list: refresh ? data : [...list, ...data],
+          pagination: {
+            page,
+            pageTotal: data.length >= 10 ? 100 : page
+          },
           _loaded: getTimestamp()
         }
       }
