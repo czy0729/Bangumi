@@ -7,8 +7,8 @@
 import React from 'react'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, SectionTitle } from '@_'
-import { _ } from '@stores'
-import { stl } from '@utils'
+import { _, rakuenStore } from '@stores'
+import { getIsBlockUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import { TITLE_BLOG } from '../../ds'
@@ -32,28 +32,39 @@ const Blog = memo(
         {showBlog && (
           <>
             <Expand key={blog?.length} style={_.mt.sm} onExpand={onExpand}>
-              {list.map(item => (
-                <ItemArticle
-                  key={item.id}
-                  style={styles.item}
-                  navigation={navigation}
-                  avatar={item.user.avatar.small}
-                  title={item.title}
-                  summary={item.summary.replace(/\r\n/g, '').trim()}
-                  nickname={item.user.nickname}
-                  userId={item.user.username}
-                  timestamp={item.timestamp}
-                  replies={item.replies}
-                  url={item.url}
-                  event={{
-                    id: '条目.跳转',
-                    data: {
-                      from: '评论',
-                      subjectId
-                    }
-                  }}
-                />
-              ))}
+              {list.map(item => {
+                const { nickname, username } = item.user
+                const flag = getIsBlockUser(
+                  rakuenStore.blockUserIds,
+                  nickname,
+                  username,
+                  `Subject|Blog|${subjectId}|${item.id}`
+                )
+                if (flag) return null
+
+                return (
+                  <ItemArticle
+                    key={item.id}
+                    style={styles.item}
+                    navigation={navigation}
+                    avatar={item.user.avatar.small}
+                    title={item.title}
+                    summary={item.summary.replace(/\r\n/g, '').trim()}
+                    nickname={nickname}
+                    userId={username}
+                    timestamp={item.timestamp}
+                    replies={item.replies}
+                    url={item.url}
+                    event={{
+                      id: '条目.跳转',
+                      data: {
+                        from: '评论',
+                        subjectId
+                      }
+                    }}
+                  />
+                )
+              })}
             </Expand>
             <Heatmap id='条目.跳转' from='评论' />
           </>

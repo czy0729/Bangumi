@@ -7,8 +7,8 @@
 import React from 'react'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, SectionTitle } from '@_'
-import { _ } from '@stores'
-import { stl } from '@utils'
+import { _, rakuenStore } from '@stores'
+import { getIsBlockUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import { TITLE_TOPIC } from '../../ds'
@@ -32,27 +32,38 @@ const Topic = memo(
         {showTopic && (
           <>
             <Expand key={topic?.length} style={_.mt.sm} onExpand={onExpand}>
-              {list.map(item => (
-                <ItemArticle
-                  key={item.id}
-                  style={styles.item}
-                  navigation={navigation}
-                  avatar={item.user.avatar.small}
-                  title={item.title}
-                  nickname={item.user.nickname}
-                  userId={item.user.username}
-                  timestamp={item.timestamp}
-                  replies={item.replies}
-                  url={item.url}
-                  event={{
-                    id: '条目.跳转',
-                    data: {
-                      from: '讨论版',
-                      subjectId
-                    }
-                  }}
-                />
-              ))}
+              {list.map(item => {
+                const { nickname, username } = item.user
+                const flag = getIsBlockUser(
+                  rakuenStore.blockUserIds,
+                  nickname,
+                  username,
+                  `Subject|Topic|${subjectId}|${item.id}`
+                )
+                if (flag) return null
+
+                return (
+                  <ItemArticle
+                    key={item.id}
+                    style={styles.item}
+                    navigation={navigation}
+                    avatar={item.user.avatar.small}
+                    title={item.title}
+                    nickname={nickname}
+                    userId={username}
+                    timestamp={item.timestamp}
+                    replies={item.replies}
+                    url={item.url}
+                    event={{
+                      id: '条目.跳转',
+                      data: {
+                        from: '讨论版',
+                        subjectId
+                      }
+                    }}
+                  />
+                )
+              })}
             </Expand>
             <Heatmap id='条目.跳转' from='讨论版' />
           </>
