@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 11:42:44
+ * @Last Modified time: 2024-06-23 21:18:20
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -426,6 +426,9 @@ export const ManageModal = ob(
               onChangeText={this.onCommentChange}
             />
           </Flex.Item>
+          <Text style={this.styles.length} type='icon' size={13} lineHeight={14}>
+            {380 - comment.length}
+          </Text>
           {!comment && (
             <CommentHistory
               data={commentHistory}

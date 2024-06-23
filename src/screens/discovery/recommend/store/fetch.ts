@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:14:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 05:22:45
+ * @Last Modified time: 2024-06-23 21:06:39
  */
 import { desc, getTimestamp, info, pick } from '@utils'
 import { t } from '@utils/fetch'
@@ -131,15 +131,11 @@ export default class Fetch extends Computed {
       const { cat, value } = this.state
       if (!value) return
 
-      // if (cat === 'v1') return this.doSearch()
-
       this.setState({
         searching: true
       })
 
       const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(cat)
-
-      console.log(`${HOST_REC}/api/v4/rec/${value.trim()}`)
 
       // @ts-expect-error
       let { data } = await axios({
@@ -151,7 +147,7 @@ export default class Fetch extends Computed {
           // endDate: '2023-09-26T22:35:09.403Z',
           // startDate: '1899-12-31T15:54:17.000Z',
           popdays: 7,
-          strategy: 'pop',
+          strategy: 'p',
           tags: [[]],
           topk: 40,
           type: String(subjectType || 0),
@@ -193,7 +189,6 @@ export default class Fetch extends Computed {
         info(data.message)
       }
     } catch (ex) {
-      console.log(ex)
       info('获取出错，请重试')
     }
 
