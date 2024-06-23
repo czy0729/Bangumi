@@ -6,26 +6,20 @@
  */
 import { Id, UserId } from '@types'
 import { HOST_CDN } from '../constants'
-import { HOST_CDN_STATIC, VERSION_RAKUEN } from './ds'
 import { getFolder, getVersion } from './utils'
+import { HOST_CDN_STATIC, HOST_DOGE, VERSION_RAKUEN } from './ds'
 
 const HOST_RAKUEN = `${HOST_CDN}/gh/czy0729/Bangumi-Rakuen` as const
 
 /** 超展开小组 CDN 自维护数据 */
 export const CDN_RAKUEN = (topicId: Id, type: 'topic' | 'comment' = 'topic') => {
   const v = getVersion('VERSION_RAKUEN', VERSION_RAKUEN)
-  return `${HOST_RAKUEN}@${v}/data/${type}/${getFolder(
-    topicId
-  )}/${topicId}.json` as const
+  return `${HOST_RAKUEN}@${v}/data/${type}/${getFolder(topicId)}/${topicId}.json` as const
 }
 
 /** 某用户的超展开 */
 export const CDN_RAKUEN_USER_TOPICS = (userId: UserId) => {
-  const v = getVersion('VERSION_RAKUEN', VERSION_RAKUEN)
-  return `${HOST_RAKUEN}@${v}/data/user/${String(userId).slice(
-    0,
-    1
-  )}/${userId}.json` as const
+  return `${HOST_DOGE}/bangumi-rakuen/user/${String(userId).slice(0, 1)}/${userId}.json` as const
 }
 
 /** @deprecated */
@@ -38,8 +32,5 @@ export const _CDN_RAKUEN = (topicId: Id, type: 'topic' | 'comment' = 'topic') =>
 
 /** @deprecated 某用户的超展开 */
 export const _CDN_RAKUEN_USER_TOPICS = (userId: UserId) => {
-  return `${_HOST_STATIC}/data/user/${String(userId).slice(
-    0,
-    1
-  )}/${userId}.json` as const
+  return `${_HOST_STATIC}/data/user/${String(userId).slice(0, 1)}/${userId}.json` as const
 }
