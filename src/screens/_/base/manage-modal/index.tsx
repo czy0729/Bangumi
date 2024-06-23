@@ -426,9 +426,11 @@ export const ManageModal = ob(
               onChangeText={this.onCommentChange}
             />
           </Flex.Item>
-          <Text style={this.styles.length} type='icon' size={13} lineHeight={14}>
-            {380 - comment.length}
-          </Text>
+          {!!comment?.length && (
+            <Text style={this.styles.length} type='icon' size={13} lineHeight={14}>
+              {380 - (comment?.length || 0)}
+            </Text>
+          )}
           {!comment && (
             <CommentHistory
               data={commentHistory}
