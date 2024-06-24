@@ -40,6 +40,8 @@ function Extra({ userId, connectUserId, repeat }) {
   })
 
   return useObserver(() => {
+    if (usersStore.myFriendsMap[userId]) return null
+
     return (
       <Flex style={styles.extra} justify='end'>
         {connectUserId && connect !== false ? (
