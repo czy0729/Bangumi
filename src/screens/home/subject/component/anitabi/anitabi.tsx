@@ -29,7 +29,7 @@ const Anitabi = memo(
     const thumbs = list
       .filter(item => item.image)
       .map(item => ({
-        url: item.image.replace('h160', 'h360')
+        url: item?.image?.replace('h160', 'h360')
       }))
     return (
       <InView style={stl(styles.container, !showAnitabi && _.short)}>

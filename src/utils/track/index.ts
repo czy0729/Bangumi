@@ -100,11 +100,15 @@ export function err(desc: string) {
     umamiEvent(
       '其他.崩溃',
       {
-        id: syncUserStore()?.myId || '',
-        version: VERSION_GITHUB_RELEASE,
-        error: desc,
-        lastQuery,
-        currentQuery
+        detail: JSON.stringify({
+          id: syncUserStore()?.myId || '',
+          version: VERSION_GITHUB_RELEASE,
+          desc,
+          currentUrl,
+          currentTitle,
+          currentQuery,
+          lastQuery
+        })
       },
       currentUrl,
       currentTitle

@@ -41,11 +41,13 @@ const Character = memo(
               style={_.mt.sm}
               data={crt.map((item: any) => {
                 try {
+                  let image = item?.image || ''
+                  if (item?.image?.includes('/r/')) {
+                    image = `https://lain.bgm.tv/pic/crt/g/${item.image.split('/l/')?.[1]}` || ''
+                  }
                   return {
                     ...item,
-                    image: item.image.includes('/r/')
-                      ? `https://lain.bgm.tv/pic/crt/g/${item.image.split('/l/')?.[1]}`
-                      : item.image
+                    image
                   }
                 } catch (error) {
                   return item

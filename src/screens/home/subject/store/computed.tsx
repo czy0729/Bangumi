@@ -812,7 +812,7 @@ export default class Computed extends State {
       return (this.subject.crt || []).map(
         ({ id, images = {}, name, name_cn: nameCn, role_name: roleName, actors = [] }) => ({
           id,
-          image: images.grid,
+          image: images?.grid,
           _image: images?.medium,
           name: nameCn || name,
           nameJP: name,
@@ -845,7 +845,7 @@ export default class Computed extends State {
 
       return (staff || []).map(({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
         id,
-        image: images.grid,
+        image: images?.grid,
         _image: images?.medium,
         name: nameCn || name,
         nameJP: name,
