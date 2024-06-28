@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:19:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-10 05:39:49
+ * @Last Modified time: 2024-06-28 11:49:24
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { IOS, STORYBOOK } from '@constants'
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view'
 import { SafeAreaBottom } from '../../safe-area-bottom'
 import { memoStyles } from './styles'
 
@@ -18,7 +19,7 @@ function Container({ children }) {
     return (
       <BlurView
         style={styles.container}
-        tint={_.select(_.ios('extraLight', 'light'), 'dark')}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         intensity={100}
       >
         {children}

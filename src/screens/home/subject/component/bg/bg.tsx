@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-05-10 06:28:28
  */
 import React from 'react'
-import { BlurView } from '@components'
+import { BlurView, BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -15,7 +15,7 @@ const Bg = memo(
     return (
       <BlurView
         style={style}
-        tint={_.select('light', 'dark')}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         src={src}
         intensity={80}
         blurRadius={32}

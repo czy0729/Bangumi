@@ -11,6 +11,7 @@ import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../blur-view'
 import { HardwareTextureBlurViewProps, HardwareTextureRootBlurViewProps } from './type'
 import { COMPONENT, COMPONENT_ROOT } from './ds'
 
@@ -39,7 +40,7 @@ export const HardwareTextureBlurView = ({
           height: _.flatten(style)?.height || '100%',
           ...containerStyle
         }}
-        tint={_.select(_.ios('extraLight', 'light'), 'dark')}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         intensity={100}
       />
     </Animated.View>

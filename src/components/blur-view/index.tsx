@@ -10,17 +10,16 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { _ } from '@stores'
 import { matchCoverUrl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
-import { COMPONENT } from './ds'
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT, COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as BlurViewProps } from './types'
 
-export { BlurViewProps }
+export { BlurViewProps, BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK }
 
 /**
  * 图片毛玻璃化，非毛玻璃容器
@@ -30,7 +29,7 @@ export const BlurView = observer(
   ({
     style,
     src,
-    tint = _.ios('extraLight', 'light'),
+    tint = BLURVIEW_TINT_LIGHT,
     intensity = 100,
     blurRadius = 16,
     children

@@ -7,6 +7,7 @@
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
+import { IOS_IPA } from '@/config'
 import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 import { ListProps } from './types'
@@ -31,7 +32,7 @@ function List<ItemT>({
     legacyImplementation: false
   }
 
-  if (skipEnteringExitingAnimations) {
+  if (skipEnteringExitingAnimations && !IOS_IPA) {
     passProps.data = data
     Component = EnteringExiting
   } else if (sections) {

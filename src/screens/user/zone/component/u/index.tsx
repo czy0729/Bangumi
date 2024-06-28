@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-03 06:40:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 09:26:02
+ * @Last Modified time: 2024-06-27 07:09:09
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { useMount, useObserver } from '@utils/hooks'
 import { get } from '@utils/kv'
 import { AnyObject } from '@types'
 import { Ctx } from '../../types'
+import { formatString } from './utils'
 import { KEYS } from './ds'
 
 function U(props, { $ }: Ctx) {
@@ -50,7 +51,7 @@ function U(props, { $ }: Ctx) {
         </Text>
         {!!value?.v && (
           <Expand style={_.mt.md}>
-            <Text>{JSON.stringify(omit(value, KEYS), null, 2)}</Text>
+            <Text>{JSON.stringify(formatString(omit(value, KEYS)), null, 2)}</Text>
           </Expand>
         )}
       </View>

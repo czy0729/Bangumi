@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { Component } from '@components'
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT, Component } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { COMPONENT } from './ds'
@@ -20,7 +20,7 @@ export const BlurView = ob(({ style, intensity = 100, children, ...other }: Blur
     <Component id='base-blur-view'>
       <ExpoBlurView
         style={style}
-        tint={_.isDark ? 'dark' : _.ios('extraLight', 'light')}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         intensity={intensity}
         {...other}
       >

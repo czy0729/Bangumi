@@ -15,6 +15,7 @@ import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
 import { Component } from '../../component'
 import { BOTTOM_TAB_DS, BOTTOM_TAB_WITH_AUTH_DS } from '../ds'
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Text } from '../../text'
@@ -40,7 +41,7 @@ export const StorybookBottomTab = () => {
       <Component id='component-storybook-bottom-tab' style={styles.bottomTab}>
         <BlurView
           style={styles.blurView}
-          tint={_.select(_.ios('extraLight', 'light'), 'dark')}
+          tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
           intensity={100}
         >
           <Flex>

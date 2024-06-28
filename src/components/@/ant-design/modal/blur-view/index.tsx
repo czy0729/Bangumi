@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-04 11:10:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-10 05:38:36
+ * @Last Modified time: 2024-06-28 13:12:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { syncSystemStore, syncThemeStore } from '@utils/async'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
+import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../../ds'
 import { Props as BlurViewProps } from './types'
 
 export { BlurViewProps }
@@ -43,7 +44,7 @@ export const BlurView = observer(({ style, intensity = 100, children }: BlurView
     return (
       <ExpoBlurView
         style={stl(styles.blurView, style)}
-        tint={_.select(_.ios('extraLight', 'light'), 'dark')}
+        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
         intensity={intensity}
       >
         {children}
