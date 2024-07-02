@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 14:52:06
+ * @Last Modified time: 2024-07-01 07:45:46
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -435,7 +435,7 @@ export default class Action extends Fetch {
   }
 
   /** 设置收藏 */
-  setFavorV2 = async (topicId: TopicId, isFavor: boolean) => {
+  setFavorV2 = async (topicId: TopicId | `blog/${Id}`, isFavor: boolean) => {
     await this.init('favorV2')
     await this.init('favorCount')
 

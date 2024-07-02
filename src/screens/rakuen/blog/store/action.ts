@@ -7,6 +7,7 @@
 import { rakuenStore } from '@stores'
 import { feedback, info, removeHTMLTag } from '@utils'
 import { t } from '@utils/fetch'
+import { update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { TopicId } from '@types'
@@ -173,5 +174,26 @@ export default class Action extends Fetch {
         this.fetchBlog()
       }
     )
+  }
+
+  /** 设置收藏 */
+  setFavor = async () => {
+    const key = `blog/${this.blogId}` as const
+    const value = !this.isFavor
+    const result = await rakuenStore.setFavorV2(key, value)
+    if (result?.code === 200) {
+      if (value) {
+        const data = {
+          avatar: this.avatar,
+          userId: this.userId,
+          userName: this.userName,
+          title: this.title,
+          group: '',
+          time: this.time
+        }
+
+        update(`favor_${key.replace('/', '_')}`, data)
+      }
+    }
   }
 }

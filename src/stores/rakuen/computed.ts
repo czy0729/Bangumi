@@ -207,7 +207,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 收藏 v2 */
-  favorV2(topicId: TopicId) {
+  favorV2(topicId: TopicId | `blog/${Id}`) {
     this.init('favorV2')
     return computed<boolean>(() => {
       return this.state.favorV2[topicId] || false
@@ -215,7 +215,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 收藏人数 v2 */
-  favorCount(topicId: TopicId) {
+  favorCount(topicId: TopicId | `blog/${Id}`) {
     this.init('favorCount')
     return computed<number>(() => {
       return this.state.favorCount[topicId] || 0

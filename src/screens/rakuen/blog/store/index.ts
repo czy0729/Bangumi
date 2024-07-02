@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:16:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-21 05:25:50
+ * @Last Modified time: 2024-07-01 07:46:30
  */
-import { usersStore } from '@stores'
+import { rakuenStore, usersStore } from '@stores'
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
+
+let loadedFavor = false
 
 class ScreenBlog extends Action {
   init = async () => {
@@ -16,6 +18,10 @@ class ScreenBlog extends Action {
       _loaded: true
     })
 
+    if (!loadedFavor) {
+      rakuenStore.getFavor()
+      loadedFavor = true
+    }
     usersStore.updateFriendsMap()
 
     return this.fetchBlog()

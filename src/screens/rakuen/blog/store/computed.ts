@@ -29,6 +29,16 @@ export default class Computed extends State {
     return `${NAMESPACE}|${this.blogId}`
   }
 
+  /** 是否本地收藏 */
+  @computed get isFavor() {
+    return rakuenStore.favorV2(`blog/${this.blogId}`)
+  }
+
+  /** 收藏人数 */
+  @computed get favorCount() {
+    return rakuenStore.favorCount(`blog/${this.blogId}`)
+  }
+
   /** 日志内容 */
   @computed get blog() {
     const blog = rakuenStore.blog(this.blogId)

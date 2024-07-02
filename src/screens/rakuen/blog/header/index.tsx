@@ -5,11 +5,12 @@
  * @Last Modified time: 2024-05-08 04:35:59
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
+import Favor from '../component/favor'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
@@ -26,33 +27,36 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       hm={[url, 'Blog']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={['浏览器查看', '复制链接', '复制分享']}
-          onSelect={key => {
-            t('日志.右上角菜单', {
-              key
-            })
+        <Flex>
+          <Favor $={$} />
+          <HeaderComp.Popover
+            data={['浏览器查看', '复制链接', '复制分享']}
+            onSelect={key => {
+              t('日志.右上角菜单', {
+                key
+              })
 
-            switch (key) {
-              case '浏览器查看':
-                open(url)
-                break
+              switch (key) {
+                case '浏览器查看':
+                  open(url)
+                  break
 
-              case '复制链接':
-                copy(url, '已复制链接')
-                break
+                case '复制链接':
+                  copy(url, '已复制链接')
+                  break
 
-              case '复制分享':
-                copy(`【链接】${$.title} | Bangumi番组计划\n${url}`, '已复制分享文案')
-                break
+                case '复制分享':
+                  copy(`【链接】${$.title} | Bangumi番组计划\n${url}`, '已复制分享文案')
+                  break
 
-              default:
-                break
-            }
-          }}
-        >
-          <Heatmap id='日志.右上角菜单' />
-        </HeaderComp.Popover>
+                default:
+                  break
+              }
+            }}
+          >
+            <Heatmap id='日志.右上角菜单' />
+          </HeaderComp.Popover>
+        </Flex>
       )}
     />
   )
