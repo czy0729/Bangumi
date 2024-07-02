@@ -66,9 +66,11 @@ export default class Computed extends State {
 
     return list
       .filter(item => {
+        if (type === '小组') return item.includes('group/')
         if (type === '条目') return item.includes('subject/')
         if (type === '章节') return item.includes('ep/')
         if (type === '人物') return item.includes('crt/') || item.includes('prsn/')
+        if (type === '日志') return item.includes('blog/')
         return item.includes('group/')
       })
       .sort((a, b) => desc(parseInt(a.split('/')?.[1]), parseInt(b.split('/')?.[1])))

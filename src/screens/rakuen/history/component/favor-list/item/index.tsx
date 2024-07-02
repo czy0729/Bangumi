@@ -27,6 +27,7 @@ function Item({ item: topicId }, { $, navigation }: Ctx) {
     )
   }
 
+  const { type } = $.state
   const { userId, avatar, userName, title, group, time } = topic
   return (
     <Touchable
@@ -36,6 +37,16 @@ function Item({ item: topicId }, { $, navigation }: Ctx) {
           to: 'Topic',
           topicId
         })
+
+        if (type === '日志') {
+          const blogId = String(topicId).match(/\d+/)?.[0]
+          if (blogId) {
+            navigation.push('Blog', {
+              blogId
+            })
+          }
+          return
+        }
 
         navigation.push('Topic', {
           topicId,
@@ -61,7 +72,7 @@ function Item({ item: topicId }, { $, navigation }: Ctx) {
               <Text style={styles.title} bold>
                 {title === 'undefined' ? '(此帖子已删除)' : title}
               </Text>
-              {$.state.type === '小组' ? (
+              {type === '小组' ? (
                 <Text style={_.mt.xs} type='sub' size={11} lineHeight={12}>
                   {time.includes('首播') ? time : simpleTime(time)} /{' '}
                   <Name userId={userId} type='sub' size={11} lineHeight={12} showFriend>
