@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-21 05:22:29
+ * @Last Modified time: 2024-07-03 10:35:03
  */
 import { rakuenStore } from '@stores'
 import { feedback, info, removeHTMLTag } from '@utils'
@@ -10,7 +10,7 @@ import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
-import { TopicId } from '@types'
+import { Fn, Id, TopicId } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -32,7 +32,8 @@ export default class Action extends Fetch {
     this.setState({
       placeholder: '',
       replySub: '',
-      message: ''
+      message: '',
+      editPostId: ''
     })
   }
 
@@ -66,14 +67,45 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 显示编辑评论框 */
+  showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: Fn) => {
+    const value = await rakuenStore.fetchTopicEdit(postId, 'blog')
+    if (value === true) {
+      info('此楼层不再允许修改，可能已被回复过')
+      return
+    }
+
+    if (!value) {
+      info('未能获取到回复内容，可能授权过期了')
+      return
+    }
+
+    this.setState({
+      value: ''
+    })
+    setTimeout(() => {
+      this.setState({
+        editPostId: postId,
+        value
+      })
+      showFixedTextareCallback()
+    }, 0)
+  }
+
   // -------------------- action --------------------
   /** 提交回复 */
   doSubmit = (content: string) => {
-    const { replySub } = this.state
+    const { replySub, editPostId } = this.state
+    if (editPostId) {
+      this.doEditReply(editPostId, content)
+      return
+    }
+
     if (replySub) {
       this.doReplySub(content)
       return
     }
+
     this.doReply(content)
   }
 
@@ -108,6 +140,28 @@ export default class Action extends Fetch {
 
         feedback()
         this.fetchBlog()
+      }
+    )
+  }
+
+  /** 编辑回复 */
+  doEditReply = (postId: Id, content: string) => {
+    const { formhash } = this.blog
+    rakuenStore.doEditReply(
+      {
+        postId,
+        topicType: 'blog',
+        content,
+        formhash
+      },
+      async () => {
+        this.setState({
+          value: '',
+          editPostId: ''
+        })
+
+        await this.fetchBlog()
+        feedback()
       }
     )
   }

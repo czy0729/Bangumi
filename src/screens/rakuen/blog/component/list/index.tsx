@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:18:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:40:03
+ * @Last Modified time: 2024-07-03 11:05:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -163,17 +163,12 @@ class Blog extends React.Component<{
           contentContainerStyle={_.container.bottom}
           keyExtractor={keyExtractor}
           data={$.comments}
-          scrollEventThrottle={4}
-          initialNumToRender={50}
-          removeClippedSubviews={false}
-          scrollToTop
           ListHeaderComponent={<Top />}
           renderItem={this.renderItem}
           onScroll={onScroll}
           onScrollToIndexFailed={this.onScrollToIndexFailed}
           onHeaderRefresh={$.fetchBlog}
           onFooterRefresh={$.fetchBlog}
-          onEndReachedThreshold={0.5}
         />
         {$.isWebLogin && (
           <FixedTextarea

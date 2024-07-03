@@ -87,7 +87,7 @@ export default class Action extends Fetch {
   doEditReply = async (
     args: {
       postId: Id
-      topicType: TopicType
+      topicType: TopicType | 'blog'
       content: string
       formhash: string
     },

@@ -129,12 +129,13 @@ export const HTML_RAKUEN_HOT = () => HOST
 export const HTML_TOPIC = (topicId: TopicId) => `${HOST}/rakuen/topic/${topicId}`
 
 /** 帖子编辑 */
-export const HTML_TOPIC_EDIT = (postId: Id, type: TopicType = 'group') => {
-  if (type === 'group') return `https://bgm.tv/group/reply/${postId}/edit`
-  if (type === 'ep') return `https://bgm.tv/subject/ep/edit_reply/${postId}`
-  if (type === 'subject') return `https://bgm.tv/subject/reply/${postId}/edit`
-  if (type === 'crt') return `https://bgm.tv/character/edit_reply/${postId}`
-  return `https://bgm.tv/person/edit_reply/${postId}`
+export const HTML_TOPIC_EDIT = (postId: Id, type: TopicType | 'blog' = 'group') => {
+  if (type === 'group') return `${HOST}/group/reply/${postId}/edit`
+  if (type === 'ep') return `${HOST}/subject/ep/edit_reply/${postId}`
+  if (type === 'subject') return `${HOST}/subject/reply/${postId}/edit`
+  if (type === 'crt') return `${HOST}/character/edit_reply/${postId}`
+  if (type === 'blog') return `${HOST}/blog/reply/edit/${postId}`
+  return `${HOST}/person/edit_reply/${postId}`
 }
 
 /** 小组详情 */

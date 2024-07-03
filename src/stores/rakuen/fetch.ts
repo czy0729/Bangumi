@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 17:59:36
+ * @Last Modified time: 2024-07-03 11:05:09
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -399,10 +399,10 @@ export default class Fetch extends Computed {
   /** 获取日志内容和留言 */
   fetchBlog = async (args: { blogId: Id }) => {
     const { blogId } = args || {}
-    const HTML = await fetchHTML({
+    const html = await fetchHTML({
       url: HTML_BLOG(blogId)
     })
-    const { blog, blogComments } = cheerioBlog(HTML)
+    const { blog, blogComments } = cheerioBlog(html)
     const _loaded = getTimestamp()
 
     // 缓存帖子内容
@@ -508,7 +508,7 @@ export default class Fetch extends Computed {
   }
 
   /** 获取回复楼层的 BBCODE */
-  fetchTopicEdit = async (postId: Id, type: TopicType) => {
+  fetchTopicEdit = async (postId: Id, type: TopicType | 'blog') => {
     const html = await fetchHTML({
       url: HTML_TOPIC_EDIT(postId, type)
     })
