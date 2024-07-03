@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-04 01:31:18
+ * @Last Modified time: 2024-07-03 11:16:49
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -92,12 +92,12 @@ function IconExtra(
             break
 
           case ACTION_REPLY:
-            $?.showFixedTextarea(userName, replySub, message, msg)
-            onShowFixedTextare()
+            $?.showFixedTextarea?.(userName, replySub, message, msg)
+            if (typeof onShowFixedTextare === 'function') onShowFixedTextare()
             break
 
           case ACTION_EDIT:
-            $?.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
+            $?.showFixedTextareaEdit?.(id, onShowFixedTextare, onJumpTo)
             break
 
           case ACTION_COPY:
@@ -106,7 +106,7 @@ function IconExtra(
             break
 
           case ACTION_TRANSLATE:
-            $?.doTranslateFloor(id, msg)
+            $?.doTranslateFloor?.(id, msg)
             break
 
           case ACTION_BLOCK:
@@ -141,7 +141,7 @@ function IconExtra(
             break
 
           case ACTION_DELETE:
-            confirm('确定删除回复?', () => $?.doDeleteReply(erase))
+            confirm('确定删除回复?', () => $?.doDeleteReply?.(erase))
             break
 
           default:

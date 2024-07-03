@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:10:11
+ * @Last Modified time: 2024-07-03 11:13:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -81,7 +81,7 @@ export const Filter = obc(
                         }
                       )}
                       hitSlop={HIT_SLOP}
-                      onPress={() => $?.onSelect(item.type, '')}
+                      onPress={() => $?.onSelect?.(item.type, '')}
                     >
                       <Text size={11} noWrap>
                         {item.type === 'sort' ? '默认' : '全部'}
@@ -117,10 +117,10 @@ export const Filter = obc(
                                       isActive && styles.itemActive
                                     )}
                                     hitSlop={HIT_SLOP}
-                                    onPress={() => $?.onSelect(item.type, tag)}
+                                    onPress={() => $?.onSelect?.(item.type, tag)}
                                     onLongPress={
                                       multiSelect
-                                        ? () => $?.onSelect(item.type, tag, true)
+                                        ? () => $?.onSelect?.(item.type, tag, true)
                                         : undefined
                                     }
                                   >
@@ -159,7 +159,7 @@ export const Filter = obc(
                                     styles.itemActive
                                 )}
                                 hitSlop={HIT_SLOP}
-                                onPress={() => $?.onSelect(item.type, i)}
+                                onPress={() => $?.onSelect?.(item.type, i)}
                               >
                                 <Text size={11} noWrap>
                                   {i}
