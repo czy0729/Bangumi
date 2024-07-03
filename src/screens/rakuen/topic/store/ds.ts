@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:35:52
+ * @Last Modified time: 2024-07-03 15:06:27
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
 import { STORYBOOK } from '@constants'
 import { Id, Loaded } from '@types'
+import { FilterType } from '../types'
 
 export const NAMESPACE = 'ScreenTopic'
 
@@ -71,11 +72,13 @@ export const STATE = {
   /** 展开的子楼层id */
   expands: [],
 
-  /** 评论是否只看我 */
-  filterMe: false,
-
-  /** 评论是否只看好友 */
-  filterFriends: false,
+  /**
+   * 评论是否只看
+   *  - likes 贴贴
+   *  - me 我
+   *  - friends 好友
+   * */
+  filterType: '' as FilterType,
 
   /** 评论是否倒序 */
   reverse: false,

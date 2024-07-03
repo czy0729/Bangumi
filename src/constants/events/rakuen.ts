@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-04 01:31:03
+ * @Last Modified time: 2024-07-03 15:28:35
  */
 
 /** Rakuen */
@@ -56,6 +56,7 @@ export default {
   '帖子.跳转': 'Topic.to',
   '帖子.右上角菜单': 'Topic.topRightMenu',
   '帖子.吐槽倒序': 'Topic.toggleReverseComments',
+  '帖子.贴贴相关': 'Topic.toggleFilterLikes',
   '帖子.与我相关': 'Topic.toggleFilterMe',
   '帖子.好友相关': 'Topic.toggleFilterFriends',
   '帖子.显示评论框': 'Topic.showFixedTextarea',

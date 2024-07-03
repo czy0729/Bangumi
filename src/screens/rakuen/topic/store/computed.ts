@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 05:54:30
+ * @Last Modified time: 2024-07-03 15:54:44
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, HTMLDecode } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { URL_DEFAULT_AVATAR } from '@constants'
-import { TopicId, UserId } from '@types'
+import { Id, TopicId, UserId } from '@types'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -70,12 +70,13 @@ export default class Computed extends State {
       }
     }
 
+    const { reverse, filterType } = this.state
     const data = rakuenStore.comments(this.topicId)
     const comments = data._loaded ? data : this.state.comments
     let list = comments.list
 
     // 楼层翻转
-    if (this.state.reverse) list = comments.list.slice().reverse()
+    if (reverse) list = comments.list.slice().reverse()
 
     // 主动设置屏蔽默认头像用户相关信息
     if (systemStore.setting.filterDefault) {
@@ -87,8 +88,35 @@ export default class Computed extends State {
         }))
     }
 
+    if (filterType === 'likes') {
+      const ids: Id[] = [...(this.likesFloorIds || [])]
+      if (!ids.length) {
+        return {
+          ...comments,
+          list
+        }
+      }
+
+      return {
+        ...comments,
+        list: list.filter(item => {
+          if (ids.includes(item.id)) return true
+
+          let flag = false
+          item.sub.forEach((i: { id: string }) => {
+            if (ids.includes(i.id)) flag = true
+          })
+          return flag
+        }),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        }
+      }
+    }
+
     // 只显示自己参与评论
-    if (this.state.filterMe) {
+    if (filterType === 'me') {
       return {
         ...comments,
         list: list.filter(item => {
@@ -106,7 +134,7 @@ export default class Computed extends State {
     }
 
     // 只显示好友相关评论
-    if (this.state.filterFriends) {
+    if (filterType === 'friends') {
       return {
         ...comments,
         list: list.filter(item => {
@@ -145,6 +173,11 @@ export default class Computed extends State {
 
       return this.myFriendsMap[item.userId]
     }).length
+  }
+
+  /** 带有贴贴的楼层 */
+  @computed get likesFloorIds() {
+    return Object.keys(rakuenStore.likes(this.topicId))
   }
 
   /** 导演排序 */

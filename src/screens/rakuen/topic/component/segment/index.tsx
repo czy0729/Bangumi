@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:29:41
+ * @Last Modified time: 2024-07-03 16:22:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
-import { _ } from '@stores'
+import { _, rakuenStore } from '@stores'
 import { feedback, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -19,23 +19,31 @@ function Segement(props, { $ }: Ctx) {
   if ($.state.filterPost) {
     segmentedControlDS.push('跳转')
   } else {
+    if (rakuenStore.setting.likes) {
+      const likesCounts = $.likesFloorIds?.length || 0
+      if (likesCounts) segmentedControlDS.push(`贴贴 ${likesCounts}`)
+    }
+
     const hasLogin = !!$.myId
     if (hasLogin && $.commentMeCount) segmentedControlDS.push(`我 ${$.commentMeCount}`)
     if (hasLogin && $.commentFriendsCount) segmentedControlDS.push(`好友 ${$.commentFriendsCount}`)
   }
+  if (segmentedControlDS.length <= 1) return null
 
   let selectedIndex = 0
   if ($.state.filterPost) {
     selectedIndex = segmentedControlDS.length - 1
   } else if (segmentedControlDS.length > 1) {
-    if ($.state.filterMe && segmentedControlDS.find(item => item.includes('我'))) {
-      selectedIndex = 1
-    } else if ($.state.filterFriends) {
-      selectedIndex = segmentedControlDS.length - 1
+    const { filterType } = $.state
+    if (filterType === 'likes') {
+      selectedIndex = segmentedControlDS.findIndex(item => item.includes('贴贴'))
+    } else if (filterType === 'me') {
+      selectedIndex = segmentedControlDS.findIndex(item => item.includes('我'))
+    } else if (filterType === 'friends') {
+      selectedIndex = segmentedControlDS.findIndex(item => item.includes('好友'))
     }
   }
-
-  if (segmentedControlDS.length <= 1) return null
+  if (selectedIndex === -1) selectedIndex = 0
 
   return (
     <View>
@@ -60,20 +68,23 @@ function Segement(props, { $ }: Ctx) {
             return
           }
 
-          if (
-            (title.includes('我') && !$.state.filterMe) ||
-            (title === '全部' && $.state.filterMe)
-          ) {
-            $.toggleFilterMe()
+          const { filterType } = $.state
+          if (title.includes('贴贴') && filterType !== 'likes') {
+            $.onFilterLikes()
             return
           }
 
-          if (
-            (title.includes('好友') && !$.state.filterFriends) ||
-            (title === '全部' && $.state.filterFriends)
-          ) {
-            $.toggleFilterFriends()
+          if (title.includes('我') && filterType !== 'me') {
+            $.onFilterMe()
+            return
           }
+
+          if (title.includes('好友') && filterType !== 'friends') {
+            $.onFilterFriends()
+            return
+          }
+
+          $.onFilterClear()
         }}
       />
       <Heatmap right={74} bottom={24} id='帖子.好友相关' />

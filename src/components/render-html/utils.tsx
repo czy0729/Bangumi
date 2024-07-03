@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:42:44
+ * @Last Modified time: 2024-07-03 14:09:34
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { HTMLDecode, sleep } from '@utils'
@@ -187,6 +187,9 @@ export async function fetchMediaQueue(
   onLoaded?: (result?: boolean) => void
 ) {
   if (type && id) {
+    // 针对 chrome 的「复制指向突出显示的内容的链接」, 清理 key
+    id = String(id).split('#')?.[0]
+
     if (
       IDS.length <= 16 &&
       ![...IDS, ...LOADED_IDS].find(item => item.type === type && item.id === id)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:55:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:22:33
+ * @Last Modified time: 2024-07-03 15:38:48
  */
 import { rakuenStore, usersStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -28,8 +28,7 @@ class ScreenTopic extends Action {
 
       // 若跳转只显示跳转楼层可以更快跳到指定楼层
       if (this.postId) {
-        state.filterMe = false
-        state.filterFriends = false
+        state.filterType = ''
         state.filterPost = this.postId
       }
       this.setState(state)

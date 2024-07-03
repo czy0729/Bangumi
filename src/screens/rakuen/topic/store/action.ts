@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:14:12
+ * @Last Modified time: 2024-07-03 16:09:18
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, uiStore } from '@stores'
@@ -46,36 +46,56 @@ export default class Action extends Fetch {
     this.setStorage(NAMESPACE)
   }
 
-  /** 显示与我相关的回复 */
-  toggleFilterMe = () => {
-    const { filterMe } = this.state
-    t('帖子.与我相关', {
-      topicId: this.topicId,
-      filterMe: !filterMe
-    })
-
+  /** 显示全部回复 */
+  onFilterClear = () => {
     this.setState({
-      filterMe: !filterMe,
-      filterFriends: false,
+      filterType: '',
       filterPost: ''
     })
     this.save()
+    feedback()
   }
 
   /** 显示好友相关的回复 */
-  toggleFilterFriends = () => {
-    const { filterFriends } = this.state
-    t('帖子.好友相关', {
-      topicId: this.topicId,
-      filterFriends: !filterFriends
+  onFilterLikes = () => {
+    t('帖子.贴贴相关', {
+      topicId: this.topicId
     })
 
     this.setState({
-      filterMe: false,
-      filterFriends: !filterFriends,
+      filterType: 'likes',
       filterPost: ''
     })
     this.save()
+    feedback()
+  }
+
+  /** 显示与我相关的回复 */
+  onFilterMe = () => {
+    t('帖子.与我相关', {
+      topicId: this.topicId
+    })
+
+    this.setState({
+      filterType: 'me',
+      filterPost: ''
+    })
+    this.save()
+    feedback()
+  }
+
+  /** 显示好友相关的回复 */
+  onFilterFriends = () => {
+    t('帖子.好友相关', {
+      topicId: this.topicId
+    })
+
+    this.setState({
+      filterType: 'friends',
+      filterPost: ''
+    })
+    this.save()
+    feedback()
   }
 
   /** 取消只显示跳转楼层 */

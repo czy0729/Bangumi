@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 17:25:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 13:24:11
+ * @Last Modified time: 2024-07-03 15:06:08
  */
 import { factory } from '@utils'
 import { Navigation, TopicId, UserId } from '@types'
@@ -30,3 +30,5 @@ export type Params = {
   _noFetch?: boolean
   _replies?: string
 }
+
+export type FilterType = '' | 'likes' | 'me' | 'friends'
