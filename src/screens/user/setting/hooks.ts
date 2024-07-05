@@ -2,12 +2,63 @@
  * @Author: czy0729
  * @Date: 2024-04-19 16:42:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 13:57:10
+ * @Last Modified time: 2024-07-04 06:12:17
  */
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
 import { Setting } from '@stores/system/types'
-import { BooleanKeys, NonBooleanKeys } from '@types'
+import { scrollToView } from '@utils'
+import { useMount, useRunAfter } from '@utils/hooks'
+import { BooleanKeys, NavigationProps, NonBooleanKeys } from '@types'
+
+/** 设置页面逻辑 */
+export function useSettingPage({ route }: NavigationProps) {
+  /** 设置筛选 */
+  const [filter, setFilter] = useState('')
+
+  /** 设置默认展开 */
+  const [open, setOpen] = useState('')
+
+  /** ScrollView.ref */
+  const scrollViewRef = useRef<any>(null)
+
+  /** 子组件的 ref */
+  const blockRefs = useRef<any>({})
+
+  useRunAfter(() => {
+    systemStore.fetchAdvance()
+  })
+
+  useMount(() => {
+    const open = route?.params?.open || ''
+    if (!open) return
+
+    const component = 'module'
+    setTimeout(() => {
+      scrollToView(blockRefs.current[component], scrollViewRef.current, () => {
+        setOpen(open)
+      })
+    }, 400)
+  })
+
+  return {
+    filter,
+    setFilter,
+    open,
+
+    /** 收集 ScrollView.ListView.ref */
+    forwardRef: useCallback((ref: any) => {
+      scrollViewRef.current = ref
+    }, []),
+
+    /** 收集子组件的 ref */
+    onBlockRef: useCallback((ref: any, component: string) => {
+      setTimeout(() => {
+        blockRefs.current[component] = ref
+      }, 0)
+    }, [])
+  }
+}
 
 /** 延迟切换设置, 更快响应且避免卡住 UI */
 export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:43:05
+ * @Last Modified time: 2024-07-04 05:55:53
  */
-import React, { useState } from 'react'
+import React from 'react'
 import { Component, Header, Input, Page, ScrollView } from '@components'
-import { _, systemStore } from '@stores'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { _ } from '@stores'
+import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import { NavigationProps } from '@types'
 import Block from './component/block'
@@ -36,20 +36,19 @@ import User from './component/user'
 import UserSetting from './component/user-setting'
 import Version from './component/version'
 import Zhinan from './component/zhinan'
+import { useSettingPage } from './hooks'
 import { styles } from './styles'
 
 /** 设置 */
-const Setting = ({ navigation, route }: NavigationProps) => {
-  const [filter, setFilter] = useState('')
-  useRunAfter(() => {
-    systemStore.fetchAdvance()
-  })
+const Setting = (props: NavigationProps) => {
+  const { filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
 
+  const { navigation } = props
   return useObserver(() => (
     <Component id='screen-setting'>
       <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
       <Page style={_.select(_.container.bg, _.container.plain)}>
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView forwardRef={forwardRef} contentContainerStyle={styles.container}>
           <Block>
             <Input
               style={styles.input}
@@ -72,15 +71,15 @@ const Setting = ({ navigation, route }: NavigationProps) => {
             <Katakana navigation={navigation} filter={filter} />
             {/* <Origin navigation={navigation} filter={filter} /> */}
           </Block>
-          <Block>
+          <Block title='module' onBlockRef={onBlockRef}>
             <Tip>模块</Tip>
             <Home filter={filter} />
-            <Discovery filter={filter} open={(route?.params?.open || '') === 'Discovery'} />
+            <Discovery filter={filter} open={open === 'Discovery'} />
             <Timeline filter={filter} />
             <Rakuen navigation={navigation} filter={filter} />
             <User filter={filter} />
             <UserSetting navigation={navigation} filter={filter} />
-            <Subject filter={filter} />
+            <Subject filter={filter} open={open === 'Subject'} />
             <Tinygrail filter={filter} />
           </Block>
           <Block>

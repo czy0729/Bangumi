@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-28 15:31:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 04:08:49
+ * @Last Modified time: 2024-07-04 04:40:56
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -17,10 +17,10 @@ import SubjectLayout from './subject-layout'
 import { COMPONENT, TEXTS } from './ds'
 
 /** 条目 */
-function Subject({ filter }) {
+function Subject({ filter, open = false }) {
   r(COMPONENT)
 
-  const { state, setTrue, setFalse } = useBoolean(false)
+  const { state, setTrue, setFalse } = useBoolean(open)
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 05:45:13
+ * @Last Modified time: 2024-07-04 04:19:04
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -388,6 +388,7 @@ type RouteAward = (
 type RouteSetting = (
   path: 'Setting',
   params: {
+    /** 进入页面后展开子菜单 */
     open?: string
   }
 ) => any
