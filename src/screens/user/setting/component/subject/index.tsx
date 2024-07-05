@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
 import { getShows } from '../../utils'
+import ShowAirdayMonth from './show-airday-month'
 import ShowCount from './show-count'
 import ShowCustomOnair from './show-custom-onair'
 import ShowEpInput from './show-ep-input'
@@ -30,6 +31,7 @@ function Subject({ filter, open = false }) {
       <>
         <ItemSetting hd='条目' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='条目' height={filter ? 440 : 760} onClose={setFalse}>
+          {shows.subjectShowAirdayMonth && <ShowAirdayMonth filter={filter} />}
           {shows.showCount && <ShowCount filter={filter} />}
           {shows.showEpInput && <ShowEpInput filter={filter} />}
           {shows.showCustomOnair && <ShowCustomOnair filter={filter} />}

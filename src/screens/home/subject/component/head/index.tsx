@@ -16,9 +16,13 @@ import { memoStyles } from './styles'
 
 function HeadWrap({ onBlockRef }, { $ }: Ctx) {
   // 书籍显示连载时间段
-  let year = $.year
-  if (year && $.subjectTypeValue === 'book' && $.end && $.end !== $.year) {
-    year = `${$.year} - ${$.end}`
+  const { subjectShowAirdayMonth } = systemStore.setting
+  let year = subjectShowAirdayMonth ? $.yearAndMount : $.year
+  if (year && $.subjectTypeValue === 'book') {
+    const end = subjectShowAirdayMonth ? $.yearAndMountEnd : $.end
+    if (end && end !== year) {
+      year = `${year.replace('-', '/')} - ${end.replace('-', '/')}`
+    }
   }
 
   return (

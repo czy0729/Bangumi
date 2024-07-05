@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-15 13:41:08
  */
-import { NativeModules, Alert, Clipboard, Vibration } from 'react-native'
+import { Alert, Clipboard, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import Portal from '@ant-design/react-native/lib/portal'
-import Toast from '@components/@/ant-design/toast'
 import ActionSheet from '@components/@/ant-design/action-sheet'
-import { STORYBOOK } from '@constants/device'
+import Toast from '@components/@/ant-design/toast'
 import { IOS } from '@constants/constants'
+import { STORYBOOK } from '@constants/device'
 import { Fn } from '@types'
-import { syncSystemStore, s2tAsync } from '../async'
+import { s2tAsync, syncSystemStore } from '../async'
 import { log } from './utils'
 
 /**
@@ -22,11 +22,7 @@ import { log } from './utils'
  * @param delay 延迟多少毫秒后显示, 默认 1000ms
  * @returns fn 取消函数
  */
-export function loading(
-  text: string = 'Loading...',
-  time: number = 0,
-  delay: number = 1000
-) {
+export function loading(text: string = 'Loading...', time: number = 0, delay: number = 1000) {
   let toastId: number
   let timerId: any = setTimeout(() => {
     timerId = null
@@ -182,14 +178,8 @@ export function showImageViewer(
   syncSystemStore().showImageViewer(
     imageUrls.map(item => ({
       ...item,
-      url:
-        typeof item.url === 'string'
-          ? item.url.replace('http://', 'https://')
-          : item.url,
-      _url:
-        typeof item._url === 'string'
-          ? item._url.replace('http://', 'https://')
-          : item._url
+      url: typeof item.url === 'string' ? item.url.replace('http://', 'https://') : item.url,
+      _url: typeof item._url === 'string' ? item._url.replace('http://', 'https://') : item._url
     })),
     index,
     mini
@@ -228,4 +218,23 @@ export function copy(val: any, message: boolean | string = true, ms?: number) {
 
   feedback()
   log('copy', string)
+}
+
+/** ScrollView 中滑动到 View 的位置 */
+export function scrollToView(viewRef: any, scrollCallback: Fn, callback?: Fn) {
+  if (!viewRef || typeof scrollCallback !== 'function') return false
+
+  viewRef.measure((x: number, y: number) => {
+    scrollCallback({
+      y,
+      animated: true
+    })
+
+    if (typeof callback === 'function') {
+      setTimeout(() => {
+        callback()
+      }, 240)
+    }
+  })
+  return true
 }

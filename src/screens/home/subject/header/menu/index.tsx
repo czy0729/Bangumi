@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 04:01:17
+ * @Last Modified time: 2024-07-04 04:18:43
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -12,7 +12,15 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { STORYBOOK, URL_ABOUT } from '@constants'
 import { Ctx } from '../../types'
-import { TEXT_APP, TEXT_COPY, TEXT_LAYOUT, TEXT_POST_SHARE, TEXT_SHARE, TEXT_WEB_SHARE } from './ds'
+import {
+  TEXT_APP,
+  TEXT_COPY,
+  TEXT_LAYOUT,
+  TEXT_POST_SHARE,
+  TEXT_SETTING,
+  TEXT_SHARE,
+  TEXT_WEB_SHARE
+} from './ds'
 
 function Menu({ onScrollTo }, { $, navigation }: Ctx) {
   const color = _.isDark || !$.state.fixed ? '#fff' : '#000'
@@ -22,7 +30,8 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
     TEXT_SHARE,
     TEXT_POST_SHARE,
     TEXT_WEB_SHARE,
-    TEXT_LAYOUT
+    TEXT_LAYOUT,
+    TEXT_SETTING
   ]
   if (STORYBOOK) data.push(TEXT_APP)
 
@@ -70,6 +79,12 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
               case TEXT_LAYOUT:
                 systemStore.resetSubjectLayout()
                 info('已重置')
+                break
+
+              case TEXT_SETTING:
+                navigation.push('Setting', {
+                  open: 'Subject'
+                })
                 break
 
               case TEXT_APP:

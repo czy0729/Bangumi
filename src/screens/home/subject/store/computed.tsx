@@ -29,6 +29,7 @@ import {
   HTMLDecode,
   isArray,
   matchCoverUrl,
+  pad,
   removeHTMLTag,
   x18
 } from '@utils'
@@ -623,9 +624,9 @@ export default class Computed extends State {
     )
   }
 
-  /** 发布时间 (用于显示在 title label) */
+  /** 发布时间 (年) */
   @computed get year() {
-    // 连载开始为最优先
+    // 漫画的详情通常包含发售日、连载开始，以连载开始为最优
     const year =
       (this.info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
         /(\d{4})/
@@ -641,14 +642,61 @@ export default class Computed extends State {
     )
   }
 
-  /** 发布时间 (用于显示在 title label) */
+  /** 发布时间 (年-月) */
+  @computed get yearAndMount() {
+    try {
+      const pattern: RegExp = /(\d{4}[-年]\d{1,2})/
+
+      // 漫画的详情通常包含发售日、连载开始，以连载开始为最优
+      const temp =
+        (this.info.match(/<li><span>(连载开始|开始): <\/span>(.+?)<\/li>/)?.[2] || '').match(
+          pattern
+        )?.[0] ||
+        (
+          this.info.match(
+            /<li><span>(发售日|发售日期|放送开始|上映年度|上映时间|发行日期): <\/span>(.+?)<\/li>/
+          )?.[2] || ''
+        ).match(pattern)?.[0] ||
+        ''
+      if (!temp) return this.year
+
+      return temp
+        .replace('年', '-')
+        .split('-')
+        .map(item => pad(Number(item)))
+        .join('-')
+    } catch (error) {
+      return this.year
+    }
+  }
+
+  /** 结束时间 (年) */
   @computed get end() {
-    // 连载开始为最优先
     const year =
       (this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || '').match(
         /(\d{4})/
       )?.[0] || ''
     return year
+  }
+
+  /** 结束时间 (年-月) */
+  @computed get yearAndMountEnd() {
+    try {
+      const pattern: RegExp = /(\d{4}[-年]\d{1,2})/
+      const temp =
+        (this.info.match(/<li><span>(连载结束|结束): <\/span>(.+?)<\/li>/)?.[2] || '').match(
+          pattern
+        )?.[0] || ''
+      if (!temp) return this.end
+
+      return temp
+        .replace('年', '-')
+        .split('-')
+        .map(item => pad(Number(item)))
+        .join('-')
+    } catch (error) {
+      return this.end
+    }
   }
 
   /** 艺术家 */

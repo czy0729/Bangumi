@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-28 13:57:37
+ * @Last Modified time: 2024-07-04 06:15:32
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -336,6 +336,9 @@ export const INIT_SETTING = {
 
   /** 条目标签是否显示优于同类型百分比 */
   subjectTagsRec: STORYBOOK,
+
+  /** 条目发布日期是否显示到月份 */
+  subjectShowAirdayMonth: true,
 
   /** 突出显示源头按钮 */
   focusOrigin: STORYBOOK,

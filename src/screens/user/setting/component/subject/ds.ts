@@ -79,6 +79,9 @@ export const VALUES = ['显示', '折叠', '隐藏'] as const
 export const VALUES_2 = ['显示', '隐藏'] as const
 
 export const TEXTS = {
+  subjectShowAirdayMonth: {
+    hd: '发布日期显示到月份'
+  },
   showCount: {
     hd: '其他用户收藏数量',
     information: '站点所有用户各收藏状态计数'
