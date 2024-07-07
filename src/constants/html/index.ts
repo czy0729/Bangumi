@@ -37,11 +37,16 @@ export const HTML_SUBJECT = (subjectId: SubjectId) => `${HOST}/subject/${subject
 export const HTML_SUBJECT_COMMENTS = (
   subjectId: SubjectId,
   page: number = 1,
-  interest_type?: '' | RatingStatus
+
+  /** 收藏状态 */
+  interest_type?: '' | RatingStatus,
+
+  /** 是否当前版本 */
+  version?: boolean
 ) =>
   `${HOST}/subject/${subjectId}/comments?page=${page}${
     interest_type ? `&interest_type=${interest_type}` : ''
-  }`
+  }${version ? `&version=current` : ''}`
 
 /** 所有人评分 */
 export const HTML_SUBJECT_RATING = (

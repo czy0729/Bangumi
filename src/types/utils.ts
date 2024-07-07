@@ -118,3 +118,6 @@ export type NonBooleanKeys<T> = Extract<
   }[keyof T],
   keyof T
 >
+
+/** 使一个键变成可选 */
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

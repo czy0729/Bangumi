@@ -20,6 +20,7 @@ import {
   userStore
 } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
+import { SubjectComments } from '@stores/subject/types'
 import {
   asc,
   desc,
@@ -50,7 +51,7 @@ import {
   STORYBOOK,
   URL_DEFAULT_AVATAR
 } from '@constants'
-import { Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
+import { Id, Optional, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import {
   TITLE_ANITABI,
   TITLE_BLOG,
@@ -158,7 +159,9 @@ export default class Computed extends State {
    *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
    */
   @computed get subjectComments() {
-    let subjectComments = subjectStore.subjectComments(this.subjectId)
+    let subjectComments: Optional<SubjectComments, 'version'> = subjectStore.subjectComments(
+      this.subjectId
+    )
     if (!subjectComments._loaded && this.state.comments.list?.length) {
       subjectComments = this.state.comments
     }
@@ -171,6 +174,7 @@ export default class Computed extends State {
           page: pageTotal || 1,
           pageTotal
         },
+        version: subjectComments.version || false,
         _reverse: subjectComments._reverse,
         _loaded: getTimestamp()
       }
@@ -189,7 +193,8 @@ export default class Computed extends State {
             )
           }
           return !item.avatar.includes(URL_DEFAULT_AVATAR)
-        })
+        }),
+        version: subjectComments.version || false
       }
     }
 
@@ -200,7 +205,8 @@ export default class Computed extends State {
           item =>
             Number(item.star) >= Number(filterScores[0]) &&
             Number(item.star) <= Number(filterScores[1])
-        )
+        ),
+        version: subjectComments.version || false
       }
     }
 

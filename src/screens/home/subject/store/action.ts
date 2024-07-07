@@ -704,6 +704,17 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 切换评论版本 */
+  toggleVersion = async () => {
+    this.setState({
+      filterVersion: !this.state.filterVersion
+    })
+    this.save()
+
+    await this.fetchSubjectComments(true, false)
+    feedback()
+  }
+
   /** Box 状态按钮做动画前, 需要先设置开启 */
   prepareFlip = () => {
     this.setState({

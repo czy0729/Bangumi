@@ -162,6 +162,9 @@ export const STATE = {
     _loaded: false
   } as AnitabiData,
 
+  /** 评论只看当前版本 */
+  filterVersion: false,
+
   /** 页面 store 初始化完成 */
   _loaded: false as Loaded
 }

@@ -10,8 +10,9 @@ import { SectionTitle } from '@_'
 import { memo } from '@utils/decorators'
 import IconComment from '../icon/comment'
 import IconHidden from '../icon/hidden'
-import RateSegment from '../rate-segment'
-import StatusSegement from '../status-segment'
+import IconVersion from '../icon/version'
+import IconRate from '../rate-segment'
+import IconStatus from '../status-segment'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Comment = memo(
@@ -23,8 +24,9 @@ const Comment = memo(
           right={
             showComment ? (
               <>
-                <StatusSegement />
-                <RateSegment />
+                <IconVersion />
+                <IconStatus />
+                <IconRate />
                 <IconComment />
               </>
             ) : (

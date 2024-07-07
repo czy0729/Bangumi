@@ -170,7 +170,8 @@ export default class Fetch extends Computed {
     const data = await subjectStore.fetchSubjectComments(
       {
         subjectId: this.subjectId,
-        interest_type: this.state.filterStatus
+        interest_type: this.state.filterStatus,
+        version: this.state.filterVersion
       },
       refresh,
       reverse
@@ -539,7 +540,7 @@ export default class Fetch extends Computed {
 
     setTimeout(() => {
       const data = this.subjectComments
-      if (!data?.list?.length || !data?._loaded || data?._reverse) return false
+      if (!data?.list?.length || !data?._loaded || data?.version || data?._reverse) return false
 
       update(`comments_${this.subjectId}`, {
         list: data.list.slice(0, 40),

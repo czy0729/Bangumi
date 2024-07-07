@@ -395,6 +395,8 @@ export type SubjectCommentsItem = Override<
 export type SubjectComments = Override<
   ListEmpty<DeepPartial<SubjectCommentsItem>>,
   {
+    /** 是否有不同版本的评论 */
+    version: boolean
     _reverse?: boolean
   }
 >

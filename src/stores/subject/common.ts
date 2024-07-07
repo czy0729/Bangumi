@@ -446,7 +446,11 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
 export function cheerioSubjectComments(html: string): Override<
   SubjectComments,
   {
+    /** 贴贴数据 */
     likes: Likes
+
+    /** 是否有不同版本的评论 */
+    version: boolean
   }
 > {
   const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
@@ -462,7 +466,7 @@ export function cheerioSubjectComments(html: string): Override<
   return {
     pagination: {
       page,
-      pageTotal: pageTotal
+      pageTotal
     },
     list:
       $('#comment_box .item')
@@ -490,7 +494,8 @@ export function cheerioSubjectComments(html: string): Override<
           }
         })
         .get() || [],
-    likes
+    likes,
+    version: !!$('#SecTab a.chiiBtn').attr('href')
   }
 }
 

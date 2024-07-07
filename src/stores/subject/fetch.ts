@@ -351,11 +351,12 @@ export default class Fetch extends Computed {
     args: {
       subjectId: SubjectId
       interest_type: '' | RatingStatus
+      version: boolean
     },
     refresh: boolean = false,
     reverse: boolean = false
   ) => {
-    const { subjectId, interest_type } = args || {}
+    const { subjectId, interest_type, version } = args || {}
     const { list, pagination, _reverse } = this.subjectComments(subjectId)
 
     /**
@@ -376,9 +377,9 @@ export default class Fetch extends Computed {
     }
 
     const html = await fetchHTML({
-      url: HTML_SUBJECT_COMMENTS(subjectId, page, interest_type)
+      url: HTML_SUBJECT_COMMENTS(subjectId, page, interest_type, version)
     })
-    const { likes, ...next } = cheerioSubjectComments(html)
+    const { likes, version: hasVersion, ...next } = cheerioSubjectComments(html)
     timelineStore.updateLikes(likes)
 
     if (isReverse) next.list.reverse()
@@ -388,6 +389,7 @@ export default class Fetch extends Computed {
       [subjectId]: {
         list: refresh ? next.list : [...list, ...next.list],
         pagination: next.pagination,
+        version: hasVersion,
         _loaded: getTimestamp(),
         _reverse: isReverse
       }
