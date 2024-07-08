@@ -115,11 +115,11 @@ export const INIT_SETTING = {
   /** 是否屏蔽默认头像用户帖子 */
   isBlockDefaultUser: false,
 
-  /** 自定义屏蔽关键字 string[] */
-  blockKeywords: [],
+  /** 自定义屏蔽关键字 */
+  blockKeywords: [] as string[],
 
-  /** 屏蔽的小组 string[] */
-  blockGroups: [],
+  /** 屏蔽的小组 */
+  blockGroups: [] as string[],
 
   /** @deprecated 屏蔽的用户 `${userName}@${userId}`[] */
   blockUserIds: [],
@@ -276,6 +276,11 @@ const STATE = {
     0: 0
   },
 
+  /** 屏蔽关键字的屏蔽次数追踪 */
+  blockedTrack: {
+    0: 0
+  },
+
   /**
    * 消息与提醒
    * @doc https://bgm.tv/settings/privacy */
@@ -321,6 +326,7 @@ export { STATE }
 export const LOADED = {
   blockedUsers: false,
   blockedUsersTrack: false,
+  blockedTrack: false,
   blog: false,
   cloudTopic: false,
   comments: false,

@@ -78,9 +78,6 @@ export const SITE_MAP = {
 /** 隐私条款弹窗 key */
 export const PRIVACY_STATE = 'bangumi|privacy'
 
-/** 处理屏蔽用户, 追踪计数 uuid */
-export const BLOCKED_USER_UUID = {}
-
 export const { height: HEIGHT } = Dimensions.get('window')
 
 export const FIND_SUBJECT_CN_CACHE_MAP = new Map<string, string>()

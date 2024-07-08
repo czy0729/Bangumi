@@ -6,20 +6,11 @@
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
-import { findSubjectCn, getIsBlockUser } from '@utils'
+import { findSubjectCn, getIsBlocked, getIsBlockedUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from './item'
-import {
-  getIsAd,
-  getIsBlockGroup,
-  getIsBlockKeyword,
-  getIsGroup,
-  getReplyCount,
-  getTopicId,
-  getUserId,
-  handlePress
-} from './utils'
+import { getIsAd, getIsGroup, getReplyCount, getTopicId, getUserId, handlePress } from './utils'
 import { COMPONENT, LIMIT_HEAVY } from './ds'
 import { memoStyles } from './styles'
 
@@ -33,10 +24,11 @@ function ItemWrap(
   const groupCn = findSubjectCn(group)
   const itemUserId = userId || getUserId(avatar)
   const replyCount = getReplyCount(replies)
+  const uuid = `Rakuen|${topicId}|${index}`
   if (
-    getIsBlockKeyword(rakuenStore.setting.blockKeywords, title) ||
-    getIsBlockGroup(rakuenStore.setting.blockGroups, groupCn) ||
-    getIsBlockUser(rakuenStore.blockUserIds, userName, itemUserId, `Rakuen|${topicId}|${index}`) ||
+    getIsBlocked(rakuenStore.setting.blockKeywords, title, uuid) ||
+    getIsBlocked(rakuenStore.setting.blockGroups, groupCn, uuid) ||
+    getIsBlockedUser(rakuenStore.blockUserIds, userName, itemUserId, uuid) ||
     getIsAd(rakuenStore.setting.isBlockDefaultUser, avatar, replyCount)
   ) {
     return null

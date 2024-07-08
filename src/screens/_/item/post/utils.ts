@@ -11,7 +11,7 @@ import { UserId } from '@types'
 export const layoutHeightMap = new Map<number, number>()
 
 /** 处理屏蔽用户, 追踪计数 uuid */
-const BLOCKED_USER_UUID = {}
+const memoBlockedUser = new Map<string, true>()
 
 /** 是否屏蔽用户 */
 export function isBlockUser(userId: UserId, userName: string, replySub = '', trackUUID?: string) {
@@ -34,8 +34,8 @@ export function isBlockUser(userId: UserId, userName: string, replySub = '', tra
   const isBlock = findIndex !== -1
   if (isBlock && trackUUID) {
     const key = `${userId}|${trackUUID}`
-    if (!BLOCKED_USER_UUID[key]) {
-      BLOCKED_USER_UUID[key] = 1
+    if (!memoBlockedUser.has(key)) {
+      memoBlockedUser.set(key, true)
       setTimeout(() => {
         rakuenStore.trackBlockedUser(userId)
       }, 0)

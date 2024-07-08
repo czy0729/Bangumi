@@ -8,7 +8,7 @@ import React from 'react'
 import { ItemTimeline, SectionHeader } from '@_'
 import { _, rakuenStore } from '@stores'
 import { TimelineItem } from '@stores/timeline/types'
-import { getIsBlockUser } from '@utils'
+import { getIsBlockedUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
 import { Ctx, TabLabel } from '../../types'
@@ -32,7 +32,12 @@ function Item(
   if (url.includes('/user/')) {
     const text = p1?.text || ''
     if (
-      getIsBlockUser(rakuenStore.blockUserIds, text, url.split('/user/')?.[1], `Timeline|${index}`)
+      getIsBlockedUser(
+        rakuenStore.blockUserIds,
+        text,
+        url.split('/user/')?.[1],
+        `Timeline|${index}`
+      )
     ) {
       return null
     }

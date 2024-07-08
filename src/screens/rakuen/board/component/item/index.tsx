@@ -10,7 +10,7 @@ import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, Name } from '@_'
 import { _, rakuenStore } from '@stores'
-import { appNavigate, correctAgo, getIsBlockUser, HTMLDecode, info, open, stl } from '@utils'
+import { appNavigate, correctAgo, getIsBlockedUser, HTMLDecode, info, open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
@@ -20,7 +20,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Item({ title, href, replies, time, userId, userName }, { $, navigation }: Ctx) {
-  if (getIsBlockUser(rakuenStore.blockUserIds, userName, userId, `Board|${href}`)) return null
+  if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Board|${href}`)) return null
 
   const styles = memoStyles()
   const topicId = href.replace('/subject/topic/', 'subject/') as TopicId

@@ -76,7 +76,19 @@ function History({
         }
 
         let blockCount = 0
-        if (userId) blockCount = rakuenStore.blockedUsersTrack(userId)
+        try {
+          if (userId) {
+            blockCount = rakuenStore.blockedUsersTrack(userId)
+          } else if (typeof item === 'string') {
+            blockCount = rakuenStore.blockedTrack(item)
+            if (!blockCount) {
+              const find = Object.keys(rakuenStore.state.blockedTrack).find(key =>
+                key.includes(item)
+              )
+              if (find) blockCount = rakuenStore.blockedTrack(find)
+            }
+          }
+        } catch (error) {}
 
         return (
           <View key={text} style={styles.item}>

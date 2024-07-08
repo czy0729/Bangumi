@@ -230,6 +230,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
+  /** 屏蔽关键字的屏蔽次数追踪 */
+  blockedTrack(keyword: string) {
+    this.init('blockedTrack')
+    return computed<number>(() => {
+      return this.state.blockedTrack[keyword] || 0
+    }).get()
+  }
+
   /** 消息与提醒 */
   @computed get privacy() {
     this.init('privacy')

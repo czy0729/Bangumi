@@ -6,10 +6,12 @@
  */
 import { UserId } from '@types'
 import { syncRakuenStore } from '../async'
-import { BLOCKED_USER_UUID } from './ds'
+
+/** 处理屏蔽用户, 追踪计数 uuid */
+const memoBlockedUser = new Map<string, true>()
 
 /** 处理屏蔽用户 */
-export function getIsBlockUser(
+export function getIsBlockedUser(
   blockUserIds: string[],
   userName: string,
   userId: UserId,
@@ -24,10 +26,29 @@ export function getIsBlockUser(
   const isBlock = findIndex !== -1
   if (isBlock && trackUUID) {
     const key = `${userId}|${trackUUID}`
-    if (!BLOCKED_USER_UUID[key]) {
-      BLOCKED_USER_UUID[key] = 1
+    if (!memoBlockedUser.has(key)) {
+      memoBlockedUser.set(key, true)
       setTimeout(() => {
         syncRakuenStore().trackBlockedUser(userId)
+      }, 0)
+    }
+  }
+
+  return isBlock
+}
+
+/** 处理屏蔽关键字, 追踪计数 uuid */
+const memoBlocked = new Map<string, true>()
+
+/** 处理屏蔽关键字 */
+export function getIsBlocked(blockKeywords: string[], keyword: string, trackUUID?: string) {
+  const isBlock = blockKeywords.some(item => keyword.includes(item))
+  if (isBlock && trackUUID) {
+    const key = `${keyword}|${trackUUID}`
+    if (!memoBlocked.has(key)) {
+      memoBlocked.set(key, true)
+      setTimeout(() => {
+        syncRakuenStore().trackBlocked(keyword)
       }, 0)
     }
   }

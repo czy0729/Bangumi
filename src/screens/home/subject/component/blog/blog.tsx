@@ -8,7 +8,7 @@ import React from 'react'
 import { Expand, Heatmap } from '@components'
 import { InView, ItemArticle, SectionTitle } from '@_'
 import { _, rakuenStore } from '@stores'
-import { getIsBlockUser, stl } from '@utils'
+import { getIsBlockedUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
 import { TITLE_BLOG } from '../../ds'
@@ -34,7 +34,7 @@ const Blog = memo(
             <Expand key={blog?.length} style={_.mt.sm} onExpand={onExpand}>
               {list.map(item => {
                 const { nickname, username } = item.user
-                const flag = getIsBlockUser(
+                const flag = getIsBlockedUser(
                   rakuenStore.blockUserIds,
                   nickname,
                   username,

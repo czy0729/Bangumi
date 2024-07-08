@@ -7,7 +7,7 @@
 import React from 'react'
 import { InView, ItemComment } from '@_'
 import { _, rakuenStore } from '@stores'
-import { getIsBlockUser } from '@utils'
+import { getIsBlockedUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, ITEM_HEIGHT, POPOVER_DATA } from './ds'
@@ -18,7 +18,7 @@ function Item(
 ) {
   if (
     !$.state.rendered ||
-    getIsBlockUser(rakuenStore.blockUserIds, userName, userId, `Subject|${$.subjectId}`)
+    getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Subject|${$.subjectId}`)
   ) {
     return null
   }

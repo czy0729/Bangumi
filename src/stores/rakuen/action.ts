@@ -612,4 +612,15 @@ export default class Action extends Fetch {
     })
     this.save(key)
   }
+
+  /** 屏蔽用户的屏蔽次数 +1 */
+  trackBlocked = (keyword: string) => {
+    const key = 'blockedTrack'
+    this.setState({
+      [key]: {
+        [keyword]: this.blockedTrack(keyword) + 1
+      }
+    })
+    this.save(key)
+  }
 }

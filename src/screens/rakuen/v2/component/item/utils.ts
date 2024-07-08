@@ -11,18 +11,8 @@ import { Navigation, TopicId } from '@types'
 import { StoreType as $ } from '../../types'
 import { AD_REPLIES_COUNT } from './ds'
 
-/** 处理屏蔽关键字 */
-export function getIsBlockKeyword(blockKeywords: string[], title: string) {
-  return blockKeywords.some(item => title.includes(item))
-}
-
-/** 处理屏蔽小组 */
-export function getIsBlockGroup(blockGroups: string[], group: string) {
-  return blockGroups.includes(group)
-}
-
 /** 处理屏蔽用户 */
-export function getIsBlockUser(blockUserIds: string[], userName: string, userId: string) {
+export function getIsBlockedUser(blockUserIds: string[], userName: string, userId: string) {
   const findIndex = blockUserIds.findIndex(item => {
     const [itemUserName, itemUserId] = item.split('@')
     if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName

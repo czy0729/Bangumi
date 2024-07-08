@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, Name } from '@_'
 import { _, rakuenStore } from '@stores'
-import { correctAgo, getIsBlockUser, HTMLDecode } from '@utils'
+import { correctAgo, getIsBlockedUser, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -19,7 +19,7 @@ function Item(
   { id, title, replies, time, content, avatar, userId, userName },
   { navigation }: Ctx
 ) {
-  if (getIsBlockUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
+  if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
 
   const styles = memoStyles()
   return (

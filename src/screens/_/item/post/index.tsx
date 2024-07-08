@@ -7,7 +7,7 @@
 import React from 'react'
 import { Component } from '@components'
 import { rakuenStore, uiStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { getIsBlocked, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST } from '@constants'
@@ -53,14 +53,13 @@ export const ItemPost = obc(
     if (!userId) return null
 
     // 屏蔽用户
-    if (isBlockUser(userId, userName, replySub, `Topic|${id}`)) return null
+    const uuid = `Topic|${id}`
+    if (isBlockUser(userId, userName, replySub, uuid)) return null
 
     // 屏蔽内容删除
-    const { filterDelete, blockKeywords, subExpand } = rakuenStore.setting
     let msg = decoder(message)
-
     const isDelete = msg.includes('删除了回复')
-    if (isDelete && filterDelete) return null
+    if (isDelete && rakuenStore.setting.filterDelete) return null
 
     const styles = memoStyles()
     const url = $?.params?._url || `${HOST}/rakuen/topic/${$?.topicId}`
@@ -93,7 +92,7 @@ export const ItemPost = obc(
 
     // 展开子楼层
     const { expands, translateResultFloor } = $?.state || {}
-    const _expands = Number(expandNums || subExpand)
+    const _expands = Number(expandNums || rakuenStore.setting.subExpand)
     let isExpand: boolean
     if (_expands !== undefined) {
       isExpand = sub.length <= _expands || (sub.length > _expands && expands?.includes(id))
@@ -109,8 +108,8 @@ export const ItemPost = obc(
     const isJump = !!postId && postId === id
 
     // 屏蔽关键字命中
-    if (blockKeywords.some(item => msg.includes(item))) {
-      msg = '<span style="color:#999;font-size:12px">命中自定义关键字，已被屏蔽</span>'
+    if (getIsBlocked(rakuenStore.setting.blockKeywords, msg, uuid)) {
+      msg = '<span style="color:#999;font-size:12px">已屏蔽</span>'
     }
 
     return (
