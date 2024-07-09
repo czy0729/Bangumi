@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-03 21:44:55
+ * @Last Modified time: 2024-07-09 08:40:49
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -73,9 +73,7 @@ class ScreenHomeV2 extends Action {
 
     // 需要刷新数据
     if (flag) {
-      if (await this.initQueue()) {
-        return true
-      }
+      if (await this.initQueue()) return true
 
       // 可能是 access_token 过期了, 需要重新刷新 access_token
       if (userStore.isWebLogin) {

@@ -2,49 +2,41 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-10 19:47:20
+ * @Last Modified time: 2024-07-09 09:01:21
  */
 import React from 'react'
-import { ActivityIndicator, Animated, View, TouchableOpacity } from 'react-native'
-import Icon, { IconNames } from '@ant-design/react-native/lib/icon'
-import { WithTheme, WithThemeStyles } from '@ant-design/react-native/lib/style'
-import ToastStyles, { ToastStyle } from '@ant-design/react-native/lib/toast/style/index'
+import { ActivityIndicator, Animated, TouchableOpacity, View } from 'react-native'
+import { WithTheme } from '@ant-design/react-native/lib/style'
+import ToastStyles from '@ant-design/react-native/lib/toast/style/index'
 import { syncThemeStore } from '@utils/async'
-import { BlurView } from './blur-view'
-import { Desc } from './desc'
+import BlurView from '../blur-view'
+import Desc from '../desc'
+import { ToastProps } from './type'
+import { styles as overrideStyles } from './styles'
 
-export interface ToastProps extends WithThemeStyles<ToastStyle> {
-  content: string
-  duration?: number
-  onClose?: () => void
-  mask?: boolean
-  type?: string
-  onAnimationEnd?: () => void
-}
-
-export default class ToastContainer extends React.Component<ToastProps, any> {
+export default class Container extends React.Component<ToastProps, any> {
   static defaultProps = {
     duration: 3,
     mask: true,
     onClose() {}
   }
 
-  anim: Animated.CompositeAnimation | null
-
-  constructor(props: ToastProps) {
-    super(props)
-    this.state = {
-      fadeAnim: new Animated.Value(0)
-    }
+  state = {
+    fadeAnim: new Animated.Value(0),
+    showClose: false
   }
 
+  anim: Animated.CompositeAnimation | null
+
+  timeoutId: any
+
   componentDidMount() {
-    const { onClose, onAnimationEnd } = this.props
+    const { type, onClose, onAnimationEnd } = this.props
     const duration = this.props.duration as number
+
     const timing = Animated.timing
-    if (this.anim) {
-      this.anim = null
-    }
+    if (this.anim) this.anim = null
+
     const animArr = [
       timing(this.state.fadeAnim, {
         toValue: 1,
@@ -53,6 +45,7 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
       }),
       Animated.delay(duration * 1000)
     ]
+
     if (duration > 0) {
       animArr.push(
         timing(this.state.fadeAnim, {
@@ -62,21 +55,29 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
         })
       )
     }
+
     this.anim = Animated.sequence(animArr)
     this.anim.start(() => {
       if (duration > 0) {
         this.anim = null
-        if (onClose) {
-          onClose()
-        }
-        if (onAnimationEnd) {
-          onAnimationEnd()
-        }
+        if (onClose) onClose()
+        if (onAnimationEnd) onAnimationEnd()
       }
     })
+
+    if (type === 'loading') {
+      this.timeoutId = setTimeout(() => {
+        this.timeoutId = null
+        this.setState({
+          showClose: true
+        })
+      }, 5600)
+    }
   }
 
   componentWillUnmount() {
+    if (this.timeoutId) clearTimeout(this.timeoutId)
+
     if (this.anim) {
       this.anim.stop()
       this.anim = null
@@ -85,45 +86,28 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
 
   render() {
     const { type = '', content, mask, onAnimationEnd } = this.props
+    const { showClose } = this.state
     return (
       <WithTheme styles={this.props.styles} themeStyles={ToastStyles}>
         {styles => {
           const _ = syncThemeStore()
-          const iconType: {
-            [key: string]: IconNames
-          } = {
-            success: 'check-circle',
-            fail: 'close-circle',
-            offline: 'frown'
-          }
-
           let iconDom: React.ReactElement<any> | null = null
           if (type === 'loading') {
             iconDom = (
               <ActivityIndicator
-                animating
                 style={styles.centering}
+                animating
                 color={_.isDark ? 'white' : 'gray'}
-                size='large'
               />
             )
           } else if (type === 'info') {
             iconDom = null
-          } else {
-            iconDom = (
-              <Icon
-                style={styles.image}
-                name={iconType[type]}
-                color={_.isDark ? 'white' : 'gray'}
-                size={36}
-              />
-            )
           }
 
           return (
             <View
-              style={styles.container}
-              pointerEvents={mask ? undefined : 'box-none'}
+              style={overrideStyles.container}
+              pointerEvents={mask && !showClose ? undefined : 'box-none'}
             >
               <TouchableOpacity
                 style={styles.innerContainer}
@@ -136,13 +120,14 @@ export default class ToastContainer extends React.Component<ToastProps, any> {
                   }}
                 >
                   <BlurView
-                    style={[
-                      styles.innerWrap,
-                      iconDom ? styles.iconToast : styles.textToast
-                    ]}
+                    style={[styles.innerWrap, iconDom ? styles.iconToast : styles.textToast]}
                   >
-                    {iconDom}
-                    <Desc style={styles.content}>{content}</Desc>
+                    <View style={overrideStyles.body}>
+                      {iconDom}
+                      <Desc style={styles.content} showClose={showClose}>
+                        {content}
+                      </Desc>
+                    </View>
                   </BlurView>
                 </Animated.View>
               </TouchableOpacity>
