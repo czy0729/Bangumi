@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:23:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 13:36:54
+ * @Last Modified time: 2024-07-10 16:21:14
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { collectionStore, userStore } from '@stores'
@@ -39,7 +39,7 @@ import {
   SITE_AGEFANS
 } from '@constants'
 import { EpId, EpStatus, Id, Navigation, RatingStatus, SubjectId } from '@types'
-import { EpsItem, TabLabel } from '../types'
+import { EpsItem, TabsLabel } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
@@ -63,7 +63,9 @@ export default class Action extends Fetch {
       renderedTabsIndex
     }
 
-    if (page === 4) state.grid = STATE.grid
+    // 游戏需要初始化 state.grid
+    if (this.tabs[page]?.key === 'game') state.grid = STATE.grid
+
     this.setState(state)
     this.save()
   }
@@ -188,7 +190,7 @@ export default class Action extends Fetch {
     ref: {
       scrollToIndex: any
     },
-    title: TabLabel
+    title: TabsLabel
   ) => {
     const index = this.tabs.findIndex(item => item.title === title)
     if (!this.scrollToIndex[index] && ref?.scrollToIndex) {

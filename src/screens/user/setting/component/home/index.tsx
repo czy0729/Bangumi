@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 15:04:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-24 13:06:27
+ * @Last Modified time: 2024-07-10 14:29:31
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -25,9 +25,10 @@ import HomeListCompact from './home-list-compact'
 import HomeListLimit from './home-list-limit'
 import HomeOnair from './home-onair'
 import HomeOrigin from './home-origin'
-import HomeShowGame from './home-show-game'
+// import HomeShowGame from './home-show-game'
 import HomeSortSink from './home-sort-sink'
 import HomeSorting from './home-sorting'
+import HomeTabs from './home-tabs'
 import { COMPONENT, TEXTS } from './ds'
 
 /** 进度 */
@@ -45,6 +46,7 @@ function Home({ filter }) {
       <>
         <ItemSetting hd='进度' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='进度' height={filter ? 440 : 760} onClose={setFalse}>
+          <HomeTabs filter={filter} />
           {shows.homeLayout && <HomeLayout filter={filter} />}
           {shows.homeListCompact && isList && <HomeListCompact filter={filter} />}
           {shows.homeGridCoverLayout && !isList && <HomeGridCoverLayout filter={filter} />}
@@ -62,7 +64,7 @@ function Home({ filter }) {
           {shows.homeICS && <HomeICS filter={filter} />}
           {shows.homeEpStartAtLastWathed && <HomeEpStartAtLast filter={filter} />}
           {shows.homeOnAir && <HomeOnair filter={filter} />}
-          {shows.showGame && <HomeShowGame filter={filter} />}
+          {/* {shows.showGame && <HomeShowGame filter={filter} />} */}
           {shows.homeFilter && <HomeFilter filter={filter} />}
         </ActionSheet>
       </>

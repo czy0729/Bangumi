@@ -540,7 +540,11 @@ export default class Fetch extends Computed {
 
     setTimeout(() => {
       const data = this.subjectComments
-      if (!data?.list?.length || !data?._loaded || data?.version || data?._reverse) return false
+
+      // 不允许有自定义筛选过的数据同步到云端
+      if (!data?.list?.length || !data?._loaded || data?.version || data?._reverse) {
+        return false
+      }
 
       update(`comments_${this.subjectId}`, {
         list: data.list.slice(0, 40),

@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-21 07:02:35
  */
-import { TabLabel } from '../../types'
+import { TabsLabel } from '../../types'
 
 export type Props = {
-  title: TabLabel
+  title: TabsLabel
 }

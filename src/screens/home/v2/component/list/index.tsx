@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 19:51:54
+ * @Last Modified time: 2024-07-11 12:12:40
  */
 import React from 'react'
 import { Loading } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { SettingHomeLayout } from '@types'
-import { Ctx, TabLabel } from '../../types'
+import { Ctx, TabsLabel } from '../../types'
 import Grid from '../grid'
 import List from './list'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
-function ListWrap({ title = '全部' as TabLabel }, { $ }: Ctx) {
+function ListWrap({ title = '全部' as TabsLabel }, { $ }: Ctx) {
   if (!$.collection._loaded) return <Loading />
 
   if (
@@ -31,7 +30,10 @@ function ListWrap({ title = '全部' as TabLabel }, { $ }: Ctx) {
   return (
     <List
       forwardRef={ref => $.forwardRef(ref, title)}
-      styles={memoStyles()}
+      style={{
+        paddingTop: $.listPaddingTop,
+        paddingBottom: _.bottom
+      }}
       data={$.currentCollection(title)}
       title={title}
       scrollToTop={$.scrollToTop(title)}

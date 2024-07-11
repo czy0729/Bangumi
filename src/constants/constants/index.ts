@@ -472,6 +472,9 @@ export const DATA_ALPHABET = [
 /** 1 小时 */
 export const H = 60 * 60
 
+/** 6 小时 */
+export const H6 = H * 6
+
 /** 12 小时 */
 export const H12 = H * 12
 

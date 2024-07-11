@@ -6,7 +6,7 @@
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
-import { date, feedback, getTimestamp, info, sortObject } from '@utils'
+import { date, feedback, getTimestamp, info, pick, sortObject } from '@utils'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { get } from '@utils/protobuf'
@@ -116,24 +116,6 @@ class ScreenHomeV2 extends Action {
       })
       this.save()
 
-      const {
-        avatarRound,
-        cdn,
-        cdnAvatarV2,
-        customFontFamily,
-        focusAction,
-        focusOrigin,
-        homeLayout,
-        homeListCompact,
-        homeSorting,
-        homeTopLeftCustom,
-        homeTopRightCustom,
-        katakana,
-        live2D,
-        onlineStatus,
-        vibration,
-        webhook
-      } = systemStore.setting
       update(`u_${this.userId}`, {
         b: Device.brand,
         y: Device.deviceYearClass,
@@ -151,24 +133,32 @@ class ScreenHomeV2 extends Action {
           isDark: _.isDark,
           deepDark: _.deepDark
         },
-        s: {
-          avatarRound,
-          cdn,
-          cdnAvatarV2,
-          customFontFamily,
-          focusAction,
-          focusOrigin,
-          homeLayout,
-          homeListCompact,
-          homeSorting,
-          homeTopLeftCustom,
-          homeTopRightCustom,
-          katakana,
-          live2D,
-          onlineStatus,
-          vibration,
-          webhook
-        },
+        s: pick(systemStore.setting, [
+          'androidBlur',
+          'avatarRound',
+          'cdn',
+          'cdnAvatarV2',
+          'cnFirst',
+          'customFontFamily',
+          'heatMap',
+          'homeLayout',
+          'homeListCompact',
+          'homeRenderTabs',
+          'homeSorting',
+          'homeTabs',
+          'homeTopLeftCustom',
+          'homeTopRightCustom',
+          'initialPage',
+          'katakana',
+          'live2D',
+          'onlineStatus',
+          's2t',
+          'showGame',
+          'squircle',
+          'tinygrail',
+          'vibration',
+          'webhook'
+        ]),
         e: sortObject(systemStore.t),
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA

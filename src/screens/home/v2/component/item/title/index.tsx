@@ -9,7 +9,7 @@ import { Highlight, Katakana } from '@components'
 import { cnjp, getPinYinFilterValue, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { SubjectId, SubjectTypeCn } from '@types'
-import { Ctx, TabLabel } from '../../../types'
+import { Ctx, TabsLabel } from '../../../types'
 import Doing from './doing'
 import { COMPONENT } from './ds'
 
@@ -24,7 +24,7 @@ function Title(
   }: {
     subjectId: SubjectId
     typeCn: SubjectTypeCn
-    title: TabLabel
+    title: TabsLabel
     name: string
     name_cn: string
     doing: number

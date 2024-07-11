@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 06:15:32
+ * @Last Modified time: 2024-07-10 12:14:21
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -30,7 +30,7 @@ import {
   SettingUserGridNum
 } from '@types'
 import { IOS_IMAGE_CACHE_V2 } from '../../../config'
-import { HomeRenderTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
+import { HomeRenderTabs, HomeTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
 
 export const NAMESPACE = 'System'
 
@@ -162,7 +162,7 @@ export const INIT_SETTING = {
   /** 黑暗模式是否纯黑 */
   deepDark: true,
 
-  /** 设置页面显示最基本的设置 */
+  /** @deprecated 设置页面显示最基本的设置 */
   simple: true,
 
   /** 头像是否圆形 */
@@ -177,7 +177,7 @@ export const INIT_SETTING = {
   /** 使用 CDN 加速 */
   cdn: false,
 
-  /** CDN 源头 */
+  /** @deprecated CDN 源头 */
   cdnOrigin: MODEL_SETTING_CDN_ORIGIN.getValue<SettingCDNOrigin>('magma'),
 
   /** 头像启用付费 CDN */
@@ -278,6 +278,9 @@ export const INIT_SETTING = {
 
   /** 首页 Tabs 项 */
   homeRenderTabs: ['Discovery', 'Timeline', 'Home', 'Rakuen', 'User'] as HomeRenderTabs,
+
+  /** 首页进度 Tabs 范围 */
+  homeTabs: ['all', 'anime', 'book', 'real'] as HomeTabs,
 
   /** 首页收藏布局 */
   homeLayout: MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('列表'),
@@ -390,13 +393,13 @@ export const INIT_SETTING = {
   androidBlur: STORYBOOK,
 
   /** 毛玻璃: 首屏页面顶部和底部 (android) */
-  blurBottomTabs: true,
+  blurBottomTabs: STORYBOOK,
 
   /** 毛玻璃: 轻提示 (android) */
-  blurToast: true,
+  blurToast: STORYBOOK,
 
   /** 毛玻璃: 模态框 (android) */
-  blurModal: true,
+  blurModal: STORYBOOK,
 
   /** 自定义百度翻译 APP ID */
   baiduAppId: '',

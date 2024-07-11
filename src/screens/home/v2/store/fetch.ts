@@ -8,8 +8,9 @@ import { collectionStore, subjectStore, userStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
 import { decode } from '@utils/protobuf'
 import {
-  MODEL_COLLECTIONS_ORDERBY,
+  H6,
   MODEL_COLLECTION_STATUS,
+  MODEL_COLLECTIONS_ORDERBY,
   MODEL_SUBJECT_TYPE
 } from '@constants'
 import { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from '@types'
@@ -39,11 +40,8 @@ export default class Fetch extends Computed {
     let { _loaded } = subject
     if (typeof _loaded !== 'number') _loaded = 0
 
-    // 每个条目再次请求间隔以 4 小时为间隔 index 为递增
-    if (
-      subject?._responseGroup !== 'large' ||
-      getTimestamp() - _loaded >= 60 * 60 * 4 * (index + 1)
-    ) {
+    // 每个条目再次请求间隔以 6 小时为间隔 index 为递增
+    if (subject?._responseGroup !== 'large' || getTimestamp() - _loaded >= H6 * (index + 1)) {
       flag = true
     }
 
@@ -73,8 +71,7 @@ export default class Fetch extends Computed {
 
   /** 队列请求条目信息 */
   fetchSubjectsQueue = async (list = []) => {
-    const { fetching } = this.state.progress
-    if (fetching) return false
+    if (this.state.progress.fetching) return false
 
     const fetchs = this.sortList(list).map(({ subject_id }, index) => () => {
       return this.fetchSubject(subject_id, index, true)
@@ -103,10 +100,9 @@ export default class Fetch extends Computed {
 
   /** 请求在玩的游戏 */
   fetchDoingGames = (refresh?: boolean) => {
-    const { username } = this.usersInfo
     return collectionStore.fetchUserCollections(
       {
-        userId: username || this.userId,
+        userId: this.usersInfo.username || this.userId,
         subjectType: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('游戏'),
         type: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看'),
         order: MODEL_COLLECTIONS_ORDERBY.getValue<CollectionsOrder>('收藏时间'),

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-21 08:23:13
+ * @Last Modified time: 2024-07-10 17:26:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,14 @@ function Grid({ title = '全部' }: Props, { $ }: Ctx) {
 
   const styles = memoStyles()
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          paddingTop: $.listPaddingTop
+        }
+      ]}
+    >
       <Info title={title} />
       <View>
         <Linear />

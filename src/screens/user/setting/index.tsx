@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 05:55:53
+ * @Last Modified time: 2024-07-10 10:10:35
  */
 import React from 'react'
 import { Component, Header, Input, Page, ScrollView } from '@components'
@@ -90,7 +90,7 @@ const Setting = (props: NavigationProps) => {
           <Block>
             <Tip>系统</Tip>
             <Storage filter={filter} />
-            <System navigation={navigation} filter={filter} />
+            <System filter={filter} />
             <Timezone filter={filter} />
             <DangerZone navigation={navigation} filter={filter} />
           </Block>

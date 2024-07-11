@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-09 09:05:42
+ * @Last Modified time: 2024-07-11 12:13:03
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -30,7 +30,7 @@ const Home = (props, context: Ctx) => {
         {$.isLogin ? (
           <>
             <Header />
-            {$.state._loaded && <Tab length={$.tabs.length} />}
+            {$.state._loaded && <Tab keys={$.tabs.map(item => item.key)} />}
             <Tips />
             <Modal />
           </>

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:40:12
+ * @Last Modified time: 2024-07-10 17:29:40
  */
 import { computed } from 'mobx'
-import { calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
+import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { Ep } from '@stores/subject/types'
 import { desc, findLastIndex, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
@@ -15,6 +15,7 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SUBJECT_TYPE,
+  PAD,
   SITES_DS,
   STORYBOOK
 } from '@constants'
@@ -28,8 +29,8 @@ import {
   SubjectType,
   SubjectTypeValue
 } from '@types'
-import { TABS, TABS_WITH_GAME } from '../ds'
-import { TabLabel } from '../types'
+import { H_TABBAR, TABS_ITEM } from '../ds'
+import { Tabs, TabsLabel } from '../types'
 import State from './state'
 import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
@@ -41,16 +42,32 @@ export default class Computed extends State {
     return topMap
   }
 
-  /** Tabs data */
+  /** Tabs SceneMap */
   @computed get tabs() {
-    return systemStore.setting.showGame ? TABS_WITH_GAME : TABS
+    const tabs: Tabs = []
+    systemStore.setting.homeTabs.forEach(item => {
+      if (TABS_ITEM[item]) tabs.push(TABS_ITEM[item])
+    })
+    if (systemStore.setting.showGame) tabs.push(TABS_ITEM.game)
+    return tabs
   }
 
+  /** Tabs navigationState */
   @computed get navigationState() {
+    const { page } = this.state
     return {
-      index: this.state.page,
+      index: page > this.tabs.length - 1 ? 0 : page,
       routes: this.tabs
     }
+  }
+
+  /** 列表上内距 */
+  @computed get listPaddingTop() {
+    return (
+      _.headerHeight +
+      (this.tabs.length <= 1 ? _.sm : H_TABBAR) +
+      (IOS && PAD ? _.statusBarHeight : 0)
+    )
   }
 
   /** 自己用户 Id */
@@ -70,7 +87,7 @@ export default class Computed extends State {
 
   /** 当前 Tabs label */
   @computed get tabsLabel() {
-    return this.tabs[this.state.page].title
+    return this.tabs[this.state.page]?.title
   }
 
   /** 每个 Item 的状态 */
@@ -107,7 +124,7 @@ export default class Computed extends State {
   }
 
   /** 列表当前数据 */
-  currentCollection(title: TabLabel) {
+  currentCollection(title: TabsLabel) {
     return computed(() => {
       const key = `${NAMESPACE}|${title}`
       if (this.state.progress.fetching) {
@@ -251,11 +268,11 @@ export default class Computed extends State {
   }
 
   /** 当前列表有过滤 */
-  isFilter(title: TabLabel) {
+  isFilter(title: TabsLabel) {
     return computed(() => {
       const { filterPage } = this.state
       if (filterPage >= 0 && filterPage <= this.tabs.length) {
-        return this.tabs[filterPage].title === title && !!this.state.filter
+        return this.tabs[filterPage]?.title === title && !!this.state.filter
       }
 
       return false
@@ -556,9 +573,9 @@ export default class Computed extends State {
   }
 
   /** 是否渲染 Item */
-  showItem(title: TabLabel) {
+  showItem(title: TabsLabel) {
     return computed(() => {
-      if (!IOS) return true
+      if (!IOS || this.tabs.length <= 1) return true
 
       const index = this.tabs.findIndex(item => item.title === title)
       return this.state.renderedTabsIndex.includes(index)
@@ -635,12 +652,14 @@ export default class Computed extends State {
   }
 
   /** 当前是否显示 ScrollToTop 组件 */
-  scrollToTop(title: TabLabel) {
-    if (IOS) return false
+  scrollToTop(title: TabsLabel) {
+    return false
 
-    return computed(() => {
-      return this.state.isFocused && TABS_WITH_GAME[this.state.page].title === title
-    }).get()
+    // if (IOS) return false
+
+    // return computed(() => {
+    //   return this.state.isFocused && TABS_WITH_GAME[this.state.page].title === title
+    // }).get()
   }
 
   @computed get hm() {

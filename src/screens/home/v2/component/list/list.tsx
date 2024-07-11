@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 12:58:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 18:18:12
+ * @Last Modified time: 2024-07-10 17:17:29
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
@@ -15,7 +15,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 const List = memo(
   ({
     forwardRef,
-    styles,
+    style,
     data,
     title,
     scrollToTop,
@@ -48,8 +48,8 @@ const List = memo(
     return (
       <PaginationList2
         forwardRef={forwardRef}
-        contentContainerStyle={styles.contentContainerStyle}
-        progressViewOffset={styles.contentContainerStyle.paddingTop}
+        contentContainerStyle={style}
+        progressViewOffset={style.paddingTop}
         keyExtractor={keyExtractor}
         data={data.list}
         limit={20}

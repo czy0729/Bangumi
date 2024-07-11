@@ -6,7 +6,7 @@
  */
 import { rc } from '@utils/dev'
 import { Override, Subject, SubjectId } from '@types'
-import { TabLabel } from '../../types'
+import { TabsLabel } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Item')
@@ -35,7 +35,7 @@ export type Props = {
       time?: string
     }
   >
-  title?: TabLabel
+  title?: TabsLabel
 
   /** 看到多少集 */
   epStatus: string | number
@@ -44,7 +44,7 @@ export type Props = {
 /** item.tsx */
 export const DEFAULT_PROPS = {
   index: 0 as number,
-  title: '' as TabLabel,
+  title: '' as TabsLabel,
   subjectId: 0 as SubjectId,
   type: '2' as Subject['type'],
   image: '' as Subject['images']['medium'],

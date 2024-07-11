@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 19:22:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:30:10
+ * @Last Modified time: 2024-07-10 17:26:46
  */
 import { _ } from '@stores'
 
@@ -11,7 +11,6 @@ export const memoStyles = _.memoStyles(() => {
   return {
     container: {
       flex: 1,
-      paddingTop: _.tabsHeaderHeight + _.xs,
       overflow: 'hidden'
     },
     info: {
