@@ -22,7 +22,7 @@ export const TEXT_EMPTY = '好像什么都没有'
 export const TEXT_18X = '什么都没找到\n敏感内容需要账号成年(注册2个月)才能显示哦'
 
 /** 找番剧静态数据最后更新时间 */
-export const TEXT_UPDATE_ANIME = '2024-03-30'
+export const TEXT_UPDATE_ANIME = '2024-07-12'
 
 /** 找游戏、ADV 静态数据最后更新时间 */
 export const TEXT_UPDATE_GAME = '2023-12-19'
@@ -38,7 +38,7 @@ export const TEXT_UPDATE_QIAFAN = '2024-03-25'
 
 /** 找条目数目 */
 export const TEXT_TOTAL = {
-  番剧: 4313,
+  番剧: 4504,
   游戏: 2837,
   ADV: 731,
   漫画: 9808,

@@ -80,7 +80,7 @@ export default class Action extends Fetch {
   }
 
   /** 手动更新登录用户信息 */
-  updateUserInfo = (userInfo: typeof this.userInfo) => {
+  updateUserInfo = (userInfo: any) => {
     this.setState({
       userInfo
     })
@@ -196,8 +196,8 @@ export default class Action extends Fetch {
 
     const responseHtml = String(data?.html || '')
     if (
-      responseHtml.includes('<title>bgm.tv | 502: Bad gateway</title>') ||
-      responseHtml.includes('Can not connect to MySQL server')
+      responseHtml.includes('Can not connect to MySQL server') ||
+      /<title>bgm\.tv \| 5\d{2}:.*<\/title>/.test(responseHtml)
     ) {
       this.setWebsiteError()
     }

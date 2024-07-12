@@ -8,3 +8,10 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'ErrorNotice')
+
+export const HIT_SLOP = {
+  top: 8,
+  right: 8,
+  bottom: 8,
+  left: 8
+} as const

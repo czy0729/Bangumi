@@ -84,17 +84,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const {
-    area,
-    type,
-    first,
-    year,
-    begin,
-    status,
-    tags = [],
-    official,
-    sort
-  } = query || {}
+  const { area, type, first, year, begin, status, tags = [], official, sort } = query || {}
 
   if (sort !== '随机' && cacheMap.has(finger)) {
     return cacheMap.get(finger)

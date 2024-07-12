@@ -61,6 +61,7 @@ export default class Fetch extends Computed {
   }) => {
     const { scope = DEFAULT_SCOPE, type = DEFAULT_TYPE } = args || {}
     const list = await fetchRakuen({ scope, type })
+    if (!list?.length) return []
 
     const key = 'rakuen'
     const stateKey = `${scope}|${type}`

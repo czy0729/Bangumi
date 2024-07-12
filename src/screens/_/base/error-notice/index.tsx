@@ -13,7 +13,7 @@ import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { IconTouchable } from '../../icon'
 import { BlurView } from '../blur-view'
-import { COMPONENT } from './ds'
+import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 
 /** 主站 502 轻提示 */
@@ -47,6 +47,7 @@ export const ErrorNotice = () => {
               style={_.ml.sm}
               name='md-close'
               size={18}
+              hitSlop={HIT_SLOP}
               onPress={() => setShow(false)}
             />
           </Flex>
