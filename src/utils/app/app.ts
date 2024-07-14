@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 19:19:33
+ * @Last Modified time: 2024-07-14 20:53:28
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -326,4 +326,19 @@ export function getGroupThumbStatic(src: string) {
         .replace(/\/g\/|\/m\/|\/c\/|\/l\//, '/s/')
     ] || src
   )
+}
+
+export function formatPlaytime(time: string) {
+  if (!time || typeof time !== 'string') return ''
+
+  return time
+    .toLocaleLowerCase()
+    .replace('very ', '超')
+    .replace('long', '长')
+    .replace('medium', '中')
+    .replace('short', '短')
+    .replace('&lt;', '小于')
+    .replace('hours', '时')
+    .replace('h', '时')
+    .replace('m', '分')
 }

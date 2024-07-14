@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 18:24:57
+ * @Last Modified time: 2024-07-14 20:53:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,12 @@ import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
-import { HTMLDecode, showImageViewer, stl } from '@utils'
+import { formatPlaytime, HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../../types'
-import { formatPlaytime } from '../utils'
 import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'

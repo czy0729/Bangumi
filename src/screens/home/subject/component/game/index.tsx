@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:25:53
+ * @Last Modified time: 2024-07-14 21:04:17
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Expand, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, otaStore, systemStore } from '@stores'
-import { open, showImageViewer, stl } from '@utils'
+import { formatPlaytime, open, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { CDN_GAME, SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { CDN_ADV, CDN_GAME, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { TITLE_GAME } from '../../ds'
 import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
@@ -29,41 +29,48 @@ class Game extends React.Component<{
   }
 
   onScroll = () => {
-    const { scrolled } = this.state
-    if (!scrolled) {
+    if (!this.state.scrolled) {
       this.setState({
         scrolled: true
       })
     }
   }
 
-  get data() {
+  get isADV() {
     const { $ } = this.context as Ctx
-    const length = otaStore.game($.subjectId)?.l
-    if (typeof length !== 'number' || !length) return []
+    return !!$.gameInfo?.isADV
+  }
 
+  get thumbs() {
+    const { $ } = this.context as Ctx
+    if (this.isADV) {
+      const length = otaStore.adv($.subjectId)?.length
+      if (typeof length !== 'number' || length <= 0) return []
+      return new Array(length).fill('').map((item, index) => CDN_ADV($.subjectId, index))
+    }
+
+    const length = otaStore.game($.subjectId)?.l
+    if (typeof length !== 'number' || length <= 0) return []
     return new Array(length).fill('').map((item, index) => CDN_GAME($.subjectId, index))
   }
 
-  get data2() {
+  get previews() {
     const { $ } = this.context as Ctx
-    const length = otaStore.game($.subjectId)?.l
-    if (typeof length !== 'number' || !length) return []
+    if (this.isADV) {
+      const length = otaStore.adv($.subjectId)?.length
+      if (typeof length !== 'number' || length <= 0) return []
+      return new Array(length).fill('').map((item, index) => CDN_ADV($.subjectId, index, false))
+    }
 
+    const length = otaStore.game($.subjectId)?.l
+    if (typeof length !== 'number' || length <= 0) return []
     return new Array(length).fill('').map((item, index) => CDN_GAME($.subjectId, index, false))
   }
 
-  get isADV() {
-    const { $ } = this.context as Ctx
-    const isADV = $.gameInfo?.isADV
-    return !!isADV
-  }
-
   renderThumbs() {
-    if (!this.data?.length) return null
+    if (!this.thumbs?.length) return null
 
     const { $ } = this.context as Ctx
-    const { scrolled } = this.state
     return (
       <ScrollView
         style={_.mt.md}
@@ -71,16 +78,16 @@ class Game extends React.Component<{
         horizontal
         {...SCROLL_VIEW_RESET_PROPS}
         scrollEventThrottle={8}
-        onScroll={scrolled ? undefined : this.onScroll}
+        onScroll={this.state.scrolled ? undefined : this.onScroll}
       >
-        {this.data.map((item, index) => (
+        {this.thumbs.map((item, index) => (
           <Image
             style={index ? this.styles.image : this.styles.imageSide}
             key={item}
             src={item}
             size={THUMB_WIDTH}
             height={THUMB_HEIGHT}
-            radius
+            radius={_.radiusSm}
             errorToHide
             onPress={() => {
               t('条目.游戏截图', {
@@ -88,7 +95,7 @@ class Game extends React.Component<{
               })
 
               showImageViewer(
-                this.data2.map(item => ({
+                this.previews.map(item => ({
                   url: item
                 })),
                 index
@@ -102,21 +109,41 @@ class Game extends React.Component<{
 
   renderDetails() {
     const { $ } = this.context as Ctx
-    const {
-      t: title,
-      ta: tag = [],
-      pl: platform = [],
-      en: time,
-      cn: timeCn,
-      d: dev,
-      p: publish
-    } = otaStore.game($.subjectId)
-    const _dev = (typeof dev === 'object' ? dev : [dev])
+    let title = ''
+    let tag = []
+    let platform = []
+    let time = ''
+    let timeCn = ''
+    let dev: string | string[] = ''
+    let publish: string | string[] = ''
+    let playtime = ''
+    let cn = false
+
+    if (this.isADV) {
+      const adv = otaStore.adv($.subjectId)
+      if (adv.title) title = adv.title
+      if (adv.date) time = adv.date
+      if (adv.dev) dev = adv.dev
+      if (adv.time) playtime = formatPlaytime(adv.time)
+      if (adv.cn) cn = true
+    } else {
+      const game = otaStore.game($.subjectId)
+      title = game.t
+      tag = game.ta || []
+      platform = game.pl || []
+      time = game.en
+      timeCn = game.cn
+      dev = game.d
+      publish = game.p
+    }
+
+    const developer = (typeof dev === 'object' ? dev : [dev])
       .map(item => String(item).trim())
       .filter(item => !!item)
-    const _pub = (typeof publish === 'object' ? publish : [publish])
+    const publisher = (typeof publish === 'object' ? publish : [publish])
       .map(item => String(item).trim())
       .filter(item => !!item)
+
     return (
       <View style={this.styles.details}>
         {!!title && (
@@ -134,14 +161,14 @@ class Game extends React.Component<{
             平台∶{platform.join('、')}
           </Text>
         )}
-        {!!_dev.length && (
+        {!!developer.length && (
           <Text lineHeight={22} selectable>
-            开发商∶{_dev.join('、')}
+            开发商∶{developer.join('、')}
           </Text>
         )}
-        {!!_pub.length && !this.isADV && (
+        {!!publisher.length && !this.isADV && (
           <Text lineHeight={22} selectable>
-            发行商∶{_pub.join('、')}
+            发行商∶{publisher.join('、')}
           </Text>
         )}
         {!!time && timeCn !== time && (
@@ -152,6 +179,16 @@ class Game extends React.Component<{
         {!!timeCn && (
           <Text lineHeight={22} selectable>
             中文发售∶{timeCn}
+          </Text>
+        )}
+        {!!playtime && (
+          <Text lineHeight={22} selectable>
+            游玩时间∶{playtime}
+          </Text>
+        )}
+        {!!cn && (
+          <Text lineHeight={22} selectable>
+            汉化∶有
           </Text>
         )}
         <Touchable

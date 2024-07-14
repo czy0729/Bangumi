@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 16:25:22
+ * @Last Modified time: 2024-07-14 20:18:26
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -14,7 +14,7 @@ import { pick as wenkuPick } from '@utils/subject/wenku'
 import { StoreConstructor, SubjectId } from '@types'
 import { STATE } from './init'
 import State from './state'
-import { ADVItem, AnimeItem, HentaiItem, MangaItem, WenkuItem } from './types'
+import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   animeSubjectId(pickIndex: number): SubjectId {
@@ -54,7 +54,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   game(subjectId: SubjectId) {
     this.init('game')
-    return computed<ADVItem>(() => {
+    return computed<GameItem>(() => {
       return this.state.game[`game_${subjectId}`] || {}
     }).get()
   }
