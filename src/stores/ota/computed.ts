@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 14:51:38
+ * @Last Modified time: 2024-07-14 16:25:22
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -12,9 +12,9 @@ import { pick as hentaiPick } from '@utils/subject/hentai'
 import { pick as mangaPick } from '@utils/subject/manga'
 import { pick as wenkuPick } from '@utils/subject/wenku'
 import { StoreConstructor, SubjectId } from '@types'
-import State from './state'
 import { STATE } from './init'
-import { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
+import State from './state'
+import { ADVItem, AnimeItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   animeSubjectId(pickIndex: number): SubjectId {
@@ -52,6 +52,13 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
+  game(subjectId: SubjectId) {
+    this.init('game')
+    return computed<ADVItem>(() => {
+      return this.state.game[`game_${subjectId}`] || {}
+    }).get()
+  }
+
   advSubjectId(pickIndex: number): SubjectId {
     return computed(() => {
       const item = advPick(pickIndex)
@@ -59,10 +66,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  game(subjectId: SubjectId) {
-    this.init('game')
-    return computed<GameItem | ADVItem>(() => {
-      return this.state.game[`game_${subjectId}`] || {}
+  adv(subjectId: SubjectId) {
+    this.init('adv')
+    return computed<ADVItem>(() => {
+      return this.state.adv[`adv_${subjectId}`] || {}
     }).get()
   }
 

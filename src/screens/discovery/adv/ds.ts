@@ -2,33 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:25:41
+ * @Last Modified time: 2024-07-14 17:28:38
  */
-import {
-  ADV_COLLECTED,
-  ADV_DEV,
-  ADV_FIRST,
-  ADV_SORT,
-  ADV_YEAR
-} from '@utils/subject/adv'
-import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
+import { ADV_COLLECTED, ADV_DEV, ADV_FIRST, ADV_SORT, ADV_YEAR } from '@utils/subject/adv'
+import { ADV_CN, ADV_PLAYTIME } from '@utils/subject/adv/ds'
 
-export const NAMESPACE = 'ScreenADV'
-
-export const STATE = {
-  query: {
-    first: '',
-    year: 2022,
-    dev: '',
-    sort: '评分人数',
-    collected: ''
-  },
-  data: LIST_EMPTY,
-  layout: 'list',
-  expand: false,
-  _loaded: false as Loaded
-}
+export const COMPONENT = 'ADV'
 
 export const ADVANCE_LIMIT = 60
 
@@ -55,13 +34,23 @@ export const filterDS = [
     multiple: true
   },
   {
+    title: '时长　',
+    type: 'playtime',
+    data: ADV_PLAYTIME
+  },
+  {
+    title: '汉化　',
+    type: 'cn',
+    data: ADV_CN
+  },
+  {
     title: '排序　',
     type: 'sort',
     data: ADV_SORT,
     always: true
   },
   {
-    title: '收藏',
+    title: '收藏　',
     type: 'collected',
     data: ADV_COLLECTED
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-18 21:33:17
+ * @Last Modified time: 2024-07-14 17:08:28
  */
 import {
   GAME_CATE,
@@ -95,7 +95,7 @@ export const filterDS = [
     always: true
   },
   {
-    title: '收藏',
+    title: '收藏　',
     type: 'collected',
     data: GAME_COLLECTED
   }
@@ -139,7 +139,7 @@ export const advFilterDS = [
     always: true
   },
   {
-    title: '收藏',
+    title: '收藏　',
     type: 'collected',
     data: GAME_COLLECTED
   }

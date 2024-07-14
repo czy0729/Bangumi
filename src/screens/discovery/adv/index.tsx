@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:09:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 22:15:05
+ * @Last Modified time: 2024-07-14 18:03:13
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from '../anime/header'
-import List from './list'
+import List from './component/list'
 import Store from './store'
 import { Ctx } from './types'
 

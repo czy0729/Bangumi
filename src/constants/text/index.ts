@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 10:39:29
+ * @Last Modified time: 2024-07-14 16:58:48
  */
 import { STORYBOOK } from '../device'
 
@@ -25,7 +25,7 @@ export const TEXT_18X = '什么都没找到\n敏感内容需要账号成年(注�
 export const TEXT_UPDATE_ANIME = '2024-07-12'
 
 /** 找游戏、ADV 静态数据最后更新时间 */
-export const TEXT_UPDATE_GAME = '2023-12-19'
+export const TEXT_UPDATE_GAME = '2024-07-14'
 
 /** 找漫画最后更新时间 */
 export const TEXT_UPDATE_MANGA = '2023-12-18'
@@ -40,7 +40,7 @@ export const TEXT_UPDATE_QIAFAN = '2024-03-25'
 export const TEXT_TOTAL = {
   番剧: 4504,
   游戏: 2837,
-  ADV: 731,
+  ADV: 3600,
   漫画: 9808,
   文库: 2740,
   Hentai: 1036

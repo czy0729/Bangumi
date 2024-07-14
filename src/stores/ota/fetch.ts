@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:45:42
+ * @Last Modified time: 2024-07-14 16:26:18
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
@@ -144,7 +144,7 @@ export default class Fetch extends Computed {
     const keys = []
     list.forEach(index => {
       const subjectId = this.advSubjectId(index)
-      const key = `game_${subjectId}`
+      const key = `adv_${subjectId}`
       if (!subjectId || key in this.state.game) return
       keys.push(key)
     })
@@ -152,7 +152,7 @@ export default class Fetch extends Computed {
 
     const datas = await gets(keys)
     if (datas) {
-      const key = 'game'
+      const key = 'adv'
       const data = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]

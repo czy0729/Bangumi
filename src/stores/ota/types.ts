@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:23:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:15:50
+ * @Last Modified time: 2024-07-14 16:35:25
  */
 export type AnimeItem = {
   id: number
@@ -60,20 +60,17 @@ export type GameItem = {
 
 export type ADVItem = {
   id: number
-  t: string
-  en: string
-  cn?: undefined
-  c: string
-  sc?: number
-  r?: number
-  o?: number
-  l: number
-  ta?: undefined
-  d: string
-  p?: undefined
-  pl?: undefined
-  vc?: undefined
-  vs?: undefined
+  vid: number
+  title: string
+  length: number
+  cover: string
+  date: string
+  dev: string
+  rank: number
+  score: number
+  total: number
+  time: string
+  cn: number
 }
 
 /**

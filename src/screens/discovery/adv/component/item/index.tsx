@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:30:19
+ * @Last Modified time: 2024-07-14 18:24:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,16 +15,18 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { formatPlaytime } from '../utils'
 import { getThumbs } from './utils'
-import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
+import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
 function Item({ index, pickIndex }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.advSubjectId(pickIndex)
-  const game = otaStore.game(subjectId)
-  const { id, t: title, c: image, en: time, sc: score, r: rank, o: total, l: length, d: dev } = game
+  const adv = otaStore.adv(subjectId)
+
+  const { id, title, cover, date, score, rank, total, length, dev, time, cn } = adv
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -36,11 +38,13 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   const _title = HTMLDecode(title)
   const size = _title.length >= 20 ? 13 : _title.length >= 14 ? 14 : 15
 
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
+  const image = cover ? `https://lain.bgm.tv/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
   const thumbs = getThumbs(id, length)
   const thumbs2 = getThumbs(id, length, false)
 
-  const tipStr = [time, dev].filter((item: string) => !!item).join(' / ')
+  const tipStr = [date, dev, formatPlaytime(time), cn ? '汉化' : '']
+    .filter((item: string) => !!item)
+    .join(' / ')
   const collection = collectionStore.collect(id)
   return (
     <Touchable
@@ -50,7 +54,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
         navigation.push('Subject', {
           subjectId: id,
           _cn: title,
-          _image: getCoverSrc(cover, IMG_WIDTH_LG),
+          _image: getCoverSrc(image, IMG_WIDTH_LG),
           _type: '游戏'
         })
 
@@ -60,7 +64,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow type='游戏' />
+        <Cover src={image} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius type='游戏' />
         <Flex style={styles.content} direction='column' align='start'>
           <View style={styles.body}>
             <Flex style={_.container.block} align='start'>
@@ -110,7 +114,8 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
                     src={item}
                     size={THUMB_WIDTH}
                     height={THUMB_HEIGHT}
-                    radius
+                    radius={_.radiusSm}
+                    errorToHide
                     onPress={() => {
                       showImageViewer(
                         thumbs2.map(item => ({
@@ -152,4 +157,4 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:31:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-20 04:30:10
+ * @Last Modified time: 2024-07-14 16:23:41
  */
 /** 命名空间 */
 export const NAMESPACE = 'OTA'
@@ -18,9 +18,14 @@ export const STATE = {
     mox_0: {}
   },
 
-  /** 找游戏 | ADV */
+  /** 找游戏  */
   game: {
     game_0: {}
+  },
+
+  /** 找 ADV */
+  adv: {
+    adv_0: {}
   },
 
   /** 找文库 */
@@ -38,6 +43,7 @@ export const LOADED = {
   anime: false,
   manga: false,
   game: false,
+  adv: false,
   wenku: false,
   hentai: false
 }

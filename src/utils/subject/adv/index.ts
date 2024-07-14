@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-22 03:34:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:06:11
+ * @Last Modified time: 2024-07-14 17:31:10
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
-import { SORT } from './../anime'
+import { SORT } from '../anime'
 import {
   ADV_COLLECTED,
   ADV_DEV,
   ADV_DEV_MAP,
   ADV_FIRST,
+  ADV_PLAYTIME_MAP,
   ADV_SORT,
   ADV_YEAR
 } from './ds'
@@ -62,7 +63,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, dev, sort } = query || {}
+  const { first, year, dev, playtime, cn, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -80,6 +81,16 @@ export function search(query: Query): SearchResult {
     if (match && first) match = item.f !== undefined && first === item.f
     if (match && year) match = yearReg.test(item.en)
     if (match && dev) match = item.d === ADV_DEV_MAP[dev]
+    if (match && playtime) {
+      match = playtime === '不明' ? !item.t : item.t === ADV_PLAYTIME_MAP[playtime]
+    }
+    if (match && cn) {
+      if (cn === '有') {
+        match = item.cn >= 1
+      } else if (cn === '无') {
+        match = !item.cn
+      }
+    }
     if (match) _list.push(index)
   })
 
