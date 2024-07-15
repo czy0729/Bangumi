@@ -174,7 +174,9 @@ export function cheerioRecents(html: string) {
 
 /** 用户日志列表 */
 export function cheerioBlogs(html: string) {
-  const $ = cheerio(html)
+  const $ = cheerio(
+    htmlMatch(html, '<div id="columnA" class="column">', '<div id="columnB" class="column">')
+  )
   return (
     $('div#entry_list > div.item')
       .map((index: number, element: any) => {

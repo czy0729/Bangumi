@@ -23,11 +23,16 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: _.wind
   },
   tags: {
-    padding: _.sm,
+    paddingVertical: 6,
+    paddingHorizontal: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderWidth: _.select(_.hairlineWidth, 0),
     borderColor: _.colorBorder,
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  tagsBorder: {
+    borderWidth: _.hairlineWidth,
+    borderColor: _.select('rgba(0, 0, 0, 0.16)', 'rgba(255, 255, 255, 0.16)')
   }
 }))

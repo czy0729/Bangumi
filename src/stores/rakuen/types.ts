@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-07 07:26:04
+ * @Last Modified time: 2024-07-15 14:14:14
  */
 import {
   Avatar,
@@ -261,3 +261,9 @@ export type Reviews = ListEmpty<
     content: string
   }>
 >
+
+/** 用户书签 */
+export type BookmarksItem = {
+  href: string
+  title: string
+}

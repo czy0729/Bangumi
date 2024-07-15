@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 19:40:46
+ * @Last Modified time: 2024-07-15 14:28:49
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -250,6 +250,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state.blockedUsers
   }
 
+  /** 用户书签 */
+  @computed get bookmarks() {
+    this.init('bookmarks')
+    return this.state.bookmarks
+  }
+
   /** 表单授权 */
   @computed get formhash() {
     this.init('formhash')
@@ -309,5 +315,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get blockUserIds() {
     const { list } = this.state.blockedUsers
     return list.map(item => `${item.userName}@${item.userId}`)
+  }
+
+  /** 已存书签 */
+  bookmarksSaved(href: string) {
+    if (!href) return false
+
+    return !!this.bookmarks.find(item => item.href === href)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-01 07:45:46
+ * @Last Modified time: 2024-07-15 14:40:48
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -620,6 +620,25 @@ export default class Action extends Fetch {
       [key]: {
         [keyword]: this.blockedTrack(keyword) + 1
       }
+    })
+    this.save(key)
+  }
+
+  /** 更新书签 */
+  toggleBookmarks = (href: string, title: string = '') => {
+    if (!href) return false
+
+    const key = 'bookmarks'
+    this.setState({
+      [key]: this.bookmarksSaved(href)
+        ? this.bookmarks.filter(item => item.href !== href)
+        : [
+            {
+              href,
+              title
+            },
+            ...this.bookmarks
+          ]
     })
     this.save(key)
   }

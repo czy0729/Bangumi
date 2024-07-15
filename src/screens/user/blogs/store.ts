@@ -2,18 +2,26 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:20:54
+ * @Last Modified time: 2024-07-14 21:42:34
  */
-import { computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { usersStore, userStore } from '@stores'
 import store from '@utils/store'
 import { HTML_USERS_BLOGS } from '@constants'
+import { NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
-export default class ScreenBlogs extends store<null> {
+export default class ScreenBlogs extends store<typeof STATE> {
   params: Params
 
-  init = () => {
+  state = observable(STATE)
+
+  init = async () => {
+    this.setState({
+      ...(await this.getStorage(NAMESPACE)),
+      _loaded: true
+    })
+
     return this.refresh()
   }
 

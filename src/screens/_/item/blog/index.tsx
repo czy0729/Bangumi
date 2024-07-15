@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:08:14
+ * @Last Modified time: 2024-07-15 15:05:46
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Katakana, Text, Touchable } from '@components'
+import { Component, Flex, Text, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { Cover } from '../../base'
+import BtnPopover from './btn-popover'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemBlogProps } from './types'
@@ -43,65 +44,68 @@ export const ItemBlog = obc(
     if (subject) line.push(findSubjectCn(subject, id))
     if (time) line.push(time)
 
+    const handlePress = () => {
+      const { id: eventId, data: eventData } = event
+      t(eventId, {
+        to: 'Blog',
+        blogId: id,
+        ...eventData
+      })
+
+      discoveryStore.updateBlogReaded(id)
+      navigation.push('Blog', {
+        blogId: id,
+        _title: title
+      })
+    }
+
     return (
       <Component id='item-blog' data-key={id}>
-        <Touchable
-          style={stl(styles.container, style, readed && styles.readed)}
-          animate
-          onPress={() => {
-            const { id: eventId, data: eventData } = event
-            t(eventId, {
-              to: 'Blog',
-              blogId: id,
-              ...eventData
-            })
-
-            discoveryStore.updateBlogReaded(id)
-            navigation.push('Blog', {
-              blogId: id,
-              _title: title
-            })
-          }}
-        >
-          <Flex align='start' style={styles.wrap}>
+        <View style={stl(styles.container, style, readed && styles.readed)}>
+          <Flex style={styles.wrap} align='start'>
             {!!cover && (
               <View style={styles.imgContainer}>
-                <Cover src={cover} width={IMG_WIDTH_SM} height={IMG_HEIGHT_SM} radius shadow />
+                <Cover src={cover} width={IMG_WIDTH_SM} height={IMG_HEIGHT_SM} radius />
               </View>
             )}
             <Flex.Item>
-              <Text size={15} numberOfLines={2} bold>
-                {HTMLDecode(title)}
-                {replies !== '+0' && (
-                  <Text size={12} type='main' lineHeight={15} bold>
-                    {'  '}
-                    {replies}
-                  </Text>
-                )}
-              </Text>
-              {!!line.length && (
-                <View style={_.mt.xs}>
-                  <Katakana.Provider size={12} bold>
-                    <Katakana type='sub' size={12} bold>
-                      {line.join(' · ')}
-                    </Katakana>
-                  </Katakana.Provider>
-                </View>
-              )}
-              <Text style={_.mt.sm} size={14} lineHeight={15} numberOfLines={5}>
-                {HTMLDecode(content)}
-              </Text>
+              <Flex align='start'>
+                <Flex.Item>
+                  <Touchable onPress={handlePress}>
+                    <Text size={15} numberOfLines={2} bold>
+                      {HTMLDecode(title)}
+                      {replies !== '+0' && (
+                        <Text size={12} type='main' lineHeight={15} bold>
+                          {'  '}
+                          {replies}
+                        </Text>
+                      )}
+                    </Text>
+                    {!!line.length && (
+                      <Text style={_.mt.xs} type='sub' size={12} bold>
+                        {line.join(' · ')}
+                      </Text>
+                    )}
+                  </Touchable>
+                </Flex.Item>
+                <BtnPopover id={id} title={title} />
+              </Flex>
+              <Touchable style={_.mt.sm} onPress={handlePress}>
+                <Text size={14} lineHeight={15} numberOfLines={4}>
+                  {HTMLDecode(content)}
+                </Text>
+              </Touchable>
               {!!tags.length && (
                 <Flex style={_.mt.md}>
                   <Flex.Item />
-                  <Text style={styles.tags} size={13}>
+                  <Text style={stl(styles.tags, readed && styles.tagsBorder)} size={13}>
                     tags: {typeof tags === 'string' ? tags : tags.join(' ')}
                   </Text>
                 </Flex>
               )}
             </Flex.Item>
           </Flex>
-        </Touchable>
+        </View>
       </Component>
     )
   },

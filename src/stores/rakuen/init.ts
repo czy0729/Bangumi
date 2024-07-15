@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 19:40:50
+ * @Last Modified time: 2024-07-15 14:23:31
  */
 import {
   LIST_EMPTY,
@@ -11,7 +11,7 @@ import {
   MODEL_RAKUEN_TYPE
 } from '@constants'
 import { Avatar, Loaded, RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
-import { BlockedUsersItem, PrivacyValue } from './types'
+import { BlockedUsersItem, BookmarksItem, PrivacyValue } from './types'
 
 export const NAMESPACE = 'Rakuen'
 
@@ -304,6 +304,9 @@ const STATE = {
     _loaded: 0 as Loaded
   },
 
+  /** 用户书签 */
+  bookmarks: [] as BookmarksItem[],
+
   /** 表单授权 */
   formhash: ''
 }
@@ -324,10 +327,11 @@ for (let i = 0; i < 100; i += 1) {
 export { STATE }
 
 export const LOADED = {
+  blockedTrack: false,
   blockedUsers: false,
   blockedUsersTrack: false,
-  blockedTrack: false,
   blog: false,
+  bookmarks: false,
   cloudTopic: false,
   comments: false,
   favor: false,
