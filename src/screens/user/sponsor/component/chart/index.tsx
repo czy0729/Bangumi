@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-10 13:56:09
+ * @Last Modified time: 2024-07-15 16:19:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,25 +26,47 @@ function Chart({ navigation }: { navigation: Navigation }) {
   const { data, filterLength, filterCount, setFilter, resetFilter } = useTreemapSquarify()
   return useObserver(() => (
     <>
-      <Flex style={styles.filter} justify='center'>
-        {filterLength ? (
-          <>
+      <Flex style={styles.filter} direction='column' justify='center'>
+        <Flex>
+          {filterLength ? (
+            <>
+              <Text size={13} bold>
+                已隐藏 {filterLength} 格，还有 {filterCount} 格未显示
+              </Text>
+              <View style={styles.refresh}>
+                <IconTouchable
+                  name='md-refresh'
+                  color={_.colorDesc}
+                  size={18}
+                  onPress={() => resetFilter()}
+                />
+              </View>
+            </>
+          ) : (
             <Text size={13} bold>
-              已隐藏 {filterLength} 格，还有 {filterCount} 格未显示
+              还有 {filterCount} 格未显示，点击方格隐藏
             </Text>
-            <View style={styles.refresh}>
-              <IconTouchable
-                name='md-refresh'
-                color={_.colorDesc}
-                size={18}
-                onPress={() => resetFilter()}
-              />
-            </View>
-          </>
-        ) : (
-          <Text size={13} bold>
-            还有 {filterCount} 格未显示，点击方格隐藏
-          </Text>
+          )}
+        </Flex>
+        {!filterLength && (
+          <Flex style={_.mt.sm}>
+            <View style={[styles.l, styles.l4]} />
+            <Text style={_.mr.sm} size={10} bold>
+              ≥ 200
+            </Text>
+            <View style={[styles.l, styles.l3]} />
+            <Text style={_.mr.sm} size={10} bold>
+              ≥ 50
+            </Text>
+            <View style={[styles.l, styles.l2]} />
+            <Text style={_.mr.sm} size={10} bold>
+              ≥ 20
+            </Text>
+            <View style={[styles.l, styles.l1]} />
+            <Text style={_.mr.sm} size={10} bold>
+              ≥ 10
+            </Text>
+          </Flex>
         )}
       </Flex>
       <View style={styles.container}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-09 01:55:52
+ * @Last Modified time: 2024-07-15 16:09:41
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -47,7 +47,7 @@ let filterUserIdsCache = []
 export function useTreemapSquarify() {
   const [filterUserIds, setFilterUserIds] = useState([...filterUserIdsCache])
   const setFilter = useCallback(
-    id => {
+    (id: any) => {
       setFilterUserIds([...filterUserIds, id])
       filterUserIdsCache = [...filterUserIds, id]
     },

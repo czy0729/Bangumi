@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 14:38:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:31:14
+ * @Last Modified time: 2024-07-15 16:09:05
  */
 import { desc } from '@utils'
 import DS from '@assets/json/advance.json'
@@ -12,6 +12,8 @@ import { Loaded } from '@types'
 export { USERS_MAP }
 
 export const COMPONENT = 'Sponsor'
+
+export const NAMESPACE = `Scree${COMPONENT}`
 
 export const STATE = {
   list: true,
@@ -48,4 +50,4 @@ export const LIST = Object.keys(DS)
   .sort((a, b) => desc(a.weight, b.weight))
 
 /** 过滤比例 */
-export const FILTER_RATE = 0.005
+export const FILTER_RATE = 0.002

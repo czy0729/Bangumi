@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-01-07 16:44:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 22:32:09
+ * @Last Modified time: 2024-07-15 15:52:20
  */
 import { computed, observable } from 'mobx'
 import { info } from '@utils'
 import store from '@utils/store'
 import DS from '@assets/json/advance.json'
-import { STATE } from './ds'
-
-const NAMESPACE = 'ScreeSponsor'
+import { NAMESPACE, STATE } from './ds'
 
 export default class ScreeSponsor extends store<typeof STATE> {
   state = observable(STATE)

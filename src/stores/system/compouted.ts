@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 10:45:28
+ * @Last Modified time: 2024-07-15 16:35:56
  */
 import { computed } from 'mobx'
 import { radiusMd } from '@styles'
@@ -96,6 +96,31 @@ export default class Computed extends State implements StoreConstructor<typeof S
       if (userId) flag = userId in this.advanceDetail
       if (!flag && userName) flag = userName in this.advanceDetail
       return flag
+    }).get()
+  }
+
+  /** 高级用户额度 */
+  advanceAmount(userId: number, userName: UserId) {
+    if (!userId || !userName) return 0
+
+    return computed<number>(() => {
+      let amount = 0
+
+      try {
+        let temp: string | number = this.advanceDetail[userId] || 0
+        if (typeof temp === 'string') {
+          const value = Number(temp.split('|')?.[1])
+          if (value) amount += value
+        }
+
+        temp = this.advanceDetail[userName] || 0
+        if (typeof temp === 'string') {
+          const value = Number(temp.split('|')?.[1])
+          if (value) amount += value
+        }
+      } catch (error) {}
+
+      return amount
     }).get()
   }
 }
