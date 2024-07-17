@@ -15,7 +15,8 @@ export const INIT_HOME: Home = {
   book: [],
   music: [],
   real: [],
-  today: '今日上映 - 部。共 - 人收看今日番组。'
+  today: '今日上映 - 部。共 - 人收看今日番组。',
+  _loaded: 0
 }
 
 export const INIT_ONAIR_ITEM: OnAirItem = {

@@ -2,50 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 06:26:00
+ * @Last Modified time: 2024-07-17 03:48:07
  */
 import { _ } from '@stores'
-import { getTimestamp } from '@utils'
-import { IOS, STORYBOOK, SUBJECT_TYPE } from '@constants'
-import { Loaded } from '@types'
+import { IOS, STORYBOOK } from '@constants'
 import { MenuItemType, MenuMapType } from './types'
 
 export const COMPONENT = 'Discovery'
-
-export const NAMESPACE = `Screen${COMPONENT}`
-
-export const EXCLUDE_STATE = {
-  /** 可视范围底部 y */
-  visibleBottom: _.window.height,
-
-  /** 构建列表数据 */
-  home: {
-    list: SUBJECT_TYPE.map(item => ({
-      type: item.label
-    })),
-    pagination: {
-      page: 1,
-      pageTotal: 1
-    },
-    _loaded: getTimestamp()
-  },
-
-  /** 是否显示剪贴板 Modal */
-  visible: false,
-
-  /** 剪贴板 Modal Input */
-  link: '',
-
-  /** 菜单编辑中 */
-  dragging: false
-}
-
-export const STATE = {
-  /** @deprecated 是否显示 2021 年鉴的动画 */
-  showBlockTrain: true,
-  ...EXCLUDE_STATE,
-  _loaded: true as Loaded
-}
 
 export const INITIAL_RENDER_NUMS_XS = _.device(Math.floor(_.window.contentWidth / 80) + 1, 0)
 

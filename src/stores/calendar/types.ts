@@ -28,6 +28,7 @@ export type Home = Override<
   >,
   {
     today: string
+    _loaded: Loaded
   }
 >
 
