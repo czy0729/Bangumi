@@ -7,20 +7,19 @@
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, HOST } from '@constants'
-import Computed from './computed'
-import { fixedOnAir } from './utils'
 import { cheerioToday } from './common'
+import Computed from './computed'
 import { INIT_HOME, NAMESPACE } from './init'
+import { fixedOnAir } from './utils'
 import { OnAir } from './types'
 
 export default class Fetch extends Computed {
   /** 发现页信息聚合 */
   fetchHome = async () => {
-    const res = fetchHTML({
+    const raw = await fetchHTML({
       url: `!${HOST}`
     })
-    const raw = await res
-    const HTML = HTMLTrim(raw)
+    const html = HTMLTrim(raw)
 
     const data = {
       anime: [],
@@ -30,13 +29,11 @@ export default class Fetch extends Computed {
       real: [],
       today: '今日上映 - 部。共 - 人收看今日番组。'
     }
-    const itemsHTML = HTML.match(
-      /<ul id="featuredItems" class="featuredItems">(.+?)<\/ul>/
-    )
+    const itemsHTML = html.match(/<ul id="featuredItems" class="featuredItems">(.+?)<\/ul>/)
     if (itemsHTML) {
       const type = ['anime', 'game', 'book', 'music', 'real']
 
-      let node
+      let node: any
       const tree = HTMLToTree(itemsHTML[1])
       tree.children.forEach((item, index) => {
         const list = []
@@ -50,16 +47,14 @@ export default class Fetch extends Computed {
             findTreeNode(children, 'a|style~background')
 
           // @update 2022/12/30
-          let cover =
-            node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
+          let cover = node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
           if (cover) cover = `https://lain.bgm.tv/pic/cover/l/${cover}.jpg`
 
           node = findTreeNode(children, 'a|href&title')
           const title = node ? node[0].attrs.title : ''
           const subjectId = node ? node[0].attrs.href.replace('/subject/', '') : ''
 
-          node =
-            findTreeNode(children, 'p > small') || findTreeNode(children, 'div > small')
+          node = findTreeNode(children, 'p > small') || findTreeNode(children, 'div > small')
           const info = node ? node[0].text[0] : ''
 
           list.push({
@@ -74,7 +69,7 @@ export default class Fetch extends Computed {
       })
     }
 
-    const todayHTML = HTML.match('<li class="tip">(.+?)</li>')
+    const todayHTML = html.match('<li class="tip">(.+?)</li>')
     if (todayHTML) data.today = cheerioToday(`<li>${todayHTML[1]}</li>`)
 
     const key = 'home'
@@ -86,7 +81,7 @@ export default class Fetch extends Computed {
     })
     this.save(key)
 
-    return res
+    return data
   }
 
   /** @deprecated 发现页信息聚合 (CDN) */

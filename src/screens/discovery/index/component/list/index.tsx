@@ -9,7 +9,6 @@ import { ListView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { WSA } from '@constants'
 import { Ctx } from '../../types'
 import HeaderComponent from '../../header-component'
 import { keyExtractor, renderItem } from './utils'
@@ -23,14 +22,16 @@ function List({ isFocused }, { $ }: Ctx) {
         keyExtractor={keyExtractor}
         style={_.container.flex}
         contentContainerStyle={_.container.bottom}
+        progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
         data={$.state.home}
         ListHeaderComponent={<HeaderComponent />}
         showFooter={!systemStore.setting.live2D && !$.state.dragging}
         renderItem={renderItem}
-        scrollToTop={WSA || isFocused}
+        // scrollToTop={WSA || isFocused}
         scrollEnabled={!$.state.dragging}
         scrollEventThrottle={4}
         onScroll={$.onScroll}
+        onHeaderRefresh={$.onHeaderRefresh}
       />
       <BlurViewBottomTab />
     </BlurViewRoot>

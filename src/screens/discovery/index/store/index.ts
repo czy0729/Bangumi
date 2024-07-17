@@ -63,6 +63,15 @@ class ScreenDiscovery extends Action {
 
     return calendarStore.fetchHome()
   }
+
+  onHeaderRefresh = () => {
+    return queue([
+      () => this.fetchOnline(),
+      () => calendarStore.fetchOnAir(),
+      () => calendarStore.fetchCalendar(),
+      () => calendarStore.fetchHome()
+    ])
+  }
 }
 
 export default ScreenDiscovery
