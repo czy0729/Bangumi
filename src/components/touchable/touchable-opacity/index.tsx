@@ -6,22 +6,23 @@
  */
 import React from 'react'
 import { TouchableOpacity as RNTouchableOpacity } from 'react-native'
-import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
+
+// import { TouchableOpacity as GHTouchableOpacity } from 'react-native-gesture-handler'
 
 function TouchableOpacity({ useRN, children, ...other }) {
-  if (useRN) {
-    return (
-      <RNTouchableOpacity {...other} activeOpacity={0.72}>
-        {children}
-      </RNTouchableOpacity>
-    )
-  }
-
+  // if (useRN) {
   return (
-    <GHTouchableOpacity {...other} activeOpacity={0.72}>
+    <RNTouchableOpacity {...other} activeOpacity={0.72}>
       {children}
-    </GHTouchableOpacity>
+    </RNTouchableOpacity>
   )
+  // }
+
+  // return (
+  //   <GHTouchableOpacity {...other} activeOpacity={0.72}>
+  //     {children}
+  //   </GHTouchableOpacity>
+  // )
 }
 
 export default TouchableOpacity
