@@ -16,5 +16,6 @@ export type Props = Expand<{
 
   /** android only */
   blurRadius?: number
+  cdn?: boolean
   children?: any
 }>

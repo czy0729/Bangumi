@@ -14,6 +14,7 @@ import { COMPONENT } from './ds'
 function HeaderTitleWrap({ $ }: Ctx) {
   return (
     <HeaderTitle
+      subjectId={$.subjectId}
       common={getCoverMedium($.subject.images?.common || $.coverPlaceholder || $.cover)}
       rank={$.subject.rank || $.subjectFromOSS?.rating?.rank || '-'}
       score={$.rating.score}

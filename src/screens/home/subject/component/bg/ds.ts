@@ -14,5 +14,6 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   style: {} as ReturnType<typeof memoStyles>['bg'],
-  src: '' as string
+  src: '' as string,
+  cdn: true as boolean
 }

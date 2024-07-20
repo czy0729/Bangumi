@@ -9,13 +9,13 @@ import { View } from 'react-native'
 import { Cover, Flex, Katakana, Text } from '@components'
 import { Rank, Stars } from '@_'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { styles } from './styles'
 
 const HeaderTitle = memo(
-  ({ common, rank, score, type, cn, jp, titleLabel }) => {
+  ({ subjectId, common, rank, score, type, cn, jp, titleLabel }) => {
     return (
       <Flex style={styles.container}>
         <Cover
@@ -23,6 +23,7 @@ const HeaderTitle = memo(
           size={type === '音乐' ? IMAGE_HEIGHT : IMAGE_WIDTH}
           height={IMAGE_HEIGHT}
           radius={_.radiusXs}
+          cdn={!x18(subjectId)}
           fadeDuration={0}
         />
         <Flex.Item style={_.ml.sm}>

@@ -9,6 +9,7 @@ import { STORYBOOK } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
 import x18Data from '@assets/json/18x.json'
+import nsfwData from '@assets/json/thirdParty/nsfw.min.json'
 import userData from '@assets/json/user.json'
 import {
   AnyObject,
@@ -141,6 +142,8 @@ export function cnjp(cn: any, jp: any) {
   return HTMLDecode(cnFirst ? cn || jp : jp || cn)
 }
 
+const X18_SUBJECT_IDS = [...x18Data, ...nsfwData.map(item => item.i)]
+
 /**
  * 是否敏感条目
  * @param {*} subjectId
@@ -155,7 +158,7 @@ export function x18(subjectId: SubjectId, title?: string) {
 
   if (X18_CACHE_MAP.has(subjectId)) return X18_CACHE_MAP.get(subjectId)
 
-  const flag = x18Data.includes(subjectId)
+  const flag = X18_SUBJECT_IDS.includes(subjectId)
   if (flag) {
     X18_CACHE_MAP.set(subjectId, true)
     return true
@@ -494,16 +497,21 @@ export function getMonoCoverSmall(url: string): string {
 export function fixedRemoteImageUrl(url: any) {
   if (typeof url !== 'string') return url
 
-  let _url = url
+  let value = url
 
   // 协议
-  if (_url.indexOf('https:') === -1 && _url.indexOf('http:') === -1) {
-    _url = `https:${_url}`
+  if (value.indexOf('https:') === -1 && value.indexOf('http:') === -1) {
+    value = `https:${value}`
   }
 
   // fixed: 2022-09-27, 去除 cf 无缘无故添加的前缀
   // 类似 /cdn-cgi/mirage/xxx-xxx-1800/1280/(https://abc.com/123.jpg | img/smiles/tv/15.fig)
-  return _url.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '').replace('http://', 'https://')
+  value = value.replace(/\/cdn-cgi\/mirage\/.+?\/\d+\//g, '').replace('http://', 'https://')
+
+  // 带有服务器 r/800 前缀的必须是 l 大小的图片
+  if (/\/r\/\d+\//.test(value)) value = value.replace(/\/(g|s|m|c)\//, '/l/')
+
+  return value
 }
 
 /** 获取颜色 type */

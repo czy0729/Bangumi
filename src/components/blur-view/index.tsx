@@ -32,13 +32,14 @@ export const BlurView = observer(
     tint = BLURVIEW_TINT_LIGHT,
     intensity = 100,
     blurRadius = 16,
+    cdn = true,
     children
   }: BlurViewProps) => {
     r(COMPONENT)
 
     if (!src) return null
 
-    const _src = matchCoverUrl(src)
+    const _src = cdn ? matchCoverUrl(src) : src
     if (IOS) {
       return (
         <Component id='component-blur-view' style={style}>

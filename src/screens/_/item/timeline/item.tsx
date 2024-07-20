@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Cover, Flex, Iconfont, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore, userStore } from '@stores'
-import { appNavigate, confirm, stl } from '@utils'
+import { appNavigate, confirm, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -176,8 +176,8 @@ const Item = memo(
                       size={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_WIDTH_SM}
                       height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
                       radius
-                      shadow
                       type={type}
+                      cdn={x18(subjectId)}
                     />
                   </Touchable>
                 </InView>

@@ -9,6 +9,7 @@ import { Cover, Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@comp
 import { getCoverSrc } from '@components/cover/utils'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
+import { x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
@@ -80,6 +81,7 @@ const Series = memo(
               src={subjectSeries.image}
               size={COVER_WIDTH}
               height={COVER_HEIGHT}
+              cdn={!x18(subjectId)}
               fadeDuration={0}
               skeleton={false}
               noDefault

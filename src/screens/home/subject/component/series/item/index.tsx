@@ -8,6 +8,7 @@ import React from 'react'
 import { Cover, Flex, Heatmap, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
+import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
@@ -43,6 +44,7 @@ function Item({ from, data }, { $, navigation }: Ctx) {
             src={data.image || IMG_DEFAULT}
             size={COVER_WIDTH}
             height={COVER_HEIGHT}
+            cdn={!x18($.subjectId)}
             fadeDuration={0}
             skeleton={false}
             noDefault

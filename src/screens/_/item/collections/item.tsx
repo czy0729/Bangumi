@@ -8,7 +8,7 @@ import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
-import { getAction, HTMLDecode } from '@utils'
+import { getAction, HTMLDecode, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT, IMG_WIDTH, MODEL_COLLECTION_STATUS } from '@constants'
@@ -97,6 +97,7 @@ const Item = memo(
                 height={IMG_HEIGHT * 1.1}
                 radius
                 type={type}
+                cdn={x18(subjectId)}
                 priority={index < 4 ? 'high' : 'normal'}
               />
             </InView>

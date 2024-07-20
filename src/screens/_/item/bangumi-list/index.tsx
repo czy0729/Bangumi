@@ -8,7 +8,7 @@ import React from 'react'
 import { Component, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
-import { HTMLDecode, stl } from '@utils'
+import { HTMLDecode, stl, x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
@@ -43,7 +43,7 @@ export const ItemBangumiList = ob(
             })
           }}
         >
-          <Cover size={width} src={image} radius />
+          <Cover size={width} src={image} radius cdn={x18(subjectId)} />
           <Text style={_.mt.sm} size={11} bold numberOfLines={3}>
             {HTMLDecode(name)}
           </Text>

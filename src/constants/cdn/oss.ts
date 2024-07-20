@@ -6,15 +6,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-08-26 07:01:28
  */
-import { getTimestamp } from '@utils/utils'
-import { getStorage, setStorage } from '@utils/storage'
 import { syncSystemStore } from '@utils/async'
-import { xhrCustom } from '@utils/fetch'
 import Crypto from '@utils/crypto'
+import { xhrCustom } from '@utils/fetch'
+import { getStorage, setStorage } from '@utils/storage'
+import { getTimestamp } from '@utils/utils'
 import hashSubject from '@assets/json/hash/subject.min.json'
 import { HOST_CDN } from '../constants'
+import { getOTA, getVersion, hash } from './utils'
 import { HOST_CDN_FASTLY, HOST_CDN_ONEDRIVE, VERSION_OSS } from './ds'
-import { hash, getOTA, getVersion } from './utils'
 
 /** @deprecated */
 const HOST_OSS = `${HOST_CDN}/gh/czy0729/Bangumi-OSS`
@@ -139,6 +139,8 @@ function initCDN() {
   return !!CDN_MAGMA
 }
 
+const REG_COVER = /\/(c|l)\//
+
 /** MAGMA CDN */
 export const CDN_OSS_MAGMA_POSTER = (
   src: any = '',
@@ -147,13 +149,13 @@ export const CDN_OSS_MAGMA_POSTER = (
   if (
     typeof src !== 'string' ||
     src === '' ||
-    !src.includes('/c/') ||
+    !REG_COVER.test(src) ||
     /\/(photo|user|icon)\/|_(crt|prsn)_/.test(src)
   ) {
     return src
   }
 
-  const poster = src.split('/c/')?.[1] || ''
+  const poster = src.split(REG_COVER)?.[2] || ''
   if (!poster || !initCDN()) return src
 
   return `${CDN_MAGMA}/pic/cover/l/${poster.split('?')[0]}${prefix ? `/${prefix}` : ''}`

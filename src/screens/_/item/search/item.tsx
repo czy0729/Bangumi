@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
-import { appNavigate, cnjp, getAction, HTMLDecode, stl } from '@utils'
+import { appNavigate, cnjp, getAction, HTMLDecode, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import {
   IMG_HEIGHT_LG,
@@ -84,6 +84,7 @@ const Item = memo(
               width={width}
               height={height}
               type={typeCn}
+              cdn={x18(subjectId)}
               priority={index < 4 ? 'high' : 'normal'}
               radius
             />

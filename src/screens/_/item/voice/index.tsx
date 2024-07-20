@@ -8,7 +8,7 @@ import React from 'react'
 import { Component, Expand, Flex, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, x18 } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useExpandLazy, useObserver } from '@utils/hooks'
@@ -121,7 +121,7 @@ export const ItemVoice = ({
                         height={IMG_HEIGHT_SM}
                         src={item.cover}
                         radius
-                        shadow
+                        cdn={x18(item.id)}
                       />
                     </InView>
                   </Flex>

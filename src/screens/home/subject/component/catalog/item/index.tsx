@@ -8,13 +8,13 @@ import React from 'react'
 import { Cover, Flex, Text, Touchable } from '@components'
 import { fixedAll } from '@components/avatar/utils'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { HTMLDecode, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function Item({ item }, { navigation }: Ctx) {
+function Item({ item }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const title = HTMLDecode(item.title)
   return (
@@ -34,7 +34,13 @@ function Item({ item }, { navigation }: Ctx) {
       }}
     >
       <Flex>
-        <Cover src={fixedAll(item.avatar, _.r(40))} size={_.r(40)} radius type='目录' />
+        <Cover
+          src={fixedAll(item.avatar, _.r(40))}
+          size={_.r(40)}
+          radius
+          type='目录'
+          cdn={!x18($.subjectId)}
+        />
         <Flex.Item style={_.ml.md}>
           <Text style={styles.text} size={11} lineHeight={12} bold numberOfLines={2}>
             {title}

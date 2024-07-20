@@ -8,6 +8,7 @@ import React from 'react'
 import { Cover as CoverComp, getCoverSrc, Touchable } from '@components'
 import { InView } from '@_'
 import { _, systemStore } from '@stores'
+import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
@@ -47,6 +48,7 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props, { navi
           height={height}
           type={typeCn}
           radius
+          cdn={!x18(subjectId)}
           priority={index < 4 ? 'high' : 'normal'}
         />
       </InView>

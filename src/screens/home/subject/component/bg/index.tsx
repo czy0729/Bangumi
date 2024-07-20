@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { getCover400 } from '@utils'
+import { getCover400, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS, TEXT_ONLY } from '@constants'
 import { Ctx } from '../../types'
@@ -22,10 +22,13 @@ function BgWrap(props, { $ }: Ctx) {
     return <View style={styles.bg} />
   }
 
-  const src = $.coverPlaceholder || $.subject.images?.common || $.cover
+  const cdn = !x18($.subjectId)
+  const src = cdn
+    ? getCover400($.coverPlaceholder || $.subject.images?.common || $.cover)
+    : $.subject.images?.common
   if (typeof src !== 'string') return <View style={styles.bg} />
 
-  return <Bg style={styles.bg} src={getCover400(src)} />
+  return <Bg style={styles.bg} src={src} cdn={cdn} />
 }
 
 export default obc(BgWrap, COMPONENT)

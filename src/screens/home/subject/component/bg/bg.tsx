@@ -11,7 +11,7 @@ import { memo } from '@utils/decorators'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Bg = memo(
-  ({ style, src }) => {
+  ({ style, src, cdn = true }) => {
     return (
       <BlurView
         style={style}
@@ -19,6 +19,7 @@ const Bg = memo(
         src={src}
         intensity={80}
         blurRadius={32}
+        cdn={cdn}
       />
     )
   },

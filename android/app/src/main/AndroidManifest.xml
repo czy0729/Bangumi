@@ -1,21 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.READ_CALENDAR" />
+  <uses-permission android:name="android.permission.READ_CALENDAR"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
-  <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+  <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
   <queries>
     <!-- Support checking for http(s) links via the Linking API -->
     <intent>
-      <action android:name="android.intent.action.VIEW" />
-      <category android:name="android.intent.category.BROWSABLE" />
-      <data android:scheme="https" />
+      <action android:name="android.intent.action.VIEW"/>
+      <category android:name="android.intent.category.BROWSABLE"/>
+      <data android:scheme="https"/>
     </intent>
   </queries>
-
   <application
     android:requestLegacyExternalStorage="true"
     android:name=".MainApplication"
@@ -27,10 +25,9 @@
     android:largeHeap="true"
     android:hardwareAccelerated="true"
     android:theme="@style/AppTheme">
-    <meta-data android:name="UMENT_APPKEY" android:value="5ddceaa10cafb2ea9900066a" />
+    <meta-data android:name="UMENT_APPKEY" android:value="5ddceaa10cafb2ea9900066a"/>
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="YOUR-APP-URL-HERE"/>
     <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="YOUR-APP-SDK-VERSION-HERE"/>
-
     <activity
       android:name=".MainActivity"
       android:label="@string/app_name"
@@ -44,7 +41,6 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
-
       <intent-filter>
         <action android:name="android.intent.action.VIEW"/>
         <action android:name="android.intent.action.BROWSABLE"/>
@@ -59,7 +55,6 @@
         <data android:host="chii.in"/>
       </intent-filter>
     </activity>
-
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
   </application>
 </manifest>

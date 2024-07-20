@@ -64,7 +64,7 @@ export const ItemCharacter = obc(
           <InView style={styles.inViewCover} y={y}>
             {!!cover && (
               <Touchable animate scale={0.9} onPress={onPress}>
-                <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius shadow />
+                <Cover src={cover} width={IMG_WIDTH} height={IMG_WIDTH} radius />
               </Touchable>
             )}
           </InView>
@@ -129,7 +129,7 @@ export const ItemCharacter = obc(
                   >
                     <Flex>
                       <InView style={styles.inViewAvatar} y={y}>
-                        <Cover src={item.cover} size={_.r(32)} radius shadow />
+                        <Cover src={item.cover} size={_.r(32)} radius />
                       </InView>
                       <Flex.Item style={_.ml.sm}>
                         <Text size={12} numberOfLines={1} bold lineHeight={13}>
