@@ -69,7 +69,9 @@ function Btns(props, { $, navigation }: Ctx) {
                   break
 
                 case '设置':
-                  navigation.push('Setting')
+                  navigation.push('Setting', {
+                    open: 'Tinygrail'
+                  })
                   break
 
                 default:

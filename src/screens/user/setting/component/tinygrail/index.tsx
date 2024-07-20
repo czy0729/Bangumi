@@ -18,10 +18,10 @@ import TinygrailMode from './tinygrail-mode'
 import { COMPONENT, TEXTS } from './ds'
 
 /** 小圣杯 */
-function Tinygrail({ filter }) {
+function Tinygrail({ filter, open = false }) {
   r(COMPONENT)
 
-  const { state, setTrue, setFalse } = useBoolean(false)
+  const { state, setTrue, setFalse } = useBoolean(open)
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {

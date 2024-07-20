@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-24 10:39:02
  */
-import { ScrollViewProps } from 'react-native'
+import { ScrollView, ScrollViewProps } from 'react-native'
 import { Expand, ReactNode } from '@types'
 
 export type ScrollTo = (params: { x?: number; y?: number; animated?: boolean }) => void
@@ -17,10 +17,10 @@ export type Props = Expand<
     animated?: boolean
 
     /** 连接 ref.scrollTo */
-    forwardRef?: (scrollTo: ScrollTo) => any
+    forwardRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
 
     /** @deprecated 连接 ref.scrollTo */
-    connectRef?: (scrollTo: ScrollTo) => any
+    connectRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
 
     children?: ReactNode
   }

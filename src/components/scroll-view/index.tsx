@@ -41,7 +41,7 @@ export const ScrollView = ({
   if (scrollToTop) {
     ref = ref => (scrollViewEl.current = ref?.scrollTo)
   } else if (forwardRef || connectRef) {
-    ref = ref => (forwardRef || connectRef)(ref?.scrollTo)
+    ref = ref => (forwardRef || connectRef)(ref?.scrollTo, ref)
   }
 
   const Component: any = animated ? Animated.ScrollView : RNScrollView

@@ -80,7 +80,7 @@ const Setting = (props: NavigationProps) => {
             <User filter={filter} />
             <UserSetting navigation={navigation} filter={filter} />
             <Subject filter={filter} open={open === 'Subject'} />
-            <Tinygrail filter={filter} />
+            <Tinygrail filter={filter} open={open === 'Tinygrail'} />
           </Block>
           <Block>
             <Tip>相关</Tip>

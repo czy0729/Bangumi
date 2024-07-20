@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 16:51:58
  */
-import { Alert, Clipboard, NativeModules, Vibration } from 'react-native'
+import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import Portal from '@ant-design/react-native/lib/portal'
 import ActionSheet from '@components/@/ant-design/action-sheet'
@@ -222,20 +222,36 @@ export function copy(val: any, message: boolean | string = true, ms?: number) {
 }
 
 /** ScrollView 中滑动到 View 的位置 */
-export function scrollToView(viewRef: any, scrollCallback: Fn, callback?: Fn) {
-  if (!viewRef || typeof scrollCallback !== 'function') return false
+export function scrollToView(viewRef: any, scrollViewRef: any, callback?: Fn) {
+  if (!viewRef || !scrollViewRef) return false
 
-  viewRef.measure((x: number, y: number) => {
-    scrollCallback({
-      y,
-      animated: true
+  if (IOS || STORYBOOK) {
+    viewRef.measure((x: number, y: number) => {
+      scrollViewRef.scrollTo({
+        y,
+        animated: true
+      })
+
+      if (typeof callback === 'function') {
+        setTimeout(() => {
+          callback()
+        }, 240)
+      }
     })
+  } else {
+    viewRef.measureLayout(findNodeHandle(scrollViewRef), (x: number, y: number) => {
+      scrollViewRef.scrollTo({
+        y,
+        animated: true
+      })
 
-    if (typeof callback === 'function') {
-      setTimeout(() => {
-        callback()
-      }, 240)
-    }
-  })
+      if (typeof callback === 'function') {
+        setTimeout(() => {
+          callback()
+        }, 240)
+      }
+    })
+  }
+
   return true
 }

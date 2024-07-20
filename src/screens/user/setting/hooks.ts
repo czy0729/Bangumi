@@ -46,8 +46,8 @@ export function useSettingPage({ route }: NavigationProps) {
     setFilter,
     open,
 
-    /** 收集 ScrollView.ListView.ref */
-    forwardRef: useCallback((ref: any) => {
+    /** 收集 ScrollView.ref */
+    forwardRef: useCallback((scrollTo: any, ref: any) => {
       scrollViewRef.current = ref
     }, []),
 
