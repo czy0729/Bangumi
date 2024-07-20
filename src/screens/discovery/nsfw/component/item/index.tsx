@@ -1,17 +1,16 @@
 /*
  * @Author: czy0729
- * @Date: 2019-05-15 16:26:34
+ * @Date: 2024-07-20 11:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:56:17
+ * @Last Modified time: 2024-07-20 11:42:01
  */
 import React from 'react'
-import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
+import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars, Tag } from '@_'
+import { Cover, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HENTAI_TAGS } from '@utils/subject/hentai'
 import {
   IMG_DEFAULT,
   IMG_HEIGHT_LG,
@@ -20,25 +19,14 @@ import {
   TEXT_ONLY
 } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../types'
-import { getType } from './utils'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+function Item({ pickIndex }, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const subjectId = otaStore.hentaiSubjectId(pickIndex)
-  const {
-    id,
-    h: hid,
-    i: image,
-    c: cn,
-    e: ep,
-    a: air,
-    t: tags = [],
-    s: score,
-    r: rank,
-    n: total
-  } = otaStore.hentai(subjectId)
+  const subjectId = otaStore.nsfwSubjectId(pickIndex)
+  const { id, title, cover, score, total, rank, info, date, eps } = otaStore.nsfw(subjectId)
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -47,9 +35,9 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
     )
   }
 
-  const size = cn.length >= 20 ? 13 : cn.length >= 14 ? 14 : 15
-  const cover = image ? `https://lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-  const tip = [ep ? `${ep}话` : '', air].filter(item => !!item).join(' / ')
+  const size = title.length >= 20 ? 13 : title.length >= 14 ? 14 : 15
+  const image = cover ? `https://lain.bgm.tv/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
+  const tip = info || [date, eps ? `${eps}话` : ''].filter(item => !!item).join(' / ')
   const collection = collectionStore.collect(id)
   return (
     <Touchable
@@ -58,19 +46,18 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
       onPress={() => {
         navigation.push('Subject', {
           subjectId: id,
-          _cn: cn,
-          _image: getCoverSrc(cover, IMG_WIDTH_LG),
-          _hid: hid
+          _cn: title,
+          _image: getCoverSrc(image, IMG_WIDTH_LG)
         })
 
-        t('Hentai.跳转', {
+        t('NSFW.跳转', {
           subjectId: id
         })
       }}
     >
       <Flex style={styles.wrap} align='start'>
         <Cover
-          src={cover}
+          src={image}
           width={IMG_WIDTH_LG}
           height={IMG_HEIGHT_LG}
           radius
@@ -78,16 +65,11 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           textOnly={TEXT_ONLY || !$.isLogin}
         />
         <Flex.Item style={_.ml.wind}>
-          <Flex
-            style={$.isLogin && tags.length >= 14 ? styles.contentFlux : styles.content}
-            direction='column'
-            justify='between'
-            align='start'
-          >
+          <Flex style={styles.content} direction='column' justify='between' align='start'>
             <Flex align='start'>
               <Flex.Item>
                 <Text size={size} bold numberOfLines={3}>
-                  {cn}
+                  {title}
                 </Text>
                 <Text style={_.mt.sm} size={11} lineHeight={14}>
                   {tip}
@@ -100,27 +82,14 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
                   uiStore.showManageModal(
                     {
                       subjectId: id,
-                      title: cn,
+                      title: title,
                       status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
                     },
-                    '找Hentai'
+                    '找NSFW'
                   )
                 }}
               />
             </Flex>
-            {$.isLogin && !!tags.length && (
-              <Flex style={_.mt.sm} wrap='wrap'>
-                {tags.map((item: number) => (
-                  <Tag
-                    key={item}
-                    style={styles.tag}
-                    type={getType($.state, item)}
-                    value={HENTAI_TAGS[item]}
-                  />
-                ))}
-                <Tag value={`+${tags.length}`} />
-              </Flex>
-            )}
             <Flex style={_.mt.md} wrap='wrap'>
               <Rank value={rank} />
               <Stars style={_.mr.xs} value={score} simple />
@@ -133,9 +102,8 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
           </Flex>
         </Flex.Item>
       </Flex>
-      {index === 0 && <Heatmap id='Hentai.跳转' />}
     </Touchable>
   )
 }
 
-export default obc(Item)
+export default obc(Item, COMPONENT)

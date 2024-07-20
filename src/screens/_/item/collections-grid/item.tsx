@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:10:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-14 00:48:46
+ * @Last Modified time: 2024-07-20 11:17:25
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
@@ -25,6 +25,7 @@ const Item = memo(
     nameCn,
     sub,
     cover,
+    cdn,
     score,
     rank,
     typeCn,
@@ -82,8 +83,8 @@ const Item = memo(
             height={isRectangle ? width : gridStyles.height}
             src={cover}
             radius
-            shadow
             type={typeCn}
+            cdn={cdn}
           />
           <Text style={_.mt.sm} size={12} lineHeight={13} numberOfLines={3} bold align='center'>
             {cnjp(nameCn, name)}

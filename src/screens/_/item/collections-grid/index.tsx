@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:17:53
+ * @Last Modified time: 2024-07-20 11:16:56
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -23,6 +23,7 @@ export const ItemCollectionsGrid = ob(
     nameCn,
     sub,
     cover,
+    cdn = true,
     score,
     rank,
     typeCn,
@@ -46,6 +47,7 @@ export const ItemCollectionsGrid = ob(
         nameCn={nameCn}
         sub={sub}
         cover={cover}
+        cdn={cdn}
         score={score}
         rank={rank}
         typeCn={typeCn}

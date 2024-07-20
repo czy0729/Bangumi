@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 20:18:26
+ * @Last Modified time: 2024-07-20 11:06:01
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -10,6 +10,8 @@ import { pick as animePick } from '@utils/subject/anime'
 import { pick as gamePick } from '@utils/subject/game'
 import { pick as hentaiPick } from '@utils/subject/hentai'
 import { pick as mangaPick } from '@utils/subject/manga'
+import { pick as nsfwPick } from '@utils/subject/nsfw'
+import { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
 import { pick as wenkuPick } from '@utils/subject/wenku'
 import { StoreConstructor, SubjectId } from '@types'
 import { STATE } from './init'
@@ -98,6 +100,20 @@ export default class Computed extends State implements StoreConstructor<typeof S
     this.init('hentai')
     return computed<HentaiItem>(() => {
       return this.state.hentai[`hentai_${subjectId}`] || {}
+    }).get()
+  }
+
+  nsfwSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = nsfwPick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
+  nsfw(subjectId: SubjectId) {
+    this.init('nsfw')
+    return computed<NSFWItem>(() => {
+      return this.state.nsfw[`nsfw_${subjectId}`] || {}
     }).get()
   }
 }

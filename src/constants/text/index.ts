@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 16:58:48
+ * @Last Modified time: 2024-07-20 11:49:38
  */
 import { STORYBOOK } from '../device'
 
@@ -43,7 +43,8 @@ export const TEXT_TOTAL = {
   ADV: 3600,
   漫画: 9808,
   文库: 2740,
-  Hentai: 1036
+  Hentai: 1036,
+  NSFW: 1220
 } as const
 
 /** 空格 */

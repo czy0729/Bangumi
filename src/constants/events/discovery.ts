@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 12:38:57
+ * @Last Modified time: 2024-07-20 11:14:26
  */
 
 /** Discovery */
@@ -158,6 +158,12 @@ export default {
   'Hentai.选择': 'Hentai.onSelect',
   'Hentai.到顶': 'Hentai.scrollToTop',
   'Hentai.切换布局': 'Hentai.switchLayout',
+
+  // NSFW
+  'NSFW.跳转': 'NSFW.to',
+  'NSFW.选择': 'NSFW.onSelect',
+  'NSFW.到顶': 'NSFW.scrollToTop',
+  'NSFW.切换布局': 'NSFW.switchLayout',
 
   // 维基人
   '维基人.右上角菜单': 'Wiki.topRightMenu',

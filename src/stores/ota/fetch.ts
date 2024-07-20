@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 16:26:18
+ * @Last Modified time: 2024-07-20 11:31:17
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
@@ -261,6 +261,37 @@ export default class Fetch extends Computed {
     const datas = await gets(keys)
     if (datas) {
       const key = 'hentai'
+      const data = {}
+      Object.keys(datas).forEach(key => {
+        const item = datas[key]
+        if (item && typeof item === 'object') {
+          data[key] = item
+        } else {
+          data[key] = {}
+        }
+      })
+      this.setState({
+        [key]: data
+      })
+      this.save(key)
+    }
+  }
+
+  onNSFWPage = async (list: number[]) => {
+    if (!list.length) return
+
+    const keys = []
+    list.forEach(index => {
+      const subjectId = this.nsfwSubjectId(index)
+      const key = `nsfw_${subjectId}`
+      if (!subjectId || key in this.state.nsfw) return
+      keys.push(key)
+    })
+    if (!keys.length) return
+
+    const datas = await gets(keys)
+    if (datas) {
+      const key = 'nsfw'
       const data = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-11 16:09:40
+ * @Last Modified time: 2024-07-19 22:01:16
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
@@ -10,21 +10,26 @@ import { DATA_ALPHABET } from '@constants/constants'
 
 /** 预设排序 */
 export const SORT = {
-  // 上映时间
-  begin(a = {}, b = {}, key = 'b') {
+  /** 上映时间 */
+  begin<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 'b') {
     return (getTimestamp(b[key] || '0000-00-00') || 0) - (getTimestamp(a[key] || '0000-00-00') || 0)
   },
 
-  // 名称
-  name(a = {}, b = {}, key = 'c') {
+  /** 名称 */
+  name<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 'c') {
     return asc(
       String(getPinYinFirstCharacter(a[key] || '')),
       String(getPinYinFirstCharacter(b[key] || ''))
     )
   },
 
-  // 评分或排名
-  rating(a = {}, b = {}, keyScore = 's', keyRank = 'r') {
+  /** 评分或排名 */
+  rating<T extends Record<string, any>>(
+    a: Partial<T> = {},
+    b: Partial<T> = {},
+    keyScore: keyof T = 's',
+    keyRank: keyof T = 'r'
+  ) {
     const sA = a[keyScore] || 0
     const sB = b[keyScore] || 0
     const rA = a[keyRank] === undefined ? -10000 : 10000 - a[keyRank]
@@ -32,18 +37,18 @@ export const SORT = {
     return sB + rB - (sA + rA)
   },
 
-  // 随机
+  /** 随机 */
   random() {
     return 0.5 - Math.random()
   },
 
-  // 分数, 也可用于数值比较
-  score(a = {}, b = {}, key = 's') {
+  /** 分数, 也可用于数值比较 */
+  score<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 's') {
     return Number(b[key] || 0) - Number(a[key] || 0)
   },
 
-  // 评分人数
-  total(a = {}, b = {}, key = 'l') {
+  /** 评分人数 */
+  total<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 'l') {
     return Number(b[key] || 0) - Number(a[key] || 0)
   }
 }

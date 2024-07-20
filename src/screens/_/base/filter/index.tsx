@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 11:13:17
+ * @Last Modified time: 2024-07-20 12:10:03
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -28,7 +28,8 @@ export const Filter = obc(
       name = '番剧',
       type = 'Anime',
       lastUpdate,
-      information = ''
+      information = '',
+      renderRight
     }: FilterProps,
     { $, navigation }
   ) => {
@@ -199,6 +200,7 @@ export const Filter = obc(
               {!!query?.tags?.length && ` · ${query?.tags?.join(' · ')}`}
             </Text>
           </Flex.Item>
+          {renderRight}
           <Touchable
             onPress={() => {
               navigation.push('Information', {

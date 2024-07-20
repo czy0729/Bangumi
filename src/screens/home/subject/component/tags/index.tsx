@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 14:47:23
+ * @Last Modified time: 2024-07-20 12:13:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -33,7 +33,7 @@ function TagsWrap({ onBlockRef }, { $, navigation }: Ctx) {
         tag={$.collection.tag}
         tags={$.tags}
         animeTags={$.animeTags}
-        hentaiTags={$.hentaiTags}
+        // hentaiTags={$.hentaiTags}
         gameTags={$.gameTags}
         mangaTags={$.mangaTags}
         wenkuTags={$.wenkuTags}

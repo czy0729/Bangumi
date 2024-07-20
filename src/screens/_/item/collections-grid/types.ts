@@ -16,6 +16,7 @@ export type Props = {
   nameCn?: string
   sub?: string
   cover?: CoverProps['src']
+  cdn?: boolean
   score?: string | number
   rank?: string | number
   typeCn?: SubjectTypeCn

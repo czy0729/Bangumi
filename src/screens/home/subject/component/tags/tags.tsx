@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 20:42:47
+ * @Last Modified time: 2024-07-20 12:13:25
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,7 @@ const Tags = memo(
     tag,
     tags,
     animeTags,
-    hentaiTags,
+    // hentaiTags,
     gameTags,
     mangaTags,
     wenkuTags,
@@ -123,7 +123,7 @@ const Tags = memo(
           </Touchable>
         )}
         <Block path='Anime' tags={animeTags} />
-        <Block path='Hentai' tags={hentaiTags} />
+        {/* <Block path='Hentai' tags={hentaiTags} /> */}
         <Block path='Game' tags={gameTags} />
         <Block path='Manga' tags={mangaTags} />
         <Block path='Wenku' tags={wenkuTags} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 20:34:38
+ * @Last Modified time: 2024-07-20 12:13:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,6 @@ import {
 import { findADV } from '@utils/subject/adv'
 import { ANIME_TAGS, findAnime } from '@utils/subject/anime'
 import { findGame, GAME_CATE } from '@utils/subject/game'
-import { findHentai, HENTAI_TAGS } from '@utils/subject/hentai'
 import { findManga, MANGA_TAGS } from '@utils/subject/manga'
 import { findWenku, WENKU_TAGS } from '@utils/subject/wenku'
 import {
@@ -465,14 +464,14 @@ export default class Computed extends State {
   }
 
   /** 第三方 Hentai 标签 */
-  @computed get hentaiTags() {
-    if (this.type !== '动画' && !this.nsfw) return null
+  // @computed get hentaiTags() {
+  //   if (this.type !== '动画' && !this.nsfw) return null
 
-    const item = findHentai(this.subjectId)
-    if (isArray(item?.t)) return item.t.map(item => HENTAI_TAGS[item])
+  //   const item = findHentai(this.subjectId)
+  //   if (isArray(item?.t)) return item.t.map(item => HENTAI_TAGS[item])
 
-    return []
-  }
+  //   return []
+  // }
 
   /** 第三方游戏信息 */
   @computed get gameInfo() {

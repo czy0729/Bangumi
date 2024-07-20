@@ -1,9 +1,10 @@
 /*
  * @Author: czy0729
- * @Date: 2022-06-13 09:21:02
- * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 16:44:28
+ * @Date: 2024-07-20 12:14:05
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-07-20 12:14:05
  */
+import { ReactNode } from '@types'
 import { FilterSwitchName } from '../filter-switch/types'
 
 type FilterItem = {
@@ -24,4 +25,5 @@ export type Props = {
   type?: string
   lastUpdate?: string
   information?: string
+  renderRight?: ReactNode
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:38:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:33:43
+ * @Last Modified time: 2024-07-20 12:13:20
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -28,7 +28,7 @@ export const DEFAULT_PROPS = {
   tag: [] as $['collection']['tag'],
   tags: [] as $['tags'],
   animeTags: [] as $['animeTags'],
-  hentaiTags: [] as $['hentaiTags'],
+  // hentaiTags: [] as $['hentaiTags'],
   gameTags: [] as $['gameTags'],
   mangaTags: [] as $['mangaTags'],
   wenkuTags: [] as $['wenkuTags'],

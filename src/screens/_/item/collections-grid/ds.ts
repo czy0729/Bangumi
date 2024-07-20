@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:17:31
+ * @Last Modified time: 2024-07-20 11:17:37
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -31,6 +31,7 @@ export const DEFAULT_PROPS = {
   nameCn: '' as Props['nameCn'],
   sub: '' as Props['sub'],
   cover: '' as Props['cover'],
+  cdn: true as Props['cdn'],
   score: '' as Props['score'],
   rank: '' as Props['rank'],
   typeCn: '' as Props['typeCn'],
