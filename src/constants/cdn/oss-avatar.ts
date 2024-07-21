@@ -1,24 +1,23 @@
+import { xhrCustom } from '@utils/fetch'
 /*
  * 获取云端最新 avatar hash 和合并本地 fallback hash
  *
  * @Author: czy0729
  * @Date: 2022-05-23 06:55:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-14 11:45:35
+ * @Last Modified time: 2024-07-22 04:24:01
  */
 import { getStorage, setStorage } from '@utils/storage'
-import { xhrCustom } from '@utils/fetch'
-import hashAvatar from '@assets/json/hash/avatar.min.json'
 import { HOST_CDN } from '../constants'
-import { VERSION_OSS, VERSION_AVATAR } from './ds'
-import { hash, getOTA, getVersion } from './utils'
+import { getOTA, getVersion, hash } from './utils'
+import { VERSION_AVATAR, VERSION_OSS } from './ds'
 
 const HOST_OSS = `${HOST_CDN}/gh/czy0729/Bangumi-OSS`
 
 const OTA_AVATAR_HASH_VERSION = '@cdn|oss-avatar-hash|version|210719'
 const OTA_AVATAR_HASH_DATA = '@cdn|oss-avatar-hash|data|210719'
 let cacheAvatar = {}
-let hashAvatarOTA = hashAvatar
+let hashAvatarOTA = {}
 let hashAvatarLoaded = false
 
 /** @deprecated 初始化所有云端头像 hash */

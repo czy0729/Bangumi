@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-05-06 18:02:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-05-23 22:15:20
+ * @Last Modified time: 2024-07-22 04:26:06
  */
 import React from 'react'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
 import events from '@constants/events'
-import heatmapData from '@assets/json/heatmap/index.json'
-import heatmapEventData from '@assets/json/heatmap/event.json'
 import { Text } from '../text'
+
+const heatmapData = {
+  total: 0
+}
+const heatmapEventData = {}
 
 export function PageText({ page, screen }) {
   // 额外
@@ -43,10 +46,7 @@ export function PageText({ page, screen }) {
           </Text>
           <Text type='__plain__' size={9} bold align='right'>
             {formatNumber(countView / 30, 0)} /{' '}
-            {parseInt(
-              String((countView / heatmapEventData['其他.查看.screen'].total) * 100)
-            )}
-            %
+            {parseInt(String((countView / heatmapEventData['其他.查看.screen'].total) * 100))}%
           </Text>
         </>
       )}

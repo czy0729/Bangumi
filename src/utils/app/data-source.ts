@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 00:06:40
+ * @Last Modified time: 2024-07-22 04:29:44
  */
 import { isObservableArray } from 'mobx'
 import { STORYBOOK } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
-import x18Data from '@assets/json/18x.json'
 import nsfwData from '@assets/json/thirdParty/nsfw.min.json'
 import userData from '@assets/json/user.json'
 import {
@@ -142,7 +141,7 @@ export function cnjp(cn: any, jp: any) {
   return HTMLDecode(cnFirst ? cn || jp : jp || cn)
 }
 
-const X18_SUBJECT_IDS = [...x18Data, ...nsfwData.map(item => item.i)]
+let x18SubjectIds: SubjectId[] = []
 
 /**
  * 是否敏感条目
@@ -150,6 +149,8 @@ const X18_SUBJECT_IDS = [...x18Data, ...nsfwData.map(item => item.i)]
  * @param {*} title     辅助检测, 有关键字则都认为是 18x
  */
 export function x18(subjectId: SubjectId, title?: string) {
+  if (!x18SubjectIds.length) x18SubjectIds = nsfwData.map(item => item.i)
+
   if (!subjectId) return false
 
   if (typeof subjectId === 'string') {
@@ -158,7 +159,7 @@ export function x18(subjectId: SubjectId, title?: string) {
 
   if (X18_CACHE_MAP.has(subjectId)) return X18_CACHE_MAP.get(subjectId)
 
-  const flag = X18_SUBJECT_IDS.includes(subjectId)
+  const flag = x18SubjectIds.includes(subjectId)
   if (flag) {
     X18_CACHE_MAP.set(subjectId, true)
     return true

@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:18:45
+ * @Last Modified time: 2024-07-22 04:25:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import heatmapEventData from '@assets/json/heatmap/event.json'
-import heatmapData from '@assets/json/heatmap/index.json'
 import { Text } from '../text'
 import { Control } from './control'
 import { PageText } from './page-text'
@@ -19,6 +17,10 @@ import { Props as HeatmapProps } from './types'
 
 export { HeatmapProps }
 
+const heatmapEventData = {}
+const heatmapData = {
+  total: 0
+}
 const totalWithoutView = (heatmapData?.total || 0) - heatmapData['其他.查看']
 
 /** [DEV] 事件热力区域可视化 */

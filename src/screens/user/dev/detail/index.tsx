@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-02-27 16:26:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 02:43:08
+ * @Last Modified time: 2024-07-22 04:24:50
  */
 import React from 'react'
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { _, systemStore, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { getHashSubjectOTA, getHashAvatarOTA, getXsbRelationOTA } from '@constants'
-import hashSubject from '@assets/json/hash/subject.min.json'
-import hashAvatar from '@assets/json/hash/avatar.min.json'
+import { getHashAvatarOTA, getHashSubjectOTA, getXsbRelationOTA } from '@constants'
 import Block from './block'
+
+const hashSubject = {}
+const hashAvatar = {}
 
 function Detail() {
   return useObserver(() => {

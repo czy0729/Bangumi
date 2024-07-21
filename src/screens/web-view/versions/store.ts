@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:41:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 17:10:44
+ * @Last Modified time: 2024-07-21 19:40:56
  */
 import { observable } from 'mobx'
 import store from '@utils/store'
 import { NAMESPACE, STATE, TABS } from './ds'
 
-export default class ScreenXXX extends store<typeof STATE> {
+export default class ScreenVersions extends store<typeof STATE> {
   state = observable(STATE)
 
   init = () => {

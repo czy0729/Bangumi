@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 11:43:45
+ * @Last Modified time: 2024-07-22 04:28:21
  */
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -141,9 +141,6 @@ export default class Fetch extends Computed {
         })
         onAir = JSON.parse(_response)
       } catch (error) {}
-
-      // 国外访问不到 CDN_ONAIR 接口的, 回退使用本地数据
-      if (onAir.length <= 8) onAir = require('@assets/json/calendar.json')
 
       const data = {
         _loaded: getTimestamp()

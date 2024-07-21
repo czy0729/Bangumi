@@ -11,7 +11,6 @@ import Crypto from '@utils/crypto'
 import { xhrCustom } from '@utils/fetch'
 import { getStorage, setStorage } from '@utils/storage'
 import { getTimestamp } from '@utils/utils'
-import hashSubject from '@assets/json/hash/subject.min.json'
 import { HOST_CDN } from '../constants'
 import { getOTA, getVersion, hash } from './utils'
 import { HOST_CDN_FASTLY, HOST_CDN_ONEDRIVE, VERSION_OSS } from './ds'
@@ -29,7 +28,7 @@ const OTA_SUBJECT_HASH_DATA = '@cdn|oss-subject-hash|data|210720'
 let cacheSubject = {}
 
 /** @deprecated */
-let hashSubjectOTA = hashSubject
+let hashSubjectOTA = {}
 
 /** @deprecated */
 let hashSubjectLoaded = false
