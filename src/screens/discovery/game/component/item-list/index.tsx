@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:44:06
+ * @Last Modified time: 2024-07-22 05:31:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
-import { HTMLDecode, showImageViewer, stl } from '@utils'
+import { HTMLDecode, showImageViewer, stl, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
@@ -90,7 +90,7 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow type='游戏' />
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
         <Flex style={styles.content} direction='column' align='start'>
           <View style={styles.body}>
             <Flex style={_.container.block} align='start'>

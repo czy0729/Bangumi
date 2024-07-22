@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-26 14:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:16:56
+ * @Last Modified time: 2024-07-22 05:33:03
  */
 import React from 'react'
 import { _ } from '@stores'
+import { x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import Item from './item'
 import { COMPONENT } from './ds'
@@ -23,7 +24,7 @@ export const ItemCollectionsGrid = ob(
     nameCn,
     sub,
     cover,
-    cdn = true,
+    cdn,
     score,
     rank,
     typeCn,
@@ -47,7 +48,7 @@ export const ItemCollectionsGrid = ob(
         nameCn={nameCn}
         sub={sub}
         cover={cover}
-        cdn={cdn}
+        cdn={cdn !== undefined ? cdn : !x18(id)}
         score={score}
         rank={rank}
         typeCn={typeCn}

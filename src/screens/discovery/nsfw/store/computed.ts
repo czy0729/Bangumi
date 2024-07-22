@@ -5,26 +5,11 @@
  * @Last Modified time: 2024-07-20 11:23:13
  */
 import { computed } from 'mobx'
-import { collectionStore, otaStore, systemStore, userStore } from '@stores'
+import { collectionStore, otaStore, systemStore } from '@stores'
 import { ADVANCE_LIMIT } from '../ds'
 import State from './state'
 
 export default class Computed extends State {
-  /** 是否允许访问 */
-  @computed get access() {
-    return !userStore.isLimit
-  }
-
-  /** 是否登录 (api) */
-  @computed get isLogin() {
-    return userStore.isLogin
-  }
-
-  /** 是否中文优先 */
-  @computed get cnFirst() {
-    return systemStore.setting.cnFirst
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
     return this.state.layout === 'list'

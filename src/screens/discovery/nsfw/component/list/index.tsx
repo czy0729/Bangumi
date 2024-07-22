@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 12:10:53
+ * @Last Modified time: 2024-07-22 05:08:59
  */
 import React from 'react'
 import { Loading, Text, Touchable } from '@components'
@@ -42,7 +42,7 @@ class List extends React.Component {
         name='NSFW'
         type='NSFW'
         lastUpdate='2024-07'
-        information={`数据最后快照于 2024-07-20，在版本更新前数据不会有任何变化。
+        information={`数据最后快照于 2024-07-22，在版本更新前数据不会有任何变化。
         \n本页数据非来源自 bgm.tv，并非所有条目都进行了收录。
         \n有比 bgm.tv 更准确的分类、更丰富的筛选和更多的排序。
         \n目前本功能仅对正常登录用户开放，非高级会员在一个条件下会有最多只显示前 ${ADVANCE_LIMIT} 条数据的限制。

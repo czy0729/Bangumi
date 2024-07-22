@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-07-20 11:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:42:01
+ * @Last Modified time: 2024-07-22 05:25:38
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars } from '@_'
-import { _, collectionStore, otaStore, uiStore } from '@stores'
+import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
@@ -62,7 +62,7 @@ function Item({ pickIndex }, { $, navigation }: Ctx) {
           height={IMG_HEIGHT_LG}
           radius
           cdn={false}
-          textOnly={TEXT_ONLY || !$.isLogin}
+          textOnly={TEXT_ONLY || !userStore.isLogin}
         />
         <Flex.Item style={_.ml.wind}>
           <Flex style={styles.content} direction='column' justify='between' align='start'>

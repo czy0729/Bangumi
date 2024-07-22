@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-19 22:03:27
+ * @Last Modified time: 2024-07-22 05:17:54
  */
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
-import { NSFW_COLLECTED, NSFW_FIRST, NSFW_SORT, NSFW_YEAR } from './ds'
+import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from './ds'
 import { Finger, Item, Query, SearchResult } from './types'
 
-export { NSFW_COLLECTED, NSFW_FIRST, NSFW_SORT, NSFW_YEAR }
+export { NSFW_COLLECTED, NSFW_SORT, NSFW_YEAR, NSFW_TYPE }
 
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let nsfw: Item[] = []
@@ -46,7 +47,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, sort } = query || {}
+  const { type, year, sort } = query || {}
   if (sort !== '随机' && SEARCH_CACHE[finger]) return SEARCH_CACHE[finger]
 
   let _list = []
@@ -59,7 +60,7 @@ export function search(query: Query): SearchResult {
   data.forEach((item, index) => {
     let match = true
 
-    if (match && first) match = first === item.f
+    if (match && type) match = Number(MODEL_SUBJECT_TYPE.getValue(type)) === item.t
     if (match && year) match = yearReg.test(item.d)
     if (match) _list.push(index)
   })
@@ -69,12 +70,8 @@ export function search(query: Query): SearchResult {
       _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'd'))
       break
 
-    case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
-      break
-
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'f'))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
       break
 
     case '评分人数':

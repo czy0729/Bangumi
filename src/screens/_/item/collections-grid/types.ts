@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 11:24:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 19:35:34
+ * @Last Modified time: 2024-07-22 05:33:15
  */
 import { CoverProps } from '@components'
 import { EventType, Id, Navigation, SubjectTypeCn, ViewStyle } from '@types'

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 17:28:38
+ * @Last Modified time: 2024-07-22 05:26:24
  */
 import { ADV_COLLECTED, ADV_DEV, ADV_FIRST, ADV_SORT, ADV_YEAR } from '@utils/subject/adv'
 import { ADV_CN, ADV_PLAYTIME } from '@utils/subject/adv/ds'
 
 export const COMPONENT = 'ADV'
 
-export const ADVANCE_LIMIT = 60
+export const ADVANCE_LIMIT = 40
 
 // 类型分组
 const ADV_DEV_GROUP = [[], []]

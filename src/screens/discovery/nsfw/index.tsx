@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 00:07:04
+ * @Last Modified time: 2024-07-22 05:23:18
  */
 import React from 'react'
 import { Component, Page, Text } from '@components'
 import { FilterSwitch } from '@_'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from '../anime/header'
@@ -23,9 +23,9 @@ const NSFW = (props, { $ }: Ctx) => {
 
   return useObserver(() => (
     <Component id='screen-nsfw'>
-      <Header title='找番剧' alias='NSFW' hm={['nsfw', 'NSFW']} />
+      <Header title='找条目' alias='NSFW' hm={['nsfw', 'NSFW']} />
       <Page loaded={$.state._loaded}>
-        {!$.access ? (
+        {userStore.isLimit ? (
           <>
             <FilterSwitch name='NSFW' />
             <Text style={_.mt.lg} align='center'>

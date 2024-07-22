@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 19:39:31
+ * @Last Modified time: 2024-07-22 05:29:22
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
@@ -85,7 +85,7 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
     >
       <Flex style={styles.wrap} align='start'>
         <InView style={styles.inView} y={_.window.height * 0.4 + IMG_HEIGHT_LG * index}>
-          <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
+          <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
         </InView>
         <Flex.Item style={_.ml.wind}>
           <Flex align='start'>

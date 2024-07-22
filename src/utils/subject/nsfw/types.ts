@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:41:24
+ * @Last Modified time: 2024-07-22 05:14:45
  */
 import { Loaded } from '@types'
 
 export type Finger = string
 
 export type Query = {
-  first: any
+  type: any
   year: any
   sort: any
 }
 
 export type Item = {
   i: number
-  f?: string
+  t?: number
   d?: string
   s?: number
   r?: number
@@ -27,6 +27,7 @@ export type Item = {
 
 export type UnzipItem = {
   id: number
+  type: 'anime' | 'book' | 'game'
   title: string
   cover: string
   score: number

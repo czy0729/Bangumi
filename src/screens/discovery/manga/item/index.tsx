@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:46:19
+ * @Last Modified time: 2024-07-22 05:30:23
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
+import { x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
@@ -53,7 +54,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius shadow />
+        <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />
         <Flex.Item style={_.ml.wind}>
           <Flex align='start'>
             <Flex.Item>

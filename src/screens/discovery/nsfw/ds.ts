@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-20 09:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 10:49:22
+ * @Last Modified time: 2024-07-22 05:08:25
  */
-import { NSFW_COLLECTED, NSFW_FIRST, NSFW_SORT, NSFW_YEAR } from '@utils/subject/nsfw'
+import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from '@utils/subject/nsfw'
 
 export const COMPONENT = 'NSFW'
 
@@ -12,9 +12,10 @@ export const ADVANCE_LIMIT = 40
 
 export const filterDS = [
   {
-    title: '首字',
-    type: 'first',
-    data: NSFW_FIRST
+    title: '类型',
+    type: 'type',
+    data: NSFW_TYPE,
+    always: true
   },
   {
     title: '年份',
