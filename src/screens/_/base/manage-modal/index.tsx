@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-23 21:18:20
+ * @Last Modified time: 2024-07-22 16:34:39
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -84,7 +84,9 @@ export const ManageModal = ob(
     }
 
     componentWillUnmount() {
-      if (!IOS) BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+      try {
+        if (!IOS) BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+      } catch (error) {}
     }
 
     async UNSAFE_componentWillReceiveProps(nextProps: {

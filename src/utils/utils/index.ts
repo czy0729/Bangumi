@@ -218,7 +218,7 @@ export function omit<T extends Record<string, any>, K extends keyof T>(
 const INTERCEPTOR_FINGERPRINTS: Record<string, true> = {}
 
 /** 拦截器, 若拦截中返回 true */
-export function interceptor(key: string = '', obj: AnyObject = {}, distance: number = 1200) {
+export function interceptor(key: string = '', obj: AnyObject = {}, distance: number = 800) {
   const fingerprint = `${key}|${JSON.stringify(obj)}`
 
   // 检查指纹是否存在于记录中

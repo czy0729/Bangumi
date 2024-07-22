@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:44:40
+ * @Last Modified time: 2024-07-22 16:33:57
  */
 import React, { Component } from 'react'
 import { Dimensions, Keyboard, LayoutAnimation, UIManager, View } from 'react-native'
@@ -47,7 +47,9 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
   }
 
   componentWillUnmount() {
-    this._listeners.forEach(listener => listener.remove())
+    try {
+      this._listeners.forEach(listener => listener.remove())
+    } catch (error) {}
   }
 
   updateKeyboardSpace = event => {

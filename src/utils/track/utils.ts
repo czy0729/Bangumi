@@ -9,9 +9,9 @@ import Constants from 'expo-constants'
 import { HOST, VERSION_CODE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import events from '@constants/events'
-import { DEV, GITHUB_ACTION, IOS_IPA } from '@/config'
+import { GITHUB_ACTION, IOS_IPA } from '@/config'
 import { AnyObject, EventKeys } from '@types'
-import { syncUserStore } from '../async'
+import { syncUserStore as _u } from '../async'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
 import { EventData } from './type'
 import {
@@ -22,6 +22,7 @@ import {
   TIMEOUT,
   TITLE,
   WEBSITE,
+  WEBSITE_EVENT,
   WEBSITE_FATAL_ERROR,
   WEBSITE_TINGRAIL
 } from './ds'
@@ -65,8 +66,6 @@ export async function umami(
       title,
       referrer: referrer || REFERRER
     }))
-
-    log('umami', url)
     return
   }
 
@@ -85,7 +84,7 @@ export async function umamiEvent(
   title: string = ''
 ) {
   // 由于已经合并了页面浏览量的计算, 所以此旧事件忽略
-  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments) || !events?.[eventId]) return
+  if (/\.查看$/g.test(eventId) || interceptor('umamiEvent', arguments)) return
 
   const _url = url.replace(HOST, '')
   if (STORYBOOK) {
@@ -101,19 +100,15 @@ export async function umamiEvent(
       data,
       referrer: REFERRER
     }))
-
-    log('umamiEvent', url, eventId, data)
     return
   }
 
-  // console.log(`${events?.[eventId]}/?${urlStringify(data, false, true)}`)
   umamiXhr({
     title: title || TITLE,
     url: _url,
     name: eventId,
     data
   })
-  log('umamiEvent', eventId, data)
 }
 
 async function umamiXhr(payload: {
@@ -138,16 +133,25 @@ async function umamiXhr(payload: {
   let website = payload.website || (payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE)
   if (payload.name === '其他.崩溃') website = WEBSITE_FATAL_ERROR
 
+  const data = {
+    ...payload,
+    website,
+    hostname: 'bgm.tv',
+    screen: SCREEN,
+    language: 'zh-CN',
+    referrer: payload.referrer || getReferer(String(_u().myId || 0))
+  }
+
+  if (data.name && data.website === WEBSITE) {
+    data.url = eventToUrl(data.name, data.data)
+    data.website = WEBSITE_EVENT
+    delete data.name
+    delete data.data
+  }
+
   request.send(
     JSON.stringify({
-      payload: {
-        ...payload,
-        website,
-        hostname: 'bgm.tv',
-        screen: SCREEN,
-        language: 'zh-CN',
-        referrer: payload.referrer || getReferer(String(syncUserStore().myId || 0))
-      },
+      payload: data,
       type: 'event'
     })
   )
@@ -157,14 +161,23 @@ export function getReferer(beforeKey?: string) {
   const referrre: string[] = [Platform.OS]
   if (IOS_IPA) referrre.push('ipa')
   referrre.push(VERSION_CODE)
+
   if (GITHUB_ACTION) referrre.push('github')
   if (beforeKey) referrre.unshift(beforeKey)
+
   return `https://${referrre.join('_')}.com`
 }
 
-/** [DEV] */
-function log(method: string, ...others: any[]) {
-  if (DEV) {
-    console.info(`%c[@utils/track/${method}]`, 'background: #000; color: #fff', ...others)
-  }
+function eventToUrl(name: EventKeys = '', data: AnyObject = {}) {
+  return `/${name}?${urlStringify({
+    e: events[name] || '',
+    ...data
+  })}`
 }
+
+/** [DEV] */
+// function log(method: string, ...others: any[]) {
+//   if (DEV) {
+//     console.info(`%c[@utils/track/${method}]`, 'background: #000; color: #fff', ...others)
+//   }
+// }

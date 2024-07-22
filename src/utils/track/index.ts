@@ -8,7 +8,7 @@ import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import events, { EventKeys } from '@constants/events'
 import { DEV, IOS_IPA } from '@/config'
-import { syncSystemStore, syncThemeStore, syncUserStore } from '../async'
+import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import { runAfter, urlStringify } from '../utils'
 import { EventData, HMQuery } from './type'
@@ -34,8 +34,8 @@ export function hm(url?: string, screen?: string, title?: string) {
     try {
       const query: HMQuery = { v: VERSION_GITHUB_RELEASE }
       if (IOS && IOS_IPA) query.ipa = 1
-      if (syncThemeStore().isDark) query.dark = 1
-      if (!syncSystemStore().setting.customFontFamily) query.font = 1
+      if (_().isDark) query.dark = 1
+      if (!_s().setting.customFontFamily) query.font = 1
       if (screen) query.s = screen
 
       const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
@@ -57,7 +57,7 @@ export function ua() {
 
   runAfter(() => {
     try {
-      const u = syncUserStore()
+      const u = _u()
       xhr(SI_UV, `${u.url}?v=${VERSION_GITHUB_RELEASE}`)
       umami(u.url, u.userInfo.nickname, WEBSITE_UV, getReferer())
     } catch (error) {}
@@ -68,14 +68,13 @@ export function ua() {
 export function t(desc: EventKeys, eventData?: EventData) {
   if (!desc || typeof desc !== 'string' || isDevtoolsOpen()) return
 
-  // 保证这种低优先级的操作在 UI 响应之后再执行
   runAfter(() => {
     try {
       const eventId = events[desc]
       if (eventId) {
-        syncSystemStore().track(eventId)
+        _s().track(eventId)
 
-        const userId = syncUserStore().myId || 0
+        const userId = _u().myId || 0
         umamiEvent(
           desc,
           userId
@@ -101,7 +100,7 @@ export function err(desc: string) {
       '其他.崩溃',
       {
         detail: JSON.stringify({
-          id: syncUserStore()?.myId || '',
+          id: _u()?.myId || '',
           version: VERSION_GITHUB_RELEASE,
           desc,
           currentUrl,

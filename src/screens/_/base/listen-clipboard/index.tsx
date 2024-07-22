@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:27:03
+ * @Last Modified time: 2024-07-22 16:34:30
  */
 import React from 'react'
 import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
@@ -35,7 +35,9 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
   componentWillUnmount() {
     if (IOS || STORYBOOK) return
 
-    this.appStateListener.remove()
+    try {
+      this.appStateListener.remove()
+    } catch (error) {}
   }
 
   onAppStateChange = (nextAppState: AppStateStatus) => {

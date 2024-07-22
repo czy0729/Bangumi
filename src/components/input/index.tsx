@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:35:30
+ * @Last Modified time: 2024-07-22 16:33:46
  */
 import React from 'react'
 import {
@@ -82,8 +82,10 @@ export const Input = observer(
     }
 
     componentWillUnmount() {
-      if (this.keyboardDidShowListener) this.keyboardDidShowListener.remove()
-      if (this.keyboardDidHideListener) this.keyboardDidHideListener.remove()
+      try {
+        if (this.keyboardDidShowListener) this.keyboardDidShowListener.remove()
+        if (this.keyboardDidHideListener) this.keyboardDidHideListener.remove()
+      } catch (error) {}
     }
 
     UNSAFE_componentWillReceiveProps({ value }) {

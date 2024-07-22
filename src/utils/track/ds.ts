@@ -69,6 +69,8 @@ export const WEBSITE_UV = '7fe501c7-13f2-4a9c-a420-70f0b30faaa9'
 
 export const WEBSITE_TINGRAIL = '945f4ab5-424b-4bd6-89f6-7735380396cd'
 
+export const WEBSITE_EVENT = 'a8aafc8d-6aa9-45cd-a19a-47f246137647'
+
 export const WEBSITE_FATAL_ERROR = 'a8d71a9c-3333-45ca-b223-59600d84b76a'
 
 export const REFERRER = GITHUB_ACTION ? 'https://github.com/' : ''

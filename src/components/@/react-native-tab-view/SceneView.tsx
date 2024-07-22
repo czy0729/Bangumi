@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import {
-  SceneRendererProps,
   EventEmitterProps,
   NavigationState,
-  Route
+  Route,
+  SceneRendererProps
 } from 'react-native-tab-view/src/types'
 import { stl } from '@utils'
 
@@ -22,10 +22,7 @@ type State = {
   loading: boolean
 }
 
-export default class SceneView<T extends Route> extends React.Component<
-  Props<T>,
-  State
-> {
+export default class SceneView<T extends Route> extends React.Component<Props<T>, State> {
   static getDerivedStateFromProps(props: Props<Route>, state: State) {
     if (
       state.loading &&
@@ -40,14 +37,15 @@ export default class SceneView<T extends Route> extends React.Component<
 
   state = {
     loading:
-      Math.abs(this.props.navigationState.index - this.props.index) >
-      this.props.lazyPreloadDistance
+      Math.abs(this.props.navigationState.index - this.props.index) > this.props.lazyPreloadDistance
   }
 
   componentDidMount() {
     if (this.props.lazy) {
       // If lazy mode is enabled, listen to when we enter screens
-      this.props.addListener('enter', this.handleEnter)
+      try {
+        this.props.addListener('enter', this.handleEnter)
+      } catch (error) {}
     } else if (this.state.loading) {
       // If lazy mode is not enabled, render the scene with a delay if not loaded already
       // This improves the initial startup time as the scene is no longer blocking
@@ -56,21 +54,24 @@ export default class SceneView<T extends Route> extends React.Component<
   }
 
   componentDidUpdate(prevProps: Props<T>, prevState: State) {
-    if (
-      this.props.lazy !== prevProps.lazy ||
-      this.state.loading !== prevState.loading
-    ) {
+    if (this.props.lazy !== prevProps.lazy || this.state.loading !== prevState.loading) {
       // We only need the listener if the tab hasn't loaded yet and lazy is enabled
       if (this.props.lazy && this.state.loading) {
-        this.props.addListener('enter', this.handleEnter)
+        try {
+          this.props.addListener('enter', this.handleEnter)
+        } catch (error) {}
       } else {
-        this.props.removeListener('enter', this.handleEnter)
+        try {
+          this.props.removeListener('enter', this.handleEnter)
+        } catch (error) {}
       }
     }
   }
 
   componentWillUnmount() {
-    this.props.removeListener('enter', this.handleEnter)
+    try {
+      this.props.removeListener('enter', this.handleEnter)
+    } catch (error) {}
   }
 
   private handleEnter = (value: number) => {
@@ -96,11 +97,7 @@ export default class SceneView<T extends Route> extends React.Component<
           styles.route,
           // If we don't have the layout yet, make the focused screen fill the container
           // This avoids delay before we are able to render pages side by side
-          layout.width
-            ? { width: layout.width }
-            : focused
-            ? StyleSheet.absoluteFill
-            : null,
+          layout.width ? { width: layout.width } : focused ? StyleSheet.absoluteFill : null,
           style
         )}
       >

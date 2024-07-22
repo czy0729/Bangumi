@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:15:39
+ * @Last Modified time: 2024-07-22 16:34:16
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -107,10 +107,12 @@ export const FolderManageModal = ob(
     }
 
     componentWillUnmount() {
-      this.setState({
-        visible: false
-      })
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+      try {
+        this.setState({
+          visible: false
+        })
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+      } catch (error) {}
     }
 
     onBackAndroid = () => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 12:37:06
+ * @Last Modified time: 2024-07-22 16:33:32
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -158,7 +158,9 @@ export const Image = observer(
     }
 
     componentWillUnmount() {
-      if (this._timeoutId) clearTimeout(this._timeoutId)
+      try {
+        if (this._timeoutId) clearTimeout(this._timeoutId)
+      } catch (error) {}
     }
 
     /** 若图片已明确知道在本地有缓存, 忽略大部分预置规则, 直接取出渲染 */

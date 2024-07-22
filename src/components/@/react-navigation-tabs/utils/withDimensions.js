@@ -20,7 +20,9 @@ export default function withDimensions(WrappedComponent) {
     }
 
     componentWillUnmount() {
-      Dimensions.removeEventListener('change', this.handleOrientationChange)
+      try {
+        Dimensions.removeEventListener('change', this.handleOrientationChange)
+      } catch (error) {}
     }
 
     handleOrientationChange = ({ window }) => {

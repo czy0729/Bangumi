@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-28 18:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-09 09:01:21
+ * @Last Modified time: 2024-07-22 16:34:04
  */
 import React from 'react'
 import { ActivityIndicator, Animated, TouchableOpacity, View } from 'react-native'
@@ -76,12 +76,14 @@ export default class Container extends React.Component<ToastProps, any> {
   }
 
   componentWillUnmount() {
-    if (this.timeoutId) clearTimeout(this.timeoutId)
+    try {
+      if (this.timeoutId) clearTimeout(this.timeoutId)
 
-    if (this.anim) {
-      this.anim.stop()
-      this.anim = null
-    }
+      if (this.anim) {
+        this.anim.stop()
+        this.anim = null
+      }
+    } catch (error) {}
   }
 
   render() {

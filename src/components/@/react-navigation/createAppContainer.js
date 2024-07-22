@@ -101,9 +101,7 @@ export default function createNavigationContainer(Component) {
     }
 
     _renderLoading() {
-      return this.props.renderLoadingExperimental
-        ? this.props.renderLoadingExperimental()
-        : null
+      return this.props.renderLoadingExperimental ? this.props.renderLoadingExperimental() : null
     }
 
     _isStateful() {
@@ -120,9 +118,7 @@ export default function createNavigationContainer(Component) {
       if (keys.length !== 0) {
         throw new Error(
           'This navigator has both navigation and container props, so it is ' +
-            `unclear if it should own its own state. Remove props: "${keys.join(
-              ', '
-            )}" ` +
+            `unclear if it should own its own state. Remove props: "${keys.join(', ')}" ` +
             'if the navigator should get its state from the navigation prop. If the ' +
             'navigator should maintain its own state, do not pass a navigation prop.'
         )
@@ -205,8 +201,7 @@ export default function createNavigationContainer(Component) {
       let parsedUrl = null
       let startupStateJSON = null
       if (enableURLHandling !== false) {
-        startupStateJSON =
-          persistenceKey && (await AsyncStorage.getItem(persistenceKey))
+        startupStateJSON = persistenceKey && (await AsyncStorage.getItem(persistenceKey))
         const url = await Linking.getInitialURL()
         parsedUrl = url && urlToPathAndParams(url, uriPrefix)
       }
@@ -287,13 +282,15 @@ export default function createNavigationContainer(Component) {
     }
 
     componentWillUnmount() {
-      this._isMounted = false
-      Linking.removeEventListener('url', this._handleOpenURL)
-      this.subs && this.subs.remove()
+      try {
+        this._isMounted = false
+        Linking.removeEventListener('url', this._handleOpenURL)
+        this.subs && this.subs.remove()
 
-      if (this._isStateful()) {
-        _statefulContainerCount--
-      }
+        if (this._isStateful()) {
+          _statefulContainerCount--
+        }
+      } catch (error) {}
     }
 
     // Per-tick temporary storage for state.nav

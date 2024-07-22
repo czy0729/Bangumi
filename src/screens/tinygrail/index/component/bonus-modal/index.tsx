@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 19:44:39
+ * @Last Modified time: 2024-07-22 16:36:04
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -27,11 +27,9 @@ class BonusModal extends React.Component<{
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps: { visible: boolean }) {
-    // if (!IOS) StatusBar.setHidden(nextProps.visible)
+    try {
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
+    } catch (error) {}
   }
 
   onBackAndroid = () => {

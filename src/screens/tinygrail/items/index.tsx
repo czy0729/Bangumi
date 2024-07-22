@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-05 17:59:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:21:57
+ * @Last Modified time: 2024-07-22 16:35:18
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -25,8 +25,10 @@ class TinygrailItems extends React.Component {
   }
 
   componentWillUnmount() {
-    const { $ } = this.context as Ctx
-    $.onCloseModal()
+    try {
+      const { $ } = this.context as Ctx
+      $.onCloseModal()
+    } catch (error) {}
   }
 
   renderList() {

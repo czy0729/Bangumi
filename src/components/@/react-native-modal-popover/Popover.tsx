@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2024-03-08 19:29:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 19:34:38
+ * @Last Modified time: 2024-07-22 16:32:45
  */
 import * as React from 'react'
 import {
@@ -184,7 +184,9 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
   }
 
   componentWillUnmount() {
-    this.dimensionsSub?.remove()
+    try {
+      this.dimensionsSub?.remove()
+    } catch (error) {}
   }
 
   private computeGeometry = (props: PopoverProps, contentSize: Size): Geometry =>
