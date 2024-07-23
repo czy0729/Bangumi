@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:07:28
+ * @Last Modified time: 2024-07-24 03:59:57
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { DraggableGrid } from '@components/@/react-native-draggable-grid/draggable-grid'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { ORIENTATION_PORTRAIT } from '@constants'
 import { getMenus } from '../../ds'
@@ -22,12 +23,13 @@ const SortMenu = memo(
 
     const openIndex = menus.findIndex(item => item.key === 'Open')
     const renderItem = useCallback(
-      (item, index?: number) => (
+      (item: { key: string }, index?: number, scale: boolean = true) => (
         <View
           key={item.key}
-          style={
-            index > openIndex && item.key !== 'Cancel' && item.key !== 'Save' && styles.transparent
-          }
+          style={stl(
+            index > openIndex && item.key !== 'Cancel' && item.key !== 'Save' && styles.transparent,
+            scale && styles.item
+          )}
         >
           <Btn item={item} />
         </View>
@@ -59,12 +61,11 @@ const SortMenu = memo(
       }, 80)
     }, [menu, onSubmit, onToggle])
 
-    const btns = useMemo(
+    const elBtns = useMemo(
       () => dragging && <Btns setMenu={setMenu} onCancel={onCancel} onSave={onSave} />,
       [dragging, onCancel, onSave]
     )
 
-    const isPortrait = orientation === ORIENTATION_PORTRAIT
     let data: any[]
     if (dragging) {
       data = [
@@ -81,6 +82,9 @@ const SortMenu = memo(
       data = menus.filter((_item, index) => index <= openIndex)
     }
 
+    const isPortrait = orientation === ORIENTATION_PORTRAIT
+    const isScale = discoveryMenuNum <= 4
+
     return (
       <View style={dragging && styles.dragging}>
         {isPortrait && dragging && (
@@ -88,20 +92,20 @@ const SortMenu = memo(
             按住拖拽排序，拖动到分割线左侧显示，右侧隐藏
           </Text>
         )}
-        {!isPortrait && btns}
+        {!isPortrait && elBtns}
         {dragging ? (
           <DraggableGrid
             key={`${orientation}|${discoveryMenuNum}`}
             data={data}
             numColumns={discoveryMenuNum}
-            itemHeight={styles.dragItem.height}
-            renderItem={renderItem}
+            itemHeight={styles.dragItem.height * (isScale ? 0.8 : 1)}
+            renderItem={(item, index) => renderItem(item, index, isScale)}
             onDragRelease={onDragRelease}
           />
         ) : (
-          <Flex wrap='wrap'>{data.map(item => renderItem(item))}</Flex>
+          <Flex wrap='wrap'>{data.map((item, index) => renderItem(item, index, false))}</Flex>
         )}
-        {isPortrait && btns}
+        {isPortrait && elBtns}
       </View>
     )
   },

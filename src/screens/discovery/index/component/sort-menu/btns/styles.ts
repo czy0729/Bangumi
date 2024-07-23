@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:34:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:32:38
+ * @Last Modified time: 2024-07-24 03:47:35
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -36,6 +36,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   setting: {
     paddingHorizontal: _.sm,
-    marginVertical: _.sm
+    marginBottom: 24
   }
 }))

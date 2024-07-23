@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:35:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 20:56:59
+ * @Last Modified time: 2024-07-24 03:55:43
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -25,5 +25,12 @@ export const memoStyles = _.memoStyles(() => ({
   },
   dragItem: {
     height: STORYBOOK ? 94 : (_.windowSm.width - 2 * _.windSm) / 4
+  },
+  item: {
+    transform: [
+      {
+        scale: 0.8
+      }
+    ]
   }
 }))
