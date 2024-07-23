@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 02:53:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 19:31:51
+ * @Last Modified time: 2024-07-23 21:53:37
  */
 import React, { isValidElement } from 'react'
 import { Platform, ScrollView, TouchableOpacity, View } from 'react-native'
@@ -44,12 +44,12 @@ export class PopoverItem extends React.PureComponent {
   }
 }
 
-export default class Popover extends React.PureComponent {
+class Popover extends React.PureComponent {
   static defaultProps = {
     onSelect: () => {}
   }
 
-  static Item = PopoverItem
+  // static Item = PopoverItem
 
   onSelect = (value, closePopover) => {
     const { onSelect } = this.props
@@ -157,3 +157,7 @@ export default class Popover extends React.PureComponent {
     )
   }
 }
+
+Popover.Item = PopoverItem
+
+export default Popover
