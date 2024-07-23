@@ -48,6 +48,10 @@ Because of bangumi is a totally chinese website, so there is no plan to translat
 
 [CHANGELOGS](https://github.com/czy0729/Bangumi/blob/master/web/CHANGELOG.MD)
 
+## Preview of SPA Application
+
+Preview at [gh-pages](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)
+
 ## Storybook Preview
 
 Preview at [https://czy0729.github.io/Bangumi-Storybook/storybook-static](https://czy0729.github.io/Bangumi-Storybook/storybook-static)
