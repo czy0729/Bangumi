@@ -42,7 +42,7 @@ class Zone extends React.Component {
     return (
       <>
         <Tab
-          scrollEventThrottle={4}
+          scrollEventThrottle={16}
           onScroll={this.onScroll}
           onSwipeStart={this.onSwipeStart}
           onIndexChange={this.onIndexChange}

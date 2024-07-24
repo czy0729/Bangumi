@@ -31,7 +31,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
     return (
       <Component id='screen-rakuen-group'>
         <Page statusBarEvent={false}>
-          <ScrollView scrollEventThrottle={4} scrollToTop onScroll={onScroll}>
+          <ScrollView scrollEventThrottle={16} scrollToTop onScroll={onScroll}>
             <Info />
             {show && (
               <View

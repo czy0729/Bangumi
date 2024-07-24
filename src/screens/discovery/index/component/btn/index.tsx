@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
+import { userStore } from '@stores'
 import { appNavigate, info, matchBgmUrl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -16,8 +17,8 @@ import Btn from './btn'
 import { COMPONENT } from './ds'
 
 export default obc(({ item }, { $, navigation }: Ctx) => {
+  const { username, id } = userStore.userInfo
   const { dragging } = $.state
-  const { username, id } = $.userInfo
   const { key, login } = item
   return (
     <Btn

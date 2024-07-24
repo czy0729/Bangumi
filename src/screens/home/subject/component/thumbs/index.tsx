@@ -121,7 +121,7 @@ class Thumbs extends React.Component<{
               contentContainerStyle={_.container.wind}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={8}
+              scrollEventThrottle={16}
               onScroll={scrolled ? undefined : this.onScroll}
             >
               {this.videos.map(item => (

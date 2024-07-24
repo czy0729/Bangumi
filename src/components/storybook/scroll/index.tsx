@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:35:22
+ * @Last Modified time: 2024-07-24 20:13:20
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -101,7 +101,7 @@ export const StorybookScroll = ({
         contentContainerStyle={contentContainerStyle}
         {...other}
         {...SCROLL_VIEW_RESET_PROPS}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={_onScroll}
       >
         {children}

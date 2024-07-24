@@ -1,13 +1,6 @@
 /* eslint-disable */
 import React from 'react'
-import {
-  Animated,
-  Dimensions,
-  Platform,
-  ViewPagerAndroid,
-  View,
-  Text
-} from 'react-native'
+import { Animated, Dimensions, Platform, ViewPagerAndroid, View, Text } from 'react-native'
 import { Flex } from '../../../flex'
 import { WithTheme } from '../style'
 import { DefaultTabBar } from './defaultTabBar'
@@ -120,9 +113,7 @@ export class Tabs extends React.PureComponent {
             initialPage={currentTab}
             scrollEnabled={this.props.swipeable || usePaged}
             onPageScroll={e => {
-              this.state.scrollX.setValue(
-                e.nativeEvent.position * this.state.containerWidth
-              )
+              this.state.scrollX.setValue(e.nativeEvent.position * this.state.containerWidth)
             }}
             style={{ flex: 1 }}
             onPageSelected={e => {
@@ -172,7 +163,7 @@ export class Tabs extends React.PureComponent {
             }
           )}
           onMomentumScrollEnd={this.onMomentumScrollEnd}
-          scrollEventThrottle={4}
+          scrollEventThrottle={16}
           scrollsToTop={false}
           showsHorizontalScrollIndicator={false}
           scrollEnabled={this.props.swipeable}
@@ -262,9 +253,7 @@ export class Tabs extends React.PureComponent {
             <Animated.View // @add View -> Animated.View
               key='$tabbar'
               style={[
-                tabBarPosition === 'top'
-                  ? styles.topTabBarSplitLine
-                  : styles.bottomTabBarSplitLine,
+                tabBarPosition === 'top' ? styles.topTabBarSplitLine : styles.bottomTabBarSplitLine,
                 tabBarStyle // @add
               ]}
             >
@@ -276,10 +265,7 @@ export class Tabs extends React.PureComponent {
           return (
             <>
               {this.props.renderHeaderComponent}
-              <View
-                style={[styles.container, this.props.style]}
-                onLayout={this.handleLayout}
-              >
+              <View style={[styles.container, this.props.style]} onLayout={this.handleLayout}>
                 {tabBarPosition === 'top' ? content : content.reverse()}
               </View>
             </>
@@ -328,11 +314,7 @@ export class Tabs extends React.PureComponent {
     this.prevCurrentTab = this.state.currentTab
   }
 
-  getOffsetIndex = (
-    current,
-    width,
-    threshold = this.props.distanceToChangeTab || 0
-  ) => {
+  getOffsetIndex = (current, width, threshold = this.props.distanceToChangeTab || 0) => {
     const ratio = Math.abs(current / width)
     const direction = ratio > this.state.currentTab ? '<' : '>'
     const index = Math.floor(ratio)
@@ -477,13 +459,7 @@ export class Tabs extends React.PureComponent {
     }
   }
 
-  getSubElement(
-    tab,
-    index,
-    subElements = () => {},
-    defaultPrefix = '$i$-',
-    allPrefix = '$ALL$'
-  ) {
+  getSubElement(tab, index, subElements = () => {}, defaultPrefix = '$i$-', allPrefix = '$ALL$') {
     const key = tab.key || `${defaultPrefix}${index}`
     const elements = subElements(defaultPrefix, allPrefix)
     let component = elements[key] || elements[allPrefix]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:27:24
+ * @Last Modified time: 2024-07-24 20:13:41
  */
 import React from 'react'
 import { ListView, ListViewProps } from '@components'
@@ -16,7 +16,7 @@ function List({ id }: { id: TabsKey }, { $ }: Ctx) {
   const passProps: ListViewProps = {
     keyExtractor,
     contentContainerStyle: styles.contentContainerStyle,
-    scrollEventThrottle: 4,
+    scrollEventThrottle: 16,
     onScroll: $.onScroll
   }
 

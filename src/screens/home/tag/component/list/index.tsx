@@ -54,7 +54,7 @@ function List(props, { $ }: Ctx) {
 
         return <GridItem item={item} index={index} numColumns={numColumns} />
       }}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.onFooterRefresh}

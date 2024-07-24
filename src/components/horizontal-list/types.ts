@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:45:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 15:46:05
+ * @Last Modified time: 2024-07-24 20:55:12
  */
-import { ViewStyle, Fn } from '@types'
+import { Fn, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
@@ -15,4 +15,7 @@ export type Props = {
   initialRenderNums?: number
   renderItem?: Fn
   renderNums?: Fn
+
+  /** 水平滑动到侧 */
+  onEndReachedOnce?: Fn
 }

@@ -41,7 +41,7 @@ const Catalog = memo(
                 contentContainerStyle={styles.contentContainerStyle}
                 horizontal
                 {...SCROLL_VIEW_RESET_PROPS}
-                scrollEventThrottle={4}
+                scrollEventThrottle={16}
                 onScroll={onScroll}
               >
                 {list.map(item => (

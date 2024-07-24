@@ -9,7 +9,7 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { SectionTitle as CompSectionTitle } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -22,17 +22,19 @@ function SectionTitle({ title, type }, { navigation }: Ctx) {
       right={
         <Touchable
           style={styles.touch}
-          onPress={() => {
-            t('发现.跳转', {
+          onPress={withT(
+            () => {
+              navigation.push('Channel', {
+                type
+              })
+            },
+            '发现.跳转',
+            {
               to: 'Channel',
               title,
               from: 'SectionTitle'
-            })
-
-            navigation.push('Channel', {
-              type
-            })
-          }}
+            }
+          )}
         >
           <Flex>
             <Text>　　</Text>

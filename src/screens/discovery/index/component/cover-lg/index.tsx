@@ -13,7 +13,7 @@ import { Cover } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
 import { cnjp, getCoverLarge, HTMLDecode, matchCoverUrl } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { linearColor } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -30,26 +30,27 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
   const height = isMusic ? width : h
 
   const isUseCDN = systemStore.setting.cdnOrigin === 'magma'
-
   return (
     <Touchable
       style={styles.item}
       animate
-      onPress={() => {
-        t('发现.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Subject', {
+            subjectId,
+            _jp: subjectJP,
+            _cn: subjectCN,
+            _image: getCoverSrc(src, width),
+            _type: title
+          })
+        },
+        '发现.跳转',
+        {
           to: 'Subject',
           subjectId,
           from: `CoverLg|${title}`
-        })
-
-        navigation.push('Subject', {
-          subjectId,
-          _jp: subjectJP,
-          _cn: subjectCN,
-          _image: getCoverSrc(src, width),
-          _type: title
-        })
-      }}
+        }
+      )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Cover

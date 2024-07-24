@@ -77,7 +77,7 @@ class Game extends React.Component<{
         contentContainerStyle={_.container.wind}
         horizontal
         {...SCROLL_VIEW_RESET_PROPS}
-        scrollEventThrottle={8}
+        scrollEventThrottle={16}
         onScroll={this.state.scrolled ? undefined : this.onScroll}
       >
         {this.thumbs.map((item, index) => (

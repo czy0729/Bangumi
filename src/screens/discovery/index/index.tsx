@@ -17,14 +17,14 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 发现 */
-const Discovery = ({ isFocused }, context: Ctx) => {
+const Discovery = (props, context: Ctx) => {
   useDiscoveryPage(context)
 
   const { $ } = context
   return useObserver(() => (
     <Component id='screen-discovery'>
       <Page>
-        <List isFocused={isFocused} />
+        <List />
         {systemStore.setting.live2D && <Mesume dragging={$.state.dragging} />}
       </Page>
       <Extra />
@@ -32,6 +32,4 @@ const Discovery = ({ isFocused }, context: Ctx) => {
   ))
 }
 
-export default ic(Store, Discovery, {
-  listenIsFocused: true
-})
+export default ic(Store, Discovery)

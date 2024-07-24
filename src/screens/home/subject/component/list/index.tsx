@@ -22,7 +22,7 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) 
       contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
       data={$.subjectComments}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       scrollToTop
       keyboardDismissMode='on-drag'
       footerEmptyDataComponent={$.footerEmptyDataComponent}

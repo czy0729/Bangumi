@@ -35,12 +35,13 @@ export const EXCLUDE_STATE = {
   link: '',
 
   /** 菜单编辑中 */
-  dragging: false
+  dragging: false,
+
+  /** @deprecated 是否显示 2021 年鉴的动画 */
+  showBlockTrain: false
 }
 
 export const STATE = {
-  /** @deprecated 是否显示 2021 年鉴的动画 */
-  showBlockTrain: true,
   ...EXCLUDE_STATE,
   _loaded: true as Loaded
 }

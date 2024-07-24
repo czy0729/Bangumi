@@ -8,6 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Text } from '@components'
 import { StatusBarPlaceholder } from '@_'
+import { discoveryStore } from '@stores'
 import { obc } from '@utils/decorators'
 import Award from '../component/award'
 import SortMenu from '../component/sort-menu'
@@ -31,9 +32,9 @@ function HeaderComponent(props, { $ }: Ctx) {
       {!$.state.dragging && (
         <>
           <Flex style={styles.wrap}>
-            {!!$.online && (
+            {!!discoveryStore.online && (
               <Text align='right' size={12}>
-                online {$.online}
+                online {discoveryStore.online}
               </Text>
             )}
             <Flex.Item>

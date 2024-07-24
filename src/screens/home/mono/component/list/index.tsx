@@ -21,7 +21,7 @@ function List({ onScroll }, { $ }: Ctx) {
       keyExtractor={keyExtractor}
       data={$.list}
       limit={20}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       scrollToTop
       ListHeaderComponent={<Info />}
       progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-10 20:03:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-24 10:35:12
+ * @Last Modified time: 2024-07-24 20:13:05
  */
 import React, { useRef } from 'react'
 import { Animated, ScrollView as RNScrollView } from 'react-native'
@@ -54,7 +54,7 @@ export const ScrollView = ({
         horizontal={horizontal}
         scrollIndicatorInsets={scrollIndicatorInsets}
         scrollEventThrottle={
-          scrollEventThrottle === undefined && onScroll ? 4 : scrollEventThrottle
+          scrollEventThrottle === undefined && onScroll ? 16 : scrollEventThrottle
         }
         onScroll={onScroll}
         {...other}

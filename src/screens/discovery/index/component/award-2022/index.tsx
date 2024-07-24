@@ -10,7 +10,7 @@ import { WebView } from 'react-native-webview'
 import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { useIsFocused, useNavigation, useObserver } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
 import { getHtml } from './utils'
@@ -46,17 +46,19 @@ function Award2022({ width, height }: { width?: number; height?: number }) {
             }
           ]}
           animate
-          onPress={() => {
-            t('发现.跳转', {
+          onPress={withT(
+            () => {
+              navigation.push('Award', {
+                uri: `${HOST}/award/2022`
+              })
+            },
+            '发现.跳转',
+            {
               to: 'Award',
               year: 2022,
               from: 'Award2022'
-            })
-
-            navigation.push('Award', {
-              uri: `${HOST}/award/2022`
-            })
-          }}
+            }
+          )}
         >
           <Squircle width={w} height={h} radius={systemStore.coverRadius}>
             {!TEXT_ONLY && (

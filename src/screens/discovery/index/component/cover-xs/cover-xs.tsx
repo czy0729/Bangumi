@@ -13,7 +13,7 @@ import { Avatar, Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { linearColor } from '../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { AVATAR_SIZE } from './styles'
@@ -43,21 +43,23 @@ const CoverXs = memo(
         <Touchable
           style={styles.item}
           animate
-          onPress={() => {
-            t('发现.跳转', {
+          onPress={withT(
+            () => {
+              navigation.push('Subject', {
+                subjectId,
+                _jp: jp,
+                _cn: cn,
+                _image: getCoverSrc(cover, width),
+                _type: title
+              })
+            },
+            '发现.跳转',
+            {
               to: 'Subject',
               subjectId,
               from: `CoverXs|${title}`
-            })
-
-            navigation.push('Subject', {
-              subjectId,
-              _jp: jp,
-              _cn: cn,
-              _image: getCoverSrc(cover, width),
-              _type: title
-            })
-          }}
+            }
+          )}
         >
           <Squircle width={width} height={height} radius={systemStore.coverRadius}>
             <Cover src={getCoverMedium(cover)} width={width} height={height} />

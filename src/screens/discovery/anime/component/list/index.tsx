@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 19:33:00
+ * @Last Modified time: 2024-07-24 20:13:30
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -36,7 +36,7 @@ function List(props, { $ }: Ctx) {
       ListHeaderComponent={<Filter />}
       renderItem={renderItem}
       scrollToTop
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onPage={otaStore.onAnimePage}
     />

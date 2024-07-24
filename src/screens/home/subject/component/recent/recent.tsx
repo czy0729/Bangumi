@@ -37,7 +37,7 @@ const Recent = memo(
               contentContainerStyle={_.container.wind}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={4}
+              scrollEventThrottle={16}
               onScroll={onScroll}
             >
               {list.map(item => (

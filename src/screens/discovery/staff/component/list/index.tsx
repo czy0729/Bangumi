@@ -24,7 +24,7 @@ function List(props, { $ }: Ctx) {
       lazy={6}
       scrollToTop
       renderItem={renderItem}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchCatalogs}

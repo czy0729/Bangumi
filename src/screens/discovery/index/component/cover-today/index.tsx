@@ -13,7 +13,7 @@ import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { cnjp, getCoverMedium, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { linearColor } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT, WEEKDAY_CN } from './ds'
@@ -26,20 +26,22 @@ function CoverToday({ data }, { navigation }: Ctx) {
     <Touchable
       style={styles.item}
       animate
-      onPress={() => {
-        t('发现.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Subject', {
+            subjectId: data.id,
+            _jp: data.name,
+            _cn: data.name_cn,
+            _image: getCoverSrc(data?.images?.common, width)
+          })
+        },
+        '发现.跳转',
+        {
           to: 'Subject',
           subjectId: data.id,
           from: 'CoverToday'
-        })
-
-        navigation.push('Subject', {
-          subjectId: data.id,
-          _jp: data.name,
-          _cn: data.name_cn,
-          _image: getCoverSrc(data?.images?.common, width)
-        })
-      }}
+        }
+      )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Cover src={getCoverMedium(data?.images?.common)} width={width} height={height} />

@@ -74,7 +74,7 @@ function List(
         progressViewOffset={styles.contentContainerStyle.paddingTop}
         // scrollToTop={$.state.isFocused && TABS[$.state.page].title === title}
         renderItem={renderItem}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={handleScroll}
         onHeaderRefresh={$.onHeaderRefresh}
         onFooterRefresh={$.fetchTimeline}

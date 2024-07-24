@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Image, Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { ASSETS_AWARDS, HOST } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
@@ -22,17 +22,19 @@ function Block({ year }, { navigation }: Ctx) {
     <Touchable
       style={styles.item}
       animate
-      onPress={() => {
-        t('发现.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Award', {
+            uri: `${HOST}/award/${year}`
+          })
+        },
+        '发现.跳转',
+        {
           to: 'Award',
-          year: year,
+          year,
           from: 'Award'
-        })
-
-        navigation.push('Award', {
-          uri: `${HOST}/award/${year}`
-        })
-      }}
+        }
+      )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <View style={styles[`item${year}`]}>

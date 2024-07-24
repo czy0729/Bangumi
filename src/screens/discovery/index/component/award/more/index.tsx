@@ -8,7 +8,7 @@ import React from 'react'
 import { Flex, Squircle, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -21,14 +21,16 @@ function More(props, { navigation }: Ctx) {
     <Touchable
       style={_.container.touch}
       animate
-      onPress={() => {
-        t('发现.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Yearbook')
+        },
+        '发现.跳转',
+        {
           to: 'Yearbook',
           from: 'Award'
-        })
-
-        navigation.push('Yearbook')
-      }}
+        }
+      )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
         <Flex style={styles.more} justify='center' direction='column'>

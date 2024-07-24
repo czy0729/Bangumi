@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:29:17
+ * @Last Modified time: 2024-07-24 23:08:00
  */
 import React from 'react'
 import { HorizontalList } from '@components'
 import { InView } from '@_'
-import { _ } from '@stores'
+import { _, usersStore } from '@stores'
 import { findSubjectCn, getCoverLarge } from '@utils'
 import { memo } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { IMG_DEFAULT, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { INITIAL_RENDER_NUMS_XS } from '../../ds'
@@ -20,7 +21,7 @@ import SectionTitle from '../section-title'
 import { COMPONENT_MAIN, DEFAULT_PROPS, INITIAL_RENDER_NUMS_SM, ITEM_HEIGHT } from './ds'
 
 const ListItem = memo(
-  ({ styles, style, index, type, list, friendsChannel, friendsMap }) => {
+  ({ styles, style, index, type, list, friendsChannel }) => {
     const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     return (
       <InView y={_.window.height * 0.64 + index * ITEM_HEIGHT}>
@@ -45,6 +46,11 @@ const ListItem = memo(
               data={item}
             />
           )}
+          onEndReachedOnce={() => {
+            t('发现.滑动到边', {
+              from: `CoverSm|${type}`
+            })
+          }}
         />
         {!!friendsChannel.length && (
           <HorizontalList
@@ -55,10 +61,15 @@ const ListItem = memo(
               <CoverXs
                 key={`${item.userId}|${item.id}`}
                 title={title}
-                avatar={friendsMap[item.userId]?.avatar}
+                avatar={usersStore.friendsMap[item.userId]?.avatar}
                 data={item}
               />
             )}
+            onEndReachedOnce={() => {
+              t('发现.滑动到边', {
+                from: `CoverXs|${type}`
+              })
+            }}
           />
         )}
       </InView>

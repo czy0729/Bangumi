@@ -85,7 +85,7 @@ const Anitabi = memo(
               contentContainerStyle={_.container.wind}
               horizontal
               {...SCROLL_VIEW_RESET_PROPS}
-              scrollEventThrottle={8}
+              scrollEventThrottle={16}
               onScroll={onScroll}
             >
               {list.map((item, index) => (

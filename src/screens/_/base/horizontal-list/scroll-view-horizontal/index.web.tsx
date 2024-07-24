@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 14:10:54
+ * @Last Modified time: 2024-07-24 20:13:29
  */
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -72,7 +72,7 @@ function ScrollViewHorizontal({ children, ...other }) {
       <ScrollView
         ref={ref}
         contentContainerStyle={styles.contentContainerStyle}
-        scrollEventThrottle={8}
+        scrollEventThrottle={16}
         {...SCROLL_VIEW_RESET_PROPS}
         {...other}
         horizontal

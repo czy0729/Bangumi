@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 22:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 17:35:09
+ * @Last Modified time: 2024-07-24 20:13:44
  */
 import { ListViewProps } from '@components'
 import { keyExtractor } from '@utils'
@@ -18,7 +18,7 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const LISTVIEW_PROPS: ListViewProps = {
   keyExtractor,
-  scrollEventThrottle: 4,
+  scrollEventThrottle: 16,
   initialNumToRender: 120,
   maxToRenderPerBatch: 120,
   updateCellsBatchingPeriod: 120,

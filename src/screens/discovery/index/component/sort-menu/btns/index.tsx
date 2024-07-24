@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { STORYBOOK } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
@@ -54,16 +54,18 @@ const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
       </Flex>
       <Touchable
         style={_.mt.sm}
-        onPress={() => {
-          t('发现.跳转', {
+        onPress={withT(
+          () => {
+            navigation.push('Setting', {
+              open: 'Discovery'
+            })
+          },
+          '发现.跳转',
+          {
             to: 'Setting',
             from: 'SortMenu'
-          })
-
-          navigation.push('Setting', {
-            open: 'Discovery'
-          })
-        }}
+          }
+        )}
       >
         <Flex style={styles.setting}>
           <Flex.Item>

@@ -21,7 +21,7 @@ function Layout(props, { $ }: Ctx) {
       <ScrollView
         forwardRef={$.forwardRef}
         contentContainerStyle={styles.scrollView}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={$.onScroll}
       >
         {!$.state.fixed && <ToolBar />}

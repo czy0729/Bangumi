@@ -25,6 +25,5 @@ export const DEFAULT_PROPS = {
   index: 0 as number,
   type: 'anime' as SubjectType,
   list: [] as any[],
-  friendsChannel: [] as ReturnType<$['friendsChannel']>,
-  friendsMap: {} as $['friendsMap']
+  friendsChannel: [] as ReturnType<$['friendsChannel']>
 }

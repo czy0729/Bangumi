@@ -9,7 +9,7 @@ import Constants from 'expo-constants'
 import { HOST, VERSION_CODE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import events from '@constants/events'
-import { GITHUB_ACTION, IOS_IPA } from '@/config'
+import { DEV, GITHUB_ACTION, IOS_IPA } from '@/config'
 import { AnyObject, EventKeys } from '@types'
 import { syncUserStore as _u } from '../async'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'
@@ -176,8 +176,8 @@ function eventToUrl(name: EventKeys = '', data: AnyObject = {}) {
 }
 
 /** [DEV] */
-// function log(method: string, ...others: any[]) {
-//   if (DEV) {
-//     console.info(`%c[@utils/track/${method}]`, 'background: #000; color: #fff', ...others)
-//   }
-// }
+export function log(method: string, ...others: any[]) {
+  if (DEV) {
+    console.info(`%c[@utils/track/${method}]`, 'background: #000; color: #fff', ...others)
+  }
+}

@@ -14,7 +14,7 @@ import HeaderComponent from '../../header-component'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List({ isFocused }, { $ }: Ctx) {
+function List(props, { $ }: Ctx) {
   return (
     <BlurViewRoot>
       <ListView
@@ -27,9 +27,8 @@ function List({ isFocused }, { $ }: Ctx) {
         ListHeaderComponent={<HeaderComponent />}
         showFooter={!systemStore.setting.live2D && !$.state.dragging}
         renderItem={renderItem}
-        // scrollToTop={WSA || isFocused}
         scrollEnabled={!$.state.dragging}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={$.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}
       />

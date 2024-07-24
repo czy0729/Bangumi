@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:14:26
+ * @Last Modified time: 2024-07-24 22:42:48
  */
 
 /** Discovery */
@@ -76,6 +76,8 @@ export default {
   '发现.跳转': 'Discovery.to',
   '发现.剪贴板': 'Discovery.linkModal',
   '发现.更新菜单': 'Discovery.saveMenus',
+  '发现.下拉刷新': 'Discovery.onHeaderRefresh',
+  '发现.滑动到边': 'Discovery.onEndReached',
 
   // 随便看看
   '随便看看.跳转': 'Random.to',

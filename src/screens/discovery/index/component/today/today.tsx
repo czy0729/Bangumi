@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-10 08:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:27:03
+ * @Last Modified time: 2024-07-24 22:53:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, HorizontalList, Text } from '@components'
 import { _ } from '@stores'
 import { memo } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { INITIAL_RENDER_NUMS_XS } from '../../ds'
 import CoverToday from '../cover-today'
 import { COMPONENT_MAIN, DEFAULTP_ROPS } from './ds'
@@ -41,6 +42,11 @@ const Today = memo(
             <CoverToday key={item.id} data={item} />
           </>
         )}
+        onEndReachedOnce={() => {
+          t('发现.滑动到边', {
+            from: 'Today'
+          })
+        }}
       />
     )
   },

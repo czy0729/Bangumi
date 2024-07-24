@@ -6,7 +6,6 @@
  */
 import React, { useCallback } from 'react'
 import { ListView, ListViewProps } from '@components'
-
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import Item from '../../component/item'
@@ -49,7 +48,7 @@ const List = memo(
         data={data}
         numColumns={numColumns}
         keyboardDismissMode='on-drag'
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         renderItem={renderItem}
         ListHeaderComponent={
           <ToolBar page={page} pageCurrent={pageCurrent} pageTotal={pageTotal} />

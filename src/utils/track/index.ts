@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 02:29:15
+ * @Last Modified time: 2024-07-24 22:53:04
  */
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
@@ -12,7 +12,7 @@ import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from 
 import { isDevtoolsOpen } from '../dom'
 import { runAfter, urlStringify } from '../utils'
 import { EventData, HMQuery } from './type'
-import { getReferer, umami, umamiEvent, xhr } from './utils'
+import { getReferer, log, umami, umamiEvent, xhr } from './utils'
 import { SI_UV, WEBSITE_UV } from './ds'
 
 /** 上次路由完整参数 */
@@ -86,9 +86,35 @@ export function t(desc: EventKeys, eventData?: EventData) {
           currentUrl,
           currentTitle
         )
+        log('t', desc, eventData)
       }
     } catch (error) {}
   })
+}
+
+/** with Evt */
+export function withT<T extends (...args: any[]) => any>(
+  fn: T,
+  desc: EventKeys,
+  eventData?: EventData
+): T {
+  return ((...args: Parameters<T>): ReturnType<T> => {
+    const cb = () => {
+      setTimeout(() => {
+        t(desc, eventData)
+      }, 0)
+    }
+
+    const result = fn(...args)
+    if (result instanceof Promise) {
+      result.then(() => {
+        cb()
+      })
+    } else {
+      cb()
+    }
+    return result
+  }) as T
 }
 
 /** Fatal Error */

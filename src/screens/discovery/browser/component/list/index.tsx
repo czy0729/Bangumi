@@ -35,7 +35,7 @@ function List(props, { $ }: Ctx) {
       data={$.list}
       ListHeaderComponent={!$.state.fixed && <ToolBar />}
       renderItem={renderItem}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchBrowser}

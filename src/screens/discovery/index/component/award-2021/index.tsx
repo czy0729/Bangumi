@@ -11,7 +11,7 @@ import { Image, Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
 import { Ctx } from '../../types'
@@ -29,7 +29,6 @@ function Award2021(
   r(COMPONENT)
 
   // const show = useIsFocused()
-
   return useObserver(() => {
     const styles = memoStyles()
     // const { showBlockTrain } = $.state
@@ -38,17 +37,19 @@ function Award2021(
       <View style={styles.container}>
         <Touchable
           animate
-          onPress={() => {
-            t('发现.跳转', {
+          onPress={withT(
+            () => {
+              navigation.push('Award', {
+                uri: `${HOST}/award/2021`
+              })
+            },
+            '发现.跳转',
+            {
               to: 'Award',
               year: 2021,
               from: 'Award2021'
-            })
-
-            navigation.push('Award', {
-              uri: `${HOST}/award/2021`
-            })
-          }}
+            }
+          )}
         >
           <Squircle width={width} height={height} radius={systemStore.coverRadius}>
             <View style={styles.item2021}>

@@ -30,7 +30,7 @@ function List(props, { $ }: Ctx) {
       scrollToTop
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
     />
   )

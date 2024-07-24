@@ -22,7 +22,7 @@ function List(props, { $ }: Ctx) {
       style={_.container.wind}
       contentContainerStyle={_.container.bottom}
       {...SCROLL_VIEW_RESET_PROPS}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       data={$.dollars.list}
       renderItem={renderItem}
       onScroll={$.onScroll}

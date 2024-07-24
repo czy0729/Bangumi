@@ -39,7 +39,6 @@ function ListItemWrap(
       type={type}
       list={LIST_CACHE[type]}
       friendsChannel={$.friendsChannel(type)}
-      friendsMap={$.friendsMap}
     />
   )
 }

@@ -5,11 +5,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-06 13:01:20
  */
-import { hm, ua, err, t } from '../track'
-import { fetchAPI, fetchHTML } from './fetch'
-import { xhr, xhrCustom, ping } from './xhr'
+import { err, hm, t, ua, withT } from '../track'
 import { baiduTranslate } from './baidu'
+import { fetchAPI, fetchHTML } from './fetch'
 import { queue, safe } from './utils'
+import { ping, xhr, xhrCustom } from './xhr'
 
 export {
   // track
@@ -17,6 +17,7 @@ export {
   ua,
   err,
   t,
+  withT,
 
   // fetch
   fetchAPI,

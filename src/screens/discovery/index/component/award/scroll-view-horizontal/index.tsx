@@ -16,7 +16,7 @@ function ScrollViewHorizontal({ children, ...other }) {
   return (
     <ScrollView
       contentContainerStyle={styles.contentContainerStyle}
-      scrollEventThrottle={8}
+      scrollEventThrottle={16}
       {...SCROLL_VIEW_RESET_PROPS}
       {...other}
       horizontal

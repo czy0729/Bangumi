@@ -6,18 +6,17 @@
  */
 import { calendarStore, usersStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { queue } from '@utils/fetch'
+import { queue, withT } from '@utils/fetch'
 import { D, H6, STORYBOOK } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 class ScreenDiscovery extends Action {
   init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
-    const { showBlockTrain } = state
     this.setState({
-      showBlockTrain,
-      ...EXCLUDE_STATE
+      ...(await this.getStorage(NAMESPACE)),
+      ...EXCLUDE_STATE,
+      _loaded: getTimestamp()
     })
 
     setTimeout(() => {
@@ -34,7 +33,7 @@ class ScreenDiscovery extends Action {
         },
         async () => {
           await calendarStore.init('onAir')
-          const { _loaded } = this.onAir
+          const { _loaded } = calendarStore.onAir
           if (getTimestamp() - Number(_loaded || 0) < D) return true
 
           return calendarStore.fetchOnAir()
@@ -64,14 +63,14 @@ class ScreenDiscovery extends Action {
     return calendarStore.fetchHome()
   }
 
-  onHeaderRefresh = () => {
+  onHeaderRefresh = withT(() => {
     return queue([
       () => this.fetchOnline(),
       () => calendarStore.fetchOnAir(),
       () => calendarStore.fetchCalendar(),
       () => calendarStore.fetchHome()
     ])
-  }
+  }, '发现.下拉刷新')
 }
 
 export default ScreenDiscovery

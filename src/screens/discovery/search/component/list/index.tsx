@@ -26,7 +26,7 @@ function List(props, { $ }: Ctx) {
       keyboardDismissMode='on-drag'
       scrollToTop
       renderItem={renderItem}
-      scrollEventThrottle={4}
+      scrollEventThrottle={16}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.doSearch}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 19:30:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 15:05:06
+ * @Last Modified time: 2024-07-24 20:13:46
  */
 import React, { useCallback } from 'react'
 import { ListView, Loading, ScrollToIndex } from '@components'
@@ -44,7 +44,7 @@ function List({ index }, { $ }: Ctx) {
         progressViewOffset={styles.contentContainerStyle.paddingTop}
         data={rakuen}
         renderItem={renderItem}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={$.onScroll}
         onHeaderRefresh={$.onHeaderRefresh}
       />

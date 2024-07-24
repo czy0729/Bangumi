@@ -5,18 +5,13 @@
  * @Last Modified time: 2024-07-17 03:36:33
  */
 import { computed } from 'mobx'
-import { calendarStore, discoveryStore, systemStore, usersStore, userStore } from '@stores'
+import { calendarStore, discoveryStore } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
 import { appRandom, date, desc, getTimestamp } from '@utils'
 import { SubjectType } from '@types'
 import State from './state'
 
 export default class Computed extends State {
-  /** 自己用户信息 */
-  @computed get userInfo() {
-    return userStore.userInfo
-  }
-
   /** 发现页信息聚合 */
   @computed get home() {
     return calendarStore.home
@@ -39,29 +34,9 @@ export default class Computed extends State {
     return calendarStore.home.today
   }
 
-  /** 是否限制内容展示的用户 */
-  @computed get isLimit() {
-    return userStore.isLimit
-  }
-
-  /** 在线人数 */
-  @computed get online() {
-    return discoveryStore.online || systemStore.ota.online
-  }
-
-  /** 好友对象 */
-  @computed get friendsMap() {
-    return usersStore.friendsMap
-  }
-
   /** 好友的频道聚合信息 */
   friendsChannel(type: SubjectType) {
     return computed(() => discoveryStore.channel(type).friends).get()
-  }
-
-  /** ekibun 的线上爬虫数据 */
-  @computed get onAir() {
-    return calendarStore.onAir
   }
 
   /** 放送数据 */
@@ -71,7 +46,7 @@ export default class Computed extends State {
       ...item,
       items: item.items
         .map(i => {
-          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || ON_AIR[i.id] || {}
+          const { air = 0, timeCN, timeJP } = calendarStore.onAir[i.id] || ON_AIR[i.id] || {}
           return {
             ...i,
             air,

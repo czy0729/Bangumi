@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 10:14:03
+ * @Last Modified time: 2024-07-24 20:13:59
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -36,42 +36,42 @@ class Tab extends React.Component<Props> {
     bangumi: () => (
       <BangumiList
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     stats: () => (
       <Stats
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     timeline: () => (
       <TimelineList
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     rakuen: () => (
       <RakuenList
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     about: () => (
       <About
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     ),
     tinygrail: () => (
       <Tinygrail
         ListHeaderComponent={ListHeader}
-        scrollEventThrottle={4}
+        scrollEventThrottle={16}
         onScroll={this.props.onScroll}
       />
     )

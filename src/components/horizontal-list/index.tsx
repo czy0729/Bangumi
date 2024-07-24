@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:21:59
+ * @Last Modified time: 2024-07-24 21:07:17
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { ScrollEvent } from '@types'
 import { Component } from '../component'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
@@ -23,16 +24,30 @@ export const HorizontalList = observer(
       initialRenderNums: 3
     }
 
+    private scrollEndReached = false
+
     state = {
       scrolled: false
     }
 
-    onScroll = evt => {
+    onScroll = (evt: ScrollEvent) => {
       const { x } = evt.nativeEvent.contentOffset
       if (x >= 20) {
         this.setState({
           scrolled: true
         })
+      }
+
+      if (!this.scrollEndReached && this.state.scrolled) {
+        const { onEndReachedOnce } = this.props
+        if (typeof onEndReachedOnce === 'function') {
+          const contentWidth = evt.nativeEvent.contentSize.width
+          const scrollViewWidth = evt.nativeEvent.layoutMeasurement.width
+          if (scrollViewWidth + x + 20 >= contentWidth) {
+            onEndReachedOnce()
+            this.scrollEndReached = true
+          }
+        }
       }
     }
 
@@ -42,8 +57,7 @@ export const HorizontalList = observer(
     }
 
     get show() {
-      const { scrolled } = this.state
-      return !this.initialRenderNums || scrolled
+      return !this.props.onEndReachedOnce && (!this.initialRenderNums || this.state.scrolled)
     }
 
     get data() {
