@@ -8,7 +8,7 @@ import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from '@utils/subject/
 
 export const COMPONENT = 'NSFW'
 
-export const ADVANCE_LIMIT = 40
+export const ADVANCE_LIMIT = 60
 
 export const filterDS = [
   {

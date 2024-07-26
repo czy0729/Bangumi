@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:09:47
+ * @Last Modified time: 2024-07-26 13:31:42
  */
-import { observable, computed } from 'mobx'
-import { systemStore, collectionStore, otaStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { collectionStore, otaStore, systemStore } from '@stores'
+import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { init, search } from '@utils/subject/wenku'
-import { t } from '@utils/fetch'
 import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
@@ -45,37 +45,27 @@ export default class ScreenWenku extends store<typeof STATE> {
   /** 文库本地数据查询 */
   search = () => {
     setTimeout(() => {
-      const { query } = this.state
-      const data = search(query)
       this.setState({
-        data
+        data: search(this.state.query)
       })
     }, 80)
   }
 
   // -------------------- get --------------------
-  /** 是否中文优先 */
-  @computed get cnFirst() {
-    return systemStore.setting.cnFirst
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 对应项搜索后总数 */
   @computed get total() {
-    const { data } = this.state
-    return data.list.length
+    return this.state.data.list.length
   }
 
   /** 对应项实际显示列表 */
   @computed get list() {
     const { data, query } = this.state
     let { list } = data
-
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.wenkuSubjectId(item)
@@ -93,11 +83,10 @@ export default class ScreenWenku extends store<typeof STATE> {
   // -------------------- page --------------------
   /** 初始化查询配置 */
   initQuery = (tags = []) => {
-    const { query } = this.state
     this.setState({
       expand: true,
       query: {
-        ...query,
+        ...this.state.query,
         tags
       }
     })
@@ -142,6 +131,7 @@ export default class ScreenWenku extends store<typeof STATE> {
     setTimeout(() => {
       this.search()
       this.setStorage(NAMESPACE)
+
       t('文库.选择', {
         type,
         value,
@@ -167,23 +157,33 @@ export default class ScreenWenku extends store<typeof STATE> {
 
   /** 切换布局 */
   switchLayout = () => {
-    const _layout = this.isList ? 'grid' : 'list'
-    t('文库.切换布局', {
-      layout: _layout
-    })
-
+    const value = this.isList ? 'grid' : 'list'
     this.setState({
-      layout: _layout
+      layout: value
     })
     this.setStorage(NAMESPACE)
+
+    t('文库.切换布局', {
+      layout: value
+    })
   }
 
   /** 展开收起筛选 */
   onExpand = () => {
-    const { expand } = this.state
     this.setState({
-      expand: !expand
+      expand: !this.state.expand
     })
     this.setStorage(NAMESPACE)
+  }
+
+  /** 加载下一页 */
+  onPage = (pageData: number[], page: number) => {
+    if (page && page % 5 === 0) {
+      t('文库.更多', {
+        page
+      })
+    }
+
+    return otaStore.onWenkuPage(pageData)
   }
 }

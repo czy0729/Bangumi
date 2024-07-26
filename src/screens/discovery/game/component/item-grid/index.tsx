@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:21:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-18 21:18:37
+ * @Last Modified time: 2024-07-25 21:23:48
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -39,7 +39,6 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
       navigation={navigation}
-      event={EVENT}
       num={num}
       id={id}
       cover={image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
@@ -48,6 +47,7 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
       rank={rank}
       airtime={time}
       collection={collectionStore.collect(id)}
+      event={EVENT}
     />
   )
 }

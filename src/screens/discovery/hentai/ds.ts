@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:31:58
+ * @Last Modified time: 2024-07-26 13:09:07
  */
 import {
   HENTAI_BODY,
@@ -36,13 +36,11 @@ export const STATE = {
   _loaded: false as Loaded
 }
 
-export const ADVANCE_LIMIT = 80
+export const ADVANCE_LIMIT = 60
 
 // 类型分组
 const HENTAI_CONTENT_GROUP = [[], []]
-HENTAI_CONTENT.forEach((item, index) =>
-  HENTAI_CONTENT_GROUP[index % 2 ? 1 : 0].push(item)
-)
+HENTAI_CONTENT.forEach((item, index) => HENTAI_CONTENT_GROUP[index % 2 ? 1 : 0].push(item))
 
 export const filterDS = [
   {

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-20 16:44:00
+ * @Last Modified time: 2024-07-26 13:29:05
  */
 import React from 'react'
 import { Loading } from '@components'
-import { PaginationList2, Filter } from '@_'
-import { _, otaStore } from '@stores'
+import { Filter, PaginationList2 } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import Item from '../item'
-import ItemGrid from '../item-grid'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
 import { Ctx } from '../types'
+import Item from '../item'
+import ItemGrid from '../item-grid'
 
 class List extends React.Component {
   connectRef = (ref: { scrollToOffset: any }) => {
@@ -26,8 +26,7 @@ class List extends React.Component {
 
   renderItem = ({ item: pickIndex, index }) => {
     const { $ } = this.context as Ctx
-    const { layout } = $.state
-    if (layout === 'list') return <Item pickIndex={pickIndex} index={index} />
+    if ($.isList) return <Item pickIndex={pickIndex} index={index} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
@@ -72,8 +71,7 @@ class List extends React.Component {
         limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
-        scrollToTop
-        onPage={otaStore.onWenkuPage}
+        onPage={$.onPage}
       />
     )
   }

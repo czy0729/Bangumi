@@ -10,11 +10,6 @@ import { ADVANCE_LIMIT } from '../ds'
 import State from './state'
 
 export default class Computed extends State {
-  /** 是否中文优先 */
-  @computed get cnFirst() {
-    return systemStore.setting.cnFirst
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
     return this.state.layout === 'list'
@@ -29,7 +24,6 @@ export default class Computed extends State {
   @computed get list() {
     const { data, query } = this.state
     let { list } = data
-
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.advSubjectId(item)

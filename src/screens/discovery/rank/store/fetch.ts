@@ -1,12 +1,13 @@
 /*
  * @Author: czy0729
  * @Date: 2024-05-24 10:13:13
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-05-24 10:13:13
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-07-25 04:18:15
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
+import { D7 } from '@constants'
 import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
@@ -32,7 +33,7 @@ export default class Fetch extends Computed {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     // 延迟获取收藏中的条目的具体收藏状态

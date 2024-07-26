@@ -1,8 +1,9 @@
+import { otaStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-07-20 10:43:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:28:27
+ * @Last Modified time: 2024-07-26 13:27:39
  */
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
@@ -45,15 +46,15 @@ export default class Action extends Fetch {
 
   /** 切换布局 */
   switchLayout = () => {
-    const _layout = this.isList ? 'grid' : 'list'
-    t('NSFW.切换布局', {
-      layout: _layout
-    })
-
+    const value = this.isList ? 'grid' : 'list'
     this.setState({
-      layout: _layout
+      layout: value
     })
     this.save()
+
+    t('NSFW.切换布局', {
+      layout: value
+    })
   }
 
   /** 展开收起筛选 */
@@ -62,5 +63,16 @@ export default class Action extends Fetch {
       expand: !this.state.expand
     })
     this.save()
+  }
+
+  /** 加载下一页 */
+  onPage = (pageData: number[], page: number) => {
+    if (page && page % 5 === 0) {
+      t('NSFW.更多', {
+        page
+      })
+    }
+
+    return otaStore.onNSFWPage(pageData)
   }
 }

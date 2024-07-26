@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:31:35
+ * @Last Modified time: 2024-07-25 21:25:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Cover, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl, x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import {
   IMG_DEFAULT,
   IMG_HEIGHT_LG,
@@ -76,18 +76,20 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
     <Touchable
       style={styles.container}
       animate
-      onPress={() => {
-        navigation.push('Subject', {
-          subjectId: id,
-          _cn: _title,
-          _image: getCoverSrc(cover, IMG_WIDTH_LG),
-          _type: '游戏'
-        })
-
-        t('游戏.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Subject', {
+            subjectId: id,
+            _cn: _title,
+            _image: getCoverSrc(cover, IMG_WIDTH_LG),
+            _type: '游戏'
+          })
+        },
+        '游戏.跳转',
+        {
           subjectId: id
-        })
-      }}
+        }
+      )}
     >
       <Flex style={styles.wrap} align='start'>
         <Cover src={cover} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />

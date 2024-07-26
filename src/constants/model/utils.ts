@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-14 15:44:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 11:19:33
+ * @Last Modified time: 2024-07-25 05:21:20
  */
 import { ModelItem } from './types'
 
@@ -20,7 +20,7 @@ export class Model<T extends readonly ModelItem[]> {
   private key: string | undefined
 
   /** 指向源数组 */
-  private data: T | undefined[] = []
+  data: T | undefined[] = []
 
   /** 优先通过 value 找 label */
   getLabel<R = T[number]['label']>(value: any): R {

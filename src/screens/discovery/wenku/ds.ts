@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 07:07:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:09:36
+ * @Last Modified time: 2024-07-26 13:30:35
  */
 import {
   WENKU_ANIME,
@@ -14,7 +14,6 @@ import {
   WENKU_STATUS,
   WENKU_TAGS,
   WENKU_YEAR
-  // WENKU_TAGS_NUMS_MAP
 } from '@utils/subject/wenku'
 import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
@@ -39,7 +38,7 @@ export const STATE = {
   _loaded: false as Loaded
 }
 
-export const ADVANCE_LIMIT = 100
+export const ADVANCE_LIMIT = 60
 
 // 类型分组
 const WENKU_TAGS_GROUP = [[], []]

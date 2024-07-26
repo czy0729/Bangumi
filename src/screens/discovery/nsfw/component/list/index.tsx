@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:08:59
+ * @Last Modified time: 2024-07-26 13:10:44
  */
 import React from 'react'
 import { Loading, Text, Touchable } from '@components'
 import { Filter, PaginationList2 } from '@_'
-import { _, otaStore } from '@stores'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { ADVANCE_LIMIT, filterDS } from '../../ds'
@@ -29,13 +29,12 @@ class List extends React.Component {
 
   renderItem = ({ item: pickIndex, index }) => {
     const { $ } = this.context as Ctx
-    if ($.state.layout === 'list') return <Item pickIndex={pickIndex} />
+    if ($.isList) return <Item pickIndex={pickIndex} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
 
   renderFilter() {
-    const { navigation } = this.context as Ctx
     return (
       <Filter
         filterDS={filterDS}
@@ -52,6 +51,7 @@ class List extends React.Component {
             <Touchable
               style={_.mr.xs}
               onPress={() => {
+                const { navigation } = this.context as Ctx
                 navigation.push('Hentai')
               }}
             >
@@ -91,8 +91,7 @@ class List extends React.Component {
         limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
-        scrollToTop
-        onPage={otaStore.onNSFWPage}
+        onPage={$.onPage}
       />
     )
   }

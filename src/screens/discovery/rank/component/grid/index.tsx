@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:09:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 04:34:18
+ * @Last Modified time: 2024-07-25 05:10:24
  */
 import React from 'react'
 import { Empty, Flex } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
-import { COMPONENT, EVENT_GRID } from './ds'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 function Grid(props, { $, navigation }: Ctx) {
@@ -33,7 +33,6 @@ function Grid(props, { $, navigation }: Ctx) {
               navigation={navigation}
               style={!(index % num) && styles.left}
               num={num}
-              event={EVENT_GRID}
               airtime={$.state.airtime === '' && matchYear(item.tip)}
               {...item}
               id={id}
@@ -42,6 +41,7 @@ function Grid(props, { $, navigation }: Ctx) {
               collection={collection}
               isCollect={item.collected}
               isRectangle={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type) === '音乐'}
+              event={EVENT}
             />
           )
         })

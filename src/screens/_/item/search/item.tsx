@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 15:45:33
+ * @Last Modified time: 2024-07-25 05:49:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,6 +42,7 @@ const Item = memo(
     collection,
     position,
     showManage,
+    screen,
     event
   }) => {
     // 人物高清图不是正方形的图, 所以要特殊处理
@@ -106,13 +107,16 @@ const Item = memo(
                     collection={collection}
                     typeCn={typeCn}
                     onPress={() => {
-                      uiStore.showManageModal({
-                        subjectId,
-                        title: cnjp(nameCn, name),
-                        desc: cnjp(name, nameCn),
-                        status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                        action: getAction(typeCn)
-                      })
+                      uiStore.showManageModal(
+                        {
+                          subjectId,
+                          title: cnjp(nameCn, name),
+                          desc: cnjp(name, nameCn),
+                          status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
+                          action: getAction(typeCn)
+                        },
+                        screen
+                      )
                     }}
                   />
                 </View>

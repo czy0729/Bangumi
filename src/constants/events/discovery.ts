@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 22:42:48
+ * @Last Modified time: 2024-07-26 13:28:48
  */
 
 /** Discovery */
@@ -12,6 +12,7 @@ export default {
   'Anime.选择': 'Anime.onSelect',
   'Anime.到顶': 'Anime.scrollToTop',
   'Anime.切换布局': 'Anime.switchLayout',
+  'Anime.更多': 'Anime.onPage',
 
   // Anitama
   'Anitama.跳转': 'Anitama.to',
@@ -89,6 +90,7 @@ export default {
   '排行榜.筛选选择': 'Rank.onFilterSelect',
   '排行榜.年选择': 'Rank.onAirdateSelect',
   '排行榜.月选择': 'Rank.onMonthSelect',
+  '排行榜.工具栏': 'Rank.onToggleToolbar',
   '排行榜.切换布局': 'Rank.toggleList',
   '排行榜.上一页': 'Rank.prev',
   '排行榜.下一页': 'Rank.next',
@@ -128,24 +130,28 @@ export default {
   '文库.选择': 'Wenku.onSelect',
   '文库.到顶': 'Wenku.scrollToTop',
   '文库.切换布局': 'Wenku.switchLayout',
+  '文库.更多': 'Wenku.onPage',
 
   // Manga
   'Manga.跳转': 'Manga.to',
   'Manga.选择': 'Manga.onSelect',
   'Manga.到顶': 'Manga.scrollToTop',
   'Manga.切换布局': 'Manga.switchLayout',
+  'Manga.更多': 'Manga.onPage',
 
   // 游戏
   '游戏.跳转': 'Game.to',
   '游戏.选择': 'Game.onSelect',
   '游戏.到顶': 'Game.scrollToTop',
   '游戏.切换布局': 'Game.switchLayout',
+  '游戏.更多': 'Game.onPage',
 
   // ADV
   'ADV.跳转': 'ADV.to',
   'ADV.选择': 'ADV.onSelect',
   'ADV.到顶': 'ADV.scrollToTop',
   'ADV.切换布局': 'ADV.switchLayout',
+  'ADV.更多': 'ADV.onPage',
 
   // 推荐
   '推荐.跳转': 'Guess.to',
@@ -160,12 +166,14 @@ export default {
   'Hentai.选择': 'Hentai.onSelect',
   'Hentai.到顶': 'Hentai.scrollToTop',
   'Hentai.切换布局': 'Hentai.switchLayout',
+  'Hentai.更多': 'Hentai.onPage',
 
   // NSFW
   'NSFW.跳转': 'NSFW.to',
   'NSFW.选择': 'NSFW.onSelect',
   'NSFW.到顶': 'NSFW.scrollToTop',
   'NSFW.切换布局': 'NSFW.switchLayout',
+  'NSFW.更多': 'NSFW.onPage',
 
   // 维基人
   '维基人.右上角菜单': 'Wiki.topRightMenu',

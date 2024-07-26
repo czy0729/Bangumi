@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 09:48:15
+ * @Last Modified time: 2024-07-26 05:20:36
  */
 import React from 'react'
 import { Loading } from '@components'
-import { PaginationList2, Filter } from '@_'
-import { _, otaStore } from '@stores'
+import { Filter, PaginationList2 } from '@_'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TEXT_UPDATE_MANGA } from '@constants'
-import Item from '../item'
-import ItemGrid from '../item-grid'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
 import { Ctx } from '../types'
+import Item from '../item'
+import ItemGrid from '../item-grid'
 
 class List extends React.Component {
   connectRef = (ref: { scrollToOffset: any }) => {
@@ -27,8 +27,7 @@ class List extends React.Component {
 
   renderItem = ({ item: pickIndex, index }) => {
     const { $ } = this.context as Ctx
-    const { layout } = $.state
-    if (layout === 'list') return <Item pickIndex={pickIndex} index={index} />
+    if ($.isList) return <Item pickIndex={pickIndex} index={index} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
@@ -73,8 +72,7 @@ class List extends React.Component {
         limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
-        scrollToTop
-        onPage={otaStore.onMangaPage}
+        onPage={$.onPage}
       />
     )
   }

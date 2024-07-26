@@ -39,7 +39,6 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
       navigation={navigation}
-      event={EVENT}
       num={num}
       id={id}
       cover={cover ? `https://lain.bgm.tv/pic/cover/m/${cover}.jpg` : IMG_DEFAULT}
@@ -48,6 +47,7 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
       rank={rank}
       airtime={date}
       collection={collectionStore.collect(id)}
+      event={EVENT}
     />
   )
 }

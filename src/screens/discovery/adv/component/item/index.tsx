@@ -12,7 +12,7 @@ import { Cover, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { formatPlaytime, HTMLDecode, showImageViewer, stl, x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../../types'
@@ -49,18 +49,20 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
     <Touchable
       style={styles.container}
       animate
-      onPress={() => {
-        navigation.push('Subject', {
-          subjectId: id,
-          _cn: title,
-          _image: getCoverSrc(image, IMG_WIDTH_LG),
-          _type: '游戏'
-        })
-
-        t('ADV.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Subject', {
+            subjectId: id,
+            _cn: title,
+            _image: getCoverSrc(image, IMG_WIDTH_LG),
+            _type: '游戏'
+          })
+        },
+        'ADV.跳转',
+        {
           subjectId: id
-        })
-      }}
+        }
+      )}
     >
       <Flex style={styles.wrap} align='start'>
         <Cover src={image} width={IMG_WIDTH_LG} height={IMG_HEIGHT_LG} radius cdn={!x18(id)} />

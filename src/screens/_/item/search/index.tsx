@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:29:37
+ * @Last Modified time: 2024-07-25 05:50:55
  */
 import React from 'react'
 import { Component } from '@components'
@@ -33,6 +33,7 @@ export const ItemSearch = ob(
     collected,
     showManage,
     position,
+    screen,
     event
   }: ItemSearchProps) => {
     return (
@@ -56,6 +57,7 @@ export const ItemSearch = ob(
           collected={collected}
           showManage={showManage}
           position={position}
+          screen={screen}
           event={event}
         />
       </Component>

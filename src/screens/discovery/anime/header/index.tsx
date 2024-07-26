@@ -2,27 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-11 17:19:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 15:52:48
+ * @Last Modified time: 2024-07-25 06:26:12
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
 import Extra from '../component/extra'
-import { Ctx, TitleType } from '../types'
+import { Ctx } from '../types'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function Header(
-  {
-    title = '找番剧',
-    alias = 'Anime',
-    hm
-  }: {
-    title?: string
-    alias?: TitleType
-    hm?: any
-  },
-  { $ }: Ctx
-) {
+function Header({ title = '找番剧', alias = 'Anime', hm }: Props, { $ }: Ctx) {
   return (
     <HeaderComp
       title={title}

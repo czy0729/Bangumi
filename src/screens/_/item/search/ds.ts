@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:29:21
+ * @Last Modified time: 2024-07-25 05:50:33
  */
 import { rc } from '@utils/dev'
 import { EVENT } from '@constants'
@@ -39,5 +39,6 @@ export const DEFAULT_PROPS = {
   collected: false as $['collected'],
   showManage: true as boolean,
   position: [] as $['position'],
+  screen: '' as string,
   event: EVENT as $['event']
 }

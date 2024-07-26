@@ -5,11 +5,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 08:32:12
  */
-import { observable, computed } from 'mobx'
-import { userStore, systemStore, collectionStore, otaStore } from '@stores'
-import store from '@utils/store'
-import { init, search, getTagType, HENTAI_TAGS_MAP } from '@utils/subject/hentai'
+import { computed, observable } from 'mobx'
+import { collectionStore, otaStore, systemStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
+import { getTagType, HENTAI_TAGS_MAP, init, search } from '@utils/subject/hentai'
 import { ADVANCE_LIMIT, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
 
@@ -42,6 +42,10 @@ export default class ScreenHentai extends store<typeof STATE> {
     }, 120)
   }
 
+  save = () => {
+    this.setStorage(NAMESPACE)
+  }
+
   /** hentai 本地数据查询 */
   search = (passQuery?: any) => {
     setTimeout(() => {
@@ -64,28 +68,20 @@ export default class ScreenHentai extends store<typeof STATE> {
     return userStore.isLogin
   }
 
-  /** 是否中文优先 */
-  @computed get cnFirst() {
-    return systemStore.setting.cnFirst
-  }
-
   /** 是否列表布局 */
   @computed get isList() {
-    const { layout } = this.state
-    return layout === 'list'
+    return this.state.layout === 'list'
   }
 
   /** 对应项搜索后总数 */
   @computed get total() {
-    const { data } = this.state
-    return data.list.length
+    return this.state.data.list.length
   }
 
   /** 对应项实际显示列表 */
   @computed get list() {
     const { data, query } = this.state
     let { list } = data
-
     if (query.collected === '隐藏') {
       list = list.filter(item => {
         const subjectId = otaStore.hentaiSubjectId(item)
@@ -120,17 +116,17 @@ export default class ScreenHentai extends store<typeof STATE> {
 
   /** 筛选选择 */
   onSelect = (type: string, value: string) => {
-    const { query } = this.state
     this.setState({
       query: {
-        ...query,
+        ...this.state.query,
         [type]: value
       }
     })
 
     setTimeout(() => {
       this.search()
-      this.setStorage(NAMESPACE)
+      this.save()
+
       t('Hentai.选择', {
         type,
         value
@@ -155,23 +151,33 @@ export default class ScreenHentai extends store<typeof STATE> {
 
   /** 切换布局 */
   switchLayout = () => {
-    const _layout = this.isList ? 'grid' : 'list'
-    t('Hentai.切换布局', {
-      layout: _layout
-    })
-
+    const value = this.isList ? 'grid' : 'list'
     this.setState({
-      layout: _layout
+      layout: value
     })
-    this.setStorage(NAMESPACE)
+    this.save()
+
+    t('Hentai.切换布局', {
+      layout: value
+    })
   }
 
   /** 展开收起筛选 */
   onExpand = () => {
-    const { expand } = this.state
     this.setState({
-      expand: !expand
+      expand: !this.state.expand
     })
-    this.setStorage(NAMESPACE)
+    this.save()
+  }
+
+  /** 加载下一页 */
+  onPage = (pageData: number[], page: number) => {
+    if (page && page % 5 === 0) {
+      t('Hentai.更多', {
+        page
+      })
+    }
+
+    return otaStore.onGamePage(pageData)
   }
 }

@@ -14,31 +14,10 @@ import {
   GAME_SORT,
   GAME_YEAR
 } from '@utils/subject/game'
-import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 
 export const COMPONENT = 'Game'
 
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const STATE = {
-  query: {
-    first: '',
-    year: 2023,
-    platform: '',
-    cate: '',
-    dev: '',
-    pub: '',
-    sort: '发行',
-    collected: ''
-  },
-  data: LIST_EMPTY,
-  layout: 'list',
-  expand: false,
-  _loaded: false as Loaded
-}
-
-export const ADVANCE_LIMIT = 100
+export const ADVANCE_LIMIT = 60
 
 // 类型分组
 const GAME_CATE_GROUP = [[], []]

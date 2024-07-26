@@ -9,7 +9,7 @@ import { ADV_CN, ADV_PLAYTIME } from '@utils/subject/adv/ds'
 
 export const COMPONENT = 'ADV'
 
-export const ADVANCE_LIMIT = 40
+export const ADVANCE_LIMIT = 60
 
 // 类型分组
 const ADV_DEV_GROUP = [[], []]

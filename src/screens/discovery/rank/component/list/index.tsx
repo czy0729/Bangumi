@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 04:34:30
+ * @Last Modified time: 2024-07-25 05:51:13
  */
 import React from 'react'
 import { Empty, Heatmap } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
-import { COMPONENT, EVENT_LIST } from './ds'
+import { COMPONENT, EVENT } from './ds'
 
 function List(props, { $, navigation }: Ctx) {
   const { list } = $.list
@@ -32,9 +32,10 @@ function List(props, { $, navigation }: Ctx) {
               index={index}
               collection={collection}
               typeCn={typeCn}
-              event={EVENT_LIST}
               {...item}
               cover={item.cover || $.cover(item.id)}
+              screen='排行榜'
+              event={EVENT}
             />
           )
         })

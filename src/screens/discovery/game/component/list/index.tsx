@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-18 21:31:32
+ * @Last Modified time: 2024-07-25 21:21:33
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _, otaStore } from '@stores'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Filter from '../filter'
@@ -36,8 +36,7 @@ function List(props, { $ }: Ctx) {
       limit={9}
       ListHeaderComponent={<Filter />}
       renderItem={renderItem}
-      scrollToTop
-      onPage={otaStore.onGamePage}
+      onPage={$.onPage}
     />
   )
 }

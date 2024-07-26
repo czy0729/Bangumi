@@ -9,7 +9,7 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'List')
 
-export const EVENT_LIST = {
+export const EVENT = {
   id: '排行榜.跳转',
   data: {
     type: 'list'

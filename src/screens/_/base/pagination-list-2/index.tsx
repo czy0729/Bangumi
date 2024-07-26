@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 18:09:57
+ * @Last Modified time: 2024-07-25 07:08:18
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -59,7 +59,8 @@ export const PaginationList2 = <ItemT extends any[]>({
     lastPage.current = page + 1
 
     if (typeof onPage === 'function') {
-      onPage(data.slice(page * limit, (page + 1) * limit))
+      const nextPage = page + 1
+      onPage(data.slice(page * limit, nextPage * limit), nextPage)
     }
 
     if (typeof onNextPage === 'function') {

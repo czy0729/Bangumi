@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:59:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:01:49
+ * @Last Modified time: 2024-07-26 13:08:55
  */
 import {
   MANGA_COLLECTED,
@@ -12,29 +12,10 @@ import {
   MANGA_TAGS,
   MANGA_YEAR
 } from '@utils/subject/manga'
-import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenManga'
+export const COMPONENT = 'Manga'
 
-export const STATE = {
-  query: {
-    first: '',
-    year: 2022,
-    begin: '',
-    status: '',
-    tags: [],
-    hd: '',
-    sort: '评分人数',
-    collected: ''
-  },
-  data: LIST_EMPTY,
-  layout: 'list',
-  expand: false,
-  _loaded: false as Loaded
-}
-
-export const ADVANCE_LIMIT = 120
+export const ADVANCE_LIMIT = 60
 
 // 类型分组
 const MANGA_TAGS_GROUP = [[], [], []]

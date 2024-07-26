@@ -7,7 +7,7 @@
 import React from 'react'
 import { Loading } from '@components'
 import { Filter, PaginationList2 } from '@_'
-import { _, otaStore } from '@stores'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { TEXT_UPDATE_GAME } from '@constants'
@@ -32,8 +32,7 @@ class List extends React.Component {
 
   renderItem = ({ item: pickIndex, index }) => {
     const { $ } = this.context as Ctx
-    const { layout } = $.state
-    if (layout === 'list') return <Item pickIndex={pickIndex} index={index} />
+    if ($.isList) return <Item pickIndex={pickIndex} index={index} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
@@ -81,8 +80,7 @@ class List extends React.Component {
         limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
-        scrollToTop
-        onPage={otaStore.onADVPage}
+        onPage={$.onPage}
       />
     )
   }

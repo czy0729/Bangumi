@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:29:22
+ * @Last Modified time: 2024-07-25 06:55:46
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
@@ -11,7 +11,7 @@ import { Cover, InView, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { cnjp, x18 } from '@utils'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../../types'
@@ -70,18 +70,20 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
     <Touchable
       style={styles.container}
       animate
-      onPress={() => {
-        navigation.push('Subject', {
-          subjectId: id,
-          _cn: cn,
-          _image: getCoverSrc(cover, IMG_WIDTH_LG),
-          _aid: ageId
-        })
-
-        t('Anime.跳转', {
+      onPress={withT(
+        () => {
+          navigation.push('Subject', {
+            subjectId: id,
+            _cn: cn,
+            _image: getCoverSrc(cover, IMG_WIDTH_LG),
+            _aid: ageId
+          })
+        },
+        'Anime.跳转',
+        {
           subjectId: id
-        })
-      }}
+        }
+      )}
     >
       <Flex style={styles.wrap} align='start'>
         <InView style={styles.inView} y={_.window.height * 0.4 + IMG_HEIGHT_LG * index}>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-17 03:46:04
+ * @Last Modified time: 2024-07-25 04:17:24
  */
 import { calendarStore, usersStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -16,7 +16,7 @@ class ScreenDiscovery extends Action {
     this.setState({
       ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
-      _loaded: getTimestamp()
+      _loaded: true
     })
 
     setTimeout(() => {

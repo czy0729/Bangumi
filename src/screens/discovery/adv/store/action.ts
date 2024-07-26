@@ -1,3 +1,4 @@
+import { otaStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-07-14 15:53:46
@@ -62,5 +63,16 @@ export default class Action extends Fetch {
       expand: !this.state.expand
     })
     this.save()
+  }
+
+  /** 加载下一页 */
+  onPage = (pageData: number[], page: number) => {
+    if (page && page % 5 === 0) {
+      t('ADV.更多', {
+        page
+      })
+    }
+
+    return otaStore.onADVPage(pageData)
   }
 }
