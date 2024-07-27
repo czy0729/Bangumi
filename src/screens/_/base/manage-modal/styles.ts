@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:54:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-23 21:17:44
+ * @Last Modified time: 2024-07-28 05:28:37
  */
 import { _ } from '@stores'
 
@@ -16,11 +16,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusMd
   },
   container: {
-    width: _.r(_.window.width - 2 * _.wind),
-    maxWidth: _.device(408, 560),
-    paddingTop: 80
-  },
-  wrap: {
     minHeight: _.device(380, 448),
     marginTop: _.sm
   },
@@ -30,87 +25,11 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.sm,
     marginTop: _.isMobileLanscape ? -24 : 0
   },
-  title: {
-    height: 16,
-    paddingLeft: _.xs
-  },
   tags: {
     width: '100%',
     minHeight: 96,
     maxHeight: _.select(136, 132),
     marginTop: 6,
     paddingVertical: 12
-  },
-  tagsWrap: {
-    marginTop: 12,
-    marginRight: -_.sm + 1,
-    overflow: 'hidden'
-  },
-  tag: {
-    paddingVertical: _.xs - 1,
-    paddingHorizontal: _.sm - 2,
-    marginRight: _.sm - 1,
-    marginBottom: _.sm - 1,
-    backgroundColor: _.select(_.ios(_.colorBg, _.colorPlain), _._colorDarkModeLevel2),
-    borderWidth: _.select(1, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusSm
-  },
-  tagSelected: {
-    backgroundColor: _.select(_.colorPrimaryLight, _._colorDarkModeLevel2),
-    borderColor: _.select(_.colorPrimaryBorder, _._colorDarkModeLevel2)
-  },
-  touch: {
-    padding: _.xs,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  touchTag: {
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  inputTags: {
-    height: 44,
-    paddingVertical: 0,
-    marginTop: _.md,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  comment: {
-    marginTop: 6,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),
-    borderWidth: _.select(_.hairlineWidth, 0),
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
-  },
-  input: {
-    borderWidth: 0
-  },
-  split: {
-    width: 2,
-    height: 6,
-    marginHorizontal: 12,
-    borderRadius: 4,
-    backgroundColor: _.colorIcon
-  },
-  opacity: {
-    opacity: 0.5
-  },
-  btn: {
-    borderRadius: _.radiusSm
-  },
-  btnPrivacy: {
-    width: _.r(88),
-    marginLeft: 12,
-    borderRadius: _.radiusSm
-  },
-  length: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 12,
-    bottom: _.sm,
-    opacity: 0.8,
-    userSelect: 'none'
   }
 }))

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-01 09:03:10
+ * @Last Modified time: 2024-07-27 16:32:35
  */
 import { RatingStatus, SubjectId } from '@types'
+
+export type Action = '看' | '玩' | '听' | '读'
 
 export type Props = {
   visible?: boolean
@@ -12,7 +14,7 @@ export type Props = {
   subjectId?: SubjectId
   title?: string
   desc?: string
-  action?: '看' | '玩' | '听' | '读'
+  action?: Action
   status: '' | RatingStatus
   onSubmit?: (item: {
     subjectId: SubjectId
