@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:27:28
+ * @Last Modified time: 2024-07-29 20:04:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,8 @@ import {
   Loading,
   RenderHtml,
   Text,
-  Touchable
+  Touchable,
+  UserStatus
 } from '@components'
 import { Progress } from '@_'
 import { _, userStore } from '@stores'
@@ -74,19 +75,20 @@ function Info(props, { $, navigation }: Ctx) {
         )}
         {!!avatar && (
           <Flex style={_.mt.lg} justify='center'>
-            <Image
-              src={getCoverLarge(avatar)}
-              size={_.r(80)}
-              shadow
-              placeholder={false}
-              imageViewer
-              event={{
-                id: '目录详情.封面图查看',
-                data: {
-                  catalogId: $.catalogId
-                }
-              }}
-            />
+            <UserStatus userId={userId}>
+              <Image
+                src={getCoverLarge(avatar)}
+                size={_.r(80)}
+                placeholder={false}
+                imageViewer
+                event={{
+                  id: '目录详情.封面图查看',
+                  data: {
+                    catalogId: $.catalogId
+                  }
+                }}
+              />
+            </UserStatus>
             <Heatmap id='目录详情.封面图查看' />
           </Flex>
         )}

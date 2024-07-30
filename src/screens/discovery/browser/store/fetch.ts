@@ -6,7 +6,9 @@
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
+import { D7 } from '@constants'
 import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
@@ -27,6 +29,13 @@ export default class Fetch extends Computed {
       refresh
     )
 
+    const page = data?.pagination?.page || 0
+    if (page && page % 5 === 0) {
+      t('索引.更多', {
+        page
+      })
+    }
+
     if (
       data.list.length &&
       // 只有明确知道云快照没有这个 key 的数据, 才主动更新云快照数据
@@ -34,7 +43,7 @@ export default class Fetch extends Computed {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     // 延迟获取收藏中的条目的具体收藏状态

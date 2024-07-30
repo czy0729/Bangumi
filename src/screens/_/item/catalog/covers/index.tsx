@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:52:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 16:24:59
+ * @Last Modified time: 2024-07-29 19:20:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
+import { x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { CATALOG_WIDTH, WIDTH } from '../ds'
 import { Cover } from '../../../base'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Covers({ list, total = 0 }) {
+function Covers({ list, total = 0 }: Props) {
   const styles = memoStyles()
   return (
     <View style={styles.catalog}>
@@ -37,11 +39,15 @@ function Covers({ list, total = 0 }) {
         ]}
       />
       <Flex style={styles.thumbs} align='start' wrap='wrap'>
-        {list
-          .filter((item, index: number) => index < 3)
-          .map(item => (
-            <Cover key={item.id} size={WIDTH} src={item.image} placeholder={false} />
-          ))}
+        {list.map(item => (
+          <Cover
+            key={item.id}
+            size={WIDTH}
+            src={item.image}
+            placeholder={false}
+            cdn={!x18(item.id)}
+          />
+        ))}
         {!!list.length && (
           <Flex style={styles.num} justify='center' align='center'>
             <Text size={13} bold>

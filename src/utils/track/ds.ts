@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 22:09:30
+ * @Last Modified time: 2024-07-28 06:10:07
  */
 import { IOS } from '@constants/constants'
 import { STORYBOOK, WSA } from '@constants/device'
@@ -65,12 +65,12 @@ export const WEBSITE = DEV
   ? WEBSITE_IOS
   : WEBSITE_ANDROID
 
-export const WEBSITE_UV = '7fe501c7-13f2-4a9c-a420-70f0b30faaa9'
+export const WEBSITE_UV = DEV ? WEBSITE_DEV : '7fe501c7-13f2-4a9c-a420-70f0b30faaa9'
 
-export const WEBSITE_TINGRAIL = '945f4ab5-424b-4bd6-89f6-7735380396cd'
+export const WEBSITE_TINGRAIL = DEV ? WEBSITE_DEV : '945f4ab5-424b-4bd6-89f6-7735380396cd'
 
-export const WEBSITE_EVENT = 'a8aafc8d-6aa9-45cd-a19a-47f246137647'
+export const WEBSITE_EVENT = DEV ? WEBSITE_DEV : 'a8aafc8d-6aa9-45cd-a19a-47f246137647'
 
-export const WEBSITE_FATAL_ERROR = 'a8d71a9c-3333-45ca-b223-59600d84b76a'
+export const WEBSITE_FATAL_ERROR = DEV ? WEBSITE_DEV : 'a8d71a9c-3333-45ca-b223-59600d84b76a'
 
 export const REFERRER = GITHUB_ACTION ? 'https://github.com/' : ''

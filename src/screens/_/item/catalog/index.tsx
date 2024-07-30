@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:11:07
+ * @Last Modified time: 2024-07-30 20:45:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,7 +100,15 @@ export const ItemCatalog = obc(
         >
           <Flex style={styles.wrap} align='start'>
             <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
-              <Covers list={list} total={oss?.total} />
+              <Covers
+                list={list
+                  .filter((_: any, index: number) => index < 3)
+                  .map((item: { id: any; image: any }) => ({
+                    id: item.id,
+                    image: item.image
+                  }))}
+                total={Math.max(oss?.total || 0, list?.length || 0)}
+              />
             </InView>
             <Flex.Item>
               <Flex style={styles.content} direction='column' justify='between' align='start'>

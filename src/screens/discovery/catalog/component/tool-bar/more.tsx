@@ -1,18 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2022-06-03 13:18:27
+ * @Date: 2024-07-30 20:26:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 16:14:27
+ * @Last Modified time: 2024-07-30 20:36:45
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
 
-function More({ $ }: Ctx) {
-  const { fixedFilter, fixedPagination } = $?.state || {}
+function More(props, { $ }: Ctx) {
+  const { fixedFilter, fixedPagination } = $.state
   return (
     <ToolBar.Popover
       data={[
@@ -24,7 +23,7 @@ function More({ $ }: Ctx) {
       iconSize={16}
       type='desc'
       transparent
-      onSelect={title => {
+      onSelect={(title: string) => {
         if (title.includes('选项')) return $.onToggleFixed('fixedFilter')
         if (title.includes('分页')) return $.onToggleFixed('fixedPagination')
       }}
@@ -32,4 +31,4 @@ function More({ $ }: Ctx) {
   )
 }
 
-export default ob(More, COMPONENT)
+export default obc(More)

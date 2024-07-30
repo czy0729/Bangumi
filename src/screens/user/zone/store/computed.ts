@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-04-10 10:45:45
  */
 import { computed } from 'mobx'
-import { fixedHD, getCDNAvatar } from '@_/base/avatar/utils'
+import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
 import {
   _,
   rakuenStore,

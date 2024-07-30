@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:28:48
+ * @Last Modified time: 2024-07-30 20:58:16
  */
 
 /** Discovery */
@@ -32,11 +32,14 @@ export default {
   // 索引
   '索引.跳转': 'Browser.to',
   '索引.右上角菜单': 'Browser.topRightMenu',
-  // '索引.标签页切换': 'Browser.onChange',
   '索引.类型选择': 'Browser.onSelect',
+  '索引.排序选择': 'Browser.onOrderSelect',
   '索引.年选择': 'Browser.onAirdateSelect',
   '索引.月选择': 'Browser.onMonthSelect',
+  '索引.前一月': 'Browser.onAirdatePrev',
+  '索引.后一月': 'Browser.onAirdateNext',
   '索引.切换布局': 'Browser.switchLayout',
+  '索引.更多': 'Browser.onPage',
 
   // 每日放送
   '每日放送.跳转': 'Calendar.to',
@@ -55,7 +58,7 @@ export default {
   '目录.页码跳转': 'Catalog.doSearch',
   '目录.高级筛选': 'Catalog.onFilterChange',
   '目录.切换锁定': 'Catalog.onToggleFixed',
-  // '目录.提示': 'Catalog.alert',
+  '目录.右上角菜单': 'Catalog.topRightMenu',
 
   // 目录详情
   '目录详情.跳转': 'CatalogDetail.to',

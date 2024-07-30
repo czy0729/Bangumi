@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-25 14:07:34
+ * @Last Modified time: 2024-07-28 06:29:53
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -22,16 +22,16 @@ function Header(props, { $ }: Ctx) {
         <HeaderComp.Popover
           data={DATA}
           onSelect={key => {
-            t('索引.右上角菜单', {
-              key
-            })
-
             if (key === TEXT_BROWSER) {
               open($.url)
             } else if (key === TEXT_SPA) {
               const url = `${URL_SPA}/${getSPAParams('Browser')}`
               open(url)
             }
+
+            t('索引.右上角菜单', {
+              key
+            })
           }}
         >
           <Heatmap id='索引.右上角菜单' />

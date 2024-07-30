@@ -7,6 +7,7 @@
 import { factory } from '@utils'
 import { Navigation } from '@types'
 import Store from './store'
+import { FILTER_KEY_DS, FILTER_TYPE_DS, FILTER_YEAR_DS, TYPE_DS } from './ds'
 
 const f = factory(Store)
 
@@ -17,6 +18,12 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type TypeType = '' | 'collect' | 'advance'
+export type TypeType = (typeof TYPE_DS)[number]['key']
 
-export type TypeLabel = '热门' | '最新' | '高级'
+export type TypeLabel = (typeof TYPE_DS)[number]['title']
+
+export type FilterType = (typeof FILTER_TYPE_DS)[number]
+
+export type FilterYear = (typeof FILTER_YEAR_DS)[number]
+
+export type FilterKey = (typeof FILTER_KEY_DS)[number][0]

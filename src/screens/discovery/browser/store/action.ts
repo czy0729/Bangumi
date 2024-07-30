@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-25 08:09:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-25 10:51:16
+ * @Last Modified time: 2024-07-28 06:37:05
  */
 import { ScrollToOffset } from '@components'
 import { info, updateVisibleBottom } from '@utils'
@@ -40,47 +40,47 @@ export default class Action extends Fetch {
   }
 
   /** 类型选择 */
-  onTypeSelect = type => {
-    t('索引.类型选择', {
-      type
-    })
-
+  onTypeSelect = (type: any) => {
     this.setState({
       type: MODEL_SUBJECT_TYPE.getLabel(type)
     })
     this.resetScrollView(true)
+
+    t('索引.类型选择', {
+      type
+    })
   }
 
   /** 年选择 */
-  onAirdateSelect = airtime => {
-    t('索引.年选择', {
-      airtime
-    })
-
+  onAirdateSelect = (airtime: any) => {
     this.setState({
       airtime: airtime === '全部' ? '' : airtime
     })
     this.resetScrollView(true)
+
+    t('索引.年选择', {
+      airtime
+    })
   }
 
   /** 月选择 */
-  onMonthSelect = month => {
+  onMonthSelect = (month: any) => {
     if (!this.state.airtime) {
       info('请先选择年')
       return
     }
 
-    t('索引.月选择', {
-      month
-    })
-
     this.setState({
       month: month === '全部' ? '' : month
     })
     this.resetScrollView(true)
+
+    t('索引.月选择', {
+      month
+    })
   }
 
-  /** 前一年 */
+  /** 前一月 */
   onAirdatePrev = () => {
     const { airtime, month } = this.state
     if (!airtime) {
@@ -106,11 +106,12 @@ export default class Action extends Fetch {
         month: _month
       })
     }
-
     this.resetScrollView(true)
+
+    t('索引.前一月')
   }
 
-  /** 后一年 */
+  /** 后一月 */
   onAirdateNext = () => {
     const { airtime, month } = this.state
     if (!airtime) {
@@ -136,51 +137,49 @@ export default class Action extends Fetch {
         month: _month
       })
     }
-
     this.resetScrollView(true)
+
+    t('索引.后一月')
   }
 
   /** 排序选择 */
-  onOrderSelect = label => {
-    // t('索引.排序选择', {
-    //   sort
-    // })
-
+  onOrderSelect = (label: any) => {
+    const value = MODEL_BROWSER_SORT.getValue(label)
     this.setState({
-      sort: MODEL_BROWSER_SORT.getValue(label)
+      sort: value
     })
     this.resetScrollView(true)
+
+    t('索引.排序选择', {
+      sort: value
+    })
   }
 
   /** 切换布局 */
   switchLayout = () => {
-    const _layout = this.isList ? 'grid' : 'list'
-    t('索引.切换布局', {
-      layout: _layout
-    })
-
+    const value = this.isList ? 'grid' : 'list'
     this.setState({
-      layout: _layout
+      layout: value
     })
     this.save()
+
+    t('索引.切换布局', {
+      layout: value
+    })
   }
 
   /** 切换固定 (工具条) */
   onToggleFixed = () => {
-    const { fixed } = this.state
-
     this.setState({
-      fixed: !fixed
+      fixed: !this.state.fixed
     })
     this.save()
   }
 
   /** 切换显示收藏 (工具条) */
   onToggleCollected = () => {
-    const { collected } = this.state
-
     this.setState({
-      collected: !collected
+      collected: !this.state.collected
     })
     this.save()
   }
