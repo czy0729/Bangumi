@@ -93,7 +93,7 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
     const styles = memoStyles()
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.animated, beforeStyle]}>
+        <Animated.View style={[styles.animated, beforeStyle]} pointerEvents='none'>
           <View style={styles.placeholder} />
           <Btns {...beforeProps} onPress={onPress} />
         </Animated.View>
