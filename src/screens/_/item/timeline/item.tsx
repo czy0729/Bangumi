@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 12:27:51
+ * @Last Modified time: 2024-07-31 10:35:07
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -144,14 +144,19 @@ const Item = memo(
               />
               <Flex style={image.length === 1 && !(comment || replyCount) ? _.mt.lg : _.mt.md}>
                 {!!replyCount && (
-                  <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
-                    <Text type='primary' size={12}>
-                      {replyCount}
+                  <>
+                    <Touchable animate scale={0.9} onPress={() => onNavigate(replyUrl)}>
+                      <Text type='primary' size={12}>
+                        {replyCount}
+                      </Text>
+                    </Touchable>
+                    <Text type='sub' size={12} numberOfLines={1}>
+                      {' · '}
                     </Text>
-                  </Touchable>
+                  </>
                 )}
                 <Text style={_.mr.sm} type='sub' size={12} numberOfLines={1}>
-                  {time.trim().replace(/ ·$/g, '')}
+                  {time}
                 </Text>
                 <Stars value={star} />
               </Flex>

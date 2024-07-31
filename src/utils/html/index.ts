@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-13 20:36:55
+ * @Last Modified time: 2024-07-31 09:41:41
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@/config'
@@ -249,6 +249,11 @@ export function cheerio(
   }
 
   return cheerioRN(target)
+}
+
+/** cheerio.text().trim() */
+export function cText($el: any): string {
+  return $el.text().trim() || ''
 }
 
 /** 去除字符串中所有链接 */

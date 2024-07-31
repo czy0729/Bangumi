@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 10:58:58
+ * @Last Modified time: 2024-07-31 10:38:41
  */
-import { cheerio, getTimestamp, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
+import { cheerio, cText, getTimestamp, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
 import { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
@@ -45,7 +45,7 @@ export async function fetchTimeline(
 
   $('h4').each((index: number, element: any) => {
     const $row = cheerio(element)
-    const date = $row.text().trim()
+    const date = cText($row)
 
     $row
       .next()
@@ -59,7 +59,6 @@ export async function fetchTimeline(
           })
           const $card = $info.find('.card')
           const $reply = $info.find('a.tml_comment')
-          const $date = $row.find('.date')
           let $p1: any
 
           // 个人主页中的时间胶囊不存在位置 1
@@ -80,13 +79,13 @@ export async function fetchTimeline(
             url: ''
           }
           if ($p1) {
-            p1.text = $p1.text().trim()
+            p1.text = cText($p1)
             p1.url = $p1.attr('href') || ''
           }
 
           /** 位置 2, 通常是动作 */
           const p2 = {
-            text: $texts.eq(0).text().trim()
+            text: cText($texts.eq(0))
           }
 
           /** 位置 3, 通常是条目 */
@@ -96,7 +95,7 @@ export async function fetchTimeline(
           }
           $info.find('> a').each((index: number, element: any) => {
             const $row = cheerio(element)
-            const text = $row.text().trim()
+            const text = cText($row)
             const href = $row.attr('href')
             if (text && href && href !== p1.url) {
               // 在个人主页中第一个 a 并不存在用户名字
@@ -110,18 +109,13 @@ export async function fetchTimeline(
 
           /** 位置 4, 通常是动作补充 */
           const p4 = {
-            text: $texts.eq(1).text().trim()
+            text: cText($texts.eq(1))
           }
           if (p4.text === '、') {
-            p4.text = $texts.last().text().trim()
+            p4.text = cText($texts.last())
 
             // 收藏了多个人物的情况
-            if (!p4.text) {
-              p4.text = $texts
-                .eq($texts.length - 3)
-                .text()
-                .trim()
-            }
+            if (!p4.text) p4.text = cText($texts.eq($texts.length - 3))
           }
 
           /** 头像 */
@@ -136,29 +130,23 @@ export async function fetchTimeline(
             subjectId: ''
           }
           if (p3.text?.[0]?.includes('ep.')) {
-            subject.subject = $card
-              .find('.title a')
-              .contents()
-              .filter(function () {
-                return this.nodeType === NODE_TYPE_RAW_TEXT
-              })
-              .text()
-              .trim()
+            subject.subject = cText(
+              $card
+                .find('.title a')
+                .contents()
+                .filter(function () {
+                  return this.nodeType === NODE_TYPE_RAW_TEXT
+                })
+            )
             subject.subjectId = ($card.find('a').attr('href') || '').split('/subject/')?.[1]
           }
 
-          /** 底部时间 */
-          const time = $date
-            .contents()
-            .filter(function () {
-              return this.nodeType === NODE_TYPE_RAW_TEXT && this.parent === $date[0]
-            })
-            .text()
-            .trim()
-            .split('·')
-            .filter((item: string) => !(item.includes('回复') || item.includes('web')))
-            .map((item: string) => item.trim())
-            .join(' · ')
+          /** 时间 */
+          let time = cText($row.find('.titleTip'))
+          const dateText = cText($row.find('.date')).toLocaleLowerCase()
+          if (dateText.includes('mobile')) time += ' · mobile'
+          if (dateText.includes('api')) time += ' · api'
+          time = time.replace('小时', '时').replace('分钟', '分')
 
           /** 右侧封面或人物头像 */
           const image = []
@@ -195,10 +183,10 @@ export async function fetchTimeline(
               'starlight stars',
               ''
             ),
-            comment: $row.find('.comment').text().trim(),
+            comment: cText($row.find('.comment')),
             reply: {
-              content: $row.find('.status').text().trim(),
-              count: $reply.text().trim(),
+              content: cText($row.find('.status')),
+              count: cText($reply),
               url: $reply.attr('href') || ''
             },
             like: {
@@ -232,26 +220,26 @@ export async function fetchTimeline(
 /** 吐槽 */
 export function cheerioSay(html: string) {
   const $ = cheerio(htmlMatch(html, '<div class="columnsApp', '<div id="footer">'))
-  const id = ($('div.statusHeader p.tip').text() || '').replace('@', '')
+  const id = cText($('div.statusHeader p.tip')).replace('@', '')
   const avatar = $('img.avatar').attr('src')
   const main = safeObject({
     id,
     avatar,
-    name: $('div.statusHeader h3 > a').text(),
+    name: cText($('div.statusHeader h3 > a')),
     text: trim($('div.statusContent > p.text').html()),
-    date: $('p.date.tip_j').text(),
+    date: cText($('p.date.tip_j')),
     formhash: $('input[name=formhash]').attr('value')
   })
   const sub = $('ul.subReply > li.reply_item')
     .map((index: number, element: any) => {
       const $tr = cheerio(element)
-      const subId = ($tr.find('a.cmt_reply').text() || '').replace('@', '')
+      const subId = cText($tr.find('a.cmt_reply')).replace('@', '')
       let tr = $tr.html().trim()
       tr = tr.slice(tr.indexOf('-</span> ') + 9, tr.length)
       return safeObject({
         id: subId,
         avatar: id === subId ? avatar : '',
-        name: $tr.find('a.cmt_reply + a.l').text(),
+        name: cText($tr.find('a.cmt_reply + a.l')),
         text: tr
       })
     })
