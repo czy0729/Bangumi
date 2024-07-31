@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 16:27:40
+ * @Last Modified time: 2024-07-31 13:17:31
  */
 import { Model } from './utils'
 
@@ -719,6 +719,32 @@ export const RAKUEN_SCROLL_DIRECTION = [
 export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model(
   RAKUEN_SCROLL_DIRECTION,
   'RAKUEN_SCROLL_DIRECTION'
+)
+
+/** [设置] 楼层中图片自动加载 */
+export const RAKUEN_AUTO_LOAD_IMAGE = [
+  {
+    label: '不加载',
+    value: '0'
+  },
+  {
+    label: '0.2m',
+    value: '200'
+  },
+  {
+    label: '2m',
+    value: '2000'
+  },
+  {
+    label: '自动',
+    value: '10000'
+  }
+] as const
+
+/** [设置] 楼层中图片自动加载 */
+export const MODEL_RAKUEN_AUTO_LOAD_IMAGE = new Model(
+  RAKUEN_AUTO_LOAD_IMAGE,
+  'RAKUEN_AUTO_LOAD_IMAGE'
 )
 
 /** [设置] 子楼层折叠 */

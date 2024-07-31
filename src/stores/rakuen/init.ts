@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 14:23:31
+ * @Last Modified time: 2024-07-31 12:59:18
  */
 import {
   LIST_EMPTY,
+  MODEL_RAKUEN_AUTO_LOAD_IMAGE,
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_SCROLL_DIRECTION,
   MODEL_RAKUEN_TYPE
@@ -133,8 +134,11 @@ export const INIT_SETTING = {
   /** 子楼层折叠 */
   subFloorExpand: 2,
 
-  /** 自动加载楼层中的图片 */
+  /** @deprecated 自动加载楼层中的图片 */
   autoLoadImage: false,
+
+  /** 自动加载楼层中的图片 */
+  autoLoadImageV2: MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue('不加载'),
 
   /** 帖子楼层滚动导航条方向 */
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧')

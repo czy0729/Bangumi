@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:20:38
+ * @Last Modified time: 2024-07-31 13:14:42
  */
 import { ModelValueOf } from '@types'
 import {
@@ -13,6 +13,7 @@ import {
   EP_TYPE,
   MONO_WORKS_ORDERBY,
   PRIVATE,
+  RAKUEN_AUTO_LOAD_IMAGE,
   RAKUEN_SCOPE,
   RAKUEN_SCROLL_DIRECTION,
   RAKUEN_SUB_EXPAND,
@@ -82,6 +83,8 @@ export type Private = ModelValueOf<typeof PRIVATE>
 export type PrivateCn = ModelValueOf<typeof PRIVATE, 'label'>
 
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE>
+
+export type RakuenAutoLoadImage = ModelValueOf<typeof RAKUEN_AUTO_LOAD_IMAGE, 'value'>
 
 export type RakuenSubExpand = ModelValueOf<typeof RAKUEN_SUB_EXPAND, 'value'>
 

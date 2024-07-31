@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 21:33:29
+ * @Last Modified time: 2024-07-31 13:29:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,8 @@ class ToggleImage extends React.Component<Props, State> {
         loaded: Boolean(size)
       },
       () => {
-        if (rakuenStore.setting.autoLoadImage && size <= 2000) {
+        const limit = Number(rakuenStore.setting.autoLoadImageV2 || 0)
+        if (limit && (limit === 10000 || (size && limit >= size))) {
           this.setState({
             show: true
           })

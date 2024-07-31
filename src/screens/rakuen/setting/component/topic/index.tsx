@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-31 17:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-31 17:56:05
+ * @Last Modified time: 2024-07-31 13:22:08
  */
 import React from 'react'
 import { SegmentedControl, SwitchPro } from '@components'
@@ -10,7 +10,12 @@ import { ItemSetting } from '@_'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { MODEL_RAKUEN_SUB_EXPAND, RAKUEN_SUB_EXPAND } from '@constants'
+import {
+  MODEL_RAKUEN_AUTO_LOAD_IMAGE,
+  MODEL_RAKUEN_SUB_EXPAND,
+  RAKUEN_AUTO_LOAD_IMAGE,
+  RAKUEN_SUB_EXPAND
+} from '@constants'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
@@ -19,30 +24,10 @@ import { COMPONENT } from './ds'
 
 /** 帖子 */
 function Topic() {
-  const { autoLoadImage, quote, quoteAvatar, subExpand, wide } = rakuenStore.setting
+  const { autoLoadImageV2, quote, quoteAvatar, subExpand, wide } = rakuenStore.setting
   return (
     <Block>
       <Tip>帖子</Tip>
-
-      {/* 楼层中图片自动加载 */}
-      <ItemSetting
-        hd='楼层中图片自动加载'
-        information={`对于大于 2M 的图片开启后依然不会自动加载\n不推荐使用，因为观察到用户使用的图床都很慢，而且不压缩图片很大`}
-        ft={
-          <SwitchPro
-            style={styles.switch}
-            value={autoLoadImage}
-            onSyncPress={() => {
-              t('超展开设置.切换', {
-                title: '楼层中图片自动加载',
-                checked: !autoLoadImage
-              })
-              rakuenStore.switchSetting('autoLoadImage')
-            }}
-          />
-        }
-        withoutFeedback
-      />
 
       {/* 展开引用 */}
       <ItemSetting
@@ -57,6 +42,7 @@ function Topic() {
                 title: '展开引用',
                 checked: !quote
               })
+
               rakuenStore.switchSetting('quote')
             }}
           />
@@ -81,6 +67,7 @@ function Topic() {
                   title: '显示引用头像',
                   checked: !quoteAvatar
                 })
+
                 rakuenStore.switchSetting('quoteAvatar')
               }}
             />
@@ -105,6 +92,7 @@ function Topic() {
                 title: '加宽展示',
                 checked: !wide
               })
+
               rakuenStore.switchSetting('wide')
             }}
           />
@@ -116,10 +104,33 @@ function Topic() {
         ])}
       />
 
+      {/* 楼层中图片自动加载 */}
+      <ItemSetting
+        hd='楼层中图片自动加载'
+        information='若设置成自动，则无论是否提前获取到图片大小，也会自动加载，请谨慎开启'
+        ft={
+          <SegmentedControl
+            style={styles.segmentedControl}
+            backgroundColor={_.select(_.colorBg, _.colorPlain)}
+            size={12}
+            values={RAKUEN_AUTO_LOAD_IMAGE.map(item => item.label)}
+            selectedIndex={RAKUEN_AUTO_LOAD_IMAGE.findIndex(item => item.value === autoLoadImageV2)}
+            onValueChange={title => {
+              t('超展开设置.切换', {
+                title: '楼层中图片自动加载',
+                value: title
+              })
+
+              rakuenStore.setAutoLoadImage(MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue(title))
+            }}
+          />
+        }
+      />
+
       {/* 子楼层折叠 */}
       <ItemSetting
         hd='子楼层折叠'
-        information='子回复超过此值后折叠，需手动展开。0 代表一直折叠，因性能问题暂不提供不折叠。'
+        information='子回复超过此值后折叠，需手动展开；0 代表一直折叠，因性能问题暂不提供不折叠'
         ft={
           <SegmentedControl
             style={styles.segmentedControl}
@@ -132,6 +143,7 @@ function Topic() {
                 title: '子楼层折叠',
                 value: title
               })
+
               rakuenStore.setSubExpand(MODEL_RAKUEN_SUB_EXPAND.getValue(title))
             }}
           />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 14:40:48
+ * @Last Modified time: 2024-07-31 13:14:49
  */
 import { getTimestamp, info } from '@utils'
 import { syncUserStore } from '@utils/async'
@@ -18,7 +18,16 @@ import {
   HTML_TOPIC_EDIT
 } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
-import { Fn, Id, RakuenScrollDirection, RakuenSubExpand, TopicId, TopicType, UserId } from '@types'
+import {
+  Fn,
+  Id,
+  RakuenAutoLoadImage,
+  RakuenScrollDirection,
+  RakuenSubExpand,
+  TopicId,
+  TopicType,
+  UserId
+} from '@types'
 import Fetch from './fetch'
 import { INIT_SETTING } from './init'
 
@@ -266,6 +275,18 @@ export default class Action extends Fetch {
           time,
           _time: readed.time === 0 ? time : readed.time
         }
+      }
+    })
+    this.save(key)
+  }
+
+  /** 设置`自动加载楼层中的图片` */
+  setAutoLoadImage = (value: RakuenAutoLoadImage) => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        autoLoadImageV2: value
       }
     })
     this.save(key)
