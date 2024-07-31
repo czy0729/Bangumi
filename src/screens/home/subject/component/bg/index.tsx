@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 23:00:05
+ * @Last Modified time: 2024-07-31 13:41:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import { getCover400, x18 } from '@utils'
+import { getCover400 } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS, TEXT_ONLY } from '@constants'
 import { Ctx } from '../../types'
@@ -22,7 +22,7 @@ function BgWrap(props, { $ }: Ctx) {
     return <View style={styles.bg} />
   }
 
-  const cdn = !x18($.subjectId)
+  const cdn = !$.nsfw
   const src = cdn
     ? getCover400($.coverPlaceholder || $.subject.images?.common || $.cover)
     : $.subject.images?.common
