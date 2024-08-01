@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:03:35
+ * @Last Modified time: 2024-08-01 15:47:59
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -27,16 +27,20 @@ function BottomTabNavigator() {
         tabBar={renderTabBar}
       >
         {homeRenderTabs.includes('Discovery') && (
-          <Tab.Screen name='Discovery' component={Discovery} />
+          <Tab.Screen name='Discovery' getComponent={() => Discovery} />
         )}
-        {homeRenderTabs.includes('Timeline') && <Tab.Screen name='Timeline' component={Timeline} />}
-        <Tab.Screen name='Home' component={Home} />
-        {homeRenderTabs.includes('Rakuen') && <Tab.Screen name='Rakuen' component={Rakuen} />}
-        <Tab.Screen name='User' component={User} />
+        {homeRenderTabs.includes('Timeline') && (
+          <Tab.Screen name='Timeline' getComponent={() => Timeline} />
+        )}
+        <Tab.Screen name='Home' getComponent={() => Home} />
+        {homeRenderTabs.includes('Rakuen') && (
+          <Tab.Screen name='Rakuen' getComponent={() => Rakuen} />
+        )}
+        <Tab.Screen name='User' getComponent={() => User} />
         {homeRenderTabs.includes('Tinygrail') && tinygrail && (
           <Tab.Screen
             name='Tinygrail'
-            component={Tinygrail}
+            getComponent={() => Tinygrail}
             initialParams={{
               fromBottomTab: true
             }}

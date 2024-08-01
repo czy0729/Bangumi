@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "target": "es2020",
+    "module": "es2020",
     "strict": false,
     "noImplicitAny": false,
     "experimentalDecorators": true,

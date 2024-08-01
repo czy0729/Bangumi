@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:33:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 09:24:01
+ * @Last Modified time: 2024-08-01 15:49:28
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -34,7 +34,7 @@ function NativeStack({ isLoadingComplete }: { isLoadingComplete: boolean }) {
             <Stack.Screen
               key={name}
               name={name}
-              component={Screens[name]}
+              getComponent={() => Screens[name]}
               initialParams={initialRouteName === name ? initialRouteParams : undefined}
               options={getOptions(name)}
               getId={getId}

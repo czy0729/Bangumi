@@ -2,143 +2,145 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 10:49:48
+ * @Last Modified time: 2024-08-01 15:46:27
  */
+import { lazy } from 'react'
+
 // Login
-export { default as Login } from './login/index/index'
-export { default as LoginAssist } from './login/assist'
-export { default as LoginV2 } from './login/v2'
-export { default as LoginToken } from './login/token'
+export const Login = lazy(() => import('./login/index/index'))
+export const LoginAssist = lazy(() => import('./login/assist'))
+export const LoginV2 = lazy(() => import('./login/v2'))
+export const LoginToken = lazy(() => import('./login/token'))
 
 // Discovery
-export { default as ADV } from './discovery/adv'
-export { default as Anime } from './discovery/anime'
-export { default as Anitama } from './discovery/anitama'
-export { default as Award } from './discovery/award'
-export { default as BiWeekly } from './discovery/bi-weekly'
-export { default as Browser } from './discovery/browser'
-export { default as Calendar } from './discovery/calendar'
-export { default as Catalog } from './discovery/catalog'
-export { default as CatalogDetail } from './discovery/catalog-detail'
-export { default as Channel } from './discovery/channel'
-export { default as Character } from './discovery/character'
-export { default as Discovery } from './discovery/index/index'
-export { default as DiscoveryBlog } from './discovery/blog'
-export { default as Dollars } from './discovery/dollars'
-export { default as Game } from './discovery/game'
-export { default as Guess } from './discovery/guess'
-export { default as Hentai } from './discovery/hentai'
-export { default as Like } from './discovery/like'
-export { default as Manga } from './discovery/manga'
-export { default as NSFW } from './discovery/nsfw'
-export { default as Rank } from './discovery/rank'
-export { default as Recommend } from './discovery/recommend'
-export { default as Search } from './discovery/search'
-export { default as Series } from './discovery/series'
-export { default as Staff } from './discovery/staff'
-export { default as Tags } from './discovery/tags'
-export { default as VIB } from './discovery/vib'
-export { default as Wenku } from './discovery/wenku'
-export { default as Wiki } from './discovery/wiki'
-export { default as Yearbook } from './discovery/yearbook'
+export const ADV = lazy(() => import('./discovery/adv'))
+export const Anime = lazy(() => import('./discovery/anime'))
+export const Anitama = lazy(() => import('./discovery/anitama'))
+export const Award = lazy(() => import('./discovery/award'))
+export const BiWeekly = lazy(() => import('./discovery/bi-weekly'))
+export const Browser = lazy(() => import('./discovery/browser'))
+export const Calendar = lazy(() => import('./discovery/calendar'))
+export const Catalog = lazy(() => import('./discovery/catalog'))
+export const CatalogDetail = lazy(() => import('./discovery/catalog-detail'))
+export const Channel = lazy(() => import('./discovery/channel'))
+export const Character = lazy(() => import('./discovery/character'))
+export const Discovery = lazy(() => import('./discovery/index/index'))
+export const DiscoveryBlog = lazy(() => import('./discovery/blog'))
+export const Dollars = lazy(() => import('./discovery/dollars'))
+export const Game = lazy(() => import('./discovery/game'))
+export const Guess = lazy(() => import('./discovery/guess'))
+export const Hentai = lazy(() => import('./discovery/hentai'))
+export const Like = lazy(() => import('./discovery/like'))
+export const Manga = lazy(() => import('./discovery/manga'))
+export const NSFW = lazy(() => import('./discovery/nsfw'))
+export const Rank = lazy(() => import('./discovery/rank'))
+export const Recommend = lazy(() => import('./discovery/recommend'))
+export const Search = lazy(() => import('./discovery/search'))
+export const Series = lazy(() => import('./discovery/series'))
+export const Staff = lazy(() => import('./discovery/staff'))
+export const Tags = lazy(() => import('./discovery/tags'))
+export const VIB = lazy(() => import('./discovery/vib'))
+export const Wenku = lazy(() => import('./discovery/wenku'))
+export const Wiki = lazy(() => import('./discovery/wiki'))
+export const Yearbook = lazy(() => import('./discovery/yearbook'))
 
 // Reader
-export { default as Comic } from './reader/comic'
-export { default as HD } from './reader/hd'
+export const Comic = lazy(() => import('./reader/comic'))
+export const HD = lazy(() => import('./reader/hd'))
 
 // Timeline
-export { default as Say } from './timeline/say'
-export { default as Timeline } from './timeline/v2'
+export const Say = lazy(() => import('./timeline/say'))
+export const Timeline = lazy(() => import('./timeline/v2'))
 
 // Home
-export { default as Characters } from './home/characters'
-export { default as Episodes } from './home/episodes'
-export { default as Home } from './home/v2'
-export { default as Mono } from './home/mono'
-export { default as Persons } from './home/persons'
-export { default as Preview } from './home/preview'
-export { default as Rating } from './home/rating'
-export { default as Subject } from './home/subject'
-export { default as SubjectCatalogs } from './home/catalogs'
-export { default as SubjectWiki } from './home/wiki'
-export { default as Tag } from './home/tag'
-export { default as Typerank } from './home/typerank'
-export { default as Voices } from './home/voices'
-export { default as Works } from './home/works'
+export const Characters = lazy(() => import('./home/characters'))
+export const Episodes = lazy(() => import('./home/episodes'))
+export const Home = lazy(() => import('./home/v2'))
+export const Mono = lazy(() => import('./home/mono'))
+export const Persons = lazy(() => import('./home/persons'))
+export const Preview = lazy(() => import('./home/preview'))
+export const Rating = lazy(() => import('./home/rating'))
+export const Subject = lazy(() => import('./home/subject'))
+export const SubjectCatalogs = lazy(() => import('./home/catalogs'))
+export const SubjectWiki = lazy(() => import('./home/wiki'))
+export const Tag = lazy(() => import('./home/tag'))
+export const Typerank = lazy(() => import('./home/typerank'))
+export const Voices = lazy(() => import('./home/voices'))
+export const Works = lazy(() => import('./home/works'))
 
 // Rakuen
-export { default as Blog } from './rakuen/blog'
-export { default as Board } from './rakuen/board'
-export { default as Group } from './rakuen/group'
-export { default as Mine } from './rakuen/mine'
-export { default as Notify } from './rakuen/notify'
-export { default as Rakuen } from './rakuen/v2'
-export { default as RakuenHistory } from './rakuen/history'
-export { default as RakuenSearch } from './rakuen/search'
-export { default as RakuenSetting } from './rakuen/setting'
-export { default as Replies } from './rakuen/replies'
-export { default as Reviews } from './rakuen/reviews'
-export { default as Topic } from './rakuen/topic'
-export { default as UGCAgree } from './rakuen/ugc-agree'
+export const Blog = lazy(() => import('./rakuen/blog'))
+export const Board = lazy(() => import('./rakuen/board'))
+export const Group = lazy(() => import('./rakuen/group'))
+export const Mine = lazy(() => import('./rakuen/mine'))
+export const Notify = lazy(() => import('./rakuen/notify'))
+export const Rakuen = lazy(() => import('./rakuen/v2'))
+export const RakuenHistory = lazy(() => import('./rakuen/history'))
+export const RakuenSearch = lazy(() => import('./rakuen/search'))
+export const RakuenSetting = lazy(() => import('./rakuen/setting'))
+export const Replies = lazy(() => import('./rakuen/replies'))
+export const Reviews = lazy(() => import('./rakuen/reviews'))
+export const Topic = lazy(() => import('./rakuen/topic'))
+export const UGCAgree = lazy(() => import('./rakuen/ugc-agree'))
 
 // User
-export { default as Actions } from './user/actions'
-export { default as Backup } from './user/backup'
-export { default as Blogs } from './user/blogs'
-export { default as Catalogs } from './user/catalogs'
-export { default as DEV } from './user/dev'
-export { default as Friends } from './user/friends'
-export { default as OriginSetting } from './user/origin-setting'
-export { default as PM } from './user/pm'
-export { default as Qiafan } from './user/qiafan'
-export { default as ServerStatus } from './user/server-status'
-export { default as Setting } from './user/setting'
-export { default as Smb } from './user/smb'
-export { default as Sponsor } from './user/sponsor'
-export { default as User } from './user/v2'
-export { default as UserSetting } from './user/user-setting'
-export { default as UserTimeline } from './user/timeline'
-export { default as Zone } from './user/zone'
+export const Actions = lazy(() => import('./user/actions'))
+export const Backup = lazy(() => import('./user/backup'))
+export const Blogs = lazy(() => import('./user/blogs'))
+export const Catalogs = lazy(() => import('./user/catalogs'))
+export const DEV = lazy(() => import('./user/dev'))
+export const Friends = lazy(() => import('./user/friends'))
+export const OriginSetting = lazy(() => import('./user/origin-setting'))
+export const PM = lazy(() => import('./user/pm'))
+export const Qiafan = lazy(() => import('./user/qiafan'))
+export const ServerStatus = lazy(() => import('./user/server-status'))
+export const Setting = lazy(() => import('./user/setting'))
+export const Smb = lazy(() => import('./user/smb'))
+export const Sponsor = lazy(() => import('./user/sponsor'))
+export const User = lazy(() => import('./user/v2'))
+export const UserSetting = lazy(() => import('./user/user-setting'))
+export const UserTimeline = lazy(() => import('./user/timeline'))
+export const Zone = lazy(() => import('./user/zone'))
 
 // Tinygrail
-export { default as Tinygrail } from './tinygrail/index/index'
-export { default as TinygrailAdvance } from './tinygrail/advance'
-export { default as TinygrailAdvanceAsk } from './tinygrail/advance-ask'
-export { default as TinygrailAdvanceAuction } from './tinygrail/advance-auction'
-export { default as TinygrailAdvanceAuction2 } from './tinygrail/advance-auction2'
-export { default as TinygrailAdvanceBid } from './tinygrail/advance-bid'
-export { default as TinygrailAdvanceSacrifice } from './tinygrail/advance-sacrifice'
-export { default as TinygrailAdvanceState } from './tinygrail/advance-state'
-export { default as TinygrailBid } from './tinygrail/bid'
-export { default as TinygrailCharaAssets } from './tinygrail/chara-assets'
-export { default as TinygrailClipboard } from './tinygrail/clipboard'
-export { default as TinygrailDeal } from './tinygrail/deal'
-export { default as TinygrailICO } from './tinygrail/ico'
-export { default as TinygrailICODeal } from './tinygrail/ico-deal'
-export { default as TinygrailItems } from './tinygrail/items'
-export { default as TinygrailLogs } from './tinygrail/logs'
-export { default as TinygrailNew } from './tinygrail/new'
-export { default as TinygrailOverview } from './tinygrail/overview'
-export { default as TinygrailRelation } from './tinygrail/relation'
-export { default as TinygrailRich } from './tinygrail/rich'
-export { default as TinygrailSacrifice } from './tinygrail/sacrifice'
-export { default as TinygrailSearch } from './tinygrail/search'
-export { default as TinygrailStar } from './tinygrail/star'
-export { default as TinygrailTemples } from './tinygrail/temples'
-export { default as TinygrailTopWeek } from './tinygrail/top-week'
-export { default as TinygrailTrade } from './tinygrail/trade'
-export { default as TinygrailTree } from './tinygrail/tree'
-export { default as TinygrailTreeRich } from './tinygrail/tree-rich'
-export { default as TinygrailValhall } from './tinygrail/valhall'
+export const Tinygrail = lazy(() => import('./tinygrail/index/index'))
+export const TinygrailAdvance = lazy(() => import('./tinygrail/advance'))
+export const TinygrailAdvanceAsk = lazy(() => import('./tinygrail/advance-ask'))
+export const TinygrailAdvanceAuction = lazy(() => import('./tinygrail/advance-auction'))
+export const TinygrailAdvanceAuction2 = lazy(() => import('./tinygrail/advance-auction2'))
+export const TinygrailAdvanceBid = lazy(() => import('./tinygrail/advance-bid'))
+export const TinygrailAdvanceSacrifice = lazy(() => import('./tinygrail/advance-sacrifice'))
+export const TinygrailAdvanceState = lazy(() => import('./tinygrail/advance-state'))
+export const TinygrailBid = lazy(() => import('./tinygrail/bid'))
+export const TinygrailCharaAssets = lazy(() => import('./tinygrail/chara-assets'))
+export const TinygrailClipboard = lazy(() => import('./tinygrail/clipboard'))
+export const TinygrailDeal = lazy(() => import('./tinygrail/deal'))
+export const TinygrailICO = lazy(() => import('./tinygrail/ico'))
+export const TinygrailICODeal = lazy(() => import('./tinygrail/ico-deal'))
+export const TinygrailItems = lazy(() => import('./tinygrail/items'))
+export const TinygrailLogs = lazy(() => import('./tinygrail/logs'))
+export const TinygrailNew = lazy(() => import('./tinygrail/new'))
+export const TinygrailOverview = lazy(() => import('./tinygrail/overview'))
+export const TinygrailRelation = lazy(() => import('./tinygrail/relation'))
+export const TinygrailRich = lazy(() => import('./tinygrail/rich'))
+export const TinygrailSacrifice = lazy(() => import('./tinygrail/sacrifice'))
+export const TinygrailSearch = lazy(() => import('./tinygrail/search'))
+export const TinygrailStar = lazy(() => import('./tinygrail/star'))
+export const TinygrailTemples = lazy(() => import('./tinygrail/temples'))
+export const TinygrailTopWeek = lazy(() => import('./tinygrail/top-week'))
+export const TinygrailTrade = lazy(() => import('./tinygrail/trade'))
+export const TinygrailTree = lazy(() => import('./tinygrail/tree'))
+export const TinygrailTreeRich = lazy(() => import('./tinygrail/tree-rich'))
+export const TinygrailValhall = lazy(() => import('./tinygrail/valhall'))
 
 // Other
-export { default as BilibiliSync } from './web-view/bilibili-sync'
-export { default as DoubanSync } from './web-view/douban-sync'
-export { default as Information } from './web-view/information'
-export { default as Playground } from './web-view/playground'
-export { default as Share } from './web-view/share'
-export { default as Tips } from './web-view/tips'
-export { default as Versions } from './web-view/versions'
-export { default as WebBrowser } from './web-view/web-browser'
-export { default as WebView } from './web-view'
-export { default as Webhook } from './web-view/webhook'
+export const BilibiliSync = lazy(() => import('./web-view/bilibili-sync'))
+export const DoubanSync = lazy(() => import('./web-view/douban-sync'))
+export const Information = lazy(() => import('./web-view/information'))
+export const Playground = lazy(() => import('./web-view/playground'))
+export const Share = lazy(() => import('./web-view/share'))
+export const Tips = lazy(() => import('./web-view/tips'))
+export const Versions = lazy(() => import('./web-view/versions'))
+export const WebBrowser = lazy(() => import('./web-view/web-browser'))
+export const WebView = lazy(() => import('./web-view'))
+export const Webhook = lazy(() => import('./web-view/webhook'))
