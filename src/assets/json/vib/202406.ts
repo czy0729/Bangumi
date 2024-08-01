@@ -7,7 +7,7 @@
 
 /** https://bgm.tv/group/topic/399371 */
 export default {
-  title: '202405',
+  title: '202406',
   desc: '6月1日与7月2日',
   data: [
     {

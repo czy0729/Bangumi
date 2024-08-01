@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 14:10:25
+ * @Last Modified time: 2024-08-01 15:20:44
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { findSubjectJp, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
@@ -32,6 +33,10 @@ function Item({ navigation, item, index }: Props) {
                 subjectId: item.id,
                 _cn: item.title
               })
+
+              t('评分月刊.跳转', {
+                subjectId: item.id
+              })
             }}
           >
             <Text size={20}>{HTMLDecode(item.title)}</Text>
@@ -45,6 +50,10 @@ function Item({ navigation, item, index }: Props) {
         <Touchable
           onPress={() => {
             uiStore.showPopableSubject({
+              subjectId: item.id
+            })
+
+            t('评分月刊.缩略框', {
               subjectId: item.id
             })
           }}

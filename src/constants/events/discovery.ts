@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-30 20:58:16
+ * @Last Modified time: 2024-08-01 15:24:06
  */
 
 /** Discovery */
@@ -183,5 +183,12 @@ export default {
 
   // 猜你喜欢
   '猜你喜欢.跳转': 'Like.to',
-  '猜你喜欢.切换': 'Like.switch'
+  '猜你喜欢.切换': 'Like.switch',
+
+  // 评分月刊
+  '评分月刊.跳转': 'VIB.to',
+  '评分月刊.缩略框': 'VIB.popable',
+  '评分月刊.上一期': 'VIB.prev',
+  '评分月刊.下一期': 'VIB.next',
+  '评分月刊.选择': 'VIB.select'
 }

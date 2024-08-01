@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-05-04 18:58:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 15:35:23
+ * @Last Modified time: 2024-08-01 15:28:58
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
@@ -25,10 +26,19 @@ function Header({ navigation, data, onSelect }: Props) {
                 groupId: 'qpz',
                 _title: '评分与排名讨论会'
               })
+
+              t('评分月刊.跳转', {
+                to: 'Group'
+              })
               return
             }
 
-            onSelect(data.findIndex(item => item === label))
+            const index = data.findIndex(item => item === label)
+            onSelect(index)
+
+            t('评分月刊.选择', {
+              title: data[index]
+            })
           }}
         />
       )}

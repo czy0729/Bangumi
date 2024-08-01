@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-04 19:28:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 14:40:22
+ * @Last Modified time: 2024-08-01 15:30:25
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import Title from '../title'
 import { COMPONENT } from './ds'
 import { Props } from './types'
@@ -22,6 +23,10 @@ function Pagination({ data, index, onSelect }: Props) {
         <Touchable
           onPress={() => {
             onSelect(prev)
+
+            t('评分月刊.上一期', {
+              title: data[prev].title
+            })
           }}
         >
           <Title text={data[prev].title} size='primary' />
@@ -32,6 +37,10 @@ function Pagination({ data, index, onSelect }: Props) {
         <Touchable
           onPress={() => {
             onSelect(next)
+
+            t('评分月刊.下一期', {
+              title: data[next].title
+            })
           }}
         >
           <Title text={data[next].title} size='primary' />

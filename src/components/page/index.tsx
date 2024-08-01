@@ -7,11 +7,11 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
+import { useFocusEffect } from '@react-navigation/native'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
-import { useFocusEffect } from '@react-navigation/native'
 import { ErrorBoundary } from '../error-boundary'
 import { Loading } from '../loading'
 import { StatusBar } from '../status-bar'
@@ -33,14 +33,12 @@ export const Page = ({
   r(COMPONENT)
 
   useFocusEffect(() => {
-    if (IOS && statusBarEvent) {
-      StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
-    }
+    if (IOS && statusBarEvent) StatusBar.setBarStyle(_.isDark ? 'light-content' : 'dark-content')
   })
 
   return useObserver(() => {
     const _style = stl(_.container.plain, style)
-    if (loaded || loaded === undefined)
+    if (loaded || loaded === undefined) {
       return (
         <ErrorBoundary style={_style}>
           <View style={_style} {...other}>
@@ -48,6 +46,7 @@ export const Page = ({
           </View>
         </ErrorBoundary>
       )
+    }
 
     return <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
   })
