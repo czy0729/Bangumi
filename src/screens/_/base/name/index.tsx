@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-26 10:16:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 21:30:17
+ * @Last Modified time: 2024-08-02 02:55:24
  */
 import React, { useCallback, useState } from 'react'
 import { Component, Text } from '@components'
@@ -11,7 +11,7 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
-import { VerticalAlign } from '../vertical-align'
+import { VerticalAlign } from '../vertical-align/index.lazy'
 import VerticalAlignWithRemoveSpec from './vertical-align-with-remove-spec'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -119,3 +119,5 @@ export const Name = ({
     )
   })
 }
+
+export default Name

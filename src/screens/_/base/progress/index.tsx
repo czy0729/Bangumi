@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-03 08:43:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:20:56
+ * @Last Modified time: 2024-08-02 00:22:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,3 +46,5 @@ export const Progress = ob(({ style, current, total, children }: ProgressProps) 
     </View>
   )
 }, COMPONENT)
+
+export default Progress

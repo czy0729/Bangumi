@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:31:16
+ * @Last Modified time: 2024-08-02 00:07:17
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -113,3 +113,5 @@ export const Manage = ob(
   },
   COMPONENT
 )
+
+export default Manage

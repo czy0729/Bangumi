@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Input } from '@components'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
+import { Input, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { IconTouchable } from '../../../icon/touchable'
+import { IconTouchable } from '../../../icon'
 import { memoStyles } from './styles'
 
 function Create({ title, desc, onChange, onCreate, onSubmitCatalog }) {
@@ -44,12 +44,7 @@ function Create({ title, desc, onChange, onCreate, onSubmitCatalog }) {
         />
       </View>
       <View style={styles.submit}>
-        <IconTouchable
-          name='md-check'
-          size={22}
-          color={_.colorSub}
-          onPress={onSubmitCatalog}
-        />
+        <IconTouchable name='md-check' size={22} color={_.colorSub} onPress={onSubmitCatalog} />
       </View>
     </View>
   )

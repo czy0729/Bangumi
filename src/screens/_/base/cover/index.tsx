@@ -8,3 +8,5 @@ import { Cover, CoverProps } from '@components'
 
 /** 已迁移至 components */
 export { Cover, CoverProps }
+
+export default Cover

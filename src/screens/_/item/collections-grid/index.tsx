@@ -66,3 +66,5 @@ export const ItemCollectionsGrid = ob(
   },
   COMPONENT
 )
+
+export default ItemCollectionsGrid

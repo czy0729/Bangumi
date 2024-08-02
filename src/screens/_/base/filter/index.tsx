@@ -13,11 +13,13 @@ import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
-import { FilterSwitch } from '../filter-switch'
+import { FilterSwitch } from '../filter-switch/index.lazy'
 import { scrollToX } from './utils'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 import { Props as FilterProps } from './types'
+
+export { FilterProps }
 
 /** 筛选组 */
 export const Filter = obc(
@@ -225,3 +227,5 @@ export const Filter = obc(
   },
   COMPONENT
 )
+
+export default Filter

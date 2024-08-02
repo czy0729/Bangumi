@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 10:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:19:00
+ * @Last Modified time: 2024-08-02 02:57:18
  */
 import React, { useCallback, useState } from 'react'
 import { Component, Expand, RenderHtml } from '@components'
@@ -10,18 +10,21 @@ import { _ } from '@stores'
 import { appNavigate, open } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
+import { Props as HTMLProps } from './types'
+
+export { HTMLProps }
 
 /** 初始带截断的渲染 html, 用于优化渲染过长的 html */
 export const HTML = ({
   navigation,
-  style = undefined,
+  style,
   id,
   msg,
   url,
   imagesMaxWidth,
   matchLink,
   event
-}) => {
+}: HTMLProps) => {
   r(COMPONENT)
 
   const [expand, setExpand] = useState(false)
@@ -61,3 +64,5 @@ export const HTML = ({
     </Component>
   )
 }
+
+export default HTML

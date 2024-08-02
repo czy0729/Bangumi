@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:15:32
+ * @Last Modified time: 2024-08-02 03:15:32
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Touchable } from '@components'
@@ -27,3 +27,5 @@ export const IconBack = ob(
   ),
   COMPONENT
 )
+
+export default IconBack

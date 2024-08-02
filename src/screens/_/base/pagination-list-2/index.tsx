@@ -99,3 +99,5 @@ export const PaginationList2 = <ItemT extends any[]>({
     </Component>
   )
 }
+
+export default PaginationList2

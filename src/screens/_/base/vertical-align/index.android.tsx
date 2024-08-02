@@ -67,3 +67,5 @@ export const VerticalAlign = ({
     </Text>
   )
 }
+
+export default VerticalAlign

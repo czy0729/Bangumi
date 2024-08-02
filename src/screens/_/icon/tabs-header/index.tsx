@@ -62,3 +62,5 @@ export const IconTabsHeader = ob(
   },
   COMPONENT
 )
+
+export default IconTabsHeader

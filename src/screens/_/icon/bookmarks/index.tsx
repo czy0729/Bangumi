@@ -32,3 +32,5 @@ export const IconBookmarks = ob(({ navigation }: IconBookmarksProps) => {
     />
   )
 })
+
+export default IconBookmarks

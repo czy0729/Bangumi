@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:50:55
+ * @Last Modified time: 2024-08-02 03:11:39
  */
 import React from 'react'
 import { Component } from '@components'
@@ -65,3 +65,5 @@ export const ItemSearch = ob(
   },
   COMPONENT
 )
+
+export default ItemSearch

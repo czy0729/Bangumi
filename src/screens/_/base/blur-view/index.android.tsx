@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 15:23:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 22:57:09
+ * @Last Modified time: 2024-08-02 02:51:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,3 +28,5 @@ export const BlurView = ob(({ style, children }: BlurViewProps) => {
     </View>
   )
 })
+
+export default BlurView

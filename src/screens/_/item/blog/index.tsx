@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 15:05:46
+ * @Last Modified time: 2024-08-02 03:03:39
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Text, Touchable } from '@components'
+import { Component, Cover, Flex, Text, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
-import { Cover } from '../../base'
 import BtnPopover from './btn-popover'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -111,3 +110,5 @@ export const ItemBlog = obc(
   },
   COMPONENT
 )
+
+export default ItemBlog

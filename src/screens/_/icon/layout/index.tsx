@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-18 13:58:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:18:06
+ * @Last Modified time: 2024-08-02 03:17:50
  */
 import React from 'react'
 import { Component } from '@components'
@@ -32,3 +32,5 @@ export const IconLayout = ob(
   ),
   COMPONENT
 )
+
+export default IconLayout

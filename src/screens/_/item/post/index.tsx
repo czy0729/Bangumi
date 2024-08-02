@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 20:00:55
+ * @Last Modified time: 2024-08-02 03:11:01
  */
 import React from 'react'
 import { Component } from '@components'
@@ -155,3 +155,5 @@ export const ItemPost = obc(
   },
   COMPONENT
 )
+
+export default ItemPost

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-21 10:09:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:50:45
+ * @Last Modified time: 2024-08-02 02:39:56
  */
 import React from 'react'
 import { SafeAreaView as RNSafeAreaView } from 'react-navigation'
@@ -29,3 +29,5 @@ export const SafeAreaView = ob(
   ),
   COMPONENT
 )
+
+export default SafeAreaView

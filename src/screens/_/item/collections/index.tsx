@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 15:47:16
+ * @Last Modified time: 2024-08-02 03:07:44
  */
 import React from 'react'
 import { ob } from '@utils/decorators'
@@ -90,3 +90,5 @@ export const ItemCollections = ob(
   },
   COMPONENT
 )
+
+export default ItemCollections

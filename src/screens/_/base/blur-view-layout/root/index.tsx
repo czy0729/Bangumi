@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:16:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:07:42
+ * @Last Modified time: 2024-08-01 23:37:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,3 +29,5 @@ export const BlurViewRoot = ({ children }) => {
     <HardwareTextureRootBlurView style={_.container.flex}>{children}</HardwareTextureRootBlurView>
   )
 }
+
+export default BlurViewRoot

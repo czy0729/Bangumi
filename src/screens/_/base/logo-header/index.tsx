@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2022-03-15 19:46:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:30:12
+ * @Last Modified time: 2024-08-02 00:06:53
  */
 import React from 'react'
 import { Component, Flex } from '@components'
 import { ob } from '@utils/decorators'
-import { Logo } from '../logo'
+import { Logo } from '../logo/index.lazy'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props as LogoHeaderProps } from './types'
@@ -32,3 +32,5 @@ export const LogoHeader = ob(
   ),
   COMPONENT
 )
+
+export default LogoHeader

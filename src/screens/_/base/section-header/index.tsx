@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-18 16:34:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:51:45
+ * @Last Modified time: 2024-08-02 02:44:47
  */
 import React from 'react'
 import { Component, Flex, Text } from '@components'
@@ -33,3 +33,5 @@ export const SectionHeader = ob(
   },
   COMPONENT
 )
+
+export default SectionHeader

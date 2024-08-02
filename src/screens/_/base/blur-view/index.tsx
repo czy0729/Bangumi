@@ -29,3 +29,5 @@ export const BlurView = ob(({ style, intensity = 100, children, ...other }: Blur
     </Component>
   )
 }, COMPONENT)
+
+export default BlurView

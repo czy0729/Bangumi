@@ -25,3 +25,5 @@ export const Notice = ob(({ style, children }) => {
     </Component>
   )
 }, COMPONENT)
+
+export default Notice

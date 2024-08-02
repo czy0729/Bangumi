@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:52:18
+ * @Last Modified time: 2024-08-02 02:46:23
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
@@ -66,3 +66,5 @@ export const SectionTitle = memo(
     }
   }
 )
+
+export default SectionTitle

@@ -6,11 +6,10 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Cover, Flex, Text } from '@components'
 import { x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { CATALOG_WIDTH, WIDTH } from '../ds'
-import { Cover } from '../../../base'
 import { memoStyles } from './styles'
 import { Props } from './types'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:16:36
+ * @Last Modified time: 2024-08-02 03:16:29
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -47,10 +47,11 @@ export const IconExpand = ({ style, expand = false, color }: IconExpandProps) =>
 
   return useObserver(() => (
     <Component id='icon-expand'>
-      {/* @ts-expect-error */}
       <Animated.View style={styles}>
         <Iconfont name='md-navigate-next' size={22} color={color || _.colorIcon} />
       </Animated.View>
     </Component>
   ))
 }
+
+export default IconExpand

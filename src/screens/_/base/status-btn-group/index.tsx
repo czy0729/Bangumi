@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 21:26:07
+ * @Last Modified time: 2024-08-02 02:48:12
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
@@ -72,3 +72,5 @@ export const StatusBtnGroup = ({
     )
   })
 }
+
+export default StatusBtnGroup

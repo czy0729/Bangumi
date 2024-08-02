@@ -74,3 +74,5 @@ export const OnairProgress = ({
     )
   })
 }
+
+export default OnairProgress

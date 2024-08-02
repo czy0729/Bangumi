@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-18 16:57:11
+ * @Last Modified time: 2024-08-02 03:05:58
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Text, Touchable } from '@components'
+import { Component, Cover, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { Cover, InView, Tag } from '../../base'
+import { InView, Tag } from '../../base'
 import { COMPONENT, IMG_WIDTH, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemCharacterProps } from './types'
@@ -154,3 +154,5 @@ export const ItemCharacter = obc(
   },
   COMPONENT
 )
+
+export default ItemCharacter

@@ -2,22 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 11:46:56
+ * @Last Modified time: 2024-08-02 00:21:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Popover } from 'react-native-popable'
-import { Component, Flex, Portal, Skeleton, Text, Touchable } from '@components'
+import { Component, Cover, Flex, Portal, Skeleton, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, subjectStore, systemStore, uiStore } from '@stores'
 import { cnjp, navigationReference } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
-import { BlurView } from '../blur-view'
-import { Cover } from '../cover'
-import { Rank } from '../rank'
-import { Stars } from '../stars'
+import { BlurView } from '../blur-view/index.lazy'
+import { Rank } from '../rank/index.lazy'
+import { Stars } from '../stars/index.lazy'
 import { getPosition } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -117,3 +116,5 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
     </Component>
   )
 }, COMPONENT)
+
+export default Popable

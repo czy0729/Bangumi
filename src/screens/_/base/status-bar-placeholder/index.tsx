@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 14:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:55:28
+ * @Last Modified time: 2024-08-02 03:27:18
  */
 import React from 'react'
 import Constants from 'expo-constants'
@@ -14,6 +14,8 @@ import { COMPONENT } from './ds'
 import { Props as StatusBarPlaceholderProps } from './types'
 
 export { StatusBarPlaceholderProps }
+
+console.log('StatusBarPlaceholder')
 
 /** 状态栏高度占位 */
 export const StatusBarPlaceholder = ob(({ style }: StatusBarPlaceholderProps) => {
@@ -31,3 +33,5 @@ export const StatusBarPlaceholder = ob(({ style }: StatusBarPlaceholderProps) =>
     />
   )
 }, COMPONENT)
+
+export default StatusBarPlaceholder

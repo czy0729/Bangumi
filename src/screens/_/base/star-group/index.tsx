@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 13:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:53:06
+ * @Last Modified time: 2024-08-02 02:46:48
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
@@ -134,3 +134,5 @@ export const StarGroup = ob(
   },
   COMPONENT
 )
+
+export default StarGroup

@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react'
 import { Text } from '@components'
 import { useObserver } from '@utils/hooks'
 import { memoStyles } from '../styles'
-import { VerticalAlign } from '../../vertical-align'
+import { VerticalAlign } from '../../vertical-align/index.lazy'
 
 function VerticalAlignWithRemoveSpec({
   text,

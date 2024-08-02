@@ -6,17 +6,16 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Iconfont, Input } from '@components'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
+import { Cover, Flex, Iconfont, Input, Text } from '@components'
 import { _, collectionStore } from '@stores'
 import { HTMLDecode, keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
-import { PaginationList2 } from '../../pagination-list-2'
-import { Cover } from '../../cover'
-import { Popover } from '../../popover'
-import { Tag } from '../../tag'
-import { IconTouchable } from '../../../icon/touchable'
-import { WIDTH, HEIGHT, CONTROL_DS } from '../ds'
+import { CONTROL_DS, HEIGHT, WIDTH } from '../ds'
+import { IconTouchable } from '../../../icon'
+import { PaginationList2 } from '../../pagination-list-2/index.lazy'
+import { Popover } from '../../popover/index.lazy'
+import { Tag } from '../../tag/index.lazy'
 import { memoStyles } from './styles'
 
 function Subjects({
@@ -80,14 +79,7 @@ function Subjects({
                   {HTMLDecode(i.title)}
                 </Text>
               </View>
-              <Text
-                style={_.mt.xs}
-                size={9}
-                lineHeight={12}
-                type='sub'
-                bold
-                numberOfLines={2}
-              >
+              <Text style={_.mt.xs} size={9} lineHeight={12} type='sub' bold numberOfLines={2}>
                 [{i.order}] {i.info}
               </Text>
               {!isEditing && !!i.comment && (

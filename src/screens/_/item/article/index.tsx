@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 12:26:08
+ * @Last Modified time: 2024-08-02 03:00:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Text, Touchable, UserStatus } from '@components'
+import { Avatar, Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { appNavigate, date, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../../base'
+import { Name } from '../../base'
 import { COMPONENT, Y } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemArticleProps } from './types'
@@ -76,3 +76,5 @@ export const ItemArticle = ob(
   },
   COMPONENT
 )
+
+export default ItemArticle

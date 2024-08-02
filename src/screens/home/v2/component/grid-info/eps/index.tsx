@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Eps as CompEps } from '@_'
+import { Eps as EpsComp } from '@_'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { InferArray } from '@types'
@@ -21,7 +21,7 @@ function Eps({ subjectId }, { $, navigation }: Ctx) {
 
   return (
     <View style={styles.eps}>
-      <CompEps
+      <EpsComp
         grid
         numbersOfLine={
           _.isMobileLanscape

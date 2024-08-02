@@ -11,8 +11,8 @@ import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
-import { IconTouchable } from '../../icon'
-import { BlurView } from '../blur-view'
+import { IconTouchable } from '../../icon/touchable'
+import { BlurView } from '../blur-view/index.lazy'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 
@@ -56,3 +56,5 @@ export const ErrorNotice = () => {
     )
   })
 }
+
+export default ErrorNotice

@@ -27,3 +27,5 @@ export const IconReverse = ob(
   ),
   COMPONENT
 )
+
+export default IconReverse

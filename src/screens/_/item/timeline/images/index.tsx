@@ -6,14 +6,13 @@
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Flex, Touchable } from '@components'
+import { Cover, Flex, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { AVATAR_COVER_WIDTH } from '../ds'
-import { Cover } from '../../../base'
 import { matchSubjectId } from '../utils'
 import { styles } from './styles'
 

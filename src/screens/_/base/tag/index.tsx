@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 05:06:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:57:23
+ * @Last Modified time: 2024-08-02 02:49:33
  */
 import React from 'react'
 import { Component, Flex, Text, TextType } from '@components'
@@ -47,3 +47,5 @@ export const Tag = ob(({ style, type, value, size = 10, align = 'center', childr
     </Component>
   )
 }, COMPONENT)
+
+export default Tag

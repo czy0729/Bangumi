@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, RenderHtml, UserStatus } from '@components'
+import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate, HTMLDecode, open } from '@utils'
 import { obc } from '@utils/decorators'
-import { Avatar, Name } from '../../../base'
+import { Name } from '../../../base'
 import { memoStyles } from './styles'
 
 const avatarWidth = 20

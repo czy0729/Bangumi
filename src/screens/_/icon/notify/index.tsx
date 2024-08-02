@@ -76,3 +76,5 @@ export const IconNotify = ob(
   },
   COMPONENT
 )
+
+export default IconNotify

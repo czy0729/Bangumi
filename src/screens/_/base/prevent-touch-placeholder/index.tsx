@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 06:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:48:46
+ * @Last Modified time: 2024-08-02 00:22:04
  */
 import React from 'react'
 import { Component } from '@components'
@@ -15,3 +15,5 @@ export const PreventTouchPlaceholder = ob(
   () => <Component id='base-prevent-touch-placeholder' style={styles.preventTouchPlaceholder} />,
   COMPONENT
 )
+
+export default PreventTouchPlaceholder

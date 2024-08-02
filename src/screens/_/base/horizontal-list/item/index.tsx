@@ -6,12 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Touchable } from '@components'
+import { Cover, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { SubjectTypeCn } from '@types'
-import { Cover } from '../../cover'
 import Desc from './desc'
 import Title from './title'
 import { HIT_SLOP } from './ds'

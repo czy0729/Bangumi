@@ -116,3 +116,5 @@ export const ItemSetting = ob(
   },
   COMPONENT
 )
+
+export default ItemSetting

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:05:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:08:50
+ * @Last Modified time: 2024-08-01 23:38:01
  */
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
@@ -22,3 +22,5 @@ export const BlurViewBottomTab = () => {
 
   return null
 }
+
+export default BlurViewBottomTab

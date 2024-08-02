@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-03 03:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:31:08
+ * @Last Modified time: 2024-08-02 03:13:55
  */
 import React from 'react'
 import { Component, Flex, Text, Touchable } from '@components'
@@ -81,3 +81,5 @@ export const ItemSubject = ob(
   },
   COMPONENT
 )
+
+export default ItemSubject

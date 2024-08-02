@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-30 20:45:02
+ * @Last Modified time: 2024-08-02 03:05:28
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Highlight, Text, Touchable, UserStatus } from '@components'
+import { Avatar, Component, Flex, Highlight, Text, Touchable, UserStatus } from '@components'
 import { _, discoveryStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { Avatar, InView } from '../../base'
+import { InView } from '../../base'
 import Covers from './covers'
 import { AVATAR_WIDTH, COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
@@ -168,3 +168,5 @@ export const ItemCatalog = obc(
   },
   COMPONENT
 )
+
+export default ItemCatalog

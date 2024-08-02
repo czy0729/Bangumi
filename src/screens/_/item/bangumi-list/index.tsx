@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:13:58
+ * @Last Modified time: 2024-08-02 03:03:06
  */
 import React from 'react'
-import { Component, Text, Touchable } from '@components'
+import { Component, Cover, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { HTMLDecode, stl, x18 } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { Cover } from '../../base'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemBangumiListProps } from './types'
@@ -53,3 +52,5 @@ export const ItemBangumiList = ob(
   },
   COMPONENT
 )
+
+export default ItemBangumiList

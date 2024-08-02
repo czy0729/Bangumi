@@ -6,10 +6,9 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { UserStatus } from '@components'
+import { Avatar as AvatarComp, UserStatus } from '@components'
 import { ob } from '@utils/decorators'
 import { AVATAR_WIDTH } from '../ds'
-import { Avatar as AvatarComp } from '../../../base'
 import { memoStyles } from './styles'
 
 function Avatar({ navigation, p1Text, userId, avatarSrc, event }) {

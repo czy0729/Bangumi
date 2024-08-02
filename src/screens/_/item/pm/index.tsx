@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 07:19:33
+ * @Last Modified time: 2024-08-02 03:10:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Text, Touchable } from '@components'
+import { Avatar, Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { Avatar, InView, Name } from '../../base'
+import { InView, Name } from '../../base'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemPMProps } from './types'
@@ -111,3 +111,5 @@ export const ItemPM = ob(
   },
   COMPONENT
 )
+
+export default ItemPM

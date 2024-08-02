@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-24 13:59:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:21:49
+ * @Last Modified time: 2024-08-02 03:08:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import Progress from '@ant-design/react-native/lib/progress'
-import { Component, Flex, Text, Touchable, UserStatus } from '@components'
+import { Avatar, Component, Flex, Text, Touchable, UserStatus } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
-import { Avatar } from '../../base'
 import Counts from './counts'
 import Name from './name'
 import { COMPONENT } from './ds'
@@ -101,3 +100,5 @@ export const ItemFriends = ob(
   },
   COMPONENT
 )
+
+export default ItemFriends

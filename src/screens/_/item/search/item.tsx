@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
+import { Cover, Flex, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl, x18 } from '@utils'
@@ -19,7 +19,7 @@ import {
   STORYBOOK
 } from '@constants'
 import { CollectionStatus } from '@types'
-import { Cover, InView, Manage, Rank, Stars, Tag } from '../../base'
+import { InView, Manage, Rank, Stars, Tag } from '../../base'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 

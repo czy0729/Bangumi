@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:49:23
+ * @Last Modified time: 2024-08-02 02:33:07
  */
 import React from 'react'
 import { Component, Text } from '@components'
@@ -43,3 +43,5 @@ export const Rank = ob(({ style, size = 10, value }: RankProps) => {
     </Component>
   )
 }, COMPONENT)
+
+export default Rank

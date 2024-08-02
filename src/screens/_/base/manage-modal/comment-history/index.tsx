@@ -5,9 +5,9 @@
  * @Last Modified time: 2023-02-18 04:42:21
  */
 import React from 'react'
-import { ActionSheet, Touchable, Flex, Text } from '@components'
-import { useObserver, useBoolean } from '@utils/hooks'
-import { IconTouchable } from '../../../icon/touchable'
+import { ActionSheet, Flex, Text, Touchable } from '@components'
+import { useBoolean, useObserver } from '@utils/hooks'
+import { IconTouchable } from '../../../icon'
 import { memoStyles } from './styles'
 
 function CommentHistory({
@@ -38,10 +38,7 @@ function CommentHistory({
           {data.map((item, index) => (
             <Flex key={index} style={styles.commentHistory}>
               <Flex.Item>
-                <Touchable
-                  style={styles.commentHistoryItem}
-                  onPress={() => onSelect(item)}
-                >
+                <Touchable style={styles.commentHistoryItem} onPress={() => onSelect(item)}>
                   <Text lineHeight={18}>{item}</Text>
                 </Touchable>
               </Flex.Item>

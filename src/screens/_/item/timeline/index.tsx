@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:31:37
+ * @Last Modified time: 2024-08-02 03:14:17
  */
 import React from 'react'
 import { Component } from '@components'
@@ -78,3 +78,5 @@ export const ItemTimeline = ob(
   },
   COMPONENT
 )
+
+export default ItemTimeline

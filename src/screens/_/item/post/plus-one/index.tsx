@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, RenderHtml, Text, UserStatus } from '@components'
+import { Avatar, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate, HTMLDecode, open } from '@utils'
 import { obc } from '@utils/decorators'
-import { Avatar, Name } from '../../../base'
+import { Name } from '../../../base'
 import UserLabel from '../user-label'
 import { memoStyles } from './styles'
 import { Props } from './types'

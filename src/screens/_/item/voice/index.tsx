@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:28:53
+ * @Last Modified time: 2024-08-02 03:14:37
  */
 import React from 'react'
-import { Component, Expand, Flex, Image, Text, Touchable } from '@components'
+import { Component, Cover, Expand, Flex, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { cnjp, x18 } from '@utils'
@@ -13,7 +13,7 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useExpandLazy, useObserver } from '@utils/hooks'
 import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
-import { Cover, InView, Tag } from '../../base'
+import { InView, Tag } from '../../base'
 import { AVATAR_SIZE, COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemVoiceProps } from './types'
@@ -151,3 +151,5 @@ export const ItemVoice = ({
     )
   })
 }
+
+export default ItemVoice

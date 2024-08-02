@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 08:43:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:51:14
+ * @Last Modified time: 2024-08-02 02:41:15
  */
 import React from 'react'
 import { Component, Flex, Text } from '@components'
@@ -28,3 +28,5 @@ export const ScoreTag = ob(({ style, value = 0 }: ScoreTagProps) => {
     </Component>
   )
 }, COMPONENT)
+
+export default ScoreTag

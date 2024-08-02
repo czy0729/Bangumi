@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 02:49:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 20:04:32
+ * @Last Modified time: 2024-08-02 00:12:53
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,16 @@ import { Flex, Text, Touchable } from '@components'
 import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
-import { IconTouchable } from '../../icon'
-import { BlurView } from '../blur-view'
+import { IconTouchable } from '../../icon/touchable'
+import { BlurView } from '../blur-view/index.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props as LoginNoticeProps } from './types'
+
+export { LoginNoticeProps }
 
 /** 重新登录轻提示 */
-export const LoginNotice = ({ navigation }: { navigation: Navigation }) => {
+export const LoginNotice = ({ navigation }: LoginNoticeProps) => {
   r(COMPONENT)
 
   const { bottom } = useSafeAreaInsets()
@@ -60,3 +62,5 @@ export const LoginNotice = ({ navigation }: { navigation: Navigation }) => {
     )
   })
 }
+
+export default LoginNotice

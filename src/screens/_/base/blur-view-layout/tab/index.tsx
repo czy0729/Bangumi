@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-11 12:24:58
+ * @Last Modified time: 2024-08-01 23:37:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,3 +49,5 @@ export const BlurViewTab = ob(({ length = 0 }) => {
     />
   )
 }, COMPONENT)
+
+export default BlurViewTab

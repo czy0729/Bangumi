@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:22:53
+ * @Last Modified time: 2024-08-02 00:00:47
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
@@ -10,7 +10,7 @@ import { Component, Portal } from '@components'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { LIKE_TYPE_TIMELINE } from '@constants'
-import { BlurView } from '../blur-view'
+import { BlurView } from '../blur-view/index.lazy'
 import Grid from './grid'
 import { getPosition } from './utils'
 import { COMPONENT, DATA, DATA_TIMELINE } from './ds'
@@ -68,3 +68,5 @@ export const LikesGrid = ob(
   },
   COMPONENT
 )
+
+export default LikesGrid

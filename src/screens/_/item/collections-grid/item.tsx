@@ -5,13 +5,13 @@
  * @Last Modified time: 2024-07-22 05:28:05
  */
 import React from 'react'
-import { Component, Flex, Text, Touchable } from '@components'
+import { Component, Cover, Flex, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
 import { cnjp, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Cover, Rank, Stars } from '../../base'
+import { Rank, Stars } from '../../base'
 import Collection from './collection'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
 

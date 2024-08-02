@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator()
 
 function BottomTabNavigator() {
   return useObserver(() => {
-    const { homeRenderTabs, tinygrail } = systemStore.setting
+    const { homeRenderTabs } = systemStore.setting
     return (
       <Tab.Navigator
         initialRouteName={getInitialRouteName()}
@@ -37,7 +37,7 @@ function BottomTabNavigator() {
           <Tab.Screen name='Rakuen' getComponent={() => Rakuen} />
         )}
         <Tab.Screen name='User' getComponent={() => User} />
-        {homeRenderTabs.includes('Tinygrail') && tinygrail && (
+        {homeRenderTabs.includes('Tinygrail') && systemStore.setting.tinygrail && (
           <Tab.Screen
             name='Tinygrail'
             getComponent={() => Tinygrail}

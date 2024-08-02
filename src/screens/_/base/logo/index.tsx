@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:29:42
+ * @Last Modified time: 2024-08-02 00:04:13
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Touchable } from '@components'
@@ -65,3 +65,5 @@ export const Logo = obc(
   ),
   COMPONENT
 )
+
+export default Logo

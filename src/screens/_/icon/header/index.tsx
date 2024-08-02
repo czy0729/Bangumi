@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-24 04:34:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:17:14
+ * @Last Modified time: 2024-08-02 03:17:11
  */
 import React from 'react'
 import { Component, Iconfont, Touchable } from '@components'
@@ -26,3 +26,5 @@ export const IconHeader = ob(
   ),
   COMPONENT
 )
+
+export default IconHeader

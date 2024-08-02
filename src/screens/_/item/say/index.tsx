@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:37:22
+ * @Last Modified time: 2024-08-02 03:11:18
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, RenderHtml, Text, UserStatus } from '@components'
+import { Avatar, Component, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { EVENT } from '@constants'
-import { Avatar, Name } from '../../base'
+import { Name } from '../../base'
 import { getBgmHtml } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -136,3 +136,5 @@ export const ItemSay = obc(
   },
   COMPONENT
 )
+
+export default ItemSay

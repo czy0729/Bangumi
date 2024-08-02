@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-02 22:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:01:45
+ * @Last Modified time: 2024-08-02 02:52:42
  */
 import { useEffect } from 'react'
 import { Component } from '@components'
@@ -31,3 +31,5 @@ export const TapListener = ({ children }) => {
     </Component>
   )
 }
+
+export default TapListener

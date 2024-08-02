@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:56:57
+ * @Last Modified time: 2024-08-02 02:49:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -274,3 +274,5 @@ export const StockPreview = ob(
   },
   COMPONENT
 )
+
+export default StockPreview

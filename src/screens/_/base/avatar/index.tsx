@@ -8,3 +8,5 @@ import { Avatar, AvatarProps } from '@components'
 
 /** 已迁移到 components */
 export { Avatar, AvatarProps }
+
+export default Avatar

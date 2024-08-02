@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:17:14
+ * @Last Modified time: 2024-08-01 23:15:57
  */
 import React, { useState } from 'react'
 import { Linking, View } from 'react-native'
@@ -18,7 +18,7 @@ import { Props as FolderSMBProps } from './types'
 
 export { FolderSMBProps }
 
-function Comp({ styles, smb, folder }: FolderSMBProps) {
+function FolderSMBComp({ styles, smb, folder }: FolderSMBProps) {
   const [showFolder, setShowFolder] = useState(false)
   const path = []
   path.push(smb.port ? `${smb.ip}:${smb.port}` : smb.ip, smb.sharedFolder)
@@ -128,7 +128,9 @@ export const FolderSMB = obc(
   }: FolderSMBProps) => {
     if (!smb?.uuid || !folder?.name || !folder?.list?.length) return null
 
-    return <Comp styles={memoStyles()} smb={smb} folder={folder} />
+    return <FolderSMBComp styles={memoStyles()} smb={smb} folder={folder} />
   },
   COMPONENT
 )
+
+export default FolderSMB

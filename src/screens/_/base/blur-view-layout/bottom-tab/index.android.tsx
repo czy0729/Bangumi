@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 03:36:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:07:16
+ * @Last Modified time: 2024-08-01 23:38:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,3 +51,5 @@ export const BlurViewBottomTab = () => {
     )
   })
 }
+
+export default BlurViewBottomTab

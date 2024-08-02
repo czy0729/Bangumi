@@ -6,14 +6,14 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Iconfont, Input } from '@components'
 import TextareaItem from '@ant-design/react-native/lib/textarea-item'
+import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
-import { Popover } from '../../popover'
-import { IconTouchable } from '../../../icon/touchable'
 import { CONTROL_DS } from '../ds'
+import { IconTouchable } from '../../../icon'
+import { Popover } from '../../popover/index.lazy'
 import { memoStyles } from './styles'
 
 function Catalog({
@@ -69,11 +69,7 @@ function Catalog({
               </Text>
               <Iconfont
                 style={_.ml.sm}
-                name={
-                  expand.includes(item.id)
-                    ? 'md-keyboard-arrow-down'
-                    : 'md-navigate-next'
-                }
+                name={expand.includes(item.id) ? 'md-keyboard-arrow-down' : 'md-navigate-next'}
                 size={22}
                 lineHeight={24}
               />

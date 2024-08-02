@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 21:09:04
+ * @Last Modified time: 2024-08-01 23:41:22
  */
 import React from 'react'
 import { Component } from '@components'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
-import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
+import { PreventTouchPlaceholder } from '../prevent-touch-placeholder/index.lazy'
 import Item from './item'
 import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
@@ -102,3 +102,5 @@ export const HorizontalList = ob(
   },
   COMPONENT
 )
+
+export default HorizontalList

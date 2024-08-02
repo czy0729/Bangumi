@@ -50,3 +50,5 @@ const Popover = ob(PopoverWithMenu, COMPONENT)
 Popover.Old = PopoverOld
 
 export { Popover }
+
+export default Popover

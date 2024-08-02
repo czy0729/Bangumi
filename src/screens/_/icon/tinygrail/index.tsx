@@ -60,3 +60,5 @@ export const IconTinygrail = ob(
   },
   COMPONENT
 )
+
+export default IconTinygrail

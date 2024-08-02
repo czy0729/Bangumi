@@ -6,12 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Iconfont, Text, UserStatus } from '@components'
+import { Avatar, Flex, Iconfont, Text, UserStatus } from '@components'
 import { _, uiStore, userStore } from '@stores'
 import { correctAgo, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
-import { Avatar, Likes, Name, Popover, Stars } from '../../base'
+import { Likes, Name, Popover, Stars } from '../../base'
 import { formatTime } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 

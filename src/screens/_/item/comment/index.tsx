@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-18 07:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-05 18:53:23
+ * @Last Modified time: 2024-08-02 03:08:33
  */
 import React from 'react'
 import { Component } from '@components'
@@ -62,3 +62,5 @@ function ItemCommentWrap({
 }
 
 export const ItemComment = ob(ItemCommentWrap, COMPONENT)
+
+export default ItemComment

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:21:44
+ * @Last Modified time: 2024-08-02 03:19:44
  */
 import React from 'react'
 import { Component, Flex, Iconfont, Text, Touchable } from '@components'
@@ -66,3 +66,5 @@ export const IconTouchable = ob(
   },
   COMPONENT
 )
+
+export default IconTouchable

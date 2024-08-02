@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 14:08:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:50:12
+ * @Last Modified time: 2024-08-02 02:33:19
  */
 import React from 'react'
 import { Component, Text } from '@components'
@@ -26,3 +26,5 @@ export const Rate = ob(
   ),
   COMPONENT
 )
+
+export default Rate

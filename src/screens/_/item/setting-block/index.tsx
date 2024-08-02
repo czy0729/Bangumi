@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 06:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 19:50:08
+ * @Last Modified time: 2024-08-02 03:13:04
  */
 import React from 'react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
@@ -98,3 +98,5 @@ const ItemSettingBlock: IItemSettingBlock = ob(
 ItemSettingBlock.Item = Item
 
 export { ItemSettingBlock }
+
+export default ItemSettingBlock

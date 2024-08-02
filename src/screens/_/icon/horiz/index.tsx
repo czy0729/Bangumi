@@ -21,3 +21,5 @@ export const IconHoriz = ob(
   ),
   COMPONENT
 )
+
+export default IconHoriz

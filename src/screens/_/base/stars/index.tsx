@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:54:15
+ * @Last Modified time: 2024-08-02 02:47:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,3 +98,5 @@ export const Stars = ob(
   },
   COMPONENT
 )
+
+export default Stars

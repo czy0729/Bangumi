@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:39:36
+ * @Last Modified time: 2024-08-02 19:39:33
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -16,13 +16,13 @@ import { Props as PaginationListProps } from './types'
 export { PaginationListProps }
 
 /** @deprecated 更新频率极低 (只认 data.length) 的自动分页的长列表 */
-export const PaginationList = ({
+export const PaginationList = <ItemT extends any[]>({
   forwardRef,
   data,
   limit: _limit = 24,
   onPage,
   ...other
-}: PaginationListProps) => {
+}: PaginationListProps<ItemT>) => {
   r(COMPONENT)
 
   const [list, setList] = useState<ListEmpty>({
@@ -74,3 +74,5 @@ export const PaginationList = ({
     </Component>
   )
 }
+
+export default PaginationList

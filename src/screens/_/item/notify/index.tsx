@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 09:59:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 17:37:59
+ * @Last Modified time: 2024-08-02 03:09:20
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -95,3 +95,5 @@ export const ItemNotify = ob(
   },
   COMPONENT
 )
+
+export default ItemNotify

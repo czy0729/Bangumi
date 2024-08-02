@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-20 22:29:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:27:33
+ * @Last Modified time: 2024-08-02 00:02:33
  */
 import React from 'react'
 import { Button, Component, Text } from '@components'
@@ -32,3 +32,5 @@ export const Login = obc(
   ),
   COMPONENT
 )
+
+export default Login

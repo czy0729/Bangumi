@@ -7,7 +7,7 @@
 import React from 'react'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { StatusBtnGroup } from '../../status-btn-group'
+import { StatusBtnGroup } from '../../status-btn-group/index.lazy'
 import { Props } from './types'
 
 function Status({ status, action, onSelect }: Props) {

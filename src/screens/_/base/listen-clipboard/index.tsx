@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-11 11:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 16:34:30
+ * @Last Modified time: 2024-08-02 00:01:43
  */
 import React from 'react'
 import { AppState, AppStateStatus, Clipboard, NativeEventSubscription } from 'react-native'
@@ -75,3 +75,5 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
     return <Component id='base-listen-clipboard' />
   }
 }
+
+export default ListenClipboard

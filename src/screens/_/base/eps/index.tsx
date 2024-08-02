@@ -23,3 +23,5 @@ export const Eps = ob(
   ),
   COMPONENT
 )
+
+export default Eps

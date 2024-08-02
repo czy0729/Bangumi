@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 00:48:20
+ * @Last Modified time: 2024-08-02 00:09:35
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -15,9 +15,11 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { getDates } from './utils'
 import { COMPONENT } from './ds'
 import { MARGIN, memoStyles, PX } from './styles'
-import { MosaicTileType } from './types'
+import { Props as MosaicTileProps } from './types'
 
-export const MosaicTile = ob(({ mosaicTile }: { mosaicTile: MosaicTileType }) => {
+export { MosaicTileProps }
+
+export const MosaicTile = ob(({ mosaicTile }: MosaicTileProps) => {
   if (!mosaicTile) return null
 
   const styles = memoStyles()
@@ -156,3 +158,5 @@ export const MosaicTile = ob(({ mosaicTile }: { mosaicTile: MosaicTileType }) =>
     </Flex>
   )
 }, COMPONENT)
+
+export default MosaicTile

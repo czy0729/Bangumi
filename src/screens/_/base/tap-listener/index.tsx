@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:00:12
+ * @Last Modified time: 2024-08-02 02:50:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -42,3 +42,5 @@ export const TapListener = ob(
   ),
   COMPONENT
 )
+
+export default TapListener

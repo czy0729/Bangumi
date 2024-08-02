@@ -71,3 +71,5 @@ export const FilterSwitch = obc(
   },
   COMPONENT
 )
+
+export default FilterSwitch

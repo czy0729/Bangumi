@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Flex, Text, UserStatus } from '@components'
+import { Avatar, Component, Flex, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import {
   getIsBlocked,
@@ -19,7 +19,7 @@ import {
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
-import { Avatar, Likes, Name } from '../../../base'
+import { Likes, Name } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 16:34:16
+ * @Last Modified time: 2024-08-01 23:13:44
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
@@ -29,6 +29,7 @@ import { IconTouchable } from '../../icon/touchable'
 import Catalog from './catalog'
 import Create from './create'
 import Subjects from './subjects'
+import { fixedOrder } from './utils'
 import { COMPONENT, STORAGE_KEY } from './ds'
 import { memoStyles } from './styles'
 import { Props as FolderManageModalProps, State } from './types'
@@ -714,7 +715,4 @@ export const FolderManageModal = ob(
   }
 )
 
-function fixedOrder(order) {
-  const _order = Number(order)
-  return Number.isNaN(_order) ? 10 : _order
-}
+export default FolderManageModal
