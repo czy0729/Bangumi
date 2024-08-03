@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:27:45
+ * @Last Modified time: 2024-08-04 05:47:03
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -56,6 +56,7 @@ function Preview(
         src={item.replace('img1.doubanio.com', 'img2.doubanio.com')}
         autoHeight={IMAGE_HEIGHT}
         headers={epsThumbsHeader}
+        radius={_.radiusSm}
         errorToHide
       />
     </Touchable>

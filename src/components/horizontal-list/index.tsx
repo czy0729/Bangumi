@@ -52,12 +52,11 @@ export const HorizontalList = observer(
     }
 
     get initialRenderNums() {
-      const { initialRenderNums } = this.props
-      return initialRenderNums * (_.isLandscape ? 2 : 1)
+      return this.props.initialRenderNums * (_.isLandscape ? 2 : 1)
     }
 
     get show() {
-      return !this.props.onEndReachedOnce && (!this.initialRenderNums || this.state.scrolled)
+      return !this.initialRenderNums || this.state.scrolled
     }
 
     get data() {

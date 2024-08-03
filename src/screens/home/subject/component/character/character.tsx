@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 01:58:36
+ * @Last Modified time: 2024-08-04 04:59:52
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -42,7 +42,7 @@ const Character = memo(
               data={crt.map((item: any) => {
                 try {
                   let image = item?.image || ''
-                  if (item?.image?.includes('/r/')) {
+                  if (item?.image?.includes?.('/r/')) {
                     image = `https://lain.bgm.tv/pic/crt/g/${item.image.split('/l/')?.[1]}` || ''
                   }
                   return {

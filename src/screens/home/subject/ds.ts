@@ -47,3 +47,11 @@ export const TITLE_LIKE = '猜你喜欢'
 export const TITLE_RECENT = '动态'
 
 export const TITLE_COMMENT = '吐槽'
+
+export const TEXT_LIKES = '贴贴'
+
+export const TEXT_COPY_COMMENT = '复制评论'
+
+export const TEXT_BLOCK_USER = '屏蔽用户'
+
+export const TEXT_IGNORE_USER = '绝交'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 01:09:16
+ * @Last Modified time: 2024-08-04 05:02:26
  */
 import {
   collectionStore,
@@ -245,9 +245,7 @@ export default class Fetch extends Computed {
       SITES.forEach(item => (epsData[item] = {}))
       JSON.parse(_response).eps.forEach((item: any, index: number) => {
         item.sites.forEach((i: any) => {
-          if (SITES.includes(i.site)) {
-            epsData[i.site][index] = i.url
-          }
+          if (SITES.includes(i.site)) epsData[i.site][index] = i.url
         })
       })
 

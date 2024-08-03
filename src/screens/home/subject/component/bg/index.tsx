@@ -10,7 +10,7 @@ import { getCover400 } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS, TEXT_ONLY } from '@constants'
 import { Ctx } from '../../types'
-import Bg from './bg.lazy'
+import Bg from './bg'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

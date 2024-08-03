@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_SUMMARY } from '../../ds'
 import { Ctx } from '../../types'
-import Summary from './summary.lazy'
+import Summary from './summary'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

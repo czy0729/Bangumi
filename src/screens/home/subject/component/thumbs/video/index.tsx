@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 19:18:15
+ * @Last Modified time: 2024-08-04 05:47:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,7 +26,7 @@ function Video({ item, epsThumbsHeader, showTitle }) {
           size={THUMB_WIDTH}
           height={THUMB_HEIGHT}
           headers={epsThumbsHeader}
-          radius={_.radiusMd}
+          radius={_.radiusSm}
         />
         <View style={styles.play}>
           <View style={styles.touch}>

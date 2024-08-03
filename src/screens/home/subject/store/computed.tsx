@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 12:13:30
+ * @Last Modified time: 2024-08-04 05:43:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -98,7 +98,10 @@ export default class Computed extends State {
 
   /** 用户自定义播放信息 */
   @computed get onAirCustom() {
-    return getOnAir(calendarStore.onAir[this.subjectId], calendarStore.onAirUser(this.subjectId))
+    return getOnAir(
+      calendarStore.onAirLocal(this.subjectId),
+      calendarStore.onAirUser(this.subjectId)
+    )
   }
 
   /** 屏蔽默认头像用户相关信息 */
@@ -186,12 +189,12 @@ export default class Computed extends State {
         list: subjectComments.list.filter(item => {
           if (filterScores.length) {
             return (
-              !item.avatar.includes(URL_DEFAULT_AVATAR) &&
+              !item.avatar?.includes?.(URL_DEFAULT_AVATAR) &&
               Number(item.star) >= Number(filterScores[0]) &&
               Number(item.star) <= Number(filterScores[1])
             )
           }
-          return !item.avatar.includes(URL_DEFAULT_AVATAR)
+          return !item.avatar?.includes?.(URL_DEFAULT_AVATAR)
         }),
         version: subjectComments.version || false
       }
@@ -332,9 +335,7 @@ export default class Computed extends State {
       if (systemStore?.ota?.X18 && this.isLogin) {
         let flagX18: boolean
         if (this.nsfw) flagX18 = true
-        if (!flagX18) {
-          flagX18 = this.tags.some(item => item.name.includes('里番'))
-        }
+        if (!flagX18) flagX18 = this.tags.some(item => item.name?.includes?.('里番'))
 
         // hanime
         if (flagX18) {
@@ -845,11 +846,11 @@ export default class Computed extends State {
 
   /** 标签 */
   @computed get tags() {
-    return (
+    const value =
       (this.subjectFormHTML._loaded
         ? this.subjectFormHTML.tags
         : this.subjectFromOSS.tags || this.subjectFormCDN.tags) || []
-    ).filter(item => !!item.name)
+    return value.some(item => !item.name) ? value.filter(item => !!item.name) : value
   }
 
   /** 网页版详情 */
@@ -1105,7 +1106,7 @@ export default class Computed extends State {
   @computed get filterCatalog() {
     let catalog = this.catalog
     if (this.filterDefault || this.isLimit) {
-      catalog = catalog.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+      catalog = catalog.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
     }
     return catalog
   }
@@ -1115,7 +1116,7 @@ export default class Computed extends State {
     let blog = this.subject.blog || []
     if (this.filterDefault || this.isLimit) {
       blog = blog.filter(item => {
-        if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) return false
+        if (item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR)) return false
         return true
       })
     }
@@ -1159,7 +1160,7 @@ export default class Computed extends State {
     let topic = this.subject.topic || []
     if (this.filterDefault || this.isLimit) {
       topic = topic.filter(item => {
-        if (item?.user?.avatar?.small.includes(URL_DEFAULT_AVATAR)) return false
+        if (item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR)) return false
         return true
       })
     }
@@ -1201,7 +1202,7 @@ export default class Computed extends State {
   @computed get filterRecent() {
     let who = this.subjectFormHTML.who || []
     if (this.filterDefault || this.isLimit) {
-      who = who.filter(item => !item.avatar.includes(URL_DEFAULT_AVATAR))
+      who = who.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
     }
     return who
   }

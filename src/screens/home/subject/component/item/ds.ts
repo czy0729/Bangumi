@@ -5,8 +5,8 @@
  * @Last Modified time: 2024-02-03 16:40:18
  */
 import { rc } from '@utils/dev'
+import { TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../../ds'
 import { COMPONENT as PARENT } from '../ds'
-import { TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../../store/ds'
 
 export const COMPONENT = rc(PARENT, 'Item')
 

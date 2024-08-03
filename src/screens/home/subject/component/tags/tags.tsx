@@ -2,135 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 12:13:25
+ * @Last Modified time: 2024-08-04 05:50:22
  */
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Iconfont, ScrollView, Text, Touchable } from '@components'
+import { Flex, Heatmap, Iconfont, ScrollView, Touchable } from '@components'
 import { PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectType } from '@types'
 import { TITLE_TAGS } from '../../ds'
 import IconGame from '../icon/game'
 import IconHidden from '../icon/hidden'
-import Block from './block'
 import RecSegement from './rec-segment'
-import Typerank from './typerank'
-import { exist } from './typerank/utils'
+import TagsList from './tags-list'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { styles } from './styles'
 
 const Tags = memo(
-  ({
-    navigation,
-    styles,
-    subjectId,
-    subjectType,
-    showTags,
-    subjectTagsExpand,
-    subjectTagsRec,
-    rank,
-    focusOrigin,
-    tag,
-    tags,
-    animeTags,
-    // hentaiTags,
-    gameTags,
-    mangaTags,
-    wenkuTags,
-    onSwitchBlock
-  }) => {
-    const [expand, setExpand] = useState(false)
-
-    const elTags = (
-      <>
-        {tags
-          .filter((item, index) => (expand ? true : index < 16))
-          .map(({ name, count }, index) => {
-            const isSelected = tag.includes(name)
-            const showTyperank = !!rank && subjectTagsRec
-            return (
-              <Touchable
-                key={index}
-                animate
-                scale={0.9}
-                onPress={() => {
-                  if (
-                    showTyperank &&
-                    exist(MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType), name)
-                  ) {
-                    t('条目.跳转', {
-                      to: 'Typerank',
-                      from: TITLE_TAGS,
-                      subjectId
-                    })
-
-                    navigation.push('Typerank', {
-                      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
-                      tag: name,
-                      subjectId
-                    })
-                    return
-                  }
-
-                  t('条目.跳转', {
-                    to: 'Tag',
-                    from: TITLE_TAGS,
-                    subjectId
-                  })
-
-                  navigation.push('Tag', {
-                    type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectType),
-                    tag: name
-                  })
-                }}
-              >
-                <Flex style={stl(styles.item, isSelected && styles.selected)}>
-                  <Text type={_.select('desc', isSelected ? 'main' : 'desc')} size={13} bold>
-                    {name}
-                  </Text>
-                  {showTyperank ? (
-                    <Typerank tag={name} />
-                  ) : (
-                    <Text
-                      type={_.select('sub', isSelected ? 'main' : 'sub')}
-                      size={12}
-                      lineHeight={13}
-                      bold
-                    >
-                      {' '}
-                      {count}
-                    </Text>
-                  )}
-                </Flex>
-              </Touchable>
-            )
-          })}
-        {!expand && tags.length > 16 && (
-          <Touchable
-            animate
-            scale={0.9}
-            onPress={() => {
-              setExpand(true)
-            }}
-          >
-            <Flex style={styles.item}>
-              <Iconfont name='md-more-horiz' size={16} color={_.colorSub} />
-            </Flex>
-          </Touchable>
-        )}
-        <Block path='Anime' tags={animeTags} />
-        {/* <Block path='Hentai' tags={hentaiTags} /> */}
-        <Block path='Game' tags={gameTags} />
-        <Block path='Manga' tags={mangaTags} />
-        <Block path='Wenku' tags={wenkuTags} />
-      </>
-    )
-
-    const show = showTags && !!tags.length
+  ({ show, showTags, subjectTagsExpand, rank, focusOrigin, onSwitchBlock }) => {
     return (
       <View style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}>
         <SectionTitle
@@ -153,15 +43,22 @@ const Tags = memo(
         {show && (
           <>
             {subjectTagsExpand ? (
-              <View style={_.container.windMtSm}>
+              <View
+                style={[
+                  _.container.windMtSm,
+                  {
+                    minHeight: 64
+                  }
+                ]}
+              >
                 <Flex wrap='wrap' align='start'>
-                  {elTags}
+                  <TagsList />
                 </Flex>
                 <Heatmap id='条目.跳转' from={TITLE_TAGS} />
               </View>
             ) : (
               <ScrollView style={_.mt.md} contentContainerStyle={_.container.wind} horizontal>
-                {elTags}
+                <TagsList />
               </ScrollView>
             )}
           </>

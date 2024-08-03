@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:23:58
+ * @Last Modified time: 2024-08-04 05:00:35
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -64,8 +64,8 @@ class Thumbs extends React.Component<{
   get reference() {
     const { $ } = this.context as Ctx
     const { epsThumbsHeader } = $.state
-    if (epsThumbsHeader?.Referer?.includes('douban.com')) return 'douban.com'
-    if (epsThumbsHeader?.Referer?.includes('bilibili.com')) return 'bilibili.com'
+    if (epsThumbsHeader?.Referer?.includes?.('douban.com')) return 'douban.com'
+    if (epsThumbsHeader?.Referer?.includes?.('bilibili.com')) return 'bilibili.com'
     return ''
   }
 

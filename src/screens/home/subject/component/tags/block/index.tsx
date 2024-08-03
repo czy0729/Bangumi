@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 09:04:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 20:41:37
+ * @Last Modified time: 2024-08-04 05:49:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,8 @@ import { Flex, Text, Touchable } from '@components'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
-import { memoStyles } from '../styles'
 import { COMPONENT } from './ds'
+import { memoStyles } from './styles'
 
 function Block({ path, tags }, { $, navigation }: Ctx) {
   if (!tags?.length) return null
@@ -19,7 +19,7 @@ function Block({ path, tags }, { $, navigation }: Ctx) {
   const styles = memoStyles()
   return (
     <>
-      <Flex style={[styles.item, styles.itemDisabled]}>
+      <Flex style={[styles.item, styles.disabled]}>
         <Text size={13} type='sub'>
           第三方标签
         </Text>
@@ -63,7 +63,7 @@ function Block({ path, tags }, { $, navigation }: Ctx) {
           }
 
           return (
-            <View style={[styles.item, styles.itemDisabled]}>
+            <View style={[styles.item, styles.disabled]}>
               <Text size={13} bold>
                 {tag}
               </Text>

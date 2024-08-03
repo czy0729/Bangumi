@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 14:48:00
+ * @Last Modified time: 2024-08-04 05:00:52
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -61,9 +61,10 @@ import {
 } from '@constants'
 import i18n from '@constants/i18n'
 import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
+import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
-import { NAMESPACE, TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from './ds'
+import { NAMESPACE } from './ds'
 import { EpsItem } from './types'
 
 export default class Action extends Fetch {
@@ -434,8 +435,7 @@ export default class Action extends Fetch {
 
   /** 用于延迟底部块渲染 (优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题) */
   setRendered = () => {
-    const { rendered } = this.state
-    if (!rendered) {
+    if (!this.state.rendered) {
       this.setState({
         rendered: true
       })
@@ -443,8 +443,7 @@ export default class Action extends Fetch {
   }
 
   unRendered = () => {
-    const { rendered } = this.state
-    if (rendered) {
+    if (this.state.rendered) {
       this.setState({
         rendered: false
       })
@@ -654,7 +653,7 @@ export default class Action extends Fetch {
 
     const { images } = this.subject
     let src = CDN_OSS_SUBJECT(getCoverMedium(images?.common))
-    if (!src.includes(HOST_CDN)) src = getCoverLarge(images?.common)
+    if (!src.includes?.(HOST_CDN)) src = getCoverLarge(images?.common)
 
     const hide = loading('下载封面中...')
 

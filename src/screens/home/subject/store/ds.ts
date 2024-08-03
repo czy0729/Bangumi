@@ -17,36 +17,16 @@ import {
   SubjectId,
   SubjectTypeValue
 } from '@types'
+import { COMPONENT } from '../ds'
 import { AnitabiData, EpsData } from './types'
 
 /** 唯一命名空间 */
-export const NAMESPACE = 'ScreenSubject'
-
-/** 分数数据结构 */
-export const INIT_RATING = {
-  count: {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0
-  },
-  score: '',
-  total: ''
-}
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 /** 页面 store 初始化后需要还原的 state */
 export const EXCLUDE_STATE = {
   /** 头部是否固定 */
   fixed: false,
-
-  /** 是否完成渲染 */
-  rendered: STORYBOOK,
 
   /** 可视范围底部 y */
   visibleBottom: 0,
@@ -104,6 +84,9 @@ export const EXCLUDE_STATE = {
 
   /** Eps 中按钮是否允许使用翻页动画 */
   flipEps: false,
+
+  /** 是否完成渲染 */
+  rendered: STORYBOOK,
 
   /** 当前页面实例是否在路由栈中 */
   mounted: true
@@ -169,6 +152,24 @@ export const STATE = {
   _loaded: false as Loaded
 }
 
+/** 分数数据结构 */
+export const INIT_RATING = {
+  count: {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0
+  },
+  score: '',
+  total: ''
+}
+
 /** 关联模块排序优先级 (按描述) */
 export const SORT_RELATION_DESC = {
   动画: 110,
@@ -188,11 +189,3 @@ export const SORT_RELATION_DESC = {
   三次元: 30,
   其他: -10
 } as const
-
-export const TEXT_LIKES = '贴贴'
-
-export const TEXT_COPY_COMMENT = '复制评论'
-
-export const TEXT_BLOCK_USER = '屏蔽用户'
-
-export const TEXT_IGNORE_USER = '绝交'
