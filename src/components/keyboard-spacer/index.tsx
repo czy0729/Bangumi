@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 16:33:57
+ * @Last Modified time: 2024-08-03 03:41:54
  */
 import React, { Component } from 'react'
 import { Dimensions, Keyboard, LayoutAnimation, UIManager, View } from 'react-native'
@@ -120,3 +120,5 @@ export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<Ke
     )
   }
 }
+
+export default KeyboardSpacer

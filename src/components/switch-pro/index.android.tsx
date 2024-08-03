@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-29 22:09:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:40:09
+ * @Last Modified time: 2024-08-03 04:02:53
  */
 import React from 'react'
 import { Switch } from 'react-native'
@@ -32,3 +32,5 @@ export function SwitchPro({ style, value, onSyncPress, onAsyncPress }) {
     </Component>
   )
 }
+
+export default SwitchPro

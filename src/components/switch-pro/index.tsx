@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:39:40
+ * @Last Modified time: 2024-08-03 04:02:45
  */
 import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
@@ -305,3 +305,5 @@ export const SwitchPro = observer(
     )
   }
 )
+
+export default SwitchPro

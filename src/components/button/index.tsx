@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:38:14
+ * @Last Modified time: 2024-08-03 02:58:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -124,3 +124,5 @@ export const Button = observer(
     )
   }
 )
+
+export default Button

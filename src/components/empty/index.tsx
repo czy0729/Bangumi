@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:47:27
+ * @Last Modified time: 2024-08-03 03:30:21
  */
 import React, { useRef } from 'react'
 import { useObserver } from 'mobx-react'
@@ -36,3 +36,5 @@ export const Empty = ({ text, children }: EmptyProps) => {
     </Component>
   ))
 }
+
+export default Empty

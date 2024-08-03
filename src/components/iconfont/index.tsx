@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:24:00
+ * @Last Modified time: 2024-08-03 03:38:22
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -19,6 +19,8 @@ import {
   MaterialIconsNames,
   Props as IconfontProps
 } from './types'
+
+export { IconfontProps }
 
 /** Iconfont 自定义项目图标 */
 export const Iconfont = observer(
@@ -71,3 +73,5 @@ export const Iconfont = observer(
     )
   }
 )
+
+export default Iconfont

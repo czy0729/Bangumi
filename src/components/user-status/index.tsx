@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 15:04:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:46:03
+ * @Last Modified time: 2024-08-03 04:06:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -55,3 +55,5 @@ export const UserStatus = observer(
     )
   }
 )
+
+export default UserStatus

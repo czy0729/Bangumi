@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 21:21:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:32:34
+ * @Last Modified time: 2024-08-03 12:00:54
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -31,3 +31,5 @@ export const StorybookList = ({ style, wind, space, children, ...other }: Storyb
     </Component>
   )
 }
+
+export default StorybookList

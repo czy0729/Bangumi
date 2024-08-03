@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:09:59
+ * @Last Modified time: 2024-08-03 03:53:40
  */
 import React, { useRef, useState } from 'react'
 import { _ } from '@stores'
@@ -118,3 +118,5 @@ export const Pagination = ({
     )
   })
 }
+
+export default Pagination

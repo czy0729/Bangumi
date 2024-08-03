@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-11 00:46:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 15:23:11
+ * @Last Modified time: 2024-08-03 03:42:21
  */
 import React from 'react'
 import { FlatList, RefreshControl } from 'react-native'
@@ -387,3 +387,5 @@ export const ListView = observer(
     }
   }
 )
+
+export default ListView

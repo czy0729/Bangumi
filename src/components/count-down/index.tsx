@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-11 14:50:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:32:42
+ * @Last Modified time: 2024-08-03 03:24:58
  */
 import React, { useEffect, useState } from 'react'
 import { getTimestamp } from '@utils'
@@ -41,3 +41,5 @@ export const CountDown = ({ end, ...other }: CountDownProps) => {
     </Text>
   )
 }
+
+export default CountDown

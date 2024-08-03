@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 18:01:19
+ * @Last Modified time: 2024-08-03 12:53:27
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
@@ -87,62 +87,66 @@ export const ActionSheet = ({
     const h = Math.min(height || _.window.height * 0.5, _.window.height * 0.88)
     return (
       <Portal>
-        <Component id='component-action-sheet' style={styles.actionSheet}>
-          <Mask
-            style={{
-              opacity: y.current
-            }}
-            onPress={onClose}
-          />
-          <Animated.View
-            style={[
-              styles.content,
-              {
-                height: h,
-                transform: [
-                  {
-                    translateY: y.current.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [h, 0]
-                    })
-                  }
-                ]
-              }
-            ]}
-          >
-            <ScrollView
+        <Suspense>
+          <Component id='component-action-sheet' style={styles.actionSheet}>
+            <Mask
+              style={{
+                opacity: y.current
+              }}
+              onPress={onClose}
+            />
+            <Animated.View
               style={[
-                styles.body,
+                styles.content,
                 {
-                  height
+                  height: h,
+                  transform: [
+                    {
+                      translateY: y.current.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [h, 0]
+                      })
+                    }
+                  ]
                 }
               ]}
-              contentContainerStyle={_.container.bottom}
             >
-              {typeof title === 'string'
-                ? !!title && (
-                    <Text style={_.mb.sm} size={12} bold type='sub' align='center'>
-                      {title}
-                    </Text>
-                  )
-                : title}
-              {children}
-            </ScrollView>
-            <Touchable style={styles.close} onPress={onClose}>
-              <SafeAreaBottom
-                style={_.ios(styles.btnContainer, undefined)}
-                type={_.ios('height', 'paddingBottom')}
+              <ScrollView
+                style={[
+                  styles.body,
+                  {
+                    height
+                  }
+                ]}
+                contentContainerStyle={_.container.bottom}
               >
-                <Flex style={styles.btn} justify='center'>
-                  <Text size={15} bold type='sub'>
-                    收起
-                  </Text>
-                </Flex>
-              </SafeAreaBottom>
-            </Touchable>
-          </Animated.View>
-        </Component>
+                {typeof title === 'string'
+                  ? !!title && (
+                      <Text style={_.mb.sm} size={12} bold type='sub' align='center'>
+                        {title}
+                      </Text>
+                    )
+                  : title}
+                {children}
+              </ScrollView>
+              <Touchable style={styles.close} onPress={onClose}>
+                <SafeAreaBottom
+                  style={_.ios(styles.btnContainer, undefined)}
+                  type={_.ios('height', 'paddingBottom')}
+                >
+                  <Flex style={styles.btn} justify='center'>
+                    <Text size={15} bold type='sub'>
+                      收起
+                    </Text>
+                  </Flex>
+                </SafeAreaBottom>
+              </Touchable>
+            </Animated.View>
+          </Component>
+        </Suspense>
       </Portal>
     )
   })
 }
+
+export default ActionSheet

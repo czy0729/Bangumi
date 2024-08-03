@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-08 23:44:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:20:44
+ * @Last Modified time: 2024-08-02 21:38:15
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -29,3 +29,5 @@ export const BgmText = observer(
     return <Bgm style={_style} index={index} {...other} />
   }
 )
+
+export default BgmText

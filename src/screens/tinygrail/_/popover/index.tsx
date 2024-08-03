@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:57:38
+ * @Last Modified time: 2024-08-03 13:00:54
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
-import { Popover as CompPopover } from '@_'
+import { Popover as PopoverComp } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -25,7 +25,7 @@ function Popover(
   if (subject && subjectId) _data = [..._data, subject]
   if (relation.length) _data = [..._data, `关联角色 (${relation.length + 1})`]
   return (
-    <CompPopover
+    <PopoverComp
       style={styles.touch}
       contentStyle={styles.content}
       data={_data}
@@ -124,7 +124,7 @@ function Popover(
       <Flex style={styles.icon} justify='center'>
         <Iconfont name='md-more-vert' size={16} color={_.colorTinygrailText} />
       </Flex>
-    </CompPopover>
+    </PopoverComp>
   )
 }
 

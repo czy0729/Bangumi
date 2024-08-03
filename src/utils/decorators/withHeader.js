@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:43:42
+ * @Last Modified time: 2024-08-03 11:49:11
  */
 import React from 'react'
-import { Flex, Heatmap, Iconfont, Menu, Popover, UM } from '@components'
+import { Flex, Heatmap, Iconfont, Menu, Popover } from '@components'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { hm as utilsHM } from '@utils/fetch'
@@ -129,22 +129,8 @@ const withHeader =
 
         render() {
           const { navigation } = this.props
-          /* let backgroundColor
-          if (!IOS && _.isDark) backgroundColor = _._colorPlainHex
-
-          // withHeaderParams动态生成的params优先级最高
-          let _params = {}
-          if (withHeaderParams) _params = withHeaderParams()
-          const _statusBarEvents =
-            _params.statusBarEvents === undefined
-              ? statusBarEvents
-              : _params.statusBarEvents */
           return (
             <>
-              <UM screen={screen} />
-              {/* {_statusBarEvents && (
-                <StatusBarEvents backgroundColor={backgroundColor} />
-              )} */}
               <ComposedComponent navigation={navigation} />
               {!!hm?.[1] && (
                 <Heatmap bottom={_.bottom + _.sm} id={alias || screen} screen={hm[1]} />

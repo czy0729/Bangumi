@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 17:18:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:39:01
+ * @Last Modified time: 2024-08-03 03:24:30
  */
 import React, { useEffect, useState } from 'react'
 import CollapsibleComponent from 'react-native-collapsible'
@@ -32,3 +32,5 @@ export function Collapsible({ collapsed, children }: CollapsibleProps) {
     </CollapsibleComponent>
   )
 }
+
+export default Collapsible

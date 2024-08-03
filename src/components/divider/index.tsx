@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-29 03:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:46:13
+ * @Last Modified time: 2024-08-03 03:29:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -26,9 +26,9 @@ export const Divider = observer(({ style }: DividerProps) => {
     <Component id='component-divider'>
       <Flex style={stl(styles.divider, style)} justify='center'>
         <View style={styles.line} />
-        {/* <View style={styles.dot} /> */}
-        {/* <View style={styles.dot} /> */}
       </Flex>
     </Component>
   )
 })
+
+export default Divider

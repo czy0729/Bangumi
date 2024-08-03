@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 11:33:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:42:50
+ * @Last Modified time: 2024-08-03 04:04:33
  */
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
@@ -14,3 +14,5 @@ export const Todo = (props: any) => {
 
   return null
 }
+
+export default Todo

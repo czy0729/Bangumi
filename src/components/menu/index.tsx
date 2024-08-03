@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 15:31:18
+ * @Last Modified time: 2024-08-03 03:45:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -84,3 +84,5 @@ export const Menu = observer(
     )
   }
 )
+
+export default Menu

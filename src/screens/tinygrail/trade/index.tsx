@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-09-01 00:34:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:28:26
+ * @Last Modified time: 2024-08-03 11:49:31
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Flex, NavigationEvents, ScrollView, Touchable, UM } from '@components'
+import { Button, Flex, NavigationEvents, ScrollView, Touchable } from '@components'
 import { SafeAreaView, StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
@@ -100,7 +100,6 @@ class TinygrailTrade extends React.Component {
     const { showMask, focus } = this.state
     return (
       <SafeAreaView style={this.styles.dark}>
-        <UM title={title} />
         {this.renderFocus()}
         <StatusBarPlaceholder style={this.styles.dark} />
         <Header goBack={this.goBack} />

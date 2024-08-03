@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:46:18
+ * @Last Modified time: 2024-08-03 03:28:23
  */
 import React from 'react'
 import { DevSettings, View } from 'react-native'
@@ -72,3 +72,5 @@ export const DEV = observer(() => {
     </>
   )
 })
+
+export default DEV

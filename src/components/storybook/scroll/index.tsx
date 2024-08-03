@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 20:13:20
+ * @Last Modified time: 2024-08-03 12:01:08
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -109,3 +109,5 @@ export const StorybookScroll = ({
     </Component>
   )
 }
+
+export default StorybookScroll

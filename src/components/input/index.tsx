@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 16:33:46
+ * @Last Modified time: 2024-08-03 03:39:34
  */
 import React from 'react'
 import {
@@ -268,3 +268,5 @@ export const Input = observer(
     }
   }
 )
+
+export default Input

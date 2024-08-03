@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-17 16:58:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:14:28
+ * @Last Modified time: 2024-08-03 03:56:10
  */
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
@@ -75,3 +75,5 @@ export const Progress = ({
     )
   })
 }
+
+export default Progress

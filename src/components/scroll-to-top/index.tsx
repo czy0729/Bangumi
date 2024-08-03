@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:17:23
+ * @Last Modified time: 2024-08-03 03:58:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -103,3 +103,5 @@ ScrollToTop.scrollToTop = (
 }
 
 export { ScrollToTop }
+
+export default ScrollToTop

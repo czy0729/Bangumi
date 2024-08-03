@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-01 16:57:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:43:50
+ * @Last Modified time: 2024-08-03 11:49:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import { computed } from 'mobx'
-import { Popover, Menu, Flex, Iconfont, UM, Heatmap } from '@components'
+import { Popover, Menu, Flex, Iconfont, Heatmap } from '@components'
 import { _, systemStore } from '@stores'
 import { gradientColor } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
@@ -230,7 +230,6 @@ const withTransitionHeader =
           const { barStyle } = this.state
           return (
             <>
-              <UM screen={screen} />
               <ComposedComponent navigation={navigation} onScroll={this.headerTransitionCallback} />
               {!!hm?.[1] && <Heatmap bottom={_.bottom + _.sm} id={screen} screen={hm[1]} />}
             </>

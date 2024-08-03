@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-12 22:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:55:54
+ * @Last Modified time: 2024-08-03 03:44:53
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -25,3 +25,5 @@ export const Mask = ({ style, onPress }) => {
     </Component>
   )
 }
+
+export default Mask

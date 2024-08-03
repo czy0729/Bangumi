@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 16:41:36
+ * @Last Modified time: 2024-08-03 03:56:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -333,3 +333,5 @@ export const RenderHtml = observer(
     }
   }
 )
+
+export default RenderHtml

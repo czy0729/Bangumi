@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:48:50
+ * @Last Modified time: 2024-08-03 03:30:56
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
@@ -129,3 +129,5 @@ export const Expand = ({
     </Component>
   ))
 }
+
+export default Expand

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 13:53:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:28:20
+ * @Last Modified time: 2024-08-03 04:01:27
  */
 import React from 'react'
 import { Squircle as SquircleComp } from 'react-ios-corners'
@@ -60,3 +60,5 @@ export const Squircle = observer(
     )
   }
 )
+
+export default Squircle

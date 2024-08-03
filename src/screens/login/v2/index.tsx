@@ -8,16 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import cheerio from 'cheerio-without-node-native'
 import Constants from 'expo-constants'
-import {
-  Component,
-  Flex,
-  Heatmap,
-  Iconfont,
-  KeyboardSpacer,
-  Text,
-  Touchable,
-  UM
-} from '@components'
+import { Component, Flex, Heatmap, Iconfont, KeyboardSpacer, Text, Touchable } from '@components'
 import { Notice, StatusBarPlaceholder } from '@_'
 import { _, rakuenStore, usersStore, userStore } from '@stores'
 import {
@@ -39,7 +30,7 @@ import { HOST_PROXY } from '@/config'
 import { Navigation } from '@types'
 import Form from './form'
 import Preview from './preview'
-import { AUTH_RETRY_COUNT, NAMESPACE, TITLE, UA_EKIBUN_BANGUMI_APP, URL_TOURIST } from './ds'
+import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP, URL_TOURIST } from './ds'
 import { memoStyles } from './styles'
 
 /** 账号密码登录 */
@@ -662,7 +653,6 @@ class LoginV2 extends React.Component<{
   render() {
     return (
       <Component id='screen-login-v2' style={_.container.plain}>
-        <UM title={TITLE} />
         <StatusBarPlaceholder />
         {STORYBOOK && (
           <Notice style={_.mv.lg}>当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用</Notice>

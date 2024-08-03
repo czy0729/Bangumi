@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-28 17:04:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:17:12
+ * @Last Modified time: 2024-08-03 03:35:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -32,3 +32,5 @@ export const HeaderPlaceholder = observer(({ style, tabs = false }: HeaderPlaceh
     />
   )
 })
+
+export default HeaderPlaceholder

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-16 10:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:26:27
+ * @Last Modified time: 2024-08-03 04:01:06
  */
 import React, { useCallback, useEffect } from 'react'
 import { Image, View } from 'react-native'
@@ -99,3 +99,5 @@ export const Spinner = ({ style, backgroundColor = 'transparent' }: SpinnerProps
     )
   })
 }
+
+export default Spinner

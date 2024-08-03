@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-10 03:49:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:34:50
+ * @Last Modified time: 2024-08-03 12:52:36
  */
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { Suspense, useCallback, useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 import { Flex, Portal, Touchable } from '@components'
 import { tinygrailStore } from '@stores'
@@ -49,36 +49,38 @@ function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
     const styles = memoStyles()
     return (
       <Portal>
-        <Flex style={styles.logs} pointerEvents={show ? 'auto' : 'none'}>
-          <Flex.Item />
-          <Touchable style={styles.wrap} useRN onPress={onToggle}>
+        <Suspense>
+          <Flex style={styles.logs} pointerEvents={show ? 'auto' : 'none'}>
+            <Flex.Item />
+            <Touchable style={styles.wrap} useRN onPress={onToggle}>
+              <Animated.View
+                style={[
+                  styles.mask,
+                  {
+                    opacity: x.current
+                  }
+                ]}
+              />
+            </Touchable>
             <Animated.View
               style={[
-                styles.mask,
+                styles.list,
                 {
-                  opacity: x.current
+                  transform: [
+                    {
+                      translateX: x.current.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [DRAWER_WITDH, 0]
+                      })
+                    }
+                  ]
                 }
               ]}
-            />
-          </Touchable>
-          <Animated.View
-            style={[
-              styles.list,
-              {
-                transform: [
-                  {
-                    translateX: x.current.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [DRAWER_WITDH, 0]
-                    })
-                  }
-                ]
-              }
-            ]}
-          >
-            <List onHeaderRefresh={onHeaderRefresh} onToggle={onToggle} />
-          </Animated.View>
-        </Flex>
+            >
+              <List onHeaderRefresh={onHeaderRefresh} onToggle={onToggle} />
+            </Animated.View>
+          </Flex>
+        </Suspense>
       </Portal>
     )
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 22:49:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:53:51
+ * @Last Modified time: 2024-08-03 03:44:43
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -87,3 +87,5 @@ Loading.Medium = Medium
 Loading.Mini = Mini
 
 export { Loading }
+
+export default Loading

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 07:59:08
+ * @Last Modified time: 2024-08-03 04:00:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -54,3 +54,5 @@ export const Skeleton = observer(
     )
   }
 )
+
+export default Skeleton

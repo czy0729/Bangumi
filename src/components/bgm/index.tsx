@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-16 04:41:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:34:23
+ * @Last Modified time: 2024-08-02 21:37:38
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -22,6 +22,8 @@ export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
 
   return <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
 })
+
+export default Bgm
 
 let bgm: {
   [x: string]: Source

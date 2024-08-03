@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-14 10:25:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 04:25:50
+ * @Last Modified time: 2024-08-03 03:35:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -143,3 +143,5 @@ const Heatmap = observer(
 Heatmap.Control = Control
 
 export { Heatmap }
+
+export default Heatmap

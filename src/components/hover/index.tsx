@@ -12,3 +12,5 @@ export { HoverProps }
 export const Hover = ({ children }: HoverProps) => {
   return children
 }
+
+export default Hover

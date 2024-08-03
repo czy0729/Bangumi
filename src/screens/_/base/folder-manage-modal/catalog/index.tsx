@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:06:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-07 16:20:03
+ * @Last Modified time: 2024-08-03 13:05:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { CONTROL_DS } from '../ds'
 import { IconTouchable } from '../../../icon'
-import { Popover } from '../../popover/index.lazy'
+import { Popover } from '../../popover'
 import { memoStyles } from './styles'
 
 function Catalog({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:37:08
+ * @Last Modified time: 2024-08-03 12:00:20
  */
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
@@ -14,3 +14,5 @@ export const StorybookSPA = ({ children }) => {
 
   return null
 }
+
+export default StorybookSPA

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-13 19:46:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:36:30
+ * @Last Modified time: 2024-08-02 21:38:09
  */
 import React from 'react'
 import { Text } from 'react-native'
@@ -45,3 +45,5 @@ export const BgmText = observer(
     )
   }
 )
+
+export default BgmText

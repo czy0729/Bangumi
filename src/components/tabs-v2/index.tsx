@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-31 16:32:47
+ * @Last Modified time: 2024-08-03 04:03:13
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -139,3 +139,5 @@ export const TabsV2 = ({
     </Component>
   )
 }
+
+export default TabsV2

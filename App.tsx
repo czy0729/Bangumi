@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 09:26:16
+ * @Last Modified time: 2024-08-03 04:32:36
  */
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { LogBox } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -46,11 +46,11 @@ export default function App() {
             <Stacks isLoadingComplete={isLoadingComplete} />
           </HoldMenuProvider>
           {isLoadingComplete && (
-            <>
+            <Suspense>
               <AppCommon />
               <DeepLink />
               <DEV />
-            </>
+            </Suspense>
           )}
         </Provider>
       </SafeAreaProvider>

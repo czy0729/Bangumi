@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 11:29:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 05:04:47
+ * @Last Modified time: 2024-08-03 03:54:21
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -31,3 +31,5 @@ function PopoverComp<ItemT extends string[] | readonly string[]>({
 
 /** 点击位置弹出层 */
 export const Popover = observer(PopoverComp)
+
+export default Popover

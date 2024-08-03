@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-21 05:13:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:16:50
+ * @Last Modified time: 2024-08-03 03:57:20
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -39,3 +39,5 @@ export const SafeAreaBottom = ({
     </Component>
   ))
 }
+
+export default SafeAreaBottom

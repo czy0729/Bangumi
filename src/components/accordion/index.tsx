@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:27:03
+ * @Last Modified time: 2024-08-02 21:27:45
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, View } from 'react-native'
@@ -74,3 +74,5 @@ export const Accordion = ({ style, expand = false, lazy = true, children }: Acco
     </Animated.View>
   )
 }
+
+export default Accordion

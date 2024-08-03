@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 16:33:32
+ * @Last Modified time: 2024-08-03 03:38:46
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -791,3 +791,5 @@ export const Image = observer(
     }
   }
 )
+
+export default Image

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:33:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:16:14
+ * @Last Modified time: 2024-08-03 03:57:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,3 +36,5 @@ export const SafeAreaBottom = ({
     </View>
   ))
 }
+
+export default SafeAreaBottom

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-04 10:10:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:47:42
+ * @Last Modified time: 2024-08-03 11:53:56
  */
 import React from 'react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { AnyObject } from '@types'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { styles } from './styles'
@@ -42,14 +41,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
   }
 }
 
-/** 捕捉错误异常组件包裹组件 */
-function renderWithErrorBoundary(data: any, index?: number, props: AnyObject = {}) {
-  const Component = data
-  return (
-    <ErrorBoundary key={index}>
-      <Component {...props} />
-    </ErrorBoundary>
-  )
-}
+export { ErrorBoundary, ErrorBoundaryProps }
 
-export { ErrorBoundary, ErrorBoundaryProps, renderWithErrorBoundary }
+export default ErrorBoundary

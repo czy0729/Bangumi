@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 13:22:49
+ * @Last Modified time: 2024-08-03 03:39:14
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -119,3 +119,5 @@ export const ImageViewer = observer(
     }
   }
 )
+
+export default ImageViewer

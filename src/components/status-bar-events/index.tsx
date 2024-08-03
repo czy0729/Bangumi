@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-11 14:02:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:29:12
+ * @Last Modified time: 2024-08-03 04:02:06
  */
 import React from 'react'
 import { StatusBarStyle } from 'react-native'
@@ -67,3 +67,5 @@ export const StatusBarEvents = observer(
     )
   }
 )
+
+export default StatusBarEvents

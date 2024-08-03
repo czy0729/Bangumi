@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:17:52
+ * @Last Modified time: 2024-08-03 03:58:41
  */
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
@@ -26,3 +26,5 @@ const ScrollToTop = observer(
 ScrollToTop.scrollToTop = () => {}
 
 export { ScrollToTop }
+
+export default ScrollToTop

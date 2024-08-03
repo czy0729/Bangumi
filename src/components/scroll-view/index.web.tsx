@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-15 03:47:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 20:13:13
+ * @Last Modified time: 2024-08-03 03:59:23
  */
 import React from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
@@ -54,3 +54,5 @@ export const ScrollView = ({
     </RNScrollView>
   )
 }
+
+export default ScrollView

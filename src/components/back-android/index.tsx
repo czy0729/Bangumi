@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:33:28
+ * @Last Modified time: 2024-08-02 21:37:06
  */
 import { BackHandler } from 'react-native'
 import { info, navigationReference } from '@utils'
@@ -46,3 +46,5 @@ export const BackAndroid = () => {
 
   return <Component id='component-back-android' />
 }
+
+export default BackAndroid

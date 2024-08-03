@@ -36,3 +36,5 @@ export const StorybookScrollToTop = () => {
     />
   )
 }
+
+export default StorybookScrollToTop

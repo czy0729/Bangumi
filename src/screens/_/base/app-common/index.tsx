@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 16:53:16
+ * @Last Modified time: 2024-08-03 04:12:51
  */
 import React, { Suspense } from 'react'
 import { toJS } from 'mobx'
@@ -28,8 +28,8 @@ export const AppCommon = () => {
   useKeepAwake()
 
   return useObserver(() => (
-    <Component id='base-app-common'>
-      <Suspense>
+    <Suspense>
+      <Component id='base-app-common'>
         <ImageViewer
           {...systemStore.imageViewer}
           imageUrls={toJS(systemStore.imageViewer.imageUrls)}
@@ -46,8 +46,8 @@ export const AppCommon = () => {
         <ListenClipboard />
         {/* @ts-expect-error */}
         <Heatmap.Control />
-      </Suspense>
-    </Component>
+      </Component>
+    </Suspense>
   ))
 }
 

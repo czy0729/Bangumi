@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { RefreshControl, ScrollView, View } from 'react-native'
-import { Flex, Page, UM } from '@components'
+import { Flex, Page } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _ } from '@stores'
 import { inject, obc } from '@utils/decorators'
@@ -56,7 +56,6 @@ class TinygrailDeal extends React.Component {
     const { refreshing } = this.state
     return (
       <Page style={[_.container.flex, this.styles.dark]}>
-        <UM title='交易' />
         <StatusBarPlaceholder style={this.styles.dark} />
         <Header />
         <ScrollView

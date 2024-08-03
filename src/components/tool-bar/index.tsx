@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:43:50
+ * @Last Modified time: 2024-08-03 04:04:53
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -38,3 +38,5 @@ ToolBar.Popover = ToolBarPopover
 ToolBar.Touchable = ToolBarTouchable
 
 export { ToolBar, IToolBar }
+
+export default ToolBar

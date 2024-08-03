@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-10 09:46:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 04:30:39
+ * @Last Modified time: 2024-08-02 21:30:28
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -26,3 +26,5 @@ export const Activity = observer(({ size = 'small', toast = false, color }: Acti
     />
   )
 })
+
+export default Activity

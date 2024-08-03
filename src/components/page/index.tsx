@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 14:26:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:09:10
+ * @Last Modified time: 2024-08-03 03:52:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,3 +51,5 @@ export const Page = ({
     return <Loading style={_style} color={loadingColor} backgroundColor={backgroundColor} />
   })
 }
+
+export default Page

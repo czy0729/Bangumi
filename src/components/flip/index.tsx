@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-28 04:54:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:56:50
+ * @Last Modified time: 2024-08-03 03:33:07
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -126,3 +126,5 @@ export const Flip = ({ style, height, onAnimated, children, ...other }: FlipProp
     )
   })
 }
+
+export default Flip

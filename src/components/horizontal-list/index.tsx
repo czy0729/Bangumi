@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 21:07:17
+ * @Last Modified time: 2024-08-03 03:36:50
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -94,3 +94,5 @@ export const HorizontalList = observer(
     }
   }
 )
+
+export default HorizontalList

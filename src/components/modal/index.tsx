@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-05 22:03:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:03:05
+ * @Last Modified time: 2024-08-03 04:21:17
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import AntdModal from '../@/ant-design/modal'
@@ -37,8 +37,10 @@ export const Modal = observer(
         maskClosable
         onClose={onClose}
       >
-        {children}
+        <Suspense>{children}</Suspense>
       </AntdModal>
     )
   }
 )
+
+export default Modal

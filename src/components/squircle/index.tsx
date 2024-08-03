@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:10:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:27:38
+ * @Last Modified time: 2024-08-03 04:01:21
  */
 import React from 'react'
 import Svg, { ClipPath, Defs, Path } from 'react-native-svg'
+import MaskedView from '@react-native-masked-view/masked-view'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import MaskedView from '@react-native-masked-view/masked-view'
 import { Component } from '../component'
 import Radius from './radius'
 import { getMaskPath, getRadius } from './utils'
@@ -67,3 +67,5 @@ export const Squircle = ({ style, width = 0, height = 0, radius, children }: Squ
     </Component>
   )
 }
+
+export default Squircle

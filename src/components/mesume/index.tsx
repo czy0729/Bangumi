@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-01 19:28:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:58:14
+ * @Last Modified time: 2024-08-03 03:45:58
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -35,3 +35,5 @@ export const Mesume = observer(({ style, size = 96, index }: MesumeProps) => {
     </Component>
   )
 })
+
+export default Mesume

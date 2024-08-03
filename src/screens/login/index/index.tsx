@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Component, Flex, Heatmap, Loading, Mesume, Text, UM, WebView } from '@components'
+import { Button, Component, Flex, Heatmap, Loading, Mesume, Text, WebView } from '@components'
 import { StatusBarPlaceholder } from '@_'
 import { _, userStore } from '@stores'
 import { urlStringify } from '@utils'
@@ -270,7 +270,6 @@ class Login extends React.Component<{
     const { clicked } = this.state
     return (
       <Component id='screen-login' style={_.container.plain}>
-        <UM title={title} />
         <StatusBarPlaceholder />
         <View style={_.container.flex}>
           {clicked ? this.renderWebView() : this.renderPreview()}

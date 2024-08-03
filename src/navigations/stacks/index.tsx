@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-28 15:39:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 15:49:16
+ * @Last Modified time: 2024-08-03 12:56:02
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -50,7 +50,7 @@ function Stacks() {
           }}
           initialRouteName={initialRouteName}
         >
-          <Stack.Screen name='HomeTab' component={BottomTabNavigator} />
+          <Stack.Screen name='HomeTab' getComponent={() => BottomTabNavigator} />
           {Object.keys(Screens).map(name => (
             <Stack.Screen
               key={name}

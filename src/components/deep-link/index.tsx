@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-11 14:58:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 15:36:35
+ * @Last Modified time: 2024-08-03 03:27:52
  */
 import { useEffect } from 'react'
 import { Linking } from 'react-native'
@@ -30,3 +30,5 @@ export const DeepLink = () => {
 
   return null
 }
+
+export default DeepLink

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 02:37:40
+ * @Last Modified time: 2024-08-03 12:00:28
  */
 import React, { useCallback } from 'react'
 import Stores from '@stores'
@@ -51,3 +51,5 @@ export const StorybookSPA = ({ children }) => {
     </Component>
   )
 }
+
+export default StorybookSPA

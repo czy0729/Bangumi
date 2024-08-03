@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 08:49:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:22:39
+ * @Last Modified time: 2024-08-03 03:37:20
  */
 import React from 'react'
 import { r } from '@utils/dev'
@@ -22,3 +22,5 @@ export const Hover = ({ style, type, children }: HoverProps) => {
     </Component>
   )
 }
+
+export default Hover

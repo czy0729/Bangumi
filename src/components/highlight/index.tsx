@@ -79,3 +79,5 @@ export const Highlight = observer(
     )
   }
 )
+
+export default Highlight
