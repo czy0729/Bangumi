@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:01:11
+ * @Last Modified time: 2024-08-03 14:55:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { desc, navigationReference } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
-import { Name } from '../name/index.lazy'
+import { Name } from '../name'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

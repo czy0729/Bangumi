@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 06:44:43
+ * @Last Modified time: 2024-08-03 13:51:46
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -16,6 +16,8 @@ import { IOS } from '@constants'
 import { TITLE_COMIC } from '../../ds'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
+
+console.log('Comic')
 
 const Comic = memo(
   ({ navigation, subjectId, comic }) => {

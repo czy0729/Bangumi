@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:12:51
+ * @Last Modified time: 2024-08-03 14:55:21
  */
 import React, { Suspense } from 'react'
 import { toJS } from 'mobx'
@@ -10,11 +10,11 @@ import { Component, Heatmap, ImageViewer } from '@components'
 import { systemStore, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useGlobalMount, useKeepAwake, useObserver } from '@utils/hooks'
-import { LikesGrid } from '../likes-grid/index.lazy'
-import { LikesUsers } from '../likes-users/index.lazy'
-import { ListenClipboard } from '../listen-clipboard/index.lazy'
-import { ManageModal } from '../manage-modal/index.lazy'
-import { Popable } from '../popable/index.lazy'
+import { LikesGrid } from '../likes-grid'
+import { LikesUsers } from '../likes-users'
+import { ListenClipboard } from '../listen-clipboard'
+import { ManageModal } from '../manage-modal'
+import { Popable } from '../popable'
 import { COMPONENT } from './ds'
 
 /** 全局公用逻辑 */

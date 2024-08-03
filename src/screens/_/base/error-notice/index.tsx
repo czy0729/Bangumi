@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-03 19:51:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 20:07:31
+ * @Last Modified time: 2024-08-03 14:55:31
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Flex, Text } from '@components'
 import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { IconTouchable } from '../../icon/touchable'
-import { BlurView } from '../blur-view/index.lazy'
+import { BlurView } from '../blur-view'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
 

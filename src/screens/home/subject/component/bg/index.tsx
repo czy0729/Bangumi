@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 13:41:07
+ * @Last Modified time: 2024-08-03 13:38:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { getCover400 } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS, TEXT_ONLY } from '@constants'
 import { Ctx } from '../../types'
-import Bg from './bg'
+import Bg from './bg.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

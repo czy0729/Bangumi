@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:32:18
+ * @Last Modified time: 2024-08-03 13:50:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_SUMMARY } from '../../ds'
 import { Ctx } from '../../types'
-import Summary from './summary'
+import Summary from './summary.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

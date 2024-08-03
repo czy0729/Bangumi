@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:29:16
+ * @Last Modified time: 2024-08-03 13:46:11
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import Modal from './modal'
+import Modal from './modal.lazy'
 import { COMPONENT } from './ds'
 
 function ModalWrap(props, { $ }: Ctx) {

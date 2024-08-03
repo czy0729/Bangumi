@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:55:18
+ * @Last Modified time: 2024-08-03 14:56:04
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -13,7 +13,7 @@ import { getStorage, getTimestamp, info, setStorage, sleep } from '@utils'
 import { ob } from '@utils/decorators'
 import { H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
-import { StarGroup } from '../star-group/index.lazy'
+import { StarGroup } from '../star-group'
 import CommentInput from './comment-input'
 import Status from './status'
 import Submit from './submit'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:20:59
+ * @Last Modified time: 2024-08-03 13:55:02
  */
 import React from 'react'
 import { Flex, Text, TextType, Touchable } from '@components'
@@ -50,7 +50,7 @@ function Assets(props, { $ }: Ctx) {
   const changeBalance = currentBalance - lastBalance
   const changeTotal = currentTotal - lastTotal
 
-  let balanceChangeText: {}
+  let balanceChangeText: string
   let balanceTextColor: TextType
   let _changeBalance: string
   if ($.short && Math.abs(changeBalance) >= 1000) {
@@ -65,9 +65,11 @@ function Assets(props, { $ }: Ctx) {
   } else if (changeBalance < 0) {
     balanceChangeText = `-${_changeBalance}`
     balanceTextColor = 'ask'
+  } else {
+    balanceChangeText = ''
   }
 
-  let totalChangeText: {}
+  let totalChangeText: string
   let totalTextColor: TextType
   let _changeTotal: string
   if ($.short && Math.abs(changeTotal) >= 1000) {
@@ -82,6 +84,8 @@ function Assets(props, { $ }: Ctx) {
   } else if (changeTotal < 0) {
     totalChangeText = `-${_changeTotal}`
     totalTextColor = 'ask'
+  } else {
+    totalChangeText = ''
   }
 
   return (

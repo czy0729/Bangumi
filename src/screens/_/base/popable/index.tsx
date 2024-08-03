@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:21:19
+ * @Last Modified time: 2024-08-03 14:56:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,9 +14,6 @@ import { cnjp, navigationReference } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
-import { BlurView } from '../blur-view/index.lazy'
-import { Rank } from '../rank/index.lazy'
-import { Stars } from '../stars/index.lazy'
 import { getPosition } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'

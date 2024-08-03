@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 12:13:14
+ * @Last Modified time: 2024-08-03 13:50:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_TAGS } from '../../ds'
 import { Ctx } from '../../types'
-import Tags from './tags'
+import Tags from './tags.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

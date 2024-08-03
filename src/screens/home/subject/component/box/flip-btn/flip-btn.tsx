@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-01 01:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:21:46
+ * @Last Modified time: 2024-08-03 13:59:05
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -93,11 +93,11 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
     const styles = memoStyles()
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.animated, beforeStyle]} pointerEvents='none'>
-          <View style={styles.placeholder} />
+        <Animated.View style={[styles.animated, beforeStyle]} pointerEvents='box-none'>
+          <View style={styles.placeholder} pointerEvents='none' />
           <Btns {...beforeProps} onPress={onPress} />
         </Animated.View>
-        <Animated.View style={[styles.animated, afterStyle]}>
+        <Animated.View style={[styles.animated, afterStyle]} pointerEvents='none'>
           <View style={styles.placeholder} />
           <Btns {...afterProps} onPress={onPress} />
         </Animated.View>

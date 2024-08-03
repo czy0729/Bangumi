@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 12:10:03
+ * @Last Modified time: 2024-08-03 14:55:37
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
-import { FilterSwitch } from '../filter-switch/index.lazy'
+import { FilterSwitch } from '../filter-switch'
 import { scrollToX } from './utils'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'

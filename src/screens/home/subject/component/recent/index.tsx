@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:30:04
+ * @Last Modified time: 2024-08-03 13:47:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_RECENT } from '../../ds'
 import { Ctx } from '../../types'
-import Recent from './recent'
+import Recent from './recent.lazy'
 import { COMPONENT } from './ds'
 
 function RecentWrap({ onBlockRef }, { $, navigation }: Ctx) {

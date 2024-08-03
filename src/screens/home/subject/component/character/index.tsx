@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:23:36
+ * @Last Modified time: 2024-08-03 13:40:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_CHARACTER } from '../../ds'
 import { Ctx } from '../../types'
-import Character from './character'
+import Character from './character.lazy'
 import { COMPONENT } from './ds'
 
 function CharacterWrap({ onBlockRef }, { $, navigation }: Ctx) {

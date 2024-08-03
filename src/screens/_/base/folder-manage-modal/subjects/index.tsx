@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:05:36
+ * @Last Modified time: 2024-08-03 14:55:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,9 @@ import { HTMLDecode, keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
 import { CONTROL_DS, HEIGHT, WIDTH } from '../ds'
 import { IconTouchable } from '../../../icon'
-import { PaginationList2 } from '../../pagination-list-2/index.lazy'
+import { PaginationList2 } from '../../pagination-list-2'
 import { Popover } from '../../popover'
-import { Tag } from '../../tag/index.lazy'
+import { Tag } from '../../tag'
 import { memoStyles } from './styles'
 
 function Subjects({

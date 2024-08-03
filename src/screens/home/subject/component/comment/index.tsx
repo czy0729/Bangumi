@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:43:25
+ * @Last Modified time: 2024-08-03 13:41:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { TITLE_COMMENT } from '../../ds'
 import { Ctx } from '../../types'
-import Comment from './comment'
+import Comment from './comment.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:00:47
+ * @Last Modified time: 2024-08-03 14:55:49
  */
 import React from 'react'
 import { Popover } from 'react-native-popable'
@@ -10,7 +10,7 @@ import { Component, Portal } from '@components'
 import { _, rakuenStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { LIKE_TYPE_TIMELINE } from '@constants'
-import { BlurView } from '../blur-view/index.lazy'
+import { BlurView } from '../blur-view'
 import Grid from './grid'
 import { getPosition } from './utils'
 import { COMPONENT, DATA, DATA_TIMELINE } from './ds'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 02:49:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:12:53
+ * @Last Modified time: 2024-08-03 14:55:54
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, userStore } from '@stores'
 import { r } from '@utils/dev'
 import i18n from '@constants/i18n'
 import { IconTouchable } from '../../icon/touchable'
-import { BlurView } from '../blur-view/index.lazy'
+import { BlurView } from '../blur-view'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as LoginNoticeProps } from './types'
