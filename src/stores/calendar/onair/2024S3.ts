@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-19 02:05:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-01 06:39:39
+ * @Last Modified time: 2024-08-04 05:55:10
  */
 export const ONAIR_2024S3 = {
   /** 少女如草花绽放 */
@@ -395,7 +395,7 @@ export const ONAIR_2024S3 = {
   /** 依靠被嫌弃的【状态异常技能】而成为最强的我最终蹂躏一切 */
   476418: {
     weekDayCN: 4,
-    timeCN: '2359',
+    timeCN: '2355',
     type: '小说改',
     tag: '穿越/冒险/复仇',
     origin: 'Seven Arcs'

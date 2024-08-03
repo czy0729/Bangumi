@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 17:29:40
+ * @Last Modified time: 2024-08-04 06:01:20
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -238,6 +238,7 @@ export default class Computed extends State {
             if (progress[i] === '看过') watchedCount += 1
           })
 
+          // air 代表该条目放送到哪一集
           const { air = 0 } = calendarStore.onAir[subjectId] || {}
           if (this.isToday(subjectId)) {
             weightMap[subjectId] = air > watchedCount ? 100000 : 10000
@@ -465,7 +466,7 @@ export default class Computed extends State {
   /** 云端 onAir 和自定义 onAir 组合判断 (自定义最优先) */
   onAirCustom(subjectId: SubjectId) {
     return computed(() =>
-      getOnAir(calendarStore.onAir[subjectId], calendarStore.onAirUser(subjectId))
+      getOnAir(calendarStore.onAirLocal(subjectId), calendarStore.onAirUser(subjectId))
     ).get()
   }
 
