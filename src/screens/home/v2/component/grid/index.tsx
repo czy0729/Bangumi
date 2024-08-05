@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-19 20:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 17:26:59
+ * @Last Modified time: 2024-08-04 16:17:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +21,7 @@ const RENDERED = {}
 function Grid({ title = '全部' }: Props, { $ }: Ctx) {
   if ($.tabsLabel === title) RENDERED[title] = true
   if ($.tabsLabel !== title && !RENDERED[title]) return null
+
   if (!$.collection._loaded) return <Loading />
 
   const styles = memoStyles()

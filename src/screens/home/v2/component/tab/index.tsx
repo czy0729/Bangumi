@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-11 12:15:23
+ * @Last Modified time: 2024-08-04 17:34:53
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -15,10 +15,6 @@ import Tab from './tab'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
-/**
- * 因为本组件使用 useMemo 后不能用 mobx@4 去 observer
- * 所以只能在上面把 routes 的 length 传下来监听刷新
- */
 function TabWrap({ keys }: Props) {
   r(COMPONENT)
 
