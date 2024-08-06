@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 20:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:31:17
+ * @Last Modified time: 2024-08-06 03:21:33
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { LoginV2 as Component } from '@screens'
 
 export default {
   title: 'screens/LoginV2',

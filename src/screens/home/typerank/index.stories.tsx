@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-12 00:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-01 09:06:28
+ * @Last Modified time: 2024-08-06 03:20:33
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { Typerank as Component } from '@screens'
 
 export default {
   title: 'screens/Typerank',

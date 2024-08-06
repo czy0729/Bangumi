@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 12:27:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 09:57:30
+ * @Last Modified time: 2024-08-06 02:50:26
  */
 import React from 'react'
-import { StorybookList, StorybookSPA, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { Browser as Component } from '@screens'
 
 export default {
   title: 'screens/Browser',

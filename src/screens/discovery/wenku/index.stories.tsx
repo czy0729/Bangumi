@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-09 10:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:28:15
+ * @Last Modified time: 2024-08-06 03:17:16
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { Wenku as Component } from '@screens'
 
 export default {
   title: 'screens/Wenku',

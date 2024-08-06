@@ -5,8 +5,8 @@
  * @Last Modified time: 2023-04-12 09:51:59
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { ADV as Component } from '@screens'
 
 export default {
   title: 'screens/ADV',

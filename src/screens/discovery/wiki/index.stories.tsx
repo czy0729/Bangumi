@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 19:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:28:29
+ * @Last Modified time: 2024-08-06 03:17:45
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { Wiki as Component } from '@screens'
 
 export default {
   title: 'screens/Wiki',

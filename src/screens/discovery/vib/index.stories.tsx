@@ -1,22 +1,22 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-12 00:58:02
+ * @Date: 2024-08-06 03:16:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-06 03:18:17
+ * @Last Modified time: 2024-08-06 03:17:03
  */
 import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
-import { Episodes as Component } from '@screens'
+import { VIB as Component } from '@screens'
 
 export default {
-  title: 'screens/Episodes',
+  title: 'screens/VIB',
   component: Component
 }
 
-export const Episodes = () => (
+export const VIB = () => (
   <StorybookSPA>
     <StorybookList>
-      <Component {...getStorybookArgs('Episodes')} />
+      <Component {...getStorybookArgs('VIB')} />
     </StorybookList>
   </StorybookSPA>
 )

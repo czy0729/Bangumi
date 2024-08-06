@@ -7,13 +7,13 @@
 import React from 'react'
 import { useObserver } from 'mobx-react'
 import { Component, Page } from '@components'
-import { Navigation } from '@types'
 import List from './component/list'
 import Header from './header'
 import { useBiWeeklyPage } from './hooks'
+import { Props } from './types'
 
 /** Bangumi 半月刊 */
-const BiWeekly = ({ navigation }: { navigation: Navigation }) => {
+const BiWeekly = ({ navigation }: Props) => {
   const { loaded, data } = useBiWeeklyPage()
   return useObserver(() => (
     <Component id='screen-bi-weekly'>

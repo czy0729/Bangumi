@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-11 18:43:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 10:28:03
+ * @Last Modified time: 2024-08-06 03:15:59
  */
 import React from 'react'
-import { StorybookSPA, StorybookList, getStorybookArgs } from '@components'
-import Component from './index'
+import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { Tags as Component } from '@screens'
 
 export default {
   title: 'screens/Tags',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:00:52
+ * @Last Modified time: 2024-08-06 03:42:16
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -443,6 +443,8 @@ export default class Action extends Fetch {
   }
 
   unRendered = () => {
+    if (STORYBOOK) return
+
     if (this.state.rendered) {
       this.setState({
         rendered: false

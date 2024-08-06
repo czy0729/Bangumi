@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 12:00:28
+ * @Last Modified time: 2024-08-06 03:48:24
  */
-import React, { useCallback } from 'react'
+import React, { Suspense, useCallback } from 'react'
 import Stores from '@stores'
 import { r } from '@utils/dev'
 import { isMobile } from '@utils/dom'
@@ -42,13 +42,15 @@ export const StorybookSPA = ({ children }) => {
   })
 
   return (
-    <Component id='component-storybook-spa' data-mobile={isMobile()}>
-      <StorybookPage>
-        <StorybookScrollToTop />
-        {state ? children : <Page style={styles.placeholder} />}
-        <StorybookBottomTab />
-      </StorybookPage>
-    </Component>
+    <Suspense fallback={null}>
+      <Component id='component-storybook-spa' data-mobile={isMobile()}>
+        <StorybookPage>
+          <StorybookScrollToTop />
+          {state ? children : <Page style={styles.placeholder} />}
+          <StorybookBottomTab />
+        </StorybookPage>
+      </Component>
+    </Suspense>
   )
 }
 

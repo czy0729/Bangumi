@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-14 06:12:51
  */
-import { TopicId } from '@types'
+import { Navigation, TopicId } from '@types'
 
 export type Data = {
   topicId: TopicId
@@ -12,3 +12,7 @@ export type Data = {
   desc?: string
   cover: string
 }[]
+
+export type Props = {
+  navigation: Navigation
+}
