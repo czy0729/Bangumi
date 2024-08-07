@@ -6,6 +6,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-31 13:17:31
  */
+import { HOST_DMZJ } from '../constants'
 import { Model } from './utils'
 
 /** 条目类型 */
@@ -427,7 +428,7 @@ export const NEWS = [
   },
   {
     label: '动漫之家',
-    value: 'https://m.news.dmzj.com'
+    value: HOST_DMZJ
   }
 ] as const
 

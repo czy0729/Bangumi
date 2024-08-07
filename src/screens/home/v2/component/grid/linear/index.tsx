@@ -6,33 +6,33 @@
  */
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { ob } from '@utils/decorators'
+import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Linear() {
   if (!_.isDark) return null
 
-  return (
-    <LinearGradient
-      style={styles.linear}
-      colors={_.ios(
-        [
-          `rgba(${_.colorBgRaw.join()}, 1)`,
-          `rgba(${_.colorBgRaw.join()}, 0.8)`,
-          `rgba(${_.colorBgRaw.join()}, 0.24)`,
-          `rgba(${_.colorBgRaw.join()}, 0)`
-        ],
-        [
-          `rgba(${_.colorPlainRaw.join()}, 1)`,
-          `rgba(${_.colorPlainRaw.join()}, 0.8)`,
-          `rgba(${_.colorPlainRaw.join()}, 0.24)`,
-          `rgba(${_.colorPlainRaw.join()}, 0)`
-        ]
-      )}
-    />
-  )
+  let colors: string[] = []
+  if (IOS && systemStore.setting.homeLayout === 'list') {
+    colors = [
+      `rgba(${_.colorBgRaw.join()}, 1)`,
+      `rgba(${_.colorBgRaw.join()}, 0.8)`,
+      `rgba(${_.colorBgRaw.join()}, 0.24)`,
+      `rgba(${_.colorBgRaw.join()}, 0)`
+    ]
+  } else {
+    colors = [
+      `rgba(${_.colorPlainRaw.join()}, 1)`,
+      `rgba(${_.colorPlainRaw.join()}, 0.8)`,
+      `rgba(${_.colorPlainRaw.join()}, 0.24)`,
+      `rgba(${_.colorPlainRaw.join()}, 0)`
+    ]
+  }
+
+  return <LinearGradient style={styles.linear} colors={colors} />
 }
 
 export default ob(Linear, COMPONENT)

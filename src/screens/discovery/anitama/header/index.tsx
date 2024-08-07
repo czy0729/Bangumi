@@ -16,6 +16,7 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
 function Header(props, { $ }: Ctx) {
+  const { useWebView } = $.state
   return (
     <HeaderComp
       title='二次元资讯'
@@ -25,7 +26,7 @@ function Header(props, { $ }: Ctx) {
         <Flex>
           <IconTouchable
             style={_.mr.xs}
-            name={$.state.useWebView ? 'md-radio-button-on' : 'md-radio-button-off'}
+            name={useWebView ? 'md-radio-button-on' : 'md-radio-button-off'}
             size={20}
             color={_.colorDesc}
             onPress={$.toggleUseWebView}

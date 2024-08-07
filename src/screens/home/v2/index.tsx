@@ -7,9 +7,11 @@
 import React from 'react'
 import { Component, Page } from '@components'
 import { Auth } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver } from '@utils/hooks'
+import { IOS, MODEL_SETTING_HOME_LAYOUT } from '@constants'
+import { ViewStyle } from '@types'
 import Extra from './component/extra'
 import Modal from './component/modal'
 import Tab from './component/tab'
@@ -24,23 +26,32 @@ const Home = (props, context: Ctx) => {
   useHomePage(context)
 
   const { $ } = context
-  return useObserver(() => (
-    <Component id='screen-home'>
-      <Page style={_.ios(_.container.bg, _.container.plain)} loaded={$.state._loaded}>
-        {$.isLogin ? (
-          <>
-            <Header />
-            {$.state._loaded && <Tab keys={$.tabs.map(item => item.key)} />}
-            <Tips />
-            <Modal />
-          </>
-        ) : (
-          <Auth />
-        )}
-      </Page>
-      <Extra />
-    </Component>
-  ))
+  return useObserver(() => {
+    let style: ViewStyle
+    if (IOS && systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('列表')) {
+      style = _.container.bg
+    } else {
+      style = _.container.plain
+    }
+
+    return (
+      <Component id='screen-home'>
+        <Page style={style} loaded={$.state._loaded}>
+          {$.isLogin ? (
+            <>
+              <Header />
+              {$.state._loaded && <Tab keys={$.tabs.map(item => item.key)} />}
+              <Tips />
+              <Modal />
+            </>
+          ) : (
+            <Auth />
+          )}
+        </Page>
+        <Extra />
+      </Component>
+    )
+  })
 }
 
 export default ic(Store, Home)

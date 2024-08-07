@@ -65,8 +65,8 @@ export const HOST_NING_MOE = 'https://www.ningmoe.com'
 /** @deprecated Anitama api 地址 */
 export const HOST_ANITAMA = 'https://app.anitama.net'
 
-/** @deprecated 动漫之家 */
-export const HOST_DMZJ = 'https://m.news.dmzj.com'
+/** 动漫之家 */
+export const HOST_DMZJ = 'https://m.news.idmzj.com'
 
 /** @deprecated HD 漫画 */
 export const HOST_MANGA = 'https://tinygrail.mange.cn/app'

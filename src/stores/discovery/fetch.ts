@@ -10,6 +10,7 @@ import { get } from '@utils/kv'
 import {
   HOST,
   HOST_ANITAMA,
+  HOST_DMZJ,
   HOST_NING_MOE,
   HTML_BLOG_LIST,
   HTML_CATALOG,
@@ -37,7 +38,7 @@ import { getInt } from './utils'
 export default class Fetch extends Computed {
   /** 动漫之家资讯 */
   fetchDMZJTimeline = async (page: number = 1) => {
-    const url = 'https://m.news.dmzj.com'
+    const url = HOST_DMZJ
     let data: any = INIT_ANITAMA_TIMELINE_ITEM
     try {
       const { _response } = await xhrCustom({

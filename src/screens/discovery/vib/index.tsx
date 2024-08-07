@@ -36,8 +36,8 @@ const VIB = ({ navigation }: Props) => {
           data={data.map(item => item.title)}
           onSelect={handleSelect}
         />
-        <Page loaded={loaded}>
-          <TapListener>
+        <TapListener>
+          <Page loaded={loaded}>
             <ScrollView
               forwardRef={handleForwardRef}
               contentContainerStyle={styles.contentContainerStyle}
@@ -61,8 +61,8 @@ const VIB = ({ navigation }: Props) => {
               })}
               <Pagination data={data} index={index} onSelect={handleSelect} />
             </ScrollView>
-          </TapListener>
-        </Page>
+          </Page>
+        </TapListener>
       </Component>
     )
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 15:24:06
+ * @Last Modified time: 2024-08-07 22:50:02
  */
 
 /** Discovery */
@@ -20,6 +20,8 @@ export default {
   'Anitama.上一页': 'Anitama.prev',
   'Anitama.下一页': 'Anitama.next',
   'Anitama.页码跳转': 'Anitama.doSearch',
+  'Anitama.切换站点': 'Anitama.toggleType',
+  'Anitama.内置浏览器': 'Anitama.toggleUseWebView',
 
   // Dollars
   'Dollars.跳转': 'Dollars.to',
