@@ -29,6 +29,8 @@ export default {
 
   // 年鉴
   '年鉴.跳转': 'Award.to',
+  '年鉴.错误': 'Award.error',
+  '年鉴.浏览器打开': 'Award.browser',
   'Bangumi年鉴.跳转': 'Yearbook.to',
 
   // 索引

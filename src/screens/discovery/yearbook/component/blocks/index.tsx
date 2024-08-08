@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Flex, Image, Squircle, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST } from '@constants'
 import { YEARS_BLOCKS } from '../../ds'
@@ -20,27 +20,28 @@ function Blocks() {
   r(COMPONENT)
 
   const navigation = useNavigation()
-
   return useObserver(() => {
     const styles = memoStyles()
     const { width, height } = styles.item2021
     return (
-      <Flex wrap='wrap'>
+      <Flex style={_.mt.sm} wrap='wrap'>
         {YEARS_BLOCKS.map(year => (
           <Touchable
             key={String(year)}
             style={_.mt.md}
             animate
-            onPress={() => {
-              t('Bangumi年鉴.跳转', {
+            onPress={withT(
+              () => {
+                navigation.push('Award', {
+                  uri: `${HOST}/award/${year}`
+                })
+              },
+              'Bangumi年鉴.跳转',
+              {
                 to: 'Award',
                 year: year
-              })
-
-              navigation.push('Award', {
-                uri: `${HOST}/award/${year}`
-              })
-            }}
+              }
+            )}
           >
             <Squircle width={width} height={height} radius={systemStore.coverRadius}>
               <View style={styles[`item${year}`]}>

@@ -8,7 +8,7 @@ import React from 'react'
 import { Component, Page } from '@components'
 import { appNavigate, cheerio, getStorage, info, open, removeCF, setStorage } from '@utils'
 import { ob } from '@utils/decorators'
-import { fetchHTML } from '@utils/fetch'
+import { fetchHTML, t } from '@utils/fetch'
 import { HOST, STORYBOOK } from '@constants'
 import Extra from './component/extra'
 import Loading from './component/loading'
@@ -101,13 +101,20 @@ class Award extends React.Component<Props> {
   }
 
   onError = () => {
-    const { navigation } = this.props
+    this.props.navigation.goBack()
     info('网络似乎出了点问题，请重试')
-    navigation.goBack()
+
+    t('年鉴.错误', {
+      uri: this.uri
+    })
   }
 
   onOpen = () => {
     open(this.uri)
+
+    t('年鉴.浏览器打开', {
+      uri: this.uri
+    })
   }
 
   onMessage = async (event: any) => {
@@ -161,8 +168,7 @@ class Award extends React.Component<Props> {
   }
 
   get uri() {
-    const { route } = this.props
-    return route?.params?.uri || ''
+    return this.props.route?.params?.uri || ''
   }
 
   get year() {
@@ -171,10 +177,9 @@ class Award extends React.Component<Props> {
   }
 
   get barStyle() {
-    const { loading } = this.state
-
-    // @ts-expect-error
-    if (!loading && LIGHT_CONTENT_YEARS.includes(this.year)) return 'dark-content'
+    if (!this.state.loading && (LIGHT_CONTENT_YEARS as readonly string[]).includes(this.year)) {
+      return 'dark-content'
+    }
 
     return 'light-content'
   }

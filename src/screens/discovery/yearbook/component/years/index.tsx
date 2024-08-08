@@ -9,7 +9,7 @@ import { Flex, Squircle, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { t } from '@utils/fetch'
+import { withT } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
 import { HOST } from '@constants'
 import { YEARS } from '../../ds'
@@ -20,7 +20,6 @@ function Years() {
   r(COMPONENT)
 
   const navigation = useNavigation()
-
   return useObserver(() => {
     const styles = memoStyles()
     return (
@@ -30,16 +29,18 @@ function Years() {
             key={item}
             style={stl(styles.item, index % _.portrait(2, 4) === 0 && styles.side)}
             animate
-            onPress={() => {
-              t('Bangumi年鉴.跳转', {
+            onPress={withT(
+              () => {
+                navigation.push('Award', {
+                  uri: `${HOST}/award/${item}`
+                })
+              },
+              'Bangumi年鉴.跳转',
+              {
                 to: 'Award',
                 year: item
-              })
-
-              navigation.push('Award', {
-                uri: `${HOST}/award/${item}`
-              })
-            }}
+              }
+            )}
           >
             <Squircle
               width={styles.itemBody.width}
