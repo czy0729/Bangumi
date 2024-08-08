@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-02-19 11:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:16:27
+ * @Last Modified time: 2024-08-09 06:21:47
  */
 import { FONT_SCALE, MENU_TRANSFORM_ORIGIN_TOLERENCE } from 'react-native-hold-menu/src/constants'
 import styleGuide from 'react-native-hold-menu/src/styleGuide'
-import { MENU_WIDTH } from '../constants'
+import { MENU_HEIGHT, MENU_WIDTH } from '../constants'
 
 export const MenuItemHeight = () => {
   'worklet'
@@ -18,7 +18,7 @@ export const calculateMenuHeight = (itemLength: number, separatorCount: number) 
   'worklet'
   return Math.min(
     MenuItemHeight() * itemLength + (itemLength - 1) + separatorCount * styleGuide.spacing,
-    360
+    MENU_HEIGHT
   )
 }
 

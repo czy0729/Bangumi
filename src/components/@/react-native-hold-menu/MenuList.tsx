@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-19 10:52:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-11 08:18:44
+ * @Last Modified time: 2024-08-09 06:28:13
  */
 // @ts-nocheck
 import React from 'react'
@@ -107,6 +107,8 @@ const MenuListComponent = () => {
     animatedProps: Partial<{ tint: string }>
   }>(BlurView)
 
+  const elMenuItems = <MenuItems items={itemList} />
+
   return (
     <Animated.View
       style={[
@@ -122,13 +124,17 @@ const MenuListComponent = () => {
         intensity={80}
         animatedProps={animatedProps}
       >
-        <ScrollView
-          contentContainerStyle={additionStyles.contentContainerStyle}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-        >
-          <MenuItems items={itemList} />
-        </ScrollView>
+        {itemList.length > 6 ? (
+          <ScrollView
+            contentContainerStyle={additionStyles.contentContainerStyle}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
+            {elMenuItems}
+          </ScrollView>
+        ) : (
+          elMenuItems
+        )}
       </AnimatedView>
     </Animated.View>
   )
