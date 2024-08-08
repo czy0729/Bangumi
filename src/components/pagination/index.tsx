@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:53:40
+ * @Last Modified time: 2024-08-09 05:58:34
  */
 import React, { useRef, useState } from 'react'
 import { _ } from '@stores'
@@ -47,6 +47,7 @@ export const Pagination = ({
           <Flex.Item>
             <Touchable
               style={styles.touch}
+              disabled={input == '1'}
               onPress={() => {
                 onPrev()
                 feedback(true)

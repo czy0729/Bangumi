@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-26 01:18:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 19:27:12
+ * @Last Modified time: 2024-08-09 03:14:55
  */
 import { action, configure, extendObservable, isObservableArray, toJS } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
@@ -174,6 +174,7 @@ export default class Store<
 
   /**
    * 存入本地缓存
+   * @deprecated
    * @param {*} key
    * @param {*} value
    * @param {*} namespace 空间名其实一定要传递的

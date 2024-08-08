@@ -1,0 +1,39 @@
+/*
+ * @Author: czy0729
+ * @Date: 2022-09-01 12:47:35
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-08-09 03:54:17
+ */
+import { Loaded } from '@types'
+import { COMPONENT } from '../ds'
+
+export const NAMESPACE = `Screen${COMPONENT}` as const
+
+export const STATE = {
+  /** tab 的 page */
+  page: 0,
+
+  /** 是否显示列表, 制造切页效果 */
+  show: true,
+
+  /** 当前页数 */
+  currentPage: {
+    all: 1,
+    anime: 1,
+    book: 1,
+    game: 1,
+    music: 1,
+    real: 1
+  },
+
+  /** 输入框值 */
+  ipt: {
+    all: '1',
+    anime: '1',
+    book: '1',
+    game: '1',
+    music: '1',
+    real: '1'
+  },
+  _loaded: false as Loaded
+}

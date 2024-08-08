@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 08:02:47
+ * @Last Modified time: 2024-08-09 03:51:04
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -10,6 +10,7 @@ import { getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { STORYBOOK, URL_SPA } from '@constants'
+import { COMPONENT } from './ds'
 
 const TEXT_BROWSER = '浏览器查看'
 const TEXT_SPA = '网页版查看'
@@ -26,16 +27,16 @@ function Header() {
         <HeaderComp.Popover
           data={DATA}
           onSelect={key => {
-            t('全站日志.右上角菜单', {
-              key
-            })
-
             if (key === TEXT_BROWSER) {
               open('https://bgm.tv/blog')
             } else if (key === TEXT_SPA) {
               const url = `${URL_SPA}/${getSPAParams('DiscoveryBlog')}`
               open(url)
             }
+
+            t('全站日志.右上角菜单', {
+              key
+            })
           }}
         >
           <Heatmap id='全站日志.右上角菜单' />
@@ -45,4 +46,4 @@ function Header() {
   )
 }
 
-export default ob(Header)
+export default ob(Header, COMPONENT)

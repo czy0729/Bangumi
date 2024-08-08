@@ -1,80 +1,31 @@
 /*
  * @Author: czy0729
- * @Date: 2020-04-04 16:04:20
+ * @Date: 2024-08-09 03:18:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:15:54
+ * @Last Modified time: 2024-08-09 03:54:22
  */
-import { observable, computed } from 'mobx'
-import { discoveryStore, userStore } from '@stores'
-import { info, x18s } from '@utils'
-import store from '@utils/store'
+import { info } from '@utils'
 import { t } from '@utils/fetch'
-import { SubjectType } from '@types'
-import { NAMESPACE, STATE, TABS } from './ds'
+import { TABS } from '../ds'
+import Fetch from './fetch'
 
-export default class ScreenDiscoveryBlog extends store<typeof STATE> {
-  state = observable(STATE)
-
-  init = async () => {
-    const state = await this.getStorage(NAMESPACE)
-    this.setState({
-      ...state,
-      show: true,
-      _loaded: true
-    })
-
-    return this.fetchBlog()
-  }
-
-  // -------------------- fetch --------------------
-  /** 全站日志 */
-  fetchBlog = () => {
-    const { currentPage } = this.state
-    return discoveryStore.fetchBlog({
-      type: this.type,
-      page: currentPage[this.type]
-    })
-  }
-
-  // -------------------- get --------------------
-  get type() {
-    const { page } = this.state
-    return TABS[page].key
-  }
-
-  /** 全站日志 */
-  blog(type: SubjectType | 'all') {
-    const { currentPage } = this.state
-    return computed(() => {
-      const blog = discoveryStore.blog(type, currentPage[type])
-      if (userStore.isLimit) {
-        return {
-          ...blog,
-          list: blog.list.filter(item => !x18s(item.title))
-        }
-      }
-      return blog
-    }).get()
-  }
-
-  // -------------------- page --------------------
+export default class Action extends Fetch {
   /** 标签页切换 */
   onTabChange = (page: number) => {
     if (page === this.state.page) return
 
-    t('全站日志.标签页切换')
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.save()
     this.tabChangeCallback(page)
+
+    t('全站日志.标签页切换')
   }
 
   /** 标签页切换回调 */
   tabChangeCallback = (page: number) => {
-    const { key } = TABS[page]
-    const { _loaded } = this.blog(key)
-    if (!_loaded) this.fetchBlog()
+    if (!this.blog(TABS[page].key)._loaded) this.fetchBlog()
   }
 
   /** 切换列表显示，强制滑动到顶 */
@@ -83,7 +34,7 @@ export default class ScreenDiscoveryBlog extends store<typeof STATE> {
       this.setState({
         show: true
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }, 400)
   }
 
