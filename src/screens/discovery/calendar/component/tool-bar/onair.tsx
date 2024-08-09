@@ -2,29 +2,37 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 06:49:51
+ * @Last Modified time: 2024-08-09 08:46:42
  */
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { c } from '@utils/decorators'
+import { r } from '@utils/dev'
+import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { getData } from './utils'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Onair(props, { $ }: Ctx) {
-  const { adapt, tag, origin } = $.state
-  const { adapts, tags, origins } = getData($.calendar.list, {
+function Onair({ list, adapt, tag, origin }, { $ }: Ctx) {
+  r(COMPONENT)
+
+  const { adapts, tags, origins } = getData(list, {
     adapt,
     tag,
     origin
   })
-  return (
+  const adaptsDS = useMemo(() => ['全部', ...adapts], [adapts.length])
+  const tagsDS = useMemo(() => ['全部', ...tags], [tags.length])
+  const originDS = useMemo(() => ['全部', ...origins], [origins.length])
+
+  return useObserver(() => (
     <>
       {!!adapts?.length && (
         <ToolBar.Popover
           itemStyle={styles.item}
-          data={['全部', ...adapts]}
+          data={adaptsDS}
           text={adapt || '改编'}
           type='desc'
           onSelect={$.onAdapt}
@@ -33,7 +41,7 @@ function Onair(props, { $ }: Ctx) {
       {!!tags?.length && (
         <ToolBar.Popover
           itemStyle={styles.item}
-          data={['全部', ...tags]}
+          data={tagsDS}
           text={tag || '标签'}
           type='desc'
           onSelect={$.onTag}
@@ -42,8 +50,8 @@ function Onair(props, { $ }: Ctx) {
       {!!origins?.length && (
         <ToolBar.Popover
           itemStyle={styles.item}
-          data={['全部', ...origins]}
-          text={origin || '动画制作'}
+          data={originDS}
+          text={origin || '制作'}
           type='desc'
           onSelect={$.onOrigin}
         />
@@ -52,7 +60,7 @@ function Onair(props, { $ }: Ctx) {
         <ToolBar.Icon icon='md-close' iconColor={_.colorDesc} onSelect={$.onClear} />
       )}
     </>
-  )
+  ))
 }
 
-export default obc(Onair)
+export default c(Onair)

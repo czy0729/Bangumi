@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:38:58
+ * @Last Modified time: 2024-08-09 19:47:12
  */
-export * from './accordion'
+export * from './accordion/index.lazy'
 export * from './action-sheet'
 export * from './activity'
 export * from './animated'

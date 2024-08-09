@@ -2,40 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 07:52:04
+ * @Last Modified time: 2024-08-09 19:37:34
  */
 import React from 'react'
 import { Text } from '@components'
 import { getOnAirItem } from '@utils'
 import { obc } from '@utils/decorators'
-import { ReactNode, SubjectId, TextStyle } from '@types'
+import { ReactNode } from '@types'
 import { Ctx } from '../../types'
+import { Props } from './type'
 import { COMPONENT } from './ds'
 
-function Desc(
-  {
-    style,
-    subjectId,
-    sites,
-    size = 11,
-    filterToShow = false
-  }: {
-    style?: TextStyle
-    subjectId: SubjectId
-    sites?: any
-    size?: number
-
-    /** 是否筛选中才显示 */
-    filterToShow?: boolean
-  },
-  { $ }: Ctx
-) {
+function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Props, { $ }: Ctx) {
   if (filterToShow) {
     if (!($.state.adapt || $.state.origin || $.state.tag)) return null
   }
 
   const els: ReactNode[] = []
-
   const extra: string[] = []
   if (sites?.b) extra.push('bilibili')
   if (!sites?.b && sites?.bhmt) extra.push('bilibili 港澳台')

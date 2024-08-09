@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 17:35:36
+ * @Last Modified time: 2024-08-09 19:41:32
  */
 import { updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -11,7 +11,7 @@ import Fetch from './fetch'
 export default class Action extends Fetch {
   /** 切换布局 */
   onSwitchLayout = () => {
-    const layout = this.state.layout === 'list' ? 'grid' : 'list'
+    const layout = this.isList ? 'grid' : 'list'
     this.setState({
       layout
     })
