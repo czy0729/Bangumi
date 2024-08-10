@@ -17,9 +17,11 @@ function Content({ icon, size, type, collection, horizontal }) {
     return (
       <Flex style={[styles.content, styles.horizontal]}>
         <Iconfont name={icon} size={size - 1} color={_[`color${titleCase(type)}`]} />
-        <Text style={_.ml.xs} type={type} size={13} lineHeight={15} align='center'>
-          {collection}
-        </Text>
+        {!!collection && (
+          <Text style={_.ml.xs} type={type} size={13} lineHeight={15} align='center'>
+            {collection}
+          </Text>
+        )}
       </Flex>
     )
   }
@@ -29,9 +31,11 @@ function Content({ icon, size, type, collection, horizontal }) {
       <Flex style={styles.icon} justify='center'>
         <Iconfont name={icon} size={size} color={_[`color${titleCase(type)}`]} />
       </Flex>
-      <Text style={styles.text} type={type} size={11} align='center'>
-        {collection}
-      </Text>
+      {!!collection && (
+        <Text style={styles.text} type={type} size={11} align='center'>
+          {collection}
+        </Text>
+      )}
     </View>
   )
 }

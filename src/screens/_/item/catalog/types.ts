@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-19 20:47:27
  */
 import { CatalogDetail } from '@stores/discovery/types'
-import { EventType, Id } from '@types'
+import { EventType, Id, Navigation } from '@types'
 
 export type Props = {
   event?: EventType
@@ -37,4 +37,8 @@ export type Props = {
 
   /** 目录详情信息 */
   detail?: CatalogDetail
+}
+
+export type Context = {
+  navigation?: Navigation
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 05:56:22
+ * @Last Modified time: 2024-08-10 15:29:56
  */
 import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
@@ -14,9 +14,11 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function IconFavor({ $ }: Ctx) {
+  if (!($.detail.joinUrl || $.detail.byeUrl)) return null
+
   const { collect } = $.catalogDetail
   return (
-    <Flex style={collect ? styles.withCollect : _.mr.xs}>
+    <Flex style={collect ? styles.withCollect : _.mr.sm}>
       <IconHeader
         name={$.isCollect ? 'md-star' : 'md-star-outline'}
         size={22}

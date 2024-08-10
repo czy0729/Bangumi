@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 04:19:04
+ * @Last Modified time: 2024-08-10 00:54:18
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -54,7 +54,7 @@ export type NavigationPushType = RouteActions &
   RouteZone &
   ((path: Paths) => any)
 
-type RouteReviews = (
+export type RouteReviews = (
   path: 'Reviews',
   params: {
     subjectId: SubjectId
@@ -62,14 +62,14 @@ type RouteReviews = (
   }
 ) => any
 
-type RouteNotify = (
+export type RouteNotify = (
   path: 'Notify',
   params: {
     type: 'pm' | 'notify'
   }
 ) => any
 
-type RouteTyperank = (
+export type RouteTyperank = (
   path: 'Typerank',
   params: {
     type: SubjectType
@@ -78,58 +78,58 @@ type RouteTyperank = (
   }
 ) => any
 
-type RouteChannel = (
+export type RouteChannel = (
   path: 'Channel',
   params: {
     type?: SubjectType
   }
 ) => any
 
-type RouteTips = (
+export type RouteTips = (
   path: 'Tips',
   params: {
     key?: string
   }
 ) => any
 
-type RouteAuth = (path: 'Auth') => any
+export type RouteAuth = (path: 'Auth') => any
 
-type RouteAnime = (
+export type RouteAnime = (
   path: 'Anime',
   params: {
     _tags?: string[]
   }
 ) => any
 
-type RouteManga = (
+export type RouteManga = (
   path: 'Manga',
   params: {
     _tags?: string[]
   }
 ) => any
 
-type RouteWenku = (
+export type RouteWenku = (
   path: 'Wenku',
   params: {
     _tags?: string[]
   }
 ) => any
 
-type RouteGame = (
+export type RouteGame = (
   path: 'Game',
   params: {
     _tags?: string[]
   }
 ) => any
 
-type RouteHentai = (
+export type RouteHentai = (
   path: 'Hentai',
   params: {
     _tags?: string[]
   }
 ) => any
 
-type RouteUserTimeline = (
+export type RouteUserTimeline = (
   path: 'UserTimeline',
   params: {
     userId?: UserId
@@ -137,7 +137,7 @@ type RouteUserTimeline = (
   }
 ) => any
 
-type RouteSay = (
+export type RouteSay = (
   path: 'Say',
   params: {
     /** @deprecated */
@@ -147,14 +147,14 @@ type RouteSay = (
   }
 ) => any
 
-type RouteBlog = (
+export type RouteBlog = (
   path: 'Blog',
   params: {
     blogId: Id
   }
 ) => any
 
-type RouteCharacters = (
+export type RouteCharacters = (
   path: 'Characters',
   params: {
     subjectId: SubjectId
@@ -162,7 +162,7 @@ type RouteCharacters = (
   }
 ) => any
 
-type RouteTag = (
+export type RouteTag = (
   path: 'Tag',
   params: {
     type: SubjectType
@@ -170,7 +170,7 @@ type RouteTag = (
   }
 ) => any
 
-type RouteSearch = (
+export type RouteSearch = (
   path: 'Search',
   params: {
     type?: string
@@ -184,7 +184,7 @@ type RouteSearch = (
   }
 ) => any
 
-type RouteMono = (
+export type RouteMono = (
   path: 'Mono',
   params: {
     monoId: string
@@ -195,7 +195,7 @@ type RouteMono = (
   }
 ) => any
 
-type RouteGroup = (
+export type RouteGroup = (
   path: 'Group',
   params: {
     groupId: string
@@ -203,7 +203,7 @@ type RouteGroup = (
   }
 ) => any
 
-type RouteWebBrowser = (
+export type RouteWebBrowser = (
   path: 'WebBrowser',
   params: {
     url: string
@@ -215,7 +215,7 @@ type RouteWebBrowser = (
   }
 ) => any
 
-type RouteZone = (
+export type RouteZone = (
   path: 'Zone',
   params: {
     userId: UserId
@@ -226,14 +226,20 @@ type RouteZone = (
   }
 ) => any
 
-type RouteCatalogDetail = (
+export type RouteCatalogDetail = (
   path: 'CatalogDetail',
   params: {
     catalogId: Id
+
+    /** 是否隐藏条目分数 */
+    _hideScore?: boolean
+
+    /** 最后更新时间 (只有某些特定入口才有的) */
+    _lastUpdate?: string
   }
 ) => any
 
-type RouteUser = (
+export type RouteUser = (
   path: 'User',
   params: {
     userId: UserId
@@ -242,7 +248,7 @@ type RouteUser = (
   }
 ) => any
 
-type RouteTopic = (
+export type RouteTopic = (
   path: 'Topic',
   params: {
     topicId: TopicId
@@ -259,7 +265,7 @@ type RouteTopic = (
   }
 ) => any
 
-type RouteCatalogs = (
+export type RouteCatalogs = (
   path: 'Catalogs',
   params: {
     /** 用户 ID, 没有 ID 为自己 */
@@ -267,7 +273,7 @@ type RouteCatalogs = (
   }
 ) => any
 
-type RouteBlogs = (
+export type RouteBlogs = (
   path: 'Blogs',
   params: {
     /** 用户 ID */
@@ -275,7 +281,7 @@ type RouteBlogs = (
   }
 ) => any
 
-type RouteCharacter = (
+export type RouteCharacter = (
   path: 'Character',
   params: {
     /** 用户 ID */
@@ -283,7 +289,7 @@ type RouteCharacter = (
   }
 ) => any
 
-type RouteFriends = (
+export type RouteFriends = (
   path: 'Friends',
   params: {
     /** 用户 ID */
@@ -291,7 +297,7 @@ type RouteFriends = (
   }
 ) => any
 
-type RoutePM = (
+export type RoutePM = (
   path: 'PM',
   params: {
     /** 已有 ID, 没有为新建 */
@@ -305,7 +311,7 @@ type RoutePM = (
   }
 ) => any
 
-type RouteSubject = (
+export type RouteSubject = (
   path: 'Subject',
   params: {
     subjectId: SubjectId
@@ -324,7 +330,7 @@ type RouteSubject = (
   }
 ) => any
 
-type RouteSubjectCatalogs = (
+export type RouteSubjectCatalogs = (
   path: 'SubjectCatalogs',
   params: {
     subjectId: SubjectId
@@ -332,7 +338,7 @@ type RouteSubjectCatalogs = (
   }
 ) => any
 
-type RouteRating = (
+export type RouteRating = (
   path: 'Rating',
   params: {
     subjectId: SubjectId
@@ -347,7 +353,7 @@ type RouteRating = (
   }
 ) => any
 
-type RouteActions = (
+export type RouteActions = (
   path: 'Actions',
   params: {
     subjectId: SubjectId
@@ -355,7 +361,7 @@ type RouteActions = (
   }
 ) => any
 
-type RouteInformation = (
+export type RouteInformation = (
   path: 'Information',
   params: {
     title: string
@@ -365,7 +371,7 @@ type RouteInformation = (
   }
 ) => any
 
-type RouteShare = (
+export type RouteShare = (
   path: 'Share',
   params: {
     _subjectId: SubjectId
@@ -378,14 +384,14 @@ type RouteShare = (
   }
 ) => any
 
-type RouteAward = (
+export type RouteAward = (
   path: 'Award',
   params: {
     uri: string
   }
 ) => any
 
-type RouteSetting = (
+export type RouteSetting = (
   path: 'Setting',
   params: {
     /** 进入页面后展开子菜单 */
@@ -393,4 +399,4 @@ type RouteSetting = (
   }
 ) => any
 
-type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, any>) => any
+export type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, any>) => any

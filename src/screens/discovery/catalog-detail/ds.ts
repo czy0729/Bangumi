@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 15:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 19:47:46
+ * @Last Modified time: 2024-08-09 20:25:16
  */
 export const COMPONENT = 'CatalogDetail'
 
+/** 布局 */
 export const LAYOUT_DS = [
   {
     key: 'list',
@@ -17,6 +18,7 @@ export const LAYOUT_DS = [
   }
 ] as const
 
+/** 页内排序 */
 export const SORT_DS = [
   {
     key: '0',
@@ -29,5 +31,21 @@ export const SORT_DS = [
   {
     key: '2',
     title: '评分'
+  }
+] as const
+
+/** 收藏范围 */
+export const COLLECT_DS = [
+  {
+    key: 'all',
+    title: '全部'
+  },
+  {
+    key: 'collected',
+    title: '只看收藏'
+  },
+  {
+    key: 'uncollect',
+    title: '不看收藏'
   }
 ] as const

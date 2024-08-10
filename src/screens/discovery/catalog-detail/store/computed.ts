@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 19:33:06
+ * @Last Modified time: 2024-08-10 14:11:24
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
 import { desc, getTimestamp } from '@utils'
 import CacheManager from '@utils/cache-manager'
-import { List } from '../types'
+import { List, ListItem } from '../types'
 import State from './state'
 import { NAMESPACE } from './ds'
 
@@ -28,6 +28,11 @@ export default class Computed extends State {
     return discoveryStore.catalogDetailFromOSS(this.catalogId)
   }
 
+  /** 目录详情 (实际用于显示) */
+  @computed get detail() {
+    return this.catalogDetail.title ? this.catalogDetail : this.catalogDetailFromOSS
+  }
+
   /** 目录详情列表 */
   @computed get list(): List {
     const key = `${NAMESPACE}|${this.catalogId}`
@@ -36,30 +41,33 @@ export default class Computed extends State {
       if (data) return data
     }
 
-    let list = []
+    let list: ListItem[] = []
     if (this.catalogDetail.list.length) {
       list = this.catalogDetail.list
     } else if (this.catalogDetailFromOSS.list.length) {
       list = this.catalogDetailFromOSS.list
     }
+
+    // 尽量补全评分信息
     list = list.map(item => {
       const { id } = item
       return {
         ...item,
-        score:
-          subjectStore.subject(id)?.rating?.score ||
-          subjectStore.subjectFromOSS(id)?.rating?.score ||
-          0,
-        rank: subjectStore.subject(id)?.rank || subjectStore.subjectFromOSS(id)?.rank || '',
-        total:
-          subjectStore.subject(id)?.rating?.total ||
-          subjectStore.subjectFromOSS(id)?.rating?.total ||
-          ''
+        score: subjectStore.ratingScore(id),
+        rank: subjectStore.ratingRank(id),
+        total: subjectStore.ratingTotal(id)
       }
     })
 
+    // 收藏
+    const { collect, sort } = this.state
+    if (collect === 'collected') {
+      list = list.filter(item => item.isCollect)
+    } else if (collect === 'uncollect') {
+      list = list.filter(item => !item.isCollect)
+    }
+
     // 时间
-    const { sort } = this.state
     if (String(sort) === '1') {
       return CacheManager.set(
         key,

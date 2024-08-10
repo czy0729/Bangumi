@@ -37,20 +37,23 @@ export type Catalog = DeepPartial<{
   _loaded: number
 }>
 
+/** 目录详情列表项 */
+export type CatalogDetailItem = {
+  id: Id
+  image: Cover<'c'>
+  title: string
+  type: SubjectTypeCn
+  info: string
+  comment: string
+  isCollect: boolean
+  order: string
+  modify: string
+  erase: string
+}
+
 /** 目录详情 */
 export type CatalogDetail = {
-  list: {
-    id: Id
-    image: Cover<'c'>
-    title: string
-    type: SubjectTypeCn
-    info: string
-    comment: string
-    isCollect: boolean
-    order: string
-    modify: string
-    erase: string
-  }[]
+  list: CatalogDetailItem[]
   title: string
   avatar: Avatar<'m'>
   progress: string

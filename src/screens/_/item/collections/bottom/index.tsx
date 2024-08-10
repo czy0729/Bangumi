@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:47:06
+ * @Last Modified time: 2024-08-10 16:54:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,8 @@ function Bottom({
   hideScore,
   isDo,
   isOnHold,
-  isDropped
+  isDropped,
+  hasComment
 }) {
   const hasScore = !!score
 
@@ -55,8 +56,10 @@ function Bottom({
   const hasLeft = showRank || showScore || showTotal || showInfo
   const hasCenter = showVisibility || showR18
   const hasRight = showTags
-
-  if (!hasLeft && !hasCenter && !hasRight) return null
+  if (!hasLeft && !hasCenter && !hasRight) {
+    if (hasComment) return null
+    return <View style={_.mt.md} />
+  }
 
   return (
     <Flex style={_.mt.md}>

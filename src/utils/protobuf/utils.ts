@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-13 20:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-22 01:36:28
+ * @Last Modified time: 2024-08-10 15:25:52
  */
-import { DEV } from '@/config'
+import { DEV, LOG_LEVEL } from '@/config'
 import { DataAssets, Get } from './types'
 
 /** 缓存结果 */
@@ -44,7 +44,7 @@ export function checkCache(name: DataAssets) {
 /** 获取数据 */
 export const get: Get = (name: DataAssets) => {
   const data = cacheMap.get(name)
-  if (DEV) {
+  if (DEV && LOG_LEVEL >= 1) {
     if (!logMap.has(name)) log('get', name, data?.length || 0)
     logMap.set(name, true)
   }
@@ -63,10 +63,6 @@ export function isPromise(obj: any) {
 /** [DEV] */
 export function log(method: string, ...others: any[]) {
   if (DEV) {
-    console.info(
-      `%c[@utils/protobuf/${method}]`,
-      'background: #000; color: #fff',
-      ...others
-    )
+    console.info(`%c[@utils/protobuf/${method}]`, 'background: #000; color: #fff', ...others)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 07:04:54
+ * @Last Modified time: 2024-08-10 16:53:41
  */
 import React from 'react'
 import { Component, Cover, Flex, Text, Touchable } from '@components'
@@ -65,6 +65,7 @@ const Item = memo(
     const subjectId = String(id).replace('/subject/', '')
     const titleLength = name.length + nameCn.length
     const width = IMG_WIDTH * 1.1
+    const hasComment = !!comments && comments !== 'undefined'
     return (
       <Component id='item-collections' data-key={id}>
         <Touchable
@@ -160,6 +161,7 @@ const Item = memo(
                       isDo={isDo}
                       isOnHold={isOnHold}
                       isDropped={isDropped}
+                      hasComment={hasComment}
                     />
                   </Flex.Item>
                   {isEditable && (
@@ -171,7 +173,7 @@ const Item = memo(
                   )}
                 </Flex>
               </Flex>
-              {!!comments && comments !== 'undefined' && (
+              {hasComment && (
                 <Text
                   style={styles.comments}
                   size={comments.length >= 80 ? 12 : comments.length >= 40 ? 13 : 14}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 19:36:41
+ * @Last Modified time: 2024-08-10 23:17:25
  */
 import { collectionStore, discoveryStore, subjectStore } from '@stores'
 import { confirm, opitimize, sleep } from '@utils'
@@ -50,7 +50,7 @@ export default class Fetch extends Computed {
               await subjectStore.fetchSubject(id, 'small')
             } else {
               // 用于制作进度条加载效果
-              await sleep(40)
+              await sleep(16)
             }
 
             this.setState({

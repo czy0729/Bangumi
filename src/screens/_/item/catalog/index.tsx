@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:05:28
+ * @Last Modified time: 2024-08-09 21:21:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { InView } from '../../base'
 import Covers from './covers'
 import { AVATAR_WIDTH, COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemCatalogProps } from './types'
+import { Context, Props as ItemCatalogProps } from './types'
 
 export { ItemCatalogProps }
 
@@ -43,7 +43,7 @@ export const ItemCatalog = obc(
       detail,
       children
     }: ItemCatalogProps,
-    { navigation }
+    { navigation }: Context
   ) => {
     if (!isUser && !book && !anime && !music && !game && !real) return null
 
@@ -71,10 +71,12 @@ export const ItemCatalog = obc(
     if (_desc === 'undefined') _desc = ''
 
     let dateText = ''
+    let lastUpdate = ''
     if (last) {
       dateText = `创建于 ${last}`
     } else if (time && !time.includes('创建于')) {
       dateText = `最后更新 ${lastDate(getTimestamp(time))}`
+      lastUpdate = time
     } else if (_detailTime) {
       dateText = `创建于 ${lastDate(getTimestamp(_detailTime))?.slice(0, 10)}`
     }
@@ -85,16 +87,16 @@ export const ItemCatalog = obc(
           style={styles.container}
           animate
           onPress={() => {
-            const { id: eventId, data: eventData } = event
-            t(eventId, {
-              to: 'CatalogDetail',
-              catalogId: id,
-              ...eventData
-            })
-
             navigation.push('CatalogDetail', {
               catalogId: id,
+              _lastUpdate: lastUpdate,
               _hideScore: hideScore
+            })
+
+            t(event.id, {
+              to: 'CatalogDetail',
+              catalogId: id,
+              ...event.data
             })
           }}
         >

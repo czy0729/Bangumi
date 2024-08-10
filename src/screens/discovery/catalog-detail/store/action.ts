@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:39:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 19:43:45
+ * @Last Modified time: 2024-08-10 16:37:35
  */
 import { discoveryStore, userStore } from '@stores'
 import { confirm, desc, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
@@ -11,7 +11,7 @@ import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
-import { LAYOUT_DS, SORT_DS } from '../ds'
+import { COLLECT_DS, LAYOUT_DS, SORT_DS } from '../ds'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -55,8 +55,7 @@ export default class Action extends Fetch {
 
   /** 复制他人的目录 */
   onCopy = (navigation: Navigation) => {
-    const { formhash } = userStore
-    if (!formhash) {
+    if (!userStore.formhash) {
       info(`请先${i18n.login()}`)
       return
     }
@@ -94,6 +93,19 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 切换收藏范围 */
+  onToggleCollect = (label: string) => {
+    const collect = COLLECT_DS.find(item => item.title === label)?.['key']
+    this.setState({
+      collect
+    })
+    this.save()
+
+    t('目录详情.收藏范围', {
+      collect
+    })
+  }
+
   /** 更新可视范围底部 y */
   onScroll = updateVisibleBottom.bind(this)
 
@@ -102,10 +114,6 @@ export default class Action extends Fetch {
   doCollect = async () => {
     const { joinUrl } = this.catalogDetail
     if (!joinUrl) return false
-
-    t('目录详情.收藏', {
-      catalogId: this.catalogId
-    })
 
     await fetchHTML({
       method: 'POST',
@@ -121,6 +129,10 @@ export default class Action extends Fetch {
       userStore.userInfo
     )
 
+    t('目录详情.收藏', {
+      catalogId: this.catalogId
+    })
+
     return this.fetchCatalogDetail(true)
   }
 
@@ -129,16 +141,16 @@ export default class Action extends Fetch {
     const { byeUrl } = this.catalogDetail
     if (!byeUrl) return false
 
-    t('目录详情.取消收藏', {
-      catalogId: this.catalogId
-    })
-
     await fetchHTML({
       method: 'POST',
       url: `${HOST}${byeUrl}`
     })
     feedback()
     info('已取消收藏')
+
+    t('目录详情.取消收藏', {
+      catalogId: this.catalogId
+    })
 
     return this.fetchCatalogDetail(true)
   }
@@ -191,6 +203,7 @@ export default class Action extends Fetch {
                 catalogId
               })
               info('已完成')
+
               t('目录详情.复制', {
                 from: catalogId
               })

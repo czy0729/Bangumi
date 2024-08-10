@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-12 05:57:22
+ * @Last Modified time: 2024-08-10 23:08:43
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -10,21 +10,15 @@ import { ItemCollections, ItemCollectionsGrid } from '@_'
 import { _, collectionStore, subjectStore } from '@stores'
 import { findSubjectCn } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx, ListItem } from '../../types'
+import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
+import { Props } from './types'
 
-function Item(
-  {
-    index = 0,
-    item
-  }: {
-    index: number
-    item: ListItem
-  },
-  { $, navigation }: Ctx
-) {
+function Item({ index = 0, item }: Props, { $, navigation }: Ctx) {
   const id = String(item.id).match(/\d+/)[0]
   const collection = collectionStore.collect(id)
+  const jp = subjectStore.jp(id) || item.title
+  const cn = subjectStore.cn(id) || findSubjectCn(item.title, id)
   if ($.isList) {
     return (
       <>
@@ -36,8 +30,8 @@ function Item(
           id={id}
           type={item.type}
           cover={item.image}
-          name={subjectStore.jp(id) || item.title}
-          nameCn={subjectStore.cn(id) || findSubjectCn(item.title, id)}
+          name={jp}
+          nameCn={cn}
           tip={item.info}
           comments={item.comment}
           score={item.score}
@@ -47,10 +41,10 @@ function Item(
           modify={item.modify}
           isCollect={item.isCollect}
           collection={collection}
-          isCatalog
           hideScore={$.hideScore}
-          isEditable={$.isSelf}
           showManage
+          isCatalog
+          isEditable={$.isSelf}
           onEdit={$.onEdit}
         />
         {!index && <Heatmap id='目录详情.跳转' />}
@@ -64,8 +58,8 @@ function Item(
       event={EVENT}
       id={id}
       num={$.gridNum}
-      name={subjectStore.jp(id) || item.title}
-      nameCn={subjectStore.cn(id) || findSubjectCn(item.title, id)}
+      name={jp}
+      nameCn={cn}
       cover={item.image}
       score={item.score}
       rank={item.rank}

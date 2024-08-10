@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 23:25:15
+ * @Last Modified time: 2024-08-10 15:00:05
  */
 import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
 import * as FileSystem from 'expo-file-system'
 import protobuf, { Reader } from 'protobufjs'
+import { DEV } from '@constants'
 import { cacheMap, checkCache, get, isPromise, lockMap, log } from './utils'
 import { DataAssets, Decode } from './types'
 
@@ -19,6 +20,8 @@ export { get }
  *  - 请求过的结果会缓存
  * */
 export const decode: Decode = async name => {
+  if (DEV) return
+
   const result = checkCache(name)
   if (isPromise(result) || result !== true) return result
 
@@ -58,6 +61,8 @@ export const decode: Decode = async name => {
 
 /** 读取本地 .proto */
 async function loadProtoFile(name: DataAssets) {
+  if (DEV) return
+
   try {
     let local: string | number
     if (name === 'bangumi-data') {
@@ -90,6 +95,8 @@ async function loadProtoFile(name: DataAssets) {
 
 /** 读取本地 .bin */
 async function loadBinFile(name: DataAssets) {
+  if (DEV) return
+
   try {
     let local: string | number
     if (name === 'bangumi-data') {

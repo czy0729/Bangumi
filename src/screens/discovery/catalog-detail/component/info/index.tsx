@@ -2,161 +2,47 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 20:04:14
+ * @Last Modified time: 2024-08-10 14:41:56
  */
 import React from 'react'
 import { View } from 'react-native'
-import {
-  Expand,
-  Flex,
-  Header,
-  Heatmap,
-  Image,
-  Loading,
-  RenderHtml,
-  Text,
-  Touchable,
-  UserStatus
-} from '@components'
-import { Progress } from '@_'
-import { _, userStore } from '@stores'
-import { appNavigate, getCoverLarge } from '@utils'
+import { Flex, Header, Heatmap, Loading, Text } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { HOST } from '@constants'
 import { Ctx } from '../../types'
 import ToolBar from '../tool-bar'
+import Content from './content'
+import Desc from './desc'
+import Footer from './footer'
+import Progress from './progress'
+import Thumb from './thumb'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Info(props, { $, navigation }: Ctx) {
+function Info(props, { $ }: Ctx) {
   const styles = memoStyles()
-  const catalogDetail = $.catalogDetail.title ? $.catalogDetail : $.catalogDetailFromOSS
-  const { title, avatar, content, progress, nickname, userId, time, replyCount, _loaded } =
-    catalogDetail
-  const replyText = replyCount == 5 ? '5+' : replyCount
-  const [current, total] = String(progress || '').split('/')
   return (
     <View style={styles.container}>
       <Header.Placeholder />
       <View style={_.container.inner}>
         <Text size={20} bold>
-          {title}
+          {$.detail.title}
         </Text>
-        {!!(nickname || time) && (
-          <Flex style={_.mt.sm}>
-            <Text
-              type='title'
-              size={13}
-              lineHeight={15}
-              bold
-              onPress={() => {
-                t('目录详情.跳转', {
-                  to: 'Zone',
-                  catalogId: $.catalogId,
-                  userId
-                })
-
-                navigation.push('Zone', {
-                  userId,
-                  _id: userId,
-                  _name: nickname,
-                  _image: avatar
-                })
-              }}
-            >
-              {nickname}
-            </Text>
-            <Text type='sub' size={13} lineHeight={15} bold>
-              {nickname ? ` · ` : ''}
-              {String(time).replace(/\n/g, '')}
-            </Text>
-          </Flex>
-        )}
-        {!!avatar && (
-          <Flex style={_.mt.lg} justify='center'>
-            <UserStatus userId={userId}>
-              <Image
-                src={getCoverLarge(avatar)}
-                size={_.r(80)}
-                placeholder={false}
-                imageViewer
-                event={{
-                  id: '目录详情.封面图查看',
-                  data: {
-                    catalogId: $.catalogId
-                  }
-                }}
-              />
-            </UserStatus>
-            <Heatmap id='目录详情.封面图查看' />
-          </Flex>
-        )}
-        {!!content && (
-          <Expand style={_.mt.lg} ratio={0.64}>
-            <RenderHtml html={content} onLinkPress={href => appNavigate(href, navigation)} />
-          </Expand>
-        )}
+        <Desc />
+        <Thumb />
+        <Content />
         <Flex style={_.mt.md}>
           <Flex.Item>
-            <Flex>
-              <Touchable
-                onPress={() => {
-                  navigation.push('WebBrowser', {
-                    url: `${HOST}/index/${$.catalogId}/comments`,
-                    title: '目录留言'
-                  })
-
-                  t('目录详情.跳转', {
-                    to: 'WebBrowser',
-                    catalogId: $.catalogId,
-                    userId
-                  })
-                }}
-              >
-                <Text type='sub' size={12} bold>
-                  留言{replyText ? ` (${replyText})` : ''}
-                </Text>
-              </Touchable>
-              <Text type='sub' size={12} bold>
-                {' '}
-                ·{' '}
-              </Text>
-              <Touchable
-                onPress={() => {
-                  navigation.push('Catalogs', {
-                    userId
-                  })
-
-                  t('目录详情.跳转', {
-                    to: 'Catalogs',
-                    catalogId: $.catalogId,
-                    userId
-                  })
-                }}
-              >
-                <Text type='sub' size={12} bold>
-                  TA 的其他目录
-                </Text>
-              </Touchable>
-            </Flex>
+            <Footer />
           </Flex.Item>
-          {userStore.isLogin && !!(current || total) && (
-            <View>
-              <Progress current={Number(current || 0)} total={Number(total || 0)}>
-                <Text type='sub' size={12} bold>
-                  完成度 {current} / {total}
-                </Text>
-              </Progress>
-            </View>
-          )}
+          <Progress />
         </Flex>
         <View style={_.mt.lg}>
           <ToolBar />
           <Heatmap id='目录详情.排序' />
         </View>
       </View>
-      {!_loaded && (
+      {!$.detail._loaded && (
         <Flex style={styles.loading} justify='center'>
           <Loading />
         </Flex>
