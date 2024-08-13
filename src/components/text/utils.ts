@@ -8,7 +8,7 @@ import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
 import { setDefaultProps } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { IOS, PAD } from '@constants'
+import { IOS, PAD, STORYBOOK } from '@constants'
 import { memoStyles } from './styles'
 import { Props as TextProps } from './types'
 
@@ -17,7 +17,7 @@ export const PAD_INCREASE = PAD === 2 ? 4 : 2
 
 /** 强制给内部组件注入默认参数 */
 export function setComponentsDefaultProps() {
-  if (IOS) return
+  if (IOS || STORYBOOK) return
 
   setDefaultProps(Text, _.fontStyle)
   setDefaultProps(TextInput, _.fontStyle)

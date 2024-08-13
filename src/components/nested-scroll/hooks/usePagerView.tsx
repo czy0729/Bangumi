@@ -1,11 +1,13 @@
+import { useCallback, useMemo, useRef, useState } from 'react'
+import { Animated, Platform } from 'react-native'
 /*
  * @Author: czy0729
  * @Date: 2023-12-27 15:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:59:46
+ * @Last Modified time: 2024-08-13 16:14:43
  */
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { Animated, Platform } from 'react-native'
+import { USE_NATIVE_DRIVER } from '@constants'
+
 import type {
   default as PagerView,
   PagerViewOnPageScrollEventData,
@@ -42,7 +44,7 @@ export function usePagerView({ initialPage = 0, onIndexChange }) {
           }
         ],
         {
-          useNativeDriver: true
+          useNativeDriver: USE_NATIVE_DRIVER
         }
       ),
     [offset, position]

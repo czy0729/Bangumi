@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 08:21:24
+ * @Last Modified time: 2024-08-13 16:13:43
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -10,7 +10,7 @@ import { ListView, Loading } from '@components'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Footer from './footer'
@@ -80,7 +80,7 @@ class BangumiList extends React.Component<Props> {
                   }
                 ],
                 {
-                  useNativeDriver: true,
+                  useNativeDriver: USE_NATIVE_DRIVER,
                   listener: this.props.onScroll
                 }
               )

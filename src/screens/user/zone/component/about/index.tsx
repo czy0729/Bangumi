@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:05:48
+ * @Last Modified time: 2024-08-13 16:13:55
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
 import { userStore } from '@stores'
 import { obc } from '@utils/decorators'
-import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Lock from '../lock'
@@ -44,7 +44,7 @@ function About(props: Props, { $ }: Ctx) {
                 }
               ],
               {
-                useNativeDriver: true,
+                useNativeDriver: USE_NATIVE_DRIVER,
                 listener: props.onScroll
               }
             )

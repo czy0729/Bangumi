@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 17:21:30
+ * @Last Modified time: 2024-08-13 16:13:40
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { SHARE_MODE, STORYBOOK } from '@constants'
+import { SHARE_MODE, STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import RakuenItem from './rakuen-item'
@@ -66,7 +66,7 @@ class RakuenList extends React.Component<Props> {
             }
           ],
           {
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE_DRIVER,
             listener: onScroll
           }
         )

@@ -12,7 +12,7 @@ import ErrorBoundary from './index'
 export function renderWithErrorBoundary(data: any, index?: number, props: AnyObject = {}) {
   const Component = data
   return (
-    <ErrorBoundary key={index}>
+    <ErrorBoundary key={String(data?.type?.displayName || index || 0)}>
       <Component {...props} />
     </ErrorBoundary>
   )

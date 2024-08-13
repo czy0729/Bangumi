@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-10 03:49:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 12:52:36
+ * @Last Modified time: 2024-08-13 16:14:08
  */
 import React, { Suspense, useCallback, useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -10,6 +10,7 @@ import { Flex, Portal, Touchable } from '@components'
 import { tinygrailStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
+import { USE_NATIVE_DRIVER } from '@constants'
 import { Fn } from '@types'
 import List from './list'
 import { COMPONENT, DRAWER_WITDH } from './ds'
@@ -30,7 +31,7 @@ function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
       Animated.timing(x.current, {
         toValue: 1,
         duration: 160,
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
       return
     }
@@ -39,7 +40,7 @@ function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
       Animated.timing(x.current, {
         toValue: 0,
         duration: 160,
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
       return
     }

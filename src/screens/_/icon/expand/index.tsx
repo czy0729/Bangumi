@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 07:16:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:16:29
+ * @Last Modified time: 2024-08-13 16:14:09
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -10,6 +10,7 @@ import { useObserver } from 'mobx-react'
 import { Component, Iconfont } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { USE_NATIVE_DRIVER } from '@constants'
 import { COMPONENT } from './ds'
 import { Props as IconExpandProps } from './types'
 
@@ -40,7 +41,7 @@ export const IconExpand = ({ style, expand = false, color }: IconExpandProps) =>
       Animated.timing(rotate.current, {
         toValue: expand ? 1 : 0,
         duration: 160,
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
     )
   }, [expand])

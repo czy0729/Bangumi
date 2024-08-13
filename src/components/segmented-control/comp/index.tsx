@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 20:48:26
+ * @Last Modified time: 2024-08-13 16:14:42
  */
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { stl } from '@utils'
-import { SegmentedControlTab } from '../segmented-control-tab'
+import { USE_NATIVE_DRIVER } from '@constants'
 import { Props } from '../types'
+import { SegmentedControlTab } from '../segmented-control-tab'
 import { styles } from './styles'
 
 function SegmentedControlComp({
@@ -57,7 +58,7 @@ function SegmentedControlComp({
         toValue: segmentWidth * (_selectedIndex || 0),
         duration: 300,
         easing: Easing.out(Easing.quad),
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
     }
   }, [animation, segmentWidth, _selectedIndex])

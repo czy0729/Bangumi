@@ -11,7 +11,6 @@ export const memoStyles = _.memoStyles(() => ({
   /** base style */
   base: {
     includeFontPadding: false,
-    verticalAlign: 'middle',
     textAlignVertical: 'center'
   },
   text: _.fontStyle,

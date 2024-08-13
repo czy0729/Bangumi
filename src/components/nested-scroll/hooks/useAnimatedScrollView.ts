@@ -1,11 +1,12 @@
+import { useRef } from 'react'
+import { Animated } from 'react-native'
 /*
  * @Author: czy0729
  * @Date: 2023-12-27 15:45:31
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-12-27 15:45:31
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-08-13 16:14:49
  */
-import { useRef } from 'react'
-import { Animated } from 'react-native'
+import { USE_NATIVE_DRIVER } from '@constants'
 
 /**
  * @fork https://github.com/kanelloc/react-native-animated-header-scroll-view/blob/main/src/hooks/useAnimateScrollView.ts
@@ -32,7 +33,7 @@ export const useAnimateScrollView = (imageHeight: number, disableScale?: boolean
   })
 
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scroll } } }], {
-    useNativeDriver: true
+    useNativeDriver: USE_NATIVE_DRIVER
   })
 
   return [

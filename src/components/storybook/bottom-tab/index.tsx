@@ -27,9 +27,9 @@ import { memoStyles } from './styles'
 export const StorybookBottomTab = () => {
   r(COMPONENT)
 
-  if (!STORYBOOK) return null
-
   return useObserver(() => {
+    if (!STORYBOOK) return null
+
     const params = new URLSearchParams(window.location.search)
     const currentStoryId = params.get('id')
 

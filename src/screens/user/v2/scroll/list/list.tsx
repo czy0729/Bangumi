@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:50:07
+ * @Last Modified time: 2024-08-13 16:13:57
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -11,6 +11,7 @@ import { _ } from '@stores'
 import { getKeyString, keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
 import { useMount } from '@utils/hooks'
+import { USE_NATIVE_DRIVER } from '@constants'
 import FixedToolBar from '../../component/fixed-tool-bar'
 import Item from '../../component/item'
 import Pagination from '../../component/pagination'
@@ -59,7 +60,7 @@ const List = memo(
             }
           ],
           {
-            useNativeDriver: true,
+            useNativeDriver: USE_NATIVE_DRIVER,
             listener: onScroll
           }
         ),

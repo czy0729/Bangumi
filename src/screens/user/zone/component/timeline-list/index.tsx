@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 23:08:51
+ * @Last Modified time: 2024-08-13 16:12:42
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
@@ -77,7 +77,7 @@ class TimelineList extends React.Component<Props> {
                     }
                   ],
                   {
-                    useNativeDriver: true,
+                    useNativeDriver: USE_NATIVE_DRIVER,
                     listener: onScroll
                   }
                 )

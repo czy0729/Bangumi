@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:53:55
+ * @Last Modified time: 2024-08-13 16:11:28
  */
 import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
@@ -10,7 +10,7 @@ import { useObserver } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useBackHandler } from '@utils/hooks'
-import { IOS } from '@constants'
+import { IOS, USE_NATIVE_DRIVER } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Mask } from '../mask'
@@ -44,7 +44,7 @@ export const ActionSheet = ({
       Animated.timing(y.current, {
         toValue: 1,
         duration: 240,
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
     }, 0)
   }, [])
@@ -54,7 +54,7 @@ export const ActionSheet = ({
       Animated.timing(y.current, {
         toValue: 0,
         duration: 240,
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
       setTimeout(() => {
         _setShow(false)

@@ -1,14 +1,13 @@
+import React, { useCallback, useRef } from 'react'
+import { Animated, Easing } from 'react-native'
+import GenericTouchable, { TOUCHABLE_STATE } from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
 /*
  * @Author: czy0729
  * @Date: 2023-02-28 16:46:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-30 10:30:45
+ * @Last Modified time: 2024-08-13 16:14:27
  */
-import React, { useRef, useCallback } from 'react'
-import { Animated, Easing } from 'react-native'
-import GenericTouchable, {
-  TOUCHABLE_STATE
-} from 'react-native-gesture-handler/src/components/touchables/GenericTouchable'
+import { USE_NATIVE_DRIVER } from '@constants'
 
 const duration = 96
 const delay = 0
@@ -52,13 +51,13 @@ function TouchableAnimated({
         toValue: 1,
         duration,
         easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
       Animated.timing(scaleRef.current, {
         toValue: 1,
         duration,
         easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true
+        useNativeDriver: USE_NATIVE_DRIVER
       }).start()
 
       animatedRef.current = true
@@ -72,13 +71,13 @@ function TouchableAnimated({
       toValue: 0.72,
       duration,
       easing: Easing.inOut(Easing.quad),
-      useNativeDriver: true
+      useNativeDriver: USE_NATIVE_DRIVER
     }).start()
     Animated.timing(scaleRef.current, {
       toValue: scale,
       duration,
       easing: Easing.inOut(Easing.quad),
-      useNativeDriver: true
+      useNativeDriver: USE_NATIVE_DRIVER
     }).start()
 
     animatedRef.current = false

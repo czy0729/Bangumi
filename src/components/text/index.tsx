@@ -6,7 +6,6 @@
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
-import Animated from 'react-native-reanimated'
 import { useObserver } from 'mobx-react'
 import PropTypes from 'prop-types'
 import { systemStore } from '@stores'

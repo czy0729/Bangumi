@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-26 04:29:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 11:06:46
+ * @Last Modified time: 2024-08-13 16:13:32
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { SCROLL_VIEW_RESET_PROPS, STORYBOOK } from '@constants'
+import { SCROLL_VIEW_RESET_PROPS, STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Chart from './chart'
@@ -44,7 +44,7 @@ function Stats(props, { $, navigation }: Ctx) {
                 }
               ],
               {
-                useNativeDriver: true,
+                useNativeDriver: USE_NATIVE_DRIVER,
                 listener: onScroll
               }
             )

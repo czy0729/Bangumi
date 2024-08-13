@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 16:25:57
+ * @Last Modified time: 2024-08-13 16:11:07
  */
 import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
@@ -244,6 +244,9 @@ export const TIMEZONE_OFFSET_LOCAL = new Date().getTimezoneOffset()
 
 /** 本地时区是否 GMT+0800 */
 export const TIMEZONE_IS_GMT8 = TIMEZONE_OFFSET_LOCAL === TIMEZONE_OFFSET_GMT8
+
+/** 硬件加速 */
+export const USE_NATIVE_DRIVER = !STORYBOOK
 
 /** App 列表数据结构 */
 export const LIST_EMPTY = {
