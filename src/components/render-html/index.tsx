@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:56:42
+ * @Last Modified time: 2024-08-14 08:37:57
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,25 +13,19 @@ import { STORYBOOK } from '@constants'
 import { TextStyle } from '@types'
 import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
-import { a } from '../@/react-native-render-html/src/HTMLRenderers'
-import { bgmMap, BgmText } from '../bgm-text'
+import { a as originA } from '../@/react-native-render-html/src/HTMLRenderers'
+import { bgmMap } from '../bgm-text'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
-import A from './a'
 import Error from './error'
-import HiddenText from './hidden-text'
-import Li from './li'
-import LineThroughtText from './line-throught-text'
-import MaskText from './mask-text'
-import QuoteText from './quote-text'
-import ToggleImage from './toggle-image'
+import { a, img, li, q, span } from './renderer'
 import {
   fixedBaseFontStyle,
   getIncreaseFontSize,
   hackFixedHTMLTags,
   hackMatchMediaLink
 } from './utils'
-import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS, SPAN_MARK } from './ds'
+import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 import { Props as RenderHtmlProps } from './types'
 
 export { RenderHtmlProps }
@@ -60,14 +54,12 @@ export const RenderHtml = observer(
     }
 
     async componentDidMount() {
-      if (this.props.katakana) {
-        if (systemStore.setting.katakana) {
-          const katakanaResult = await translateAll(this.props.html)
-          if (katakanaResult) {
-            this.setState({
-              katakanaResult
-            })
-          }
+      if (this.props.katakana && systemStore.setting.katakana) {
+        const katakanaResult = await translateAll(this.props.html)
+        if (katakanaResult) {
+          this.setState({
+            katakanaResult
+          })
         }
       }
     }
@@ -103,126 +95,46 @@ export const RenderHtml = observer(
 
       // 渲染定义tag前回调
       renderers: {
-        img: ({ src = '' }, children: any, css: any, { key }) => (
-          <ToggleImage
-            key={key}
-            style={_.mt.xs}
-            src={src}
-            autoSize={imagesMaxWidth}
-            placeholder={false}
-            imageViewer
-            show={this.props.autoShowImage}
-            onImageFallback={() => this.props.onImageFallback(src)}
-          />
-        ),
-        span: ({ style = '' }, children: any, css: any, { rawChildren, key, baseFontStyle }) => {
-          try {
-            // 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
-            // 防剧透字
-            if (style.includes(SPAN_MARK.mask)) {
-              const text = []
-              const target = rawChildren?.[0]
-              if (target) {
-                if (target?.children) {
-                  // 防剧透字中有表情
-                  target?.children?.forEach((item, index) => {
-                    if (item.data) {
-                      // 文字
-                      text.push(item.data)
-                    } else if (item.children) {
-                      const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
-                      item.children.forEach((i, idx) => {
-                        // 表情
-                        text.push(
-                          <BgmText
-                            key={`${index}-${idx}`}
-                            size={_baseFontStyle.fontSize}
-                            lineHeight={_baseFontStyle.lineHeight}
-                          >
-                            {i.data}
-                          </BgmText>
-                        )
-                      })
-                    }
-                  })
-                } else {
-                  // 防剧透字中没表情
-                  text.push(target?.data)
-                }
-              }
-              return (
-                <MaskText
-                  key={key}
-                  style={{
-                    ...this.defaultBaseFontStyle,
-                    ...baseFontStyle
-                  }}
-                >
-                  {text}
-                </MaskText>
-              )
-            }
-
-            // 删除字
-            if (style.includes(SPAN_MARK.lineThrough)) {
-              const target = rawChildren?.[0]
-              const text = target?.parent?.children?.[0]?.data || target?.children?.[0]?.data || ''
-              return (
-                <LineThroughtText
-                  key={key}
-                  style={{
-                    ...this.defaultBaseFontStyle,
-                    ...baseFontStyle
-                  }}
-                >
-                  {text}
-                </LineThroughtText>
-              )
-            }
-
-            // 隐藏字
-            if (style.includes(SPAN_MARK.hidden)) {
-              const target = rawChildren?.[0]
-              const text = target?.data || ''
-              return (
-                <HiddenText
-                  key={key}
-                  style={{
-                    ...this.defaultBaseFontStyle,
-                    ...baseFontStyle
-                  }}
-                >
-                  {text}
-                </HiddenText>
-              )
-            }
-          } catch (error) {
-            console.info('RenderHtml', 'generateConfig', error)
-          }
-
-          return children
-        },
-        q: (attrs: any, children: any, css: any, { key }) => (
-          <QuoteText key={key}>{children}</QuoteText>
-        ),
-        li: (attrs: any, children: any, css: any, { key }) => <Li key={key}>{children}</Li>,
+        img: (attrs: any, children: any, css: any, passProps: any) =>
+          img({
+            key: passProps.key,
+            src: attrs.src || '',
+            autoSize: imagesMaxWidth,
+            show: this.props.autoShowImage,
+            onImageFallback: this.props.onImageFallback
+          }),
+        span: (attrs: any, children: any, css: any, passProps: any) =>
+          span({
+            key: passProps.key,
+            style: attrs.style || '',
+            defaultBaseFontStyle: this.defaultBaseFontStyle,
+            baseFontStyle: passProps.baseFontStyle,
+            rawChildren: passProps.rawChildren,
+            children
+          }),
+        q: (attrs: any, children: any, css: any, passProps: any) =>
+          q({
+            key: passProps.key,
+            children
+          }),
+        li: (attrs: any, children: any, css: any, passProps: any) =>
+          li({
+            key: passProps.key,
+            children
+          }),
         a: matchLink
-          ? (attrs: any, children: any, css: any, passProps: any) => (
-              <A
-                key={passProps.key}
-                style={{
-                  ...this.defaultBaseFontStyle,
-                  ...baseFontStyle,
-                  maxWidth: imagesMaxWidth
-                }}
-                attrs={attrs}
-                passProps={passProps}
-                onPress={this.onLinkPress}
-              >
-                {children}
-              </A>
-            )
-          : a
+          ? (attrs: any, children: any, css: any, passProps: any) =>
+              a({
+                key: passProps.key,
+                attrs,
+                passProps,
+                defaultBaseFontStyle: this.defaultBaseFontStyle,
+                baseFontStyle,
+                maxWidth: imagesMaxWidth,
+                onPress: this.onLinkPress,
+                children
+              })
+          : originA
       }
     })
 
@@ -238,29 +150,30 @@ export const RenderHtml = observer(
       const { katakanaResult } = this.state
 
       try {
+        const $ = cheerio(html)
         let _html = html
 
         /** 把 bgm 表情替换成 bgm 字体文字 */
-        const $ = cheerio(html)
-        $('img[smileid]').replaceWith((index, element) => {
-          const $img = cheerio(element)
-          const alt = $img.attr('alt') || ''
-          if (alt) {
-            // bgm 偏移量 24
-            const index = parseInt(alt.replace(REGS.bgm, '')) - 24
-
-            if (bgmMap[index]) {
-              const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
-              return `<span style="font-family:bgm;font-size:${
-                _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
-              }px;line-height:${
-                _baseFontStyle.lineHeight || this.defaultBaseFontStyle.lineHeight
-              }px;user-select:all">${bgmMap[index]}</span>`
+        if (!STORYBOOK) {
+          $('img[smileid]').replaceWith((index: number, element: any) => {
+            const $img = cheerio(element)
+            const alt = $img.attr('alt') || ''
+            if (alt) {
+              // bgm 偏移量 24
+              const index = parseInt(alt.replace(REGS.bgm, '')) - 24
+              if (bgmMap[index]) {
+                const _baseFontStyle: TextStyle = fixedBaseFontStyle(baseFontStyle)
+                return `<span style="font-family:bgm;font-size:${
+                  _baseFontStyle.fontSize || this.defaultBaseFontStyle.fontSize
+                }px;line-height:${
+                  _baseFontStyle.lineHeight || this.defaultBaseFontStyle.lineHeight
+                }px;user-select:all">${bgmMap[index]}</span>`
+              }
+              return alt
             }
-            return alt
-          }
-          return $img.html()
-        })
+            return $img.html()
+          })
+        }
 
         _html = $.html()
 
@@ -299,6 +212,8 @@ export const RenderHtml = observer(
     render() {
       r(COMPONENT)
 
+      if (this.state.error) return <Error />
+
       const {
         style,
         baseFontStyle,
@@ -310,8 +225,6 @@ export const RenderHtml = observer(
         onLinkPress,
         ...other
       } = this.props
-      const { error } = this.state
-      if (error) return <Error />
 
       return (
         <ErrorBoundary style={style}>

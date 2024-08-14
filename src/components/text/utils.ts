@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 21:53:31
+ * @Last Modified time: 2024-08-14 10:01:04
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -70,9 +70,16 @@ export function getTextStyle({
 
   const _lineHeight = computedLineHeight(size, lineHeight, lineHeightIncrease)
   if (_lineHeight) {
-    textStyle.push({
-      lineHeight: _lineHeight
-    })
+    if (STORYBOOK) {
+      textStyle.push({
+        lineHeight: _lineHeight,
+        minHeight: _lineHeight
+      })
+    } else {
+      textStyle.push({
+        lineHeight: _lineHeight
+      })
+    }
   }
 
   if (align && align !== 'left')

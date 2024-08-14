@@ -105,6 +105,7 @@ export const TouchScroll = memo(
                       type={isNew ? _.select('plain', 'icon') : 'icon'}
                       bold={isCurrent}
                       align='center'
+                      noWrap
                     >
                       {String(list[index]?.floor || '').replace('#', '')}
                     </Text>

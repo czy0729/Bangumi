@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-08 23:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 21:37:46
+ * @Last Modified time: 2024-08-14 08:52:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
+import { Component } from '../component'
 import { Image } from '../image'
 import { COMPONENT } from './ds'
 import { Props as BgmProps } from './types'
@@ -19,7 +20,11 @@ export const Bgm = observer(({ index = 1, size = 20, ...other }: BgmProps) => {
 
   if (!bgm) init()
 
-  return <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+  return (
+    <Component id='component-bgm'>
+      <Image src={bgm[index]} resizeMode='contain' size={size} placeholder={false} {...other} />
+    </Component>
+  )
 })
 
 export default Bgm

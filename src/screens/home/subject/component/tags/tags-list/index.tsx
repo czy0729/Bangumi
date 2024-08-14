@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:45:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:36:23
+ * @Last Modified time: 2024-08-13 17:02:49
  */
 import React, { useState } from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -33,12 +33,12 @@ function TagList(props, { $, navigation }: Ctx) {
       <>
         {$.tags
           .filter((item, index) => (expand ? true : index < EXPAND_NUM))
-          .map(({ name, count }, index) => {
+          .map(({ name, count }) => {
             const isSelected = $.collection?.tag?.includes?.(name)
             const showTyperank = !!$.rank && systemStore.setting.subjectTagsRec
             return (
               <Touchable
-                key={index}
+                key={name}
                 animate
                 scale={0.9}
                 onPress={() => {

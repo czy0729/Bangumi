@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-12 22:20:34
+ * @Last Modified time: 2024-08-14 09:27:08
  */
 
 /** 网页端全局样式 */
@@ -71,6 +71,20 @@ component-mask {
     bottom: 0;
     left: 0;
   }
+}
+
+component-render-html {
+  & > div {
+    display: inline-block !important;
+
+    & > div[dir='auto'] {
+      display: inline;
+    }
+  }
+}
+
+component-bgm {
+  display: inline-block;
 }
 
 base-rank {

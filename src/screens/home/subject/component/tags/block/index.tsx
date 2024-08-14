@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-19 09:04:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:49:10
+ * @Last Modified time: 2024-08-13 17:01:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -63,7 +63,7 @@ function Block({ path, tags }, { $, navigation }: Ctx) {
           }
 
           return (
-            <View style={[styles.item, styles.disabled]}>
+            <View key={tag} style={[styles.item, styles.disabled]}>
               <Text size={13} bold>
                 {tag}
               </Text>

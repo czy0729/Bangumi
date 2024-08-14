@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 15:16:53
+ * @Last Modified time: 2024-08-14 10:01:57
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -86,7 +86,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
         style,
         {
           opacity,
-          transition: fadeDuration === 0 ? undefined : 'opacity 0.24s ease-in-out'
+          transition: fadeDuration === 0 ? undefined : 'opacity 0.12s ease-in-out'
         }
       ]}
       source={

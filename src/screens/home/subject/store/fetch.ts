@@ -660,6 +660,8 @@ export default class Fetch extends Computed {
       }
 
       await subjectStore.fetchVIB(this.subjectId)
+      if (STORYBOOK) return true
+
       if (this.type === '动画') {
         await subjectStore.fetchMAL(this.subjectId, this.jp || this.cn)
         await subjectStore.fetchAniDB(this.subjectId, this.jp || this.cn)
