@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 22:13:44
+ * @Last Modified time: 2024-08-14 12:00:27
  */
 const path = require('path')
 const sass = require('node-sass')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   title: 'Bangumi 番组计划',
@@ -112,18 +112,15 @@ module.exports = {
 
     if (configType === 'PRODUCTION') {
       /** ========== 压缩代码 ========== */
-      // 搜索 existingUglifyPlugin
-      const existingUglifyPluginIndex = config.optimization.minimizer.findIndex(
-        plugin =>
-          plugin.constructor.name === 'TerserPlugin' || plugin.constructor.name === 'UglifyJsPlugin'
+      // Replace or add TerserPlugin
+      const existingTerserPluginIndex = config.optimization.minimizer.findIndex(
+        plugin => plugin.constructor.name === 'TerserPlugin'
       )
 
-      if (existingUglifyPluginIndex > -1) {
-        // 替换 existingUglifyPlugin
-        config.optimization.minimizer.splice(existingUglifyPluginIndex, 1, new UglifyJsPlugin())
+      if (existingTerserPluginIndex > -1) {
+        config.optimization.minimizer.splice(existingTerserPluginIndex, 1, new TerserPlugin())
       } else {
-        // 添加新的 UglifyJsPlugin
-        config.optimization.minimizer.push(new UglifyJsPlugin())
+        config.optimization.minimizer.push(new TerserPlugin())
       }
 
       /** ========== 分割代码 ========== */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-11 00:28:03
+ * @Last Modified time: 2024-08-14 12:02:10
  */
 import { lazy } from 'react'
 
@@ -124,7 +124,7 @@ export const TinygrailICO = lazy(() => import('./tinygrail/ico'))
 export const TinygrailICODeal = lazy(() => import('./tinygrail/ico-deal'))
 export const TinygrailItems = lazy(() => import('./tinygrail/items'))
 export const TinygrailLogs = lazy(() => import('./tinygrail/logs'))
-export const TinygrailNew = lazy(() => import('./tinygrail/new'))
+export const TinygrailNew = lazy(() => import('./tinygrail/new-bangumi'))
 export const TinygrailOverview = lazy(() => import('./tinygrail/overview'))
 export const TinygrailRelation = lazy(() => import('./tinygrail/relation'))
 export const TinygrailRich = lazy(() => import('./tinygrail/rich'))
