@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:41:22
+ * @Last Modified time: 2024-08-18 05:00:35
  */
 import React from 'react'
 import { Component } from '@components'
@@ -26,6 +26,7 @@ export const HorizontalList = ob(
       height: 60,
       quality: false,
       findCn: false,
+      typeCn: '',
       ellipsizeMode: 'tail',
       initialRenderNums: 0,
       scrolled: false,
@@ -58,7 +59,7 @@ export const HorizontalList = ob(
       return data
         .slice()
         .sort((a, b) => desc(a, b, item => (item.image ? 1 : 0)))
-        .filter((item, index) => index < initialRenderNums)
+        .filter((_item, index) => index < initialRenderNums)
     }
 
     render() {
@@ -68,6 +69,7 @@ export const HorizontalList = ob(
         width,
         height,
         findCn,
+        typeCn,
         ellipsizeMode,
         initialRenderNums,
         onPress,
@@ -90,6 +92,7 @@ export const HorizontalList = ob(
                 findCn={findCn}
                 ellipsizeMode={ellipsizeMode}
                 isFirst={index === 0}
+                typeCn={typeCn}
                 onPress={onPress}
                 onSubPress={onSubPress}
               />

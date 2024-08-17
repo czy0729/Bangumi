@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:49:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:21:29
+ * @Last Modified time: 2024-08-18 04:07:08
  */
 import { factory } from '@utils'
-import { Navigation, SubjectId, SubjectType } from '@types'
+import { Navigation, RouteTyperank } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,8 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  tag: string
-  type: SubjectType
-  subjectId?: SubjectId
-}
+export type Params = Parameters<RouteTyperank>[1]

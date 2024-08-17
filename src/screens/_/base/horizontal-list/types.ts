@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-05 14:41:49
+ * @Last Modified time: 2024-08-18 05:00:25
  */
 import { TextProps } from 'react-native'
-import { Fn, ViewStyle } from '@types'
+import { Fn, SubjectTypeCn, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
@@ -27,6 +27,9 @@ export type Props = {
 
   /** 是否条目名字查找中文 */
   findCn?: boolean
+
+  /** 条目类型中文 */
+  typeCn?: SubjectTypeCn
 
   ellipsizeMode?: TextProps['ellipsizeMode']
 

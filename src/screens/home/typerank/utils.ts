@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-01 09:51:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:21:27
+ * @Last Modified time: 2024-08-18 04:20:10
  */
-import typerankDataAnime from '@assets/json/typerank/anime-ids.json'
-import typerankDataBook from '@assets/json/typerank/book-ids.json'
-import typerankDataGame from '@assets/json/typerank/game-ids.json'
-import typerankDataMusic from '@assets/json/typerank/music-ids.json'
-import typerankDataReal from '@assets/json/typerank/real-ids.json'
+import { getJSON, loadJSON } from '@assets'
 import { SubjectId, SubjectType } from '@types'
+
+export async function loadTyperankData(type: SubjectType) {
+  return await loadJSON(`typerank/${type}-ids`)
+}
 
 /** 检查这类型的这标签是否存在于数据中 */
 export function getIds(type: SubjectType, key: string): SubjectId[] {
@@ -17,15 +17,15 @@ export function getIds(type: SubjectType, key: string): SubjectId[] {
 
   let typerankData: Record<string, SubjectId[]>
   if (type === 'anime') {
-    typerankData = typerankDataAnime
+    typerankData = getJSON('typerank/anime-ids')
   } else if (type === 'book') {
-    typerankData = typerankDataBook
+    typerankData = getJSON('typerank/book-ids')
   } else if (type === 'game') {
-    typerankData = typerankDataGame
+    typerankData = getJSON('typerank/game-ids')
   } else if (type === 'music') {
-    typerankData = typerankDataMusic
+    typerankData = getJSON('typerank/music-ids')
   } else if (type === 'real') {
-    typerankData = typerankDataReal
+    typerankData = getJSON('typerank/real-ids')
   }
 
   return typerankData?.[key] || []

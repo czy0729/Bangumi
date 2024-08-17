@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:45:19
+ * @Last Modified time: 2024-08-18 05:01:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function LikeWrap({ onBlockRef }, { $, navigation }: Ctx) {
         showLike={systemStore.setting.showLike}
         subjectId={$.subjectId}
         like={$.like}
+        typeCn={$.type}
         onSwitchBlock={$.onSwitchBlock}
       />
     </>

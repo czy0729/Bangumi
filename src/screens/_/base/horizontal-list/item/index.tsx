@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 21:10:02
+ * @Last Modified time: 2024-08-18 04:59:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,23 +15,36 @@ import Desc from './desc'
 import Title from './title'
 import { HIT_SLOP } from './ds'
 
-function Item({ item, count, width, height, findCn, ellipsizeMode, isFirst, onPress, onSubPress }) {
+function Item({
+  item,
+  count,
+  width,
+  height,
+  findCn,
+  ellipsizeMode,
+  isFirst,
+  typeCn,
+  onPress,
+  onSubPress
+}) {
   const desc = String(item.desc || '')
-  let typeCn: SubjectTypeCn | '' = ''
-  if (
-    (!desc.includes('演出') && desc.includes('曲') && desc !== '作曲') ||
-    (!desc.includes('演出') && desc.includes('歌')) ||
-    desc.includes('声') ||
-    desc.includes('广播')
-  ) {
-    typeCn = '音乐'
-  } else if (desc.includes('书籍') || desc.includes('画')) {
-    typeCn = '书籍'
-  } else if (desc.includes('游戏')) {
-    typeCn = '游戏'
+  let typeCnValue: SubjectTypeCn | '' = typeCn || ''
+  if (!typeCnValue) {
+    if (
+      (!desc.includes('演出') && desc.includes('曲') && desc !== '作曲') ||
+      (!desc.includes('演出') && desc.includes('歌')) ||
+      desc.includes('声') ||
+      desc.includes('广播')
+    ) {
+      typeCnValue = '音乐'
+    } else if (desc.includes('书籍') || desc.includes('画')) {
+      typeCnValue = '书籍'
+    } else if (desc.includes('游戏')) {
+      typeCnValue = '游戏'
+    }
   }
 
-  const isMusic = typeCn === '音乐'
+  const isMusic = typeCnValue === '音乐'
   const w = _.r(isMusic ? width * 1.16 : width)
   return (
     <View
@@ -50,16 +63,16 @@ function Item({ item, count, width, height, findCn, ellipsizeMode, isFirst, onPr
           height={_.r(height)}
           src={item.image}
           radius={isMusic ? _.radiusSm : true}
-          type={typeCn}
+          type={typeCnValue}
         />
         <Title
           id={item.id}
           name={item.name}
           findCn={findCn}
-          typeCn={typeCn}
+          typeCn={typeCnValue}
           ellipsizeMode={ellipsizeMode}
         />
-        <Desc item={item} typeCn={typeCn} onPress={onSubPress || onPress} />
+        <Desc item={item} typeCn={typeCnValue} onPress={onSubPress || onPress} />
         {!!count && (
           <Text style={_.mt.xs} type='main' size={10} bold>
             +{count}

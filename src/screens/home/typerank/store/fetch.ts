@@ -1,35 +1,18 @@
 /*
  * @Author: czy0729
- * @Date: 2023-11-01 08:42:58
+ * @Date: 2024-08-18 04:08:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:17:27
+ * @Last Modified time: 2024-08-18 04:21:59
  */
-import { computed, observable } from 'mobx'
-import { collectionStore, subjectStore } from '@stores'
-import { getTimestamp, pick, updateVisibleBottom } from '@utils'
+import { collectionStore } from '@stores'
+import { getTimestamp, pick } from '@utils'
 import { gets } from '@utils/kv'
-import store from '@utils/store'
 import { SubjectId } from '@types'
-import { getIds } from './utils'
-import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import Computed from './computed'
 
-export default class ScreenTyperank extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = async () => {
-    const state = await this.getStorage(NAMESPACE)
-    this.setState({
-      ...state,
-      ...EXCLUDE_STATE,
-      _loaded: true
-    })
-  }
-
-  fetchSubjects = async () => {
-    // 这个接口太慢了, 而且不太依赖, 暂时屏蔽
+export default class Fetch extends Computed {
+  /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
+  fetchSubjects = () => {
     return true
   }
 
@@ -113,42 +96,9 @@ export default class ScreenTyperank extends store<typeof STATE> {
       this.setState({
         subjects: data
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     } catch (error) {}
 
     collectionStore.fetchCollectionStatusQueue(ids)
   }
-
-  // -------------------- get --------------------
-  @computed get tag() {
-    return this.params.tag || ''
-  }
-
-  @computed get type() {
-    return this.params.type || 'anime'
-  }
-
-  @computed get subjectId() {
-    return this.params.subjectId || 0
-  }
-
-  @computed get ids() {
-    return getIds(this.type, this.tag)
-  }
-
-  subject(id: SubjectId) {
-    return computed(() => {
-      return subjectStore.subjectV2(id)
-    }).get()
-  }
-
-  subjectOSS(id: SubjectId) {
-    return computed(() => {
-      return this.state.subjects[`subject_${id}`] || {}
-    }).get()
-  }
-
-  // -------------------- page --------------------
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
 }

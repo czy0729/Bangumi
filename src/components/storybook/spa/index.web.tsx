@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-06 03:48:24
+ * @Last Modified time: 2024-08-18 04:28:40
  */
 import React, { Suspense, useCallback } from 'react'
 import Stores from '@stores'
@@ -10,6 +10,7 @@ import { r } from '@utils/dev'
 import { isMobile } from '@utils/dom'
 import { useBoolean, useMount } from '@utils/hooks'
 import { Component } from '../../component'
+import { Loading } from '../../loading'
 import { Page } from '../../page'
 import { StorybookBottomTab } from '../bottom-tab'
 import { StorybookPage } from '../page'
@@ -42,7 +43,7 @@ export const StorybookSPA = ({ children }) => {
   })
 
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<Loading />}>
       <Component id='component-storybook-spa' data-mobile={isMobile()}>
         <StorybookPage>
           <StorybookScrollToTop />

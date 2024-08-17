@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:43:26
+ * @Last Modified time: 2024-08-18 04:37:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -821,7 +821,7 @@ export default class Computed extends State {
   /** 经过计算后传递到 Eps 的 data */
   @computed get toEps() {
     if (this.state.filterEps) {
-      const eps = this.eps.filter((item, index) => index > this.state.filterEps)
+      const eps = this.eps.filter((_item, index) => index > this.state.filterEps)
       return this.state.epsReverse ? eps.slice().reverse() : eps
     }
 

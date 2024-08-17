@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:21:23
+ * @Last Modified time: 2024-08-18 04:21:22
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -22,7 +22,9 @@ const Typerank = (_props, { $ }: Ctx) => {
   return useObserver(() => (
     <Component id='screen-typerank'>
       <Header />
-      <Page>{$.state._loaded && <List />}</Page>
+      <Page loaded={$.state._loaded}>
+        <List />
+      </Page>
     </Component>
   ))
 }
