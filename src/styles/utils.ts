@@ -17,11 +17,7 @@ export const fontSizeAdjust = 0
  * @param transform 浏览器限制最小为 12px, 开启后强制使用 transform 缩放文字大小
  * @returns
  */
-export function fontSize(
-  pt: number,
-  fontSizeAdjust: number = 0,
-  transform: boolean = false
-) {
+export function fontSize(pt: number, fontSizeAdjust: number = 0, transform: boolean = false) {
   if (STORYBOOK) {
     if (pt < 12) {
       if (transform) {

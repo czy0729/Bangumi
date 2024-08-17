@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:26:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-30 21:20:54
+ * @Last Modified time: 2024-08-17 14:02:22
  */
+import { loadJSON } from '@assets'
 import { SubjectId } from '@types'
 import { desc, getTimestamp } from '../../index'
 import { SORT } from '../anime'
@@ -53,7 +54,7 @@ function getData() {
 export async function init() {
   if (loaded) return
 
-  wenku = require('@assets/json/thirdParty/wenku.min.json')
+  wenku = await loadJSON('thirdParty/wenku.min')
   loaded = true
 }
 

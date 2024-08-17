@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 22:20:15
+ * @Last Modified time: 2024-08-16 06:09:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Content(props, { $, navigation }: Ctx) {
+function Content(_props, { $, navigation }: Ctx) {
   if (!$.info) return null
 
   const { translateResult } = $.state
@@ -40,7 +40,11 @@ function Content(props, { $, navigation }: Ctx) {
 
   return (
     <View style={styles.content}>
-      <RenderHtml html={$.info} onLinkPress={href => appNavigate(href, navigation)} />
+      <RenderHtml
+        baseFontStyle={_.baseFontStyle.md}
+        html={$.info}
+        onLinkPress={href => appNavigate(href, navigation)}
+      />
       {!isChineseParagraph(removeURLs(removeHTMLTag($.info)), 0.5) && (
         <View style={styles.iconTranslate}>
           <IconTouchable

@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 分类排行 */
-const Typerank = (props, { $ }: Ctx) => {
+const Typerank = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

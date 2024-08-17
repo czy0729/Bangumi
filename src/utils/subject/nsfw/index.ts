@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:17:54
+ * @Last Modified time: 2024-08-17 14:03:47
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { loadJSON } from '@assets'
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
@@ -25,7 +26,7 @@ function getData() {
 export async function init() {
   if (loaded) return
 
-  nsfw = require('@assets/json/thirdParty/nsfw.min.json')
+  nsfw = await loadJSON('thirdParty/nsfw.min')
   loaded = true
 }
 

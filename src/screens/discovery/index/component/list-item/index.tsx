@@ -24,11 +24,11 @@ function ListItemWrap(
   }>,
   { $ }: Ctx
 ) {
-  const { dragging } = $.state
-  if (dragging) return null
+  if ($.state.dragging) return null
 
   const list = LIST_CACHE[type] || $.ramdonHome[type]
   if (!list?.length) return null
+
   if (list?.length && !LIST_CACHE[type]) LIST_CACHE[type] = list
 
   return (

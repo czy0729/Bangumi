@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 10:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:57:18
+ * @Last Modified time: 2024-08-16 06:47:48
  */
 import React, { useCallback, useState } from 'react'
 import { Component, Expand, RenderHtml } from '@components'
@@ -18,11 +18,13 @@ export { HTMLProps }
 export const HTML = ({
   navigation,
   style,
-  id,
+  ratio,
   msg,
-  url,
+  length = 1000,
   imagesMaxWidth,
   matchLink,
+  id,
+  url,
   event
 }: HTMLProps) => {
   r(COMPONENT)
@@ -32,11 +34,14 @@ export const HTML = ({
     setExpand(true)
   }, [setExpand])
 
-  // 遗留问题, 给宣传语增加一点高度
-  const html = msg.replace(
-    '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
-    '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
-  )
+  let html = msg
+  if (id) {
+    // 遗留问题, 给宣传语增加一点高度
+    html = html.replace(
+      '<span style="font-size:10px; line-height:10px;">[来自Bangumi for',
+      '<span style="font-size:10px; line-height:20px;">[来自Bangumi for'
+    )
+  }
 
   const passProps = {
     style,
@@ -44,14 +49,14 @@ export const HTML = ({
     imagesMaxWidth,
     matchLink,
     onLinkPress: (href: string) => appNavigate(href, navigation, {}, event),
-    onImageFallback: () => open(`${url}#post_${id}`)
+    onImageFallback: url && id ? () => open(`${url}#post_${id}`) : undefined
   }
 
   // 若文本超长, 配合 Expand 组件减少首屏显示范围和渲染文字长度
-  if (msg.length >= 1000) {
+  if (msg.length >= length) {
     return (
       <Component id='base-html' data-type='split'>
-        <Expand checkLayout={false} onExpand={onExpand}>
+        <Expand ratio={ratio} checkLayout={false} onExpand={onExpand}>
           <RenderHtml {...passProps} html={expand ? html : html.slice(0, 200)} />
         </Expand>
       </Component>

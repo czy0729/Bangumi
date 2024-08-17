@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-08-11 17:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 11:40:19
+ * @Last Modified time: 2024-08-15 18:33:25
  */
-import { Fn, ListEmpty, Override } from '@types'
+import { AnyObject, Fn, ListEmpty, Override } from '@types'
 import { Props as ListViewProps } from '../types'
 
 export type ListProps<ItemT> = Override<
@@ -30,3 +30,11 @@ export type PassProps = {
   alwaysBounceVertical: false
   removeClippedSubviews: boolean
 }
+
+export type ListPropsWeb = AnyObject<{
+  data: any[]
+  renderItem: Fn
+  renderSectionHeader?: Fn
+  onFooterRefresh?: Fn
+  onScroll?: Fn
+}>

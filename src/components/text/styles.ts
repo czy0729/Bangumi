@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 23:59:51
+ * @Last Modified time: 2024-08-17 14:26:36
  */
 import { _ } from '@stores'
 import { STORYBOOK } from '@constants'
@@ -11,7 +11,7 @@ export const memoStyles = _.memoStyles(() => ({
   /** base style */
   base: {
     includeFontPadding: false,
-    textAlignVertical: 'center'
+    textAlignVertical: STORYBOOK ? 'auto' : 'center'
   },
   text: _.fontStyle,
   bold: _.fontBoldStyle,

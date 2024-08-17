@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 10:01:04
+ * @Last Modified time: 2024-08-16 07:49:15
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
@@ -19,7 +19,10 @@ export const PAD_INCREASE = PAD === 2 ? 4 : 2
 export function setComponentsDefaultProps() {
   if (IOS || STORYBOOK) return
 
+  /** @ts-ignore */
   setDefaultProps(Text, _.fontStyle)
+
+  /** @ts-ignore */
   setDefaultProps(TextInput, _.fontStyle)
 }
 
@@ -72,8 +75,8 @@ export function getTextStyle({
   if (_lineHeight) {
     if (STORYBOOK) {
       textStyle.push({
-        lineHeight: _lineHeight,
-        minHeight: _lineHeight
+        lineHeight: Math.max(_lineHeight - 1, 15),
+        minHeight: Math.max(_lineHeight, 15)
       })
     } else {
       textStyle.push({

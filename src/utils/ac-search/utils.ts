@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-23 05:53:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 23:35:06
+ * @Last Modified time: 2024-08-17 14:16:37
  */
 import lazyac from 'lazy-aho-corasick'
 import { TEXT_ONLY } from '@constants'
+import { loadJSON } from '@assets'
 import { arrGroup } from '../utils'
 import { IGNORE_ITEMS, REG_SPEC, TRIE_INIT_DISTANCE } from './ds'
 import { Substrings, TrieInitDone } from './types'
@@ -38,28 +39,29 @@ export function initLazyac() {
   if (!trieInit && !tries.length) {
     trieInit = true
 
-    addon = require('@assets/json/substrings/addon.json')
-    alias = require('@assets/json/substrings/alias.json')
-    anime = require('@assets/json/substrings/anime.json')
+    setTimeout(async () => {
+      addon = await loadJSON('substrings/addon')
+      alias = await loadJSON('substrings/alias')
+      anime = await loadJSON('substrings/anime')
 
-    // 安卓环境一次性初始化太多词条会卡死, 所以下面做了分组初始化
-    initTrie(
-      [].concat(Object.keys(addon), Object.keys(alias), Object.keys(anime)).filter(item => {
-        if (
-          // 过滤掉比较长的条目名字, 命中率很低
-          item.length >= 8 ||
-          item.length <= 1 ||
-          IGNORE_ITEMS.includes(item) ||
-          // 带特殊符号的通常用户很少手动输入, 命中率很低
-          REG_SPEC.test(item)
-        ) {
-          return false
-        }
+      // 安卓环境一次性初始化太多词条会卡死, 所以下面做了分组初始化
+      initTrie(
+        [].concat(Object.keys(addon), Object.keys(alias), Object.keys(anime)).filter(item => {
+          if (
+            // 过滤掉比较长的条目名字, 命中率很低
+            item.length >= 8 ||
+            item.length <= 1 ||
+            IGNORE_ITEMS.includes(item) ||
+            // 带特殊符号的通常用户很少手动输入, 命中率很低
+            REG_SPEC.test(item)
+          ) {
+            return false
+          }
 
-        return true
-      })
-      // .sort((a, b) => desc(String(a), String(b)))
-    )
+          return true
+        })
+      )
+    }, 0)
   }
 
   return trieInitDone

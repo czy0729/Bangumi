@@ -52,28 +52,30 @@ const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
           }}
         />
       </Flex>
-      <Touchable
-        style={_.mt.sm}
-        onPress={withT(
-          () => {
-            navigation.push('Setting', {
-              open: 'Discovery'
-            })
-          },
-          '发现.跳转',
-          {
-            to: 'Setting',
-            from: 'SortMenu'
-          }
-        )}
-      >
-        <Flex style={styles.setting}>
-          <Flex.Item>
-            <Text>更多设置</Text>
-          </Flex.Item>
-          <Iconfont name='md-navigate-next' size={24} />
-        </Flex>
-      </Touchable>
+      {!STORYBOOK && (
+        <Touchable
+          style={_.mt.sm}
+          onPress={withT(
+            () => {
+              navigation.push('Setting', {
+                open: 'Discovery'
+              })
+            },
+            '发现.跳转',
+            {
+              to: 'Setting',
+              from: 'SortMenu'
+            }
+          )}
+        >
+          <Flex style={styles.setting}>
+            <Flex.Item>
+              <Text>更多设置</Text>
+            </Flex.Item>
+            <Iconfont name='md-navigate-next' size={24} />
+          </Flex>
+        </Touchable>
+      )}
     </View>
   )
 }

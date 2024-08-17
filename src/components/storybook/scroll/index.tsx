@@ -20,6 +20,7 @@ import { Props as StorybookScrollProps } from './types'
 export const StorybookScroll = ({
   style,
   contentContainerStyle,
+  scrollEnabled,
   onFooterRefresh,
   onScroll,
   children,
@@ -99,6 +100,7 @@ export const StorybookScroll = ({
         ref={ref}
         style={stl(styles.scrollView, style)}
         contentContainerStyle={contentContainerStyle}
+        scrollEnabled={scrollEnabled}
         {...other}
         {...SCROLL_VIEW_RESET_PROPS}
         scrollEventThrottle={16}

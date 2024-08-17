@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:45:23
+ * @Last Modified time: 2024-08-16 01:02:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import { STORYBOOK } from '@constants'
 import { Component } from '../component'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
+import { platformFix, removeDuplicateStrings } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as MenuProps } from './types'
@@ -53,32 +54,33 @@ export const Menu = observer(
               {desc}
             </Text>
           )}
-          {data.map((item: string | { title: string; type: string }, index: number) => {
-            const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
-            if (typeof item === 'string') {
+          {removeDuplicateStrings(data).map(
+            (item: string | { title: string; type: string }, index: number) => {
+              const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
+              if (typeof item === 'string') {
+                return (
+                  <View key={item} style={showBorder && styles.border}>
+                    <Touchable style={styles.item} onPress={() => onSelect(item, index)}>
+                      <Text align='center' size={STORYBOOK ? 13 : 14} noWrap>
+                        {platformFix(item)}
+                      </Text>
+                    </Touchable>
+                  </View>
+                )
+              }
+
+              if (item.type === 'divider')
+                return <View key={`divider|${index}`} style={styles.border} />
+
               return (
-                <View key={item} style={showBorder && styles.border}>
-                  <Touchable style={styles.item} onPress={() => onSelect(item, index)}>
-                    <Text align='center' size={STORYBOOK ? 13 : 14}>
-                      {item}
-                    </Text>
+                <View key={`title|${index}`} style={showBorder && styles.border}>
+                  <Touchable style={styles.item} onPress={() => onSelect(item.title, index)}>
+                    {item.title}
                   </Touchable>
                 </View>
               )
             }
-
-            if (item.type === 'divider') {
-              return <View key={index} style={styles.border} />
-            }
-
-            return (
-              <View key={item.title} style={showBorder && styles.border}>
-                <Touchable style={styles.item} onPress={() => onSelect(item.title, index)}>
-                  {item.title}
-                </Touchable>
-              </View>
-            )
-          })}
+          )}
         </View>
       </Component>
     )

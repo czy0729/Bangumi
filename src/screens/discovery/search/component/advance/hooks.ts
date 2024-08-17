@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 12:08:53
+ * @Last Modified time: 2024-08-17 12:03:40
  */
 import { useEffect, useRef, useState } from 'react'
 import { asc, desc, t2s } from '@utils'
 import { decode, get } from '@utils/protobuf'
+import { loadJSON } from '@assets'
 import { SearchCat, SubjectId } from '@types'
 
 type SubjectTitle = string
@@ -32,9 +33,9 @@ export function useResult(cat: SearchCat, value: string) {
         }
 
         if (value && cat === 'subject_1' && !Object.keys(book).length) {
-          book = require('@assets/json/substrings/book.json')
+          book = await loadJSON('substrings/book')
         } else if (value && cat === 'subject_4' && !Object.keys(game).length) {
-          game = require('@assets/json/substrings/game.json')
+          game = await loadJSON('substrings/game')
         } else if (value && !Object.keys(anime).length) {
           await decode('bangumi-data')
           const bangumiDataMap = {}
@@ -42,10 +43,11 @@ export function useResult(cat: SearchCat, value: string) {
           bangumiData.forEach((item: { j: string; c?: string; id: any }) => {
             bangumiDataMap[item.c || item.j] = item.id
           })
+
           anime = {
             ...bangumiDataMap,
-            ...require('@assets/json/substrings/anime.json'),
-            ...require('@assets/json/substrings/alias.json')
+            ...(await loadJSON('substrings/anime')),
+            ...(await loadJSON('substrings/alias'))
           }
         }
 

@@ -160,7 +160,7 @@ export async function devLocalUsersInfo() {
 
   await usersStore.init('users')
   const USERS_MAP = {}
-  Object.keys(DS).forEach((userId, index) => {
+  Object.keys(DS).forEach(userId => {
     const data = usersStore.users(userId)
     USERS_MAP[userId] = {
       n: data.userName

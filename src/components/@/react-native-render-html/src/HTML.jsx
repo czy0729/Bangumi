@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:13:17
+ * @Last Modified time: 2024-08-16 08:08:01
  */
 import React, { PureComponent } from 'react'
 import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
@@ -36,6 +36,8 @@ import * as HTMLRenderers from './HTMLRenderers'
 import { optimizeCmputeTextStyles } from './utils'
 
 const flexStyle = { flex: 1, alignItems: 'center' }
+
+let k = 0
 
 export default class HTML extends PureComponent {
   // static propTypes = {
@@ -157,10 +159,7 @@ export default class HTML extends PureComponent {
           })
         }
       } catch (err) {
-        console.warn(
-          'react-native-render-html',
-          `Couldn't fetch remote HTML from uri : ${uri}`
-        )
+        console.warn('react-native-render-html', `Couldn't fetch remote HTML from uri : ${uri}`)
         return false
       }
     } else {
@@ -239,8 +238,7 @@ export default class HTML extends PureComponent {
         child.wrapper === 'Text' &&
         TEXT_TAGS_IGNORING_ASSOCIATION.indexOf(child.tagName) === -1 &&
         children.length > 1 &&
-        (!child.parent ||
-          TEXT_TAGS_IGNORING_ASSOCIATION.indexOf(child.parent.name) === -1)
+        (!child.parent || TEXT_TAGS_IGNORING_ASSOCIATION.indexOf(child.parent.name) === -1)
       ) {
         // Texts outside <p> or not <p> themselves (with siblings)
         const wrappedTexts = []
@@ -272,9 +270,7 @@ export default class HTML extends PureComponent {
         }
       }
     }
-    return children.filter(
-      parsedNode => parsedNode !== false && parsedNode !== undefined
-    )
+    return children.filter(parsedNode => parsedNode !== false && parsedNode !== undefined)
   }
 
   /**
@@ -304,9 +300,8 @@ export default class HTML extends PureComponent {
         return false
       }
       if (
-        ignoredTags
-          .map(tag => tag.toLowerCase())
-          .indexOf(node.name && node.name.toLowerCase()) !== -1
+        ignoredTags.map(tag => tag.toLowerCase()).indexOf(node.name && node.name.toLowerCase()) !==
+        -1
       ) {
         return false
       }
@@ -333,11 +328,7 @@ export default class HTML extends PureComponent {
           return false
         }
 
-        if (
-          node.parent &&
-          node.parent.name &&
-          PREFORMATTED_TAGS.indexOf(node.parent.name) === -1
-        ) {
+        if (node.parent && node.parent.name && PREFORMATTED_TAGS.indexOf(node.parent.name) === -1) {
           // Remove line breaks in non-pre-formatted tags
           data = data.replace(/(\r\n|\n|\r)/gm, '')
         }
@@ -355,14 +346,9 @@ export default class HTML extends PureComponent {
       if (type === 'tag') {
         if (children) {
           // Recursively map all children with this method
-          children = this.associateRawTexts(
-            this.mapDOMNodesTORNElements(children, name)
-          )
+          children = this.associateRawTexts(this.mapDOMNodesTORNElements(children, name))
         }
-        if (
-          this.childrenNeedAView(children) ||
-          BLOCK_TAGS.indexOf(name.toLowerCase()) !== -1
-        ) {
+        if (this.childrenNeedAView(children) || BLOCK_TAGS.indexOf(name.toLowerCase()) !== -1) {
           // If children cannot be nested in a Text, or if the tag
           // maps to a block element, use a view
           return {
@@ -511,10 +497,11 @@ export default class HTML extends PureComponent {
 
     return RNElements && RNElements.length
       ? RNElements.map((element, index) => {
-          const { attribs, data, tagName, parentTag, children, nodeIndex, wrapper } =
-            element
+          const { attribs, data, tagName, parentTag, children, nodeIndex, wrapper } = element
           const Wrapper = wrapper === 'Text' ? Text : View
-          const key = `${wrapper}-${parentIndex}-${nodeIndex}-${tagName}-${index}-${parentTag}`
+          const key = `${wrapper}-${parentIndex}-${nodeIndex}-${tagName}-${index}-${
+            parentTag || ''
+          }`
           const convertedCSSStyles =
             attribs && attribs.style
               ? cssStringToRNStyle(
@@ -556,6 +543,7 @@ export default class HTML extends PureComponent {
               )
               return undefined
             }
+
             // If a custom renderer is available for this tag
             return customRenderer(attribs, childElements, convertedCSSStyles, {
               ...props,
@@ -600,9 +588,7 @@ export default class HTML extends PureComponent {
 
           const style = [
             !tagsStyles || !tagsStyles[tagName]
-              ? (Wrapper === Text ? this.defaultTextStyles : this.defaultBlockStyles)[
-                  tagName
-                ]
+              ? (Wrapper === Text ? this.defaultTextStyles : this.defaultBlockStyles)[tagName]
               : undefined,
             tagsStyles ? tagsStyles[tagName] : undefined,
             classStyles,
@@ -625,41 +611,46 @@ export default class HTML extends PureComponent {
   }
 
   render() {
-    const { allowFontScaling, customWrapper, remoteLoadingView, remoteErrorView } =
-      this.props
-    const { RNNodes, loadingRemoteURL, errorLoadingRemoteURL } = this.state
-    if (!RNNodes && !loadingRemoteURL && !errorLoadingRemoteURL) {
-      return null
-    } else if (loadingRemoteURL) {
-      return remoteLoadingView ? (
-        remoteLoadingView(this.props, this.state)
-      ) : (
-        <View style={flexStyle}>
-          <ActivityIndicator />
-        </View>
-      )
-    } else if (errorLoadingRemoteURL) {
-      return remoteErrorView ? (
-        remoteErrorView(this.props, this.state)
-      ) : (
-        <View style={flexStyle}>
-          <Text
-            // style={{ fontStyle: 'italic', fontSize: 16 }}
-            style={!IOS && androidTextFixedStyle}
-            allowFontScaling={allowFontScaling}
-            textBreakStrategy='simple'
-            numberOfLines={0}
-          >
-            Could not load {this.props.uri}
-          </Text>
-        </View>
-      )
-    }
+    return <View style={this.props.containerStyle}>{this.state.RNNodes}</View>
 
-    return customWrapper ? (
-      customWrapper(RNNodes)
-    ) : (
-      <View style={this.props.containerStyle || {}}>{RNNodes}</View>
-    )
+    // const { allowFontScaling, customWrapper, remoteLoadingView, remoteErrorView } = this.props
+    // const { RNNodes, loadingRemoteURL, errorLoadingRemoteURL } = this.state
+    // if (!RNNodes && !loadingRemoteURL && !errorLoadingRemoteURL) {
+    //   return null
+    // }
+
+    // if (loadingRemoteURL) {
+    //   return remoteLoadingView ? (
+    //     remoteLoadingView(this.props, this.state)
+    //   ) : (
+    //     <View style={flexStyle}>
+    //       <ActivityIndicator />
+    //     </View>
+    //   )
+    // }
+
+    // if (errorLoadingRemoteURL) {
+    //   return remoteErrorView ? (
+    //     remoteErrorView(this.props, this.state)
+    //   ) : (
+    //     <View style={flexStyle}>
+    //       <Text
+    //         // style={{ fontStyle: 'italic', fontSize: 16 }}
+    //         style={!IOS && androidTextFixedStyle}
+    //         allowFontScaling={allowFontScaling}
+    //         textBreakStrategy='simple'
+    //         numberOfLines={0}
+    //       >
+    //         Could not load {this.props.uri}
+    //       </Text>
+    //     </View>
+    //   )
+    // }
+
+    // return customWrapper ? (
+    //   customWrapper(RNNodes)
+    // ) : (
+    //   <View style={this.props.containerStyle || {}}>{RNNodes}</View>
+    // )
   }
 }

@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     position: 'fixed',
     zIndex: 1,
     right: _.wind,
-    bottom: 100,
+    bottom: 92,
     left: _.wind
   },
   btns: {

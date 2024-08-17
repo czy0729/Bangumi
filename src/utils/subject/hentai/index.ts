@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-24 22:08:55
+ * @Last Modified time: 2024-08-17 14:28:47
  */
+import { loadJSON } from '@assets'
+import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
-import { SORT } from './../anime'
+import { SORT } from '../anime'
 import {
   HENTAI_BODY,
   HENTAI_CHARA,
@@ -19,7 +21,6 @@ import {
   HENTAI_YEAR
 } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
-import { SubjectId } from '@types'
 
 export {
   HENTAI_BODY,
@@ -47,7 +48,7 @@ function getData() {
 export async function init() {
   if (loaded) return
 
-  hentai = require('@assets/json/thirdParty/h.min.json')
+  hentai = await loadJSON('thirdParty/h.min')
   loaded = true
 }
 

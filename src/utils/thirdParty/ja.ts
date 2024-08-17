@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 05:36:19
+ * @Last Modified time: 2024-08-17 13:57:44
  */
-import jaData from '@assets/json/thirdParty/ja.min.json'
-import jaDataAddon from '@assets/json/thirdParty/ja.addon.json'
 import { get } from '@utils/protobuf'
-
-const CACHE_MAP = new Map<string, number>()
+import jaDataAddon from '@assets/json/thirdParty/ja.addon.json'
+import jaData from '@assets/json/thirdParty/ja.min.json'
 
 const REPLACEMENTS = {
   1: 'i',
@@ -23,30 +21,32 @@ const REPLACEMENTS = {
   10: 'x'
 } as const
 
+const memo = new Map<string, number>()
+
 let jaDataKeys: string[] = []
 
 /** 尝试查找罗马音 */
 export function findJA(input: string) {
-  if (CACHE_MAP.has(input)) return CACHE_MAP.get(input)
+  if (memo.has(input)) return memo.get(input)
 
   const input1 = cleaned(input)
   let subjectId = jaData[input1] || jaDataAddon[input1]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
   const input2 = cleaned2(input)
   subjectId = jaData[input2] || jaDataAddon[input2]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
   const input3 = cleaned3(input)
   subjectId = jaData[input3] || jaDataAddon[input3]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
@@ -59,7 +59,7 @@ export function findJA(input: string) {
   const inputCn = _input1.replace(/[^\u4e00-\u9fa5]/g, '')
   subjectId = jaData[inputCn] || jaDataAddon[inputCn]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
@@ -77,7 +77,7 @@ export function findJA(input: string) {
     })
 
     if (find) {
-      CACHE_MAP.set(input, find.id)
+      memo.set(input, find.id)
       return find.id
     }
   }
@@ -85,7 +85,7 @@ export function findJA(input: string) {
   let input4 = cleaned4(input)
   subjectId = jaData[input4] || jaDataAddon[input4]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
@@ -93,7 +93,7 @@ export function findJA(input: string) {
     input4 = input4.replace(/(\d)$/g, (match, number) => REPLACEMENTS[number] || match)
     subjectId = jaData[input4] || jaDataAddon[input4]
     if (subjectId) {
-      CACHE_MAP.set(input, subjectId)
+      memo.set(input, subjectId)
       return subjectId
     }
   }
@@ -102,28 +102,28 @@ export function findJA(input: string) {
   const input5 = cleaned5(input)
   subjectId = jaData[input5] || jaDataAddon[input5]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
   const input6 = cleaned6(input)
   subjectId = jaData[input6] || jaDataAddon[input6]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
   const input7 = cleaned7(input)
   subjectId = jaData[input7] || jaDataAddon[input7]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
   const input8 = cleaned8(input)
   subjectId = jaData[input8] || jaDataAddon[input8]
   if (subjectId) {
-    CACHE_MAP.set(input, subjectId)
+    memo.set(input, subjectId)
     return subjectId
   }
 
@@ -139,7 +139,7 @@ export function findJA(input: string) {
     if (find) {
       subjectId = jaData[find]
       if (subjectId) {
-        CACHE_MAP.set(input, subjectId)
+        memo.set(input, subjectId)
         return subjectId
       }
     }
@@ -152,14 +152,14 @@ export function findJA(input: string) {
       if (find) {
         subjectId = jaData[find]
         if (subjectId) {
-          CACHE_MAP.set(input, subjectId)
+          memo.set(input, subjectId)
           return subjectId
         }
       }
     }
   }
 
-  CACHE_MAP.set(input, 0)
+  memo.set(input, 0)
 }
 
 /**
@@ -218,9 +218,7 @@ export function cleaned2(input: string) {
  * */
 export function cleaned3(input: string) {
   const paragraphs = input.split(' ')
-  const filteredParagraphs = paragraphs.filter(
-    paragraph => !/[\u4e00-\u9fa5]/.test(paragraph)
-  )
+  const filteredParagraphs = paragraphs.filter(paragraph => !/[\u4e00-\u9fa5]/.test(paragraph))
   return cleaned(filteredParagraphs.join(' '))
 }
 
@@ -231,19 +229,12 @@ export function cleaned3(input: string) {
  */
 export function cleaned4(input: string) {
   return cleaned3(removeFirstBracketContent(input))
-    .replace(
-      /s1|movies?|specials?|ova|oad|chs|cht|jap|chinese|subbed|series|bdbox|opus|bd/g,
-      ''
-    )
-    .replace(
-      /^eiga|gekijouban|(the)?animation|(the|movies?|specials?|tv|sp)$|s0?[1-9]$/g,
-      ''
-    )
+    .replace(/s1|movies?|specials?|ova|oad|chs|cht|jap|chinese|subbed|series|bdbox|opus|bd/g, '')
+    .replace(/^eiga|gekijouban|(the)?animation|(the|movies?|specials?|tv|sp)$|s0?[1-9]$/g, '')
     .replace(/@/g, 'a')
 }
 
-const SPEC_REG =
-  /^eiga|gekijouban|(the)?animation|(the|movies?|extras?|specials?|tv|sp)$/g
+const SPEC_REG = /^eiga|gekijouban|(the)?animation|(the|movies?|extras?|specials?|tv|sp)$/g
 
 /**
  * 匹配条目名也被括号包起来的情况

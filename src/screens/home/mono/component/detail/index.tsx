@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 22:05:48
+ * @Last Modified time: 2024-08-16 06:07:07
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Expand, RenderHtml, Text } from '@components'
-import { IconTouchable } from '@_'
+import { Text } from '@components'
+import { HTML, IconTouchable } from '@_'
 import { _ } from '@stores'
-import { appNavigate, isChineseParagraph } from '@utils'
+import { isChineseParagraph } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Content(props, { $, navigation }: Ctx) {
+function Content(_props, { $, navigation }: Ctx) {
   if (!$.detail) return null
 
   const { translateResultDetail } = $.state
@@ -40,13 +40,14 @@ function Content(props, { $, navigation }: Ctx) {
 
   return (
     <View style={styles.content}>
-      <Expand ratio={2}>
-        <RenderHtml
-          style={_.mt.lg}
-          html={$.detail}
-          onLinkPress={href => appNavigate(href, navigation)}
-        />
-      </Expand>
+      <HTML
+        navigation={navigation}
+        style={_.mt.lg}
+        ratio={1.2}
+        msg={$.detail}
+        length={400}
+        matchLink={false}
+      />
       {!isChineseParagraph($.detail) && (
         <View style={styles.iconTranslate}>
           <IconTouchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 05:55:41
+ * @Last Modified time: 2024-08-16 01:08:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,7 @@ const Jobs = memo(
                 const type = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)
                 return (
                   <Touchable
+                    key={item.href}
                     animate
                     onPress={() => {
                       appNavigate(
@@ -59,14 +60,13 @@ const Jobs = memo(
                       )
                     }}
                   >
-                    <Flex key={item.href} style={styles.item} align='start'>
+                    <Flex style={styles.item} align='start'>
                       <Cover
                         src={item.cover}
                         type={type}
                         size={COVER_WIDTH}
                         height={COVER_HEIGHT}
                         radius
-                        shadow
                       />
                       {!index && <Heatmap right={-32} id='人物.跳转' to='Subject' alias='条目' />}
                       <Flex.Item style={styles.content}>

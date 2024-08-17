@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 19:02:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:13:54
+ * @Last Modified time: 2024-08-16 05:27:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,7 @@ function FloorSub({
       <Flex.Item style={styles.sub}>
         <Flex wrap='wrap'>
           {sub
-            .filter((item, index) => (isExpand ? true : index < expandNums))
+            .filter((_item, index) => (isExpand ? true : index < expandNums))
             .map(item => (
               <Sub
                 key={item.id}

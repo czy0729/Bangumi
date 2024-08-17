@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-14 20:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 14:09:34
+ * @Last Modified time: 2024-08-17 14:06:30
  */
 import { _, rakuenStore, subjectStore, systemStore } from '@stores'
 import { HTMLDecode, sleep } from '@utils'
@@ -45,7 +45,7 @@ export function fixedBaseFontStyle(baseFontStyle = {}) {
 /** 去除 q 里面的图片 (非常特殊的情况, 无法预测, 安卓 Text 里面不能包含其他元素) */
 function removeQuote(html: string) {
   if (!IOS && html.includes('<q>')) {
-    html = html.replace(REGS.q, (match, q) => {
+    html = html.replace(REGS.q, (_match, q) => {
       let _q = q.replace(REGS.img, ' img')
 
       // 暂时没办法处理像 </smal... 结尾这样的情况

@@ -15,7 +15,7 @@ import { SubjectId, SubjectType } from '@types'
 export function getIds(type: SubjectType, key: string): SubjectId[] {
   if (!type || !key) return []
 
-  let typerankData: any
+  let typerankData: Record<string, SubjectId[]>
   if (type === 'anime') {
     typerankData = typerankDataAnime
   } else if (type === 'book') {

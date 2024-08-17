@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SearchBar(props, { $, navigation }: Ctx) {
+function SearchBar(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat)
   return (

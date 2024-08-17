@@ -4,24 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 07:00:18
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { userStore } from '@stores'
-import { getTimestamp, asc, desc, info, feedback, sleep } from '@utils'
-import store from '@utils/store'
+import { asc, desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
+import store from '@utils/store'
 import i18n from '@constants/i18n'
-import doubanData from '@assets/json/thirdParty/d.min.json'
+import { loadJSON } from '@assets'
 import { Id, SubjectId } from '@types'
-import {
-  NAMESPACE,
-  HOST_API,
-  STATE,
-  EXCLUDE_STATE,
-  LOADED,
-  LOADED_TOTAL_EPS
-} from './ds'
-import { DoubanStatus, DoubanCollection, StateData } from './types'
+import { EXCLUDE_STATE, HOST_API, LOADED, LOADED_TOTAL_EPS, NAMESPACE, STATE } from './ds'
+import { DoubanCollection, DoubanStatus, StateData } from './types'
 
 export default class ScreenBilibiliSync extends store<typeof STATE> {
   state = observable(STATE)
@@ -69,6 +62,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
         }
       })
       const { interests = [], total } = JSON.parse(_response) as DoubanCollection
+      const doubanData = await loadJSON('thirdParty/d.min')
       interests.forEach(item => {
         this.collections.push({
           id: item.subject?.id,
@@ -76,8 +70,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
           title: item.subject?.title,
           cover: item.subject?.pic?.normal || '',
           status: item.status === 'mark' ? 1 : item.status === 'doing' ? 2 : 3,
-          progress:
-            item.status === 'done' ? (item.subject?.type === 'movie' ? '1话' : 0) : 0,
+          progress: item.status === 'done' ? (item.subject?.type === 'movie' ? '1话' : 0) : 0,
           content: item.comment || '',
           score: item?.rating?.value || 0,
           create_time: item.create_time || '0'
@@ -106,9 +99,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
         this.onToggleHide()
         this.setState({
           data: {
-            list: this.collections
-              .slice()
-              .sort((a, b) => desc(a.create_time, b.create_time)),
+            list: this.collections.slice().sort((a, b) => desc(a.create_time, b.create_time)),
             _loaded: getTimestamp()
           },
           progress: EXCLUDE_STATE.progress
@@ -287,9 +278,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
   }
 
   onPage = (page: any[]) => {
-    this.fetchCollections(
-      page.filter(item => item.subjectId).map(item => item.subjectId)
-    )
+    this.fetchCollections(page.filter(item => item.subjectId).map(item => item.subjectId))
 
     // 只查询没有进度和看过的条目
     this.fetchTotalEps(

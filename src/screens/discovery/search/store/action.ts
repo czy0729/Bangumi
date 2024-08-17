@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 11:48:25
+ * @Last Modified time: 2024-08-17 12:11:56
  */
 import { usersStore } from '@stores'
-import { info, loading, t2s, updateVisibleBottom } from '@utils'
+import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import { Navigation, SearchCat, SearchLegacy } from '@types'
@@ -84,12 +84,12 @@ export default class Action extends Fetch {
   }
 
   /** 输入框值提交, 反应数据 */
-  onChangeTextConfirm = (text: string) => {
+  onChangeTextConfirm = debounce((text: string) => {
     const state: Partial<typeof EXCLUDE_STATE> = {
       value: text
     }
     this.setState(state)
-  }
+  })
 
   /** 选择历史 */
   selectHistory = (value: string) => {

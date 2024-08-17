@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 12:00:27
+ * @Last Modified time: 2024-08-17 11:47:39
  */
 const path = require('path')
 const sass = require('node-sass')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 module.exports = {
   title: 'Bangumi 番组计划',
@@ -50,6 +51,11 @@ module.exports = {
       ]
     })
 
+    config.externals = {
+      react: 'React',
+      'react-dom': 'ReactDOM'
+    }
+
     config.resolve.alias = {
       ...config.resolve.alias,
       stream: require.resolve('stream-browserify')
@@ -63,15 +69,15 @@ module.exports = {
             from: path.resolve(__dirname, '../src/assets'),
             to: 'assets',
             filter: resourcePath => {
-              return /\.(bin|proto|ico)$/.test(resourcePath)
+              return /\.(bin|proto|ico|json)$/.test(resourcePath)
             }
           }
         ]
       })
     )
 
-    /** ========== ServiceWorker Workbox ========== */
     if (configType === 'PRODUCTION') {
+      /** ========== ServiceWorker Workbox ========== */
       config.plugins.push(
         new GenerateSW({
           swDest: 'service-worker.js',
@@ -108,9 +114,16 @@ module.exports = {
           maximumFileSizeToCacheInBytes: 15 * 1024 * 1024
         })
       )
-    }
 
-    if (configType === 'PRODUCTION') {
+      /** ========== webpack-bundle-analyzer ========== */
+      // config.plugins.push(
+      //   new BundleAnalyzerPlugin({
+      //     analyzerMode: 'static',
+      //     openAnalyzer: false,
+      //     reportFilename: 'report.html'
+      //   })
+      // )
+
       /** ========== 压缩代码 ========== */
       // Replace or add TerserPlugin
       const existingTerserPluginIndex = config.optimization.minimizer.findIndex(

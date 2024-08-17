@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 08:37:57
+ * @Last Modified time: 2024-08-16 06:48:53
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -95,7 +95,7 @@ export const RenderHtml = observer(
 
       // 渲染定义tag前回调
       renderers: {
-        img: (attrs: any, children: any, css: any, passProps: any) =>
+        img: (attrs: any, _children: any, _css: any, passProps: any) =>
           img({
             key: passProps.key,
             src: attrs.src || '',
@@ -103,7 +103,7 @@ export const RenderHtml = observer(
             show: this.props.autoShowImage,
             onImageFallback: this.props.onImageFallback
           }),
-        span: (attrs: any, children: any, css: any, passProps: any) =>
+        span: (attrs: any, children: any, _css: any, passProps: any) =>
           span({
             key: passProps.key,
             style: attrs.style || '',
@@ -112,18 +112,18 @@ export const RenderHtml = observer(
             rawChildren: passProps.rawChildren,
             children
           }),
-        q: (attrs: any, children: any, css: any, passProps: any) =>
+        q: (_attrs: any, children: any, _css: any, passProps: any) =>
           q({
             key: passProps.key,
             children
           }),
-        li: (attrs: any, children: any, css: any, passProps: any) =>
+        li: (_attrs: any, children: any, _css: any, passProps: any) =>
           li({
             key: passProps.key,
             children
           }),
         a: matchLink
-          ? (attrs: any, children: any, css: any, passProps: any) =>
+          ? (attrs: any, children: any, _css: any, passProps: any) =>
               a({
                 key: passProps.key,
                 attrs,
@@ -138,7 +138,7 @@ export const RenderHtml = observer(
       }
     })
 
-    onLinkPress = (evt: any, href: string) => {
+    onLinkPress = (_evt: any, href: string) => {
       const { onLinkPress } = this.props
       if (onLinkPress) return onLinkPress(href)
 
@@ -155,7 +155,7 @@ export const RenderHtml = observer(
 
         /** 把 bgm 表情替换成 bgm 字体文字 */
         if (!STORYBOOK) {
-          $('img[smileid]').replaceWith((index: number, element: any) => {
+          $('img[smileid]').replaceWith((_index: number, element: any) => {
             const $img = cheerio(element)
             const alt = $img.attr('alt') || ''
             if (alt) {

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 09:27:08
+ * @Last Modified time: 2024-08-16 08:25:55
  */
 
-/** 网页端全局样式 */
+/** ==================== reset ==================== */
 // [data-key]::after {
 //   content: attr(data-key);
 //   position: absolute;
@@ -26,9 +26,8 @@ a[data-href] {
   cursor: pointer;
 }
 
-component-tabs,
-base-pagination-list,
-base-pagination-list-2 {
+/** ==================== @components ==================== */
+component-tabs {
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -74,6 +73,11 @@ component-mask {
 }
 
 component-render-html {
+  display: block;
+  word-break: break-all;
+  will-change: transform;
+  transform: translate3d(0, 0, -1px);
+
   & > div {
     display: inline-block !important;
 
@@ -87,6 +91,14 @@ component-bgm {
   display: inline-block;
 }
 
+/** ==================== @screens/_/base ==================== */
+base-pagination-list,
+base-pagination-list-2 {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 base-rank {
   display: flex;
 }
@@ -97,6 +109,12 @@ base-name {
   }
 }
 
+/** ==================== @screens/_/item ==================== */
+item-post {
+  padding-right: 8px !important;
+}
+
+/** ==================== @screens ==================== */
 screen-smb {
   component-storybook-scroll {
     flex: 1;

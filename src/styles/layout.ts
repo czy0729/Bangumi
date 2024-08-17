@@ -116,8 +116,11 @@ export const tabsHeaderHeight = headerHeight + tabsHeight
  * */
 export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 6)
 
-/** [待废弃] 底部留空 */
-export const bottom = STORYBOOK ? 128 : tabBarHeight + lg
+/** 网页版底部留空 */
+export const bottomWeb = 128
+
+/** 底部留空 */
+export const bottom = STORYBOOK ? bottomWeb : tabBarHeight + lg
 
 /** 计算 App 布局参数 */
 export function getAppLayout() {

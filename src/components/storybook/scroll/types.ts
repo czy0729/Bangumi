@@ -9,6 +9,7 @@ import { Fn, ReactNode, ViewStyle } from '@types'
 export type Props = {
   style?: ViewStyle
   contentContainerStyle?: ViewStyle
+  scrollEnabled?: boolean
   onFooterRefresh?: Fn
   onScroll?: Fn
   children: ReactNode
