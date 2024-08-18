@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 13:04:12
+ * @Last Modified time: 2024-08-18 07:14:57
  */
 import React from 'react'
 import {
@@ -76,6 +76,9 @@ export type Fn = (...args: any[]) => any
 
 /** 选择函数 */
 export type SelectFn = <T, K>(arg1: T, arg2: K) => T | K
+
+/** 获取本地 state 的类型 */
+export type LocalState<T extends object, K extends object> = Expand<Omit<T, keyof K>>
 
 /** React Component Interface */
 export type IReactComponent<T = any> =

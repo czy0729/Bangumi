@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 04:46:26
+ * @Last Modified time: 2024-08-18 07:08:33
  */
 import React from 'react'
 import { Flex, Heatmap, Highlight, Squircle, Text, Touchable } from '@components'
@@ -11,7 +11,7 @@ import { formatNumber, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
-import { getTyperankNums } from './utils'
+import { getTyperankNums } from '../../utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

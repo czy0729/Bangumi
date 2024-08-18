@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:47:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 04:35:52
+ * @Last Modified time: 2024-08-18 05:32:12
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import RecSegement from '../component/rec-segment'
 import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title='标签'
@@ -23,7 +23,7 @@ function Header(props, { $ }: Ctx) {
       headerTitleAlign='left'
       headerRight={() => (
         <Flex>
-          <RecSegement value={$.state.rec} onValueChange={$.onValueChange} />
+          {!!$.state._loaded && <RecSegement value={$.state.rec} onValueChange={$.onValueChange} />}
           <HeaderComp.Popover
             data={DATA}
             onSelect={key => {

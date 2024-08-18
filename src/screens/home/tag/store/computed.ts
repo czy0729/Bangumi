@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:45:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 07:46:46
+ * @Last Modified time: 2024-08-18 07:55:40
  */
 import { computed } from 'mobx'
 import { subjectStore, tagStore } from '@stores'
-import { HTML_TAG, LIST_EMPTY } from '@constants'
-import { SubjectId } from '@types'
+import { HTML_TAG, LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectId, SubjectTypeCn } from '@types'
 import State from './state'
 
 export default class Computed extends State {
@@ -22,6 +22,11 @@ export default class Computed extends State {
     const { type, tag } = this.params
     const { airtime, month } = this.state
     return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
+  }
+
+  /** 条目类型中文 */
+  @computed get typeCn() {
+    return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.params.type) || '动画'
   }
 
   /** 过滤列表 */

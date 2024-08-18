@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 07:45:34
+ * @Last Modified time: 2024-08-18 08:26:13
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -17,7 +17,7 @@ import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Relations = memo(
-  ({ navigation, showRelations, subjectId, relations, onSwitchBlock }) => {
+  ({ navigation, showRelations, subjectId, relations, typeCn, onSwitchBlock }) => {
     return (
       <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
@@ -36,6 +36,7 @@ const Relations = memo(
               width={COVER_WIDTH}
               height={COVER_HEIGHT}
               findCn
+              relationTypeCn={typeCn}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
               onPress={({ id, name, image }, type) => {
                 t('条目.跳转', {

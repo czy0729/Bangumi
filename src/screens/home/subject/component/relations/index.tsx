@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:47:29
+ * @Last Modified time: 2024-08-18 08:27:09
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
         showRelations={systemStore.setting.showRelations}
         subjectId={$.subjectId}
         relations={$.relations}
+        typeCn={$.type}
         onSwitchBlock={$.onSwitchBlock}
       />
     </>

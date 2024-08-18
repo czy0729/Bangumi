@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 01:25:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 01:26:51
+ * @Last Modified time: 2024-08-18 08:26:28
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -23,5 +23,6 @@ export const DEFAULT_PROPS = {
   showRelations: true as typeof systemStore.setting.showRelations,
   subjectId: 0 as $['subjectId'],
   relations: [] as $['relations'],
+  typeCn: '' as $['type'],
   onSwitchBlock: (() => {}) as $['onSwitchBlock']
 }

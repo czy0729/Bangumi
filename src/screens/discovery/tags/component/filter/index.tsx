@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-31 02:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 12:57:10
+ * @Last Modified time: 2024-08-18 06:48:54
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Filter(props, { $ }: Ctx) {
+function Filter(_props, { $ }: Ctx) {
   r(COMPONENT)
 
   const [focus, setFocus] = useState(false)

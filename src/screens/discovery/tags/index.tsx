@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 04:54:03
+ * @Last Modified time: 2024-08-18 05:27:56
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 标签 */
-const Tags = (props, { $ }: Ctx) => {
+const Tags = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

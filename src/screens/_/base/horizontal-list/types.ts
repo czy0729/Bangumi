@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:00:25
+ * @Last Modified time: 2024-08-18 08:23:49
  */
 import { TextProps } from 'react-native'
 import { Fn, SubjectTypeCn, ViewStyle } from '@types'
@@ -31,6 +31,10 @@ export type Props = {
   /** 条目类型中文 */
   typeCn?: SubjectTypeCn
 
+  /** 关联条目类型中文, 若有值则相关描述例如`不同演绎`会沿用此类型值 */
+  relationTypeCn?: SubjectTypeCn
+
+  /** 文本溢出显示方式, 在例如单行本中能显示话数, 而不会被溢出折叠 (iOS only) */
   ellipsizeMode?: TextProps['ellipsizeMode']
 
   /** 没有拨动前渲染的个数 */

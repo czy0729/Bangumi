@@ -7,6 +7,7 @@
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
+/** 排行榜页面状态机 */
 class ScreenRank extends Action {
   init = async () => {
     this.setState({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:00:35
+ * @Last Modified time: 2024-08-18 08:25:00
  */
 import React from 'react'
 import { Component } from '@components'
@@ -27,6 +27,7 @@ export const HorizontalList = ob(
       quality: false,
       findCn: false,
       typeCn: '',
+      relationTypeCn: '',
       ellipsizeMode: 'tail',
       initialRenderNums: 0,
       scrolled: false,
@@ -70,6 +71,7 @@ export const HorizontalList = ob(
         height,
         findCn,
         typeCn,
+        relationTypeCn,
         ellipsizeMode,
         initialRenderNums,
         onPress,
@@ -93,6 +95,7 @@ export const HorizontalList = ob(
                 ellipsizeMode={ellipsizeMode}
                 isFirst={index === 0}
                 typeCn={typeCn}
+                relationTypeCn={relationTypeCn}
                 onPress={onPress}
                 onSubPress={onSubPress}
               />

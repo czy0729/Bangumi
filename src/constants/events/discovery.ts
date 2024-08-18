@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 16:37:09
+ * @Last Modified time: 2024-08-18 07:43:42
  */
 
 /** Discovery */
@@ -119,6 +119,8 @@ export default {
   '标签索引.跳转': 'Tags.to',
   '标签索引.右上角菜单': 'Tags.topRightMenu',
   '标签索引.标签页切换': 'Tags.tabsChange',
+  '标签索引.标签类型切换': 'Tags.valueChange',
+  '标签索引.筛选': 'Tags.submitEditing',
 
   // 全站日志
   '全站日志.跳转': 'DiscoveryBlog.to',

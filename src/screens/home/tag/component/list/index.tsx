@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 18:09:07
+ * @Last Modified time: 2024-08-18 07:57:50
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -17,7 +17,7 @@ import GridItem from './grid'
 import ListItem from './list'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if (!$.list._loaded || $.state.hide) {
     return (
       <>
@@ -49,7 +49,6 @@ function List(props, { $ }: Ctx) {
         </>
       }
       renderItem={({ item, index }) => {
-        // {!index && <Heatmap id='用户标签.跳转' />}
         if ($.state.list) return <ListItem item={item} index={index} />
 
         return <GridItem item={item} index={index} numColumns={numColumns} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:48:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 04:42:00
+ * @Last Modified time: 2024-08-18 07:07:12
  */
 import React from 'react'
 import { TabsV2 } from '@components'
@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function Tabs(props, { $ }: Ctx) {
+function Tabs(_props, { $ }: Ctx) {
   return (
     <TabsV2
       key={_.orientation}

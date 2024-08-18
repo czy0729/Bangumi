@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:59:33
+ * @Last Modified time: 2024-08-18 08:28:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ function Item({
   ellipsizeMode,
   isFirst,
   typeCn,
+  relationTypeCn,
   onPress,
   onSubPress
 }) {
@@ -41,6 +42,8 @@ function Item({
       typeCnValue = '书籍'
     } else if (desc.includes('游戏')) {
       typeCnValue = '游戏'
+    } else if (relationTypeCn && (desc.includes('不同演绎') || desc.includes('相同世界观'))) {
+      typeCnValue = relationTypeCn
     }
   }
 

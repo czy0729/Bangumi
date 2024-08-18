@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 18:09:44
+ * @Last Modified time: 2024-08-18 07:58:03
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
@@ -15,7 +15,7 @@ import Sort from './sort'
 import Year from './year'
 import { COMPONENT } from './ds'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar(_props, { $ }: Ctx) {
   return (
     <ToolBarComp style={!$.state.list && _.mb.sm}>
       <Sort />
