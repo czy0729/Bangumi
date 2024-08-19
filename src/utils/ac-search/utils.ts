@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 05:53:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 14:16:37
+ * @Last Modified time: 2024-08-19 22:37:34
  */
 import lazyac from 'lazy-aho-corasick'
 import { TEXT_ONLY } from '@constants'
@@ -100,7 +100,7 @@ async function initTrie(cns: string[]) {
       subStrings[cn] = addon[cn] || alias[cn] || anime[cn]
     })
 
-    console.log(i)
+    // console.info(i)
     if (i === 0) trieInitDone = 1
     if (i === arrs.length - 1) trieInitDone = 2
   }

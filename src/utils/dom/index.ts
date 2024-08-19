@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-20 12:47:44
+ * @Last Modified time: 2024-08-19 22:23:38
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
@@ -29,6 +29,20 @@ export function isWindows() {
   } catch (error) {
     return false
   }
+}
+
+/** 清理以 _ 开头的参数 */
+export function cleanQuery() {
+  if (typeof window === 'undefined' || !STORYBOOK) return
+
+  let url = new URL(window.location.href)
+  let params = new URLSearchParams(url.search)
+  let newParams = new URLSearchParams()
+  for (let [key, value] of params) {
+    if (!key.startsWith('_')) newParams.append(key, value)
+  }
+  url.search = newParams.toString()
+  window.history.replaceState({}, '', url.toString())
 }
 
 /** 开发环境下, 将各种常用方法注入 dom */
@@ -64,14 +78,12 @@ export function scrollToTop(y: number = 0) {
 
   setTimeout(() => {
     try {
-      document
-        .querySelector('component-page component-storybook-scroll > div')
-        .scrollTo({
-          // @ts-ignore
-          x: 0,
-          y,
-          animated: true
-        })
+      document.querySelector('component-page component-storybook-scroll > div').scrollTo({
+        // @ts-ignore
+        x: 0,
+        y,
+        animated: true
+      })
     } catch (error) {}
   }, 0)
 }

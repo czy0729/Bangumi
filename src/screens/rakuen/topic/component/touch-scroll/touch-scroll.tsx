@@ -2,23 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:32:23
+ * @Last Modified time: 2024-08-19 22:39:35
  */
 import React from 'react'
-import { Insets, TouchableWithoutFeedback, View } from 'react-native'
+import { TouchableWithoutFeedback, View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, stl, titleCase } from '@utils'
 import { memo } from '@utils/decorators'
 import { IOS, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
+import { PassProps } from './type'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
-
-type PassProps = {
-  hitSlop: Insets
-  onPress?: () => any
-  onPressIn?: () => any
-}
 
 export const TouchScroll = memo(
   ({ styles, list, readedTime, scrollDirection, directFloor, isWebLogin, onPress }) => {

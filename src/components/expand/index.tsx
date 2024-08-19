@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:30:56
+ * @Last Modified time: 2024-08-19 21:56:54
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { STORYBOOK } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -34,9 +35,9 @@ export const Expand = ({
 }: ExpandProps) => {
   r(COMPONENT)
 
+  // 窗口高度 (网页端适当放大比例, 减少重排)
+  const ratioHeight = _.r(216) * ratio * (STORYBOOK ? 2 : 1)
   const aHeight = useRef(new Animated.Value(0))
-  const ratioHeight = _.r(216) * ratio
-
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)
   const animatedStyles = useMemo(

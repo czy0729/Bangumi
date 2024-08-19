@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:35:53
+ * @Last Modified time: 2024-08-19 22:44:36
  */
 import React from 'react'
+import { Component } from '@components'
 import { obc } from '@utils/decorators'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
@@ -23,15 +24,17 @@ function TouchScrollWrap({ onPress }, { $ }: Ctx) {
   }
 
   return (
-    <TouchScroll
-      styles={memoStyles()}
-      list={$.comments.list}
-      readedTime={$.readed._time}
-      scrollDirection={scrollDirection}
-      directFloor={$.state.directFloor}
-      isWebLogin={$.isWebLogin}
-      onPress={onPress}
-    />
+    <Component id='screen-topic-touch-scroll'>
+      <TouchScroll
+        styles={memoStyles()}
+        list={$.comments.list}
+        readedTime={$.readed._time}
+        scrollDirection={scrollDirection}
+        directFloor={$.state.directFloor}
+        isWebLogin={$.isWebLogin}
+        onPress={onPress}
+      />
+    </Component>
   )
 }
 

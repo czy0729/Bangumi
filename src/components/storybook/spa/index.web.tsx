@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:28:40
+ * @Last Modified time: 2024-08-19 22:21:54
  */
 import React, { Suspense, useCallback } from 'react'
 import Stores from '@stores'
 import { r } from '@utils/dev'
-import { isMobile } from '@utils/dom'
+import { cleanQuery, isMobile } from '@utils/dom'
 import { useBoolean, useMount } from '@utils/hooks'
 import { Component } from '../../component'
 import { Loading } from '../../loading'
@@ -40,6 +40,9 @@ export const StorybookSPA = ({ children }) => {
   }, [setTrue])
   useMount(() => {
     init()
+    setTimeout(() => {
+      cleanQuery()
+    }, 0)
   })
 
   return (

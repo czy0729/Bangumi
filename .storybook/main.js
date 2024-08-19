@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:05:27
+ * @Last Modified time: 2024-08-19 21:42:13
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -11,15 +11,15 @@ const { GenerateSW } = require('workbox-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const analyzer = true
+const analyzer = false
 
 module.exports = {
   title: 'Bangumi 番组计划',
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
-    '@storybook/addon-actions',
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
+    // '@storybook/addon-actions',
+    // '@storybook/addon-links',
+    // '@storybook/addon-essentials',
     '@storybook/addon-react-native-web',
     {
       name: 'storybook-dark-mode',
@@ -32,7 +32,13 @@ module.exports = {
     builder: 'webpack5',
     options: {
       fsCache: true,
-      lazyCompilation: true
+      lazyCompilation: true,
+      cache: {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename]
+        }
+      }
     }
   },
   framework: '@storybook/react',
@@ -41,7 +47,12 @@ module.exports = {
     config.module.rules.push({
       test: /\.scss$/,
       use: [
-        // 如果需要将样式注入到编译后的组件中，取消注释此行
+        {
+          loader: 'thread-loader',
+          options: {
+            workers: 2 // 根据需要设置工作线程数
+          }
+        },
         'style-loader',
         'css-loader',
         {

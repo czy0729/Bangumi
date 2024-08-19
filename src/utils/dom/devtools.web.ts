@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-03 21:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-05 03:07:56
+ * @Last Modified time: 2024-08-19 22:15:35
  */
-import { addListener, setDetectDelay, launch } from 'devtools-detector'
+import { addListener, launch, setDetectDelay } from 'devtools-detector'
 import { DEV } from '@/config'
 
 const devtools = {
@@ -15,7 +15,7 @@ const devtools = {
   if (DEV) return
 
   addListener(isOpen => (devtools.isOpen = isOpen))
-  setDetectDelay(5000)
+  setDetectDelay(6400)
   launch()
 })()
 

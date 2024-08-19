@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-12 09:04:12
+ * @Last Modified time: 2024-08-19 22:20:02
  */
 import { appNavigate, getSPAParams } from '@utils'
+import { cleanQuery } from '@utils/dom'
 import { AnyObject } from '@types'
 import { setNavigating } from './state'
 
@@ -19,11 +20,7 @@ export function parseUrlParams() {
 }
 
 /** 统一跳转函数, 不传参数等于后退 */
-export function navigate(
-  routeName?: string,
-  params: AnyObject = {},
-  replace: boolean = false
-) {
+export function navigate(routeName?: string, params: AnyObject = {}, replace: boolean = false) {
   if (routeName === 'WebBrowser' && params?.url) {
     appNavigate(params.url)
     return
@@ -35,12 +32,12 @@ export function navigate(
     return
   }
 
-  window.history[replace ? 'replaceState' : 'pushState'](
-    {},
-    '',
-    getSPAParams(routeName, params)
-  )
+  window.history[replace ? 'replaceState' : 'pushState']({}, '', getSPAParams(routeName, params))
   window.dispatchEvent(new PopStateEvent('popstate'))
+
+  setTimeout(() => {
+    cleanQuery()
+  }, 0)
 }
 
 export function getCurrentStoryId() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-16 00:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 01:02:53
+ * @Last Modified time: 2024-08-19 22:01:02
  */
 import { STORYBOOK } from '@constants'
 
@@ -11,9 +11,10 @@ export function platformFix(title: string) {
   if (typeof title !== 'string') return title
 
   if (STORYBOOK) {
-    if (title === '浏览器查看') return 'bgm.tv 查看'
     if (title === '复制链接') return '复制 bgm.tv 链接'
     if (title === '复制分享') return '复制 bgm.tv 分享'
+    if (title.includes('浏览器查看')) return title.replace('浏览器查看', 'bgm.tv 查看')
+    if (title.includes('浏览器打开')) return title.replace('浏览器打开', 'bgm.tv 打开')
   }
 
   return title
