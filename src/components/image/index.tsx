@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:38:46
+ * @Last Modified time: 2024-08-19 07:15:12
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -277,7 +277,7 @@ export const Image = observer(
       }
 
       let uri: ImageProps['src'] = src || ''
-      if (typeof uri === 'string' && uri.indexOf('https:') === -1 && uri.indexOf('http:') === -1) {
+      if (typeof uri === 'string' && !uri.startsWith('./') && !/^https?:/.test(uri)) {
         uri = `https:${uri}`
       }
 

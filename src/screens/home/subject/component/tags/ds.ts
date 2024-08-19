@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:38:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:50:09
+ * @Last Modified time: 2024-08-19 04:40:05
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -16,6 +16,7 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 export const DEFAULT_PROPS = {
   show: true as boolean,
   showTags: true as typeof systemStore.setting.showTags,
+  showTyperank: false as typeof systemStore.setting.subjectTagsRec,
   subjectTagsExpand: true as typeof systemStore.setting.subjectTagsExpand,
   rank: 0 as $['subject']['rank'],
   focusOrigin: false as typeof systemStore.setting.focusOrigin,

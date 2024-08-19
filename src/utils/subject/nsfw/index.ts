@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-17 14:03:47
  */
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { loadJSON } from '@assets'
+import { loadJSON } from '@assets/json'
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'

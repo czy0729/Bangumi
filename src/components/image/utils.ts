@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 18:24:34
+ * @Last Modified time: 2024-08-19 07:18:43
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
@@ -254,7 +254,7 @@ export function imageViewerCallback({ imageViewerSrc, uri, src, headers, event }
 
 /** 修复远程图片地址 */
 export function fixedRemoteImageUrl(url: any) {
-  if (typeof url !== 'string') return url
+  if (typeof url !== 'string' || url.startsWith('./')) return url
 
   // 协议
   if (url.indexOf('https:') === -1 && url.indexOf('http:') === -1) return `https:${url}`
@@ -264,7 +264,7 @@ export function fixedRemoteImageUrl(url: any) {
 
 /** 用于下载超时, 默认 10s */
 export function timeoutPromise() {
-  return new Promise((resolve, reject) => {
+  return new Promise((_resolve, reject) => {
     setTimeout(() => {
       reject('download timed out')
     }, 10000)

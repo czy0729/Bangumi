@@ -2,29 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 01:47:36
+ * @Last Modified time: 2024-08-19 07:00:18
  */
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
-import CACHE from '@assets/json/katakana.json'
+import { loadJSON } from '@assets/json'
 import { Fn } from '@types'
 import { CACHE_KEY } from './ds'
 
-let cache = {
+let memo = {
   スクールアイドル: 'Idol school',
   マギカ: 'Magica'
 }
 
 export async function getCache() {
+  const katakanaJSON = await loadJSON('katakana')
+
   try {
-    cache = {
-      ...CACHE,
+    memo = {
+      ...katakanaJSON,
       ...(await getStorage(CACHE_KEY))
     }
     return true
   } catch (error) {
-    cache = {
-      ...CACHE
+    memo = {
+      ...katakanaJSON
     }
     return true
   }
@@ -57,11 +59,11 @@ async function doTranslate() {
       })
 
       // [{ dst: 'Studio pulp', src: 'スタジオパルプ' }]
-      transResult.forEach(item => (cache[item.src] = item.dst))
+      transResult.forEach(item => (memo[item.src] = item.dst))
       save()
     }
 
-    cbs.forEach(cb => cb(cache))
+    cbs.forEach(cb => cb(memo))
   } catch (error) {
     //
   } finally {
@@ -75,8 +77,8 @@ export async function translate(jp: string, cb: Fn = () => {}) {
   if (typeof jp !== 'string') return
 
   // 命中缓存马上回调
-  if (cache[jp]) {
-    cb(cache)
+  if (memo[jp]) {
+    cb(memo)
     return
   }
 
@@ -94,28 +96,28 @@ export async function translateAll(str: string) {
     const match = matchKatakanas(str)
     if (!match) return null
 
-    const needTranslate = match.filter(jp => !cache[jp])
+    const needTranslate = match.filter(jp => !memo[jp])
     if (needTranslate.length) {
       const response = await baiduTranslate(needTranslate.join('\n'), 'en')
       const { trans_result: transResult } = JSON.parse(response as string)
       if (Array.isArray(transResult)) {
-        transResult.forEach(item => (cache[item.src] = item.dst))
+        transResult.forEach(item => (memo[item.src] = item.dst))
         save()
       }
     }
 
     const result = {}
-    match.forEach(jp => (result[jp] = cache[jp]))
+    match.forEach(jp => (result[jp] = memo[jp]))
     return result
   } catch (error) {
     return null
   }
 }
 
-function save() {
+async function save() {
   const data = {
-    ...cache
+    ...memo
   }
-  Object.keys(CACHE).forEach(item => delete data[item])
+  Object.keys(await loadJSON('katakana')).forEach(item => delete data[item])
   setStorage(CACHE_KEY, data)
 }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:45:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 17:02:49
+ * @Last Modified time: 2024-08-19 04:47:07
  */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { stl } from '@utils'
 import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
@@ -18,24 +18,34 @@ import { TITLE_TAGS } from '../../../ds'
 import { Ctx } from '../../../types'
 import Block from '../block'
 import Typerank from '../typerank'
-import { exist } from '../typerank/utils'
+import { exist, loadTyperankData } from '../utils'
 import { COMPONENT, EXPAND_NUM } from './ds'
 import { memoStyles } from './styles'
 
-function TagList(props, { $, navigation }: Ctx) {
+function TagList({ showTyperank }, { $, navigation }: Ctx) {
   r(COMPONENT)
 
   const [expand, setExpand] = useState(false)
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    if (showTyperank) {
+      async function loaded() {
+        setShow(false)
+        await loadTyperankData($.subjectTypeValue)
+        setShow(true)
+      }
+      loaded()
+    }
+  }, [showTyperank])
 
   return useObserver(() => {
     const styles = memoStyles()
     return (
       <>
         {$.tags
-          .filter((item, index) => (expand ? true : index < EXPAND_NUM))
+          .filter((_item, index) => (expand ? true : index < EXPAND_NUM))
           .map(({ name, count }) => {
             const isSelected = $.collection?.tag?.includes?.(name)
-            const showTyperank = !!$.rank && systemStore.setting.subjectTagsRec
             return (
               <Touchable
                 key={name}
@@ -77,7 +87,7 @@ function TagList(props, { $, navigation }: Ctx) {
                     {name}
                   </Text>
                   {showTyperank ? (
-                    <Typerank tag={name} />
+                    show && <Typerank tag={name} />
                   ) : (
                     <Text
                       type={_.select('sub', isSelected ? 'main' : 'sub')}

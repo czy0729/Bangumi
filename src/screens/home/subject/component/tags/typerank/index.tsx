@@ -9,7 +9,7 @@ import { Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
-import { calc, exist } from './utils'
+import { calc, exist } from '../utils'
 import { COMPONENT } from './ds'
 
 function Typerank({ tag }, { $ }: Ctx) {

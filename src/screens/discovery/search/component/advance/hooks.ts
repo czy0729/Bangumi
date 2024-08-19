@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 12:03:40
+ * @Last Modified time: 2024-08-19 07:01:06
  */
 import { useEffect, useRef, useState } from 'react'
 import { asc, desc, t2s } from '@utils'
 import { decode, get } from '@utils/protobuf'
-import { loadJSON } from '@assets'
+import { loadJSON } from '@assets/json'
 import { SearchCat, SubjectId } from '@types'
 
 type SubjectTitle = string

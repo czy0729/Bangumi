@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-17 14:02:22
  */
-import { loadJSON } from '@assets'
+import { loadJSON } from '@assets/json'
 import { SubjectId } from '@types'
 import { desc, getTimestamp } from '../../index'
 import { SORT } from '../anime'

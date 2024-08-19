@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-15 22:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:45:33
+ * @Last Modified time: 2024-08-19 09:10:22
  */
 import React, { useRef, useState } from 'react'
 import { Button, Flex, Text } from '@components'
@@ -10,9 +10,10 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { transformData } from '../../../utils/directory'
+import { loadJAData } from '../../../utils/load-data'
 import { styles } from './styles'
 
-const DirectoryItem = (props, { $ }: Ctx) => {
+const DirectoryItem = (_props, { $ }: Ctx) => {
   const inputRef = useRef(null)
   const [uploading, setUploading] = useState(false)
   const [num, setNum] = useState(0)
@@ -25,6 +26,7 @@ const DirectoryItem = (props, { $ }: Ctx) => {
   const handleFileChange = async () => {
     const files = inputRef.current.files
     if (files.length > 0) {
+      await loadJAData()
       readFiles(files)
     }
     setUploading(false)

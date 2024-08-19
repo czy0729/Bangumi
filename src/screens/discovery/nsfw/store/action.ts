@@ -1,10 +1,10 @@
-import { otaStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-07-20 10:43:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:27:39
+ * @Last Modified time: 2024-08-19 11:46:36
  */
+import { otaStore } from '@stores'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
 

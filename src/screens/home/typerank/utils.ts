@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-18 04:20:10
  */
-import { getJSON, loadJSON } from '@assets'
+import { getJSON, loadJSON } from '@assets/json'
 import { SubjectId, SubjectType } from '@types'
 
 export async function loadTyperankData(type: SubjectType) {

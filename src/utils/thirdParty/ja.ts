@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 13:57:44
+ * @Last Modified time: 2024-08-19 09:12:30
  */
 import { get } from '@utils/protobuf'
-import jaDataAddon from '@assets/json/thirdParty/ja.addon.json'
-import jaData from '@assets/json/thirdParty/ja.min.json'
+import { getJSON } from '@assets/json'
 
 const REPLACEMENTS = {
   1: 'i',
@@ -28,6 +27,9 @@ let jaDataKeys: string[] = []
 /** 尝试查找罗马音 */
 export function findJA(input: string) {
   if (memo.has(input)) return memo.get(input)
+
+  const jaData: Record<string, number> = getJSON('thirdParty/ja.min')
+  const jaDataAddon: Record<string, number> = getJSON('thirdParty/ja.addon')
 
   const input1 = cleaned(input)
   let subjectId = jaData[input1] || jaDataAddon[input1]

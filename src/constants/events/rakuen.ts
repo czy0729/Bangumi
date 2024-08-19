@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 15:28:35
+ * @Last Modified time: 2024-08-19 06:49:51
  */
 
 /** Rakuen */
@@ -31,6 +31,8 @@ export default {
   // 我的小组
   '我的小组.跳转': 'Mine.to',
   '我的小组.右上角菜单': 'Mine.topRightMenu',
+  '我的小组.类型切换': 'Mine.onChange',
+  '我的小组.筛选': 'Mine.submitEditing',
 
   // 本地帖子
   '本地帖子.跳转': 'RakuenHistory.to',

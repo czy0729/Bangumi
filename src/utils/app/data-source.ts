@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 04:29:44
+ * @Last Modified time: 2024-08-19 11:57:03
  */
 import { isObservableArray } from 'mobx'
 import { STORYBOOK } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
-import nsfwData from '@assets/json/thirdParty/nsfw.min.json'
+import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
 import {
   AnyObject,
@@ -149,7 +149,10 @@ let x18SubjectIds: SubjectId[] = []
  * @param {*} title     辅助检测, 有关键字则都认为是 18x
  */
 export function x18(subjectId: SubjectId, title?: string) {
-  if (!x18SubjectIds.length) x18SubjectIds = nsfwData.map(item => item.i)
+  if (!x18SubjectIds.length) {
+    x18SubjectIds = getJSON('thirdParty/nsfw.min', [], true).map(item => item.i)
+    if (!x18SubjectIds.length) return false
+  }
 
   if (!subjectId) return false
 

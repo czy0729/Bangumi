@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:50:02
+ * @Last Modified time: 2024-08-19 04:39:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,6 +22,7 @@ function TagsWrap({ onBlockRef }, { $ }: Ctx) {
       <Tags
         show={systemStore.setting.showTags && !!$.tags.length}
         showTags={systemStore.setting.showTags}
+        showTyperank={!!$.rank && systemStore.setting.subjectTagsRec}
         subjectTagsExpand={systemStore.setting.subjectTagsExpand}
         rank={$.rank}
         focusOrigin={systemStore.setting.focusOrigin}

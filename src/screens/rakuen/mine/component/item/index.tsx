@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 13:01:07
+ * @Last Modified time: 2024-08-19 07:25:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,10 +21,10 @@ function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
   const styles = memoStyles()
   let src = getGroupThumbStatic(cover)
   if (
-    systemStore.setting.cdn &&
-    systemStore.setting.cdnOrigin === 'magma' &&
     typeof src === 'string' &&
-    src.includes(HOST_IMAGE)
+    src.includes(HOST_IMAGE) &&
+    systemStore.setting.cdn &&
+    systemStore.setting.cdnOrigin === 'magma'
   ) {
     src = CDN_OSS_MAGMA_PIC(src)
   }

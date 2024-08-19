@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:50:22
+ * @Last Modified time: 2024-08-19 04:40:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Tags = memo(
-  ({ show, showTags, subjectTagsExpand, rank, focusOrigin, onSwitchBlock }) => {
+  ({ show, showTags, showTyperank, subjectTagsExpand, rank, focusOrigin, onSwitchBlock }) => {
     return (
       <View style={stl(_.mt.lg, showTags ? styles.container : _.short, !show && _.mb.md)}>
         <SectionTitle
@@ -52,13 +52,13 @@ const Tags = memo(
                 ]}
               >
                 <Flex wrap='wrap' align='start'>
-                  <TagsList />
+                  <TagsList showTyperank={showTyperank} />
                 </Flex>
                 <Heatmap id='条目.跳转' from={TITLE_TAGS} />
               </View>
             ) : (
               <ScrollView style={_.mt.md} contentContainerStyle={_.container.wind} horizontal>
-                <TagsList />
+                <TagsList showTyperank={showTyperank} />
               </ScrollView>
             )}
           </>

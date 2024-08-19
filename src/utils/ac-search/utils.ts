@@ -6,7 +6,7 @@
  */
 import lazyac from 'lazy-aho-corasick'
 import { TEXT_ONLY } from '@constants'
-import { loadJSON } from '@assets'
+import { loadJSON } from '@assets/json'
 import { arrGroup } from '../utils'
 import { IGNORE_ITEMS, REG_SPEC, TRIE_INIT_DISTANCE } from './ds'
 import { Substrings, TrieInitDone } from './types'

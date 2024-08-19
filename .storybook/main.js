@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 11:47:39
+ * @Last Modified time: 2024-08-19 07:05:27
  */
 const path = require('path')
 const sass = require('node-sass')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
+const analyzer = true
 
 module.exports = {
   title: 'Bangumi 番组计划',
@@ -69,7 +71,7 @@ module.exports = {
             from: path.resolve(__dirname, '../src/assets'),
             to: 'assets',
             filter: resourcePath => {
-              return /\.(bin|proto|ico|json)$/.test(resourcePath)
+              return /\.(bin|proto|ico|json|jpg)$/.test(resourcePath)
             }
           }
         ]
@@ -116,13 +118,15 @@ module.exports = {
       )
 
       /** ========== webpack-bundle-analyzer ========== */
-      // config.plugins.push(
-      //   new BundleAnalyzerPlugin({
-      //     analyzerMode: 'static',
-      //     openAnalyzer: false,
-      //     reportFilename: 'report.html'
-      //   })
-      // )
+      if (analyzer) {
+        config.plugins.push(
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: false,
+            reportFilename: 'report.html'
+          })
+        )
+      }
 
       /** ========== 压缩代码 ========== */
       // Replace or add TerserPlugin

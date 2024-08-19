@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:11:07
+ * @Last Modified time: 2024-08-19 04:25:14
  */
 import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
 import PropTypes from 'prop-types'
+import appJson from '@/app.json'
+import expoPackageJson from '@/node_modules/expo/package.json'
 import { Fn } from '@types'
 import { PAD, RATIO, STORYBOOK, STORYBOOK_IFRAME } from '../device'
 
@@ -22,21 +24,17 @@ export const ORIENTATION_PORTRAIT = 'PORTRAIT'
 /** 方向水平 */
 export const ORIENTATION_LANDSCAPE = 'LANDSCAPE'
 
-const expoPackageJson = require('@/node_modules/expo/package.json')
-
-const appJson = require('@/app.json')
-
 /** @deprecated 打包 apk 和 bangumi-ios-test 线上 expo 使用35, 打包 ipa 提审需至少使用37 */
 export const SDK = parseInt(expoPackageJson.version.split('.')[0])
 
 /** Expo 线上预览唯一标识 */
-export const BUNDLE_IDENTIFIER = appJson?.expo?.name as string
+export const BUNDLE_IDENTIFIER = appJson?.expo?.name
 
 /** 版本号 */
-export const VERSION_GITHUB_RELEASE = appJson?.expo?.version as string
+export const VERSION_GITHUB_RELEASE = appJson?.expo?.version
 
 /** APP 打包号 */
-export const VERSION_CODE = appJson?.expo?.android?.versionCode as string
+export const VERSION_CODE = appJson?.expo?.android?.versionCode
 
 /** 小圣杯助手版本 */
 export const VERSION_TINYGRAIL_PLUGIN = appJson.expo.description.split('tinygrail plugin ')[1]

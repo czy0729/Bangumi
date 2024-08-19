@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 02:29:38
+ * @Last Modified time: 2024-08-19 04:25:52
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -160,7 +160,7 @@ async function umamiXhr(payload: {
 export function getReferer(beforeKey?: string) {
   const referrre: string[] = [Platform.OS]
   if (IOS_IPA) referrre.push('ipa')
-  referrre.push(VERSION_CODE)
+  referrre.push(String(VERSION_CODE))
 
   if (GITHUB_ACTION) referrre.push('github')
   if (beforeKey) referrre.unshift(beforeKey)

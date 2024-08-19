@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-18 07:33:57
  */
-import { getJSON, loadJSON } from '@assets'
+import { getJSON, loadJSON } from '@assets/json'
 import { SubjectId, SubjectType } from '@types'
 import { TABS } from './ds'
 
