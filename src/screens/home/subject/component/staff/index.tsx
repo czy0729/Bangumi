@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:28:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:50:20
+ * @Last Modified time: 2024-08-19 12:48:31
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -17,7 +17,7 @@ function StaffWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showStaff[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_STAFF)} />
       <Staff
         navigation={navigation}
@@ -26,7 +26,7 @@ function StaffWrap({ onBlockRef }, { $, navigation }: Ctx) {
         staff={$.staff}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

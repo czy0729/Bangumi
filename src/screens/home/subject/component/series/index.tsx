@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:50:27
+ * @Last Modified time: 2024-08-19 12:48:19
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -53,18 +53,20 @@ function SeriewWrap({ size }: { size: number }, { $, navigation }: Ctx) {
   }
 
   return (
-    <Series
-      navigation={navigation}
-      styles={memoStyles()}
-      showRelation={systemStore.setting.showRelation}
-      size={size}
-      subjectId={$.subjectId}
-      subjectPrev={subjectPrev}
-      subjectAfter={subjectAfter}
-      subjectAnime={subjectAnime}
-      subjectDiff={subjectDiff}
-      subjectSeries={subjectSeries}
-    />
+    <Suspense fallback={null}>
+      <Series
+        navigation={navigation}
+        styles={memoStyles()}
+        showRelation={systemStore.setting.showRelation}
+        size={size}
+        subjectId={$.subjectId}
+        subjectPrev={subjectPrev}
+        subjectAfter={subjectAfter}
+        subjectAnime={subjectAnime}
+        subjectDiff={subjectDiff}
+        subjectSeries={subjectSeries}
+      />
+    </Suspense>
   )
 }
 

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:44:35
+ * @Last Modified time: 2024-08-19 12:47:02
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -18,7 +18,7 @@ function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showInfo[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_INFO)} />
       <Info
         navigation={navigation}
@@ -28,7 +28,7 @@ function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
         info={$.info}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

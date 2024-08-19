@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:38:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:37:43
+ * @Last Modified time: 2024-08-19 12:45:43
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -18,7 +18,7 @@ function AnitabiWrap({ onBlockRef }, { $ }: Ctx) {
   if (!$.showAnitabi[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_ANITABI)} />
       <Anitabi
         styles={memoStyles()}
@@ -27,7 +27,7 @@ function AnitabiWrap({ onBlockRef }, { $ }: Ctx) {
         data={$.state.anitabi}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

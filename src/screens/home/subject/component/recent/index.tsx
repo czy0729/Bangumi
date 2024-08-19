@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:47:30
+ * @Last Modified time: 2024-08-19 12:47:56
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -17,7 +17,7 @@ function RecentWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showRecent[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RECENT)} />
       <Recent
         navigation={navigation}
@@ -27,7 +27,7 @@ function RecentWrap({ onBlockRef }, { $, navigation }: Ctx) {
         hideScore={$.hideScore}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

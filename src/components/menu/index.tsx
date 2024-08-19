@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 01:02:41
+ * @Last Modified time: 2024-08-19 21:36:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,7 +61,7 @@ export const Menu = observer(
                 return (
                   <View key={item} style={showBorder && styles.border}>
                     <Touchable style={styles.item} onPress={() => onSelect(item, index)}>
-                      <Text align='center' size={STORYBOOK ? 13 : 14} noWrap>
+                      <Text align='center' size={STORYBOOK ? 13 : 14} numberOfLines={1} noWrap>
                         {platformFix(item)}
                       </Text>
                     </Touchable>

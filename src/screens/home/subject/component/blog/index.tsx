@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:39:34
+ * @Last Modified time: 2024-08-19 12:46:00
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -18,7 +18,7 @@ function BlogWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showBlog[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_BLOG)} />
       <Blog
         navigation={navigation}
@@ -28,7 +28,7 @@ function BlogWrap({ onBlockRef }, { $, navigation }: Ctx) {
         blog={$.filterBlog}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

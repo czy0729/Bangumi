@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 00:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:40:47
+ * @Last Modified time: 2024-08-19 12:46:18
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -17,7 +17,7 @@ function CharacterWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showCharacter[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_CHARACTER)} />
       <Character
         navigation={navigation}
@@ -27,7 +27,7 @@ function CharacterWrap({ onBlockRef }, { $, navigation }: Ctx) {
         crtCounts={$.subjectFormHTML.crtCounts}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

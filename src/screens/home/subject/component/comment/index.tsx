@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:41:56
+ * @Last Modified time: 2024-08-19 12:46:51
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
@@ -19,7 +19,7 @@ function CommentWrap({ onBlockRef }, { $ }: Ctx) {
   const { showComment } = systemStore.setting
   const hidden = showComment === -1
   return (
-    <>
+    <Suspense fallback={null}>
       <View
         ref={(ref: any) => onBlockRef(ref, TITLE_COMMENT)}
         style={stl(_.container.layout, hidden && _.mt.lg)}
@@ -32,7 +32,7 @@ function CommentWrap({ onBlockRef }, { $ }: Ctx) {
           onSwitchBlock={$.onSwitchBlock}
         />
       )}
-    </>
+    </Suspense>
   )
 }
 

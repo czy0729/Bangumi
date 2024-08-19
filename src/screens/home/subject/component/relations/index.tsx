@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:27:09
+ * @Last Modified time: 2024-08-19 12:48:04
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -17,7 +17,7 @@ function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showRelations[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_RELATIONS)} />
       <Relations
         navigation={navigation}
@@ -27,7 +27,7 @@ function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
         typeCn={$.type}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-17 11:48:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 12:01:06
+ * @Last Modified time: 2024-08-19 13:03:20
  */
 const memo = new Map<string, object>()
+const lock = new Map<string, boolean>()
 
 /** 加载 json 数据, 客户端与本地获取方式是一致的, 目的是网页端能把 json 文件从打包中剔除 */
 export async function loadJSON(name: string, defaultValue: any = {}): Promise<any> {
@@ -23,7 +24,9 @@ export async function loadJSON(name: string, defaultValue: any = {}): Promise<an
 
 /** 返回同步的 json 数据, 需要先提前使用 loadJSON 加载数据 */
 export function getJSON(name: string, defaultValue: any = {}, autoLoad: boolean = false) {
-  if (autoLoad && !memo.has(name)) {
+  if (autoLoad && !memo.has(name) && !lock.has(name)) {
+    lock.set(name, true)
+
     setTimeout(() => {
       loadJSON(name)
     }, 0)

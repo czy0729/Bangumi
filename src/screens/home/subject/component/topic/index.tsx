@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 05:09:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:51:19
+ * @Last Modified time: 2024-08-19 12:45:29
  */
-import React from 'react'
+import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -18,7 +18,7 @@ function TopicWrap({ onBlockRef }, { $, navigation }: Ctx) {
   if (!$.showTopic[1]) return null
 
   return (
-    <>
+    <Suspense fallback={null}>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_TOPIC)} />
       <Topic
         navigation={navigation}
@@ -28,7 +28,7 @@ function TopicWrap({ onBlockRef }, { $, navigation }: Ctx) {
         topic={$.filterTopic}
         onSwitchBlock={$.onSwitchBlock}
       />
-    </>
+    </Suspense>
   )
 }
 
