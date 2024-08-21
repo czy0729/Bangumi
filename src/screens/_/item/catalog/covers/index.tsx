@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:52:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 19:20:00
+ * @Last Modified time: 2024-08-21 17:28:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,6 +38,8 @@ function Covers({ list, total = 0 }: Props) {
         ]}
       />
       <Flex style={styles.thumbs} align='start' wrap='wrap'>
+        <View style={[styles.placeholder, styles.placeholderTopRight]} pointerEvents='none' />
+        <View style={[styles.placeholder, styles.placeholderBottomLeft]} pointerEvents='none' />
         {list.map(item => (
           <Cover
             key={item.id}

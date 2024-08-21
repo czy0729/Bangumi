@@ -1,30 +1,16 @@
 /*
  * @Author: czy0729
- * @Date: 2020-03-22 18:47:47
+ * @Date: 2024-08-21 17:12:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:02:09
+ * @Last Modified time: 2024-08-21 17:13:05
  */
-import { computed, observable } from 'mobx'
 import { discoveryStore, usersStore } from '@stores'
-import { updateVisibleBottom } from '@utils'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
-import store from '@utils/store'
 import { Id } from '@types'
-import { STATE } from './ds'
+import Computed from './computed'
 
-export default class ScreenStaff extends store<typeof STATE> {
-  state = observable(STATE)
-
-  init = () => {
-    this.setState({
-      _loaded: true
-    })
-
-    return this.fetchCatalogs(true)
-  }
-
-  // -------------------- fetch --------------------
+export default class Fetch extends Computed {
   /** 用户目录 */
   fetchCatalogs = async (refresh: boolean = false) => {
     const data = await usersStore.fetchCatalogs(
@@ -35,8 +21,7 @@ export default class ScreenStaff extends store<typeof STATE> {
       refresh
     )
 
-    const { list } = data
-    queue(list.map(item => () => this.fetchCatalogDetail(item.id)))
+    queue(data.list.map(item => () => this.fetchCatalogDetail(item.id)))
 
     return data
   }
@@ -80,7 +65,7 @@ export default class ScreenStaff extends store<typeof STATE> {
         time,
         collect,
         list: list
-          .filter((item: any, index: number) => index < 100)
+          .filter((_item: any, index: number) => index < 100)
           .map((item: any) => ({
             id: item.id,
             image: item.image,
@@ -92,23 +77,4 @@ export default class ScreenStaff extends store<typeof STATE> {
       })
     }, 2000)
   }
-
-  /** 下拉刷新 */
-  onHeaderRefresh = () => {
-    return this.fetchCatalogs(true)
-  }
-
-  // -------------------- get --------------------
-  /** 目录创建者 */
-  @computed get userId() {
-    return 'lilyurey'
-  }
-
-  /** 用户目录 */
-  @computed get catalogs() {
-    return usersStore.catalogs(this.userId, false)
-  }
-
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
 }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:53:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 06:04:10
+ * @Last Modified time: 2024-08-21 17:28:31
  */
 import { _ } from '@stores'
-import { WIDTH, CATALOG_WIDTH } from '../ds'
+import { CATALOG_WIDTH, WIDTH } from '../ds'
 
 export const memoStyles = _.memoStyles(() => ({
   catalog: {
@@ -46,5 +46,19 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.colorBorder,
     borderRadius: 3,
     overflow: 'hidden'
+  },
+  placeholder: {
+    position: 'absolute',
+    width: WIDTH,
+    height: WIDTH,
+    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1)
+  },
+  placeholderTopRight: {
+    top: 0,
+    right: 0
+  },
+  placeholderBottomLeft: {
+    bottom: 0,
+    left: 0
   }
 }))

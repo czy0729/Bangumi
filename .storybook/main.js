@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 21:42:13
+ * @Last Modified time: 2024-08-21 16:44:09
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -42,6 +42,15 @@ module.exports = {
     }
   },
   framework: '@storybook/react',
+  previewHead: head => {
+    const isProduction = process.env.NODE_ENV === 'production'
+    const prefix = isProduction ? 'production.min' : 'development'
+    return `
+      ${head}
+      <script src="https://unpkg.com/react@18.1.0/umd/react.${prefix}.js" crossorigin="anonymous"></script>
+      <script src="https://unpkg.com/react-dom@18.1.0/umd/react-dom.${prefix}.js" crossorigin="anonymous"></script>
+    `
+  },
   webpackFinal: async (config, { configType }) => {
     /** ========== SASS ========== */
     config.module.rules.push({

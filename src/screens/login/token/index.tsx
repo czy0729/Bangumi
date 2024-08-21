@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-27 16:28:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:36:47
+ * @Last Modified time: 2024-08-21 17:03:10
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -20,12 +20,12 @@ import {
   Touchable
 } from '@components'
 import { _, collectionStore, userStore } from '@stores'
-import { getTimestamp, info } from '@utils'
+import { getTimestamp, info, open } from '@utils'
 import { fetchMeV0 } from '@utils/fetch.v0'
 import { useMount } from '@utils/hooks'
 import { styles } from './styles'
 
-/**  SPA 网页版更新授权 */
+/** SPA 网页版更新授权 */
 const LoginToken = () => {
   const [token, setToken] = useState('')
 
@@ -92,7 +92,20 @@ const LoginToken = () => {
     const { avatar, nickname, username } = userStore.userInfo
     return (
       <Component id='screen-login-token'>
-        <Header title=' ' />
+        <Header
+          title=' '
+          domTitle='授权'
+          headerRight={() => (
+            <Touchable
+              style={_.mr.sm}
+              onPress={() => {
+                open('https://bgm.tv/group/topic/370315')
+              }}
+            >
+              <Text>如何获取</Text>
+            </Touchable>
+          )}
+        />
         <Page>
           <Flex style={styles.container} direction='column' justify='center'>
             {avatar?.large && nickname ? (

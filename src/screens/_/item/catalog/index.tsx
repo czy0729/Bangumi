@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 21:21:30
+ * @Last Modified time: 2024-08-21 18:46:04
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Avatar, Component, Flex, Highlight, Text, Touchable, UserStatus } from '@components'
+import { Component, Flex, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
 import { obc } from '@utils/decorators'
@@ -14,7 +13,9 @@ import { t } from '@utils/fetch'
 import { EVENT } from '@constants'
 import { InView } from '../../base'
 import Covers from './covers'
-import { AVATAR_WIDTH, COMPONENT, ITEM_HEIGHT } from './ds'
+import Desc from './desc'
+import Title from './title'
+import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 import { Context, Props as ItemCatalogProps } from './types'
 
@@ -48,37 +49,38 @@ export const ItemCatalog = obc(
     if (!isUser && !book && !anime && !music && !game && !real) return null
 
     const styles = memoStyles()
-    const _detail = detail || discoveryStore.catalogDetail(id)
+    const detailValue = detail || discoveryStore.catalogDetail(id)
     const oss = discoveryStore.catalogDetailFromOSS(id)
     let data: any
-    if (_detail._loaded && _detail.list.length) {
-      data = _detail
+    if (detailValue._loaded && detailValue.list.length) {
+      data = detailValue
     } else if (oss._loaded) {
       data = oss
     } else {
-      data = _detail
+      data = detailValue
     }
 
     const { list, collect, content, avatar, userId, time: _detailTime } = data
-    const _avatar = avatar || data?.avatar
-    const _userId = userId || data?.userId
-    const _name = HTMLDecode(name || userName || data?.nickname)
-    const _collect = collect || data?.collect
-    const _title = HTMLDecode(title || data?.title)
-    let _desc = HTMLDecode(
-      removeHTMLTag(info || content || data?.desc || oss?.info, false)
-    ).replace(/\n/g, ' ')
-    if (_desc === 'undefined') _desc = ''
+    const avatarValue = avatar || data?.avatar
+    const userIdValue = userId || data?.userId
+    const nameValue = HTMLDecode(name || userName || data?.nickname)
+    const collectValue = collect || data?.collect
+    const titleValue = HTMLDecode(title || data?.title)
+    let desc = HTMLDecode(removeHTMLTag(info || content || data?.desc || oss?.info, false)).replace(
+      /\n/g,
+      ' '
+    )
+    if (desc === 'undefined') desc = ''
 
-    let dateText = ''
+    let date = ''
     let lastUpdate = ''
     if (last) {
-      dateText = `创建于 ${last}`
+      date = `创建于 ${last}`
     } else if (time && !time.includes('创建于')) {
-      dateText = `最后更新 ${lastDate(getTimestamp(time))}`
+      date = `最后更新 ${lastDate(getTimestamp(time))}`
       lastUpdate = time
     } else if (_detailTime) {
-      dateText = `创建于 ${lastDate(getTimestamp(_detailTime))?.slice(0, 10)}`
+      date = `创建于 ${lastDate(getTimestamp(_detailTime))?.slice(0, 10)}`
     }
 
     return (
@@ -114,52 +116,15 @@ export const ItemCatalog = obc(
             </InView>
             <Flex.Item>
               <Flex style={styles.content} direction='column' justify='between' align='start'>
-                <View style={_.container.block}>
-                  <Highlight bold numberOfLines={3} value={filter} t2s={false}>
-                    {_title}
-                  </Highlight>
-                  {!!_desc && _desc !== _title && (
-                    <Text
-                      style={_.mt.sm}
-                      size={11}
-                      numberOfLines={(_collect ? 2 : 3) - (_title.length >= 40 ? 1 : 0)}
-                    >
-                      {_desc}
-                    </Text>
-                  )}
-                  {!!_collect && (
-                    <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
-                      {_collect} 人收藏
-                    </Text>
-                  )}
-                </View>
-                <Flex style={_.mt.md}>
-                  <View style={_.mr.sm}>
-                    <UserStatus userId={_userId}>
-                      <Avatar
-                        key={_avatar}
-                        navigation={navigation}
-                        size={AVATAR_WIDTH}
-                        userId={_userId}
-                        name={_name}
-                        src={_avatar}
-                        event={event}
-                      />
-                    </UserStatus>
-                  </View>
-                  <Flex.Item>
-                    {!!_name && (
-                      <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>
-                        {_name}
-                      </Text>
-                    )}
-                    {!!dateText && (
-                      <Text size={10} type='sub'>
-                        {dateText}
-                      </Text>
-                    )}
-                  </Flex.Item>
-                </Flex>
+                <Title title={titleValue} desc={desc} collect={collectValue} filter={filter} />
+                <Desc
+                  navigation={navigation}
+                  userId={userIdValue}
+                  avatar={avatarValue}
+                  name={nameValue}
+                  date={date}
+                  event={event}
+                />
               </Flex>
             </Flex.Item>
           </Flex>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:15:32
+ * @Last Modified time: 2024-08-21 17:15:43
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if (!$.catalogs._loaded) return <Loading style={_.container.plain} />
 
   return (

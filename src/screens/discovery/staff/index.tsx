@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-04-15 19:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 13:02:25
+ * @Last Modified time: 2024-08-21 17:07:22
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 新番 */
-const Staff = (props, { $ }: Ctx) => {
+const Staff = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

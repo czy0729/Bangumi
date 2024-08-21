@@ -67,25 +67,6 @@
     container.scrollLeft -= delta * 30 // 触发横向滚动
   }
 </script>
-<script>
-  const isDevelopment = window.location.href.includes('192.168')
-  const reactScript = document.createElement('script')
-
-  reactScript.src = isDevelopment
-    ? 'https://unpkg.com/react@18.1.0/umd/react.development.js'
-    : 'https://unpkg.com/react@18.1.0/umd/react.production.min.js'
-  reactScript.crossOrigin = 'anonymous'
-  reactScript.defer = true
-  document.head.appendChild(reactScript)
-
-  const reactDomScript = document.createElement('script')
-  reactDomScript.src = isDevelopment
-    ? 'https://unpkg.com/react-dom@18.1.0/umd/react-dom.development.js'
-    : 'https://unpkg.com/react-dom@18.1.0/umd/react-dom.production.min.js'
-  reactDomScript.crossOrigin = 'anonymous'
-  reactScript.defer = true
-  document.head.appendChild(reactDomScript)
-</script>
 <script
   async
   src="https://umami.magma.ink/script.js"

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-17 03:48:07
+ * @Last Modified time: 2024-08-21 16:58:32
  */
 import { _ } from '@stores'
 import { IOS, STORYBOOK } from '@constants'
@@ -78,7 +78,7 @@ export const MENU_MAP: MenuMapType = {
     key: 'Like',
     name: '猜你喜欢',
     icon: 'md-looks',
-    web: false
+    login: true
   },
   Recommend: {
     key: 'Recommend',
@@ -102,7 +102,8 @@ export const MENU_MAP: MenuMapType = {
     key: 'Dollars',
     name: 'Dollars',
     text: 'D',
-    size: 20
+    size: 20,
+    login: true
   },
   Wiki: {
     key: 'Wiki',
@@ -189,17 +190,6 @@ export const MENU_MAP: MenuMapType = {
 } as const
 
 export const MENU_MAP_STORYBOOK: MenuMapType = {
-  // Rakuen: {
-  //   key: 'Rakuen',
-  //   name: '超展开',
-  //   size: 20,
-  //   icon: 'md-chat-bubble-outline'
-  // },
-  // Timeline: {
-  //   key: 'Timeline',
-  //   name: '时间胶囊',
-  //   icon: 'md-access-time'
-  // },
   Setting: {
     key: 'Setting',
     name: '设置',
@@ -222,7 +212,6 @@ export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
       ...menuMap,
       ...MENU_MAP_STORYBOOK
     }
-    delete menuMap.Dollars
   }
 
   let menus: MenuItemType[] = []

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 11:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 09:08:16
+ * @Last Modified time: 2024-08-21 17:22:36
  */
 import { cheerio, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
 import { Users } from './types'
@@ -10,7 +10,7 @@ import { Users } from './types'
 /** 好友列表 */
 export function cheerioFriends(html: string) {
   return cheerio(htmlMatch(html, '<div id="columnUserSingle"', '<div id="footer">'))('li.user')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('a.avatar')
       return safeObject({
@@ -89,7 +89,7 @@ export function cheerioUsers(html: string) {
       }
     },
     networkService: $('.network_service li')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $label = $li.find('.service')
         const $a = $li.find('a.l')
@@ -114,7 +114,7 @@ export function cheerioCharacters(html: string) {
       pageTotal: $('div.page_inner > a.p').length
     },
     list: $('ul.coversSmall > li.clearit')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('a[title]')
         return safeObject({
@@ -136,7 +136,7 @@ export function cheerioRecents(html: string) {
       pageTotal: 100
     },
     list: $('ul.browserFull > li.item')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('h3 > a.l')
         return safeObject({
@@ -154,7 +154,7 @@ export function cheerioRecents(html: string) {
           starInfo: $li.find('span.tip_j').text(),
           actors: $li
             .find('div.actorBadge')
-            .map((index: number, element: any) => {
+            .map((_index: number, element: any) => {
               const $li = cheerio(element)
               return safeObject({
                 id: ($li.find('a.avatar').attr('href') || '')
@@ -179,7 +179,7 @@ export function cheerioBlogs(html: string) {
   )
   return (
     $('div#entry_list > div.item')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('h2.title a')
         return safeObject({
@@ -203,11 +203,11 @@ export function cheerioBlogs(html: string) {
 
 /** 用户目录列表 */
 export function cheerioCatalogs(html: string, isCollect: boolean) {
-  const $ = cheerio(html)
+  const $ = cheerio(htmlMatch(html, '<div class="mainWrapper">', '<div class="homeBg">'))
   if (isCollect) {
     return (
       $('div#timeline li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $catalog = $li.find('h3 a.l')
           const $user = $li.find('span.tip_j a.l')
@@ -227,7 +227,7 @@ export function cheerioCatalogs(html: string, isCollect: boolean) {
 
   return (
     $('ul.line_list > li')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('a')
         return safeObject({
