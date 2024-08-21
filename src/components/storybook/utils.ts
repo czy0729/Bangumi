@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 22:20:02
+ * @Last Modified time: 2024-08-20 00:34:54
  */
 import { appNavigate, getSPAParams } from '@utils'
 import { cleanQuery } from '@utils/dom'
@@ -11,7 +11,7 @@ import { setNavigating } from './state'
 
 /** 获取所有网页参数并返回对象 */
 export function parseUrlParams() {
-  const params = new URLSearchParams(window?.location?.search)
+  const params = new window.URLSearchParams(window?.location?.search)
   const result = {}
   for (const [key, value] of params) {
     result[key] = value

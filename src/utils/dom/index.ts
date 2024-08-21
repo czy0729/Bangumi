@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 22:23:38
+ * @Last Modified time: 2024-08-20 00:34:36
  */
 import { useRef } from 'react'
 import { STORYBOOK } from '@constants/device'
@@ -35,9 +35,9 @@ export function isWindows() {
 export function cleanQuery() {
   if (typeof window === 'undefined' || !STORYBOOK) return
 
-  let url = new URL(window.location.href)
-  let params = new URLSearchParams(url.search)
-  let newParams = new URLSearchParams()
+  let url = new window.URL(window.location.href)
+  let params = new window.URLSearchParams(url.search)
+  let newParams = new window.URLSearchParams()
   for (let [key, value] of params) {
     if (!key.startsWith('_')) newParams.append(key, value)
   }

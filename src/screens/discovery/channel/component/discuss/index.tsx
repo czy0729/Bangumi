@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 22:03:56
+ * @Last Modified time: 2024-08-20 17:09:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,12 +16,12 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Discuss(props, { $, navigation }: Ctx) {
+function Discuss(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { discuss = [] } = $.channel
   return (
     <View style={_.mt.lg}>
-      <SectionTitle style={_.container.wind}>最新讨论</SectionTitle>
+      <SectionTitle style={_.container.wind}>最新帖子</SectionTitle>
       <View style={_.mt.sm}>
         {discuss.map(item => (
           <Touchable
@@ -47,7 +47,7 @@ function Discuss(props, { $, navigation }: Ctx) {
             }}
           >
             <View style={styles.wrap}>
-              <Flex style={styles.content}>
+              <Flex style={styles.content} align='start'>
                 <Flex.Item>
                   <Text size={15} bold>
                     {item.title}{' '}
@@ -67,7 +67,7 @@ function Discuss(props, { $, navigation }: Ctx) {
                   <Text size={12} align='right' bold>
                     {item.userName}
                   </Text>
-                  <Text style={_.mt.xs} type='sub' size={12} align='right'>
+                  <Text style={_.mt.sm} type='sub' size={12} align='right'>
                     {item.time}
                   </Text>
                 </View>

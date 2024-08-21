@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:03:39
+ * @Last Modified time: 2024-08-20 17:26:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import BtnPopover from './btn-popover'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemBlogProps } from './types'
+import { Ctx, Props as ItemBlogProps } from './types'
 
 export { ItemBlogProps }
 
@@ -29,12 +29,13 @@ export const ItemBlog = obc(
       content,
       username,
       subject,
+      typeCn,
       time,
       replies,
       tags = [],
       event = EVENT
     }: ItemBlogProps,
-    { navigation }
+    { navigation }: Ctx
   ) => {
     const styles = memoStyles()
     const readed = discoveryStore.blogReaded(id)
@@ -64,7 +65,13 @@ export const ItemBlog = obc(
           <Flex style={styles.wrap} align='start'>
             {!!cover && (
               <View style={styles.imgContainer}>
-                <Cover src={cover} width={IMG_WIDTH_SM} height={IMG_HEIGHT_SM} radius />
+                <Cover
+                  src={cover}
+                  width={IMG_WIDTH_SM}
+                  height={IMG_HEIGHT_SM}
+                  radius
+                  type={typeCn}
+                />
               </View>
             )}
             <Flex.Item>
@@ -82,7 +89,7 @@ export const ItemBlog = obc(
                     </Text>
                     {!!line.length && (
                       <Text style={_.mt.xs} type='sub' size={12} bold>
-                        {line.join(' · ')}
+                        {HTMLDecode(line.join(' · '))}
                       </Text>
                     )}
                   </Touchable>

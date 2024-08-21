@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-04 07:23:32
+ * @Last Modified time: 2024-08-20 15:49:42
  */
 import {
   Avatar,
@@ -99,20 +99,17 @@ export type Blog = DeepPartial<{
   _loaded: Loaded
 }>
 
+export type ChannelRankItem = {
+  id: SubjectId
+  name: string
+  cover: Cover<'c'>
+  follow: string
+}
+
 /** 频道聚合 */
-export type Channel = DeepPartial<{
-  rankTop: {
-    id: SubjectId
-    name: string
-    cover: Cover<'c'>
-    follow: string
-  }[]
-  rank: {
-    id: SubjectId
-    name: string
-    cover: Cover<'c'>
-    follow: string
-  }[]
+export type Channel = {
+  rankTop: ChannelRankItem[]
+  rank: ChannelRankItem[]
   friends: {
     id: SubjectId
     name: string
@@ -144,7 +141,7 @@ export type Channel = DeepPartial<{
     tags: string
   }[]
   _loaded: number
-}>
+}
 
 type WikiItem = {
   id: `/subject/${SubjectId}`

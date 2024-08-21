@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 22:06:41
+ * @Last Modified time: 2024-08-20 17:28:38
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
+import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   return (
     <HeaderComp
       title={`${$.typeCn}频道`}
@@ -39,6 +40,8 @@ function Header(props, { $, navigation }: Ctx) {
                     title: `${key}频道`
                   })
                   $.toggleType(MODEL_SUBJECT_TYPE.getLabel(key))
+
+                  scrollToTop()
                 }, 40)
                 break
             }

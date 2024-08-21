@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-10 05:40:00
+ * @Last Modified time: 2024-08-20 00:35:00
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -30,7 +30,7 @@ export const StorybookBottomTab = () => {
   return useObserver(() => {
     if (!STORYBOOK) return null
 
-    const params = new URLSearchParams(window.location.search)
+    const params = new window.URLSearchParams(window.location.search)
     const currentStoryId = params.get('id')
 
     const DS = userStore.isStorybookLogin ? BOTTOM_TAB_WITH_AUTH_DS : BOTTOM_TAB_DS

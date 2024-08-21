@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:31:25
+ * @Last Modified time: 2024-08-20 14:52:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import { COVER_HEIGHT_SM, COVER_WIDTH_SM } from '../rank/ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Friends(props, { $, navigation }: Ctx) {
+function Friends(_props, { $, navigation }: Ctx) {
   const { friends = [] } = $.channel
   if (!friends.length) return null
 
@@ -57,7 +57,6 @@ function Friends(props, { $, navigation }: Ctx) {
                     width={COVER_WIDTH_SM}
                     height={COVER_HEIGHT_SM}
                     radius
-                    shadow
                     type={$.typeCn}
                   />
                 </View>

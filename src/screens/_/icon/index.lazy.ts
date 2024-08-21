@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 20:14:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:57:18
+ * @Last Modified time: 2024-08-21 05:22:09
  */
 
 /**
@@ -14,6 +14,7 @@ export * from './expand/index.lazy'
 export * from './header/index.lazy'
 export * from './horiz/index.lazy'
 export * from './layout/index.lazy'
+export * from './navigate/index.lazy'
 export * from './notify/index.lazy'
 export * from './reverse/index.lazy'
 export * from './tabs-header/index.lazy'

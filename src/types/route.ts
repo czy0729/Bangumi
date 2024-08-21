@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 00:54:18
+ * @Last Modified time: 2024-08-21 05:47:14
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -10,8 +10,16 @@ import * as Screens from '@screens'
 import { Id, SubjectId, TopicId, UserId } from './bangumi'
 import { Fn } from './utils'
 
+type Route<Path extends Paths, Params = undefined> = (
+  path: Path,
+  params?: Params extends undefined ? undefined : Params
+) => any
+
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
+
+/** 获取路由的参数 */
+export type GetRouteParams<R extends (path: string, params: object) => any> = Parameters<R>[1]
 
 /** 路由和参数约束 */
 export type NavigationPushType = RouteActions &
@@ -25,6 +33,7 @@ export type NavigationPushType = RouteActions &
   RouteChannel &
   RouteCharacter &
   RouteCharacters &
+  RouteDiscoveryBlog &
   RouteFriends &
   RouteGame &
   RouteGroup &
@@ -34,6 +43,7 @@ export type NavigationPushType = RouteActions &
   RouteMono &
   RouteNotify &
   RoutePM &
+  RouteRank &
   RouteRating &
   RouteReviews &
   RouteSay &
@@ -43,6 +53,7 @@ export type NavigationPushType = RouteActions &
   RouteSubject &
   RouteSubjectCatalogs &
   RouteTag &
+  RouteTags &
   RouteTinygrail &
   RouteTips &
   RouteTopic &
@@ -151,6 +162,7 @@ export type RouteBlog = (
   path: 'Blog',
   params: {
     blogId: Id
+    _title?: string
   }
 ) => any
 
@@ -162,6 +174,13 @@ export type RouteCharacters = (
   }
 ) => any
 
+export type RouteDiscoveryBlog = Route<
+  'DiscoveryBlog',
+  {
+    type?: SubjectType
+  }
+>
+
 export type RouteTag = (
   path: 'Tag',
   params: {
@@ -169,6 +188,13 @@ export type RouteTag = (
     tag: string
   }
 ) => any
+
+export type RouteTags = Route<
+  'Tags',
+  {
+    type?: SubjectType
+  }
+>
 
 export type RouteSearch = (
   path: 'Search',
@@ -337,6 +363,13 @@ export type RouteSubjectCatalogs = (
     name?: string
   }
 ) => any
+
+export type RouteRank = Route<
+  'Rank',
+  {
+    type?: SubjectType
+  }
+>
 
 export type RouteRating = (
   path: 'Rating',

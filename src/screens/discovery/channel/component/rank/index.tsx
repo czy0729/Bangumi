@@ -2,176 +2,54 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:40:30
+ * @Last Modified time: 2024-08-21 05:47:34
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Katakana, Text, Touchable } from '@components'
-import { getCoverSrc } from '@components/cover/utils'
-import { Cover, SectionTitle, Tag } from '@_'
+import { Flex } from '@components'
+import { IconNavigate, SectionTitle } from '@_'
 import { _ } from '@stores'
-import { findSubjectCn, HTMLDecode, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
-import { COMPONENT, COVER_HEIGHT, COVER_HEIGHT_SM, COVER_WIDTH, COVER_WIDTH_SM } from './ds'
+import ItemLg from './item-lg'
+import ItemSm from './item-sm'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Rank(props, { $, navigation }: Ctx) {
+function Rank(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { rankTop = [], rank = [] } = $.channel
   return (
     <View style={_.mt.md}>
-      <SectionTitle style={_.container.wind}>关注榜</SectionTitle>
+      <SectionTitle
+        style={_.container.wind}
+        right={
+          <IconNavigate
+            onPress={() => {
+              navigation.push('Rank', {
+                type: $.type
+              })
+
+              t('频道.跳转', {
+                to: 'Rank',
+                from: '关注榜',
+                type: $.type
+              })
+            }}
+          />
+        }
+      >
+        关注榜
+      </SectionTitle>
       <View style={_.mt.sm}>
-        {rankTop.map((item, index) => {
-          const collection = $.userCollectionsMap[item.id]
-          return (
-            <Touchable
-              key={item.id}
-              style={styles.itemLg}
-              animate
-              onPress={() => {
-                t('频道.跳转', {
-                  to: 'Subject',
-                  from: 'rank',
-                  type: $.type,
-                  subjectId: item.id
-                })
-
-                navigation.push('Subject', {
-                  subjectId: item.id,
-                  _jp: item.name,
-                  _image: getCoverSrc(item.cover, COVER_WIDTH),
-                  _type: $.typeCn
-                })
-              }}
-            >
-              <Flex align='start'>
-                <Cover
-                  src={item.cover}
-                  width={COVER_WIDTH}
-                  height={COVER_HEIGHT}
-                  radius
-                  shadow
-                  type={$.typeCn}
-                />
-                <Flex.Item style={_.ml.md}>
-                  <Flex style={_.mt.xs} align='start'>
-                    <Flex.Item>
-                      <Flex
-                        style={styles.content}
-                        direction='column'
-                        justify='between'
-                        align='start'
-                      >
-                        <View>
-                          <Katakana.Provider
-                            size={15}
-                            lineHeight={_.device(15, 18)}
-                            numberOfLines={2}
-                          >
-                            <Katakana
-                              size={15}
-                              lineHeight={_.device(15, 18)}
-                              bold
-                              numberOfLines={2}
-                            >
-                              {findSubjectCn(HTMLDecode(item.name), item.id)}
-                            </Katakana>
-                          </Katakana.Provider>
-                          <Text style={_.mt.xs} size={13} type='sub'>
-                            {item.follow}
-                          </Text>
-                        </View>
-                        <View>{!!collection && <Tag value={collection} />}</View>
-                      </Flex>
-                    </Flex.Item>
-                    <Text style={_.ml.md} type={index === 0 ? 'danger' : 'main'} size={15} bold>
-                      {index + 1}
-                    </Text>
-                  </Flex>
-                </Flex.Item>
-              </Flex>
-            </Touchable>
-          )
-        })}
+        {rankTop.map((item, index) => (
+          <ItemLg key={item.id} item={item} index={index} />
+        ))}
         <Flex style={styles.container} wrap='wrap'>
-          {rank.map((item, index) => {
-            const collection = $.userCollectionsMap[item.id]
-            return (
-              <View
-                key={item.id}
-                style={stl(styles.item, index % 2 !== 0 && styles.itemMarginLeft)}
-              >
-                <Touchable
-                  animate
-                  onPress={() => {
-                    t('频道.跳转', {
-                      to: 'Subject',
-                      from: 'rank',
-                      type: $.type,
-                      subjectId: item.id
-                    })
-
-                    navigation.push('Subject', {
-                      subjectId: item.id,
-                      _image: getCoverSrc(item.cover, COVER_WIDTH_SM),
-                      _jp: item.name,
-                      _type: $.typeCn
-                    })
-                  }}
-                >
-                  <Flex align='start'>
-                    <Cover
-                      src={item.cover}
-                      width={COVER_WIDTH_SM}
-                      height={COVER_HEIGHT_SM}
-                      radius
-                      shadow
-                      type={$.typeCn}
-                    />
-                    <Flex.Item style={$.typeCn === '音乐' ? _.ml.md : _.ml.sm}>
-                      <Flex align='start'>
-                        <Flex.Item>
-                          <Flex
-                            style={styles.contentSm}
-                            direction='column'
-                            justify='between'
-                            align='start'
-                          >
-                            <View>
-                              <Katakana.Provider
-                                size={12}
-                                lineHeight={_.device(12, 18)}
-                                numberOfLines={3}
-                              >
-                                <Katakana
-                                  size={12}
-                                  lineHeight={_.device(12, 18)}
-                                  bold
-                                  numberOfLines={3}
-                                >
-                                  {findSubjectCn(HTMLDecode(item.name), item.id)}
-                                </Katakana>
-                              </Katakana.Provider>
-                              <Text style={_.mt.xxs} size={11} type='sub'>
-                                {item.follow}
-                              </Text>
-                            </View>
-                            <View>{!!collection && <Tag value={collection} />}</View>
-                          </Flex>
-                        </Flex.Item>
-                        <Text style={_.ml.xs} type='warning' size={13} bold>
-                          {index + 4}
-                        </Text>
-                      </Flex>
-                    </Flex.Item>
-                  </Flex>
-                </Touchable>
-              </View>
-            )
-          })}
+          {rank.map((item, index) => (
+            <ItemSm key={item.id} item={item} index={index} />
+          ))}
         </Flex>
       </View>
     </View>
