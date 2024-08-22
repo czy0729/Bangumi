@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:00:58
+ * @Last Modified time: 2024-08-23 01:33:54
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Member(props, { $ }: Ctx) {
+function Member(_props, { $ }: Ctx) {
   if (!$.isAdvance) return null
 
   return (

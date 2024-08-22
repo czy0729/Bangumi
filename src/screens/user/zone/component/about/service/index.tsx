@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-09 08:03:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 12:20:53
+ * @Last Modified time: 2024-08-23 01:34:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Service(props, { $ }: Ctx) {
+function Service(_props, { $ }: Ctx) {
   const { networkService } = $.users
   if (!networkService?.length) return null
 

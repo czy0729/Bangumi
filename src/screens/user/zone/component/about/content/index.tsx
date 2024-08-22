@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-07 17:41:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 09:27:48
+ * @Last Modified time: 2024-08-23 01:32:44
  */
 import React from 'react'
 import { Loading, RenderHtml } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Content(props, { $, navigation }: Ctx) {
+function Content(_props, { $, navigation }: Ctx) {
   if (!$.users._loaded) return <Loading />
 
   // 去除 APP 高清头像背景的代码

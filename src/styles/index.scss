@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 23:02:21
+ * @Last Modified time: 2024-08-23 00:12:29
  */
 
 /** ==================== reset ==================== */
@@ -81,7 +81,7 @@ component-render-html {
   & > div {
     display: inline-block !important;
 
-    & > div[dir='auto'] {
+    > div[dir='auto'] {
       display: inline;
     }
   }
@@ -144,6 +144,24 @@ screen-topic {
       &:hover:after {
         opacity: 1;
       }
+    }
+  }
+}
+
+screen-zone {
+  &-parallax-image-bg {
+    pointer-events: none !important;
+
+    > div > div {
+      transform: scale(1.4);
+    }
+  }
+  &-tab-view {
+    > div,
+    > component-storybook-scroll > div {
+      height: 100vh !important;
+      min-height: 100vh !important;
+      max-height: 100vh !important;
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 00:38:09
+ * @Last Modified time: 2024-08-23 01:34:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Name(props, { $ }: Ctx) {
+function Name(_props, { $ }: Ctx) {
   const { id, username } = $.usersInfo
   const userId = id || $.params._id
   const isRename = !!username && username != userId

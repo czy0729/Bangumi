@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:56:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:58:22
+ * @Last Modified time: 2024-08-23 01:33:58
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -11,9 +11,8 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Friend(props, { $ }: Ctx) {
-  const { disconnectUrl } = $.users
-  if (!disconnectUrl) return null
+function Friend(_props, { $ }: Ctx) {
+  if (!$.users.disconnectUrl) return null
 
   return (
     <Touchable style={styles.touch} onPress={$.logFriendStatus}>

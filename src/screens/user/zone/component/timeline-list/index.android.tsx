@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-06 23:08:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 23:27:02
+ * @Last Modified time: 2024-08-23 01:33:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Item from './item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function TimelineList(props, { $ }: Ctx) {
+function TimelineList(_props, { $ }: Ctx) {
   if (!$.usersTimeline._loaded) {
     return (
       <View style={styles.nestScrollLoading}>

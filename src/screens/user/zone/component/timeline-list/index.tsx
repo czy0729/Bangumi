@@ -2,35 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:40:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:12:42
+ * @Last Modified time: 2024-08-23 00:23:54
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Animated } from 'react-native'
-import { ListView, Loading } from '@components'
-import { ItemTimeline, SectionHeader, TapListener } from '@_'
+import { Component, ListView, Loading } from '@components'
+import { ItemTimeline, TapListener } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
+import { useObserver } from '@utils/hooks'
+import { USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
+import { renderSectionHeader } from './utils'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
-import { Props } from './types'
 
-class TimelineList extends React.Component<Props> {
-  connectRef = ref => {
-    const { $ } = this.context as Ctx
-    const index = TABS.findIndex(item => item.title === '时间线')
-    return $.connectRef(ref, index)
-  }
+function TimelineList(props, { $, navigation }: Ctx) {
+  r(COMPONENT)
 
-  renderSectionHeader = ({ section: { title } }) => <SectionHeader>{title}</SectionHeader>
+  const handleRef = useCallback((ref: any) => {
+    $.connectRef(
+      ref,
+      TABS.findIndex(item => item.title === '时间线')
+    )
+  }, [])
 
-  renderItem = ({ item, index }) => {
-    const { $, navigation } = this.context as Ctx
-    return (
+  const renderItem = useCallback(
+    ({ item, index }) => (
       <ItemTimeline
         navigation={navigation}
         index={index}
@@ -39,53 +40,50 @@ class TimelineList extends React.Component<Props> {
         full
         onDelete={$.doDelete}
       />
-    )
-  }
+    ),
+    []
+  )
 
-  render() {
-    r(COMPONENT)
+  const handleFooterRefresh = useCallback(() => $.fetchUsersTimeline(), [])
 
-    const { $ } = this.context as Ctx
+  return useObserver(() => {
     if (!$.usersTimeline._loaded) return <Loading style={styles.loading} />
 
-    const { onScroll } = this.props
     return (
       <TapListener>
-        <ListView
-          ref={this.connectRef}
-          contentContainerStyle={!STORYBOOK && _.container.bottom}
-          keyExtractor={keyExtractor}
-          data={$.usersTimeline}
-          sectionKey='date'
-          stickySectionHeadersEnabled={false}
-          renderSectionHeader={this.renderSectionHeader}
-          renderItem={this.renderItem}
-          animated
-          onFooterRefresh={() => $.fetchUsersTimeline()}
-          {...this.props}
-          onScroll={
-            STORYBOOK
-              ? undefined
-              : Animated.event(
-                  [
-                    {
-                      nativeEvent: {
-                        contentOffset: {
-                          y: $.scrollY
-                        }
-                      }
+        <Component id='screen-zone-tab-view' data-type='timeline-list'>
+          <ListView
+            ref={handleRef}
+            contentContainerStyle={_.container.bottom}
+            keyExtractor={keyExtractor}
+            data={$.usersTimeline}
+            sectionKey='date'
+            stickySectionHeadersEnabled={false}
+            renderSectionHeader={renderSectionHeader}
+            renderItem={renderItem}
+            animated
+            onFooterRefresh={handleFooterRefresh}
+            {...props}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: $.scrollY
                     }
-                  ],
-                  {
-                    useNativeDriver: USE_NATIVE_DRIVER,
-                    listener: onScroll
                   }
-                )
-          }
-        />
+                }
+              ],
+              {
+                useNativeDriver: USE_NATIVE_DRIVER,
+                listener: props.onScroll
+              }
+            )}
+          />
+        </Component>
       </TapListener>
     )
-  }
+  })
 }
 
-export default obc(TimelineList)
+export default c(TimelineList)

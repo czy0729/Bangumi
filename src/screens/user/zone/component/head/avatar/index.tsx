@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:46:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 22:04:52
+ * @Last Modified time: 2024-08-23 01:34:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Avatar(props, { $ }: Ctx) {
+function Avatar(_props, { $ }: Ctx) {
   const { avatar, username } = $.usersInfo
   const fallback = typeof $.src === 'string' && !$.src.includes('//lain.bgm.tv/pic/user/l/')
   const userStatus = getUserStatus(username)

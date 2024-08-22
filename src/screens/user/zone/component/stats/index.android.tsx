@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-06 22:54:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-06 22:56:27
+ * @Last Modified time: 2024-08-23 01:33:45
  */
 import React from 'react'
 import { Animated } from 'react-native'
@@ -17,7 +17,7 @@ import Counts from './counts'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Stats(props, { $, navigation }: Ctx) {
+function Stats(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   return (
     <Animated.ScrollView

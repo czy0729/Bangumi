@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-08 12:49:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 10:45:45
+ * @Last Modified time: 2024-08-23 01:13:14
  */
 import { computed } from 'mobx'
 import { fixedHD, getCDNAvatar } from '@components/avatar/utils'
@@ -54,6 +54,19 @@ export default class Computed extends State {
     return userStore.userCollections(undefined, this.userId)
   }
 
+  /** 用户番剧收藏 section list data */
+  @computed get sections() {
+    return this.userCollections.list.map(item => ({
+      title: item.status,
+      count: item.count,
+      data: [
+        {
+          list: item.list
+        }
+      ]
+    }))
+  }
+
   /** 用户时间胶囊 */
   @computed get usersTimeline() {
     return timelineStore.usersTimeline(this.userId)
@@ -65,10 +78,11 @@ export default class Computed extends State {
     if (systemStore.advance) return userTopics
 
     const filterCount = 8
-    const list = userTopics.list.filter((item, index) => index < filterCount)
+    if (userTopics.list.length <= filterCount) return userTopics
+
     return {
       ...userTopics,
-      list,
+      list: userTopics.list.filter((_item, index) => index < filterCount),
       _filter: userTopics.list.length - filterCount
     }
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-26 05:11:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:42:45
+ * @Last Modified time: 2024-08-23 01:33:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { Ctx } from '../../../types'
 import { getHeight } from './utils'
 import { memoStyles } from './styles'
 
-function Chart(props, { $ }: Ctx) {
+function Chart(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const userStats = ($.users?.userStats || {}) as any
   const count = userStats?.chart

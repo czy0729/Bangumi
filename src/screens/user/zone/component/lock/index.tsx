@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 08:48:23
+ * @Last Modified time: 2024-08-23 01:34:11
  */
 import React from 'react'
 import { Flex, Mesume, Text } from '@components'
@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Lock(props, { $ }: Ctx) {
+function Lock(_props, { $ }: Ctx) {
   const { ban } = $.users
   if (!ban) return null
 

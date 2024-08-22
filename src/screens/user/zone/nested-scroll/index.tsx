@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 07:19:51
+ * @Last Modified time: 2024-08-23 01:32:58
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
@@ -24,7 +24,7 @@ import { memoStyles } from './styles'
 const PAGES = TABS.map(item => item.title)
 
 /** 安卓用 */
-function NestedScroll(props, { $ }: Ctx) {
+function NestedScroll(_props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <>

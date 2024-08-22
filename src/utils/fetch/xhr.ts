@@ -3,16 +3,16 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 19:49:16
+ * @Last Modified time: 2024-08-23 01:05:06
  */
-import { STORYBOOK } from '@constants/device'
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
-import { Fn } from '@types'
+import { WEB } from '@constants/device'
 import { HOST_PROXY } from '@/config'
-import { urlStringify } from '../utils'
+import { Fn } from '@types'
 import { syncUserStore } from '../async'
-import { loading } from '../ui'
 import { isDevtoolsOpen } from '../dom'
+import { loading } from '../ui'
+import { urlStringify } from '../utils'
 import { log } from './utils'
 import { XHRArgs, XHRCustomArgs } from './types'
 
@@ -67,13 +67,21 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{
   } = args || {}
 
   let _url = url
-  if (STORYBOOK && HOST_PROXY) _url = _url.replace(HOST, HOST_PROXY)
+  if (WEB && HOST_PROXY) _url = _url.replace(HOST, HOST_PROXY)
 
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.onreadystatechange = function () {
       if (this.readyState === 4) {
         if (this.status === 200 || this.status === 201) {
+          if (WEB) {
+            return resolve({
+              ...this,
+              // @ts-expect-error
+              _response: this._response || this.responseText
+            })
+          }
+
           // @ts-expect-error
           return resolve(this)
         }

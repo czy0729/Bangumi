@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 20:46:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:06:02
+ * @Last Modified time: 2024-08-23 01:24:46
  */
 import React from 'react'
 import { _ } from '@stores'
@@ -22,7 +22,7 @@ export const Track = ({ title, domTitle, hm, alias }: TrackProps) => {
 
   useRunAfter(() => {
     if (Array.isArray(hm)) utilsHM(...hm, domTitle || title)
-  })
+  }, COMPONENT)
 
   useDomTitle(domTitle || title)
 

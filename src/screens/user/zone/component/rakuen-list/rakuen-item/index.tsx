@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 00:02:20
+ * @Last Modified time: 2024-08-23 00:49:12
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -14,7 +14,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function RakuenItem(
-  { topicId, avatar, userName, title, group, date, time, userId, children },
+  { topicId, userName, title, group, date, time, userId, children },
   { navigation }: Ctx
 ) {
   const styles = memoStyles()

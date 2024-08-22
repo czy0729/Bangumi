@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 10:45:30
+ * @Last Modified time: 2024-08-23 00:59:42
  */
 import { rakuenStore, timelineStore, tinygrailStore, usersStore, userStore } from '@stores'
 import { getTimestamp, omit, opitimize } from '@utils'
 import { get, update } from '@utils/kv'
-import { SHARE_MODE } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -69,10 +68,7 @@ export default class Fetch extends Computed {
 
   /** 用户历史帖子 */
   fetchUserTopicsFormCDN = () => {
-    if (SHARE_MODE) return false
-
-    const { id, username } = this.usersInfo
-    return rakuenStore.fetchUserTopicsFormCDN(username || id)
+    return rakuenStore.fetchUserTopicsFormCDN(this.usersInfo.username || this.usersInfo.id)
   }
 
   /** 小圣杯 / 用户资产 */

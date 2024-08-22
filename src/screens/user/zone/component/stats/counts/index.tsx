@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 10:39:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 10:40:26
+ * @Last Modified time: 2024-08-23 01:33:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function Counts(props, { $ }: Ctx) {
+function Counts(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const userStats = ($.users?.userStats || {}) as any
   return (

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 01:43:31
+ * @Last Modified time: 2024-08-23 01:30:29
  */
 import { queue } from '@utils'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { H_HEADER, H_RADIUS_LINE, H_TABBAR } from '@screens/user/v2/ds'
 import Action from './action'
 import { updateTrackUserInfo } from './utils'
@@ -65,11 +65,11 @@ class ScreenZone extends Action {
         return this.fetchUsersTimeline(true)
       },
       () => {
-        if (!this.state.mounted || STORYBOOK) return
+        if (!this.state.mounted || WEB) return
         return this.fetchRecent()
       },
       () => {
-        if (!this.state.mounted || STORYBOOK) return
+        if (!this.state.mounted || WEB) return
         updateTrackUserInfo(this.usersInfo)
       }
     ])

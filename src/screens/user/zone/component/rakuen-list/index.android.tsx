@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-07 16:23:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 17:30:51
+ * @Last Modified time: 2024-08-23 00:51:22
  */
 import React from 'react'
 import { ListView, Loading, Text } from '@components'
@@ -15,7 +15,7 @@ import { handleToQiafan } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function RakuenList(props, { $, navigation }: Ctx) {
+function RakuenList(_props, { $, navigation }: Ctx) {
   // @ts-expect-error
   const { _loaded, _filter = 0 } = $.userTopicsFormCDN
   if (!_loaded) {
@@ -52,7 +52,6 @@ function RakuenList(props, { $, navigation }: Ctx) {
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
       ListFooterComponent={ListFooterComponent}
-      onFooterRefresh={$.fetchUsersTimeline}
     />
   )
 }

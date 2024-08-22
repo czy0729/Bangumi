@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-30 15:07:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 00:38:17
+ * @Last Modified time: 2024-08-23 01:32:56
  */
 import React from 'react'
 import { Avatar, Flex } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function TopNavbarComponent(props, { $ }: Ctx) {
+function TopNavbarComponent(_props, { $ }: Ctx) {
   return (
     <Flex style={styles.topNavbar} justify='center'>
       <Avatar

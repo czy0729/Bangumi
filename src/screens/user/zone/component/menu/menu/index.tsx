@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:52:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 15:48:40
+ * @Last Modified time: 2024-08-23 01:32:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import { handleSelect } from './utils'
 import {
@@ -26,21 +26,19 @@ import {
 } from './ds'
 import { styles } from './styles'
 
-function Menu(props, context: Ctx) {
+function Menu(_props, context: Ctx) {
   const { $ } = context
 
   const data = [TEXT_BROWSER, TEXT_COPY_LINK, TEXT_COPY_SHARE]
-  if (!STORYBOOK) data.push(TEXT_PM)
+  if (!WEB) data.push(TEXT_PM)
   data.push(TEXT_COLLECT, TEXT_FRIEND)
 
-  if (!STORYBOOK) {
+  if (!WEB) {
     if ($.users.connectUrl) {
       data.push(TEXT_CONNECT)
     } else if ($.users.disconnectUrl) {
       data.push(TEXT_DISCONNECT)
     }
-
-    // data.push(TEXT_BLOCK)
     data.push(TEXT_IGNORE)
   }
 

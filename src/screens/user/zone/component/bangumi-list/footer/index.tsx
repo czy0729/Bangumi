@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:59:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 08:27:17
+ * @Last Modified time: 2024-08-23 01:34:23
  */
 import React from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
@@ -10,10 +10,9 @@ import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
-import Lock from '../../lock'
 import { styles } from './styles'
 
-function Footer(props, { $, navigation }: Ctx) {
+function Footer(_props, { $, navigation }: Ctx) {
   return (
     <Flex style={_.mt.lg} justify='center'>
       <Touchable

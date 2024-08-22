@@ -2,96 +2,69 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:13:43
+ * @Last Modified time: 2024-08-22 23:46:26
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Animated } from 'react-native'
-import { ListView, Loading } from '@components'
+import { Component, ListView, Loading } from '@components'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { STORYBOOK, USE_NATIVE_DRIVER } from '@constants'
+import { useObserver } from '@utils/hooks'
+import { USE_NATIVE_DRIVER } from '@constants'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Footer from './footer'
-import Item from './item'
-import SectionHeader from './section-header'
+import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props } from './types'
 
-class BangumiList extends React.Component<Props> {
-  connectRef = (ref: any) => {
-    const { $ } = this.context as Ctx
-    const index = TABS.findIndex(item => item.title === '番剧')
-    return $.connectRef(ref, index)
-  }
+function BangumiList(props, { $ }: Ctx) {
+  r(COMPONENT)
 
-  renderSectionHeader = ({ section: { title, count } }) => {
-    return <SectionHeader title={title} count={count} />
-  }
+  const handleRef = useCallback((ref: any) => {
+    $.connectRef(
+      ref,
+      TABS.findIndex(item => item.title === '番剧')
+    )
+  }, [])
 
-  renderItem = ({ item, section: { title } }) => {
-    return <Item item={item} title={title} />
-  }
-
-  get sections() {
-    const { $ } = this.context as Ctx
-    return $.userCollections.list.map(item => ({
-      title: item.status,
-      count: item.count,
-      data: [
-        {
-          list: item.list
-        }
-      ]
-    }))
-  }
-
-  render() {
-    r(COMPONENT)
-
-    const { $ } = this.context as Ctx
-    if (!$.userCollections._loaded) return <Loading style={this.styles.loading} />
+  return useObserver(() => {
+    const styles = memoStyles()
+    if (!$.userCollections._loaded) return <Loading style={styles.loading} />
 
     return (
-      <ListView
-        ref={this.connectRef}
-        contentContainerStyle={this.styles.contentContainerStyle}
-        keyExtractor={keyExtractor}
-        animated
-        sections={this.sections}
-        showFooter={false}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        ListFooterComponent={<Footer />}
-        {...this.props}
-        onScroll={
-          STORYBOOK
-            ? undefined
-            : Animated.event(
-                [
-                  {
-                    nativeEvent: {
-                      contentOffset: {
-                        y: $.scrollY
-                      }
-                    }
+      <Component id='screen-zone-tab-view' data-type='bangumi-list'>
+        <ListView
+          ref={handleRef}
+          contentContainerStyle={styles.contentContainerStyle}
+          keyExtractor={keyExtractor}
+          animated
+          sections={$.sections}
+          showFooter={false}
+          renderSectionHeader={renderSectionHeader}
+          renderItem={renderItem}
+          ListFooterComponent={<Footer />}
+          {...props}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: $.scrollY
                   }
-                ],
-                {
-                  useNativeDriver: USE_NATIVE_DRIVER,
-                  listener: this.props.onScroll
                 }
-              )
-        }
-      />
+              }
+            ],
+            {
+              useNativeDriver: USE_NATIVE_DRIVER,
+              listener: props.onScroll
+            }
+          )}
+        />
+      </Component>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default obc(BangumiList)
+export default c(BangumiList)

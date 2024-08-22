@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 19:53:23
+ * @Last Modified time: 2024-08-22 19:20:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import Mask from './mask'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ParallaxImage(props, { $ }: Ctx) {
+function ParallaxImage(_props, { $ }: Ctx) {
   const parallaxStyle = {
     transform: [
       {
@@ -51,7 +51,7 @@ function ParallaxImage(props, { $ }: Ctx) {
 
   return (
     <>
-      <View style={styles.parallax} pointerEvents={$.state.fixed ? 'none' : undefined}>
+      <View style={styles.parallax} pointerEvents='box-none'>
         <Bg style={parallaxStyle} />
         <Mask style={parallaxStyle} />
         <Header style={parallaxStyle} />
