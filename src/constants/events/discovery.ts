@@ -197,5 +197,9 @@ export default {
   '评分月刊.缩略框': 'VIB.popable',
   '评分月刊.上一期': 'VIB.prev',
   '评分月刊.下一期': 'VIB.next',
-  '评分月刊.选择': 'VIB.select'
+  '评分月刊.选择': 'VIB.select',
+
+  // 半月刊
+  '半月刊.右上角菜单': 'BiWeekly.topRightMenu',
+  '半月刊.跳转': 'BiWeekly.to'
 }

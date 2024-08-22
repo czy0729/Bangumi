@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import appJson from '@/app.json'
 import expoPackageJson from '@/node_modules/expo/package.json'
 import { Fn } from '@types'
-import { PAD, RATIO, STORYBOOK, STORYBOOK_IFRAME } from '../device'
+import { PAD, RATIO, STORYBOOK_IFRAME, WEB } from '../device'
 
 /** 空函数引用 */
 export const FN = (() => {}) as Fn
@@ -140,7 +140,7 @@ export const APP_USERID_TOURIST = 700939
 export const APP_USERID_IOS_AUTH = 700939
 
 /** 网页端分享模式 (限制操作) */
-export const SHARE_MODE = STORYBOOK && !STORYBOOK_IFRAME
+export const SHARE_MODE = WEB && !STORYBOOK_IFRAME
 
 /** 是否 iOS */
 export const IOS = Platform.OS === 'ios'
@@ -202,12 +202,12 @@ export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 export const DOGE_CDN_IMG_DEFAULT = 'http://bangumi-app-assets.5t5.top/assets/default.png'
 
 /** 默认图 */
-export const IMG_DEFAULT = STORYBOOK
+export const IMG_DEFAULT = WEB
   ? DOGE_CDN_IMG_DEFAULT
   : (require('@assets/images/default.png') as ImageRequireSource)
 
 /** 默认头像 */
-export const AVATAR_DEFAULT = STORYBOOK
+export const AVATAR_DEFAULT = WEB
   ? 'https://lain.bgm.tv/pic/user/l/icon.jpg'
   : (require('@assets/images/l.png') as ImageRequireSource)
 
@@ -244,7 +244,7 @@ export const TIMEZONE_OFFSET_LOCAL = new Date().getTimezoneOffset()
 export const TIMEZONE_IS_GMT8 = TIMEZONE_OFFSET_LOCAL === TIMEZONE_OFFSET_GMT8
 
 /** 硬件加速 */
-export const USE_NATIVE_DRIVER = !STORYBOOK
+export const USE_NATIVE_DRIVER = !WEB
 
 /** App 列表数据结构 */
 export const LIST_EMPTY = {

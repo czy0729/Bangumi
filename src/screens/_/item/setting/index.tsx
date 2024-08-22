@@ -10,7 +10,7 @@ import { Component, Flex, Highlight, Iconfont, Text, Touchable } from '@componen
 import { _ } from '@stores'
 import { navigationReference, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ItemSettingProps } from './types'
@@ -23,7 +23,7 @@ export const ItemSetting = ob(
     contentStyle,
     show = true,
     hd,
-    hdSize = 16,
+    hdSize = WEB ? 14 : 16,
     ft,
     arrow,
     arrowStyle,
@@ -53,7 +53,7 @@ export const ItemSetting = ob(
                 <Touchable
                   style={_.ml.xs}
                   onPress={() => {
-                    if (STORYBOOK) {
+                    if (WEB) {
                       const navigation = navigationReference()
                       if (navigation) {
                         navigation.push('Information', {

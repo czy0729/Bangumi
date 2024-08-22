@@ -32,8 +32,11 @@ if (
 /** 是否平板 */
 export const PAD = process.env.STORYBOOK === 'true' ? 0 : isPad
 
-/** 是否 Storybook 环境, 也就是是否 Web SPA */
+/** @deprecated 是否 Storybook 环境, 也就是是否 Web SPA */
 export const STORYBOOK = false
+
+/** 是否 Storybook 环境, 也就是是否 Web SPA */
+export const WEB = false
 
 /** 平板放大比例 */
 export const RATIO = PAD === 2 ? 1.44 : PAD === 1 ? 1.28 : 1

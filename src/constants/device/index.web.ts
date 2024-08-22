@@ -21,8 +21,11 @@ export const PAD = 0
 /** 平板放大比例 */
 export const RATIO = 1
 
+/** @deprecated 是否 Storybook 环境, 也就是是否 Web SPA */
+export const STORYBOOK = true
+
 /** 是否 Storybook 环境, 也就是是否 Web SPA */
-export const STORYBOOK = true // process.env.STORYBOOK === 'true'
+export const WEB = true
 
 const { clientWidth, clientHeight } = document.documentElement
 
