@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:02:26
+ * @Last Modified time: 2024-08-22 17:58:43
  */
 import {
   collectionStore,
@@ -14,12 +14,15 @@ import {
 } from '@stores'
 import {
   getBangumiUrl,
+  getStorage,
   getTimestamp,
   HTMLDecode,
   HTMLTrim,
   omit,
   opitimize,
+  postTask,
   queue,
+  setStorage,
   titleCase,
   unzipBangumiData
 } from '@utils'
@@ -28,7 +31,7 @@ import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from 
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
-import { API_ANITABI, CDN_EPS, SITES, STORYBOOK } from '@constants'
+import { API_ANITABI, CDN_EPS, D, D7, H, H12, SITES, WEB } from '@constants'
 import { UserId } from '@types'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
@@ -83,7 +86,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateSubjectThirdParty()
+      if (_loaded - ts >= D7) this.updateSubjectThirdParty()
     } catch (error) {}
   }
 
@@ -108,7 +111,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      if (_loaded - ts >= 60 * 60 * 24) this.updateCommentsThirdParty()
+      if (_loaded - ts >= D) this.updateCommentsThirdParty()
     } catch (error) {}
   }
 
@@ -135,14 +138,14 @@ export default class Fetch extends Computed {
       })
     }
 
-    if (STORYBOOK) return
+    if (WEB) return
 
     // 先检测云端数据
     const needUpdate = await this.getThirdParty()
     if (!needUpdate) return
 
     if (item) {
-      setTimeout(() => {
+      postTask(() => {
         this.fetchEpsThumbs(_item)
       }, 0)
     }
@@ -154,7 +157,7 @@ export default class Fetch extends Computed {
       this.fetchGameFromDouban(this.cn, this.jp)
     } else if (this.type === '音乐') {
       // 此方法需要用到 subjectFromHTML.info 需要延迟一下
-      setTimeout(() => {
+      postTask(() => {
         this.fetchMVFromBilibili(this.cn, this.jp, this.artist)
       }, 2400)
     }
@@ -219,12 +222,12 @@ export default class Fetch extends Computed {
     const now = getTimestamp()
     userIds.forEach(item => {
       const collection = collectionStore.usersSubjectCollection(item, this.subjectId)
-      if (!collection._loaded || now - Number(collection._loaded) >= 60 * 60) {
+      if (!collection._loaded || now - Number(collection._loaded) >= H) {
         fetchs.push(() => collectionStore.fetchUsersCollection(item, this.subjectId))
       }
     })
 
-    setTimeout(() => {
+    postTask(() => {
       this.fetchTrackUsersInfo(userIds)
     }, 0)
     return queue(fetchs, 1)
@@ -232,7 +235,7 @@ export default class Fetch extends Computed {
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
-    if (STORYBOOK || this.type !== '动画' || this.nsfw) return false
+    if (WEB || this.type !== '动画' || this.nsfw) return false
 
     try {
       const { _response } = await xhrCustom({
@@ -267,7 +270,7 @@ export default class Fetch extends Computed {
 
   /** 获取章节的缩略图 */
   fetchEpsThumbs = async (bangumiData: ReturnType<typeof unzipBangumiData>) => {
-    if (STORYBOOK) return false
+    if (WEB) return false
 
     if (this.state.epsThumbs.length >= 12) return false
 
@@ -364,7 +367,7 @@ export default class Fetch extends Computed {
               new Set(
                 match
                   .map((item: string) => `https:${item.replace(/(data-jpg-img="|")/g, '')}`)
-                  .filter((item: any, index: number) => !!index)
+                  .filter((_item: any, index: number) => !!index)
               )
             ),
             epsThumbsHeader: {
@@ -384,7 +387,7 @@ export default class Fetch extends Computed {
 
   /** 从 donban 匹配条目, 并获取官方剧照信息 */
   fetchMovieFromDouban = async (cn: string, jp: string) => {
-    if (STORYBOOK || this.nsfw) return false
+    if (WEB || this.nsfw) return false
 
     const q = cn || jp
     if (q) {
@@ -417,7 +420,7 @@ export default class Fetch extends Computed {
 
   /** 从 donban 匹配条目, 并获取预告视频 */
   fetchGameFromDouban = async (cn: string, jp: string) => {
-    if (STORYBOOK || this.nsfw) return false
+    if (WEB || this.nsfw) return false
 
     const q = cn || jp
     if (q) {
@@ -451,7 +454,7 @@ export default class Fetch extends Computed {
 
   /** 从 bilibili 匹配音乐 MV */
   fetchMVFromBilibili = async (cn: string, jp: string, artist: string) => {
-    if (STORYBOOK) return false
+    if (WEB) return false
 
     const videos = await searchMV(cn || jp, artist)
     if (videos.length) {
@@ -478,7 +481,7 @@ export default class Fetch extends Computed {
         // 数量不够更新
         videos.length + epsThumbs.length <= 2 ||
         // 7 天更新一次
-        getTimestamp() - ts >= 60 * 60 * 24 * 7 ||
+        getTimestamp() - ts >= D7 ||
         // 最后一次逻辑修正的时间戳
         ts < getTimestamp('2023-07-14 14:00:00')
       ) {
@@ -500,7 +503,7 @@ export default class Fetch extends Computed {
 
   /** 上传条目预数据 */
   updateSubjectThirdParty = () => {
-    setTimeout(() => {
+    postTask(() => {
       const { _loaded, formhash } = this.subjectFormHTML
 
       // formhash 是登录并且可操作条目的用户的必有值
@@ -536,7 +539,7 @@ export default class Fetch extends Computed {
   updateCommentsThirdParty = () => {
     if (this.state.filterStatus !== '') return
 
-    setTimeout(() => {
+    postTask(() => {
       const data = this.subjectComments
 
       // 不允许有自定义筛选过的数据同步到云端
@@ -558,7 +561,7 @@ export default class Fetch extends Computed {
 
   /** 上传预数据 */
   updateThirdParty = () => {
-    setTimeout(() => {
+    postTask(() => {
       update(`douban_${this.subjectId}`, {
         videos: this.state.videos,
         epsThumbs: this.state.epsThumbs,
@@ -588,18 +591,23 @@ export default class Fetch extends Computed {
     if (showAnitabi === -1 || !showAnitabi) return false
 
     const { _loaded } = this.state.anitabi
-    if (_loaded && getTimestamp() - Number(_loaded) <= 60 * 60 * 24) return true
+    if (_loaded && getTimestamp() - Number(_loaded) <= D) return true
 
+    const key = `anitabi_${this.subjectId}`
     try {
-      const key = `anitabi_${this.subjectId}`
       const cloud = await get(key)
-      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= 60 * 60 * 24) {
+      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= D) {
         this.setState({
           anitabi: cloud
         })
         return true
       }
+    } catch (error) {}
 
+    const checkKey = `fetchAnitabi|${this.subjectId}`
+    if (await getStorage(checkKey)) return false
+
+    try {
       const { _response } = await xhrCustom({
         url: API_ANITABI(this.subjectId)
       })
@@ -626,14 +634,16 @@ export default class Fetch extends Computed {
       })
       this.save()
 
-      setTimeout(() => {
+      postTask(() => {
         update(key, anitabi)
       }, 0)
 
       return true
     } catch (error) {
-      return false
+      setStorage(checkKey, true)
     }
+
+    return false
   }
 
   /**
@@ -643,16 +653,16 @@ export default class Fetch extends Computed {
   fetchVIB = async () => {
     if (systemStore.setting.hideScore || systemStore.setting.showRating !== true) return false
 
-    if (opitimize(this.vib, 60 * 60 * 12)) return this.vib
+    if (opitimize(this.vib, H12)) return this.vib
 
     try {
       const key = `vib_${this.subjectId}`
       const cloud = await get(key)
-      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= 60 * 60 * 24) {
+      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= D) {
         subjectStore.updateVIB(this.subjectId, cloud)
 
         if (!cloud?.avg) {
-          setTimeout(() => {
+          postTask(() => {
             subjectStore.fetchVIB(this.subjectId)
           }, 0)
         }
@@ -660,7 +670,7 @@ export default class Fetch extends Computed {
       }
 
       await subjectStore.fetchVIB(this.subjectId)
-      if (STORYBOOK) return true
+      if (WEB) return true
 
       if (this.type === '动画') {
         await subjectStore.fetchMAL(this.subjectId, this.jp || this.cn)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:23:10
+ * @Last Modified time: 2024-08-22 17:10:32
  */
 import React from 'react'
 import { collectionStore } from '@stores'
 import { date } from '@utils'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
@@ -23,7 +23,7 @@ function FlipBtnWrap({ onPress }, { $ }: Ctx) {
   } = $.collection
 
   let btnText: string
-  if (STORYBOOK) {
+  if (WEB) {
     btnText = collectionStore.collect($.subjectId, $.type) || '未收藏'
   } else {
     btnText = _loaded ? collectionStatus.name : $.params._collection || collectionStatus.name

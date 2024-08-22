@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:37:27
+ * @Last Modified time: 2024-08-22 17:11:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -47,8 +47,8 @@ import {
   MODEL_SUBJECT_TYPE,
   SITES,
   SITES_DS,
-  STORYBOOK,
-  URL_DEFAULT_AVATAR
+  URL_DEFAULT_AVATAR,
+  WEB
 } from '@constants'
 import { Id, Optional, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import {
@@ -1243,7 +1243,7 @@ export default class Computed extends State {
 
   /** 是否显示预览 */
   @computed get showThumbs() {
-    if (STORYBOOK) return [false, false] as const
+    if (WEB) return [false, false] as const
 
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return [false, false] as const

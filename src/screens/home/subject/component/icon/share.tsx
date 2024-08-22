@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 11:22:32
+ * @Last Modified time: 2024-08-22 17:06:50
  */
 import React from 'react'
 import { Header } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Override } from '@types'
 import { Ctx } from '../../types'
 
@@ -26,7 +26,7 @@ function IconShare({
     color?: any
   }
 >) {
-  if (STORYBOOK) return null
+  if (WEB) return null
 
   return (
     <Header.Popover
@@ -36,20 +36,18 @@ function IconShare({
       color={color}
       size={19}
       onSelect={key => {
-        setTimeout(async () => {
-          switch (key) {
-            case TEXT_POST_SHARE:
-              $.onPostShare(navigation)
-              break
+        switch (key) {
+          case TEXT_POST_SHARE:
+            $.onPostShare(navigation)
+            break
 
-            case TEXT_WEB_SHARE:
-              $.onWebShare()
-              break
+          case TEXT_WEB_SHARE:
+            $.onWebShare()
+            break
 
-            default:
-              break
-          }
-        }, 0)
+          default:
+            break
+        }
       }}
     />
   )

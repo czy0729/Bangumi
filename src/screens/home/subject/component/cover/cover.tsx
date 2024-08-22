@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 13:43:31
+ * @Last Modified time: 2024-08-22 17:10:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Cover as CoverComp, Heatmap, Squircle } from '@components'
 import { systemStore } from '@stores'
-import { getCoverLarge } from '@utils'
+import { getCoverLarge, postTask } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { IMG_DEFAULT, STORYBOOK } from '@constants'
+import { IMG_DEFAULT, WEB } from '@constants'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -28,7 +28,7 @@ class Cover extends React.Component<Props> {
     if (typeof image === 'string') memoLoaded.set(image, true)
 
     try {
-      setTimeout(() => {
+      postTask(() => {
         this.setState({
           isLoaded: true
         })
@@ -51,7 +51,7 @@ class Cover extends React.Component<Props> {
   }
 
   renderPlaceholder() {
-    if (!STORYBOOK && this.isLoaded && this.props.image) return null
+    if (!WEB && this.isLoaded && this.props.image) return null
 
     return (
       <CoverComp
@@ -110,9 +110,9 @@ class Cover extends React.Component<Props> {
             minHeight: height
           }}
         >
-          {STORYBOOK && this.renderPlaceholder()}
+          {WEB && this.renderPlaceholder()}
           {this.renderCover()}
-          {!STORYBOOK && this.renderPlaceholder()}
+          {!WEB && this.renderPlaceholder()}
           <Heatmap id='条目.封面图查看' />
         </View>
       </Squircle>

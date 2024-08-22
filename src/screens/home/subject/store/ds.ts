@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 01:13:25
+ * @Last Modified time: 2024-08-22 17:11:16
  */
 import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
-import { LIST_EMPTY, STORYBOOK } from '@constants'
+import { LIST_EMPTY, WEB } from '@constants'
 import {
   Collection,
   Cover,
@@ -86,7 +86,7 @@ export const EXCLUDE_STATE = {
   flipEps: false,
 
   /** 是否完成渲染 */
-  rendered: STORYBOOK,
+  rendered: WEB,
 
   /** 当前页面实例是否在路由栈中 */
   mounted: true

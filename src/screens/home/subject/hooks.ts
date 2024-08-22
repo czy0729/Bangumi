@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 01:15:34
+ * @Last Modified time: 2024-08-22 17:04:09
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
 import { _ } from '@stores'
-import { feedback } from '@utils'
+import { feedback, postTask } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { useFocusEffect, useIsFocusedRef, useMount, useRunAfter } from '@utils/hooks'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { TITLE_HEAD } from './ds'
 import { Ctx } from './types'
 
@@ -22,7 +22,7 @@ export function useSubjectPage({ $ }: Ctx) {
 
   /** 初始化状态管理器 */
   useRunAfter(async () => {
-    setTimeout(() => {
+    postTask(() => {
       if (isFocused.current) $.setRendered()
     }, 480)
 
@@ -46,7 +46,7 @@ export function useSubjectPage({ $ }: Ctx) {
         mounted: false
       })
 
-      setTimeout(() => {
+      postTask(() => {
         $.setState({
           fixed: false
         })
@@ -69,9 +69,9 @@ export function useSubjectPage({ $ }: Ctx) {
 
     /** 收集子组件的 ref */
     onBlockRef: useCallback((ref: any, component: string) => {
-      setTimeout(() => {
+      postTask(() => {
         blockRefs.current[component] = ref
-      }, 0)
+      }, 1000)
     }, []),
 
     /** 子组件可以调用此方法定位到指定 y 轴坐标 */
@@ -97,11 +97,11 @@ export function useSubjectPage({ $ }: Ctx) {
           // 单行本 (10) => 单行本
           const name = component.split('(')[0].trim()
           if (scrollViewRef.current && blockRefs.current[name]) {
-            if (IOS || STORYBOOK) {
+            if (IOS || WEB) {
               blockRefs.current[TITLE_HEAD].measure(
-                (x: number, y: number, w: number, h: number) => {
-                  blockRefs.current[name].measure((x: number, y: number) => {
-                    if (STORYBOOK) {
+                (_x: number, _y: number, _w: number, h: number) => {
+                  blockRefs.current[name].measure((_x: number, y: number) => {
+                    if (WEB) {
                       scrollToTop(y + h + 116)
                     } else {
                       scrollViewRef.current.scrollToOffset({
@@ -123,7 +123,7 @@ export function useSubjectPage({ $ }: Ctx) {
 
             blockRefs.current[name].measureLayout(
               findNodeHandle(scrollViewRef.current),
-              (x: number, y: number) => {
+              (_x: number, y: number) => {
                 scrollViewRef.current.scrollToOffset({
                   offset: y - _.headerHeight,
                   animated: true

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 09:32:36
+ * @Last Modified time: 2024-08-22 17:10:46
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { Popover } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import IconActions from './actions'
 import { ACTIONS_MANAGE, HIT_SLOP, ICS_MANAGE, ORIGINS_MANAGE } from './ds'
@@ -18,7 +18,7 @@ import { IconProps } from './types'
 
 function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
-  if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length && !WEB) data.push(ACTIONS_MANAGE)
   if (systemStore.setting.exportICS) data.push(ICS_MANAGE)
 
   return (

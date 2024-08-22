@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-15 03:47:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:59:23
+ * @Last Modified time: 2024-08-22 15:51:59
  */
 import React from 'react'
 import { ScrollView as RNScrollView } from 'react-native'
@@ -36,7 +36,11 @@ export const ScrollView = ({
 
   // Storybook 中通常最外层就有一层 ScrollView, 所以里面不应再套一层
   if (!horizontal) {
-    return <StorybookScroll style={stl(style, contentContainerStyle)}>{children}</StorybookScroll>
+    return (
+      <StorybookScroll style={stl(style, contentContainerStyle)} onScroll={onScroll}>
+        {children}
+      </StorybookScroll>
+    )
   }
 
   return (

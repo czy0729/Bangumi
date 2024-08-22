@@ -2,26 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:19:30
+ * @Last Modified time: 2024-08-22 17:27:50
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
 import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 
-const lazyloadedMap = new Map<string, boolean>()
-lazyloadedMap.set(DOGE_CDN_IMG_DEFAULT, true)
+const memo = new Map<string, boolean>()
+memo.set(DOGE_CDN_IMG_DEFAULT, true)
 
 export default function Image({ style, source, autoSize, fadeDuration, ...props }) {
   const ref = useRef(null)
   const { uri } = source
-  const lazyloaded = lazyloadedMap.has(uri)
+  const lazyloaded = memo.has(uri)
   const [opacity, setOpacity] = useState(lazyloaded ? 1 : 0)
   useEffect(() => {
-    if (ref.current) {
-      if (autoSize) {
-        const img = ref.current?.querySelector('img')
-        if (img) {
-          img.style = `
+    if (ref.current && autoSize) {
+      const img = ref.current?.querySelector('img')
+      if (img) {
+        img.style = `
             position: unset;
             z-index: unset;
             width: unset;
@@ -29,8 +28,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
             opacity: unset;
             inset: unset;
           `
-          img.src = uri
-        }
+        img.src = uri
       }
     }
 
@@ -62,12 +60,12 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
 
             // 标记已观察过, 延迟是为了防止页面同时出现这个图片多次而后面的不执行逻辑
             setTimeout(() => {
-              lazyloadedMap.set(uri, true)
+              memo.set(uri, true)
             }, 800)
           }
         },
         {
-          threshold: 0.1
+          threshold: 0
         }
       )
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-06 03:42:16
+ * @Last Modified time: 2024-08-22 17:09:31
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -34,6 +34,7 @@ import {
   info,
   loading,
   open,
+  postTask,
   saveCalenderEvent,
   showActionSheet,
   updateVisibleBottom
@@ -56,8 +57,8 @@ import {
   SITE_MANHUADB,
   SITE_WK8,
   SITES,
-  STORYBOOK,
-  URL_SPA
+  URL_SPA,
+  WEB
 } from '@constants'
 import i18n from '@constants/i18n'
 import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
@@ -166,7 +167,7 @@ export default class Action extends Fetch {
         if (find) {
           if (key === '萌番组' && find.id) {
             copy(this.cn || this.jp)
-            setTimeout(() => {
+            postTask(() => {
               open(find.url)
             }, 1600)
             return
@@ -221,11 +222,11 @@ export default class Action extends Fetch {
     if (url) {
       const { openInfo } = systemStore.setting
       if (openInfo) copy(url, '已复制地址，即将跳转')
-      setTimeout(
+      postTask(
         () => {
           open(url)
         },
-        openInfo ? (STORYBOOK ? 400 : 1600) : 0
+        openInfo ? (WEB ? 400 : 1600) : 0
       )
     }
   }
@@ -443,7 +444,7 @@ export default class Action extends Fetch {
   }
 
   unRendered = () => {
-    if (STORYBOOK) return
+    if (WEB) return
 
     if (this.state.rendered) {
       this.setState({
@@ -695,7 +696,7 @@ export default class Action extends Fetch {
       subjectId: this.subjectId
     })}`
     copy(`【链接】${cnjp(this.cn, this.jp)} | Bangumi番组计划\n${url}`, '已复制 APP 网页版地址')
-    setTimeout(() => {
+    postTask(() => {
       open(url)
     }, 1600)
 
@@ -729,7 +730,7 @@ export default class Action extends Fetch {
     this.setState({
       flip: false
     })
-    setTimeout(() => {
+    postTask(() => {
       this.setState({
         flipKey: flipKey + 1
       })
@@ -856,7 +857,7 @@ export default class Action extends Fetch {
 
   /** 正版播放 */
   toPlay = (item: EpsItem) => {
-    setTimeout(() => {
+    postTask(() => {
       showActionSheet(this.onlinePlayActionSheetData, index => {
         t('条目.章节菜单操作', {
           title: this.onlinePlayActionSheetData[index],
@@ -1190,7 +1191,7 @@ export default class Action extends Fetch {
         // 因为删除后是 302, 使用 fail 去触发
         () => {},
         () => {
-          setTimeout(() => {
+          postTask(() => {
             collectionStore.removeStatus(this.subjectId)
             this.fetchCollection()
             collectionStore.fetchCollectionStatusQueue([this.subjectId])

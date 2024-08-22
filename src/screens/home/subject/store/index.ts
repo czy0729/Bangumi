@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 16:31:07
+ * @Last Modified time: 2024-08-22 17:11:23
  */
 import { collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { ApiSubjectResponse } from '@stores/subject/types'
-import { getTimestamp } from '@utils'
+import { getTimestamp, postTask } from '@utils'
 import { queue } from '@utils/fetch'
-import { SHARE_MODE, STORYBOOK } from '@constants'
+import { SHARE_MODE, WEB } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
 
@@ -89,10 +89,10 @@ class ScreenSubject extends Action {
           if (!this.state.mounted) return
 
           // 网页端走的反代, 很容易请求挂起, 需要第一时间回去云端缓存数据
-          if (STORYBOOK) return this.fetchCommentsFromOSS()
+          if (WEB) return this.fetchCommentsFromOSS()
 
           // APP 端可以延迟获取, 若正常数据获取到, 会取消获取云端数据
-          setTimeout(() => {
+          postTask(() => {
             if (!this.state.mounted) return
             this.fetchCommentsFromOSS()
           }, 6400)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-01 01:56:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:59:05
+ * @Last Modified time: 2024-08-22 17:04:46
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
-import { feedback, urlStringify } from '@utils'
+import { feedback, postTask, urlStringify } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import Btns from './btns'
@@ -78,14 +78,22 @@ function FlipBtn({ animate, btnText, rating, privacy, last, onAnimated, onPress 
     if (urlStringify(state) !== urlStringify(beforeProps)) {
       animatedRef.current = true
       setAfterProps(state)
-      setTimeout(() => {
-        feedback()
-        activeRef.value = 1
+      postTask(
+        () => {
+          feedback()
+          activeRef.value = 1
 
-        setTimeout(() => {
-          onAnimated()
-        }, ANIMATED_CONFIG.duration)
-      }, 240)
+          postTask(
+            () => {
+              onAnimated()
+            },
+            ANIMATED_CONFIG.duration,
+            'user-visible'
+          )
+        },
+        240,
+        'user-visible'
+      )
     }
   }, [activeRef, beforeProps, animate, btnText, rating, privacy, last, onAnimated])
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-18 02:20:20
+ * @Last Modified time: 2024-08-22 17:11:03
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
@@ -12,7 +12,7 @@ import { _, systemStore } from '@stores'
 import { x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Item from './item'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 
@@ -87,7 +87,7 @@ const Series = memo(
               noDefault
             />
           </Squircle>
-          <Text style={_.ml.sm} size={STORYBOOK ? 12 : size} bold>
+          <Text style={_.ml.sm} size={WEB ? 12 : size} bold>
             {subjectSeries.title}
           </Text>
         </Flex>

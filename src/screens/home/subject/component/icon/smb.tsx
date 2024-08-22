@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-04-07 03:09:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 17:50:04
+ * @Last Modified time: 2024-08-22 17:10:56
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconSMB(props, { navigation }: Ctx) {
-  if (STORYBOOK || !systemStore.setting.showSMB) return null
+function IconSMB(_props, { navigation }: Ctx) {
+  if (WEB || !systemStore.setting.showSMB) return null
 
   return (
     <Touchable

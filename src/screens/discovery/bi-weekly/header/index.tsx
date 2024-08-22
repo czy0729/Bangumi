@@ -8,6 +8,7 @@ import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Navigation } from '@types'
 import { COMPONENT } from './ds'
@@ -22,6 +23,10 @@ function Header({ navigation }: { navigation: Navigation }) {
           name='md-menu'
           data={['小组讨论', '浏览器查看']}
           onSelect={label => {
+            t('半月刊.右上角菜单', {
+              label
+            })
+
             if (label === '小组讨论') {
               navigation.push('Group', {
                 groupId: 'biweekly',

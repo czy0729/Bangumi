@@ -9,6 +9,7 @@ import { Flex, Image, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { AnyObject, Navigation } from '@types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -35,6 +36,10 @@ function Item({
           _title: item.title,
           _group: 'Bangumi半月刊',
           _groupThumb: 'https://lain.bgm.tv/pic/icon/l/000/00/49/4986.jpg?r=1706848267'
+        })
+
+        t('半月刊.跳转', {
+          topicId: item.topicId
         })
       }}
     >

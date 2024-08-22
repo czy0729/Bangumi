@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 09:33:33
+ * @Last Modified time: 2024-08-22 17:10:53
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { ACTIONS_MANAGE, HIT_SLOP, ORIGINS_MANAGE } from './ds'
 import { IconProps } from './types'
@@ -20,7 +20,7 @@ function IconSearch({ style, children }: IconProps, { $, navigation }: Ctx) {
     ...$.onlineComicOrigins.map(item => (typeof item === 'object' ? item.name : item)),
     ORIGINS_MANAGE
   ]
-  if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length && !WEB) data.push(ACTIONS_MANAGE)
 
   return (
     <Popover

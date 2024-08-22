@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 04:18:43
+ * @Last Modified time: 2024-08-22 17:07:26
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { cnjp, copy, info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { STORYBOOK, URL_ABOUT } from '@constants'
+import { URL_ABOUT, WEB } from '@constants'
 import { Ctx } from '../../types'
 import {
   TEXT_APP,
@@ -33,7 +33,7 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
     TEXT_LAYOUT,
     TEXT_SETTING
   ]
-  if (STORYBOOK) data.push(TEXT_APP)
+  if (WEB) data.push(TEXT_APP)
 
   return (
     <Flex>
@@ -44,9 +44,7 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
         name='md-menu-open'
         color={color}
         onSelect={key => {
-          setTimeout(() => {
-            onScrollTo(key)
-          }, 0)
+          onScrollTo(key)
         }}
       />
       <HeaderComp.Popover
@@ -58,44 +56,42 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
             key
           })
 
-          setTimeout(() => {
-            switch (key) {
-              case TEXT_COPY:
-                copy($.url, '已复制链接')
-                break
+          switch (key) {
+            case TEXT_COPY:
+              copy($.url, '已复制链接')
+              break
 
-              case TEXT_SHARE:
-                copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`, '已复制分享文案')
-                break
+            case TEXT_SHARE:
+              copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`, '已复制分享文案')
+              break
 
-              case TEXT_POST_SHARE:
-                $.onPostShare(navigation)
-                break
+            case TEXT_POST_SHARE:
+              $.onPostShare(navigation)
+              break
 
-              case TEXT_WEB_SHARE:
-                $.onWebShare()
-                break
+            case TEXT_WEB_SHARE:
+              $.onWebShare()
+              break
 
-              case TEXT_LAYOUT:
-                systemStore.resetSubjectLayout()
-                info('已重置')
-                break
+            case TEXT_LAYOUT:
+              systemStore.resetSubjectLayout()
+              info('已重置')
+              break
 
-              case TEXT_SETTING:
-                navigation.push('Setting', {
-                  open: 'Subject'
-                })
-                break
+            case TEXT_SETTING:
+              navigation.push('Setting', {
+                open: 'Subject'
+              })
+              break
 
-              case TEXT_APP:
-                open(URL_ABOUT)
-                break
+            case TEXT_APP:
+              open(URL_ABOUT)
+              break
 
-              default:
-                open($.url)
-                break
-            }
-          }, 0)
+            default:
+              open($.url)
+              break
+          }
         }}
       >
         <Heatmap id='条目.右上角菜单' />

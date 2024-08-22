@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-24 08:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-08 09:33:43
+ * @Last Modified time: 2024-08-22 17:10:40
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { ACTIONS_MANAGE, HIT_SLOP, ORIGINS_MANAGE } from './ds'
 import { IconProps } from './types'
@@ -22,7 +22,7 @@ function IconGame({ style, children }: IconProps, { $, navigation }: Ctx) {
     ...$.onlineGameOrigins.map(item => (typeof item === 'object' ? item.name : item)),
     ORIGINS_MANAGE
   ]
-  if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length && !WEB) data.push(ACTIONS_MANAGE)
 
   return (
     <Popover

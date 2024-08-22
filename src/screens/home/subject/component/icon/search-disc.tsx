@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-08-31 18:58:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 08:46:05
+ * @Last Modified time: 2024-08-22 17:10:49
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,7 +10,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { ACTIONS_MANAGE, HIT_SLOP, ORIGINS_MANAGE } from './ds'
 import { IconProps } from './types'
@@ -20,7 +20,7 @@ function IconSearchDisc({ style, children }: IconProps, { $, navigation }: Ctx) 
     ...$.onlineDiscOrigins.map(item => (typeof item === 'object' ? item.name : item)),
     ORIGINS_MANAGE
   ]
-  if (!$.actions.length && !STORYBOOK) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length && !WEB) data.push(ACTIONS_MANAGE)
 
   return (
     <Popover
