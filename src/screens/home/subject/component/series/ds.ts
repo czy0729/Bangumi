@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:03:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-16 11:38:35
+ * @Last Modified time: 2024-08-23 17:20:09
  */
 import { _, systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -25,9 +25,10 @@ export const DEFAULT_PROPS = {
   showRelation: true as typeof systemStore.setting.showRelation,
   size: 14 as number,
   subjectId: 0 as $['subjectId'],
-  subjectPrev: undefined as $['subjectPrev'],
   subjectAfter: undefined as $['subjectAfter'],
-  subjectSeries: undefined as $['subjectSeries'],
   subjectAnime: undefined as $['subjectAnime'],
-  subjectDiff: undefined as $['subjectDiff']
+  subjectBook: undefined as $['subjectBook'],
+  subjectDiff: undefined as $['subjectDiff'],
+  subjectPrev: undefined as $['subjectPrev'],
+  subjectSeries: undefined as $['subjectSeries']
 }

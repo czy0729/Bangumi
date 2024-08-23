@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 06:03:28
+ * @Last Modified time: 2024-08-23 17:11:07
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -33,6 +33,7 @@ const Comic = memo(
           height={COVER_HEIGHT}
           ellipsizeMode='middle'
           initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
+          typeCn='书籍'
           onPress={({ id, name, image }, type) => {
             t('条目.跳转', {
               to: 'Subject',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:11:03
+ * @Last Modified time: 2024-08-23 17:05:10
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
@@ -27,13 +27,15 @@ const Series = memo(
     subjectAfter,
     subjectAnime,
     subjectDiff,
+    subjectBook,
     subjectSeries
   }) => {
-    if (subjectPrev || subjectAfter || subjectAnime || subjectDiff) {
+    if (subjectPrev || subjectAfter || subjectAnime || subjectDiff || subjectBook) {
       let i = 0
       if (subjectPrev) i += 1
       if (subjectAfter) i += 1
       if (subjectAnime) i += 1
+      if (subjectDiff) i += 1
       return (
         <Flex style={showRelation && styles.relation}>
           <Flex.Item>
@@ -44,6 +46,7 @@ const Series = memo(
                 {!!subjectAfter && <Item data={subjectAfter} from='续集' />}
                 {i <= 1 && !!subjectAnime && <Item data={subjectAnime} from='动画' />}
                 {i <= 1 && !!subjectDiff && <Item data={subjectDiff} from='不同演绎' />}
+                {i <= 1 && !!subjectBook && <Item data={subjectBook} from='书籍' />}
               </Flex>
             )}
           </Flex.Item>

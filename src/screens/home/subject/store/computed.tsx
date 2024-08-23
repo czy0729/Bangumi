@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:11:11
+ * @Last Modified time: 2024-08-23 17:16:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1028,6 +1028,11 @@ export default class Computed extends State {
     return this.subjectRelations?.[0]?.type === '系列' ? this.subjectRelations[0] : null
   }
 
+  /** 书籍 */
+  @computed get subjectBook() {
+    return this.subjectRelations.find(item => item.type === '书籍')
+  }
+
   /** 动画化 */
   @computed get subjectAnime() {
     if (!(this.titleLabel || '').includes('系列')) return null
@@ -1035,8 +1040,9 @@ export default class Computed extends State {
     const find = this.subjectRelations.find(item => item.type === '动画' || item.type === '其他')
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
-    if (find?.type === '动画' || (find?.type === '其他' && this.jp.includes(find?.title)))
+    if (find?.type === '动画' || (find?.type === '其他' && this.jp.includes(find?.title))) {
       return find
+    }
 
     return null
   }
@@ -1065,7 +1071,8 @@ export default class Computed extends State {
       this.subjectPrev ||
       this.subjectSeries ||
       this.subjectAnime ||
-      this.subjectDiff
+      this.subjectDiff ||
+      this.subjectBook
     )
   }
 

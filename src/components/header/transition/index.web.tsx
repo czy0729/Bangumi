@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:15:26
+ * @Last Modified time: 2024-08-23 16:55:33
  */
 import React from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
@@ -38,7 +38,7 @@ function Transition({ fixed, title, headerTitle }: Props) {
   return useObserver(() => {
     const styles = memoStyles()
     return (
-      <Animated.View style={[styles.view, wrapStyles]}>
+      <Animated.View style={[styles.view, wrapStyles]} pointerEvents={fixed ? 'auto' : 'none'}>
         <Animated.View style={[styles.body, title && styles.bodyTitle, bodyStyles]}>
           {headerTitle || (
             <ScrollView

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:25:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:09:36
+ * @Last Modified time: 2024-08-23 16:57:28
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -43,10 +43,12 @@ function HeaderComponent({
       }}
     >
       <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
-      <Back navigation={navigation} color={color} onPress={onBackPress} />
+      <Component id='component-header-back'>
+        <Back navigation={navigation} color={color} onPress={onBackPress} />
+      </Component>
       {headerLeft}
       <Flex.Item />
-      {!!headerRight && headerRight()}
+      {!!headerRight && <Component id='component-header-right'>{headerRight()}</Component>}
     </Component>
   )
 }

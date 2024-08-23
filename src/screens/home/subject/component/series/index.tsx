@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 12:48:19
+ * @Last Modified time: 2024-08-23 17:16:35
  */
 import React, { Suspense } from 'react'
 import { systemStore } from '@stores'
@@ -27,6 +27,7 @@ function SeriewWrap({ size }: { size: number }, { $, navigation }: Ctx) {
   let subjectAnime: SeriesItem
   let subjectDiff: SeriesItem
   let subjectSeries: SeriesItem
+  let subjectBook: SeriesItem
 
   if ($.subjectPrev) {
     subjectPrev = $.subjectPrev
@@ -48,6 +49,11 @@ function SeriewWrap({ size }: { size: number }, { $, navigation }: Ctx) {
     i += 1
   }
 
+  if (i < 2 && $.subjectBook) {
+    subjectBook = $.subjectBook
+    i += 1
+  }
+
   if (!i && $.subjectSeries) {
     subjectSeries = $.subjectSeries
   }
@@ -64,6 +70,7 @@ function SeriewWrap({ size }: { size: number }, { $, navigation }: Ctx) {
         subjectAfter={subjectAfter}
         subjectAnime={subjectAnime}
         subjectDiff={subjectDiff}
+        subjectBook={subjectBook}
         subjectSeries={subjectSeries}
       />
     </Suspense>

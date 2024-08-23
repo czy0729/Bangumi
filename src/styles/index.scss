@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:24:59
+ * @Last Modified time: 2024-08-23 16:57:20
  */
 
 /** ==================== reset ==================== */
@@ -34,6 +34,13 @@ component-storybook-scroll {
     > div > div > * {
       transform: scale(-1);
     }
+  }
+}
+
+component-header {
+  &-back,
+  &-right {
+    z-index: 1;
   }
 }
 

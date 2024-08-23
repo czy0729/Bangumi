@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:25:31
+ * @Last Modified time: 2024-08-23 16:51:27
  */
 import { _ } from '@stores'
-import { STORYBOOK, WSA } from '@constants'
+import { WEB, WSA } from '@constants'
 
 let minHeight: number
 if (WSA) {
   minHeight = 40
-} else if (STORYBOOK) {
+} else if (WEB) {
   minHeight = 32
 } else {
   minHeight = 20 * 1.28
@@ -19,6 +19,7 @@ if (WSA) {
 export const memoStyles = _.memoStyles(() => ({
   view: {
     position: 'absolute',
+    zIndex: 1,
     top: 0,
     right: 0,
     bottom: 0,
@@ -31,14 +32,14 @@ export const memoStyles = _.memoStyles(() => ({
     zIndex: 1,
     bottom: 8,
     left: _.device(48, 56),
-    right: STORYBOOK ? 0 : 56,
+    right: WEB ? 0 : 56,
     minHeight
   },
   bodyTitle: {
     bottom: _.device(6, 10)
   },
   scrollView: {
-    maxWidth: STORYBOOK ? '100%' : '80%'
+    maxWidth: WEB ? '100%' : '80%'
   },
   container: {
     width: '100%',

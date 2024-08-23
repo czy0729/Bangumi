@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 22:03:17
+ * @Last Modified time: 2024-08-23 17:21:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Component } from '../component'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
@@ -61,7 +61,12 @@ export const Menu = observer(
                 return (
                   <View key={item} style={showBorder && styles.border}>
                     <Touchable style={styles.item} onPress={() => onSelect(item, index)}>
-                      <Text align='center' size={STORYBOOK ? 13 : 14} noWrap>
+                      <Text
+                        align='center'
+                        size={WEB ? 13 : 14}
+                        numberOfLines={WEB ? undefined : 1}
+                        noWrap={WEB ? false : true}
+                      >
                         {platformFix(item)}
                       </Text>
                     </Touchable>
