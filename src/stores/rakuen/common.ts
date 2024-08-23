@@ -2,10 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 17:47:45
+ * @Last Modified time: 2024-08-23 18:09:35
  */
 import {
+  cData,
   cheerio,
+  cHtml,
+  cText,
   getCoverSmall,
   HTMLDecode,
   htmlMatch,
@@ -91,43 +94,44 @@ export function cheerioComments(html: string, reverse?: boolean) {
       cheerio(htmlMatch(html, '<div id="comment_list"', '<div id="footer">'))(
         '.commentList .row_replyclearit'
       )
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
-          const info = $row.find('div.action small').text().trim().split(' - ')
-          const $name = $row.find('a.l')
+          const info = cText($row.find('div.action small').eq(0)).split(' - ')
+          const $name = $row.find('a.l').eq(0)
           return {
-            id: $row.attr('id').replace('post_', ''),
+            id: cData($row, 'id').replace('post_', ''),
             time: info?.[1] || '',
             floor: info?.[0] || '',
-            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')) || '',
-            userId: matchUserId($name.attr('href')) || '',
-            userName: HTMLDecode($name.text().trim()),
-            userSign: HTMLDecode($row.find('span.sign').text().trim()),
-            replySub: $row.find('a.icon[onclick]').attr('onclick'),
-            message: decoder(HTMLTrim($row.find('.reply_content > .message').html())),
+            avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')),
+            userId: matchUserId(cData($name, 'href')),
+            userName: cText($name),
+            userSign: cText($row.find('span.sign')),
+            replySub: cData($row.find('a.icon[onclick]'), 'onclick'),
+            message: decoder(cHtml($row.find('.reply_content > .message'))),
             sub:
               $row
                 .find('.sub_reply_bgclearit')
-                .map((index: number, element: any) => {
+                .map((_index: number, element: any) => {
                   const $row = cheerio(element)
-                  const info = $row.find('div.action small').text().trim().split(' - ')
+                  const info = cText($row.find('div.action small')).split(' - ')
                   const $name = $row.find('a.l')
                   return {
-                    id: $row.attr('id').replace('post_', ''),
+                    id: cData($row, 'id').replace('post_', ''),
                     time: info?.[1] || '',
                     floor: info?.[0] || '',
-                    avatar: matchAvatar($row.find('span.avatarNeue').attr('style')) || '',
-                    userId: matchUserId($name.attr('href')) || '',
-                    userName: HTMLDecode($name.text().trim()),
-                    userSign: HTMLDecode($row.find('span.sign').text().trim()),
-                    replySub: $row.find('a.icon[onclick]').attr('onclick'),
-                    message: decoder(HTMLTrim($row.find('.cmt_sub_content').html()))
+                    avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')),
+                    userId: matchUserId(cData($name, 'href')),
+                    userName: cText($name),
+                    userSign: '',
+                    replySub: cData($row.find('a.icon[onclick]'), 'onclick'),
+                    message: decoder(cHtml($row.find('.cmt_sub_content')))
                   }
                 })
                 .get() || []
           }
         })
         .get() || []
+
     return reverse ? list.reverse() : list
   } catch (error) {
     return []
@@ -162,7 +166,7 @@ export function cheerioGroupInfo(html: string) {
 /** 小组帖子列表 */
 export function cheerioGroup(html: string) {
   return cheerio(htmlMatch(html, '<div id="columnA"', '<div id="footer">'))('tr.topic')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $tr = cheerio(element)
       const $title = $tr.find('.subject > a')
       const $user = $tr.find('.author > a')
@@ -184,7 +188,7 @@ export function cheerioGroup(html: string) {
 /** 电波提醒列表 */
 export function cheerioNotify(html: string) {
   return cheerio(htmlMatch(html, '<div class="columns', '<div id="footer">'))('div.tml_item')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $tr = cheerio(element)
       const $name = $tr.find('a.l')
       const $title = $tr.find('a.nt_link')
@@ -261,7 +265,7 @@ export function cheerioTopic(html: string) {
     // 回复
     comments =
       $('#comment_list > div.row_reply')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           /** 回复主楼层块 */
           const $row = cheerio(element)
 
@@ -297,7 +301,7 @@ export function cheerioTopic(html: string) {
             sub:
               $row
                 .find('div.sub_reply_bg')
-                .map((index: number, element: any) => {
+                .map((_index: number, element: any) => {
                   const $row = cheerio(element)
                   const [floor, time] = ($row.find('small').text().trim() || '').split(' - ')
                   return safeObject<CommentsItem>({
@@ -349,7 +353,7 @@ export function cheerioBlog(html: string) {
     const $user = $('#pageHeader a.avatar')
     const related =
       $('ul#related_subject_list > li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const $a = $row.find('> a.avatar')
           return safeObject({
@@ -376,7 +380,7 @@ export function cheerioBlog(html: string) {
     // 回复
     blogComments =
       $('#comment_list > div.row_reply')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const [floor, time] = ($row.find('> div.re_info small').text().trim() || '').split(' - ')
           return safeObject({
@@ -398,7 +402,7 @@ export function cheerioBlog(html: string) {
             sub:
               $row
                 .find('div.sub_reply_bg')
-                .map((index: number, element: any) => {
+                .map((_index: number, element: any) => {
                   const $row = cheerio(element, {
                     decodeEntities: false
                   })
@@ -435,7 +439,7 @@ export function cheerioMine(html: string) {
   return {
     list:
       $('ul.browserMedium > li.user')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('a.avatar')
           return safeObject({
@@ -455,7 +459,7 @@ export function cheerioBoard(html: string) {
     cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))(
       '.topic_list tr'
     )
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $tr = cheerio(element)
         const $title = $tr.find('.subject > a')
         const $user = $tr.find('td').eq(1).find('a')
@@ -478,7 +482,7 @@ export function cheerioReviews(html: string) {
     cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))(
       '#entry_list .item'
     )
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $tr = cheerio(element)
         const $title = $tr.find('.title > a')
         const $user = $tr.find('.tip_j a')
@@ -501,7 +505,7 @@ export function cheerioReviews(html: string) {
 export function cheerioHot(html: string) {
   return (
     cheerio(html)('.sideTpcList li')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $tr = cheerio(element)
         const $avatar = $tr.find('img')
         const $title = $tr.find('a.l')
@@ -539,7 +543,7 @@ export function cheerioPrivacy(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
 
   const blockedUsers: BlockedUsersItem[] = []
-  $('tr').each((index: number, element: any) => {
+  $('tr').each((_index: number, element: any) => {
     const $row = cheerio(element)
     const $user = $row.find('td[valign="top"] a')
     const userId = ($user.attr('href') || '').split('/user/')?.[1]

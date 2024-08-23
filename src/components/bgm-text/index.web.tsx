@@ -26,7 +26,12 @@ export const BgmText = observer(
     }
     if (style) _style.push(style)
 
-    return <Bgm style={_style} index={index} {...other} />
+    return (
+      <>
+        {!!index && <Bgm style={_style} index={index} {...other} />}
+        {children}
+      </>
+    )
   }
 )
 
