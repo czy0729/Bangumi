@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-02 03:54:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 00:35:00
+ * @Last Modified time: 2024-08-23 16:16:07
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -12,7 +12,8 @@ import { getSPAId } from '@utils'
 import { r } from '@utils/dev'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
+import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import { Component } from '../../component'
 import { BOTTOM_TAB_DS, BOTTOM_TAB_WITH_AUTH_DS } from '../ds'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view'
@@ -28,7 +29,7 @@ export const StorybookBottomTab = () => {
   r(COMPONENT)
 
   return useObserver(() => {
-    if (!STORYBOOK) return null
+    if (!WEB) return null
 
     const params = new window.URLSearchParams(window.location.search)
     const currentStoryId = params.get('id')
@@ -58,6 +59,9 @@ export const StorybookBottomTab = () => {
                         })
 
                         scrollToTop()
+                        StorybookNavigation.emit({
+                          type: `${EVENT_APP_TAB_PRESS}|${item.id}`
+                        })
                         return
                       }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:56:30
+ * @Last Modified time: 2024-08-23 15:51:07
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -21,7 +21,7 @@ import { memoStyles } from './styles'
 const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
   const styles = memoStyles()
   return (
-    <View style={STORYBOOK && styles.web}>
+    <View style={WEB && styles.web}>
       <Flex style={styles.btns} justify='end'>
         <Flex.Item>
           <Touchable style={styles.touch} onPress={onCancel}>
@@ -52,7 +52,7 @@ const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
           }}
         />
       </Flex>
-      {!STORYBOOK && (
+      {!WEB && (
         <Touchable
           style={_.mt.sm}
           onPress={withT(

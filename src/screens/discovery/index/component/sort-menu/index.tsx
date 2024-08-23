@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:08:54
+ * @Last Modified time: 2024-08-23 15:50:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import SortMenu from './sort-menu'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SortMenuWrap(props, { $, navigation }: Ctx) {
+function SortMenuWrap(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   return (
     <View style={stl(styles.container, systemStore.setting.discoveryMenuNum < 5 && _.mt.sm)}>

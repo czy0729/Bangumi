@@ -1,12 +1,12 @@
+import { getSPAId, urlStringify } from '@utils'
+import { SHARE_MODE, WEB } from '@constants'
 /*
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 22:18:39
+ * @Last Modified time: 2024-08-23 16:12:10
  */
 import { AnyObject, Fn } from '@types'
-import { getSPAId, urlStringify } from '@utils'
-import { SHARE_MODE, STORYBOOK } from '@constants'
 import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
 import { BOTTOM_TAB_DS } from './ds'
 
@@ -15,14 +15,16 @@ const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
   storyId: getSPAId(item.id)
 }))
 
+/** 保存 navigation.addListener */
+const navigationEventList = new Map<string, Fn>()
+
 /** [WEB] 单页面仿 react-natigation 的路由对象 context */
 export const StorybookNavigation = {
   /** ==================== private ==================== */
   _history: {
     length: 1,
-    lastBottomTab: STORYBOOK
-      ? BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id ||
-        BOTTOM_TAB_DS[0].id
+    lastBottomTab: WEB
+      ? BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id || BOTTOM_TAB_DS[0].id
       : 'Discovery'
   },
   _updateHistory(value: 1 | -1) {
@@ -66,12 +68,23 @@ export const StorybookNavigation = {
   goBack() {
     navigate()
   },
-  addListener(): Fn {
-    return () => {}
+  /** 订阅事件 */
+  addListener(key: string, callback: Fn): Fn {
+    navigationEventList.set(key, callback)
+    return () => {
+      navigationEventList.delete(key)
+    }
+  },
+  /** 执行订阅事件 */
+  emit(args: { type?: string }): void {
+    const { type } = args || {}
+    if (navigationEventList.has(type)) {
+      const callback = navigationEventList.get(type)
+      if (typeof callback === 'function') callback()
+    }
   },
   setOptions() {},
-  getRootState() {},
-  emit() {}
+  getRootState() {}
 }
 
 /** Demo 展示用默认参数 */

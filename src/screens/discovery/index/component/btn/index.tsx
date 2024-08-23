@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:03:18
+ * @Last Modified time: 2024-08-23 15:59:20
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
@@ -23,6 +23,7 @@ export default obc(({ item }, { $, navigation }: Ctx) => {
   return (
     <Btn
       item={item}
+      userId={username || id}
       onPress={
         dragging
           ? undefined

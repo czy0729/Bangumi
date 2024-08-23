@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:09:01
+ * @Last Modified time: 2024-08-23 15:59:35
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { stl } from '@utils'
+import { ob } from '@utils/decorators'
+import { WEB } from '@constants'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
 
-const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
+const BtnMain = ({ item, userId, onPress }) => {
   const styles = memoStyles()
-  const { key, name, text, icon, size } = item
+  const { key, name, text, icon, size, login } = item
 
   const isSm = systemStore.setting.discoveryMenuNum >= 5
   const wrapStyle = isSm ? styles.wrapSm : styles.wrap
@@ -62,7 +63,11 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
 
   if (onPress) {
     return (
-      <Touchable style={_.container.touch} animate onPress={onPress}>
+      <Touchable
+        style={stl(_.container.touch, WEB && login && !userId && styles.disabled)}
+        animate
+        onPress={onPress}
+      >
         {content}
         <Heatmap id='发现.跳转' to={key} alias={name} />
       </Touchable>
@@ -72,4 +77,4 @@ const BtnMain = ({ item, onPress }, { $ }: Ctx) => {
   return <View style={_.container.touch}>{content}</View>
 }
 
-export default obc(BtnMain, COMPONENT_MAIN)
+export default ob(BtnMain, COMPONENT_MAIN)

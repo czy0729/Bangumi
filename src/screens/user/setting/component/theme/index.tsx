@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-25 04:43:02
+ * @Last Modified time: 2024-08-23 15:45:05
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { IOS, IS_BEFORE_ANDROID_10, STORYBOOK } from '@constants'
+import { IOS, IS_BEFORE_ANDROID_10, WEB } from '@constants'
 import { getShows } from '../../utils'
 import AndroidBlur from './android-blur'
 import AndroidBlurLayout from './android-blur-layout'
@@ -34,11 +34,11 @@ function Theme({ navigation, filter }) {
         <ActionSheet
           show={state}
           title='主题'
-          height={STORYBOOK || filter || IOS ? 440 : 760}
+          height={filter || IOS ? 440 : 760}
           onClose={setFalse}
         >
           {shows.theme && <AppTheme navigation={navigation} filter={filter} />}
-          {!STORYBOOK && !IS_BEFORE_ANDROID_10 && shows.autoColorScheme && (
+          {!WEB && !IS_BEFORE_ANDROID_10 && shows.autoColorScheme && (
             <AutoColorScheme filter={filter} />
           )}
           {!IOS && !IS_BEFORE_ANDROID_10 && (

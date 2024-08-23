@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 15:54:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 15:55:42
+ * @Last Modified time: 2024-08-23 15:44:15
  */
 import React from 'react'
 import { Heatmap, SwitchPro } from '@components'
@@ -22,6 +22,7 @@ function AndroidBlurLayout({ shows, filter }) {
         const value = systemStore.setting[item]
         return (
           <ItemSetting
+            key={item}
             style={_.ml.md}
             show={shows[item]}
             ft={
