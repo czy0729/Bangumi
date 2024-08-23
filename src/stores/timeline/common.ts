@@ -2,9 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 10:38:41
+ * @Last Modified time: 2024-08-23 13:25:08
  */
-import { cheerio, cText, getTimestamp, htmlMatch, matchAvatar, safeObject, trim } from '@utils'
+import {
+  cData,
+  cheerio,
+  cText,
+  getTimestamp,
+  htmlMatch,
+  matchAvatar,
+  safeObject,
+  trim
+} from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
 import { Override, TimeLineScope, TimeLineScopeCn, TimeLineType, UserId } from '@types'
@@ -43,14 +52,14 @@ export async function fetchTimeline(
   const list = []
   const $ = cheerio(htmlMatch(html, '<div id="timeline">', '<div id="tmlPager">'))
 
-  $('h4').each((index: number, element: any) => {
+  $('h4').each((_index: number, element: any) => {
     const $row = cheerio(element)
     const date = cText($row)
 
     $row
       .next()
       .find('li')
-      .each((index: number, element: any) => {
+      .each((_index: number, element: any) => {
         try {
           const $row = cheerio(element)
           const $info = $row.find('.info, .info_full')
@@ -161,7 +170,7 @@ export async function fetchTimeline(
 
           // 多条目, 人物, 好友
           if (!image.length) {
-            $row.find('.imgs img, img.rr, .rr img').each((index: number, element: any) => {
+            $row.find('.imgs img, img.rr, .rr img').each((_index: number, element: any) => {
               const $row = cheerio(element)
               const src = $row.attr('src')
               if (src) image.push(src)
@@ -231,16 +240,18 @@ export function cheerioSay(html: string) {
     formhash: $('input[name=formhash]').attr('value')
   })
   const sub = $('ul.subReply > li.reply_item')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $tr = cheerio(element)
-      const subId = cText($tr.find('a.cmt_reply')).replace('@', '')
+      const $a = $tr.find('a.cmt_reply')
+      const subId = cText($a).replace('@', '')
       let tr = $tr.html().trim()
       tr = tr.slice(tr.indexOf('-</span> ') + 9, tr.length)
       return safeObject({
         id: subId,
         avatar: id === subId ? avatar : '',
         name: cText($tr.find('a.cmt_reply + a.l')),
-        text: tr
+        text: tr,
+        uid: cData($a, 'id').replace('reply_', '')
       })
     })
     .get()

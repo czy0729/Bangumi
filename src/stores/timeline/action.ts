@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 19:20:46
+ * @Last Modified time: 2024-08-23 10:48:46
  */
 import { getTimestamp } from '@utils'
 import { xhr } from '@utils/fetch'
@@ -44,7 +44,7 @@ export default class Action extends Fetch {
       content: string
       formhash: string
     },
-    success?: () => any
+    success?: (responseText?: string) => any
   ) => {
     const { id, content, formhash } = args || {}
     xhr(
@@ -66,7 +66,7 @@ export default class Action extends Fetch {
       content: string
       formhash: string
     },
-    success?: () => any
+    success?: (responseText?: string) => any
   ) => {
     const { content, formhash } = args || {}
     xhr(

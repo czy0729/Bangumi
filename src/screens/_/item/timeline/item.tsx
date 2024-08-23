@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 10:35:07
+ * @Last Modified time: 2024-08-23 05:14:56
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -182,7 +182,7 @@ const Item = memo(
                       height={rightCoverIsAvatar ? AVATAR_COVER_WIDTH : IMG_HEIGHT_SM}
                       radius
                       type={type}
-                      cdn={x18(subjectId)}
+                      cdn={!x18(subjectId)}
                     />
                   </Touchable>
                 </InView>

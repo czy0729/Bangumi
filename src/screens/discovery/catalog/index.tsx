@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-30 19:17:00
+ * @Last Modified time: 2024-08-23 05:19:33
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 目录 */
-const Catalog = (props, { $ }: Ctx) => {
+const Catalog = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

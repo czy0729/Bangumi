@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:16:20
+ * @Last Modified time: 2024-08-23 13:24:03
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -11,11 +11,11 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   const { list } = $.say
   const date = list[list.length - 1]?.date
   return (
@@ -31,7 +31,7 @@ function Header(props, { $ }: Ctx) {
 
         return (
           <Flex>
-            {!STORYBOOK && list.length >= 10 && (
+            {!WEB && list.length >= 10 && (
               <>
                 <IconTouchable
                   style={_.mr._xs}

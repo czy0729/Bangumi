@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:58:40
+ * @Last Modified time: 2024-08-23 11:42:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -19,41 +19,36 @@ class Say extends React.Component {
   scrollView: any
 
   async componentDidMount() {
-    const { $ } = this.context as Ctx
-    await $.init(this.scrollView)
+    await this.$.init(this.scrollView)
 
     setTimeout(() => {
-      $.scrollToBottom(this.scrollView)
+      this.$.scrollToBottom(this.scrollView)
     }, 480)
   }
 
   componentWillUnmount() {
-    const { $ } = this.context as Ctx
-    $.scrollViewRef = null
+    this.$.scrollViewRef = null
   }
 
   connectRefScrollView = (ref: any) => {
     if (ref) {
-      const { $ } = this.context as Ctx
-      $.scrollViewRef = ref
+      this.$.scrollViewRef = ref
       this.scrollView = ref
     }
   }
 
   renderTextarea(placeholder: string) {
-    const { $, navigation } = this.context as Ctx
-    const { value } = $.state
+    if (!userStore.isWebLogin) return null
+
     return (
-      userStore.isWebLogin && (
-        <FixedTextarea
-          placeholder={placeholder}
-          simple
-          value={value}
-          onChange={$.onChange}
-          onClose={$.closeFixedTextarea}
-          onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
-        />
-      )
+      <FixedTextarea
+        placeholder={placeholder}
+        simple
+        value={this.$.state.value}
+        onChange={this.$.onChange}
+        onClose={this.$.closeFixedTextarea}
+        onSubmit={value => this.$.doSubmit(value, this.scrollView, this.navigation)}
+      />
     )
   }
 
@@ -70,9 +65,7 @@ class Say extends React.Component {
   }
 
   renderList() {
-    const { $ } = this.context as Ctx
-    const { _loaded } = $.say
-    if (!_loaded) {
+    if (!this.$.say._loaded) {
       return (
         <Flex style={_.container.screen} justify='center'>
           <Loading />
@@ -88,11 +81,20 @@ class Say extends React.Component {
     )
   }
 
+  get $() {
+    return this.context.$ as Ctx['$']
+  }
+
+  get navigation() {
+    return this.context.navigation as Ctx['navigation']
+  }
+
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
-    return <Page style={_.container.screen}>{$.isNew ? this.renderNew() : this.renderList()}</Page>
+    return (
+      <Page style={_.container.screen}>{this.$.isNew ? this.renderNew() : this.renderList()}</Page>
+    )
   }
 }
 

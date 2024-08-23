@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 06:57:07
+ * @Last Modified time: 2024-08-23 11:54:32
  */
 import React from 'react'
 import { Text } from '@components'
 import { ItemSay } from '@_'
 import { userStore } from '@stores'
+import { SayItem } from '@stores/timeline/types'
 import { getAvatarLocal } from '@utils'
 import { obc } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
@@ -18,7 +19,7 @@ function Item({ item, index }, { $ }: Ctx) {
   if (!item.id) return null
 
   const { list } = $.say
-  const prevItem = index === 0 ? {} : list[index - 1]
+  const prevItem: Partial<SayItem> = index === 0 ? {} : list[index - 1]
   const isMe = item.id === userStore.myId
   return (
     <>

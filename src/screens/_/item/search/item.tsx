@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:49:05
+ * @Last Modified time: 2024-08-23 05:14:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,13 +11,7 @@ import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
-import {
-  IMG_HEIGHT_LG,
-  IMG_WIDTH,
-  IMG_WIDTH_LG,
-  MODEL_COLLECTION_STATUS,
-  STORYBOOK
-} from '@constants'
+import { IMG_HEIGHT_LG, IMG_WIDTH, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS, WEB } from '@constants'
 import { CollectionStatus } from '@types'
 import { InView, Manage, Rank, Stars, Tag } from '../../base'
 import Title from './title'
@@ -85,7 +79,7 @@ const Item = memo(
               width={width}
               height={height}
               type={typeCn}
-              cdn={x18(subjectId)}
+              cdn={!x18(subjectId)}
               priority={index < 4 ? 'high' : 'normal'}
               radius
             />
@@ -124,7 +118,7 @@ const Item = memo(
             </Flex>
             {!!tip && (
               <Text
-                style={stl(isMusic && _.mt.xs, STORYBOOK && _.mr.lg)}
+                style={stl(isMusic && _.mt.xs, WEB && _.mr.lg)}
                 size={11}
                 lineHeight={13}
                 numberOfLines={isMusic ? 2 : 3}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:14:37
+ * @Last Modified time: 2024-08-23 05:15:00
  */
 import React from 'react'
 import { Component, Cover, Expand, Flex, Image, Text, Touchable } from '@components'
@@ -121,7 +121,7 @@ export const ItemVoice = ({
                         height={IMG_HEIGHT_SM}
                         src={item.cover}
                         radius
-                        cdn={x18(item.id)}
+                        cdn={!x18(item.id)}
                       />
                     </InView>
                   </Flex>

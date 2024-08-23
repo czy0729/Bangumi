@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-26 13:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 04:25:14
+ * @Last Modified time: 2024-08-23 01:56:02
  */
 import { ImageRequireSource, Platform } from 'react-native'
 import * as Device from 'expo-device'
@@ -145,11 +145,14 @@ export const SHARE_MODE = WEB && !STORYBOOK_IFRAME
 /** 是否 iOS */
 export const IOS = Platform.OS === 'ios'
 
+/** 是否安卓 */
+export const ANDROID = !IOS && !WEB
+
 /** 约定 User-Agent https://bangumi.github.io/api */
 export const UA = `czy0729/Bangumi/${VERSION_GITHUB_RELEASE} (${IOS ? 'iOS' : 'Android'})` as const
 
 /** 是否安卓 10 之前 */
-export const IS_BEFORE_ANDROID_10 = !IOS && Number(Platform.Version) < 29
+export const IS_BEFORE_ANDROID_10 = ANDROID && Number(Platform.Version) < 29
 
 /** @deprecated Bangumi 字眼在 App 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'

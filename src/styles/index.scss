@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 00:12:29
+ * @Last Modified time: 2024-08-23 11:24:59
  */
 
 /** ==================== reset ==================== */
@@ -27,6 +27,16 @@ a[data-href] {
 }
 
 /** ==================== @components ==================== */
+component-storybook-scroll {
+  &[data-inverted='true'] {
+    transform: scale(-1);
+
+    > div > div > * {
+      transform: scale(-1);
+    }
+  }
+}
+
 component-tabs {
   display: flex;
   flex-direction: column;

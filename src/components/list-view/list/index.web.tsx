@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-11-30 04:24:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:07:00
+ * @Last Modified time: 2024-08-23 11:19:46
  */
 import React, { ReactNode, useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
@@ -26,6 +26,7 @@ function List({
   renderSectionHeader,
   renderItem,
   renderFooter,
+  inverted,
   onFooterRefresh,
   onScroll
 }: ListPropsWeb) {
@@ -106,6 +107,7 @@ function List({
       <StorybookScroll
         style={contentContainerStyle}
         scrollEnabled={scrollEnabled}
+        inverted={inverted}
         onScroll={onScroll}
         onFooterRefresh={handleFooterRefresh}
       >

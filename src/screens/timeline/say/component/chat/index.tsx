@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:18:00
+ * @Last Modified time: 2024-08-23 12:58:32
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { renderItem } from './utils'
+import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -21,12 +20,13 @@ function Chat({ forwardRef }: any, { $ }: Ctx) {
     <PaginationList2
       key={list.length}
       forwardRef={forwardRef}
+      keyExtractor={keyExtractor}
       style={_.container.screen}
       contentContainerStyle={styles.container}
-      keyExtractor={keyExtractor}
       data={list}
       inverted
       renderItem={renderItem}
+      showFooter={false}
       ListFooterComponent={null}
     />
   )

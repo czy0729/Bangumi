@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 19:37:34
+ * @Last Modified time: 2024-08-23 05:27:52
  */
 import React from 'react'
 import { Text } from '@components'
@@ -14,9 +14,7 @@ import { Props } from './type'
 import { COMPONENT } from './ds'
 
 function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Props, { $ }: Ctx) {
-  if (filterToShow) {
-    if (!($.state.adapt || $.state.origin || $.state.tag)) return null
-  }
+  if (filterToShow && !($.state.adapt || $.state.origin || $.state.tag)) return null
 
   const els: ReactNode[] = []
   const extra: string[] = []
@@ -71,7 +69,7 @@ function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Prop
   return (
     <Text style={style} size={size} lineHeight={size + 1}>
       {els.map((item, index) => (
-        <>
+        <React.Fragment key={index}>
           {!!index && (
             <Text type='sub' size={size} lineHeight={size + 1} bold>
               {' '}
@@ -79,7 +77,7 @@ function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Prop
             </Text>
           )}
           {item}
-        </>
+        </React.Fragment>
       ))}
     </Text>
   )

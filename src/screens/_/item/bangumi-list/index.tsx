@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:12:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:03:06
+ * @Last Modified time: 2024-08-23 05:14:38
  */
 import React from 'react'
 import { Component, Cover, Text, Touchable } from '@components'
@@ -42,7 +42,7 @@ export const ItemBangumiList = ob(
             })
           }}
         >
-          <Cover size={width} src={image} radius cdn={x18(subjectId)} />
+          <Cover size={width} src={image} radius cdn={!x18(subjectId)} />
           <Text style={_.mt.sm} size={11} bold numberOfLines={3}>
             {HTMLDecode(name)}
           </Text>

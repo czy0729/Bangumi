@@ -3,14 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 11:05:59
+ * @Last Modified time: 2024-08-23 12:56:07
  */
 import React from 'react'
 import { TouchableOpacity, Text, View, Platform } from 'react-native'
-import {
-  _constructStyles,
-  _getElementClassStyles
-} from 'react-native-render-html/src/HTMLStyles'
+import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
 import HTMLImage from 'react-native-render-html/src/HTMLImage'
 import WebView from '@components/@/web-view'
 import { stl } from '@utils'
@@ -35,19 +32,19 @@ export function a(htmlAttribs, children, convertedCSSStyles, passProps) {
   if (parentWrapper === 'Text') {
     return (
       <Text
+        key={key}
         {...passProps}
         style={stl(!IOS && androidTextFixedStyle, style)}
-        onPress={onPress}
-        key={key}
         textBreakStrategy='simple'
         numberOfLines={0}
+        onPress={onPress}
       >
         {children || data}
       </Text>
     )
   } else {
     return (
-      <TouchableOpacity onPress={onPress} key={key}>
+      <TouchableOpacity key={key} onPress={onPress}>
         {children || data}
       </TouchableOpacity>
     )
@@ -85,14 +82,8 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps = {}) {
     passProps,
     styleSet: 'VIEW'
   })
-  const {
-    allowFontScaling,
-    rawChildren,
-    nodeIndex,
-    key,
-    baseFontStyle,
-    listsPrefixesRenderers
-  } = passProps
+  const { allowFontScaling, rawChildren, nodeIndex, key, baseFontStyle, listsPrefixesRenderers } =
+    passProps
   const baseFontSize = baseFontStyle.fontSize || 14
 
   children =
@@ -188,9 +179,7 @@ export function iframe(htmlAttribs, children, convertedCSSStyles, passProps) {
     additionalStyles: [{ height, width }]
   })
 
-  const source = htmlAttribs.srcdoc
-    ? { html: htmlAttribs.srcdoc }
-    : { uri: htmlAttribs.src }
+  const source = htmlAttribs.srcdoc ? { html: htmlAttribs.srcdoc } : { uri: htmlAttribs.src }
 
   return <WebView key={passProps.key} source={source} style={style} />
 }

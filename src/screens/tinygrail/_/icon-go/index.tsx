@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-02-14 03:17:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:03:49
+ * @Last Modified time: 2024-08-23 01:39:12
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Text, Iconfont } from '@components'
+import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { styles } from './styles'
@@ -23,13 +23,7 @@ const HIT_SLOP = {
 function IconGo({ $ }) {
   const { go } = $.state
   return (
-    <Popover
-      style={styles.touch}
-      data={DATA}
-      // @ts-expect-error
-      hitSlop={HIT_SLOP}
-      onSelect={$.onSelectGo}
-    >
+    <Popover style={styles.touch} data={DATA} hitSlop={HIT_SLOP} onSelect={$.onSelectGo}>
       <Flex>
         <Iconfont name='md-read-more' size={24} color={_.colorTinygrailPlain} />
         <Text style={_.ml.xs} type='tinygrailPlain' size={13} bold>

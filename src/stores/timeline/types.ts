@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 01:16:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:08:33
+ * @Last Modified time: 2024-08-23 11:54:17
  */
 import { Avatar, Cover, Id, ListEmpty, Loaded, SubjectId, UrlUser, UserId } from '@types'
 
@@ -57,17 +57,18 @@ export type CollectionsTimeline = Record<
   }
 >
 
+export type SayItem = {
+  id: UserId
+  avatar: string
+  name: string
+  text: string
+  date: string
+  uid: string
+  formhash: string
+}
+
 /** 吐槽 */
-export type Say = ListEmpty<
-  Partial<{
-    id: UserId
-    avatar: string
-    name: string
-    text: string
-    date: string
-    formhash: string
-  }>
->
+export type Say = ListEmpty<SayItem>
 
 /** 隐藏 TA */
 export type Hidden = Record<UserId, number>

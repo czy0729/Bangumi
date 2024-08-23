@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 16:53:41
+ * @Last Modified time: 2024-08-23 05:14:49
  */
 import React from 'react'
 import { Component, Cover, Flex, Text, Touchable } from '@components'
@@ -98,7 +98,7 @@ const Item = memo(
                 height={IMG_HEIGHT * 1.1}
                 radius
                 type={type}
-                cdn={x18(subjectId)}
+                cdn={!x18(subjectId)}
                 priority={index < 4 ? 'high' : 'normal'}
               />
             </InView>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 12:01:08
+ * @Last Modified time: 2024-08-23 11:21:59
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -21,6 +21,7 @@ export const StorybookScroll = ({
   style,
   contentContainerStyle,
   scrollEnabled,
+  inverted,
   onFooterRefresh,
   onScroll,
   children,
@@ -95,7 +96,7 @@ export const StorybookScroll = ({
   })
 
   return (
-    <Component id='component-storybook-scroll' style={styles.scroll}>
+    <Component id='component-storybook-scroll' style={styles.scroll} data-inverted={inverted}>
       <ScrollView
         ref={ref}
         style={stl(styles.scrollView, style)}

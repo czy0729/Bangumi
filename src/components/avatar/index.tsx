@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 21:36:22
+ * @Last Modified time: 2024-08-23 12:59:49
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -90,7 +90,7 @@ export const Avatar = ({
 
     if (avatarOnPress || onLongPress) {
       return (
-        <Component id='component-avatar' data-type='press'>
+        <Component id='component-avatar' data-type='press' data-user-id={userId}>
           <Touchable animate scale={0.88} onPress={avatarOnPress} onLongPress={onLongPress}>
             {el}
           </Touchable>

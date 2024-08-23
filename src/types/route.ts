@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 05:47:14
+ * @Last Modified time: 2024-08-23 10:39:53
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -148,15 +148,22 @@ export type RouteUserTimeline = (
   }
 ) => any
 
-export type RouteSay = (
-  path: 'Say',
-  params: {
-    /** @deprecated */
+export type RouteSay = Route<
+  'Say',
+  {
+    /** @deprecated 以 sayId 为最优先 */
     id?: Id
+
+    /** 吐槽 id */
     sayId?: Id
+
+    /** 查看某吐槽是需要带上发布人的用户 id */
+    userId?: UserId
+
+    /** 新吐槽发布后回调 (client only) */
     onNavigationCallback?: Fn
   }
-) => any
+>
 
 export type RouteBlog = (
   path: 'Blog',

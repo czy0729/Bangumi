@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:13:44
+ * @Last Modified time: 2024-08-23 01:39:00
  */
 import React from 'react'
 import { TabsV2 } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { AnyObject } from '@types'
 
-function Tabs({ routes, renderItem, ...other }, { $ }) {
+function Tabs({ routes, renderItem, ...other }, { $ }: AnyObject) {
   return (
     <TabsV2
       key={_.orientation}

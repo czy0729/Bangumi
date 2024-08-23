@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 06:48:53
+ * @Last Modified time: 2024-08-23 13:12:47
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { cheerio, HTMLDecode, open } from '@utils'
 import { r } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { TextStyle } from '@types'
 import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
@@ -85,7 +85,7 @@ export const RenderHtml = observer(
       },
       tagsStyles: {
         a: {
-          paddingRight: STORYBOOK ? 0 : _.sm,
+          paddingRight: WEB ? 2 : _.sm,
           color: _.colorMain,
           textDecorationColor: _.colorMain,
           ...linkStyle
@@ -99,6 +99,7 @@ export const RenderHtml = observer(
           img({
             key: passProps.key,
             src: attrs.src || '',
+            alt: attrs.alt || '',
             autoSize: imagesMaxWidth,
             show: this.props.autoShowImage,
             onImageFallback: this.props.onImageFallback
@@ -154,7 +155,7 @@ export const RenderHtml = observer(
         let _html = html
 
         /** 把 bgm 表情替换成 bgm 字体文字 */
-        if (!STORYBOOK) {
+        if (!WEB) {
           $('img[smileid]').replaceWith((_index: number, element: any) => {
             const $img = cheerio(element)
             const alt = $img.attr('alt') || ''

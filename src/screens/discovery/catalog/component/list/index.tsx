@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-01-09 11:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-30 20:52:13
+ * @Last Modified time: 2024-08-23 05:20:17
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Mesume, ScrollView, Text } from '@components'
+import { Flex, Mesume, ScrollView, Text } from '@components'
 import { ItemCatalog } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
@@ -16,7 +16,7 @@ import ToolBar from '../tool-bar'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   return (
     <ScrollView contentContainerStyle={_.mb.md} scrollToTop>
       {!$.state.fixedFilter && <ToolBar />}
@@ -46,16 +46,13 @@ function List(props, { $ }: Ctx) {
                 </Flex>
               ) : (
                 $.catalog.list.map((item, index: number) => (
-                  <>
-                    <ItemCatalog
-                      key={item.id}
-                      event={EVENT}
-                      {...item}
-                      index={index}
-                      filter={$.state.filterKey === '不限' ? '' : $.state.filterKey}
-                    />
-                    {index === 1 && <Heatmap id='目录.跳转' />}
-                  </>
+                  <ItemCatalog
+                    key={item.id}
+                    event={EVENT}
+                    {...item}
+                    index={index}
+                    filter={$.state.filterKey === '不限' ? '' : $.state.filterKey}
+                  />
                 ))
               ))}
           </View>
