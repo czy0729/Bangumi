@@ -1,26 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2020-10-17 17:00:40
+ * @Date: 2024-08-24 07:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-18 15:37:59
+ * @Last Modified time: 2024-08-24 07:10:54
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
-import store from '@utils/store'
 import { HOST } from '@constants'
-import { Params } from './types'
+import State from './state'
 
-export default class ScreenEpisodes extends store<null> {
-  params: Params
-
-  init = () => {
-    return subjectStore.fetchSubject(this.subjectId)
-  }
-
-  // -------------------- get --------------------
+export default class Computed extends State {
   @computed get subjectId() {
-    const { subjectId } = this.params
-    return subjectId
+    return this.params.subjectId
   }
 
   @computed get subject() {
@@ -31,9 +22,7 @@ export default class ScreenEpisodes extends store<null> {
   @computed get eps() {
     if (this.subject._loaded) {
       const { filterEps = 0 } = this.params
-      if (filterEps) {
-        return (this.subject.eps || []).filter((item, index) => index > filterEps)
-      }
+      if (filterEps) return (this.subject.eps || []).filter((_item, index) => index > filterEps)
 
       return this.subject.eps || []
     }

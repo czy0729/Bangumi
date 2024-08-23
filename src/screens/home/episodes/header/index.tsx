@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title={$.params?.name ? `${$.params.name}的章节` : '章节'}

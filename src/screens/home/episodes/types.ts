@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-19 15:51:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 10:03:59
+ * @Last Modified time: 2024-08-24 07:21:33
  */
 import { factory } from '@utils'
-import { AnyObject, Navigation, SubjectId } from '@types'
+import { GetRouteParams, Navigation, RouteEpisodes } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,10 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  subjectId: SubjectId
-  name?: string
-  filterEps?: number
-  epsThumbs?: any[]
-  epsThumbsHeader?: AnyObject
-}
+export type Params = GetRouteParams<RouteEpisodes>

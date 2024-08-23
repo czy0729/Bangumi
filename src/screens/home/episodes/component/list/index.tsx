@@ -12,12 +12,12 @@ import { _ } from '@stores'
 import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
-function List(props, { $, navigation }: Ctx) {
+function List(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
 
   // sp 排在正常章节后面, 已播放优先
@@ -72,7 +72,7 @@ function List(props, { $, navigation }: Ctx) {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            {!STORYBOOK && !!epsThumbs[index + filterEps] && (
+            {!WEB && !!epsThumbs[index + filterEps] && (
               <View style={_.ml.sm}>
                 <Image
                   src={epsThumbs[index]}

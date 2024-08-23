@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 10:39:53
+ * @Last Modified time: 2024-08-24 07:27:32
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import * as Screens from '@screens'
 import { Id, MonoId, SubjectId, TopicId, UserId } from './bangumi'
-import { Fn } from './utils'
+import { AnyObject, Fn } from './utils'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
@@ -39,6 +39,7 @@ export type NavigationPushType = RouteActions &
   RouteCharacter &
   RouteCharacters &
   RouteDiscoveryBlog &
+  RouteEpisodes &
   RouteFriends &
   RouteGame &
   RouteGroup &
@@ -390,6 +391,26 @@ export type RouteSubject = Route<
 
     /** @deprecated 找条目, NSFW */
     _hid?: Id
+  }
+>
+
+export type RouteEpisodes = Route<
+  'Episodes',
+  {
+    /** 条目 id */
+    subjectId: SubjectId
+
+    /** 条目名 */
+    name?: string
+
+    /** 章节从索引开始 */
+    filterEps?: number
+
+    /** 预览图 (因浏览器跨域, clien only) */
+    epsThumbs?: any[]
+
+    /** 预览图请求头 (clien only) */
+    epsThumbsHeader?: AnyObject
   }
 >
 
