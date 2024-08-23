@@ -14,7 +14,7 @@ import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
 import { Ctx } from '../../types'
 
-function IconClose(props, { $ }: Ctx) {
+function IconClose(_props, { $ }: Ctx) {
   if (SHARE_MODE) return null
 
   return (

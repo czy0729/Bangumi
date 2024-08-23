@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, SCORES_DS } from './ds'
 import { styles } from './styles'
 
-function RateSegement(props, { $ }: Ctx) {
+function RateSegement(_props, { $ }: Ctx) {
   const { filterScores } = $.state
   return (
     <Popover style={styles.touch} data={SCORES_DS} onSelect={$.filterScores}>

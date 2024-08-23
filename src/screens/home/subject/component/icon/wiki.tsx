@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconWiki(props, { $, navigation }: Ctx) {
+function IconWiki(_props, { $, navigation }: Ctx) {
   if (!systemStore.setting.showInfo) return null
 
   return (

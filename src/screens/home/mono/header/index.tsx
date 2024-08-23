@@ -9,10 +9,11 @@ import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { cnjp, copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { TEXT_MENU_BROWSER, TEXT_MENU_COPY_LINK, TEXT_MENU_COPY_SHARE } from '@constants'
 import Extra from '../component/extra'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA } from './ds'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   return (
@@ -28,22 +29,22 @@ function Header({ fixed }, { $, navigation }: Ctx) {
         <Flex>
           <Extra $={$} navigation={navigation} />
           <HeaderComp.Popover
-            data={['浏览器查看', '复制链接', '复制分享']}
+            data={DATA}
             onSelect={key => {
               t('人物.右上角菜单', {
                 key
               })
 
               switch (key) {
-                case '浏览器查看':
+                case TEXT_MENU_BROWSER:
                   open($.url)
                   break
 
-                case '复制链接':
+                case TEXT_MENU_COPY_LINK:
                   copy($.url, '已复制链接')
                   break
 
-                case '复制分享':
+                case TEXT_MENU_COPY_SHARE:
                   copy(`【链接】${cnjp($.cn, $.jp)} | Bangumi番组计划\n${$.url}`, '已复制分享文案')
                   break
 

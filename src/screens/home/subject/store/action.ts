@@ -63,10 +63,10 @@ import {
 import i18n from '@constants/i18n'
 import { EpStatus, Id, Navigation, RatingStatus, ScrollEvent, UserId } from '@types'
 import { TEXT_BLOCK_USER, TEXT_COPY_COMMENT, TEXT_IGNORE_USER, TEXT_LIKES } from '../ds'
+import { EpsItem } from '../types'
 import { OriginItem, replaceOriginUrl } from '../../../user/origin-setting/utils'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
-import { EpsItem } from './types'
 
 export default class Action extends Fetch {
   private updateStatusBarTimeoutId = null
@@ -618,7 +618,7 @@ export default class Action extends Fetch {
 
   /** 取消追踪特定用户收藏相关信息 */
   onCancelTrackUsersCollection = (
-    title: string,
+    _title: string,
     userData: {
       avatar: string
       userId: UserId
@@ -679,7 +679,7 @@ export default class Action extends Fetch {
       _title: cnjp(this.cn, this.jp),
       _content: this.summary.replace(/\r\n\r\n/g, '\r\n'),
       _detail: this.tags
-        .filter((item, index) => index <= 4)
+        .filter((_item, index) => index <= 4)
         .map(item => item.name)
         .join(' · ')
     })

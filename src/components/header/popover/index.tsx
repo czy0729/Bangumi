@@ -18,17 +18,17 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
-function Popover({
+function Popover<ItemT extends string[] | readonly string[]>({
   style,
   name = 'md-more-horiz',
   size,
   color,
-  data = [],
+  data,
   menuStyle,
   onSelect = () => {},
   children,
   ...other
-}: Props) {
+}: Props<ItemT>) {
   r(COMPONENT)
 
   return (
@@ -40,8 +40,8 @@ function Popover({
             overlay: (
               <Menu
                 style={menuStyle}
-                data={data}
-                onSelect={(title: string) => {
+                data={data || []}
+                onSelect={(title: ItemT[number]) => {
                   setTimeout(() => {
                     onSelect(title)
                   }, 0)
@@ -50,7 +50,7 @@ function Popover({
             )
           }
         : {
-            data,
+            data: data || [],
             onSelect
           })}
       {...other}

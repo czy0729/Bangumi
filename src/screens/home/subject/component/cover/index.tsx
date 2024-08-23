@@ -10,7 +10,7 @@ import { Ctx } from '../../types'
 import Cover from './cover'
 import { COMPONENT } from './ds'
 
-function CoverWrap(props, { $ }: Ctx) {
+function CoverWrap(_props, { $ }: Ctx) {
   return (
     <Cover
       image={$.nsfw ? $.subject.images?.common : $.cover}

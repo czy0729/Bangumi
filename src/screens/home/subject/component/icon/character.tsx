@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconCharacter(props, { $, navigation }: Ctx) {
+function IconCharacter(_props, { $, navigation }: Ctx) {
   if (!systemStore.setting.showCharacter) return null
 
   return (

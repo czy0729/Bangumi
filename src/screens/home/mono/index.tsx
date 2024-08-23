@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 人物 */
-const Topic = (props, context: Ctx) => {
+const Topic = (_props, context: Ctx) => {
   const { fixed, onScroll } = useMonoPage(context)
 
   return useObserver(() => (

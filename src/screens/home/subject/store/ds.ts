@@ -18,7 +18,7 @@ import {
   SubjectTypeValue
 } from '@types'
 import { COMPONENT } from '../ds'
-import { AnitabiData, EpsData } from './types'
+import { AnitabiData, EpsData } from '../types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = `Screen${COMPONENT}` as const

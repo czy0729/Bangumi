@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconPS(props, { $ }: Ctx) {
+function IconPS(_props, { $ }: Ctx) {
   if (!$.isPS) return null
 
   return (

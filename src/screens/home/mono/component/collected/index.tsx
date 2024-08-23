@@ -15,7 +15,7 @@ import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function Collected(props, { $, navigation }: Ctx) {
+function Collected(_props, { $, navigation }: Ctx) {
   const { collected } = $.mono
   if (!collected?.length) return null
 

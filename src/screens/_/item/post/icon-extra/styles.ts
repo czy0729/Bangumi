@@ -15,6 +15,7 @@ export const styles = _.create({
   },
   icon: {
     width: 36,
-    height: 36
+    height: 36,
+    marginRight: _.web(_.sm, 0)
   }
 })

@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconStaff(props, { $, navigation }: Ctx) {
+function IconStaff(_props, { $, navigation }: Ctx) {
   if (!systemStore.setting.showStaff) return null
 
   return (

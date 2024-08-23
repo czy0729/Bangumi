@@ -7,18 +7,23 @@
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import * as Screens from '@screens'
-import { Id, SubjectId, TopicId, UserId } from './bangumi'
+import { Id, MonoId, SubjectId, TopicId, UserId } from './bangumi'
 import { Fn } from './utils'
 
+/** 所有页面路径名 */
+export type Paths = keyof typeof Screens
+
+/**
+ * 构造页面路由类型
+ *  - Path 路由
+ *  - Params 参数 (下划线开头参数为占位数据, 用于页面快速展示数据, 网页端进入页面后会清除下划线开头参数)
+ */
 type Route<Path extends Paths, Params = undefined> = (
   path: Path,
   params?: Params extends undefined ? undefined : Params
 ) => any
 
-/** 所有页面路径名 */
-export type Paths = keyof typeof Screens
-
-/** 获取路由的参数 */
+/** 获取页面路由参数 */
 export type GetRouteParams<R extends (path: string, params: object) => any> = Parameters<R>[1]
 
 /** 路由和参数约束 */
@@ -217,16 +222,25 @@ export type RouteSearch = (
   }
 ) => any
 
-export type RouteMono = (
-  path: 'Mono',
-  params: {
-    monoId: string
+export type RouteMono = Route<
+  'Mono',
+  {
+    /** 人物 id */
+    monoId: MonoId
+
+    /** 中文名 */
     _name?: string
+
+    /** 日文名, 原名 */
     _jp?: string
+
+    /** 人物头像 */
     _image?: string
+
+    /** 吐槽 +N */
     _count?: number
   }
-) => any
+>
 
 export type RouteGroup = (
   path: 'Group',
@@ -344,24 +358,40 @@ export type RoutePM = (
   }
 ) => any
 
-export type RouteSubject = (
-  path: 'Subject',
-  params: {
+export type RouteSubject = Route<
+  'Subject',
+  {
+    /** 条目 id */
     subjectId: SubjectId
-    _jp?: string
-    _cn?: string
-    _image?: string | ImageSourcePropType
-    _imageForce?: string
-    _collection?: string
+
+    /** 条目类型中文 */
     _type?: SubjectTypeCn
 
-    /** 找条目 */
+    /** 中文名 */
+    _cn?: string
+
+    /** 日文名, 原名 */
+    _jp?: string
+
+    /** 封面占位 */
+    _image?: string | ImageSourcePropType
+
+    /** 封面占位, 比 _image 优先 */
+    _imageForce?: string
+
+    /** 找条目, 动画 */
     _aid?: Id
+
+    /** 找条目, 小说 */
     _wid?: Id
+
+    /** 找条目, 漫画 */
     _mid?: Id
+
+    /** @deprecated 找条目, NSFW */
     _hid?: Id
   }
-) => any
+>
 
 export type RouteSubjectCatalogs = (
   path: 'SubjectCatalogs',

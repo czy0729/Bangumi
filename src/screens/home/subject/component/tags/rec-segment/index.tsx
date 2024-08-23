@@ -13,7 +13,7 @@ import { Ctx } from '../../../types'
 import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
 
-function RecSegement(props, { $ }: Ctx) {
+function RecSegement(_props, { $ }: Ctx) {
   const selectedIndex = systemStore.setting.subjectTagsRec ? 1 : 0
   return (
     <SegmentedControl

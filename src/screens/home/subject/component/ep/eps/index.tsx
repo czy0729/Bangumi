@@ -12,7 +12,7 @@ import { InferArray } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT, LAYOUT_WIDTH } from './ds'
 
-function Eps(props, { $, navigation }: Ctx) {
+function Eps(_props, { $, navigation }: Ctx) {
   const showPlay = !$.isLimit && $.onlinePlayActionSheetData.length >= 2
   return (
     <EpsComp

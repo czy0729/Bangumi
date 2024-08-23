@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconEpFilter(props, { $ }: Ctx) {
+function IconEpFilter(_props, { $ }: Ctx) {
   return (
     <View>
       {$.eps.length >= 160 && (

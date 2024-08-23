@@ -33,9 +33,9 @@ import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
 import { API_ANITABI, CDN_EPS, D, D7, H, H12, SITES, WEB } from '@constants'
 import { UserId } from '@types'
+import { AnitabiData } from '../types'
 import Computed from './computed'
 import { NAMESPACE } from './ds'
-import { AnitabiData } from './types'
 
 export default class Fetch extends Computed {
   /**

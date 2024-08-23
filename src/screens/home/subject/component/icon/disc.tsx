@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconDisc(props, { $ }: Ctx) {
+function IconDisc(_props, { $ }: Ctx) {
   return (
     <IconTouchable style={styles.disc} name='md-g-translate' size={18} onPress={$.doDiscTranslate}>
       <Heatmap id='条目.翻译曲目' />

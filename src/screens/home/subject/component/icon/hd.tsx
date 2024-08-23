@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconHD(props, { $, navigation }: Ctx) {
+function IconHD(_props, { $, navigation }: Ctx) {
   if ($.isLimit || !$.hd) return null
 
   return (

@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconBlog(props, { $, navigation }: Ctx) {
+function IconBlog(_props, { $, navigation }: Ctx) {
   if (!systemStore.setting.showBlog) return null
 
   return (

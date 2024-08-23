@@ -14,7 +14,7 @@ import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Details(props, { $ }: Ctx) {
+function Details(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const isADV = $.gameInfo?.isADV
   let title = ''
@@ -120,4 +120,3 @@ function Details(props, { $ }: Ctx) {
 }
 
 export default obc(Details, COMPONENT)
-

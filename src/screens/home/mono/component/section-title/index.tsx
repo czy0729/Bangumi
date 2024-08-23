@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle(props, { $, navigation }: Ctx) {
+function SectionTitle(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { _count } = $.params
   return (

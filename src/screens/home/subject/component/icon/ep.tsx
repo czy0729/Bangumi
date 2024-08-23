@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 
-function IconEp(props, { $, navigation }: Ctx) {
+function IconEp(_props, { $, navigation }: Ctx) {
   return (
     <IconTouchable
       style={_.ml.xs}

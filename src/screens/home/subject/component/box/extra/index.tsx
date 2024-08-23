@@ -19,7 +19,7 @@ import IconSearchDisc from '../../icon/search-disc'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Extra(props, { $ }: Ctx) {
+function Extra(_props, { $ }: Ctx) {
   if (!systemStore.setting.focusOrigin) return null
 
   // 设置的实现: [自定义跳转] 和 [若有自定义跳转隐藏通用源头按钮]

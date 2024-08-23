@@ -60,7 +60,7 @@ export type Props = {
 
 export interface IHeader {
   (props: Props): JSX.Element
-  Popover?: (props: PopoverProps) => JSX.Element
+  Popover?: <ItemT extends string[] | readonly string[]>(props: PopoverProps<ItemT>) => JSX.Element
   Placeholder?: (props: PlaceholderProps) => JSX.Element
 }
 

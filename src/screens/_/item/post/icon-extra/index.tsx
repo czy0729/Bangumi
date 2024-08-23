@@ -20,7 +20,6 @@ import {
 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { SHARE_MODE } from '@constants'
 import { Popover } from '../../../base'
 import {
   ACTION_BLOCK,
@@ -52,8 +51,6 @@ function IconExtra(
   },
   { $ }
 ) {
-  if (SHARE_MODE) return null
-
   const data = [
     // 编辑
     erase && $?.doDeleteReply && ACTION_EDIT,

@@ -1,5 +1,4 @@
 /*
- * @Params: { _name, _jp, _image }
  * @Author: czy0729
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
@@ -7,6 +6,7 @@
  */
 import Action from './action'
 
+/** 人物页面状态机 */
 export default class ScreenMono extends Action {
   init = () => {
     this.fetchMonoFromOSS()

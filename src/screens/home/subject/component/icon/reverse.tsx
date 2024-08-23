@@ -8,14 +8,15 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconReverse as CompIconReverse } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconReverse(props, { $ }: Ctx) {
+function IconReverse(_props, { $ }: Ctx) {
   const { epsReverse } = $.state
   return (
     <CompIconReverse
-      style={epsReverse ? [styles.touch, styles.reverse] : styles.touch}
+      style={stl(styles.touch, epsReverse && styles.reverse)}
       color={epsReverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseEps}
     >

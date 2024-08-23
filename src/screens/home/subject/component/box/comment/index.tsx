@@ -15,7 +15,7 @@ import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Comment(props, { $ }: Ctx) {
+function Comment(_props, { $ }: Ctx) {
   r(COMPONENT)
 
   const [lines, setLines] = useState(3)

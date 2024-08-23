@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconWenku(props, { $ }: Ctx) {
+function IconWenku(_props, { $ }: Ctx) {
   if ($.isLimit || !$.source?.wenkuId) return null
 
   return (

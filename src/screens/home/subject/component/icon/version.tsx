@@ -10,9 +10,8 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconVersion(props, { $ }: Ctx) {
-  const { version } = $.subjectComments
-  if (!version) return null
+function IconVersion(_props, { $ }: Ctx) {
+  if (!$.subjectComments.version) return null
 
   const { filterVersion } = $.state
   return (

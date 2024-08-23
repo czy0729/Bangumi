@@ -19,7 +19,7 @@ import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { styles } from './styles'
 
-function Thumbs(props, { $ }: Ctx) {
+function Thumbs(_props, { $ }: Ctx) {
   r(COMPONENT)
 
   const [scrolled, setScrolled] = useState(false)

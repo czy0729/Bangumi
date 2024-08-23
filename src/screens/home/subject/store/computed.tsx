@@ -841,7 +841,7 @@ export default class Computed extends State {
   @computed get summary() {
     if (this.subject._loaded && this.subject.rating) return this.subject.summary
 
-    return this.subjectFromOSS.summary || this.subjectFormCDN.summary || this.params._summary || ''
+    return this.subjectFromOSS.summary || this.subjectFormCDN.summary || ''
   }
 
   /** 标签 */

@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
 import { Ctx } from '../../types'
 
-function IconFolder(props, { $ }: Ctx) {
+function IconFolder(_props, { $ }: Ctx) {
   if (SHARE_MODE) return null
 
   const isInclude = !!$.catalogIncludes

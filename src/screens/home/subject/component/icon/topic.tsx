@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconTopic(props, { $, navigation }: Ctx) {
+function IconTopic(_props, { $, navigation }: Ctx) {
   if (!systemStore.setting.showTopic) return null
 
   return (

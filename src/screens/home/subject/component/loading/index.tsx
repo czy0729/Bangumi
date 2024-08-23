@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Loading(props, { $ }: Ctx) {
+function Loading(_props, { $ }: Ctx) {
   if ($.subjectComments._loaded) return null
 
   return (

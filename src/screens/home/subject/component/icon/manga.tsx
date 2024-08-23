@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconManga(props, { $ }: Ctx) {
+function IconManga(_props, { $ }: Ctx) {
   if ($.isLimit || !$.source?.mangaId) return null
 
   return (

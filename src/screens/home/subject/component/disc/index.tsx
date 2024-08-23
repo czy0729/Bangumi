@@ -12,7 +12,7 @@ import Disc from './disc'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function DiscWrap(props, { $, navigation }: Ctx) {
+function DiscWrap(_props, { $, navigation }: Ctx) {
   return (
     <Disc
       navigation={navigation}

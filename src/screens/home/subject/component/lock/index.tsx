@@ -11,7 +11,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
 
-function Lock(props, { $ }: Ctx) {
+function Lock(_props, { $ }: Ctx) {
   if (!$.lock) return null
 
   const styles = memoStyles()

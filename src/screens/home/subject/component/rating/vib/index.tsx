@@ -15,7 +15,7 @@ import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function VIB(props, { $, navigation }: Ctx) {
+function VIB(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const data = ['VIB']
   if ($.vib.anidb) data.push('AniDB')

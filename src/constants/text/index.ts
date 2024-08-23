@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-22 05:10:06
  */
-import { STORYBOOK } from '../device'
+import { WEB } from '../device'
 
 /** 加载 */
 export const TEXT_REFRESHING = '加载中...'
@@ -48,7 +48,16 @@ export const TEXT_TOTAL = {
 } as const
 
 /** 空格 */
-export const TEXT_SPACE = STORYBOOK ? '\u00A0' : ' '
+export const TEXT_SPACE = WEB ? '\u00A0' : ' '
 
 /** 中文段落开头空格 */
 export const TEXT_SECTION_INDENT = '　　'
+
+/** 菜单: 浏览器查看 */
+export const TEXT_MENU_BROWSER = '浏览器查看'
+
+/** 菜单: 复制链接 */
+export const TEXT_MENU_COPY_LINK = '复制链接'
+
+/** 菜单: 复制链接 */
+export const TEXT_MENU_COPY_SHARE = '复制分享'

@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconCatalog(props, { $, navigation }: Ctx) {
+function IconCatalog(_props, { $, navigation }: Ctx) {
   return (
     <Touchable
       style={styles.touch}

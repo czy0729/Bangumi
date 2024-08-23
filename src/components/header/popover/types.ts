@@ -6,7 +6,7 @@
  */
 import { ColorValue, IconfontNames, ReactNode, ViewStyle } from '@types'
 
-export type Props = {
+export type Props<ItemT extends string[] | readonly string[]> = {
   style?: ViewStyle
 
   /** 图标名字 */
@@ -19,13 +19,13 @@ export type Props = {
   color?: ColorValue
 
   /** Popover data */
-  data?: string[] | readonly string[]
+  data?: ItemT
 
   /** 菜单样式 */
   menuStyle?: ViewStyle
 
   /** Popover onSelect */
-  onSelect?: (title?: string) => any
+  onSelect?: (title?: ItemT[number]) => any
 
   children?: ReactNode
 }

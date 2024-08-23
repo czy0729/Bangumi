@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, STATUS_DS } from './ds'
 import { styles } from './styles'
 
-function StatusSegement(props, { $ }: Ctx) {
+function StatusSegement(_props, { $ }: Ctx) {
   const { filterStatus } = $.state
   const isAnime = $.action === '看'
   const data = isAnime ? STATUS_DS : STATUS_DS.map(item => item.replace('看', $.action))

@@ -17,7 +17,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Collabs(props, { $, navigation }: Ctx) {
+function Collabs(_props, { $, navigation }: Ctx) {
   const { collabs } = $.mono
   if (!collabs?.length) return null
 

@@ -8,14 +8,15 @@ import React from 'react'
 import { Heatmap } from '@components'
 import { IconReverse } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconComment(props, { $ }: Ctx) {
+function IconComment(_props, { $ }: Ctx) {
   const { _reverse } = $.subjectComments
   return (
     <IconReverse
-      style={_reverse ? [styles.touch, styles.reverse] : styles.touch}
+      style={stl(styles.touch, _reverse && styles.reverse)}
       color={_reverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseComments}
     >

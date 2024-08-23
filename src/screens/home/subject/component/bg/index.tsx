@@ -14,7 +14,7 @@ import Bg from './bg'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function BgWrap(props, { $ }: Ctx) {
+function BgWrap(_props, { $ }: Ctx) {
   const styles = memoStyles()
   if (TEXT_ONLY) {
     if (IOS) return null

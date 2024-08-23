@@ -15,7 +15,7 @@ import { CollectionStatusCn, UserId } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, POPOVER_DATA } from './ds'
 
-function TrackComment(props, { $, navigation }: Ctx) {
+function TrackComment(_props, { $, navigation }: Ctx) {
   if (!$.subjectTypeValue) return null
 
   const userIds = systemStore.setting[`comment${titleCase($.subjectTypeValue)}`] as UserId[]

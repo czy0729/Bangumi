@@ -11,7 +11,7 @@ import Chart from './chart'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ChartWrap(props, { $, navigation }: Ctx) {
+function ChartWrap(_props, { $, navigation }: Ctx) {
   const { total, count, score } = $.rating
   return (
     <Chart
