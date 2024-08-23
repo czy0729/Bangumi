@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-18 17:01:29
+ * @Last Modified time: 2024-08-23 18:08:31
  */
 import {
   cheerio,
@@ -146,7 +146,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
     )
     if (matchHTML) {
       const $ = cheerio(matchHTML[1])
-      $('li.item').each((index: number, element: any) => {
+      $('li.item').each((_index: number, element: any) => {
         const $row = cheerio(element)
         const $a = $row.find('a.l')
         mono.works.push({
@@ -155,7 +155,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
           cover: $row.find('img.cover').attr('src'),
           staff: $row
             .find('span.badge_job')
-            .map((index: number, element: any) => {
+            .map((_index: number, element: any) => {
               const $row = cheerio(element)
               return $row.text().trim()
             })
@@ -240,7 +240,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
     matchHTML = HTML.match(/<\/h2><ul class="groupsLine">(.+?)<\/ul>/)
     if (matchHTML) {
       const $ = cheerio(matchHTML[1])
-      $('li.clearit').each((index: number, element: any) => {
+      $('li.clearit').each((_index: number, element: any) => {
         const $row = cheerio(element)
         const $a = $row.find('.innerWithAvatar .avatar')
         mono.collected.push({
@@ -257,7 +257,7 @@ export async function fetchMono({ monoId }: { monoId: MonoId }) {
     matchHTML = HTML.match(/<ul class="coversSmall">(.+?)<\/ul>/)
     if (matchHTML) {
       const $ = cheerio(matchHTML[1])
-      $('li.clearit').each((index: number, element: any) => {
+      $('li.clearit').each((_index: number, element: any) => {
         const $row = cheerio(element)
         const $a = $row.find('a.l')
         mono.collabs.push({
@@ -285,7 +285,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
   let relationsType: SubjectTypeValue
 
   const disc = []
-  $('div.line_detail ul.line_list_music li').each((index: number, element: any) => {
+  $('div.line_detail ul.line_list_music li').each((_index: number, element: any) => {
     const $row = cheerio(element)
     if ($row.attr('class') === 'cat') {
       disc.push(
@@ -306,7 +306,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
   })
 
   let type = ''
-  $('.nameSingle small.grey').each((index: number, element: any) => {
+  $('.nameSingle small.grey').each((_index: number, element: any) => {
     type += cheerio(element).text().trim()
   })
 
@@ -323,7 +323,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
   }
 
   const crtCounts = {}
-  $('#browserItemList li').each((index: number, element: any) => {
+  $('#browserItemList li').each((_index: number, element: any) => {
     const $row = cheerio(element)
     const id = String($row.find('a.avatar').attr('href')).replace('/character/', '')
     const num =
@@ -342,7 +342,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     info,
     tags:
       $('div.subject_tag_section div.inner a.l')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           return safeObject({
             name: $row.find('span').text().trim(),
@@ -352,7 +352,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
         .get() || [],
     relations:
       $('div.content_inner ul.browserCoverMedium li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const $title = $row.find('a.title')
           const id = matchSubjectId($title.attr('href'))
@@ -380,7 +380,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     },
     comic:
       $('div.subject_section ul.browserCoverSmall li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const $a = $row.find('a')
           return safeObject({
@@ -392,7 +392,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
         .get() || [],
     like:
       $('div.content_inner ul.coversSmall li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const $a = $row.find('a')
           return safeObject({
@@ -404,7 +404,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
         .get() || [],
     who:
       $('#subjectPanelCollect li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const $a = $row.find('a.avatar')
           return safeObject({
@@ -423,7 +423,7 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
         .get() || [],
     catalog:
       $('#subjectPanelIndex li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = cheerio(element)
           const $user = $row.find('small.grey a.avatar')
           const $catalog = $row.find('.innerWithAvatar > a.avatar')
@@ -513,14 +513,14 @@ export function cheerioMonoWorks(html: string): MonoWorks {
   return {
     filters:
       $('div.subjectFilter > ul.grouped')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           return safeObject({
             title: $li.find('li.title').text().trim(),
             data:
               $li
                 .find('a.l')
-                .map((idx: number, el: any) => {
+                .map((_idx: number, el: any) => {
                   const $a = cheerio(el)
                   return safeObject({
                     title: $a.text().trim(),
@@ -533,7 +533,7 @@ export function cheerioMonoWorks(html: string): MonoWorks {
         .get() || [],
     list:
       $('ul#browserItemList > li.item')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           return safeObject({
             id: $li.find('a.cover').attr('href'),
@@ -544,7 +544,7 @@ export function cheerioMonoWorks(html: string): MonoWorks {
             position:
               $li
                 .find('span.badge_job')
-                .map((idx: number, el: any) => cheerio(el).text().trim())
+                .map((_idx: number, el: any) => cheerio(el).text().trim())
                 .get() || [],
             score: $li.find('small.fade').text().trim(),
             total: $li.find('span.tip_j').text().trim(),
@@ -568,14 +568,14 @@ export function cheerioMonoVoices(html: string): MonoVoices {
   return {
     filters:
       $('div.subjectFilter > ul.grouped')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           return safeObject({
             title: $li.find('li.title').text().trim(),
             data:
               $li
                 .find('a.l')
-                .map((idx: number, el: any) => {
+                .map((_idx: number, el: any) => {
                   const $a = cheerio(el)
                   return safeObject({
                     title: $a.text().trim(),
@@ -588,7 +588,7 @@ export function cheerioMonoVoices(html: string): MonoVoices {
         .get() || [],
     list:
       $('ul.browserList > li.item')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $leftItem = $li.find('div.innerLeftItem')
           return safeObject({
@@ -599,7 +599,7 @@ export function cheerioMonoVoices(html: string): MonoVoices {
             subject:
               $li
                 .find('ul.innerRightList > li')
-                .map((idx: number, el: any) => {
+                .map((_idx: number, el: any) => {
                   const $l = cheerio(el)
                   const $a = $l.find('h3 > a.l')
                   return safeObject({
@@ -628,7 +628,7 @@ export function cheerioRating(html: string): Rating {
     dropped: 0
   }
   $('ul.secTab li')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const text = cheerio(element).text()
       const count = parseInt((text.match(/\d+/g) || [])[0]) || 0
       if (text.includes('想')) {
@@ -648,7 +648,7 @@ export function cheerioRating(html: string): Rating {
 
   const list =
     $('#memberUserList li')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $user = $li.find('a.avatar')
         const avatar = matchAvatar($li.find('.avatarNeue').attr('style'))
@@ -680,7 +680,7 @@ export function cheerioSubjectCatalogs(html: string): SubjectCatalogs {
   return {
     list:
       $('li.tml_item')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $title = $li.find('h3 a.l')
           const $user = $li.find('span.tip_j a.l')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:16:07
+ * @Last Modified time: 2024-08-23 17:29:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1030,6 +1030,8 @@ export default class Computed extends State {
 
   /** 书籍 */
   @computed get subjectBook() {
+    if (!WEB) return null
+
     return this.subjectRelations.find(item => item.type === '书籍')
   }
 

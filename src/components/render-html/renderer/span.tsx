@@ -14,6 +14,8 @@ import MaskText from '../mask-text'
 import { fixedBaseFontStyle } from '../utils'
 
 export function span({ key, style, defaultBaseFontStyle, baseFontStyle, rawChildren, children }) {
+  if (typeof style === 'string' && style.includes('font-size:0px')) return null
+
   try {
     // 暂时没有对样式混合情况作出正确判断, 以重要程度优先(剧透 > 删除 > 隐藏 > 其他)
     // 防剧透字

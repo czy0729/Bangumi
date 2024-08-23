@@ -251,14 +251,19 @@ export function cheerio(
   return cheerioRN(target)
 }
 
-/** cheerio.text().trim() */
+/** HTMLDecode(cheerio.text().trim()) */
 export function cText($el: any): string {
-  return $el.text().trim() || ''
+  return HTMLDecode($el.text().trim() || '')
 }
 
 /** cheerio.attr(key) */
-export function cData($el: any, key: string): string {
+export function cData($el: any, key: 'id' | 'style' | 'href' | 'onclick'): string {
   return $el.attr(key) || ''
+}
+
+/** HTMLTrim(cheerio.html(key)) */
+export function cHtml($el: any) {
+  return HTMLTrim($el.html() || '')
 }
 
 /** 去除字符串中所有链接 */

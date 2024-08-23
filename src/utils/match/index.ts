@@ -34,12 +34,13 @@ function match(
 
 /** 匹配头像地址 */
 export function matchAvatar(str: string = ''): Avatar {
-  return match(
-    str,
-    str =>
-      str.match(/background-image:url\('(.+?)'\)/)?.[1] ||
-      '//lain.bgm.tv/pic/user/s/icon.jpg',
-    'matchAvatar'
+  return (
+    match(
+      str,
+      str =>
+        str.match(/background-image:url\('(.+?)'\)/)?.[1] || '//lain.bgm.tv/pic/user/s/icon.jpg',
+      'matchAvatar'
+    ) || ''
   )
 }
 
@@ -48,7 +49,7 @@ export function matchAvatar(str: string = ''): Avatar {
  * @eg /user/123
  */
 export function matchUserId(str: string = ''): string {
-  return match(str, str => str.substring(str.lastIndexOf('/') + 1), 'matchUserId')
+  return match(str, str => str.substring(str.lastIndexOf('/') + 1), 'matchUserId') || ''
 }
 
 /**
@@ -88,8 +89,7 @@ export function matchBgmUrl(str: string = '', returnAll: boolean = false) {
     str,
     str => {
       const matchs =
-        str.match(/https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g) ||
-        []
+        str.match(/https?:\/\/(bangumi\.tv|bgm\.tv|chii\.in)((\w|=|\?|\.|\/|&|-)+)/g) || []
       return returnAll ? matchs : matchs[0] || ''
     },
     `${matchBgmUrl}${returnAll ? 'returnAll' : ''}`,
@@ -99,12 +99,7 @@ export function matchBgmUrl(str: string = '', returnAll: boolean = false) {
 
 /** 从头像地址匹配用户 Id */
 export function matchUserIdFromAvatar(str: string = ''): UserId {
-  return match(
-    str,
-    str => str.match(/\/(\d+).jpg/)?.[1] || 0,
-    'matchUserIdFromAvatar',
-    0
-  )
+  return match(str, str => str.match(/\/(\d+).jpg/)?.[1] || 0, 'matchUserIdFromAvatar', 0)
 }
 
 /** 匹配年份 */

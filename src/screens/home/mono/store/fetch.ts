@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:32:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:42:28
+ * @Last Modified time: 2024-08-23 18:07:43
  */
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
@@ -83,12 +83,12 @@ export default class Fetch extends Computed {
         comments: {
           list: this.monoComments.list
             .filter(item => !!item.userId)
-            .filter((item, index) => index < 8)
+            .filter((_item, index) => index < 8)
             .map(item => ({
               ...omit(item, ['replySub']),
               sub: item.sub
                 .filter(i => !!i.userId)
-                .filter((i, idx) => idx < 8)
+                .filter((_i, idx) => idx < 8)
                 .map(i => omit(i, ['replySub']))
             })),
           pagination: this.monoComments.pagination
