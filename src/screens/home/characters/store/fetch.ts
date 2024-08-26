@@ -1,72 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2020-05-21 16:37:42
+ * @Date: 2024-08-24 11:25:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-18 14:39:15
+ * @Last Modified time: 2024-08-24 11:26:31
  */
-import { computed, observable } from 'mobx'
 import { monoStore } from '@stores'
-import { getTimestamp, updateVisibleBottom } from '@utils'
+import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
-import store from '@utils/store'
-import { HTML_SUBJECT_CHARACTERS, LIST_EMPTY } from '@constants'
-import { STATE } from './ds'
-import { Params } from './types'
+import { D7 } from '@constants'
+import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenCharacters extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = () => {
-    this.setState({
-      _loaded: true
-    })
-    return this.fetchCharacters()
-  }
-
-  // -------------------- get --------------------
-  @computed get subjectId() {
-    const { subjectId = '' } = this.params
-    return subjectId
-  }
-
-  /** 更多角色 */
-  @computed get characters() {
-    const characters = monoStore.characters(this.subjectId)
-    if (!characters._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
-            }
-          }
-        : LIST_EMPTY
-    }
-
-    return characters
-  }
-
-  @computed get url() {
-    return HTML_SUBJECT_CHARACTERS(this.subjectId)
-  }
-
-  /** 云快照 */
-  @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
-  }
-
-  @computed get thirdPartyKey() {
-    return `characters_${this.subjectId}`
-  }
-
-  // -------------------- fetch --------------------
+export default class Fetch extends Computed {
   /** 更多角色 */
   fetchCharacters = async () => {
     this.fetchThirdParty()
@@ -82,7 +29,7 @@ export default class ScreenCharacters extends store<typeof STATE> {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     return data
@@ -127,7 +74,4 @@ export default class ScreenCharacters extends store<typeof STATE> {
       THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
     }, 0)
   }
-
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
 }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 14:53:21
+ * @Last Modified time: 2024-08-25 01:55:44
  */
 import { Appearance } from 'react-native'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Action from './action'
 import { DEFAULT_MODE, DEFAULT_TINYGRAIL_MODE, NAMESPACE } from './init'
 
@@ -16,7 +16,7 @@ class ThemeStore extends Action {
     if (this.autoColorScheme) {
       this.toggleMode(Appearance.getColorScheme())
     } else {
-      const mode = STORYBOOK ? DEFAULT_MODE : await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
+      const mode = WEB ? DEFAULT_MODE : await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
       this.toggleMode(mode)
     }
 

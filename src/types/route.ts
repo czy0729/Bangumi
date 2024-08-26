@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-24 07:27:32
+ * @Last Modified time: 2024-08-26 08:37:38
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -179,13 +179,15 @@ export type RouteBlog = (
   }
 ) => any
 
-export type RouteCharacters = (
-  path: 'Characters',
-  params: {
+export type RouteCharacters = Route<
+  'Characters',
+  {
     subjectId: SubjectId
+
+    /** 条目名, 用于标题 */
     name?: string
   }
-) => any
+>
 
 export type RouteDiscoveryBlog = Route<
   'DiscoveryBlog',
@@ -397,7 +399,6 @@ export type RouteSubject = Route<
 export type RouteEpisodes = Route<
   'Episodes',
   {
-    /** 条目 id */
     subjectId: SubjectId
 
     /** 条目名 */
@@ -429,20 +430,36 @@ export type RouteRank = Route<
   }
 >
 
-export type RouteRating = (
-  path: 'Rating',
-  params: {
+export type RouteRating = Route<
+  'Rating',
+  {
     subjectId: SubjectId
-    status: RatingStatus | ''
-    name: string
-    wish: number
-    collect: number
-    doing: number
-    onHold: number
-    dropped: number
-    type: string
+
+    /** Tab 默认索引 */
+    status?: RatingStatus | ''
+
+    /** ex: 在看变成在读 */
+    type?: SubjectTypeCn
+
+    /** 标题 */
+    name?: string
+
+    /** 想看数字占位 */
+    wish?: number
+
+    /** 看过数字占位 */
+    collect?: number
+
+    /** 在看数字占位 */
+    doing?: number
+
+    /** 搁置数字占位 */
+    onHold?: number
+
+    /** 抛弃数字占位 */
+    dropped?: number
   }
-) => any
+>
 
 export type RouteActions = (
   path: 'Actions',

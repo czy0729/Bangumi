@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-02 22:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 12:58:39
+ * @Last Modified time: 2024-08-25 08:49:20
  */
-import { ORIENTATION_PORTRAIT, ORIENTATION_LANDSCAPE } from '@constants'
-import { STYLES_LIGHT, STYLES_DARK } from './init'
+import { StyleSheet } from 'react-native'
+import { ORIENTATION_LANDSCAPE, ORIENTATION_PORTRAIT } from '@constants'
+import { STYLES_DARK, STYLES_LIGHT } from './init'
 
 export type Orientation = typeof ORIENTATION_PORTRAIT | typeof ORIENTATION_LANDSCAPE
 
@@ -21,6 +22,8 @@ type StylesDark = typeof STYLES_DARK
 type ColorKeys = keyof StylesLight | keyof StylesDark
 
 export type Color<K> = K extends ColorKeys ? StylesLight[K] | StylesDark[K] : never
+
+export type Styles<T> = StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>
 
 export type MemoStylesItem = {
   _id: number

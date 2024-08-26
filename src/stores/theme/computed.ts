@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 08:43:16
+ * @Last Modified time: 2024-08-25 08:50:30
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
@@ -162,8 +162,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
    * 最终所有受到布局变动而影响到样式的组件会重新渲染
    * */
   @computed get wsaLayoutChanged() {
-    if (!WSA) return 0
-    return this.state.wsaLayoutChanged
+    return WSA ? this.state.wsaLayoutChanged : 0
   }
 
   /** 是否不使用字体 */
@@ -173,14 +172,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 字体 */
   @computed get fontFamily() {
-    if (this.customFontFamily) return
-    return 'rhrm'
+    return this.customFontFamily ? undefined : 'rhrm'
   }
 
   /** 字体 (粗) */
   @computed get fontBoldFamily() {
-    if (this.customFontFamily) return
-    return 'rhrb'
+    return this.customFontFamily ? undefined : 'rhrb'
   }
 
   /** 字体样式 */

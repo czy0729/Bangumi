@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-19 15:51:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 11:16:33
+ * @Last Modified time: 2024-08-26 08:50:54
  */
 import { factory } from '@utils'
-import { CollectionStatus, Navigation, SubjectId, SubjectTypeCn } from '@types'
+import { GetRouteParams, Navigation, RouteRating } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,9 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  subjectId: SubjectId
-  status?: CollectionStatus
-  name?: string
-  type?: SubjectTypeCn
-}
+export type Params = GetRouteParams<RouteRating>

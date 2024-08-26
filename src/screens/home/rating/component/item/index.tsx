@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 11:16:04
+ * @Last Modified time: 2024-08-26 08:47:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,7 +36,7 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
       </Flex>
       {!!comment && (
         <Flex style={_.mt.xs}>
-          <Text style={styles.comment} size={_.device(13, 14)} lineHeight={15}>
+          <Text style={styles.comment} size={_.web(12, _.device(13, 14))} lineHeight={15}>
             {comment}
           </Text>
         </Flex>

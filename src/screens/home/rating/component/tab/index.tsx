@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 11:14:35
+ * @Last Modified time: 2024-08-26 08:46:18
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -15,7 +15,7 @@ import List from '../list'
 import { COMPONENT, STATUS_MAP } from './ds'
 import { memoStyles } from './styles'
 
-function Tab(props, { $ }: Ctx) {
+function Tab(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { page } = $.state
   const renderScene = SceneMap(
@@ -65,9 +65,8 @@ function Tab(props, { $ }: Ctx) {
                     {title}
                   </Text>
                   {!!count && (
-                    <Text type='sub' size={11} bold lineHeight={13} noWrap>
-                      {' '}
-                      {count}{' '}
+                    <Text style={_.ml.xxs} type='sub' size={11} bold lineHeight={13} noWrap>
+                      {count}
                     </Text>
                   )}
                 </Flex>

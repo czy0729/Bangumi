@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 07:02:45
+ * @Last Modified time: 2024-08-25 08:47:24
  */
 import { StyleSheet } from 'react-native'
 import { androidDayNightToggle, runAfter } from '@utils'
-import { IOS, STORYBOOK, WSA } from '@constants'
+import { IOS, WEB, WSA } from '@constants'
 import _, { IS_IOS_5_6_7_8 } from '@styles'
 import { AnyObject, SelectFn, SettingFontsizeadjust } from '@types'
 import Computed from './computed'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
 import { getMemoStyles, getMemoStylesHash } from './utils'
-import { Mode, Orientation, TinygrailMode } from './types'
+import { Mode, Orientation, Styles, TinygrailMode } from './types'
 
 export default class Action extends Computed {
   /** 设备选择, 平板设备使用第二个值 */
@@ -27,7 +27,7 @@ export default class Action extends Computed {
 
   /** 平台选择, 网页平台使用第一个值 */
   web: SelectFn = (webValue, otherValue) => {
-    return STORYBOOK ? webValue : otherValue
+    return WEB ? webValue : otherValue
   }
 
   /** 主题选择, 黑暗模式使用第二个值 */
@@ -37,7 +37,7 @@ export default class Action extends Computed {
 
   /** 目前支持的所有平台选择 */
   platforms = (ios: any, ios_5678: any, android: any, wsa: any, web?: any) => {
-    if (STORYBOOK && web !== undefined) return web
+    if (WEB && web !== undefined) return web
 
     if (IOS) {
       if (IS_IOS_5_6_7_8) return ios_5678
@@ -81,7 +81,7 @@ export default class Action extends Computed {
   /** 切换主题模式 */
   toggleMode = (mode?: Mode) => {
     // web 端暂不开放白天模式
-    if (STORYBOOK && mode === 'light') return false
+    if (WEB && mode === 'light') return false
 
     const key = 'mode'
     if (mode === 'light') {
@@ -210,10 +210,10 @@ export default class Action extends Computed {
    * 生成 APP 内能动态切换主题的, 记忆 styles 的核心函数
    *  - 所有需要动态切换的样式都应通过此函数包裹样式后导出到组件里面使用
    */
-  memoStyles = <T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>>(
+  memoStyles = <T extends Styles<T>>(
     styles: (currentThemeStore?: any) => T,
     dev: boolean = false
-  ): (() => T) => {
+  ) => {
     const item = getMemoStyles()
     return () => {
       /**

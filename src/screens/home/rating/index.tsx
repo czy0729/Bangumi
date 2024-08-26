@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 01:39:11
+ * @Last Modified time: 2024-08-25 13:29:11
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 用户评分 */
-const Rating = (props, { $ }: Ctx) => {
+const Rating = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

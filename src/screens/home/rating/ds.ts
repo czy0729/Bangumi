@@ -2,23 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-01 10:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 11:11:06
+ * @Last Modified time: 2024-08-26 08:21:37
  */
 import { RATING_STATUS } from '@constants'
-import { Loaded } from '@types'
 
 export const COMPONENT = 'Rating'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const STATE = {
-  page: 2,
-
-  /** 登录用户默认 true */
-  isFriend: false,
-  _fetching: false,
-  _loaded: false as Loaded
-}
 
 export const STATUS_MAP = {
   wish: 0,

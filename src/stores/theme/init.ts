@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-11-13 16:25:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:22:59
+ * @Last Modified time: 2024-08-25 01:56:14
  */
-import { ORIENTATION_PORTRAIT, STORYBOOK } from '@constants'
+import { ORIENTATION_PORTRAIT, WEB } from '@constants'
 import _ from '@styles'
 import { MemoStylesItem } from './types'
 
@@ -17,7 +17,7 @@ export type themeWindowType = {
 
 export const NAMESPACE = 'Theme'
 
-export const DEFAULT_MODE = STORYBOOK ? 'dark' : 'light'
+export const DEFAULT_MODE = WEB ? 'dark' : 'light'
 
 export const DEFAULT_TINYGRAIL_MODE = 'green'
 
@@ -111,7 +111,7 @@ const STATE = {
 }
 
 // Storybook 中强制初始化为深黑模式
-if (STORYBOOK) {
+if (WEB) {
   Object.entries({
     mode: 'dark',
     ...STYLES_DARK,

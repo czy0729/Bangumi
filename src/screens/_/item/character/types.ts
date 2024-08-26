@@ -2,9 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-17 00:10:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-20 14:34:26
+ * @Last Modified time: 2024-08-24 13:14:54
  */
 import { CoverCrt, EventType, Id } from '@types'
+
+export type Actors = {
+  id: string
+  cover: CoverCrt<'s'>
+  name: string
+  nameCn: string
+}[]
 
 export type Props = {
   event?: EventType
@@ -16,12 +23,7 @@ export type Props = {
   nameCn?: string
   replies?: string
   info?: string
-  actors?: {
-    id: string
-    cover: CoverCrt<'s'>
-    name: string
-    nameCn: string
-  }[]
+  actors?: Actors
   positions?: string[]
 
   /** @deprecated */
