@@ -1,69 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2020-05-21 16:37:42
+ * @Date: 2024-08-27 10:17:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 10:18:48
+ * @Last Modified time: 2024-08-27 10:18:14
  */
-import { observable, computed } from 'mobx'
 import { monoStore } from '@stores'
 import { getTimestamp } from '@utils'
-import store from '@utils/store'
 import { get, update } from '@utils/kv'
-import { HTML_SUBJECT_PERSONS, LIST_EMPTY } from '@constants'
-import { Params } from './types'
-import { STATE } from './ds'
+import { D7 } from '@constants'
+import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
 
-export default class ScreenPersons extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = () => {
-    return this.fetchPersons()
-  }
-
-  // -------------------- get --------------------
-  @computed get subjectId() {
-    const { subjectId = '' } = this.params
-    return subjectId
-  }
-
-  /** 更多制作人员 */
-  @computed get persons() {
-    const persons = monoStore.persons(this.subjectId)
-    if (!persons._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
-            }
-          }
-        : LIST_EMPTY
-    }
-
-    return persons
-  }
-
-  @computed get url() {
-    return HTML_SUBJECT_PERSONS(this.subjectId)
-  }
-
-  /** 云快照 */
-  @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
-  }
-
-  @computed get thirdPartyKey() {
-    return `persons_${this.subjectId}`
-  }
-
-  // -------------------- fetch --------------------
+export default class Fetch extends Computed {
   /** 更多制作人员 */
   fetchPersons = async () => {
     this.fetchThirdParty()
@@ -79,7 +29,7 @@ export default class ScreenPersons extends store<typeof STATE> {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     return data

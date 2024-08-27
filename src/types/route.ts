@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-26 08:37:38
+ * @Last Modified time: 2024-08-27 10:23:46
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -49,6 +49,7 @@ export type NavigationPushType = RouteActions &
   RouteMono &
   RouteNotify &
   RoutePM &
+  RoutePersons &
   RouteRank &
   RouteRating &
   RouteReviews &
@@ -181,6 +182,16 @@ export type RouteBlog = (
 
 export type RouteCharacters = Route<
   'Characters',
+  {
+    subjectId: SubjectId
+
+    /** 条目名, 用于标题 */
+    name?: string
+  }
+>
+
+export type RoutePersons = Route<
+  'Persons',
   {
     subjectId: SubjectId
 

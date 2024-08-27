@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-18 16:47:45
+ * @Last Modified time: 2024-08-26 10:03:07
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 制作人员 */
-const Persons = (props, { $ }: Ctx) => {
+const Persons = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

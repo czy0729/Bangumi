@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-25 00:59:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 13:02:45
+ * @Last Modified time: 2024-08-27 13:01:57
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { Tag } from '../../../base'
 import { styles } from './styles'
@@ -41,8 +40,8 @@ function Content({ cn, jp, replies, info, position, onPress }: Props) {
         ))}
       </Flex>
       {!!info && (
-        <Text style={_.mt.sm} size={12}>
-          {HTMLDecode(info)}
+        <Text style={_.mt.md} size={12}>
+          {info}
         </Text>
       )}
     </Touchable>

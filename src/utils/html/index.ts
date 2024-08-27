@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:48:51
+ * @Last Modified time: 2024-08-27 13:14:59
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@/config'
 import HTMLParser from '../thirdParty/html-parser'
+import { safeObject } from '../utils'
 
 /** 去除 HTML */
 export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
@@ -251,19 +252,76 @@ export function cheerio(
   return cheerioRN(target)
 }
 
+/** cheerio() */
+export function $(html: string, start: string, end: string, removeScript: boolean = true) {
+  return cheerio(htmlMatch(html, start, end, removeScript))
+}
+
 /** HTMLDecode(cheerio.text().trim()) */
-export function cText($el: any): string {
-  return HTMLDecode($el.text().trim() || '')
+export function cText($el: any, matchRawTextNode: boolean = false): string {
+  try {
+    let text = ''
+
+    // 过滤出文本节点
+    if (matchRawTextNode) {
+      text = $el
+        .contents()
+        .filter(function () {
+          return this.nodeType === 3
+        })
+        .text()
+        .trim()
+    } else {
+      text = $el.text().trim()
+    }
+
+    return HTMLDecode(text || '')
+  } catch (error) {
+    return ''
+  }
 }
 
 /** cheerio.attr(key) */
-export function cData($el: any, key: 'id' | 'style' | 'href' | 'onclick'): string {
-  return $el.attr(key) || ''
+export function cData($el: any, key: 'id' | 'style' | 'href' | 'src' | 'onclick'): string {
+  try {
+    return $el.attr(key) || ''
+  } catch (error) {
+    return ''
+  }
 }
 
 /** HTMLTrim(cheerio.html(key)) */
 export function cHtml($el: any) {
-  return HTMLTrim($el.html() || '')
+  try {
+    return HTMLTrim($el.html() || '')
+  } catch (error) {
+    return ''
+  }
+}
+
+/** cheerio.map */
+export function cMap<T>($el: any, callback: ($ele: any, index?: number) => T): T[] {
+  try {
+    return (
+      $el
+        .map((index: number, ele: any) => {
+          const result = callback(cheerio(ele), index)
+          return typeof result === 'object' ? (safeObject(result) as T) : result
+        })
+        .get() || []
+    )
+  } catch (error) {
+    return []
+  }
+}
+
+/** cheerio.each */
+export function cEach($el: any, callback: ($ele: any, index?: number) => void) {
+  try {
+    $el.each((index: number, ele: any) => {
+      callback(cheerio(ele), index)
+    })
+  } catch (error) {}
 }
 
 /** 去除字符串中所有链接 */
