@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 18:08:31
+ * @Last Modified time: 2024-08-27 17:29:34
  */
 import {
+  cData,
   cheerio,
-  findTreeNode,
+  cHtml,
+  cMap,
+  cText,
   getCoverMedium,
   HTMLDecode,
   htmlMatch,
-  HTMLToTree,
   HTMLTrim,
   matchAvatar,
   matchCover,
@@ -19,12 +21,10 @@ import {
   matchUserId,
   safeObject
 } from '@utils'
-import { fetchHTML } from '@utils/fetch'
-import { HOST, HTML_MONO } from '@constants'
-import { AnyObject, MonoId, Override, SubjectTypeValue } from '@types'
+import { HOST } from '@constants'
+import { Override, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
 import { Likes } from '../rakuen/types'
-import { INIT_MONO } from './init'
 import {
   MonoVoices,
   MonoWorks,
@@ -34,250 +34,6 @@ import {
   SubjectFromHTML,
   Wiki
 } from './types'
-
-/** 人物信息和吐槽箱 */
-export async function fetchMono({ monoId }: { monoId: MonoId }) {
-  // -------------------- 请求HTML --------------------
-  const raw = await fetchHTML({
-    url: HTML_MONO(monoId)
-  })
-  const HTML = HTMLTrim(raw)
-
-  // -------------------- 分析内容 --------------------
-  let node
-  let matchHTML
-
-  // 人物信息
-  const mono: typeof INIT_MONO = {
-    ...INIT_MONO
-  }
-  let monoComments = [] // 人物吐槽箱
-
-  if (HTML) {
-    const $ = cheerio(htmlMatch(raw, '<div class="subjectNav">', '<div class="mainWrapper">'))
-    mono.eraseCollectUrl = $('li.collect > span.collect > a.break').attr('href') || ''
-    if (!mono.eraseCollectUrl) {
-      mono.collectUrl = $('li.collect > span.collect > a').attr('href') || ''
-    }
-
-    // 标题
-    matchHTML = HTML.match(/<h1 class="nameSingle">(.+?)<\/h1>/)
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      node = findTreeNode(tree.children, 'a|text&title')
-      if (node) {
-        mono.name = node[0].text[0]
-        mono.nameCn = node[0].attrs.title
-      }
-    }
-
-    // 封面
-    matchHTML = HTML.match(/<img src="(.+?)" class="cover"/)
-    if (matchHTML) mono.cover = String(matchHTML[1]).split('?')[0]
-
-    // 各种详细
-    matchHTML = HTML.match(/<ul id="infobox">(.+?)<\/ul>/)
-    if (matchHTML) {
-      mono.info = String(matchHTML[1])
-        .replace(/\n/g, '')
-        .replace(/ class="(.+?)"/g, '')
-        .replace(/ title="(.+?)"/g, '')
-        .replace(/>( +)</g, '><')
-        .trim()
-    }
-
-    // 详情
-    matchHTML = HTML.match(/<div class="detail">(.+?)<\/div>/)
-    if (matchHTML) {
-      mono.detail = matchHTML[1]
-    }
-
-    // 最近演出角色
-    mono.voice = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        node = findTreeNode(children, 'div > a|href&title')
-        const href = node ? node[0].attrs.href : ''
-        const name = node ? node[0].attrs.title : ''
-
-        node = findTreeNode(children, 'div > div > h3 > p')
-        const nameCn = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > a > img')
-        const cover = node ? String(node[0].attrs.src).split('?')[0] : ''
-
-        node = findTreeNode(children, 'ul > li > div > h3 > a|text&href')
-        const subjectHref = node ? node[0].attrs.href : ''
-        const subjectName = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > div > small')
-        const subjectNameCn = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > div > span')
-        const staff = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > a > img')
-        const subjectCover = node ? String(node[0].attrs.src).split('?')[0] : ''
-
-        mono.voice.push({
-          href,
-          name: HTMLDecode(name),
-          nameCn: HTMLDecode(nameCn),
-          cover,
-          subjectHref,
-          subjectName: HTMLDecode(subjectName),
-          subjectNameCn: HTMLDecode(subjectNameCn),
-          staff,
-          subjectCover
-        })
-      })
-    }
-
-    // 最近参与
-    mono.works = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
-    )
-    if (matchHTML) {
-      const $ = cheerio(matchHTML[1])
-      $('li.item').each((_index: number, element: any) => {
-        const $row = cheerio(element)
-        const $a = $row.find('a.l')
-        mono.works.push({
-          href: $a.attr('href'),
-          name: HTMLDecode($row.find('small.grey').text().trim() || $a.text().trim()),
-          cover: $row.find('img.cover').attr('src'),
-          staff: $row
-            .find('span.badge_job')
-            .map((_index: number, element: any) => {
-              const $row = cheerio(element)
-              return $row.text().trim()
-            })
-            .get()
-            .join(' / '),
-          type: $row.find('span.ico_subject_type').attr('class').substring(30, 31)
-        })
-      })
-    }
-
-    // 出演
-    mono.jobs = []
-    matchHTML = HTML.match(
-      /<h2 class="subtitle">出演<\/h2><ul class="browserList">(.+?)<\/ul><div class="section_line clear">/
-    )
-    if (matchHTML) {
-      const tree = HTMLToTree(matchHTML[1])
-      tree.children.forEach(item => {
-        const { children } = item
-
-        node = findTreeNode(children, 'div > div > h3 > a')
-        const href = node ? node[0].attrs.href : ''
-        const name = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > div > small')
-        const nameCn = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'div > a > img')
-        const cover = node ? String(node[0].attrs.src).split('?')[0] : ''
-
-        node = findTreeNode(children, 'div > div > span')
-        const staff = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > a')
-        const cast = node ? node[0].attrs.title : ''
-        const castHref = node ? node[0].attrs.href : ''
-
-        node = findTreeNode(children, 'ul > li > div > small')
-        const castTag = node ? node[0].text[0] : ''
-
-        node = findTreeNode(children, 'ul > li > a > img')
-        const castCover = node ? String(node[0].attrs.src).split('?')[0] : ''
-
-        node = findTreeNode(children, 'div > div > h3 > span')
-        const type = node ? String(node[0].attrs.class).substring(30, 31) : ''
-
-        // 20210216 适配第二个声优, 第三个不适配了
-        const cast2: AnyObject = {}
-        node = findTreeNode(children, 'ul > li > a')
-        if (node) {
-          const cast = node?.[1]?.attrs?.title || ''
-          if (cast) {
-            cast2.cast = cast
-            cast2.castHref = node?.[1]?.attrs?.href || ''
-
-            node = findTreeNode(children, 'ul > li > div > small')
-            cast2.castTag = node?.[1]?.text[0] || ''
-
-            node = findTreeNode(children, 'ul > li > a > img')
-            cast2.castCover = String(node?.[1]?.attrs?.src).split('?')[0] || ''
-          }
-        }
-
-        mono.jobs.push({
-          href,
-          name: HTMLDecode(name),
-          nameCn,
-          cover,
-          staff,
-          cast,
-          castHref,
-          castTag,
-          castCover,
-          cast2,
-          type
-        })
-      })
-    }
-
-    // 谁收藏了
-    mono.collected = []
-    matchHTML = HTML.match(/<\/h2><ul class="groupsLine">(.+?)<\/ul>/)
-    if (matchHTML) {
-      const $ = cheerio(matchHTML[1])
-      $('li.clearit').each((_index: number, element: any) => {
-        const $row = cheerio(element)
-        const $a = $row.find('.innerWithAvatar .avatar')
-        mono.collected.push({
-          avatar: matchAvatar($row.find('span.avatarSize32').attr('style')),
-          name: HTMLDecode($a.text()),
-          userId: matchUserId($a.attr('href')),
-          last: $row.find('small.grey').text().trim()
-        })
-      })
-    }
-
-    // 合作
-    mono.collabs = []
-    matchHTML = HTML.match(/<ul class="coversSmall">(.+?)<\/ul>/)
-    if (matchHTML) {
-      const $ = cheerio(matchHTML[1])
-      $('li.clearit').each((_index: number, element: any) => {
-        const $row = cheerio(element)
-        const $a = $row.find('a.l')
-        mono.collabs.push({
-          href: $row.find('a.avatar').attr('href'),
-          name: HTMLDecode($a.text().trim()),
-          cover: matchAvatar($row.find('span.avatarNeue').attr('style')),
-          count: $row.find('small').text().trim().replace(/\(|\)/g, '')
-        })
-      })
-    }
-
-    // 吐槽箱
-    monoComments = cheerioComments(HTML)
-  }
-
-  return {
-    mono,
-    monoComments: monoComments.reverse()
-  }
-}
 
 /** 条目信息 */
 export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
@@ -789,4 +545,150 @@ export function cheerioMAL(html: string) {
     mal: $('.score-label').text().trim() || 0,
     malTotal: Number($('.fl-l.score').data('user').replace(' users', '').replace(',', '')) || 0
   }
+}
+
+/** 人物信息和吐槽箱 */
+export function cheerioMono(html: string) {
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div class="crtCommentList">'))
+  const $name = $('h1.nameSingle a')
+  const eraseCollectUrl = cData($('.collect a.break'), 'href')
+  const trimHtml = HTMLTrim(html)
+
+  /** 出演 */
+  let jobs: ReturnType<typeof mapJobs>[] = []
+  const jobsHtml = trimHtml.match(
+    /<h2 class="subtitle">出演<\/h2><ul class="browserList">(.+?)<\/ul><div class="section_line clear">/
+  )?.[1]
+  if (jobsHtml) jobs = cMap(cheerio(jobsHtml)('li.item'), mapJobs)
+
+  /** 最近演出角色 */
+  let voice: ReturnType<typeof mapVoice>[] = []
+  const voiceHtml = trimHtml.match(
+    /<h2 class="subtitle">最近演出角色<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
+  )?.[1]
+  if (voiceHtml) voice = cMap(cheerio(voiceHtml)('li.item'), mapVoice)
+
+  /** 最近参与 */
+  let works: ReturnType<typeof mapWorks>[] = []
+  const worksHtml = trimHtml.match(
+    /<h2 class="subtitle">最近参与<\/h2><ul class="browserList">(.+?)<\/ul><a href=/
+  )?.[1]
+  if (worksHtml) works = cMap(cheerio(worksHtml)('li.item'), mapWorks)
+
+  return {
+    mono: {
+      name: cText($name),
+      nameCn: cData($name, 'title'),
+      cover: fixedCover(cData($('.infobox img.cover'), 'src')),
+      detail: cText($('#columnCrtB .detail')),
+      info: cHtml($('#infobox')),
+      collectUrl: eraseCollectUrl ? '' : cData($('.collect a'), 'href'),
+      eraseCollectUrl,
+      jobs,
+      voice,
+      works,
+
+      /** 合作 */
+      collabs: cMap($('ul.coversSmall li'), mapCollabs),
+
+      /** 谁收藏了 */
+      collected: cMap($('#crtPanelCollect .groupsLine li'), mapCollected),
+
+      /** @deprecated */
+      workes: []
+    },
+    monoComments: cheerioComments(trimHtml).reverse()
+  }
+}
+
+function mapJobs($row: any) {
+  const $name = $row.find('.innerLeftItem h3 a')
+  const $lis = $row.find('.innerRightList li')
+
+  const $li = $lis.eq(0)
+  const $cast = $li.find('a').eq(0)
+
+  const $li2 = $lis.eq(1)
+  const $cast2 = $li2.find('a').eq(0)
+  const cast2: {
+    cast?: string
+    castCover?: string
+    castHref?: string
+    castTag?: string
+  } = {}
+  const cast = cData($cast2, 'title')
+  if (cast) {
+    cast2.cast = cast
+    cast2.castCover = fixedCover(cData($cast2.find('img'), 'src'))
+    cast2.castHref = cData($cast2, 'href')
+    cast2.castTag = cText($li2.find('small.grey'))
+  }
+
+  return {
+    cover: fixedCover(cData($row.find('.innerLeftItem img'), 'src')),
+    name: cText($name),
+    nameCn: cText($row.find('.innerLeftItem small.grey')),
+    staff: cText($row.find('.badge_job').eq(0)),
+    href: cData($name, 'href'),
+    type: cData($row.find('.ico_subject_type'), 'class').substring(30, 31),
+    cast: cData($cast, 'title'),
+    castCover: fixedCover(cData($cast.find('img'), 'src')),
+    castHref: cData($cast, 'href'),
+    castTag: cText($li.find('small.grey')),
+    cast2
+  }
+}
+
+function mapVoice($row: any) {
+  const $name = $row.find('.innerLeftItem h3 a')
+  const $subject = $row.find('.innerRightList li').eq(0)
+  const $a = $subject.find('h3 a.l')
+  return {
+    cover: fixedCover(cData($row.find('.innerLeftItem img'), 'src')),
+    href: cData($name, 'href'),
+    name: cText($name),
+    nameCn: cText($row.find('.innerLeftItem .tip')),
+    staff: cText($subject.find('.badge_job')),
+    subjectCover: fixedCover(cData($subject.find('img'), 'src')),
+    subjectHref: cData($a, 'href'),
+    subjectName: cText($a),
+    subjectNameCn: cText($subject.find('small.grey'))
+  }
+}
+
+function mapWorks($row: any) {
+  const $name = $row.find('h3 a.l')
+  return {
+    cover: fixedCover(cData($row.find('.innerLeftItem img'), 'src')),
+    href: cData($name, 'href'),
+    name: cText($name),
+    staff: cText($row.find('.badge_job')),
+    type: cData($row.find('.ico_subject_type'), 'class').substring(30, 31)
+  }
+}
+
+function mapCollabs($row: any) {
+  return {
+    href: cData($row.find('a.avatar'), 'href'),
+    name: cText($row.find('a.l')),
+    cover: fixedCover(matchAvatar(cData($row.find('span.avatarNeue'), 'style'))).replace(
+      '/crt/m/',
+      '/crt/g/'
+    ),
+    count: cText($row.find('small')).replace(/\(|\)/g, '')
+  }
+}
+
+function mapCollected($row: any) {
+  const $a = $row.find('.innerWithAvatar .avatar')
+  return {
+    avatar: fixedCover(matchAvatar(cData($row.find('span.avatarSize32'), 'style'))),
+    name: cText($a),
+    userId: matchUserId(cData($a, 'href')),
+    last: cText($row.find('small.grey'))
+  }
+}
+
+function fixedCover(src: string) {
+  return src.includes('/img/info_only') ? '' : src.split('?')[0]
 }

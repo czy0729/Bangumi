@@ -57,7 +57,7 @@ export const HTML = ({
     return (
       <Component id='base-html' data-type='split'>
         <Expand ratio={ratio} checkLayout={false} onExpand={onExpand}>
-          <RenderHtml {...passProps} html={expand ? html : html.slice(0, 200)} />
+          <RenderHtml {...passProps} html={expand ? html : html.slice(0, length)} />
         </Expand>
       </Component>
     )

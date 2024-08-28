@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 10:36:49
+ * @Last Modified time: 2024-08-27 17:24:54
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -244,7 +244,7 @@ export function toFixed(value: any, num: number = 2) {
 /** 安全对象 (用于把请求中的 null 换成 undefined, 减少 ?. 语法出错) */
 export function safeObject<T extends Record<string, any>>(object: T = {} as T): T {
   return Object.fromEntries(
-    Object.entries(object).map(([key, value]) => [key, value || undefined])
+    Object.entries(object).map(([key, value]) => [key, value === null ? undefined : value])
   ) as T
 }
 

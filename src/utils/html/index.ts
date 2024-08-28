@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 13:14:59
+ * @Last Modified time: 2024-08-27 17:25:17
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@/config'
@@ -282,7 +282,10 @@ export function cText($el: any, matchRawTextNode: boolean = false): string {
 }
 
 /** cheerio.attr(key) */
-export function cData($el: any, key: 'id' | 'style' | 'href' | 'src' | 'onclick'): string {
+export function cData(
+  $el: any,
+  key: 'id' | 'class' | 'style' | 'href' | 'src' | 'title' | 'onclick'
+): string {
   try {
     return $el.attr(key) || ''
   } catch (error) {
@@ -291,7 +294,7 @@ export function cData($el: any, key: 'id' | 'style' | 'href' | 'src' | 'onclick'
 }
 
 /** HTMLTrim(cheerio.html(key)) */
-export function cHtml($el: any) {
+export function cHtml($el: any): string {
   try {
     return HTMLTrim($el.html() || '')
   } catch (error) {

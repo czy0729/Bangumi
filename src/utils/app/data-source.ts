@@ -483,6 +483,8 @@ export function getCover400(src: string = '', size: 100 | 200 | 400 | 600 | 800 
 
 /** 获取条目封面中等质量地址 */
 export function getSubjectCoverCommon(url: string): string {
+  if (typeof url !== 'string' || !url) return url
+
   return fixedRemoteImageUrl(
     url.replace(/\/\/lain.bgm.tv\/r\/\d+\/pic\/cover\/(g|s|m|l)\//, '//lain.bgm.tv/pic/cover/c/')
   )
@@ -490,6 +492,8 @@ export function getSubjectCoverCommon(url: string): string {
 
 /** 获取人物封面中等质量地址 */
 export function getMonoCoverSmall(url: string): string {
+  if (typeof url !== 'string' || !url) return url
+
   return fixedRemoteImageUrl(
     url
       .replace(/\/\/lain.bgm.tv\/r\/\d+\/pic\/crt\/[gsmcl]\//g, '//lain.bgm.tv/pic/crt/g/')
@@ -499,7 +503,7 @@ export function getMonoCoverSmall(url: string): string {
 
 /** 修复远程图片地址 */
 export function fixedRemoteImageUrl(url: any) {
-  if (typeof url !== 'string') return url
+  if (typeof url !== 'string' || !url) return url
 
   let value = url
 

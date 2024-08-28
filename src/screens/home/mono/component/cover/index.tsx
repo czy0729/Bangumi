@@ -25,7 +25,6 @@ function Cover({ thumb, src, monoId }) {
             style={!loaded && styles.loading}
             src={getCoverLarge(src, 200)}
             autoSize={_.r(_.window.contentWidth * 0.5)}
-            shadow
             imageViewer
             imageViewerSrc={getCoverLarge(src)}
             fallback

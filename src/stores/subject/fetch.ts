@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 00:29:13
+ * @Last Modified time: 2024-08-27 17:38:10
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -16,6 +16,7 @@ import {
   CDN_SUBJECT,
   DEV,
   HTML_EP,
+  HTML_MONO,
   HTML_MONO_VOICES,
   HTML_MONO_WORKS,
   HTML_SUBJECT,
@@ -30,6 +31,7 @@ import { EpId, MonoId, PersonId, RatingStatus, SubjectId } from '@types'
 import timelineStore from '../timeline'
 import {
   cheerioMAL,
+  cheerioMono,
   cheerioMonoVoices,
   cheerioMonoWorks,
   cheerioRating,
@@ -38,8 +40,7 @@ import {
   cheerioSubjectFromHTML,
   cheerioVIB,
   cheerioWikiCovers,
-  cheerioWikiEdits,
-  fetchMono
+  cheerioWikiEdits
 } from './common'
 import Computed from './computed'
 import {
@@ -427,7 +428,10 @@ export default class Fetch extends Computed {
   /** 人物信息和吐槽箱 */
   fetchMono = async (args: { monoId: MonoId }) => {
     const { monoId } = args || {}
-    const data = await fetchMono({ monoId })
+    const html = await fetchHTML({
+      url: HTML_MONO(monoId)
+    })
+    const data = cheerioMono(html)
     const { mono, monoComments } = data
 
     const monoKey = 'mono'
