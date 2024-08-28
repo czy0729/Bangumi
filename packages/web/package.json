@@ -151,6 +151,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "ignore-loader": "^0.1.2",
     "isomorphic-unfetch": "^3.1.0",
     "node-sass": "^9.0.0",
     "prettier": "^2.6.2",
@@ -158,7 +159,9 @@
     "storybook-dark-mode": "3.0.0",
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.3.10",
+    "thread-loader": "^4.0.2",
     "ts-node": "^10.8.1",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

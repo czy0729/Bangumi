@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-10 17:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:07:38
+ * @Last Modified time: 2024-08-28 21:15:21
  */
 import React, { useEffect } from 'react'
 import { r } from '@utils/dev'
 import { useNavigation, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Track } from '../track'
 import HeaderComponent from './header-component'
 import Placeholder from './placeholder'
@@ -80,7 +80,7 @@ const Header: IHeader = ({
       <>
         {mode ? (
           <HeaderComponent {...passProps} />
-        ) : STORYBOOK ? (
+        ) : WEB ? (
           <>
             <Placeholder />
             <HeaderComponent {...passProps} fixed />

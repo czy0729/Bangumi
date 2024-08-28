@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:00:18
+ * @Last Modified time: 2024-08-28 19:40:46
  */
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import { loadJSON } from '@assets/json'
+import { JSONKatakana } from '@assets/json/types'
 import { Fn } from '@types'
 import { CACHE_KEY } from './ds'
 
-let memo = {
+let memo: JSONKatakana = {
   スクールアイドル: 'Idol school',
   マギカ: 'Magica'
 }

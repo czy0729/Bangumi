@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 16:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 16:51:27
+ * @Last Modified time: 2024-08-28 21:23:15
  */
 import { _ } from '@stores'
 import { WEB, WSA } from '@constants'
@@ -19,7 +19,7 @@ if (WSA) {
 export const memoStyles = _.memoStyles(() => ({
   view: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: _.web(1, undefined),
     top: 0,
     right: 0,
     bottom: 0,
