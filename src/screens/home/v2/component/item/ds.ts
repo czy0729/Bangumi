@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-20 09:11:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 05:21:35
+ * @Last Modified time: 2024-08-30 06:55:25
  */
 import { rc } from '@utils/dev'
 import { Subject, SubjectId } from '@types'
@@ -12,17 +12,6 @@ import { COMPONENT as PARENT } from '../ds'
 export const COMPONENT = rc(PARENT, 'Item')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
-
-export const WEEK_DAY_MAP = {
-  0: '日',
-  1: '一',
-  2: '二',
-  3: '三',
-  4: '四',
-  5: '五',
-  6: '六',
-  7: '日'
-} as const
 
 export const DEFAULT_PROPS = {
   index: 0 as number,

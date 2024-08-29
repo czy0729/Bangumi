@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 13:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:12:47
+ * @Last Modified time: 2024-08-30 06:55:02
  */
 import React from 'react'
 import { Text } from '@components'
@@ -10,7 +10,7 @@ import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
-import { WEEK_DAY_MAP } from '../ds'
+import { WEEK_DAY_MAP } from '../../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

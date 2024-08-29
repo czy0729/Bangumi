@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-20 06:49:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-26 18:05:46
+ * @Last Modified time: 2024-08-30 06:55:18
  */
 import React from 'react'
 import { Text } from '@components'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { SubjectId, SubjectTypeCn } from '@types'
-import { WEEK_DAY_MAP } from '../../ds'
+import { WEEK_DAY_MAP } from '../../../ds'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
