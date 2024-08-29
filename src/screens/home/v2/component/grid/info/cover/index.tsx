@@ -8,8 +8,8 @@ import React from 'react'
 import { Cover as CoverComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
-import { memoStyles as gridItemMemoStyles } from '../../grid-item/styles'
+import { Ctx } from '../../../../types'
+import { memoStyles as gridItemMemoStyles } from '../../item/styles'
 import { COMPONENT } from './ds'
 
 function Cover({ subjectId, subject = {} as any, onPress }, { $ }: Ctx) {

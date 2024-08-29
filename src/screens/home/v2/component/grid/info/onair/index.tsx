@@ -8,7 +8,7 @@ import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
 function Onair({ subjectId }, { $ }: Ctx) {

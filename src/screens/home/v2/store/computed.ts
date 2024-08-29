@@ -17,13 +17,12 @@ import {
   MODEL_SUBJECT_TYPE,
   PAD,
   SITES_DS,
-  STORYBOOK
+  WEB
 } from '@constants'
 import { getOriginConfig, OriginItem } from '@src/screens/user/origin-setting/utils'
 import {
   CollectionStatus,
   Id,
-  SettingHomeLayout,
   SettingHomeSorting,
   SubjectId,
   SubjectType,
@@ -70,11 +69,6 @@ export default class Computed extends State {
     )
   }
 
-  /** 自己用户 Id */
-  @computed get myUserId() {
-    return userStore.myUserId
-  }
-
   /** 自己用户信息 Id */
   @computed get userId() {
     return userStore.userInfo.username || userStore.myUserId
@@ -82,7 +76,7 @@ export default class Computed extends State {
 
   /** 用户信息 */
   @computed get usersInfo() {
-    return userStore.usersInfo(this.myUserId)
+    return userStore.usersInfo(userStore.myUserId)
   }
 
   /** 当前 Tabs label */
@@ -97,12 +91,7 @@ export default class Computed extends State {
 
   /** 是否登录 (api) */
   @computed get isLogin() {
-    return STORYBOOK ? userStore.isStorybookLogin : userStore.isLogin
-  }
-
-  /** 自己用户信息 */
-  @computed get userInfo() {
-    return userStore.userInfo
+    return WEB ? userStore.isStorybookLogin : userStore.isLogin
   }
 
   /** 在看的用户收藏 */
@@ -168,7 +157,7 @@ export default class Computed extends State {
         data.list = this.sortList(data.list)
       }
 
-      if (STORYBOOK) data.list = data.list.slice(0, 50)
+      if (WEB) data.list = data.list.slice(0, 50)
 
       return CacheManager.set(key, data)
     }).get()
@@ -327,39 +316,48 @@ export default class Computed extends State {
         const eps = this.epsNoSp(subjectId)
         const { length } = eps
 
-        // 集数超过了 1 页的显示个数
-        const isGrid =
-          systemStore.setting.homeLayout ===
-          MODEL_SETTING_HOME_LAYOUT.getValue<SettingHomeLayout>('网格')
-        if (length > (isGrid ? PAGE_LIMIT_GRID : PAGE_LIMIT_LIST)) {
+        // 一页章节按钮显示的最大数量
+        const maxLength =
+          systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+            ? this.pageLimitGrid(subjectId)
+            : PAGE_LIMIT_LIST
+
+        if (length > maxLength) {
           const userProgress = this.userProgress(subjectId)
+
+          // 第一个不为看过章节按钮的位置
           const index = eps.findIndex(item => userProgress[item.id] !== '看过')
 
           // 找不到未看集数, 返回最后的数据
-          if (index === -1) return eps.slice(length - PAGE_LIMIT_LIST - 1, length - 1)
+          if (index === -1) {
+            return eps.slice(length - maxLength - 1, length - 1)
+          }
 
+          // 长篇动画从最后看过开始显示
           if (systemStore.setting.homeEpStartAtLastWathed) {
             let lastIndex: number
 
-            // @ts-ignore
+            // @ts-expect-error
             if (typeof eps.findLastIndex === 'function') {
-              // @ts-ignore
+              // @ts-expect-error
               lastIndex = eps.findLastIndex((item: Ep) => userProgress[item.id] === '看过')
             } else {
               lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
             }
-            return eps.slice(Math.max(lastIndex, 0), lastIndex + PAGE_LIMIT_LIST)
+
+            return eps.slice(Math.max(lastIndex, 0), lastIndex + maxLength)
           }
 
           // 找到第 1 个未看过的集数, 返回 1 个看过的集数和剩余的集数
           // 注意这里第一个值不能小于 0, 不然会返回空
-          return eps.slice(Math.max(index - 1, 0), index + PAGE_LIMIT_LIST - 1)
+          return eps.slice(Math.max(0, index - maxLength + 1), index + maxLength - 1)
         }
         return eps
       } catch (error) {
         console.error(NAMESPACE, 'eps', error)
-        return []
       }
+
+      return []
     }).get()
   }
 
@@ -447,6 +445,29 @@ export default class Computed extends State {
     }).get()
   }
 
+  /** 网格布局实际显示的章节一行多少个 */
+  numbersOfLineGrid(subjectId: SubjectId) {
+    return computed(() =>
+      _.isMobileLanscape
+        ? 12
+        : systemStore.setting.homeGridEpAutoAdjust
+        ? _.device(this.epsCount(subjectId, false) <= 18 ? 6 : 7, 8)
+        : _.device(7, 8)
+    ).get()
+  }
+
+  /** 网格布局实际显示的章节多少行 */
+  @computed get linesGrid() {
+    return _.isMobileLanscape ? 1 : 3
+  }
+
+  /** 网格布局实际显示的章节按钮数目 */
+  pageLimitGrid(subjectId: SubjectId) {
+    return computed(
+      () => this.numbersOfLineGrid(subjectId) * this.linesGrid || PAGE_LIMIT_GRID
+    ).get()
+  }
+
   /** subject 中的 epStatus 未必准确, 需要手动算一个对比 */
   epStatus(subjectId: SubjectId) {
     return computed(() => {
@@ -493,7 +514,7 @@ export default class Computed extends State {
   }
 
   /** bangumi-data 数据扩展 */
-  bangumiInfo(subjectId: SubjectId) {
+  bangumiInfo(_subjectId: SubjectId) {
     // 暂时不使用 bangumi-data 数据
     return {
       title: '',
@@ -653,7 +674,7 @@ export default class Computed extends State {
   }
 
   /** 当前是否显示 ScrollToTop 组件 */
-  scrollToTop(title: TabsLabel) {
+  scrollToTop(_title: TabsLabel) {
     return false
 
     // if (IOS) return false

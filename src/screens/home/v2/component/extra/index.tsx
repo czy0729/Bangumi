@@ -8,16 +8,16 @@ import React from 'react'
 import { Track } from '@components'
 import { ErrorNotice, LoginNotice } from '@_'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Extra(props, { $, navigation }: Ctx) {
+function Extra(_props, { $, navigation }: Ctx) {
   return (
     <>
       <Track title='首页' hm={$.hm} />
       <ErrorNotice />
-      {!STORYBOOK && <LoginNotice navigation={navigation} />}
+      {!WEB && <LoginNotice navigation={navigation} />}
     </>
   )
 }

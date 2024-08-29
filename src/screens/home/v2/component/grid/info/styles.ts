@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-11-20 10:58:43
  */
 import { _ } from '@stores'
-import { memoStyles as gridItemMemoStyles } from '../grid-item/styles'
+import { memoStyles as gridItemMemoStyles } from '../item/styles'
 
 export const memoStyles = _.memoStyles(() => {
   const itemStyles = gridItemMemoStyles()

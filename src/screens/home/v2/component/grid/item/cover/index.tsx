@@ -10,8 +10,8 @@ import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 import { SettingHomeGridCoverLayoutCn } from '@types'
-import { Ctx } from '../../../types'
 import { memoStyles } from '../styles'
+import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
 function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {

@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Loading } from '@components'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import Info from './info'
+import Info from './layout'
 import Linear from './linear'
 import List from './list'
 import { COMPONENT } from './ds'
@@ -20,6 +20,7 @@ const RENDERED = {}
 
 function Grid({ title = '全部' }: Props, { $ }: Ctx) {
   if ($.tabsLabel === title) RENDERED[title] = true
+
   if ($.tabsLabel !== title && !RENDERED[title]) return null
 
   if (!$.collection._loaded) return <Loading />

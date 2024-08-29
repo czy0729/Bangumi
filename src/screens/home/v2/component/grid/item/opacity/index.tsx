@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

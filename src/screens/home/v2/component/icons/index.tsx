@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function Icons(props, { navigation }: Ctx) {
+function Icons(_props, { navigation }: Ctx) {
   return (
     <Flex style={styles.icons}>
       <IconNotify style={styles.notify} navigation={navigation} event={EVENT} />

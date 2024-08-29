@@ -15,7 +15,7 @@ import { MENU_MAP } from '../../../discovery/index/ds'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function Header(props, { navigation }: Ctx) {
+function Header(_props, { navigation }: Ctx) {
   const left = MENU_MAP[systemStore.setting.homeTopLeftCustom]
   const right = MENU_MAP[systemStore.setting.homeTopRightCustom]
   return (

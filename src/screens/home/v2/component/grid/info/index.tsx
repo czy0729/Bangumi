@@ -1,65 +1,75 @@
 /*
  * @Author: czy0729
- * @Date: 2022-11-20 11:15:18
+ * @Date: 2019-10-19 21:28:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:39:51
+ * @Last Modified time: 2024-04-08 10:55:53
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Loading, Mesume, Text } from '@components'
-import { _, systemStore } from '@stores'
+import { Flex, Text } from '@components'
+import { getCoverSrc } from '@components/cover/utils'
+import { _ } from '@stores'
+import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { SubjectId } from '@types'
+import { t } from '@utils/fetch'
+import { IMG_WIDTH_SM } from '@constants'
 import { Ctx } from '../../../types'
-import { memoStyles } from '../styles'
-import GridInfo from '../../grid-info'
-import { COMPONENT, PREV_TEXT } from './ds'
+import Count from './count'
+import Cover from './cover'
+import Eps from './eps'
+import Onair from './onair'
+import Title from './title'
+import ToolBar from './tool-bar'
+import { COMPONENT } from './ds'
+import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Info({ title }, { $ }: Ctx) {
-  if (!$.collection._loaded) return <Loading />
-
+function Info(
+  { subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props,
+  { $, navigation }: Ctx
+) {
   const styles = memoStyles()
-  const { current, grid } = $.state
-  const isGame = title === '游戏'
-  const { list } = $.currentCollection(title)
-  let find = isGame
-    ? grid
-    : list.find((item: { subject_id: SubjectId }) => item.subject_id === current)
-  let tip = ''
-
-  /**
-   * 如果设置开启了全部里显示游戏, 因为两种数据结构不一样,
-   * 需要在确定找到项目后, 使用 $.state.grid
-   */
-  if (title === '全部' && !find && systemStore.setting.showGame) {
-    find = list.find((item: { id: SubjectId }) => item.id == current)
-    if (find) {
-      tip = find?.tip || ''
-      find = grid
-    }
-  } else if (isGame) {
-    tip = $.games.list.find(item => item.id == current)?.tip || ''
-  }
-
+  const isTop = $.state.top.indexOf(subjectId) !== -1
   return (
-    <View style={isGame ? styles.gameInfo : styles.info}>
-      {find ? (
-        <GridInfo
-          subjectId={find.subject_id}
-          subject={find.subject}
-          epStatus={find.ep_status}
-          tip={tip}
-          time={isGame ? find.subject?.time : ''}
+    <Flex style={styles.item} align='start'>
+      <View>
+        <Cover
+          subjectId={subjectId}
+          subject={subject}
+          onPress={() => {
+            t('首页.跳转', {
+              to: 'Subject',
+              from: 'grid',
+              subjectId
+            })
+
+            navigation.push('Subject', {
+              subjectId,
+              _jp: subject.name,
+              _cn: subject.name_cn,
+              _image: getCoverSrc(subject?.images?.medium || '', IMG_WIDTH_SM)
+            })
+          }}
         />
-      ) : (
-        <Flex style={styles.noSelect} justify='center' direction='column'>
-          <Mesume size={80} />
-          <Text style={_.mt.sm} type='sub' align='center'>
-            请先点击下方{PREV_TEXT[title]}
-          </Text>
+        <Onair subjectId={subjectId} />
+      </View>
+      <Flex.Item style={styles.info}>
+        <Title subjectId={subjectId} subject={subject} />
+        <Flex style={stl(_.mt.sm, _.isPad && _.mb.xs)}>
+          <Flex.Item>
+            <Count subjectId={subjectId} subject={subject} epStatus={epStatus} tip={tip} />
+          </Flex.Item>
+          <ToolBar subjectId={subjectId} subject={subject} />
         </Flex>
-      )}
-    </View>
+        <Eps subjectId={subjectId} />
+        {!!time && (
+          <Text style={_.mt.md} size={12} type='sub'>
+            {time} 在玩
+          </Text>
+        )}
+      </Flex.Item>
+      {isTop && <View style={styles.dot} />}
+    </Flex>
   )
 }
 

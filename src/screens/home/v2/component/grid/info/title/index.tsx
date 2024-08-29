@@ -8,7 +8,7 @@ import React from 'react'
 import { Text } from '@components'
 import { cnjp, HTMLDecode } from '@utils'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
 function Title({ subjectId, subject = {} as any }, { $ }: Ctx) {

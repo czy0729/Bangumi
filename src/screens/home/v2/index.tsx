@@ -22,7 +22,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 进度 */
-const Home = (props, context: Ctx) => {
+const Home = (_props, context: Ctx) => {
   useHomePage(context)
 
   const { $ } = context

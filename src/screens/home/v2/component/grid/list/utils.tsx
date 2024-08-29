@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import GridItem from '../../grid-item'
+import Item from '../item'
 
 export function keyExtractor(item: { subject_id: any; id: any }) {
   return String(item.subject_id || item.id)
@@ -14,7 +14,7 @@ export function keyExtractor(item: { subject_id: any; id: any }) {
 
 export function renderItem({ item }) {
   return (
-    <GridItem
+    <Item
       subjectId={item.subject_id || item.id}
       subject={
         item.subject || {

@@ -9,7 +9,7 @@ import { Fn, SubjectId, ViewStyle } from '@types'
 export type Props = {
   style?: ViewStyle
 
-  /** 详情页模式, 显示SP和更多的操作按钮 */
+  /** 详情页模式, 显示 SP 和更多的操作按钮 */
   advance?: boolean
 
   /** 是否有播放源 */
@@ -33,10 +33,10 @@ export type Props = {
   /** 容器右侧的 margin 值 */
   marginRight?: number
 
-  /** 1行多少个, 为了美观, 通过计算按钮占满1行, iPad 会忽略 */
+  /** 1 行多少个, 为了美观, 通过计算按钮占满 1 行, iPad 会忽略 */
   numbersOfLine?: number
 
-  /** 是否分页, 1页4行按钮, 不分页显示1页, 分页会显示 Carousel */
+  /** 是否分页, 1 页 4 行按钮, 不分页显示 1 页, 分页会显示 Carousel */
   pagination?: boolean
 
   /** 条目 Id */
