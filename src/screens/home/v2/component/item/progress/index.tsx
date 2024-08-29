@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 16:01:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:43:28
+ * @Last Modified time: 2024-08-30 05:32:29
  */
 import React from 'react'
 import { OnairProgress } from '@_'
@@ -33,10 +33,9 @@ function Progress(
 
   return (
     <OnairProgress
-      // key={String($.$Item(subjectId).doing)}
-      epStatus={epStatus}
-      total={total}
-      current={current}
+      epStatus={epStatus || 0}
+      total={Math.max(current || 0, total || 0)}
+      current={current || 0}
       height={systemStore.setting.homeListCompact ? 5 : 6}
     />
   )

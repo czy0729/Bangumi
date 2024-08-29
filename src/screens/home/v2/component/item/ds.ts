@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-20 09:11:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-26 18:04:54
+ * @Last Modified time: 2024-08-30 05:21:35
  */
 import { rc } from '@utils/dev'
-import { Override, Subject, SubjectId } from '@types'
+import { Subject, SubjectId } from '@types'
 import { TabsLabel } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 
@@ -24,24 +24,6 @@ export const WEEK_DAY_MAP = {
   7: '日'
 } as const
 
-/** index.tsx */
-export type Props = {
-  index: number
-  subjectId: SubjectId
-  subject: Override<
-    Subject,
-    {
-      /** 收藏时间 (游戏才有) */
-      time?: string
-    }
-  >
-  title?: TabsLabel
-
-  /** 看到多少集 */
-  epStatus: string | number
-}
-
-/** item.tsx */
 export const DEFAULT_PROPS = {
   index: 0 as number,
   title: '' as TabsLabel,

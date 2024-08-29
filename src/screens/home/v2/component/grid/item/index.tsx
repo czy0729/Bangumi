@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 17:49:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:42:48
+ * @Last Modified time: 2024-08-30 06:06:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -46,7 +46,13 @@ function Item({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) {
       <Opacity subjectId={subjectId}>
         <Cover subjectId={subjectId} subject={subject} epStatus={epStatus} />
       </Opacity>
-      {!isGame && <OnairProgress epStatus={epStatus} total={total} current={current} />}
+      {!isGame && (
+        <OnairProgress
+          epStatus={epStatus || 0}
+          total={Math.max(current || 0, total || 0)}
+          current={current || 0}
+        />
+      )}
       {homeGridTitle && (
         <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
           {cnjp(subject.name_cn, subject.name)}

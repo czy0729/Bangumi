@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-19 19:22:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 17:26:46
+ * @Last Modified time: 2024-08-30 06:02:01
  */
 import { _ } from '@stores'
 
@@ -28,7 +28,7 @@ export const memoStyles = _.memoStyles(() => {
       height: '100%'
     },
     contentContainerStyle: {
-      paddingTop: 16,
+      paddingTop: 20,
       paddingBottom: _.tabBarHeight + _.lg + height,
       paddingLeft: _.wind - _.sm - 2,
       overflow: 'hidden'

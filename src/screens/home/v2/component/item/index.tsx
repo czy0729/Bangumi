@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:48:04
+ * @Last Modified time: 2024-08-30 05:21:55
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from './item'
-import { COMPONENT, Props } from './ds'
+import { COMPONENT } from './ds'
+import { Props } from './types'
 
 function ItemWrap(
   { index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props,
