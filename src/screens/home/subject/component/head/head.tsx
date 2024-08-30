@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:46:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-25 10:16:53
+ * @Last Modified time: 2024-08-30 09:43:35
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,8 @@ const Head = memo(
     hideScore,
     rating,
     nsfw,
-    hasSeries
+    hasSeries,
+    isMusic
   }) => {
     const top = cnjp(jp, cn)
     const bottom = cnjp(cn, jp)
@@ -54,29 +55,30 @@ const Head = memo(
       showRelease = true
     }
 
+    // 主标题大小
+    const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
+    let size =
+      (cn.length > 32 ? 12 : cn.length > 24 ? 13 : cn.length > 16 ? 13 : 16) + (PAD === 2 ? 4 : 2)
+    if (showRelation && hasRelation) size = Math.max(11, size - 2)
+    if (isMusic) size -= 1
+
+    // 副标题大小
     const maxLen = 28
-    let tops: any = []
+    let tops: string[] = []
+    let topsString = ''
+    let topSize = 13
     if (top !== bottom) {
       tops.push(`${String(top).slice(0, maxLen)}${String(top).length >= maxLen ? '...' : ''}`)
     }
 
     if (titleLabel) tops.push(titleLabel)
-    tops = tops.join(' · ')
+    topsString = tops.join(' · ')
 
-    let topSize = 13
-    if (tops.length >= 32) {
+    if (topsString.length >= 32) {
       topSize = 11
-    } else if (tops.length >= 22) {
+    } else if (topsString.length >= 22) {
       topSize = 12
     }
-
-    const hasRelation = !!(subjectPrev || subjectAfter || subjectSeries)
-
-    // 主标题大小
-    let size =
-      (cn.length > 32 ? 12 : cn.length > 24 ? 13 : cn.length > 16 ? 13 : 16) + (PAD === 2 ? 4 : 2)
-
-    if (showRelation && hasRelation) size = Math.max(11, size - 2)
 
     const left = imageWidth + _.wind + _.device(12, 20)
     return (
@@ -153,7 +155,7 @@ const Head = memo(
                       copy(top)
                     }}
                   >
-                    {tops}
+                    {topsString}
                   </Katakana>
                 </Katakana.Provider>
               )}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:29:45
+ * @Last Modified time: 2024-08-30 09:10:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -713,7 +713,9 @@ export default class Computed extends State {
   /** 封面图宽度 */
   @computed get imageWidth() {
     const ratio = _.isPad ? 1.4 : 1.2
-    if (this.type === '音乐') return IMG_WIDTH_LG * ratio * 1.2
+    if (this.type === '音乐') {
+      return Math.floor(Math.min(IMG_WIDTH_LG * ratio * 1.4, _.window.contentWidth / 2))
+    }
 
     return (IMG_WIDTH_LG + 16) * ratio
   }

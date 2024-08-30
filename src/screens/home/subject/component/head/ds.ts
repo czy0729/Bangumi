@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 11:34:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 01:10:37
+ * @Last Modified time: 2024-08-30 09:40:14
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -31,5 +31,6 @@ export const DEFAULT_PROPS = {
   hideScore: false as $['hideScore'],
   rating: {} as $['rating'],
   nsfw: false as $['nsfw'],
-  hasSeries: false as $['hasSeries']
+  hasSeries: false as $['hasSeries'],
+  isMusic: false as boolean
 }

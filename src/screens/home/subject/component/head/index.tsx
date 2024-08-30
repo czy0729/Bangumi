@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 01:11:34
+ * @Last Modified time: 2024-08-30 09:40:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,6 +45,7 @@ function HeadWrap({ onBlockRef }, { $ }: Ctx) {
         rating={$.rating}
         nsfw={$.nsfw}
         hasSeries={$.hasSeries}
+        isMusic={$.type === '音乐'}
       />
     </View>
   )

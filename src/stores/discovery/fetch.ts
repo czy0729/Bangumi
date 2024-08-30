@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 04:02:38
+ * @Last Modified time: 2024-08-30 08:02:51
  */
 import { cheerio, feedback, getTimestamp, HTMLDecode } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -149,7 +149,7 @@ export default class Fetch extends Computed {
       const $ = cheerio(JSON.parse(_response).msg)
       data = {
         list: $('.pos-r.cart-list')
-          .map((index: number, element: any) => {
+          .map((_index: number, element: any) => {
             const $li = cheerio(element)
             const $a = $li.find('.entry-title a')
 
