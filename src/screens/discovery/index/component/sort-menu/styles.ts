@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:35:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 03:55:43
+ * @Last Modified time: 2024-08-30 07:22:49
  */
 import { _ } from '@stores'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
@@ -24,7 +24,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginBottom: _.sm
   },
   dragItem: {
-    height: STORYBOOK ? 94 : (_.windowSm.width - 2 * _.windSm) / 4
+    height: WEB ? 94 : (_.windowSm.width - 2 * _.windSm) / 4
   },
   item: {
     transform: [

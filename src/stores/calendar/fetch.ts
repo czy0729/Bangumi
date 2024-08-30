@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 04:28:21
+ * @Last Modified time: 2024-08-30 09:07:47
  */
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -103,7 +103,6 @@ export default class Fetch extends Computed {
         }
       })
 
-      // this.save(key)
       return data
     } catch (error) {
       return INIT_HOME
@@ -129,8 +128,8 @@ export default class Fetch extends Computed {
   private _fetchOnAir = false
 
   /** onAir 数据, 数据不会经常变化, 所以一个启动周期只请求一次 */
-  fetchOnAir = async () => {
-    if (this._fetchOnAir) return
+  fetchOnAir = async (refresh: boolean = false) => {
+    if (!refresh && this._fetchOnAir) return
 
     try {
       let onAir = []

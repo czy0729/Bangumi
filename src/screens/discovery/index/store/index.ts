@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 04:17:24
+ * @Last Modified time: 2024-08-30 08:03:58
  */
 import { calendarStore, usersStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { queue, withT } from '@utils/fetch'
-import { D, H6, STORYBOOK } from '@constants'
+import { D, H6, WEB } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -22,7 +22,7 @@ class ScreenDiscovery extends Action {
     setTimeout(() => {
       queue([
         () => {
-          if (STORYBOOK) return true
+          if (WEB) return true
 
           return this.fetchOnline()
         },
@@ -53,7 +53,7 @@ class ScreenDiscovery extends Action {
           return calendarStore.fetchCalendar()
         },
         () => {
-          if (STORYBOOK) return true
+          if (WEB) return true
 
           return usersStore.fetchUsers()
         }
@@ -66,7 +66,7 @@ class ScreenDiscovery extends Action {
   onHeaderRefresh = withT(() => {
     return queue([
       () => this.fetchOnline(),
-      () => calendarStore.fetchOnAir(),
+      () => calendarStore.fetchOnAir(true),
       () => calendarStore.fetchCalendar(),
       () => calendarStore.fetchHome()
     ])

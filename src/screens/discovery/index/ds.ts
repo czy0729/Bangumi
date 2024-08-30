@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 16:58:32
+ * @Last Modified time: 2024-08-30 07:20:11
  */
 import { _ } from '@stores'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { MenuItemType, MenuMapType } from './types'
 
 export const COMPONENT = 'Discovery'
@@ -207,7 +207,7 @@ export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
   if (!discoveryMenu.length) return []
 
   let menuMap = { ...MENU_MAP }
-  if (STORYBOOK) {
+  if (WEB) {
     menuMap = {
       ...menuMap,
       ...MENU_MAP_STORYBOOK
@@ -232,7 +232,7 @@ export function getMenus(discoveryMenu: MenuItemType['key'][] = []) {
     menus = [...menus.slice(0, openIndex), ...newMenus, ...menus.slice(openIndex, menus.length)]
   }
 
-  if (STORYBOOK) return menus.filter(item => item.web !== false)
+  if (WEB) return menus.filter(item => item.web !== false)
 
   if (IOS) return menus.filter(item => item.ios !== false)
 

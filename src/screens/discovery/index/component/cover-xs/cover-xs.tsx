@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:45:47
+ * @Last Modified time: 2024-08-30 07:05:30
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Squircle, Text, Touchable, UserStatus } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, Cover } from '@_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { withT } from '@utils/fetch'
@@ -61,7 +61,7 @@ const CoverXs = memo(
             }
           )}
         >
-          <Squircle width={width} height={height} radius={systemStore.coverRadius}>
+          <Squircle width={width} height={height} radius={_.radiusSm}>
             <Cover src={getCoverMedium(cover)} width={width} height={height} />
             <LinearGradient
               style={stl(styles.linear, isMusic && styles.linearMusic)}

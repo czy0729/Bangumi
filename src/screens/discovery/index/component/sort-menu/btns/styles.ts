@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:34:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 03:47:35
+ * @Last Modified time: 2024-08-30 07:22:53
  */
 import { _ } from '@stores'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   web: {
@@ -19,7 +19,7 @@ export const memoStyles = _.memoStyles(() => ({
   btns: {
     paddingHorizontal: _.sm,
     marginTop: _.md,
-    marginBottom: STORYBOOK ? 0 : _.md
+    marginBottom: WEB ? 0 : _.md
   },
   touch: {
     borderRadius: _.r(36),

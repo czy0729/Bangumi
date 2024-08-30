@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 16:15:39
+ * @Last Modified time: 2024-08-30 07:22:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { useIsFocused, useObserver } from '@utils/hooks'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -20,7 +20,7 @@ function Mesume({ dragging }) {
   const show = useIsFocused()
 
   return useObserver(() => {
-    if (STORYBOOK || dragging || !show) return null
+    if (WEB || dragging || !show) return null
 
     const styles = memoStyles()
     return (
