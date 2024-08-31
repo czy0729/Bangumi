@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-09 08:40:49
+ * @Last Modified time: 2024-08-30 10:03:43
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -10,9 +10,14 @@ import { date, feedback, getTimestamp, info, pick, sortObject } from '@utils'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { get } from '@utils/protobuf'
-import { DEVICE_MODEL_NAME, MODEL_SETTING_INITIAL_PAGE, VERSION_GITHUB_RELEASE } from '@constants'
+import {
+  D,
+  DEVICE_MODEL_NAME,
+  MODEL_SETTING_INITIAL_PAGE,
+  VERSION_GITHUB_RELEASE
+} from '@constants'
 import { IOS_IPA } from '@/config'
-import { Navigation, SettingInitialPage } from '@types'
+import { Navigation } from '@types'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -56,8 +61,7 @@ class ScreenHomeV2 extends Action {
 
   /** 初始化请求 */
   initFetch = async (refresh: boolean = false) => {
-    const { fetching } = this.state.progress
-    if (fetching) {
+    if (this.state.progress.fetching) {
       info('正在刷新条目信息')
       return
     }
@@ -67,7 +71,7 @@ class ScreenHomeV2 extends Action {
     if (typeof _loaded !== 'number') _loaded = 0
 
     // 6 天强制刷新一次
-    if (getTimestamp() - _loaded > 60 * 60 * 24 * 6 || !this.collection.list.length) {
+    if (getTimestamp() - _loaded > D * 6 || !this.collection.list.length) {
       flag = true
     }
 
@@ -205,12 +209,12 @@ class ScreenHomeV2 extends Action {
   /** 设置应用初始页面 */
   updateInitialPage = (navigation: Navigation) => {
     const { initialPage, homeRenderTabs } = systemStore.setting
-    if (initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度')) {
+    if (initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('进度')) {
       this.init()
       return
     }
 
-    if (initialPage === MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('小圣杯')) {
+    if (initialPage === MODEL_SETTING_INITIAL_PAGE.getValue('小圣杯')) {
       if (!homeRenderTabs.includes('Tinygrail')) navigation.push('Tinygrail')
       return
     }

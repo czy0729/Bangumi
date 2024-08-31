@@ -362,7 +362,7 @@ export function simpleTime(time: string = '') {
 }
 
 /** 数组分组 */
-export function arrGroup<T>(arr: T[], num: number = 40): T[][] {
+export function arrGroup<T>(arr: T[] | readonly T[], num: number = 40): T[][] {
   return Array.from(
     {
       length: Math.ceil(arr.length / num)
@@ -534,7 +534,7 @@ export function factory<T>(type: { new (): T }): T {
 }
 
 /** findLastIndex */
-export function findLastIndex(arr: any[], callback: any, thisArg?: any) {
+export function findLastIndex(arr: any[] | readonly any[], callback: any, thisArg?: any) {
   for (let index = arr.length - 1; index >= 0; index--) {
     const value = arr[index]
     if (callback.call(thisArg, value, index, arr)) {

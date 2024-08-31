@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 09:10:32
+ * @Last Modified time: 2024-08-31 14:01:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,11 +20,11 @@ import {
   userStore
 } from '@stores'
 import { ON_AIR } from '@stores/calendar/onair'
-import { SubjectComments } from '@stores/subject/types'
 import {
   asc,
   desc,
   findSubjectCn,
+  freeze,
   getOnAir,
   getTimestamp,
   HTMLDecode,
@@ -50,7 +50,7 @@ import {
   URL_DEFAULT_AVATAR,
   WEB
 } from '@constants'
-import { Id, Optional, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
+import { Collection, Id, RatingStatus, Sites, SubjectType, SubjectTypeCn } from '@types'
 import {
   TITLE_ANITABI,
   TITLE_BLOG,
@@ -72,11 +72,13 @@ import {
   TITLE_THUMBS,
   TITLE_TOPIC
 } from '../ds'
+import { SubjectCommentValue } from '../types'
 import { getOriginConfig, OriginItem } from '../../../user/origin-setting/utils'
 import State from './state'
-import { EXCLUDE_STATE, INIT_RATING, NAMESPACE, SORT_RELATION_DESC } from './ds'
+import { EXCLUDE_STATE, INIT_RATING, NAMESPACE, NON_SHOW, SORT_RELATION_DESC } from './ds'
 
 export default class Computed extends State {
+  /** 本地化 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
   }
@@ -88,7 +90,7 @@ export default class Computed extends State {
 
   /** 页面唯一命名空间 */
   @computed get namespace() {
-    return `${NAMESPACE}|${this.subjectId}` as const
+    return `${NAMESPACE}|${this.subjectId}`
   }
 
   /** 是否敏感条目 */
@@ -98,36 +100,21 @@ export default class Computed extends State {
 
   /** 用户自定义播放信息 */
   @computed get onAirCustom() {
-    return getOnAir(
-      calendarStore.onAirLocal(this.subjectId),
-      calendarStore.onAirUser(this.subjectId)
+    return freeze(
+      getOnAir(calendarStore.onAirLocal(this.subjectId), calendarStore.onAirUser(this.subjectId))
     )
-  }
-
-  /** 屏蔽默认头像用户相关信息 */
-  @computed get filterDefault() {
-    return systemStore.setting.filterDefault
-  }
-
-  /** 是否显示吐槽 */
-  @computed get showComment() {
-    return systemStore.setting.showComment
   }
 
   /** 不显示吐槽块的空占位组件 */
   @computed get footerEmptyDataComponent() {
-    if (this.showComment === -1) return <View />
+    if (systemStore.setting.showComment === -1) return <View />
+
     return undefined
   }
 
   /** bgm 网址 */
   @computed get url() {
-    return `${HOST}/subject/${this.subjectId}` as const
-  }
-
-  /** 是否登录 */
-  @computed get isLogin() {
-    return userStore.isLogin
+    return `${HOST}/subject/${this.subjectId}`
   }
 
   /** 用户 id */
@@ -137,38 +124,32 @@ export default class Computed extends State {
 
   /** 条目信息 */
   @computed get subject() {
-    return subjectStore.subject(this.subjectId)
+    return freeze(subjectStore.subject(this.subjectId))
   }
 
   /** 条目信息 (来自网页) */
   @computed get subjectFormHTML() {
-    return subjectStore.subjectFormHTML(this.subjectId)
-  }
-
-  /** 条目 CDN 自维护数据 */
-  @computed get subjectFormCDN() {
-    return subjectStore.subjectFormCDN(this.subjectId)
+    return freeze(subjectStore.subjectFormHTML(this.subjectId))
   }
 
   /** 条目云端缓存数据 */
   @computed get subjectFromOSS() {
-    return this.state.subject
+    return freeze(this.state.subject)
   }
 
   /**
    * 条目留言, 筛选逻辑
    *  - 主动设置屏蔽默认头像用户相关信息
-   *  - 限制用户群体 (iOS的游客和审核员) 强制屏蔽默认头像用户
+   *  - 限制用户群体 (iOS 的游客和审核员) 强制屏蔽默认头像用户
    */
-  @computed get subjectComments() {
-    let subjectComments: Optional<SubjectComments, 'version'> = subjectStore.subjectComments(
-      this.subjectId
-    )
+  @computed get subjectComments(): SubjectCommentValue {
+    let subjectComments: SubjectCommentValue = subjectStore.subjectComments(this.subjectId)
     if (!subjectComments._loaded && this.state.comments.list?.length) {
       subjectComments = this.state.comments
     }
 
-    if (!this.showComment || this.showComment === -1) {
+    const { showComment } = systemStore.setting
+    if (!showComment || showComment === -1) {
       const { pageTotal } = subjectComments.pagination
       return {
         list: [],
@@ -183,7 +164,7 @@ export default class Computed extends State {
     }
 
     const { filterScores } = this.state
-    if (this.filterDefault || userStore.isLimit) {
+    if (systemStore.setting.filterDefault || userStore.isLimit) {
       return {
         ...subjectComments,
         list: subjectComments.list.filter(item => {
@@ -227,12 +208,12 @@ export default class Computed extends State {
 
   /** 条目收藏信息 */
   @computed get collection() {
-    return collectionStore.collection(this.subjectId)
+    return freeze(collectionStore.collection(this.subjectId))
   }
 
   /** 用户章节记录 */
   @computed get userProgress() {
-    return userStore.userProgress(this.subjectId)
+    return freeze(userStore.userProgress(this.subjectId))
   }
 
   /** 条目类型中文 */
@@ -250,7 +231,8 @@ export default class Computed extends State {
   /** 条目类型 (数字) */
   @computed get subjectType() {
     if (this.subject._loaded) return this.subject.type
-    return this.subjectFromOSS.type || this.subjectFormCDN.type
+
+    return this.subjectFromOSS.type
   }
 
   /** 条目类型值 */
@@ -270,7 +252,7 @@ export default class Computed extends State {
 
   /** VIB 等评分数据 */
   @computed get vib() {
-    return subjectStore.vib(this.subjectId)
+    return freeze(subjectStore.vib(this.subjectId))
   }
 
   /** 章节正版播放源 */
@@ -283,48 +265,32 @@ export default class Computed extends State {
       }
     })
     data.push('取消')
-    return data
+
+    return freeze(data)
   }
 
   /** 条目动作 */
   @computed get action() {
-    switch (this.type) {
-      case '音乐':
-        return '听'
-      case '游戏':
-        return '玩'
-      case '书籍':
-        return '读'
-      default:
-        return '看'
-    }
-  }
-
-  /** 是否限制用户 (防审核) */
-  @computed get isLimit() {
-    return userStore.isLimit
-  }
-
-  /** 是否网站用户评分 */
-  @computed get hideScore() {
-    return systemStore.setting.hideScore
+    if (this.type === '音乐') return '听'
+    if (this.type === '游戏') return '玩'
+    if (this.type === '书籍') return '读'
+    return '看'
   }
 
   /** 用户自定义源头 */
   @computed get userOrigins() {
-    return getOriginConfig(subjectStore.origin, 'anime')
+    return freeze(getOriginConfig(subjectStore.origin, 'anime'))
   }
 
   /** 自定义跳转 */
   @computed get actions() {
-    const actions = subjectStore.actions(this.subjectId)
-    if (!actions.length) return actions
-
-    return subjectStore
-      .actions(this.subjectId)
-      .slice()
-      .filter(item => item.active)
-      .sort((a, b) => desc(a.sort || 0, b.sort || 0))
+    return freeze(
+      subjectStore
+        .actions(this.subjectId)
+        .slice()
+        .filter(item => item.active)
+        .sort((a, b) => desc(a.sort || 0, b.sort || 0))
+    )
   }
 
   /** 动画和三次元源头 */
@@ -332,7 +298,7 @@ export default class Computed extends State {
     const data: (OriginItem | Sites)[] = []
 
     if (['动画'].includes(this.type)) {
-      if (systemStore?.ota?.X18 && this.isLogin) {
+      if (systemStore?.ota?.X18 && userStore.isLogin) {
         let flagX18: boolean
         if (this.nsfw) flagX18 = true
         if (!flagX18) flagX18 = this.tags.some(item => item.name?.includes?.('里番'))
@@ -372,28 +338,30 @@ export default class Computed extends State {
         data.push(item.site)
       })
 
-    return data
+    return freeze(data)
   }
 
   /** 漫画源头 */
   @computed get onlineComicOrigins() {
-    return getOriginConfig(
-      subjectStore.origin,
-      this.titleLabel.includes('小说') ? 'wenku' : 'manga'
-    ).filter(item => item.active)
+    return freeze(
+      getOriginConfig(
+        subjectStore.origin,
+        this.titleLabel.includes('小说') ? 'wenku' : 'manga'
+      ).filter(item => item.active)
+    )
   }
 
   /** 音乐源头 */
   @computed get onlineDiscOrigins() {
-    return getOriginConfig(subjectStore.origin, 'music').filter(item => item.active)
+    return freeze(getOriginConfig(subjectStore.origin, 'music').filter(item => item.active))
   }
 
   /** 游戏源头 */
   @computed get onlineGameOrigins() {
-    return getOriginConfig(subjectStore.origin, 'game').filter(item => item.active)
+    return freeze(getOriginConfig(subjectStore.origin, 'game').filter(item => item.active))
   }
 
-  /** 是否PS游戏, 跳转psnine查看奖杯 */
+  /** 是否 PS 游戏, 跳转 psnine 查看奖杯 */
   @computed get isPS() {
     return (
       this.type === '游戏' &&
@@ -406,7 +374,7 @@ export default class Computed extends State {
     if (this.type !== '动画') return null
 
     const item = findAnime(this.subjectId)
-    if (item?.i) return item
+    if (item?.i) return freeze(item)
 
     return null
   }
@@ -422,7 +390,10 @@ export default class Computed extends State {
     }
     if (!animeInfoTags && !calendarInfo) return null
 
-    const tags = []
+    const tags: {
+      pressable: boolean
+      value: string
+    }[] = []
     let exist = {}
     if (animeInfoTags) {
       animeInfoTags.forEach(item => {
@@ -461,18 +432,8 @@ export default class Computed extends State {
       })
     }
 
-    return tags
+    return freeze(tags)
   }
-
-  /** 第三方 Hentai 标签 */
-  // @computed get hentaiTags() {
-  //   if (this.type !== '动画' && !this.nsfw) return null
-
-  //   const item = findHentai(this.subjectId)
-  //   if (isArray(item?.t)) return item.t.map(item => HENTAI_TAGS[item])
-
-  //   return []
-  // }
 
   /** 第三方游戏信息 */
   @computed get gameInfo() {
@@ -480,18 +441,18 @@ export default class Computed extends State {
 
     const item = findGame(this.subjectId)
     if (item?.i) {
-      return {
+      return freeze({
         ...item,
         isADV: false
-      }
+      })
     }
 
     const adv = findADV(this.subjectId)
     if (adv?.i) {
-      return {
+      return freeze({
         ...adv,
         isADV: true
-      }
+      })
     }
 
     return null
@@ -501,8 +462,9 @@ export default class Computed extends State {
   @computed get gameTags() {
     if (!this.gameInfo || this.gameInfo?.isADV) return null
 
-    const tags = (this.gameInfo as { ta: number[] })?.ta || []
-    return tags.map(item => GAME_CATE[item])
+    // @ts-expect-error
+    const tags: any[] = this.gameInfo?.ta || []
+    return freeze(tags.map(item => GAME_CATE[item]))
   }
 
   /** 第三方漫画信息 */
@@ -510,7 +472,7 @@ export default class Computed extends State {
     if (this.type !== '书籍') return null
 
     const item = findManga(this.subjectId)
-    if (item?.i) return item
+    if (item?.i) return freeze(item)
 
     return null
   }
@@ -520,7 +482,7 @@ export default class Computed extends State {
     if (!this.mangaInfo) return null
 
     const tags = this.mangaInfo?.b || []
-    return tags.map(item => MANGA_TAGS[item])
+    return freeze(tags.map(item => MANGA_TAGS[item]))
   }
 
   /** 第三方文库信息 */
@@ -528,7 +490,7 @@ export default class Computed extends State {
     if (this.type !== '书籍') return null
 
     const item = findWenku(this.subjectId)
-    if (item?.i) return item
+    if (item?.i) return freeze(item)
 
     return null
   }
@@ -538,28 +500,27 @@ export default class Computed extends State {
     if (!this.wenkuInfo) return null
 
     const tags = this.wenkuInfo?.j || []
-    return tags.map(item => WENKU_TAGS[item])
+    return freeze(tags.map(item => WENKU_TAGS[item]))
   }
 
   /** 漫画或文库是否有源头 */
   @computed get source() {
     if (this.type !== '书籍') return null
 
-    return {
+    return freeze({
       mangaId: 0,
       wenkuId: 0
-    }
+    })
   }
 
   /** 筛选章节构造数据, 每 100 章节一个选项 */
   @computed get filterEpsData() {
     const data = ['从 1 起']
-    if (this.eps.length < 100) return data
+    if (this.eps.length < 100) return freeze(data)
 
     const count = Math.floor(this.eps.length / 100)
     for (let i = 1; i <= count; i += 1) data.push(`从 ${i * 100} 开始`)
-
-    return data
+    return freeze(data)
   }
 
   /** 全站人员状态数字 */
@@ -618,8 +579,7 @@ export default class Computed extends State {
         text: `总${wish + collect + doing + onHold + dropped}`
       })
     }
-
-    return status
+    return freeze(status)
   }
 
   /** 上映时间 (用于标识未上映) */
@@ -734,20 +694,12 @@ export default class Computed extends State {
     let placeholder = this.params._imageForce || this.params._image
     if (placeholder === '/img/no_icon_subject.png') placeholder = ''
 
-    return (
-      placeholder ||
-      this.subjectFromOSS.image ||
-      this.subjectFormCDN.image ||
-      this.subject?.images?.medium ||
-      ''
-    )
+    return placeholder || this.subjectFromOSS.image || this.subject?.images?.medium || ''
   }
 
   /** 日文名 */
   @computed get jp() {
-    return HTMLDecode(
-      this.subject.name || this.params._jp || this.subjectFromOSS.name || this.subjectFormCDN.name
-    )
+    return HTMLDecode(this.subject.name || this.params._jp || this.subjectFromOSS.name)
   }
 
   /** 中文名 */
@@ -765,41 +717,36 @@ export default class Computed extends State {
     // 若条目 api 返回 404, 是没有 rating 结构的
     // 所以可以使用此来判断数据源, 让游客也能访问到数据, 下方其他 computed 同理
     if (this.subject._loaded && this.subject.rating) {
-      return {
+      return freeze({
         ...INIT_RATING,
         ...this.subject.rating
-      }
+      })
     }
 
     if (this.subjectFromOSS.rating) {
-      return {
+      return freeze({
         ...INIT_RATING,
         ...this.subjectFromOSS.rating
-      }
+      })
     }
 
-    if (this.subjectFormCDN._loaded) {
-      return {
-        ...INIT_RATING,
-        ...this.subjectFormCDN.rating
-      }
-    }
-
-    return INIT_RATING
+    return freeze(INIT_RATING)
   }
 
   /** 是否锁定条目 */
   @computed get lock() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.lock
 
-    return this.subjectFromOSS.lock || this.subjectFormCDN.lock
+    return this.subjectFromOSS.lock
   }
 
   /** 各状态评分人数 */
   @computed get subjectCollection() {
-    if (this.subject._loaded && this.subject.rating) return this.subject.collection || {}
+    if (this.subject._loaded && this.subject.rating) {
+      return freeze((this.subject.collection || {}) as Collection)
+    }
 
-    return this.subjectFromOSS.collection || this.subjectFormCDN.collection || {}
+    return freeze((this.subjectFromOSS.collection || {}) as Collection)
   }
 
   /** 章节数据 */
@@ -812,73 +759,69 @@ export default class Computed extends State {
         )
       }
 
-      return eps.slice().sort((a, b) => asc(a, b, item => item.type))
+      return freeze(eps.slice().sort((a, b) => asc(a, b, item => item.type)))
     }
 
-    if (this.subjectFromOSS.eps?.length) return this.subjectFromOSS.eps || []
-
-    return this.subjectFormCDN.eps || []
+    return freeze(this.subjectFromOSS.eps || [])
   }
 
   /** 经过计算后传递到 Eps 的 data */
   @computed get toEps() {
     if (this.state.filterEps) {
       const eps = this.eps.filter((_item, index) => index > this.state.filterEps)
-      return this.state.epsReverse ? eps.slice().reverse() : eps
+      return freeze(this.state.epsReverse ? eps.slice().reverse() : eps)
     }
 
-    return this.state.epsReverse ? this.eps.map(item => item).reverse() : this.eps
+    return freeze(this.state.epsReverse ? this.eps.map(item => item).reverse() : this.eps)
   }
 
   /** 音乐曲目数据 */
   @computed get disc() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.disc || []
+    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.disc || [])
 
-    if (this.subjectFromOSS.disc?.length) return this.subjectFromOSS.disc || []
-
-    return this.subjectFormCDN.disc || []
+    return freeze(this.subjectFromOSS.disc || [])
   }
 
   /** 详情 */
   @computed get summary() {
     if (this.subject._loaded && this.subject.rating) return this.subject.summary
 
-    return this.subjectFromOSS.summary || this.subjectFormCDN.summary || ''
+    return this.subjectFromOSS.summary || ''
   }
 
   /** 标签 */
   @computed get tags() {
     const value =
-      (this.subjectFormHTML._loaded
-        ? this.subjectFormHTML.tags
-        : this.subjectFromOSS.tags || this.subjectFormCDN.tags) || []
-    return value.some(item => !item.name) ? value.filter(item => !!item.name) : value
+      (this.subjectFormHTML._loaded ? this.subjectFormHTML.tags : this.subjectFromOSS.tags) || []
+    return freeze(value.some(item => !item.name) ? value.filter(item => !!item.name) : value)
   }
 
   /** 网页版详情 */
   @computed get info() {
     if (this.subjectFormHTML._loaded) return this.subjectFormHTML.info
 
-    return this.subjectFromOSS.info || this.subjectFormCDN.info || ''
+    return this.subjectFromOSS.info || ''
   }
 
   /** 关联人物 */
   @computed get crt() {
     if (this.subject._loaded && this.subject.rating) {
-      return (this.subject.crt || []).map(
-        ({ id, images = {}, name, name_cn: nameCn, role_name: roleName, actors = [] }) => ({
-          id,
-          image: images?.grid,
-          _image: images?.medium,
-          name: nameCn || name,
-          nameJP: name,
-          desc: actors?.[0]?.name || roleName,
-          actorId: actors?.[0]?.id
-        })
+      return freeze(
+        (this.subject.crt || []).map(
+          ({ id, images = {}, name, name_cn: nameCn, role_name: roleName, actors = [] }) => ({
+            id,
+            image: images?.grid,
+            _image: images?.medium,
+            name: nameCn || name,
+            nameJP: name,
+            desc: actors?.[0]?.name || roleName,
+            actorId: actors?.[0]?.id
+          })
+        )
       )
     }
 
-    return this.subjectFromOSS.character || this.subjectFormCDN.crt || []
+    return freeze(this.subjectFromOSS.character || [])
   }
 
   /** 制作人员 */
@@ -888,28 +831,31 @@ export default class Computed extends State {
 
       /** @fixed 敏感条目不再返回数据, 而旧接口 staff 也错乱, 改为使用网页的 staff 数据 */
       if (staff?.[0]?.id == this.subjectId) {
-        const persons = monoStore.persons(this.subjectId)
-        return persons.list.map(item => ({
-          id: item.id.replace('/person/', ''),
-          image: item.cover,
-          _image: item.cover,
-          name: (item.nameCn || item.name).trim(),
-          nameJP: item.name.trim(),
-          desc: item.position
-        }))
+        return freeze(
+          monoStore.persons(this.subjectId).list.map(item => ({
+            id: item.id.replace('/person/', ''),
+            image: item.cover,
+            _image: item.cover,
+            name: (item.nameCn || item.name).trim(),
+            nameJP: item.name.trim(),
+            desc: item.position
+          }))
+        )
       }
 
-      return (staff || []).map(({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
-        id,
-        image: images?.grid,
-        _image: images?.medium,
-        name: nameCn || name,
-        nameJP: name,
-        desc: jobs[0]
-      }))
+      return freeze(
+        (staff || []).map(({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
+          id,
+          image: images?.grid,
+          _image: images?.medium,
+          name: nameCn || name,
+          nameJP: name,
+          desc: jobs[0]
+        }))
+      )
     }
 
-    return this.subjectFromOSS.staff || this.subjectFormCDN.staff || []
+    return freeze(this.subjectFromOSS.staff || [])
   }
 
   /** 关联条目 */
@@ -928,7 +874,7 @@ export default class Computed extends State {
         desc: type
       }))
     } else {
-      data = (this.subjectFromOSS.relations || this.subjectFormCDN.relations || []).map(item => ({
+      data = (this.subjectFromOSS.relations || []).map(item => ({
         id: item.id,
         image: item.image,
         name: item.title,
@@ -936,27 +882,25 @@ export default class Computed extends State {
       }))
     }
 
-    return data
-      .slice()
-      .sort((a, b) => desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0))
+    return freeze(
+      data
+        .slice()
+        .sort((a, b) => desc(SORT_RELATION_DESC[a.desc] || 0, SORT_RELATION_DESC[b.desc] || 0))
+    )
   }
 
   /** 单行本 */
   @computed get comic() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.comic || []
+    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.comic || [])
 
-    if (this.subjectFromOSS.comic?.length) return this.subjectFromOSS.comic || []
-
-    return this.subjectFormCDN.comic || []
+    return freeze(this.subjectFromOSS.comic || [])
   }
 
   /** 猜你喜欢 */
   @computed get like() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.like || []
+    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.like || [])
 
-    if (this.subjectFromOSS.like?.length) return this.subjectFromOSS.like || []
-
-    return this.subjectFormCDN.like || []
+    return freeze(this.subjectFromOSS.like || [])
   }
 
   /** 条目类别 */
@@ -979,9 +923,9 @@ export default class Computed extends State {
 
   /** 包含的目录 */
   @computed get catalog() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.catalog || []
+    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.catalog || [])
 
-    return this.subjectFromOSS.catalog || []
+    return freeze(this.subjectFromOSS.catalog || [])
   }
 
   /** bilibili 放送信息 */
@@ -989,7 +933,7 @@ export default class Computed extends State {
     site?: Sites
     id?: string
   } {
-    return this.state.bangumiInfo?.sites?.find(item => item.site === 'bilibili') || {}
+    return freeze(this.state.bangumiInfo?.sites?.find(item => item.site === 'bilibili') || {})
   }
 
   /** 爱奇艺放送信息 */
@@ -997,7 +941,7 @@ export default class Computed extends State {
     site?: Sites
     id?: string
   } {
-    return this.state.bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || {}
+    return freeze(this.state.bangumiInfo?.sites?.find(item => item.site === 'iqiyi') || {})
   }
 
   /** 优酷放送信息 */
@@ -1005,36 +949,42 @@ export default class Computed extends State {
     site?: Sites
     id?: string
   } {
-    return this.state.bangumiInfo?.sites?.find(item => item.site === 'youku') || {}
+    return freeze(this.state.bangumiInfo?.sites?.find(item => item.site === 'youku') || {})
   }
 
   /** 关联数据 (原始) */
   @computed get subjectRelations() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.relations || []
+    if (this.subjectFormHTML._loaded) return freeze(this.subjectFormHTML.relations || [])
 
-    return this.subjectFromOSS.relations || []
+    return freeze(this.subjectFromOSS.relations || [])
   }
 
   /** 关联: 前传和续集, 或系列: 若为单行本, relations 第一项则为系列前传 */
   @computed get subjectPrev() {
-    return this.subjectRelations.find(item => item.type === '前传')
+    return freeze(this.subjectRelations.find(item => item.type === '前传'))
   }
 
   /** 续集 */
   @computed get subjectAfter() {
-    return this.subjectRelations.find(item => item.type === '续集')
+    return freeze(this.subjectRelations.find(item => item.type === '续集'))
   }
 
   /** 系列 */
   @computed get subjectSeries() {
-    return this.subjectRelations?.[0]?.type === '系列' ? this.subjectRelations[0] : null
+    return freeze(this.subjectRelations?.[0]?.type === '系列' ? this.subjectRelations[0] : null)
   }
 
   /** 书籍 */
   @computed get subjectBook() {
-    if (!WEB) return null
+    if (!WEB) {
+      // 客户端中更加谨慎展示关联书籍数据, 往往越后面越不是本体, 而是衍生
+      const index = this.subjectRelations.findIndex(item => item.type === '书籍')
+      if (index !== -1 && index <= 3) return this.subjectRelations[index]
 
-    return this.subjectRelations.find(item => item.type === '书籍')
+      return null
+    }
+
+    return freeze(this.subjectRelations.find(item => item.type === '书籍'))
   }
 
   /** 动画化 */
@@ -1045,7 +995,7 @@ export default class Computed extends State {
 
     // 部分条目维护不够好, 动画化条目标签为其他, 若日文名字相等都认为是动画化
     if (find?.type === '动画' || (find?.type === '其他' && this.jp.includes(find?.title))) {
-      return find
+      return freeze(find)
     }
 
     return null
@@ -1054,16 +1004,16 @@ export default class Computed extends State {
   /** 不同演绎 */
   @computed get subjectDiff() {
     let find = this.subjectRelations.find(item => item.type === '不同演绎')
-    if (find) return find
+    if (find) return freeze(find)
 
     find = this.subjectRelations.find(item => item.type === '主版本')
-    if (find) return find
+    if (find) return freeze(find)
 
     find = this.subjectRelations.find(item => item.type === '主线故事')
-    if (find) return find
+    if (find) return freeze(find)
 
     find = this.subjectRelations.find(item => item.type === '外传')
-    if (find) return find
+    if (find) return freeze(find)
 
     return null
   }
@@ -1096,12 +1046,12 @@ export default class Computed extends State {
 
   /** 计算本条目存在在多少个自己创建的目录里面 */
   @computed get catalogs() {
-    return usersStore.catalogs()
+    return freeze(usersStore.catalogs())
   }
 
   /** 目录详情 */
   catalogDetail(id: Id) {
-    return computed(() => discoveryStore.catalogDetail(id)).get()
+    return freeze(computed(() => discoveryStore.catalogDetail(id)).get())
   }
 
   /** 是否存在在目录中 */
@@ -1116,16 +1066,16 @@ export default class Computed extends State {
   /** 过滤后的目录 */
   @computed get filterCatalog() {
     let catalog = this.catalog
-    if (this.filterDefault || this.isLimit) {
+    if (systemStore.setting.filterDefault || userStore.isLimit) {
       catalog = catalog.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
     }
-    return catalog
+    return freeze(catalog)
   }
 
   /** 过滤后的日志 */
   @computed get filterBlog() {
     let blog = this.subject.blog || []
-    if (this.filterDefault || this.isLimit) {
+    if (systemStore.setting.filterDefault || userStore.isLimit) {
       blog = blog.filter(item => {
         if (item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR)) return false
         return true
@@ -1163,13 +1113,13 @@ export default class Computed extends State {
       } catch (error) {}
     }
 
-    return blog
+    return freeze(blog)
   }
 
   /** 过滤后的帖子 */
   @computed get filterTopic() {
     let topic = this.subject.topic || []
-    if (this.filterDefault || this.isLimit) {
+    if (systemStore.setting.filterDefault || userStore.isLimit) {
       topic = topic.filter(item => {
         if (item?.user?.avatar?.small?.includes?.(URL_DEFAULT_AVATAR)) return false
         return true
@@ -1206,16 +1156,16 @@ export default class Computed extends State {
       } catch (error) {}
     }
 
-    return topic
+    return freeze(topic)
   }
 
   /** 过滤后的动态 */
   @computed get filterRecent() {
     let who = this.subjectFormHTML.who || []
-    if (this.filterDefault || this.isLimit) {
+    if (systemStore.setting.filterDefault || userStore.isLimit) {
       who = who.filter(item => !item.avatar?.includes?.(URL_DEFAULT_AVATAR))
     }
-    return who
+    return freeze(who)
   }
 
   /** 吐槽数量 */
@@ -1246,7 +1196,7 @@ export default class Computed extends State {
 
   /** 是否显示简介 */
   @computed get showSummary() {
-    if (this.subject._loaded && !this.summary) return [false, false] as const
+    if (this.subject._loaded && !this.summary) return NON_SHOW
 
     const { showSummary } = systemStore.setting
     return [showSummary === true, showSummary !== -1] as const
@@ -1254,13 +1204,13 @@ export default class Computed extends State {
 
   /** 是否显示预览 */
   @computed get showThumbs() {
-    if (WEB) return [false, false] as const
+    if (WEB) return NON_SHOW
 
     const { showThumbs } = systemStore.setting
-    if (showThumbs === -1) return [false, false] as const
+    if (showThumbs === -1) return NON_SHOW
 
     const { epsThumbs, videos } = this.state
-    if (!epsThumbs.length && !videos.length) return [false, false] as const
+    if (!epsThumbs.length && !videos.length) return NON_SHOW
 
     return [showThumbs === true, true] as const
   }
@@ -1274,9 +1224,7 @@ export default class Computed extends State {
   /** 是否显示游戏 */
   @computed get showGame() {
     const { showGameInfo } = systemStore.setting
-    if (showGameInfo === -1 || !this.gameInfo?.i) {
-      return [false, false] as const
-    }
+    if (showGameInfo === -1 || !this.gameInfo?.i) return NON_SHOW
 
     return [showGameInfo === true, true] as const
   }
@@ -1289,7 +1237,7 @@ export default class Computed extends State {
 
   /** 是否显示角色 */
   @computed get showCharacter() {
-    if (!this.crt.length) return [false, false] as const
+    if (!this.crt.length) return NON_SHOW
 
     const { showCharacter } = systemStore.setting
     return [showCharacter === true, showCharacter !== -1] as const
@@ -1297,7 +1245,7 @@ export default class Computed extends State {
 
   /** 是否显示制作人员 */
   @computed get showStaff() {
-    if (!this.staff.length) return [false, false] as const
+    if (!this.staff.length) return NON_SHOW
 
     const { showStaff } = systemStore.setting
     return [showStaff === true, showStaff !== -1] as const
@@ -1305,7 +1253,7 @@ export default class Computed extends State {
 
   /** 是否显示取景地标 */
   @computed get showAnitabi() {
-    if (!this.state.anitabi.pointsLength) return [false, false] as const
+    if (!this.state.anitabi.pointsLength) return NON_SHOW
 
     const { showAnitabi } = systemStore.setting
     return [showAnitabi === true, showAnitabi !== -1] as const
@@ -1313,7 +1261,7 @@ export default class Computed extends State {
 
   /** 是否显示关联 */
   @computed get showRelations() {
-    if (!this.relations.length) return [false, false] as const
+    if (!this.relations.length) return NON_SHOW
 
     const { showRelations } = systemStore.setting
     return [showRelations === true, showRelations !== -1] as const
@@ -1321,7 +1269,7 @@ export default class Computed extends State {
 
   /** 是否显示单行本 */
   @computed get showComic() {
-    if (!this.comic.length) return [false, false] as const
+    if (!this.comic.length) return NON_SHOW
 
     return [true, true] as const
   }
@@ -1329,14 +1277,14 @@ export default class Computed extends State {
   /** 是否显示目录 */
   @computed get showCalalog() {
     const { showCatalog } = systemStore.setting
-    if (showCatalog === -1 || !this.filterCatalog.length) return [false, false] as const
+    if (showCatalog === -1 || !this.filterCatalog.length) return NON_SHOW
 
     return [showCatalog === true, true] as const
   }
 
   /** 是否显示猜你喜欢 */
   @computed get showLike() {
-    if (!this.like.length) return [false, false] as const
+    if (!this.like.length) return NON_SHOW
 
     const { showLike } = systemStore.setting
     return [showLike === true, showLike !== -1] as const
@@ -1345,7 +1293,7 @@ export default class Computed extends State {
   /** 是否显示日志 */
   @computed get showBlog() {
     const { showBlog } = systemStore.setting
-    if (showBlog === -1 || !this.filterBlog.length) return [false, false] as const
+    if (showBlog === -1 || !this.filterBlog.length) return NON_SHOW
 
     return [showBlog === true, true] as const
   }
@@ -1353,7 +1301,7 @@ export default class Computed extends State {
   /** 是否显示帖子 */
   @computed get showTopic() {
     const { showTopic } = systemStore.setting
-    if (showTopic === -1 || !this.filterTopic.length) return [false, false] as const
+    if (showTopic === -1 || !this.filterTopic.length) return NON_SHOW
 
     return [showTopic === true, true] as const
   }
@@ -1361,7 +1309,7 @@ export default class Computed extends State {
   /** 是否显示动态 */
   @computed get showRecent() {
     const { showRecent } = systemStore.setting
-    if (showRecent === -1 || !this.filterRecent.length) return [false, false] as const
+    if (showRecent === -1 || !this.filterRecent.length) return NON_SHOW
 
     return [showRecent === true, true] as const
   }
@@ -1390,6 +1338,6 @@ export default class Computed extends State {
     if (this.showTopic[0]) data.push(`${TITLE_TOPIC} (${this.filterTopic.length})`)
     if (this.showRecent[0]) data.push(`${TITLE_RECENT} (${this.filterRecent.length})`)
     data.push(`${TITLE_COMMENT} (${this.commentLength}+)`)
-    return data
+    return freeze(data)
   }
 }

@@ -189,3 +189,6 @@ export const SORT_RELATION_DESC = {
   三次元: 30,
   其他: -10
 } as const
+
+/** 完全隐藏一个模块 */
+export const NON_SHOW = [false, false] as const

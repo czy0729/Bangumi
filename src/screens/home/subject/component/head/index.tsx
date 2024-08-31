@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 09:40:01
+ * @Last Modified time: 2024-08-31 13:59:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -41,7 +41,7 @@ function HeadWrap({ onBlockRef }, { $ }: Ctx) {
         imageWidth={$.imageWidth}
         imageHeight={$.imageHeight}
         titleLabel={$.titleLabel}
-        hideScore={$.hideScore}
+        hideScore={systemStore.setting.hideScore}
         rating={$.rating}
         nsfw={$.nsfw}
         hasSeries={$.hasSeries}

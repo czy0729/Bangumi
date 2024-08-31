@@ -8,6 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   img: {
-    marginBottom: 8
+    marginBottom: _.xs
   }
 })

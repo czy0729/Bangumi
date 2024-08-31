@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { Ep } from '@stores/subject/types'
-import { desc, findLastIndex, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
+import { desc, findLastIndex, freeze, getOnAir, getPinYinFilterValue, t2s, x18 } from '@utils'
 import CacheManager from '@utils/cache-manager'
 import {
   IOS,
@@ -16,7 +16,6 @@ import {
   MODEL_SETTING_HOME_SORTING,
   MODEL_SUBJECT_TYPE,
   PAD,
-  SITES_DS,
   WEB
 } from '@constants'
 import { getOriginConfig, OriginItem } from '@src/screens/user/origin-setting/utils'
@@ -31,14 +30,14 @@ import {
 import { H_TABBAR, TABS_ITEM } from '../ds'
 import { Tabs, TabsLabel } from '../types'
 import State from './state'
-import { INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
+import { BANGUMI_INFO, INIT_ITEM, NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from './ds'
 
 export default class Computed extends State {
   /** 置顶的映射 */
   getTopMap() {
-    const topMap = {}
+    const topMap: Record<SubjectId, number> = {}
     this.state.top.forEach((subjectId, order) => (topMap[subjectId] = order + 1))
-    return topMap
+    return freeze(topMap)
   }
 
   /** Tabs SceneMap */
@@ -48,16 +47,16 @@ export default class Computed extends State {
       if (TABS_ITEM[item]) tabs.push(TABS_ITEM[item])
     })
     if (systemStore.setting.showGame) tabs.push(TABS_ITEM.game)
-    return tabs
+    return freeze(tabs)
   }
 
   /** Tabs navigationState */
   @computed get navigationState() {
     const { page } = this.state
-    return {
+    return freeze({
       index: page > this.tabs.length - 1 ? 0 : page,
       routes: this.tabs
-    }
+    })
   }
 
   /** 列表上内距 */
@@ -76,7 +75,7 @@ export default class Computed extends State {
 
   /** 用户信息 */
   @computed get usersInfo() {
-    return userStore.usersInfo(userStore.myUserId)
+    return freeze(userStore.usersInfo(userStore.myUserId))
   }
 
   /** 当前 Tabs label */
@@ -86,7 +85,7 @@ export default class Computed extends State {
 
   /** 每个 Item 的状态 */
   $Item(subjectId: SubjectId) {
-    return computed(() => this.state.item[subjectId] || INIT_ITEM).get()
+    return freeze(computed(() => this.state.item[subjectId] || INIT_ITEM).get())
   }
 
   /** 是否登录 (api) */
@@ -277,7 +276,7 @@ export default class Computed extends State {
       MODEL_COLLECTION_STATUS.getValue<CollectionStatus>('在看')
     )
     const topMap = this.getTopMap()
-    return {
+    return freeze({
       ...userCollections,
       list: userCollections.list
         .filter(item => {
@@ -289,76 +288,80 @@ export default class Computed extends State {
           return getPinYinFilterValue(cn, this.filter)
         })
         .sort((a, b) => desc(a, b, item => topMap[item.id] || 0))
-    }
+    })
   }
 
   /** 用户条目收视进度 */
   userProgress(subjectId: SubjectId) {
-    return computed(() => userStore.userProgress(subjectId)).get()
+    return freeze(computed(() => userStore.userProgress(subjectId)).get())
   }
 
   /** 条目信息 */
   subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
+    return freeze(computed(() => subjectStore.subject(subjectId)).get())
   }
 
   /** 条目章节数据 (排除 SP) */
   epsNoSp(subjectId: SubjectId) {
-    return computed(() => {
-      return (this.subject(subjectId).eps || []).filter(item => item.type === 0)
-    }).get()
+    return freeze(
+      computed(() => {
+        return (this.subject(subjectId).eps || []).filter(item => item.type === 0)
+      }).get()
+    )
   }
 
   /** 条目章节数据 */
   eps(subjectId: SubjectId) {
-    return computed(() => {
-      try {
-        const eps = this.epsNoSp(subjectId)
-        const { length } = eps
+    return freeze(
+      computed(() => {
+        try {
+          const eps = this.epsNoSp(subjectId)
+          const { length } = eps
 
-        // 一页章节按钮显示的最大数量
-        const maxLength =
-          systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
-            ? this.pageLimitGrid(subjectId)
-            : PAGE_LIMIT_LIST
+          // 一页章节按钮显示的最大数量
+          const maxLength =
+            systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')
+              ? this.pageLimitGrid(subjectId)
+              : PAGE_LIMIT_LIST
 
-        if (length > maxLength) {
-          const userProgress = this.userProgress(subjectId)
+          if (length > maxLength) {
+            const userProgress = this.userProgress(subjectId)
 
-          // 第一个不为看过章节按钮的位置
-          const index = eps.findIndex(item => userProgress[item.id] !== '看过')
+            // 第一个不为看过章节按钮的位置
+            const index = eps.findIndex(item => userProgress[item.id] !== '看过')
 
-          // 找不到未看集数, 返回最后的数据
-          if (index === -1) {
-            return eps.slice(length - maxLength - 1, length - 1)
-          }
-
-          // 长篇动画从最后看过开始显示
-          if (systemStore.setting.homeEpStartAtLastWathed) {
-            let lastIndex: number
-
-            // @ts-expect-error
-            if (typeof eps.findLastIndex === 'function') {
-              // @ts-expect-error
-              lastIndex = eps.findLastIndex((item: Ep) => userProgress[item.id] === '看过')
-            } else {
-              lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
+            // 找不到未看集数, 返回最后的数据
+            if (index === -1) {
+              return eps.slice(length - maxLength - 1, length - 1)
             }
 
-            return eps.slice(Math.max(lastIndex, 0), lastIndex + maxLength)
+            // 长篇动画从最后看过开始显示
+            if (systemStore.setting.homeEpStartAtLastWathed) {
+              let lastIndex: number
+
+              // @ts-expect-error
+              if (typeof eps.findLastIndex === 'function') {
+                // @ts-expect-error
+                lastIndex = eps.findLastIndex((item: Ep) => userProgress[item.id] === '看过')
+              } else {
+                lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
+              }
+
+              return eps.slice(Math.max(lastIndex, 0), lastIndex + maxLength)
+            }
+
+            // 找到第 1 个未看过的集数, 返回 1 个看过的集数和剩余的集数
+            // 注意这里第一个值不能小于 0, 不然会返回空
+            return eps.slice(Math.max(0, index - maxLength + 1), index + maxLength - 1)
           }
-
-          // 找到第 1 个未看过的集数, 返回 1 个看过的集数和剩余的集数
-          // 注意这里第一个值不能小于 0, 不然会返回空
-          return eps.slice(Math.max(0, index - maxLength + 1), index + maxLength - 1)
+          return eps
+        } catch (error) {
+          console.error(NAMESPACE, 'eps', error)
         }
-        return eps
-      } catch (error) {
-        console.error(NAMESPACE, 'eps', error)
-      }
 
-      return []
-    }).get()
+        return []
+      }).get()
+    )
   }
 
   /** 条目下一个未看章节 */
@@ -366,18 +369,22 @@ export default class Computed extends State {
     id?: Id
     sort?: number
   } {
-    try {
-      return computed(() => {
-        const eps = this.epsNoSp(subjectId)
-        const userProgress = this.userProgress(subjectId)
-        const index = eps.findIndex(item => userProgress[item.id] !== '看过')
-        if (index === -1) return {}
-        return eps[index]
+    return freeze(
+      computed(() => {
+        try {
+          const eps = this.epsNoSp(subjectId)
+          const userProgress = this.userProgress(subjectId)
+          const index = eps.findIndex(item => userProgress[item.id] !== '看过')
+          if (index === -1) return {}
+
+          return eps[index]
+        } catch (error) {
+          console.error(NAMESPACE, 'nextWatchEp', error)
+        }
+
+        return {}
       }).get()
-    } catch (error) {
-      console.error(NAMESPACE, 'nextWatchEp', error)
-      return {}
-    }
+    )
   }
 
   /** 当前放送到的章节 */
@@ -486,9 +493,11 @@ export default class Computed extends State {
 
   /** 云端 onAir 和自定义 onAir 组合判断 (自定义最优先) */
   onAirCustom(subjectId: SubjectId) {
-    return computed(() =>
-      getOnAir(calendarStore.onAirLocal(subjectId), calendarStore.onAirUser(subjectId))
-    ).get()
+    return freeze(
+      computed(() =>
+        getOnAir(calendarStore.onAirLocal(subjectId), calendarStore.onAirUser(subjectId))
+      ).get()
+    )
   }
 
   /** 是否放送中 */
@@ -516,14 +525,7 @@ export default class Computed extends State {
   /** bangumi-data 数据扩展 */
   bangumiInfo(_subjectId: SubjectId) {
     // 暂时不使用 bangumi-data 数据
-    return {
-      title: '',
-      type: 'tv',
-      sites: [],
-      titleTranslate: {
-        'zh-Hans': []
-      }
-    }
+    return BANGUMI_INFO
 
     // return computed(() => {
     //   if (!this.state.loadedBangumiData) {
@@ -552,36 +554,38 @@ export default class Computed extends State {
 
   /** 在线源头数据 */
   onlineOrigins(subjectId: SubjectId) {
-    return computed(() => {
-      const { type } = this.subject(subjectId)
-      const data: (OriginItem | string)[] = []
+    return freeze(
+      computed(() => {
+        const { type } = this.subject(subjectId)
+        const data: (OriginItem | string)[] = []
 
-      if (Number(type) === 2) {
-        getOriginConfig(subjectStore.origin, 'anime')
-          .filter(item => item.active)
-          .forEach(item => {
-            data.push(item)
-          })
-      }
+        if (Number(type) === 2) {
+          getOriginConfig(subjectStore.origin, 'anime')
+            .filter(item => item.active)
+            .forEach(item => {
+              data.push(item)
+            })
+        }
 
-      if (Number(type) === 6) {
-        getOriginConfig(subjectStore.origin, 'real')
-          .filter(item => item.active)
-          .forEach(item => {
-            data.push(item)
-          })
-      }
+        if (Number(type) === 6) {
+          getOriginConfig(subjectStore.origin, 'real')
+            .filter(item => item.active)
+            .forEach(item => {
+              data.push(item)
+            })
+        }
 
-      const bangumiInfo = this.bangumiInfo(subjectId)
-      const { sites = [] } = bangumiInfo
-      sites
-        .filter(item => SITES_DS.includes(item.site))
-        .forEach(item => {
-          data.push(item.site)
-        })
+        // const bangumiInfo = this.bangumiInfo(subjectId)
+        // const { sites = [] } = bangumiInfo
+        // sites
+        //   .filter(item => SITES_DS.includes(item.site))
+        //   .forEach(item => {
+        //     data.push(item.site)
+        //   })
 
-      return data
-    }).get()
+        return data
+      }).get()
+    )
   }
 
   /** 是否存在没有看的章节 */
@@ -662,15 +666,14 @@ export default class Computed extends State {
 
   /** 自定义跳转 */
   actions(subjectId: SubjectId) {
-    return computed(() => {
-      const actions = subjectStore.actions(subjectId)
-      if (!actions.length) return actions
+    return freeze(
+      computed(() => {
+        const actions = subjectStore.actions(subjectId)
+        if (!actions.length) return actions
 
-      return subjectStore
-        .actions(subjectId)
-        .filter(item => item.active)
-        .sort((a, b) => desc(a.sort || 0, b.sort || 0))
-    }).get()
+        return actions.filter(item => item.active).sort((a, b) => desc(a.sort || 0, b.sort || 0))
+      }).get()
+    )
   }
 
   /** 当前是否显示 ScrollToTop 组件 */

@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 12:47:21
+ * @Last Modified time: 2024-08-31 13:32:07
  */
 import React, { Suspense } from 'react'
+import { userStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Modal from './modal.lazy'
 import { COMPONENT } from './ds'
 
 function ModalWrap(_props, { $ }: Ctx) {
-  if (!$.isLogin) return null
+  if (!userStore.isLogin) return null
 
   return (
     <Suspense fallback={null}>

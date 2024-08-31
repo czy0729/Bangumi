@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-08 07:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 16:03:43
+ * @Last Modified time: 2024-08-31 13:59:40
  */
 import React from 'react'
 import { InView, ItemComment } from '@_'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, systemStore } from '@stores'
 import { getIsBlockedUser } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -40,7 +40,7 @@ function Item(
         avatar={avatar}
         userId={userId}
         userName={userName}
-        star={$.hideScore ? undefined : star}
+        star={systemStore.setting.hideScore ? undefined : star}
         comment={comment}
         subjectId={$.subjectId}
         relatedId={relatedId}

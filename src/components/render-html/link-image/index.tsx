@@ -19,7 +19,7 @@ function LinkImage({ style, src }) {
         open(src)
       }}
     >
-      <Text type='sub' numberOfLines={2} underline>
+      <Text type='sub' size={13} numberOfLines={2} underline>
         [图片] {src}
       </Text>
     </Touchable>

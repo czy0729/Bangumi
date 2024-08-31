@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:00:35
+ * @Last Modified time: 2024-08-31 13:58:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
@@ -45,7 +45,7 @@ class Thumbs extends React.Component<{
     if (scrolled) return epsThumbs.slice()
 
     const initialRenderNums = 5
-    return epsThumbs.filter((item, index) => index < initialRenderNums)
+    return epsThumbs.filter((_item, index) => index < initialRenderNums)
   }
 
   get videos() {
@@ -88,7 +88,7 @@ class Thumbs extends React.Component<{
     if (!systemStore.setting.showThumbs) return <IconHidden name={this.title} value='showThumbs' />
 
     const { $ } = this.context as Ctx
-    if (this.reference !== 'douban.com' || $.isLimit) return null
+    if (this.reference !== 'douban.com' || userStore.isLimit) return null
 
     return <IconPreview data={$.state.epsThumbs} headers={$.state.epsThumbsHeader} />
   }
@@ -133,7 +133,7 @@ class Thumbs extends React.Component<{
                 />
               ))}
               {this.data
-                .filter((item, index) => index <= 12)
+                .filter((_item, index) => index <= 12)
                 .map((item, index) => (
                   <Preview
                     key={item}

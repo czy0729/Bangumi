@@ -5,11 +5,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-01-30 09:56:05
  */
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { _ } from '@stores'
 
 export default function useHorizontalLazy<T>(
-  data?: T[],
+  data?: T[] | readonly T[],
   lazyRenderedCount: number = 3,
   x: number = 20
 ) {
@@ -23,7 +23,7 @@ export default function useHorizontalLazy<T>(
   )
   let list: typeof data
   if (data) {
-    list = scrolled ? data : data.filter((item, index) => index < lazyRenderedCount)
+    list = scrolled ? data : data.filter((_item, index) => index < lazyRenderedCount)
   }
 
   return {

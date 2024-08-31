@@ -16,7 +16,7 @@ export type Props = {
   canPlay?: boolean
 
   /** 章节数据 */
-  eps?: any[]
+  eps?: any[] | readonly any[]
 
   /** 外部是否网格模式 */
   grid?: boolean

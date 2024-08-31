@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 11:10:33
+ * @Last Modified time: 2024-08-31 13:31:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ function BoxWrap({ onBlockRef }, { $, navigation }: Ctx) {
       <Box
         styles={memoStyles()}
         navigation={navigation}
-        isLogin={$.isLogin}
+        isLogin={userStore.isLogin}
         status={$.status}
         url={$.url}
         showCount={systemStore.setting.showCount}

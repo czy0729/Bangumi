@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:50:05
+ * @Last Modified time: 2024-08-31 14:00:04
  */
 import React from 'react'
 import { Divider } from '@components'
@@ -52,7 +52,7 @@ function TrackComment(_props, { $, navigation }: Ctx) {
             avatar={userInfo.avatar}
             userId={item}
             userName={userInfo.userName}
-            star={$.hideScore ? undefined : collection.rate}
+            star={systemStore.setting.hideScore ? undefined : collection.rate}
             status={status}
             comment={String(collection.comment).replace(/[\r\n]/g, '')}
             popoverData={POPOVER_DATA[$.type]}

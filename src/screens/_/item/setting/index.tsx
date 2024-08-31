@@ -23,7 +23,7 @@ export const ItemSetting = ob(
     contentStyle,
     show = true,
     hd,
-    hdSize = WEB ? 14 : 16,
+    hdSize = WEB ? 14 : 15,
     ft,
     arrow,
     arrowStyle,

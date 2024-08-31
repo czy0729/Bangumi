@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:09:31
+ * @Last Modified time: 2024-08-31 13:32:34
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -455,7 +455,7 @@ export default class Action extends Fetch {
 
   /** 显示 / 关闭管理目录模态框 */
   toggleFolder = () => {
-    if (!this.isLogin) {
+    if (!userStore.isLogin) {
       info(`请先${i18n.login()}`)
       return
     }
@@ -567,7 +567,7 @@ export default class Action extends Fetch {
     if (!userData?.userId) return false
 
     if (title === TEXT_LIKES) {
-      if (!this.isLogin) {
+      if (!userStore.isLogin) {
         info('请先登录')
         return false
       }

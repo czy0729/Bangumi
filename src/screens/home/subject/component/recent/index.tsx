@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 01:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 12:47:56
+ * @Last Modified time: 2024-08-31 13:59:57
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ function RecentWrap({ onBlockRef }, { $, navigation }: Ctx) {
         showRecent={systemStore.setting.showRecent}
         subjectId={$.subjectId}
         who={$.filterRecent}
-        hideScore={$.hideScore}
+        hideScore={systemStore.setting.hideScore}
         onSwitchBlock={$.onSwitchBlock}
       />
     </Suspense>

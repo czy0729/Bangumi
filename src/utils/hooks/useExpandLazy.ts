@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-01-30 10:35:18
  */
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 /**
  * 用于展开块初次进入时, 减少渲染看不见的区域
@@ -12,11 +12,11 @@ import { useState, useCallback } from 'react'
  * @param {number} lazyRenderedCount 默认展示数据条数
  * @returns {object} list 展示数据，onExpand 展开数据
  */
-export default function useExpandLazy<T>(data?: T[], lazyRenderedCount: number = 2) {
+export default function useExpandLazy<T>(data?: T[] | readonly T[], lazyRenderedCount: number = 2) {
   const [expand, setExpand] = useState(false)
   let list: typeof data
   if (data) {
-    list = expand ? data : data.filter((item, index) => index < lazyRenderedCount)
+    list = expand ? data : data.filter((_item, index) => index < lazyRenderedCount)
   }
 
   const onExpand = useCallback(() => {

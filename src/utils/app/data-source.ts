@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-19 11:57:03
  */
 import { isObservableArray } from 'mobx'
-import { STORYBOOK } from '@constants'
+import { FROZEN_ARRAY, FROZEN_OBJECT, STORYBOOK } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
 import { getJSON } from '@assets/json'
@@ -17,6 +17,7 @@ import {
   Id,
   ListEmpty,
   Paths,
+  ReadonlyResult,
   ScrollEvent,
   SubjectId,
   SubjectTypeCn
@@ -67,9 +68,25 @@ export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
 }
 
 /** 是否数组, 若为 mobx 观察的数组使用原生方法是判断不出来的 */
-export function isArray(arr: any) {
-  if (!arr) return false
-  return Array.isArray(arr) || isObservableArray(arr)
+export function isArray(value: any): value is any[] {
+  if (!value) return false
+
+  return Array.isArray(value) || isObservableArray(value)
+}
+
+/** 推荐在 mobx.computed 里面包裹返回值, 防止返回不同空对象导致触发重渲染 */
+export function freeze<T>(value: T) {
+  if (value) {
+    if (isArray(value) && !value.length) {
+      return FROZEN_ARRAY as ReadonlyResult<T>
+    }
+
+    if (typeof value === 'object' && Object.keys(value).length === 0) {
+      return FROZEN_OBJECT as ReadonlyResult<T>
+    }
+  }
+
+  return value as ReadonlyResult<T>
 }
 
 /** 判断收藏动作 */

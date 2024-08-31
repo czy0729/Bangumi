@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-10 03:43:04
  */
+import { SubjectComments } from '@stores/subject/types'
 import { factory } from '@utils'
 import {
   DeepPartial,
@@ -12,6 +13,8 @@ import {
   Id,
   Loaded,
   Navigation,
+  Optional,
+  ReadonlyResult,
   RouteSubject,
   Sites,
   SubjectId
@@ -28,6 +31,8 @@ export type Ctx = {
 }
 
 export type Params = GetRouteParams<RouteSubject>
+
+export type SubjectCommentValue = ReadonlyResult<Optional<SubjectComments, 'version'>>
 
 export type EpsData = Expand<
   DeepPartial<

@@ -42,6 +42,19 @@ export type ColorValue = RNColorValue
 /** 图片 uri */
 export type Source = ImageProps['source']
 
+type DeepReadonly<T> = T extends (...args: any[]) => any
+  ? T
+  : T extends Array<infer U>
+  ? ReadonlyArray<DeepReadonly<U>>
+  : T extends object
+  ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
+  : T
+
+/** 只读 */
+export type ReadonlyResult<T> = T extends (...args: any[]) => infer R
+  ? DeepReadonly<R>
+  : DeepReadonly<T>
+
 /**
  * 用于在 vscode 里面注释能直接显示展开的 type
  * https://stackoverflow.com/questions/57683303/how-can-i-see-the-full-expanded-contract-of-a-typescript-type/57683652#57683652

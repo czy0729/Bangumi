@@ -86,3 +86,12 @@ export const PAGE_LIMIT_LIST = 4 * 8
 
 /** 网格布局 ep 按钮最大数量 */
 export const PAGE_LIMIT_GRID = 4 * 6
+
+export const BANGUMI_INFO = {
+  title: '',
+  type: 'tv',
+  sites: [],
+  titleTranslate: {
+    'zh-Hans': []
+  }
+} as const
