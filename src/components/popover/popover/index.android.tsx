@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 09:37:19
+ * @Last Modified time: 2024-09-01 11:38:16
  */
 import React from 'react'
 import { findNodeHandle, StyleSheet, UIManager, View } from 'react-native'
@@ -45,10 +45,9 @@ export default class Popover extends React.Component<any> {
     const { style, hitSlop, onLongPress, children } = this.props
     return (
       <View>
-        <View ref={this.forwardRef} style={styles.overflowView} />
+        <View ref={this.forwardRef} style={styles.overflowView} pointerEvents='none' />
         <Touchable
           style={style}
-          withoutFeedback
           hitSlop={hitSlop}
           delayPressIn={onLongPress ? 1600 : undefined}
           onPress={this.showPopupAndroid}

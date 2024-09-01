@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 23:44:07
+ * @Last Modified time: 2024-09-01 11:27:17
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { obc } from '@utils/decorators'
-import { SHARE_MODE } from '@constants'
 import { TEXT_IGNORE_USER } from '../../../ds'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
@@ -18,8 +16,6 @@ function BtnPopover(
   { groupCn, groupHref, href, topicId, userId, userName, isGroup },
   { $, navigation }: Ctx
 ) {
-  if (SHARE_MODE) return <View style={styles.placeholder} />
-
   const isSubject = topicId.includes('subject/')
 
   // 类别进入点击
