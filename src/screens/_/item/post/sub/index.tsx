@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:16:31
+ * @Last Modified time: 2024-09-01 09:31:52
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -53,7 +53,7 @@ export default obc(
         avatar={avatar}
         blockKeywords={blockKeywords}
         erase={erase}
-        filterDelete={$?.filterDelete}
+        filterDelete={rakuenStore.setting.filterDelete}
         floor={floor}
         directFloor={$?.state?.directFloor === floor}
         id={id}

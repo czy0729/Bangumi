@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-12 09:06:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 19:25:28
+ * @Last Modified time: 2024-09-01 10:11:15
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { useObserver } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Skeleton as SkeletonComp } from '../../skeleton'
 
 function Skeleton({ style, type, textOnly, placeholder, loaded }) {
@@ -15,7 +15,7 @@ function Skeleton({ style, type, textOnly, placeholder, loaded }) {
   const timeoutRef = useRef(null)
 
   useEffect(() => {
-    if (!systemStore.setting.imageSkeleton || STORYBOOK || textOnly || !placeholder || loaded) {
+    if (!systemStore.setting.imageSkeleton || WEB || textOnly || !placeholder || loaded) {
       return
     }
 
@@ -30,14 +30,7 @@ function Skeleton({ style, type, textOnly, placeholder, loaded }) {
   }, [textOnly, placeholder, loaded])
 
   return useObserver(() => {
-    if (
-      !systemStore.setting.imageSkeleton ||
-      STORYBOOK ||
-      textOnly ||
-      !placeholder ||
-      loaded ||
-      !show
-    ) {
+    if (!systemStore.setting.imageSkeleton || WEB || textOnly || !placeholder || loaded || !show) {
       return null
     }
 

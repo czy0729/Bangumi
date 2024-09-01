@@ -17,7 +17,7 @@ import {
   useMount,
   useRunAfter
 } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Id } from '@types'
 import { PRE_OFFSET } from './ds'
 import { Ctx } from './types'
@@ -37,7 +37,7 @@ export function useTopicPage({ $ }: Ctx) {
         const item = list[index]
         info(item?.floor, 0.8)
 
-        if (STORYBOOK) {
+        if (WEB) {
           if (index === -1) {
             scrollToTop()
             return
@@ -76,7 +76,7 @@ export function useTopicPage({ $ }: Ctx) {
         if (index === -1) {
           if (animated) info('#1', 0.8)
 
-          if (STORYBOOK) {
+          if (WEB) {
             scrollToTop()
           } else {
             forwardRef.current?.scrollToOffset({
@@ -94,7 +94,7 @@ export function useTopicPage({ $ }: Ctx) {
         const item = list[index]
         if (animated) info(item?.floor, 0.8)
 
-        if (STORYBOOK) {
+        if (WEB) {
           const offsetTop = document.querySelector(
             `item-post[data-key="${item.id}"]`
             // @ts-expect-error

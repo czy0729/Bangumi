@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-04 00:37:47
  */
 import { rc } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Header')
@@ -19,6 +19,6 @@ export const TEXT_SHARE = '复制分享'
 export const TEXT_REPORT = '举报'
 
 const DATA = [TEXT_COPY, TEXT_SHARE, TEXT_REPORT]
-if (!STORYBOOK) DATA.unshift(TEXT_SPA)
+if (!WEB) DATA.unshift(TEXT_SPA)
 
 export { DATA }

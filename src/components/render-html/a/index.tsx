@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 12:35:19
+ * @Last Modified time: 2024-09-01 10:30:09
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -63,7 +63,11 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
         selectable
         underline={!WEB}
         {...other}
-        onPress={() => onPress(null, href)}
+        onPress={() => {
+          setTimeout(() => {
+            onPress(null, href)
+          }, 80)
+        }}
       >
         {filterChildren(children)}
       </Text>

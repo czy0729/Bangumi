@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 16:51:58
+ * @Last Modified time: 2024-09-01 10:12:39
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -187,12 +187,17 @@ export function showImageViewer(
   )
 }
 
+/** 隐藏 ImageViewer */
+export function closeImageViewer() {
+  syncSystemStore().closeImageViewer()
+}
+
 /**
  * @deprecated 调整键盘模式
  * https://github.com/zubricky/react-native-android-keyboard-adjust
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function androidKeyboardAdjust(fn: 'setAdjustPan' | 'setAdjustResize') {
+export function androidKeyboardAdjust(_fn: 'setAdjustPan' | 'setAdjustResize') {
   return
   // if (IOS || STORYBOOK) return
   // const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
@@ -226,7 +231,7 @@ export function scrollToView(viewRef: any, scrollViewRef: any, callback?: Fn) {
   if (!viewRef || !scrollViewRef) return false
 
   if (IOS || STORYBOOK) {
-    viewRef.measure((x: number, y: number) => {
+    viewRef.measure((_x: number, y: number) => {
       scrollViewRef.scrollTo({
         y,
         animated: true
@@ -239,7 +244,7 @@ export function scrollToView(viewRef: any, scrollViewRef: any, callback?: Fn) {
       }
     })
   } else {
-    viewRef.measureLayout(findNodeHandle(scrollViewRef), (x: number, y: number) => {
+    viewRef.measureLayout(findNodeHandle(scrollViewRef), (_x: number, y: number) => {
       scrollViewRef.scrollTo({
         y,
         animated: true

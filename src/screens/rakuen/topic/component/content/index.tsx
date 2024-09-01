@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 20:35:45
+ * @Last Modified time: 2024-09-01 09:34:47
  */
 import React, { useCallback } from 'react'
 import { appNavigate } from '@utils'
@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import Content from './content'
 import { COMPONENT } from './ds'
 
-function ContentWrap(props, { $, navigation }: Ctx) {
+function ContentWrap(_props, { $, navigation }: Ctx) {
   const onLinkPress = useCallback(
     (href, passProps = {}) => {
       appNavigate(href, navigation, passProps, {

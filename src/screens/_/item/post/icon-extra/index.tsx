@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 11:16:49
+ * @Last Modified time: 2024-09-01 09:33:48
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
-import { _, rakuenStore, uiStore } from '@stores'
+import { _, rakuenStore, uiStore, userStore } from '@stores'
 import {
   confirm,
   copy,
@@ -59,7 +59,7 @@ function IconExtra(
     rakuenStore.setting.likes && likeType && ACTION_LIKES,
 
     // 回复
-    replySub && !$?.isLimit && $?.showFixedTextarea && ACTION_REPLY,
+    replySub && !userStore.isLimit && $?.showFixedTextarea && ACTION_REPLY,
 
     // 复制
     ACTION_COPY,

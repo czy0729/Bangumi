@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:15:12
+ * @Last Modified time: 2024-09-01 10:10:32
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
 import { r } from '@utils/dev'
-import { EVENT, HOST_CDN_AVATAR, IOS, STORYBOOK } from '@constants'
+import { EVENT, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
 import { IOS_IPA, TEXT_ONLY } from '@/config'
 import { AnyObject, Fn } from '@types'
 import { Component } from '../component'
@@ -63,8 +63,8 @@ export const Image = observer(
       autoSize: 0,
       border: false,
       borderWidth: _.hairlineWidth,
-      cache: !STORYBOOK,
-      delay: !STORYBOOK,
+      cache: !WEB,
+      delay: !WEB,
       event: EVENT,
       imageViewer: false,
       withoutFeedback: false,
@@ -77,7 +77,7 @@ export const Image = observer(
     }
 
     state: State = {
-      uri: STORYBOOK ? fixedRemoteImageUrl(this.props.src) : undefined,
+      uri: WEB ? fixedRemoteImageUrl(this.props.src) : undefined,
       width: 0,
       height: 0,
       loaded: false,
@@ -111,7 +111,7 @@ export const Image = observer(
       const { src } = this.props
 
       // 不缓存图片
-      if (!this.props.cache || STORYBOOK) {
+      if (!this.props.cache || WEB) {
         this.setState({
           uri: fixedRemoteImageUrl(src)
         })
@@ -146,7 +146,7 @@ export const Image = observer(
       if (this.props.textOnly) return
 
       if (nextProps.src !== this.props.src) {
-        if (STORYBOOK) {
+        if (WEB) {
           this.setState({
             uri: fixedRemoteImageUrl(nextProps.src)
           })
@@ -515,11 +515,11 @@ export const Image = observer(
       if (autoSize) {
         image.push({
           width: w || 160,
-          height: h || (STORYBOOK ? 'auto' : 160)
+          height: h || (WEB ? 'auto' : 160)
         })
       } else if (autoHeight) {
         image.push({
-          width: w || (STORYBOOK ? 'auto' : 160),
+          width: w || (WEB ? 'auto' : 160),
           height: h || 160
         })
       } else if (size) {
@@ -613,7 +613,7 @@ export const Image = observer(
         if (this.props.errorToHide) return null
 
         // 加载错误后显示显示图形
-        if (!STORYBOOK) {
+        if (!WEB) {
           return (
             <Error style={this.computedStyle.image} size={this.props.width || this.props.size} />
           )
@@ -663,7 +663,7 @@ export const Image = observer(
 
           // 获取图片的宽高中, 占位
           if (
-            !(IOS || STORYBOOK) &&
+            !(IOS || WEB) &&
             ((autoSize && !this.state.width) || (autoHeight && !this.state.height))
           ) {
             return <Placeholder style={this.computedStyle.image} />

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:08:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 00:34:30
+ * @Last Modified time: 2024-09-01 09:27:07
  */
 import { rc } from '@utils/dev'
 import { MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
@@ -23,7 +23,7 @@ export const DEFAULT_PROPS = {
     '右侧'
   ) as $['setting']['scrollDirection'],
   directFloor: '' as string,
-  isWebLogin: false as $['isWebLogin'],
+  isWebLogin: false as boolean,
   onPress: (() => {}) as any
 } as const
 

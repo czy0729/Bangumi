@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 10:23:46
+ * @Last Modified time: 2024-09-01 09:35:18
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -309,22 +309,25 @@ export type RouteUser = (
   }
 ) => any
 
-export type RouteTopic = (
-  path: 'Topic',
-  params: {
+export type RouteTopic = Route<
+  'Topic',
+  {
+    /** 帖子 id: group/1, subject/1, ep/1, crt/1, prsn/1 */
     topicId: TopicId
-    _title?: string
-    _replies?: string
+
+    _avatar?: string
+    _desc?: string
     _group?: string
     _groupThumb?: string
-    _desc?: string
-    _time?: string
-    _avatar?: string
-    _userName?: string
-    _userId?: UserId
     _noFetch?: boolean
+    _replies?: string
+    _time?: string
+    _title?: string
+    _url?: string
+    _userId?: UserId
+    _userName?: string
   }
-) => any
+>
 
 export type RouteCatalogs = (
   path: 'Catalogs',

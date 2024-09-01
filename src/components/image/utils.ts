@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:18:43
+ * @Last Modified time: 2024-09-01 10:11:09
  */
 import { _ } from '@stores'
 import { getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
 import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
-import { DEV, HOST_CDN, IOS, STORYBOOK } from '@constants'
+import { DEV, HOST_CDN, IOS, WEB } from '@constants'
 import {
   CACHE_KEY_404,
   CACHE_KEY_451,
@@ -214,7 +214,7 @@ export function getRecoveryBgmCover(src: any, width: number, height: number, siz
   // 如果是触发回滚机制的图, 通常是游戏类的横屏图, 所以可以使用 height 去检查加大一个级别
   const w = Math.max(width || 0, height || 0, size || 0)
   let coverSize: 100 | 200 | 400 = 100
-  if (STORYBOOK) {
+  if (WEB) {
     if (w > 200) {
       coverSize = 400
     } else if (w > 100) {

@@ -19,7 +19,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 帖子 */
-const Topic = (props, context: Ctx) => {
+const Topic = (_props, context: Ctx) => {
   const {
     forwardRef,
     fixedTextareaRef,

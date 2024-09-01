@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Id, Loaded } from '@types'
 import { FilterType } from '../types'
 
@@ -17,7 +17,7 @@ export const EXCLUDE_STATE = {
   fixed: false,
 
   /** 是否完成渲染 */
-  rendered: STORYBOOK,
+  rendered: WEB,
 
   /** 可视范围底部 y */
   visibleBottom: _.window.height,

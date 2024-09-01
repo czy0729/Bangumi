@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 11:57:03
+ * @Last Modified time: 2024-09-01 09:18:23
  */
 import { isObservableArray } from 'mobx'
 import { FROZEN_ARRAY, FROZEN_OBJECT, STORYBOOK } from '@constants'
@@ -75,7 +75,14 @@ export function isArray(value: any): value is any[] {
 }
 
 /** 推荐在 mobx.computed 里面包裹返回值, 防止返回不同空对象导致触发重渲染 */
-export function freeze<T>(value: T) {
+export function freeze<T>(arg: T) {
+  let value: T
+  if (typeof arg === 'function') {
+    value = (arg as () => T)() as T
+  } else {
+    value = arg
+  }
+
   if (value) {
     if (isArray(value) && !value.length) {
       return FROZEN_ARRAY as ReadonlyResult<T>

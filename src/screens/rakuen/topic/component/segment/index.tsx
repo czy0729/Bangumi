@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 16:22:29
+ * @Last Modified time: 2024-09-01 09:28:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, SegmentedControl } from '@components'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, userStore } from '@stores'
 import { feedback, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Segement(props, { $ }: Ctx) {
+function Segement(_props, { $ }: Ctx) {
   const segmentedControlDS = ['全部']
   if ($.state.filterPost) {
     segmentedControlDS.push('跳转')
@@ -24,7 +24,7 @@ function Segement(props, { $ }: Ctx) {
       if (likesCounts) segmentedControlDS.push(`贴贴 ${likesCounts}`)
     }
 
-    const hasLogin = !!$.myId
+    const hasLogin = !!userStore.myId
     if (hasLogin && $.commentMeCount) segmentedControlDS.push(`我 ${$.commentMeCount}`)
     if (hasLogin && $.commentFriendsCount) segmentedControlDS.push(`好友 ${$.commentFriendsCount}`)
   }

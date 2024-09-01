@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:33:33
+ * @Last Modified time: 2024-09-01 09:30:34
  */
 import React from 'react'
 import { FixedTextarea, Flex, SafeAreaBottom, Text } from '@components'
-import { _ } from '@stores'
+import { _, userStore } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -15,7 +15,7 @@ import { COMPONENT, MARKS } from './ds'
 import { memoStyles } from './styles'
 
 function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
-  if (!$.isWebLogin || $.isLimit) return null
+  if (!userStore.isWebLogin || userStore.isLimit) return null
 
   const styles = memoStyles()
   const { tip = '' } = $.topic

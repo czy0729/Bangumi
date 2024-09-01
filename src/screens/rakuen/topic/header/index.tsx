@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 15:41:59
+ * @Last Modified time: 2024-09-01 09:35:02
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -15,7 +15,7 @@ import IconFavor from '../component/icon/favor'
 import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <HeaderComp

@@ -8,6 +8,7 @@ import { rakuenStore, subjectStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
 import decoder from '@utils/thirdParty/html-entities-decoder'
+import { H } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -47,15 +48,9 @@ export default class Fetch extends Computed {
           }
         }
 
-        /**
-         * bgm.tv 网页版修改了帖子回复的样式导致楼层获取失败, 需要排除这部分的缓存
-         * @date 2023-03-30
-         */
+        // 网页版修改了帖子回复的样式导致楼层获取失败, 需要排除这部分的缓存
         if (comments?.list?.[0]?.floor) {
-          /**
-           * 历史遗漏问题, 观察到有倒序的快照, 暂不使用这种快照
-           * @date 2023-07-04
-           */
+          // 历史遗漏问题, 观察到有倒序的快照, 暂不使用这种快照
           const needReverse =
             comments.list.length >= 2 &&
             comments.list[0].floor.localeCompare(comments.list[1].floor) === 1
@@ -70,7 +65,7 @@ export default class Fetch extends Computed {
         this.setState(state)
       }
 
-      if (_loaded - ts >= 60 * 60 * 4) this.updateTopicThirdParty()
+      if (_loaded - ts >= H * 4) this.updateTopicThirdParty()
     } catch (error) {}
   }
 
@@ -88,12 +83,12 @@ export default class Fetch extends Computed {
           comments: {
             ...this.comments,
             list: this.comments.list
-              .filter((item, index) => index < 16)
+              .filter((_item, index) => index < 16)
               .map(item => ({
                 ...omit(item, ['replySub', 'erase', 'message', 'sub']),
                 message: decoder(item.message),
                 sub: item.sub
-                  .filter((i, idx) => idx < 8)
+                  .filter((_i, idx: number) => idx < 8)
                   .map(i => ({
                     ...omit(i, ['replySub', 'erase', 'message']),
                     message: decoder(i.message)

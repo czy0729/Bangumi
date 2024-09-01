@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-05 15:14:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 20:42:28
+ * @Last Modified time: 2024-09-01 09:34:47
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Ep(props, { $, navigation }: Ctx) {
+function Ep(_props, { $, navigation }: Ctx) {
   if (!$.groupHref?.includes('/subject/')) return null
 
   const subjectId = Number($.groupHref.replace('/subject/', ''))

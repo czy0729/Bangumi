@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 16:35:56
+ * @Last Modified time: 2024-09-01 10:09:07
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _, rakuenStore, subjectStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
 import { navigationReference, runAfter } from '@utils'
-import { IOS } from '@constants'
+import { IOS, WEB } from '@constants'
 import { Fn, ReactNode } from '@types'
 import { Cover } from '../../cover'
 import { Flex } from '../../flex'
@@ -23,7 +23,7 @@ import { memoStyles } from './styles'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
 export function filterChildren(children: ReactNode | ReactNode[]): ReactNode | ReactNode[] {
-  if (IOS) return children
+  if (IOS || WEB) return children
 
   const childrens = React.Children.toArray(children)
   const data = childrens.filter(

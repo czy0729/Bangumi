@@ -14,7 +14,7 @@ import Segment from '../segment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle(props, { $ }: Ctx) {
+function SectionTitle(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { list = [] } = $.comments
   let commentsCount = 0

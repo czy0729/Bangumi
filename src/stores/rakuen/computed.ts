@@ -82,14 +82,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 帖子回复, 合并 comments 0-99 */
-  comments(topicId: TopicId) {
+  comments(topicId: TopicId): Comments {
     if (!topicId) return LIST_EMPTY
 
     const last = getInt(topicId)
     const key = `comments${last}` as const
     this.init(key)
 
-    return computed<Comments>(() => {
+    return computed(() => {
       return this.state?.[key]?.[topicId] || LIST_EMPTY
     }).get()
   }

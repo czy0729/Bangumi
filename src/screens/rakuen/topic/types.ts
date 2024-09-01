@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-07-03 15:06:08
  */
 import { factory } from '@utils'
-import { Navigation, TopicId, UserId } from '@types'
+import { GetRouteParams, Navigation, RouteTopic } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,18 +17,6 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  topicId: TopicId
-  _title?: string
-  _avatar?: string
-  _userId?: UserId
-  _userName?: string
-  _desc?: string
-  _group?: string
-  _groupThumb?: string
-  _url?: string
-  _noFetch?: boolean
-  _replies?: string
-}
+export type Params = GetRouteParams<RouteTopic>
 
 export type FilterType = '' | 'likes' | 'me' | 'friends'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-11 10:11:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 17:18:39
+ * @Last Modified time: 2024-09-01 09:34:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Milestone(props, { $ }: Ctx) {
+function Milestone(_props, { $ }: Ctx) {
   if ($.topicId !== 'group/366561') return null
 
   const styles = memoStyles()
