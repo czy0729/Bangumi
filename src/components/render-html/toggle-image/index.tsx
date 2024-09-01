@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:26:05
+ * @Last Modified time: 2024-09-01 11:16:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -23,6 +23,8 @@ class ToggleImage extends React.Component<Props, State> {
   static defaultProps = {
     onImageFallback: () => {}
   }
+
+  static displayName = 'ToggleImage'
 
   state = {
     show: this.props.show || false,
@@ -160,11 +162,12 @@ class ToggleImage extends React.Component<Props, State> {
                 withoutFeedback
                 onLoadEnd={this.onLoadEnd}
                 onError={this.onLoadEnd}
+                onLongPress={() => open(this.src)}
               />
             </View>
           )}
           <View style={this.styles.closeImageWrap}>
-            <Touchable onPress={this.toggleShow} onLongPress={() => open(this.src as string)}>
+            <Touchable style={this.styles.closeImageTouch} onPress={this.toggleShow}>
               <Flex style={this.styles.closeImage} justify='center'>
                 <Iconfont size={16} name='md-close' color={_.colorIcon} />
               </Flex>

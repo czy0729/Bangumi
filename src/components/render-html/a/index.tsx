@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:12:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:30:09
+ * @Last Modified time: 2024-09-01 11:06:43
  */
 import React, { useEffect, useState } from 'react'
 import { useObserver } from 'mobx-react'
@@ -57,6 +57,15 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
   return useObserver(() => {
     if (el) return el
 
+    const childrens = React.Children.toArray(children)
+    if (
+      childrens?.length === 1 &&
+      // @ts-expect-error
+      childrens?.[0]?.type?.displayName === 'ToggleImage'
+    ) {
+      return childrens[0]
+    }
+
     return (
       <Text
         style={style}
@@ -69,7 +78,7 @@ function A({ style, attrs = {}, passProps, children, onPress, ...other }: Props)
           }, 80)
         }}
       >
-        {filterChildren(children)}
+        {filterChildren(childrens)}
       </Text>
     )
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-17 06:41:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 16:12:47
+ * @Last Modified time: 2024-09-01 11:17:52
  */
 import { _ } from '@stores'
 
@@ -36,17 +36,22 @@ export const memoStyles = _.memoStyles(() => ({
   closeImageWrap: {
     position: 'absolute',
     zIndex: 10,
-    top: 8,
-    right: 8,
-    borderRadius: 12,
-    overflow: 'hidden'
+    top: 0,
+    right: 0
+  },
+  closeImageTouch: {
+    width: 52,
+    height: 52
   },
   closeImage: {
+    position: 'absolute',
+    zIndex: 10,
+    top: 9,
+    right: 13,
     width: 24,
     height: 24,
-    marginRight: 4,
     borderRadius: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.28)',
     overflow: 'hidden'
   },
   remoteImage: {

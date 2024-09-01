@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:09:07
+ * @Last Modified time: 2024-09-01 10:55:20
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,10 +22,9 @@ import Topic from './topic'
 import { memoStyles } from './styles'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
-export function filterChildren(children: ReactNode | ReactNode[]): ReactNode | ReactNode[] {
-  if (IOS || WEB) return children
+export function filterChildren(childrens: ReactNode[]): ReactNode[] {
+  if (IOS || WEB) return childrens
 
-  const childrens = React.Children.toArray(children)
   const data = childrens.filter(
     item =>
       // @ts-expect-error
