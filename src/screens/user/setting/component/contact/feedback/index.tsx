@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-23 20:46:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 20:47:22
+ * @Last Modified time: 2024-09-01 16:31:12
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -25,7 +25,6 @@ function Feedback({ navigation, filter }) {
         })
 
         navigation.push('Say', {
-          id: APP_ID_SAY_DEVELOP,
           sayId: APP_ID_SAY_DEVELOP
         })
       }}

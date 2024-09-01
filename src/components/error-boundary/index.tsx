@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-04 10:10:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:44:36
+ * @Last Modified time: 2024-09-01 16:33:30
  */
 import React from 'react'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { navigationReference, stl } from '@utils'
+import { APP_ID_SAY_DEVELOP } from '@constants'
 import { Flex } from '../flex'
 import { Text } from '../text'
 import { styles } from './styles'
@@ -27,8 +28,38 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
     if (error) {
       return (
         <Flex style={stl(styles.error, this.props.style)} direction='column' justify='center'>
-          <Text size={13} type='sub'>
-            代码发生错误
+          <Text type='sub' size={13} lineHeight={15} align='center'>
+            代码发生错误，可尝试到
+            <Text
+              type='sub'
+              size={13}
+              lineHeight={15}
+              underline
+              onPress={() => {
+                const navigation = navigationReference()
+                if (navigation) navigation.push('Setting')
+              }}
+            >
+              设置
+            </Text>
+            里清除缓存，{'\n'}若无法解决请与作者
+            <Text
+              type='sub'
+              size={13}
+              lineHeight={15}
+              underline
+              onPress={() => {
+                const navigation = navigationReference()
+                if (navigation) {
+                  navigation.push('Say', {
+                    sayId: APP_ID_SAY_DEVELOP
+                  })
+                }
+              }}
+            >
+              反馈
+            </Text>
+            。
           </Text>
           <Text style={_.mt.sm} size={10} type='sub'>
             {error.message}

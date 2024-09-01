@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-19 16:42:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-04 06:12:17
+ * @Last Modified time: 2024-09-01 16:29:06
  */
 import { useCallback, useRef, useState } from 'react'
 import { systemStore } from '@stores'
@@ -47,7 +47,7 @@ export function useSettingPage({ route }: NavigationProps) {
     open,
 
     /** 收集 ScrollView.ref */
-    forwardRef: useCallback((scrollTo: any, ref: any) => {
+    forwardRef: useCallback((_scrollTo: any, ref: any) => {
       scrollViewRef.current = ref
     }, []),
 
