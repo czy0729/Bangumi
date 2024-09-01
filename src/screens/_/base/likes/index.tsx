@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:59:58
+ * @Last Modified time: 2024-09-01 17:46:03
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -37,9 +37,9 @@ export const Likes = ({
   const { state, setTrue } = useBoolean(show)
 
   return useObserver(() => {
-    const isTimeline = likeType == LIKE_TYPE_TIMELINE
-    if (!topicId || !id || (!isTimeline && !rakuenStore.setting.likes)) return null
+    if (!rakuenStore.setting.likes) return null
 
+    const isTimeline = likeType == LIKE_TYPE_TIMELINE
     const likesList: any[] =
       storybook?.likesList ||
       (isTimeline ? timelineStore.likesList(id) : rakuenStore.likesList(topicId, id)) ||
@@ -48,7 +48,7 @@ export const Likes = ({
     // 避免不可预料的结构错误
     if (!Array.isArray(toJS(likesList))) return null
 
-    const showCreateBtn = !!formhash && show
+    const showCreateBtn = show // !!formhash && show
     if (!showCreateBtn && !likesList.length) return null
 
     const styles = memoStyles()
