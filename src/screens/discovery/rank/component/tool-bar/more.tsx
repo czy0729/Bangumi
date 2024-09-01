@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function More(props, { $ }: Ctx) {
+function More(_props, { $ }: Ctx) {
   const { list, fixed, fixedPagination, collected } = $.state
   return (
     <ToolBar.Popover

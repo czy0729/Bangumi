@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-24 10:16:44
+ * @Last Modified time: 2024-09-01 11:55:51
  */
 import { _ } from '@stores'
-import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
+import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import {
   Loaded,
   RankAnimeFilter,
@@ -71,10 +71,10 @@ export const STATE = {
   list: true,
 
   /** 是否锁定工具条 (工具条) */
-  fixed: STORYBOOK,
+  fixed: WEB,
 
   /** 是否锁定分液器 (工具条) */
-  fixedPagination: STORYBOOK,
+  fixedPagination: WEB,
 
   /** 是否显示收藏条目 (工具条) */
   collected: true,

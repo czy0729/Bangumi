@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-12 07:30:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:41:12
+ * @Last Modified time: 2024-09-01 12:12:14
  */
 import React from 'react'
 import { Pagination as PaginationComp } from '@components'
@@ -11,11 +11,11 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Pagination(props, { $ }: Ctx) {
+function Pagination(_props, { $ }: Ctx) {
   const { ipt } = $.state
   return (
     <PaginationComp
-      style={_.mt.md}
+      style={_.mt.sm}
       input={ipt}
       onPrev={$.onPrev}
       onNext={$.onNext}

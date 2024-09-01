@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:22:12
+ * @Last Modified time: 2024-09-01 11:54:54
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -17,7 +17,7 @@ import {
 import { ModelType, SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 
-function Filter(props, { $ }: Ctx) {
+function Filter(_props, { $ }: Ctx) {
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)
   if (typeCn === '音乐') return null
 

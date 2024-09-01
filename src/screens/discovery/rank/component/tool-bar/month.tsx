@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:34:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:22:30
+ * @Last Modified time: 2024-09-01 11:54:55
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { DATA_MONTH } from '@constants'
 import { Ctx } from '../../types'
 
-function Month(props, { $ }: Ctx) {
+function Month(_props, { $ }: Ctx) {
   const { month } = $.state
   return (
     <ToolBar.Popover

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-24 15:22:51
+ * @Last Modified time: 2024-09-01 11:54:48
  */
 import React from 'react'
 import { Flex, Loading, ScrollView } from '@components'
@@ -15,7 +15,7 @@ import ToolBar from '../tool-bar'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Layout(props, { $ }: Ctx) {
+function Layout(_props, { $ }: Ctx) {
   if ($.state.show && $.list._loaded) {
     return (
       <ScrollView

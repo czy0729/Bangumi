@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:51:13
+ * @Last Modified time: 2024-09-01 11:54:52
  */
 import React from 'react'
 import { Empty, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 
-function List(props, { $, navigation }: Ctx) {
+function List(_props, { $, navigation }: Ctx) {
   const { list } = $.list
   const { _filter } = $.rank
   return (

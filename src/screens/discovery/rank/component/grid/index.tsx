@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:09:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:10:24
+ * @Last Modified time: 2024-09-01 11:54:45
  */
 import React from 'react'
 import { Empty, Flex } from '@components'
@@ -16,7 +16,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function Grid(props, { $, navigation }: Ctx) {
+function Grid(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { list } = $.list
   const { _filter } = $.rank

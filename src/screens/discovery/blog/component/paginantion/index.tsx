@@ -6,16 +6,16 @@
  */
 import React from 'react'
 import { Pagination as PaginationComp } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, HEATMAPS } from './ds'
-import { styles } from './styles'
 import { Props } from './types'
 
 function Pagination({ type }: Props, { $ }: Ctx) {
   return (
     <PaginationComp
-      style={styles.pagination}
+      style={_.mt.xs}
       input={$.state.ipt[type]}
       heatmaps={HEATMAPS}
       onPrev={$.prev}

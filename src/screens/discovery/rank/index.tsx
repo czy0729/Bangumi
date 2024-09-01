@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 04:32:30
+ * @Last Modified time: 2024-09-01 11:54:41
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 排行榜 */
-const Rank = (props, { $ }: Ctx) => {
+const Rank = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

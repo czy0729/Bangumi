@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-05 06:03:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:20:17
+ * @Last Modified time: 2024-09-01 12:09:55
  */
 import React from 'react'
 import { Pagination as PaginationComp } from '@components'
+import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { HEAT_MAPS } from './ds'
-import { styles } from './styles'
 
-function Pagination(props, { $ }: Ctx) {
+function Pagination(_props, { $ }: Ctx) {
   return (
     <PaginationComp
-      style={styles.pagination}
+      style={_.mt.xs}
       input={$.state.ipt}
       heatmaps={HEAT_MAPS}
       onPrev={$.prev}

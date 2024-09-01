@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:08:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:09:22
+ * @Last Modified time: 2024-09-01 11:55:10
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { URL_SPA } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title='排行榜'
