@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 17:46:03
+ * @Last Modified time: 2024-09-02 18:18:49
  */
 import React from 'react'
 import { toJS } from 'mobx'
@@ -40,6 +40,8 @@ export const Likes = ({
     if (!rakuenStore.setting.likes) return null
 
     const isTimeline = likeType == LIKE_TYPE_TIMELINE
+    if (isTimeline && !id) return null
+
     const likesList: any[] =
       storybook?.likesList ||
       (isTimeline ? timelineStore.likesList(id) : rakuenStore.likesList(topicId, id)) ||

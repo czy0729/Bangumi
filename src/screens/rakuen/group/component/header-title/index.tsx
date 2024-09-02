@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:29:10
+ * @Last Modified time: 2024-09-02 18:11:49
  */
 import React from 'react'
 import { Flex, Image, Text } from '@components'
@@ -15,7 +15,7 @@ import { styles } from './styles'
 function HeaderTitle({ $ }: Ctx) {
   return (
     <Flex style={styles.container}>
-      {!!$.groupThumb && <Image size={COVER_WIDTH} src={$.groupThumb} radius />}
+      {!!$.groupThumb && <Image size={COVER_WIDTH} src={$.groupThumb} radius={_.radiusSm} />}
       <Flex.Item style={_.ml.sm}>
         <Text size={13} numberOfLines={1}>
           {$.groupInfo.title}
@@ -26,4 +26,3 @@ function HeaderTitle({ $ }: Ctx) {
 }
 
 export default ob(HeaderTitle, COMPONENT)
-

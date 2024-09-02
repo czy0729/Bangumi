@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 20:29:30
+ * @Last Modified time: 2024-09-02 18:09:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,11 +16,10 @@ import List from './component/list'
 import Header from './header'
 import Store from './store'
 import { HEAT_MAPS } from './ds'
-import { styles } from './styles'
 import { Ctx } from './types'
 
 /** 小组 */
-const RakuenGroup = (props, { $ }: Ctx) => {
+const RakuenGroup = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
@@ -47,7 +46,7 @@ const RakuenGroup = (props, { $ }: Ctx) => {
             )}
           </ScrollView>
           <Pagination
-            style={styles.pagination}
+            style={_.mt.xs}
             input={$.state.ipt}
             heatmaps={HEAT_MAPS}
             onPrev={$.prev}

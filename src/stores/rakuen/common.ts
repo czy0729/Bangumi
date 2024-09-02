@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 18:09:35
+ * @Last Modified time: 2024-09-02 18:10:49
  */
 import {
   cData,
@@ -140,7 +140,7 @@ export function cheerioComments(html: string, reverse?: boolean) {
 
 /** 小组信息 */
 export function cheerioGroupInfo(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div class="grp_box">', '<h2 class="title">'))
+  const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<h2 class="title">'))
 
   const url = $('#groupJoinAction > a.chiiBtn').attr('href') || ''
   let joinUrl: string

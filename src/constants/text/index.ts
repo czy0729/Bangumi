@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 12:07:56
+ * @Last Modified time: 2024-09-02 18:37:41
  */
 import { WEB } from '../device'
 
@@ -34,7 +34,7 @@ export const TEXT_UPDATE_MANGA = '2023-12-18'
 export const TEXT_UPDATE_SPONSOR = '2024-03-26'
 
 /** 打赏最后更新时间 */
-export const TEXT_UPDATE_QIAFAN = '2024-03-25'
+export const TEXT_UPDATE_QIAFAN = '2024-09'
 
 /** 找条目数目 */
 export const TEXT_TOTAL = {
