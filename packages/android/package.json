@@ -9,8 +9,8 @@
     "postinstall": "patch-package",
     "env": "node ./packages/env.js",
     "k": "sudo purge",
-    "clean": "cd android && ./gradlew clean",
-    "build": "cd android && ./gradlew assembleRelease && cd .. && node web/rename.js",
+    "clean": "cd android && sudo ./gradlew clean",
+    "build": "cd android && sudo ./gradlew assembleRelease && cd .. && node web/rename.js",
     "r": "sudo shutdown -r now",
     "open": "start .\\android\\app\\build\\outputs\\apk\\release\\",
     "open:mac": "open ./android/app/build/outputs/apk/release/"
