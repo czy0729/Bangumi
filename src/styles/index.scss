@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 16:57:20
+ * @Last Modified time: 2024-09-02 21:02:01
  */
 
 /** ==================== reset ==================== */
@@ -48,6 +48,18 @@ component-tabs {
   display: flex;
   flex-direction: column;
   min-height: 0;
+}
+
+component-image {
+  &-image[data-auto-size='true'] {
+    img {
+      position: unset !important;
+      z-index: unset !important;
+      width: unset !important;
+      height: unset !important;
+      inset: unset !important;
+    }
+  }
 }
 
 component-cover {
