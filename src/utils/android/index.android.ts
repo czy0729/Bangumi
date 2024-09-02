@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-23 06:24:38
+ * @Last Modified time: 2024-09-02 15:49:59
  */
 import { PermissionsAndroid } from 'react-native'
 import RNFS from 'react-native-fs'
 import RNFetchBlob from 'rn-fetch-blob'
 import CameraRoll from '@react-native-community/cameraroll'
+import { FROZEN_FN } from '@constants/init'
 import { Fn } from '@types'
 
 /** 保存 base64 图片到相册 */
 export async function saveBase64ImageToCameraRoll(
   base64Img: string,
-  success: Fn = () => {},
-  fail: Fn = () => {}
+  success: Fn = FROZEN_FN,
+  fail: Fn = FROZEN_FN
 ) {
   if (!(await hasAndroidPermission())) return false
 

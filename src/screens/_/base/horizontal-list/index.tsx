@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-08 01:25:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:25:00
+ * @Last Modified time: 2024-09-02 16:57:36
  */
 import React from 'react'
 import { Component } from '@components'
 import { desc } from '@utils'
 import { ob } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { PreventTouchPlaceholder } from '../prevent-touch-placeholder'
 import Item from './item'
 import ScrollViewHorizontal from './scroll-view-horizontal'
@@ -31,7 +32,7 @@ export const HorizontalList = ob(
       ellipsizeMode: 'tail',
       initialRenderNums: 0,
       scrolled: false,
-      onPress: () => {},
+      onPress: FROZEN_FN,
       onSubPress: undefined
     }
 

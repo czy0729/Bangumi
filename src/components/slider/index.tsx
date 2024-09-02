@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-12-13 11:08:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:00:52
+ * @Last Modified time: 2024-09-02 16:55:41
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import RNSlider from '@react-native-community/slider'
 import { r } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
 import { Props as SliderProps } from './types'
 
@@ -22,8 +23,8 @@ export const Slider = observer(
     max,
     step,
     disabled = false,
-    onChange = () => {},
-    onAfterChange = () => {},
+    onChange = FROZEN_FN,
+    onAfterChange = FROZEN_FN,
     maximumTrackTintColor,
     minimumTrackTintColor
   }: SliderProps) => {

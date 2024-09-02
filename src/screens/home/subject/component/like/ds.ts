@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 01:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:01:42
+ * @Last Modified time: 2024-09-02 15:58:44
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -24,5 +25,5 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as $['subjectId'],
   like: [] as $['like'],
   typeCn: '' as $['type'],
-  onSwitchBlock: (() => {}) as $['onSwitchBlock']
+  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }

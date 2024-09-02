@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 04:43:58
+ * @Last Modified time: 2024-09-02 15:50:41
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -16,6 +16,7 @@ import {
   APP_ID,
   APP_SECRET,
   DEV,
+  FROZEN_FN,
   HOST,
   HTML_ACTION_ERASE_COLLECTION,
   HTML_PM_CREATE,
@@ -88,7 +89,7 @@ export default class Action extends Fetch {
   }
 
   /** 打印游客登录 sercet */
-  logTourist = () => {}
+  logTourist = FROZEN_FN
 
   /** 设置授权信息过期提示 */
   setOutdate = () => {

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 06:27:14
+ * @Last Modified time: 2024-09-02 16:59:14
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
 import { IconHeader, IconLayout } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
@@ -27,11 +28,11 @@ function Extra({ $, title = 'Anime' }: Props) {
   return (
     <Flex style={_.mr.xs}>
       {showLayoutIcon && (
-        <IconLayout style={_.mr.xs} list={currenIsList} onPress={$?.switchLayout || (() => {})}>
+        <IconLayout style={_.mr.xs} list={currenIsList} onPress={$?.switchLayout || FROZEN_FN}>
           <Heatmap right={30} id={`${title}.切换布局`} />
         </IconLayout>
       )}
-      <IconHeader name='md-vertical-align-top' onPress={$?.scrollToTop || (() => {})}>
+      <IconHeader name='md-vertical-align-top' onPress={$?.scrollToTop || FROZEN_FN}>
         <Heatmap id={`${title}.到顶`} />
       </IconHeader>
     </Flex>

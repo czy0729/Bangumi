@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:12:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 21:21:12
+ * @Last Modified time: 2024-09-02 15:58:28
  */
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { StoreType as $ } from '../../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -22,7 +23,7 @@ export const DEFAULT_PROPS = {
   total: 0 as $['rating']['total'],
   count: {} as $['rating']['count'],
   score: 0 as $['rating']['score'],
-  toRating: (() => {}) as $['toRating']
+  toRating: FROZEN_FN as $['toRating']
 }
 
 export const DEFAULT_RATES = {

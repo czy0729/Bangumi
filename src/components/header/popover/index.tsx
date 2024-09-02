@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:56:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 15:37:01
+ * @Last Modified time: 2024-09-02 16:52:51
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Menu } from '../../menu'
@@ -25,7 +25,7 @@ function Popover<ItemT extends string[] | readonly string[]>({
   color,
   data,
   menuStyle,
-  onSelect = () => {},
+  onSelect = FROZEN_FN,
   children,
   ...other
 }: Props<ItemT>) {

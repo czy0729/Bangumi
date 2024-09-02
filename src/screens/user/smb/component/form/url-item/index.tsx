@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 04:55:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:46:54
+ * @Last Modified time: 2024-09-02 15:53:37
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { alert, open } from '@utils'
 import { s2tAsync } from '@utils/async'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { FROZEN_FN, WEB } from '@constants'
 import { AnyObject } from '@types'
 import { Ctx } from '../../../types'
 import { CONTENT_DIRECTORY, CONTENT_SMB, TITLE } from './ds'
@@ -39,7 +39,7 @@ function UrlItem(
           name='md-info-outline'
           size={14}
           onPress={() => {
-            if (STORYBOOK) {
+            if (WEB) {
               alert(s2tAsync(CONTENT_DIRECTORY), s2tAsync(TITLE))
               return
             }
@@ -53,14 +53,14 @@ function UrlItem(
               },
               {
                 text: s2tAsync('确定'),
-                onPress: () => {}
+                onPress: FROZEN_FN
               }
             ])
           }}
         />
       </Flex>
       <Flex.Item>
-        {STORYBOOK ? (
+        {WEB ? (
           <Input
             ref={connectRef}
             style={styles.input}

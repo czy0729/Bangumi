@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-05 05:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 15:01:20
+ * @Last Modified time: 2024-09-02 15:52:26
  */
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -19,5 +20,5 @@ export const DEFAULT_PROPS = {
   fliterInputText: '' as $['state']['fliterInputText'],
   isTabActive: false as ReturnType<$['isTabActive']>,
   isFiltering: false as ReturnType<$['isFiltering']>,
-  onFilterChange: (() => {}) as $['onFilterChange']
+  onFilterChange: FROZEN_FN as $['onFilterChange']
 }

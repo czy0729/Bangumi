@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-07 21:18:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-28 17:09:01
+ * @Last Modified time: 2024-09-02 13:20:44
  */
 import { useEffect } from 'react'
 import { Alert } from 'react-native'
 import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler'
 import RNRestart from 'react-native-restart'
+import { FROZEN_FN } from '@constants/init'
 import { getTimestamp } from '../date'
 import { err } from '../fetch'
 import { update } from '../kv'
@@ -15,7 +16,7 @@ import { update } from '../kv'
 export default function useErrorHandlerAndroid() {
   useEffect(() => {
     setJSExceptionHandler(errorHandler)
-    setNativeExceptionHandler(() => {})
+    setNativeExceptionHandler(FROZEN_FN)
   }, [])
 }
 

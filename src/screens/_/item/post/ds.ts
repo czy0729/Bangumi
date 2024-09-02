@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-14 23:11:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:58:09
+ * @Last Modified time: 2024-09-02 16:58:37
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { EVENT } from '@constants'
-import { Fn, TopicId } from '@types'
+import { EVENT, FROZEN_FN } from '@constants'
+import { TopicId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { Props } from './types'
 
@@ -58,8 +58,8 @@ export const DEFAULT_PROPS = {
   formhash: '' as string,
   likeType: '' as string,
   event: EVENT as Props['event'],
-  onJumpTo: (() => {}) as Fn,
-  onLikesLongPress: (() => {}) as Fn,
-  onShowFixedTextare: (() => {}) as Fn,
-  onToggleExpand: (() => {}) as Fn
+  onJumpTo: FROZEN_FN,
+  onLikesLongPress: FROZEN_FN,
+  onShowFixedTextare: FROZEN_FN,
+  onToggleExpand: FROZEN_FN
 } as const

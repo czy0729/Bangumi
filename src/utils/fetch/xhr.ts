@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:05:06
+ * @Last Modified time: 2024-09-02 13:55:48
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
+import { FROZEN_FN } from '@constants/init'
 import { HOST_PROXY } from '@/config'
 import { Fn } from '@types'
 import { syncUserStore } from '../async'
@@ -19,8 +20,8 @@ import { XHRArgs, XHRCustomArgs } from './types'
 /** 带登录信息的 XMLHttpRequest */
 export function xhr(
   args: XHRArgs,
-  success: (responseText?: string, request?: any) => any = () => {},
-  fail: Fn = () => {}
+  success: (responseText?: string, request?: any) => any = FROZEN_FN,
+  fail: Fn = FROZEN_FN
 ) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 

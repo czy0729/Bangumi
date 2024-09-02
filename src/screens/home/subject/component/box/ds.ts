@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-10 03:33:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 10:46:25
+ * @Last Modified time: 2024-09-02 17:00:01
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -24,7 +25,7 @@ export const DEFAULT_PROPS = {
   status: [] as $['status'],
   url: '' as $['url'],
   showCount: true as typeof systemStore.setting.showCount,
-  showManageModel: (() => {}) as $['showManageModel'],
-  toRating: (() => {}) as $['toRating'],
+  showManageModel: FROZEN_FN as $['showManageModel'],
+  toRating: FROZEN_FN as $['toRating'],
   outdate: false as boolean
 }

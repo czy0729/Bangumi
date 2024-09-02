@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-30 08:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 19:36:40
+ * @Last Modified time: 2024-09-02 13:07:22
  */
 import { rc } from '@utils/dev'
-import { FN, LIST_EMPTY } from '@constants'
+import { FROZEN_FN, LIST_EMPTY } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -21,7 +21,7 @@ export const DEFAULT_PROPS = {
   data: LIST_EMPTY as ReturnType<$['userCollections']>,
   numColumns: undefined as $['numColumns'],
   userPagination: false as boolean,
-  onScroll: FN,
-  onHeaderRefresh: FN,
-  onFooterRefresh: FN
+  onScroll: FROZEN_FN,
+  onHeaderRefresh: FROZEN_FN,
+  onFooterRefresh: FROZEN_FN
 }

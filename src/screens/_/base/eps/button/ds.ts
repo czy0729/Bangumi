@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-04 03:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-02 22:09:07
+ * @Last Modified time: 2024-09-02 16:57:27
  */
-import { Fn, SubjectId } from '@types'
+import { FROZEN_FN } from '@constants'
+import { SubjectId } from '@types'
 import { memoStyles } from './styles'
 
 export const DEFAULT_PROPS = {
@@ -24,8 +25,8 @@ export const DEFAULT_PROPS = {
     advance: false as boolean,
     userProgress: {} as any,
     flip: false as boolean,
-    onFliped: (() => {}) as Fn,
-    onSelect: (() => {}) as Fn,
-    onLongPress: (() => {}) as Fn
+    onFliped: FROZEN_FN,
+    onSelect: FROZEN_FN,
+    onLongPress: FROZEN_FN
   }
 }

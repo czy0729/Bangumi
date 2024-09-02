@@ -2,27 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-27 10:36:53
+ * @Last Modified time: 2024-09-02 15:56:41
  */
 import React from 'react'
-import { View, Image as RNImage } from 'react-native'
+import { Image as RNImage, View } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import {
-  Flex,
-  Text,
-  Touchable,
-  Input,
-  Button,
-  Mesume,
-  Iconfont,
-  Heatmap
-} from '@components'
+import { Button, Flex, Heatmap, Iconfont, Input, Mesume, Text, Touchable } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, HOST_2, HOST_3, STORYBOOK } from '@constants'
+import { FROZEN_FN, HOST, HOST_2, HOST_3, STORYBOOK } from '@constants'
 import i18n from '@constants/i18n'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -32,14 +23,14 @@ const DATA = [HOST, HOST_2, HOST_3] as const
 class Form extends React.Component<Props> {
   static defaultProps = {
     host: '',
-    forwardRef: () => {},
-    onGetCaptcha: () => {},
-    onFocus: () => {},
-    onBlur: () => {},
-    onChange: () => {},
-    onSelect: () => {},
-    onUAChange: () => {},
-    onLogin: () => {}
+    forwardRef: FROZEN_FN,
+    onGetCaptcha: FROZEN_FN,
+    onFocus: FROZEN_FN,
+    onBlur: FROZEN_FN,
+    onChange: FROZEN_FN,
+    onSelect: FROZEN_FN,
+    onUAChange: FROZEN_FN,
+    onLogin: FROZEN_FN
   }
 
   state = {
@@ -293,13 +284,7 @@ class Form extends React.Component<Props> {
           </Flex>
           {this.renderForm()}
           {!STORYBOOK && this.renderConfig()}
-          <Button
-            style={_.mt.lg}
-            type='main'
-            shadow
-            loading={loading}
-            onPress={onLogin}
-          >
+          <Button style={_.mt.lg} type='main' shadow loading={loading} onPress={onLogin}>
             {i18n.login()}
           </Button>
           {this.renderError()}

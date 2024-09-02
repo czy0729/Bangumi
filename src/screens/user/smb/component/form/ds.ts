@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:58:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:16:48
+ * @Last Modified time: 2024-09-02 15:53:53
  */
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -18,7 +19,7 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   visible: false as $State['visible'],
   name: '' as $State['name'],
-  onClose: (() => {}) as $['onClose']
+  onClose: FROZEN_FN as $['onClose']
 }
 
 export const URL_DDPLAY = 'ddplay:[PATH]/[FILE]'

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:52:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:59:00
+ * @Last Modified time: 2024-09-02 15:58:34
  */
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 
@@ -20,5 +21,5 @@ export const DEFAULT_PROPS = {
   nameCn: '' as $['subject']['name_cn'],
   action: '看' as $['action'],
   onSubmit: (() => undefined) as $['doUpdateCollection'],
-  onClose: (() => {}) as $['closeManageModal']
+  onClose: FROZEN_FN as $['closeManageModal']
 }

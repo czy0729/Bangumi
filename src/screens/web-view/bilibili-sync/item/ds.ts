@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:18:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 19:29:22
+ * @Last Modified time: 2024-09-02 15:51:44
  */
+import { FROZEN_FN } from '@constants'
 import { InferArray, Navigation } from '@types'
 import { StoreType as $ } from '../types'
 import { memoStyles } from './styles'
@@ -28,7 +29,7 @@ export const DEFAULT_PROPS = {
   review: {} as ReturnType<$['review']>,
   collection: {} as ReturnType<$['collection']>,
   hideSame: false as $['state']['hideSame'],
-  onRefreshCollection: (() => {}) as $['onRefreshCollection'],
-  onBottom: (() => {}) as $['onBottom'],
-  onSubmit: (() => {}) as unknown as $['onSubmit']
+  onRefreshCollection: FROZEN_FN as $['onRefreshCollection'],
+  onBottom: FROZEN_FN as $['onBottom'],
+  onSubmit: FROZEN_FN as $['onSubmit']
 }

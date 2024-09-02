@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:39:14
+ * @Last Modified time: 2024-09-02 16:53:12
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { open, showActionSheet, stl } from '@utils'
 import { r } from '@utils/dev'
-import { HOST_DOGE, IOS } from '@constants'
+import { FROZEN_FN, HOST_DOGE, IOS } from '@constants'
 import { Component } from '../component'
 import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
 import { Iconfont } from '../iconfont'
@@ -32,7 +32,7 @@ export const ImageViewer = observer(
       index: 0,
       visible: false,
       imageUrls: [],
-      onCancel: () => {}
+      onCancel: FROZEN_FN
     }
 
     onRequestClose = () => {

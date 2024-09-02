@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-20 00:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:48:12
+ * @Last Modified time: 2024-09-02 16:58:13
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
@@ -12,7 +12,7 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { COLLECTION_STATUS } from '@constants'
+import { COLLECTION_STATUS, FROZEN_FN } from '@constants'
 import { useStatusBtnGroup } from './hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -25,7 +25,7 @@ export const StatusBtnGroup = ({
   style,
   value = '',
   action = '看',
-  onSelect = () => {}
+  onSelect = FROZEN_FN
 }: StatusBtnGroupProps) => {
   r(COMPONENT)
 

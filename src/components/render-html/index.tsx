@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 13:12:47
+ * @Last Modified time: 2024-09-02 16:55:03
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { cheerio, HTMLDecode, open } from '@utils'
 import { r } from '@utils/dev'
-import { WEB } from '@constants'
+import { FROZEN_FN, WEB } from '@constants'
 import { TextStyle } from '@types'
 import { Component } from '../component'
 import HTML from '../@/react-native-render-html'
@@ -44,8 +44,8 @@ export const RenderHtml = observer(
       html: '',
       autoShowImage: false,
       matchLink: false,
-      onLinkPress: () => {},
-      onImageFallback: () => {}
+      onLinkPress: FROZEN_FN,
+      onImageFallback: FROZEN_FN
     }
 
     state = {

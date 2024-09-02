@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:31:17
+ * @Last Modified time: 2024-09-02 16:52:28
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { getStorage, info, setStorage } from '@utils'
 import { r } from '@utils/dev'
-import { IOS, STORYBOOK } from '@constants'
+import { FROZEN_FN, IOS, WEB } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'
 import Container from './container'
 import Content from './content'
@@ -40,9 +40,9 @@ export const FixedTextarea = observer(
       source: false,
       value: '',
       extraComponent: null,
-      onClose: () => {},
-      onChange: () => {},
-      onSubmit: () => {}
+      onClose: FROZEN_FN,
+      onChange: FROZEN_FN,
+      onSubmit: FROZEN_FN
     }
 
     state = {
@@ -428,7 +428,7 @@ export const FixedTextarea = observer(
         history.unshift(bgmIndex)
       }
       if (history.length > MAX_BGM_HISTORY_COUNT) {
-        history = history.filter((item, index) => index < MAX_BGM_HISTORY_COUNT)
+        history = history.filter((_item, index) => index < MAX_BGM_HISTORY_COUNT)
       }
 
       this.setState({
@@ -448,7 +448,7 @@ export const FixedTextarea = observer(
       }
 
       if (replyHistory.length > MAX_HISTORY_COUNT) {
-        replyHistory = replyHistory.filter((item, index) => index < MAX_HISTORY_COUNT)
+        replyHistory = replyHistory.filter((_item, index) => index < MAX_HISTORY_COUNT)
       }
 
       const { lockHistory } = this.state
@@ -560,7 +560,7 @@ export const FixedTextarea = observer(
     render() {
       r(COMPONENT)
 
-      if (STORYBOOK) return null
+      if (WEB) return null
 
       const { extraComponent } = this.props
       const { showTextarea, showBgm, showReplyHistory, showKeyboardSpacer } = this.state

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:17:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 11:51:18
+ * @Last Modified time: 2024-09-02 13:06:58
  */
 import { rc } from '@utils/dev'
-import { FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { STATE } from '../../store/ds'
@@ -20,5 +20,5 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   cat: STATE.cat,
   value: STATE.value,
-  onSubmit: FN
+  onSubmit: FROZEN_FN
 }

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-24 16:31:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:10:22
+ * @Last Modified time: 2024-09-02 16:56:06
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { TextStyle, ViewStyle } from '@types'
 import { Component } from '../component'
 import { TabBar } from '../@/react-native-tab-view/TabBar'
@@ -32,7 +33,7 @@ export const TabsV2 = ({
   underlineColor,
   renderItem,
   renderLabel,
-  onChange = () => {},
+  onChange = FROZEN_FN,
   ...other
 }: TabsV2Props) => {
   r(COMPONENT)

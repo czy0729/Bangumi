@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:18:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 20:44:13
+ * @Last Modified time: 2024-09-02 15:54:25
  */
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { InferArray, Navigation } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -24,6 +25,6 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   item: {} as InferArray<$['data']>,
   upload: {} as ReturnType<$['upload']>,
-  onBottom: (() => {}) as $['onBottom'],
-  onSubmit: (() => {}) as unknown as $['onSubmit']
+  onBottom: FROZEN_FN as $['onBottom'],
+  onSubmit: FROZEN_FN as $['onSubmit']
 }

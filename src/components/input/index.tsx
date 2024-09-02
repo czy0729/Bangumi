@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:39:34
+ * @Last Modified time: 2024-09-02 17:00:50
  */
 import React from 'react'
 import {
@@ -17,7 +17,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import { Component } from '../component'
 import Clear from './clear'
 import TextInput from './text-input'
@@ -43,8 +43,8 @@ export const Input = observer(
       colorClear: undefined,
       autoFocus: false,
       placeholderTextColor: undefined,
-      onChange: () => {},
-      onChangeText: () => {},
+      onChange: FROZEN_FN,
+      onChangeText: FROZEN_FN,
       onScrollIntoViewIfNeeded: undefined
     }
 
@@ -129,7 +129,7 @@ export const Input = observer(
       const node = evt?.target || evt?.currentTarget
       setTimeout(() => {
         try {
-          node.measureInWindow((x: number, y: number, width: number, height: number) => {
+          node.measureInWindow((_x: number, y: number, _width: number, height: number) => {
             const inputBottomPosition = y + height
             const scrollViewHeight = _.window.height
             if (inputBottomPosition > scrollViewHeight - this.keyboardHeight) {

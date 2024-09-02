@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 13:32:34
+ * @Last Modified time: 2024-09-02 15:57:19
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -46,6 +46,7 @@ import { s2t } from '@utils/thirdParty/open-cc'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
 import {
   CDN_OSS_SUBJECT,
+  FROZEN_FN,
   HOST,
   HOST_CDN,
   IMG_WIDTH,
@@ -1189,7 +1190,7 @@ export default class Action extends Fetch {
           formhash
         },
         // 因为删除后是 302, 使用 fail 去触发
-        () => {},
+        FROZEN_FN,
         () => {
           postTask(() => {
             collectionStore.removeStatus(this.subjectId)

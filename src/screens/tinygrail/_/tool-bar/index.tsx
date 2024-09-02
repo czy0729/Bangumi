@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 21:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 05:20:58
+ * @Last Modified time: 2024-09-02 15:54:48
  */
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -11,7 +11,7 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
@@ -23,8 +23,8 @@ function ToolBar({
   levelMap = {},
   direction,
   renderLeft,
-  onSortPress = () => {},
-  onLevelSelect = () => {}
+  onSortPress = FROZEN_FN,
+  onLevelSelect = FROZEN_FN
 }: Props) {
   const styles = memoStyles()
   const sum = Object.keys(levelMap).reduce((total, level) => total + levelMap[level], 0)

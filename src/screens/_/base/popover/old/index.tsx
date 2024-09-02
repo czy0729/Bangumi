@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-05-01 11:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 12:47:06
+ * @Last Modified time: 2024-09-02 16:57:59
  */
 import React from 'react'
 import { Menu } from '@components'
 import { Popover } from '@components/popover/old'
 import { ob } from '@utils/decorators'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 
 /** 旧实现, 暂保留 */
-export default ob(({ data = [], menuStyle, onSelect = () => {}, children, ...other }) => {
+export default ob(({ data = [], menuStyle, onSelect = FROZEN_FN, children, ...other }) => {
   const popoverProps = IOS
     ? {
         overlay: (

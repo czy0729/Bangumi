@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-05 02:45:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:38:16
+ * @Last Modified time: 2024-09-02 16:54:50
  */
 import React from 'react'
 import { findNodeHandle, StyleSheet, UIManager, View } from 'react-native'
 import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
+import { FROZEN_FN } from '@constants'
 import { Touchable } from '../../touchable'
 
 /** Android 风格的弹出层, 这个官方文档是找不到的 */
@@ -32,7 +33,7 @@ export default class Popover extends React.Component<any> {
       systemStore.setting.s2t
         ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
         : data,
-      () => {}, // err callback
+      FROZEN_FN, // err callback
       this.onPopupItemPress
     )
   }

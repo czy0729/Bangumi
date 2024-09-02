@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 23:32:29
+ * @Last Modified time: 2024-09-02 16:59:06
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { EVENT } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import { UserId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -49,8 +49,8 @@ export const DEFAULT_PROPS = {
   clearHref: '' as Props['clearHref'],
   index: 0 as number,
   event: EVENT as Props['event'],
-  onDelete: (() => {}) as Props['onDelete'],
-  onHidden: (() => {}) as Props['onHidden']
+  onDelete: FROZEN_FN as Props['onDelete'],
+  onHidden: FROZEN_FN as Props['onHidden']
 } as const
 
 export const LIKES_OFFSETS = {

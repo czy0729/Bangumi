@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:45:43
+ * @Last Modified time: 2024-09-02 15:51:07
  */
 import { toJS } from 'mobx'
 import { confirm } from '@utils'
@@ -12,6 +12,7 @@ import { SORT } from '@utils/subject/anime'
 import {
   API_COLLECTION_ACTION,
   API_SUBJECT_UPDATE_WATCHED,
+  FROZEN_FN,
   HTML_ACTION_SUBJECT_INTEREST_UPDATE,
   HTML_ACTION_SUBJECT_SET_WATCHED,
   MODEL_COLLECTION_STATUS
@@ -139,7 +140,7 @@ export default class Action extends Fetch {
               this.showFailNotice = false
             },
             '提示',
-            () => {},
+            FROZEN_FN,
             '暂不再提示',
             '知道了'
           )

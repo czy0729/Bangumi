@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 23:27:16
+ * @Last Modified time: 2024-09-02 15:59:15
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -26,11 +27,11 @@ export const DEFAULT_PROPS = {
   showEpInput: true as typeof systemStore.setting.showEpInput,
   showCustomOnair: true as typeof systemStore.setting.showCustomOnair,
   focusOrigin: false as typeof systemStore.setting.focusOrigin,
-  onChangeText: (() => {}) as $['changeText'],
-  onSelectOnAir: (() => {}) as $['onSelectOnAir'],
-  onResetOnAirUser: (() => {}) as $['resetOnAirUser'],
-  onScrollIntoViewIfNeeded: (() => {}) as (y: number) => any,
-  doUpdateSubjectEp: (() => {}) as $['doUpdateSubjectEp']
+  onChangeText: FROZEN_FN as $['changeText'],
+  onSelectOnAir: FROZEN_FN as $['onSelectOnAir'],
+  onResetOnAirUser: FROZEN_FN as $['resetOnAirUser'],
+  onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => any,
+  doUpdateSubjectEp: FROZEN_FN as $['doUpdateSubjectEp']
 }
 
 export const WEEK_DAY_DS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'] as const

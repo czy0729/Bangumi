@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 14:46:34
+ * @Last Modified time: 2024-09-02 15:53:14
  */
 import { computed, observable } from 'mobx'
 import { usersStore, userStore } from '@stores'
@@ -10,6 +10,7 @@ import { feedback, getTimestamp, HTMLDecode, info } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { randomAvatars } from '@utils/user-setting'
+import { FROZEN_FN } from '@constants'
 import { NAMESPACE, ONLINE_BGS_URL, REG_AVATAR, REG_BG, REG_FIXED, STATE } from './ds'
 
 export default class ScreenUserSetting extends store<typeof STATE> {
@@ -217,7 +218,7 @@ export default class ScreenUserSetting extends store<typeof STATE> {
         })
         this.setStorage(NAMESPACE)
       },
-      () => {}
+      FROZEN_FN
     )
   }
 

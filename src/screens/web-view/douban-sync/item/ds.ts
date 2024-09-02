@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:02:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 16:38:25
+ * @Last Modified time: 2024-09-02 15:51:22
  */
+import { FROZEN_FN } from '@constants'
 import { InferArray, Navigation } from '@types'
 import { StoreType as $ } from '../types'
 import { memoStyles } from './styles'
@@ -30,7 +31,7 @@ export const DEFAULT_PROPS = {
   hideSame: false as $['state']['hideSame'],
   noCommentUseCreateDate: false as $['state']['noCommentUseCreateDate'],
   scoreMinuesOne: false as $['state']['scoreMinuesOne'],
-  onRefreshCollection: (() => {}) as $['onRefreshCollection'],
-  onBottom: (() => {}) as $['onBottom'],
-  onSubmit: (() => {}) as unknown as $['onSubmit']
+  onRefreshCollection: FROZEN_FN as $['onRefreshCollection'],
+  onBottom: FROZEN_FN as $['onBottom'],
+  onSubmit: FROZEN_FN as $['onSubmit']
 }

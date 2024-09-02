@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-06-01 18:25:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 11:05:25
+ * @Last Modified time: 2024-09-02 16:57:52
  */
 import React from 'react'
 import { Component, Menu, Popover as PopoverComp, PopoverProps } from '@components'
 import { ob } from '@utils/decorators'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import PopoverOld from './old'
 import { COMPONENT } from './ds'
 
 function PopoverWithMenu<ItemT extends string[] | readonly string[]>({
   data,
   menuStyle,
-  onSelect = () => {},
+  onSelect = FROZEN_FN,
   children,
   ...other
 }: PopoverProps<ItemT>) {

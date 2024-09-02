@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:03:20
+ * @Last Modified time: 2024-09-02 13:59:05
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
 import { EVENT, HOST, IOS, URL_PRIVACY } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
+import { FROZEN_FN } from '@constants/init'
 import { DEV } from '@/config'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { AnyObject, EventType, Navigation, SubjectId } from '@types'
@@ -21,7 +22,7 @@ import { PRIVACY_STATE, RANDOM_FACTOR } from './ds'
 
 /** 启动 */
 export function bootApp() {
-  const fn = () => {}
+  const fn = FROZEN_FN
 
   global.log = globalLog
   global.warn = globalWarn
@@ -48,7 +49,7 @@ export function getBlurRadius(uri?: string, bg?: string, avatarLarge?: string) {
     return 48
   }
 
-  if (STORYBOOK) return 28
+  if (WEB) return 28
 
   return 8
 }
@@ -78,7 +79,7 @@ let _navigationReference: Navigation | undefined
 
 /** 保存 navigation 引用 */
 export function navigationReference(navigation?: Navigation | undefined) {
-  if (STORYBOOK) {
+  if (WEB) {
     return require('@components/storybook/navigation').StorybookNavigation as Navigation
   }
 

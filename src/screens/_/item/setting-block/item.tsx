@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-17 20:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:46:56
+ * @Last Modified time: 2024-09-02 16:58:58
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Iconfont, Highlight } from '@components'
+import { Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { memoStyles } from './styles'
 import { ItemSettingBlockItemProps } from './types'
-import { stl } from '@utils'
 
 const ItemSettingBlockItem = ob(
   ({
@@ -27,7 +28,7 @@ const ItemSettingBlockItem = ob(
     informationType = 'sub',
     filter,
     children,
-    onPress = () => {}
+    onPress = FROZEN_FN
   }: ItemSettingBlockItemProps) => {
     if (!show) return null
 

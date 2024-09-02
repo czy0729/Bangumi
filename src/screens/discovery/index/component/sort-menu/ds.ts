@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:55:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:09:51
+ * @Last Modified time: 2024-09-02 16:59:40
  */
 import { _, systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -23,6 +24,6 @@ export const DEFAULT_PROPS = {
   discoveryMenu: [] as typeof systemStore.setting.discoveryMenu,
   discoveryTodayOnair: true as typeof systemStore.setting.discoveryTodayOnair,
   discoveryMenuNum: 4 as typeof systemStore.setting.discoveryMenuNum,
-  onToggle: (() => {}) as $['toggleDragging'],
-  onSubmit: (() => {}) as $['saveDiscoveryMenu']
+  onToggle: FROZEN_FN as $['toggleDragging'],
+  onSubmit: FROZEN_FN as $['saveDiscoveryMenu']
 }

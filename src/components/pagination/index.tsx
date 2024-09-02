@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 12:06:26
+ * @Last Modified time: 2024-09-02 16:54:27
  */
 import React, { useRef, useState } from 'react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Heatmap } from '../heatmap'
@@ -30,10 +30,10 @@ export const Pagination = ({
   inputStyle,
   input,
   heatmaps = {},
-  onPrev = () => {},
-  onNext = () => {},
-  onChange = () => {},
-  onSearch = () => {}
+  onPrev = FROZEN_FN,
+  onNext = FROZEN_FN,
+  onChange = FROZEN_FN,
+  onSearch = FROZEN_FN
 }: PaginationProps) => {
   r(COMPONENT)
 

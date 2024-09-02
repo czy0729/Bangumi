@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 21:04:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:00:54
+ * @Last Modified time: 2024-09-02 15:54:55
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -10,14 +10,14 @@ import { Popover as PopoverComp } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { EVENT } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import { styles } from './styles'
 import { Context, Props } from './types'
 
 const DATA = ['收藏', 'K线', '买入', '卖出', '资产重组'] as const
 
 function Popover(
-  { id, relation = [], subject, subjectId, event = EVENT, onCollect = () => {} }: Props,
+  { id, relation = [], subject, subjectId, event = EVENT, onCollect = FROZEN_FN }: Props,
   { navigation }: Context
 ) {
   const { id: eventId, data: eventData } = event

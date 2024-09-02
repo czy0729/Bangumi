@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:37:16
+ * @Last Modified time: 2024-09-02 15:56:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,15 @@ import {
 import { ob } from '@utils/decorators'
 import { hm, queue, t, xhrCustom } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { APP_ID, APP_SECRET, HOST, STORYBOOK, URL_OAUTH_REDIRECT, URL_PRIVACY } from '@constants'
+import {
+  APP_ID,
+  APP_SECRET,
+  FROZEN_FN,
+  HOST,
+  URL_OAUTH_REDIRECT,
+  URL_PRIVACY,
+  WEB
+} from '@constants'
 import i18n from '@constants/i18n'
 import { HOST_PROXY } from '@/config'
 import { Navigation } from '@types'
@@ -38,7 +46,7 @@ class LoginV2 extends React.Component<{
   navigation: Navigation
 }> {
   state = {
-    host: STORYBOOK ? HOST_PROXY : HOST,
+    host: WEB ? HOST_PROXY : HOST,
     clicked: false,
     email: '',
     password: '',
@@ -206,7 +214,7 @@ class LoginV2 extends React.Component<{
     }
 
     const UA = await Constants.getWebViewUserAgentAsync()
-    this.userAgent = STORYBOOK ? UA : `${UA} ${getTimestamp()}`
+    this.userAgent = WEB ? UA : `${UA} ${getTimestamp()}`
 
     return UA
   }
@@ -214,11 +222,11 @@ class LoginV2 extends React.Component<{
   getHeaders = (keys: string[] = []) => {
     const headers: any = {}
     if (keys.includes('User-Agent')) {
-      headers[STORYBOOK ? 'X-User-Agent' : 'User-Agent'] = this.userAgent
+      headers[WEB ? 'X-User-Agent' : 'User-Agent'] = this.userAgent
     }
 
     if (keys.includes('Cookie')) {
-      headers[STORYBOOK ? 'X-Cookie' : 'Cookie'] = this.cookieString
+      headers[WEB ? 'X-Cookie' : 'Cookie'] = this.cookieString
     }
 
     if (keys.includes('Content-Type')) {
@@ -229,7 +237,7 @@ class LoginV2 extends React.Component<{
   }
 
   getCookies = (headers = {}) => {
-    this.updateCookie(STORYBOOK ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0])
+    this.updateCookie(WEB ? headers?.['x-set-cookie'] : headers?.['set-cookie']?.[0])
   }
 
   /** 获取表单 hash */
@@ -274,7 +282,7 @@ class LoginV2 extends React.Component<{
     })
 
     let base64: string
-    if (STORYBOOK) {
+    if (WEB) {
       base64 = btoa(String.fromCharCode.apply(null, new Uint8Array(request.response)))
     } else {
       base64 = request._response
@@ -583,7 +591,7 @@ class LoginV2 extends React.Component<{
           )
         ) : (
           <Flex style={this.styles.old} justify='around'>
-            {!STORYBOOK && (
+            {!WEB && (
               <Touchable
                 onPress={() => {
                   t('登陆.跳转', {
@@ -595,7 +603,7 @@ class LoginV2 extends React.Component<{
                     '声明: 本APP的性质为第三方，只提供显示数据和简单的操作，没有修复和改变源站业务的能力。 \n\n在移动端浏览器注册会经常遇到验证码错误，碰到错误建议在浏览器里使用 [电脑版UA]，再不行推荐使用电脑Chrome注册。 \n\n注册后会有 [激活码] 发到邮箱，测试过只会发送一次，请务必在激活有效时间内激活，否则这个注册账号就废了。输入激活码前，看见下方的文字改变了再填入，提示服务不可用的请务必等到浏览器加载条完成，不然永远都会说激活码错误。\n\n作者只能帮大家到这里了。',
                     () => open(`${HOST}/signup`),
                     '提示',
-                    () => {},
+                    FROZEN_FN,
                     '前往注册'
                   )
                 }}
@@ -626,7 +634,7 @@ class LoginV2 extends React.Component<{
               </Flex>
               <Heatmap id='登陆.跳转' to='Privacy' alias='隐私保护政策' />
             </Touchable>
-            {!STORYBOOK && (
+            {!WEB && (
               <Text
                 size={11}
                 bold
@@ -654,7 +662,7 @@ class LoginV2 extends React.Component<{
     return (
       <Component id='screen-login-v2' style={_.container.plain}>
         <StatusBarPlaceholder />
-        {STORYBOOK && (
+        {WEB && (
           <Notice style={_.mv.lg}>当前网页版{i18n.login()}功能尚未实装，本页面仅供查看使用</Notice>
         )}
         {this.renderContent()}

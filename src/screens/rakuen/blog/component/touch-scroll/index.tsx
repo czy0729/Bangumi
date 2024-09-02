@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:42:50
+ * @Last Modified time: 2024-09-02 15:56:10
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
@@ -10,7 +10,7 @@ import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { stl, titleCase } from '@utils'
 import { obc } from '@utils/decorators'
-import { MODEL_RAKUEN_SCROLL_DIRECTION, STORYBOOK } from '@constants'
+import { FROZEN_FN, MODEL_RAKUEN_SCROLL_DIRECTION, WEB } from '@constants'
 import { Fn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -18,13 +18,13 @@ import { memoStyles } from './styles'
 
 function TouchScroll(
   {
-    onPress = () => {}
+    onPress = FROZEN_FN
   }: {
     onPress?: Fn
   },
   { $ }: Ctx
 ) {
-  if (STORYBOOK) return null
+  if (WEB) return null
 
   const { scrollDirection } = $.setting
   const { list } = $.comments
@@ -56,7 +56,7 @@ function TouchScroll(
           </Flex>
         </TouchableWithoutFeedback>
       </Flex.Item>
-      {list.map((item, index) => {
+      {list.map((_item, index) => {
         const isNew = false
         const showFloorText = showFloor.includes(index)
         return (

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-06 20:48:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-28 19:40:46
+ * @Last Modified time: 2024-09-02 16:54:08
  */
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
+import { FROZEN_FN } from '@constants'
 import { loadJSON } from '@assets/json'
 import { JSONKatakana } from '@assets/json/types'
 import { Fn } from '@types'
@@ -73,7 +74,7 @@ async function doTranslate() {
 }
 
 /** 翻译 */
-export async function translate(jp: string, cb: Fn = () => {}) {
+export async function translate(jp: string, cb: Fn = FROZEN_FN) {
   // jp 不是字符串直接抛弃
   if (typeof jp !== 'string') return
 

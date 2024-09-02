@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:10:32
+ * @Last Modified time: 2024-09-02 16:53:01
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { getTimestamp, omit, pick } from '@utils'
 import { r } from '@utils/dev'
-import { EVENT, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
+import { EVENT, FROZEN_FN, HOST_CDN_AVATAR, IOS, WEB } from '@constants'
 import { IOS_IPA, TEXT_ONLY } from '@/config'
 import { AnyObject, Fn } from '@types'
 import { Component } from '../component'
@@ -379,25 +379,20 @@ export const Image = observer(
             request.open('get', src, true)
             request.send(null)
           } else {
-            RNImage.getSizeWithHeaders(
-              src,
-              this.headers,
-              () => {},
-              error => {
-                // magma oss 若 status code 为 451 直接触发失败
-                if (String(error).includes('code=451')) {
-                  setError451(src)
-                  this.recoveryToBgmCover()
-                } else if (String(error).includes('code=404')) {
-                  setError404(src)
-                  this.recoveryToBgmCover()
-                } else {
-                  setTimeout(() => {
-                    this.retry(`${src}?ts=${getTimestamp()}`)
-                  }, RETRY_DISTANCE)
-                }
+            RNImage.getSizeWithHeaders(src, this.headers, FROZEN_FN, error => {
+              // magma oss 若 status code 为 451 直接触发失败
+              if (String(error).includes('code=451')) {
+                setError451(src)
+                this.recoveryToBgmCover()
+              } else if (String(error).includes('code=404')) {
+                setError404(src)
+                this.recoveryToBgmCover()
+              } else {
+                setTimeout(() => {
+                  this.retry(`${src}?ts=${getTimestamp()}`)
+                }, RETRY_DISTANCE)
               }
-            )
+            })
           }
         }, 0)
         return

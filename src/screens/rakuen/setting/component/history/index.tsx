@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-31 21:20:00
+ * @Last Modified time: 2024-09-02 15:55:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _, rakuenStore } from '@stores'
 import { BlockedUsersItem } from '@stores/rakuen/types'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { API_AVATAR } from '@constants'
+import { API_AVATAR, FROZEN_FN } from '@constants'
 import { Fn, Navigation, UserId, ViewStyle } from '@types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -24,7 +24,7 @@ function History({
   data,
   showAvatar = false,
   onNavigate,
-  onDelete = () => {}
+  onDelete = FROZEN_FN
 }: {
   navigation?: Navigation
   style?: ViewStyle

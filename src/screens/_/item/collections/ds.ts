@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:20:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 15:46:39
+ * @Last Modified time: 2024-09-02 16:58:21
  */
 import { rc } from '@utils/dev'
-import { EVENT } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -49,5 +49,5 @@ export const DEFAULT_PROPS = {
   event: EVENT as Props['event'],
   filter: '' as Props['filter'],
   showManage: false as Props['showManage'],
-  onEdit: (() => {}) as Props['onEdit']
+  onEdit: FROZEN_FN as Props['onEdit']
 } as const

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 14:38:01
+ * @Last Modified time: 2024-09-02 15:53:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { fixedRemote } from '@utils/user-setting'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import Avatars from '../component/avatars'
 import Bgs from '../component/bgs'
 import Form from '../component/form'
@@ -30,7 +30,7 @@ class Scroll extends React.Component {
     more: false
   }
 
-  scrollTo: any = () => {}
+  scrollTo: any = FROZEN_FN
 
   onViewOrigin = (item: string, index: number) => {
     t('个人设置.查看原图', {

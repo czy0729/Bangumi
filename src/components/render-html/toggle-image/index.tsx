@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:16:23
+ * @Last Modified time: 2024-09-02 16:55:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { _, rakuenStore } from '@stores'
 import { open, stl } from '@utils'
+import { FROZEN_FN } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Image } from '../../image'
@@ -21,7 +22,7 @@ import { Props, State } from './types'
 
 class ToggleImage extends React.Component<Props, State> {
   static defaultProps = {
-    onImageFallback: () => {}
+    onImageFallback: FROZEN_FN
   }
 
   static displayName = 'ToggleImage'

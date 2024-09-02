@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:56:04
+ * @Last Modified time: 2024-09-02 16:57:43
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -11,7 +11,7 @@ import { Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import { getStorage, getTimestamp, info, setStorage, sleep } from '@utils'
 import { ob } from '@utils/decorators'
-import { H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
+import { FROZEN_FN, H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
 import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import { StarGroup } from '../star-group'
 import CommentInput from './comment-input'
@@ -36,8 +36,8 @@ export const ManageModal = ob(
       desc: '',
       status: '',
       action: '看',
-      onSubmit: () => {},
-      onClose: () => {}
+      onSubmit: FROZEN_FN,
+      onClose: FROZEN_FN
     }
 
     state: State = {
@@ -233,7 +233,7 @@ export const ManageModal = ob(
       }
 
       if (commentHistory.length > MAX_HISTORY_COUNT) {
-        commentHistory = commentHistory.filter((item, index) => index < MAX_HISTORY_COUNT)
+        commentHistory = commentHistory.filter((_item, index) => index < MAX_HISTORY_COUNT)
       }
 
       this.setState({

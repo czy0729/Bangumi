@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-04-13 10:38:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:06:38
+ * @Last Modified time: 2024-09-02 16:56:17
  */
 import React from 'react'
 import RNWebView from '@components/@/web-view'
 import { r } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { KeyboardSpacer } from '../keyboard-spacer'
 import { COMPONENT } from './ds'
 
@@ -14,11 +15,11 @@ import { COMPONENT } from './ds'
 export const WebView = class WebViewComponent extends React.Component<any> {
   ref: any
 
-  stopLoading = () => {}
+  stopLoading = FROZEN_FN
 
-  reload = () => {}
+  reload = FROZEN_FN
 
-  goBack = () => {}
+  goBack = FROZEN_FN
 
   render() {
     r(COMPONENT)

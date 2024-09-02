@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:11:18
+ * @Last Modified time: 2024-09-02 16:58:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Avatar, Component, Flex, RenderHtml, Text, UserStatus } from '@componen
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { obc } from '@utils/decorators'
-import { EVENT } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import { Name } from '../../base'
 import { getBgmHtml } from './utils'
 import { COMPONENT } from './ds'
@@ -31,7 +31,7 @@ export const ItemSay = obc(
       id,
       time,
       format = true,
-      onLongPress = () => {}
+      onLongPress = FROZEN_FN
     }: ItemSayProps,
     { navigation }
   ) => {

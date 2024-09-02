@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 04:40:21
+ * @Last Modified time: 2024-09-02 13:07:18
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
@@ -37,5 +37,5 @@ export const DEFAULT_PROPS = {
   topicId: '' as string,
   replyCount: '' as string | number,
   isGroup: false as boolean,
-  onPress: FN
+  onPress: FROZEN_FN
 }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-03 20:16:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 20:52:49
+ * @Last Modified time: 2024-09-02 13:07:05
  */
 import { rc } from '@utils/dev'
-import { FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 
@@ -21,6 +21,6 @@ export const DEFAULT_PROPS = {
   formhash: '' as $['topic']['formhash'],
   likeType: '' as $['topic']['likeType'],
   translateResult: [] as $['state']['translateResult'],
-  doTranslate: FN as $['doTranslate'],
-  onLinkPress: FN
+  doTranslate: FROZEN_FN as $['doTranslate'],
+  onLinkPress: FROZEN_FN
 }

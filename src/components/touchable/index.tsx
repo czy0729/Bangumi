@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:05:30
+ * @Last Modified time: 2024-09-02 12:54:44
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { FN } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { useCallOnceInInterval } from './hooks'
 import TouchableOpacity from './touchable-opacity'
 import TouchableWithoutFeedback from './touchable-without-feedback'
@@ -35,7 +35,7 @@ export const Touchable = observer(
     animate,
     scale,
     disabled,
-    onPress = FN,
+    onPress = FROZEN_FN,
     children,
     ...other
   }: TouchableProps) => {

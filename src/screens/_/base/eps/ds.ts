@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-08-10 00:36:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 09:37:56
+ * @Last Modified time: 2024-09-02 16:56:31
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { isMobile } from '@utils/dom'
-import { STORYBOOK } from '@constants'
-import { Fn, SubjectId, ViewStyle } from '@types'
+import { FROZEN_FN, WEB } from '@constants'
+import { SubjectId, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Eps')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
-export const numbersOfLine = STORYBOOK && !isMobile() ? 10 : 8
+export const numbersOfLine = WEB && !isMobile() ? 10 : 8
 
 export const DEFAULT_PROPS = {
   style: {} as ViewStyle,
@@ -33,6 +33,6 @@ export const DEFAULT_PROPS = {
   grid: false as boolean,
   orientation: _.orientation,
   flip: false as boolean,
-  onFliped: (() => {}) as Fn,
-  onSelect: (() => {}) as Fn
+  onFliped: FROZEN_FN,
+  onSelect: FROZEN_FN
 }

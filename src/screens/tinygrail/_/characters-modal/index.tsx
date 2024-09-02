@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:00:07
+ * @Last Modified time: 2024-09-02 15:55:20
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -22,6 +22,7 @@ import {
   trim
 } from '@utils'
 import { obc } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import { calculateRate } from '../utils'
 import Item from './item'
 import ItemBottom from './item-bottom'
@@ -38,8 +39,8 @@ class CharactersModal extends React.Component<Props> {
   static defaultProps = {
     title: '',
     visible: false,
-    onClose: () => {},
-    onSubmit: () => {}
+    onClose: FROZEN_FN,
+    onSubmit: FROZEN_FN
   }
 
   state = {

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:42:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 23:01:09
+ * @Last Modified time: 2024-09-02 16:59:45
  */
 import { _, systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { SubjectId } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -20,7 +21,7 @@ export const DEFAULT_PROPS = {
   showAnitabi: true as typeof systemStore.setting.showAnitabi,
   subjectId: 0 as SubjectId,
   data: {} as $['state']['anitabi'],
-  onSwitchBlock: (() => {}) as $['onSwitchBlock']
+  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }
 
 export const THUMB_WIDTH = _.r(160)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 11:05:09
+ * @Last Modified time: 2024-09-02 15:50:54
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -11,6 +11,7 @@ import {
   CDN_RAKUEN,
   CDN_RAKUEN_USER_TOPICS,
   DEV,
+  FROZEN_FN,
   HTML_BLOG,
   HTML_BOARD,
   HTML_GROUP,
@@ -442,7 +443,7 @@ export default class Fetch extends Computed {
   }
 
   /** @deprecated 日志内容 (CDN) */
-  fetchBlogFormCDN = () => {}
+  fetchBlogFormCDN = FROZEN_FN
 
   /** CDN 获取用户历史超展开帖子 */
   fetchUserTopicsFormCDN = async (userId: UserId) => {

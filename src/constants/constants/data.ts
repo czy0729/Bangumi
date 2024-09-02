@@ -2,17 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 12:04:20
+ * @Last Modified time: 2024-09-02 13:06:42
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
-import { Fn } from '@types'
 import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
-
-/** 空函数引用 */
-export const FN = (() => {}) as Fn
 
 /** @deprecated Bangumi 字眼在 App 内的显示 */
 export const TITLE = IOS ? 'bgm.tv' : 'Bangumi'

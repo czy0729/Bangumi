@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:06:20
+ * @Last Modified time: 2024-09-02 15:59:03
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -24,8 +25,8 @@ export const DEFAULT_PROPS = {
     name: '未收藏'
   } as $['collection']['status'],
   focusOrigin: false as typeof systemStore.setting.focusOrigin,
-  onChangeText: (() => {}) as $['changeText'],
-  onScrollIntoViewIfNeeded: (() => {}) as (y: number) => any,
-  doUpdateBookEp: (() => {}) as $['doUpdateBookEp'],
+  onChangeText: FROZEN_FN as $['changeText'],
+  onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => any,
+  doUpdateBookEp: FROZEN_FN as $['doUpdateBookEp'],
   doUpdateNext: (() => undefined) as $['doUpdateNext']
 }

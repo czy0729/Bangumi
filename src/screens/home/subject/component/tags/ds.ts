@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:38:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 04:40:05
+ * @Last Modified time: 2024-09-02 15:57:39
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 
@@ -20,5 +21,5 @@ export const DEFAULT_PROPS = {
   subjectTagsExpand: true as typeof systemStore.setting.subjectTagsExpand,
   rank: 0 as $['subject']['rank'],
   focusOrigin: false as typeof systemStore.setting.focusOrigin,
-  onSwitchBlock: (() => {}) as $['onSwitchBlock']
+  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-06-02 21:27:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:24:21
+ * @Last Modified time: 2024-09-02 13:20:20
  */
+import { FROZEN_FN } from '@constants/init'
 import { getTimestamp } from '../date'
 import hash from '../thirdParty/hash'
 import useMount from './useMount'
@@ -16,7 +17,7 @@ const memo = new Map<string, number>()
  * 一个相同的 url 30min 内只允许执行一次，防止返回后重新请求
  * */
 export default function useRunAfter(
-  fn = () => {},
+  fn = FROZEN_FN,
   /** 唯一标识 (web only) */
   name: string = ''
 ) {

@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 09:23:10
+ * @Last Modified time: 2024-09-02 15:55:01
  */
 import React from 'react'
 import { IconTouchable } from '@_'
 import { _, tinygrailStore } from '@stores'
 import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
+import { FROZEN_FN } from '@constants'
 import Popover from '../../popover'
 import StockPreview from '../../stock-preview'
 import { styles } from './styles'
@@ -27,7 +28,7 @@ function Control(props: Props) {
     state,
     end,
     withoutFeedback,
-    onAuctionCancel = () => {}
+    onAuctionCancel = FROZEN_FN
   } = props
   const isICO = !!end
   const isAuction = type === 'auction'

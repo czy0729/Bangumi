@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 04:15:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:10:38
+ * @Last Modified time: 2024-09-02 16:58:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { EVENT } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import { InView, Name } from '../../base'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
@@ -32,7 +32,7 @@ export const ItemPM = ob(
     userId,
     time,
     new: isNew,
-    onRefresh = () => {}
+    onRefresh = FROZEN_FN
   }: ItemPMProps) => {
     const styles = memoStyles()
     return (

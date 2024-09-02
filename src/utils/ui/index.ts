@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 10:12:39
+ * @Last Modified time: 2024-09-02 13:19:58
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -10,7 +10,8 @@ import Portal from '@ant-design/react-native/lib/portal'
 import ActionSheet from '@components/@/ant-design/action-sheet'
 import { Toast } from '@components/toast'
 import { IOS } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
+import { FROZEN_FN } from '@constants/init'
 import { Fn } from '@types'
 import { s2tAsync, syncSystemStore } from '../async'
 import { log } from './utils'
@@ -39,7 +40,7 @@ export function loading(text: string = 'Loading...', time: number = 0, delay: nu
 
 /** 轻震动反馈 */
 export function feedback(light?: boolean) {
-  if (STORYBOOK) return
+  if (WEB) return
 
   const { vibration } = syncSystemStore().setting
   if (!vibration) return
@@ -60,9 +61,9 @@ export function feedback(light?: boolean) {
 /** 确定框 */
 export function confirm(
   content: string,
-  onPress = () => {},
+  onPress = FROZEN_FN,
   title = '警告',
-  onCancelPress = () => {},
+  onCancelPress = FROZEN_FN,
   confirmText: string = '确定',
   cancelText: string = '取消'
 ) {
@@ -80,7 +81,7 @@ export function confirm(
     }
   ]
 
-  if (STORYBOOK) {
+  if (WEB) {
     setTimeout(() => {
       if (window.confirm(`${alertTitle}：${alertContent}`)) {
         onPress()
@@ -109,11 +110,11 @@ export function alert(content: string, title: string = '提示') {
   const alertParams = [
     {
       text: s2tAsync('确定'),
-      onPress: () => {}
+      onPress: FROZEN_FN
     }
   ]
 
-  if (STORYBOOK) {
+  if (WEB) {
     setTimeout(() => {
       window.alert(`${alertTitle}：${alertContent}`)
     }, 80)
@@ -135,7 +136,7 @@ export function alert(content: string, title: string = '提示') {
 export function info(
   content: string | number = '网络错误',
   duration: number = 2.4,
-  onClose: Fn = () => {},
+  onClose: Fn = FROZEN_FN,
   mask: boolean = false
 ) {
   Toast.info(s2tAsync(content), duration, onClose, mask)
@@ -147,7 +148,7 @@ export function info(
  */
 export function showActionSheet(
   options = [] as string[] | readonly string[],
-  callback = (() => {}) as Fn,
+  callback = FROZEN_FN,
   // @ts-expect-error
   { title, message, cancelButtonIndex, destructiveButtonIndex } = {}
 ) {
@@ -199,14 +200,14 @@ export function closeImageViewer() {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function androidKeyboardAdjust(_fn: 'setAdjustPan' | 'setAdjustResize') {
   return
-  // if (IOS || STORYBOOK) return
+  // if (IOS || WEB) return
   // const AndroidKeyboardAdjust = require('react-native-android-keyboard-adjust')
   // AndroidKeyboardAdjust[fn]()
 }
 
 /** 安卓原生切换白天黑夜标志, 用于动态改变原生弹窗主题颜色 */
 export function androidDayNightToggle(isDark?: boolean) {
-  if (IOS || STORYBOOK) return
+  if (IOS || WEB) return
 
   NativeModules.DayNight.setDarkMode(isDark ? 2 : 1)
 }
@@ -230,7 +231,7 @@ export function copy(val: any, message: boolean | string = true, ms?: number) {
 export function scrollToView(viewRef: any, scrollViewRef: any, callback?: Fn) {
   if (!viewRef || !scrollViewRef) return false
 
-  if (IOS || STORYBOOK) {
+  if (IOS || WEB) {
     viewRef.measure((_x: number, y: number) => {
       scrollViewRef.scrollTo({
         y,

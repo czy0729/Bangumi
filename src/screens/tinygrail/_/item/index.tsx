@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:11:58
+ * @Last Modified time: 2024-09-02 15:55:09
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { EVENT } from '@constants'
+import { EVENT, FROZEN_FN } from '@constants'
 import Auction from './auction'
 import Control from './control'
 import Detail from './detail'
@@ -82,6 +82,6 @@ export default obc(Item, {
   event: EVENT,
   showMenu: true,
   withoutFeedback: false,
-  onAuctionCancel: () => {},
-  onCollect: () => {}
+  onAuctionCancel: FROZEN_FN,
+  onCollect: FROZEN_FN
 })

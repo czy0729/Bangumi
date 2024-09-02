@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:21:06
+ * @Last Modified time: 2024-09-02 16:54:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { WEB } from '@constants'
+import { FROZEN_FN, WEB } from '@constants'
 import { Component } from '../component'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
@@ -23,7 +23,7 @@ export { MenuProps }
 
 /** iOS 风格菜单 */
 export const Menu = observer(
-  ({ style, title = [], desc = '', data = [], onSelect = () => {} }: MenuProps) => {
+  ({ style, title = [], desc = '', data = [], onSelect = FROZEN_FN }: MenuProps) => {
     r(COMPONENT)
 
     const styles = memoStyles()

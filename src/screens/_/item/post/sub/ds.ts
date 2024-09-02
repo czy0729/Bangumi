@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-21 22:31:49
+ * @Last Modified time: 2024-09-02 16:58:44
  */
 import { _ } from '@stores'
-import { EVENT } from '@constants'
-import { Fn, Navigation, TopicId, UserId } from '@types'
+import { EVENT, FROZEN_FN } from '@constants'
+import { Navigation, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
@@ -43,13 +43,12 @@ export const DEFAULT_PROPS = {
   formhash: '' as string,
   likeType: '' as string,
   event: EVENT,
-  onJumpTo: (() => {}) as Fn,
-  onLikesLongPress: (() => {}) as Fn,
-  onShowFixedTextare: (() => {}) as Fn
+  onJumpTo: FROZEN_FN,
+  onLikesLongPress: FROZEN_FN,
+  onShowFixedTextare: FROZEN_FN
 }
 
-export const REG_BGM =
-  /^<img src="\/img\/smiles\/tv\/\d+\.gif" smileid="\d+" alt="\(bgm\d+\)">$/
+export const REG_BGM = /^<img src="\/img\/smiles\/tv\/\d+\.gif" smileid="\d+" alt="\(bgm\d+\)">$/
 
 export const REG_PLUS = /\+\d/
 

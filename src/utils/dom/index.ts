@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-14 17:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 00:34:36
+ * @Last Modified time: 2024-09-02 13:56:06
  */
 import { useRef } from 'react'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
+import { FROZEN_FN } from '@constants/init'
 import { Fn } from '@types'
 import { isDevtoolsOpen } from './devtools'
 
@@ -13,7 +14,7 @@ export { isDevtoolsOpen }
 
 /** 是否手机环境 */
 export function isMobile() {
-  if (typeof window === 'undefined' || !STORYBOOK) return
+  if (typeof window === 'undefined' || !WEB) return
 
   const ua = navigator.userAgent.toLowerCase()
   const keywords = ['android', 'iphone', 'ipod', 'ipad', 'windows phone', 'mqqbrowser']
@@ -22,7 +23,7 @@ export function isMobile() {
 
 /** 是否 windows */
 export function isWindows() {
-  if (typeof window === 'undefined' || !STORYBOOK) return false
+  if (typeof window === 'undefined' || !WEB) return false
 
   try {
     return navigator.platform.indexOf('Win') !== -1
@@ -33,7 +34,7 @@ export function isWindows() {
 
 /** 清理以 _ 开头的参数 */
 export function cleanQuery() {
-  if (typeof window === 'undefined' || !STORYBOOK) return
+  if (typeof window === 'undefined' || !WEB) return
 
   let url = new window.URL(window.location.href)
   let params = new window.URLSearchParams(url.search)
@@ -50,7 +51,7 @@ export function injectUtils() {
   if (
     typeof window === 'undefined' ||
     /** @ts-ignore */
-    (!STORYBOOK && window?.CONFIG_TYPE !== 'DEVELOPMENT')
+    (!WEB && window?.CONFIG_TYPE !== 'DEVELOPMENT')
   ) {
     return
   }
@@ -74,7 +75,7 @@ export function injectUtils() {
 
 /** 尝试把页面中唯一的列表滚动到顶 */
 export function scrollToTop(y: number = 0) {
-  if (typeof window === 'undefined' || !STORYBOOK) return
+  if (typeof window === 'undefined' || !WEB) return
 
   setTimeout(() => {
     try {
@@ -89,7 +90,7 @@ export function scrollToTop(y: number = 0) {
 }
 
 /** 双击钩子 */
-export function useDoubleTap(callback: Fn = () => {}, delay: number = 300) {
+export function useDoubleTap(callback: Fn = FROZEN_FN, delay: number = 300) {
   const tapRef = useRef(false)
   const timerRef = useRef(null)
 

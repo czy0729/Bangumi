@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-26 10:42:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-26 10:43:59
+ * @Last Modified time: 2024-09-02 15:57:30
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
@@ -21,5 +22,5 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as $['subjectId'],
   showTopic: true as typeof systemStore.setting.showTopic,
   topic: [] as $['subject']['topic'],
-  onSwitchBlock: (() => {}) as $['onSwitchBlock']
+  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }

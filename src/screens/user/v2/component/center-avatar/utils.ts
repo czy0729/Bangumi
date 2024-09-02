@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-31 10:12:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 10:16:10
+ * @Last Modified time: 2024-09-02 15:52:35
  */
 import { Alert } from 'react-native'
 import { systemStore, userStore } from '@stores'
 import { feedback, info } from '@utils'
-import { t } from '@utils/fetch'
 import { s2tAsync } from '@utils/async'
+import { t } from '@utils/fetch'
+import { FROZEN_FN } from '@constants'
 import { Navigation } from '@types'
 
 export function handleAvatarPress(navigation: Navigation) {
@@ -24,7 +25,7 @@ export function handleOnlinePress() {
   const buttons = [
     {
       text: s2tAsync('取消'),
-      onPress: () => {}
+      onPress: FROZEN_FN
     }
   ]
 
