@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-17 04:40:16
+ * @Last Modified time: 2024-09-02 12:47:16
  */
 import React from 'react'
 import { Flex, Touchable, UserStatus } from '@components'
@@ -33,48 +33,50 @@ const Item = memo(
     onPress
   }) => {
     return (
-      <Touchable animate onPress={onPress}>
-        <Readed topicId={topicId}>
-          <Flex align='start'>
-            <UserStatus userId={userId}>
-              <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
-                <Avatar
-                  avatar={avatar}
-                  userName={userName}
-                  userId={userId}
-                  priority={index < 10 ? 'high' : 'normal'}
-                />
-              </InView>
-            </UserStatus>
-            <Flex.Item style={styles.wrap}>
+      <Readed topicId={topicId}>
+        <Flex align='start'>
+          <Flex.Item>
+            <Touchable animate onPress={onPress}>
               <Flex align='start'>
-                <Flex.Item>
-                  <Content
-                    groupCn={groupCn}
-                    title={title}
-                    time={time}
-                    topicId={topicId}
-                    replyCount={replyCount}
-                    userId={userId}
-                    userName={userName}
-                    isGroup={isGroup}
-                  />
+                <UserStatus userId={userId}>
+                  <InView style={styles.inView} index={index} y={ITEM_HEIGHT * index + 1}>
+                    <Avatar
+                      avatar={avatar}
+                      userName={userName}
+                      userId={userId}
+                      priority={index < 10 ? 'high' : 'normal'}
+                    />
+                  </InView>
+                </UserStatus>
+                <Flex.Item style={styles.wrap}>
+                  <Flex.Item>
+                    <Content
+                      groupCn={groupCn}
+                      title={title}
+                      time={time}
+                      topicId={topicId}
+                      replyCount={replyCount}
+                      userId={userId}
+                      userName={userName}
+                      isGroup={isGroup}
+                    />
+                  </Flex.Item>
                 </Flex.Item>
-                <BtnPopover
-                  groupCn={groupCn}
-                  groupHref={groupHref}
-                  href={href}
-                  topicId={topicId}
-                  userId={userId}
-                  userName={userName}
-                  isGroup={isGroup}
-                />
               </Flex>
-            </Flex.Item>
-          </Flex>
-          <IconFavor topicId={topicId} />
-        </Readed>
-      </Touchable>
+            </Touchable>
+          </Flex.Item>
+          <BtnPopover
+            groupCn={groupCn}
+            groupHref={groupHref}
+            href={href}
+            topicId={topicId}
+            userId={userId}
+            userName={userName}
+            isGroup={isGroup}
+          />
+        </Flex>
+        <IconFavor topicId={topicId} />
+      </Readed>
     )
   },
   DEFAULT_PROPS,

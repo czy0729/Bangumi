@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-30 11:06:14
+ * @Last Modified time: 2024-09-02 12:22:38
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -10,6 +10,7 @@ import { HoldItem } from 'react-native-hold-menu'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS } from '@constants'
+import { PopoverIOSItems } from './types'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'
 let id = 0
@@ -22,14 +23,8 @@ function Popover({ children, ...other }) {
   const eventId = useRef((id += 1))
   const eventType = `${EVENT_TYPE}|${eventId.current}`
 
-  const items = useMemo<
-    {
-      text: string
-      eventType?: string
-      isTitle?: boolean
-    }[]
-  >(() => {
-    const _items = (
+  const items = useMemo<PopoverIOSItems>(() => {
+    const itemsValue = (
       systemStore.setting.s2t
         ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
         : data
@@ -39,13 +34,13 @@ function Popover({ children, ...other }) {
     }))
 
     if (title) {
-      _items.unshift({
+      itemsValue.unshift({
         text: systemStore.setting.s2t ? s2t(title) : title,
         isTitle: true
       })
     }
 
-    return _items
+    return itemsValue
   }, [title, data, eventType])
 
   useEffect(() => {
