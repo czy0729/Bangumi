@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 06:53:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:28:05
+ * @Last Modified time: 2024-09-02 18:00:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,9 +10,9 @@ import { Cover, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { SubjectTypeCn } from '@types'
 import Desc from './desc'
 import Title from './title'
+import { getTypeCn } from './utils'
 import { HIT_SLOP } from './ds'
 
 function Item({
@@ -28,25 +28,7 @@ function Item({
   onPress,
   onSubPress
 }) {
-  const desc = String(item.desc || '')
-  let typeCnValue: SubjectTypeCn | '' = typeCn || ''
-  if (!typeCnValue) {
-    if (
-      (!desc.includes('演出') && desc.includes('曲') && desc !== '作曲') ||
-      (!desc.includes('演出') && desc.includes('歌')) ||
-      desc.includes('声') ||
-      desc.includes('广播')
-    ) {
-      typeCnValue = '音乐'
-    } else if (desc.includes('书籍') || desc.includes('画')) {
-      typeCnValue = '书籍'
-    } else if (desc.includes('游戏')) {
-      typeCnValue = '游戏'
-    } else if (relationTypeCn && (desc.includes('不同演绎') || desc.includes('相同世界观'))) {
-      typeCnValue = relationTypeCn
-    }
-  }
-
+  const typeCnValue = getTypeCn(item.name, item.desc, typeCn, relationTypeCn)
   const isMusic = typeCnValue === '音乐'
   const w = _.r(isMusic ? width * 1.16 : width)
   return (

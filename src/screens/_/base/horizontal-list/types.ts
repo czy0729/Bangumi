@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-02 15:34:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:23:49
+ * @Last Modified time: 2024-09-02 17:47:46
  */
 import { TextProps } from 'react-native'
 import { Fn, SubjectTypeCn, ViewStyle } from '@types'
@@ -11,7 +11,7 @@ export type Props = {
   style?: ViewStyle
 
   /** 数据 */
-  data: any[]
+  data: any[] | readonly any[]
 
   /** 数据 id: number */
   counts: Record<string, number>
