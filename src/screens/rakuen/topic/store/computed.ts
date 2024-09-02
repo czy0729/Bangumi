@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:34:19
+ * @Last Modified time: 2024-09-01 17:09:04
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -39,6 +39,11 @@ export default class Computed extends State {
   /** 帖子内容 */
   @computed get topic() {
     return freeze(rakuenStore.topic(this.topicId))
+  }
+
+  /** 帖子快照 (用于帖子首次渲染加速) */
+  @computed get topicFromOSS() {
+    return this.state.topic
   }
 
   /** 筛选逻辑 */
@@ -316,7 +321,10 @@ export default class Computed extends State {
   /** 帖子标题 */
   @computed get title() {
     return HTMLDecode(
-      (this.topic.title === 'undefined' ? '' : this.topic.title) || this.params._title || ''
+      (this.topic.title === 'undefined' ? '' : this.topic.title) ||
+        this.params._title ||
+        this.topicFromOSS.title ||
+        ''
     )
   }
 
@@ -334,7 +342,7 @@ export default class Computed extends State {
   @computed get group() {
     if (this.isMono) return this.topic.title || this.params._title
 
-    return this.topic.group || this.params._group || ''
+    return this.topic.group || this.params._group || this.topicFromOSS.group || ''
   }
 
   /** 帖子小组封面 */
@@ -344,37 +352,39 @@ export default class Computed extends State {
 
     if (_group) return rakuenStore.groupThumb(_group)
 
-    return this.topic.groupThumb || ''
+    return this.topic.groupThumb || this.topicFromOSS.groupThumb || ''
   }
 
   /** 帖子小组地址 */
   @computed get groupHref() {
-    return this.topic.groupHref || ''
+    return this.topic.groupHref || this.topicFromOSS.groupHref || ''
   }
 
   /** 发帖时间 */
   @computed get time() {
-    return this.topic.time || ''
+    return this.topic.time || this.topicFromOSS.time || ''
   }
 
   /** 发帖人头像 */
   @computed get avatar() {
-    return this.topic.avatar || this.params._avatar || ''
+    return this.topic.avatar || this.params._avatar || this.topicFromOSS.avatar || ''
   }
 
   /** 发帖人用户 id */
   @computed get userId(): UserId {
-    return this.topic.userId || this.params._userId || ''
+    return this.topic.userId || this.params._userId || this.topicFromOSS.userId || ''
   }
 
   /** 发帖人用户名 */
   @computed get userName() {
-    return HTMLDecode(this.topic.userName || this.params._userName || '')
+    return HTMLDecode(
+      this.topic.userName || this.params._userName || this.topicFromOSS.userName || ''
+    )
   }
 
   /** 发帖人个性签名 */
   @computed get userSign() {
-    return this.topic.userSign || ''
+    return this.topic.userSign || this.topicFromOSS.userSign || ''
   }
 
   /** 帖子地址 */
@@ -382,6 +392,9 @@ export default class Computed extends State {
     // ep 带上章节详情
     if (this.isEp) return this.epFormHTML || this.params._desc
 
-    return (this.topic.message || '').replace(/(<br\s*\/?>){3,}/g, '<br><br>')
+    return (this.topic.message || this.topicFromOSS.message || '').replace(
+      /(<br\s*\/?>){3,}/g,
+      '<br><br>'
+    )
   }
 }

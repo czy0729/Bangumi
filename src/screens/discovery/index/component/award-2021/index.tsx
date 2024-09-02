@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:36:10
+ * @Last Modified time: 2024-09-02 11:21:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Award2021(
-  props,
+  _props,
   {
     // $,
     navigation

@@ -14,7 +14,7 @@ import HeaderComponent from '../../header-component'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   return (
     <BlurViewRoot>
       <ListView

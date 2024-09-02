@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-26 07:20:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:29:48
+ * @Last Modified time: 2024-09-02 11:21:54
  */
 import React from 'react'
 import { Flex, Squircle, Text, Touchable } from '@components'
@@ -13,7 +13,7 @@ import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function More(props, { navigation }: Ctx) {
+function More(_props, { navigation }: Ctx) {
   const styles = memoStyles()
   const { width, height } = styles.more
   const type = _.select('plain', 'title')

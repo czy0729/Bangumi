@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-10 17:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 14:54:47
+ * @Last Modified time: 2024-09-02 11:22:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function HeaderComponent(props, { $ }: Ctx) {
+function HeaderComponent(_props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <>

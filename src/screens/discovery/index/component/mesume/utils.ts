@@ -1,8 +1,10 @@
+import { HOST_DOGE } from '@constants'
+
 /*
  * @Author: czy0729
  * @Date: 2024-01-04 14:15:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 15:56:09
+ * @Last Modified time: 2024-09-02 11:28:34
  */
 export function getHtml(live2DVoice: boolean) {
   return `<!DOCTYPE html>
@@ -67,7 +69,7 @@ export function getHtml(live2DVoice: boolean) {
               playVoice: function (voice_list) {
                 var voice_id = voice_list[Math.floor(Math.random() * voice_list.length)]
                 var voice_str =
-                  '<audio><source src="https://s-sh-4501-bangumi-test.oss.dogecdn.com/live-2d/wave/wave' +
+                  '<audio><source src="${HOST_DOGE}/live-2d/wave/wave' +
                   voice_id +
                   '.wav" type="audio/wav"></audio>'
                 $('#ukagaka_voice').html(voice_str)
@@ -119,7 +121,7 @@ export function getHtml(live2DVoice: boolean) {
                   }
                 }
               },
-              source: 'https://s-sh-4501-bangumi-test.oss.dogecdn.com',
+              source: '${HOST_DOGE}',
               models: {
                 path: path,
                 scale: 0.72,
