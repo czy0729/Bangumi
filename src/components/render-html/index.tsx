@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:55:03
+ * @Last Modified time: 2024-09-03 15:18:42
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -27,6 +27,7 @@ import {
 } from './utils'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
 import { Props as RenderHtmlProps } from './types'
+import './styles'
 
 export { RenderHtmlProps }
 

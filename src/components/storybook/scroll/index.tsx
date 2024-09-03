@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 18:23:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:21:59
+ * @Last Modified time: 2024-09-03 15:45:09
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { ScrollView } from 'react-native'
@@ -13,8 +13,8 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Component } from '../../component'
 import { StorybookState } from '../state'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 import { Props as StorybookScrollProps } from './types'
+import { styles } from './styles'
 
 /** [WEB] 单页面滑动容器 */
 export const StorybookScroll = ({
@@ -96,7 +96,7 @@ export const StorybookScroll = ({
   })
 
   return (
-    <Component id='component-storybook-scroll' style={styles.scroll} data-inverted={inverted}>
+    <Component id='component-storybook-scroll' data-inverted={inverted} style={styles.scroll}>
       <ScrollView
         ref={ref}
         style={stl(styles.scrollView, style)}

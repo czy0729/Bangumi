@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:35:55
+ * @Last Modified time: 2024-09-03 13:25:13
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -17,6 +17,7 @@ import Header from './header'
 import { useTopicPage } from './hooks'
 import Store from './store'
 import { Ctx } from './types'
+import './styles'
 
 /** 帖子 */
 const Topic = (_props, context: Ctx) => {

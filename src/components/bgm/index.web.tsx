@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-08 23:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 08:52:27
+ * @Last Modified time: 2024-09-03 13:09:13
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -11,6 +11,7 @@ import { Component } from '../component'
 import { Image } from '../image'
 import { COMPONENT } from './ds'
 import { Props as BgmProps } from './types'
+import './index.scss'
 
 export { BgmProps }
 

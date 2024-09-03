@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 16:44:09
+ * @Last Modified time: 2024-09-03 12:42:00
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -11,6 +11,7 @@ const { GenerateSW } = require('workbox-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
+const serviceWorker = true
 const analyzer = false
 
 module.exports = {
@@ -100,42 +101,44 @@ module.exports = {
 
     if (configType === 'PRODUCTION') {
       /** ========== ServiceWorker Workbox ========== */
-      config.plugins.push(
-        new GenerateSW({
-          swDest: 'service-worker.js',
-          clientsClaim: true,
-          skipWaiting: true,
-          runtimeCaching: [
-            {
-              urlPattern: /\.(png|jpe?g|gif|svg)$/,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'images',
-                expiration: {
-                  maxEntries: 1000,
-                  maxAgeSeconds: 60 * 60 * 24 * 30
+      if (serviceWorker) {
+        config.plugins.push(
+          new GenerateSW({
+            swDest: 'service-worker.js',
+            clientsClaim: true,
+            skipWaiting: true,
+            runtimeCaching: [
+              {
+                urlPattern: /\.(png|jpe?g|gif|svg)$/,
+                handler: 'CacheFirst',
+                options: {
+                  cacheName: 'images',
+                  expiration: {
+                    maxEntries: 1000,
+                    maxAgeSeconds: 60 * 60 * 24 * 30
+                  }
                 }
-              }
-            },
-            {
-              urlPattern: /\.(ttf|woff|woff2|eot)$/,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'fonts',
-                expiration: {
-                  maxEntries: 50,
-                  maxAgeSeconds: 60 * 60 * 24 * 30
+              },
+              {
+                urlPattern: /\.(ttf|woff|woff2|eot)$/,
+                handler: 'CacheFirst',
+                options: {
+                  cacheName: 'fonts',
+                  expiration: {
+                    maxEntries: 50,
+                    maxAgeSeconds: 60 * 60 * 24 * 30
+                  }
                 }
+              },
+              {
+                urlPattern: /\.(proto|bin)$/,
+                handler: 'NetworkFirst'
               }
-            },
-            {
-              urlPattern: /\.(proto|bin)$/,
-              handler: 'NetworkFirst'
-            }
-          ],
-          maximumFileSizeToCacheInBytes: 15 * 1024 * 1024
-        })
-      )
+            ],
+            maximumFileSizeToCacheInBytes: 15 * 1024 * 1024
+          })
+        )
+      }
 
       /** ========== webpack-bundle-analyzer ========== */
       if (analyzer) {

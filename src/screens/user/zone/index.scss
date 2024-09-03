@@ -1,0 +1,24 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 13:13:22
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-03 13:13:46
+ */
+screen-zone {
+  &-parallax-image-bg {
+    pointer-events: none !important;
+
+    > div > div {
+      transform: scale(1.4);
+    }
+  }
+
+  &-tab-view {
+    > div,
+    > component-storybook-scroll > div {
+      height: 100vh !important;
+      min-height: 100vh !important;
+      max-height: 100vh !important;
+    }
+  }
+}

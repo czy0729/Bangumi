@@ -2,17 +2,6 @@
  * @Author: czy0729
  * @Date: 2023-11-08 22:01:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-08 22:08:58
+ * @Last Modified time: 2024-09-03 15:45:36
  */
-import { _ } from '@stores'
-
-export const styles = _.create({
-  scroll: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 0
-  },
-  scrollView: {
-    flexGrow: 1
-  }
-})
+export { styles } from './styles.main'

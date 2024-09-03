@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-24 22:32:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:02:45
+ * @Last Modified time: 2024-09-03 15:39:35
  */
 import React from 'react'
 import { Animated, Easing, PanResponder } from 'react-native'
@@ -12,6 +12,7 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { COMPONENT } from './ds'
+import './styles'
 
 const SCALE = 6 / 5
 
@@ -109,7 +110,7 @@ class SwitchProComp extends React.Component<any, any> {
     this.animateHandler(this.handlerSize * SCALE)
   }
 
-  _onPanResponderMove = (evt, gestureState) => {
+  _onPanResponderMove = (_evt, gestureState) => {
     const { value } = this.state
     const { disabled } = this.props
     if (disabled) return

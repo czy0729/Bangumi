@@ -1,0 +1,17 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 13:04:13
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-03 13:04:41
+ */
+component-image {
+  &-image[data-auto-size='true'] {
+    img {
+      position: unset !important;
+      z-index: unset !important;
+      width: unset !important;
+      height: unset !important;
+      inset: unset !important;
+    }
+  }
+}

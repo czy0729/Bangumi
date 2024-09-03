@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:27:50
+ * @Last Modified time: 2024-09-03 13:04:37
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
 import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
+import { Component } from '../../../components'
+import './index.scss'
 
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
@@ -19,17 +21,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
   useEffect(() => {
     if (ref.current && autoSize) {
       const img = ref.current?.querySelector('img')
-      if (img) {
-        img.style = `
-            position: unset;
-            z-index: unset;
-            width: unset;
-            height: unset;
-            opacity: unset;
-            inset: unset;
-          `
-        img.src = uri
-      }
+      if (img) img.src = uri
     }
 
     if (lazyloaded) {
@@ -76,7 +68,7 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
     }
   }, [autoSize, lazyloaded, opacity, uri])
 
-  return (
+  const el = (
     <RNImage
       ref={ref}
       {...props}
@@ -95,6 +87,14 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
             }
       }
     />
+  )
+
+  return autoSize ? (
+    <Component id='component-image-image' data-auto-size={true}>
+      {el}
+    </Component>
+  ) : (
+    el
   )
 }
 

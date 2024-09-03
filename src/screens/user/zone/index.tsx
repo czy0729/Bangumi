@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 18:35:58
+ * @Last Modified time: 2024-09-03 13:16:04
  */
 import React from 'react'
 import { Component } from '@components'
@@ -16,6 +16,7 @@ import NestedScroll from './nested-scroll'
 import Scroll from './scroll'
 import Store from './store'
 import { Ctx } from './types'
+import './styles'
 
 /** 用户空间 */
 const Zone = (_props, context: Ctx) => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-24 22:00:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:15:18
+ * @Last Modified time: 2024-09-03 15:10:04
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Component, ListView } from '@components'
@@ -89,7 +89,7 @@ export const PaginationList2 = <ItemT extends any[]>({
   }, [data, limit, onPage, onNextPage])
 
   return (
-    <Component id='base-pagination-list-2'>
+    <Component id='base-pagination-list' data-version='2'>
       <ListView
         ref={forwardRef || connectRef}
         data={list}

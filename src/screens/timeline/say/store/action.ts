@@ -162,11 +162,12 @@ export default class Action extends Fetch {
 
   /** 回复吐槽 */
   doReply = (content: string, scrollView: any) => {
+    const { list = [] } = timelineStore.say(this.id)
     timelineStore.doReply(
       {
         id: String(this.id).split('#')[0],
         content,
-        formhash: timelineStore.say(this.id)?.[0].formhash
+        formhash: list[0].formhash
       },
       async responseText => {
         let res: {

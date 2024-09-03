@@ -14,15 +14,15 @@
   }
 </style>
 <script>
-  if ('serviceWorker' in navigator) {
+  if (window.location.host.includes('github') && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
         .register('/service-worker.js')
         .then(registration => {
-          console.log('Service Worker 注册成功:', registration)
+          console.info('Service Worker register success:', registration)
         })
         .catch(error => {
-          console.log('Service Worker 注册失败:', error)
+          console.info('Service Worker register fail:', error)
         })
     })
   }

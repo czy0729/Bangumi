@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-08 19:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 13:27:53
+ * @Last Modified time: 2024-09-03 13:06:54
  */
 #root {
   component-popover {
@@ -22,4 +22,8 @@
 
 component-popover {
   cursor: pointer;
+
+  component-button {
+    flex: 1;
+  }
 }

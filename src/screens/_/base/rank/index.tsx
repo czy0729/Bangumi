@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-03-06 04:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:33:07
+ * @Last Modified time: 2024-09-03 15:05:30
  */
 import React from 'react'
 import { Component, Text } from '@components'
 import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { fontSize } from '@styles'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 import { Props as RankProps } from './types'
+import { memoStyles } from './styles'
 
 export { RankProps }
 
@@ -29,8 +29,8 @@ export const Rank = ob(({ style, size = 10, value }: RankProps) => {
         style={stl(
           styles.rank,
           style,
-          STORYBOOK && size < 12 && fontSize(size, lineHeight, true),
-          STORYBOOK && styles.fit
+          WEB && size < 12 && fontSize(size, lineHeight, true),
+          WEB && styles.fit
         )}
         size={size}
         lineHeight={lineHeight}

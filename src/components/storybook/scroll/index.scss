@@ -1,0 +1,15 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-09-03 15:45:59
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-09-03 15:45:59
+ */
+component-storybook-scroll {
+  &[data-inverted='true'] {
+    transform: scale(-1);
+
+    > div > div > * {
+      transform: scale(-1);
+    }
+  }
+}
