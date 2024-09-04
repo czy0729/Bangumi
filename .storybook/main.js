@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 12:42:00
+ * @Last Modified time: 2024-09-04 13:38:54
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -92,7 +92,7 @@ module.exports = {
             from: path.resolve(__dirname, '../src/assets'),
             to: 'assets',
             filter: resourcePath => {
-              return /\.(bin|proto|ico|json|jpg)$/.test(resourcePath)
+              return /\.(bin|proto|ico|json|jpg|woff2)$/.test(resourcePath)
             }
           }
         ]

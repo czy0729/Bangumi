@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:06:22
+ * @Last Modified time: 2024-09-04 14:18:09
  */
 import { _ } from '@stores'
-import { STORYBOOK } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   /** base style */
   base: {
     includeFontPadding: false,
     // @ts-ignore
-    textAlignVertical: STORYBOOK ? 'text-bottom' : 'center'
+    textAlignVertical: _.web('text-bottom', 'center')
   },
   text: _.fontStyle,
   bold: _.fontBoldStyle,
   underline: {
     textDecorationLine: 'underline',
-    textDecorationColor: STORYBOOK ? 'rgba(254, 138, 149, 0.88)' : _.select(_.colorMain, _.colorSub)
+    textDecorationColor: _.web('rgba(254, 138, 149, 0.88)', _.select(_.colorMain, _.colorSub))
   },
   alignCenter: {
     textAlign: 'center'
@@ -35,7 +34,7 @@ export const memoStyles = _.memoStyles(() => ({
     textShadowColor: 'rgba(0, 0, 0, 0.32)'
   },
   noWrap: {
-    // @ts-expect-error
+    // @ts-ignore
     whiteSpace: 'nowrap'
   },
 

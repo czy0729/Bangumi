@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-03 07:02:08
+ * @Last Modified time: 2024-09-04 13:53:05
  */
 import React from 'react'
 import { Text as RNText } from 'react-native'
@@ -10,7 +10,7 @@ import { useObserver } from 'mobx-react'
 import PropTypes from 'prop-types'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { format, getTextStyle, setComponentsDefaultProps } from './utils'
 import { COMPONENT } from './ds'
 import { Context, Props as TextProps, TextType } from './types'
@@ -31,7 +31,7 @@ function TextComp(
     bold,
     underline,
     shadow,
-    selectable = STORYBOOK,
+    selectable = WEB,
     noWrap,
     s2t = true,
     children,

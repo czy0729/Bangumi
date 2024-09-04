@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-05-01 12:03:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 07:49:15
+ * @Last Modified time: 2024-09-04 13:54:28
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
 import { setDefaultProps } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { IOS, PAD, STORYBOOK } from '@constants'
-import { memoStyles } from './styles'
+import { IOS, PAD, WEB } from '@constants'
 import { Props as TextProps } from './types'
+import { memoStyles } from './styles'
 
 /** 平板设备统一放大单位 */
 export const PAD_INCREASE = PAD === 2 ? 4 : 2
 
 /** 强制给内部组件注入默认参数 */
 export function setComponentsDefaultProps() {
-  if (IOS || STORYBOOK) return
+  if (IOS || WEB) return
 
   /** @ts-ignore */
   setDefaultProps(Text, _.fontStyle)
@@ -73,7 +73,7 @@ export function getTextStyle({
 
   const _lineHeight = computedLineHeight(size, lineHeight, lineHeightIncrease)
   if (_lineHeight) {
-    if (STORYBOOK) {
+    if (WEB) {
       textStyle.push({
         lineHeight: Math.max(_lineHeight - 1, 15),
         minHeight: Math.max(_lineHeight, 15)

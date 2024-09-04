@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 22:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 08:49:20
+ * @Last Modified time: 2024-09-04 14:45:46
  */
 import { StyleSheet } from 'react-native'
 import { ORIENTATION_LANDSCAPE, ORIENTATION_PORTRAIT } from '@constants'
@@ -29,4 +29,12 @@ export type MemoStylesItem = {
   _id: number
   _hash: any
   _styles: any
+}
+
+export type FontStyle = {
+  fontFamily?: string
+  fontWeight?: string
+
+  /** 可变字体 woff2 (web only) */
+  fontVariationSettings?: string
 }

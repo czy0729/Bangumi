@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:20:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 08:50:30
+ * @Last Modified time: 2024-09-04 14:46:37
  */
 import { StyleSheet } from 'react-native'
 import { computed } from 'mobx'
-import { IOS, ORIENTATION_LANDSCAPE, PAD, WSA } from '@constants'
+import { IOS, ORIENTATION_LANDSCAPE, PAD, WEB, WSA } from '@constants'
 import _, { fontSize } from '@styles'
 import { SelectFn, StoreConstructor } from '@types'
 import systemStore from '../system'
 import { DEFAULT_TINYGRAIL_MODE, STATE } from './init'
 import State from './state'
-import { Color, Mode, Orientation, TinygrailMode } from './types'
+import { Color, FontStyle, Mode, Orientation, TinygrailMode } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 主题选择, 黑暗模式使用第二个值 */
@@ -182,44 +182,45 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 字体样式 */
   @computed get fontStyle() {
-    if (this.customFontFamily) {
-      if (IOS) {
-        return {
-          fontWeight: 'normal'
-        } as const
-      }
-
-      return {
-        fontFamily: this.fontFamily,
-        fontWeight: 'normal'
-      } as const
-    }
-
-    return {
+    let style: FontStyle = {
       fontFamily: this.fontFamily,
       fontWeight: 'normal'
-    } as const
+    }
+
+    if (this.customFontFamily && IOS) {
+      style = {
+        fontWeight: 'normal'
+      }
+    }
+
+    if (WEB) style.fontVariationSettings = '"wght" 400, "BEVL" 100'
+
+    return style
   }
 
   /** 字体样式 (粗)  */
   @computed get fontBoldStyle() {
-    if (this.customFontFamily) {
-      if (IOS) {
-        return {
-          fontWeight: 'bold'
-        } as const
-      }
-
-      return {
-        fontFamily: this.fontBoldFamily,
-        fontWeight: 'bold'
-      } as const
-    }
-
-    return {
+    let style: FontStyle = {
       fontFamily: this.fontBoldFamily,
       fontWeight: 'normal'
-    } as const
+    }
+
+    if (this.customFontFamily) {
+      if (IOS) {
+        style = {
+          fontWeight: 'bold'
+        }
+      } else {
+        style = {
+          fontFamily: this.fontBoldFamily,
+          fontWeight: 'bold'
+        }
+      }
+    }
+
+    if (WEB) style.fontVariationSettings = '"wght" 700, "BEVL" 100'
+
+    return style
   }
 
   /** 当前设备方向 */

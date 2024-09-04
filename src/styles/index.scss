@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 15:46:09
+ * @Last Modified time: 2024-09-04 15:25:18
  */
 
 // [data-key]::after {
@@ -20,6 +20,7 @@
 
 span {
   text-underline-offset: 0.28em;
+  font-variation-settings: 'wght' 400, 'BEVL' 100;
 }
 
 a[data-href] {

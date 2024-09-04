@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-10 20:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 22:06:43
+ * @Last Modified time: 2024-09-03 16:12:23
  */
 import { addons } from '@storybook/addons'
 import { SET_CURRENT_STORY, FORCE_REMOUNT } from '@storybook/core-events'
 import { __FORCE_SET_NAVIGATING__ } from '@components/storybook/state'
 import { StorybookNavigation } from '@components/storybook/navigation'
 import { injectUtils } from '@utils/dom'
+import { DEV, SHARE_MODE } from '@constants'
 import { parseUrlParams } from './utils'
 import { parameters, decorators } from './ds'
 
@@ -82,4 +83,12 @@ window.onresize = function () {
       originalConsoleError.apply(console, args)
     }
   }, 4000)
+
+  if (SHARE_MODE) {
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.sb-wrapper').forEach(element => {
+        element.remove()
+      })
+    })
+  }
 })()

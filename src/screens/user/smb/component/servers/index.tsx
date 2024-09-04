@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-25 15:27:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:46:07
+ * @Last Modified time: 2024-09-04 15:45:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -40,9 +40,11 @@ function Servers(
           <Iconfont name='md-arrow-drop-down' color={_.colorDesc} />
         </Flex>
       </Popover>
-      <Text size={10} type='sub' bold numberOfLines={1}>
-        {sharedFolder}
-      </Text>
+      {!!sharedFolder && (
+        <Text size={10} type='sub' bold numberOfLines={1}>
+          {sharedFolder}
+        </Text>
+      )}
     </View>
   )
 }
