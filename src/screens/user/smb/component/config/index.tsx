@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-22 13:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:16:46
+ * @Last Modified time: 2024-09-04 21:08:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
-import { HTML_SINGLE_DOC, STORYBOOK } from '@constants'
+import { HTML_SINGLE_DOC, WEB } from '@constants'
 import { Ctx } from '../../types'
 import {
   ACTION_DDPLAY,
@@ -23,7 +23,7 @@ import {
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Config(props, { $ }: Ctx) {
+function Config(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { configVisible, configs } = $.state
   return (
@@ -124,7 +124,7 @@ function Config(props, { $ }: Ctx) {
             />
           }
         />
-        {STORYBOOK && (
+        {WEB && (
           <>
             <Text style={_.mt.md} type='sub' size={12} bold>
               浏览器插件

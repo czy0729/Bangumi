@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-24 16:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:46:40
+ * @Last Modified time: 2024-09-04 21:08:55
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Tags(props, { $ }: Ctx) {
+function Tags(_props, { $ }: Ctx) {
   if (!$.memoTags.length) return null
 
   const styles = memoStyles()

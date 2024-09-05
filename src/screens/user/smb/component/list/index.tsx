@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 22:20:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:01:08
+ * @Last Modified time: 2024-09-04 21:08:33
  */
 import React from 'react'
 import { ScrollView } from '@components'
@@ -17,7 +17,7 @@ import Lists from './lists'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   return (
     <>
       <Top />

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-16 22:38:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:42:27
+ * @Last Modified time: 2024-09-04 21:07:11
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { ReactNode } from '@types'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
@@ -25,7 +25,7 @@ function Example(
 
   const { webDAV } = $.state
   let el: ReactNode
-  if (STORYBOOK) {
+  if (WEB) {
     el = (
       <>
         <Text size={10} lineHeight={12} type='sub'>

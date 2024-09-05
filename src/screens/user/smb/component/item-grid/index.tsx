@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:02:21
+ * @Last Modified time: 2024-09-04 21:07:51
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +13,7 @@ import { _, collectionStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { ASSETS_ICONS, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
+import { ASSETS_ICONS, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx, MergeListItem } from '../../types'
 import { COLORS, COMPONENT } from './ds'
@@ -52,7 +52,7 @@ function ItemGrid({ subjectId, merge, ...folder }: MergeListItem, { $, navigatio
   }
 
   let size: number
-  if (STORYBOOK) {
+  if (WEB) {
     size = !subjectId ? 12 : title.length >= 16 ? 14 : 15
   } else {
     size = layoutGridNums >= 4 ? 10 : layoutGridNums >= 3 ? 12 : 14

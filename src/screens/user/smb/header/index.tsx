@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 15:37:12
+ * @Last Modified time: 2024-09-04 21:09:10
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title='本地管理'

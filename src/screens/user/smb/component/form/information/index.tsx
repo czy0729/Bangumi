@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:16:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 20:00:41
+ * @Last Modified time: 2024-09-04 21:07:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Touchable } from '@components'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { styles } from './styles'
 
 function Information() {
@@ -17,7 +17,7 @@ function Information() {
     <View style={styles.info}>
       <Touchable
         onPress={() => {
-          if (STORYBOOK) {
+          if (WEB) {
             open('https://www.yuque.com/chenzhenyu-k0epm/znygb4/nogol0viqd1flhqt')
             return
           }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:44:09
+ * @Last Modified time: 2024-09-05 15:56:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,7 +17,7 @@ import ToolBar from '../tool-bar'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Top(props, { $, navigation }: Ctx) {
+function Top(_props, { $, navigation }: Ctx) {
   const smb = $.current?.smb
   if (!smb) return null
 

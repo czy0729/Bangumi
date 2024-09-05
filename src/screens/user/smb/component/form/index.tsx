@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-01 04:04:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:17:18
+ * @Last Modified time: 2024-09-04 21:08:27
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -11,7 +11,7 @@ import Form from './form'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc((props, { $ }: Ctx) => {
+export default obc((_props, { $ }: Ctx) => {
   return (
     <Form
       store={$}

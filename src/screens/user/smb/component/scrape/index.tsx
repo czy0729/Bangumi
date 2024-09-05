@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-26 17:34:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:45:13
+ * @Last Modified time: 2024-09-04 21:08:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Scrape(props, { $ }: Ctx) {
+function Scrape(_props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <Modal

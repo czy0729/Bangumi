@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:18:16
+ * @Last Modified time: 2024-09-04 21:08:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import Subject from '../subject'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ModalFolders(props, { $, navigation }: Ctx) {
+function ModalFolders(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { folders } = $.state
   const { visible, subjectId, folder, merge } = folders

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:48:09
+ * @Last Modified time: 2024-09-04 21:07:36
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
@@ -24,7 +24,7 @@ function Example(
 
   const { id } = $.state
   return (
-    <Flex style={STORYBOOK ? _.mt.md : _.mt.sm} justify='center'>
+    <Flex style={WEB ? _.mt.md : _.mt.sm} justify='center'>
       <Touchable style={styles.touch} onPress={$.onSubmit}>
         <Text style={styles.btn} type='main'>
           {!!id ? '保存' : '新增'}

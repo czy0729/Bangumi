@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-25 10:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 14:47:22
+ * @Last Modified time: 2024-09-04 21:08:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { Ctx } from '../../../types'
 import ItemGrid from '../../item-grid'
 import { styles } from './styles'
 
-function Grids(props, { $ }: Ctx) {
+function Grids(_props, { $ }: Ctx) {
   const { layoutGridNums } = $.state.configs
   return (
     <Flex style={styles.grids} justify='between' wrap='wrap'>
@@ -22,7 +22,7 @@ function Grids(props, { $ }: Ctx) {
       ))}
       {Array(layoutGridNums - 1)
         .fill('')
-        .map((item, index) => (
+        .map((_item, index) => (
           <View
             key={index}
             style={{

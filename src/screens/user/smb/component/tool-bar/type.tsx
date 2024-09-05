@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-09-23 07:04:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 03:18:18
+ * @Last Modified time: 2024-09-04 21:09:07
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Type(props, { $ }: Ctx) {
+function Type(_props, { $ }: Ctx) {
   const { tags } = $.state
   const tagsCount = $.tagsCount()
   return (

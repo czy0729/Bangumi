@@ -14,7 +14,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function SwitchItem(props, { $ }: Ctx) {
+function SwitchItem(_props, { $ }: Ctx) {
   const { autoJA } = $.state
   return (
     <Flex style={_.mt.sm}>

@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-10-30 06:57:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:53:42
+ * @Last Modified time: 2024-09-04 21:07:05
  */
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { Modal } from '@components'
 import { memo } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
-import TypeItem from './type-item'
-import Example from './example'
+import { WEB } from '@constants'
 import DirectoryItem from './directory-item'
-import InputItem from './input-item'
-import UrlItem from './url-item'
-import SwitchItem from './switch-item'
-import SaveItem from './save-item'
+import Example from './example'
 import Information from './information'
+import InputItem from './input-item'
+import SaveItem from './save-item'
+import SwitchItem from './switch-item'
+import TypeItem from './type-item'
+import UrlItem from './url-item'
 import { DEFAULT_PROPS } from './ds'
 
 export default memo(({ store, styles, visible, name, onClose }) => {
@@ -43,16 +43,11 @@ export default memo(({ store, styles, visible, name, onClose }) => {
   }, [visible, name])
 
   return (
-    <Modal
-      style={styles.modal}
-      visible={visible}
-      title='连接本地服务'
-      onClose={onClose}
-    >
+    <Modal style={styles.modal} visible={visible} title='连接本地服务' onClose={onClose}>
       <View style={styles.body}>
-        {!STORYBOOK && <TypeItem store={store} />}
+        {!WEB && <TypeItem store={store} />}
         <Example store={store} />
-        {STORYBOOK && <DirectoryItem />}
+        {WEB && <DirectoryItem />}
         <InputItem
           store={store}
           label='别名'
@@ -65,7 +60,7 @@ export default memo(({ store, styles, visible, name, onClose }) => {
             } catch (error) {}
           }}
         />
-        {!STORYBOOK && (
+        {!WEB && (
           <InputItem
             store={store}
             label='主机'
@@ -74,13 +69,12 @@ export default memo(({ store, styles, visible, name, onClose }) => {
             connectRef={(ref: { inputRef: any }) => (ipRef.current = ref?.inputRef)}
             onSubmitEditing={() => {
               try {
-                if (typeof portRef?.current?.focus === 'function')
-                  portRef.current.focus()
+                if (typeof portRef?.current?.focus === 'function') portRef.current.focus()
               } catch (error) {}
             }}
           />
         )}
-        {!STORYBOOK && (
+        {!WEB && (
           <InputItem
             store={store}
             label='端口'
@@ -89,38 +83,32 @@ export default memo(({ store, styles, visible, name, onClose }) => {
             connectRef={(ref: { inputRef: any }) => (portRef.current = ref?.inputRef)}
             onSubmitEditing={() => {
               try {
-                if (typeof usernameRef?.current?.focus === 'function')
-                  usernameRef.current.focus()
+                if (typeof usernameRef?.current?.focus === 'function') usernameRef.current.focus()
               } catch (error) {}
             }}
           />
         )}
-        {!STORYBOOK && (
+        {!WEB && (
           <InputItem
             store={store}
             label='用户'
             placeholder='必填'
             name='username'
-            connectRef={(ref: { inputRef: any }) =>
-              (usernameRef.current = ref?.inputRef)
-            }
+            connectRef={(ref: { inputRef: any }) => (usernameRef.current = ref?.inputRef)}
             onSubmitEditing={() => {
               try {
-                if (typeof passwordRef?.current?.focus === 'function')
-                  passwordRef.current.focus()
+                if (typeof passwordRef?.current?.focus === 'function') passwordRef.current.focus()
               } catch (error) {}
             }}
           />
         )}
-        {!STORYBOOK && (
+        {!WEB && (
           <InputItem
             store={store}
             label='密码'
             placeholder='必填'
             name='password'
-            connectRef={(ref: { inputRef: any }) =>
-              (passwordRef.current = ref?.inputRef)
-            }
+            connectRef={(ref: { inputRef: any }) => (passwordRef.current = ref?.inputRef)}
             onSubmitEditing={() => {
               try {
                 if (typeof sharedFolderRef?.current?.focus === 'function')
@@ -133,26 +121,24 @@ export default memo(({ store, styles, visible, name, onClose }) => {
           store={store}
           label='路径'
           information={
-            STORYBOOK
+            WEB
               ? `同时支持读取所有子文件夹，若你直接选择了 D:/Anime，那路径应该填 D: 就可以了，可能不同版本浏览器之间有差异。若填入后在结果列表中出现了 D:/D:/ 这种不寻常的情况，可能你并不需要填写此项，可以随时修改。`
               : ''
           }
           placeholder={
-            STORYBOOK
+            WEB
               ? '选填，硬盘名，如 D:、D:/Anime，头尾不需要斜杠'
               : '选填，常为顶文件夹，头尾不需要斜杠'
           }
           name='sharedFolder'
-          connectRef={(ref: { inputRef: any }) =>
-            (sharedFolderRef.current = ref?.inputRef)
-          }
+          connectRef={(ref: { inputRef: any }) => (sharedFolderRef.current = ref?.inputRef)}
           onSubmitEditing={() => {
             try {
               if (typeof pathRef?.current?.focus === 'function') pathRef.current.focus()
             } catch (error) {}
           }}
         />
-        {!STORYBOOK && (
+        {!WEB && (
           <InputItem
             store={store}
             label='文件夹'
@@ -161,21 +147,18 @@ export default memo(({ store, styles, visible, name, onClose }) => {
             connectRef={(ref: { inputRef: any }) => (pathRef.current = ref?.inputRef)}
             onSubmitEditing={() => {
               try {
-                if (typeof workGroupRef?.current?.focus === 'function')
-                  workGroupRef.current.focus()
+                if (typeof workGroupRef?.current?.focus === 'function') workGroupRef.current.focus()
               } catch (error) {}
             }}
           />
         )}
-        {!STORYBOOK && (
+        {!WEB && (
           <InputItem
             store={store}
             label='工作组'
             placeholder='通常不填，默认空'
             name='workGroup'
-            connectRef={(ref: { inputRef: any }) =>
-              (workGroupRef.current = ref?.inputRef)
-            }
+            connectRef={(ref: { inputRef: any }) => (workGroupRef.current = ref?.inputRef)}
             onSubmitEditing={() => {
               try {
                 if (typeof urlRef?.current?.focus === 'function') urlRef.current.focus()
@@ -187,7 +170,7 @@ export default memo(({ store, styles, visible, name, onClose }) => {
           store={store}
           connectRef={(ref: { inputRef: any }) => (urlRef.current = ref?.inputRef)}
         />
-        {STORYBOOK && <SwitchItem />}
+        {WEB && <SwitchItem />}
         <SaveItem store={store} />
       </View>
       <Information />

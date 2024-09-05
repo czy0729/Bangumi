@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-30 15:17:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 08:40:19
+ * @Last Modified time: 2024-09-04 21:07:45
  */
 import { _ } from '@stores'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 
 export const memoStyles = _.memoStyles(() => {
   const container = {
@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => {
     paddingLeft: _.wind,
     backgroundColor: _.colorPlain
   }
-  if (STORYBOOK) delete container.flex
+  if (WEB) delete container.flex
 
   return {
     container,

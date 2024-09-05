@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-09-23 07:03:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:36:46
+ * @Last Modified time: 2024-09-04 21:08:01
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Sort from './sort'
 import Tag from './tag'
 import Type from './type'
@@ -19,7 +19,7 @@ function ToolBar() {
     <ToolBarComp style={styles.toolBar}>
       <Sort />
       <Type />
-      {STORYBOOK && <Tag />}
+      {WEB && <Tag />}
     </ToolBarComp>
   )
 }
