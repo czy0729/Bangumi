@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:35:02
+ * @Last Modified time: 2024-09-06 01:24:18
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 人物的作品 */
-const Works = (props, { $ }: Ctx) => {
+const Works = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

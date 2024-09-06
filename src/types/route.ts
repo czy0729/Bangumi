@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:35:18
+ * @Last Modified time: 2024-09-06 00:40:42
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
 import * as Screens from '@screens'
-import { Id, MonoId, SubjectId, TopicId, UserId } from './bangumi'
+import { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
 import { AnyObject, Fn } from './utils'
 
 /** 所有页面路径名 */
@@ -69,6 +69,7 @@ export type NavigationPushType = RouteActions &
   RouteUserTimeline &
   RouteWebBrowser &
   RouteWenku &
+  RouteWorks &
   RouteZone &
   ((path: Paths) => any)
 
@@ -169,6 +170,14 @@ export type RouteSay = Route<
 
     /** 新吐槽发布后回调 (client only) */
     onNavigationCallback?: Fn
+  }
+>
+
+export type RouteWorks = Route<
+  'Works',
+  {
+    monoId: PersonId
+    name?: string
   }
 >
 

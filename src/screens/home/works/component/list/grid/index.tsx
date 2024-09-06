@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:42:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 04:56:37
+ * @Last Modified time: 2024-09-06 01:25:43
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
@@ -22,20 +22,19 @@ const EVENT = {
 
 function Grid({ item, index, numColumns }, { navigation }: Ctx) {
   const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collect(id)
   return (
     <ItemCollectionsGrid
+      navigation={navigation}
       style={stl(
         (_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left,
         index < numColumns && _.mt.sm
       )}
-      navigation={navigation}
       num={numColumns}
       event={EVENT}
       {...item}
       airtime={matchYear(item.tip)}
       id={id}
-      collection={collection}
+      collection={collectionStore.collect(id)}
       typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)}
     />
   )

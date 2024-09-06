@@ -32,7 +32,7 @@ export default class Computed extends State {
     }
 
     if (!systemStore.advance) {
-      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+      list = list.filter((_item, index) => index < ADVANCE_LIMIT)
     }
 
     return list

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 13:38:54
+ * @Last Modified time: 2024-09-05 21:30:35
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -45,6 +45,8 @@ module.exports = {
   framework: '@storybook/react',
   previewHead: head => {
     const isProduction = process.env.NODE_ENV === 'production'
+    if (!isProduction) return head
+
     const prefix = isProduction ? 'production.min' : 'development'
     return `
       ${head}
@@ -74,11 +76,6 @@ module.exports = {
       ]
     })
 
-    config.externals = {
-      react: 'React',
-      'react-dom': 'ReactDOM'
-    }
-
     config.resolve.alias = {
       ...config.resolve.alias,
       stream: require.resolve('stream-browserify')
@@ -100,6 +97,11 @@ module.exports = {
     )
 
     if (configType === 'PRODUCTION') {
+      config.externals = {
+        react: 'React',
+        'react-dom': 'ReactDOM'
+      }
+
       /** ========== ServiceWorker Workbox ========== */
       if (serviceWorker) {
         config.plugins.push(

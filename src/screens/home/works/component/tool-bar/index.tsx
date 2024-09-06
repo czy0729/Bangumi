@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 16:10:57
+ * @Last Modified time: 2024-09-06 01:18:18
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
@@ -13,7 +13,7 @@ import { MonoWorksOrderbyCn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar(_props, { $ }: Ctx) {
   const { order, position, list, fixed, collected } = $.state
   const { filters } = $.monoWorks
   return (

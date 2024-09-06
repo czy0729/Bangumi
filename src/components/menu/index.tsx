@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:54:19
+ * @Last Modified time: 2024-09-05 21:53:02
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,8 +16,8 @@ import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { platformFix, removeDuplicateStrings } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 import { Props as MenuProps } from './types'
+import { memoStyles } from './styles'
 
 export { MenuProps }
 
@@ -42,6 +42,7 @@ export const Menu = observer(
                     type='sub'
                     size={12}
                     align='center'
+                    selectable={false}
                   >
                     {item}
                   </Text>
@@ -66,6 +67,7 @@ export const Menu = observer(
                         size={WEB ? 13 : 14}
                         numberOfLines={WEB ? undefined : 1}
                         noWrap={WEB ? false : true}
+                        selectable={false}
                       >
                         {platformFix(item)}
                       </Text>

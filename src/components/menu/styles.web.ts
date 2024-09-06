@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-03 17:47:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-20 05:16:50
+ * @Last Modified time: 2024-09-05 21:42:36
  */
 import { _ } from '@stores'
+import './index.scss'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
     width: Number(_.window.width * 0.48),
     maxWidth: 200,
-    maxHeight: _.window.height / 2,
+    maxHeight: _.window.height / 1.4,
     backgroundColor: 'rgba(48, 48, 48, 0.64)',
     backdropFilter: 'blur(24px)',
     borderRadius: _.radiusMd,

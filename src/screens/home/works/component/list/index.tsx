@@ -14,7 +14,7 @@ import ToolBar from '../tool-bar'
 import { renderGridItem, renderListItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if (!$.list._loaded) {
     return (
       <>
