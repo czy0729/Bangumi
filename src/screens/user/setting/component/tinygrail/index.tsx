@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import HomeCustom from '../home/home-custom'
 import AppTinygrail from './app-tinygrail'
@@ -25,7 +25,7 @@ function Tinygrail({ filter, open = false }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (STORYBOOK || !shows) return null
+    if (WEB || !shows) return null
 
     return (
       <>

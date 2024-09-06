@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { MODEL_SETTING_HOME_LAYOUT, MODEL_SETTING_HOME_SORTING, STORYBOOK } from '@constants'
+import { MODEL_SETTING_HOME_LAYOUT, MODEL_SETTING_HOME_SORTING, WEB } from '@constants'
 import { getShows } from '../../utils'
 import HomeCountView from './home-count-view'
 import HomeCustom from './home-custom'
@@ -39,7 +39,7 @@ function Home({ filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (STORYBOOK || !shows) return null
+    if (WEB || !shows) return null
 
     const isList = systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('列表')
     return (

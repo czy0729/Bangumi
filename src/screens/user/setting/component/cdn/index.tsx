@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { IOS, STORYBOOK } from '@constants'
+import { IOS, WEB } from '@constants'
 import { getShows } from '../../utils'
 import CDNAvatar from './cdn-avatar'
 import CDNCover from './cdn-cover'
@@ -50,14 +50,14 @@ function CDN({ navigation, filter }) {
         <ActionSheet
           show={state}
           title='图片'
-          height={filter || STORYBOOK ? 440 : 640}
+          height={filter || WEB ? 440 : 640}
           onClose={setFalse}
         >
-          {!STORYBOOK && shows.cover && (
+          {!WEB && shows.cover && (
             <CDNCover navigation={navigation} filter={filter} setFalse={setFalse} />
           )}
-          {!STORYBOOK && shows.cdnAvatarV2 && <CDNAvatar filter={filter} />}
-          {!STORYBOOK && shows.test && <CDNTest filter={filter} />}
+          {!WEB && shows.cdnAvatarV2 && <CDNAvatar filter={filter} />}
+          {!WEB && shows.test && <CDNTest filter={filter} />}
           {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
           {shows.imageFadeIn && <ImageFadeIn filter={filter} />}
           {IOS && shows.iOSImageCache && <IOSImageCache filter={filter} />}

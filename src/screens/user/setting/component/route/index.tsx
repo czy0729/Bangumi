@@ -9,7 +9,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import HomeRenderTabs from './home-render-tabs'
 import InitialPage from './initial-page'
@@ -23,7 +23,7 @@ function Route({ filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (STORYBOOK || !shows) return null
+    if (WEB || !shows) return null
 
     return (
       <>

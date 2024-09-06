@@ -9,7 +9,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import UserGridNum from './user-grid-num'
 import { COMPONENT, TEXTS } from './ds'
@@ -22,7 +22,7 @@ function User({ filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (STORYBOOK || !shows) return null
+    if (WEB || !shows) return null
 
     return (
       <>

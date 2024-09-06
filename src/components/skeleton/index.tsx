@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-11 17:17:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:00:34
+ * @Last Modified time: 2024-09-06 14:46:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { WEB } from '@constants'
 import { getSkeletonColor } from './utils'
 import { COMPONENT, SHIMMER_COLORS, SHIMMER_COLORS_DARK, SHIMMER_COLORS_TINYGRAIL_DARK } from './ds'
 import { styles } from './styles'
@@ -26,6 +27,7 @@ export const Skeleton = observer(
     r(COMPONENT)
 
     if (
+      WEB ||
       typeof width !== 'number' ||
       typeof height !== 'number' ||
       Number.isNaN(width) ||

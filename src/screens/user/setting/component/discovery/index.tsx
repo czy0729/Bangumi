@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import DiscoveryMenuNum from './discovery-menu-num'
 import DiscoveryTodayOnair from './discovery-today-onair'
@@ -33,8 +33,8 @@ function Discovery({ filter, open = false }) {
         <ItemSetting hd='发现' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='发现' onClose={setFalse}>
           {shows.discoveryMenuNum && <DiscoveryMenuNum filter={filter} />}
-          {!STORYBOOK && shows.live2D && <Live2D filter={filter} />}
-          {!STORYBOOK && shows.live2DVoice && systemStore.setting.live2D && (
+          {!WEB && shows.live2D && <Live2D filter={filter} />}
+          {!WEB && shows.live2DVoice && systemStore.setting.live2D && (
             <Live2DVoice filter={filter} />
           )}
           {shows.discoveryTodayOnair && <DiscoveryTodayOnair filter={filter} />}

@@ -9,7 +9,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import AppZhinan from './app-zhinan'
 import Privacy from './privacy'
@@ -33,9 +33,7 @@ function Zhinan({ navigation, filter }) {
         <ItemSetting hd='更多' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='更多' onClose={setFalse}>
           {shows.topic && <RepoTopic navigation={navigation} filter={filter} setFalse={setFalse} />}
-          {!STORYBOOK && shows.serverStatus && (
-            <ServerStatus navigation={navigation} filter={filter} />
-          )}
+          {!WEB && shows.serverStatus && <ServerStatus navigation={navigation} filter={filter} />}
           {shows.github && <RepoGithub filter={filter} />}
           {shows.zhinan && (
             <AppZhinan navigation={navigation} filter={filter} setFalse={setFalse} />

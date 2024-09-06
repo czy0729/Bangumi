@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-10 02:02:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 15:25:18
+ * @Last Modified time: 2024-09-06 13:14:14
  */
 
 // [data-key]::after {
@@ -17,6 +17,12 @@
 //   border-radius: 3px;
 //   pointer-events: none;
 // }
+
+#root {
+  position: relative;
+  max-width: 512px;
+  margin: auto;
+}
 
 span {
   text-underline-offset: 0.28em;

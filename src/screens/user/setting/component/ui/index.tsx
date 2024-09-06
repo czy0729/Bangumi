@@ -9,7 +9,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import AvatarRound from './avatar-round'
 import CoverThings from './cover-things'
@@ -41,8 +41,8 @@ function UI({ filter }) {
           {shows.squircle && <Squircle filter={filter} />}
           {shows.speech && <Speech filter={filter} />}
           {shows.fontSize && <FontSize filter={filter} />}
-          {!STORYBOOK && shows.transition && <Transition filter={filter} />}
-          {!STORYBOOK && shows.vibration && <Vibration filter={filter} />}
+          {!WEB && shows.transition && <Transition filter={filter} />}
+          {!WEB && shows.vibration && <Vibration filter={filter} />}
         </ActionSheet>
       </>
     )

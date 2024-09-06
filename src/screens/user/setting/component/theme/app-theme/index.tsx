@@ -9,7 +9,7 @@ import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import { handleDark, handleDeepDark, handleLight } from './utils'
@@ -27,7 +27,7 @@ function AppTheme({ navigation, filter }) {
       ])}
       {...TEXTS.theme.setting}
     >
-      {!STORYBOOK && (
+      {!WEB && (
         <ItemSettingBlock.Item
           style={_.mr.md}
           icon='ios-sunny'

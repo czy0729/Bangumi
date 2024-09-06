@@ -10,7 +10,7 @@ import { ItemSetting } from '@_'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -19,7 +19,7 @@ function UserSetting({ navigation, filter }) {
   r(COMPONENT)
 
   const shows = getShows(filter, TEXTS)
-  if (STORYBOOK || !shows) return null
+  if (WEB || !shows) return null
 
   return (
     <ItemSetting

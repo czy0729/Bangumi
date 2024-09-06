@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-08-13 05:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-16 18:50:03
+ * @Last Modified time: 2024-09-06 14:21:26
  */
 import React from 'react'
-import { HOST } from '@constants'
+import { _ } from '@stores'
+import { stl } from '@utils'
+import { syncRakuenStore, syncUIStore } from '@utils/async'
 import { t } from '@utils/fetch'
-import { syncUIStore, syncRakuenStore } from '@utils/async'
+import { HOST, WEB } from '@constants'
 import { Text } from '../../text'
 
 function ACText({ navigation, style, subjectId, text, onPress }) {
   return (
     <Text
-      style={style}
+      style={stl(WEB && _.mr.xxs, style)}
       selectable
       underline
       onPress={() => {

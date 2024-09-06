@@ -14,7 +14,7 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useBoolean, useMount, useObserver } from '@utils/hooks'
 import { getAllKeys, multiGet } from '@utils/storage/utils'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
@@ -27,7 +27,7 @@ function Storage({ filter }) {
   const [storageSize, setStorageSize] = useState('')
 
   const caculateStorageSize = useCallback(async () => {
-    if (STORYBOOK) return
+    if (WEB) return
 
     try {
       const keys = await getAllKeys()

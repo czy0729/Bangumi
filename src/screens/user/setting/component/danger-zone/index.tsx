@@ -11,7 +11,7 @@ import Stores from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
@@ -23,7 +23,7 @@ function DangerZone({ navigation, filter }) {
   const shows = getShows(filter, TEXTS)
 
   return useObserver(() => {
-    if (STORYBOOK || !shows) return null
+    if (WEB || !shows) return null
 
     return (
       <>
