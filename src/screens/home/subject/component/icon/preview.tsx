@@ -19,18 +19,18 @@ function IconPreview({ data, headers }, { $, navigation }: Ctx) {
     <Touchable
       style={styles.touch}
       onPress={() => {
-        t('条目.跳转', {
-          to: 'Preview',
-          from: '预览',
-          subjectId: $.subjectId
-        })
-
         navigation.push('Preview', {
           subjectId: $.subjectId,
           cn: $.cn,
           jp: $.jp,
-          data,
-          headers
+          _images: JSON.stringify(data || []),
+          _headers: JSON.stringify(headers || {})
+        })
+
+        t('条目.跳转', {
+          to: 'Preview',
+          from: '预览',
+          subjectId: $.subjectId
         })
       }}
     >

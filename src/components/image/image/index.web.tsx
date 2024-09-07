@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 13:04:37
+ * @Last Modified time: 2024-09-06 22:00:46
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
+import { _ } from '@stores'
+import { stl } from '@utils'
 import { DOGE_CDN_IMG_DEFAULT, IMG_DEFAULT } from '@constants'
 import { Component } from '../../../components'
 import './index.scss'
@@ -13,12 +15,16 @@ import './index.scss'
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
 
-export default function Image({ style, source, autoSize, fadeDuration, ...props }) {
+export default function Image({ style, source, autoSize, autoHeight, fadeDuration, ...props }) {
   const ref = useRef(null)
-  const { uri } = source
+  const { uri, headers } = source
   const lazyloaded = memo.has(uri)
   const [opacity, setOpacity] = useState(lazyloaded ? 1 : 0)
+
+  const renderDOM = !!(headers?.Referer && !headers.Referer.includes('bgm.tv'))
   useEffect(() => {
+    if (renderDOM) return
+
     if (ref.current && autoSize) {
       const img = ref.current?.querySelector('img')
       if (img) img.src = uri
@@ -66,7 +72,23 @@ export default function Image({ style, source, autoSize, fadeDuration, ...props 
         observer.disconnect()
       }
     }
-  }, [autoSize, lazyloaded, opacity, uri])
+  }, [renderDOM, autoSize, lazyloaded, opacity, uri])
+
+  if (renderDOM) {
+    return (
+      <img
+        style={stl({
+          ..._.flatten(style || {}),
+          width: autoSize || 'auto',
+          height: autoHeight || 'auto'
+        })}
+        src={uri}
+        rel='noreferrer'
+        referrerPolicy='no-referrer'
+        alt=''
+      />
+    )
+  }
 
   const el = (
     <RNImage

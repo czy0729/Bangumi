@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:47:12
+ * @Last Modified time: 2024-09-06 21:58:19
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,8 +15,7 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Video({ item, epsThumbsHeader, showTitle }) {
-  const { showCharacter } = systemStore.setting
-  if (!showCharacter) return null
+  if (!systemStore.setting.showCharacter) return null
 
   return (
     <View style={styles.video}>

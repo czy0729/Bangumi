@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:47:03
+ * @Last Modified time: 2024-09-06 21:38:21
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
@@ -10,6 +10,7 @@ import { _, systemStore } from '@stores'
 import { showImageViewer, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { WEB } from '@constants'
 import { AnyObject } from '@types'
 import { Ctx } from '../../../types'
 import { IMAGE_HEIGHT } from '../ds'
@@ -32,8 +33,7 @@ function Preview(
   }>,
   { $ }: Ctx
 ) {
-  const { showCharacter } = systemStore.setting
-  if (!showCharacter) return null
+  if (!systemStore.setting.showCharacter) return null
 
   return (
     <Touchable
@@ -46,7 +46,7 @@ function Preview(
         })
 
         showImageViewer(
-          thumbs.filter((item, index) => index < 12),
+          thumbs.filter((_item, index) => index < 12),
           index
         )
       }}
@@ -57,7 +57,7 @@ function Preview(
         autoHeight={IMAGE_HEIGHT}
         headers={epsThumbsHeader}
         radius={_.radiusSm}
-        errorToHide
+        errorToHide={!WEB}
       />
     </Touchable>
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:29:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 01:38:44
+ * @Last Modified time: 2024-09-07 01:26:33
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 预览 */
-const Preview = (props, { $ }: Ctx) => {
+const Preview = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 00:40:42
+ * @Last Modified time: 2024-09-07 01:26:44
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -50,6 +50,7 @@ export type NavigationPushType = RouteActions &
   RouteNotify &
   RoutePM &
   RoutePersons &
+  RoutePreview &
   RouteRank &
   RouteRating &
   RouteReviews &
@@ -529,5 +530,24 @@ export type RouteSetting = (
     open?: string
   }
 ) => any
+
+export type RoutePreview = Route<
+  'Preview',
+  {
+    subjectId: SubjectId
+
+    /** 条目中文名 */
+    cn?: string
+
+    /** 条目原名 */
+    jp?: string
+
+    /** 传递图片地址数组转字符串 */
+    _images?: string
+
+    /** 传递图片头对象转字符串 */
+    _headers?: string
+  }
+>
 
 export type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, any>) => any

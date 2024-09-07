@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:58:43
+ * @Last Modified time: 2024-09-06 21:02:18
  */
 import {
   collectionStore,
@@ -138,11 +138,11 @@ export default class Fetch extends Computed {
       })
     }
 
-    if (WEB) return
-
     // 先检测云端数据
     const needUpdate = await this.getThirdParty()
     if (!needUpdate) return
+
+    if (WEB) return
 
     if (item) {
       postTask(() => {

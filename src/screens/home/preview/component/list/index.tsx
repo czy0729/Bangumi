@@ -2,31 +2,33 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 07:08:30
+ * @Last Modified time: 2024-09-07 01:49:48
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Image, ScrollView, Touchable } from '@components'
+import { Image, ScrollView, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { showImageViewer } from '@utils'
 import { obc } from '@utils/decorators'
+import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { epsThumbs, epsThumbsHeader } = $.state
-  const { data = [], headers = {} } = $.params
+  const { epsThumbs = [], epsThumbsHeader = {} } = $.state
 
-  let _data = epsThumbs.length ? epsThumbs : data
-  const _headers = epsThumbs.length ? epsThumbsHeader : headers
+  let images: string[] = $.data.length ? $.data : epsThumbs
+  let headers: {
+    Referer?: string
+  } = $.headers?.Referer ? $.headers : epsThumbsHeader
 
   const passProps: any = {}
-  if (_headers?.Referer && _headers.Referer.includes('douban')) {
-    if (data.length && data[0].includes('douban')) _data = [...data]
+  if (headers?.Referer && headers.Referer.includes('douban')) {
+    if ($.data.length && $.data[0].includes('douban')) images = [...$.data]
     epsThumbs.forEach(item => {
-      if (!_data.includes(item)) _data.push(item)
+      if (!images.includes(item)) images.push(item)
     })
 
     passProps.autoSize = styles.item.width
@@ -39,13 +41,13 @@ function List(props, { $ }: Ctx) {
 
   return (
     <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
-      {_data.map((item, index) => (
+      {images.map((item, index) => (
         <View key={item} style={styles.item}>
           <Touchable
             withoutFeedback
             onPress={() => {
               showImageViewer(
-                _data.map(item => ({
+                images.map(item => ({
                   url: item.split('@')[0],
                   headers
                 })),
@@ -53,10 +55,24 @@ function List(props, { $ }: Ctx) {
               )
             }}
           >
-            <Image src={item} {...passProps} shadow headers={headers} errorToHide />
+            <Image {...passProps} src={item} headers={headers} errorToHide />
           </Touchable>
         </View>
       ))}
+      {!!(WEB && $.subjectId) && (
+        <Touchable
+          style={_.mt.lg}
+          onPress={() => {
+            navigation.push('Subject', {
+              subjectId: $.subjectId
+            })
+          }}
+        >
+          <Text align='center' underline>
+            返回条目
+          </Text>
+        </Touchable>
+      )}
     </ScrollView>
   )
 }

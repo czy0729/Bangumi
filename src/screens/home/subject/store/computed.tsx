@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 14:01:41
+ * @Last Modified time: 2024-09-06 22:15:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -1204,8 +1204,6 @@ export default class Computed extends State {
 
   /** 是否显示预览 */
   @computed get showThumbs() {
-    if (WEB) return NON_SHOW
-
     const { showThumbs } = systemStore.setting
     if (showThumbs === -1) return NON_SHOW
 

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 13:58:07
+ * @Last Modified time: 2024-09-06 22:13:49
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _, systemStore, userStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
@@ -87,9 +87,9 @@ class Thumbs extends React.Component<{
   renderRight() {
     if (!systemStore.setting.showThumbs) return <IconHidden name={this.title} value='showThumbs' />
 
-    const { $ } = this.context as Ctx
-    if (this.reference !== 'douban.com' || userStore.isLimit) return null
+    if (this.reference !== 'douban.com') return null
 
+    const { $ } = this.context as Ctx
     return <IconPreview data={$.state.epsThumbs} headers={$.state.epsThumbsHeader} />
   }
 
