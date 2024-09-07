@@ -79,8 +79,8 @@ export default function Image({ style, source, autoSize, autoHeight, fadeDuratio
       <img
         style={stl({
           ..._.flatten(style || {}),
-          width: autoSize || 'auto',
-          height: autoHeight || 'auto'
+          width: autoSize || style?.width || 'auto',
+          height: autoHeight || style?.height || 'auto'
         })}
         src={uri}
         rel='noreferrer'

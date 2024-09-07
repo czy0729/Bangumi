@@ -26,50 +26,35 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 [ENGLISH](https://github.com/czy0729/Bangumi/blob/master/README.en.MD)
 
-# 目录
-
-- [下载](#下载)
-- [功能](#功能)
-- [版本](#版本)
-- [在线](#在线)
-- [预览](#预览)
-- [开发心得](#开发心得)
-- [本地开发](#本地开发)
-- [免责](#免责)
-- [致谢](#致谢)
-- [投食](#投食)
-
 # 下载
 
-[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases)
+[安卓 APK 下载](https://github.com/czy0729/Bangumi/releases) | [AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.dev/@bgmtv/bangumi-pro)
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="64">](https://f-droid.org/packages/com.czy0729.bangumi)
+- Google Play 被举报下架，暂搁置
 
-[AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [Expo 主页](https://expo.dev/@bgmtv/bangumi-pro)
-
-- Google Play 被恶意举报已搁置
-
-- 苹果 100 刀开发者账号已过期，期间没能过审，因为功能太多而且会涉及到社区、版权敏感等问题，而且最近还有备案条件，不可能再送审了
+- iOS 付费开发者账号已过期，期间没能过审，因涉及到社区、版权敏感、备案等问题，不考虑再送审了
 
 # 功能
 
 ## 基本功能
 
+带链接的支持网页预览（只能看不能操作）
+
 - 番组进度管理
-- 条目、角色详情
-- 时间线（用户动态）
-- 超展开（帖吧）
-- 时光机（个人中心）、用户空间
-- 不限于搜索、排行榜、索引、目录、每日放送、年鉴、标签
+- [条目](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-subject--subject&viewMode=story&subjectId=62229)、[角色详情](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-mono--mono&viewMode=story&monoId=character%2F111328)
+- [时间线](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-timeline--timeline&viewMode=story)、[帖子](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-topic--topic&viewMode=story&topicId=group%2F350677)
+- [超展开](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rakuen--rakuen&viewMode=story)
+- [时光机](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-user--user&viewMode=story&userId=sai)、[用户空间](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-zone--zone&viewMode=story&userId=sai&hd=1)
+- 不限于 [每日放送](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-calendar--calendar&viewMode=story)、[搜索](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-search--search&viewMode=story)、[排行榜](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rank--rank&viewMode=story)、[新番](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-staff--staff&viewMode=story)、[目录](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-catalog--catalog&viewMode=story)、[年鉴](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-yearbook--yearbook&viewMode=story)、标签、[分类排行](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-typerank--typerank&viewMode=story&type=anime&tag=%E7%BB%AD%E4%BD%9C&subjectId=443428)、日志
 
-## 特色功能
+## 扩展功能
 
-- 其他站点同步到 bgm 功能（bilibili、豆瓣）
+- 其他站点（bilibili、豆瓣）同步到 bgm.tv 功能
 - 封面图片和大部分脱敏静态数据覆盖到自费 CDN 中间层，访问高速化（意思大概是网页版遇到很慢或者挂掉的情况客户端也能正常获取数据）
-- 番剧、游戏截图预览
-- ~~当季番剧精准到单集网络播放源~~、漫画源查询，找番剧、文库、游戏、音乐
+- [番剧截屏](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-preview--preview&viewMode=story&subjectId=424883&cn=%E4%B8%8D%E6%97%B6%E7%94%A8%E4%BF%84%E8%AF%AD%E5%B0%8F%E5%A3%B0%E8%AF%B4%E7%9C%9F%E5%BF%83%E8%AF%9D%E7%9A%84%E9%82%BB%E6%A1%8C%E8%89%BE%E8%8E%89%E5%90%8C%E5%AD%A6)、游戏截图预览
+- 猜你喜欢、AI 推荐、关联系列、[评分月刊](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-vib--vib&viewMode=story)
+- ~~当季番剧精准到单集网络播放源~~、源头自定义管理，[找番剧、书籍、游戏](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-anime--anime&viewMode=story)
+- [本地文件夹条目管理](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-smb--smb&viewMode=story)（支持文件夹罗马音刮削）
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏，客户端独立设计 UI 和交互）
 
 # 版本
@@ -234,6 +219,14 @@ yarn
 
 开发迭代不易，觉得客户端好用的，有能力的可以投喂一下，也可以给个星星
 
-<img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/alipay.png" width="188" style="vertical-align: top" /> <img src="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" alt="https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Static@20210314/data/qr/wechat.png" width="188" style="vertical-align: top" />
+<img src="./src/assets/images/qr/alipay.jpg" width="188" style="vertical-align: top" /> <img src="./src/assets/images/qr/wx.jpg" width="188" style="vertical-align: top" />
+
+<a href="https://star-history.com/#czy0729/Bangumi&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=czy0729/Bangumi&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=czy0729/Bangumi&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=czy0729/Bangumi&type=Date" />
+ </picture>
+</a>
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fczy0729%2FBangumi&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=false)](https://hits.seeyoufarm.com)
