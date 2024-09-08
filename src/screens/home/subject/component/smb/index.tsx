@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:01:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:11:04
+ * @Last Modified time: 2024-09-08 19:41:16
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Component } from '@components'
 import { FolderSMB, SectionTitle } from '@_'
 import { smbStore, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -26,7 +26,7 @@ function SMB(_props, { $ }: Ctx) {
 
   const styles = memoStyles()
   return (
-    <View style={styles.container}>
+    <Component id='screen-subject-smb' style={styles.container}>
       <SectionTitle
         right={showSMB ? <IconSMB /> : <IconHidden name='本地' value='showSMB' />}
         icon={!showSMB && 'md-navigate-next'}
@@ -35,7 +35,7 @@ function SMB(_props, { $ }: Ctx) {
         本地
       </SectionTitle>
       {showSMB && <FolderSMB smb={item.smb} folder={item.folder} />}
-    </View>
+    </Component>
   )
 }
 

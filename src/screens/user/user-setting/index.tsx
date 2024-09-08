@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:53:41
+ * @Last Modified time: 2024-09-08 14:05:39
  */
 import React from 'react'
 import { Component } from '@components'
@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 个人设置 */
-const UserSetting = (props, { $ }: Ctx) => {
+const UserSetting = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

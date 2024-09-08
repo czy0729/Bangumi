@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 12:29:04
+ * @Last Modified time: 2024-09-08 14:07:33
  */
 import React from 'react'
 import { Flex, Heatmap, Image, Text, Touchable } from '@components'
@@ -38,7 +38,7 @@ function Bgs({ avatar, more, onViewOrigin, onMore }, { $ }: Ctx) {
           </Text>
         </Touchable>
         {bgs
-          .filter((item, index) => {
+          .filter((_item, index) => {
             if (more) return true
             return index <= bgs.length / 2
           })

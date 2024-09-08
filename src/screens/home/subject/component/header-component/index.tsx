@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:05:56
+ * @Last Modified time: 2024-09-08 20:22:31
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
-import { ErrorBoundary } from '@components'
+import { Component, ErrorBoundary } from '@components'
 import { renderWithErrorBoundary } from '@components/error-boundary/utils'
 import { _ } from '@stores'
 import { c } from '@utils/decorators'
@@ -29,7 +29,7 @@ function HeaderComponent(props, { $ }: Ctx) {
   )
 
   return useObserver(() => (
-    <>
+    <Component id='screen-subject-header-component'>
       {!IOS && (
         <ErrorBoundary>
           <Bg />
@@ -41,7 +41,7 @@ function HeaderComponent(props, { $ }: Ctx) {
         {$.state.rendered && elBottom}
         <Loading />
       </View>
-    </>
+    </Component>
   ))
 }
 

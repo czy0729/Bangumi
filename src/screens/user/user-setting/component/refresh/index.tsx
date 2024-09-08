@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:17:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 13:19:54
+ * @Last Modified time: 2024-09-08 14:08:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,8 +14,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Refresh({ onRefresh }, { $ }: Ctx) {
-  const { selectedIndex } = $.state
-  if (selectedIndex !== 1) return null
+  if ($.state.selectedIndex !== 1) return null
 
   const styles = memoStyles()
   return (

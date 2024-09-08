@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 12:46:37
+ * @Last Modified time: 2024-09-08 19:48:12
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
+import { Component } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_COMIC } from '../../ds'
@@ -18,8 +19,10 @@ function ComicWrap({ onBlockRef }, { $, navigation }: Ctx) {
 
   return (
     <Suspense fallback={null}>
-      <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_COMIC)} />
-      <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
+      <Component id='screen-subject-comic'>
+        <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_COMIC)} />
+        <Comic navigation={navigation} subjectId={$.subjectId} comic={$.comic} />
+      </Component>
     </Suspense>
   )
 }

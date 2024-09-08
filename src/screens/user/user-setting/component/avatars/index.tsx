@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 13:16:20
+ * @Last Modified time: 2024-09-08 14:06:33
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -15,10 +15,9 @@ import { getHeaders } from '../utils'
 import { COMPONENT } from './ds'
 
 function Avatars({ avatar }, { $ }: Ctx) {
-  const { avatars } = $.state
   return (
     <>
-      {arrGroup(avatars, 5).map((items, index) => (
+      {arrGroup($.state.avatars, 5).map((items, index) => (
         <Flex key={index} justify='between'>
           {items.map((item: string, idx: number) => {
             if (index === 2 && idx === 4) {

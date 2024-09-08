@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 12:52:40
+ * @Last Modified time: 2024-09-08 19:46:19
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Expand } from '@components'
+import { Component, Expand } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
@@ -24,7 +24,7 @@ function Game({ onBlockRef }, { $ }: Ctx) {
 
   const { showGameInfo } = systemStore.setting
   return (
-    <>
+    <Component id='screen-subject-game'>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_GAME)} />
       <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
         <Expand>
@@ -51,7 +51,7 @@ function Game({ onBlockRef }, { $ }: Ctx) {
           <PreventTouchPlaceholder />
         </Expand>
       </InView>
-    </>
+    </Component>
   )
 }
 

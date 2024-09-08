@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-24 19:41:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 03:36:50
+ * @Last Modified time: 2024-09-08 19:05:27
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -14,7 +14,7 @@ import ScrollViewHorizontal from './scroll-view-horizontal'
 import { COMPONENT } from './ds'
 import { Props as HorizontalListProps } from './types'
 
-export { HorizontalListProps }
+export { ScrollViewHorizontal, HorizontalListProps }
 
 /** 通用水平移动列表 */
 export const HorizontalList = observer(
@@ -63,7 +63,7 @@ export const HorizontalList = observer(
       const { data } = this.props
       if (this.show) return data.slice()
 
-      return data.filter((item, index) => index < this.initialRenderNums)
+      return data.filter((_item, index) => index < this.initialRenderNums)
     }
 
     render() {

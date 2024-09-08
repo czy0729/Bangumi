@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 14:00:04
+ * @Last Modified time: 2024-09-08 19:50:33
  */
 import React from 'react'
-import { Divider } from '@components'
+import { Component, Divider } from '@components'
 import { InView, ItemComment } from '@_'
 import { _, collectionStore, systemStore, usersStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
@@ -36,33 +36,35 @@ function TrackComment(_props, { $, navigation }: Ctx) {
   } as const
 
   return (
-    <InView style={_.mt.sm}>
-      {items.map(item => {
-        const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
-        const userInfo = usersStore.usersInfo(item)
-        const status = String(
-          MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection.type) || ''
-        ).replace('看', $.action) as CollectionStatusCn
-        return (
-          <ItemComment
-            key={item}
-            navigation={navigation}
-            event={event}
-            time={lastDate(getTimestamp(collection.update_at))}
-            avatar={userInfo.avatar}
-            userId={item}
-            userName={userInfo.userName}
-            star={systemStore.setting.hideScore ? undefined : collection.rate}
-            status={status}
-            comment={String(collection.comment).replace(/[\r\n]/g, '')}
-            popoverData={POPOVER_DATA[$.type]}
-            like
-            onSelect={$.onCancelTrackUsersCollection}
-          />
-        )
-      })}
-      <Divider />
-    </InView>
+    <Component id='screen-subject-track-comment' style={_.mt.sm}>
+      <InView>
+        {items.map(item => {
+          const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
+          const userInfo = usersStore.usersInfo(item)
+          const status = String(
+            MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(collection.type) || ''
+          ).replace('看', $.action) as CollectionStatusCn
+          return (
+            <ItemComment
+              key={item}
+              navigation={navigation}
+              event={event}
+              time={lastDate(getTimestamp(collection.update_at))}
+              avatar={userInfo.avatar}
+              userId={item}
+              userName={userInfo.userName}
+              star={systemStore.setting.hideScore ? undefined : collection.rate}
+              status={status}
+              comment={String(collection.comment).replace(/[\r\n]/g, '')}
+              popoverData={POPOVER_DATA[$.type]}
+              like
+              onSelect={$.onCancelTrackUsersCollection}
+            />
+          )
+        })}
+        <Divider />
+      </InView>
+    </Component>
   )
 }
 

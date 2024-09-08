@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-08 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-10 02:06:39
+ * @Last Modified time: 2024-09-08 19:22:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,6 +17,7 @@ export { ComponentProps }
  * */
 export const Component = ({
   id,
+  parseParams,
   children = null,
   ...props
 }: ComponentProps): JSX.Element | null => {

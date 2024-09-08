@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:30:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-22 09:32:55
+ * @Last Modified time: 2024-09-08 14:05:42
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
@@ -11,7 +11,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
 
-function Segmented(props, { $ }: Ctx) {
+function Segmented(_props, { $ }: Ctx) {
   return (
     <SegmentedControl
       key={String($.state._loaded)}

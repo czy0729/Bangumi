@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 16:15:50
+ * @Last Modified time: 2024-09-08 20:57:36
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -11,6 +11,7 @@ import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
+import { WEB } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -24,7 +25,7 @@ const Info = memo(
 
     let html = info
     try {
-      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, 440)
+      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, WEB ? 640 : 440)
     } catch (error) {
       console.error('home/subject/info.js', 'Info', error)
     }

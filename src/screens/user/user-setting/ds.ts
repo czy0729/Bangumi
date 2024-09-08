@@ -2,26 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-17 11:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 16:51:01
+ * @Last Modified time: 2024-09-08 14:01:43
  */
 import { GITHUB_HOST } from '@constants'
-import { Loaded } from '@types'
 
 export const COMPONENT = 'UserSetting'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const STATE = {
-  nickname: '',
-  sign_input: '',
-  avatar: '',
-  bg: '',
-  selectedIndex: 0,
-  bgs: [],
-  pixivs: [],
-  avatars: [],
-  _loaded: false as Loaded
-}
 
 export const ONLINE_BGS_URL = `${GITHUB_HOST}/raw/master/bg.json`
 

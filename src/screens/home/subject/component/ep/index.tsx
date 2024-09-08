@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 05:44:23
+ * @Last Modified time: 2024-09-08 19:40:35
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Component } from '@components'
 import { _, subjectStore, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -22,7 +23,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
 
   const typeCn = $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId))
   return (
-    <>
+    <Component id='screen-subject-ep'>
       <View
         style={_.container.layout}
         ref={ref => onBlockRef(ref, typeCn === '音乐' ? TITLE_DISC : TITLE_EP)}
@@ -49,7 +50,7 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
           doUpdateSubjectEp={$.doUpdateSubjectEp}
         />
       )}
-    </>
+    </Component>
   )
 }
 

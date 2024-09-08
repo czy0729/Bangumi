@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:38:50
+ * @Last Modified time: 2024-09-08 19:23:52
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Component } from '@components'
 import { getCover400 } from '@utils'
 import { obc } from '@utils/decorators'
 import { IOS, TEXT_ONLY } from '@constants'
@@ -28,7 +29,11 @@ function BgWrap(_props, { $ }: Ctx) {
     : $.subject.images?.common
   if (typeof src !== 'string') return <View style={styles.bg} />
 
-  return <Bg style={styles.bg} src={src} cdn={cdn} />
+  return (
+    <Component id='screen-subject-bg'>
+      <Bg style={styles.bg} src={src} cdn={cdn} />
+    </Component>
+  )
 }
 
 export default obc(BgWrap, COMPONENT)

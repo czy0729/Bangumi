@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 13:59:27
+ * @Last Modified time: 2024-09-08 19:18:57
  */
 import React from 'react'
 import { View } from 'react-native'
+import { Component } from '@components'
 import { systemStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { TITLE_HEAD } from '../../ds'
@@ -26,28 +27,30 @@ function HeadWrap({ onBlockRef }, { $ }: Ctx) {
   }
 
   return (
-    <View ref={ref => onBlockRef(ref, TITLE_HEAD)}>
-      <Head
-        styles={memoStyles()}
-        showRelation={systemStore.setting.showRelation}
-        subjectId={Number($.subject.id || $.subjectId)}
-        subjectPrev={$.subjectPrev}
-        subjectAfter={$.subjectAfter}
-        subjectSeries={$.subjectSeries}
-        cn={$.cn}
-        jp={$.jp}
-        release={$.release}
-        year={year}
-        imageWidth={$.imageWidth}
-        imageHeight={$.imageHeight}
-        titleLabel={$.titleLabel}
-        hideScore={systemStore.setting.hideScore}
-        rating={$.rating}
-        nsfw={$.nsfw}
-        hasSeries={$.hasSeries}
-        isMusic={$.type === '音乐'}
-      />
-    </View>
+    <Component id='screen-subject-head'>
+      <View ref={ref => onBlockRef(ref, TITLE_HEAD)}>
+        <Head
+          styles={memoStyles()}
+          showRelation={systemStore.setting.showRelation}
+          subjectId={Number($.subject.id || $.subjectId)}
+          subjectPrev={$.subjectPrev}
+          subjectAfter={$.subjectAfter}
+          subjectSeries={$.subjectSeries}
+          cn={$.cn}
+          jp={$.jp}
+          release={$.release}
+          year={year}
+          imageWidth={$.imageWidth}
+          imageHeight={$.imageHeight}
+          titleLabel={$.titleLabel}
+          hideScore={systemStore.setting.hideScore}
+          rating={$.rating}
+          nsfw={$.nsfw}
+          hasSeries={$.hasSeries}
+          isMusic={$.type === '音乐'}
+        />
+      </View>
+    </Component>
   )
 }
 

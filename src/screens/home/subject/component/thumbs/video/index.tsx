@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 21:58:19
+ * @Last Modified time: 2024-09-08 17:50:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,9 @@ import { ob } from '@utils/decorators'
 import { THUMB_HEIGHT, THUMB_WIDTH } from '../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Video({ item, epsThumbsHeader, showTitle }) {
+function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
   if (!systemStore.setting.showCharacter) return null
 
   return (
