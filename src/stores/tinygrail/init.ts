@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 14:37:35
+ * @Last Modified time: 2024-09-09 20:10:18
  */
 import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
@@ -224,9 +224,6 @@ export const STATE = {
   /** 授权 cookie */
   cookie: '',
 
-  /** 高级会员 */
-  advance: false,
-
   /** 用户唯一标识 */
   hash: '',
 
@@ -409,7 +406,6 @@ export const STATE = {
 }
 
 export const LOADED = {
-  advance: false,
   advanceAuctionList2: false,
   advanceAuctionList: false,
   advanceBidList: false,

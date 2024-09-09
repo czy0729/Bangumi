@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 03:15:39
+ * @Last Modified time: 2024-09-09 19:13:45
  */
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Image as RNImage } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
-import { Touchable, Flex, Text, Input, Iconfont } from '@components'
+import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
-import { open, info } from '@utils'
+import { info } from '@utils'
 import { useObserver } from '@utils/hooks'
-import { GITHUB_HOST } from '@constants'
-import { put } from '../db'
+import { update } from '@utils/kv'
 import { doLogin, getConfig } from './utils'
 import { memoStyles } from './styles'
 
@@ -48,10 +47,7 @@ function UpdateTourist() {
       const data = await doLogin(config, captcha)
       if (!data) info('login fail')
 
-      await put({
-        path: 'tourist.json',
-        content: JSON.stringify(data)
-      })
+      await update('tourist', data)
       info('update db success')
     } catch (error) {
       info('catch error: login fail')
@@ -99,14 +95,8 @@ function UpdateTourist() {
                 )}
               </Flex>
             </Touchable>
-            <Touchable style={_.ml.md} onPress={onLogin}>
+            <Touchable style={_.ml.lg} onPress={onLogin}>
               <Iconfont name='md-check' />
-            </Touchable>
-            <Touchable
-              style={_.ml.md}
-              onPress={() => open(`${GITHUB_HOST}/commits/master/tourist.json`)}
-            >
-              <Iconfont name='md-arrow-forward' />
             </Touchable>
           </Flex>
         )}

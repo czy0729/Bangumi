@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 15:19:09
+ * @Last Modified time: 2024-09-09 20:10:33
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -27,12 +27,6 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get cookie() {
     this.init('cookie')
     return this.state.cookie
-  }
-
-  /** 高级会员 */
-  @computed get advance() {
-    this.init('advance')
-    return this.state.advance
   }
 
   /** 用户唯一标识 */

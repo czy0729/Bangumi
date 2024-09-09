@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 08:32:12
+ * @Last Modified time: 2024-09-09 20:37:00
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, otaStore, systemStore, userStore } from '@stores'
@@ -90,7 +90,7 @@ export default class ScreenHentai extends store<typeof STATE> {
     }
 
     if (!systemStore.advance) {
-      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+      list = list.filter((_item, index) => index < ADVANCE_LIMIT)
     }
 
     return list

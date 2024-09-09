@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-03-01 11:42:38
+ * @Last Modified time: 2024-09-09 19:10:40
  */
 import React from 'react'
 import * as orientation from 'expo-screen-orientation'
@@ -16,7 +16,11 @@ function ScreenOrientation() {
       <ItemSetting
         hd='Screen Orientation Lock'
         ft={
-          <Touchable onPress={() => orientation.unlockAsync()}>
+          <Touchable
+            onPress={() => {
+              orientation.unlockAsync()
+            }}
+          >
             <Text>解锁旋转</Text>
           </Touchable>
         }

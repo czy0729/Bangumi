@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:39:30
+ * @Last Modified time: 2024-09-09 20:35:13
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
@@ -15,7 +15,7 @@ import Btns from '../btns'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Auth(props, { $, navigation }: Ctx) {
+function Auth(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
   const { nickname, avatar } = $.userInfo
   return (

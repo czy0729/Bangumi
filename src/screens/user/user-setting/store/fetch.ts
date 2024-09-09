@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-09-08 13:38:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 13:43:18
+ * @Last Modified time: 2024-09-09 21:22:39
  */
 import { userStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { get } from '@utils/kv'
 import { randomAvatars } from '@utils/user-setting'
-import { ONLINE_BGS_URL } from '../ds'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -26,8 +25,7 @@ export default class Fetch extends Computed {
 
   /** 预设背景 */
   fetchBgs = async () => {
-    const bgs =
-      (await fetch(`${ONLINE_BGS_URL}?t=${getTimestamp()}`).then(response => response.json())) || []
+    const { data: bgs } = await get('bgs')
     this.setState({
       bgs
     })

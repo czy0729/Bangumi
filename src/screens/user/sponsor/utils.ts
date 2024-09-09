@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 16:09:41
+ * @Last Modified time: 2024-09-09 20:38:43
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -11,7 +11,7 @@ import { queue, toFixed } from '@utils'
 import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
 import { IOS } from '@constants'
-import DS from '@assets/json/advance.json'
+import advanceJSON from '@assets/json/advance.json'
 import { AnyObject } from '@types'
 import { FILTER_RATE, LIST } from './ds'
 
@@ -131,7 +131,7 @@ export async function devGetUsersInfo() {
   console.info('devGetUsersInfo')
 
   const USERS_MAP = {}
-  const items = Object.keys(DS)
+  const items = Object.keys(advanceJSON)
   await queue(
     items.map((userId, index) => async () => {
       const data = await usersStore.fetchUsers({
@@ -160,7 +160,7 @@ export async function devLocalUsersInfo() {
 
   await usersStore.init('users')
   const USERS_MAP = {}
-  Object.keys(DS).forEach(userId => {
+  Object.keys(advanceJSON).forEach(userId => {
     const data = usersStore.users(userId)
     USERS_MAP[userId] = {
       n: data.userName

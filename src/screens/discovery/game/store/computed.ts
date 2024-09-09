@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-25 20:31:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 21:23:12
+ * @Last Modified time: 2024-09-09 20:37:04
  */
 import { computed } from 'mobx'
 import { collectionStore, otaStore, systemStore } from '@stores'
@@ -32,7 +32,7 @@ export default class Computed extends State {
     }
 
     if (!systemStore.advance) {
-      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+      list = list.filter((_item, index) => index < ADVANCE_LIMIT)
     }
 
     return list

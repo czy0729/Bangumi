@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-25 20:20:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:11:58
+ * @Last Modified time: 2024-09-09 20:26:09
  */
 import { computed } from 'mobx'
-import { tinygrailStore, userStore } from '@stores'
+import { systemStore, tinygrailStore, userStore } from '@stores'
 import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
@@ -40,7 +40,7 @@ export default class ScreenTinygrailAdvanceAuction extends store {
 
   // -------------------- get --------------------
   @computed get advance() {
-    return tinygrailStore.advance
+    return systemStore.advance
   }
 
   @computed get advanceSacrificeList() {

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 03:17:10
+ * @Last Modified time: 2024-09-09 19:20:45
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { Touchable, Flex, Text, Input, Iconfont, SegmentedControl } from '@components'
+import { Flex, Iconfont, Input, SegmentedControl, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
-import { useObserver, useMount } from '@utils/hooks'
+import { useMount, useObserver } from '@utils/hooks'
+import { get, update } from '@utils/kv'
 import { NavigationProps } from '@types'
-import { read, put } from '../db'
 import { memoStyles } from './styles'
 
 function UpdateAdvance({ navigation }: NavigationProps) {
@@ -23,42 +23,30 @@ function UpdateAdvance({ navigation }: NavigationProps) {
   const [data, setData] = useState({})
 
   const fetchData = useCallback(async () => {
-    const { content } = await read({
-      path: 'advance.json'
-    })
-    setData(JSON.parse(content))
+    const data = await get('advance')
+    setData(data)
   }, [])
 
   const onUidChange = useCallback(
     evt => {
-      const { nativeEvent } = evt
-      const { text } = nativeEvent
-      setUid(text)
+      setUid(evt.nativeEvent.text)
     },
     [setUid]
   )
 
   const onValChange = useCallback(
     evt => {
-      const { nativeEvent } = evt
-      const { text } = nativeEvent
-      setVal(text)
+      setVal(evt.nativeEvent.text)
     },
     [setVal]
   )
 
   const onSubmit = useCallback(async () => {
     // 确保每次保存前都获取到最新的数据
-    const { content } = await read({
-      path: 'advance.json'
-    })
-    const data = JSON.parse(content)
+    const data = await get('advance')
     data[uid] = `${payType}|${val}`
 
-    await put({
-      path: 'advance.json',
-      content: JSON.stringify(data, null, 2)
-    })
+    await update('advance', data)
     info('update db success')
 
     fetchData()
@@ -85,12 +73,7 @@ function UpdateAdvance({ navigation }: NavigationProps) {
           <View style={styles.container}>
             <Flex>
               <Flex.Item>
-                <Input
-                  style={styles.input}
-                  value={uid}
-                  placeholder='uid'
-                  onChange={onUidChange}
-                />
+                <Input style={styles.input} value={uid} placeholder='uid' onChange={onUidChange} />
               </Flex.Item>
               <SegmentedControl
                 style={styles.segmentedControl}

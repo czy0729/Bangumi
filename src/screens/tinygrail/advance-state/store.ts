@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-03-14 18:00:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:23:46
+ * @Last Modified time: 2024-09-09 20:25:38
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore, userStore } from '@stores'
+import { computed, observable } from 'mobx'
+import { systemStore, tinygrailStore, userStore } from '@stores'
 import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
@@ -50,7 +50,7 @@ export default class ScreenTinygrailAdvanceState extends store {
   }
 
   @computed get advance() {
-    return tinygrailStore.advance
+    return systemStore.advance
   }
 
   @computed get advanceState() {
@@ -76,9 +76,7 @@ export default class ScreenTinygrailAdvanceState extends store {
   @computed get levelMap() {
     const { list } = this.advanceState
     const data = {}
-    list.forEach(item =>
-      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
-    )
+    list.forEach(item => (data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)))
     return data
   }
 

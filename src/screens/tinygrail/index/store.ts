@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:55:41
+ * @Last Modified time: 2024-09-09 20:16:11
  */
 import { computed, observable } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -44,21 +44,15 @@ export default class ScreenTinygrail extends store<typeof STATE> {
   errorCount = 0
 
   init = async () => {
-    tinygrailStore.fetchAdvance()
-
-    // 初始化state
-    const state = (await this.getStorage(NAMESPACE)) || {}
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       _loaded: tinygrailStore.cookie ? getTimestamp() : false
     })
 
     // 没有资产就自动授权
     const { _loaded } = await tinygrailStore.fetchAssets()
-    if (!_loaded && !DEV) {
-      await this.doAuth()
-    }
+    if (!_loaded && !DEV) await this.doAuth()
 
     // 获取资产和用户唯一标识
     await queue([
@@ -67,14 +61,10 @@ export default class ScreenTinygrail extends store<typeof STATE> {
       () => this.fetchCharaAssets()
     ])
 
-    tinygrailStore.fetchAdvance()
+    systemStore.fetchAdvance()
     this.caculateChange()
     this.fetchCount()
     this.checkCount()
-
-    // runAfter(() => {
-    //   initXsbRelationOTA()
-    // })
 
     return true
   }
@@ -131,7 +121,7 @@ export default class ScreenTinygrail extends store<typeof STATE> {
   }
 
   @computed get advance() {
-    return tinygrailStore.advance
+    return systemStore.advance
   }
 
   @computed get userInfo() {
@@ -256,7 +246,7 @@ export default class ScreenTinygrail extends store<typeof STATE> {
 
   /** 刮刮乐 */
   doLottery = async (
-    navigation: Navigation,
+    _navigation: Navigation,
 
     /** 是否幻想乡 */
     isBonus2: boolean = false

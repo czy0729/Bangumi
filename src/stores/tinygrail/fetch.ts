@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 14:56:48
+ * @Last Modified time: 2024-09-09 19:43:29
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
-import { queue, xhrCustom } from '@utils/fetch'
+import { queue } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import {
   API_TINYGRAIL_ASSETS,
@@ -45,12 +45,10 @@ import {
   API_TINYGRAIL_USERS,
   API_TINYGRAIL_VALHALL_CHARA,
   API_TINYGRAIL_VALHALL_LIST,
-  GITHUB_HOST,
   LIST_EMPTY,
   TINYGRAIL_ASSETS_LIMIT
 } from '@constants'
 import { Id, MonoId, UserId } from '@types'
-import UserStore from '../user'
 import Computed from './computed'
 import {
   INIT_ASSETS,
@@ -100,29 +98,6 @@ export default class Fetch extends Computed {
     return axios(config).catch(() => {
       if (showError) info('接口出错')
     })
-  }
-
-  /** 判断是否高级用户 */
-  fetchAdvance = async () => {
-    if (this.advance) return true
-    if (!UserStore.myId) return false
-    try {
-      const { _response } = await xhrCustom({
-        url: `${GITHUB_HOST}/raw/master/advance.json?t=${getTimestamp()}`
-      })
-      const advanceUserMap = JSON.parse(_response)
-
-      if (advanceUserMap[UserStore.myId]) {
-        const key = 'advance'
-        this.setState({
-          advance: true
-        })
-        this.save(key)
-      }
-    } catch (error) {
-      console.error(NAMESPACE, 'fetchAdvance', error)
-    }
-    return true
   }
 
   /**

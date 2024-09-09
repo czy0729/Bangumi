@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:39:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 16:52:39
+ * @Last Modified time: 2024-09-09 20:41:08
  */
 import { systemStore, userStore } from '@stores'
 import { info } from '@utils'
 import { ADVANCE_CDN } from '@constants'
-import DS from '@assets/json/advance.json'
+import advanceJSON from '@assets/json/advance.json'
 
 export async function checkAdvance() {
   if (!systemStore.advance) {
@@ -17,7 +17,7 @@ export async function checkAdvance() {
 
   const { myId, myUserId } = userStore
   if (myId || myUserId) {
-    const value = DS[myId] || DS[myUserId]
+    const value = advanceJSON[myId] || advanceJSON[myUserId]
     if (value == 1) {
       info('你是老打赏用户或特殊关照会员，允许开启')
       return true

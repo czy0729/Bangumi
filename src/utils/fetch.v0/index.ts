@@ -3,22 +3,14 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:41:28
+ * @Last Modified time: 2024-09-09 20:33:17
  */
 import dayjs from 'dayjs'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { devLog } from '@components'
 import { getTimestamp } from '@utils'
 import { Subject as BaseSubject, SubjectId, UserId } from '@types'
 import { syncSystemStore } from '../async'
 import { request } from './utils'
-import {
-  API_COLLECTIONS,
-  API_COLLECTION,
-  HOST_API_V0,
-  API_EPS_COLLECTION,
-  API_ME
-} from './ds'
+import { API_COLLECTION, API_COLLECTIONS, API_EPS_COLLECTION, API_ME, HOST_API_V0 } from './ds'
 import { Collection, CollectionItem, UserCollection, UserCollectionItem } from './types'
 
 export { HOST_API_V0, request }
@@ -123,9 +115,7 @@ async function fetchCollectionAll(userId: UserId) {
 }
 
 /** 获取在看收藏 */
-export async function fetchCollectionV0(args: {
-  userId: UserId
-}): Promise<UserCollection> {
+export async function fetchCollectionV0(args: { userId: UserId }): Promise<UserCollection> {
   const { userId } = args || {}
   const data: UserCollection = {
     list: [],
@@ -141,7 +131,7 @@ export async function fetchCollectionV0(args: {
     // devLog(`fetchv0 | all.length: ${all.length}`)
 
     if (all.length) {
-      all.forEach((item, index) => {
+      all.forEach((_item, index) => {
         const cItem = all[index]
         const subject: BaseSubject = {
           id: cItem.subject_id,

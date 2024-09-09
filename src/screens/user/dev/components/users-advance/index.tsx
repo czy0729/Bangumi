@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-09-07 04:20:03
  */
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { ScrollView, Text, Touchable } from '@components'
-import { ItemSetting, ItemFriends } from '@_'
+import { ItemFriends, ItemSetting } from '@_'
 import { usersStore } from '@stores'
 import { info } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { queue } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
-import { read } from '../db'
+import { read } from '../../db'
 import { sortByRecent } from './utils'
 import { memoStyles } from './styles'
 
@@ -29,9 +29,7 @@ function UsersAdvance({ navigation }: NavigationProps) {
     const data = JSON.parse(content)
     const uids = Object.keys(data)
     setList(
-      uids.sort((a, b) =>
-        sortByRecent(usersStore.users(a).recent, usersStore.users(b).recent)
-      )
+      uids.sort((a, b) => sortByRecent(usersStore.users(a).recent, usersStore.users(b).recent))
     )
 
     await queue(
@@ -45,9 +43,7 @@ function UsersAdvance({ navigation }: NavigationProps) {
     info('update users done')
 
     setList(
-      uids.sort((a, b) =>
-        sortByRecent(usersStore.users(a).recent, usersStore.users(b).recent)
-      )
+      uids.sort((a, b) => sortByRecent(usersStore.users(a).recent, usersStore.users(b).recent))
     )
   }, [])
 
@@ -67,11 +63,7 @@ function UsersAdvance({ navigation }: NavigationProps) {
         {show && (
           <ScrollView style={styles.scrollView}>
             {list.map(item => (
-              <ItemFriends
-                key={item}
-                navigation={navigation}
-                {...usersStore.users(item)}
-              />
+              <ItemFriends key={item} navigation={navigation} {...usersStore.users(item)} />
             ))}
           </ScrollView>
         )}

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-01-07 16:44:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 15:52:20
+ * @Last Modified time: 2024-09-09 20:39:06
  */
 import { computed, observable } from 'mobx'
 import { info } from '@utils'
 import store from '@utils/store'
-import DS from '@assets/json/advance.json'
+import advanceJSON from '@assets/json/advance.json'
 import { NAMESPACE, STATE } from './ds'
 
 export default class ScreeSponsor extends store<typeof STATE> {
@@ -24,7 +24,7 @@ export default class ScreeSponsor extends store<typeof STATE> {
 
   // -------------------- get --------------------
   @computed get list() {
-    return Object.keys(DS)
+    return Object.keys(advanceJSON)
   }
 
   // -------------------- page --------------------

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:31:42
+ * @Last Modified time: 2024-09-09 20:35:55
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, otaStore, systemStore } from '@stores'
@@ -74,7 +74,7 @@ export default class ScreenWenku extends store<typeof STATE> {
     }
 
     if (!systemStore.advance) {
-      list = list.filter((item, index) => index < ADVANCE_LIMIT)
+      list = list.filter((_item, index) => index < ADVANCE_LIMIT)
     }
 
     return list

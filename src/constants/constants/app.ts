@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 11:54:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 16:35:06
+ * @Last Modified time: 2024-09-09 20:42:09
  */
 
 /** App ID https://bgm.tv/dev/app */
@@ -52,6 +52,3 @@ export const GITHUB_RELEASE_REPOS = 'https://api.github.com/repos/czy0729/Bangum
 
 /** @deprecated */
 export const GITHUB_HOST = 'https://gitee.com/a296377710/bangumi-pro'
-
-/** @deprecated 高级会员地址 */
-export const GITHUB_ADVANCE = `${GITHUB_HOST}/raw/master/advance.json`

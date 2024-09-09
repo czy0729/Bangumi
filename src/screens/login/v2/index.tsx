@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:56:50
+ * @Last Modified time: 2024-09-09 21:09:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,8 @@ import {
   urlStringify
 } from '@utils'
 import { ob } from '@utils/decorators'
-import { hm, queue, t, xhrCustom } from '@utils/fetch'
+import { hm, queue, t } from '@utils/fetch'
+import { get } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
 import {
   APP_ID,
@@ -38,7 +39,7 @@ import { HOST_PROXY } from '@/config'
 import { Navigation } from '@types'
 import Form from './form'
 import Preview from './preview'
-import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP, URL_TOURIST } from './ds'
+import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 import { memoStyles } from './styles'
 
 /** 账号密码登录 */
@@ -104,10 +105,7 @@ class LoginV2 extends React.Component<{
     try {
       info('正在从github获取游客cookie...')
 
-      const { _response } = await xhrCustom({
-        url: URL_TOURIST
-      })
-      const { accessToken, userCookie } = JSON.parse(_response)
+      const { accessToken, userCookie } = await get('tourist')
       userStore.updateAccessToken(accessToken)
 
       const { navigation } = this.props

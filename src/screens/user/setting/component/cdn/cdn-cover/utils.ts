@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-04-21 17:43:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-21 17:49:23
+ * @Last Modified time: 2024-09-09 20:40:55
  */
 import { systemStore, userStore } from '@stores'
 import { info } from '@utils'
 import { ADVANCE_CDN } from '@constants'
-import DS from '@assets/json/advance.json'
+import advanceJSON from '@assets/json/advance.json'
 
 export function waitToResetCDN() {
   setTimeout(() => {
@@ -19,7 +19,7 @@ export function waitToResetCDN() {
 export async function checkAdvance() {
   const { myId, myUserId } = userStore
   if (myId || myUserId) {
-    const value = DS[myId] || DS[myUserId]
+    const value = advanceJSON[myId] || advanceJSON[myUserId]
     if (value == 1) {
       info('你是老打赏用户或特殊关照会员，允许开启')
       return true
