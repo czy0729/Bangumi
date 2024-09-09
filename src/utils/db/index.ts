@@ -15,7 +15,7 @@ let accessToken = ''
 let ua = ''
 
 /**
- * 密码模式
+ * @deprecated 密码模式
  * @doc https://gitee.com/api/v5/oauth_doc#/list-item-2
  */
 export async function oauth() {
@@ -41,7 +41,7 @@ export async function oauth() {
 }
 
 /**
- * 获取仓库具体路径下的内容
+ * @deprecated 获取仓库具体路径下的内容
  * @doc https://gitee.com/api/v5/swagger#/getV5ReposOwnerRepoContents(Path)
  * @param {*} path
  */
@@ -72,7 +72,7 @@ export async function read({ path }) {
 }
 
 /**
- * 新建文件
+ * @deprecated 新建文件
  * @doc https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
  */
 export async function add({ path, content, message }) {
@@ -143,7 +143,7 @@ export async function update({ path, content, sha, message }) {
   return FILE_CACHES[path]
 }
 
-/** @deprecated  自动写入 */
+/** @deprecated 自动写入 */
 export async function put({
   path,
   content,

@@ -14,8 +14,8 @@ import {
   MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
-  STORYBOOK,
-  VERSION_GITHUB_RELEASE
+  VERSION_GITHUB_RELEASE,
+  WEB
 } from '@constants'
 import { radiusMd } from '@styles'
 import {
@@ -83,26 +83,26 @@ export const INIT_SUBJECT_LAYOUT = {
   showRelations: true as LayoutValue,
 
   /** 目录 */
-  showCatalog: (false || STORYBOOK) as LayoutValue,
+  showCatalog: (false || WEB) as LayoutValue,
 
   /** 动态 */
-  showRecent: (false || STORYBOOK) as LayoutValue,
+  showRecent: (false || WEB) as LayoutValue,
 
   /** 日志 */
-  showBlog: (false || STORYBOOK) as LayoutValue,
+  showBlog: (false || WEB) as LayoutValue,
 
   /** 帖子 */
-  showTopic: (false || STORYBOOK) as LayoutValue,
+  showTopic: (false || WEB) as LayoutValue,
 
   /** 猜你喜欢 */
-  showLike: (false || STORYBOOK) as LayoutValue,
+  showLike: (false || WEB) as LayoutValue,
 
   /** 吐槽 */
   showComment: true as LayoutValue
 } as const
 
 /** 发现页自定义菜单 */
-export const INIT_DISCOVERY_MENU = STORYBOOK
+export const INIT_DISCOVERY_MENU = WEB
   ? ([
       'Rank',
       'Anime',
@@ -172,7 +172,7 @@ export const INIT_SETTING = {
   coverRadius: radiusMd,
 
   /* 圆角过渡 */
-  squircle: STORYBOOK,
+  squircle: WEB,
 
   /** 使用 CDN 加速 */
   cdn: false,
@@ -338,13 +338,13 @@ export const INIT_SETTING = {
   subjectTagsExpand: true,
 
   /** 条目标签是否显示优于同类型百分比 */
-  subjectTagsRec: STORYBOOK,
+  subjectTagsRec: WEB,
 
   /** 条目发布日期是否显示到月份 */
   subjectShowAirdayMonth: true,
 
   /** 突出显示源头按钮 */
-  focusOrigin: STORYBOOK,
+  focusOrigin: WEB,
 
   /** 若有自定义跳转隐藏通用源头按钮 */
   focusAction: false,
@@ -390,16 +390,16 @@ export const INIT_SETTING = {
   likeCollected: true,
 
   /** 启用毛玻璃布局 (android) */
-  androidBlur: STORYBOOK,
+  androidBlur: WEB,
 
   /** 毛玻璃: 首屏页面顶部和底部 (android) */
-  blurBottomTabs: STORYBOOK,
+  blurBottomTabs: WEB,
 
   /** 毛玻璃: 轻提示 (android) */
-  blurToast: STORYBOOK,
+  blurToast: WEB,
 
   /** 毛玻璃: 模态框 (android) */
-  blurModal: STORYBOOK,
+  blurModal: WEB,
 
   /** 自定义百度翻译 APP ID */
   baiduAppId: '',

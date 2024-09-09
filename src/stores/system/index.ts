@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-17 21:53:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 13:13:33
+ * @Last Modified time: 2024-09-09 16:56:52
  */
 import { getTimestamp } from '@utils'
-import { DEV, STORYBOOK } from '@constants'
+import { D7, DEV, WEB } from '@constants'
 import UserStore from '../user'
 import Action from './action'
 import { NAMESPACE } from './init'
@@ -28,7 +28,7 @@ class SystemStore extends Action {
     )
 
     // 优先度: 高
-    if (!STORYBOOK) {
+    if (!WEB) {
       // 优先度: 中
       setTimeout(() => {
         this.setState({
@@ -38,7 +38,7 @@ class SystemStore extends Action {
         if (!DEV) this.fetchRelease()
 
         const now = getTimestamp()
-        if (this.advance && now - this.advanceDetail._loaded >= 60 * 60 * 24 * 7) {
+        if (this.advance && now - this.advanceDetail._loaded >= D7) {
           this.fetchAdvanceDetail()
         }
 

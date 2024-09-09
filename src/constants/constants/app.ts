@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 11:54:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 12:04:56
+ * @Last Modified time: 2024-09-09 16:35:06
  */
 
 /** App ID https://bgm.tv/dev/app */
@@ -48,12 +48,10 @@ export const GITHUB_PROJECT_GH = 'https://czy0729.github.io/Bangumi'
 export const GITHUB_RELEASE = `${GITHUB_PROJECT}/releases`
 
 /** 检测发版版本地址 */
-export const GITHUB_RELEASE_REPOS = 'https://api.github.com/repos/czy0729/Bangumi/releases'
+export const GITHUB_RELEASE_REPOS = 'https://api.github.com/repos/czy0729/Bangumi/releases/latest'
 
+/** @deprecated */
 export const GITHUB_HOST = 'https://gitee.com/a296377710/bangumi-pro'
 
-/** 热数据地址 */
-export const GITHUB_DATA = `${GITHUB_HOST}/raw/master/data.json`
-
-/** 高级会员地址 */
+/** @deprecated 高级会员地址 */
 export const GITHUB_ADVANCE = `${GITHUB_HOST}/raw/master/advance.json`

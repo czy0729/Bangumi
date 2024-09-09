@@ -2,117 +2,106 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:15:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-23 15:18:08
+ * @Last Modified time: 2024-09-09 18:26:29
  */
 import { getTimestamp, info } from '@utils'
-import { xhrCustom } from '@utils/fetch'
-import {
-  GITHUB_ADVANCE,
-  GITHUB_DATA,
-  GITHUB_RELEASE_REPOS,
-  IOS,
-  VERSION_GITHUB_RELEASE
-} from '@constants'
-import UserStore from '../user'
+import { get } from '@utils/kv'
+import { GITHUB_RELEASE_REPOS, IOS, VERSION_GITHUB_RELEASE } from '@constants'
+import advanceJSON from '@assets/json/advance.json'
+import { ResponseGHReleases, ResponseKVAdvance } from '@types'
+import userStore from '../user'
 import Computed from './compouted'
 
 export default class Fetch extends Computed {
-  /** @deprecated 检查云端数据 */
-  fetchOTA = async () => {
-    let res: Promise<any>
-    try {
-      res = fetch(`${GITHUB_DATA}?t=${getTimestamp()}`).then(response =>
-        response.json()
-      )
-
-      const ota = (await res) || {}
-      this.setState({
-        ota
-      })
-      this.save('ota')
-    } catch (error) {}
-    return res
-  }
-
   /** 检查新版本 */
   fetchRelease = async () => {
-    let res
     try {
-      res = fetch(GITHUB_RELEASE_REPOS).then(response => response.json())
-      const data = await res
+      const data: ResponseGHReleases = await fetch(GITHUB_RELEASE_REPOS).then(response =>
+        response.json()
+      )
+      const { name, assets = [] } = data
+      const currentVersion = this.state.release.name || VERSION_GITHUB_RELEASE
+      if (name !== currentVersion) {
+        this.setState({
+          release: {
+            name,
+            downloadUrl: assets?.[0]?.browser_download_url
+          }
+        })
+        this.save('release')
 
-      const { name: githubVersion, assets = [] } = data[0]
-      const { browser_download_url: downloadUrl } = assets[0]
-      const { name: currentVersion } = this.state.release
-      if (githubVersion !== (currentVersion || VERSION_GITHUB_RELEASE)) {
         // iOS 不允许提示更新
         if (!IOS) {
           setTimeout(() => {
-            info('有新版本, 可到设置里下载')
+            info('有新版本, 可到设置里查看')
           }, 1600)
         }
-
-        const release = {
-          name: githubVersion,
-          downloadUrl
-        }
-        this.setState({
-          release
-        })
-        this.save('release')
       }
-    } catch (error) {}
-    return res
+    } catch (error) {
+      err('fetchRelease')
+    }
   }
 
   /** 判断是否高级用户 */
   fetchAdvance = async () => {
     if (this.advance) return true
 
-    const { myId, myUserId } = UserStore
-    if (!myId || !myUserId) return false
+    const { myId, myUserId } = userStore
+    if (!myId && !myUserId) return false
 
     try {
-      const { _response } = await xhrCustom({
-        url: `${GITHUB_ADVANCE}?t=${getTimestamp()}`
-      })
-      const advanceUserMap = JSON.parse(_response)
+      let flag = false
+      if (advanceJSON[myId] || advanceJSON[myUserId]) {
+        flag = true
+      } else {
+        const data: ResponseKVAdvance = (await get('advance')) || {}
+        if (data[myId] || data[myUserId]) flag = true
+      }
 
-      if (advanceUserMap[myId] || advanceUserMap[myUserId]) {
+      if (flag) {
         const key = 'advance'
         this.setState({
-          advance: true
+          [key]: true
         })
         this.save(key)
-      }
-    } catch (error) {}
 
-    return true
+        return true
+      }
+    } catch (error) {
+      err('fetchAdvance')
+    }
+
+    return false
   }
 
   /** 请求自己的打赏信息 */
   fetchAdvanceDetail = async () => {
-    const { myId, myUserId } = UserStore
-    if (!myId || !myUserId) return false
+    const { myId, myUserId } = userStore
+    if (!myId && !myUserId) return false
 
     try {
-      const { _response } = await xhrCustom({
-        url: `${GITHUB_ADVANCE}?t=${getTimestamp()}`
-      })
-      const data = JSON.parse(_response)
+      const data: ResponseKVAdvance = (await get('advance')) || {}
+      const value = {
+        ...advanceJSON,
+        ...data,
+        _loaded: getTimestamp()
+      }
 
       const key = 'advanceDetail'
       this.setState({
-        [key]: {
-          ...data,
-          _loaded: getTimestamp()
-        }
+        [key]: value
       })
       this.save(key)
 
-      return data[myId] || data[myUserId]
+      return value[myId] || value[myUserId]
     } catch (error) {
-      return 0
+      err('fetchAdvanceDetail')
     }
+
+    return 0
   }
+}
+
+function err(name: string, desc: string = 'catch error') {
+  console.info('[@stores/system/fetch.ts]', name, desc)
 }
