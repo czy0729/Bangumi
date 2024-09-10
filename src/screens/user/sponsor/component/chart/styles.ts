@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 03:01:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 16:20:29
+ * @Last Modified time: 2024-09-10 13:51:27
  */
 import { _ } from '@stores'
 
@@ -17,12 +17,21 @@ export const memoStyles = _.memoStyles(() => ({
   refresh: {
     marginRight: -24
   },
+  touch: {
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    marginHorizontal: 2
+  },
+  block: {
+    width: '80%',
+    marginTop: _.sm
+  },
   l: {
-    width: 14,
-    height: 14,
-    marginRight: 4,
+    width: 18,
+    height: 18,
+    marginRight: 6,
     borderRadius: 4,
-    borderWidth: _.hairlineWidth,
+    borderWidth: 1,
     borderColor: _.colorBorder,
     overflow: 'hidden'
   },

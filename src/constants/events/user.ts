@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:42:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-22 04:29:59
+ * @Last Modified time: 2024-09-10 13:59:06
  */
 
 /** User */
@@ -89,6 +89,8 @@ export default {
 
   // 赞助者
   '赞助者.跳转': 'Sponsor.to',
+  '赞助者.切换布局': 'Sponsor.toggle',
+  '赞助者.提示': 'Sponsor.info',
 
   // 本地备份
   '本地备份.获取': 'Backup.get',

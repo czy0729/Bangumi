@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:38:43
+ * @Last Modified time: 2024-09-10 13:46:02
  */
 import { useCallback, useState } from 'react'
 import dayjs from 'dayjs'
@@ -12,7 +12,7 @@ import { update } from '@utils/kv'
 import treemap from '@utils/thirdParty/treemap'
 import { IOS } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
-import { AnyObject } from '@types'
+import { AnyObject, UserId } from '@types'
 import { FILTER_RATE, LIST } from './ds'
 
 export function timeDiff() {
@@ -41,21 +41,52 @@ export function timeDiff() {
   return `${y}年${m}月${d}日${h}时${i}分${s}秒`
 }
 
-let filterUserIdsCache = []
+let memo: UserId[] = []
 
 /** treemap 加权计算 */
 export function useTreemapSquarify() {
-  const [filterUserIds, setFilterUserIds] = useState([...filterUserIdsCache])
-  const setFilter = useCallback(
-    (id: any) => {
+  const [filterUserIds, setFilterUserIds] = useState([...memo])
+
+  /** 过滤一个用户 */
+  const handleFilter = useCallback(
+    (id: UserId) => {
       setFilterUserIds([...filterUserIds, id])
-      filterUserIdsCache = [...filterUserIds, id]
+      memo = [...filterUserIds, id]
     },
     [filterUserIds, setFilterUserIds]
   )
-  const resetFilter = useCallback(() => {
+
+  /** 过滤一组用户 */
+  const handleBatchFilter = useCallback(
+    (range: 10 | 20 | 50 | 200) => {
+      const filterUserIds = Object.entries(advanceJSON)
+        .filter(([, value]) => {
+          let amount: number = 0
+          if (value === 1) {
+            amount = 10
+          } else if (typeof value === 'string') {
+            const [, temp] = value.split('|')
+            amount = Number(temp)
+          }
+
+          if (!amount) return true
+          if (range === 200) return !(amount >= 200)
+          if (range === 50) return !(amount < 200 && amount >= 50)
+          if (range === 20) return !(amount < 50 && amount >= 20)
+          if (range === 10) return !(amount < 20 && amount >= 10)
+          return true
+        })
+        .map(([key]) => key)
+
+      setFilterUserIds([...filterUserIds])
+    },
+    [setFilterUserIds]
+  )
+
+  /** 重置过滤 */
+  const handleResetFilter = useCallback(() => {
     setFilterUserIds([])
-    filterUserIdsCache = []
+    memo = []
   }, [setFilterUserIds])
 
   let list = LIST.filter(item => !filterUserIds.includes(item.data))
@@ -94,7 +125,7 @@ export function useTreemapSquarify() {
           x: 0,
           y: 0,
           width: _.window.width,
-          height: _.window.height - _.headerHeight - 56 - (IOS ? 28 : 0)
+          height: _.window.height - _.headerHeight - 64 - (IOS ? 28 : 0)
         },
         nodes
       },
@@ -116,8 +147,9 @@ export function useTreemapSquarify() {
     filterLength: filterUserIds.length,
     filterCount,
     filterTotal,
-    setFilter,
-    resetFilter
+    handleFilter,
+    handleBatchFilter,
+    handleResetFilter
   }
 }
 
@@ -128,7 +160,7 @@ function caculateTotal(nodes: any[]) {
 }
 
 export async function devGetUsersInfo() {
-  console.info('devGetUsersInfo')
+  console.info('devGetUsersInfo start')
 
   const USERS_MAP = {}
   const items = Object.keys(advanceJSON)
@@ -137,7 +169,7 @@ export async function devGetUsersInfo() {
       const data = await usersStore.fetchUsers({
         userId
       })
-      console.info(`${index} / ${items.length}`)
+      console.info(`devGetUsersInfo ${index} / ${items.length}`)
 
       USERS_MAP[userId] = {
         n: data.userName
@@ -152,7 +184,7 @@ export async function devGetUsersInfo() {
 
   update('sponsor_users_map', USERS_MAP)
 
-  console.info('done')
+  console.info('devGetUsersInfo done')
 }
 
 export async function devLocalUsersInfo() {

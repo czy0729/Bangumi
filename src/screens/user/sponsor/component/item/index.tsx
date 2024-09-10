@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-10 13:52:20
+ * @Last Modified time: 2024-09-10 13:39:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import { ViewStyle } from '@types'
@@ -85,7 +86,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
                       : IMG_DEFAULT_AVATAR
                   }
                   size={avatarSize}
-                  radius={avatarSize * 0.36}
+                  radius={Math.floor(avatarSize * 0.28)}
                   borderWidth={0}
                 />
               </UserStatus>
@@ -101,7 +102,7 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
               align='center'
               selectable={false}
             >
-              {USERS_MAP[data]?.n}
+              {HTMLDecode(USERS_MAP[data]?.n)}
             </Text>
           </Flex>
         </Flex>

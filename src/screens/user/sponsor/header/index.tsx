@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-10 13:55:23
+ * @Last Modified time: 2024-09-10 13:59:29
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { timeDiff } from '../utils'
 import { COMPONENT } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   const { list } = $.state
   return (
     <HeaderComp
@@ -43,6 +44,8 @@ function Header(props, { $, navigation }: Ctx) {
                   '数据不定期更新，感谢各位的支持！'
                 ]
               })
+
+              t('赞助者.提示')
             }}
           />
         </Flex>

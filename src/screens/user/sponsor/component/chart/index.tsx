@@ -2,35 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 16:19:49
+ * @Last Modified time: 2024-09-10 13:51:13
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text } from '@components'
+import { Flex, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { Navigation } from '@types'
+import { NavigationProps } from '@types'
 import { USERS_MAP } from '../../ds'
 import { useTreemapSquarify } from '../../utils'
 import Item from '../item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Chart({ navigation }: { navigation: Navigation }) {
+function Chart({ navigation }: NavigationProps) {
   r(COMPONENT)
 
   const styles = memoStyles()
-  const { data, filterLength, filterCount, setFilter, resetFilter } = useTreemapSquarify()
+  const { data, filterLength, filterCount, handleFilter, handleBatchFilter, handleResetFilter } =
+    useTreemapSquarify()
   return useObserver(() => (
     <>
       <Flex style={styles.filter} direction='column' justify='center'>
         <Flex>
           {filterLength ? (
             <>
-              <Text size={13} bold>
+              <Text size={12} bold>
                 已隐藏 {filterLength} 格，还有 {filterCount} 格未显示
               </Text>
               <View style={styles.refresh}>
@@ -38,34 +39,50 @@ function Chart({ navigation }: { navigation: Navigation }) {
                   name='md-refresh'
                   color={_.colorDesc}
                   size={18}
-                  onPress={() => resetFilter()}
+                  onPress={() => handleResetFilter()}
                 />
               </View>
             </>
           ) : (
-            <Text size={13} bold>
-              还有 {filterCount} 格未显示，点击方格隐藏
+            <Text size={12} bold>
+              还有 {filterCount} 格未显示，点击方格隐藏，点击色块显示区间
             </Text>
           )}
         </Flex>
         {!filterLength && (
-          <Flex style={_.mt.sm}>
-            <View style={[styles.l, styles.l4]} />
-            <Text style={_.mr.sm} size={10} bold>
-              ≥ 200
-            </Text>
-            <View style={[styles.l, styles.l3]} />
-            <Text style={_.mr.sm} size={10} bold>
-              ≥ 50
-            </Text>
-            <View style={[styles.l, styles.l2]} />
-            <Text style={_.mr.sm} size={10} bold>
-              ≥ 20
-            </Text>
-            <View style={[styles.l, styles.l1]} />
-            <Text style={_.mr.sm} size={10} bold>
-              ≥ 10
-            </Text>
+          <Flex style={styles.block} justify='around'>
+            <Touchable style={styles.touch} onPress={() => handleBatchFilter(200)}>
+              <Flex>
+                <View style={[styles.l, styles.l4]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 200
+                </Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => handleBatchFilter(50)}>
+              <Flex>
+                <View style={[styles.l, styles.l3]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 50
+                </Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => handleBatchFilter(20)}>
+              <Flex>
+                <View style={[styles.l, styles.l2]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 20
+                </Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => handleBatchFilter(10)}>
+              <Flex>
+                <View style={[styles.l, styles.l1]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 10
+                </Text>
+              </Flex>
+            </Touchable>
           </Flex>
         )}
       </Flex>
@@ -75,7 +92,7 @@ function Chart({ navigation }: { navigation: Navigation }) {
             key={item.data}
             {...item}
             onPress={() => {
-              setFilter(item.data)
+              handleFilter(item.data)
             }}
             onLongPress={
               systemStore.advance
