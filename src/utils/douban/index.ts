@@ -3,12 +3,12 @@
  * @Author: czy0729
  * @Date: 2022-06-21 23:43:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-14 14:17:55
+ * @Last Modified time: 2024-09-10 17:59:01
  */
-import { desc, similar, sleep } from '../utils'
 import { xhrCustom } from '../fetch'
 import { cheerio } from '../html'
-import { DoubanId, Cat, SubType, SearchItem, VideoItem, TrailerItem } from './types'
+import { desc, similar, sleep } from '../utils'
+import { Cat, DoubanId, SearchItem, SubType, TrailerItem, VideoItem } from './types'
 
 const HOST = 'https://www.douban.com'
 
@@ -32,12 +32,7 @@ const HTML_SUBJECT = (doubanId: DoubanId) => {
 }
 
 /** 预览页 */
-const HTML_PREVIEW = (
-  doubanId: DoubanId,
-  cat?: Cat,
-  subtype: SubType = 'o',
-  start = 0
-) => {
+const HTML_PREVIEW = (doubanId: DoubanId, cat?: Cat, subtype: SubType = 'o', start = 0) => {
   if (cat === 'game') {
     return `https://www.douban.com/game/${doubanId}/photos/?type=1&start=0&sortby=hot`
   }
@@ -71,7 +66,7 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
   try {
     return (
       $('.result .content')
-        .map((index: number, element) => {
+        .map((_index: number, element) => {
           const $row = cheerio(element)
           const $a = $row.find('h3 a')
           const cast = removeSpecial($row.find('.subject-cast').text().trim()) || ''
@@ -86,9 +81,7 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
         .get() || []
     )
       .filter((item: SearchItem) => item.id)
-      .sort((a: SearchItem, b: SearchItem) =>
-        desc(similar(q, a.title), similar(q, b.title))
-      )
+      .sort((a: SearchItem, b: SearchItem) => desc(similar(q, a.title), similar(q, b.title)))
   } catch (error) {
     return []
   }
@@ -99,22 +92,34 @@ export async function search(q: string, cat?: Cat): Promise<SearchItem[]> {
  * @param q
  * @param result
  */
-export function matchMovie(
-  q: string,
-  result: SearchItem[],
-  jp?: string,
-  year?: string
-): DoubanId {
+export function matchMovie(q: string, result: SearchItem[], jp?: string, year?: string): DoubanId {
   const SIMILAR_RATE = 0.7
   const _q = removeSpecial(q)
   let doubanId: DoubanId = false
 
   // 原名最优先
   result.forEach(item => {
+    if (doubanId) return
+    if (year && item.year && year != item.year) return
     if (item.name && item.name === jp) doubanId = item.id
   })
 
-  // 先匹配标题
+  // 必须命中年份, 然后匹配标题相似度
+  result.forEach(item => {
+    if (doubanId) return
+    if (
+      year &&
+      item.year &&
+      item.year == year &&
+      item.name &&
+      jp &&
+      similar(removeSpecial(item.name), removeSpecial(jp)) >= SIMILAR_RATE
+    ) {
+      doubanId = item.id
+    }
+  })
+
+  // 标题相似度
   result.forEach(item => {
     if (doubanId) return
     if (similar(item.title, _q) < SIMILAR_RATE) {
@@ -124,6 +129,7 @@ export function matchMovie(
       const _jp = item.desc.split(' / ')[0].replace('原名:', '')
       if (similar(_jp, jp || q) < 0.7) return
     }
+
     doubanId = item.id
   })
 
@@ -223,13 +229,13 @@ export async function getPreview(
   return {
     data: (
       $(isGame ? '.pholist img' : '.cover img')
-        .map((index: number, element) => {
+        .map((_index: number, element) => {
           let src = cheerio(element).attr('src').replace('http://', 'https://')
           if (isGame) src = src.replace('/photo/thumb/', '/photo/photo/')
           return src
         })
         .get() || []
-    ).filter((item, index: number) => index < maxCount),
+    ).filter((_item, index: number) => index < maxCount),
     referer: HTML_SUBJECT(doubanId)
   }
 }
@@ -262,7 +268,7 @@ export async function getTrailer(
   return {
     data: (
       $('.pr-video')
-        .map((index: number, element) => {
+        .map((_index: number, element) => {
           const $row = cheerio(element)
           return {
             cover: $row.find('img').attr('src').replace('http://', 'https://'),
@@ -271,7 +277,7 @@ export async function getTrailer(
           }
         })
         .get() || []
-    ).filter((item, index: number) => index < maxCount),
+    ).filter((_item, index: number) => index < maxCount),
     referer: url
   }
 }
@@ -304,7 +310,7 @@ export async function getVideo(
 
   const _videos: VideoItem[] = (
     $('.video-list li')
-      .map((index: number, element) => {
+      .map((_index: number, element) => {
         const $row = cheerio(element)
         const $a = $row.find('p a')
         return {
@@ -315,7 +321,7 @@ export async function getVideo(
         }
       })
       .get() || []
-  ).filter((item, index: number) => index < 3)
+  ).filter((_item, index: number) => index < 3)
 
   for (let i = 0; i < _videos.length; i += 1) {
     const { _response } = await xhrCustom({
@@ -328,14 +334,14 @@ export async function getVideo(
   }
 
   return {
-    data: _videos
-      .filter(item => item.src)
-      .filter((item, index: number) => index < maxCount),
+    data: _videos.filter(item => item.src).filter((_item, index: number) => index < maxCount),
     referer: url
   }
 }
 
 /** 简单去除特殊干扰分析的字符 */
 function removeSpecial(str: any) {
-  return String(str).replace(/ |(&amp;)|-|：|《|》|（|）|“|”|，|。|之/g, '')
+  return String(str)
+    .replace(/ |(&amp;)|-|：|《|》|（|）|“|”|，|。|之/g, '')
+    .toLocaleLowerCase()
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 21:02:18
+ * @Last Modified time: 2024-09-10 17:58:37
  */
 import {
   collectionStore,
@@ -483,7 +483,7 @@ export default class Fetch extends Computed {
         // 7 天更新一次
         getTimestamp() - ts >= D7 ||
         // 最后一次逻辑修正的时间戳
-        ts < getTimestamp('2023-07-14 14:00:00')
+        ts < getTimestamp('2024-09-10 18:00:00')
       ) {
         return true
       }
