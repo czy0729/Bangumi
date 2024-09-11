@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-07 01:26:44
+ * @Last Modified time: 2024-09-11 16:46:55
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -149,13 +149,16 @@ export type RouteHentai = (
   }
 ) => any
 
-export type RouteUserTimeline = (
-  path: 'UserTimeline',
-  params: {
+export type RouteUserTimeline = Route<
+  'UserTimeline',
+  {
+    /** 用户 id, 不传递使用自己的 id */
     userId?: UserId
+
+    /** 用户昵称 */
     userName?: string
   }
-) => any
+>
 
 export type RouteSay = Route<
   'Say',

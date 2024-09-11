@@ -1,53 +1,36 @@
 /*
  * @Author: czy0729
- * @Date: 2020-07-20 16:30:49
+ * @Date: 2024-09-11 16:47:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 11:32:53
+ * @Last Modified time: 2024-09-11 19:16:26
  */
 import { computed } from 'mobx'
-import { usersStore, collectionStore, timelineStore } from '@stores'
+import { collectionStore, timelineStore, usersStore } from '@stores'
 import { date, getTimestamp, pad } from '@utils'
-import store from '@utils/store'
-import { DEFAULT_SCOPE, DEFAULT_TYPE } from './ds'
-import { Params } from './types'
+import { D } from '@constants'
+import { DEFAULT_SCOPE, DEFAULT_TYPE } from '../ds'
+import State from './state'
 
-export default class ScreenUserTimeline extends store<null> {
-  params: Params
-
-  init = () => {
-    if (this.userId) {
-      this.fetchMosaicTile()
-      setTimeout(async () => {
-        if (!this.users._loaded) {
-          usersStore.fetchUsers({
-            userId: this.userId
-          })
-        }
-
-        await this.fetchTimeline(true)
-        this.fetchTimeline()
-      }, 1000)
-    }
-  }
-
-  // -------------------- get --------------------
+export default class Computed extends State {
   @computed get userId() {
-    const { userId } = this.params
-    return userId
+    return this.params.userId
   }
 
+  /** 用户信息 */
   @computed get users() {
     return usersStore.users(this.userId)
   }
 
+  /** 加入 Bangumi 多少天 */
   @computed get days() {
     const { join } = this.users
     if (!join) return '-'
 
     const ts = getTimestamp(join.replace(' 加入', ''))
-    return Math.floor((getTimestamp() - ts) / 24 / 60 / 60)
+    return Math.floor((getTimestamp() - ts) / D)
   }
 
+  /** 瓷砖进度 */
   @computed get mosaicTile() {
     return collectionStore.mosaicTile
   }
@@ -63,7 +46,7 @@ export default class ScreenUserTimeline extends store<null> {
         if (_date === '今天') {
           _date = date('Y-m-d', getTimestamp())
         } else if (_date === '昨天') {
-          _date = date('Y-m-d', getTimestamp() - 24 * 60 * 60)
+          _date = date('Y-m-d', getTimestamp() - D)
         } else {
           _date = String(_date)
             .split('-')
@@ -162,31 +145,5 @@ export default class ScreenUserTimeline extends store<null> {
       }
     })
     return sections
-  }
-
-  // -------------------- fetch --------------------
-  /** 瓷砖进度数据 */
-  fetchMosaicTile = () => {
-    return collectionStore.fetchMosaicTile({
-      userId: this.userId
-    })
-  }
-
-  /** 获取自己视角的时间胶囊 */
-  fetchTimeline = (refresh: boolean = false) => {
-    return timelineStore.fetchTimeline(
-      {
-        scope: DEFAULT_SCOPE,
-        type: DEFAULT_TYPE,
-        userId: this.userId
-      },
-      refresh
-    )
-  }
-
-  /** 下拉刷新 */
-  onHeaderRefresh = async () => {
-    await this.fetchMosaicTile()
-    return this.fetchTimeline(true)
   }
 }

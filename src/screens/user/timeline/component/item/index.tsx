@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-26 15:28:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:59:56
+ * @Last Modified time: 2024-09-11 19:16:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -34,17 +34,17 @@ function Item({ subject, action }, { navigation }: Ctx) {
             <Touchable
               animate
               onPress={() => {
-                t('时间线.跳转', {
-                  to: 'Suject',
-                  subjectId: i.id
-                })
-
                 navigation.push('Subject', {
                   subjectId: i.id,
                   _cn: cn,
                   _jp: i.name,
                   _image: getCoverSrc(i.cover, WIDTH),
                   _type: type
+                })
+
+                t('时间线.跳转', {
+                  to: 'Suject',
+                  subjectId: i.id
                 })
               }}
             >

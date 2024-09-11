@@ -7,7 +7,7 @@
     "dev": "expo start",
     "dev:offline": "EXPO_USE_EXOTIC=0 expo start --offline",
     "postinstall": "patch-package",
-    "env": "node ./packages/env.js",
+    "env": "sudo node ./packages/env.js",
     "k": "sudo purge",
     "kj": "ps -ef | grep java | awk 'NR==1 {print $2}' | xargs kill -15",
     "kp": "lsof -i :8081 | awk 'NR>1 {print $2}' | xargs kill",

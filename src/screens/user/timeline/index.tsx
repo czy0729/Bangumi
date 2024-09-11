@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:43:47
+ * @Last Modified time: 2024-09-11 18:30:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 用户的时间线 */
-const UserTimeline = (props, { $ }: Ctx) => {
+const UserTimeline = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

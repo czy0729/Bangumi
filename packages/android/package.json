@@ -7,7 +7,7 @@
     "dev": "expo run:android",
     "metro": "expo start --no-dev",
     "postinstall": "patch-package",
-    "env": "node ./packages/env.js",
+    "env": "sudo node ./packages/env.js",
     "k": "sudo purge",
     "clean": "cd android && sudo ./gradlew clean",
     "build": "cd android && sudo ./gradlew assembleRelease && cd .. && node web/rename.js",

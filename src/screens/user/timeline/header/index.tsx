@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 02:01:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:46:07
+ * @Last Modified time: 2024-09-11 18:31:49
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
@@ -12,7 +12,7 @@ import { info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   const { userName } = $.params
   return (
     <HeaderComp

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-29 23:55:13
+ * @Last Modified time: 2024-09-11 18:31:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import Item from '../item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <View style={styles.container}>

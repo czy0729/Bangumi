@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-20 15:22:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 15:46:14
+ * @Last Modified time: 2024-09-11 16:47:20
  */
 import { factory } from '@utils'
-import { Navigation, UserId } from '@types'
+import { GetRouteParams, Navigation, RouteUserTimeline } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,7 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  userId?: UserId
-  userName?: string
-}
+export type Params = GetRouteParams<RouteUserTimeline>

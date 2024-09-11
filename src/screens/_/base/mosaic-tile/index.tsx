@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:34:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:09:35
+ * @Last Modified time: 2024-09-11 19:11:14
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -46,7 +46,7 @@ export const MosaicTile = ob(({ mosaicTile }: MosaicTileProps) => {
       delete measureDays[key]
     }
   })
-  const months = new Array(12).fill(0).map((item, index) => index + 1)
+  const months = new Array(12).fill(0).map((_item, index) => index + 1)
   const today = date('Y-m-d', getTimestamp())
   const colors = {
     1: _.select('#ffd8db', 'rgba(254, 138, 149, 0.32)'),
@@ -56,7 +56,7 @@ export const MosaicTile = ob(({ mosaicTile }: MosaicTileProps) => {
     5: _.select('#fd293d', 'rgba(254, 138, 149, 1)')
   }
   return (
-    <Flex style={styles.container}>
+    <Flex style={styles.container} align='start'>
       <View style={styles.days}>
         <Text
           style={[
