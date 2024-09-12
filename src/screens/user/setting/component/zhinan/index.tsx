@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-01-21 13:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 10:10:15
+ * @Last Modified time: 2024-09-11 19:46:13
  */
 import React from 'react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
-import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import AppZhinan from './app-zhinan'
 import Privacy from './privacy'
@@ -33,7 +32,7 @@ function Zhinan({ navigation, filter }) {
         <ItemSetting hd='更多' arrow highlight filter={filter} onPress={setTrue} />
         <ActionSheet show={state} title='更多' onClose={setFalse}>
           {shows.topic && <RepoTopic navigation={navigation} filter={filter} setFalse={setFalse} />}
-          {!WEB && shows.serverStatus && <ServerStatus navigation={navigation} filter={filter} />}
+          {shows.serverStatus && <ServerStatus navigation={navigation} filter={filter} />}
           {shows.github && <RepoGithub filter={filter} />}
           {shows.zhinan && (
             <AppZhinan navigation={navigation} filter={filter} setFalse={setFalse} />

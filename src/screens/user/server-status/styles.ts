@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-20 11:23:48
+ * @Last Modified time: 2024-09-11 20:11:05
  */
 import { _ } from '@stores'
 
@@ -46,6 +46,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   btnCheck: {
     width: '100%',
+    minWidth: 64,
     borderRadius: 16,
     overflow: 'hidden'
   }

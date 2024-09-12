@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-19 10:56:58
+ * @Last Modified time: 2024-09-13 01:09:22
  */
 import { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import {
@@ -10,6 +10,7 @@ import {
   DeepPartial,
   Images,
   ListEmpty,
+  Override,
   SubjectId,
   SubjectType,
   SubjectTypeCn,
@@ -82,6 +83,19 @@ export type PmItem = {
   time: string
   date?: string
 }
+
+export type PmDetail = Override<
+  ListEmpty<PmItem>,
+  {
+    form?: {
+      related: string
+      msg_receivers: string
+      current_msg_id: string
+      formhash: string
+      msg_title: string
+    }
+  }
+>
 
 export type PmParamsItem = {
   formhash: string

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:09:19
+ * @Last Modified time: 2024-09-11 20:11:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -101,7 +101,7 @@ class ServerStatus extends React.Component {
     let sum = 0
 
     // 通常第一个记录不准确很慢, 排除
-    msg.filter((item, index) => !!index).forEach(item => (sum += item || 5000))
+    msg.filter((_item, index) => !!index).forEach(item => (sum += item || 5000))
 
     const avg = sum / msg.length
     if (avg <= 150) return 'Success'
@@ -136,9 +136,9 @@ class ServerStatus extends React.Component {
               </View>
               <Flex.Item style={_.ml.md}>
                 {item.msg
-                  .filter((item, index) => !!index)
+                  .filter((_item, index) => !!index)
                   .map((i, idx) => (
-                    <Text key={idx} style={_.mb.xs} size={10}>
+                    <Text key={idx} style={_.mb.xs} size={10} noWrap>
                       {i ? `${i}ms` : '>5000ms 超时'}
                     </Text>
                   ))}

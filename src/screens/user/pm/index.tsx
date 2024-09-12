@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:08:50
+ * @Last Modified time: 2024-09-13 01:16:09
  */
 import React from 'react'
 import { Component } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 短信 */
-const PM = (props, { $ }: Ctx) => {
+const PM = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

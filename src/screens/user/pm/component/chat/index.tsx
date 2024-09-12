@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:08:15
+ * @Last Modified time: 2024-09-13 01:16:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function Chat(props, { $ }: Ctx) {
+function Chat(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { list } = $.pmDetail
   return (

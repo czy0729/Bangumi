@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:55:48
+ * @Last Modified time: 2024-09-11 20:10:22
  */
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
@@ -127,7 +127,7 @@ export function ping(url: string, headers = {}): Promise<number> {
     const xhr = new XMLHttpRequest()
     const cb = function (res) {
       // 有数据就马上返回
-      if (res?._response.length > 10) {
+      if (res?._response?.length > 10) {
         resolve(new Date().getTime() - start)
         return xhr.abort()
       }

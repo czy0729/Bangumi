@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 09:12:41
+ * @Last Modified time: 2024-09-13 01:09:34
  */
 import { computed } from 'mobx'
 import {
@@ -28,7 +28,7 @@ import State from './state'
 import {
   CollectionsItem,
   CollectionsStatusItem,
-  PmItem,
+  PmDetail,
   PmParamsItem,
   UserCollection
 } from './types'
@@ -165,7 +165,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 短信详情 */
   pmDetail(id: Id) {
     this.init('pmDetail')
-    return computed<ListEmpty<PmItem>>(() => {
+    return computed<PmDetail>(() => {
       const { pmDetail } = this.state
       return pmDetail[id] || LIST_EMPTY
     }).get()

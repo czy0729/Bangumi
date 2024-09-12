@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-27 21:57:29
+ * @Last Modified time: 2024-09-11 19:19:51
  */
 import { subjectStore } from '@stores'
 import {
@@ -19,6 +19,7 @@ import { getOriginConfig } from '../origin-setting/utils'
 /** 获取需要检测的站点 */
 export function getSitesList() {
   const OriginUrls = []
+
   try {
     const origins = getOriginConfig(subjectStore.origin)
     Object.keys(origins).forEach(type => {

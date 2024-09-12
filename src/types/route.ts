@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 16:46:55
+ * @Last Modified time: 2024-09-13 01:10:52
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -85,7 +85,7 @@ export type RouteReviews = (
 export type RouteNotify = (
   path: 'Notify',
   params: {
-    type: 'pm' | 'notify'
+    type: 'pm' | 'notify' | 'out'
   }
 ) => any
 
@@ -289,16 +289,25 @@ export type RouteWebBrowser = (
   }
 ) => any
 
-export type RouteZone = (
-  path: 'Zone',
-  params: {
+export type RouteZone = Route<
+  'Zone',
+  {
+    /** 用户 id */
     userId: UserId
-    from?: string
+
+    /** 来自哪个约定的页面 */
+    from?: 'tinygrail'
+
+    /** 占位用户 id */
     _id?: UserId
+
+    /** 占位用户昵称 */
     _name?: string
+
+    /** 占位用户头像 */
     _image?: string
   }
-) => any
+>
 
 export type RouteCatalogDetail = (
   path: 'CatalogDetail',
@@ -313,14 +322,13 @@ export type RouteCatalogDetail = (
   }
 ) => any
 
-export type RouteUser = (
-  path: 'User',
-  params: {
-    userId: UserId
-    _name?: string
-    _image?: string
+export type RouteUser = Route<
+  'User',
+  {
+    /** 用户 id, 没传递则使用自己 */
+    userId?: UserId
   }
-) => any
+>
 
 export type RouteTopic = Route<
   'Topic',
@@ -374,19 +382,19 @@ export type RouteFriends = (
   }
 ) => any
 
-export type RoutePM = (
-  path: 'PM',
-  params: {
+export type RoutePM = Route<
+  'PM',
+  {
     /** 已有 ID, 没有为新建 */
     id?: Id
 
-    /** 必须是数字 ID */
+    /** 必须是数字 ID, 用于发新短信 */
     userId?: number
 
     /** 用户昵称 (用于占位显示) */
     userName?: string
   }
-) => any
+>
 
 export type RouteSubject = Route<
   'Subject',

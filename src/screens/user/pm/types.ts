@@ -5,7 +5,7 @@
  * @Last Modified time: 2022-08-19 10:54:39
  */
 import { factory } from '@utils'
-import { Id, Navigation, UserId } from '@types'
+import { GetRouteParams, Navigation, RoutePM } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,8 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  userId?: UserId
-  id?: Id
-  userName?: string
-}
+export type Params = GetRouteParams<RoutePM>

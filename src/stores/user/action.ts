@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:50:41
+ * @Last Modified time: 2024-09-13 01:14:01
  */
 import { toJS } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
@@ -228,11 +228,12 @@ export default class Action extends Fetch {
   /** 发短信 */
   doPM = async (
     data: {
-      msg_title: string
-      msg_body: string
-      formhash: string
-      msg_receivers: string
-      submit: '发送' | '回复'
+      msg_title?: string
+      msg_body?: string
+      formhash?: string
+      msg_receivers?: string
+      chat?: 'on'
+      submit?: '发送' | '回复'
     },
     success?: () => any,
     fail?: () => any

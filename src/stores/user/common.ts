@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-02-01 22:42:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 12:47:51
+ * @Last Modified time: 2024-09-13 01:59:45
  */
-import { cheerio, htmlMatch, matchAvatar, safeObject } from '@utils'
+import { cData, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar, safeObject } from '@utils'
 
 /** 收(发) 件箱 */
 export function cheerioPM(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="pm_main">', '<div id="pm_sidebar">'))
   return (
     $('table.topic_list > tbody > tr')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $row = cheerio(element)
         const $a = $row.find('a.avatar')
         const id = $a.attr('href')
@@ -35,29 +35,25 @@ export function cheerioPM(html: string) {
 
 /** 收(发) 件箱内容 */
 export function cheerioPMDetail(html: string) {
-  const $ = cheerio(html)
+  const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div id="footer">'))
   return {
-    list:
-      $('div#comment_box > div.item')
-        .map((index: number, element: any) => {
-          const $row = cheerio(element)
-          const content = $row.find('div.text_pm').html().split('</a>:')
-          content.shift()
-          return safeObject({
-            name: $row.find('div.rr + a.l').text(),
-            avatar: matchAvatar($row.find('span.avatarSize32').attr('style')),
-            userId: $row.find('a.avatar').attr('href').replace('/user/', ''),
-            content: content.join(''),
-            time: $row.find('small.grey').text().replace(' / del', '').slice(2)
-          })
-        })
-        .get() || [],
+    list: cMap($('div#comment_box > div.item'), $row => {
+      const content = cHtml($row.find('div.text_pm')).split('</a>:')
+      content.shift()
+      return {
+        name: cText($row.find('div.rr + a.l')),
+        avatar: matchAvatar(cData($row.find('span.avatarSize32'), 'style')),
+        userId: cData($row.find('a.avatar'), 'href').replace('/user/', ''),
+        content: content.join(''),
+        time: cText($row.find('small.grey')).replace(' / del', '').slice(2)
+      }
+    }),
     form: {
-      related: $('input[name=related]').attr('value'),
-      msg_receivers: $('input[name=msg_receivers]').attr('value'),
-      current_msg_id: $('input[name=current_msg_id]').attr('value'),
-      formhash: $('input[name=formhash]').attr('value'),
-      msg_title: $('input[name=msg_title]').attr('value')
+      related: cData($('input[name=related]'), 'value'),
+      msg_receivers: cData($('input[name=msg_receivers]'), 'value'),
+      current_msg_id: cData($('input[name=current_msg_id]'), 'value'),
+      formhash: cData($('input[name=formhash]'), 'value'),
+      msg_title: cData($('input[name=msg_title]'), 'value')
     }
   }
 }
@@ -92,7 +88,7 @@ export function cheerioTags(html: string): string[] {
     const $ = cheerio(html)
     return (
       $('a.btnGray')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           return cheerio(element).text().trim()
         })
         .get() || []

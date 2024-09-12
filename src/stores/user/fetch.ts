@@ -2,16 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:34:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:41:54
+ * @Last Modified time: 2024-09-13 02:05:02
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, HTMLTrim } from '@utils'
 import fetch, { fetchHTML } from '@utils/fetch'
-import {
-  fetchCollectionSingleV0,
-  fetchCollectionV0,
-  fetchUserProgressV0
-} from '@utils/fetch.v0'
+import { fetchCollectionSingleV0, fetchCollectionV0, fetchUserProgressV0 } from '@utils/fetch.v0'
 import { onlines, report } from '@utils/kv'
 import {
   API_ACCESS_TOKEN,
@@ -27,8 +23,8 @@ import {
   HTML_PM_OUT,
   HTML_PM_PARAMS,
   HTML_SUBJECT_COLLECT_DETAIL,
-  HTML_USERS,
   HTML_USER_SETTING,
+  HTML_USERS,
   LIST_EMPTY,
   MODEL_COLLECTION_STATUS,
   URL_OAUTH_REDIRECT
@@ -41,7 +37,6 @@ import {
   SubjectType,
   UserId
 } from '@types'
-import Computed from './computed'
 import {
   cheerioPM,
   cheerioPMDetail,
@@ -49,7 +44,9 @@ import {
   cheerioTags,
   cheerioUserSetting
 } from './common'
+import Computed from './computed'
 import { DEFAULT_SCOPE, NAMESPACE } from './init'
+import { PmDetail } from './types'
 
 export default class Fetch extends Computed {
   /**
@@ -145,9 +142,7 @@ export default class Fetch extends Computed {
 
     if (fixedEpStatus && data?.ep_status === 0) data.ep_status = 1
 
-    const index = this.collection.list.findIndex(
-      item => item.subject_id === data.subject_id
-    )
+    const index = this.collection.list.findIndex(item => item.subject_id === data.subject_id)
     if (index === -1) return false
 
     const collection = toJS(this.collection)
@@ -228,8 +223,9 @@ export default class Fetch extends Computed {
           type: CollectionStatusValue
         }[]
       ).forEach(item => {
-        userProgress[item.episode.id] =
-          MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type)
+        userProgress[item.episode.id] = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
+          item.type
+        )
       })
     }
 
@@ -371,25 +367,25 @@ export default class Fetch extends Computed {
   /** 短信详情 */
   fetchPMDetail = async (config: { id?: Id }) => {
     const { id } = config || {}
-    const raw = await fetchHTML({
+    const response = await fetchHTML({
       url: HTML_PM_DETAIL(id),
       raw: true
     })
 
-    // 这个接口会30
-    const { url } = raw
-    let HTML
+    // 这个接口可能会 code=30 重定向
+    const { url } = response
+    let html: string
     if (url.includes(id)) {
-      HTML = await raw.text()
+      html = await response.text()
     } else {
-      HTML = await fetchHTML({
+      html = await fetchHTML({
         url: HTML_PM_DETAIL(url.match(/\d+/g)[0])
       })
     }
 
     const key = 'pmDetail'
-    const data = {
-      ...cheerioPMDetail(HTML),
+    const data: PmDetail = {
+      ...cheerioPMDetail(html),
       pagination: {
         page: 1,
         pageTotal: 1

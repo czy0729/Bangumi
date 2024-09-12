@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:46:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:08:35
+ * @Last Modified time: 2024-09-13 01:29:32
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
@@ -18,44 +18,43 @@ class PM extends React.Component {
   scrollView: any
 
   componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init(this.scrollView)
+    this.$.init(this.scrollView)
   }
 
   componentWillUnmount() {
-    const { $ } = this.context as Ctx
-    $.scrollViewRef = null
+    this.$.scrollViewRef = null
   }
 
   connectRefScrollView = (ref: any) => {
     if (ref) {
-      const { $ } = this.context as Ctx
-      $.scrollViewRef = ref
+      this.$.scrollViewRef = ref
       this.scrollView = ref
     }
   }
 
   onTitleChange = evt => {
-    const { $ } = this.context as Ctx
-    const { nativeEvent } = evt
-    const { text } = nativeEvent
-    $.onTitleChange(text)
+    this.$.onTitleChange(evt.nativeEvent.text)
   }
 
-  onSubmit = value => {
-    const { $, navigation } = this.context as Ctx
-    return $.doSubmit(value, this.scrollView, navigation)
+  onSubmit = (value: string) => {
+    return this.$.doSubmit(value, this.scrollView, this.navigation)
+  }
+
+  get $(): Ctx['$'] {
+    return this.context.$
+  }
+
+  get navigation(): Ctx['navigation'] {
+    return this.context.navigation
   }
 
   renderNewForm() {
-    const { $ } = this.context as Ctx
-    const { userId, userName } = $.params
-    if (!userId) return null
+    if (!this.$.userId) return null
 
     return (
       <>
         <View style={this.styles.form}>
-          <Text>收件人: {userName}</Text>
+          <Text>收件人: {this.$.params.userName}</Text>
         </View>
         <Input style={this.styles.ipt} placeholder='输入标题' onChange={this.onTitleChange} />
       </>
@@ -63,11 +62,10 @@ class PM extends React.Component {
   }
 
   render() {
-    const { $ } = this.context as Ctx
-    const { value } = $.state
+    const { value } = this.$.state
     return (
       <Page style={_.container.screen}>
-        {$.pmParams._loaded || $.pmDetail._loaded ? (
+        {this.$.pmParams._loaded || this.$.pmDetail._loaded ? (
           <ScrollView
             ref={this.connectRefScrollView}
             style={_.container.screen}
@@ -82,8 +80,8 @@ class PM extends React.Component {
         <FixedTextarea
           placeholder='回复'
           value={value}
-          onChange={$.onChange}
-          onClose={$.closeFixedTextarea}
+          onChange={this.$.onChange}
+          onClose={this.$.closeFixedTextarea}
           onSubmit={this.onSubmit}
         >
           {this.renderNewForm()}

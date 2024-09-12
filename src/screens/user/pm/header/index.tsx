@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:01:23
+ * @Last Modified time: 2024-09-13 01:16:37
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -15,7 +15,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   const { list } = $.pmDetail
 
   let title = ''

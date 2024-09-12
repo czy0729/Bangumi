@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 17:25:17
+ * @Last Modified time: 2024-09-13 01:56:17
  */
 import cheerioRN from 'cheerio-without-node-native'
 import { DEV } from '@/config'
@@ -284,7 +284,7 @@ export function cText($el: any, matchRawTextNode: boolean = false): string {
 /** cheerio.attr(key) */
 export function cData(
   $el: any,
-  key: 'id' | 'class' | 'style' | 'href' | 'src' | 'title' | 'onclick'
+  key: 'id' | 'class' | 'style' | 'href' | 'src' | 'title' | 'value' | 'onclick'
 ): string {
   try {
     return $el.attr(key) || ''

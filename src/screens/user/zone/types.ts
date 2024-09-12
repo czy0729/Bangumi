@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-10-22 01:45:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 01:52:45
+ * @Last Modified time: 2024-09-11 19:21:27
  */
 import { factory } from '@utils'
-import { Navigation, UserId } from '@types'
+import { GetRouteParams, Navigation, RouteZone } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,10 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  userId: UserId
-  from?: string
-  _id?: string
-  _name?: string
-  _image?: string
-}
+export type Params = GetRouteParams<RouteZone>
