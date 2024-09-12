@@ -2,18 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:29:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 14:26:30
+ * @Last Modified time: 2024-09-13 05:15:34
  */
 import React from 'react'
 import { ItemFriends } from '@_'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 import { Props } from './types'
-
-const EVENT = {
-  id: '好友.跳转'
-} as const
 
 function Item({ item }: Props, { $, navigation }: Ctx) {
   return (

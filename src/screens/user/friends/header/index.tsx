@@ -2,18 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 14:29:45
+ * @Last Modified time: 2024-09-13 05:14:54
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
-
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title='好友'

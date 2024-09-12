@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-12 02:17:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 03:18:24
+ * @Last Modified time: 2024-09-13 05:15:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,15 +25,15 @@ function ItemGrid({ index, item }, { navigation }: Ctx) {
         animate
         scale={0.9}
         onPress={() => {
-          t('好友.跳转', {
-            to: 'Zone',
-            userId
-          })
-
           navigation.push('Zone', {
             userId,
             _name: userName,
             _image: avatar
+          })
+
+          t('好友.跳转', {
+            to: 'Zone',
+            userId
           })
         }}
       >

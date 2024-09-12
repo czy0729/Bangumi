@@ -13,7 +13,7 @@ import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const numColumns = _.portrait(5, 8)
   return (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 03:16:42
+ * @Last Modified time: 2024-09-13 05:14:32
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 好友 */
-const Friends = (props, { $ }: Ctx) => {
+const Friends = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

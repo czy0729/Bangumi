@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:10:52
+ * @Last Modified time: 2024-09-13 05:14:18
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -374,13 +374,13 @@ export type RouteCharacter = (
   }
 ) => any
 
-export type RouteFriends = (
-  path: 'Friends',
-  params: {
+export type RouteFriends = Route<
+  'Friends',
+  {
     /** 用户 ID */
     userId: UserId
   }
-) => any
+>
 
 export type RoutePM = Route<
   'PM',
