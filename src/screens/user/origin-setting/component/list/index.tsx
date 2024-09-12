@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:16:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 19:11:44
+ * @Last Modified time: 2024-09-13 03:53:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import Title from '../title'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   return (
     <>
       {TYPES_DS.map((item, index) => {

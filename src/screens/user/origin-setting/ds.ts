@@ -2,41 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-13 00:05:38
+ * @Last Modified time: 2024-09-13 03:52:05
  */
-import { Loaded } from '@types'
-
 export const COMPONENT = 'OriginSetting'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const STATE = {
-  data: {
-    base: {},
-    custom: {
-      anime: [],
-      hanime: [],
-      manga: [],
-      wenku: [],
-      music: [],
-      game: [],
-      real: []
-    }
-  },
-  edit: {
-    type: '',
-    item: {
-      id: '',
-      uuid: '',
-      name: '',
-      url: '',
-      sort: 0,
-      active: 1
-    }
-  },
-  active: true,
-  _loaded: false as Loaded
-}
 
 export const TYPES_DS = [
   {

@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 00:56:09
+ * @Last Modified time: 2024-09-13 04:22:25
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -137,7 +137,7 @@ export type Origin = DeepPartial<{
   base: Record<
     string,
     {
-      active: boolean
+      active: 0 | 1
       sort: any
     }
   >
@@ -149,7 +149,7 @@ export type Origin = DeepPartial<{
       name: string
       url: string
       sort: any
-      active: number
+      active: 0 | 1
     }[]
   >
 }>

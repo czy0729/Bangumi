@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 18:16:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 19:44:29
+ * @Last Modified time: 2024-09-13 03:54:17
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -10,10 +10,11 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { OriginItem } from '../../utils'
 import { COMPONENT } from './ds'
 
 const Title = ({ type, name }, { $ }: Ctx) => {
-  const data = $.data[type].filter(item => item.active === 1)
+  const data = ($.data[type] as OriginItem[]).filter(item => item.active === 1)
   const activeData = data.map(item => item.name)
   return (
     <Flex style={_.mb.sm}>

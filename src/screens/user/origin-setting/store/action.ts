@@ -1,52 +1,28 @@
 /*
  * @Author: czy0729
- * @Date: 2020-09-05 15:56:20
+ * @Date: 2024-09-13 03:43:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 21:59:21
+ * @Last Modified time: 2024-09-13 03:46:40
  */
-import { computed, observable, toJS } from 'mobx'
-import { subjectStore, systemStore, userStore } from '@stores'
+import { toJS } from 'mobx'
+import { subjectStore, systemStore } from '@stores'
 import { copy, getTimestamp, info, open } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
-import { getOriginConfig, replaceOriginUrl } from './utils'
-import { NAMESPACE, STATE, TYPES_DS } from './ds'
+import { TYPES_DS } from '../ds'
+import { replaceOriginUrl } from '../utils'
+import Computed from './computed'
 
-export default class ScreenOriginSetting extends store<typeof STATE> {
-  state = observable(STATE)
-
-  init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
-    this.setState({
-      data: toJS(subjectStore.origin),
-      active: state?.active || false,
-      _loaded: getTimestamp()
-    })
-  }
-
-  // -------------------- get --------------------
-  @computed get data() {
-    const { data } = this.state
-    return getOriginConfig(data)
-  }
-
-  @computed get isLogin() {
-    return !!userStore.userInfo.id
-  }
-
-  // -------------------- action --------------------
+export default class Action extends Computed {
   onToggle = () => {
-    const { active } = this.state
     this.setState({
-      active: !active
+      active: !this.state.active
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   updateOrigin = () => {
     setTimeout(() => {
-      const { data } = this.state
-      subjectStore.updateOrigin(data)
+      subjectStore.updateOrigin(this.state.data)
     }, 0)
   }
 

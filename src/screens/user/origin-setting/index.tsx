@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 16:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-13 00:03:25
+ * @Last Modified time: 2024-09-13 03:52:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import { memoStyles } from './styles'
 import { Ctx } from './types'
 
 /** 自定义源头 */
-const OriginSetting = (props, { $ }: Ctx) => {
+const OriginSetting = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
