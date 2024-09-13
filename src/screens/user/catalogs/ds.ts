@@ -4,16 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-07 18:17:59
  */
-import { Loaded } from '@types'
-
 export const COMPONENT = 'Catelogs'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const STATE = {
-  page: 0,
-  _loaded: false as Loaded
-}
 
 export const TABS = [
   {

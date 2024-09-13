@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:41:04
+ * @Last Modified time: 2024-09-13 05:26:19
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 用户目录 */
-const Catelogs = (props, { $ }: Ctx) => {
+const Catelogs = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

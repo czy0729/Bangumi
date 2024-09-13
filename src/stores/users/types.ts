@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 22:02:18
+ * @Last Modified time: 2024-09-13 17:47:32
  */
 import {
   Avatar,
@@ -146,15 +146,16 @@ export type Blogs = ListEmpty<
   }>
 >
 
+/** 用户目录项 */
+export type CalalogsItem = {
+  id: Id
+  title: string
+  userId: UserId
+  userName: string
+  avatar: Avatar<'s'>
+  time: string
+  num: string
+}
+
 /** 用户目录 */
-export type Catalogs = ListEmpty<
-  Partial<{
-    id: Id
-    title: string
-    userId: UserId
-    userName: string
-    avatar: Avatar<'s'>
-    time: string
-    num: string
-  }>
->
+export type Catalogs = ListEmpty<CalalogsItem>

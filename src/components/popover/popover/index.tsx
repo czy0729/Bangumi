@@ -9,7 +9,7 @@ import { DeviceEventEmitter, View } from 'react-native'
 import { HoldItem } from 'react-native-hold-menu'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
-import { IOS } from '@constants'
+import { FROZEN_FN, IOS } from '@constants'
 import { PopoverIOSItems } from './types'
 
 const EVENT_TYPE = 'POPOVER_ONSELECT'
@@ -18,7 +18,7 @@ let id = 0
 function Popover({ children, ...other }) {
   const data = other.data || other.overlay?.props?.data || []
   const title = other.title || other.overlay?.props?.title || ''
-  const onSelect = other.onSelect || other.overlay?.props?.onSelect || Function.prototype
+  const onSelect = other.onSelect || other.overlay?.props?.onSelect || FROZEN_FN
 
   const eventId = useRef((id += 1))
   const eventType = `${EVENT_TYPE}|${eventId.current}`

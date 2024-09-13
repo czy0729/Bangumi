@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-04 07:22:47
+ * @Last Modified time: 2024-09-13 17:36:22
  */
 import { cheerio, getCoverMedium, HTMLDecode, htmlMatch, matchUserId, safeObject } from '@utils'
 import { SubjectTypeCn } from '@types'
@@ -11,13 +11,13 @@ import { SubjectTypeCn } from '@types'
 export function cheerioTags(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="tagList">', '<hr class="board"'))
   const tags = $('#tagList a.l')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $li = cheerio(element)
       return $li.text().trim() || ''
     })
     .get()
   const nums = $('#tagList small.grey')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $li = cheerio(element)
       return ($li.text().trim() || '').replace(/\(|\)/g, '')
     })
@@ -41,7 +41,7 @@ export function cheerioTags(html: string) {
 export function cheerioCatalog(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
   return $('li.tml_item')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $li = cheerio(element)
       const $tip = $li.find('span.tip_i > a.l')
       const $title = $li.find('h3 > a.l')
@@ -67,7 +67,7 @@ export function cheerioCatalog(html: string) {
 export function cheerioCatalogDetail(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="header">', '<div id="footer">'))
   const list = $('li.item')
-    .map((index: number, element: any) => {
+    .map((_index: number, element: any) => {
       const $li = cheerio(element)
       const $a = $li.find('a.l')
 
@@ -139,7 +139,7 @@ export function cheerioBlog(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
   return (
     $('div#news_list > div.item')
-      .map((index: number, element: any) => {
+      .map((_index: number, element: any) => {
         const $li = cheerio(element)
         const $a = $li.find('h2.title a')
         const times = $li.find('div.time').text().trim().split('/ ')
@@ -165,7 +165,7 @@ export function cheerioChannel(html: string) {
   return {
     rankTop:
       $('table.mediumImageChart tr')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('span.subject a')
           return safeObject({
@@ -178,7 +178,7 @@ export function cheerioChannel(html: string) {
         .get() || [],
     rank:
       $('div#chl_subitem li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('strong a')
           return safeObject({
@@ -191,7 +191,7 @@ export function cheerioChannel(html: string) {
         .get() || [],
     friends:
       $('ul.coversSmall > li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $subject = $li.find('> a')
           const $user = $li.find('a.l')
@@ -207,7 +207,7 @@ export function cheerioChannel(html: string) {
         .get() || [],
     tags:
       $('a.level8')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $a = cheerio(element)
           return $a.text().trim()
         })
@@ -236,7 +236,7 @@ export function cheerioChannel(html: string) {
     ).filter((item: { id: any }) => !!item.id),
     blog:
       $('div#news_list > div.item')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = cheerio(element)
           const $a = $li.find('h2.title a')
           const times = $li.find('div.time').text().trim().split('/ ')
@@ -262,7 +262,7 @@ export function cheerioWiki(html: string) {
   const getList = (selector: any) =>
     (
       $(selector)
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $li = $(element)
           const $a = $li.find('> a')
           const $small = $li.find('small')
@@ -281,12 +281,12 @@ export function cheerioWiki(html: string) {
           }
         })
         .get() || []
-    ).filter((item: any, index: number) => index < 50)
+    ).filter((_item: any, index: number) => index < 50)
 
   return {
     counts:
       $('.wikiStats .num')
-        .map((index: number, element: any) => $(element).text())
+        .map((_index: number, element: any) => $(element).text())
         .get() || [],
     timeline: {
       all: getList('#wiki_act-all li'),
@@ -316,7 +316,7 @@ export function cheerioDollars(html: string) {
   return {
     list:
       $('#chatList ul li')
-        .map((index: number, element: any) => {
+        .map((_index: number, element: any) => {
           const $row = $(element)
           return {
             id: String($row.attr('id')).split('_')?.[1].slice(0, 10),

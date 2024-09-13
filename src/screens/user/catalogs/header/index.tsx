@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:00:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 18:23:49
+ * @Last Modified time: 2024-09-13 05:26:35
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -12,7 +12,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title='用户目录'

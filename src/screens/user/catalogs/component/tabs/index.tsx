@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 19:44:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 21:43:49
+ * @Last Modified time: 2024-09-13 05:26:24
  */
 import React, { useCallback } from 'react'
 import { TabsV2 } from '@components'
@@ -15,7 +15,7 @@ import { Ctx } from '../../types'
 import List from '../list'
 import { COMPONENT } from './ds'
 
-function Tabs(props, { $ }: Ctx) {
+function Tabs(_props, { $ }: Ctx) {
   r(COMPONENT)
 
   const renderItem = useCallback(item => <List key={item.key} id={item.key} />, [])

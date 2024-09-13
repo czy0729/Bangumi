@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-27 16:26:02
+ * @Last Modified time: 2024-09-13 18:08:26
  */
 import { xhr } from '@utils/fetch'
 import {
@@ -148,7 +148,7 @@ export default class Action extends Fetch {
       modify: string
       formhash: string
       content: string
-      order: string
+      order: string | number
     },
     success?: () => any
   ) => {

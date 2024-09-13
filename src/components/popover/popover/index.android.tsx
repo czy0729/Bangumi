@@ -16,8 +16,8 @@ export default class Popover extends React.Component<any> {
   static defaultProps = {
     data: [],
     hitSlop: undefined,
-    onSelect: Function.prototype,
-    onLongPress: Function.prototype
+    onSelect: FROZEN_FN,
+    onLongPress: FROZEN_FN
   }
 
   ref: any

@@ -6,6 +6,7 @@
  */
 import pLimit from 'p-limit'
 import { DEV } from '@/config'
+import { Fn } from '@types'
 
 /** 接口某些字段为空返回 null, 影响到 es6 函数初始值的正常使用, 统一处理成空字符串 */
 export function safe(data: { [x: string]: any }) {
@@ -29,7 +30,7 @@ export function safeCookie(cookie: string) {
  * @param {*} fetchs fetchFn[]
  * @param {*} num default: 2
  */
-export async function queue(fetchs: any[] = [], num: number = 2) {
+export async function queue(fetchs: Fn[] = [], num: number = 2) {
   if (!fetchs.length) return false
 
   const limit = pLimit(num)

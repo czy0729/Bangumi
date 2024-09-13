@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 14:21:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 15:49:42
+ * @Last Modified time: 2024-09-13 17:41:22
  */
 import {
   Avatar,
@@ -140,7 +140,7 @@ export type Channel = {
     subject: string
     tags: string
   }[]
-  _loaded: number
+  _loaded?: number
 }
 
 type WikiItem = {
