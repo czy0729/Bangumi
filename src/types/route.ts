@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:34:28
+ * @Last Modified time: 2024-09-14 06:47:31
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -358,13 +358,13 @@ export type RouteCatalogs = Route<
   }
 >
 
-export type RouteBlogs = (
-  path: 'Blogs',
-  params: {
-    /** 用户 ID */
+export type RouteBlogs = Route<
+  'Blogs',
+  {
+    /** 用户 ID, 没有 ID 为自己 */
     userId: UserId
   }
-) => any
+>
 
 export type RouteCharacter = (
   path: 'Character',

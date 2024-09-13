@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:34:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 15:02:00
+ * @Last Modified time: 2024-09-14 06:56:45
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   return (
     <HeaderComp
       title='用户日志'

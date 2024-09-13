@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 用户日志 */
-const UserBlogs = (props, { $, navigation }: Ctx) => {
+const UserBlogs = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

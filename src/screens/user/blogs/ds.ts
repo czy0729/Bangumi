@@ -2,14 +2,6 @@
  * @Author: czy0729
  * @Date: 2024-05-07 18:05:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 13:16:40
+ * @Last Modified time: 2024-09-14 06:56:23
  */
-import { Loaded } from '@types'
-
 export const COMPONENT = 'UserBlogs'
-
-export const NAMESPACE = `Screen${COMPONENT}`
-
-export const STATE = {
-  _loaded: false as Loaded
-}

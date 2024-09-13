@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-07 18:05:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 18:11:36
+ * @Last Modified time: 2024-09-14 06:56:50
  */
 import React, { useCallback } from 'react'
 import { ListView } from '@components'
@@ -15,7 +15,7 @@ import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 
-function List(props, { $, navigation }: Ctx) {
+function List(_props, { $, navigation }: Ctx) {
   r(COMPONENT)
 
   const renderItem = useCallback(
