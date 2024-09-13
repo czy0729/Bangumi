@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:16:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 20:45:30
+ * @Last Modified time: 2024-09-14 07:06:47
  */
 import React from 'react'
 import { Component, Loading, Page } from '@components'
@@ -17,7 +17,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 本地备份 */
-const Backup = (props, { $ }: Ctx) => {
+const Backup = (_props, { $ }: Ctx) => {
   useMount(() => {
     $.init()
   })

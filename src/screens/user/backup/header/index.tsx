@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:17:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 15:28:35
+ * @Last Modified time: 2024-09-14 07:18:13
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { navigation }: Ctx) {
+function Header(_props, { navigation }: Ctx) {
   return (
     <HeaderComp
       title='本地备份'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-24 14:16:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 15:33:36
+ * @Last Modified time: 2024-09-14 07:19:14
  */
 import React from 'react'
 import { PaginationList2 as PaginationList } from '@_'
@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   return (
     <PaginationList
       contentContainerStyle={_.container.bottom}

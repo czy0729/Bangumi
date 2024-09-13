@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-06 06:14:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 15:28:07
+ * @Last Modified time: 2024-09-14 07:19:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { injectedHTML } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Upload(props, { $ }: Ctx) {
+function Upload(_props, { $ }: Ctx) {
   if (!$.state.modal) return null
 
   const styles = memoStyles()
