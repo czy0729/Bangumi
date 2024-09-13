@@ -19,7 +19,7 @@ import Thumb from './thumb'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Info(props, { $ }: Ctx) {
+function Info(_props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <View style={styles.container}>

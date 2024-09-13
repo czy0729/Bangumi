@@ -17,7 +17,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 目录详情 */
-const CatalogDetail = (props, context: Ctx) => {
+const CatalogDetail = (_props, context: Ctx) => {
   const { fixed, onScroll } = useCatalogDetailPage(context)
   return useObserver(() => (
     <Component id='screen-catalog-detail'>

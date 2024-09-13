@@ -12,7 +12,7 @@ import { SORT_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { SORT_DATA } from './ds'
 
-function Sort(props, { $ }: Ctx) {
+function Sort(_props, { $ }: Ctx) {
   return (
     <ToolBar.Popover
       data={SORT_DATA}

@@ -6,7 +6,7 @@
  */
 import { CatalogDetail } from '@stores/discovery/types'
 import { factory } from '@utils'
-import { InferArray, Navigation, Override, RouteCatalogDetail } from '@types'
+import { GetRouteParams, InferArray, Navigation, Override, RouteCatalogDetail } from '@types'
 import Store from './store'
 import { COLLECT_DS, LAYOUT_DS, SORT_DS } from './ds'
 
@@ -19,7 +19,7 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = Parameters<RouteCatalogDetail>[1]
+export type Params = GetRouteParams<RouteCatalogDetail>
 
 export type Layout = (typeof LAYOUT_DS)[number]['key']
 

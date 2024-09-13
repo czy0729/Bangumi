@@ -10,7 +10,7 @@ import { useRunAfter } from '@utils/hooks'
 import { Ctx } from './types'
 
 /** 目录详情页面逻辑 */
-export function useCatalogDetailPage({ $, navigation }: Ctx) {
+export function useCatalogDetailPage({ $ }: Ctx) {
   useRunAfter(() => {
     $.init()
   })

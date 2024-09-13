@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:13:44
+ * @Last Modified time: 2024-09-13 19:17:54
  */
 import React from 'react'
 import { BackHandler, ScrollView, View } from 'react-native'
 import { Component, Divider, Empty, Modal } from '@components'
 import { _, discoveryStore, usersStore, userStore } from '@stores'
+import { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
+import { CalalogsItem } from '@stores/users/types'
 import {
   asc,
   confirm,
@@ -22,9 +24,9 @@ import {
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { queue, t } from '@utils/fetch'
-import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
-import { Id } from '@types'
+import { AnyObject, Id } from '@types'
 import { IconTouchable } from '../../icon/touchable'
 import Catalog from './catalog'
 import Create from './create'
@@ -47,8 +49,8 @@ export const FolderManageModal = ob(
       defaultEditItem: null,
       visible: false,
       title: '目录',
-      onSubmit: Function.prototype,
-      onClose: Function.prototype
+      onSubmit: FROZEN_FN,
+      onClose: FROZEN_FN
     }
 
     state: State = {
@@ -67,7 +69,7 @@ export const FolderManageModal = ob(
 
     textareaRef: any
 
-    forwardRef = ref => (this.textareaRef = ref)
+    forwardRef = (ref: any) => (this.textareaRef = ref)
 
     async componentDidMount() {
       const expand: string[] = await getStorage(STORAGE_KEY)
@@ -80,7 +82,7 @@ export const FolderManageModal = ob(
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid)
     }
 
-    async UNSAFE_componentWillReceiveProps(nextProps) {
+    async UNSAFE_componentWillReceiveProps(nextProps: FolderManageModalProps) {
       const { visible } = nextProps
       this.setState({
         visible
@@ -112,6 +114,7 @@ export const FolderManageModal = ob(
         this.setState({
           visible: false
         })
+
         BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid)
       } catch (error) {}
     }
@@ -122,12 +125,13 @@ export const FolderManageModal = ob(
         onClose()
         return true
       }
+
       return false
     }
 
     /** 请求目录列表 */
     fetchCatalogs = async () => {
-      const data = await usersStore.fetchCatalogs(
+      const { pagination } = await usersStore.fetchCatalogs(
         {
           isCollect: false
         },
@@ -135,7 +139,7 @@ export const FolderManageModal = ob(
       )
 
       // 目录是有分页的比较麻烦, 暂时只判断是否存在第二页, 后面忽略
-      if (data.pagination.pageTotal > 1) {
+      if (pagination.pageTotal > 1) {
         await usersStore.fetchCatalogs({
           isCollect: false
         })
@@ -169,7 +173,7 @@ export const FolderManageModal = ob(
     }
 
     /** 请求目录详情 */
-    fetchCatalogDetail = async (id: string, refresh: boolean) => {
+    fetchCatalogDetail = async (id: Id, refresh: boolean) => {
       if (!refresh) {
         const data = discoveryStore.catalogDetail(id)
         const { _loaded } = data
@@ -192,10 +196,9 @@ export const FolderManageModal = ob(
     }
 
     /** track */
-    t(value: string, other = {}) {
-      const { id } = this.props
+    t(value: string, other: AnyObject = {}) {
       t('其他.管理目录', {
-        subjectId: id,
+        subjectId: this.props.id,
         value,
         ...other
       })
@@ -376,12 +379,12 @@ export const FolderManageModal = ob(
     }
 
     /** 条目更多菜单 */
-    onSubjectControl = (title, item, pItem) => {
+    onSubjectControl = (title: string, item: CatalogDetailItem, pItem: CalalogsItem) => {
       const detail = this.catalogDetail(pItem.id)
       const current = fixedOrder(item.order)
       let order = 0
-      let temp
-      let flag
+      let temp: CatalogDetailItem | number[]
+      let flag: boolean
 
       switch (title) {
         case '置顶':
@@ -476,7 +479,7 @@ export const FolderManageModal = ob(
     }
 
     /** 编辑项 */
-    onSubjectEdit = (item?) => {
+    onSubjectEdit = (item?: CatalogDetailItem) => {
       if (item) {
         this.setState({
           edit: item.id,
@@ -510,7 +513,7 @@ export const FolderManageModal = ob(
     }
 
     /** 改变排序 */
-    onOrder = order => {
+    onOrder = (order: string | number) => {
       if (!order) {
         this.setState({
           order: ''
@@ -527,9 +530,8 @@ export const FolderManageModal = ob(
     }
 
     /** 直接提交顺序 */
-    onSort = (item, order, pItem) => {
-      const { modify, erase } = item
-      const formhash = erase?.split('?gh=')[1]
+    onSort = (item: CatalogDetailItem, order: string | number, pItem: CalalogsItem) => {
+      const formhash = item.erase?.split('?gh=')[1]
       if (!formhash) {
         info('目录信息有误, 暂不能修改条目, 请重新进入页面')
         return
@@ -537,7 +539,7 @@ export const FolderManageModal = ob(
 
       discoveryStore.doCatalogModifySubject(
         {
-          modify,
+          modify: item.modify,
           formhash,
           content: HTMLDecode(item.comment || '').replace(/<br>/g, ''),
           order: order || '0'
@@ -550,18 +552,17 @@ export const FolderManageModal = ob(
     }
 
     /** 提交 */
-    onSubmit = (item, pItem) => {
-      const { modify, erase } = item
-      const { content, order } = this.state
-      const formhash = erase?.split('?gh=')[1]
+    onSubmit = (item: CatalogDetailItem, pItem: CalalogsItem) => {
+      const formhash = item.erase?.split('?gh=')[1]
       if (!formhash) {
         info('目录信息有误, 暂不能修改条目, 请重新进入页面')
         return
       }
 
+      const { content, order } = this.state
       discoveryStore.doCatalogModifySubject(
         {
-          modify,
+          modify: item.modify,
           formhash,
           content: content || '',
           order: String(order || '0')
@@ -575,7 +576,8 @@ export const FolderManageModal = ob(
       )
     }
 
-    catalogDetail(id) {
+    /** 目录详情 */
+    catalogDetail(id: Id) {
       return {
         ...discoveryStore.catalogDetail(id),
         id
@@ -583,8 +585,7 @@ export const FolderManageModal = ob(
     }
 
     renderBtnCreate() {
-      const { edit, create } = this.state
-      if (edit || create) return null
+      if (this.state.edit || this.state.create) return null
 
       return (
         <View style={this.styles.create}>
@@ -599,13 +600,12 @@ export const FolderManageModal = ob(
     }
 
     renderCreate() {
-      const { create, title, desc } = this.state
-      if (create !== true) return null
+      if (this.state.create !== true) return null
 
       return (
         <Create
-          title={title}
-          desc={desc}
+          title={this.state.title}
+          desc={this.state.desc}
           onChange={this.onChange}
           onCreate={this.onCreate}
           onSubmitCatalog={this.onSubmitCatalog}
@@ -646,12 +646,11 @@ export const FolderManageModal = ob(
       )
     }
 
-    renderCatalog(item, detail) {
-      const { id } = this.props
+    renderCatalog(item: CalalogsItem, detail: CatalogDetail) {
       const { expand, create, edit, desc } = this.state
       return (
         <Catalog
-          id={id}
+          id={this.props.id}
           expand={expand}
           create={create}
           edit={edit}
@@ -668,16 +667,14 @@ export const FolderManageModal = ob(
       )
     }
 
-    renderSubjects(item, detail) {
-      const { id } = this.props
-      const { expand, create, edit, content, order } = this.state
-      if (!(expand.includes(item.id) || create == item.id)) {
-        return null
-      }
+    renderSubjects(item: CalalogsItem, detail: CatalogDetail) {
+      const { create, expand } = this.state
+      if (!(expand.includes(item.id) || create == item.id)) return null
 
+      const { edit, content, order } = this.state
       return (
         <Subjects
-          id={id}
+          id={this.props.id}
           create={create}
           edit={edit}
           content={content}
@@ -697,11 +694,14 @@ export const FolderManageModal = ob(
     render() {
       r(COMPONENT)
 
-      const { title, onClose } = this.props
-      const { visible } = this.state
       return (
         <Component id='base-folder-manage-modal'>
-          <Modal style={this.styles.modal} visible={visible} title={title} onClose={onClose}>
+          <Modal
+            style={this.styles.modal}
+            visible={this.state.visible}
+            title={this.props.title}
+            onClose={this.props.onClose}
+          >
             {this.renderBtnCreate()}
             {this.renderList()}
           </Modal>

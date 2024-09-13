@@ -12,7 +12,7 @@ import { HOST } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Footer(props, { $, navigation }: Ctx) {
+function Footer(_props, { $, navigation }: Ctx) {
   const { userId, replyCount } = $.detail
   const replyText = replyCount == 5 ? '5+' : replyCount
   return (

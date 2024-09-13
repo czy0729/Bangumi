@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Thumb(props, { $ }: Ctx) {
+function Thumb(_props, { $ }: Ctx) {
   const { avatar, userId } = $.detail
   if (!avatar) return null
 

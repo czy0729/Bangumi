@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Desc(props, { $, navigation }: Ctx) {
+function Desc(_props, { $, navigation }: Ctx) {
   const { avatar, nickname, userId, time } = $.detail
   if (!nickname || time) return null
 

@@ -11,7 +11,7 @@ import { COLLECT_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { COLLECT_DATA } from './ds'
 
-function Collect(props, { $ }: Ctx) {
+function Collect(_props, { $ }: Ctx) {
   const text = COLLECT_DS.find(item => item.key === $.state.collect)?.['title']
   return (
     <ToolBar.Popover

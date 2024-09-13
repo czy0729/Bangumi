@@ -12,7 +12,7 @@ import { LAYOUT_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { LAYOUT_DATA } from './ds'
 
-function Layout(props, { $ }: Ctx) {
+function Layout(_props, { $ }: Ctx) {
   const text = LAYOUT_DS.find(item => item.key === $.state.layout)?.['title']
   return (
     <ToolBar.Popover

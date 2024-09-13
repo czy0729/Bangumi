@@ -30,7 +30,6 @@ export const ItemCollections = ob(
     comments,
     time,
     collection,
-    userCollection,
     cover,
     type,
     modify,
@@ -67,7 +66,6 @@ export const ItemCollections = ob(
         comments={comments}
         time={time}
         collection={collection}
-        userCollection={userCollection}
         cover={cover}
         type={type}
         numberOfLines={numberOfLines}

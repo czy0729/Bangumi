@@ -42,7 +42,7 @@ function Bottom({
   const tag = tags
     .split(' ')
     .filter((item: string) => !!item && item !== '自己可见')
-    .filter((item: string, index: number) => index < 4)
+    .filter((_item: string, index: number) => index < 4)
 
   const styles = memoStyles()
   const showRank = !hideScore && !!rank

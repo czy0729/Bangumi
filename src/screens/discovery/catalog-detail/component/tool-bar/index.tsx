@@ -15,7 +15,7 @@ import Sort from './sort'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar(_props, { $ }: Ctx) {
   return (
     <ToolBarComp>
       <Sort />

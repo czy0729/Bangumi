@@ -32,7 +32,6 @@ export const DEFAULT_PROPS = {
   comments: '' as Props['comments'],
   time: '' as Props['time'],
   collection: '' as Props['collection'],
-  userCollection: '' as Props['userCollection'],
   cover: '' as Props['cover'],
   type: '' as Props['type'],
   numberOfLines: 2 as Props['numberOfLines'],

@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Progress(props, { $ }: Ctx) {
+function Progress(_props, { $ }: Ctx) {
   const { progress } = $.detail
   const [current, total] = String(progress || '').split('/')
   if (!userStore.isLogin || !(current || total)) return null

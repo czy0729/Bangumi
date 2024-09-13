@@ -39,8 +39,8 @@ export const memoStyles = _.memoStyles(() => ({
     overflow: 'hidden'
   },
   edit: {
-    marginTop: _.sm,
-    marginRight: -12
+    marginTop: 12,
+    marginRight: -9
   },
   tag: {
     width: 34,

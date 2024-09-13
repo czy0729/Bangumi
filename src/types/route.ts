@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:14:18
+ * @Last Modified time: 2024-09-13 05:34:28
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -309,9 +309,9 @@ export type RouteZone = Route<
   }
 >
 
-export type RouteCatalogDetail = (
-  path: 'CatalogDetail',
-  params: {
+export type RouteCatalogDetail = Route<
+  'CatalogDetail',
+  {
     catalogId: Id
 
     /** 是否隐藏条目分数 */
@@ -320,7 +320,7 @@ export type RouteCatalogDetail = (
     /** 最后更新时间 (只有某些特定入口才有的) */
     _lastUpdate?: string
   }
-) => any
+>
 
 export type RouteUser = Route<
   'User',
@@ -350,13 +350,13 @@ export type RouteTopic = Route<
   }
 >
 
-export type RouteCatalogs = (
-  path: 'Catalogs',
-  params: {
+export type RouteCatalogs = Route<
+  'Catalogs',
+  {
     /** 用户 ID, 没有 ID 为自己 */
     userId?: UserId
   }
-) => any
+>
 
 export type RouteBlogs = (
   path: 'Blogs',

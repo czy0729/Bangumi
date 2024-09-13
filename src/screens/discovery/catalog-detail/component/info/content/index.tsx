@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Content(props, { $, navigation }: Ctx) {
+function Content(_props, { $, navigation }: Ctx) {
   const { content } = $.detail
   if (!content) return null
 

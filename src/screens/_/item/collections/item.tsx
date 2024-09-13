@@ -40,7 +40,6 @@ const Item = memo(
     comments,
     time,
     collection,
-    userCollection,
     cover,
     type,
     modify,
@@ -85,8 +84,7 @@ const Item = memo(
               _jp: name,
               _cn: nameCn,
               _image: getCoverSrc(cover, width),
-              _type: type,
-              _collection: collection || userCollection
+              _type: type
             })
           }}
         >
@@ -167,7 +165,8 @@ const Item = memo(
                   {isEditable && (
                     <IconTouchable
                       style={styles.edit}
-                      name='md-more-vert'
+                      name='md-edit'
+                      size={18}
                       onPress={() => onEdit(modify)}
                     />
                   )}

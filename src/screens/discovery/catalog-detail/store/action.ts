@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-10 16:37:35
  */
 import { discoveryStore, userStore } from '@stores'
-import { confirm, desc, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
+import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { fetchHTML, queue, t } from '@utils/fetch'
 import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
@@ -167,7 +167,7 @@ export default class Action extends Fetch {
         title: title || '',
         desc: removeHTMLTag(content || '')
       },
-      (response, request) => {
+      (_response, request) => {
         if (request && request.responseURL) {
           const match = request.responseURL.match(/\d+/g)
           if (match && match[0]) {

@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Modal(props, { $ }: Ctx) {
+function Modal(_props, { $ }: Ctx) {
   return (
     <FolderManageModal
       id={$.catalogId}
