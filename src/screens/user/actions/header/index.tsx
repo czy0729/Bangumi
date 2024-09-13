@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 15:39:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 14:57:44
+ * @Last Modified time: 2024-09-14 07:29:29
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   return (
     <HeaderComp
       title={$.params.name || '自定义跳转'}

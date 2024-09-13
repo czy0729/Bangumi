@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-11-23 09:53:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-24 17:48:03
+ * @Last Modified time: 2024-09-14 07:38:21
  */
 import { factory } from '@utils'
-import { Id, Navigation, SubjectId } from '@types'
+import { GetRouteParams, Id, Navigation, RouteActions } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,10 +17,7 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  subjectId: SubjectId
-  name?: string
-}
+export type Params = GetRouteParams<RouteActions>
 
 export type Item = {
   show?: boolean

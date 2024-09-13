@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:03:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 13:46:23
+ * @Last Modified time: 2024-09-14 07:29:24
  */
 import React from 'react'
 import { Button, Text } from '@components'
@@ -13,7 +13,7 @@ import Form from '../form'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-const Create = (props, { $ }: Ctx) => {
+const Create = (_props, { $ }: Ctx) => {
   const { edit } = $.state
   const isCreate = edit.show && edit.uuid === ''
   return isCreate ? (

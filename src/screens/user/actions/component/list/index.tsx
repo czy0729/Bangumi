@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:43:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 14:55:16
+ * @Last Modified time: 2024-09-14 07:29:28
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Item from '../item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   const { focusOrigin, focusAction } = systemStore.setting
   return (
     <View>

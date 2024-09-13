@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 06:47:31
+ * @Last Modified time: 2024-09-14 07:39:26
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -496,13 +496,16 @@ export type RouteRating = Route<
   }
 >
 
-export type RouteActions = (
-  path: 'Actions',
-  params: {
+export type RouteActions = Route<
+  'Actions',
+  {
+    /** 条目 ID */
     subjectId: SubjectId
+
+    /** 条目名称 */
     name: string
   }
-) => any
+>
 
 export type RouteInformation = (
   path: 'Information',

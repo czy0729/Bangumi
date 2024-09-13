@@ -1,45 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2022-11-22 22:41:03
+ * @Date: 2024-09-14 07:45:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 13:39:44
+ * @Last Modified time: 2024-09-14 07:48:43
  */
-import { computed, observable, toJS } from 'mobx'
+import { toJS } from 'mobx'
 import { subjectStore } from '@stores'
-import { desc, getTimestamp, info, open } from '@utils'
+import { getTimestamp, info, open } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
-import { STATE } from './ds'
-import { Item, Params } from './types'
+import { Item } from '../types'
+import Computed from './computed'
 
-export default class ScreenActions extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = async () => {
-    await subjectStore.init('actions')
-    const { subjectId } = this.params
-    if (!subjectId) return false
-
-    this.setState({
-      data: {
-        data: subjectStore.actions(subjectId)
-      },
-      _loaded: true
-    })
-  }
-
-  // -------------------- get --------------------
-  @computed get data() {
-    const { data } = this.state
-    return data.data
-      .slice()
-      .sort((a, b) => desc(Number(a.sort) || 0, Number(b.sort) || 0))
-      .sort((a, b) => desc(a.active, b.active))
-  }
-
-  // -------------------- action --------------------
+export default class Action extends Computed {
   /** 输入框变化 */
   onChangeText = (key: string, val: string) => {
     const { edit } = this.state
@@ -97,9 +69,8 @@ export default class ScreenActions extends store<typeof STATE> {
     this.closeEdit()
     this.updateOrigin()
 
-    const { subjectId } = this.params
     t('自定义跳转.保存', {
-      subjectId
+      subjectId: this.subjectId
     })
   }
 
@@ -112,9 +83,8 @@ export default class ScreenActions extends store<typeof STATE> {
       }
     })
 
-    const { subjectId } = this.params
     t('自定义跳转.编辑表单', {
-      subjectId
+      subjectId: this.subjectId
     })
   }
 
@@ -131,9 +101,8 @@ export default class ScreenActions extends store<typeof STATE> {
       }
     })
 
-    const { subjectId } = this.params
     t('自定义跳转.关闭表单', {
-      subjectId
+      subjectId: this.subjectId
     })
   }
 
@@ -150,9 +119,8 @@ export default class ScreenActions extends store<typeof STATE> {
     })
     this.updateOrigin()
 
-    const { subjectId } = this.params
     t('自定义跳转.停用', {
-      subjectId
+      subjectId: this.subjectId
     })
   }
 
@@ -169,9 +137,8 @@ export default class ScreenActions extends store<typeof STATE> {
     })
     this.updateOrigin()
 
-    const { subjectId } = this.params
     t('自定义跳转.启用', {
-      subjectId
+      subjectId: this.subjectId
     })
   }
 
@@ -188,9 +155,8 @@ export default class ScreenActions extends store<typeof STATE> {
     })
     this.updateOrigin()
 
-    const { subjectId } = this.params
     t('自定义跳转.删除', {
-      subjectId
+      subjectId: this.subjectId
     })
   }
 
@@ -210,11 +176,10 @@ export default class ScreenActions extends store<typeof STATE> {
   /** 数据提交到 store */
   updateOrigin = () => {
     setTimeout(() => {
-      const { subjectId } = this.params
-      if (!subjectId) return
+      if (!this.subjectId) return
 
       subjectStore.updateActions({
-        [subjectId]: this.data
+        [this.subjectId]: this.data
       })
     }, 0)
   }
