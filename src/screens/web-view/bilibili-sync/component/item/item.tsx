@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 11:00:31
+ * @Last Modified time: 2024-09-14 18:06:12
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -15,10 +15,6 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus, CollectionStatusCn } from '@types'
-import Btn from '../btn'
-import Column from '../column'
-import ColumnBgm from '../column-bgm'
-import ColumnSelect from '../column-select'
 import {
   getSelectComment,
   getSelectEp,
@@ -27,7 +23,11 @@ import {
   useSelectEp,
   useSelectScore,
   useSelectStatus
-} from '../utils'
+} from '../../utils'
+import Btn from '../btn'
+import Column from '../column'
+import ColumnBgm from '../column-bgm'
+import ColumnSelect from '../column-select'
 import { BILIBILI_STATUS, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 export default memo(

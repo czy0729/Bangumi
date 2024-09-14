@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-04-26 17:06:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-04-27 06:45:22
+ * @Last Modified time: 2024-09-14 16:41:59
  */
 import React from 'react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 
 function ColumnBgm({ select, text, next }) {
   return (
@@ -23,4 +24,5 @@ function ColumnBgm({ select, text, next }) {
   )
 }
 
-export default ob(ColumnBgm)
+export default ob(ColumnBgm, COMPONENT)
+

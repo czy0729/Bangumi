@@ -3,9 +3,9 @@
  * @Author: czy0729
  * @Date: 2019-03-26 18:37:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-15 22:30:45
+ * @Last Modified time: 2024-09-14 16:20:37
  */
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@/config'
 import { AnyObject, Join } from '@types'
 import { pad } from '../utils'
@@ -69,7 +69,7 @@ export function r(key: string, ...other: any[]) {
   RERENDER_MEMO.data[key] += 1
 
   let _key = key
-  for (let len = _key.length; len <= (STORYBOOK ? 40 : 20); len += 1) _key += ' '
+  for (let len = _key.length; len <= (WEB ? 40 : 20); len += 1) _key += ' '
 
   let _count = String(RERENDER_MEMO.data[key])
   if (_count && Number(_count) <= RERENDER_LOG_COUNT) return
@@ -86,10 +86,7 @@ export function r(key: string, ...other: any[]) {
 /** 当前时间戳字符串 */
 export function now() {
   const now = new Date()
-  const h = now.getHours()
-  const m = now.getMinutes()
-  const s = now.getSeconds()
-  return `${h}:${pad(m)}:${pad(s)}`
+  return `${now.getHours()}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
 }
 
 const _collectLogKeys = {}

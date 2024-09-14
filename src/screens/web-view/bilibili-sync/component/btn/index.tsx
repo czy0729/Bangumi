@@ -2,35 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:26:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:30:18
+ * @Last Modified time: 2024-09-14 16:05:16
  */
 import React from 'react'
-import { Touchable, Flex, Text, Loading } from '@components'
+import { Flex, Loading, Text, Touchable } from '@components'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
 function Btn({
-  style = undefined,
-  btnStyle = undefined,
+  style,
+  btnStyle,
   text = '同步',
-  type = undefined,
+  type,
   size = 11,
-  disabled = undefined,
-  loading = undefined,
-  onPress = undefined
-}) {
+  disabled,
+  loading,
+  onPress
+}: Props) {
   const styles = memoStyles()
   const isSuccess = type === 'success' && !disabled
   return (
-    <Touchable
-      style={stl(styles.touch, style)}
-      onPress={disabled || loading ? undefined : onPress}
-    >
-      <Flex
-        style={stl(styles.btn, isSuccess && styles.btnSuccess, btnStyle)}
-        justify='center'
-      >
+    <Touchable style={stl(styles.touch, style)} onPress={disabled || loading ? undefined : onPress}>
+      <Flex style={stl(styles.btn, isSuccess && styles.btnSuccess, btnStyle)} justify='center'>
         {loading ? (
           <Loading.Mini />
         ) : (
@@ -43,4 +39,4 @@ function Btn({
   )
 }
 
-export default ob(Btn)
+export default ob(Btn, COMPONENT)

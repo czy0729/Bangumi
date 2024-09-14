@@ -2,12 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:18:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:51:44
+ * @Last Modified time: 2024-09-14 16:12:21
  */
+import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { InferArray, Navigation } from '@types'
-import { StoreType as $ } from '../types'
+import { StoreType as $ } from '../../types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+export const COMPONENT = rc(PARENT, 'Item')
 
 export const BILIBILI_STATUS = {
   1: '想看',

@@ -12,8 +12,8 @@ import { _ } from '@stores'
 import { info, open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import Btn from '../../bilibili-sync/btn'
 import { Ctx } from '../types'
+import Btn from '../../bilibili-sync/component/btn'
 import { memoStyles } from './styles'
 
 function Login(props, { $ }: Ctx) {
@@ -49,15 +49,15 @@ function Login(props, { $ }: Ctx) {
           </Flex>
           {!!data.list.length && (
             <Text style={_.mt.md} bold>
-              当前已获取 {data.list.length} 个影视收藏，其中 {$.matchCount} 个条目匹配
-              bgm.tv 数据成功。
+              当前已获取 {data.list.length} 个影视收藏，其中 {$.matchCount} 个条目匹配 bgm.tv
+              数据成功。
             </Text>
           )}
         </View>
         <View style={styles.body}>
           <Text style={_.mt.sm} size={13} type='sub'>
-            请务必准确填写您的豆瓣用户空间地址或豆瓣 ID。(例如:
-            https://www.douban.com/people/123456 或 123456)
+            请务必准确填写您的豆瓣用户空间地址或豆瓣 ID。(例如: https://www.douban.com/people/123456
+            或 123456)
           </Text>
           <Text style={_.mt.sm} size={13} type='sub'>
             网页版: 右上方 → 个人主页 → 复制网页地址。

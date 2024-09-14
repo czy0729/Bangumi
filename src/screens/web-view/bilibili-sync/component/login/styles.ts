@@ -42,6 +42,8 @@ export const memoStyles = _.memoStyles(() => ({
   },
   container: {
     minHeight: 400,
+    borderWidth: 2,
+    borderColor: _.colorBorder,
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   },

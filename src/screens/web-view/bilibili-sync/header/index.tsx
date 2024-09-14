@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:53:35
+ * @Last Modified time: 2024-09-14 15:55:56
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
@@ -13,7 +13,7 @@ import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   const { hide } = $.state
   return (
     <HeaderComp
