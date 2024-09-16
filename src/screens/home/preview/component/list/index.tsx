@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-07 01:49:48
+ * @Last Modified time: 2024-09-16 17:46:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -28,7 +28,12 @@ function List(_props, { $, navigation }: Ctx) {
   if (headers?.Referer && headers.Referer.includes('douban')) {
     if ($.data.length && $.data[0].includes('douban')) images = [...$.data]
     epsThumbs.forEach(item => {
-      if (!images.includes(item)) images.push(item)
+      // 存在多域名分布式链接, 使用后缀判断是否重复
+      const ext = item.split(/public/)?.[1]
+      if (ext) {
+        let flag = images.some(item => item.includes(ext))
+        if (!flag) images.push(item)
+      }
     })
 
     passProps.autoSize = styles.item.width

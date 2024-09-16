@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:39:26
+ * @Last Modified time: 2024-09-16 17:37:03
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -555,6 +555,9 @@ export type RoutePreview = Route<
 
     /** 条目原名 */
     jp?: string
+
+    /** 条目年份 */
+    year?: string
 
     /** 传递图片地址数组转字符串 */
     _images?: string

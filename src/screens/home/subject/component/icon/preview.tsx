@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-21 13:06:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-22 13:20:39
+ * @Last Modified time: 2024-09-16 17:37:25
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -23,6 +23,7 @@ function IconPreview({ data, headers }, { $, navigation }: Ctx) {
           subjectId: $.subjectId,
           cn: $.cn,
           jp: $.jp,
+          year: $.year,
           _images: JSON.stringify(data || []),
           _headers: JSON.stringify(headers || {})
         })
