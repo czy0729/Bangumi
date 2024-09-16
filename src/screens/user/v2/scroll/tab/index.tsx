@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-03-19 04:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:53:21
+ * @Last Modified time: 2024-09-16 17:09:12
  */
 import React, { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
-import { TabView, SceneMap } from '@components'
+import { SceneMap, TabView } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import TabBarLeft from '../../component/tab-bar-left'
-import List from '../list'
 import { H_HEADER, TABS } from '../../ds'
+import List from '../list'
 import TabBar from './tab-bar'
 import { COMPONENT } from './ds'
 import { styles } from './styles'

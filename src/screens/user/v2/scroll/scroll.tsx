@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-03-19 16:50:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:47:39
+ * @Last Modified time: 2024-09-16 17:19:25
  */
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { useMount } from '@utils/hooks'
 import { memo } from '@utils/decorators'
+import { useMount } from '@utils/hooks'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -20,7 +20,7 @@ const Scroll = memo(
 
     const scrollY = useRef(new Animated.Value(0))
     const y = useRef(0)
-    const fixed = useRef(false)
+    const [fixed, setFixed] = useState(false)
 
     const onScrollCallback = useCallback(
       (e: {
@@ -35,13 +35,13 @@ const Scroll = memo(
         const { y: evtY } = e.nativeEvent.contentOffset
         y.current = evtY
 
-        if (fixed.current && evtY < fixedHeight - 20) {
-          fixed.current = false
-        } else if (!fixed.current && evtY >= fixedHeight - 20) {
-          fixed.current = true
+        if (fixed && evtY < fixedHeight - 20) {
+          setFixed(false)
+        } else if (!fixed && evtY >= fixedHeight - 20) {
+          setFixed(true)
         }
       },
-      [fixedHeight, onScroll]
+      [fixed, fixedHeight, onScroll, setFixed]
     )
 
     const updatePageOffset = useCallback(
@@ -50,7 +50,7 @@ const Scroll = memo(
 
         try {
           const config = {
-            offset: fixed.current ? fixedHeight : y.current,
+            offset: fixed ? fixedHeight : y.current,
             animated: false
           }
 
@@ -71,11 +71,13 @@ const Scroll = memo(
           }
         } catch (error) {}
       },
-      [fixedHeight, page, scrollToOffset]
+      [fixed, fixedHeight, page, scrollToOffset]
     )
+
     const onSwipeStart = useCallback(() => {
       updatePageOffset([-1, 1])
     }, [updatePageOffset])
+
     const onIndexChange = useCallback(
       (index: number) => {
         onChange(index)
@@ -85,6 +87,7 @@ const Scroll = memo(
       },
       [onChange, updatePageOffset]
     )
+
     const onRefreshOffset = useCallback(
       (offsets: number | number[] = [0]) => {
         setTimeout(() => {
@@ -104,7 +107,7 @@ const Scroll = memo(
           onIndexChange={onIndexChange}
           onRefreshOffset={onRefreshOffset}
         />
-        <ParallaxImage scrollY={scrollY.current} fixed={fixed.current} />
+        <ParallaxImage scrollY={scrollY.current} fixed={fixed} />
       </>
     )
   },
