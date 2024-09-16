@@ -4,10 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 15:51:22
  */
+import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { InferArray, Navigation } from '@types'
-import { StoreType as $ } from '../types'
+import { StoreType as $ } from '../../types'
+import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
+
+export const COMPONENT = rc(PARENT, 'Item')
 
 export const BILIBILI_STATUS = {
   1: '想看',

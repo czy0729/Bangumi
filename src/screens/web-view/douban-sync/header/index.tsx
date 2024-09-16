@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:48:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-02 10:58:06
+ * @Last Modified time: 2024-09-16 14:29:02
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
@@ -11,8 +11,9 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
+import { COMPONENT } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   const { hide } = $.state
   return (
     <HeaderComp
@@ -51,4 +52,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default obc(Header, COMPONENT)

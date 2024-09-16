@@ -1,41 +1,21 @@
 /*
  * @Author: czy0729
- * @Date: 2022-10-16 16:30:31
+ * @Date: 2024-09-16 14:13:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 07:00:18
+ * @Last Modified time: 2024-09-16 14:17:38
  */
-import { computed, observable } from 'mobx'
-import { userStore } from '@stores'
-import { asc, desc, feedback, getTimestamp, info, sleep } from '@utils'
+import { desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import store from '@utils/store'
 import i18n from '@constants/i18n'
 import { loadJSON } from '@assets/json'
-import { Id, SubjectId } from '@types'
-import { EXCLUDE_STATE, HOST_API, LOADED, LOADED_TOTAL_EPS, NAMESPACE, STATE } from './ds'
-import { DoubanCollection, DoubanStatus, StateData } from './types'
+import { SubjectId } from '@types'
+import { HOST_API, LOADED, LOADED_TOTAL_EPS } from '../ds'
+import { DoubanCollection, DoubanStatus } from '../types'
+import Computed from './computed'
+import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenBilibiliSync extends store<typeof STATE> {
-  state = observable(STATE)
-
-  collections: StateData['list'] = []
-
-  init = async () => {
-    const state = (await this.getStorage(NAMESPACE)) || {}
-    this.setState({
-      ...state,
-      hide: !!state?.data?.list?.length,
-      ...EXCLUDE_STATE,
-      _loaded: true
-    })
-
-    const { data, progress } = this.state
-    if (!data.list.length && !progress.fetching) {
-      this.fetchDouban('done', 1, false)
-    }
-  }
-
+export default class Fetch extends Computed {
   fetchDouban = async (
     status: DoubanStatus = 'done',
     page: number = 1,
@@ -113,7 +93,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
         })
 
         this.collections = []
-        this.setStorage(NAMESPACE)
+        this.save()
       }
     } catch (error) {
       info('获取数据出错，请检查')
@@ -144,7 +124,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
     this.setState({
       collections
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   fetchCollections = async (subjectIds: SubjectId[] = []) => {
@@ -183,7 +163,7 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
     this.setState({
       collections
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 豆瓣数据没有总集数，若条目为看过，需要额外获取条目的总集数然后一并全部标记 */
@@ -213,137 +193,13 @@ export default class ScreenBilibiliSync extends store<typeof STATE> {
     this.setState({
       totalEps
     })
-    this.setStorage(NAMESPACE)
-  }
-
-  // -------------------- get --------------------
-  @computed get doubanId() {
-    const { doubanId } = this.state
-    if (!doubanId) return ''
-
-    if (doubanId.includes('://')) {
-      return doubanId.split('/people/')[1]?.split('/')[0]
-    }
-
-    return doubanId
-  }
-
-  @computed get userId() {
-    return userStore.usersInfo(userStore.myUserId).username || userStore.myUserId
-  }
-
-  @computed get data() {
-    const { data, bottom } = this.state
-    const { list } = data
-    return list
-      .slice()
-      .sort((a, b) => asc(bottom[a.id] || 0, bottom[b.id] || 0))
-      .sort((a, b) => desc(a.subjectId ? 1 : 0, b.subjectId ? 1 : 0))
-  }
-
-  @computed get matchCount() {
-    const { data } = this.state
-    let count = 0
-    data.list.forEach(item => {
-      if (item.subjectId) count += 1
-    })
-    return count
-  }
-
-  collection(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.collections[subjectId]
-    }).get()
-  }
-
-  totalEps(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.totalEps[subjectId] || 0
-    }).get()
-  }
-
-  // -------------------- page --------------------
-  onChange = (doubanId: string) => {
-    this.setState({
-      doubanId: doubanId.trim()
-    })
+    this.save()
   }
 
   onToggleHide = () => {
-    const { hide } = this.state
     this.setState({
-      hide: !hide
+      hide: !this.state.hide
     })
-    this.setStorage(NAMESPACE)
-  }
-
-  onPage = (page: any[]) => {
-    this.fetchCollections(page.filter(item => item.subjectId).map(item => item.subjectId))
-
-    // 只查询没有进度和看过的条目
-    this.fetchTotalEps(
-      page
-        .filter(item => item.subjectId && !item.progress && item.status === 3)
-        .map(item => item.subjectId)
-    )
-  }
-
-  onBottom = (mediaId: Id) => {
-    const { bottom } = this.state
-    const current = bottom.current + 1
-    this.setState({
-      bottom: {
-        current,
-        [mediaId]: current
-      }
-    })
-    this.setStorage(NAMESPACE)
-
-    t('豆瓣同步.置底')
-  }
-
-  onSubmit = async (subjectId: SubjectId, collectionData, epData) => {
-    if (!subjectId) return false
-
-    if (Object.keys(collectionData).length) {
-      const { privacy } = this.state
-      await request(`${HOST_API}/collection/${subjectId}/update`, {
-        ...collectionData,
-        privacy: privacy ? 1 : 0
-      })
-    }
-
-    if (Object.keys(epData).length) {
-      await request(`${HOST_API}/subject/${subjectId}/update/watched_eps`, {
-        watched_eps: epData.ep || 0
-      })
-    }
-
-    await this.fetchCollection(subjectId)
-    feedback()
-
-    t('豆瓣同步.同步')
-  }
-
-  onToggle = async (key: string) => {
-    this.setState({
-      [key]: !this.state[key]
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  onRefreshCollection = (subjectId: SubjectId) => {
-    this.setState({
-      collections: {
-        [subjectId]: {
-          ...(this.collection(subjectId) || {}),
-          loaded: 0
-        }
-      }
-    })
-
-    setTimeout(() => {
-      this.fetchCollection(subjectId)
-    }, 0)
+    this.save()
   }
 }

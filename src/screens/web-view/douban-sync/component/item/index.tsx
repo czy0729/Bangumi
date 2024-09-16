@@ -6,26 +6,20 @@
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
 import Item from './item'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 export default obc(({ item }, { $, navigation }: Ctx) => {
-  const {
-    hideWatched,
-    hideSame,
-    hideNotMatched,
-    noCommentUseCreateDate,
-    scoreMinuesOne
-  } = $.state
   const { subjectId } = item
 
   // 隐藏未匹配
-  if (hideNotMatched && !subjectId) return null
+  if ($.state.hideNotMatched && !subjectId) return null
 
   // 隐藏已看过
   const collection = $.collection(subjectId)
-  if (hideWatched && collection?.status === 'collect') return null
+  if ($.state.hideWatched && collection?.status === 'collect') return null
 
   const totalEps = $.totalEps(subjectId)
   return (
@@ -35,12 +29,12 @@ export default obc(({ item }, { $, navigation }: Ctx) => {
       item={item}
       collection={collection}
       totalEps={totalEps ? `${totalEps}话` : ''}
-      hideSame={hideSame}
-      noCommentUseCreateDate={noCommentUseCreateDate}
-      scoreMinuesOne={scoreMinuesOne}
+      hideSame={$.state.hideSame}
+      noCommentUseCreateDate={$.state.noCommentUseCreateDate}
+      scoreMinuesOne={$.state.scoreMinuesOne}
       onRefreshCollection={$.onRefreshCollection}
       onBottom={$.onBottom}
       onSubmit={$.onSubmit}
     />
   )
-})
+}, COMPONENT)

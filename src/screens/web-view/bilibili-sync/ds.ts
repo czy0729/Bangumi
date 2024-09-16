@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-28 11:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 18:08:48
+ * @Last Modified time: 2024-09-16 14:32:10
  */
 export const COMPONENT = 'BilibiliSync'
 

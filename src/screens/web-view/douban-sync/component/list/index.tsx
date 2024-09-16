@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2022-04-24 14:16:31
+ * @Date: 2022-10-17 00:02:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 16:55:21
+ * @Last Modified time: 2024-09-16 16:54:02
  */
 import React from 'react'
 import { Notice, PaginationList2 as PaginationList } from '@_'
@@ -21,8 +21,13 @@ function List(_props, { $ }: Ctx) {
         contentContainerStyle={_.container.bottom}
         data={$.data}
         limit={12}
+        keyboardDismissMode='on-drag'
         ListHeaderComponent={
-          $.data.length ? <Notice>共查找到 {$.data.length} 项结果</Notice> : null
+          $.data.length ? (
+            <Notice>
+              共查找到 {$.data.length} 项结果，其中 {$.matchCount} 项匹配成功
+            </Notice>
+          ) : null
         }
         renderItem={renderItem}
         onPage={$.onPage}

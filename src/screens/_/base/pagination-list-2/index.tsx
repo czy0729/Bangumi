@@ -9,14 +9,14 @@ import { Component, ListView } from '@components'
 import { getTimestamp } from '@utils'
 import { r } from '@utils/dev'
 import { WEB } from '@constants'
-import { ListEmpty } from '@types'
+import { AnyObject, ListEmpty } from '@types'
 import { COMPONENT } from './ds'
 import { Props as PaginationList2Props } from './types'
 
 export { PaginationList2Props }
 
 /** 支持分页的长列表 */
-export const PaginationList2 = <ItemT extends any[]>({
+export const PaginationList2 = <ItemT extends AnyObject>({
   forwardRef,
   connectRef,
   data,

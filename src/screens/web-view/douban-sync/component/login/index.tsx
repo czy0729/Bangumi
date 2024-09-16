@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:31:10
+ * @Last Modified time: 2024-09-16 14:29:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,11 +12,12 @@ import { _ } from '@stores'
 import { info, open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
-import Btn from '../../bilibili-sync/component/btn'
+import { Ctx } from '../../types'
+import Btn from '../../../bilibili-sync/component/btn'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Login(props, { $ }: Ctx) {
+function Login(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { doubanId, hide, data, progress } = $.state
   return (
@@ -29,7 +30,7 @@ function Login(props, { $ }: Ctx) {
             defaultValue={doubanId}
             multiline
             numberOfLines={3}
-            placeholder='输入豆瓣用户空间地址或用户的豆瓣ID'
+            placeholder='输入豆瓣用户空间地址或用户的豆瓣 ID'
             onChangeText={$.onChange}
           />
           <Flex style={_.mt.md}>
@@ -56,8 +57,8 @@ function Login(props, { $ }: Ctx) {
         </View>
         <View style={styles.body}>
           <Text style={_.mt.sm} size={13} type='sub'>
-            请务必准确填写您的豆瓣用户空间地址或豆瓣 ID。(例如: https://www.douban.com/people/123456
-            或 123456)
+            请务必准确填写您的豆瓣用户空间地址或豆瓣 ID。例如: https://www.douban.com/people/123456
+            或 123456。
           </Text>
           <Text style={_.mt.sm} size={13} type='sub'>
             网页版: 右上方 → 个人主页 → 复制网页地址。
@@ -105,4 +106,4 @@ function Login(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Login)
+export default obc(Login, COMPONENT)

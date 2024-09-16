@@ -9,15 +9,15 @@ import { Component, Page } from '@components'
 import { runAfter } from '@utils'
 import { ic } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
+import List from './component/list'
+import Login from './component/login'
+import Tips from './component/tips'
 import Header from './header'
-import List from './list'
-import Login from './login'
 import Store from './store'
-import Tips from './tips'
 import { Ctx } from './types'
 
 /** 豆瓣同步 */
-const DoubanSync = (props, { $ }: Ctx) => {
+const DoubanSync = (_props, { $ }: Ctx) => {
   useMount(() => {
     runAfter(() => {
       $.init()

@@ -15,10 +15,10 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus, CollectionStatusCn } from '@types'
-import Btn from '../../bilibili-sync/component/btn'
-import Column from '../../bilibili-sync/component/column'
-import ColumnBgm from '../../bilibili-sync/component/column-bgm'
-import ColumnSelect from '../../bilibili-sync/component/column-select'
+import Btn from '../../../bilibili-sync/component/btn'
+import Column from '../../../bilibili-sync/component/column'
+import ColumnBgm from '../../../bilibili-sync/component/column-bgm'
+import ColumnSelect from '../../../bilibili-sync/component/column-select'
 import {
   getSelectComment,
   getSelectEp,
@@ -27,7 +27,7 @@ import {
   useSelectEp,
   useSelectScore,
   useSelectStatus
-} from '../../bilibili-sync/utils'
+} from '../../../bilibili-sync/utils'
 import { BILIBILI_STATUS, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 export default memo(

@@ -19,18 +19,20 @@ export type Ctx = {
 
 type DoubanId = Id
 
+export type DoubanItem = {
+  id: DoubanId
+  subjectId?: SubjectId
+  title: string
+  cover: string
+  status: number
+  content: string
+  score: number
+  progress: any
+  create_time: string
+}
+
 export type StateData = {
-  list: {
-    id: DoubanId
-    subjectId: SubjectId
-    title: string
-    cover: string
-    status: number
-    content: string
-    score: number
-    progress: any
-    create_time: string
-  }[]
+  list: DoubanItem[]
   _loaded: Loaded
 }
 
