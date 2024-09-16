@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:45:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 16:45:13
+ * @Last Modified time: 2024-09-16 19:44:52
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title={$.params?.name ? `${$.params.name}的修订历史` : '修订历史'}

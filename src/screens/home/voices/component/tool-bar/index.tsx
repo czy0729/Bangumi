@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 16:28:03
+ * @Last Modified time: 2024-09-16 20:46:39
  */
 import React from 'react'
 import { Heatmap, ToolBar as ToolBarComp } from '@components'
@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar(_props, { $ }: Ctx) {
   const { position } = $.state
   const { filters = [] } = $.monoVoices
   return (
@@ -26,7 +26,7 @@ function ToolBar(props, { $ }: Ctx) {
             data={data}
             text={find.title === '全部' ? item.title : find.title || item.title}
             type={find.title !== '全部' ? 'desc' : 'sub'}
-            onSelect={label => $.onFilterSelect(label, item.data)}
+            onSelect={(label: string) => $.onFilterSelect(label, item.data)}
           />
         )
       })}
@@ -36,4 +36,3 @@ function ToolBar(props, { $ }: Ctx) {
 }
 
 export default obc(ToolBar, COMPONENT)
-

@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 人物的角色 */
-const Voices = (props, { $ }: Ctx) => {
+const Voices = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

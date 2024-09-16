@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-02-10 02:55:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 23:15:52
+ * @Last Modified time: 2024-09-16 20:23:38
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 
 function Label({ focused, model, label, value, onSelect }) {
@@ -23,7 +23,7 @@ function Label({ focused, model, label, value, onSelect }) {
         <Text type='title' size={13} bold={focused} noWrap>
           {label}
         </Text>
-        {!STORYBOOK && (
+        {!WEB && (
           <Text size={10} lineHeight={13} type='sub' noWrap>
             {' '}
             {model.getLabel(value)}{' '}

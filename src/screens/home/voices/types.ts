@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-06-02 16:34:23
  */
 import { factory } from '@utils'
-import { Navigation, PersonId } from '@types'
+import { GetRouteParams, Navigation, RouteVoices } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,7 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  monoId: PersonId
-  name?: string
-}
+export type Params = GetRouteParams<RouteVoices>

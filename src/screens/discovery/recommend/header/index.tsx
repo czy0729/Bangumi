@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 13:35:58
+ * @Last Modified time: 2024-09-16 20:25:17
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { obc } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
@@ -17,7 +17,7 @@ function Header(props, { navigation }: Ctx) {
       title='AI 推荐'
       hm={['recommend', 'Recommend']}
       headerRight={() => {
-        if (STORYBOOK) return null
+        if (WEB) return null
 
         return (
           <HeaderComp.Popover

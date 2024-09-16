@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 16:33:22
+ * @Last Modified time: 2024-09-16 20:46:38
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if (!$.monoVoices._loaded) return <Loading />
 
   return (

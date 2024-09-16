@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-12 09:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:34:49
+ * @Last Modified time: 2024-09-16 19:44:49
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 修订历史 */
-const SubjectWiki = (props, { $ }: Ctx) => {
+const SubjectWiki = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-02 22:21:52
+ * @Last Modified time: 2024-09-16 19:39:34
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 
-function IconGroup(props, { navigation }: Ctx) {
+function IconGroup(_props, { navigation }: Ctx) {
   return (
     <IconTabsHeader
       style={stl(styles.icon, _.isPad && styles.iconPad)}

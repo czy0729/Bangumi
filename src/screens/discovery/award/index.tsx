@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 04:30:05
+ * @Last Modified time: 2024-09-16 20:26:09
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { appNavigate, cheerio, getStorage, info, open, removeCF, setStorage } from '@utils'
 import { ob } from '@utils/decorators'
 import { fetchHTML, t } from '@utils/fetch'
-import { HOST, STORYBOOK } from '@constants'
+import { HOST, WEB } from '@constants'
 import Extra from './component/extra'
 import Loading from './component/loading'
 import WebView from './component/web-view'
@@ -46,7 +46,7 @@ class Award extends React.Component<Props> {
     }
 
     // 网页版通常都是没登录的, 为了减少大请求, 直接缓存网页结果
-    if (STORYBOOK) {
+    if (WEB) {
       const cache: string = (await getStorage(`${NAMESPACE}|html|${this.year}`)) || ''
       if (cache) {
         this.setState({
@@ -94,7 +94,7 @@ class Award extends React.Component<Props> {
         html
       })
 
-      if (STORYBOOK) setStorage(`${NAMESPACE}|html|${this.year}`, html)
+      if (WEB) setStorage(`${NAMESPACE}|html|${this.year}`, html)
     } catch (error) {
       this.onError()
     }

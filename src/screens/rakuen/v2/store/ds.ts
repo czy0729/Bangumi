@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 20:04:18
+ * @Last Modified time: 2024-09-16 20:23:47
  */
 import { _ } from '@stores'
 import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE_GROUP,
   MODEL_RAKUEN_TYPE_MONO,
-  STORYBOOK
+  WEB
 } from '@constants'
 import { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
 import { COMPONENT } from '../ds'
@@ -26,7 +26,7 @@ export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
   isFocused: true,
-  _mounted: STORYBOOK
+  _mounted: WEB
 }
 
 export const STATE = {

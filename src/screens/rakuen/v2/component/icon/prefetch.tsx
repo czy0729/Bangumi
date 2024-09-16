@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 17:17:47
+ * @Last Modified time: 2024-09-16 19:42:48
  */
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
@@ -13,7 +13,7 @@ import { confirm } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconPrefetch(props, { $ }: Ctx) {
+function IconPrefetch(_props, { $ }: Ctx) {
   if ($.state.prefetching) {
     return (
       <Touchable

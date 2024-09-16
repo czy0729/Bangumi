@@ -1,14 +1,14 @@
-import { otaStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-07-25 06:16:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 07:10:59
+ * @Last Modified time: 2024-09-16 20:26:13
  */
+import { otaStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t, withT } from '@utils/fetch'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -78,7 +78,7 @@ export default class Action extends Fetch {
 
   /** 到顶 */
   scrollToTop = withT(() => {
-    if (STORYBOOK) {
+    if (WEB) {
       scrollToTop()
       return
     }

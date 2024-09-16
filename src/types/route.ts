@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 17:37:03
+ * @Last Modified time: 2024-09-16 20:40:40
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -60,6 +60,7 @@ export type NavigationPushType = RouteActions &
   RouteShare &
   RouteSubject &
   RouteSubjectCatalogs &
+  RouteSubjectWiki &
   RouteTag &
   RouteTags &
   RouteTinygrail &
@@ -68,6 +69,7 @@ export type NavigationPushType = RouteActions &
   RouteTyperank &
   RouteUser &
   RouteUserTimeline &
+  RouteVoices &
   RouteWebBrowser &
   RouteWenku &
   RouteWorks &
@@ -177,10 +179,24 @@ export type RouteSay = Route<
   }
 >
 
+export type RouteVoices = Route<
+  'Voices',
+  {
+    /** 现实人物 ID */
+    monoId: PersonId
+
+    /** 现实人物名字 */
+    name?: string
+  }
+>
+
 export type RouteWorks = Route<
   'Works',
   {
+    /** 现实人物 ID */
     monoId: PersonId
+
+    /** 现实人物名字 */
     name?: string
   }
 >
@@ -399,7 +415,7 @@ export type RoutePM = Route<
 export type RouteSubject = Route<
   'Subject',
   {
-    /** 条目 id */
+    /** 条目 ID */
     subjectId: SubjectId
 
     /** 条目类型中文 */
@@ -428,6 +444,17 @@ export type RouteSubject = Route<
 
     /** @deprecated 找条目, NSFW */
     _hid?: Id
+  }
+>
+
+export type RouteSubjectWiki = Route<
+  'SubjectWiki',
+  {
+    /** 条目 ID */
+    subjectId: SubjectId
+
+    /** 条目名 */
+    name?: string
   }
 >
 

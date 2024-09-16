@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-27 11:00:09
+ * @Last Modified time: 2024-09-16 20:21:35
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -11,13 +11,13 @@ import { userStore } from '@stores'
 import { info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, STORYBOOK } from '@constants'
+import { HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   return (
     <LogoHeader
       right={
@@ -25,7 +25,7 @@ function Header(props, { $, navigation }: Ctx) {
           style={styles.icon}
           name='md-add'
           onPress={() => {
-            if (STORYBOOK) {
+            if (WEB) {
               open(`${HOST}/timeline`)
               return
             }

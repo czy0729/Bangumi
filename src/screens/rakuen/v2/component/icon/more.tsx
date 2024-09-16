@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:46:39
+ * @Last Modified time: 2024-09-16 20:23:34
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Touchable } from '@components'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HTML_NEW_TOPIC, STORYBOOK } from '@constants'
+import { HTML_NEW_TOPIC, WEB } from '@constants'
 import { Ctx } from '../../types'
 
 const TEXT_SEARCH = '小组搜索'
@@ -20,11 +20,11 @@ const TEXT_POST = '添加新讨论'
 
 function IconMore({ style }, { navigation }: Ctx) {
   const DATA = []
-  if (!STORYBOOK) DATA.push(TEXT_SEARCH)
+  if (!WEB) DATA.push(TEXT_SEARCH)
   DATA.push(TEXT_SETTING, TEXT_POST)
   return (
     <Flex style={_.mr.xs}>
-      {!STORYBOOK && (
+      {!WEB && (
         <Touchable
           style={{
             marginRight: -2

@@ -1,28 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2021-07-12 09:55:50
+ * @Date: 2024-09-16 20:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:11:08
+ * @Last Modified time: 2024-09-16 20:17:32
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
-import store from '@utils/store'
 import { HOST } from '@constants'
-import { Params } from './types'
+import State from './state'
 
-export default class ScreenSubjectWiki extends store<null> {
-  params: Params
-
-  init = () => {
-    return subjectStore.fetchWiki({
-      subjectId: this.subjectId
-    })
-  }
-
-  // -------------------- get --------------------
+export default class Computed extends State {
   @computed get subjectId() {
-    const { subjectId } = this.params
-    return subjectId
+    return this.params.subjectId
   }
 
   @computed get subject() {

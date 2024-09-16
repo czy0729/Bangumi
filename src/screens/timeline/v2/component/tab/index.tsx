@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:36:34
+ * @Last Modified time: 2024-09-16 20:22:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,7 +18,7 @@ import TabBarLeft from './tab-bar-left'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Tab(props, { $ }: Ctx) {
+function Tab(_props, { $ }: Ctx) {
   const styles = memoStyles()
   return (
     <BlurViewRoot>

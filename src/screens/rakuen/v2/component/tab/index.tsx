@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 17:17:30
+ * @Last Modified time: 2024-09-16 19:42:56
  */
 import React from 'react'
 import { TabView } from '@components'
@@ -15,7 +15,7 @@ import renderScene from './renderScene'
 import TabBar from './tab-bar'
 import { COMPONENT } from './ds'
 
-function Tab(props, { $ }: Ctx) {
+function Tab(_props, { $ }: Ctx) {
   if (!$.state._loaded) return null
 
   return (

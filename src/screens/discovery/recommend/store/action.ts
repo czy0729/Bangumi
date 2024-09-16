@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:15:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 05:20:02
+ * @Last Modified time: 2024-09-16 20:25:13
  */
 import { updateVisibleBottom } from '@utils'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Fetch from './fetch'
 import { NAMESPACE } from './ds'
 
@@ -32,7 +32,7 @@ export default class Action extends Fetch {
 
       await this.doSearchV2()
 
-      if (!STORYBOOK) await this.fetchSubjects()
+      if (!WEB) await this.fetchSubjects()
       await this.fetchSubjectsFromOSS()
       this.setStorage(NAMESPACE)
     }, 16)

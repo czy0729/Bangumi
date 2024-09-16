@@ -12,7 +12,6 @@ import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 
 function Item({ item, index }, { navigation }: Ctx) {
-  // {!index && <Heatmap id='角色.跳转' />}
   return (
     <ItemVoice
       style={_.container.item}

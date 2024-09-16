@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 11:00:28
+ * @Last Modified time: 2024-09-16 19:42:50
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -12,7 +12,7 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 
-function IconSearch(props, { navigation }: Ctx) {
+function IconSearch(_props, { navigation }: Ctx) {
   return (
     <IconTabsHeader
       style={styles.icon}

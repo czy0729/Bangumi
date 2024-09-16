@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:52:02
+ * @Last Modified time: 2024-09-16 19:39:31
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 超展开 */
-const Rakuen = (props, context: Ctx) => {
+const Rakuen = (_props, context: Ctx) => {
   useRakuenPage(context)
 
   return useObserver(() => (

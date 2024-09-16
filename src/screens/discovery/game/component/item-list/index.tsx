@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 21:25:12
+ * @Last Modified time: 2024-09-16 20:25:26
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,13 +13,7 @@ import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl, x18 } from '@utils'
 import { obc } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import {
-  IMG_DEFAULT,
-  IMG_HEIGHT_LG,
-  IMG_WIDTH_LG,
-  MODEL_COLLECTION_STATUS,
-  STORYBOOK
-} from '@constants'
+import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS, WEB } from '@constants'
 import { CollectionStatus } from '@types'
 import { Ctx } from '../../types'
 import { getThumbs, toArray } from './utils'
@@ -138,7 +132,7 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
             <View style={styles.thumbs}>
               <HorizontalList
                 data={thumbs.filter((item, index) => {
-                  if (!STORYBOOK) return index < 3
+                  if (!WEB) return index < 3
 
                   if (thumbs.length <= 1) return true
                   return index > 0 && index < 4

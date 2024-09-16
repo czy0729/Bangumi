@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 05:18:22
+ * @Last Modified time: 2024-09-16 20:24:55
  */
 import { userStore } from '@stores'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -18,7 +18,7 @@ class ScreenRecommend extends Action {
       _loaded: true
     })
 
-    if (!STORYBOOK) {
+    if (!WEB) {
       if (!this.state.value && userStore.myId) {
         this.setState({
           value: String(userStore.myId)

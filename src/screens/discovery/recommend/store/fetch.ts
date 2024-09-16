@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:14:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-23 21:06:39
+ * @Last Modified time: 2024-09-16 20:25:05
  */
 import { desc, getTimestamp, info, pick } from '@utils'
 import { t } from '@utils/fetch'
 import { gets } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
-import { MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
+import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { SubjectTypeValue } from '@types'
 import Computed from './computed'
 import { HOST_REC, NAMESPACE } from './ds'
@@ -175,7 +175,7 @@ export default class Fetch extends Computed {
               })
           }
         })
-        if (!STORYBOOK) await this.fetchSubjects()
+        if (!WEB) await this.fetchSubjects()
         await this.fetchSubjectsFromOSS()
         this.setStorage(NAMESPACE)
       } else if (data?.message) {

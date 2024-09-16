@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:56:41
+ * @Last Modified time: 2024-09-16 20:24:00
  */
 import React from 'react'
 import { Image as RNImage, View } from 'react-native'
@@ -13,7 +13,7 @@ import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, HOST, HOST_2, HOST_3, STORYBOOK } from '@constants'
+import { FROZEN_FN, HOST, HOST_2, HOST_3, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -283,7 +283,7 @@ class Form extends React.Component<Props> {
             <Mesume />
           </Flex>
           {this.renderForm()}
-          {!STORYBOOK && this.renderConfig()}
+          {!WEB && this.renderConfig()}
           <Button style={_.mt.lg} type='main' shadow loading={loading} onPress={onLogin}>
             {i18n.login()}
           </Button>

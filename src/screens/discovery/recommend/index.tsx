@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-05-24 10:28:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 18:45:15
+ * @Last Modified time: 2024-09-16 20:25:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import Category from './component/category'
 import List from './component/list'
 import SearchBar from './component/search-bar'
@@ -43,7 +43,7 @@ const Recommend = (props, { $, navigation }: Ctx) => {
           </Flex>
           <List />
         </Page>
-        {STORYBOOK && (
+        {WEB && (
           <View style={styles.home}>
             <IconTouchable
               name='home'

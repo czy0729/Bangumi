@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:10:31
+ * @Last Modified time: 2024-09-16 20:21:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { getCoverLarge, showImageViewer, simpleTime, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { API_AVATAR, STORYBOOK } from '@constants'
+import { API_AVATAR, WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 
@@ -53,7 +53,7 @@ class List extends React.Component {
               }}
             />
             <Flex style={_.mt.sm}>
-              {!STORYBOOK && (
+              {!WEB && (
                 <Avatar
                   navigation={navigation}
                   userId={userId}
@@ -109,7 +109,7 @@ class List extends React.Component {
                 <Text style={_.ml.xs} type='sub' size={12} lineHeight={13}>
                   by
                 </Text>
-                {!STORYBOOK && (
+                {!WEB && (
                   <View style={_.ml.sm}>
                     <Avatar
                       navigation={navigation}

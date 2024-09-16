@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-07-29 13:51:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-30 21:05:42
+ * @Last Modified time: 2024-09-16 20:25:34
  */
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { date, getTimestamp, x18s } from '@utils'
 import { get } from '@utils/protobuf'
-import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, MODEL_SUBJECT_TYPE, STORYBOOK } from '@constants'
+import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { SubjectType, SubjectTypeCn } from '@types'
 import State from './state'
 
@@ -98,7 +98,7 @@ export default class Computed extends State {
 
   /** 是否限制显示 */
   @computed get isLimit() {
-    if (STORYBOOK || this.state.type !== 'advance') return false
+    if (WEB || this.state.type !== 'advance') return false
 
     if (!userStore.isLogin) return true
 
