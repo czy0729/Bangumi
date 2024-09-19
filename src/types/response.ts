@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2024-09-09 16:28:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 18:25:31
+ * @Last Modified time: 2024-09-20 01:43:04
  */
 
 /** https://api.github.com/repos/czy0729/Bangumi/releases/latest */
@@ -27,3 +27,17 @@ export type ResponseGHReleases = {
 }
 
 export type ResponseKVAdvance = Record<string, string>
+
+/** `${API_HOST}/v0/episodes?subject_id=${subjectId}&type=0&limit=100&offset=1000` */
+export type ResponseV0Episodes = {
+  data: {
+    airdate: any
+    comment: any
+    duration: any
+    id: any
+    name: any
+    name_cn: any
+    sort: any
+    type: any
+  }[]
+}

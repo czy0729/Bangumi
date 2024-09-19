@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 17:38:10
+ * @Last Modified time: 2024-09-20 01:49:36
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -27,7 +27,7 @@ import {
   HTML_SUBJECT_WIKI_COVER,
   HTML_SUBJECT_WIKI_EDIT
 } from '@constants'
-import { EpId, MonoId, PersonId, RatingStatus, SubjectId } from '@types'
+import { EpId, MonoId, PersonId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import timelineStore from '../timeline'
 import {
   cheerioMAL,
@@ -50,7 +50,7 @@ import {
   INIT_SUBJECT_V2,
   STATE
 } from './init'
-import { getInt } from './utils'
+import { getInt, mapV0Episodes } from './utils'
 import { ApiSubjectResponse, MonoWorks } from './types'
 
 export default class Fetch extends Computed {
@@ -280,28 +280,30 @@ export default class Fetch extends Computed {
 
   /** 从新 API 获取集数大于 1000 的条目的章节信息 */
   fetchSubjectEpV2 = async (subjectId: SubjectId) => {
+    const url = (offset: number) =>
+      `${API_HOST}/v0/episodes?subject_id=${subjectId}&type=0&limit=100&offset=${offset}`
+
     try {
-      const data: any = await request(
-        `${API_HOST}/v0/episodes?subject_id=${subjectId}&type=0&limit=100&offset=1000`
-      )
-      if (Array.isArray(data?.data) && data?.data?.length) {
+      /** @todo 以后再优化 */
+      const data1000: ResponseV0Episodes = await request(url(1000))
+      if (Array.isArray(data1000?.data) && data1000?.data?.length) {
+        let list = mapV0Episodes(data1000.data)
+
+        const data1100: ResponseV0Episodes = await request(url(1100))
+        if (Array.isArray(data1100?.data) && data1100?.data?.length) {
+          list = [...list, ...mapV0Episodes(data1100.data)]
+
+          const data1200: ResponseV0Episodes = await request(url(1200))
+          if (Array.isArray(data1200?.data) && data1200?.data?.length) {
+            list = [...list, ...mapV0Episodes(data1200.data)]
+          }
+        }
+
         const key = 'epV2'
         this.setState({
           [key]: {
             [subjectId]: {
-              list: data?.data.map(item => ({
-                airdate: item.airdate,
-                comment: item.comment,
-                desc: '',
-                duration: item.duration,
-                id: item.id,
-                name: item.name,
-                name_cn: item.name_cn,
-                sort: item.sort,
-                status: item.name || item.name_cn ? 'Air' : 'NA',
-                type: item.type,
-                url: `http://bgm.tv/ep/${item.id}`
-              })),
+              list,
               _loaded: getTimestamp()
             }
           }

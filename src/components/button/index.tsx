@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 02:32:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 02:58:05
+ * @Last Modified time: 2024-09-20 01:29:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,8 +65,21 @@ export const Button = observer(
     if (size) {
       const textSize = `text${titleCase(size)}`
       wrapStyle.push(styles[size])
-      textStyle.push(styles[textSize])
-      if (textSize === 'textSm') textBold = true
+
+      if (textSize === 'textSm') {
+        textBold = true
+
+        if (
+          (typeof children === 'string' || typeof children === 'number') &&
+          String(children).length >= 5
+        ) {
+          textStyle.push(styles.textXs)
+        } else {
+          textStyle.push(styles.textSm)
+        }
+      } else {
+        textStyle.push(styles[textSize])
+      }
     }
 
     if (style) {

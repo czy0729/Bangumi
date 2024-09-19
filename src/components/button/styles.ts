@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 15:49:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-27 17:51:33
+ * @Last Modified time: 2024-09-20 01:30:16
  */
 import { _ } from '@stores'
 import { PAD } from '@constants'
@@ -86,6 +86,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   textSm: {
     fontSize: 12 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
+  },
+  textXs: {
+    fontSize: 9 + _.fontSizeAdjust + (_.isPad ? PAD_INCREASE : 0)
   },
   textPlain: {
     color: _.colorDesc
