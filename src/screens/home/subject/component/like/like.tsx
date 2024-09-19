@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:01:01
+ * @Last Modified time: 2024-09-19 22:11:35
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TITLE_LIKE } from '../../ds'
 import IconHidden from '../icon/hidden'
+import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -23,7 +24,13 @@ const Like = memo(
       <InView style={stl(styles.container, !showLike && _.short)}>
         <SectionTitle
           style={_.container.wind}
-          right={!showLike && <IconHidden name={TITLE_LIKE} value='showLike' />}
+          right={
+            showLike ? (
+              <IconRelation title='猜你喜欢' list={like} />
+            ) : (
+              <IconHidden name={TITLE_LIKE} value='showLike' />
+            )
+          }
           icon={!showLike && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showLike')}
         >
@@ -39,17 +46,17 @@ const Like = memo(
               typeCn={typeCn}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
               onPress={({ id, name, image }, type) => {
-                t('条目.跳转', {
-                  to: 'Subject',
-                  from: TITLE_LIKE,
-                  subjectId
-                })
-
                 navigation.push('Subject', {
                   subjectId: id,
                   _jp: name,
                   _image: getCoverSrc(image, COVER_WIDTH),
                   _type: type
+                })
+
+                t('条目.跳转', {
+                  to: 'Subject',
+                  from: TITLE_LIKE,
+                  subjectId
                 })
               }}
             />

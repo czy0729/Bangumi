@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:51:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 04:05:57
+ * @Last Modified time: 2024-09-18 13:28:07
  */
 import { factory } from '@utils'
-import { Navigation, SubjectType } from '@types'
+import { GetRouteParams, Navigation, RouteTag } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,8 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  airtime?: string
-  type?: SubjectType
-  tag?: string
-}
+export type Params = GetRouteParams<RouteTag>

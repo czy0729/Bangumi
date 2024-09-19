@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-05 15:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 11:00:31
+ * @Last Modified time: 2024-09-18 13:33:04
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { DATA_AIRTIME } from '@constants'
 import { Ctx } from '../../types'
 
-function Year(props, { $ }: Ctx) {
+function Year(_props, { $ }: Ctx) {
   const { airtime } = $.state
   return (
     <ToolBar.Popover

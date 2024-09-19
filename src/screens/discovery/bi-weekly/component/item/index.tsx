@@ -2,25 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 05:48:01
+ * @Last Modified time: 2024-09-19 22:55:01
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { AnyObject, Navigation } from '@types'
+import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Item({
-  navigation,
-  item,
-  index
-}: AnyObject<{
-  navigation: Navigation
-}>) {
+function Item({ item, index }, { navigation }: Ctx) {
   const isCatalog = item.title.includes('【目录】')
   const width = isCatalog ? 160 : _.window.contentWidth
   const height = isCatalog ? 160 : Math.floor(width * 1.41)
@@ -44,10 +38,7 @@ function Item({
       }}
     >
       <Flex justify='center'>
-        <InView
-          index={index}
-          y={(height + styles.item.marginBottom + descSize + titleSize) * index}
-        >
+        <InView y={(height + styles.item.marginBottom + descSize + titleSize) * index + 1}>
           <Image width={width} height={height} src={item.cover} />
         </InView>
       </Flex>
@@ -63,4 +54,4 @@ function Item({
   )
 }
 
-export default ob(Item, COMPONENT)
+export default obc(Item, COMPONENT)

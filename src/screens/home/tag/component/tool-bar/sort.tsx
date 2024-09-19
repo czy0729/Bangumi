@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-05 15:30:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-30 11:01:38
+ * @Last Modified time: 2024-09-18 13:33:01
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
@@ -12,7 +12,7 @@ import { MODEL_TAG_ORDERBY, TAG_ORDERBY } from '@constants'
 import { TagOrderCn } from '@types'
 import { Ctx } from '../../types'
 
-function Sort(props, { $ }: Ctx) {
+function Sort(_props, { $ }: Ctx) {
   const { order } = $.state
   return (
     <ToolBarComp.Popover

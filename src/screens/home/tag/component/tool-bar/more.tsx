@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-05 15:46:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 06:23:48
+ * @Last Modified time: 2024-09-18 13:32:55
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function More(props, { $ }: Ctx) {
+function More(_props, { $ }: Ctx) {
   const { fixed, list, collected } = $.state
   return (
     <ToolBar.Popover

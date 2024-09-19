@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2024-05-14 04:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-14 06:23:36
+ * @Last Modified time: 2024-09-19 22:51:19
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
 import { Component, Page } from '@components'
+import { ic } from '@utils/decorators'
 import List from './component/list'
 import Header from './header'
 import { useBiWeeklyPage } from './hooks'
-import { Props } from './types'
+import Store from './store'
 
 /** Bangumi 半月刊 */
-const BiWeekly = ({ navigation }: Props) => {
+const BiWeekly = () => {
   const { loaded, data } = useBiWeeklyPage()
   return useObserver(() => (
     <Component id='screen-bi-weekly'>
-      <Header navigation={navigation} />
+      <Header />
       <Page loaded={loaded}>
-        <List navigation={navigation} data={data} />
+        <List data={data} />
       </Page>
     </Component>
   ))
 }
 
-export default BiWeekly
+export default ic(Store, BiWeekly)

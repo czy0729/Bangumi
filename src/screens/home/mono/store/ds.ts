@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:20:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:42:26
+ * @Last Modified time: 2024-09-19 22:35:29
  */
 import { _ } from '@stores'
 import { Mono, MonoComments } from '@stores/subject/types'
@@ -12,7 +12,7 @@ export const NAMESPACE = 'ScreenMono'
 
 export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height,
+  visibleBottom: _.window.height as number | false,
 
   /** 是否需要检查是否进行过 ICO (XSB) */
   checkTinygrail: false,

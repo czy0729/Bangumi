@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:02:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:11:07
+ * @Last Modified time: 2024-09-19 22:06:27
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -14,6 +14,7 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import { TITLE_COMIC } from '../../ds'
+import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -21,7 +22,9 @@ const Comic = memo(
   ({ navigation, subjectId, comic }) => {
     return (
       <InView style={styles.container}>
-        <SectionTitle style={_.container.wind}>{TITLE_COMIC}</SectionTitle>
+        <SectionTitle style={_.container.wind} right={<IconRelation title='单行本' list={comic} />}>
+          {TITLE_COMIC}
+        </SectionTitle>
         <HorizontalList
           style={_.mt.sm}
           data={comic.map(item => ({
@@ -35,17 +38,17 @@ const Comic = memo(
           initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
           typeCn='书籍'
           onPress={({ id, name, image }, type) => {
-            t('条目.跳转', {
-              to: 'Subject',
-              from: TITLE_COMIC,
-              subjectId
-            })
-
             navigation.push('Subject', {
               subjectId: id,
               _jp: name,
               _image: getCoverSrc(image, COVER_WIDTH),
               _type: type
+            })
+
+            t('条目.跳转', {
+              to: 'Subject',
+              from: TITLE_COMIC,
+              subjectId
             })
           }}
         />

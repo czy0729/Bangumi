@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-14 12:02:10
+ * @Last Modified time: 2024-09-19 20:33:00
  */
 import { lazy } from 'react'
 
@@ -61,6 +61,7 @@ export const Episodes = lazy(() => import('./home/episodes'))
 export { default as Home } from './home/v2'
 export const Mono = lazy(() => import('./home/mono'))
 export const Persons = lazy(() => import('./home/persons'))
+export const Overview = lazy(() => import('./home/overview'))
 export const Preview = lazy(() => import('./home/preview'))
 export const Rating = lazy(() => import('./home/rating'))
 export const Subject = lazy(() => import('./home/subject'))

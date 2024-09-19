@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:40:40
+ * @Last Modified time: 2024-09-19 22:17:23
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -48,6 +48,7 @@ export type NavigationPushType = RouteActions &
   RouteManga &
   RouteMono &
   RouteNotify &
+  RouteOverview &
   RoutePM &
   RoutePersons &
   RoutePreview &
@@ -91,14 +92,19 @@ export type RouteNotify = (
   }
 ) => any
 
-export type RouteTyperank = (
-  path: 'Typerank',
-  params: {
+export type RouteTyperank = Route<
+  'Typerank',
+  {
+    /** 条目类型 */
     type: SubjectType
+
+    /** 标签 */
     tag: string
+
+    /** 来自哪个条目 */
     subjectId?: SubjectId
   }
-) => any
+>
 
 export type RouteChannel = (
   path: 'Channel',
@@ -219,6 +225,28 @@ export type RouteCharacters = Route<
   }
 >
 
+export type RouteOverview = Route<
+  'Overview',
+  {
+    /** 条目 ID */
+    subjectId: SubjectId
+
+    /** 标题 */
+    title: string
+
+    /**
+     * 序列化列表数据
+     * {
+     *   id: Id
+     *   image: string
+     *   name: string
+     *   desc?: string
+     * }[]
+     * */
+    _list: string
+  }
+>
+
 export type RoutePersons = Route<
   'Persons',
   {
@@ -236,13 +264,19 @@ export type RouteDiscoveryBlog = Route<
   }
 >
 
-export type RouteTag = (
-  path: 'Tag',
-  params: {
-    type: SubjectType
-    tag: string
+export type RouteTag = Route<
+  'Tag',
+  {
+    /** 标签类型 */
+    type?: SubjectType
+
+    /** 标签名 */
+    tag?: string
+
+    /** 默认年份筛选值 */
+    airtime?: string
   }
-) => any
+>
 
 export type RouteTags = Route<
   'Tags',

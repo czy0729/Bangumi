@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:26:13
+ * @Last Modified time: 2024-09-19 22:03:11
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -13,6 +13,7 @@ import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TITLE_RELATIONS } from '../../ds'
 import IconHidden from '../icon/hidden'
+import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -22,7 +23,13 @@ const Relations = memo(
       <InView style={showRelations ? styles.container : styles.hide}>
         <SectionTitle
           style={_.container.wind}
-          right={!showRelations && <IconHidden name={TITLE_RELATIONS} value='showRelations' />}
+          right={
+            showRelations ? (
+              <IconRelation title='关联' list={relations} />
+            ) : (
+              <IconHidden name={TITLE_RELATIONS} value='showRelations' />
+            )
+          }
           icon={!showRelations && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showRelations')}
         >
@@ -39,17 +46,17 @@ const Relations = memo(
               relationTypeCn={typeCn}
               initialRenderNums={_.device(Math.floor(_.window.contentWidth / COVER_WIDTH) + 1, 6)}
               onPress={({ id, name, image }, type) => {
-                t('条目.跳转', {
-                  to: 'Subject',
-                  from: '关联条目',
-                  subjectId
-                })
-
                 navigation.push('Subject', {
                   subjectId: id,
                   _jp: name,
                   _image: getCoverSrc(image, COVER_WIDTH),
                   _type: type
+                })
+
+                t('条目.跳转', {
+                  to: 'Subject',
+                  from: '关联条目',
+                  subjectId
                 })
               }}
             />

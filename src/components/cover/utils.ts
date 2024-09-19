@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-09 16:46:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-21 21:10:37
+ * @Last Modified time: 2024-09-19 21:37:51
  */
 import { getCover400, matchCoverUrl } from '@utils'
-import { IMG_DEFAULT, STORYBOOK } from '@constants'
+import { IMG_DEFAULT, WEB } from '@constants'
 import { CoverPrefix, CoverSize, Props } from './types'
 
 /** 修正封面图地址 */
@@ -32,7 +32,7 @@ function getCoverPramas(width: number) {
   let prefix: CoverPrefix = 'bgm_poster_100'
   let size: CoverSize = 100
 
-  if (STORYBOOK && width > 400) {
+  if (WEB && width > 400) {
     prefix = 'bgm_poster'
     size = 600
   } else if (width > 134) {

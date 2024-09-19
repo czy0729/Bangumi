@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-06 12:50:23
+ * @Last Modified time: 2024-09-19 21:23:46
  */
 
 /** Home */
@@ -126,5 +126,8 @@ export default {
   '修订历史.右上角菜单': 'SubjectWiki.topRightMenu',
 
   // 分类排行
-  '分类排行.跳转': 'Typerank.to'
+  '分类排行.跳转': 'Typerank.to',
+
+  // 照片墙.跳转
+  '照片墙.跳转': 'Overview.to'
 }
