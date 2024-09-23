@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:31:17
+ * @Last Modified time: 2024-09-23 07:56:56
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
@@ -192,17 +192,18 @@ export default class Fetch extends Computed {
             'id',
             'mid',
             'title',
-            'image',
-            'score',
-            'rank',
-            'total',
             'ep',
             'author',
             'status',
             'cates',
             'publish',
             'update',
-            'hot'
+            'hot',
+            'score',
+            'rank',
+            'total',
+            'image',
+            'end'
           ])
         } else {
           data[key] = {}

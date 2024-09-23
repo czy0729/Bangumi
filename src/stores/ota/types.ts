@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:23:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 16:35:25
+ * @Last Modified time: 2024-09-23 07:57:10
  */
 export type AnimeItem = {
   id: number
@@ -27,17 +27,23 @@ export type MangaItem = {
   id: number
   mid: number
   title: string
-  image: string
-  score: number
-  rank: number
-  total: number
   ep: string
   author: string
   status: string
   cates: string
   publish: string
   update: string
+  // mScore: number
+  // mTotal: number
+  // subscribe: number
+  // favor: number
+  // read: number
   hot: number
+  score: number
+  rank: number
+  total: number
+  image: string
+  end: string
 }
 
 export type GameItem = {

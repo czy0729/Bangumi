@@ -2,23 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-09 20:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-18 04:13:42
+ * @Last Modified time: 2024-09-23 22:02:29
  */
 import { SubjectId } from '@types'
-import { desc, getTimestamp } from '../../index'
+import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
-import { getPinYinFirstCharacter } from '../../thirdParty/pinyin'
-import { SORT } from './../anime'
-import {
-  MANGA_COLLECTED,
-  MANGA_FIRST,
-  MANGA_HD,
-  MANGA_SORT,
-  MANGA_STATUS,
-  MANGA_TAGS,
-  MANGA_TAGS_MAP,
-  MANGA_YEAR
-} from './ds'
+import { SORT } from '../anime'
+import { MANGA_AUTHORS_MAP, MANGA_TAGS_MAP } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
@@ -30,14 +20,14 @@ export {
   MANGA_TAGS,
   MANGA_TAGS_MAP,
   MANGA_YEAR
-}
+} from './ds'
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 
 let manga: Item[] = []
 
-/** v7.1.0 后取消 OTA */
+/** v7.1.0 后已取消 OTA */
 function getData() {
   return manga
 }
@@ -69,68 +59,88 @@ export function find(id: SubjectId): UnzipItem {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = 500): SearchResult {
   init()
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, status, tags = [], sort } = query || {}
+  const { year, end, update, status, tags = [], author, sort } = query || {}
 
-  if (sort !== '随机' && SEARCH_CACHE[finger]) {
-    return SEARCH_CACHE[finger]
-  }
+  if (sort !== '随机' && SEARCH_CACHE[finger]) return SEARCH_CACHE[finger]
 
-  let _list = []
+  let list: number[] = []
   let yearReg: RegExp
-  if (year) {
-    yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
-  }
+  if (year) yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
+
+  let endReg: RegExp
+  if (end) endReg = new RegExp(end === '2000以前' ? '^(2000|1\\d{3})' : `^(${end})`)
+
+  let updateReg: RegExp
+  if (update) updateReg = new RegExp(update === '2000以前' ? '^(2000|1\\d{3})' : `^(${update})`)
 
   const data = getData()
   data.forEach((item, index) => {
+    if (list.length >= max) return
+
     let match = true
 
-    // title
-    if (match && first) match = first === getPinYinFirstCharacter(item.f)
+    // 发行
+    if (match && year) match = !!item.p && yearReg.test(String(item.p))
 
-    // publish
-    if (match && year) match = yearReg.test(String(item.p))
+    // 结束
+    if (match && end) match = !!item.e && endReg.test(String(item.e))
 
-    // status: 1
+    // 更新
+    if (match && update) match = !!item.d && updateReg.test(String(item.d))
+
+    // 状态
     if (match && status) {
-      match = (item.u === 1 && status === '连载') || (!item.u && status === '完结')
+      if (status === '连载') {
+        match = !item.e && item.u === 1
+      } else if (status === '完结') {
+        match = !!item.e
+      } else {
+        match = false
+      }
     }
 
-    // tags: '科幻 机战 悬疑 战斗 战争'
+    // 热门作者
+    if (match && author) {
+      match = 'a' in item && item.a === MANGA_AUTHORS_MAP[author]
+    }
+
+    // 类型: '科幻 机战 悬疑 战斗 战争'
     if (match && tags.length) {
       tags.forEach((tag: string) => {
         if (match) match = item.b?.includes(MANGA_TAGS_MAP[tag])
       })
     }
 
-    if (match) _list.push(index)
+    if (match) list.push(index)
   })
 
   switch (sort) {
-    case '发行时间':
-      _list = _list.sort((a, b) => desc(data[a].p || '0000', data[b].p || '0000'))
-      break
-
-    case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
-      break
-
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
+      list = list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
+      break
+
+    case '更新时间':
+      list = list.sort((a, b) =>
+        String(data[b].d || '0000').localeCompare(String(data[a].d || '0000'))
+      )
       break
 
     case '评分人数':
-      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
+      list = list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
+      break
+
+    case '外网热度':
+      list = list.sort((a, b) => SORT.total(data[a], data[b], 'h'))
       break
 
     case '随机':
-      _list = _list.sort(() => SORT.random())
+      list = list.sort(() => SORT.random())
       break
 
     default:
@@ -138,7 +148,7 @@ export function search(query: Query): SearchResult {
   }
 
   const result: SearchResult = {
-    list: _list,
+    list,
     pagination: {
       page: 1,
       pageTotal: 1

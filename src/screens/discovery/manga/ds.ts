@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:59:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:08:55
+ * @Last Modified time: 2024-09-23 21:54:50
  */
 import {
   MANGA_COLLECTED,
-  MANGA_FIRST,
   MANGA_SORT,
   MANGA_STATUS,
   MANGA_TAGS,
   MANGA_YEAR
 } from '@utils/subject/manga'
+import { MANGA_AUTHORS } from '@utils/subject/manga/ds'
 
 export const COMPONENT = 'Manga'
 
@@ -31,15 +31,20 @@ MANGA_TAGS.forEach((item, index) => {
 
 export const filterDS = [
   {
-    title: '首字',
-    type: 'first',
-    data: MANGA_FIRST
-  },
-  {
-    title: '年份',
+    title: '发行',
     type: 'year',
     data: MANGA_YEAR,
     always: true
+  },
+  {
+    title: '结束',
+    type: 'end',
+    data: MANGA_YEAR
+  },
+  {
+    title: '更新',
+    type: 'update',
+    data: MANGA_YEAR
   },
   {
     title: '状态',
@@ -52,6 +57,11 @@ export const filterDS = [
     data: MANGA_TAGS_GROUP,
     multiple: true,
     multiSelect: true
+  },
+  {
+    title: '作者',
+    type: 'author',
+    data: MANGA_AUTHORS
   },
   {
     title: '排序',

@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-07-26 05:13:21
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-07-26 05:13:21
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-09-23 21:55:17
  */
 import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
@@ -12,12 +12,12 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   query: {
-    first: '',
-    year: 2022,
-    begin: '',
+    year: 2024,
+    end: '',
+    update: '',
     status: '',
     tags: [],
-    hd: '',
+    author: '',
     sort: '评分人数',
     collected: ''
   },

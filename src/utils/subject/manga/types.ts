@@ -2,29 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-09-22 06:34:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 06:43:31
+ * @Last Modified time: 2024-09-23 21:54:08
  */
 import { Loaded, SubjectId } from '@types'
 
 export type Finger = string
 
 export type Query = {
-  first: any
   year: any
+  end: any
+  update: any
   status: any
   tags: any
+  author: any
   sort: any
 }
 
 export type Item = {
-  /** SubjectId */
+  /** 条目 ID */
   i: SubjectId
-
-  /** 首字 */
-  f: string
-
-  /** 是否连载 */
-  u?: number
 
   /** 评分 */
   s?: number
@@ -35,18 +31,30 @@ export type Item = {
   /** 评分人数 */
   l?: number
 
-  /** 分类 */
+  /** 是否连载, 完结没有值, 连载固定为 1 */
+  u?: 1
+
+  /** 分类索引 */
   b: number[]
 
-  /** 发行时间 */
+  /** 发行年份 */
   p: string
+
+  /** 最后更新年份-月份 */
+  d: string
+
+  /** 连载结束年份 */
+  e?: string
 
   /** 热度 */
   h: number
+
+  /** 热门作者索引 */
+  a?: number
 }
 
 export type UnzipItem = {
-  /** SubjectId */
+  /** 条目 ID */
   id: SubjectId
 
   /** mox id */
@@ -90,7 +98,7 @@ export type UnzipItem = {
 }
 
 export type SearchResult = {
-  list: UnzipItem[]
+  list: number[]
   pagination: {
     page: 1
     pageTotal: 1

@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 05:20:36
+ * @Last Modified time: 2024-09-23 05:36:35
  */
 import React from 'react'
 import { Loading } from '@components'
 import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { TEXT_UPDATE_MANGA } from '@constants'
-import { ADVANCE_LIMIT, filterDS } from '../ds'
-import { Ctx } from '../types'
+import { ADVANCE_LIMIT, filterDS } from '../../ds'
+import { Ctx } from '../../types'
 import Item from '../item'
 import ItemGrid from '../item-grid'
+import { COMPONENT } from './ds'
 
 class List extends React.Component {
   connectRef = (ref: { scrollToOffset: any }) => {
@@ -27,7 +29,7 @@ class List extends React.Component {
 
   renderItem = ({ item: pickIndex, index }) => {
     const { $ } = this.context as Ctx
-    if ($.isList) return <Item pickIndex={pickIndex} index={index} />
+    if ($.isList) return <Item pickIndex={pickIndex} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
@@ -49,6 +51,8 @@ class List extends React.Component {
   }
 
   render() {
+    r(COMPONENT)
+
     const { $ } = this.context as Ctx
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {

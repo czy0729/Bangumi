@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-09 00:57:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 01:05:27
+ * @Last Modified time: 2024-09-23 05:34:35
  */
 import React from 'react'
 import { Component, Page } from '@components'
 import { ic } from '@utils/decorators'
 import { useObserver, useRunAfter } from '@utils/hooks'
 import Header from '../anime/header'
-import List from './list'
+import List from './component/list'
 import Store from './store'
 import { Ctx } from './types'
 
 /** 找漫画 */
-const Manga = (props, { $ }: Ctx) => {
+const Manga = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

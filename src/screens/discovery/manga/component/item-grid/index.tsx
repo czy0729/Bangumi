@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:01:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 05:17:16
+ * @Last Modified time: 2024-09-23 22:32:14
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
@@ -10,15 +10,15 @@ import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
-import { Ctx } from '../types'
-import { EVENT } from './ds'
+import { Ctx } from '../../types'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
-  const { id, mid, image, title, score, rank, publish } = otaStore.manga(subjectId)
-  if (!id) {
+  const manga = otaStore.manga(subjectId)
+  if (!manga?.id) {
     const gridStyles = _.grid(num)
     return (
       <Flex
@@ -35,6 +35,7 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
     )
   }
 
+  const { id, mid, image, title, score, rank, publish } = otaStore.manga(subjectId)
   return (
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
@@ -54,4 +55,4 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid)
+export default obc(ItemGrid, COMPONENT)

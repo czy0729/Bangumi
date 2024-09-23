@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-22 06:31:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 23:55:09
+ * @Last Modified time: 2024-09-23 22:02:13
  */
 import { DATA_ALPHABET } from '@constants/constants'
-import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
+import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
 export const MANGA_FIRST = DATA_ALPHABET
 
@@ -20,49 +20,50 @@ export const MANGA_TAGS = [
   '幽默',
   '冒险',
   '校园',
-  '少女',
   '生活',
-  '轻改',
+  '少女',
   '奇幻',
+  '轻改',
   '悬疑',
   '魔幻',
   '科幻',
   '百合',
   '魔法',
-  '少年',
-  '神鬼',
-  '职场',
   '热血',
+  '少年',
+  '职场',
+  '神鬼',
+  '治癒',
   '格斗',
   '恐怖',
-  '治癒',
   '竞技',
   '侦探',
   '励志',
-  '耽美',
   '青年',
-  '四格',
   '歷史',
+  '耽美',
   '萌系',
   '后宫',
+  '四格',
   '战争',
   '美食',
+  '生存',
   '机战',
   '伪娘',
   '音乐',
-  '生存',
   '性转',
   '宅系',
-  '其他',
-  '绘本',
-  '武侠',
   '转生',
+  '其他',
   '穿越',
+  '武侠',
+  '绘本',
+  '艺术',
+  '童话',
   '东方',
   '仙侠',
-  '连环画',
-  '童话',
-  '杂志'
+  '杂志',
+  '连环画'
 ] as const
 
 const MANGA_TAGS_MAP = {}
@@ -72,6 +73,57 @@ MANGA_TAGS.forEach((item, index) => {
 
 export { MANGA_TAGS_MAP }
 
+export const MANGA_AUTHORS = [
+  '手冢治虫',
+  'CLAMP',
+  '永井豪',
+  '安达充',
+  '赤石路代',
+  '弘兼宪史',
+  '西炯子',
+  '谷口治郎',
+  '藤子·F·不二雄',
+  '伊藤润二',
+  '柴门文',
+  '福本伸行',
+  '河内由加利',
+  '荒木飞吕彦',
+  '安彦良和',
+  '藤沢亨',
+  '吉富昭仁',
+  '齐藤千穗',
+  '仓科辽',
+  '押切莲介',
+  '由贵香织里',
+  '楠桂',
+  '矢立肇',
+  '浅野一二〇',
+  '高桥留美子',
+  '冬目景',
+  '古屋兔丸',
+  '山口让司',
+  '仓桥绘里花',
+  '岩明均',
+  '水上悟志',
+  '车田正美',
+  '清水玲子',
+  '星野之宣',
+  '天树征丸',
+  '筱原千绘',
+  '武井宏之',
+  '吉原由起',
+  '铃木央',
+  '外薗昌也',
+  '本宫宏志'
+] as const
+
+const MANGA_AUTHORS_MAP = {}
+MANGA_AUTHORS.forEach((item, index) => {
+  MANGA_AUTHORS_MAP[item] = index
+})
+
+export { MANGA_AUTHORS_MAP }
+
 export const MANGA_HD = ['HD'] as const
 
-export const MANGA_SORT = ['排名', '发行时间', '评分人数', '随机', '名称'] as const
+export const MANGA_SORT = ['排名', '更新时间', '评分人数', '外网热度', '随机'] as const

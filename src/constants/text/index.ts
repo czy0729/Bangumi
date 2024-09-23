@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 14:00:33
+ * @Last Modified time: 2024-09-23 07:05:42
  */
 import { WEB } from '../device'
 
@@ -28,7 +28,7 @@ export const TEXT_UPDATE_ANIME = '2024-09-02'
 export const TEXT_UPDATE_GAME = '2024-07-14'
 
 /** 找漫画最后更新时间 */
-export const TEXT_UPDATE_MANGA = '2023-12-18'
+export const TEXT_UPDATE_MANGA = '2024-09-23'
 
 /** 赞助者最后更新时间 */
 export const TEXT_UPDATE_SPONSOR = '2024-09-10'
@@ -41,7 +41,7 @@ export const TEXT_TOTAL = {
   番剧: 4504,
   游戏: 2837,
   ADV: 3600,
-  漫画: 9808,
+  漫画: 10622,
   文库: 2740,
   Hentai: 1036,
   NSFW: 3882
