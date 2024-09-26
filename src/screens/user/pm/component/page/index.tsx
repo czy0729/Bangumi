@@ -40,12 +40,12 @@ class PM extends React.Component {
     return this.$.doSubmit(value, this.scrollView, this.navigation)
   }
 
-  get $(): Ctx['$'] {
-    return this.context.$
+  get $() {
+    return (this.context as Ctx).$
   }
 
-  get navigation(): Ctx['navigation'] {
-    return this.context.navigation
+  get navigation() {
+    return (this.context as Ctx).navigation
   }
 
   renderNewForm() {

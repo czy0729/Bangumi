@@ -2,16 +2,15 @@ syntax = "proto3";
 
 message Anime {
   int32 i = 1;
-  string f = 2;
-  float s = 3;
-  int32 r = 4;
-  int32 l = 5;
-  int32 st = 6;
-  string ty = 7;
-  repeated int32 o = 8;
-  repeated int32 t = 9;
-  string ar = 10;
-  string b = 11;
+  float s = 2;
+  int32 r = 3;
+  int32 l = 4;
+  int32 st = 5;
+  string ty = 6;
+  repeated int32 o = 7;
+  repeated int32 t = 8;
+  string ar = 9;
+  string b = 10;
 }
 
 message Payload {

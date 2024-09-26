@@ -31,7 +31,7 @@ MANGA_TAGS.forEach((item, index) => {
 
 export const filterDS = [
   {
-    title: '发行',
+    title: '开始',
     type: 'year',
     data: MANGA_YEAR,
     always: true

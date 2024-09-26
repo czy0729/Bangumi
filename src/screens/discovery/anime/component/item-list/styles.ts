@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-10 17:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-09-21 05:44:43
+ * @Last Modified time: 2024-09-26 04:30:39
  */
 import { _ } from '@stores'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
+import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
 
 export const memoStyles = _.memoStyles(() => {
-  const height = IMG_HEIGHT_LG * 0.58
   return {
     container: {
       paddingLeft: _.wind
@@ -22,13 +21,13 @@ export const memoStyles = _.memoStyles(() => {
       minHeight: IMG_HEIGHT_LG
     },
     content: {
-      height
+      height: IMG_HEIGHT_LG
+    },
+    tip: {
+      minHeight: 64
     },
     loading: {
       height: IMG_HEIGHT_LG
-    },
-    bottom: {
-      marginTop: IMG_HEIGHT_LG - height - 16
     }
   }
 })

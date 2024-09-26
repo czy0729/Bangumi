@@ -19,17 +19,19 @@ import { COMPONENT } from './ds'
 
 class List extends React.Component {
   connectRef = (ref: { scrollToOffset: any }) => {
-    const { $ } = this.context as Ctx
-    if (ref && ref.scrollToOffset) $.scrollToOffset = ref.scrollToOffset
+    if (ref && ref.scrollToOffset) this.$.scrollToOffset = ref.scrollToOffset
   }
 
   get num() {
     return _.portrait(3, 5)
   }
 
+  get $() {
+    return (this.context as Ctx).$
+  }
+
   renderItem = ({ item: pickIndex, index }) => {
-    const { $ } = this.context as Ctx
-    if ($.isList) return <Item pickIndex={pickIndex} />
+    if (this.$.isList) return <Item pickIndex={pickIndex} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
@@ -53,8 +55,7 @@ class List extends React.Component {
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
-    const { _loaded, layout, data } = $.state
+    const { _loaded, layout, data } = this.$.state
     if (!_loaded && !data._loaded) {
       return (
         <>
@@ -64,7 +65,7 @@ class List extends React.Component {
       )
     }
 
-    const numColumns = $.isList ? undefined : this.num
+    const numColumns = this.$.isList ? undefined : this.num
     return (
       <PaginationList2
         key={`${layout}${numColumns}`}
@@ -72,11 +73,11 @@ class List extends React.Component {
         connectRef={this.connectRef}
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
-        data={$.list}
+        data={this.$.list}
         limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
-        onPage={$.onPage}
+        onPage={this.$.onPage}
       />
     )
   }

@@ -1,3 +1,4 @@
+import { MANGA_YEAR } from '@utils/subject/manga'
 /*
  * @Author: czy0729
  * @Date: 2024-07-26 05:13:21
@@ -11,8 +12,9 @@ import { COMPONENT } from '../ds'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
+  /** 查询参数 */
   query: {
-    year: 2024,
+    year: MANGA_YEAR[0],
     end: '',
     update: '',
     status: '',
@@ -21,8 +23,15 @@ export const STATE = {
     sort: '评分人数',
     collected: ''
   },
+
+  /** 缓存列表 */
   data: LIST_EMPTY,
-  layout: 'list',
+
+  /** 布局 */
+  layout: 'list' as 'list' | 'grid',
+
+  /** 是否展开更多过滤选项 */
   expand: false,
+
   _loaded: false as Loaded
 }

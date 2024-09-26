@@ -7,7 +7,7 @@
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
-import { _, otaStore, collectionStore } from '@stores'
+import { _, collectionStore, otaStore } from '@stores'
 import { obc } from '@utils/decorators'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { Ctx } from '../types'

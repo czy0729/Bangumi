@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 15:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-14 15:16:16
+ * @Last Modified time: 2024-09-26 03:54:48
  */
 import { Loaded } from '@types'
 
@@ -11,7 +11,6 @@ export type Finger = string
 export type Query = {
   area: any
   type: any
-  first: any
   year: any
   begin: any
   status: any
@@ -22,7 +21,6 @@ export type Query = {
 
 export type Item = {
   i: number
-  f: string
   s?: number
   r?: number
   l?: number
@@ -53,7 +51,7 @@ export type UnzipItem = {
 }
 
 export type SearchResult = {
-  list: UnzipItem[]
+  list: number[]
   pagination: {
     page: 1
     pageTotal: 1

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 06:23:49
+ * @Last Modified time: 2024-09-26 03:55:48
  */
 import {
   ANIME_AREA,
   ANIME_BEGIN,
   ANIME_COLLECTED,
-  ANIME_FIRST,
   ANIME_OFFICIAL,
   ANIME_SORT,
   ANIME_STATUS,
@@ -39,11 +38,6 @@ export const filterDS = [
     title: '版本',
     type: 'type',
     data: ANIME_TYPE
-  },
-  {
-    title: '首字',
-    type: 'first',
-    data: ANIME_FIRST
   },
   {
     title: '年份',

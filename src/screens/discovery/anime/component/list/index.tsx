@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 07:09:37
+ * @Last Modified time: 2024-09-26 04:17:17
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if (!$.state._loaded && !$.state.data._loaded) {
     return (
       <>

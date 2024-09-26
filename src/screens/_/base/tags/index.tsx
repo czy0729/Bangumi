@@ -13,14 +13,19 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 /** 标签组 */
-export const Tags = ob(({ value = [], ...other }) => {
+export const Tags = ob(({ value = [], active = [], ...other }) => {
   if (!value || !value.length) return null
 
   return (
     <Component id='base-tags'>
       <ScrollView style={styles.tags} {...other} horizontal>
         {value.map((item: string) => (
-          <Tag key={item} style={_.mr.sm} value={item} />
+          <Tag
+            key={item}
+            style={_.mr.sm}
+            value={item}
+            type={active.includes(item) ? 'warning' : undefined}
+          />
         ))}
       </ScrollView>
     </Component>

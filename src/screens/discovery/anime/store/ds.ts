@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 06:24:30
+ * @Last Modified time: 2024-09-26 04:17:39
  */
 import { _ } from '@stores'
 import { ANIME_YEAR } from '@utils/subject/anime'
@@ -22,7 +22,6 @@ export const STATE = {
   query: {
     area: '日本',
     type: '',
-    first: '',
     year: ANIME_YEAR[0],
     begin: '',
     status: '',

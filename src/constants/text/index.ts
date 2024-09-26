@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 07:05:42
+ * @Last Modified time: 2024-09-26 04:23:07
  */
 import { WEB } from '../device'
 
@@ -22,7 +22,7 @@ export const TEXT_EMPTY = '好像什么都没有'
 export const TEXT_18X = '什么都没找到\n敏感内容需要账号成年(注册2个月)才能显示哦'
 
 /** 找番剧静态数据最后更新时间 */
-export const TEXT_UPDATE_ANIME = '2024-09-02'
+export const TEXT_UPDATE_ANIME = '2024-09-25'
 
 /** 找游戏、ADV 静态数据最后更新时间 */
 export const TEXT_UPDATE_GAME = '2024-07-14'
@@ -38,7 +38,7 @@ export const TEXT_UPDATE_QIAFAN = '2024-09'
 
 /** 找条目数目 */
 export const TEXT_TOTAL = {
-  番剧: 4504,
+  番剧: 4581,
   游戏: 2837,
   ADV: 3600,
   漫画: 10622,

@@ -23,7 +23,7 @@ export {
 } from './ds'
 
 /** 缓存搜索结果 */
-const SEARCH_CACHE: Record<Finger, SearchResult> = {}
+const memo = new Map<Finger, SearchResult>()
 
 let manga: Item[] = []
 
@@ -65,8 +65,7 @@ export function search(query: Query, max: number = 500): SearchResult {
   // 查询指纹
   const finger = JSON.stringify(query || {})
   const { year, end, update, status, tags = [], author, sort } = query || {}
-
-  if (sort !== '随机' && SEARCH_CACHE[finger]) return SEARCH_CACHE[finger]
+  if (sort !== '随机' && memo.has(finger)) return memo.get(finger)
 
   let list: number[] = []
   let yearReg: RegExp
@@ -80,8 +79,6 @@ export function search(query: Query, max: number = 500): SearchResult {
 
   const data = getData()
   data.forEach((item, index) => {
-    if (list.length >= max) return
-
     let match = true
 
     // 发行
@@ -148,7 +145,7 @@ export function search(query: Query, max: number = 500): SearchResult {
   }
 
   const result: SearchResult = {
-    list,
+    list: list.filter((_item, index) => index < max),
     pagination: {
       page: 1,
       pageTotal: 1
@@ -156,7 +153,7 @@ export function search(query: Query, max: number = 500): SearchResult {
     _finger: finger,
     _loaded: getTimestamp()
   }
-  SEARCH_CACHE[finger] = result
+  memo.set(finger, result)
 
   return result
 }

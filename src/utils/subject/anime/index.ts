@@ -2,27 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-14 12:29:56
+ * @Last Modified time: 2024-09-26 04:22:56
  */
 import { SubjectId } from '@types'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../protobuf'
-import {
-  ANIME_AREA,
-  ANIME_BEGIN,
-  ANIME_COLLECTED,
-  ANIME_FIRST,
-  ANIME_OFFICIAL,
-  ANIME_OFFICIAL_MAP,
-  ANIME_SORT,
-  ANIME_STATUS,
-  ANIME_TAGS,
-  ANIME_TAGS_MAP,
-  ANIME_TYPE,
-  ANIME_YEAR,
-  REG_SEASONS,
-  SORT
-} from './ds'
+import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SORT } from './ds'
 import { Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export {
@@ -40,10 +25,10 @@ export {
   ANIME_YEAR,
   REG_SEASONS,
   SORT
-}
+} from './ds'
 
 /** 缓存搜索结果 */
-const cacheMap = new Map<Finger, SearchResult>()
+const memo = new Map<Finger, SearchResult>()
 
 let anime: Item[] = []
 
@@ -66,35 +51,30 @@ export function pick(index: number): Item {
   return getData()[index]
 }
 
-/** 根据条目 id 查询一项 */
+/** 根据条目 ID 查询一项 */
 export function findAnime(id: SubjectId): Item {
   init()
   return getData().find(item => item.i == id)
 }
 
-/** @deprecated 根据条目 id 查询一项 */
+/** @deprecated 根据条目 ID 查询一项 */
 export function find(id: SubjectId): UnzipItem {
   init()
   return unzip(getData().find(item => item.i == id))
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = 500): SearchResult {
   init()
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { area, type, first, year, begin, status, tags = [], official, sort } = query || {}
+  const { area, type, year, begin, status, tags = [], official, sort } = query || {}
+  if (sort !== '随机' && memo.has(finger)) return memo.get(finger)
 
-  if (sort !== '随机' && cacheMap.has(finger)) {
-    return cacheMap.get(finger)
-  }
-
-  let _list = []
+  let list: number[] = []
   let yearReg: RegExp
-  if (year) {
-    yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
-  }
+  if (year) yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
 
   const data = getData()
   data.forEach((item, index) => {
@@ -109,8 +89,6 @@ export function search(query: Query): SearchResult {
 
     // type: 'TV'
     if (match && type) match = (item.ty || 'TV') === type
-
-    if (match && first) match = first === item.f
 
     // begin: '2008-04-06'
     if (match && year) match = yearReg.test(item.b || '')
@@ -150,29 +128,25 @@ export function search(query: Query): SearchResult {
       match = item.o?.includes(ANIME_OFFICIAL_MAP[official])
     }
 
-    if (match) _list.push(index)
+    if (match) list.push(index)
   })
 
   switch (sort) {
     case '上映时间':
-      _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'b'))
-      break
-
-    case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
+      list = list.sort((a, b) => SORT.begin(data[a], data[b], 'b'))
       break
 
     case '评分':
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
+      list = list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
       break
 
     case '评分人数':
-      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
+      list = list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
       break
 
     case '随机':
-      _list = _list.sort(() => SORT.random())
+      list = list.sort(() => SORT.random())
       break
 
     default:
@@ -180,7 +154,7 @@ export function search(query: Query): SearchResult {
   }
 
   const result: SearchResult = {
-    list: _list,
+    list: list.filter((_item, index) => index < max),
     pagination: {
       page: 1,
       pageTotal: 1
@@ -188,7 +162,7 @@ export function search(query: Query): SearchResult {
     _finger: finger,
     _loaded: getTimestamp()
   }
-  cacheMap.set(finger, result)
+  memo.set(finger, result)
 
   return result
 }
@@ -261,7 +235,7 @@ export function guess(
         String(item.t || '')
           .split(' ')
           .sort((a, b) => rates[b] - rates[a])
-          .filter((item, index) => index < 3)
+          .filter((_item, index) => index < 3)
           .forEach(tag => {
             rate += rates[tag] || 0
           })
@@ -282,7 +256,7 @@ export function guess(
       })
       .sort((a, b) => (reverse ? a[1] - b[1] : b[1] - a[1]))
       // .filter(item => !skipIds.includes(item.id))
-      .filter((item, index) => index < 500)
+      .filter((_item, index) => index < 500)
       .map(item => ({
         ...unzip(data[item[0]]),
         rate: item[1]

@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-08-22 12:21:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 12:28:13
+ * @Last Modified time: 2024-09-26 04:19:24
  */
-import HTML2018 from './2018'
-import HTML2017 from './2017'
-import HTML2016 from './2016'
-import HTML2015 from './2015'
-import HTML2014 from './2014'
-import HTML2013 from './2013'
-import HTML2012 from './2012'
-import HTML2011 from './2011'
 import HTML2010 from './2010'
+import HTML2011 from './2011'
+import HTML2012 from './2012'
+import HTML2013 from './2013'
+import HTML2014 from './2014'
+import HTML2015 from './2015'
+import HTML2016 from './2016'
+import HTML2017 from './2017'
+import HTML2018 from './2018'
 
 /** 返回指定年份年鉴 html */
 export default function getAwardHTML(

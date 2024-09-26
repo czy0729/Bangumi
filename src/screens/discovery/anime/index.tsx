@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 22:35:17
+ * @Last Modified time: 2024-09-26 04:17:11
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 找番剧 */
-const Anime = (props, { $ }: Ctx) => {
+const Anime = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })
