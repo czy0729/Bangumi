@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 19:55:54
+ * @Last Modified time: 2024-09-27 22:52:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView, Rank, Stars } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
+import { IMG_HEIGHT_SM, IMG_WIDTH_SM, IOS } from '@constants'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
 
@@ -20,13 +20,18 @@ function Subject(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const top = $.subject.name_cn || $.subject.name
   const bottom = $.subject.name
+
+  const Component = IOS ? BlurView : View
+  const passProps: any = {
+    style: styles.container
+  }
+  if (IOS) {
+    passProps.tint = BLURVIEW_TINT_DARK
+    passProps.intensity = 64
+  }
+
   return (
-    <BlurView
-      style={styles.container}
-      // @ts-ignore
-      tint={BLURVIEW_TINT_DARK}
-      intensity={64}
-    >
+    <Component {...passProps}>
       <Flex align='start'>
         <Cover
           src={$.subject.images?.medium}
@@ -72,7 +77,7 @@ function Subject(_props, { $ }: Ctx) {
           </Flex>
         </Flex.Item>
       </Flex>
-    </BlurView>
+    </Component>
   )
 }
 

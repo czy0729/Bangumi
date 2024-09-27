@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-09-27 19:27:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 22:18:12
+ * @Last Modified time: 2024-09-27 22:52:49
  */
 import React from 'react'
+import { View } from 'react-native'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
+import { IOS } from '@constants'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
 
@@ -20,13 +22,17 @@ function Topic(_props, { $ }: Ctx) {
   const bottom = [$.topic.time || $.topic.group, `${$.total} 回复`]
     .filter(item => !!item)
     .join(' · ')
+
+  const Component = IOS ? BlurView : View
+  const passProps: any = {
+    style: styles.container
+  }
+  if (IOS) {
+    passProps.tint = BLURVIEW_TINT_DARK
+    passProps.intensity = 64
+  }
   return (
-    <BlurView
-      style={styles.container}
-      // @ts-ignore
-      tint={BLURVIEW_TINT_DARK}
-      intensity={64}
-    >
+    <Component {...passProps}>
       <Flex align='start'>
         <Cover
           src={$.topic.avatar || $.topic.groupThumb}
@@ -63,7 +69,7 @@ function Topic(_props, { $ }: Ctx) {
           </Flex>
         </Flex.Item>
       </Flex>
-    </BlurView>
+    </Component>
   )
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:30:02
+ * @Last Modified time: 2024-09-27 22:51:21
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_SM } from '@constants'
@@ -12,6 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     padding: _.sm,
     marginTop: _.headerHeight - _.sm,
     marginBottom: _.sm,
+    backgroundColor: _.ios('transparent', 'rgba(0, 0, 0, 0.32)'),
     borderRadius: _.radiusMd,
     overflow: 'hidden'
   },
