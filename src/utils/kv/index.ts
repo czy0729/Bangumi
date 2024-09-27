@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-13 21:07:04
+ * @Last Modified time: 2024-09-26 18:49:02
  */
 import axios from '@utils/thirdParty/axios'
 import { STORYBOOK } from '@constants/device'
@@ -230,4 +230,29 @@ export async function search(q: string, withMessage: boolean = false) {
   })
 
   return data
+}
+
+/**
+ * 分词
+ * @returns [关键词, 权重整数数字的字符串][]
+ * */
+export async function extract(q: string) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  // @ts-expect-error
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/jieba/extract`,
+    data: {
+      sentence: q,
+      threshold: Math.max(10, Math.min(80, Math.ceil(q.length / 40)))
+    }
+  })
+
+  return (
+    data as {
+      word: string
+      weight: number
+    }[]
+  ).map(item => [item.word, item.weight.toFixed(0)]) as [string, string][]
 }

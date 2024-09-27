@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:17:23
+ * @Last Modified time: 2024-09-26 16:25:10
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -73,6 +73,7 @@ export type NavigationPushType = RouteActions &
   RouteVoices &
   RouteWebBrowser &
   RouteWenku &
+  RouteWordCloud &
   RouteWorks &
   RouteZone &
   ((path: Paths) => any)
@@ -261,6 +262,14 @@ export type RouteDiscoveryBlog = Route<
   'DiscoveryBlog',
   {
     type?: SubjectType
+  }
+>
+
+export type RouteWordCloud = Route<
+  'WordCloud',
+  {
+    /** 条目 ID */
+    subjectId: SubjectId
   }
 >
 

@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 02:55:03
+ * @Last Modified time: 2024-09-27 02:43:04
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -29,7 +29,6 @@ export const BlurView = observer(
   ({
     style,
     src,
-    /** @ts-ignore */
     tint = BLURVIEW_TINT_LIGHT,
     intensity = 100,
     blurRadius = 16,

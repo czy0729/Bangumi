@@ -5,12 +5,13 @@
  * @Last Modified time: 2024-08-22 17:07:26
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { cnjp, copy, info, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { URL_ABOUT, WEB } from '@constants'
+import { GROUP_THUMB_MAP } from '@assets/images'
 import { Ctx } from '../../types'
 import {
   TEXT_APP,
@@ -37,6 +38,26 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
 
   return (
     <Flex>
+      <Touchable
+        style={{
+          padding: 8,
+          marginRight: 6,
+          opacity: 0.9
+        }}
+        onPress={() => {
+          navigation.push('WordCloud', {
+            subjectId: $.subjectId
+          })
+        }}
+      >
+        <Image
+          src={GROUP_THUMB_MAP.wordcloud}
+          size={19}
+          resizeMode='contain'
+          placeholder={false}
+          skeleton={false}
+        />
+      </Touchable>
       <HeaderComp.Popover
         key={String($.locationDS.length)}
         style={_.mr.xs}

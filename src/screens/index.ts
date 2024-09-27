@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 20:33:00
+ * @Last Modified time: 2024-09-26 16:20:35
  */
 import { lazy } from 'react'
 
@@ -43,6 +43,7 @@ export const Tags = lazy(() => import('./discovery/tags'))
 export const VIB = lazy(() => import('./discovery/vib'))
 export const Wenku = lazy(() => import('./discovery/wenku'))
 export const Wiki = lazy(() => import('./discovery/wiki'))
+export const WordCloud = lazy(() => import('./discovery/word-cloud'))
 export const Yearbook = lazy(() => import('./discovery/yearbook'))
 
 // Reader
