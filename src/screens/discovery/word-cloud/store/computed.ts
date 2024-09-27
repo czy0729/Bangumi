@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 04:17:58
+ * @Last Modified time: 2024-09-27 15:11:32
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
+import { MAX_PAGE, PAGE_LIMIT } from '../ds'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -41,7 +42,7 @@ export default class Computed extends State {
   @computed get plainText() {
     let text = ''
     this.comment.list.forEach((item, index) => {
-      if (index >= 100) return
+      if (index >= MAX_PAGE * PAGE_LIMIT) return
 
       text += HTMLDecode(item.comment)
     })

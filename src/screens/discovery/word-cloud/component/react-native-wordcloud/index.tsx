@@ -2,9 +2,9 @@
 import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Text } from '@components'
 import { ViewStyle } from '@types'
 import Space from './space'
+import Text from './text'
 import Util, { spaceTypes } from './util'
 import Word from './word'
 
@@ -79,6 +79,7 @@ class WordCloud extends React.Component<{
   _draw() {
     const { words } = this.state
     if (words.length === 0) return null
+
     return words.map(word => {
       return word.view
     })
@@ -126,24 +127,20 @@ class WordCloud extends React.Component<{
     }
 
     this.setState(prevState => ({
-      words: prevState.words.map(prevWord =>
-        prevWord === word
-          ? {
-              ...prevWord,
-              view:
-                (prevWord.view && (
-                  <Text
-                    key={word.text}
-                    style={textStyle}
-                    onPress={() => this.props.onPress(word.text)}
-                  >
-                    {word.text}
-                  </Text>
-                )) ||
-                null
-            }
-          : prevWord
-      )
+      words: prevState.words.map(prevWord => {
+        if (prevWord !== word) return prevWord
+
+        return {
+          ...prevWord,
+          view:
+            (prevWord.view && (
+              <Text key={word.text} style={textStyle} onPress={() => this.props.onPress(word.text)}>
+                {word.text}
+              </Text>
+            )) ||
+            null
+        }
+      })
     }))
   }
 

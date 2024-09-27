@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:07:26
+ * @Last Modified time: 2024-09-27 17:05:58
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
@@ -41,12 +41,13 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
       <Touchable
         style={{
           padding: 8,
-          marginRight: 6,
-          opacity: 0.9
+          marginRight: 8,
+          opacity: _.select(1, 0.9)
         }}
         onPress={() => {
           navigation.push('WordCloud', {
-            subjectId: $.subjectId
+            subjectId: $.subjectId,
+            _type: $.type
           })
         }}
       >

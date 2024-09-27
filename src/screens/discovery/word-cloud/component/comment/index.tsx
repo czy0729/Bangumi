@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 04:15:23
+ * @Last Modified time: 2024-09-27 16:54:39
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -22,7 +22,7 @@ function Comment(_props, { $, navigation }: Ctx) {
     <ActionSheet
       show={$.state.show}
       title={`${title} (${length})`}
-      height={length >= 3 ? 680 : 400}
+      height={length <= 2 ? 480 : length <= 4 ? 640 : 800}
       onClose={$.onClose}
     >
       <View style={styles.container}>

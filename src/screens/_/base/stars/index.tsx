@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:47:31
+ * @Last Modified time: 2024-09-27 16:32:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { Component, Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { fontSize } from '@styles'
 import { COMPONENT, NUMS } from './ds'
 import { styles } from './styles'
@@ -20,17 +20,17 @@ export { StarsProps }
 
 /** 评分 */
 export const Stars = ob(
-  ({ style, simple = false, value = 0, size = 11, type = 'sub' }: StarsProps) => {
+  ({ style, textStyle, simple = false, value = 0, size = 11, type = 'sub' }: StarsProps) => {
     if (systemStore.setting.hideScore || !value) return null
 
-    const transform = STORYBOOK && size < 12
+    const transform = WEB && size < 12
     const webStyle = transform && fontSize(size, size, true)
     if (simple) {
       return (
         <Component id='base-stars' data-simple={simple}>
           <Flex style={style}>
             <Iconfont style={webStyle} name='md-star' size={size} color={_.colorWarning} />
-            <Text style={stl(_.ml.xxs, webStyle)} type={type} size={size} bold>
+            <Text style={stl(_.ml.xxs, textStyle, webStyle)} type={type} size={size} bold>
               {value}
             </Text>
           </Flex>
@@ -84,7 +84,7 @@ export const Stars = ob(
             )
           })}
           <Text
-            style={stl(_.ml.xxs, transform && fontSize(size, size, true))}
+            style={stl(_.ml.xxs, textStyle, transform && fontSize(size, size, true))}
             type={type}
             size={size}
             lineHeight={size}

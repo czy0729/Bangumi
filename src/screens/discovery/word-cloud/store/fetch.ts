@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 17:15:31
+ * @Last Modified time: 2024-09-27 15:22:48
  */
 import { subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -25,14 +25,19 @@ export default class Fetch extends Computed {
 
   /** 分词快照 */
   fetchSnapshot = async () => {
+    const now = getTimestamp()
+    const { data } = this.state
+    if (data._loaded && data.list?.length) {
+      if (now - Number(data._loaded) <= D7) return true
+    }
+
     try {
-      const data = await get(`extract_${this.subjectId}`)
-      if (data?.data?._loaded && data?.data?.list?.length) {
-        const now = getTimestamp()
-        if (now - Number(data.data._loaded) <= D7) {
+      const snapshot = await get(`extract_${this.subjectId}`)
+      if (snapshot?.data?._loaded && snapshot?.data?.list?.length) {
+        if (now - Number(snapshot.data._loaded) <= D7) {
           this.setState({
             data: {
-              list: data.data.list,
+              list: snapshot.data.list,
               _loaded: now
             }
           })

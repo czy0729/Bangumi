@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 18:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 18:45:56
+ * @Last Modified time: 2024-09-27 15:14:21
  */
 const COLORS = [
   'rgba(255, 255, 255, 0.9)',
@@ -12,7 +12,7 @@ const COLORS = [
   'rgba(255, 255, 255, 0.3)'
 ]
 
-export function getWords(result: [string, string][], max: number = 60) {
+export function getWords(result: [string, string][], max: number = 80) {
   return result
     .map((item, index) => ({
       text: item[0],

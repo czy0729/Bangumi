@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Text } from 'react-native'
+import Text from './text'
 import Util from './util'
 
 export default class Word {
@@ -41,11 +41,9 @@ export default class Word {
       top: 0,
       fontSize: this.font,
       lineHeight: this.font,
-      transform: [{ rotate: '0deg' }],
-      color: this.color
-    }
-    if (this.fontFamily && this.fontFamily !== '') {
-      textStyle.fontFamily = this.fontFamily
+      color: this.color,
+      opacity: 0,
+      pointerEvents: 'none'
     }
 
     this.view = (

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:43:42
+ * @Last Modified time: 2024-09-27 16:21:24
  */
 
 /** Discovery */
@@ -201,5 +201,10 @@ export default {
 
   // 半月刊
   '半月刊.右上角菜单': 'BiWeekly.topRightMenu',
-  '半月刊.跳转': 'BiWeekly.to'
+  '半月刊.跳转': 'BiWeekly.to',
+
+  // 词云
+  '词云.刷新': 'WordCloud.batch',
+  '词云.分词': 'WordCloud.cut',
+  '词云.点击': 'WordCloud.press'
 }
