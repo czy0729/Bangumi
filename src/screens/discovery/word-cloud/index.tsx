@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:45:10
+ * @Last Modified time: 2024-09-27 18:00:32
  */
 import React from 'react'
 import { RefreshControl, View } from 'react-native'
@@ -14,6 +14,7 @@ import Bg from './component/bg'
 import Cavans from './component/cavans'
 import Comment from './component/comment'
 import Subject from './component/subject'
+import Topic from './component/topic'
 import Header from './header'
 import { useWordCloudPage } from './hooks'
 import Store from './store'
@@ -23,13 +24,14 @@ import { Ctx } from './types'
 const WordCloud = (_props, context: Ctx) => {
   const { refreshing, handleRefresh } = useWordCloudPage(context)
 
+  const { $ } = context
   return useObserver(() => (
     <Component id='screen-word-cloud'>
       <Header />
       <Page>
         <Bg />
         <View style={_.container.inner}>
-          <Subject />
+          {$.subjectId ? <Subject /> : $.topicId ? <Topic /> : null}
           <ScrollView
             style={{
               height: '100%'

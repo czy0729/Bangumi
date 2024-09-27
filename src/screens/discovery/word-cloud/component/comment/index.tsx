@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:54:39
+ * @Last Modified time: 2024-09-27 19:25:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Avatar, Flex, Highlight, Text, UserStatus } from '@components'
 import { Name } from '@_'
 import { _ } from '@stores'
-import { correctAgo, HTMLDecode } from '@utils'
+import { correctAgo } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
@@ -56,7 +56,7 @@ function Comment(_props, { $, navigation }: Ctx) {
                   {userName}
                 </Name>
                 <Highlight style={_.mt.xs} size={13} lineHeight={16} value={title} selectable>
-                  {HTMLDecode(item.comment)}
+                  {item.comment}
                 </Highlight>
               </Flex.Item>
             </Flex>

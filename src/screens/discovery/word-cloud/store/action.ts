@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:21:41
+ * @Last Modified time: 2024-09-27 18:34:59
  */
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
@@ -13,12 +13,12 @@ import { FILTER_WORD } from './ds'
 
 export default class Action extends Fetch {
   /** 批量获取吐槽 */
-  batch = async (refresh: boolean = false) => {
+  batchSubject = async (refresh: boolean = false) => {
     if (this.state.fetching) return
 
     if (refresh) {
       t('词云.刷新', {
-        subjectId: this.subjectId
+        id: this.subjectId || this.topicId
       })
     }
 
@@ -56,6 +56,13 @@ export default class Action extends Fetch {
     return this.cut()
   }
 
+  /** 帖子 */
+  cutTopic = async () => {
+    await this.fetchTopic()
+    await this.cut()
+    return true
+  }
+
   /** 分词 */
   cut = async () => {
     const result = await extract(this.plainText)
@@ -70,14 +77,14 @@ export default class Action extends Fetch {
       this.save()
 
       if (data.list.length >= 40) {
-        update(`extract_${this.subjectId}`, {
+        update(this.snapshotId, {
           data
         })
       }
     }
 
     t('词云.分词', {
-      subjectId: this.subjectId
+      id: this.subjectId || this.topicId
     })
 
     return true
@@ -91,7 +98,7 @@ export default class Action extends Fetch {
     })
 
     t('词云.点击', {
-      subjectId: this.subjectId,
+      id: this.subjectId || this.topicId,
       title
     })
   }

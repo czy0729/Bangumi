@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:35:02
+ * @Last Modified time: 2024-09-27 22:08:44
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
+import { _ } from '@stores'
 import { copy, getSPAParams, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, URL_SPA } from '@constants'
+import { GROUP_THUMB_MAP } from '@assets/images'
 import HeaderTitle from '../component/header-title'
 import IconFavor from '../component/icon/favor'
 import { Ctx } from '../types'
@@ -28,6 +30,26 @@ function Header(_props, { $, navigation }: Ctx) {
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex>
+          <Touchable
+            style={{
+              padding: 8,
+              marginRight: 6,
+              opacity: _.select(0.84, 0.72)
+            }}
+            onPress={() => {
+              navigation.push('WordCloud', {
+                topicId: $.topicId
+              })
+            }}
+          >
+            <Image
+              src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
+              size={18}
+              resizeMode='contain'
+              placeholder={false}
+              skeleton={false}
+            />
+          </Touchable>
           <IconFavor $={$} />
           <HeaderComp.Popover
             data={[`帖子 · ${$.topicId}`, ...DATA]}

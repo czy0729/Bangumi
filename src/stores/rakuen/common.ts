@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 18:10:49
+ * @Last Modified time: 2024-09-27 21:56:13
  */
 import {
   cData,
@@ -236,18 +236,18 @@ export function cheerioTopic(html: string) {
     if (titleText.includes(' &raquo; ')) {
       title = String(titleText.split(' &raquo; ')[1]).replace(/讨论|章节/, '')
     } else {
-      title = String(titleText.split(' / ')[1])
+      title = titleText.split(' / ')?.[1] || $group.attr('title') || ''
     }
 
     topic = safeObject<Topic>({
       id: String($('div.postTopic').attr('id') || '').substring(5),
       avatar: getCoverSmall(matchAvatar($('div.postTopic span.avatarNeue').attr('style'))),
       floor,
-      formhash: $('input[name=formhash]').attr('value'),
+      formhash: $('input[name=formhash]').attr('value') || '',
       likeType: $('a.like_dropdown').data('like-type') || '',
-      group: $group.text().trim().replace(/\n/g, ''),
-      groupHref: $group.attr('href'),
-      groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')),
+      group: $group.text().trim().replace(/\n/g, '') || $group.attr('title') || '',
+      groupHref: $group.attr('href') || '',
+      groupThumb: getCoverSmall($('a.avatar > img.avatar').attr('src')) || '',
       lastview: '',
       message: HTMLTrim($('div.topic_content').html()),
       time,

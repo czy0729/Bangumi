@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 19:20:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 02:54:20
+ * @Last Modified time: 2024-09-27 21:45:37
  */
 import React from 'react'
 import { BlurView, BLURVIEW_TINT_DARK } from '@components'
@@ -11,7 +11,13 @@ import { Ctx } from '../../types'
 import { styles } from './styles'
 
 function Bg(_props, { $ }: Ctx) {
-  const src = $.subject?.images?.medium
+  let src: string = ''
+  if ($.subjectId) {
+    src = $.subject?.images?.medium
+  } else if ($.topicId) {
+    src = $.topic?.avatar || $.topic?.groupThumb
+  }
+
   if (!src) return null
 
   return (

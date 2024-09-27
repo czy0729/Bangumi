@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 15:19:16
+ * @Last Modified time: 2024-09-27 19:05:15
  */
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
@@ -15,7 +15,13 @@ export default class ScreenWordCloud extends Action {
       _loaded: true
     })
 
-    if (!(await this.fetchSnapshot())) this.batch()
+    if (!(await this.fetchSnapshot())) {
+      if (this.subjectId) {
+        this.batchSubject()
+      } else if (this.topicId) {
+        this.cutTopic()
+      }
+    }
 
     return true
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:32:43
+ * @Last Modified time: 2024-09-27 19:55:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,7 @@ function Subject(_props, { $ }: Ctx) {
         <Flex.Item>
           <Flex style={styles.body} direction='column' justify='between' align='start'>
             <View>
-              <Text type='__plain__' size={15} bold>
+              <Text type='__plain__' size={15} bold numberOfLines={2}>
                 {top}{' '}
                 <Text
                   style={styles.opacity}
@@ -50,7 +50,7 @@ function Subject(_props, { $ }: Ctx) {
                   ({$.subject.air_date.slice(0, 7)})
                 </Text>
               </Text>
-              {bottom && bottom !== top && (
+              {!!bottom && bottom !== top && (
                 <Text
                   style={[styles.opacity, _.mt.xs]}
                   type='__plain__'
