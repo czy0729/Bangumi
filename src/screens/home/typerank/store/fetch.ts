@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:08:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:21:59
+ * @Last Modified time: 2024-09-27 20:27:50
  */
 import { collectionStore } from '@stores'
-import { getTimestamp, pick } from '@utils'
+import { fixedSubjectInfo, getTimestamp, pick } from '@utils'
 import { gets } from '@utils/kv'
 import { SubjectId } from '@types'
 import Computed from './computed'
@@ -56,7 +56,7 @@ export default class Fetch extends Computed {
           data[key] = pick(item, picker)
           if (data[key].info) {
             data[key].date =
-              data[key].info.match(
+              fixedSubjectInfo(data[key].info).match(
                 /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
               )?.[2] || ''
           }

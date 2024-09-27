@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:59:05
+ * @Last Modified time: 2024-09-27 20:23:42
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -332,4 +332,10 @@ export function formatPlaytime(time: string) {
     .replace('hours', '时')
     .replace('h', '时')
     .replace('m', '分')
+}
+
+export function fixedSubjectInfo(info: string) {
+  if (!info || typeof info !== 'string') return ''
+
+  return info.replace(/<li[^>]*>/g, '<li>').replace(/<span[^>]*>/g, '<span>')
 }

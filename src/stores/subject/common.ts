@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 17:29:34
+ * @Last Modified time: 2024-09-27 20:30:59
  */
 import {
   cData,
@@ -10,6 +10,7 @@ import {
   cHtml,
   cMap,
   cText,
+  fixedSubjectInfo,
   getCoverMedium,
   HTMLDecode,
   htmlMatch,
@@ -66,12 +67,14 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
     type += cheerio(element).text().trim()
   })
 
-  const info = $('#infobox')
-    .html()
-    .replace(/\n| class="(.+?)"| title="(.+?)"> +</g, '')
-    .trim()
+  const info = fixedSubjectInfo(
+    $('#infobox')
+      .html()
+      .replace(/\n| class="(.+?)"| title="(.+?)"> +</g, '')
+      .trim()
+  )
 
-  let totalEps = info.match(/<li><span>话数: <\/span>(\d+)<\/li>/)
+  let totalEps: any = info.match(/<li><span>话数: <\/span>(\d+)<\/li>/)
   if (totalEps) {
     totalEps = totalEps[1]
   } else {

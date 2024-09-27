@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:14:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:25:05
+ * @Last Modified time: 2024-09-27 20:31:42
  */
-import { desc, getTimestamp, info, pick } from '@utils'
+import { desc, fixedSubjectInfo, getTimestamp, info, pick } from '@utils'
 import { t } from '@utils/fetch'
 import { gets } from '@utils/kv'
 import axios from '@utils/thirdParty/axios'
@@ -81,7 +81,7 @@ export default class Fetch extends Computed {
 
           if (data[key].info) {
             data[key].date =
-              data[key].info.match(
+              fixedSubjectInfo(data[key].info).match(
                 /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
               )?.[2] || ''
           }

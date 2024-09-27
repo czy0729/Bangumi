@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 22:15:11
+ * @Last Modified time: 2024-09-27 20:32:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,6 +24,7 @@ import {
   asc,
   desc,
   findSubjectCn,
+  fixedSubjectInfo,
   freeze,
   getOnAir,
   getTimestamp,
@@ -798,9 +799,11 @@ export default class Computed extends State {
 
   /** 网页版详情 */
   @computed get info() {
-    if (this.subjectFormHTML._loaded) return this.subjectFormHTML.info
+    if (this.subjectFormHTML._loaded) {
+      return fixedSubjectInfo(this.subjectFormHTML.info || '')
+    }
 
-    return this.subjectFromOSS.info || ''
+    return fixedSubjectInfo(this.subjectFromOSS.info || '')
   }
 
   /** 关联人物 */

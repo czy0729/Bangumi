@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-09-05 15:30:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 15:30:50
+ * @Last Modified time: 2024-09-27 20:29:06
  */
 import { collectionStore, subjectStore } from '@stores'
-import { cnjp, desc, getTimestamp, pick } from '@utils'
+import { cnjp, desc, fixedSubjectInfo, getTimestamp, pick } from '@utils'
 import { queue, t } from '@utils/fetch'
 import { gets } from '@utils/kv'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
@@ -120,7 +120,7 @@ export default class Fetch extends Computed {
           delete data[key].totalEps
 
           if (data[key].info) {
-            data[key].date = data[key].info.match(REG_AIRDATE)?.[2] || ''
+            data[key].date = fixedSubjectInfo(data[key].info).match(REG_AIRDATE)?.[2] || ''
           }
           delete data[key].info
 
