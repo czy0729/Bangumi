@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 20:30:59
+ * @Last Modified time: 2024-09-28 22:03:57
  */
 import {
   cData,
@@ -557,6 +557,10 @@ export function cheerioMono(html: string) {
   const eraseCollectUrl = cData($('.collect a.break'), 'href')
   const trimHtml = HTMLTrim(html)
 
+  let detail = cText($('#columnCrtB .detail'))
+  const sub = cText($('#columnCrtB div.clearit h2.subtitle')).replace(/[\r\n]+/g, ' ')
+  if (sub) detail = `${sub}\n\n${detail}`
+
   /** 出演 */
   let jobs: ReturnType<typeof mapJobs>[] = []
   const jobsHtml = trimHtml.match(
@@ -583,7 +587,7 @@ export function cheerioMono(html: string) {
       name: cText($name),
       nameCn: cData($name, 'title'),
       cover: fixedCover(cData($('.infobox img.cover'), 'src')),
-      detail: cText($('#columnCrtB .detail')),
+      detail,
       info: cHtml($('#infobox')),
       collectUrl: eraseCollectUrl ? '' : cData($('.collect a'), 'href'),
       eraseCollectUrl,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 17:38:38
+ * @Last Modified time: 2024-09-28 16:14:21
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -271,8 +271,11 @@ export type RouteWordCloud = Route<
     /** 条目 ID */
     subjectId?: SubjectId
 
-    /** 帖子 ID, 与条目互斥 */
+    /** 帖子 ID, 与其他 ID 互斥 */
     topicId?: TopicId
+
+    /** 人物 ID, 与其他 ID 互斥 */
+    monoId?: MonoId
 
     /** 条目类型中文 */
     _type?: SubjectTypeCn

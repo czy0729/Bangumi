@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 19:49:13
+ * @Last Modified time: 2024-09-28 17:21:39
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
@@ -40,8 +40,7 @@ export default class Computed extends State {
   }
 
   @computed get list() {
-    const { list } = this.monoComments
-    return list
+    return this.monoComments.list
   }
 
   /** 人物信息 (CDN) */

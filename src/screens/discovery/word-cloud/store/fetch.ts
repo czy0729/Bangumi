@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 19:05:25
+ * @Last Modified time: 2024-09-28 17:56:07
  */
 import { rakuenStore, subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -53,6 +53,13 @@ export default class Fetch extends Computed {
   fetchTopic = () => {
     return rakuenStore.fetchTopic({
       topicId: this.topicId
+    })
+  }
+
+  /** 获取角色内容和留言 */
+  fetchMono = () => {
+    return subjectStore.fetchMono({
+      monoId: this.monoId
     })
   }
 }

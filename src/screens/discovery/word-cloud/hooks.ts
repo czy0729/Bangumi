@@ -29,7 +29,7 @@ export function useWordCloudPage({ $ }: Ctx) {
 
     if (systemStore.advance) {
       if ($.subjectId) {
-        await $.batchSubject(true)
+        await $.batchSubjectThenCut(true)
       } else if ($.topicId) {
         await $.cutTopic()
       }

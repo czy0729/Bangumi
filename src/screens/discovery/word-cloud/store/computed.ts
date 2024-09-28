@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 22:12:34
+ * @Last Modified time: 2024-09-28 21:25:04
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore } from '@stores'
@@ -19,14 +19,33 @@ export default class Computed extends State {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
   }
 
-  /** 页面唯一命名空间 */
-  @computed get namespace() {
-    return `${NAMESPACE}|${this.subjectId || this.topicId}`
-  }
-
   /** 条目 ID */
   @computed get subjectId() {
     return this.params.subjectId
+  }
+
+  /** 帖子 ID */
+  @computed get topicId() {
+    return this.params.topicId
+  }
+
+  /** 角色 ID */
+  @computed get monoId() {
+    return this.params.monoId
+  }
+
+  @computed get id() {
+    return this.subjectId || this.topicId || this.monoId || ''
+  }
+
+  /** 快照 ID */
+  @computed get snapshotId() {
+    return `extract_${this.id}`.replace(/\//g, '_')
+  }
+
+  /** 页面唯一命名空间 */
+  @computed get namespace() {
+    return `${NAMESPACE}|${this.id}`
   }
 
   /** 条目信息 */
@@ -35,21 +54,11 @@ export default class Computed extends State {
   }
 
   /** 条目吐槽 */
-  @computed get comment() {
+  @computed get subjectComments() {
     return subjectStore.subjectComments(this.subjectId)
   }
 
-  /** 帖子 ID */
-  @computed get topicId() {
-    return this.params.topicId
-  }
-
-  /** 快照 ID */
-  @computed get snapshotId() {
-    return `extract_${this.subjectId || this.topicId}`.replace(/\//g, '_')
-  }
-
-  /** 帖子主楼 */
+  /** 帖子信息 */
   @computed get topic() {
     return rakuenStore.topic(this.topicId)
   }
@@ -59,12 +68,22 @@ export default class Computed extends State {
     return rakuenStore.comments(this.topicId)
   }
 
+  /** 角色信息 */
+  @computed get mono() {
+    return subjectStore.mono(this.monoId)
+  }
+
+  /** 角色回复 */
+  @computed get monoComments() {
+    return subjectStore.monoComments(this.monoId)
+  }
+
   /** 吐槽纯文本 */
   @computed get plainText() {
     let text = ''
 
     if (this.subjectId) {
-      this.comment.list.forEach((item, index) => {
+      this.subjectComments.list.forEach((item, index) => {
         if (index >= MAX_PAGE * PAGE_LIMIT) return
 
         text += HTMLDecode(item.comment)
@@ -78,6 +97,12 @@ export default class Computed extends State {
         text += HTMLDecode(removeHTMLTag(item.message, false))
           .split('[来自Bangumi')[0]
           .slice(0, 150)
+      })
+    } else if (this.monoId) {
+      this.monoComments.list.forEach((item, index) => {
+        if (index >= MAX_PAGE * PAGE_LIMIT) return
+
+        text += HTMLDecode(removeHTMLTag(item.message, false))
       })
     }
 
@@ -96,7 +121,7 @@ export default class Computed extends State {
   }[] {
     const { title } = this.state
     if (this.subjectId) {
-      const { list } = this.comment
+      const { list } = this.subjectComments
       if (!list.length) return FROZEN_ARRAY
 
       return list
@@ -134,6 +159,27 @@ export default class Computed extends State {
         }))
     }
 
+    if (this.monoId) {
+      const { list } = this.monoComments
+      if (!list.length) return FROZEN_ARRAY
+
+      return list
+        .filter(item => removeHTMLTag(item.message, false).includes(title))
+        .map(item => ({
+          id: item.id,
+          avatar: item.avatar,
+          userId: item.userId,
+          userName: HTMLDecode(item.userName),
+          comment: HTMLDecode(
+            removeHTMLTag(item.message, false)
+              .replace(/x[a-zA-Z0-9]{5}/g, '')
+              .replace(/&#;/g, '')
+          ),
+          time: item.time,
+          action: item.floor
+        }))
+    }
+
     return FROZEN_ARRAY
   }
 
@@ -144,5 +190,17 @@ export default class Computed extends State {
       sum += 1 + item.sub.length
     })
     return sum
+  }
+
+  /** 标题 */
+  @computed get title() {
+    return (
+      this.subject?.name_cn ||
+      this.subject?.name ||
+      this.topic?.title ||
+      this.mono?.nameCn ||
+      this.mono?.name ||
+      ''
+    )
   }
 }

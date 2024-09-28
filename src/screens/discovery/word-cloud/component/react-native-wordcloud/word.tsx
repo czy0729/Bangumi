@@ -47,7 +47,11 @@ export default class Word {
     }
 
     this.view = (
-      <Text key={this.index} style={textStyle} onLayout={event => this._onLayout(event)}>
+      <Text
+        key={`${this.index}|${this.text}`}
+        style={textStyle}
+        onLayout={event => this._onLayout(event)}
+      >
         {this.text}
       </Text>
     )

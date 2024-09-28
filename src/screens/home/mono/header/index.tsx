@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-25 19:26:02
+ * @Last Modified time: 2024-09-28 21:19:34
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { IconWordCloud } from '@_'
 import { cnjp, copy, open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
@@ -27,6 +28,13 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex>
+          <IconWordCloud
+            onPress={() => {
+              navigation.push('WordCloud', {
+                monoId: $.monoId
+              })
+            }}
+          />
           <Extra $={$} navigation={navigation} />
           <HeaderComp.Popover
             data={DATA}

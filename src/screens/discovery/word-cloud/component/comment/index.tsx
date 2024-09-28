@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 19:25:56
+ * @Last Modified time: 2024-09-28 15:51:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { correctAgo } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Comment(_props, { $, navigation }: Ctx) {
@@ -67,4 +68,4 @@ function Comment(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Comment)
+export default obc(Comment, COMPONENT)

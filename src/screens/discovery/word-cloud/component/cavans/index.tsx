@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 18:30:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:55:53
+ * @Last Modified time: 2024-09-28 15:48:53
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,6 +13,7 @@ import { MAX_PAGE } from '../../ds'
 import { Ctx } from '../../types'
 import RNWordCloud from '../react-native-wordcloud'
 import { getWords } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Cavans(_props, { $ }: Ctx) {
@@ -55,4 +56,4 @@ function Cavans(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Cavans)
+export default obc(Cavans, COMPONENT)

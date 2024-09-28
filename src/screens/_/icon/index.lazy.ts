@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 20:14:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 05:22:09
+ * @Last Modified time: 2024-09-28 21:17:16
  */
 
 /**
@@ -20,3 +20,4 @@ export * from './reverse/index.lazy'
 export * from './tabs-header/index.lazy'
 export * from './tinygrail/index.lazy'
 export * from './touchable/index.lazy'
+export * from './word-cloud/index.lazy'

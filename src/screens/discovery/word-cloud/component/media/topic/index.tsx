@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 19:27:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 22:52:49
+ * @Last Modified time: 2024-09-28 20:49:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,8 @@ import { BlurView } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IOS } from '@constants'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Topic(_props, { $ }: Ctx) {
@@ -73,4 +74,4 @@ function Topic(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Topic)
+export default obc(Topic, COMPONENT)

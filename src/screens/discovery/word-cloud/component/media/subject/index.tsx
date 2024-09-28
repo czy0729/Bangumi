@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 22:52:23
+ * @Last Modified time: 2024-09-28 20:49:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,8 @@ import { BlurView, Rank, Stars } from '@_'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, IOS } from '@constants'
-import { Ctx } from '../../types'
+import { Ctx } from '../../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Subject(_props, { $ }: Ctx) {
@@ -43,15 +44,9 @@ function Subject(_props, { $ }: Ctx) {
           <Flex style={styles.body} direction='column' justify='between' align='start'>
             <View>
               <Text type='__plain__' size={15} bold numberOfLines={2}>
-                {top}{' '}
-                <Text
-                  style={styles.opacity}
-                  type='__plain__'
-                  size={13}
-                  lineHeight={15}
-                  bold
-                  numberOfLines={2}
-                >
+                {top}
+                <Text style={styles.opacity} type='__plain__' size={13} lineHeight={15} bold>
+                  {' '}
                   ({$.subject.air_date.slice(0, 7)})
                 </Text>
               </Text>
@@ -81,4 +76,4 @@ function Subject(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Subject)
+export default obc(Subject, COMPONENT)

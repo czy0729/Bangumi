@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 18:34:59
+ * @Last Modified time: 2024-09-28 22:18:22
  */
-import { getTimestamp } from '@utils'
+import { getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
 import { extract, update } from '@utils/kv'
 import { MAX_PAGE } from '../ds'
@@ -13,20 +13,20 @@ import { FILTER_WORD } from './ds'
 
 export default class Action extends Fetch {
   /** 批量获取吐槽 */
-  batchSubject = async (refresh: boolean = false) => {
+  batchSubjectThenCut = async (refresh: boolean = false) => {
     if (this.state.fetching) return
 
     if (refresh) {
       t('词云.刷新', {
-        id: this.subjectId || this.topicId
+        id: this.id
       })
     }
 
     if (!refresh) {
       if (this.state.data._loaded) return
 
-      if (this.comment._loaded) {
-        const { pagination } = this.comment
+      if (this.subjectComments._loaded) {
+        const { pagination } = this.subjectComments
         if (
           pagination.page >= MAX_PAGE ||
           (pagination.pageTotal && pagination.page >= pagination.pageTotal)
@@ -63,6 +63,13 @@ export default class Action extends Fetch {
     return true
   }
 
+  /** 角色 */
+  cutMono = async () => {
+    await this.fetchMono()
+    await this.cut()
+    return true
+  }
+
   /** 分词 */
   cut = async () => {
     const result = await extract(this.plainText)
@@ -84,7 +91,7 @@ export default class Action extends Fetch {
     }
 
     t('词云.分词', {
-      id: this.subjectId || this.topicId
+      id: this.id
     })
 
     return true
@@ -93,14 +100,24 @@ export default class Action extends Fetch {
   /** 分词点击 */
   onWordPress = (title: string) => {
     this.setState({
-      title,
-      show: true
-    })
-
-    t('词云.点击', {
-      id: this.subjectId || this.topicId,
       title
     })
+
+    setTimeout(() => {
+      if (!this.selectedComment.length) {
+        info('没有找到对应吐槽')
+        return
+      }
+
+      this.setState({
+        show: true
+      })
+
+      t('词云.点击', {
+        id: this.id,
+        title
+      })
+    }, 0)
   }
 
   /** 收起吐槽列表 */
