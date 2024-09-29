@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-02-03 19:51:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:55:31
+ * @Last Modified time: 2024-09-29 22:25:50
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useObserver } from 'mobx-react'
 import { Flex, Text } from '@components'
-import { _, userStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
+import { ANDROID, IOS, WEB } from '@constants'
 import { IconTouchable } from '../../icon/touchable'
 import { BlurView } from '../blur-view'
 import { COMPONENT, HIT_SLOP } from './ds'
@@ -27,6 +28,15 @@ export const ErrorNotice = () => {
     if (!userStore.websiteError || !show) return null
 
     const styles = memoStyles()
+    const isBlur = IOS || WEB || (ANDROID && systemStore.setting.androidBlur)
+    const Component = isBlur ? BlurView : View
+    const passProps: any = {}
+    if (!isBlur) {
+      passProps.style = {
+        backgroundColor: _.colorMainLight
+      }
+    }
+
     return (
       <View
         style={[
@@ -36,7 +46,7 @@ export const ErrorNotice = () => {
           }
         ]}
       >
-        <BlurView>
+        <Component {...passProps}>
           <Flex style={styles.body}>
             <Flex.Item>
               <Text type='sub' size={12} bold>
@@ -51,7 +61,7 @@ export const ErrorNotice = () => {
               onPress={() => setShow(false)}
             />
           </Flex>
-        </BlurView>
+        </Component>
       </View>
     )
   })
