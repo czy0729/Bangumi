@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 21:25:04
+ * @Last Modified time: 2024-09-29 18:45:11
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore } from '@stores'
-import { HTMLDecode, removeHTMLTag } from '@utils'
+import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
 import { Id, UserId } from '@types'
 import { MAX_PAGE, PAGE_LIMIT } from '../ds'
+import { getPlainText, removeSlogan, removeSpec } from './utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
@@ -81,32 +82,37 @@ export default class Computed extends State {
   /** 吐槽纯文本 */
   @computed get plainText() {
     let text = ''
-
     if (this.subjectId) {
+      const limit = MAX_PAGE * PAGE_LIMIT
       this.subjectComments.list.forEach((item, index) => {
-        if (index >= MAX_PAGE * PAGE_LIMIT) return
+        if (index >= limit) return
 
-        text += HTMLDecode(item.comment)
-      })
-    } else if (this.topicId) {
-      text += HTMLDecode(this.topic.title)
-      text += HTMLDecode(removeHTMLTag(this.topic.message, false)).slice(0, 300)
-      this.topicComments.list.forEach((item, index) => {
-        if (index >= 200) return
-
-        text += HTMLDecode(removeHTMLTag(item.message, false))
-          .split('[来自Bangumi')[0]
-          .slice(0, 150)
-      })
-    } else if (this.monoId) {
-      this.monoComments.list.forEach((item, index) => {
-        if (index >= MAX_PAGE * PAGE_LIMIT) return
-
-        text += HTMLDecode(removeHTMLTag(item.message, false))
+        text += removeSlogan(getPlainText(item.comment))
       })
     }
 
-    return text.replace(/x[a-zA-Z0-9]{5}/g, '').replace(/&#;/g, '')
+    if (this.topicId) {
+      text += getPlainText(this.topic.title)
+      text += getPlainText(this.topic.message, 300)
+
+      const limit = 200
+      this.topicComments.list.forEach((item, index) => {
+        if (index >= limit) return
+
+        text += removeSlogan(getPlainText(item.message), 150)
+      })
+    }
+
+    if (this.monoId) {
+      const limit = MAX_PAGE * PAGE_LIMIT
+      this.monoComments.list.forEach((item, index) => {
+        if (index >= limit) return
+
+        text += removeSlogan(getPlainText(item.message), 150)
+      })
+    }
+
+    return removeSpec(text)
   }
 
   /** 点击词云后选中的吐槽 */
@@ -131,7 +137,7 @@ export default class Computed extends State {
           avatar: item.avatar,
           userId: item.userId,
           userName: HTMLDecode(item.userName),
-          comment: HTMLDecode(item.comment),
+          comment: removeSlogan(getPlainText(item.comment)),
           time: item.time,
           action: item.action
         }))
@@ -142,18 +148,13 @@ export default class Computed extends State {
       if (!list.length) return FROZEN_ARRAY
 
       return list
-        .filter(item => removeHTMLTag(item.message, false).includes(title))
+        .filter(item => getPlainText(item.message).includes(title))
         .map(item => ({
           id: item.id,
           avatar: item.avatar,
           userId: item.userId,
           userName: HTMLDecode(item.userName),
-          comment: HTMLDecode(
-            removeHTMLTag(item.message, false)
-              .split('[来自Bangumi')[0]
-              .replace(/x[a-zA-Z0-9]{5}/g, '')
-              .replace(/&#;/g, '')
-          ),
+          comment: removeSlogan(getPlainText(item.message)),
           time: item.time,
           action: item.floor
         }))
@@ -164,17 +165,13 @@ export default class Computed extends State {
       if (!list.length) return FROZEN_ARRAY
 
       return list
-        .filter(item => removeHTMLTag(item.message, false).includes(title))
+        .filter(item => getPlainText(item.message).includes(title))
         .map(item => ({
           id: item.id,
           avatar: item.avatar,
           userId: item.userId,
           userName: HTMLDecode(item.userName),
-          comment: HTMLDecode(
-            removeHTMLTag(item.message, false)
-              .replace(/x[a-zA-Z0-9]{5}/g, '')
-              .replace(/&#;/g, '')
-          ),
+          comment: removeSlogan(getPlainText(item.message)),
           time: item.time,
           action: item.floor
         }))

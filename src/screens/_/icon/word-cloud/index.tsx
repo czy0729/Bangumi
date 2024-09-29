@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-28 21:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 21:20:27
+ * @Last Modified time: 2024-09-29 18:46:52
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
@@ -20,7 +20,7 @@ export const IconWordCloud = ob(
     <Touchable style={styles.touch} onPress={onPress}>
       <Image
         src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
-        size={18}
+        size={19}
         resizeMode='contain'
         placeholder={false}
         skeleton={false}
