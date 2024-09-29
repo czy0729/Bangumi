@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 07:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 16:05:16
+ * @Last Modified time: 2024-09-29 20:16:53
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -15,7 +15,7 @@ export const TEXTS = {
   theme: {
     setting: {
       title: '主题',
-      information: `点击顶部 Logo 亦可快速切换黑白模式，长按 Logo 则前往设置\n两种黑暗模式之间切换需要重新启动才能正确生效`
+      information: `长按顶部 Logo 可快速前往设置，切换主题可能需要重新启动才能正确生效`
     },
     light: {
       title: '明亮'
@@ -30,7 +30,11 @@ export const TEXTS = {
   },
   autoColorScheme: {
     hd: '跟随系统',
-    information: '启动客户端时黑白主题是否跟随系统'
+    information: '启动客户端时主题是否跟随系统'
+  },
+  logoToggleTheme: {
+    hd: '快速切换主题',
+    information: '是否允许点击顶部 Logo 快速切换主题'
   },
   androidBlur: {
     hd: '[实验性] 毛玻璃布局',

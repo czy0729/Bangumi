@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 12:14:21
+ * @Last Modified time: 2024-09-29 19:58:36
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -222,8 +222,11 @@ export const INIT_SETTING = {
   /** 震动反馈 */
   vibration: false,
 
-  /** 黑暗模式跟随系统 */
+  /** 主题跟随系统 */
   autoColorScheme: false,
+
+  /** 是否允许点击 Logo 切换主题 */
+  logoToggleTheme: false,
 
   /** 封面拟物 */
   coverThings: true,

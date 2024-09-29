@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 05:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 15:45:05
+ * @Last Modified time: 2024-09-29 20:11:48
  */
 import React from 'react'
 import { ActionSheet } from '@components'
@@ -16,6 +16,7 @@ import AndroidBlur from './android-blur'
 import AndroidBlurLayout from './android-blur-layout'
 import AppTheme from './app-theme'
 import AutoColorScheme from './auto-color-scheme'
+import LogoToggleTheme from './logo-toggle-theme'
 import { COMPONENT, TEXTS } from './ds'
 
 /** 主题 */
@@ -34,10 +35,11 @@ function Theme({ navigation, filter }) {
         <ActionSheet
           show={state}
           title='主题'
-          height={filter || IOS ? 440 : 760}
+          height={filter || IOS ? 560 : 760}
           onClose={setFalse}
         >
           {shows.theme && <AppTheme navigation={navigation} filter={filter} />}
+          {!WEB && shows.logoToggleTheme && <LogoToggleTheme filter={filter} />}
           {!WEB && !IS_BEFORE_ANDROID_10 && shows.autoColorScheme && (
             <AutoColorScheme filter={filter} />
           )}
