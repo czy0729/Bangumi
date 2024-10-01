@@ -10,8 +10,17 @@ export const styles = _.create({
   item: {
     marginBottom: 48
   },
+  cover: {
+    ..._.shadow,
+    shadowOffset: {
+      width: 4,
+      height: 6
+    },
+    shadowOpacity: 0.28,
+    elevation: 20
+  },
   desc: {
     paddingRight: _.xs,
-    marginTop: _.xs
+    marginTop: 12
   }
 })

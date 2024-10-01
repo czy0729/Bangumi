@@ -15,6 +15,7 @@ import {
   Override,
   UserId
 } from '@types'
+import { INIT_SETTING } from './init'
 
 /** 0: 全部, 1: 我的好友, 2: 不接收 */
 export type PrivacyValue = '0' | '1' | '2'
@@ -267,3 +268,7 @@ export type BookmarksItem = {
   href: string
   title: string
 }
+
+export type Setting = typeof INIT_SETTING
+
+export type SettingKeys = keyof Setting

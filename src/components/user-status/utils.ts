@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-19 14:19:22
  */
-import { getTimestamp } from '@utils'
 import { systemStore, userStore } from '@stores'
+import { getTimestamp } from '@utils'
+import { D, D3 } from '@constants'
 import { UserId } from '@types'
-import { D1_TS, D3_TS } from './ds'
 
 /** 获取用户当前在线状态 */
 export function getUserStatus(userId: UserId) {
@@ -17,9 +17,9 @@ export function getUserStatus(userId: UserId) {
 
   const ts = getTimestamp()
   const distance = ts - lastTS
-  if (distance > D3_TS) return false
+  if (distance > D3) return false
 
-  if (distance >= D1_TS) return 'Warning'
+  if (distance >= D) return 'Warning'
 
   return 'Success'
 }

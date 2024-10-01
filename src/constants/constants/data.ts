@@ -310,6 +310,9 @@ export const H12 = H * 12
 /** 1 天 */
 export const D = H * 24
 
+/** 1 天 */
+export const D3 = D * 3
+
 /** 7 天 */
 export const D7 = D * 7
 

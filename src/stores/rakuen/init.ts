@@ -11,7 +11,7 @@ import {
   MODEL_RAKUEN_SCROLL_DIRECTION,
   MODEL_RAKUEN_TYPE
 } from '@constants'
-import { Avatar, Loaded, RakuenScope, RakuenScrollDirection, RakuenType } from '@types'
+import { Avatar, Loaded, RakuenScope, RakuenScrollDirection, RakuenType, UserId } from '@types'
 import { BlockedUsersItem, BookmarksItem, PrivacyValue } from './types'
 
 export const NAMESPACE = 'Rakuen'
@@ -22,22 +22,10 @@ export const DEFAULT_SCOPE = MODEL_RAKUEN_SCOPE.getValue<RakuenScope>('全局聚
 
 export const DEFAULT_TYPE = MODEL_RAKUEN_TYPE.getValue<RakuenType>('全部')
 
-export const INIT_RAKUEN_ITEM = {
-  group: '', // 小组名称
-  groupHref: '', // 小组地址
-  avatar: '', // 作者头像
-  userId: '', // 作者 Id
-  userName: '', // 作者名字
-  title: '', // 超展开标题
-  href: '', // 链接
-  replies: '', // 回复数
-  time: '' // 发帖时间
-}
-
 export const INIT_READED_ITEM = {
-  replies: 0, // 帖子查看时的回复数
-  time: 0, // 帖子查看时间
-  _time: 0 // 帖子查看时间, 需要多一个来缓存上一次点击事件, 用于制造页面内标记新楼层效果
+  replies: 0,
+  time: 0,
+  _time: 0
 }
 
 /** 帖子内容 */
@@ -125,6 +113,9 @@ export const INIT_SETTING = {
   /** @deprecated 屏蔽的用户 `${userName}@${userId}`[] */
   blockUserIds: [],
 
+  /** 追踪特定用户回复 */
+  commentTrack: [] as UserId[],
+
   /** 过滤用户删除的楼层 */
   filterDelete: true,
 
@@ -145,12 +136,23 @@ export const INIT_SETTING = {
 }
 
 export const INIT_GROUP_INFO = {
-  title: '', // 小组名字
-  cover: '', // 小组封面
-  content: '', // 小组介绍
-  create: '', // 创建于
-  joinUrl: '', // 加入小组
-  byeUrl: '' // 退出小组
+  /** 小组名字 */
+  title: '',
+
+  /** 小组封面 */
+  cover: '',
+
+  /** 小组介绍 */
+  content: '',
+
+  /** 创建于 */
+  create: '',
+
+  /** 加入小组 */
+  joinUrl: '',
+
+  /** 退出小组 */
+  byeUrl: ''
 }
 
 export const INIT_GROUP_ITEM = {
@@ -158,23 +160,35 @@ export const INIT_GROUP_ITEM = {
 }
 
 export const INIT_BLOG = {
-  avatar: '', // 作者头像
-  floor: '', // 楼层
-  formhash: '', // 回复表单凭据
-  message: '', // 帖子内容
-  time: '', // 发帖时间
-  title: '', // 帖子标题
-  userId: '', // 作者Id
-  userName: '', // 作者名称
-  userSign: '', // 作者签名
-  related: [] // 关联条目
-}
+  /** 作者头像 */
+  avatar: '',
 
-export const INIT_MINE_ITEM = {
-  id: '', // 小组id
-  cover: '', // 封面
-  name: '', // 名字
-  num: '' // 成员数
+  /** 楼层 */
+  floor: '',
+
+  /** 回复表单凭据 */
+  formhash: '',
+
+  /** 帖子内容 */
+  message: '',
+
+  /** 发帖时间 */
+  time: '',
+
+  /** 帖子标题 */
+  title: '',
+
+  /** 作者 ID */
+  userId: '',
+
+  /** 作者名称 */
+  userName: '',
+
+  /** 作者签名 */
+  userSign: '',
+
+  /** 关联条目 */
+  related: []
 }
 
 const STATE = {

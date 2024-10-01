@@ -13,7 +13,7 @@ import { _, systemStore, userStore } from '@stores'
 import { confirm } from '@utils'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
-import { ADVANCE_CDN, MODEL_SETTING_CDN_ORIGIN } from '@constants'
+import { APP_ADVANCE_CDN, MODEL_SETTING_CDN_ORIGIN } from '@constants'
 import { SettingCDNOrigin, SettingCDNOriginCn } from '@types'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -113,7 +113,7 @@ function CDNCover({ navigation, filter, setFalse }) {
                   title: '关于 Magma ',
                   message: [
                     '此域名为用户 @magma 提供，支持非 NSFW 封面图（NSFW 会回滚到 bgm），并自带缩放压缩、webp、稳定CDN加速。',
-                    `作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解。`,
+                    `作者与其达成了约定，因流量是需要自费的，目前仅对历史打赏达到 [${APP_ADVANCE_CDN}元] 的高级会员开放测试，恳请谅解。`,
                     '科普: 目前 OSS 1G 的费用因有各种回流等策略，资费不低于 0.2 元，1 个用户首次访问 10-20 个路径的页面，封面图可能会产生 50-100MB 的流量。',
                     '为什么需要？因官方图片第二档质量不够清晰，而最高质量又过大，如果直接使用最大图片，一来会浪费大量流量，二来就算手机再强也会随着程序使用而崩溃。',
                     'PS: 若漏算了历史打赏金额的，可私信作者修正。'

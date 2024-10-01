@@ -6,7 +6,7 @@
  */
 import { systemStore, userStore } from '@stores'
 import { info } from '@utils'
-import { ADVANCE_CDN } from '@constants'
+import { APP_ADVANCE_CDN } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
 
 export function waitToResetCDN() {
@@ -26,7 +26,7 @@ export async function checkAdvance() {
     }
 
     const [, amount] = String(value).split('|')
-    if (Number(amount || 0) >= ADVANCE_CDN) return true
+    if (Number(amount || 0) >= APP_ADVANCE_CDN) return true
   }
 
   // 获取历史打赏金额
@@ -37,8 +37,8 @@ export async function checkAdvance() {
   }
 
   const [, amount] = String(value).split('|')
-  if (Number(amount || 0) >= ADVANCE_CDN) return true
+  if (Number(amount || 0) >= APP_ADVANCE_CDN) return true
 
-  info(`历史打赏为 ${amount}，不足条件 ${ADVANCE_CDN}`)
+  info(`历史打赏为 ${amount}，不足条件 ${APP_ADVANCE_CDN}`)
   return false
 }

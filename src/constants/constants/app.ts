@@ -36,7 +36,19 @@ export const APP_USERID_TOURIST = 700939
 export const APP_USERID_IOS_AUTH = 700939
 
 /** 高级会员不限制达到金额 */
-export const ADVANCE_CDN = 10
+export const APP_ADVANCE_CDN = 10
+
+/** 普通会员特别关注条目吐槽用户最大数 */
+export const APP_FREE_TRACK_COLLECTION = 1
+
+/** 高级会员特别关注条目吐槽用户最大数 */
+export const APP_ADVANCE_TRACK_COLLECTION = 5
+
+/** 普通会员特别关注超展开用户最大数 */
+export const APP_FREE_TRACK_COMMENT = 2
+
+/** 高级会员特别关注超展开用户最大数 */
+export const APP_ADVANCE_TRACK_COMMENT = 10
 
 /** 项目地址 */
 export const GITHUB_PROJECT = 'https://github.com/czy0729/Bangumi'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:50:33
+ * @Last Modified time: 2024-10-01 18:22:10
  */
 import React from 'react'
 import { Component, Divider } from '@components'
@@ -37,7 +37,7 @@ function TrackComment(_props, { $, navigation }: Ctx) {
 
   return (
     <Component id='screen-subject-track-comment' style={_.mt.sm}>
-      <InView>
+      <InView y={_.window.height * 1.5}>
         {items.map(item => {
           const collection = collectionStore.usersSubjectCollection(item, $.subjectId)
           const userInfo = usersStore.usersInfo(item)

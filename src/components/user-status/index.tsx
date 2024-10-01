@@ -10,10 +10,11 @@ import { observer } from 'mobx-react'
 import { systemStore, userStore } from '@stores'
 import { getTimestamp, stl } from '@utils'
 import { r } from '@utils/dev'
+import { D, D3, D7 } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { getUserStatus } from './utils'
-import { COMPONENT, D1_TS, D3_TS, D7_TS } from './ds'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as UserStatusProps } from './types'
 
@@ -24,13 +25,12 @@ export const UserStatus = observer(
   ({ style, last, userId, mini = false, children }: UserStatusProps) => {
     r(COMPONENT)
 
-    const { onlineStatus } = systemStore.setting
-    const lastTS = last || (onlineStatus ? userStore.onlines(userId) : 0)
+    const lastTS = last || (systemStore.setting.onlineStatus ? userStore.onlines(userId) : 0)
     if (!lastTS) return children
 
-    const ts = getTimestamp()
-    const distance = ts - lastTS
-    if (distance > D7_TS) return children
+    const now = getTimestamp()
+    const distance = now - lastTS
+    if (distance > D7) return children
 
     const styles = memoStyles()
     return (
@@ -46,7 +46,7 @@ export const UserStatus = observer(
               style={stl(
                 styles.badge,
                 mini && styles.badgeMini,
-                distance >= D3_TS ? styles.badgeDisabled : distance >= D1_TS && styles.badgeWarning
+                distance >= D3 ? styles.badgeDisabled : distance >= D && styles.badgeWarning
               )}
             />
           </Flex>

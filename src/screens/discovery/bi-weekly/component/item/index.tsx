@@ -39,7 +39,7 @@ function Item({ item, index }, { navigation }: Ctx) {
     >
       <Flex justify='center'>
         <InView y={(height + styles.item.marginBottom + descSize + titleSize) * index + 1}>
-          <Image width={width} height={height} src={item.cover} />
+          <Image style={styles.cover} width={width} height={height} src={item.cover} />
         </InView>
       </Flex>
       {!!item.desc && (
