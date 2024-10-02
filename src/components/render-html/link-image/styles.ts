@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-22 15:35:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 15:36:58
+ * @Last Modified time: 2024-10-02 07:13:30
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   img: {
+    minWidth: Math.floor(_.window.contentWidth * (9 / 16)),
     padding: 12,
     marginTop: _.sm,
     marginBottom: _.xs,

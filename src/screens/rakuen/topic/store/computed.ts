@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:01:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 17:09:04
+ * @Last Modified time: 2024-10-02 06:57:54
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
@@ -15,8 +15,8 @@ import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 export default class Computed extends State {
   /** 本地化 */
-  save = () => {
-    return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  save = (common: boolean = false) => {
+    return this.saveStorage(common ? NAMESPACE : this.namespace, EXCLUDE_STATE)
   }
 
   /** 帖子 id */
@@ -46,15 +46,19 @@ export default class Computed extends State {
     return this.state.topic
   }
 
+  /** 帖子回复 */
+  @computed get topicComments() {
+    return rakuenStore.comments(this.topicId)
+  }
+
   /** 筛选逻辑 */
   @computed get comments() {
     return freeze(() => {
       // 只显示跳转楼层
       if (this.state.filterPost) {
-        const data = rakuenStore.comments(this.topicId)
         return {
-          ...data,
-          list: data.list.filter(item => {
+          ...this.topicComments,
+          list: this.topicComments.list.filter(item => {
             if (item.id === this.state.filterPost) return true
 
             let flag = false
@@ -70,13 +74,11 @@ export default class Computed extends State {
         }
       }
 
-      const { reverse, filterType } = this.state
-      const data = rakuenStore.comments(this.topicId)
-      const comments = data._loaded ? data : this.state.comments
-      let list = comments.list
+      const comments = this.topicComments._loaded ? this.topicComments : this.state.comments
+      let { list } = comments
 
       // 楼层翻转
-      if (reverse) list = comments.list.slice().reverse()
+      if (this.state.reverse) list = list.slice().reverse()
 
       // 主动设置屏蔽默认头像用户相关信息
       if (systemStore.setting.filterDefault) {
@@ -84,8 +86,36 @@ export default class Computed extends State {
           .filter(item => !item.avatar?.includes(URL_DEFAULT_AVATAR))
           .map(item => ({
             ...item,
-            sub: item.sub.filter((i: { avatar: string }) => !i.avatar?.includes(URL_DEFAULT_AVATAR))
+            sub: item.sub.filter(i => !i.avatar?.includes(URL_DEFAULT_AVATAR))
           }))
+      }
+
+      const { filterType } = this.state
+      if (filterType === 'follow') {
+        const { commentTrack } = rakuenStore.setting
+        if (!commentTrack.length) {
+          return {
+            ...comments,
+            list
+          }
+        }
+
+        return {
+          ...comments,
+          list: list.filter(item => {
+            if (commentTrack.includes(item.userId)) return true
+
+            let flag = false
+            item.sub.forEach(i => {
+              if (commentTrack.includes(i.userId)) flag = true
+            })
+            return flag
+          }),
+          pagination: {
+            page: 1,
+            pageTotal: 1
+          }
+        }
       }
 
       if (filterType === 'likes') {
@@ -99,15 +129,20 @@ export default class Computed extends State {
 
         return {
           ...comments,
-          list: list.filter(item => {
-            if (ids.includes(item.id)) return true
+          list: list
+            .filter(item => {
+              if (ids.includes(item.id)) return true
 
-            let flag = false
-            item.sub.forEach(i => {
-              if (ids.includes(i.id)) flag = true
+              let flag = false
+              item.sub.forEach(i => {
+                if (ids.includes(i.id)) flag = true
+              })
+              return flag
             })
-            return flag
-          }),
+            .map(item => ({
+              ...item,
+              sub: item.sub.filter(i => ids.includes(i.id))
+            })),
           pagination: {
             page: 1,
             pageTotal: 1
@@ -120,9 +155,7 @@ export default class Computed extends State {
         return {
           ...comments,
           list: list.filter(item => {
-            if (item.sub.findIndex(i => i.userId === userStore.myId) !== -1) {
-              return true
-            }
+            if (item.sub.findIndex(i => i.userId === userStore.myId) !== -1) return true
 
             return item.userId === userStore.myId
           }),
@@ -138,9 +171,7 @@ export default class Computed extends State {
         return {
           ...comments,
           list: list.filter(item => {
-            if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) {
-              return true
-            }
+            if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) return true
 
             return this.myFriendsMap[item.userId]
           }),
@@ -158,21 +189,36 @@ export default class Computed extends State {
     })
   }
 
+  /** 特别关注的回复数统计 */
+  @computed get commentFollowCount() {
+    const { commentTrack } = rakuenStore.setting
+    if (!commentTrack.length) return 0
+
+    const map: Record<UserId, true> = {}
+    commentTrack.forEach(item => (map[item] = true))
+
+    return this.topicComments.list.filter(item => {
+      let flag: boolean = map[item.userId]
+      if (!flag) flag = item.sub.some(i => map[i.userId])
+      return flag
+    }).length
+  }
+
   /** 我的回复数统计 */
   @computed get commentMeCount() {
-    return rakuenStore.comments(this.topicId).list.filter(item => {
-      if (item.sub.findIndex(i => i.userId === userStore.myId) !== -1) return true
-
-      return item.userId === userStore.myId
+    return this.topicComments.list.filter(item => {
+      let flag: boolean = item.userId === userStore.myId
+      if (!flag) flag = item.sub.some(i => i.userId === userStore.myId)
+      return flag
     }).length
   }
 
   /** 好友的回复数统计 */
   @computed get commentFriendsCount() {
-    return rakuenStore.comments(this.topicId).list.filter(item => {
-      if (item.sub.findIndex(i => this.myFriendsMap[i.userId]) !== -1) return true
-
-      return this.myFriendsMap[item.userId]
+    return this.topicComments.list.filter(item => {
+      let flag: boolean = !!this.myFriendsMap[item.userId]
+      if (!flag) flag = item.sub.some(i => this.myFriendsMap[i.userId])
+      return flag
     }).length
   }
 
@@ -273,7 +319,7 @@ export default class Computed extends State {
         avatar: string
       }
     > = {}
-    rakuenStore.comments(this.topicId).list.forEach(item => {
+    this.topicComments.list.forEach(item => {
       if (!postUsersMap[item.userName]) {
         postUsersMap[item.userName] = {
           userId: item.userId,

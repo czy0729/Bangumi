@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 06:46:20
+ * @Last Modified time: 2024-10-02 07:05:40
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar, Component, Flex, Text, UserStatus } from '@components'
+import { Avatar, Component, Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
 import {
   getIsBlocked,
@@ -19,7 +19,7 @@ import {
 import { memo } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
-import { Likes, Name } from '../../../base'
+import { Likes, Name, UserStatusAvatar } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
@@ -61,6 +61,7 @@ export default memo(
     userId,
     userName,
     formhash,
+    like,
     likeType,
     event,
     onJumpTo,
@@ -148,16 +149,15 @@ export default memo(
           }}
         >
           {/* 头像 */}
-          <UserStatus userId={userId}>
-            <Avatar
-              navigation={navigation}
-              userId={userId}
-              name={userName}
-              src={avatar}
-              size={36}
-              event={event}
-            />
-          </UserStatus>
+          <UserStatusAvatar
+            navigation={navigation}
+            like={like}
+            userId={userId}
+            userName={userName}
+            avatar={avatar}
+            size={36}
+            event={event}
+          />
 
           {/* 主楼层 */}
           <Flex.Item style={styles.content}>

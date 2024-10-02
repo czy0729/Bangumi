@@ -8,7 +8,9 @@ import { confirm, info, titleCase } from '@utils'
 import { read } from '@utils/db'
 import { get, update } from '@utils/kv'
 import {
-  ADVANCE_CDN,
+  APP_ADVANCE_CDN,
+  APP_ADVANCE_TRACK_COLLECTION,
+  APP_FREE_TRACK_COLLECTION,
   MODEL_SETTING_CDN_ORIGIN,
   MODEL_SETTING_HOME_COUNT_VIEW,
   MODEL_SETTING_HOME_LAYOUT,
@@ -52,7 +54,7 @@ export default class Actions extends Fetch {
         if (value == 1) return false
 
         const [, amount] = String(value).split('|')
-        if (Number(amount || 0) >= ADVANCE_CDN) return false
+        if (Number(amount || 0) >= APP_ADVANCE_CDN) return false
       }
 
       const { cdn, cdnOrigin } = this.setting
@@ -364,18 +366,21 @@ export default class Actions extends Fetch {
     const value = [...(this.setting[key] || [])]
     if (!value.includes(userName)) value.unshift(userName)
 
-    if (!this.advance && value.length > 1) {
-      confirm('非高级会员同类别最大支持 1 人，是否用此用户替代先前的特别关注？', () => {
-        this.setSetting(key, [userName])
-        info('已关注')
-        return true
-      })
+    if (!this.advance && value.length > APP_FREE_TRACK_COLLECTION) {
+      confirm(
+        `普通会员同类别最大支持 ${APP_FREE_TRACK_COLLECTION} 人，是否用此用户替代先前的特别关注？`,
+        () => {
+          this.setSetting(key, [userName])
+          info('已关注')
+          return true
+        }
+      )
       return false
     }
 
-    if (value.length > 5) {
+    if (value.length > APP_ADVANCE_TRACK_COLLECTION) {
       confirm(
-        '高级会员同类别最大支持 5 人，当前已满 5 人，是否用此用户替代最早的特别关注？',
+        `高级会员当前已满最大支持 ${APP_ADVANCE_TRACK_COLLECTION} 人，是否用此用户替代最早的特别关注？`,
         () => {
           value.pop()
           this.setSetting(key, value)
@@ -395,7 +400,7 @@ export default class Actions extends Fetch {
   cancelTrackUsersCollection = (userName: UserId, type: SubjectType = 'anime') => {
     const key = `comment${titleCase(type)}` as const
     const value = (this.setting[key] || []).filter(item => item !== userName)
-    this.setSetting(`comment${titleCase(type)}`, value)
+    this.setSetting(key, value)
     info('已取消')
     return true
   }

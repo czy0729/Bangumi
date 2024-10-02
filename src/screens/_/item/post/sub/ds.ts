@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:21:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:44
+ * @Last Modified time: 2024-10-02 07:05:52
  */
 import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
@@ -41,6 +41,7 @@ export const DEFAULT_PROPS = {
   userId: '' as Props['userId'],
   userName: '' as Props['userName'],
   formhash: '' as string,
+  like: false as boolean,
   likeType: '' as string,
   event: EVENT,
   onJumpTo: FROZEN_FN,

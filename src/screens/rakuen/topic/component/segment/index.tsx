@@ -2,94 +2,107 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:28:02
+ * @Last Modified time: 2024-10-02 07:15:30
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Heatmap, SegmentedControl } from '@components'
+import { SegmentedControl } from '@components'
 import { _, rakuenStore, userStore } from '@stores'
 import { feedback, info } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import {
+  COMPONENT,
+  FILTER_ALL,
+  FILTER_FOLLOW,
+  FILTER_FRIENDS,
+  FILTER_LIKES,
+  FILTER_MAP,
+  FILTER_ME,
+  FILTER_POST
+} from './ds'
 import { styles } from './styles'
+import { DATA } from './types'
 
 function Segement(_props, { $ }: Ctx) {
-  const segmentedControlDS = ['全部']
+  const data: DATA = [FILTER_ALL]
   if ($.state.filterPost) {
-    segmentedControlDS.push('跳转')
+    data.push(FILTER_POST)
   } else {
+    // 使用变量保存结果, 能避免可能发生的重复计算
+    let count = $.commentFollowCount
+    if (count) data.push(`${FILTER_FOLLOW} ${count}`)
+
     if (rakuenStore.setting.likes) {
-      const likesCounts = $.likesFloorIds?.length || 0
-      if (likesCounts) segmentedControlDS.push(`贴贴 ${likesCounts}`)
+      count = $.likesFloorIds?.length || 0
+      if (count) data.push(`${FILTER_LIKES} ${count}`)
     }
 
-    const hasLogin = !!userStore.myId
-    if (hasLogin && $.commentMeCount) segmentedControlDS.push(`我 ${$.commentMeCount}`)
-    if (hasLogin && $.commentFriendsCount) segmentedControlDS.push(`好友 ${$.commentFriendsCount}`)
+    if (userStore.myId) {
+      count = $.commentMeCount
+      if (count) data.push(`${FILTER_ME} ${count}`)
+
+      count = $.commentFriendsCount
+      if (count) data.push(`${FILTER_FRIENDS} ${count}`)
+    }
   }
-  if (segmentedControlDS.length <= 1) return null
+  if (data.length <= 1) return null
 
   let selectedIndex = 0
   if ($.state.filterPost) {
-    selectedIndex = segmentedControlDS.length - 1
-  } else if (segmentedControlDS.length > 1) {
-    const { filterType } = $.state
-    if (filterType === 'likes') {
-      selectedIndex = segmentedControlDS.findIndex(item => item.includes('贴贴'))
-    } else if (filterType === 'me') {
-      selectedIndex = segmentedControlDS.findIndex(item => item.includes('我'))
-    } else if (filterType === 'friends') {
-      selectedIndex = segmentedControlDS.findIndex(item => item.includes('好友'))
-    }
+    selectedIndex = data.length - 1
+  } else if (data.length > 1) {
+    const text = FILTER_MAP[$.state.filterType] || ''
+    if (text) selectedIndex = data.findIndex(item => item.includes(text))
   }
   if (selectedIndex === -1) selectedIndex = 0
 
+  const { length } = data
   return (
-    <View>
-      <SegmentedControl
-        key={selectedIndex}
-        style={[
-          styles.segmentedControl,
-          {
-            width: segmentedControlDS.length * _.r(56)
-          }
-        ]}
-        size={11}
-        values={segmentedControlDS}
-        selectedIndex={selectedIndex}
-        onValueChange={title => {
-          if ($.state.filterPost) {
-            info('取消仅显示跳转楼层')
-            feedback()
-            setTimeout(() => {
-              $.clearFilterPost()
-            }, 0)
-            return
-          }
+    <SegmentedControl
+      key={selectedIndex}
+      style={[
+        styles.segmentedControl,
+        {
+          width: length * _.r(length < 4 ? 52 : 48)
+        }
+      ]}
+      size={11}
+      values={data}
+      selectedIndex={selectedIndex}
+      onValueChange={title => {
+        if ($.state.filterPost) {
+          info('取消仅显示跳转楼层')
+          feedback()
+          setTimeout(() => {
+            $.clearFilterPost()
+          }, 0)
+          return
+        }
 
-          const { filterType } = $.state
-          if (title.includes('贴贴') && filterType !== 'likes') {
-            $.onFilterLikes()
-            return
-          }
+        const { filterType } = $.state
+        if (title.includes(FILTER_FOLLOW) && filterType !== 'follow') {
+          $.onFilterFollow()
+          return
+        }
 
-          if (title.includes('我') && filterType !== 'me') {
-            $.onFilterMe()
-            return
-          }
+        if (title.includes(FILTER_LIKES) && filterType !== 'likes') {
+          $.onFilterLikes()
+          return
+        }
 
-          if (title.includes('好友') && filterType !== 'friends') {
-            $.onFilterFriends()
-            return
-          }
+        if (title.includes(FILTER_ME) && filterType !== 'me') {
+          $.onFilterMe()
+          return
+        }
 
-          $.onFilterClear()
-        }}
-      />
-      <Heatmap right={74} bottom={24} id='帖子.好友相关' />
-      <Heatmap right={24} bottom={24} id='帖子.与我相关' />
-    </View>
+        if (title.includes(FILTER_FRIENDS) && filterType !== 'friends') {
+          $.onFilterFriends()
+          return
+        }
+
+        $.onFilterClear()
+      }}
+    />
   )
 }
 

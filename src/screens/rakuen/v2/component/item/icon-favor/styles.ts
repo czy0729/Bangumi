@@ -10,6 +10,6 @@ export const styles = _.create({
   icon: {
     position: 'absolute',
     right: 13,
-    bottom: 13
+    bottom: 14
   }
 })

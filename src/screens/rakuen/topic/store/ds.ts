@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 15:06:27
+ * @Last Modified time: 2024-10-01 19:12:48
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
 import { WEB } from '@constants'
 import { Id, Loaded } from '@types'
+import { COMPONENT } from '../ds'
 import { FilterType } from '../types'
 
-export const NAMESPACE = 'ScreenTopic'
+export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 头部是否固定 */
@@ -74,6 +75,7 @@ export const STATE = {
 
   /**
    * 评论是否只看
+   *  - follow 关注
    *  - likes 贴贴
    *  - me 我
    *  - friends 好友
@@ -96,6 +98,8 @@ export const STATE = {
 
   /** 导演位置 */
   directIndex: -1,
+
+  /** 导演位置楼层名 */
   directFloor: '',
 
   /** 页面初始化 */

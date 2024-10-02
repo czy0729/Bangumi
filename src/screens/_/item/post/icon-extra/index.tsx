@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:33:48
+ * @Last Modified time: 2024-10-01 18:31:16
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -22,14 +22,15 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Popover } from '../../../base'
 import {
-  ACTION_BLOCK,
   ACTION_COPY,
   ACTION_DELETE,
   ACTION_EDIT,
   ACTION_IGNORE,
   ACTION_LIKES,
   ACTION_REPLY,
-  ACTION_TRANSLATE
+  ACTION_TRACK,
+  ACTION_TRANSLATE,
+  ACTION_UNTRACK
 } from './ds'
 import { styles } from './styles'
 
@@ -64,6 +65,9 @@ function IconExtra(
     // 复制
     ACTION_COPY,
 
+    // 关注
+    rakuenStore.commentTracked(userId) ? ACTION_UNTRACK : ACTION_TRACK,
+
     // 翻译
     $?.doTranslateFloor &&
       !isChineseParagraph(removeURLs(removeHTMLTag(msg)), 0.5) &&
@@ -74,12 +78,12 @@ function IconExtra(
 
     // 删除
     erase && $?.doDeleteReply && ACTION_DELETE
-  ].filter(Boolean)
+  ] as const
 
   return (
     <Popover
       style={stl(styles.touch, style)}
-      data={data}
+      data={data.filter(item => !!item)}
       onSelect={title => {
         switch (title) {
           case ACTION_LIKES:
@@ -98,20 +102,37 @@ function IconExtra(
             break
 
           case ACTION_COPY:
-            t('帖子.复制回复')
             copy(getCommentPlainText(msg), `已复制 ${userName} 的回复`)
+
+            t('帖子.复制回复')
+            break
+
+          case ACTION_TRACK:
+            rakuenStore.trackUsersComment(userId)
+
+            t('帖子.特别关注', {
+              userId
+            })
+            break
+
+          case ACTION_UNTRACK:
+            rakuenStore.cancelTrackUsersComment(userId)
+
+            t('帖子.取消特别关注', {
+              userId
+            })
             break
 
           case ACTION_TRANSLATE:
             $?.doTranslateFloor?.(id, msg)
             break
 
-          case ACTION_BLOCK:
-            confirm('确定屏蔽用户?', () => {
-              rakuenStore.addBlockUser(`${userName}@${userId}`)
-              info(`已屏蔽 ${userName}`)
-            })
-            break
+          // case ACTION_BLOCK:
+          //   confirm('确定屏蔽用户?', () => {
+          //     rakuenStore.addBlockUser(`${userName}@${userId}`)
+          //     info(`已屏蔽 ${userName}`)
+          //   })
+          //   break
 
           case ACTION_IGNORE:
             confirm(
@@ -124,10 +145,11 @@ function IconExtra(
                     keyword: String(userId)
                   },
                   async () => {
-                    t('帖子.绝交')
                     info('已添加绝交')
                     feedback()
                     rakuenStore.fetchPrivacy()
+
+                    t('帖子.绝交')
                   },
                   () => {
                     info('添加失败, 可能授权信息过期')

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 16:09:18
+ * @Last Modified time: 2024-10-02 06:46:48
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, uiStore } from '@stores'
@@ -15,7 +15,6 @@ import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
 import { AnyObject, Fn, Id, ScrollEvent, TopicType } from '@types'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
   /** 缓存用户头像关系 */
@@ -34,22 +33,36 @@ export default class Action extends Fetch {
 
   /** 吐槽倒序 */
   toggleReverseComments = () => {
-    const { reverse } = this.state
+    const value = !this.state.reverse
     t('帖子.吐槽倒序', {
       topicId: this.topicId,
-      reverse: !reverse
+      reverse: value
     })
 
     this.setState({
-      reverse: !reverse
+      reverse: value
     })
-    this.setStorage(NAMESPACE)
+    this.save(true)
   }
 
   /** 显示全部回复 */
   onFilterClear = () => {
     this.setState({
       filterType: '',
+      filterPost: ''
+    })
+    this.save()
+    feedback()
+  }
+
+  /** 显示特别关注相关的回复 */
+  onFilterFollow = () => {
+    t('帖子.关注相关', {
+      topicId: this.topicId
+    })
+
+    this.setState({
+      filterType: 'follow',
       filterPost: ''
     })
     this.save()

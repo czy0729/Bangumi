@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-08 18:25:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 14:57:24
+ * @Last Modified time: 2024-10-01 17:48:49
  */
 
 /**
@@ -59,4 +59,5 @@ export * from './stock-preview/index.lazy'
 export * from './tag/index.lazy'
 export * from './tags/index.lazy'
 export * from './tap-listener/index.lazy'
+export * from './user-status-avatar/index.lazy'
 export * from './vertical-align/index.lazy'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 06:49:51
+ * @Last Modified time: 2024-10-02 06:46:44
  */
 
 /** Rakuen */
@@ -58,6 +58,7 @@ export default {
   '帖子.跳转': 'Topic.to',
   '帖子.右上角菜单': 'Topic.topRightMenu',
   '帖子.吐槽倒序': 'Topic.toggleReverseComments',
+  '帖子.关注相关': 'Topic.toggleFilterFollow',
   '帖子.贴贴相关': 'Topic.toggleFilterLikes',
   '帖子.与我相关': 'Topic.toggleFilterMe',
   '帖子.好友相关': 'Topic.toggleFilterFriends',
@@ -73,6 +74,8 @@ export default {
   '帖子.翻译内容': 'Topic.doTranslate',
   '帖子.贴贴': 'Topic.doLike',
   '帖子.绝交': 'Topic.blockUser',
+  '帖子.特别关注': 'Topic.trackUsersComment',
+  '帖子.取消特别关注': 'Topic.cancelTrackUsersComment',
 
   // 日志
   '日志.跳转': 'Blog.to',

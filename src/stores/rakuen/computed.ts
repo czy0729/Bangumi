@@ -319,8 +319,17 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 已存书签 */
   bookmarksSaved(href: string) {
-    if (!href) return false
+    return computed(() => {
+      if (!href) return false
 
-    return !!this.bookmarks.find(item => item.href === href)
+      return !!this.bookmarks.find(item => item.href === href)
+    }).get()
+  }
+
+  /** 是否已追踪用户 */
+  commentTracked(userName: UserId) {
+    return computed(() => {
+      return this.setting.commentTrack.includes(userName)
+    }).get()
   }
 }

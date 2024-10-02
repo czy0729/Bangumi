@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-06-17 12:43:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 04:07:08
+ * @Last Modified time: 2024-10-01 18:04:18
  */
 import React from 'react'
-import { View } from 'react-native'
-import { Avatar, Flex, Iconfont, Text, UserStatus } from '@components'
+import { Flex, Iconfont, Text } from '@components'
 import { _, uiStore, userStore } from '@stores'
 import { correctAgo, HTMLDecode, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { LIKE_TYPE_TIMELINE, STORYBOOK } from '@constants'
-import { Likes, Name, Popover, Stars } from '../../base'
+import { LIKE_TYPE_TIMELINE, WEB } from '@constants'
+import { Likes, Name, Popover, Stars, UserStatusAvatar } from '../../base'
 import { formatTime } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
@@ -38,30 +37,15 @@ const ItemComment = memo(
   }) => {
     return (
       <Flex style={stl(styles.item, style)} align='start'>
-        <View style={styles.avatar}>
-          {like ? (
-            <View>
-              <Avatar
-                navigation={navigation}
-                userId={userId}
-                name={userName}
-                src={avatar}
-                event={event}
-              />
-              <Iconfont style={styles.favor} name='md-favorite' color={_.colorMain} size={12} />
-            </View>
-          ) : (
-            <UserStatus userId={userId}>
-              <Avatar
-                navigation={navigation}
-                userId={userId}
-                name={userName}
-                src={avatar}
-                event={event}
-              />
-            </UserStatus>
-          )}
-        </View>
+        <UserStatusAvatar
+          style={styles.avatar}
+          navigation={navigation}
+          like={like}
+          userId={userId}
+          userName={userName}
+          avatar={avatar}
+          event={event}
+        />
         <Flex.Item style={styles.content}>
           <Flex>
             <Flex.Item>
@@ -136,7 +120,7 @@ const ItemComment = memo(
             </Flex>
           )}
           {!!comment && (
-            <Text style={_.mt.xs} lineHeight={18} selectable={STORYBOOK}>
+            <Text style={_.mt.xs} lineHeight={18} selectable={WEB}>
               {HTMLDecode(comment)}
             </Text>
           )}

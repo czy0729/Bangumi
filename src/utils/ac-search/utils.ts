@@ -49,7 +49,7 @@ export function initLazyac() {
         [].concat(Object.keys(addon), Object.keys(alias), Object.keys(anime)).filter(item => {
           if (
             // 过滤掉比较长的条目名字, 命中率很低
-            item.length > 10 ||
+            item.length > 6 ||
             item.length <= 1 ||
             IGNORE_ITEMS.includes(item) ||
             // 带特殊符号的通常用户很少手动输入, 命中率很低

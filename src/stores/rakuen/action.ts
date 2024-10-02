@@ -4,13 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-31 13:14:49
  */
-import { getTimestamp, info } from '@utils'
-import { syncUserStore } from '@utils/async'
+import { confirm, getTimestamp, info } from '@utils'
+import { syncSystemStore, syncUserStore } from '@utils/async'
 import { put, read } from '@utils/db'
 import { fetchHTML, xhr } from '@utils/fetch'
 import { collect, collectList, get, is, update } from '@utils/kv'
 import {
   API_TOPIC_COMMENT_LIKE,
+  APP_ADVANCE_TRACK_COMMENT,
+  APP_FREE_TRACK_COMMENT,
   HOST,
   HTML_ACTION_BLOG_REPLY,
   HTML_ACTION_RAKUEN_REPLY,
@@ -29,7 +31,7 @@ import {
   UserId
 } from '@types'
 import Fetch from './fetch'
-import { INIT_SETTING } from './init'
+import { SettingKeys } from './types'
 
 export default class Action extends Fetch {
   /** 清除电波提醒未读 */
@@ -317,12 +319,24 @@ export default class Action extends Fetch {
   }
 
   /** 切换 */
-  switchSetting = (switchKey: keyof typeof INIT_SETTING) => {
+  switchSetting = (switchKey: SettingKeys) => {
     const key = 'setting'
     this.setState({
       [key]: {
         ...this.setting,
         [switchKey]: !this.setting[switchKey]
+      }
+    })
+    this.save(key)
+  }
+
+  /** 对指定设置直接赋值 */
+  setSetting = (switchKey: SettingKeys, value: unknown = true) => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        [switchKey]: value
       }
     })
     this.save(key)
@@ -662,5 +676,50 @@ export default class Action extends Fetch {
           ]
     })
     this.save(key)
+  }
+
+  /** 追踪特定用户回复 */
+  trackUsersComment = (userName: UserId) => {
+    const key = 'commentTrack'
+    const value = [...(this.setting.commentTrack || [])]
+    if (!value.includes(userName)) value.unshift(userName)
+
+    if (!syncSystemStore().advance && value.length > APP_FREE_TRACK_COMMENT) {
+      confirm(
+        `普通会员最大支持 ${APP_FREE_TRACK_COMMENT} 人，是否用此用户替代先前的特别关注？`,
+        () => {
+          this.setSetting(key, [userName])
+          info('已关注')
+          return true
+        }
+      )
+      return false
+    }
+
+    if (value.length > APP_ADVANCE_TRACK_COMMENT) {
+      confirm(
+        `高级会员当前已满最大支持 ${APP_ADVANCE_TRACK_COMMENT} 人，是否用此用户替代最早的特别关注？`,
+        () => {
+          value.pop()
+          this.setSetting(key, value)
+          info('已关注')
+          return true
+        }
+      )
+      return false
+    }
+
+    this.setSetting(key, value)
+    info('已关注')
+    return true
+  }
+
+  /** 取消追踪特定用户回复 */
+  cancelTrackUsersComment = (userName: UserId) => {
+    const key = 'commentTrack'
+    const value = (this.setting[key] || []).filter(item => item !== userName)
+    this.setSetting(key, value)
+    info('已取消')
+    return true
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:31:52
+ * @Last Modified time: 2024-10-02 07:05:31
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -75,6 +75,7 @@ export default obc(
         userId={userId}
         userName={userName}
         formhash={$?.topic?.formhash}
+        like={rakuenStore.commentTracked(userId)}
         likeType={$?.topic?.likeType}
         event={event}
         onJumpTo={onJumpTo}
