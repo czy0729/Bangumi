@@ -34,10 +34,15 @@ export const IMG_DEFAULT = WEB
   ? DOGE_CDN_IMG_DEFAULT
   : (require('@assets/images/default.png') as ImageRequireSource)
 
-/** 默认头像 */
-export const AVATAR_DEFAULT = WEB
+/** 默认用户头像 */
+export const IMG_AVATAR_DEFAULT = WEB
   ? 'https://lain.bgm.tv/pic/user/l/icon.jpg'
   : (require('@assets/images/l.png') as ImageRequireSource)
+
+/** 默认空信息 */
+export const IMG_INFO_ONLY = WEB
+  ? 'https://bgm.tv/img/info_only.png'
+  : (require('@assets/images/info_only.png') as ImageRequireSource)
 
 const h = (w: any) => parseInt(String(w * 1.4))
 

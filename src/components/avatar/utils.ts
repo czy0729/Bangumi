@@ -6,12 +6,12 @@
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp } from '@utils'
-import { t } from '@utils/fetch'
 import { syncUserStore } from '@utils/async'
+import { t } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import {
-  AVATAR_DEFAULT,
   HOST_CDN_AVATAR,
+  IMG_AVATAR_DEFAULT,
   IMG_DEFAULT,
   UA,
   URL_DEFAULT_AVATAR,
@@ -63,7 +63,7 @@ function checkNull(src: any) {
 /** 判断是否为默认头像, 若是直接使用本地的默认头像, 避免不必要的网络请求 */
 function checkDefault(src: any) {
   if (typeof src === 'string') {
-    if (src.includes(URL_DEFAULT_AVATAR)) return AVATAR_DEFAULT
+    if (src.includes(URL_DEFAULT_AVATAR)) return IMG_AVATAR_DEFAULT
     if (src.includes(URL_DEFAULT_MONO)) return IMG_DEFAULT
   }
   return src
@@ -230,11 +230,11 @@ export async function head(url: string) {
         cancelToken()
 
         const { responseURL } = response.request
-        resolve(responseURL ? responseURL : AVATAR_DEFAULT)
+        resolve(responseURL ? responseURL : IMG_AVATAR_DEFAULT)
       })
       .catch(() => {
         cancelToken()
-        resolve(AVATAR_DEFAULT)
+        resolve(IMG_AVATAR_DEFAULT)
       })
   })
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 20:32:01
+ * @Last Modified time: 2024-10-04 21:59:54
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,7 @@ import {
   getOTA,
   HOST,
   IMG_DEFAULT,
+  IMG_INFO_ONLY,
   IMG_WIDTH_LG,
   MODEL_SUBJECT_TYPE,
   SITES,
@@ -813,8 +814,8 @@ export default class Computed extends State {
         (this.subject.crt || []).map(
           ({ id, images = {}, name, name_cn: nameCn, role_name: roleName, actors = [] }) => ({
             id,
-            image: images?.grid,
-            _image: images?.medium,
+            image: images?.grid || IMG_INFO_ONLY,
+            _image: images?.medium || IMG_INFO_ONLY,
             name: nameCn || name,
             nameJP: name,
             desc: actors?.[0]?.name || roleName,
@@ -837,8 +838,8 @@ export default class Computed extends State {
         return freeze(
           monoStore.persons(this.subjectId).list.map(item => ({
             id: item.id.replace('/person/', ''),
-            image: item.cover,
-            _image: item.cover,
+            image: item.cover || IMG_INFO_ONLY,
+            _image: item.cover || IMG_INFO_ONLY,
             name: (item.nameCn || item.name).trim(),
             nameJP: item.name.trim(),
             desc: item.position
@@ -849,8 +850,8 @@ export default class Computed extends State {
       return freeze(
         (staff || []).map(({ id, images = {}, name, name_cn: nameCn, jobs = [] }) => ({
           id,
-          image: images?.grid,
-          _image: images?.medium,
+          image: images?.grid || IMG_INFO_ONLY,
+          _image: images?.medium || IMG_INFO_ONLY,
           name: nameCn || name,
           nameJP: name,
           desc: jobs[0]

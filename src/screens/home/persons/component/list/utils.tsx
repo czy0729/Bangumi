@@ -6,12 +6,18 @@
  */
 import React from 'react'
 import { ItemCharacter } from '@_'
-import { _ } from '@stores'
-
+import { PersonsItem } from '@stores/mono/types'
+import { IMG_INFO_ONLY } from '@constants'
 import { EVENT } from './ds'
 
-export function renderItem({ item, index }) {
+export function renderItem({ item, index }: { item: PersonsItem; index: number }) {
   return (
-    <ItemCharacter style={_.container.item} index={index} event={EVENT} type='person' {...item} />
+    <ItemCharacter
+      index={index}
+      event={EVENT}
+      type='person'
+      {...item}
+      cover={item.cover || IMG_INFO_ONLY}
+    />
   )
 }
