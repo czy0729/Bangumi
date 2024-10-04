@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 10:24:26
+ * @Last Modified time: 2024-10-04 21:07:23
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -18,7 +18,7 @@ function List(_props, { $ }: Ctx) {
     <PaginationList2
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
-      data={$.persons.list}
+      data={$.list}
       limit={16}
       renderItem={renderItem}
     />

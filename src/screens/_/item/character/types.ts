@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-24 13:14:54
  */
+import { CoverProps } from '@components'
 import { CoverCrt, EventType, Id } from '@types'
 
 export type Actors = {
@@ -18,7 +19,7 @@ export type Props = {
   index?: number
   type?: 'character' | 'person'
   id?: Id
-  cover?: string
+  cover?: CoverProps['src']
   name?: string
   nameCn?: string
   replies?: string

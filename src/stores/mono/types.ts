@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-24 19:10:07
  */
-import { ListEmpty, Cover, CoverCrt, DeepPartial, Id } from '@types'
+import { Cover, CoverCrt, DeepPartial, Id, ListEmpty } from '@types'
 
 /** 更多角色 */
 export type Characters = ListEmpty<
@@ -25,18 +25,18 @@ export type Characters = ListEmpty<
   }>
 >
 
-/** 更多角色 */
-export type Persons = ListEmpty<
-  DeepPartial<{
-    id: `/person/${Id}`
-    cover: CoverCrt<'g'>
-    name: string
-    nameCn: string
-    replies: string
-    info: string
+export type PersonsItem = {
+  id: `/person/${Id}`
+  cover: CoverCrt<'g'>
+  name: string
+  nameCn: string
+  replies: string
+  info: string
 
-    /** @deprecated */
-    position?: string
-    positions: string[]
-  }>
->
+  /** @deprecated */
+  position?: string
+  positions: string[]
+}
+
+/** 更多角色 */
+export type Persons = ListEmpty<PersonsItem>
