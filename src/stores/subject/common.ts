@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 22:03:57
+ * @Last Modified time: 2024-10-04 05:35:29
  */
 import {
   cData,
@@ -105,7 +105,8 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
           const $row = cheerio(element)
           return safeObject({
             name: $row.find('span').text().trim(),
-            count: $row.find('small').text().trim()
+            count: $row.find('small').text().trim(),
+            meta: ($row.attr('class') || '').includes('meta')
           })
         })
         .get() || [],

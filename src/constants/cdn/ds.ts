@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 11:46:49
+ * @Last Modified time: 2024-10-04 16:59:37
  */
 import { get } from '@utils/crypto'
 
@@ -17,7 +17,7 @@ export const HOST_CDN_AVATAR = get(
 ) as string
 
 /** https://github.com/czy0729/Bangumi-Rakuen */
-export const VERSION_RAKUEN = '20240325'
+export const VERSION_RAKUEN = '20241004'
 
 /** ==================== @deprecated ==================== */
 /** @deprecated cdn | fastly | gcore | originfastly */

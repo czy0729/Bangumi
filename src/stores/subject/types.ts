@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-10 14:20:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 08:41:41
+ * @Last Modified time: 2024-10-04 05:36:03
  */
 import {
   AnyObject,
@@ -181,6 +181,7 @@ export type SubjectFromHTML = DeepPartial<{
   tags: {
     name: string
     count: string
+    meta?: boolean
   }[]
 
   /** 关联系列 */

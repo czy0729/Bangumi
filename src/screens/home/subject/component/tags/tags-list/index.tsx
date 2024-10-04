@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:45:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 04:47:07
+ * @Last Modified time: 2024-10-04 05:45:05
  */
 import React, { useEffect, useState } from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
@@ -44,7 +44,7 @@ function TagList({ showTyperank }, { $, navigation }: Ctx) {
       <>
         {$.tags
           .filter((_item, index) => (expand ? true : index < EXPAND_NUM))
-          .map(({ name, count }) => {
+          .map(({ name, count, meta }) => {
             const isSelected = $.collection?.tag?.includes?.(name)
             return (
               <Touchable
@@ -82,7 +82,7 @@ function TagList({ showTyperank }, { $, navigation }: Ctx) {
                   })
                 }}
               >
-                <Flex style={stl(styles.item, isSelected && styles.selected)}>
+                <Flex style={stl(styles.item, isSelected && styles.selected, meta && styles.meta)}>
                   <Text type={_.select('desc', isSelected ? 'main' : 'desc')} size={13} bold>
                     {name}
                   </Text>
