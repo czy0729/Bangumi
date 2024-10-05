@@ -92,11 +92,12 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 以下为 2024 年 5 月份，一些 UI 相对不重复的页面截屏
 
-![00](https://github.com/czy0729/Bangumi/assets/13514316/82961f80-172a-4dc6-b068-68d9a54e7210)
-![10](https://github.com/czy0729/Bangumi/assets/13514316/0f067075-af96-42eb-8120-6eee1d2eaaa7)
+
+![00](https://github.com/user-attachments/assets/19a31201-d605-4008-8713-152c5734792d)
+![10](https://github.com/user-attachments/assets/738edd5a-82d8-4bc8-96f1-ae50ab79775a)
 ![20](https://github.com/czy0729/Bangumi/assets/13514316/07ead8c8-fcc1-4fe8-ad25-43c5906aef3b)
 ![30](https://github.com/czy0729/Bangumi/assets/13514316/6abd6475-ae22-46dd-833c-67bd914eaeac)
-![40](https://github.com/czy0729/Bangumi/assets/13514316/9460a475-e1bb-4a07-b3dc-bd71ccaee2ed)
+![40](https://github.com/user-attachments/assets/9915943b-e7b7-4985-b408-22d33a4b961b)
 ![50](https://github.com/czy0729/Bangumi/assets/13514316/981d4b30-cc0a-4865-a049-0ea654d71669)
 ![60](https://github.com/czy0729/Bangumi/assets/13514316/eb3e6f5c-b43f-4c61-a03f-830c3082d718)
 ![70](https://github.com/czy0729/Bangumi/assets/13514316/a753a8a7-701e-46cb-95e6-ea172ff1137b)
