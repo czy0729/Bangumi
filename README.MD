@@ -93,7 +93,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 以下为 2024 年 5 月份，一些 UI 相对不重复的页面截屏
 
 
-![00](https://github.com/user-attachments/assets/19a31201-d605-4008-8713-152c5734792d)
+![00](https://github.com/user-attachments/assets/e5026836-ac08-40fc-9d35-75aa85a69ce6)
 ![10](https://github.com/user-attachments/assets/738edd5a-82d8-4bc8-96f1-ae50ab79775a)
 ![20](https://github.com/czy0729/Bangumi/assets/13514316/07ead8c8-fcc1-4fe8-ad25-43c5906aef3b)
 ![30](https://github.com/czy0729/Bangumi/assets/13514316/6abd6475-ae22-46dd-833c-67bd914eaeac)
