@@ -13,14 +13,13 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function Tabs(props, { $ }: Ctx) {
-  const { page } = $.state
+function Tabs(_props, { $ }: Ctx) {
   return (
     <TabsV2
       key={_.orientation}
       style={_.mt._sm}
       routes={TABS}
-      page={page}
+      page={$.state.page}
       backgroundColor={_.colorPlain}
       renderItem={renderItem}
       onChange={$.onTabsChange}

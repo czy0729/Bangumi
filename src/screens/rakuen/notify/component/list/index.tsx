@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-22 16:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 20:13:41
+ * @Last Modified time: 2024-10-09 01:37:31
  */
 import React from 'react'
 import { ListView, ListViewProps } from '@components'
@@ -13,7 +13,7 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function List({ id }: { id: TabsKey }, { $ }: Ctx) {
-  const passProps: ListViewProps = {
+  const passProps: Partial<ListViewProps> = {
     keyExtractor,
     contentContainerStyle: styles.contentContainerStyle,
     scrollEventThrottle: 16,

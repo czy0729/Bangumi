@@ -43,7 +43,7 @@ function Extra({ userId, connectUserId, repeat }) {
     if (usersStore.myFriendsMap[userId]) return null
 
     return (
-      <Flex style={styles.extra} justify='end'>
+      <Flex style={_.ml.md} justify='end'>
         {connectUserId && connect !== false ? (
           typeof connect === 'string' ? (
             <Text size={12} type='sub'>

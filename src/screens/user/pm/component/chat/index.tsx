@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { ItemSay } from '@_'
-import { PmItem } from '@stores/user/types'
+import { PmDetailItem } from '@stores/user/types'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
@@ -23,7 +23,7 @@ function Chat(_props, { $ }: Ctx) {
         {!!list.length && list[0].date}
       </Text>
       {list.map((item, index) => {
-        const prevItem = (index === 0 ? {} : list[index - 1]) as PmItem
+        const prevItem = (index === 0 ? {} : list[index - 1]) as PmDetailItem
         const isMe = item.userId === $.myId
         return (
           <ItemSay

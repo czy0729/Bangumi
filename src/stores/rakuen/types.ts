@@ -171,19 +171,21 @@ export type Likes = Record<
   >
 >
 
+export type NotifyItem = {
+  avatar: Avatar<'l'>
+  href: string
+  message: string
+  message2: string
+  title: string
+  userId: UserId
+  userName: string
+}
+
 /** 电波提醒 */
 export type Notify = {
   unread: number
   clearHref: string
-  list: {
-    avatar: Avatar<'l'>
-    href: string
-    message: string
-    message2: string
-    title: string
-    userId: UserId
-    userName: string
-  }[]
+  list: NotifyItem[]
   _loaded?: number
 }
 

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-25 12:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:09:22
+ * @Last Modified time: 2024-10-09 01:38:17
  */
 import { CollectionStatus, CollectionStatusValue } from '@constants/model/types'
 import {
   CollectionStatusCn,
   DeepPartial,
+  Id,
   Images,
   ListEmpty,
   Override,
@@ -76,6 +77,19 @@ export type CollectionsStatusItem = {
 }
 
 export type PmItem = {
+  id: Id
+  title: string
+  content: string
+  avatar: string
+  name: string
+  userId: UserId
+  time: string
+  new: boolean
+}
+
+export type Pm = ListEmpty<PmItem>
+
+export type PmDetailItem = {
   name: string
   avatar: string
   userId: UserId
@@ -85,7 +99,7 @@ export type PmItem = {
 }
 
 export type PmDetail = Override<
-  ListEmpty<PmItem>,
+  ListEmpty<PmDetailItem>,
   {
     form?: {
       related: string

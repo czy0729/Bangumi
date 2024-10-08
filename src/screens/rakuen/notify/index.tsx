@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 电波提醒 */
-const Notify = (props, context: Ctx) => {
+const Notify = (_props, context: Ctx) => {
   useNotifyPage(context)
 
   const { $ } = context

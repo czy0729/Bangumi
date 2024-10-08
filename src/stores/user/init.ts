@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-10 16:01:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 19:40:35
+ * @Last Modified time: 2024-10-09 01:38:42
  */
 import { LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { ImagesAvatar, SubjectType } from '@types'
+import { Pm } from './types'
 
 export const NAMESPACE = 'User'
 
@@ -105,10 +106,10 @@ export const STATE = {
   },
 
   /** 短信收信 */
-  pmIn: LIST_EMPTY,
+  pmIn: LIST_EMPTY as Pm,
 
   /** 短信发信 */
-  pmOut: LIST_EMPTY,
+  pmOut: LIST_EMPTY as Pm,
 
   /** 短信详情 */
   pmDetail: {

@@ -7,9 +7,6 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  extra: {
-    minWidth: 48
-  },
   btn: {
     width: 48
   }

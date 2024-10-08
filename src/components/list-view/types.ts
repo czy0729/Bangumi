@@ -8,7 +8,7 @@ import { FlatListProps, SectionListScrollParams } from 'react-native'
 import { ListEmpty, Override, ReactNode } from '@types'
 import { REFRESH_STATE } from './ds'
 
-export type Props<ItemT> = Override<
+export type Props<ItemT = any> = Override<
   FlatListProps<ItemT>,
   {
     /** 此函数用于为给定的 item 生成一个不重复的 key */

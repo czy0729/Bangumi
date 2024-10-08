@@ -5,14 +5,7 @@
  * @Last Modified time: 2024-09-13 01:09:34
  */
 import { computed } from 'mobx'
-import {
-  APP_USERID_IOS_AUTH,
-  APP_USERID_TOURIST,
-  HOST,
-  LIST_EMPTY,
-  STORYBOOK,
-  UA
-} from '@constants'
+import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, HOST, LIST_EMPTY, UA, WEB } from '@constants'
 import {
   CollectionStatusCn,
   EpId,
@@ -230,19 +223,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 是否登录 (APP 内是否获得了 api 鉴权) */
   @computed get isLogin() {
-    if (STORYBOOK) return false
+    if (WEB) return false
     return !!this.accessToken.access_token
   }
 
   /** 是否登录 (APP 内是否获得了网页 cookie) */
   @computed get isWebLogin() {
-    if (STORYBOOK) return false
+    if (WEB) return false
     return !!this.userCookie.cookie
   }
 
   /** 是否登录 (网页版是否进行了用户令牌设置) */
   @computed get isStorybookLogin() {
-    if (!STORYBOOK) return false
+    if (!WEB) return false
     return !!this.accessToken.access_token
   }
 

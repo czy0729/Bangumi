@@ -4,8 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-18 06:52:34
  */
+import { NotifyItem } from '@stores/rakuen/types'
 import { factory } from '@utils'
-import { Navigation } from '@types'
+import { GetRouteParams, Navigation, Override, RouteNotify } from '@types'
 import Store from './store'
 import { TABS } from './ds'
 
@@ -18,12 +19,17 @@ export type Ctx = {
   navigation?: Navigation
 }
 
+export type Params = GetRouteParams<RouteNotify>
+
 export type TabsKey = (typeof TABS)[number]['key']
 
 export type TabsLabel = (typeof TABS)[number]['title']
 
-export type Params = {
-  type?: TabsKey
-}
-
 export type PMKeys = 'pmIn' | 'pmOut'
+
+export type MergeNotifyItem = Override<
+  NotifyItem,
+  {
+    repeat?: number
+  }
+>

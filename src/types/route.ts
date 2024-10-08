@@ -86,12 +86,12 @@ export type RouteReviews = (
   }
 ) => any
 
-export type RouteNotify = (
-  path: 'Notify',
-  params: {
-    type: 'pm' | 'notify' | 'out'
+export type RouteNotify = Route<
+  'Notify',
+  {
+    type?: 'pm' | 'notify' | 'out'
   }
-) => any
+>
 
 export type RouteTyperank = Route<
   'Typerank',

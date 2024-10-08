@@ -4,19 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-18 05:57:00
  */
-import { _ } from '@stores'
-import { Loaded } from '@types'
-
 export const COMPONENT = 'Notify'
-
-export const STATE = {
-  /** 可视范围底部 y */
-  visibleBottom: _.window.height,
-
-  /** Tab 当前页 */
-  page: 0,
-  _loaded: false as Loaded
-}
 
 export const TABS = [
   {
