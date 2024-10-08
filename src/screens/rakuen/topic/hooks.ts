@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 16:23:27
+ * @Last Modified time: 2024-10-09 02:21:01
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -160,31 +160,24 @@ export function useTopicPage({ $ }: Ctx) {
       if (_loaded) {
         try {
           let scrollIndex: number
-          list.forEach(
-            (
-              item: {
-                id: any
-                sub: {
-                  id: any
-                }[]
-              },
-              index: number
-            ) => {
-              if (scrollIndex) return
+          list.forEach((item, index: number) => {
+            if (scrollIndex) return
 
-              if (item.id === value) {
-                scrollIndex = index
-                console.info('scrollIndex', scrollIndex)
-              } else if (item.sub) {
-                item.sub.forEach((i: { id: any }) => {
-                  if (i.id === value) {
-                    scrollIndex = index
-                    console.info('scrollIndex sub', scrollIndex)
-                  }
-                })
-              }
+            if (item.id === value) {
+              scrollIndex = index
+              console.info('scrollIndex', scrollIndex)
+            } else if (item.sub) {
+              item.sub.forEach((i: { id: any }) => {
+                if (i.id === value) {
+                  // 父楼层强制展开
+                  $.onExpand(item.id)
+
+                  scrollIndex = index
+                  console.info('scrollIndex sub', scrollIndex)
+                }
+              })
             }
-          )
+          })
 
           if (scrollIndex !== undefined) scrollTo(scrollIndex)
         } catch (error) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 03:11:01
+ * @Last Modified time: 2024-10-09 02:10:00
  */
 import React from 'react'
 import { Component } from '@components'
@@ -109,7 +109,7 @@ export const ItemPost = obc(
 
     // 屏蔽关键字命中
     if (getIsBlocked(rakuenStore.setting.blockKeywords, msg, uuid)) {
-      msg = '<span style="color:#999;font-size:12px">已屏蔽</span>'
+      msg = '<span style="color:#999;font-size:13px">已屏蔽</span>'
     }
 
     return (

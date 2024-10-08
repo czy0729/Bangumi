@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 16:20:35
+ * @Last Modified time: 2024-10-09 01:59:50
  */
 import { lazy } from 'react'
 
@@ -84,7 +84,6 @@ export { default as Rakuen } from './rakuen/v2'
 export const RakuenHistory = lazy(() => import('./rakuen/history'))
 export const RakuenSearch = lazy(() => import('./rakuen/search'))
 export const RakuenSetting = lazy(() => import('./rakuen/setting'))
-export const Replies = lazy(() => import('./rakuen/replies'))
 export const Reviews = lazy(() => import('./rakuen/reviews'))
 export const Topic = lazy(() => import('./rakuen/topic'))
 export const UGCAgree = lazy(() => import('./rakuen/ugc-agree'))
