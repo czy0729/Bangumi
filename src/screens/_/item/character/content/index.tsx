@@ -27,7 +27,7 @@ function Content({ cn, jp, replies, info, position, onPress }: Props) {
             )}
             {!!replies && (
               <Text type='main' size={11} lineHeight={15} bold>
-                {' '}
+                {'  '}
                 {replies.replace(/\(|\)/g, '')}
               </Text>
             )}
@@ -38,12 +38,8 @@ function Content({ cn, jp, replies, info, position, onPress }: Props) {
         {position.map(item => (
           <Tag key={item} style={styles.position} value={item} />
         ))}
+        {!!info && <Text size={12}>{info}</Text>}
       </Flex>
-      {!!info && (
-        <Text style={_.mt.md} size={12}>
-          {info}
-        </Text>
-      )}
     </Touchable>
   )
 }

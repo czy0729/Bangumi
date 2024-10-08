@@ -4,26 +4,26 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-24 19:10:07
  */
-import { Cover, CoverCrt, DeepPartial, Id, ListEmpty } from '@types'
+import { Cover, CoverCrt, Id, ListEmpty } from '@types'
 
-/** 更多角色 */
-export type Characters = ListEmpty<
-  DeepPartial<{
-    id: Id
-    cover: Cover<'g'>
+export type CharactersItem = {
+  id: Id
+  cover: Cover<'g'>
+  name: string
+  nameCn: string
+  replies: string
+  position: string
+  info: string
+  actors: {
+    id: string
+    cover: CoverCrt<'s'>
     name: string
     nameCn: string
-    replies: string
-    position: string
-    info: string
-    actors: {
-      id: string
-      cover: CoverCrt<'s'>
-      name: string
-      nameCn: string
-    }[]
-  }>
->
+  }[]
+}
+
+/** 更多角色 */
+export type Characters = ListEmpty<CharactersItem>
 
 export type PersonsItem = {
   id: `/person/${Id}`

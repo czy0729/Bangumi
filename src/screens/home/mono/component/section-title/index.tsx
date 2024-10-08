@@ -15,7 +15,6 @@ import { memoStyles } from './styles'
 
 function SectionTitle(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { _count } = $.params
   return (
     <SectionTitleComp
       style={styles.title}
@@ -44,10 +43,11 @@ function SectionTitle(_props, { $, navigation }: Ctx) {
         </Touchable>
       }
     >
-      吐槽{' '}
-      {!!_count && (
-        <Text type='sub' lineHeight={24}>
-          {_count}+
+      吐槽
+      {!!$.commentLength && (
+        <Text size={12} type='sub' lineHeight={24}>
+          {' '}
+          {$.commentLength}+
         </Text>
       )}
     </SectionTitleComp>

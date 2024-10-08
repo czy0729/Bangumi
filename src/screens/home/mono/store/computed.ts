@@ -13,8 +13,7 @@ import State from './state'
 export default class Computed extends State {
   /** 人物 id (包含角色, 工作人员) */
   @computed get monoId() {
-    const { monoId } = this.params
-    return monoId
+    return this.params.monoId
   }
 
   /** 数字 id */
@@ -80,6 +79,18 @@ export default class Computed extends State {
   /** 人物头像 */
   @computed get thumb() {
     return getMonoCoverSmall(this.params._image || this.cover || '')
+  }
+
+  /** 吐槽数量 */
+  @computed get commentLength() {
+    const { _count } = this.params
+    if (_count) return _count
+
+    const {
+      list,
+      pagination: { pageTotal = 0 }
+    } = this.monoComments
+    return pageTotal <= 1 ? list.length : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)
   }
 
   // -------------------- get: cdn fallback --------------------

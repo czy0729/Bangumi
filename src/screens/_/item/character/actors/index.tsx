@@ -49,7 +49,7 @@ function Actors({ navigation, actors, y, event }: Props) {
                   {cn}
                 </Text>
                 {!!jp && jp !== cn && (
-                  <Text size={11} type='sub' numberOfLines={1}>
+                  <Text style={_.mt.xxs} size={11} type='sub' numberOfLines={1}>
                     {jp}
                   </Text>
                 )}

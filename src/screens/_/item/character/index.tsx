@@ -49,7 +49,8 @@ export const ItemCharacter = obc(
         monoId,
         _name: cn,
         _jp: jp,
-        _image: cover
+        _image: cover,
+        _count: String(replies || '').replace('+', '')
       })
 
       t(event.id, {

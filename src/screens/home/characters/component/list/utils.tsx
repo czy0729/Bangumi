@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { ItemCharacter } from '@_'
-import { _ } from '@stores'
+import { CharactersItem } from '@stores/mono/types'
 import { EVENT } from './ds'
 
-export function renderItem({ item, index }) {
-  return <ItemCharacter style={_.container.item} index={index} event={EVENT} {...item} />
+export function renderItem({ item, index }: { item: CharactersItem; index: number }) {
+  return <ItemCharacter index={index} event={EVENT} {...item} />
 }

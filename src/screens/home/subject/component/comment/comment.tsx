@@ -36,8 +36,9 @@ const Comment = memo(
           icon={!showComment && 'md-navigate-next'}
           onPress={() => onSwitchBlock('showComment')}
         >
-          吐槽{' '}
+          吐槽
           <Text size={12} type='sub' lineHeight={24}>
+            {' '}
             {commentLength}+
           </Text>
         </SectionTitle>

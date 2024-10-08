@@ -6,6 +6,7 @@
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
+import { Characters } from '@stores/mono/types'
 import { HTML_SUBJECT_CHARACTERS, LIST_EMPTY } from '@constants'
 import State from './state'
 
@@ -15,7 +16,7 @@ export default class Computed extends State {
   }
 
   /** 更多角色 */
-  @computed get characters() {
+  @computed get characters(): Characters {
     const characters = monoStore.characters(this.subjectId)
     if (!characters._loaded) {
       if (!this.ota) return LIST_EMPTY
