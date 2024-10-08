@@ -57,7 +57,7 @@ const ItemLine = memo(
               <Flex.Item style={_.ml.md}>
                 <Flex style={styles.body} direction='column' justify='between' align='start'>
                   <Title name={name} />
-                  <Desc subjectId={subjectId} sites={sites} />
+                  <Desc style={styles.desc} subjectId={subjectId} sites={sites} />
                   <Rating hideScore={hideScore} rank={rank} score={score} total={total} />
                 </Flex>
               </Flex.Item>

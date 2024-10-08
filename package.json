@@ -14,7 +14,7 @@
     "r": "sudo shutdown -r now",
     "top": "top -s 4 -o rsize",
     "mv": "sudo yarn k && mv ios ios_ && mv android android_",
-    "pub": "eas update --channel production --message \"release\"",
+    "pub": "sudo eas update --channel production --message \"release\"",
     "re": "sudo mv ios_ ios && mv android_ android && yarn k",
     "open:win": "start .\\android\\app\\build\\outputs\\apk\\release\\"
   },

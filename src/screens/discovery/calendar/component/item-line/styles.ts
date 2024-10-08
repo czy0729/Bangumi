@@ -38,6 +38,10 @@ export const memoStyles = _.memoStyles(() => {
     undetermined: {
       zIndex: 1,
       paddingVertical: _.sm
+    },
+    desc: {
+      marginTop: -6,
+      marginRight: -40
     }
   }
 })

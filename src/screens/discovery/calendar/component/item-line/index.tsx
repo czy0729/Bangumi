@@ -14,7 +14,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemLineWrap(
-  { subjectId, images, name, desc, air, time, prevTime, rank, score, total, section, index },
+  { subjectId, images, name, desc, time, prevTime, rank, score, total, section, index },
   { $ }: Ctx
 ) {
   const { expand } = $.state

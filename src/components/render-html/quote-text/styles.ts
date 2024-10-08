@@ -13,7 +13,8 @@ export const memoStyles = _.memoStyles(() => ({
     textAlign: 'center'
   },
   quote: {
-    padding: 8,
+    paddingVertical: 8,
+    paddingRight: 12,
     paddingLeft: 10,
     marginTop: 4,
     marginRight: 4,

@@ -7,6 +7,7 @@
 export const GROUP_THUMB_MAP = {
   wordcloud: require('@assets/images/wordcloud.png'),
   wordcloud_0: require('@assets/images/wordcloud_0.png'),
+  circle: require('@assets/images/circle.png'),
   '//lain.bgm.tv/pic/icon/s/000/00/00/11.jpg': require('@assets/images/group/a.jpg'),
   '//lain.bgm.tv/pic/icon/s/000/00/00/2.jpg': require('@assets/images/group/forum.jpg'),
   '//lain.bgm.tv/pic/icon/s/000/00/03/364.jpg': require('@assets/images/group/boring.jpg'),

@@ -10,14 +10,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { date, omit, pick, simpleTime, sleep } from '@utils'
 import { r } from '@utils/dev'
-import {
-  LIST_EMPTY,
-  STORYBOOK,
-  TEXT_EMPTY,
-  TEXT_FAIL,
-  TEXT_NO_MORE,
-  TEXT_REFRESHING
-} from '@constants'
+import { LIST_EMPTY, TEXT_EMPTY, TEXT_FAIL, TEXT_NO_MORE, TEXT_REFRESHING, WEB } from '@constants'
 import { AnyObject, ListEmpty } from '@types'
 import { ErrorBoundary } from '../error-boundary'
 import Footer from './footer'
@@ -251,6 +244,8 @@ export const ListView = observer(
       return {
         style,
         connectRef: this.connectRef,
+        ListHeaderComponentStyle: _.container.block,
+        ListFooterComponentStyle: _.container.block,
         ListFooterComponent: showFooter ? this.renderFooter() : ListFooterComponent,
         refreshing: this.state.refreshState === REFRESH_STATE.HeaderRefreshing,
         refreshControl: this.renderRefreshControl(),
@@ -345,7 +340,7 @@ export const ListView = observer(
         passProps.data = this.data
       }
 
-      if (STORYBOOK) {
+      if (WEB) {
         passProps.pagination = this.props.data.pagination
         passProps.renderFooter = this.renderFooter()
         passProps.onFooterRefresh = this.onFooterRefresh

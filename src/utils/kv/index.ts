@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-26 18:49:02
  */
 import axios from '@utils/thirdParty/axios'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
 import { isDevtoolsOpen } from '../dom'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
@@ -16,6 +16,9 @@ import { HOST, UPDATE_CACHE_MAP } from './ds'
 /** 获取 */
 export async function get(key: string): Promise<any> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  // 部分没有登录的用户, 出现了预料之外的请求, 统一过滤掉
+  if (typeof key !== 'string' || /["//]/.test(key)) return Promise.reject('denied')
 
   // @ts-expect-error
   const { data } = await axios({
@@ -64,7 +67,7 @@ export async function update(
 ): Promise<Result> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
-  if (STORYBOOK && !allowWebCommit) return
+  if (WEB && !allowWebCommit) return
 
   const fingerValue = {
     key,

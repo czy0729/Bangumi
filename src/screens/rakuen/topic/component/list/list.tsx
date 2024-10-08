@@ -13,6 +13,7 @@ import { memo } from '@utils/decorators'
 import { WEB } from '@constants'
 import Item from '../item'
 import { COMPONENT_MAIN, DEFAULT_PROPS, LISTVIEW_PROPS } from './ds'
+import { styles } from './styles'
 
 const List = memo(
   ({
@@ -35,7 +36,7 @@ const List = memo(
       ...LISTVIEW_PROPS,
       keyExtractor,
       style: _.container.content,
-      contentContainerStyle: _.container.bottom,
+      contentContainerStyle: styles.list,
       lazy: postId ? undefined : 4,
       progressViewOffset: _.ios(_.statusBarHeight, 0),
       removeClippedSubviews: false,

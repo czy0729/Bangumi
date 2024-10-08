@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 06:48:27
+ * @Last Modified time: 2024-10-07 07:20:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,6 @@ function FloorMain(
     id,
     isAuthor,
     isFriend,
-    isNew,
     matchLink,
     msg,
     replySub,
@@ -76,7 +75,7 @@ function FloorMain(
           onShowFixedTextare={onShowFixedTextare}
         />
       </Flex>
-      <FloorText time={time} floor={floor} isNew={isNew} />
+      <FloorText time={time} floor={floor} />
       <View style={styles.html}>
         <CollapsedHtml
           navigation={navigation}

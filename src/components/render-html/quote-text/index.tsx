@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { IOS } from '@constants'
 import { ReactNode } from '@types'
+import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { memoStyles } from './styles'
 
@@ -38,11 +39,9 @@ class QuoteText extends React.Component<{
   get children() {
     const { children } = this.props
 
-    // 过滤掉<q>里面的div
+    // 过滤掉 q 里面的div
     if (!IOS && Array.isArray(children) && children.length > 1) {
-      return children.filter(
-        item => !(item?.[0]?.key && item[0].key.indexOf('View-') === 0)
-      )
+      return children.filter(item => !(item?.[0]?.key && item[0].key.indexOf('View-') === 0))
     }
 
     return children
@@ -59,16 +58,13 @@ class QuoteText extends React.Component<{
     }
 
     return (
-      <View style={this.styles.quote}>
-        <Text
-          size={12}
-          selectable
-          numberOfLines={toggle ? 10 : 3}
-          onPress={this.toggle}
-        >
-          {this.children}
-        </Text>
-      </View>
+      <Flex>
+        <View style={this.styles.quote}>
+          <Text size={12} selectable numberOfLines={toggle ? 10 : 3} onPress={this.toggle}>
+            {this.children}
+          </Text>
+        </View>
+      </Flex>
     )
   }
 

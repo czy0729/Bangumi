@@ -1,15 +1,14 @@
 /*
  * @Author: czy0729
  * @Date: 2022-10-13 05:11:40
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-10-13 05:11:40
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-10-07 07:30:50
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    paddingRight: _.sm + 2,
-    paddingBottom: _.md
+    marginBottom: _.md
   },
   round: {
     padding: 4,
@@ -23,12 +22,15 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorBg,
     borderRadius: _.radiusSm
   },
+  html: {
+    marginTop: -4
+  },
   direct: {
     position: 'absolute',
-    top: -3,
-    right: 0,
+    top: -10,
+    right: -12,
     bottom: -10,
-    left: -_._wind + 4,
+    left: -12,
     borderWidth: 2,
     borderColor: _.colorBorder,
     borderRadius: _.radiusMd,

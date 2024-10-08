@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-30 18:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 06:45:37
+ * @Last Modified time: 2024-10-07 07:53:31
  */
 import React from 'react'
 import { memo } from '@utils/decorators'
@@ -12,6 +12,7 @@ import Container from './container'
 import ContainerLayout from './container-layout'
 import FloorDirect from './floor-direct'
 import FloorMain from './floor-main'
+import FloorNew from './floor-new'
 import FloorSub from './floor-sub'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
@@ -59,6 +60,8 @@ const Item = memo(
     return (
       <Container id={id} subLength={sub.length}>
         <ContainerLayout id={id} subLength={sub.length} isJump={isJump}>
+          {isNew && <FloorNew />}
+
           <Avatar
             {...{
               index,
@@ -81,7 +84,6 @@ const Item = memo(
               id,
               isAuthor,
               isFriend,
-              isNew,
               matchLink,
               msg,
               replySub,

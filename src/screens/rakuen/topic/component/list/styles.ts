@@ -7,9 +7,10 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  flexWrap: {
+  list: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    paddingBottom: _.bottom
   }
 })

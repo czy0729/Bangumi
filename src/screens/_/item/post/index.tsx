@@ -58,7 +58,7 @@ export const ItemPost = obc(
 
     // 屏蔽内容删除
     let msg = decoder(message)
-    const isDelete = msg.includes('删除了回复')
+    const isDelete: boolean = msg.includes('删除了回复')
     if (isDelete && rakuenStore.setting.filterDelete) return null
 
     const styles = memoStyles()
@@ -66,7 +66,7 @@ export const ItemPost = obc(
     const directFloor = $?.state?.directFloor === floor
     const isAuthor = authorId === userId
     const isFriend = $?.myFriendsMap?.[userId]
-    const isBadge =
+    const isBadge: boolean =
       !sub.length &&
       msg.length <= 10 &&
       (msg.toLocaleLowerCase().includes('mark') || msg.includes('+1'))

@@ -32,17 +32,17 @@ function Segement(_props, { $ }: Ctx) {
     let count = $.commentFollowCount
     if (count) data.push(`${FILTER_FOLLOW} ${count}`)
 
-    if (rakuenStore.setting.likes) {
-      count = $.likesFloorIds?.length || 0
-      if (count) data.push(`${FILTER_LIKES} ${count}`)
-    }
-
     if (userStore.myId) {
       count = $.commentMeCount
       if (count) data.push(`${FILTER_ME} ${count}`)
 
       count = $.commentFriendsCount
       if (count) data.push(`${FILTER_FRIENDS} ${count}`)
+    }
+
+    if (rakuenStore.setting.likes) {
+      count = $.likesFloorIds?.length || 0
+      if (count) data.push(`${FILTER_LIKES} ${count}`)
     }
   }
   if (data.length <= 1) return null
@@ -57,16 +57,25 @@ function Segement(_props, { $ }: Ctx) {
   if (selectedIndex === -1) selectedIndex = 0
 
   const { length } = data
+  let width: number = 52
+  let size: number = 11
+  if (length >= 5) {
+    width = 44
+    size = 10
+  } else if (length === 4) {
+    width = 48
+  }
+
   return (
     <SegmentedControl
       key={selectedIndex}
       style={[
         styles.segmentedControl,
         {
-          width: length * _.r(length < 4 ? 52 : 48)
+          width: length * _.r(width)
         }
       ]}
-      size={11}
+      size={size}
       values={data}
       selectedIndex={selectedIndex}
       onValueChange={title => {

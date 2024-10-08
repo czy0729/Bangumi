@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:46:10
+ * @Last Modified time: 2024-10-07 07:31:58
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -49,6 +49,7 @@ function ItemPlusOne(
                 userId={userId}
                 name={userName}
                 src={avatar}
+                radius={avatarRound ? undefined : 6}
                 event={event}
               />
             </UserStatus>
@@ -58,7 +59,7 @@ function ItemPlusOne(
           </Name>
           <UserLabel isAuthor={isAuthor} isFriend={isFriend} isLayer={isLayer} lineHeight={10} />
         </Flex>
-        <Flex align='end'>
+        <Flex style={styles.html} align='end'>
           <RenderHtml
             style={_.ml.sm}
             baseFontStyle={_.baseFontStyle.sm}

@@ -17,7 +17,7 @@ function Rating({ hideScore, rank, score, total }) {
       {showScore && (
         <>
           <Rank value={rank} />
-          <Stars style={_.mr.xs} value={score} type='desc' />
+          <Stars style={_.mr.xs} value={score} />
           {!!total && (
             <Text type='sub' size={11} bold>
               ({total})

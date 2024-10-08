@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-18 04:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 07:05:40
+ * @Last Modified time: 2024-10-07 07:46:49
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,6 +21,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
 import { Likes, Name, UserStatusAvatar } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
+import FloorNew from '../floor-new'
 import FloorText from '../floor-text'
 import IconExtra from '../icon-extra'
 import Mark from '../mark'
@@ -139,6 +140,8 @@ export default memo(
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
       <Component id='item-post-sub' data-key={id} style={_.container.block}>
+        {isNew && <FloorNew mini />}
+
         <Flex
           style={styles.item}
           align='start'
@@ -189,7 +192,7 @@ export default memo(
                 onShowFixedTextare={onShowFixedTextare}
               />
             </Flex>
-            <FloorText time={time} floor={floor} isNew={isNew} />
+            <FloorText time={time} floor={floor} />
             <View style={styles.html}>
               <CollapsedHtml
                 navigation={navigation}
