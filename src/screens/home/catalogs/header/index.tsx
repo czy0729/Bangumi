@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 00:48:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 19:37:40
+ * @Last Modified time: 2024-10-10 11:32:35
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
@@ -13,7 +13,7 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title={$.params?.name ? `包含${$.params.name}的目录` : '条目目录'}

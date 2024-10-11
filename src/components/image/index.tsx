@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:53:01
+ * @Last Modified time: 2024-10-11 05:59:33
  */
 import React from 'react'
 import { Image as RNImage } from 'react-native'
@@ -509,13 +509,13 @@ export const Image = observer(
       // 以 state 里面的 width 和 height 优先
       if (autoSize) {
         image.push({
-          width: w || 160,
+          width: w || (WEB ? 'auto' : 160),
           height: h || (WEB ? 'auto' : 160)
         })
       } else if (autoHeight) {
         image.push({
           width: w || (WEB ? 'auto' : 160),
-          height: h || 160
+          height: h || (WEB ? 'auto' : 160)
         })
       } else if (size) {
         image.push({

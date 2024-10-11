@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-09 01:59:50
+ * @Last Modified time: 2024-10-10 12:01:01
  */
 import { lazy } from 'react'
 
@@ -95,6 +95,7 @@ export const Blogs = lazy(() => import('./user/blogs'))
 export const Catalogs = lazy(() => import('./user/catalogs'))
 export const DEV = lazy(() => import('./user/dev'))
 export const Friends = lazy(() => import('./user/friends'))
+export const Milestone = lazy(() => import('./user/milestone'))
 export const OriginSetting = lazy(() => import('./user/origin-setting'))
 export const PM = lazy(() => import('./user/pm'))
 export const Qiafan = lazy(() => import('./user/qiafan'))

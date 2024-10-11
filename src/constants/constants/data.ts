@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:06:42
+ * @Last Modified time: 2024-10-11 05:51:05
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -39,10 +39,13 @@ export const IMG_AVATAR_DEFAULT = WEB
   ? 'https://lain.bgm.tv/pic/user/l/icon.jpg'
   : (require('@assets/images/l.png') as ImageRequireSource)
 
-/** 默认空信息 */
+/** 默认角色缩略图 */
 export const IMG_INFO_ONLY = WEB
   ? 'https://bgm.tv/img/info_only.png'
   : (require('@assets/images/info_only.png') as ImageRequireSource)
+
+/** 默认条目缩略图 */
+export const IMG_SUBJECT_ONLY = 'https://bgm.tv/img/no_icon_subject.png'
 
 const h = (w: any) => parseInt(String(w * 1.4))
 

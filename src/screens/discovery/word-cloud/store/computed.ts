@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-29 18:45:11
+ * @Last Modified time: 2024-10-10 11:35:48
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore } from '@stores'
@@ -199,5 +199,10 @@ export default class Computed extends State {
       this.mono?.name ||
       ''
     )
+  }
+
+  /** 浏览器地址 */
+  @computed get url() {
+    return `word_cloud/${String(this.id).replace(/\//g, '_')}`
   }
 }

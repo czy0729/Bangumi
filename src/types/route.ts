@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 16:14:21
+ * @Last Modified time: 2024-10-11 05:06:13
  */
 import { ImageSourcePropType } from 'react-native'
 import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
@@ -46,6 +46,7 @@ export type NavigationPushType = RouteActions &
   RouteHentai &
   RouteInformation &
   RouteManga &
+  RouteMilestone &
   RouteMono &
   RouteNotify &
   RouteOverview &
@@ -643,6 +644,13 @@ export type RoutePreview = Route<
 
     /** 传递图片头对象转字符串 */
     _headers?: string
+  }
+>
+
+export type RouteMilestone = Route<
+  'Milestone',
+  {
+    userId?: UserId
   }
 >
 

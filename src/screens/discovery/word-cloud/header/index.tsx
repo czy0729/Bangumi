@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 19:37:04
+ * @Last Modified time: 2024-10-10 11:35:04
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
@@ -16,7 +16,7 @@ function Header(_props, { $ }: Ctx) {
       mode='float'
       statusBarEventsType='Subject'
       title={$.title ? `${$.title}的词云` : '词云'}
-      hm={['wordCloud', 'WordCloud']}
+      hm={[$.url, 'WordCloud']}
     />
   )
 }

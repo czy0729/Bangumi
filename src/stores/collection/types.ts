@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-27 04:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-21 21:13:30
+ * @Last Modified time: 2024-10-11 06:04:55
  */
 import {
   CollectionStatus,
@@ -44,10 +44,9 @@ export type Collection = DeepPartial<{
   _loaded: Loaded
 }>
 
-/** 用户收藏概览 (HTML, 全部) */
-export type UserCollections = ListEmpty<{
+export type UserCollectionsItem = {
   id: SubjectId
-  cover: Cover<'c'>
+  cover: Cover<'c'> | '/img/no_icon_subject.png'
   name: string
   nameCn: string
   tip: string
@@ -56,7 +55,10 @@ export type UserCollections = ListEmpty<{
   score: string | number
   time: string
   collected: boolean
-}>
+}
+
+/** 用户收藏概览 (HTML, 全部) */
+export type UserCollections = ListEmpty<UserCollectionsItem>
 
 /** 所有收藏条目状态 */
 export type UserCollectionsMap = Record<SubjectId, CollectionStatusCn>
