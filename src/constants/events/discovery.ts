@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:21:24
+ * @Last Modified time: 2024-10-14 10:07:55
  */
 
 /** Discovery */
@@ -114,6 +114,7 @@ export default {
   '搜索.切换细分类型': 'Search.onLegacySelect',
   '搜索.模糊查询点击': 'Search.onAdvance',
   '搜索.模糊查询跳转': 'Search.advanceTo',
+  '搜索.条目直达': 'Search.navigate',
 
   // 标签索引
   '标签索引.跳转': 'Tags.to',

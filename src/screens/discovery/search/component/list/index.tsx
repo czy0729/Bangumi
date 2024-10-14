@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if ($.state.searching) return <Loading style={_.container.flex} />
 
   if (!$.search._loaded) return null

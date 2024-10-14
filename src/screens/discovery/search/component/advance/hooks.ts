@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:01:06
+ * @Last Modified time: 2024-10-14 09:57:27
  */
 import { useEffect, useRef, useState } from 'react'
 import { asc, desc, t2s } from '@utils'
@@ -11,11 +11,12 @@ import { loadJSON } from '@assets/json'
 import { SearchCat, SubjectId } from '@types'
 
 type SubjectTitle = string
+type SubStrings = Record<SubjectTitle, SubjectId>
 
 const memo = new Map<string, SubjectTitle[]>()
-let anime: Record<SubjectTitle, SubjectId> = {}
-let book: Record<SubjectTitle, SubjectId> = {}
-let game: Record<SubjectTitle, SubjectId> = {}
+let anime: SubStrings = {}
+let book: SubStrings = {}
+let game: SubStrings = {}
 
 export function useResult(cat: SearchCat, value: string) {
   const [result, setResult] = useState<SubjectTitle[]>([])
@@ -56,7 +57,7 @@ export function useResult(cat: SearchCat, value: string) {
           return
         }
 
-        let cns = []
+        let cns: SubjectTitle[] = []
         if (value && cat === 'subject_1') {
           cns = Object.keys(book).sort((a, b) => asc(a.length, b.length))
           substrings.current = book
@@ -68,7 +69,7 @@ export function useResult(cat: SearchCat, value: string) {
           substrings.current = anime
         }
 
-        const _result = []
+        const _result: SubjectTitle[] = []
         cns.forEach(item => {
           if (_result.length >= 10) return
           if (item.toLocaleUpperCase().includes(_value)) _result.push(item)

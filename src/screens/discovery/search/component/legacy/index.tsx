@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 13:23:41
+ * @Last Modified time: 2024-10-14 09:41:34
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, EXCLUDE_DS } from './ds'
 import { memoStyles } from './styles'
 
-function Legacy(props, { $ }: Ctx) {
+function Legacy(_props, { $ }: Ctx) {
   if (EXCLUDE_DS.includes(MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat))) return null
 
   const styles = memoStyles()

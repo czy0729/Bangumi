@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 13:28:41
+ * @Last Modified time: 2024-10-14 09:41:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,7 +13,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function History(props, { $ }: Ctx) {
+function History(_props, { $ }: Ctx) {
   const { history } = $.state
   if (!history.length || $.state.value !== '') return null
 

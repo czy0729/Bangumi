@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 11:08:39
+ * @Last Modified time: 2024-10-14 09:41:19
  */
 import React from 'react'
 import { obc } from '@utils/decorators'
@@ -11,7 +11,7 @@ import Advance from './advance'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function AdvanceWrap(props, { $, navigation }: Ctx) {
+function AdvanceWrap(_props, { $, navigation }: Ctx) {
   if (!$.showAdvance) return null
 
   return (

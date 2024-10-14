@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 13:24:08
+ * @Last Modified time: 2024-10-14 09:41:22
  */
 import React from 'react'
 import { Button, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Category(props, { $ }: Ctx) {
+function Category(_props, { $ }: Ctx) {
   return (
     <Popover style={styles.touch} data={SEARCH_CAT.map(item => item.label)} onSelect={$.onSelect}>
       <Button style={styles.btn} styleText={styles.text} size='sm' type='ghostMain'>

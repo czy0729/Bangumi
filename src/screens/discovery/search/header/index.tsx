@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-13 18:35:55
+ * @Last Modified time: 2024-10-14 09:41:40
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap, Text, Touchable } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title='搜索'
