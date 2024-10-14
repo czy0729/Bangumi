@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Image, Heatmap, Touchable, Flex, Iconfont } from '@components'
+import { Flex, Heatmap, Iconfont, Image, Touchable } from '@components'
 import { getCDNAvatar } from '@components/avatar/utils'
 import { _, systemStore } from '@stores'
 import { obc } from '@utils/decorators'
@@ -15,7 +15,7 @@ import { handleAvatarPress, handleOnlinePress } from './utils'
 import { AVATAR_SIZE, COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
-function CenterAvatar(props, { $, navigation }: Ctx) {
+function CenterAvatar(_props, { $, navigation }: Ctx) {
   const { onlineStatus } = systemStore.setting
   const { avatar } = $.usersInfo
   const src = getCDNAvatar($.avatar || avatar?.large, 'bgm_poster_200')

@@ -7,6 +7,7 @@
 import { factory } from '@utils'
 import { GetRouteParams, Navigation, RouteMilestone } from '@types'
 import Store from './store'
+import { SUB_TITLE } from './ds'
 
 const f = factory(Store)
 
@@ -18,3 +19,5 @@ export type Ctx = {
 }
 
 export type Params = GetRouteParams<RouteMilestone>
+
+export type SubTitle = (typeof SUB_TITLE)[number]

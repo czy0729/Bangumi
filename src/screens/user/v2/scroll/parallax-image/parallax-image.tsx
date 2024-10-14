@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:52:02
+ * @Last Modified time: 2024-10-12 21:09:19
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -102,6 +102,12 @@ export default memo(
 
           case '我的日志':
             navigation.push('Blogs')
+            break
+
+          case '我的时间线':
+            navigation.push('UserTimeline', {
+              userId: username || userId
+            })
             break
 
           case '我的netaba.re':
@@ -243,12 +249,12 @@ export default memo(
           </View>
           <View style={styles.timeline}>
             <IconHeader
-              name='md-timeline'
+              name='md-image-aspect-ratio'
               color={_.__colorPlain__}
               size={21}
               onPress={() => {
                 t('我的.跳转', {
-                  to: 'UserTimeline'
+                  to: 'Milestone'
                 })
 
                 const data: {
@@ -259,10 +265,9 @@ export default memo(
                 }
                 if (paramsUserId) data.userName = nickname
 
-                navigation.push('UserTimeline', data)
+                navigation.push('Milestone', data)
               }}
             />
-            <Heatmap right={48} id='我的.跳转' to='UserTimeline' alias='时间线' />
           </View>
           {!paramsUserId && (
             <View style={styles.setting}>

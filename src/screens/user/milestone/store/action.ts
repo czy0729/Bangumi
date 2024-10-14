@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 01:14:10
+ * @Last Modified time: 2024-10-14 09:15:22
  */
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CollectionsOrder, CollectionStatusCn, SubjectTypeCn } from '@types'
 import { ORDER_DS } from '../ds'
 import Fetch from './fetch'
+import { STATE } from './ds'
 
 export default class Action extends Fetch {
   fetchCollections = (refresh: boolean = false) => {
@@ -44,6 +45,22 @@ export default class Action extends Fetch {
       order
     })
     this.fetchCollections(true)
+    this.save()
+  }
+
+  setOptions = (key: keyof typeof STATE, value?: any) => {
+    if (typeof value !== 'undefined') {
+      this.setState({
+        [key]: value
+      })
+    } else {
+      const prev = this.state[key]
+      if (typeof prev === 'boolean') {
+        this.setState({
+          [key]: !prev
+        })
+      }
+    }
     this.save()
   }
 }

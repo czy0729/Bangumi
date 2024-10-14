@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 05:37:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:51:08
+ * @Last Modified time: 2024-10-12 21:08:56
  */
 import { Animated } from 'react-native'
 import { rc } from '@utils/dev'
@@ -20,6 +20,7 @@ export const DATA_ME = [
   '我的人物',
   '我的目录',
   '我的日志',
+  '我的时间线',
   '我的netaba.re'
 ] as const
 

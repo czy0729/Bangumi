@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-11 05:06:13
+ * @Last Modified time: 2024-10-14 07:13:45
  */
 import { ImageSourcePropType } from 'react-native'
-import { RatingStatus, SubjectType, SubjectTypeCn } from '@constants/model/types'
+import {
+  CollectionsOrder,
+  CollectionStatus,
+  RatingStatus,
+  SubjectType,
+  SubjectTypeCn
+} from '@constants/model/types'
 import * as Screens from '@screens'
 import { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
 import { AnyObject, Fn } from './utils'
@@ -651,6 +657,22 @@ export type RouteMilestone = Route<
   'Milestone',
   {
     userId?: UserId
+
+    /** options, 若网页分享则全都为 string */
+    subjectType?: SubjectType
+    type?: CollectionStatus
+    order?: CollectionsOrder
+    numColumns?: number | string
+    radius?: boolean | string
+    autoHeight?: boolean | string
+    cnFirst?: boolean | string
+    numberOfLines?: number | string
+    subTitle?: string
+    extraTitle?: string
+    starsFull?: boolean | string
+    starsColor?: boolean | string
+    lastTime?: boolean | string
+    limit?: number | string
   }
 >
 

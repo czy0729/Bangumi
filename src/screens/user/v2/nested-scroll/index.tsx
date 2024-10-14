@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 21:21:22
+ * @Last Modified time: 2024-10-12 20:55:47
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
@@ -18,14 +18,12 @@ import TopNavbarComponent from './top-navbar-component'
 import { COMPONENT } from './ds'
 
 /** 安卓用 */
-function NestedScroll(props, { $ }: Ctx) {
-  const { page } = $.state
-
+function NestedScroll(_props, { $ }: Ctx) {
   return (
     <>
       <NestedScrollParallaxHeader
         pages={TABS.map(item => item.title)}
-        initialPage={page}
+        initialPage={$.state.page}
         imageSource={$.imageSource}
         blurRadius={$.blurRadius}
         tabBarLocalKey='UserV2|NestedScroll'

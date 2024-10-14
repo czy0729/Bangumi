@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-31 10:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 10:56:09
+ * @Last Modified time: 2024-10-12 21:06:30
  */
 import { open } from '@utils'
 import { t } from '@utils/fetch'
@@ -12,7 +12,7 @@ import { DATA_ME, DATA_OTHER } from './ds'
 export function handleMenuPopoverPress(
   navigation: Navigation,
   key: (typeof DATA_ME)[number] | (typeof DATA_OTHER)[number],
-  { id, userId }
+  { id, userId, username }
 ) {
   t('我的.右上角菜单', {
     key
@@ -41,6 +41,12 @@ export function handleMenuPopoverPress(
       navigation.push('Blogs')
       break
 
+    case '我的时间线':
+      navigation.push('UserTimeline', {
+        userId: username || userId
+      })
+      break
+
     case '我的netaba.re':
       open(`https://netaba.re/user/${id}`)
       break
@@ -65,7 +71,7 @@ export function handleUserTimelinePress(
   { id, nickname, paramsUserId, username }
 ) {
   t('我的.跳转', {
-    to: 'UserTimeline'
+    to: 'Milestone'
   })
 
   const data: any = {
@@ -73,7 +79,7 @@ export function handleUserTimelinePress(
   }
   if (paramsUserId) data.userName = nickname
 
-  navigation.push('UserTimeline', data)
+  navigation.push('Milestone', data)
 }
 
 export function handleSettingPress(navigation: Navigation) {

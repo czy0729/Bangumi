@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-13 12:34:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 16:32:31
+ * @Last Modified time: 2024-10-12 16:34:11
  */
 import { TextType } from '@components'
-import { TextStyle, ViewStyle } from '@types'
+import { ColorValue, TextStyle, ViewStyle } from '@types'
 
 export type Props = {
   /** 容器样式 */
@@ -25,4 +25,7 @@ export type Props = {
 
   /** 字体颜色 */
   type?: TextType
+
+  /** 星星颜色 */
+  color?: ColorValue
 }

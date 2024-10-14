@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:33:54
+ * @Last Modified time: 2024-10-14 06:32:26
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -17,7 +17,6 @@ function Member(_props, { $ }: Ctx) {
 
   return (
     <Touchable
-      style={[styles.touch, _.ml.xs]}
       onPress={() => info(`TA 也是高级会员${$.advanceDetail ? ` ${$.advanceDetail}` : ''}`)}
     >
       <Flex style={styles.icon} justify='center'>

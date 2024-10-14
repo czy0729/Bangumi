@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 01:16:21
+ * @Last Modified time: 2024-10-14 09:09:38
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
-import { Component, Page } from '@components'
+import { Component, Page, Track } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import { useRunAfter } from '@utils/hooks'
+import Bg from './component/bg'
 import List from './component/list'
+import Options from './component/options'
 import Store from './store'
 import { Ctx } from './types'
 
@@ -26,12 +28,15 @@ const Milestone = (_props, { $ }: Ctx) => {
       <View
         style={{
           height: _.statusBarHeight,
-          backgroundColor: 'rgba(0, 0, 0, 0)'
+          backgroundColor: _.colorPlain
         }}
       />
-      <Page>
+      <Page loaded={$.state._loaded}>
+        <Bg />
         <List />
       </Page>
+      <Options />
+      <Track title='照片墙' hm={[`milestone/${$.userId}`, 'Milestone']} />
     </Component>
   ))
 }

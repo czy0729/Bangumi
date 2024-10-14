@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 15:59:56
+ * @Last Modified time: 2024-10-12 20:07:40
  */
 import { urlStringify } from '@utils/utils'
 import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, TopicType, UserId } from '@types'
@@ -270,8 +270,8 @@ export const HTML_USER_COLLECTIONS = (
   scope: SubjectType = 'anime',
   type?: CollectionStatus,
   order?: CollectionsOrder,
-  tag?: string,
-  page?: number
+  tag: string = '',
+  page: number = 1
 ) =>
   `${HOST}/${scope}/list/${userId}/${type}?${urlStringify({
     orderby: order,

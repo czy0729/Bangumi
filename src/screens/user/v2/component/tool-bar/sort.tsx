@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-06 06:10:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-31 11:18:57
+ * @Last Modified time: 2024-10-12 20:55:45
  */
 import React from 'react'
 import { ToolBar } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
-import { MODEL_COLLECTIONS_ORDERBY, COLLECTIONS_ORDERBY } from '@constants'
+import { COLLECTIONS_ORDERBY, MODEL_COLLECTIONS_ORDERBY } from '@constants'
 import { CollectionsOrderCn } from '@types'
 import { Ctx } from '../../types'
 
-function Sort(props, { $ }: Ctx) {
+function Sort(_props, { $ }: Ctx) {
   const { order } = $.state
   return (
     <ToolBar.Popover

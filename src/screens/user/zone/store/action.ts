@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 10:45:11
+ * @Last Modified time: 2024-10-14 06:27:23
  */
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
-import { feedback, HTMLDecode, info, loading } from '@utils'
+import { feedback, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
@@ -158,12 +158,9 @@ export default class Action extends Fetch {
 
   /** 去用户的所有收藏页面 */
   navigateToUser = (navigation: Navigation) => {
-    const { _name } = this.params
-    const { avatar, nickname, username } = this.usersInfo
+    const { username } = this.usersInfo
     navigation.push('User', {
-      userId: username,
-      _name: HTMLDecode(nickname || _name),
-      _image: avatar?.large
+      userId: username
     })
   }
 

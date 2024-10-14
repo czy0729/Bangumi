@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-01 11:42:19
+ * @Last Modified time: 2024-10-12 20:55:40
  */
 import React from 'react'
 import { Button, Flex, Heatmap } from '@components'
@@ -14,7 +14,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, DS } from './ds'
 import { memoStyles } from './styles'
 
-function TabBarLeft(props, { $ }: Ctx) {
+function TabBarLeft(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { subjectType } = $.state
   return (

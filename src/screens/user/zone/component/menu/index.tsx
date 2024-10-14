@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-07 20:40:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-07 20:43:44
+ * @Last Modified time: 2024-10-14 06:33:27
  */
 import React from 'react'
 import { Flex } from '@components'
@@ -12,6 +12,7 @@ import Back from './back'
 import Friend from './friend'
 import Member from './member'
 import MenuComp from './menu'
+import Milestone from './milestone'
 import { styles } from './styles'
 
 function Menu() {
@@ -19,6 +20,7 @@ function Menu() {
     <>
       <Back />
       <Flex style={[_.header.right, styles.right]}>
+        <Milestone />
         <Friend />
         <Member />
         <MenuComp />
