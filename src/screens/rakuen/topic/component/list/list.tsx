@@ -10,7 +10,7 @@ import { PaginationList2 } from '@_'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
 import { memo } from '@utils/decorators'
-import { WEB } from '@constants'
+import { LIMIT_LIST, WEB } from '@constants'
 import Item from '../item'
 import { COMPONENT_MAIN, DEFAULT_PROPS, LISTVIEW_PROPS } from './ds'
 import { styles } from './styles'
@@ -36,7 +36,7 @@ const List = memo(
       ...LISTVIEW_PROPS,
       keyExtractor,
       style: _.container.content,
-      contentContainerStyle: styles.list,
+      contentContainerStyle: WEB ? _.container.bottom : styles.list,
       lazy: postId ? undefined : 4,
       progressViewOffset: _.ios(_.statusBarHeight, 0),
       removeClippedSubviews: false,
@@ -47,7 +47,7 @@ const List = memo(
     } as const
 
     const { list } = data
-    if (WEB || list.length <= 80) {
+    if (WEB || list.length <= LIMIT_LIST) {
       return <ListView {...passProps} ref={forwardRef} data={data} />
     }
 

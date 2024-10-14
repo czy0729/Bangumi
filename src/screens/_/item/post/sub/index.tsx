@@ -48,7 +48,7 @@ export default obc(
         navigation={navigation}
         styles={memoStyles()}
         extraStyle={extraStyle}
-        topicId={$?.topicId}
+        topicId={$?.topicId || ($?.blogId ? `blog/${$?.blogId}` : undefined)}
         authorId={authorId}
         avatar={avatar}
         blockKeywords={blockKeywords}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:17:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 16:05:45
+ * @Last Modified time: 2024-10-14 10:21:03
  */
 import React from 'react'
 import { ItemPost } from '@_'
@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import { COMPONENT, PRE_RENDER_INDEX } from './ds'
 
 function Item({ item, index, onShowFixedTextarea }, { $ }: Ctx) {
-  // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染2个楼层
+  // 延迟渲染, 减少二次进入页面瞬间楼层过多导致动画掉帧, 进入页面瞬间最多只渲染 2 个楼层
   if (!$.postId && !$.state.rendered && index > PRE_RENDER_INDEX - 1) return null
 
   const EVENT = {

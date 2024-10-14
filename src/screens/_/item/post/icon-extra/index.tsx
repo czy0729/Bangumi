@@ -20,9 +20,11 @@ import {
 } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { HTML_BLOG, HTML_TOPIC } from '@constants'
 import { Popover } from '../../../base'
 import {
   ACTION_COPY,
+  ACTION_COPY_URL,
   ACTION_DELETE,
   ACTION_EDIT,
   ACTION_IGNORE,
@@ -64,6 +66,7 @@ function IconExtra(
 
     // 复制
     ACTION_COPY,
+    ACTION_COPY_URL,
 
     // 关注
     rakuenStore.commentTracked(userId) ? ACTION_UNTRACK : ACTION_TRACK,
@@ -107,6 +110,18 @@ function IconExtra(
             t('帖子.复制回复')
             break
 
+          case ACTION_COPY_URL:
+            if (typeof topicId === 'string') {
+              if (topicId.includes('blog')) {
+                copy(HTML_BLOG(topicId.split('/')?.[1], id), '已复制')
+              } else {
+                copy(HTML_TOPIC(topicId, id), '已复制')
+              }
+
+              t('帖子.复制楼层链接')
+            }
+            break
+
           case ACTION_TRACK:
             rakuenStore.trackUsersComment(userId)
 
@@ -126,13 +141,6 @@ function IconExtra(
           case ACTION_TRANSLATE:
             $?.doTranslateFloor?.(id, msg)
             break
-
-          // case ACTION_BLOCK:
-          //   confirm('确定屏蔽用户?', () => {
-          //     rakuenStore.addBlockUser(`${userName}@${userId}`)
-          //     info(`已屏蔽 ${userName}`)
-          //   })
-          //   break
 
           case ACTION_IGNORE:
             confirm(

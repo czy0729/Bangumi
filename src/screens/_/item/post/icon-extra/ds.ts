@@ -12,6 +12,8 @@ export const ACTION_EDIT = '编辑'
 
 export const ACTION_COPY = '复制'
 
+export const ACTION_COPY_URL = '复制楼层链接'
+
 export const ACTION_TRANSLATE = '翻译'
 
 export const ACTION_BLOCK = '屏蔽'

@@ -8,11 +8,11 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
-import { Touchable } from '../../../touchable'
+import { memoStyles } from '../styles'
+import { Avatar } from '../../../avatar'
 import { Flex } from '../../../flex'
 import { Text } from '../../../text'
-import { Avatar } from '../../../avatar'
-import { memoStyles } from '../styles'
+import { Touchable } from '../../../touchable'
 
 function Topic({ topicId, text, onLinkPress }) {
   const styles = memoStyles()

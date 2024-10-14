@@ -131,7 +131,8 @@ export const HTML_RAKUEN_SEARCH = (q: string = '', page: number = 1) =>
 export const HTML_RAKUEN_HOT = () => HOST
 
 /** 帖子 */
-export const HTML_TOPIC = (topicId: TopicId) => `${HOST}/rakuen/topic/${topicId}`
+export const HTML_TOPIC = (topicId: TopicId, postId?: string) =>
+  `${HOST}/rakuen/topic/${topicId}${postId ? `#post_${postId}` : ''}`
 
 /** 帖子编辑 */
 export const HTML_TOPIC_EDIT = (postId: Id, type: TopicType | 'blog' = 'group') => {
@@ -154,7 +155,8 @@ export const HTML_GROUP = (groupId: Id, page: number = 1) =>
 export const HTML_GROUP_MINE = () => `${HOST}/group/mine`
 
 /** 日志 */
-export const HTML_BLOG = (blogId: Id) => `${HOST}/blog/${blogId}`
+export const HTML_BLOG = (blogId: Id, postId?: string) =>
+  `${HOST}/blog/${blogId}${postId ? `#post_${postId}` : ''}`
 
 /** 全站日志列表 */
 export const HTML_BLOG_LIST = (type: string = '', page: number = 1) =>

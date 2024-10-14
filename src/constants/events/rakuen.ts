@@ -69,6 +69,7 @@ export default {
   '帖子.回复失败': 'Topic.recoveryContent',
   '帖子.删除回复': 'Topic.doDeleteReply',
   '帖子.复制回复': 'Topic.copyReply',
+  '帖子.复制楼层链接': 'Topic.copyFloorUrl',
   '帖子.UCG': 'Topic.UCGAgree',
   '帖子.楼层跳转': 'Topic.scrollTo',
   '帖子.翻译内容': 'Topic.doTranslate',

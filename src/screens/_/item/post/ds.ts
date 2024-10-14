@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN } from '@constants'
-import { TopicId } from '@types'
+import { Id, TopicId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { Props } from './types'
 
@@ -30,7 +30,7 @@ export const DEFAULT_PROPS = {
   index: 0 as number,
   contentStyle: {} as Props['contentStyle'],
   extraStyle: {} as Props['contentStyle'],
-  topicId: '' as TopicId,
+  topicId: '' as TopicId | `blog/${Id}`,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
   erase: '' as Props['erase'],

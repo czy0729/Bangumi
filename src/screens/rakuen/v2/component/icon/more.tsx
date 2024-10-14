@@ -24,20 +24,18 @@ function IconMore({ style }, { navigation }: Ctx) {
   DATA.push(TEXT_SETTING, TEXT_POST)
   return (
     <Flex style={_.mr.xs}>
-      {!WEB && (
-        <Touchable
-          style={{
-            marginRight: -2
-          }}
-          onPress={() => {
-            navigation.push('RakuenHistory')
-          }}
-        >
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-inbox' color={_.colorTitle} size={20} />
-          </Flex>
-        </Touchable>
-      )}
+      <Touchable
+        style={{
+          marginRight: -2
+        }}
+        onPress={() => {
+          navigation.push('RakuenHistory')
+        }}
+      >
+        <Flex style={styles.icon} justify='center'>
+          <Iconfont name='md-inbox' color={_.colorTitle} size={20} />
+        </Flex>
+      </Touchable>
       <Popover
         style={stl(styles.touch, style)}
         data={DATA}

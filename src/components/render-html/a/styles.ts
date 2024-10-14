@@ -8,10 +8,10 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   wrap: {
-    maxWidth: _.window.contentWidth - (_.sm + 36) * 2,
+    maxWidth: _.web('96%', _.window.contentWidth - (_.sm + 36) * 2),
     paddingTop: 10,
     paddingRight: 4,
-    paddingBottom: 2
+    paddingBottom: _.web(_.md, 2)
   },
   body: {
     overflow: 'hidden',
@@ -21,10 +21,10 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusSm
   },
   top: {
-    maxWidth: _.window.contentWidth / 2
+    maxWidth: _.web('96%', _.window.contentWidth / 2)
   },
   bottom: {
-    maxWidth: _.window.contentWidth / 2.2
+    maxWidth: _.web('96%', _.window.contentWidth / 2.2)
   },
   a: {
     color: _.colorMain
