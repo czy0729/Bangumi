@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 07:46:22
+ * @Last Modified time: 2024-10-15 04:38:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,10 +14,11 @@ import { obc } from '@utils/decorators'
 import { WEB } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../../ds'
 import { Ctx } from '../../types'
+import Input from '../input'
 import { COMPONENT, SEGMENTED_WIDTH } from './ds'
 import { styles } from './styles'
 
-function Options(_props, { $ }: Ctx) {
+function Options(_props, { $, navigation }: Ctx) {
   const { advance } = systemStore
   const { numberOfLines, extraTitle } = $.state
   const elExtra = (
@@ -78,6 +79,8 @@ function Options(_props, { $ }: Ctx) {
       </View>
 
       <Notice style={_.mt.md}>此页面可一览用户收藏，可配合手机自带的长截屏使用。</Notice>
+
+      <Input navigation={navigation} />
 
       <ItemSetting
         style={_.mt.sm}

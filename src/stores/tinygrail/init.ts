@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:10:18
+ * @Last Modified time: 2024-10-15 04:44:59
  */
 import { LIST_EMPTY } from '@constants'
 import { Loaded } from '@types'
@@ -140,7 +140,7 @@ export const INIT_DEPTH_ITEM = {
 }
 
 export const INIT_ASSETS = {
-  id: 0, // 当前用户Id
+  id: 0, // 当前用户 ID
   balance: 0,
   assets: 0,
   lastIndex: 0,

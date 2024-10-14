@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-04 17:50:46
+ * @Last Modified time: 2024-10-15 04:45:08
  */
 import React from 'react'
 import { Input } from '@components'
@@ -23,7 +23,7 @@ function SearchBar(_props, { $, navigation }: Ctx) {
       value={$.state._value}
       returnKeyType='search'
       returnKeyLabel='搜索'
-      placeholder={$.isUser ? '输入完整的用户Id' : '输入关键字'}
+      placeholder={$.isUser ? '输入完整的用户 ID' : '输入关键字'}
       autoFocus
       onChangeText={$.onChangeText}
       onFocus={$.onFocus}

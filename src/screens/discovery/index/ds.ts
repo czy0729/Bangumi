@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 07:20:11
+ * @Last Modified time: 2024-10-15 04:42:51
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -190,6 +190,11 @@ export const MENU_MAP: MenuMapType = {
 } as const
 
 export const MENU_MAP_STORYBOOK: MenuMapType = {
+  Milestone: {
+    key: 'Milestone',
+    name: '照片墙',
+    icon: 'md-image-aspect-ratio'
+  },
   Setting: {
     key: 'Setting',
     name: '设置',

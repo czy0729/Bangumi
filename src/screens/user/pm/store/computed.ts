@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-13 00:50:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:03:59
+ * @Last Modified time: 2024-10-15 04:44:58
  */
 import { computed } from 'mobx'
 import { userStore } from '@stores'
@@ -30,7 +30,7 @@ export default class Computed extends State {
     return userStore.pmParams(this.userId)
   }
 
-  /** 自己用户Id (改过用户名后) */
+  /** 自己用户 ID (改过用户名后) */
   @computed get myId() {
     return userStore.myId
   }

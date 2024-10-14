@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-25 12:57:38
+ * @Last Modified time: 2024-10-15 04:45:42
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -86,7 +86,7 @@ export default class Fetch extends Computed {
   /** 获取条目评论关联贴贴 */
   fetchUsersCollectionsTimeline = async (
     args: {
-      /** 需要改过后的 Id */
+      /** 需要改过后的 ID */
       userId?: UserId
     },
     page: number

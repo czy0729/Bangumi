@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-05-08 04:28:17
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
@@ -32,7 +32,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       hm={[$.url, 'Group']}
       headerTitle={<HeaderTitle $={$} />}
       headerRight={() => (
-        <>
+        <Flex>
           <IconTouchable
             style={_.mr.sm}
             name='md-edit'
@@ -87,7 +87,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
           >
             <Heatmap id='小组.右上角菜单' />
           </HeaderComp.Popover>
-        </>
+        </Flex>
       )}
     />
   )

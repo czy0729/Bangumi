@@ -81,15 +81,17 @@ export const Popable = ob(({ subjectId, visible, portalKey, x, y }) => {
                             {textTop}
                             {year?.[0] && year?.[0] !== '0000' ? ` (${year[0]})` : ''}
                           </Text>
-                          <Text
-                            style={_.mt.xs}
-                            type='sub'
-                            size={10}
-                            lineHeight={11}
-                            numberOfLines={2}
-                          >
-                            {textBottom}
-                          </Text>
+                          {textBottom && textBottom !== textTop && (
+                            <Text
+                              style={_.mt.xs}
+                              type='sub'
+                              size={10}
+                              lineHeight={11}
+                              numberOfLines={2}
+                            >
+                              {textBottom}
+                            </Text>
+                          )}
                         </View>
                         <Flex>
                           <Rank style={styles.rank} value={rank} />
