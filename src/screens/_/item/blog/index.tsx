@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 17:26:41
+ * @Last Modified time: 2024-10-15 04:49:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -78,10 +78,10 @@ export const ItemBlog = obc(
               <Flex align='start'>
                 <Flex.Item>
                   <Touchable onPress={handlePress}>
-                    <Text size={15} numberOfLines={2} bold>
+                    <Text size={14} numberOfLines={2} bold>
                       {HTMLDecode(title)}
                       {replies !== '+0' && (
-                        <Text size={12} type='main' lineHeight={15} bold>
+                        <Text size={12} type='main' lineHeight={14} bold>
                           {'  '}
                           {replies}
                         </Text>
@@ -97,7 +97,7 @@ export const ItemBlog = obc(
                 <BtnPopover id={id} title={title} />
               </Flex>
               <Touchable style={_.mt.sm} onPress={handlePress}>
-                <Text size={14} lineHeight={15} numberOfLines={4}>
+                <Text size={13} lineHeight={15} numberOfLines={4}>
                   {HTMLDecode(content)}
                 </Text>
               </Touchable>

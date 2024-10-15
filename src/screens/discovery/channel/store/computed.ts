@@ -42,6 +42,6 @@ export default class Computed extends State {
   }
 
   @computed get thirdPartyKey() {
-    return `channel_${this.type}`
+    return `channel_v2_${this.type}`
   }
 }

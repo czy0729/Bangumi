@@ -19,7 +19,9 @@ import { memoStyles } from './styles'
 
 function Rank(_props, { $, navigation }: Ctx) {
   const styles = memoStyles()
-  const { rankTop = [], rank = [] } = $.channel
+  const { rank = [] } = $.channel
+  const top = rank.slice(0, 3)
+  const bottom = rank.slice(3)
   return (
     <View style={_.mt.md}>
       <SectionTitle
@@ -40,17 +42,19 @@ function Rank(_props, { $, navigation }: Ctx) {
           />
         }
       >
-        关注榜
+        注目榜
       </SectionTitle>
       <View style={_.mt.sm}>
-        {rankTop.map((item, index) => (
+        {top.map((item, index) => (
           <ItemLg key={item.id} item={item} index={index} />
         ))}
-        <Flex style={styles.container} wrap='wrap'>
-          {rank.map((item, index) => (
-            <ItemSm key={item.id} item={item} index={index} />
-          ))}
-        </Flex>
+        {!!bottom.length && (
+          <Flex style={styles.container} wrap='wrap'>
+            {bottom.map((item, index) => (
+              <ItemSm key={item.id} item={item} index={index} />
+            ))}
+          </Flex>
+        )}
       </View>
     </View>
   )

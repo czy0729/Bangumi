@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-13 17:36:22
  */
-import { cheerio, getCoverMedium, HTMLDecode, htmlMatch, matchUserId, safeObject } from '@utils'
+import { cData, cheerio, cMap, cText, HTMLDecode, htmlMatch, matchUserId, safeObject } from '@utils'
 import { SubjectTypeCn } from '@types'
 
 /** 标签 */
@@ -163,32 +163,16 @@ export function cheerioBlog(html: string) {
 export function cheerioChannel(html: string) {
   const $ = cheerio(htmlMatch(html, '<div class="columns clearit">', '<div id="footer">'))
   return {
-    rankTop:
-      $('table.mediumImageChart tr')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $a = $li.find('span.subject a')
-          return safeObject({
-            id: $a.attr('href').replace('/subject/', ''),
-            name: $a.text().trim(),
-            cover: getCoverMedium($li.find('img').attr('src')),
-            follow: $li.find('div.chartbar').text().trim()
-          })
-        })
-        .get() || [],
-    rank:
-      $('div#chl_subitem li')
-        .map((_index: number, element: any) => {
-          const $li = cheerio(element)
-          const $a = $li.find('strong a')
-          return safeObject({
-            id: $a.attr('href').replace('/subject/', ''),
-            name: $a.text().trim(),
-            cover: getCoverMedium($li.find('img').attr('src')),
-            follow: $li.find('small.feed').text().trim()
-          })
-        })
-        .get() || [],
+    rankTop: [],
+    rank: cMap($('.featuredItems .mainItem'), $row => {
+      const $a = $row.find('> a')
+      return {
+        id: cData($a, 'href').replace('/subject/', ''),
+        name: cData($a, 'title'),
+        cover: cData($row.find('.image'), 'style')?.split('url(')?.[1]?.split(')')?.[0],
+        follow: cText($row.find('.grey'))
+      }
+    }),
     friends:
       $('ul.coversSmall > li')
         .map((_index: number, element: any) => {
