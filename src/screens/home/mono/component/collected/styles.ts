@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   container: {
     minHeight: 84,
-    marginTop: 24,
+    marginTop: 40,
     marginBottom: _.md
   },
   item: {

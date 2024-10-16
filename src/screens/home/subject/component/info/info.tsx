@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 20:57:36
+ * @Last Modified time: 2024-10-16 06:18:54
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ const Info = memo(
 
     let html = info
     try {
-      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, WEB ? 640 : 440)
+      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, WEB ? 1000 : 440)
     } catch (error) {
       console.error('home/subject/info.js', 'Info', error)
     }

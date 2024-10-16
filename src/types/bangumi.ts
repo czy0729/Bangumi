@@ -36,26 +36,28 @@ export type TopicId = `${TopicType}/${Id}`
 
 export type Url = '//lain.bgm.tv'
 
+export type Host = 'https://bgm.tv'
+
 /** 帖子地址 */
-export type UrlTopic = `${Url}/topic/${TopicId}`
+export type UrlTopic = `${Host}/topic/${TopicId}`
 
 /** 日志地址 */
-export type UrlBlog = `${Url}/blog/${Id}`
+export type UrlBlog = `${Host}/blog/${Id}`
 
 /** 用户空间地址 */
-export type UrlUser = `${Url}/user/${UserId}`
+export type UrlUser = `${Host}/user/${UserId}`
 
 /** 角色地址 */
-export type UrlMono = `${Url}/${MonoId}`
+export type UrlMono = `${Host}/${MonoId}`
 
 /** 条目地址 */
-export type UrlSubject = `${Url}/subject/${SubjectId}`
+export type UrlSubject = `${Host}/subject/${SubjectId}`
 
 /** 条目帖子地址 */
-export type UrlSubjectTopic = `${Url}/subject/topic/${Id}`
+export type UrlSubjectTopic = `${Host}/subject/topic/${Id}`
 
 /** 章节地址 */
-export type UrlEp = `${Url}/ep/${EpId}`
+export type UrlEp = `${Host}/ep/${EpId}`
 
 /** 静态资源地址 */
 export type UrlStatic = `${Url}/pic`

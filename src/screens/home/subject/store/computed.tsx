@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 21:59:54
+ * @Last Modified time: 2024-10-15 18:28:21
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -799,12 +799,15 @@ export default class Computed extends State {
   }
 
   /** 网页版详情 */
-  @computed get info() {
-    if (this.subjectFormHTML._loaded) {
-      return fixedSubjectInfo(this.subjectFormHTML.info || '')
-    }
+  @computed get rawInfo() {
+    return (
+      (this.subjectFormHTML._loaded ? this.subjectFormHTML.info : this.subjectFromOSS.info) || ''
+    )
+  }
 
-    return fixedSubjectInfo(this.subjectFromOSS.info || '')
+  /** 网页版详情处理后 */
+  @computed get info() {
+    return fixedSubjectInfo(this.rawInfo)
   }
 
   /** 关联人物 */

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 05:35:29
+ * @Last Modified time: 2024-10-15 18:27:40
  */
 import {
   cData,
+  cEach,
   cheerio,
   cHtml,
   cMap,
@@ -23,7 +24,7 @@ import {
   safeObject
 } from '@utils'
 import { HOST } from '@constants'
-import { Override, SubjectTypeValue } from '@types'
+import { Cover, Id, Override, SubjectTypeValue } from '@types'
 import { cheerioComments } from '../rakuen/common'
 import { Likes } from '../rakuen/types'
 import {
@@ -41,164 +42,119 @@ export function cheerioSubjectFromHTML(html: string): SubjectFromHTML {
   const $ = cheerio(htmlMatch(html, '<div id="headerSubject"', '<div id="footer">'))
   let relationsType: SubjectTypeValue
 
-  const disc = []
-  $('div.line_detail ul.line_list_music li').each((_index: number, element: any) => {
-    const $row = cheerio(element)
-    if ($row.attr('class') === 'cat') {
-      disc.push(
-        safeObject({
-          title: $row.text().trim(),
-          disc: []
-        })
-      )
+  const disc: SubjectFromHTML['disc'] = []
+  cEach($('div.line_detail ul.line_list_music li'), $row => {
+    if (cData($row, 'class') === 'cat') {
+      disc.push({
+        title: cText($row),
+        disc: []
+      })
     } else {
       const $a = $row.find('h6 > a')
-      disc[disc.length - 1].disc.push(
-        safeObject({
-          title: $a.text().trim(),
-          href: $a.attr('href')
-        })
-      )
+      disc[disc.length - 1].disc.push({
+        title: cText($a),
+        href: cData($a, 'href') as `/ep/${number}`
+      })
     }
   })
 
   let type = ''
-  $('.nameSingle small.grey').each((_index: number, element: any) => {
-    type += cheerio(element).text().trim()
+  cEach($('.nameSingle small.grey'), $row => {
+    type += cText($row)
   })
 
-  const info = fixedSubjectInfo(
-    $('#infobox')
-      .html()
-      .replace(/\n| class="(.+?)"| title="(.+?)"> +</g, '')
-      .trim()
-  )
+  const rawInfo = cHtml($('#infobox'))
+  const info = fixedSubjectInfo(rawInfo.replace(/\n| class="(.+?)"| title="(.+?)"> +</g, '').trim())
 
-  let totalEps: any = info.match(/<li><span>话数: <\/span>(\d+)<\/li>/)
-  if (totalEps) {
-    totalEps = totalEps[1]
+  let totalEps: string
+  const temp = info.match(/<li><span>话数: <\/span>(\d+)<\/li>/)
+  if (temp?.[1]) {
+    totalEps = temp[1]
   } else {
-    totalEps = $('div.prgText').text().trim().replace('/ ', '')
+    totalEps = cText($('div.prgText')).replace('/ ', '')
   }
 
-  const crtCounts = {}
-  $('#browserItemList li').each((_index: number, element: any) => {
-    const $row = cheerio(element)
-    const id = String($row.find('a.avatar').attr('href')).replace('/character/', '')
-    const num =
-      $row
-        .find('small.rr')
-        .text()
-        .trim()
-        .replace(/\(|\)|\+/g, '') || 0
+  const crtCounts: SubjectFromHTML['crtCounts'] = {}
+  cEach($('#browserItemList li'), $row => {
+    const id = cData($row.find('a.avatar'), 'href').replace('/character/', '')
+    const num = cText($row.find('small.rr')).replace(/\(|\)|\+/g, '') || 0
     if (id && num) crtCounts[id] = Number(num)
   })
 
   return {
     type,
-    watchedEps: $('#watchedeps').attr('value') || 0,
+    watchedEps: cData($('#watchedeps'), 'value') || 0,
     totalEps,
-    info,
-    tags:
-      $('div.subject_tag_section div.inner a.l')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          return safeObject({
-            name: $row.find('span').text().trim(),
-            count: $row.find('small').text().trim(),
-            meta: ($row.attr('class') || '').includes('meta')
-          })
-        })
-        .get() || [],
-    relations:
-      $('div.content_inner ul.browserCoverMedium li')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          const $title = $row.find('a.title')
-          const id = matchSubjectId($title.attr('href'))
-          const type = $row.find('span.sub').text().trim()
-          if (type) relationsType = type
-          return safeObject({
-            id,
-            image: matchCover($row.find('span.avatarNeue').attr('style')),
-            title: HTMLDecode($title.text().trim()),
-            type: relationsType,
-            url: `${HOST}/subject/${id}`
-          })
-        })
-        .get() || [],
+    info: rawInfo,
+    tags: cMap($('div.subject_tag_section div.inner a.l'), $row => ({
+      name: cText($row.find('span')),
+      count: cText($row.find('small')),
+      meta: cData($row, 'class').includes('meta')
+    })),
+    relations: cMap($('div.content_inner ul.browserCoverMedium li'), $row => {
+      const $title = $row.find('a.title')
+      const id = matchSubjectId(cData($title, 'href')) as Id
+      const type = cText($row.find('span.sub')) as SubjectTypeValue
+      if (type) relationsType = type
+      return {
+        id,
+        image: matchCover(cData($row.find('span.avatarNeue'), 'style')) as Cover<'m'>,
+        title: cText($title),
+        type: relationsType,
+        url: `${HOST}/subject/${id}`
+      }
+    }),
     friend: {
-      score: $('div.frdScore span.num').text().trim() || 0,
-      total: $('div.frdScore a.l').text().replace(' 人评分', '') || 0
+      score: cText($('div.frdScore span.num')) || '0',
+      total: cText($('div.frdScore a.l')).replace(' 人评分', '') || '0'
     },
     disc,
     book: {
-      chap: $('#watchedeps').attr('value') || 0,
-      vol: $('#watched_vols').attr('value') || 0,
-      totalChap: $('#watchedeps').parent().text().trim().replace('Chap.  / ', ''),
-      totalVol: $('#watched_vols').parent().text().trim().replace('Vol.  / ', '')
+      chap: cData($('#watchedeps'), 'value') || '0',
+      vol: cData($('#watched_vols'), 'value') || '0',
+      totalChap: cText($('#watchedeps').parent()).replace('Chap.  / ', ''),
+      totalVol: cText($('#watched_vols').parent()).replace('Vol.  / ', '')
     },
-    comic:
-      $('div.subject_section ul.browserCoverSmall li')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          const $a = $row.find('a')
-          return safeObject({
-            id: matchSubjectId($a.attr('href')),
-            name: $a.attr('title') || $row.find('a.title').text().trim(),
-            image: getCoverMedium(matchCover($row.find('span').attr('style')))
-          })
-        })
-        .get() || [],
-    like:
-      $('div.content_inner ul.coversSmall li')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          const $a = $row.find('a')
-          return safeObject({
-            id: matchSubjectId($a.attr('href')),
-            name: $a.attr('title') || $row.find('a.l').text().trim(),
-            image: matchCover($row.find('span').attr('style'))
-          })
-        })
-        .get() || [],
-    who:
-      $('#subjectPanelCollect li')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          const $a = $row.find('a.avatar')
-          return safeObject({
-            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
-            name: HTMLDecode($a.text().trim()),
-            userId: matchUserId($a.attr('href')),
-            star: matchStar($row.find('span.starlight').attr('class')),
-            status: $row
-              .find('small.grey')
-              .text()
-              .trim()
-              .replace('小时', '时')
-              .replace('分钟', '分')
-          })
-        })
-        .get() || [],
-    catalog:
-      $('#subjectPanelIndex li')
-        .map((_index: number, element: any) => {
-          const $row = cheerio(element)
-          const $user = $row.find('small.grey a.avatar')
-          const $catalog = $row.find('.innerWithAvatar > a.avatar')
-          return safeObject({
-            avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
-            name: $user.text().trim(),
-            userId: $user.attr('href').replace('/user/', ''),
-            id: parseInt($catalog.attr('href').replace('/index/', '')),
-            title: $catalog.text().trim()
-          })
-        })
-        .get() || [],
+    comic: cMap($('div.subject_section ul.browserCoverSmall li'), $row => {
+      const $a = $row.find('a')
+      return {
+        id: matchSubjectId(cData($a, 'href')),
+        name: cData($a, 'title') || cText($row.find('a.title')),
+        image: getCoverMedium(matchCover(cData($row.find('span'), 'style')))
+      }
+    }),
+    like: cMap($('div.content_inner ul.coversSmall li'), $row => {
+      const $a = $row.find('a')
+      return {
+        id: matchSubjectId(cData($a, 'href')),
+        name: cData($a, 'title') || cText($row.find('a.l')),
+        image: matchCover(cData($row.find('span'), 'style')) as Cover<'m'>
+      }
+    }),
+    who: cMap($('#subjectPanelCollect li'), $row => {
+      const $a = $row.find('a.avatar')
+      return {
+        avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')),
+        name: cText($a),
+        userId: matchUserId(cData($a, 'href')),
+        star: matchStar(cData($row.find('span.starlight'), 'class')),
+        status: cText($row.find('small.grey')).replace('小时', '时').replace('分钟', '分')
+      }
+    }),
+    catalog: cMap($('#subjectPanelIndex li'), $row => {
+      const $user = $row.find('small.grey a.avatar')
+      const $catalog = $row.find('.innerWithAvatar > a.avatar')
+      return {
+        avatar: matchAvatar(cData($row.find('span.avatarNeue'), 'style')),
+        name: cText($user),
+        userId: cData($user, 'href').replace('/user/', ''),
+        id: parseInt(cData($catalog, 'href').replace('/index/', '')),
+        title: cText($catalog)
+      }
+    }),
     crtCounts,
-    lock: $('div.tipIntro div.inner h3').text().trim(),
-    formhash: String($('#collectBoxForm').attr('action')).split('?gh=')?.[1] || ''
+    lock: cText($('div.tipIntro div.inner h3')),
+    formhash: String(cData($('#collectBoxForm'), 'action')).split('?gh=')?.[1] || ''
   }
 }
 

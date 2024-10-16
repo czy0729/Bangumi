@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-09-05 15:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 15:15:46
+ * @Last Modified time: 2024-10-16 06:17:57
  */
 import { computed } from 'mobx'
 import { collectionStore, smbStore, subjectStore, userStore } from '@stores'
 import { SMB } from '@stores/smb/types'
+import { fixedSubjectInfo } from '@utils'
 import { WEB } from '@constants'
 import { InferArray, SubjectId } from '@types'
 import { LIMIT, REG_AIRDATE } from '../ds'
@@ -135,7 +136,7 @@ export default class Computed extends State {
 
       const subjectFormHTML = subjectStore.subjectFormHTML(subjectId)
       if (subjectFormHTML?._loaded && typeof subjectFormHTML?.info === 'string') {
-        const match = subjectFormHTML.info.match(REG_AIRDATE)
+        const match = fixedSubjectInfo(subjectFormHTML.info).match(REG_AIRDATE)
         return match?.[2] || ''
       }
 

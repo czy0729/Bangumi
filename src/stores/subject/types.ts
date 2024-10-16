@@ -164,7 +164,7 @@ export type Subject = {
 }
 
 /** 条目 (HTML) */
-export type SubjectFromHTML = DeepPartial<{
+export type SubjectFromHTML = {
   /** 标题旁的子标题 */
   type: string
 
@@ -210,8 +210,8 @@ export type SubjectFromHTML = DeepPartial<{
 
   /** 书籍额外信息 */
   book: {
-    chap: number
-    vol: number
+    chap: string | number
+    vol: string | number
     totalChap: string
     totalVol: string
   }
@@ -256,8 +256,9 @@ export type SubjectFromHTML = DeepPartial<{
 
   /** hash 比如删除等网页操作需要 */
   formhash: string
-  _loaded: Loaded
-}>
+
+  _loaded?: Loaded
+}
 
 /** 条目 (new api) */
 export type SubjectV2 = {

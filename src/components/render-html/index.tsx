@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 15:18:42
+ * @Last Modified time: 2024-10-16 06:38:46
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -18,7 +18,7 @@ import { bgmMap } from '../bgm-text'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
-import { a, img, li, q, span } from './renderer'
+import { a, img, li, q, span, ul } from './renderer'
 import {
   fixedBaseFontStyle,
   getIncreaseFontSize,
@@ -26,8 +26,8 @@ import {
   hackMatchMediaLink
 } from './utils'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE, REGS } from './ds'
+import { styles } from './styles'
 import { Props as RenderHtmlProps } from './types'
-import './styles'
 
 export { RenderHtmlProps }
 
@@ -86,10 +86,25 @@ export const RenderHtml = observer(
       },
       tagsStyles: {
         a: {
-          paddingRight: WEB ? 2 : _.sm,
+          paddingRight: _.web(2, _.sm),
           color: _.colorMain,
           textDecorationColor: _.colorMain,
           ...linkStyle
+        }
+      },
+      classesStyles: {
+        tag: {
+          // paddingHorizontal: 8,
+          marginRight: 8
+          // borderWidth: 1,
+          // borderColor: _.select(_.colorBorder, 'rgba(255, 255, 255, 0.24)'),
+          // borderRadius: 16
+        },
+        group_section: {
+          display: 'flex',
+          paddingVertical: 4,
+          paddingHorizontal: 8,
+          backgroundColor: _.colorBg
         }
       },
       textSelectable: true,
@@ -119,9 +134,15 @@ export const RenderHtml = observer(
             key: passProps.key,
             children
           }),
-        li: (_attrs: any, children: any, _css: any, passProps: any) =>
+        ul: (_attrs: any, children: any, _css: any, passProps: any) =>
+          ul({
+            key: passProps.key,
+            children
+          }),
+        li: (attrs: any, children: any, _css: any, passProps: any) =>
           li({
             key: passProps.key,
+            style: attrs.style || '',
             children
           }),
         a: matchLink
@@ -232,6 +253,7 @@ export const RenderHtml = observer(
         <ErrorBoundary style={style}>
           <Component id='component-render-html' style={style}>
             <HTML
+              containerStyle={styles.container}
               html={this.formatHTML()}
               onLinkPress={this.onLinkPress}
               {...this.generateConfig(

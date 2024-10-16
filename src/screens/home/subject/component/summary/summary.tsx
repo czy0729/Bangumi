@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 16:24:44
+ * @Last Modified time: 2024-10-15 17:07:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -51,7 +51,7 @@ const Summary = memo(
             ) : (
               !!content && (
                 <Expand ratio={0.88}>
-                  <Text style={_.mt.sm} size={15} lineHeight={22} selectable>
+                  <Text style={_.mt.md} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>
                 </Expand>

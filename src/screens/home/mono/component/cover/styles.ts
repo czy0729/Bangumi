@@ -7,6 +7,10 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  cover: {
+    marginTop: 28,
+    marginBottom: 16
+  },
   loading: {
     position: 'absolute',
     top: 0,

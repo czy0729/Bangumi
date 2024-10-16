@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:45:44
+ * @Last Modified time: 2024-10-16 06:30:13
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
           styles={memoStyles()}
           subjectId={$.subjectId}
           showInfo={systemStore.setting.showInfo}
-          info={$.info}
+          info={$.rawInfo.replace('展开+', '')}
           onSwitchBlock={$.onSwitchBlock}
         />
       </Component>
