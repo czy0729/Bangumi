@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 17:49:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 17:56:41
+ * @Last Modified time: 2024-10-16 06:21:42
  */
 import { SubjectTypeCn } from '@types'
 
@@ -32,7 +32,7 @@ export function getTypeCn(
       str.includes('广播')
     ) {
       value = '音乐'
-    } else if (str.includes('书籍') || str.includes('画')) {
+    } else if (str.includes('书籍') || (str.includes('画') && !str.includes('作画'))) {
       value = '书籍'
     } else if (str.includes('游戏')) {
       value = '游戏'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 15:21:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 00:34:54
+ * @Last Modified time: 2024-10-15 17:23:41
  */
 import { appNavigate, getSPAParams } from '@utils'
 import { cleanQuery } from '@utils/dom'
@@ -37,7 +37,7 @@ export function navigate(routeName?: string, params: AnyObject = {}, replace: bo
 
   setTimeout(() => {
     cleanQuery()
-  }, 0)
+  }, 400)
 }
 
 export function getCurrentStoryId() {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-13 12:23:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 12:28:22
+ * @Last Modified time: 2024-10-15 17:12:32
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -29,20 +29,20 @@ function Details(_props, { $ }: Ctx) {
 
   if (isADV) {
     const adv = otaStore.adv($.subjectId)
-    if (adv.title) title = adv.title
-    if (adv.date) time = adv.date
-    if (adv.dev) dev = adv.dev
-    if (adv.time) playtime = formatPlaytime(adv.time)
+    if (adv.title) title = adv.title || ''
+    if (adv.date) time = adv.date || ''
+    if (adv.dev) dev = adv.dev || ''
+    if (adv.time) playtime = formatPlaytime(adv.time) || ''
     if (adv.cn) cn = true
   } else {
     const game = otaStore.game($.subjectId)
-    title = game.t
+    title = game.t || ''
     tag = game.ta || []
     platform = game.pl || []
-    time = game.en
-    timeCn = game.cn
-    dev = game.d
-    publish = game.p
+    time = game.en || ''
+    timeCn = game.cn || ''
+    dev = game.d || ''
+    publish = game.p || ''
   }
 
   const developer = (typeof dev === 'object' ? dev : [dev])
@@ -110,7 +110,7 @@ function Details(_props, { $ }: Ctx) {
       >
         <Flex>
           <Text type='sub' lineHeight={22}>
-            点击查找 {isADV ? 'OP' : 'PV'}
+            相关视频
           </Text>
           <Iconfont style={_.ml.xs} name='md-open-in-new' size={16} />
         </Flex>

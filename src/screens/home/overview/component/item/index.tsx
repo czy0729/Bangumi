@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:41:12
+ * @Last Modified time: 2024-10-15 17:25:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,11 +57,11 @@ function Item(
         </InView>
       </Flex>
       <View style={styles.content}>
-        <Text size={titleSize} bold align='center'>
+        <Text size={titleSize} lineHeight={titleSize + 2} bold align='center'>
           {item.name}
         </Text>
         {!!item.desc && (
-          <Text style={_.mt.xs} type='sub' size={descSize} align='center'>
+          <Text style={_.mt.sm} type='sub' size={descSize} align='center'>
             {item.desc}
           </Text>
         )}

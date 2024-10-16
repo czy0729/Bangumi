@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 17:50:08
+ * @Last Modified time: 2024-10-15 17:08:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -38,7 +38,14 @@ function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
           </View>
         </View>
         {showTitle && !!item.title && (
-          <Text style={styles.title} size={11} bold numberOfLines={3} align='center'>
+          <Text
+            style={styles.title}
+            size={11}
+            lineHeight={14}
+            bold
+            numberOfLines={3}
+            align='center'
+          >
             {item.title}
           </Text>
         )}

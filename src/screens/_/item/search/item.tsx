@@ -11,7 +11,7 @@ import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
-import { IMG_HEIGHT_LG, IMG_WIDTH, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS, WEB } from '@constants'
+import { IMG_HEIGHT_LG, IMG_WIDTH, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { InView, Manage, Rank, Stars, Tag } from '../../base'
 import Title from './title'
@@ -118,9 +118,9 @@ const Item = memo(
             </Flex>
             {!!tip && (
               <Text
-                style={stl(isMusic && _.mt.xs, WEB && _.mr.lg)}
+                style={isMusic && _.mt.xs}
                 size={11}
-                lineHeight={13}
+                lineHeight={14}
                 numberOfLines={isMusic ? 2 : 3}
               >
                 {HTMLDecode(tip)}

@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { cnjp, desc, getMonoCoverSmall, HTMLDecode } from '@utils'
-import { HOST } from '@constants'
+import { FROZEN_ARRAY, HOST } from '@constants'
 import State from './state'
 
 export default class Computed extends State {
@@ -34,8 +34,7 @@ export default class Computed extends State {
   /** 人物留言 */
   @computed get monoComments() {
     const monoComments = subjectStore.monoComments(this.monoId)
-    if (monoComments._loaded) return monoComments
-    return this.state.comments
+    return monoComments._loaded ? monoComments : this.state.comments
   }
 
   @computed get list() {
@@ -45,8 +44,7 @@ export default class Computed extends State {
   /** 人物信息 (CDN) */
   @computed get monoFormCDN() {
     const { mono } = this.state
-    if (mono._loaded) return mono
-    return subjectStore.monoFormCDN(this.monoId)
+    return mono._loaded ? mono : subjectStore.monoFormCDN(this.monoId)
   }
 
   /** 角色信息 */
@@ -61,8 +59,7 @@ export default class Computed extends State {
 
   /** 是否可以进行 ICO */
   @computed get canICO() {
-    const { checkTinygrail } = this.state
-    return this.monoId.includes('character/') && checkTinygrail && !this.chara._loaded
+    return this.monoId.includes('character/') && this.state.checkTinygrail && !this.chara._loaded
   }
 
   /** 显示在上方的名字 */
@@ -96,14 +93,12 @@ export default class Computed extends State {
   // -------------------- get: cdn fallback --------------------
   /** 日文名 */
   @computed get jp() {
-    const { _jp } = this.params
-    return HTMLDecode(this.mono.name || _jp || this.monoFormCDN.name)
+    return HTMLDecode(this.mono.name || this.params._jp || this.monoFormCDN.name)
   }
 
   /** 中文名 */
   @computed get cn() {
-    const { _name } = this.params
-    return HTMLDecode(this.mono.nameCn || _name || this.monoFormCDN.nameCn)
+    return HTMLDecode(this.mono.nameCn || this.params._name || this.monoFormCDN.nameCn)
   }
 
   /** 人物大图 */
@@ -123,19 +118,17 @@ export default class Computed extends State {
 
   /** 人物出演 */
   @computed get voices() {
-    if (this.mono._loaded) return this.mono.voice || []
-    return this.monoFormCDN.voice || []
+    return (this.mono._loaded ? this.mono.voice : this.monoFormCDN.voice) || FROZEN_ARRAY
   }
 
   /** 人物相关作品 */
   @computed get works() {
-    if (this.mono._loaded) return this.mono.works || []
-    return this.monoFormCDN.works || []
+    return (this.mono._loaded ? this.mono.works : this.monoFormCDN.works) || FROZEN_ARRAY
   }
 
   /** 人物相关工作 */
   @computed get jobs() {
-    return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || [])
+    return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || FROZEN_ARRAY)
       .slice()
       .sort((a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type))))
   }

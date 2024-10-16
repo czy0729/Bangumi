@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:44:10
+ * @Last Modified time: 2024-10-15 17:09:40
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -107,7 +107,7 @@ function Thumbs({ onBlockRef }, { $ }: Ctx) {
             </ScrollViewHorizontal>
           )}
           {showThumbs && !!reference && (
-            <Flex style={[_.container.wind, _.mt.md]} justify='end'>
+            <Flex style={_.container.wind} justify='end'>
               <Text
                 size={10}
                 type='icon'

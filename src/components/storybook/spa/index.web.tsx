@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 22:21:54
+ * @Last Modified time: 2024-10-15 17:23:52
  */
 import React, { Suspense, useCallback } from 'react'
 import Stores from '@stores'
@@ -42,7 +42,7 @@ export const StorybookSPA = ({ children }) => {
     init()
     setTimeout(() => {
       cleanQuery()
-    }, 0)
+    }, 400)
   })
 
   return (
