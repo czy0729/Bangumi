@@ -15,16 +15,18 @@ import {
   StoreConstructor,
   SubjectType
 } from '@types'
-import State from './state'
 import { DEFAULT_TYPE, STATE } from './init'
+import State from './state'
 import { Browser, Rank, Tag } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 标签条目 */
-  tag(text: string = '', type: SubjectType = DEFAULT_TYPE, airtime: string = '') {
+  tag(text: string = '', type: SubjectType = DEFAULT_TYPE, airtime: string = '', meta?: boolean) {
     this.init('tag')
     return computed<Tag>(() => {
-      const key = `${text.replace(/ /g, '+')}|${type}|${airtime}`
+      let key = `${text.replace(/ /g, '+')}|${type}|${airtime}`
+      if (meta) key += `|${meta}`
+
       return this.state.tag[key] || LIST_EMPTY
     }).get()
   }
@@ -44,11 +46,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 索引 */
-  browser(
-    type: SubjectType = DEFAULT_TYPE,
-    airtime: string = '',
-    sort: BrowserSort = ''
-  ) {
+  browser(type: SubjectType = DEFAULT_TYPE, airtime: string = '', sort: BrowserSort = '') {
     this.init('browser')
     return computed<Browser>(() => {
       const key = `${type}|${airtime}|${sort}`

@@ -18,3 +18,5 @@ export type Ctx = {
 }
 
 export type Params = GetRouteParams<RouteTag>
+
+export type SnapshotId = `tag_${string}`

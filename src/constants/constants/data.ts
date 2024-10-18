@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-11 05:51:05
+ * @Last Modified time: 2024-10-18 03:24:27
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -116,6 +116,7 @@ export const EVENT = {
 /** 时间数组 */
 export const DATA_AIRTIME = [
   '全部',
+  '2025',
   '2024',
   '2023',
   '2022',
@@ -182,6 +183,7 @@ export const DATA_MONTH = [
 
 /** 索引年数组 */
 export const DATA_BROWSER_AIRTIME = [
+  '2025',
   '2024',
   '2023',
   '2022',
@@ -305,6 +307,9 @@ export const DATA_ALPHABET = [
   'Y',
   'Z'
 ] as const
+
+/** 公共标签数组 */
+export const DATA_META = ['公共标签', '用户标签'] as const
 
 /** 1 小时 */
 export const H = 60 * 60

@@ -27,30 +27,28 @@ export default class Action extends Fetch {
   /** 排序选择 */
   onOrderSelect = (label: any) => {
     this.resetScrollView()
-
-    t('用户标签.排序选择', {
-      label
-    })
-
     this.setState({
       order: MODEL_TAG_ORDERBY.getValue(label)
     })
     this.fetchTag(true)
+
+    t('用户标签.排序选择', {
+      label
+    })
   }
 
   /** 年选择 */
   onAirdateSelect = (airtime: string) => {
     this.resetScrollView()
-
-    t('用户标签.年选择', {
-      airtime
-    })
-
     this.setState({
       airtime: airtime === '全部' ? '' : airtime,
       month: ''
     })
     this.fetchTag(true)
+
+    t('用户标签.年选择', {
+      airtime
+    })
   }
 
   /** 月选择 */
@@ -62,47 +60,62 @@ export default class Action extends Fetch {
     }
 
     this.resetScrollView()
-
-    t('用户标签.月选择', {
-      month
-    })
-
     this.setState({
       month: month === '全部' ? '' : month
     })
     this.fetchTag(true)
+
+    t('用户标签.月选择', {
+      month
+    })
+  }
+
+  /** 公共标签选择 */
+  onMetaSelect = () => {
+    if (!this.tag.meta) {
+      info('此标签不是公共标签')
+      return
+    }
+
+    const value = !this.state.meta
+    this.setState({
+      meta: value
+    })
+    this.fetchTag(true)
+
+    t('用户标签.公共标签', {
+      meta: value
+    })
   }
 
   /** 切换布局 */
   onToggleList = () => {
     this.resetScrollView()
 
-    const { list } = this.state
-    t('用户标签.切换布局', {
-      list: !list
+    const value = !this.state.list
+    this.setState({
+      list: value
     })
 
-    this.setState({
-      list: !list
+    t('用户标签.切换布局', {
+      list: !value
     })
   }
 
   /** 切换固定 */
   onToggleFixed = () => {
-    const { fixed } = this.state
-
+    const value = !this.state.fixed
     this.setState({
-      fixed: !fixed
+      fixed: value
     })
     this.save()
   }
 
   /** 切换显示收藏 */
   onToggleCollected = () => {
-    const { collected } = this.state
-
+    const value = !this.state.collected
     this.setState({
-      collected: !collected
+      collected: value
     })
     this.save()
   }

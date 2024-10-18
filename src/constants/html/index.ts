@@ -181,12 +181,12 @@ export const HTML_TAG = (
   type: SubjectType = 'anime',
   order: TagOrder | '' = '',
   page: number = 1,
-  airtime?: string
+  airtime?: string,
+  meta?: boolean
 ) => {
-  if (airtime) {
-    return `${HOST}/${type}/tag/${text}/airtime/${airtime}?sort=${order}&page=${page}`
-  }
-  return `${HOST}/${type}/tag/${text}?sort=${order}&page=${page}`
+  return `${HOST}/${type}/tag/${text}${
+    airtime ? `/airtime/${airtime}` : ''
+  }?sort=${order}&page=${page}&meta=${meta ? 1 : ''}`
 }
 
 /** 排行榜 */

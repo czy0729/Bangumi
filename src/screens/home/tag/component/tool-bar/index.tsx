@@ -9,6 +9,7 @@ import { ToolBar as ToolBarComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
+import Meta from './meta'
 import Month from './month'
 import More from './more'
 import Sort from './sort'
@@ -21,6 +22,7 @@ function ToolBar(_props, { $ }: Ctx) {
       <Sort />
       <Year />
       <Month />
+      {($.tag.meta || $.state.meta) && <Meta />}
       <More />
     </ToolBarComp>
   )

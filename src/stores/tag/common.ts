@@ -2,10 +2,59 @@
  * @Author: czy0729
  * @Date: 2019-07-28 15:45:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 12:42:21
+ * @Last Modified time: 2024-10-18 03:40:15
  */
-import { HTMLTrim, HTMLToTree, findTreeNode } from '@utils'
+import { cData, cheerio, cMap, cText, findTreeNode, htmlMatch, HTMLToTree, HTMLTrim } from '@utils'
+import { Cover } from '@types'
 import { INIT_TAG_ITEM } from './init'
+import { TagItem } from './types'
+
+/** 标签 */
+export function cheerioTags(html: string): {
+  list: TagItem[]
+  meta: boolean
+  pageTotal: number
+} {
+  return {
+    list: cMap(
+      cheerio(
+        htmlMatch(
+          html,
+          '<div class="columns clearit">',
+          '<div id="columnSubjectBrowserB" class="column">'
+        )
+      )('li.item'),
+      $row => {
+        const $a = $row.find('h3 a.l')
+        return {
+          id: cData($a, 'href'),
+          name: cText($row.find('small.grey')),
+          nameCn: cText($a),
+          cover: cData($row.find('img.cover'), 'src') as Cover<'c'>,
+          rank: cText($row.find('.rank')).split(' ')?.[1] || '',
+          score: cText($row.find('.rateInfo small')),
+          total: cText($row.find('.tip_j')),
+          tip: cText($row.find('.info')),
+          collected: !!cData($row.find('.collectModify'), 'class')
+        }
+      }
+    ),
+    meta: htmlMatch(
+      html,
+      '<div id="columnSubjectBrowserB" class="column">',
+      '<div id="footer">'
+    ).includes('公共标签'),
+
+    // ( 1 / 75 )
+    pageTotal: Number(
+      (
+        cText(
+          cheerio(htmlMatch(html, '<div class="page_inner">', '<hr class="board"'))('.p_edge')
+        ).split('/')?.[1] || ''
+      ).replace(/ |\)/g, '') || 0
+    )
+  }
+}
 
 /** 标签 */
 export function analysisTags(raw, page, pagination) {
@@ -24,9 +73,7 @@ export function analysisTags(raw, page, pagination) {
     // 总页数
     if (page === 1) {
       const pageHTML =
-        HTML.match(
-          /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
-        ) ||
+        HTML.match(/<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/) ||
         HTML.match(
           /<a href="\?.*page=\d+" class="p">(\d+)<\/a><a href="\?.*page=2" class="p">&rsaquo;&rsaquo;<\/a>/
         )
@@ -47,8 +94,7 @@ export function analysisTags(raw, page, pagination) {
 
       // 封面
       node =
-        findTreeNode(children, 'a > span > img') ||
-        findTreeNode(children, 'a > noscript > img')
+        findTreeNode(children, 'a > span > img') || findTreeNode(children, 'a > noscript > img')
       let cover = node ? node[0].attrs.src : ''
       if (cover === '/img/info_only.png') {
         cover = ''
@@ -125,8 +171,7 @@ export function analysiRank(raw) {
 
       // 封面
       node =
-        findTreeNode(children, 'a > span > img') ||
-        findTreeNode(children, 'a > noscript > img')
+        findTreeNode(children, 'a > span > img') || findTreeNode(children, 'a > noscript > img')
       let cover = node ? node[0].attrs.src : ''
       if (cover === '/img/info_only.png' || cover === '/img/no_icon_subject.png') {
         cover = ''

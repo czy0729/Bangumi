@@ -21,6 +21,7 @@ import {
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_BLOG, HTML_TOPIC } from '@constants'
+import { AnyObject, TopicId } from '@types'
 import { Popover } from '../../../base'
 import {
   ACTION_COPY,
@@ -51,7 +52,9 @@ function IconExtra(
     msg,
     onJumpTo,
     onShowFixedTextare
-  },
+  }: AnyObject<{
+    topicId: TopicId
+  }>,
   { $ }
 ) {
   const data = [
@@ -77,7 +80,7 @@ function IconExtra(
       ACTION_TRANSLATE,
 
     // 屏蔽
-    !erase && ACTION_IGNORE,
+    !erase && userStore.isWebLogin && ACTION_IGNORE,
 
     // 删除
     erase && $?.doDeleteReply && ACTION_DELETE

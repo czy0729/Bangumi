@@ -4,27 +4,31 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-02 00:44:28
  */
-import { Cover, ListEmpty, SubjectId } from '@types'
+import { Cover, ListEmpty, Override, SubjectId } from '@types'
 
-type List = ListEmpty<
-  Partial<{
-    id: SubjectId
-    cover: Cover<'c'>
-    name: string
-    nameCn: string
-    tip: string
-    score: string
-    total: string
-    rank: string
-    collected: boolean
-  }>
->
+export type TagItem = {
+  id: SubjectId
+  cover: Cover<'c'>
+  name: string
+  nameCn: string
+  tip: string
+  score: string
+  total: string
+  rank: string
+  collected: boolean
+}
 
 /** 标签条目 */
-export type Tag = List
+export type Tag = Override<
+  ListEmpty<TagItem>,
+  {
+    /** 是否允许公共标签筛选 */
+    meta?: boolean
+  }
+>
 
 /** 排行榜 */
-export type Rank = List
+export type Rank = ListEmpty<TagItem>
 
 /** 索引 */
-export type Browser = List
+export type Browser = ListEmpty<TagItem>

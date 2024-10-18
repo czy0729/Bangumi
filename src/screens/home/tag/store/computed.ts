@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:45:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:55:40
+ * @Last Modified time: 2024-10-18 03:35:09
  */
 import { computed } from 'mobx'
 import { subjectStore, tagStore } from '@stores'
 import { HTML_TAG, LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
+import { SnapshotId } from '../types'
 import State from './state'
 
 export default class Computed extends State {
   /** 云快照 */
   @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
+    return this.state.ota[this.thirdPartyKey]
   }
 
   /** 标签条目 */
   @computed get tag() {
     const { type, tag } = this.params
-    const { airtime, month } = this.state
-    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime)
+    const { airtime, month, meta } = this.state
+    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime, meta)
   }
 
   /** 条目类型中文 */
@@ -43,8 +43,7 @@ export default class Computed extends State {
         : LIST_EMPTY
     }
 
-    const { collected } = this.state
-    if (collected) return this.tag
+    if (this.state.collected) return this.tag
 
     return {
       ...this.tag,
@@ -55,20 +54,24 @@ export default class Computed extends State {
   /** 网页端地址 */
   @computed get url() {
     const { type, tag } = this.params
-    const { order = 'collects', airtime, month } = this.state
+    const { order = 'collects', airtime, month, meta } = this.state
     return HTML_TAG(
       encodeURIComponent(tag),
       type,
       order,
       1,
-      month ? `${airtime}-${month}` : airtime
+      month ? `${airtime}-${month}` : airtime,
+      meta
     )
   }
 
-  @computed get thirdPartyKey() {
+  @computed get thirdPartyKey(): SnapshotId {
     const { type, tag } = this.params
-    const { airtime, month } = this.state
-    const query = [tag, type, month ? `${airtime}-${month}` : airtime].join('_')
+    const { airtime, month, meta } = this.state
+
+    let query = [tag, type, month ? `${airtime}-${month}` : airtime].join('_')
+    if (meta) query += `_meta`
+
     return `tag_${query}`
   }
 

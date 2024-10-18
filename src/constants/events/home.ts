@@ -94,6 +94,7 @@ export default {
   '用户标签.排序选择': 'Tag.onOrderSelect',
   '用户标签.年选择': 'Tag.onAirdateSelect',
   '用户标签.月选择': 'Tag.onMonthSelect',
+  '用户标签.公共标签': 'Tag.onMeta',
   '用户标签.切换布局': 'Tag.toggleList',
 
   // 作品

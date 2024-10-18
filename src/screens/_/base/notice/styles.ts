@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   notice: {
+    display: 'flex',
     paddingVertical: _.sm,
     paddingHorizontal: _.sm + 2,
     marginVertical: _.sm,

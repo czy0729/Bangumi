@@ -16,10 +16,10 @@ import {
   SubjectType,
   TagOrder
 } from '@types'
-import { analysiRank, analysisTags } from './common'
+import { analysiRank, analysisTags, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
-import { Rank } from './types'
+import { Rank, Tag } from './types'
 
 export default class Fetch extends Computed {
   /** 标签条目 */
@@ -36,34 +36,39 @@ export default class Fetch extends Computed {
 
       /** 时间 */
       airtime?: string
+
+      /** 公共标签 */
+      meta?: boolean
     },
     refresh?: boolean
   ) => {
-    const { text = '', type = DEFAULT_TYPE, order, airtime = '' } = args || {}
+    const { text = '', type = DEFAULT_TYPE, order, airtime = '', meta } = args || {}
     const q = text.replace(/ /g, '+')
-    const { list, pagination } = this.tag(q, type, airtime)
+    const { list, pagination } = this.tag(q, type, airtime, meta)
     const page = refresh ? 1 : pagination.page + 1
-
     const html = await fetchHTML({
-      url: HTML_TAG(q, type, order, page, airtime)
+      url: HTML_TAG(q, type, order, page, airtime, meta)
     })
 
-    /**
-     * 在拥有更多筛选条件下, 页数不准确, 一页有 24 项,
-     * 需要后续根据一页是否有这个数量数据去修正总页数
-     */
-    const { pageTotal, tag } = analysisTags(html, page, pagination)
-    const data = {
-      list: refresh ? tag : [...list, ...tag],
+    const tags = cheerioTags(html)
+    const data: Tag = {
+      list: refresh ? tags.list : [...list, ...tags.list],
+      meta: tags.meta,
       pagination: {
         page,
-        pageTotal: tag.length >= 24 ? Number(pageTotal) : page
+        /**
+         * 在拥有更多筛选条件下, 页数不准确, 一页有 24 项,
+         * 需要后续根据一页是否有这个数量数据去修正总页数
+         */
+        pageTotal: tags.list.length >= 24 ? tags.pageTotal || 100 : page
       },
       _loaded: getTimestamp()
     }
 
     const key = 'tag'
-    const stateKey = `${q}|${type}|${airtime}`
+    let stateKey = `${q}|${type}|${airtime}`
+    if (meta) stateKey += `|${meta}`
+
     this.setState({
       [key]: {
         [stateKey]: data

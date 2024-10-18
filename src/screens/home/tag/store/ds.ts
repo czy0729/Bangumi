@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:54:07
+ * @Last Modified time: 2024-10-18 03:31:31
  */
 import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
@@ -20,6 +20,9 @@ export const EXCLUDE_STATE = {
 
   /** 月 */
   month: '',
+
+  /** 公共标签 */
+  meta: false,
 
   /** 用于列表置顶 */
   hide: false,

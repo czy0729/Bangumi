@@ -35,12 +35,11 @@ function List(_props, { $ }: Ctx) {
       contentContainerStyle={_.container.bottom}
       numColumns={numColumns}
       data={$.list}
-      scrollToTop
       footerEmptyDataText={x18s($.params.tag) ? TEXT_18X : undefined}
       ListHeaderComponent={
         <>
           {!$.state.fixed && <ToolBar />}
-          {$.state.order === 'rank' && (
+          {$.state.order === 'rank' && !$.state.meta && (
             <Notice>
               因标签为用户自行添加，
               「按排名」排序在关联条目过多情况下可能毫无意义，推荐「按标注」排序。

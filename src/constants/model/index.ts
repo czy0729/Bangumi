@@ -805,16 +805,16 @@ export const TAG_ORDERBY = [
     value: 'collects'
   },
   {
-    label: '名称',
-    value: 'title'
+    label: '排名',
+    value: 'rank'
   },
   {
     label: '日期',
     value: 'date'
   },
   {
-    label: '排名',
-    value: 'rank'
+    label: '名称',
+    value: 'title'
   }
 ] as const
 

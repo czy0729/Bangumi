@@ -30,7 +30,7 @@ function Topic({ topicId, text, onLinkPress }) {
       <Touchable animate onPress={onLinkPress}>
         <Flex style={styles.body}>
           <Avatar src={avatar} size={48} radius={_.radiusSm} />
-          <View style={_.ml.sm}>
+          <Flex.Item style={_.ml.sm}>
             <Text style={styles.top} size={11} bold numberOfLines={2} selectable>
               {text}{' '}
               {!!time && (
@@ -53,7 +53,7 @@ function Topic({ topicId, text, onLinkPress }) {
                 {reply ? ` · ${reply} 回复` : ''}
               </Text>
             </Flex>
-          </View>
+          </Flex.Item>
         </Flex>
       </Touchable>
     </View>

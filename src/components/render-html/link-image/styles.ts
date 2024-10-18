@@ -9,6 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   img: {
     minWidth: Math.floor(_.window.contentWidth * (9 / 16)),
+    maxWidth: _.web('96%', _.window.contentWidth - (_.sm + 36) * 2),
     padding: 12,
     marginTop: _.sm,
     marginBottom: _.xs,
