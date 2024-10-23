@@ -9,20 +9,21 @@ import { ToolBar as ToolBarComp } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { MODEL_TAG_ORDERBY, TAG_ORDERBY } from '@constants'
-import { TagOrderCn } from '@types'
 import { Ctx } from '../../types'
+
+const DATA = TAG_ORDERBY.map(item => item.label)
 
 function Sort(_props, { $ }: Ctx) {
   const { order } = $.state
   return (
     <ToolBarComp.Popover
-      data={TAG_ORDERBY.map(item => item.label)}
+      data={DATA}
       icon='md-sort'
       iconColor={_.colorDesc}
-      text={order ? MODEL_TAG_ORDERBY.getLabel<TagOrderCn>(order) : '名称'}
+      text={order ? MODEL_TAG_ORDERBY.getLabel(order) : '收藏'}
       type='desc'
-      heatmap='用户标签.排序选择'
       onSelect={$.onOrderSelect}
+      heatmap='用户标签.排序选择'
     />
   )
 }

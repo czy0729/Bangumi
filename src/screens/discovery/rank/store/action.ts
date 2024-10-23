@@ -2,25 +2,40 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:14:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 05:04:51
+ * @Last Modified time: 2024-10-19 18:25:37
  */
 import { ScrollTo } from '@components'
 import { info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectType, SubjectTypeCn } from '@types'
+import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY } from '@constants'
+import {
+  Airtime,
+  Area,
+  Classification,
+  ModelType,
+  Month,
+  RankFilter,
+  RankFilterSub,
+  Source,
+  SubjectTypeCn,
+  Tag,
+  TagOrderCn,
+  Theme
+} from '@types'
 import { ToolBarKeys } from '../types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
+  /** ScrollView.scrollTo */
   scrollTo: ScrollTo
 
+  /** 收集 ScrollView.scrollTo 引用 */
   forwardRef = (scrollTo: ScrollTo) => {
     if (scrollTo) this.scrollTo = scrollTo
   }
 
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
-  resetScrollView = async (refresh?: boolean) => {
+  refresh = async (refresh?: boolean) => {
     this.save()
 
     if (refresh) {
@@ -45,34 +60,74 @@ export default class Action extends Fetch {
   /** 类型选择 */
   onTypeSelect = (type: SubjectTypeCn) => {
     this.setState({
-      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(type),
-      filter: ''
+      type: MODEL_SUBJECT_TYPE.getLabel(type),
+      filter: '',
+      filterSub: '',
+      source: '全部',
+      tag: '全部',
+      area: '全部',
+      target: '全部',
+      classification: '全部',
+      theme: '全部'
     })
-    this.resetScrollView(true)
+    this.refresh(true)
 
     t('排行榜.类型选择', {
       type
     })
   }
 
-  /** 筛选选择 */
-  onFilterSelect = (filter: string, filterData: { getValue: (arg0: any) => any }) => {
+  /** 排序选择 */
+  onSortSelect = (sort: TagOrderCn) => {
     this.setState({
-      filter: filter === '全部' ? '' : filterData.getValue(filter)
+      sort: MODEL_TAG_ORDERBY.getValue(sort)
     })
-    this.resetScrollView(true)
+    this.refresh(true)
+
+    t('排行榜.排序选择', {
+      sort
+    })
+  }
+
+  /** 展开收起更多筛选 */
+  onExpand = () => {
+    const value = !this.state.expand
+    this.setState({
+      expand: value
+    })
+    this.save()
+  }
+
+  /** 筛选选择 */
+  onFilterSelect = (filter: RankFilter | '全部', model: ModelType) => {
+    this.setState({
+      filter: (filter === '全部' ? '' : model.getValue(filter)) || ''
+    })
+    this.refresh(true)
 
     t('排行榜.筛选选择', {
       filter
     })
   }
 
+  /** 筛选选择 */
+  onFilterSubSelect = (filterSub: RankFilterSub | '全部', model: ModelType) => {
+    this.setState({
+      filterSub: (filterSub === '全部' ? '' : model.getValue(filterSub)) || ''
+    })
+    this.refresh(true)
+
+    t('排行榜.二级分类选择', {
+      filterSub
+    })
+  }
+
   /** 年选择 */
-  onAirdateSelect = (airtime: string) => {
+  onAirdateSelect = (airtime: Airtime) => {
     const { type, currentPage, ipt } = this.state
     this.setState({
-      airtime: airtime === '全部' ? '' : airtime,
-      month: '',
+      airtime,
+      month: '全部',
       currentPage: {
         ...currentPage,
         [type]: 1
@@ -82,7 +137,7 @@ export default class Action extends Fetch {
         [type]: '1'
       }
     })
-    this.resetScrollView(true)
+    this.refresh(true)
 
     t('排行榜.年选择', {
       airtime
@@ -90,15 +145,15 @@ export default class Action extends Fetch {
   }
 
   /** 月选择 */
-  onMonthSelect = (month: string) => {
+  onMonthSelect = (month: Month) => {
     const { airtime, type, currentPage, ipt } = this.state
-    if (airtime === '') {
+    if (airtime === '全部') {
       info('请先选择年')
       return
     }
 
     this.setState({
-      month: month === '全部' ? '' : month,
+      month,
       currentPage: {
         ...currentPage,
         [type]: 1
@@ -108,10 +163,82 @@ export default class Action extends Fetch {
         [type]: '1'
       }
     })
-    this.resetScrollView(true)
+    this.refresh(true)
 
     t('排行榜.月选择', {
       month
+    })
+  }
+
+  /** 来源选择 */
+  onSourceSelect = (source: Source) => {
+    this.setState({
+      source
+    })
+    this.refresh(true)
+
+    t('排行榜.来源选择', {
+      source
+    })
+  }
+
+  /** 公共标签选择 */
+  onTagSelect = (tag: Tag) => {
+    this.setState({
+      tag
+    })
+    this.refresh(true)
+
+    t('排行榜.公共标签选择', {
+      tag
+    })
+  }
+
+  /** 地区选择 */
+  onAreaSelect = (area: Area) => {
+    this.setState({
+      area
+    })
+    this.refresh(true)
+
+    t('排行榜.地区选择', {
+      area
+    })
+  }
+
+  /** 受众选择 */
+  onTargetSelect = (area: Area) => {
+    this.setState({
+      area
+    })
+    this.refresh(true)
+
+    t('排行榜.受众选择', {
+      area
+    })
+  }
+
+  /** 分级选择 */
+  onClassificationSelect = (classification: Classification) => {
+    this.setState({
+      classification
+    })
+    this.refresh(true)
+
+    t('排行榜.分级选择', {
+      classification
+    })
+  }
+
+  /** 题材选择 */
+  onThemeSelect = (theme: Theme) => {
+    this.setState({
+      theme
+    })
+    this.refresh(true)
+
+    t('排行榜.题材选择', {
+      theme
     })
   }
 
@@ -121,7 +248,7 @@ export default class Action extends Fetch {
     this.setState({
       list: value
     })
-    this.resetScrollView()
+    this.refresh()
 
     t('排行榜.切换布局', {
       list: value
@@ -158,7 +285,7 @@ export default class Action extends Fetch {
         [type]: String(value)
       }
     })
-    this.resetScrollView(true)
+    this.refresh(true)
 
     t('排行榜.上一页', {
       type,
@@ -182,7 +309,7 @@ export default class Action extends Fetch {
         [type]: String(value)
       }
     })
-    this.resetScrollView(true)
+    this.refresh(true)
 
     t('排行榜.下一页', {
       type,
@@ -191,7 +318,7 @@ export default class Action extends Fetch {
   }
 
   /** 输入框改变 */
-  onChange = ({ nativeEvent }) => {
+  onPaginationInputChange = ({ nativeEvent }) => {
     const { type, ipt } = this.state
     this.setState({
       ipt: {
@@ -220,7 +347,7 @@ export default class Action extends Fetch {
         [type]: String(value)
       }
     })
-    this.resetScrollView(true)
+    this.refresh(true)
 
     t('排行榜.页码跳转', {
       type,

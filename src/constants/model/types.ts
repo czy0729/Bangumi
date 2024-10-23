@@ -22,7 +22,9 @@ import {
   RAKUEN_TYPE_MONO,
   RANK_ANIME_FILTER,
   RANK_BOOK_FILTER,
+  RANK_BOOK_FILTER_SUB,
   RANK_GAME_FILTER,
+  RANK_GAME_FILTER_SUB,
   RANK_REAL_FILTER,
   RATING_STATUS,
   SEARCH_CAT,
@@ -99,7 +101,9 @@ export type RakuenTypeMonoCn = ModelValueOf<typeof RAKUEN_TYPE_MONO, 'label'>
 
 export type RankAnimeFilter = ModelValueOf<typeof RANK_ANIME_FILTER>
 export type RankBookFilter = ModelValueOf<typeof RANK_BOOK_FILTER>
+export type RankBookFilterSub = ModelValueOf<typeof RANK_BOOK_FILTER_SUB>
 export type RankGameFilter = ModelValueOf<typeof RANK_GAME_FILTER>
+export type RankGameFilterSub = ModelValueOf<typeof RANK_GAME_FILTER_SUB>
 export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER>
 
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS>

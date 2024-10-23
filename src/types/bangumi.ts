@@ -5,7 +5,28 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-27 05:43:23
  */
-import { SubjectTypeValue } from '@constants/model/types'
+import {
+  DATA_AIRTIME,
+  DATA_ANIME_AREA,
+  DATA_ANIME_TAG,
+  DATA_ANIME_TARGET,
+  DATA_CLASSIFICATION,
+  DATA_GAME_TAG,
+  DATA_GAME_TARGET,
+  DATA_MONTH,
+  DATA_REAL_AREA,
+  DATA_SOURCE,
+  DATA_THEME
+} from '@constants/constants'
+import {
+  RankAnimeFilter,
+  RankBookFilter,
+  RankBookFilterSub,
+  RankGameFilter,
+  RankGameFilterSub,
+  RankRealFilter,
+  SubjectTypeValue
+} from '@constants/model/types'
 
 /** 任意 ID */
 export type Id = number | string
@@ -145,9 +166,37 @@ export type Subject = Partial<{
 }>
 
 /** 动词 */
-// export type Actions = '看' | '玩' | '听' | '读'
-
 type Actions = '看' | '玩' | '听' | '读'
 
 /** 收藏状态动词 */
 export type CollectActions = `${Actions}过` | `在${Actions}` | `想${Actions}` | '搁置' | '抛弃'
+
+/** 一级分类 */
+export type RankFilter = RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter
+
+/** 二级分类 */
+export type RankFilterSub = RankBookFilterSub | RankGameFilterSub
+
+/** 放送年份 */
+export type Airtime = (typeof DATA_AIRTIME)[number]
+
+/** 放送月份 */
+export type Month = (typeof DATA_MONTH)[number]
+
+/** 来源 */
+export type Source = (typeof DATA_SOURCE)[number]
+
+/** 类型公共标签 */
+export type Tag = (typeof DATA_ANIME_TAG | typeof DATA_GAME_TAG)[number]
+
+/** 地区 */
+export type Area = (typeof DATA_ANIME_AREA | typeof DATA_REAL_AREA)[number]
+
+/** 受众 */
+export type Target = (typeof DATA_ANIME_TARGET | typeof DATA_GAME_TARGET)[number]
+
+/** 分级 */
+export type Classification = (typeof DATA_CLASSIFICATION)[number]
+
+/** 题材 */
+export type Theme = (typeof DATA_THEME)[number]

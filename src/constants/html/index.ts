@@ -7,27 +7,41 @@
  * @Last Modified time: 2024-10-12 20:07:40
  */
 import { urlStringify } from '@utils/utils'
-import { EpId, Id, MonoId, PersonId, SubjectId, TopicId, TopicType, UserId } from '@types'
-import { HOST, URL_ZHINAN } from '../constants'
-import { MODEL_TIMELINE_SCOPE } from '../model'
 import {
+  Airtime,
+  Area,
   CollectionsOrder,
   CollectionStatus,
+  EpId,
+  Id,
+  MonoId,
+  Month,
+  PersonId,
   RakuenScope,
   RakuenType,
   RakuenTypeGroup,
   RakuenTypeMono,
   RankAnimeFilter,
   RankBookFilter,
+  RankFilter,
   RankGameFilter,
   RankRealFilter,
   RatingStatus,
   SearchCat,
+  Source,
+  SubjectId,
   SubjectType,
+  Tag,
   TagOrder,
+  Target,
   TimeLineScope,
-  TimeLineType
-} from '../model/types'
+  TimeLineType,
+  TopicId,
+  TopicType,
+  UserId
+} from '@types'
+import { HOST, URL_ZHINAN } from '../constants'
+import { MODEL_TIMELINE_SCOPE } from '../model'
 import { RakuenReplyType } from './types'
 
 /** 条目 */
@@ -196,10 +210,52 @@ export const HTML_RANK = (
   page: number = 1,
   filter?: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter,
   airtime?: string
-) =>
-  `${HOST}/${type}/browser${filter ? `/${filter}` : ''}${
+) => {
+  return `${HOST}/${type}/browser${filter ? `/${filter}` : ''}${
     airtime ? `/airtime/${airtime}` : ''
   }?sort=${order}&page=${page}`
+}
+
+/** 排行榜 V2 */
+export const HTML_RANK_V2 = (query: {
+  type: SubjectType
+  order: TagOrder
+  filter: RankFilter
+  airtime: Airtime | `${Airtime}-${Month}`
+  source: Source
+  tag: Tag
+  area: Area
+  target: Target
+  page: number
+}) => {
+  const {
+    type = 'anime',
+    order = 'rank',
+    filter,
+    airtime,
+    source,
+    tag,
+    area,
+    target,
+    page = 1
+  } = query
+  let url = [
+    `${HOST}/${type}/browser`,
+    filter,
+    area,
+    tag,
+    target,
+    source,
+    airtime ? `airtime/${airtime}` : ''
+  ]
+    .filter(item => !!item)
+    .join('/')
+  url += urlStringify({
+    order,
+    page
+  })
+  return url
+}
 
 /** 索引 */
 export const HTML_BROSWER = (

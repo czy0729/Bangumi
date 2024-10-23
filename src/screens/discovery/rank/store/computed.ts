@@ -5,11 +5,11 @@
  * @Last Modified time: 2024-05-24 10:12:15
  */
 import { computed } from 'mobx'
-import { subjectStore, tagStore, userStore } from '@stores'
+import { tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import { HTML_RANK, LIST_EMPTY } from '@constants'
 import { SubjectId } from '@types'
-import { StoreRank } from '../types'
+import { ComputedRank, SnapshotId } from '../types'
 import State from './state'
 
 export default class Computed extends State {
@@ -18,14 +18,62 @@ export default class Computed extends State {
     return this.state.ota[this.thirdPartyKey]
   }
 
+  /** 年 */
+  @computed get airtime() {
+    const { airtime } = this.state
+    return airtime === '全部' ? '' : airtime
+  }
+
+  /** 月 */
+  @computed get month() {
+    const { month } = this.state
+    return month === '全部' ? '' : month
+  }
+
+  /** 来源 */
+  @computed get source() {
+    const { source } = this.state
+    return source === '全部' ? '' : source
+  }
+
+  /** 来源 */
+  @computed get tag() {
+    const { tag } = this.state
+    return tag === '全部' ? '' : tag
+  }
+
+  /** 地区 */
+  @computed get area() {
+    const { area } = this.state
+    return area === '全部' ? '' : area
+  }
+
+  /** 受众 */
+  @computed get target() {
+    const { target } = this.state
+    return target === '全部' ? '' : target
+  }
+
+  /** 分级 */
+  @computed get classification() {
+    const { classification } = this.state
+    return classification === '全部' ? '' : classification
+  }
+
+  /** 题材 */
+  @computed get theme() {
+    const { theme } = this.state
+    return theme === '全部' ? '' : theme
+  }
+
   /** 排行榜 */
-  @computed get rank(): StoreRank {
-    const { type, filter, airtime, month, currentPage } = this.state
+  @computed get rank(): ComputedRank {
+    const { type, filter, currentPage } = this.state
     const rank = tagStore.rank(
       type,
       currentPage[type],
       filter,
-      month ? `${airtime}-${month}` : airtime
+      this.month ? `${this.airtime}-${this.month}` : this.airtime
     )
 
     if (userStore.isLimit) {
@@ -45,7 +93,7 @@ export default class Computed extends State {
   }
 
   /** 过滤数据 */
-  @computed get list(): StoreRank {
+  @computed get list(): ComputedRank {
     if (!this.rank._loaded) return this.ota || LIST_EMPTY
 
     if (this.state.collected) return this.rank
@@ -58,21 +106,19 @@ export default class Computed extends State {
 
   /** 网页端地址 */
   @computed get url() {
-    const { currentPage, type, filter, airtime } = this.state
-    return HTML_RANK(type, 'rank', currentPage[type], filter, airtime)
-  }
-
-  /** 条目信息 */
-  subject(subjectId: SubjectId) {
-    return computed(() => subjectStore.subject(subjectId)).get()
+    const { currentPage, type, filter } = this.state
+    return HTML_RANK(type, 'rank', currentPage[type], filter, this.airtime)
   }
 
   /** 云端数据键值 */
-  @computed get thirdPartyKey() {
-    const { currentPage, type, filter, airtime, month } = this.state
-    const query = [type, filter, month ? `${airtime}-${month}` : airtime, currentPage[type]].join(
-      '_'
-    )
+  @computed get thirdPartyKey(): SnapshotId {
+    const { currentPage, type, filter } = this.state
+    const query = [
+      type,
+      filter,
+      this.month ? `${this.airtime}-${this.month}` : this.airtime,
+      currentPage[type]
+    ].join('_')
     return `rank_${query}`
   }
 

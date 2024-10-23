@@ -33,7 +33,7 @@ function Grid(_props, { $, navigation }: Ctx) {
               navigation={navigation}
               style={!(index % num) && styles.left}
               num={num}
-              airtime={$.state.airtime === '' && matchYear(item.tip)}
+              airtime={$.airtime === '' && matchYear(item.tip)}
               {...item}
               id={id}
               cover={item.cover || $.cover(item.id)}

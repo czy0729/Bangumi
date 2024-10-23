@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-18 03:31:31
+ * @Last Modified time: 2024-10-20 10:39:43
  */
 import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
@@ -33,7 +33,7 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   /** 排序 */
-  order: MODEL_TAG_ORDERBY.getValue<TagOrder>('标注数'),
+  order: MODEL_TAG_ORDERBY.getValue<TagOrder>('收藏'),
 
   /** 布局 */
   list: true,

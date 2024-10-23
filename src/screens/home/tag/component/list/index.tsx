@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:57:50
+ * @Last Modified time: 2024-10-20 10:40:20
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -42,7 +42,7 @@ function List(_props, { $ }: Ctx) {
           {$.state.order === 'rank' && !$.state.meta && (
             <Notice>
               因标签为用户自行添加，
-              「按排名」排序在关联条目过多情况下可能毫无意义，推荐「按标注」排序。
+              「按排名」排序在关联条目过多情况下可能毫无意义，推荐「按收藏」排序。
             </Notice>
           )}
         </>

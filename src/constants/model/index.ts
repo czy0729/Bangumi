@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2019-03-17 02:45:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 13:17:31
+ * @Last Modified time: 2024-10-20 10:39:18
  */
 import { HOST_DMZJ } from '../constants'
 import { Model } from './utils'
@@ -801,12 +801,16 @@ export const MODEL_COLLECTIONS_ORDERBY = new Model(COLLECTIONS_ORDERBY, 'COLLECT
 /** 标签排序 */
 export const TAG_ORDERBY = [
   {
-    label: '标注数',
-    value: 'collects'
-  },
-  {
     label: '排名',
     value: 'rank'
+  },
+  {
+    label: '热度',
+    value: 'trends'
+  },
+  {
+    label: '收藏',
+    value: 'collects'
   },
   {
     label: '日期',
@@ -844,6 +848,10 @@ export const RANK_ANIME_FILTER = [
     value: 'movie'
   },
   {
+    label: '动态漫画',
+    value: 'anime_comic'
+  },
+  {
     label: '其他',
     value: 'misc'
   }
@@ -867,16 +875,16 @@ export const RANK_BOOK_FILTER = [
     value: 'novel'
   },
   {
-    label: '画集',
-    value: 'illustration'
+    label: '绘本',
+    value: 'picture'
   },
   {
-    label: '系列',
-    value: 'series'
+    label: '公式书',
+    value: 'official'
   },
   {
-    label: '单行本',
-    value: 'offprint'
+    label: '写真',
+    value: 'photo'
   },
   {
     label: '其他',
@@ -886,6 +894,25 @@ export const RANK_BOOK_FILTER = [
 
 /** 书籍筛选 */
 export const MODEL_RANK_BOOK_FILTER = new Model(RANK_BOOK_FILTER, 'RANK_BOOK_FILTER')
+
+/** 书籍二级筛选 */
+export const RANK_BOOK_FILTER_SUB = [
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: '系列',
+    value: 'series'
+  },
+  {
+    label: '单行本',
+    value: 'offprint'
+  }
+] as const
+
+/** 书籍筛选 */
+export const MODEL_RANK_BOOK_FILTER_SUB = new Model(RANK_BOOK_FILTER, 'RANK_BOOK_FILTER_SUB')
 
 /** 游戏筛选 */
 export const RANK_GAME_FILTER = [
@@ -908,95 +935,198 @@ export const RANK_GAME_FILTER = [
   {
     label: '桌游',
     value: 'tabletop'
-  },
-  {
-    label: 'PC',
-    value: 'pc'
-  },
-  {
-    label: 'NS',
-    value: 'ns'
-  },
-  {
-    label: 'PS5',
-    value: 'ps5'
-  },
-  {
-    label: 'PS4',
-    value: 'ps4'
-  },
-  {
-    label: 'PSV',
-    value: 'psv'
-  },
-  {
-    label: 'Xbox Series X/S',
-    value: 'xbox_series_xs'
-  },
-  {
-    label: 'Xbox One',
-    value: 'xbox_one'
-  },
-  {
-    label: 'Wii U',
-    value: 'will_u'
-  },
-  {
-    label: 'PS3',
-    value: 'ps3'
-  },
-  {
-    label: 'Xbox360',
-    value: 'xbox360'
-  },
-  {
-    label: '3DS',
-    value: '3ds'
-  },
-  {
-    label: 'PSP',
-    value: 'psp'
-  },
-  {
-    label: 'Wii',
-    value: 'wii'
-  },
-  {
-    label: 'NDS',
-    value: 'nds'
-  },
-  {
-    label: 'PS2',
-    value: 'ps2'
-  },
-  {
-    label: 'XBOX',
-    value: 'xbox'
-  },
-  {
-    label: 'MAC',
-    value: 'mac'
-  },
-  {
-    label: 'PS',
-    value: 'ps'
-  },
-  {
-    label: 'GBA',
-    value: 'gba'
-  },
-  {
-    label: 'GB',
-    value: 'gb'
-  },
-  {
-    label: 'FC',
-    value: 'fc'
   }
+  // {
+  //   label: '其他',
+  //   value: 'misc'
+  // }
 ] as const
 
 /** 游戏筛选 */
 export const MODEL_RANK_GAME_FILTER = new Model(RANK_GAME_FILTER, 'RANK_GAME_FILTER')
+
+/** 游戏二级筛选 */
+export const RANK_GAME_FILTER_SUB = [
+  {
+    label: 'PC',
+    value: 'PC'
+  },
+  {
+    label: 'Web',
+    value: 'Web'
+  },
+  {
+    label: 'Mac',
+    value: 'Mac'
+  },
+  {
+    label: 'Linux',
+    value: 'Linux'
+  },
+  {
+    label: 'PS5',
+    value: 'PS5'
+  },
+  {
+    label: 'Xbox Series X/S',
+    value: 'XSX'
+  },
+  {
+    label: 'Nintendo Switch',
+    value: 'NS'
+  },
+  {
+    label: 'iOS',
+    value: 'iOS'
+  },
+  {
+    label: 'Android',
+    value: 'Android'
+  },
+  {
+    label: 'VR',
+    value: 'VR'
+  },
+  {
+    label: 'PSVR2',
+    value: 'PSVR2'
+  },
+  {
+    label: '街机',
+    value: '街机'
+  },
+  {
+    label: 'Xbox One',
+    value: 'XboxOne'
+  },
+  {
+    label: 'Xbox',
+    value: 'Xbox'
+  },
+  {
+    label: 'Xbox 360',
+    value: 'Xbox360'
+  },
+  {
+    label: 'GBA',
+    value: 'GBA'
+  },
+  {
+    label: 'Wii',
+    value: 'Wii'
+  },
+  {
+    label: 'NDS',
+    value: 'NDS'
+  },
+  {
+    label: 'FC',
+    value: 'FC'
+  },
+  {
+    label: '3DS',
+    value: '3DS'
+  },
+  {
+    label: 'GBC',
+    value: 'GBC'
+  },
+  {
+    label: 'GB',
+    value: 'GB'
+  },
+  {
+    label: 'N64',
+    value: 'N64'
+  },
+  {
+    label: 'NGC',
+    value: 'NGC'
+  },
+  {
+    label: 'SFC',
+    value: 'SFC'
+  },
+  {
+    label: 'Wii U',
+    value: 'WiiU'
+  },
+  {
+    label: 'PS4',
+    value: 'PS4'
+  },
+  {
+    label: 'PSVR',
+    value: 'PSVR'
+  },
+  {
+    label: 'PS Vita',
+    value: 'PSV'
+  },
+  {
+    label: 'PS3',
+    value: 'PS3'
+  },
+  {
+    label: 'PSP',
+    value: 'PSP'
+  },
+  {
+    label: 'PS2',
+    value: 'PS2'
+  },
+  {
+    label: 'PS',
+    value: 'PS'
+  },
+  {
+    label: 'Dreamcast',
+    value: 'DC'
+  },
+  {
+    label: 'Sega Saturn',
+    value: 'SS'
+  },
+  {
+    label: 'MD',
+    value: 'MD'
+  },
+  {
+    label: 'Apple II',
+    value: 'AppleII'
+  },
+  // {
+  //   label: 'Amiga',
+  //   value: 'Amiga'
+  // },
+  {
+    label: 'DOS',
+    value: 'DOS'
+  },
+  {
+    label: 'Symbian',
+    value: 'Symbian'
+  }
+  // {
+  //   label: 'PC98',
+  //   value: 'PC98'
+  // },
+  // {
+  //   label: 'PCE',
+  //   value: 'PCE'
+  // },
+  // {
+  //   label: 'PC88',
+  //   value: 'PC88'
+  // },
+  // {
+  //   label: 'X68000',
+  //   value: 'X68000'
+  // },
+] as const
+
+/** 游戏二级筛选 */
+export const MODEL_RANK_GAME_FILTER_SUB = new Model(RANK_GAME_FILTER, 'MODEL_RANK_GAME_FILTER_SUB')
 
 /** 三次元筛选 */
 export const RANK_REAL_FILTER = [

@@ -8,21 +8,22 @@ import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
+import { SnapshotId } from '../types'
 import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = []
+const THIRD_PARTY_UPDATED: SnapshotId[] = []
 
 export default class Fetch extends Computed {
   /** 获取排行榜 */
   fetchRank = async () => {
     this.fetchThirdParty()
 
-    const { currentPage, type, filter, airtime, month } = this.state
+    const { currentPage, type, filter } = this.state
     const data = await tagStore.fetchRank({
       type,
       filter,
-      airtime: month ? `${airtime}-${month}` : airtime,
+      airtime: this.month ? `${this.airtime}-${this.month}` : this.airtime,
       page: currentPage[type]
     })
 

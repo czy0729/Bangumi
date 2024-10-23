@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 10:07:55
+ * @Last Modified time: 2024-10-19 17:40:14
  */
 
 /** Discovery */
@@ -94,10 +94,18 @@ export default {
   // 排行榜
   '排行榜.跳转': 'Rank.to',
   '排行榜.右上角菜单': 'Rank.topRightMenu',
+  '排行榜.排序选择': 'Rank.onSortSelect',
   '排行榜.类型选择': 'Rank.onTypeSelect',
   '排行榜.筛选选择': 'Rank.onFilterSelect',
+  '排行榜.二级分类选择': 'Rank.onFilterSubSelect',
   '排行榜.年选择': 'Rank.onAirdateSelect',
   '排行榜.月选择': 'Rank.onMonthSelect',
+  '排行榜.来源选择': 'Rank.onSourceSelect',
+  '排行榜.公共标签选择': 'Rank.onTagSelect',
+  '排行榜.地区选择': 'Rank.onAreaSelect',
+  '排行榜.受众选择': 'Rank.onTargetSelect',
+  '排行榜.分级选择': 'Rank.onClassificationSelect',
+  '排行榜.题材选择': 'Rank.onThemeSelect',
   '排行榜.工具栏': 'Rank.onToggleToolbar',
   '排行榜.切换布局': 'Rank.toggleList',
   '排行榜.上一页': 'Rank.prev',

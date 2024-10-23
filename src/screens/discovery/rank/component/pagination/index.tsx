@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 12:34:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:54:30
+ * @Last Modified time: 2024-10-19 18:25:35
  */
 import React from 'react'
 import { Pagination as PaginationComp } from '@components'
@@ -19,7 +19,7 @@ function Pagination(_props, { $ }: Ctx) {
       heatmaps={HEATMAPS}
       onPrev={$.onPrev}
       onNext={$.onNext}
-      onChange={$.onChange}
+      onChange={$.onPaginationInputChange}
       onSearch={$.doSearch}
     />
   )

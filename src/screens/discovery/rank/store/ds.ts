@@ -2,25 +2,55 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:55:51
+ * @Last Modified time: 2024-10-22 07:17:28
  */
 import { _ } from '@stores'
-import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY, WEB } from '@constants'
 import {
+  Airtime,
+  Area,
+  Classification,
   Loaded,
-  RankAnimeFilter,
-  RankBookFilter,
-  RankGameFilter,
-  RankRealFilter,
-  SubjectType
+  Month,
+  RankFilter,
+  RankFilterSub,
+  Source,
+  Tag,
+  Target,
+  Theme
 } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
-export const DEFAULT_TYPE = MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画')
-
 export const EXCLUDE_STATE = {
+  /** 展开更多选项 */
+  expand: false,
+
+  /** 一级分类 */
+  filter: '' as RankFilter,
+
+  /** 二级分类 */
+  filterSub: '' as RankFilterSub,
+
+  /** 来源 */
+  source: '全部' as Source,
+
+  /** 类型公共标签 */
+  tag: '全部' as Tag,
+
+  /** 地区 */
+  area: '全部' as Area,
+
+  /** 受众 */
+  target: '全部' as Target,
+
+  /** 分级 */
+  classification: '全部' as Classification,
+
+  /** 题材 */
+  theme: '全部' as Theme,
+
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
 
@@ -55,17 +85,17 @@ export const STATE = {
     real: '1'
   },
 
-  /** 类型筛选 */
-  type: DEFAULT_TYPE,
+  /** 类型 */
+  type: MODEL_SUBJECT_TYPE.getLabel('动画'),
 
-  /** 二级筛选 */
-  filter: '' as RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter,
+  /** 排序 */
+  sort: MODEL_TAG_ORDERBY.getValue('排名'),
 
-  /** 年筛选 */
-  airtime: '',
+  /** 年 */
+  airtime: '全部' as Airtime,
 
-  /** 月筛选 */
-  month: '',
+  /** 月 */
+  month: '全部' as Month,
 
   /** 是否列表布局 (工具条) */
   list: true,
@@ -78,6 +108,7 @@ export const STATE = {
 
   /** 是否显示收藏条目 (工具条) */
   collected: true,
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
