@@ -6,7 +6,6 @@
  */
 import { Rank } from '@stores/tag/types'
 import { factory } from '@utils'
-
 import { GetRouteParams, Navigation, Override, RouteRank } from '@types'
 import Store from './store'
 
@@ -30,4 +29,4 @@ export type ComputedRank = Override<
   }
 >
 
-export type SnapshotId = `rank_${string}`
+export type SnapshotId = `rank_v2_${string}`

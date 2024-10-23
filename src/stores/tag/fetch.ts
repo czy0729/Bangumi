@@ -6,16 +6,8 @@
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { HTML_BROSWER, HTML_RANK, HTML_TAG } from '@constants'
-import {
-  BrowserSort,
-  RankAnimeFilter,
-  RankBookFilter,
-  RankGameFilter,
-  RankRealFilter,
-  SubjectType,
-  TagOrder
-} from '@types'
+import { HTML_BROSWER, HTML_RANK_V2, HTML_TAG } from '@constants'
+import { BrowserSort, SubjectType, TagOrder } from '@types'
 import { analysiRank, analysisTags, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
@@ -80,33 +72,22 @@ export default class Fetch extends Computed {
   }
 
   /** 排行榜 (与标签相似, 所以共用逻辑) */
-  fetchRank = async (args: {
-    /** 类型 */
-    type?: SubjectType
-
-    /** 筛选类型 */
-    filter?: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter
-
-    /** 2024-1960 */
-    airtime?: string
-    page?: number
-  }) => {
-    const { type = DEFAULT_TYPE, filter = '', airtime = '', page = 1 } = args || {}
-    const key = 'rank'
-    const raw = await fetchHTML({
-      url: HTML_RANK(type, 'rank', page, filter, airtime)
+  fetchRank = async (args: Parameters<typeof HTML_RANK_V2>[0]) => {
+    const { type = DEFAULT_TYPE, filter, airtime, order = 'rank', page = 1 } = args || {}
+    const html = await fetchHTML({
+      url: HTML_RANK_V2(args)
     })
-    const list = analysiRank(raw)
-
-    const stateKey = `${type}|${page}|${filter}|${airtime}`
     const data: Rank = {
-      list,
+      list: analysiRank(html),
       pagination: {
         page: 1,
         pageTotal: 1
       },
       _loaded: getTimestamp()
     }
+
+    const key = 'rank'
+    const stateKey = [type, filter, order, airtime, page].filter(item => !!item).join('|')
     this.setState({
       [key]: {
         [stateKey]: data

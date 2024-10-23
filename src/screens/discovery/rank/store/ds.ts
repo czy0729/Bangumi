@@ -24,9 +24,6 @@ import { COMPONENT } from '../ds'
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
-  /** 展开更多选项 */
-  expand: false,
-
   /** 一级分类 */
   filter: '' as RankFilter,
 
@@ -84,6 +81,9 @@ export const STATE = {
     music: '1',
     real: '1'
   },
+
+  /** 展开更多选项 */
+  expand: false,
 
   /** 类型 */
   type: MODEL_SUBJECT_TYPE.getLabel('动画'),

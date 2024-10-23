@@ -36,10 +36,10 @@ export function isWindows() {
 export function cleanQuery() {
   if (typeof window === 'undefined' || !WEB) return
 
-  let url = new window.URL(window.location.href)
-  let params = new window.URLSearchParams(url.search)
-  let newParams = new window.URLSearchParams()
-  for (let [key, value] of params) {
+  const url = new window.URL(window.location.href)
+  const params = new window.URLSearchParams(url.search)
+  const newParams = new window.URLSearchParams()
+  for (const [key, value] of params) {
     if (!key.startsWith('_')) newParams.append(key, value)
   }
   url.search = newParams.toString()
@@ -74,7 +74,7 @@ export function injectUtils() {
 }
 
 /** 尝试把页面中唯一的列表滚动到顶 */
-export function scrollToTop(y: number = 0) {
+export function scrollToTop(y: number = 0, animated: boolean = true) {
   if (typeof window === 'undefined' || !WEB) return
 
   setTimeout(() => {
@@ -83,7 +83,7 @@ export function scrollToTop(y: number = 0) {
         // @ts-ignore
         x: 0,
         y,
-        animated: true
+        animated
       })
     } catch (error) {}
   }, 0)

@@ -6,15 +6,7 @@
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
-import {
-  BrowserSort,
-  RankAnimeFilter,
-  RankBookFilter,
-  RankGameFilter,
-  RankRealFilter,
-  StoreConstructor,
-  SubjectType
-} from '@types'
+import { BrowserSort, RankFilter, StoreConstructor, SubjectType, TagOrder } from '@types'
 import { DEFAULT_TYPE, STATE } from './init'
 import State from './state'
 import { Browser, Rank, Tag } from './types'
@@ -32,15 +24,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 排行榜 */
-  rank(
-    type: SubjectType = DEFAULT_TYPE,
-    page: number = 1,
-    filter: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter = '',
-    airtime: string = ''
-  ) {
+  rank(type: SubjectType, filter: RankFilter, order: TagOrder, airtime: string, page: number) {
     this.init('rank')
     return computed<Rank>(() => {
-      const key = `${type}|${page}|${filter}|${airtime}`
+      const key = [type, filter, order, airtime, page].filter(item => !!item).join('|')
       return this.state.rank[key] || LIST_EMPTY
     }).get()
   }

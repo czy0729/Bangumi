@@ -18,14 +18,7 @@ export default class Fetch extends Computed {
   /** 获取排行榜 */
   fetchRank = async () => {
     this.fetchThirdParty()
-
-    const { currentPage, type, filter } = this.state
-    const data = await tagStore.fetchRank({
-      type,
-      filter,
-      airtime: this.month ? `${this.airtime}-${this.month}` : this.airtime,
-      page: currentPage[type]
-    })
+    const data = await tagStore.fetchRank(this.query)
 
     if (
       data.list.length &&

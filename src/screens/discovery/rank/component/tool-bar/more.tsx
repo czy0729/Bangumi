@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:18:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-27 10:53:22
+ * @Last Modified time: 2024-10-19 06:14:45
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -10,6 +10,7 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 
+/** 额外选项 */
 function More(_props, { $ }: Ctx) {
   const { list, fixed, fixedPagination, collected } = $.state
   return (

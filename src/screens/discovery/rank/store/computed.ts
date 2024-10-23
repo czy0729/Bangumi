@@ -7,12 +7,17 @@
 import { computed } from 'mobx'
 import { tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
-import { HTML_RANK, LIST_EMPTY } from '@constants'
-import { SubjectId } from '@types'
+import { HTML_RANK_V2, LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectId, SubjectTypeCn } from '@types'
 import { ComputedRank, SnapshotId } from '../types'
 import State from './state'
 
 export default class Computed extends State {
+  /** 类型 */
+  @computed get typeCn() {
+    return MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(this.state.type)
+  }
+
   /** 排行榜云快照 */
   @computed get ota() {
     return this.state.ota[this.thirdPartyKey]
@@ -68,12 +73,13 @@ export default class Computed extends State {
 
   /** 排行榜 */
   @computed get rank(): ComputedRank {
-    const { type, filter, currentPage } = this.state
+    const { type, filter, sort, currentPage } = this.state
     const rank = tagStore.rank(
       type,
-      currentPage[type],
       filter,
-      this.month ? `${this.airtime}-${this.month}` : this.airtime
+      sort,
+      this.month ? `${this.airtime}-${this.month}` : this.airtime,
+      currentPage[type]
     )
 
     if (userStore.isLimit) {
@@ -104,22 +110,49 @@ export default class Computed extends State {
     }
   }
 
+  /** 请求参数 */
+  @computed get query() {
+    const { type } = this.state
+    return {
+      type,
+      filter: this.state.filter,
+      filterSub: this.state.filterSub,
+      source: this.source,
+      theme: this.theme,
+      tag: this.tag,
+      area: this.area,
+      target: this.target,
+      classification: this.classification,
+      airtime: this.month ? `${this.airtime}-${this.month}` : this.airtime,
+      order: this.state.sort,
+      page: this.state.currentPage[type]
+    } as const
+  }
+
   /** 网页端地址 */
   @computed get url() {
-    const { currentPage, type, filter } = this.state
-    return HTML_RANK(type, 'rank', currentPage[type], filter, this.airtime)
+    return HTML_RANK_V2(this.query)
   }
 
   /** 云端数据键值 */
   @computed get thirdPartyKey(): SnapshotId {
-    const { currentPage, type, filter } = this.state
-    const query = [
+    const { type } = this.state
+    return `rank_v2_${[
       type,
-      filter,
+      this.state.filter,
+      this.state.filterSub,
+      this.source,
+      this.theme,
+      this.tag,
+      this.area,
+      this.target,
+      this.classification,
       this.month ? `${this.airtime}-${this.month}` : this.airtime,
-      currentPage[type]
-    ].join('_')
-    return `rank_${query}`
+      this.state.sort,
+      this.state.currentPage[type]
+    ]
+      .filter(item => !!item)
+      .join('_')}`
   }
 
   /** 尝试从云端数据查找封面 */

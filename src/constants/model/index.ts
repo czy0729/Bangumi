@@ -912,7 +912,7 @@ export const RANK_BOOK_FILTER_SUB = [
 ] as const
 
 /** 书籍筛选 */
-export const MODEL_RANK_BOOK_FILTER_SUB = new Model(RANK_BOOK_FILTER, 'RANK_BOOK_FILTER_SUB')
+export const MODEL_RANK_BOOK_FILTER_SUB = new Model(RANK_BOOK_FILTER_SUB, 'RANK_BOOK_FILTER_SUB')
 
 /** 游戏筛选 */
 export const RANK_GAME_FILTER = [
@@ -947,6 +947,10 @@ export const MODEL_RANK_GAME_FILTER = new Model(RANK_GAME_FILTER, 'RANK_GAME_FIL
 
 /** 游戏二级筛选 */
 export const RANK_GAME_FILTER_SUB = [
+  {
+    label: '全部',
+    value: ''
+  },
   {
     label: 'PC',
     value: 'PC'
@@ -1126,7 +1130,10 @@ export const RANK_GAME_FILTER_SUB = [
 ] as const
 
 /** 游戏二级筛选 */
-export const MODEL_RANK_GAME_FILTER_SUB = new Model(RANK_GAME_FILTER, 'MODEL_RANK_GAME_FILTER_SUB')
+export const MODEL_RANK_GAME_FILTER_SUB = new Model(
+  RANK_GAME_FILTER_SUB,
+  'MODEL_RANK_GAME_FILTER_SUB'
+)
 
 /** 三次元筛选 */
 export const RANK_REAL_FILTER = [

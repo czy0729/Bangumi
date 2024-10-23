@@ -8,24 +8,20 @@
  */
 import { urlStringify } from '@utils/utils'
 import {
-  Airtime,
   Area,
+  Classification,
   CollectionsOrder,
   CollectionStatus,
   EpId,
   Id,
   MonoId,
-  Month,
   PersonId,
   RakuenScope,
   RakuenType,
   RakuenTypeGroup,
   RakuenTypeMono,
-  RankAnimeFilter,
-  RankBookFilter,
   RankFilter,
-  RankGameFilter,
-  RankRealFilter,
+  RankFilterSub,
   RatingStatus,
   SearchCat,
   Source,
@@ -34,6 +30,7 @@ import {
   Tag,
   TagOrder,
   Target,
+  Theme,
   TimeLineScope,
   TimeLineType,
   TopicId,
@@ -208,7 +205,7 @@ export const HTML_RANK = (
   type: SubjectType = 'anime',
   order: TagOrder = 'rank',
   page: number = 1,
-  filter?: RankAnimeFilter | RankBookFilter | RankGameFilter | RankRealFilter,
+  filter?: RankFilter,
   airtime?: string
 ) => {
   return `${HOST}/${type}/browser${filter ? `/${filter}` : ''}${
@@ -216,44 +213,85 @@ export const HTML_RANK = (
   }?sort=${order}&page=${page}`
 }
 
-/** 排行榜 V2 */
+/**
+ * 排行榜 V2
+ *  - 动画顺序: 一级分类/来源/标签/地区/受众
+ *  - 书籍顺序: 一级分类/二级分类(系列)
+ *  - 音乐顺序: N/A
+ *  - 游戏顺序: 一级分类/二级分类(平台)/标签/受众/分级
+ *  - 三次顺序: 一级分类/题材/地区
+ *
+ *  - 通用顺序: HOST/类型/browser/一级分类/二级分类/来源/题材/标签/地区/受众/分级/airtime/时间?排序
+ * */
 export const HTML_RANK_V2 = (query: {
+  /** 类型 */
   type: SubjectType
-  order: TagOrder
+
+  /** 一级分类 */
   filter: RankFilter
-  airtime: Airtime | `${Airtime}-${Month}`
-  source: Source
-  tag: Tag
-  area: Area
-  target: Target
+
+  /** 二级分类 */
+  filterSub: RankFilterSub
+
+  /** 来源 */
+  source: Source | ''
+
+  /** 题材 */
+  theme: Theme | ''
+
+  /** 标签 */
+  tag: Tag | ''
+
+  /** 地区 */
+  area: Area | ''
+
+  /** 受众 */
+  target: Target | ''
+
+  /** 分级 */
+  classification: Classification | ''
+
+  /** 时间 */
+  airtime: string
+
+  /** 排序 */
+  order: TagOrder
+
+  /** 页码 */
   page: number
 }) => {
   const {
     type = 'anime',
-    order = 'rank',
     filter,
-    airtime,
+    filterSub,
     source,
+    theme,
     tag,
     area,
     target,
+    classification,
+    airtime,
+    order = 'rank',
     page = 1
   } = query
   let url = [
     `${HOST}/${type}/browser`,
     filter,
-    area,
-    tag,
-    target,
+    filterSub,
     source,
+    theme,
+    tag,
+    area,
+    target,
+    classification,
     airtime ? `airtime/${airtime}` : ''
   ]
     .filter(item => !!item)
     .join('/')
-  url += urlStringify({
-    order,
+  url += `?${urlStringify({
+    sort: order,
     page
-  })
+  })}`
   return url
 }
 

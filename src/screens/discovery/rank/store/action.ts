@@ -6,8 +6,9 @@
  */
 import { ScrollTo } from '@components'
 import { info, updateVisibleBottom } from '@utils'
+import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY } from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY, WEB } from '@constants'
 import {
   Airtime,
   Area,
@@ -20,6 +21,7 @@ import {
   SubjectTypeCn,
   Tag,
   TagOrderCn,
+  Target,
   Theme
 } from '@types'
 import { ToolBarKeys } from '../types'
@@ -53,6 +55,8 @@ export default class Action extends Fetch {
           y: 0,
           animated: false
         })
+      } else if (WEB) {
+        scrollToTop(0, false)
       }
     }, 0)
   }
@@ -70,6 +74,7 @@ export default class Action extends Fetch {
       classification: '全部',
       theme: '全部'
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.类型选择', {
@@ -82,6 +87,7 @@ export default class Action extends Fetch {
     this.setState({
       sort: MODEL_TAG_ORDERBY.getValue(sort)
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.排序选择', {
@@ -103,6 +109,7 @@ export default class Action extends Fetch {
     this.setState({
       filter: (filter === '全部' ? '' : model.getValue(filter)) || ''
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.筛选选择', {
@@ -115,6 +122,7 @@ export default class Action extends Fetch {
     this.setState({
       filterSub: (filterSub === '全部' ? '' : model.getValue(filterSub)) || ''
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.二级分类选择', {
@@ -122,12 +130,10 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 年选择 */
-  onAirdateSelect = (airtime: Airtime) => {
+  /** 返回第一页 */
+  onResetPage = () => {
     const { type, currentPage, ipt } = this.state
     this.setState({
-      airtime,
-      month: '全部',
       currentPage: {
         ...currentPage,
         [type]: 1
@@ -137,6 +143,15 @@ export default class Action extends Fetch {
         [type]: '1'
       }
     })
+  }
+
+  /** 年选择 */
+  onAirdateSelect = (airtime: Airtime) => {
+    this.setState({
+      airtime,
+      month: '全部'
+    })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.年选择', {
@@ -146,23 +161,16 @@ export default class Action extends Fetch {
 
   /** 月选择 */
   onMonthSelect = (month: Month) => {
-    const { airtime, type, currentPage, ipt } = this.state
+    const { airtime } = this.state
     if (airtime === '全部') {
       info('请先选择年')
       return
     }
 
     this.setState({
-      month,
-      currentPage: {
-        ...currentPage,
-        [type]: 1
-      },
-      ipt: {
-        ...ipt,
-        [type]: '1'
-      }
+      month
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.月选择', {
@@ -175,6 +183,7 @@ export default class Action extends Fetch {
     this.setState({
       source
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.来源选择', {
@@ -187,6 +196,7 @@ export default class Action extends Fetch {
     this.setState({
       tag
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.公共标签选择', {
@@ -199,6 +209,7 @@ export default class Action extends Fetch {
     this.setState({
       area
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.地区选择', {
@@ -207,14 +218,15 @@ export default class Action extends Fetch {
   }
 
   /** 受众选择 */
-  onTargetSelect = (area: Area) => {
+  onTargetSelect = (target: Target) => {
     this.setState({
-      area
+      target
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.受众选择', {
-      area
+      target
     })
   }
 
@@ -223,6 +235,7 @@ export default class Action extends Fetch {
     this.setState({
       classification
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.分级选择', {
@@ -235,6 +248,7 @@ export default class Action extends Fetch {
     this.setState({
       theme
     })
+    this.onResetPage()
     this.refresh(true)
 
     t('排行榜.题材选择', {
