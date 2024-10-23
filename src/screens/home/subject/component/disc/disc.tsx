@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { Expand, Heatmap, Text } from '@components'
+import { Expand, Flex, Heatmap, Text } from '@components'
 import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate, HTMLDecode, stl } from '@utils'
@@ -22,7 +22,6 @@ const Disc = memo(
       setExpand(true)
     }, [setExpand])
 
-    const _discTranslateResult = [...discTranslateResult]
     return (
       <View style={styles.container}>
         <SectionTitle
@@ -50,36 +49,48 @@ const Disc = memo(
                     </Text>
                     <View style={_.mt.sm}>
                       {item.disc.map((i, idx) => {
+                        const title = HTMLDecode(i.title).replace(`${idx + 1} `, '')
                         let translate = ''
-                        if (_discTranslateResult.length) {
-                          translate = _discTranslateResult.shift().dst
-                        }
+                        try {
+                          if (discTranslateResult.length) {
+                            translate =
+                              discTranslateResult.find(item => item.src === title)?.dst || ''
+                          }
+                        } catch (error) {}
+
                         return (
-                          <View key={i.href} style={stl(styles.item, idx % 2 === 0 && styles.odd)}>
-                            <Text
-                              onPress={() => {
-                                appNavigate(
-                                  i.href,
-                                  navigation,
-                                  {},
-                                  {
-                                    id: '条目.跳转',
-                                    data: {
-                                      from: '曲目列表',
-                                      subjectId
+                          <Flex
+                            key={i.href}
+                            style={stl(styles.item, idx % 2 === 0 && styles.odd)}
+                            align='start'
+                          >
+                            <Text>{idx + 1}</Text>
+                            <Flex.Item style={_.ml.sm}>
+                              <Text
+                                onPress={() => {
+                                  appNavigate(
+                                    i.href,
+                                    navigation,
+                                    {},
+                                    {
+                                      id: '条目.跳转',
+                                      data: {
+                                        from: '曲目列表',
+                                        subjectId
+                                      }
                                     }
-                                  }
-                                )
-                              }}
-                            >
-                              {HTMLDecode(i.title)}
-                            </Text>
-                            {!!translate && (
-                              <Text style={styles.translate} type='sub' size={12}>
-                                {translate}
+                                  )
+                                }}
+                              >
+                                {title}
                               </Text>
-                            )}
-                          </View>
+                              {!!translate && (
+                                <Text style={styles.translate} type='sub' size={12}>
+                                  {translate}
+                                </Text>
+                              )}
+                            </Flex.Item>
+                          </Flex>
                         )
                       })}
                     </View>

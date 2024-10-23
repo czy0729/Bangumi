@@ -19,7 +19,7 @@ function DiscWrap(_props, { $, navigation }: Ctx) {
       styles={memoStyles()}
       subjectId={$.subjectId}
       disc={$.disc}
-      discTranslateResult={$.state.discTranslateResult}
+      discTranslateResult={$.state.discTranslateResult.slice()}
       focusOrigin={systemStore.setting.focusOrigin}
     />
   )
