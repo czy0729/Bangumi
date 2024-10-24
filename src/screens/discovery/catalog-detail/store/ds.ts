@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 15:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 03:59:41
+ * @Last Modified time: 2024-10-24 21:03:11
  */
 import { _ } from '@stores'
 import { Loaded } from '@types'
@@ -39,6 +39,9 @@ export const STATE = {
 
   /** 收藏范围 */
   collect: COLLECT_DS[0].key as Collect,
+
+  /** 倒序 */
+  reverse: false,
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:39:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 16:37:35
+ * @Last Modified time: 2024-10-24 21:05:54
  */
 import { discoveryStore, userStore } from '@stores'
 import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
@@ -104,6 +104,15 @@ export default class Action extends Fetch {
     t('目录详情.收藏范围', {
       collect
     })
+  }
+
+  /** 倒序 */
+  onReverse = () => {
+    const value = !this.state.reverse
+    this.setState({
+      reverse: value
+    })
+    this.save()
   }
 
   /** 更新可视范围底部 y */
