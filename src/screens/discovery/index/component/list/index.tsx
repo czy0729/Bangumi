@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 14:10:06
+ * @Last Modified time: 2024-10-24 20:48:52
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -15,6 +15,7 @@ import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List(_props, { $ }: Ctx) {
+  const { dragging } = $.state
   return (
     <BlurViewRoot>
       <ListView
@@ -25,12 +26,12 @@ function List(_props, { $ }: Ctx) {
         progressViewOffset={_.ios(_.statusBarHeight, _.headerHeight)}
         data={$.state.home}
         ListHeaderComponent={<HeaderComponent />}
-        showFooter={!systemStore.setting.live2D && !$.state.dragging}
-        renderItem={renderItem}
-        scrollEnabled={!$.state.dragging}
+        showFooter={!dragging && !systemStore.setting.live2D}
+        scrollEnabled={!dragging}
         scrollEventThrottle={16}
+        renderItem={renderItem}
         onScroll={$.onScroll}
-        onHeaderRefresh={$.onHeaderRefresh}
+        onHeaderRefresh={dragging ? undefined : $.onHeaderRefresh}
       />
       <BlurViewBottomTab />
     </BlurViewRoot>

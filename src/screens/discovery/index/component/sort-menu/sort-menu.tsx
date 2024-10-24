@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 03:59:57
+ * @Last Modified time: 2024-10-24 20:52:03
  */
 import React, { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -34,7 +34,7 @@ const SortMenu = memo(
           <Btn item={item} />
         </View>
       ),
-      [openIndex, styles.transparent]
+      [openIndex, styles.item, styles.transparent]
     )
 
     const onDragRelease = useCallback(data => {
