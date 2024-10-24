@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 14:48:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 15:53:35
+ * @Last Modified time: 2024-10-24 20:41:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,34 +18,35 @@ function ItemEdit({ item, type, users, event }, { $ }: Ctx) {
   const { editing, editingIds } = $.state
   const { id, monoId, state } = item
   const isActive = editingIds[id]
-  return (
-    <Touchable
-      withoutFeedback={!editing}
-      onPress={editing ? () => $.toggleEditingId(id, state) : undefined}
-    >
-      <Flex style={editing && styles.item}>
-        {!!editing && (
-          <View style={styles.icon}>
-            <Iconfont
-              name={isActive ? 'md-radio-button-on' : 'md-radio-button-off'}
-              color={isActive ? _.colorBid : _.colorTinygrailText}
-            />
-          </View>
-        )}
-        <Flex.Item pointerEvents={editing ? 'none' : undefined}>
-          <Item
-            style={editing && styles.edit}
-            {...item}
-            type={type}
-            users={users === 'ico' ? $.mpiUsers[monoId] : users}
-            event={event}
-            showMenu={!editing}
-            withoutFeedback={editing}
+  const el = (
+    <Flex style={editing && styles.item}>
+      {!!editing && (
+        <View style={styles.icon}>
+          <Iconfont
+            name={isActive ? 'md-radio-button-on' : 'md-radio-button-off'}
+            color={isActive ? _.colorBid : _.colorTinygrailText}
           />
-        </Flex.Item>
-      </Flex>
-    </Touchable>
+        </View>
+      )}
+      <Flex.Item pointerEvents={editing ? 'none' : undefined}>
+        <Item
+          style={editing && styles.edit}
+          {...item}
+          type={type}
+          users={users === 'ico' ? $.mpiUsers[monoId] : users}
+          event={event}
+          showMenu={!editing}
+          withoutFeedback={editing}
+        />
+      </Flex.Item>
+    </Flex>
   )
+
+  if (editing) {
+    return <Touchable onPress={() => $.toggleEditingId(id, state)}>{el}</Touchable>
+  }
+
+  return el
 }
 
 export default obc(ItemEdit, COMPONENT)

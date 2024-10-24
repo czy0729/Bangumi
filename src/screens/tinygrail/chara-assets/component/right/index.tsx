@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-03 13:57:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-12 18:05:44
+ * @Last Modified time: 2024-10-24 20:30:35
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
@@ -17,8 +17,7 @@ import { COMPONENT, DATA, DATA_ICO } from './ds'
 import { styles } from './styles'
 
 function Right({ $ }: Ctx) {
-  const { page, editing, batchAction } = $.state
-  if (editing) {
+  if ($.state.editing) {
     return (
       <Flex>
         <IconTouchable
@@ -31,7 +30,7 @@ function Right({ $ }: Ctx) {
           name='md-check'
           color={_.colorTinygrailPlain}
           onPress={() => {
-            switch (batchAction) {
+            switch ($.state.batchAction) {
               case '批量献祭':
                 $.doBatchSacrifice()
                 break
@@ -57,7 +56,7 @@ function Right({ $ }: Ctx) {
     )
   }
 
-  const { title } = TABS[page]
+  const { title } = TABS[$.state.page]
   return (
     <Flex>
       <IconGo $={$} />

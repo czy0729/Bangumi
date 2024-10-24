@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 11:52:00
+ * @Last Modified time: 2024-10-24 20:30:05
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -11,20 +11,14 @@ import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
 import { ListEmpty } from '@types'
-import { Ctx, TabsKey } from '../../types'
+import { Ctx } from '../../types'
 import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function List(
-  {
-    id
-  }: {
-    id: TabsKey
-  },
-  { $ }: Ctx
-) {
+function List({ id }: Props, { $ }: Ctx) {
   if (!$.myCharaAssets._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
@@ -32,7 +26,6 @@ function List(
   const isMerge = id === 'merge'
   const isChara = id === 'chara'
   const isTemple = id === 'temple'
-
   let data: ListEmpty
   if (isMerge) {
     data = $.mergeList

@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import BatchBtn from '../batch-btn'
 import { COMPONENT } from './ds'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar(_props, { $ }: Ctx) {
   if ($.state.page > 2) return null
 
   return (

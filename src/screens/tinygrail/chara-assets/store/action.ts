@@ -1,260 +1,17 @@
 /*
  * @Author: czy0729
- * @Date: 2019-09-19 00:35:13
+ * @Date: 2024-10-24 20:22:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 12:06:42
+ * @Last Modified time: 2024-10-24 20:24:11
  */
-import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { alert, confirm, copy, feedback, getTimestamp, info, toFixed } from '@utils'
+import { alert, confirm, copy, feedback, info } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
-import { levelList, relation, SORT_HYD, sortList } from '@tinygrail/_/utils'
-import { EXCLUDE_STATE, NAMESPACE, PER_BATCH_COUNT, STATE } from './ds'
-import { Direction, Params } from './types'
+import { PER_BATCH_COUNT } from '../ds'
+import { Direction } from '../types'
+import Fetch from './fetch'
 
-export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = async () => {
-    const { _loaded } = this.state
-    const current = getTimestamp()
-    const needFetch = !_loaded || current - Number(_loaded) > 60
-
-    const state = await this.getStorage(undefined, NAMESPACE)
-    this.setState({
-      ...state,
-      ...EXCLUDE_STATE,
-      _loaded: needFetch ? current : _loaded
-    })
-    this.clearState('editingIds', {})
-
-    if (this.userId) {
-      this.fetchMyCharaAssets()
-      this.fetchTemple()
-    } else if (needFetch) {
-      this.fetchMyCharaAssets()
-      this.fetchMpi()
-    }
-
-    return state
-  }
-
-  /** 刮刮乐动作进入, 锁定到最近活跃|倒序, 请求完资产后, 根据 message 显示上次刮刮乐总价值 */
-  initFormLottery = async () => {
-    const state = await this.getStorage(undefined, NAMESPACE)
-    this.setState({
-      ...state,
-      page: 0,
-      sort: SORT_HYD.value,
-      direction: 'down',
-      _loaded: true
-    })
-
-    const { chara } = await this.fetchMyCharaAssets()
-    try {
-      const { message = '' } = this.params
-      const { list } = chara
-      const items = message
-        .split('#')
-        .map(v => /(\d+)「(.+)」(\d+)股/.exec(v))
-        .filter(v => v)
-        .map(v => ({
-          id: Number(v[1]),
-          name: v[2],
-          num: Number(v[3])
-        }))
-
-      let total = 0
-      items.forEach(item => {
-        const find = list.find(i => i.id === item.id)
-        if (find) {
-          total += item.num * find.current
-        }
-      })
-
-      alert(
-        `本次刮刮乐：${items.map(item => `${item.name}x${item.num}`).join('，')}，价值${toFixed(
-          total,
-          2
-        )}`,
-        '小圣杯助手'
-      )
-    } catch (error) {}
-
-    return state
-  }
-
-  // -------------------- fetch --------------------
-  /** 用户资产概览信息 */
-  fetchMyCharaAssets = () => {
-    return this.userId
-      ? tinygrailStore.fetchCharaAssets(this.userId)
-      : tinygrailStore.fetchMyCharaAssets()
-  }
-
-  /** 用户圣殿 */
-  fetchTemple = () => {
-    return tinygrailStore.fetchTemple(this.userId)
-  }
-
-  /** ICO 最高人气, 用于整合数据来解决我的 ICO 列表中, 进度条没有参与者数的问题 */
-  fetchMpi = () => {
-    return tinygrailStore.fetchList('mpi')
-  }
-
-  // -------------------- get --------------------
-  @computed get userId() {
-    const { userId } = this.params
-    return userId
-  }
-
-  /** 用户资产概览信息 */
-  @computed get myCharaAssets() {
-    // 我的持仓页面支持自己和他人公用, 当有用户 id 时, 为显示他人持仓页面
-    if (this.userId) {
-      // 构造跟自己持仓一样的数据结构
-      const { characters, initials } = tinygrailStore.charaAssets(this.userId)
-      const _loaded = getTimestamp()
-      return {
-        chara: relation({
-          list: characters,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _loaded
-        }),
-        ico: {
-          list: initials,
-          pagination: {
-            page: 1,
-            pageTotal: 1
-          },
-          _loaded
-        },
-        _loaded
-      }
-    }
-
-    return {
-      ...tinygrailStore.myCharaAssets,
-      chara: relation(tinygrailStore.myCharaAssets.chara)
-    }
-  }
-
-  /** 用户圣殿 */
-  @computed get temple() {
-    const { sort, level, direction } = this.state
-    let data = tinygrailStore.temple(this.userId)
-    if (level) {
-      data = {
-        ...data,
-        list: levelList(level, data.list)
-      }
-    }
-
-    if (sort) {
-      data = {
-        ...data,
-        list: sortList(sort, direction, data.list)
-      }
-    }
-
-    return data
-  }
-
-  /** ICO 最高人气, 用于显示自己当前参与的 ICO */
-  @computed get mpi() {
-    return computed(() => tinygrailStore.list('mpi')).get()
-  }
-
-  @computed get mpiUsers() {
-    const users = {}
-    const { list } = this.mpi
-    list.forEach(item => (users[item.id] = item.users))
-    return users
-  }
-
-  @computed get charaList() {
-    const { chara } = this.myCharaAssets
-    const { sort, level, direction } = this.state
-    let data = chara
-    if (level) {
-      data = {
-        ...data,
-        list: levelList(level, data.list)
-      }
-    }
-
-    if (sort) {
-      data = {
-        ...data,
-        list: sortList(sort, direction, data.list)
-      }
-    }
-
-    return data
-  }
-
-  @computed get levelMap() {
-    const { chara } = this.myCharaAssets
-    const data = {}
-    chara.list.forEach(item =>
-      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
-    )
-    return data
-  }
-
-  /** 人物和圣殿合并成总览列表 */
-  @computed get mergeList() {
-    const { chara } = this.myCharaAssets
-    const { temple } = this
-    const map = {}
-    chara.list.forEach(item => (map[item.id] = item))
-    temple.list.forEach(item => {
-      if (!map[item.id]) {
-        map[item.id] = {
-          ...tinygrailStore.characters(item.id),
-          id: item.id,
-          icon: item.cover,
-          level: item.level,
-          monoId: item.id,
-          name: item.name,
-          rank: item.rank,
-          rate: item.rate,
-          sacrifices: item.sacrifices,
-          assets: item.assets,
-          starForces: item.starForces,
-          stars: item.stars
-        }
-      } else {
-        map[item.id] = {
-          ...map[item.id],
-          rank: item.rank,
-          sacrifices: item.sacrifices,
-          assets: item.assets
-        }
-      }
-    })
-
-    const { sort, level, direction } = this.state
-    let list = Object.values(map)
-    if (level) list = levelList(level, list)
-    if (sort) list = sortList(sort, direction, list)
-    return relation({
-      list,
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
-      _loaded: getTimestamp()
-    })
-  }
-
-  // -------------------- page --------------------
+export default class Action extends Fetch {
   onChange = (page: number) => {
     if (page === this.state.page) return
 
@@ -265,7 +22,7 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.save()
     this.tabChangeCallback(page)
   }
 
@@ -277,7 +34,7 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
     this.setState({
       go: title
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   tabChangeCallback = (page: number) => {
@@ -297,7 +54,7 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
       level
     })
 
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   onSortPress = (item: string) => {
@@ -333,7 +90,7 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
       })
     }
 
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   toggleBatchEdit = (batchAction = '') => {
@@ -376,7 +133,7 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
     }
 
     list
-      .filter((item, index) => index > startIndex)
+      .filter((_item, index: number) => index > startIndex)
       .forEach(item => {
         if (count >= PER_BATCH_COUNT) return
         _editingIds[item.id] = item.state || 0
@@ -390,7 +147,6 @@ export default class ScreenTinygrailCharaAssets extends store<typeof STATE> {
     info(`已选 ${start} - ${start + PER_BATCH_COUNT - 1}`)
   }
 
-  // -------------------- action --------------------
   /** 批量献祭 */
   doBatchSacrifice = (isSale: boolean = false) => {
     const { editingIds } = this.state

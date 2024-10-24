@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-11-08 15:19:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 03:55:31
+ * @Last Modified time: 2024-10-24 20:45:51
  */
 import { factory } from '@utils'
-import { Navigation, UserId } from '@types'
+import { GetRouteParams, Navigation, RouteTinygrailCharaAssets } from '@types'
 import Store from './store'
 import { TABS } from './ds'
 
@@ -18,12 +18,7 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  userId?: UserId
-  userName?: string
-  message?: string
-  form?: 'lottery' | undefined
-}
+export type Params = GetRouteParams<RouteTinygrailCharaAssets>
 
 export type Direction = '' | 'down' | 'up'
 

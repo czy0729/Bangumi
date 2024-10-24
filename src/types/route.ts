@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 07:13:45
+ * @Last Modified time: 2024-10-24 20:45:26
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -72,6 +72,7 @@ export type NavigationPushType = RouteActions &
   RouteTag &
   RouteTags &
   RouteTinygrail &
+  RouteTinygrailCharaAssets &
   RouteTips &
   RouteTopic &
   RouteTyperank &
@@ -677,3 +678,13 @@ export type RouteMilestone = Route<
 >
 
 export type RouteTinygrail = (path: `Tinygrail${string}`, params?: Record<string, any>) => any
+
+export type RouteTinygrailCharaAssets = Route<
+  'TinygrailCharaAssets',
+  {
+    userId?: UserId
+    userName?: string
+    message?: string
+    form?: 'lottery' | undefined
+  }
+>

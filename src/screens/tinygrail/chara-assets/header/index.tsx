@@ -11,7 +11,7 @@ import Right from '../component/right'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   return (
     <HeaderComp
       title={$.params?.userName ? `${$.params.userName}的持仓` : '我的持仓'}

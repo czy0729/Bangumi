@@ -16,7 +16,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 我的持仓 */
-const TinygrailCharaAssets = (props, context: Ctx) => {
+const TinygrailCharaAssets = (_props, context: Ctx) => {
   useTinygrailCharaAssetsPage(context)
 
   const { $ } = context
