@@ -71,7 +71,7 @@ const Chart = memo(
           <Flex.Item>
             <Touchable style={styles.friend} onPress={() => toRating(navigation, '评分分布')}>
               <Flex>
-                {friend.score ? (
+                {!!Number(friend.score) ? (
                   <Text size={12} type='sub'>
                     好友
                     <Text size={12} type='main'>

@@ -13,10 +13,16 @@ import { Browser, Rank, Tag } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 标签条目 */
-  tag(text: string = '', type: SubjectType = DEFAULT_TYPE, airtime: string = '', meta?: boolean) {
+  tag(
+    text: string = '',
+    type: SubjectType = DEFAULT_TYPE,
+    airtime: string = '',
+    order?: TagOrder,
+    meta?: boolean
+  ) {
     this.init('tag')
     return computed<Tag>(() => {
-      let key = `${text.replace(/ /g, '+')}|${type}|${airtime}`
+      let key = `${text.replace(/ /g, '+')}|${type}|${airtime}|${order}`
       if (meta) key += `|${meta}`
 
       return this.state.tag[key] || LIST_EMPTY

@@ -36,7 +36,7 @@ export default class Fetch extends Computed {
   ) => {
     const { text = '', type = DEFAULT_TYPE, order, airtime = '', meta } = args || {}
     const q = text.replace(/ /g, '+')
-    const { list, pagination } = this.tag(q, type, airtime, meta)
+    const { list, pagination } = this.tag(q, type, airtime, order, meta)
     const page = refresh ? 1 : pagination.page + 1
     const html = await fetchHTML({
       url: HTML_TAG(q, type, order, page, airtime, meta)
@@ -58,7 +58,7 @@ export default class Fetch extends Computed {
     }
 
     const key = 'tag'
-    let stateKey = `${q}|${type}|${airtime}`
+    let stateKey = `${q}|${type}|${airtime}|${order}`
     if (meta) stateKey += `|${meta}`
 
     this.setState({

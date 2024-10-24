@@ -20,8 +20,8 @@ export default class Computed extends State {
   /** 标签条目 */
   @computed get tag() {
     const { type, tag } = this.params
-    const { airtime, month, meta } = this.state
-    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime, meta)
+    const { airtime, month, order, meta } = this.state
+    return tagStore.tag(tag, type, month ? `${airtime}-${month}` : airtime, order, meta)
   }
 
   /** 条目类型中文 */
@@ -66,13 +66,16 @@ export default class Computed extends State {
   }
 
   @computed get thirdPartyKey(): SnapshotId {
-    const { type, tag } = this.params
-    const { airtime, month, meta } = this.state
-
-    let query = [tag, type, month ? `${airtime}-${month}` : airtime].join('_')
-    if (meta) query += `_meta`
-
-    return `tag_${query}`
+    const { airtime, month } = this.state
+    return `tag_v2_${[
+      this.params.type,
+      this.params.tag,
+      month ? `${airtime}-${month}` : airtime,
+      this.state.order,
+      this.state.meta ? 'meta' : ''
+    ]
+      .filter(item => !!item)
+      .join('_')}`
   }
 
   /** 条目信息 */
