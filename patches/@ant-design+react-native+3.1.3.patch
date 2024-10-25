@@ -10,6 +10,23 @@ index 5c588b5..8e20872 100644
  }
  export default class Flex extends React.Component<FlexProps, any> {
      static Item: any;
+diff --git a/node_modules/@ant-design/react-native/lib/portal/portal-host.js b/node_modules/@ant-design/react-native/lib/portal/portal-host.js
+index 1a0422c..1498881 100644
+--- a/node_modules/@ant-design/react-native/lib/portal/portal-host.js
++++ b/node_modules/@ant-design/react-native/lib/portal/portal-host.js
+@@ -162,8 +162,10 @@ var PortalHost = function (_React$Component) {
+     }, {
+         key: 'componentWillUnmount',
+         value: function componentWillUnmount() {
+-            TopViewEventEmitter.removeListener(addType, this._mount);
+-            TopViewEventEmitter.removeListener(removeType, this._unmount);
++            try {
++              TopViewEventEmitter.removeListener(addType, this._mount);
++              TopViewEventEmitter.removeListener(removeType, this._unmount);
++            } catch (ex) {}
+         }
+     }, {
+         key: 'render',
 diff --git a/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js b/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js
 index 4730fb7..2d85245 100644
 --- a/node_modules/@ant-design/react-native/lib/textarea-item/style/index.js

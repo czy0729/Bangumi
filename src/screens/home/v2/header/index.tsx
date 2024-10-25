@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-02 22:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:24:00
+ * @Last Modified time: 2024-10-25 03:01:18
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -15,11 +15,12 @@ import { MENU_MAP } from '../../../discovery/index/ds'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function Header(_props, { navigation }: Ctx) {
+function Header(_props, { $, navigation }: Ctx) {
   const left = MENU_MAP[systemStore.setting.homeTopLeftCustom]
   const right = MENU_MAP[systemStore.setting.homeTopRightCustom]
   return (
     <LogoHeader
+      key={String($.isLogin)}
       left={
         <IconNotify style={styles.icon} navigation={navigation} event={EVENT}>
           <Heatmap right={-39} id='首页.跳转' to='Notify' alias='电波提醒' />

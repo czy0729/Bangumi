@@ -20,7 +20,7 @@ export function cheerioCharacters(html: string) {
         nameCn: cText($row.find('> div.clearit > h2 > span.tip')).replace('/ ', ''),
         replies: cText($row.find('small.na')).replace(/\(|\)/g, ''),
         position: cText($row.find('span.badge_job')),
-        info: cText($row.find('div.crt_info span.tip')),
+        info: cText($row.find('div.crt_info span.tip')).replace(/\s+/g, ' '),
         actors: cMap($row.find('.actorBadge'), $a => {
           const cover = cData($a.find('img.avatar'), 'src')
           return {

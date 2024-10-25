@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:31:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-29 22:32:12
+ * @Last Modified time: 2024-10-25 03:01:58
  */
-import { STORYBOOK } from '@constants'
 import { _ } from '@stores'
+import { WEB } from '@constants'
 import { getMaskPathInput } from './types'
 
 const cacheMap = new Map<string, any>()
@@ -44,12 +44,7 @@ export function getMaskPath(input: getMaskPathInput) {
 
   const numberRadius = typeof radius === 'string' ? maxBorderRadius : radius
   const finalBorderRadius = Math.min(numberRadius, maxBorderRadius)
-  return getSquirclePath(
-    width,
-    height,
-    finalBorderRadius * roundness,
-    finalBorderRadius
-  )
+  return getSquirclePath(width, height, finalBorderRadius * roundness, finalBorderRadius)
 }
 
 /** 获取 iOS 圆角轨迹参数 */
@@ -84,7 +79,7 @@ export function getRadius(size: number, radius?: number | boolean) {
   if (cacheMap.has(id)) return cacheMap.get(id)
 
   // 若长和高一样, radius 大于等于长和高, 认为是圆
-  if (size && radius && radius >= size) {
+  if (size && radius && Number(radius) >= size) {
     cacheMap.set(id, radius)
     return radius as number
   }
@@ -116,7 +111,7 @@ export function getRadius(size: number, radius?: number | boolean) {
   } else {
     ratio = 0.12
   }
-  if (STORYBOOK) ratio += 0.08
+  if (WEB) ratio += 0.08
 
   const borderRadius = Math.min(
     Math.max(Math.floor(size * ratio), size <= 28 ? MIN_RADIUS : MIN_RADIUS * 2),
@@ -129,7 +124,7 @@ export function getRadius(size: number, radius?: number | boolean) {
 /** 自动计算适合比例的圆角比例 */
 export function getRoundness(size: number, radius?: number | boolean) {
   // 若长和高一样, radius 大于等于长和高, 认为是圆
-  if (size && radius && radius >= size) return ROUND_ROUNDNESS
+  if (size && radius && Number(radius) >= size) return ROUND_ROUNDNESS
 
   return DEFAULT_ROUNDNESS
 }
