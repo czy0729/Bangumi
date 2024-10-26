@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-07-24 14:16:43
  */
 import { registerRootComponent } from 'expo'
-import App from './App'
+import App from './src/App'
 // import { registerWidgetTaskHandler } from 'react-native-android-widget'
 // import { widgetTaskHandler } from './src/widgets/widgetTaskHandle'
 // import App from './src/widgets'

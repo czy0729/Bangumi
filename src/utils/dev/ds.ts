@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-01 22:46:32
  */
 import { STORYBOOK } from '@constants'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 
 export const RERENDER_LOG_COUNT = 0
 

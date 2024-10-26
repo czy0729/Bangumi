@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-10-26 07:39:10
  */
 import { addListener, launch, setDetectDelay } from 'devtools-detector'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 
 const devtools = {
   isOpen: false

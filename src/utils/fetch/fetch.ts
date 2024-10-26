@@ -8,7 +8,7 @@
 import { API_HOST, API_V0 } from '@constants/api'
 import { APP_ID, HOST, UA } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
-import { HOST_PROXY } from '@/config'
+import { HOST_PROXY } from '@src/config'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import fetch from '../thirdParty/fetch-polyfill'

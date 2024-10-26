@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-05 16:35:17
  */
 import React from 'react'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import { withDev } from '../utils'
 import { memoCompare } from './utils'
 import { CustemCompareFn } from './types'

@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 // @ts-ignore
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake'
 import { FROZEN_FN } from '@constants/init'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 
 export default function useKeepAwake() {
   useEffect(() => {

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-13 01:56:17
  */
 import cheerioRN from 'cheerio-without-node-native'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
 

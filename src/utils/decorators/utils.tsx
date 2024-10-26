@@ -6,7 +6,7 @@
  */
 import { ComponentType } from 'react'
 import { r } from '@utils/dev'
-import { RERENDER_SHOW_DIFF } from '@/config'
+import { RERENDER_SHOW_DIFF } from '@src/config'
 
 /** HOC, 通过代理来判断函数组件是否被重新渲染 */
 export function withDev<T extends ComponentType>(Component: T, devRerenderKey: string) {

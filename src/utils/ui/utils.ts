@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-15 13:39:38
  */
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 
 /** [DEV] */
 export function log(method: string, ...others: any[]) {

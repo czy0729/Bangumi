@@ -8,7 +8,7 @@
 import { HOST, HOST_CDN, HOST_NAME, IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { FROZEN_FN } from '@constants/init'
-import { HOST_PROXY } from '@/config'
+import { HOST_PROXY } from '@src/config'
 import { Fn } from '@types'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'

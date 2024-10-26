@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-04-08 21:04:03
  */
 import pLimit from 'p-limit'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import { Fn } from '@types'
 
 /** 接口某些字段为空返回 null, 影响到 es6 函数初始值的正常使用, 统一处理成空字符串 */

@@ -6,7 +6,7 @@
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import { colorBorder, colorPlain, colorShadow } from './colors'
 import {
   _wind,

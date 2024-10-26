@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-10 15:25:52
  */
-import { DEV, LOG_LEVEL } from '@/config'
+import { DEV, LOG_LEVEL } from '@src/config'
 import { DataAssets, Get } from './types'
 
 /** 缓存结果 */

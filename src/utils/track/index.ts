@@ -7,7 +7,7 @@
 import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
 import { STORYBOOK } from '@constants/device'
 import events, { EventKeys } from '@constants/events'
-import { DEV, IOS_IPA } from '@/config'
+import { DEV, IOS_IPA } from '@src/config'
 import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import { runAfter, urlStringify } from '../utils'

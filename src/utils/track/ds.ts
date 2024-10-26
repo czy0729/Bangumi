@@ -6,7 +6,7 @@
  */
 import { IOS } from '@constants/constants'
 import { STORYBOOK, WSA } from '@constants/device'
-import { DEV, GITHUB_ACTION, IOS_IPA } from '@/config'
+import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { window } from '../../styles/layout'
 import { get } from '../crypto'
 

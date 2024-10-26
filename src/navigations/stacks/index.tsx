@@ -11,8 +11,8 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { systemStore } from '@stores'
 import { urlStringify } from '@utils'
 import { useMount } from '@utils/hooks'
-import navigationsParams from '@/config'
 import * as Screens from '@screens'
+import navigationsParams from '@src/config'
 import BottomTabNavigator from '../bottom-tab-navigator'
 import NavigationContainer from '../navigation-container'
 

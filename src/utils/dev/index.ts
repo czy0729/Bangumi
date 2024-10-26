@@ -6,7 +6,7 @@
  * @Last Modified time: 2024-09-14 16:20:37
  */
 import { WEB } from '@constants'
-import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@/config'
+import { DEV, LOG_LEVEL, RERENDER_NOT_SHOW, RERENDER_SHOW } from '@src/config'
 import { AnyObject, Join } from '@types'
 import { pad } from '../utils'
 import { handleCircular } from './utils'

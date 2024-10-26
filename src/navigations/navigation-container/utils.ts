@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-02-13 17:13:06
  */
 import { useEffect } from 'react'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import { Navigation } from '@types'
 
 let lastPath = ''

@@ -35,7 +35,7 @@ import {
   WEB
 } from '@constants'
 import i18n from '@constants/i18n'
-import { HOST_PROXY } from '@/config'
+import { HOST_PROXY } from '@src/config'
 import { Navigation } from '@types'
 import Form from './form'
 import Preview from './preview'

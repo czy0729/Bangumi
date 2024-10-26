@@ -7,7 +7,7 @@
 import React from 'react'
 import { FlatList, SectionList } from 'react-native'
 import { observer } from 'mobx-react'
-import { IOS_IPA } from '@/config'
+import { IOS_IPA } from '@src/config'
 import EnteringExiting from '../entering-exiting'
 import { AnimatedFlatList, AnimatedSectionList } from './ds'
 import { ListProps } from './types'

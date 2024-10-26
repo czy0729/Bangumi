@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:33:05
+ * @Last Modified time: 2024-10-27 04:56:30
  */
 import React, { Suspense, useEffect } from 'react'
 import { LogBox, StatusBar } from 'react-native'

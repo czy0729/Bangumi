@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-29 19:58:36
+ * @Last Modified time: 2024-10-27 04:58:16
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -17,6 +17,7 @@ import {
   VERSION_GITHUB_RELEASE,
   WEB
 } from '@constants'
+import { IOS_IMAGE_CACHE_V2 } from '@src/config'
 import { radiusMd } from '@styles'
 import {
   SettingCDNOrigin,
@@ -29,7 +30,6 @@ import {
   SettingTransition,
   SettingUserGridNum
 } from '@types'
-import { IOS_IMAGE_CACHE_V2 } from '../../../config'
 import { HomeRenderTabs, HomeTabs, LayoutValue, LikeRec, TrackIds, UserRemark } from './types'
 
 export const NAMESPACE = 'System'

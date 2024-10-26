@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-01-05 16:35:56
  */
 import { observer } from 'mobx-react'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import { IReactComponent } from '@types'
 import { withDev } from '../utils'
 

@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { contextTypes } from '@constants/constants'
-import { DEV } from '@/config'
+import { DEV } from '@src/config'
 import { IReactComponent } from '@types'
 import { withDev } from '../utils'
 

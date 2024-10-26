@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { WEB } from '@constants'
-import { HOST_PROXY } from '@/config'
+import { HOST_PROXY } from '@src/config'
 import { Loaded } from '@types'
 
 export const COMPONENT = 'Recommend'

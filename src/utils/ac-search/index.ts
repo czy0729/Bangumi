@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-17 14:18:12
  */
-import { TEXT_ONLY } from '@/config'
+import { TEXT_ONLY } from '@src/config'
 import hash from '../thirdParty/hash'
 import { desc } from '../utils'
 import { getSubStrings, getTries, initLazyac } from './utils'

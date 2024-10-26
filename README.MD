@@ -36,25 +36,27 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 功能
 
-## 基本功能
+## 基本功能（网站原有功能）
 
 带链接的支持网页预览（只能看不能操作）
 
 - 番组进度管理
 - [条目](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-subject--subject&viewMode=story&subjectId=62229)、[角色详情](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-mono--mono&viewMode=story&monoId=character%2F111328)
-- [时间线](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-timeline--timeline&viewMode=story)、[帖子](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-topic--topic&viewMode=story&topicId=group%2F350677)
-- [超展开](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rakuen--rakuen&viewMode=story)
+- [时间线](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-timeline--timeline&viewMode=story)
+- [超展开](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rakuen--rakuen&viewMode=story)、[帖子](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-topic--topic&viewMode=story&topicId=group%2F350677)
 - [时光机](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-user--user&viewMode=story&userId=sai)、[用户空间](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-zone--zone&viewMode=story&userId=sai&hd=1)
-- 不限于 [每日放送](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-calendar--calendar&viewMode=story)、[搜索](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-search--search&viewMode=story)、[排行榜](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rank--rank&viewMode=story)、[新番](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-staff--staff&viewMode=story)、[目录](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-catalog--catalog&viewMode=story)、[年鉴](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-yearbook--yearbook&viewMode=story)、标签、[分类排行](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-typerank--typerank&viewMode=story&type=anime&tag=%E7%BB%AD%E4%BD%9C&subjectId=443428)、日志
+- 不限于 [每日放送](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-calendar--calendar&viewMode=story)、[搜索](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-search--search&viewMode=story)、[排行榜](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rank--rank&viewMode=story)、[新番](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-staff--staff&viewMode=story)、[目录](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-catalog--catalog&viewMode=story)、[年鉴](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-yearbook--yearbook&viewMode=story)、标签、日志、[小组](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-group--group&viewMode=story&groupId=biweekly)
 
 ## 扩展功能
 
-- 其他站点（bilibili、豆瓣）同步到 bgm.tv 功能
-- 封面图片和大部分脱敏静态数据覆盖到自费 CDN 中间层，访问高速化（意思大概是网页版遇到很慢或者挂掉的情况客户端也能正常获取数据）
-- [番剧截屏](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-preview--preview&viewMode=story&subjectId=424883&cn=%E4%B8%8D%E6%97%B6%E7%94%A8%E4%BF%84%E8%AF%AD%E5%B0%8F%E5%A3%B0%E8%AF%B4%E7%9C%9F%E5%BF%83%E8%AF%9D%E7%9A%84%E9%82%BB%E6%A1%8C%E8%89%BE%E8%8E%89%E5%90%8C%E5%AD%A6)、游戏截图预览
-- 猜你喜欢、AI 推荐、关联系列、[评分月刊](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-vib--vib&viewMode=story)
+- 其他站点（bilibili、豆瓣）有限同步到 bgm.tv 功能
+- 封面图片和大部分脱敏静态数据覆盖到自费 CDN 中间层，能更稳定快速地展示数据（尽管网页版遇到很慢或者挂掉客户端也能正常获取数据）
+- [照片墙](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-milestone--milestone&viewMode=story&subjectType=music&type=collect&bg=true&numColumns=4&autoHeight=true&cnFirst=true&numberOfLines=2&subTitle=%E6%97%B6%E9%97%B4&extraTitle=%E6%97%A0&starsFull=true&starsColor=true&lastTime=true&limit=100&userId=sukaretto)、[猜你喜欢、AI 推荐](https://www.yuque.com/chenzhenyu-k0epm/znygb4/hyrzz32whgurgg6t?singleDoc)、关联系列、优质目录、[评分月刊](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-vib--vib&viewMode=story)、[分类排行](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-typerank--typerank&viewMode=story&type=anime&tag=%E7%BB%AD%E4%BD%9C&subjectId=443428)
+- 词云：[条目](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-wordcloud--word-cloud&viewMode=story&subjectId=389156)、[人物](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-wordcloud--word-cloud&viewMode=story&monoId=person%2F40794)、[帖子](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-wordcloud--word-cloud&viewMode=story&topicId=group%2F350677)
 - ~~当季番剧精准到单集网络播放源~~、源头自定义管理，[找番剧、书籍、游戏](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-anime--anime&viewMode=story)
-- [本地文件夹条目管理](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-smb--smb&viewMode=story)（支持文件夹罗马音刮削）
+- [番剧截屏](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-preview--preview&viewMode=story&subjectId=424883&cn=%E4%B8%8D%E6%97%B6%E7%94%A8%E4%BF%84%E8%AF%AD%E5%B0%8F%E5%A3%B0%E8%AF%B4%E7%9C%9F%E5%BF%83%E8%AF%9D%E7%9A%84%E9%82%BB%E6%A1%8C%E8%89%BE%E8%8E%89%E5%90%8C%E5%AD%A6)、游戏截图预览
+- [多规则超展开屏蔽](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-rakuensetting--rakuen-setting&viewMode=story)、用户拉黑功能
+- [本地文件夹条目管理](https://www.yuque.com/chenzhenyu-k0epm/znygb4/cq5vqctm7iohgldl?singleDoc)（支持文件夹罗马音刮削）
 - [小圣杯](https://bgm.tv/dev/app/1143)（角色交易空气游戏，客户端独立设计 UI 和交互）
 
 # 版本
@@ -99,7 +101,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 # 预览
 
-以下为 2024 年 5 月份，一些 UI 相对不重复的页面截屏
+以下为 2024 年 5 月份，一些 UI 相对不重复的页面截屏。图片无法正常加载也可以前往 [语雀](https://www.yuque.com/chenzhenyu-k0epm/znygb4/xcvi52hi66me2kwn?singleDoc) 查看。
 
 ![00](https://github.com/user-attachments/assets/e5026836-ac08-40fc-9d35-75aa85a69ce6)
 ![10](https://github.com/user-attachments/assets/738edd5a-82d8-4bc8-96f1-ae50ab79775a)

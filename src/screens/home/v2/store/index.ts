@@ -16,7 +16,7 @@ import {
   MODEL_SETTING_INITIAL_PAGE,
   VERSION_GITHUB_RELEASE
 } from '@constants'
-import { IOS_IPA } from '@/config'
+import { IOS_IPA } from '@src/config'
 import { Navigation } from '@types'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
