@@ -228,7 +228,7 @@ export const Image = observer(
                 timeoutPromise()
               ])
             } catch (error) {
-              if (typeof this.props.src === 'string') setErrorTimeout(this.props.src)
+              setErrorTimeout(this.props.src)
               this.onError()
               return
             }

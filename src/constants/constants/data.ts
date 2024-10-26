@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-18 03:24:27
+ * @Last Modified time: 2024-10-26 08:15:41
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -30,9 +30,7 @@ export const IMG_DEFAULT_AVATAR = '//lain.bgm.tv/pic/user/s/icon.jpg'
 export const DOGE_CDN_IMG_DEFAULT = `${HOST_DOGE}/assets/default.png`
 
 /** 默认图 */
-export const IMG_DEFAULT = WEB
-  ? DOGE_CDN_IMG_DEFAULT
-  : (require('@assets/images/default.png') as ImageRequireSource)
+export const IMG_DEFAULT = require('@assets/images/default.png') as ImageRequireSource
 
 /** 默认用户头像 */
 export const IMG_AVATAR_DEFAULT = WEB

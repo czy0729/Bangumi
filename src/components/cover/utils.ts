@@ -13,9 +13,8 @@ export function getCoverSrc(src: Props['src'], width: number, cdn?: boolean, noD
   if (src && typeof src !== 'string') return src
 
   const { prefix, size } = getCoverPramas(width)
-  return (
-    getCover400(cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src, size) || IMG_DEFAULT
-  )
+  return (getCover400(cdn !== false ? matchCoverUrl(src, noDefault, prefix) : src, size) ||
+    IMG_DEFAULT) as Props['src']
 }
 
 /** 相册模式强制大图 */

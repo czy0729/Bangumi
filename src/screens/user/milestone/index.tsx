@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 09:09:38
+ * @Last Modified time: 2024-10-26 06:17:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
+import './styles'
 import { Component, Page, Track } from '@components'
 import { _ } from '@stores'
 import { ic } from '@utils/decorators'

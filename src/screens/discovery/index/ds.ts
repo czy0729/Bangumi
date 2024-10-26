@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:42:51
+ * @Last Modified time: 2024-10-26 06:41:11
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -199,12 +199,12 @@ export const MENU_MAP_STORYBOOK: MenuMapType = {
     key: 'Setting',
     name: '设置',
     icon: 'setting'
-  },
-  LoginToken: {
-    key: 'LoginToken',
-    name: '授权',
-    icon: 'md-face'
   }
+  // LoginToken: {
+  //   key: 'LoginToken',
+  //   name: '授权',
+  //   icon: 'md-face'
+  // }
 }
 
 /** 根据设置自定义菜单构造菜单数据 */

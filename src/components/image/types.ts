@@ -29,7 +29,7 @@ export type Props = Override<
     /** 高度, 优先级比 size 高 */
     height?: number
 
-    /** @deprecated 是否带边框, truely 则显示 */
+    /** 是否带边框, truely 则显示 */
     border?: number | boolean | ColorValue
 
     /** @deprecated 边框大小 */
