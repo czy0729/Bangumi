@@ -18,3 +18,5 @@ export type Ctx = {
 }
 
 export type Params = GetRouteParams<RouteWordCloud>
+
+export type SnapshotId = `extract_${string}`

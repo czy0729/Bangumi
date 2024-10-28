@@ -10,6 +10,7 @@ import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
 import { Id, UserId } from '@types'
 import { MAX_PAGE, PAGE_LIMIT } from '../ds'
+import { SnapshotId } from '../types'
 import { getPlainText, removeSlogan, removeSpec } from './utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -40,8 +41,8 @@ export default class Computed extends State {
   }
 
   /** 快照 ID */
-  @computed get snapshotId() {
-    return `extract_${this.id}`.replace(/\//g, '_')
+  @computed get snapshotId(): SnapshotId {
+    return `extract_${String(this.id).replace(/\//g, '_')}`
   }
 
   /** 页面唯一命名空间 */
