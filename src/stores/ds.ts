@@ -40,6 +40,6 @@ export const CALENDAR_STORE_KEYS = ['onAir', 'onAirUser'] as const
 
 export const COLLECTION_STORE_KEYS = ['userCollectionsMap'] as const
 
-export const RAKUEN_STORE_KEYS = ['blockedUsersTrack', 'blockedUsers'] as const
+export const RAKUEN_STORE_KEYS = ['setting', 'blockedUsersTrack', 'blockedUsers'] as const
 
 export const SMB_STORE_KEYS = ['data'] as const

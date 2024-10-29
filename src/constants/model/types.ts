@@ -14,6 +14,7 @@ import {
   MONO_WORKS_ORDERBY,
   PRIVATE,
   RAKUEN_AUTO_LOAD_IMAGE,
+  RAKUEN_NEW_FLOOR_STYLE,
   RAKUEN_SCOPE,
   RAKUEN_SCROLL_DIRECTION,
   RAKUEN_SUB_EXPAND,
@@ -86,11 +87,14 @@ export type PrivateCn = ModelValueOf<typeof PRIVATE, 'label'>
 
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE>
 
-export type RakuenAutoLoadImage = ModelValueOf<typeof RAKUEN_AUTO_LOAD_IMAGE, 'value'>
+export type RakuenAutoLoadImage = ModelValueOf<typeof RAKUEN_AUTO_LOAD_IMAGE>
 
-export type RakuenSubExpand = ModelValueOf<typeof RAKUEN_SUB_EXPAND, 'value'>
+export type RakuenSubExpand = ModelValueOf<typeof RAKUEN_SUB_EXPAND>
 
-export type RakuenScrollDirection = ModelValueOf<typeof RAKUEN_SCROLL_DIRECTION, 'value'>
+export type RakuenNewFloorStyle = ModelValueOf<typeof RAKUEN_NEW_FLOOR_STYLE>
+export type RakuenNewFloorStyleCn = ModelValueOf<typeof RAKUEN_NEW_FLOOR_STYLE, 'label'>
+
+export type RakuenScrollDirection = ModelValueOf<typeof RAKUEN_SCROLL_DIRECTION>
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE>
 
 export type RakuenTypeGroup = ModelValueOf<typeof RAKUEN_TYPE_GROUP>

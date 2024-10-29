@@ -49,6 +49,9 @@ export const memoStyles = _.memoStyles(() => ({
     borderRightWidth: 6,
     borderColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
   },
+  itemNewFull: {
+    backgroundColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
+  },
   itemText: {
     minHeight: 16
   },

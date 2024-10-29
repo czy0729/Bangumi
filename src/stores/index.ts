@@ -7,7 +7,7 @@
 import { StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { confirm } from '@utils'
-import { DEV, STORYBOOK } from '@constants'
+import { DEV, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation, SubjectId } from '@types'
 import calendarStore from './calendar'
@@ -55,7 +55,7 @@ class GlobalStores {
       await themeStore.init()
 
       /** ========== 状态栏 ========== */
-      if (!STORYBOOK) StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
+      if (!WEB) StatusBar.setBarStyle(themeStore.select('dark-content', 'light-content'))
 
       /**
        * 其他 store 使用新的懒读取本地数据逻辑，以下数据在初始化前拿出来

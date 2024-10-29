@@ -9,12 +9,12 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   image: {
     position: 'absolute',
-    top: -14,
+    top: -12,
     left: -16,
     pointerEvents: 'none'
   },
   mini: {
-    top: -8,
-    left: -2
+    top: 0,
+    left: 0
   }
 }))

@@ -16,7 +16,16 @@ import { PassProps } from './type'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
 export const TouchScroll = memo(
-  ({ styles, list, readedTime, scrollDirection, directFloor, isWebLogin, onPress }) => {
+  ({
+    styles,
+    list,
+    readedTime,
+    scrollDirection,
+    directFloor,
+    isWebLogin,
+    newFloorStyle,
+    onPress
+  }) => {
     const currentFloor = directFloor ? Number(directFloor.match(/\d+/)?.[0] || 0) : 0
     const showFloor = [
       Math.floor(list.length * 0.33333) - 1,
@@ -89,7 +98,10 @@ export const TouchScroll = memo(
                 <Flex
                   style={stl(
                     isVertical ? styles.itemVertical : styles.itemHorizontal,
-                    isNew && styles.itemNew
+                    isNew &&
+                      (newFloorStyle === '角标' || newFloorStyle === '红点') &&
+                      styles.itemNew,
+                    isNew && newFloorStyle === '背景' && styles.itemNewFull
                   )}
                   justify='center'
                 >

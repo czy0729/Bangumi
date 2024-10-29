@@ -13,9 +13,6 @@ export const styles = _.create({
   sub: {
     paddingTop: _.md
   },
-  expandContainer: {
-    marginTop: -_.sm
-  },
   expand: {
     paddingVertical: _.sm,
     marginLeft: 44

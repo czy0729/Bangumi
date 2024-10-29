@@ -7,11 +7,12 @@
 import {
   LIST_EMPTY,
   MODEL_RAKUEN_AUTO_LOAD_IMAGE,
+  MODEL_RAKUEN_NEW_FLOOR_STYLE,
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_SCROLL_DIRECTION,
   MODEL_RAKUEN_TYPE
 } from '@constants'
-import { Avatar, Loaded, RakuenScope, RakuenScrollDirection, RakuenType, UserId } from '@types'
+import { Avatar, Loaded, RakuenScope, RakuenType, UserId } from '@types'
 import { BlockedUsersItem, BookmarksItem, PrivacyValue } from './types'
 
 export const NAMESPACE = 'Rakuen'
@@ -132,7 +133,10 @@ export const INIT_SETTING = {
   autoLoadImageV2: MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue('不加载'),
 
   /** 帖子楼层滚动导航条方向 */
-  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧')
+  scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue('右侧'),
+
+  /** 帖子新楼层样式 */
+  newFloorStyle: MODEL_RAKUEN_NEW_FLOOR_STYLE.getValue('角标')
 }
 
 export const INIT_GROUP_INFO = {

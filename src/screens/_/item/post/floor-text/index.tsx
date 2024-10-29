@@ -5,18 +5,22 @@
  * @Last Modified time: 2024-10-07 07:20:18
  */
 import React from 'react'
-import { Text } from '@components'
+import { View } from 'react-native'
+import { Flex, Text } from '@components'
 import { simpleTime } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
-function FloorText({ time, floor }) {
+function FloorText({ time, floor, isNew }) {
   const styles = memoStyles()
   return (
-    <Text style={styles.container} type='sub' size={11} lineHeight={12}>
-      {simpleTime(time)}
-      {'  '}#{String(floor).replace('#', '')}
-    </Text>
+    <Flex>
+      {isNew && <View style={styles.new} />}
+      <Text style={styles.container} type='sub' size={11} lineHeight={12}>
+        {simpleTime(time)}
+        {'  '}#{String(floor).replace('#', '')}
+      </Text>
+    </Flex>
   )
 }
 

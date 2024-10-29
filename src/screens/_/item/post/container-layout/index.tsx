@@ -17,7 +17,7 @@ function ContainerLayout({ id, subLength, isJump, children }) {
   const styles = memoStyles()
   return (
     <Flex
-      style={stl(_.container.item, isJump && styles.itemJump)}
+      style={stl(_.container.block, isJump && styles.itemJump)}
       align='start'
       onLayout={
         subLength

@@ -23,6 +23,7 @@ function FloorSub({
   sub,
   url,
   userId,
+  newFloorStyle,
   event,
   onJumpTo,
   onLikesLongPress,
@@ -57,6 +58,7 @@ function FloorSub({
                 url={url}
                 readedTime={readedTime}
                 matchLink={matchLink}
+                newFloorStyle={newFloorStyle}
                 event={event}
                 onJumpTo={onJumpTo}
                 onLikesLongPress={onLikesLongPress}
@@ -65,7 +67,7 @@ function FloorSub({
             ))}
         </Flex>
         {sub.length > expandNums && (
-          <Touchable style={styles.expandContainer} onPress={() => onToggleExpand(id)}>
+          <Touchable onPress={() => onToggleExpand(id)}>
             <Text
               style={styles.expand}
               type={isExpand ? 'sub' : 'main'}

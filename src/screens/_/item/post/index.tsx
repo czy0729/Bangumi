@@ -10,7 +10,7 @@ import { rakuenStore, uiStore } from '@stores'
 import { getIsBlocked, getTimestamp } from '@utils'
 import { obc } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
-import { HOST } from '@constants'
+import { HOST, MODEL_RAKUEN_NEW_FLOOR_STYLE } from '@constants'
 import Item from './item'
 import PlusOne from './plus-one'
 import { isBlockUser } from './utils'
@@ -101,8 +101,10 @@ export const ItemPost = obc(
     }
 
     // 新楼层标识
+    const newFloorStyle = MODEL_RAKUEN_NEW_FLOOR_STYLE.getLabel(rakuenStore.setting.newFloorStyle)
     const readedTime = $?.readed?._time
-    const isNew = !!readedTime && getTimestamp(time) > readedTime
+    let isNew = false
+    if (newFloorStyle !== '不设置') isNew = !!readedTime && getTimestamp(time) > readedTime
 
     // 跳转楼层标识
     const isJump = !!postId && postId === id
@@ -145,6 +147,7 @@ export const ItemPost = obc(
         userSign={userSign}
         formhash={$?.topic?.formhash}
         likeType={$?.topic?.likeType}
+        newFloorStyle={newFloorStyle}
         event={event}
         onJumpTo={onJumpTo}
         onLikesLongPress={uiStore.showLikesUsers}

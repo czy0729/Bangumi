@@ -24,6 +24,7 @@ import {
   Fn,
   Id,
   RakuenAutoLoadImage,
+  RakuenNewFloorStyle,
   RakuenScrollDirection,
   RakuenSubExpand,
   TopicId,
@@ -301,6 +302,18 @@ export default class Action extends Fetch {
       [key]: {
         ...this.setting,
         subExpand
+      }
+    })
+    this.save(key)
+  }
+
+  /** 设置`新楼层样式` */
+  setNewFloorStyle = (newFloorStyle: RakuenNewFloorStyle) => {
+    const key = 'setting'
+    this.setState({
+      [key]: {
+        ...this.setting,
+        newFloorStyle
       }
     })
     this.save(key)

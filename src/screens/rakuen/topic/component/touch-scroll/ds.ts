@@ -6,7 +6,7 @@
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
-import { RakuenScrollDirection } from '@types'
+import { RakuenNewFloorStyleCn, RakuenScrollDirection } from '@types'
 import { StoreType as $ } from '../../types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
@@ -22,6 +22,7 @@ export const DEFAULT_PROPS = {
   scrollDirection: MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('右侧'),
   directFloor: '' as string,
   isWebLogin: false as boolean,
+  newFloorStyle: '角标' as RakuenNewFloorStyleCn,
   onPress: FROZEN_FN
 } as const
 

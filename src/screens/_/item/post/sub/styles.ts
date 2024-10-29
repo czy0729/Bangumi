@@ -13,10 +13,14 @@ export const memoStyles = _.memoStyles(() => {
   return {
     item: {
       width: '100%',
+      paddingTop: _.sm,
+      paddingBottom: _.sm,
       paddingLeft: _.sm
     },
+    new: {
+      backgroundColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
+    },
     content: {
-      paddingBottom: _.md,
       marginLeft
     },
     html: {
@@ -49,15 +53,18 @@ export const memoStyles = _.memoStyles(() => {
       left: 11,
       marginLeft: marginLeftWide
     },
+    likes: {
+      marginBottom: -12
+    },
     likesWide: {
       marginLeft: marginLeftWide
     },
     direct: {
       position: 'absolute',
-      top: -8,
+      top: 0,
       right: 0,
-      bottom: 8,
-      left: -2,
+      bottom: 0,
+      left: 0,
       borderWidth: 2,
       borderColor: _.colorBorder,
       borderRadius: _.radiusMd,

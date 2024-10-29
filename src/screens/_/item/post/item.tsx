@@ -49,6 +49,7 @@ const Item = memo(
     userSign,
     formhash,
     likeType,
+    newFloorStyle,
     event,
     onJumpTo,
     onLikesLongPress,
@@ -58,9 +59,9 @@ const Item = memo(
     r(COMPONENT_MAIN)
 
     return (
-      <Container id={id} subLength={sub.length}>
+      <Container id={id} subLength={sub.length} isNew={newFloorStyle === '背景' && isNew}>
         <ContainerLayout id={id} subLength={sub.length} isJump={isJump}>
-          {isNew && <FloorNew />}
+          {newFloorStyle === '角标' && isNew && <FloorNew />}
 
           <Avatar
             {...{
@@ -84,6 +85,7 @@ const Item = memo(
               id,
               isAuthor,
               isFriend,
+              isNew: newFloorStyle === '红点' && isNew,
               matchLink,
               msg,
               replySub,
@@ -119,6 +121,7 @@ const Item = memo(
             sub,
             url,
             userId,
+            newFloorStyle,
             event,
             onJumpTo,
             onLikesLongPress,

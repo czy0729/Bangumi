@@ -64,6 +64,7 @@ export default memo(
     formhash,
     like,
     likeType,
+    newFloorStyle,
     event,
     onJumpTo,
     onLikesLongPress,
@@ -135,15 +136,17 @@ export default memo(
       message = '<span style="color:#999;font-size:12px">已屏蔽</span>'
     }
 
-    const isNew = !!readedTime && getTimestamp(time) > readedTime
+    let isNew = false
+    if (newFloorStyle !== '不设置') isNew = !!readedTime && getTimestamp(time) > readedTime
+
     const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
     return (
       <Component id='item-post-sub' data-key={id} style={_.container.block}>
-        {isNew && <FloorNew mini />}
+        {newFloorStyle === '角标' && isNew && <FloorNew mini />}
 
         <Flex
-          style={styles.item}
+          style={stl(styles.item, newFloorStyle === '背景' && isNew && styles.new)}
           align='start'
           onLayout={e => {
             try {
@@ -192,7 +195,7 @@ export default memo(
                 onShowFixedTextare={onShowFixedTextare}
               />
             </Flex>
-            <FloorText time={time} floor={floor} />
+            <FloorText time={time} floor={floor} isNew={newFloorStyle === '红点' && isNew} />
             <View style={styles.html}>
               <CollapsedHtml
                 navigation={navigation}
@@ -227,7 +230,7 @@ export default memo(
                 </Flex>
               )}
               <Likes
-                style={wide && styles.likesWide}
+                style={stl(styles.likes, wide && styles.likesWide)}
                 topicId={topicId}
                 id={id}
                 formhash={formhash}

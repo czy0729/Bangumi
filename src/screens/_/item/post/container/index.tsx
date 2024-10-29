@@ -10,13 +10,13 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
-function Container({ id, subLength, children }) {
+function Container({ id, subLength, isNew, children }) {
   const styles = memoStyles()
   return (
     <Component
       id='item-post'
       data-key={id}
-      style={stl(styles.item, subLength && styles.itemWithSub)}
+      style={stl(styles.item, subLength && styles.itemWithSub, isNew && styles.new)}
     >
       {children}
     </Component>

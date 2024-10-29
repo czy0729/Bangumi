@@ -30,6 +30,7 @@ export default obc(
       url,
       userId,
       userName,
+      newFloorStyle,
       event,
       onJumpTo,
       onShowFixedTextare
@@ -77,6 +78,7 @@ export default obc(
         formhash={$?.topic?.formhash}
         like={rakuenStore.commentTracked(userId)}
         likeType={$?.topic?.likeType}
+        newFloorStyle={newFloorStyle}
         event={event}
         onJumpTo={onJumpTo}
         onLikesLongPress={$?.showLikesUsers}

@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN } from '@constants'
-import { Id, TopicId } from '@types'
+import { Id, RakuenNewFloorStyleCn, TopicId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { Props } from './types'
 
@@ -57,6 +57,7 @@ export const DEFAULT_PROPS = {
   userSign: '' as Props['userSign'],
   formhash: '' as string,
   likeType: '' as string,
+  newFloorStyle: '角标' as RakuenNewFloorStyleCn,
   event: EVENT as Props['event'],
   onJumpTo: FROZEN_FN,
   onLikesLongPress: FROZEN_FN,

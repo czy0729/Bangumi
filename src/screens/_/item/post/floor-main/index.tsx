@@ -27,6 +27,7 @@ function FloorMain(
     id,
     isAuthor,
     isFriend,
+    isNew,
     matchLink,
     msg,
     replySub,
@@ -75,7 +76,7 @@ function FloorMain(
           onShowFixedTextare={onShowFixedTextare}
         />
       </Flex>
-      <FloorText time={time} floor={floor} />
+      <FloorText time={time} floor={floor} isNew={isNew} />
       <View style={styles.html}>
         <CollapsedHtml
           navigation={navigation}
@@ -87,6 +88,7 @@ function FloorMain(
           event={event}
         />
         <Likes
+          style={styles.likes}
           topicId={topicId}
           id={id}
           formhash={formhash}

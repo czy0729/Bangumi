@@ -771,6 +771,32 @@ export const RAKUEN_SUB_EXPAND = [
 /** [设置] 子楼层折叠 */
 export const MODEL_RAKUEN_SUB_EXPAND = new Model(RAKUEN_SUB_EXPAND, 'RAKUEN_SUB_EXPAND')
 
+/** [设置] 帖子新楼层样式 */
+export const RAKUEN_NEW_FLOOR_STYLE = [
+  {
+    label: '角标',
+    value: 'A'
+  },
+  {
+    label: '红点',
+    value: 'B'
+  },
+  {
+    label: '背景',
+    value: 'C'
+  },
+  {
+    label: '不设置',
+    value: 'D'
+  }
+] as const
+
+/** [设置] 帖子新楼层样式 */
+export const MODEL_RAKUEN_NEW_FLOOR_STYLE = new Model(
+  RAKUEN_NEW_FLOOR_STYLE,
+  'RAKUEN_NEW_FLOOR_STYLE'
+)
+
 /** 收藏排序 */
 export const COLLECTIONS_ORDERBY = [
   {

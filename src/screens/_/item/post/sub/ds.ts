@@ -6,7 +6,7 @@
  */
 import { _ } from '@stores'
 import { EVENT, FROZEN_FN } from '@constants'
-import { Navigation, TopicId, UserId } from '@types'
+import { Navigation, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
 import { Props } from '../types'
 import { memoStyles } from './styles'
 
@@ -43,6 +43,7 @@ export const DEFAULT_PROPS = {
   formhash: '' as string,
   like: false as boolean,
   likeType: '' as string,
+  newFloorStyle: '角标' as RakuenNewFloorStyleCn,
   event: EVENT,
   onJumpTo: FROZEN_FN,
   onLikesLongPress: FROZEN_FN,

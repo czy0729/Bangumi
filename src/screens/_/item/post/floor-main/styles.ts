@@ -21,5 +21,8 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderRadius: _.radiusXs,
     overflow: 'hidden'
+  },
+  likes: {
+    marginBottom: -12
   }
 }))

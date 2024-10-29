@@ -9,11 +9,14 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   item: {
     width: _.window.width,
-    paddingTop: _.sm,
-    paddingBottom: _.md,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingHorizontal: _.wind
   },
   itemWithSub: {
     paddingBottom: _.sm
+  },
+  new: {
+    backgroundColor: _.select(_.colorMainLightBorder, 'rgb(59, 48, 51)')
   }
 }))

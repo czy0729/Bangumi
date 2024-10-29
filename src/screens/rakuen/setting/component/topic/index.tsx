@@ -12,8 +12,10 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
   MODEL_RAKUEN_AUTO_LOAD_IMAGE,
+  MODEL_RAKUEN_NEW_FLOOR_STYLE,
   MODEL_RAKUEN_SUB_EXPAND,
   RAKUEN_AUTO_LOAD_IMAGE,
+  RAKUEN_NEW_FLOOR_STYLE,
   RAKUEN_SUB_EXPAND
 } from '@constants'
 import Block from '@screens/user/setting/component/block'
@@ -24,7 +26,8 @@ import { COMPONENT } from './ds'
 
 /** 帖子 */
 function Topic() {
-  const { autoLoadImageV2, quote, quoteAvatar, subExpand, wide } = rakuenStore.setting
+  const { autoLoadImageV2, quote, quoteAvatar, subExpand, wide, newFloorStyle } =
+    rakuenStore.setting
   return (
     <Block>
       <Tip>帖子</Tip>
@@ -38,12 +41,12 @@ function Topic() {
             style={styles.switch}
             value={quote}
             onSyncPress={() => {
+              rakuenStore.switchSetting('quote')
+
               t('超展开设置.切换', {
                 title: '展开引用',
                 checked: !quote
               })
-
-              rakuenStore.switchSetting('quote')
             }}
           />
         }
@@ -63,12 +66,12 @@ function Topic() {
               style={styles.switch}
               value={quoteAvatar}
               onSyncPress={() => {
+                rakuenStore.switchSetting('quoteAvatar')
+
                 t('超展开设置.切换', {
                   title: '显示引用头像',
                   checked: !quoteAvatar
                 })
-
-                rakuenStore.switchSetting('quoteAvatar')
               }}
             />
           }
@@ -88,12 +91,12 @@ function Topic() {
             style={styles.switch}
             value={wide}
             onSyncPress={() => {
+              rakuenStore.switchSetting('wide')
+
               t('超展开设置.切换', {
                 title: '加宽展示',
                 checked: !wide
               })
-
-              rakuenStore.switchSetting('wide')
             }}
           />
         }
@@ -116,15 +119,42 @@ function Topic() {
             values={RAKUEN_AUTO_LOAD_IMAGE.map(item => item.label)}
             selectedIndex={RAKUEN_AUTO_LOAD_IMAGE.findIndex(item => item.value === autoLoadImageV2)}
             onValueChange={title => {
+              rakuenStore.setAutoLoadImage(MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue(title))
+
               t('超展开设置.切换', {
                 title: '楼层中图片自动加载',
                 value: title
               })
-
-              rakuenStore.setAutoLoadImage(MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue(title))
             }}
           />
         }
+      />
+
+      {/* 新楼层样式 */}
+      <ItemSetting
+        hd='新楼层样式'
+        ft={
+          <SegmentedControl
+            style={styles.segmentedControl}
+            backgroundColor={_.select(_.colorBg, _.colorPlain)}
+            size={12}
+            values={RAKUEN_NEW_FLOOR_STYLE.map(item => item.label)}
+            selectedIndex={RAKUEN_NEW_FLOOR_STYLE.findIndex(item => item.value === newFloorStyle)}
+            onValueChange={title => {
+              rakuenStore.setNewFloorStyle(MODEL_RAKUEN_NEW_FLOOR_STYLE.getValue(title))
+
+              t('超展开设置.切换', {
+                title: '新楼层样式',
+                value: title
+              })
+            }}
+          />
+        }
+        thumb={getYuqueThumbs([
+          '0/2024/png/386799/1730186697184-5779f201-d45d-45e9-af24-75118288ad4a.png',
+          '0/2024/png/386799/1730186711789-3fc50f2a-16b4-4d73-921d-aca7013ca73f.png',
+          '0/2024/png/386799/1730186721241-645916b3-3ac6-46ad-a382-91a6d465f284.png'
+        ])}
       />
 
       {/* 子楼层折叠 */}
@@ -139,12 +169,12 @@ function Topic() {
             values={RAKUEN_SUB_EXPAND.map(item => item.label)}
             selectedIndex={RAKUEN_SUB_EXPAND.findIndex(item => item.value === subExpand)}
             onValueChange={title => {
+              rakuenStore.setSubExpand(MODEL_RAKUEN_SUB_EXPAND.getValue(title))
+
               t('超展开设置.切换', {
                 title: '子楼层折叠',
                 value: title
               })
-
-              rakuenStore.setSubExpand(MODEL_RAKUEN_SUB_EXPAND.getValue(title))
             }}
           />
         }
