@@ -18,7 +18,7 @@ import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Topic = memo(
   ({ navigation, styles, showTopic, subjectId, topic, onSwitchBlock }) => {
-    const { list, onExpand } = useExpandLazy(topic, 4)
+    const { list, onExpand } = useExpandLazy(topic, 6)
     return (
       <InView style={stl(styles.container, !showTopic && _.short)}>
         <SectionTitle
@@ -31,7 +31,7 @@ const Topic = memo(
         </SectionTitle>
         {showTopic && (
           <>
-            <Expand key={topic?.length} style={_.mt.sm} onExpand={onExpand}>
+            <Expand key={String(topic?.length)} style={_.mt.sm} onExpand={onExpand}>
               {list.map(item => {
                 const { nickname, username } = item.user
                 const flag = getIsBlockedUser(

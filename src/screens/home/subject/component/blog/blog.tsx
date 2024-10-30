@@ -31,7 +31,7 @@ const Blog = memo(
         </SectionTitle>
         {showBlog && (
           <>
-            <Expand key={blog?.length} style={_.mt.sm} onExpand={onExpand}>
+            <Expand key={String(blog?.length)} style={_.mt.sm} onExpand={onExpand}>
               {list.map(item => {
                 const { nickname, username } = item.user
                 const flag = getIsBlockedUser(
