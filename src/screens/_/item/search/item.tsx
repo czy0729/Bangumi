@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-15 10:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:14:54
+ * @Last Modified time: 2024-10-30 17:08:24
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore } from '@stores'
 import { appNavigate, cnjp, getAction, HTMLDecode, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
-import { IMG_HEIGHT_LG, IMG_WIDTH, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
+import { IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { InView, Manage, Rank, Stars, Tag } from '../../base'
 import Title from './title'
@@ -44,8 +44,8 @@ const Item = memo(
     const isMusic = typeCn === '音乐'
     const justify = tip || position.length ? 'between' : 'start'
     const subjectId = String(id).replace('/subject/', '')
-    const width = isMono ? IMG_WIDTH : IMG_WIDTH_LG
-    const height = isMono ? IMG_WIDTH : isMusic ? IMG_WIDTH_LG : IMG_HEIGHT_LG
+    const width = isMono ? 56 : IMG_WIDTH_LG
+    const height = isMono ? 56 : isMusic ? IMG_WIDTH_LG : IMG_HEIGHT_LG
     return (
       <Touchable
         style={stl(styles.container, style)}

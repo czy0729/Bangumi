@@ -2,23 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:58:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 06:39:14
+ * @Last Modified time: 2024-10-30 17:15:36
  */
 import { computed } from 'mobx'
 import { LIST_EMPTY } from '@constants'
 import { SearchCat, StoreConstructor } from '@types'
-import State from './state'
 import { DEFAULT_CAT, STATE } from './init'
+import State from './state'
 import { Search } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 搜索结果 */
-  search(text: string, cat: SearchCat = DEFAULT_CAT, legacy?: any) {
+  search(text: string, cat: SearchCat = DEFAULT_CAT) {
     this.init('search')
     return computed<Search>(() => {
       const _text = text.replace(/ /g, '+')
-      let key = `${_text}|${cat}`
-      if (legacy) key += '|legacy'
+      const key = `${_text}|${cat}`
       return this.state.search[key] || LIST_EMPTY
     }).get()
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 15:29:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-31 09:28:54
+ * @Last Modified time: 2024-10-30 17:15:47
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -26,15 +26,18 @@ export default class Fetch extends Computed {
     },
     refresh?: boolean
   ) => {
-    const { text = '', cat = DEFAULT_CAT, legacy = '' } = args || {}
+    const { text = '', cat = DEFAULT_CAT } = args || {}
+    let { legacy = '' } = args || {}
+    if (cat === 'mono_all' || cat === 'user') legacy = ''
+
     const _text = text.replace(/ /g, '+')
-    const { list, pagination } = this.search(_text, cat, legacy)
+    const { list, pagination } = this.search(_text, cat)
     const page = refresh ? 1 : pagination.page + 1
 
     const html = await fetchHTML({
       url: HTML_SEARCH(encodeURIComponent(_text), cat, page, legacy),
 
-      /** 搜索不加这个会无条件返回错误 */
+      // 搜索不加这个会无条件返回错误
       cookie: `; chii_searchDateLine=${legacy == 1 ? 0 : getTimestamp()};`
     })
     if (html.includes('秒内只能进行一次搜索')) return Promise.reject()
@@ -54,9 +57,7 @@ export default class Fetch extends Computed {
     }
 
     const key = 'search'
-    let stateKey = `${_text}|${cat}`
-    if (legacy) stateKey += '|legacy'
-
+    const stateKey = `${_text}|${cat}`
     const data = {
       list: refresh ? search : [...list, ...search],
       pagination: {

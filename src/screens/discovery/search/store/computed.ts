@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:42:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 11:43:03
+ * @Last Modified time: 2024-10-30 17:15:24
  */
 import { computed } from 'mobx'
 import { searchStore, subjectStore, userStore } from '@stores'
@@ -14,8 +14,8 @@ import State from './state'
 export default class Computed extends State {
   /** 搜索结果 */
   @computed get search() {
-    const { cat, legacy, value } = this.state
-    const search = searchStore.search(value, cat, legacy)
+    const { cat, value } = this.state
+    const search = searchStore.search(value, cat)
     if (!userStore.isLimit) return search
 
     return {

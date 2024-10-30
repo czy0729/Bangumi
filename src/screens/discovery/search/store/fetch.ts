@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:43:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 11:46:23
+ * @Last Modified time: 2024-10-30 17:09:58
  */
-
 import { collectionStore, searchStore } from '@stores'
 import { info } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
