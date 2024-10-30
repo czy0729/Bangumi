@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 09:41:40
+ * @Last Modified time: 2024-10-30 16:45:15
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
+import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { open } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import T2S from '../component/t2s'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 
 function Header(_props, { $ }: Ctx) {
   return (
@@ -21,11 +20,7 @@ function Header(_props, { $ }: Ctx) {
       hm={[$.url, 'Search']}
       headerRight={() => (
         <Flex>
-          {systemStore.setting.s2t && (
-            <Touchable style={styles.touch} onPress={$.onT2S}>
-              <Text bold>简</Text>
-            </Touchable>
-          )}
+          <T2S $={$} />
           <HeaderComp.Popover
             data={['浏览器查看']}
             onSelect={key => {

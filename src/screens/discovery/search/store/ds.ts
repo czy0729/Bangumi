@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 12:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-03 11:50:34
+ * @Last Modified time: 2024-10-30 16:22:48
  */
 import { _ } from '@stores'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
@@ -47,6 +47,9 @@ export const STATE = {
 
   /** 是否精准查询 */
   legacy: MODEL_SEARCH_LEGACY.getValue<SearchLegacy>('模糊'),
+
+  /** 繁体设置打开时, 是否将输入框内容转成简体 */
+  t2s: true,
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-17 12:11:56
+ * @Last Modified time: 2024-10-30 16:45:06
  */
 import { usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
@@ -74,6 +74,8 @@ export default class Action extends Fetch {
 
   /** 输入框改变 */
   onChangeText = (text: string) => {
+    if (this.state.t2s) text = t2s(text)
+
     const state: Partial<typeof EXCLUDE_STATE> = {
       _value: text
     }
@@ -179,12 +181,18 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 更新可视范围底部 y */
-  onScroll = updateVisibleBottom.bind(this)
-
   /** 输入框繁体转简体 */
   onT2S = () => {
-    info('输入内容已转换为简体')
-    this.onChangeText(t2s(this.state.value || this.state._value))
+    const value = !this.state.t2s
+    this.setState({
+      t2s: value
+    })
+    if (value) this.onChangeText(t2s(this.state.value || this.state._value))
+    this.save()
+
+    info(`${value ? '开启' : '关闭'}输入内容自动转为简体`)
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }
