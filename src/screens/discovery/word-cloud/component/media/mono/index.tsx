@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:51:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 22:05:38
+ * @Last Modified time: 2024-10-31 04:27:38
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,7 +64,7 @@ function Mono(_props, { $ }: Ctx) {
                 bold
                 numberOfLines={2}
               >
-                {bottom}
+                {bottom.replace(/ {2,}/g, ' ')}
               </Text>
             )}
           </Flex>

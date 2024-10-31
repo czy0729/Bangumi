@@ -123,6 +123,7 @@ export default {
   '搜索.模糊查询点击': 'Search.onAdvance',
   '搜索.模糊查询跳转': 'Search.advanceTo',
   '搜索.条目直达': 'Search.navigate',
+  '搜索.人物直达': 'Search.navigateMono',
 
   // 标签索引
   '标签索引.跳转': 'Tags.to',

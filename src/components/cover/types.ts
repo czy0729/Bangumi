@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-13 07:01:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-09 17:26:20
+ * @Last Modified time: 2024-10-30 23:11:01
  */
-import { Override, ViewStyle, ImageStyle, SubjectTypeCn, Source } from '@types'
+import { ImageSource, ImageStyle, Override, SubjectTypeCn, ViewStyle } from '@types'
 import { ImageProps } from '../image'
 
 export type Props = Override<
@@ -23,7 +23,7 @@ export type Props = Override<
     angleStyle?: ViewStyle
 
     /** 封面地址 */
-    src?: Source | string
+    src?: ImageSource | string
 
     /** 大小 */
     size?: number

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-28 19:23:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-28 20:46:06
+ * @Last Modified time: 2024-10-30 22:13:40
  */
 import { Expand, Id, SubjectId, SubjectType } from '@types'
 
@@ -18,6 +18,7 @@ export type JSONPath =
   | TypeRankIds
   | 'katakana'
   | 'group'
+  | 'mono'
   | 'thirdParty/ja.min'
   | 'thirdParty/ja.addon'
   | 'thirdParty/d.min'
@@ -37,6 +38,14 @@ export type JSONGroup = {
   t: string
   n: number
   i: number
+}[]
+
+export type JSONMono = {
+  i: number
+  n: string
+  c: string
+  r: number
+  p?: 1
 }[]
 
 export type JSONJA = Record<string, SubjectId>
@@ -92,6 +101,7 @@ export type JSONData = Expand<
   } & {
     katakana: JSONKatakana
     group: JSONGroup
+    mono: JSONMono
     'thirdParty/ja.min': JSONJA
     'thirdParty/ja.addon': JSONJA
     'thirdParty/d.min': JSONDouban

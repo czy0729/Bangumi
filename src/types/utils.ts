@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:14:57
+ * @Last Modified time: 2024-10-30 23:10:52
  */
 import React from 'react'
 import {
@@ -40,7 +40,7 @@ export type ReactNode = React.ReactNode
 export type ColorValue = RNColorValue
 
 /** 图片 uri */
-export type Source = ImageProps['source']
+export type ImageSource = ImageProps['source']
 
 type DeepReadonly<T> = T extends (...args: any[]) => any
   ? T

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-17 11:48:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-28 21:05:01
+ * @Last Modified time: 2024-10-30 20:18:35
  */
 import { JSONData, JSONPath } from './types'
 
@@ -89,6 +89,10 @@ export async function loadJSON<T extends JSONPath>(
 
       case 'group':
         data = require('./group.json')
+        break
+
+      case 'mono':
+        data = require('./mono.json')
         break
 
       /** ==================== japanese romanization ==================== */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 11:42:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 17:15:24
+ * @Last Modified time: 2024-10-30 22:30:11
  */
 import { computed } from 'mobx'
 import { searchStore, subjectStore, userStore } from '@stores'
@@ -38,12 +38,7 @@ export default class Computed extends State {
 
   /** 是否显示推荐词 */
   @computed get showAdvance() {
-    if (
-      !this.state.focus ||
-      this.state.cat === 'mono_all' ||
-      this.state.cat === 'user' ||
-      this.search.list.length
-    ) {
+    if (!this.state.focus || this.state.cat === 'user' || this.search.list.length) {
       return false
     }
 

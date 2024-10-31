@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 09:57:27
+ * @Last Modified time: 2024-10-30 22:25:07
  */
 import { useEffect, useRef, useState } from 'react'
 import { asc, desc, t2s } from '@utils'
 import { decode, get } from '@utils/protobuf'
 import { loadJSON } from '@assets/json'
+import { JSONMono } from '@assets/json/types'
 import { SearchCat, SubjectId } from '@types'
 
 type SubjectTitle = string
@@ -87,4 +88,46 @@ export function useResult(cat: SearchCat, value: string) {
     result,
     substrings
   }
+}
+
+const memoMono = new Map<string, JSONMono>()
+let mono: JSONMono = []
+
+export function useMonoResult(value: string) {
+  const [result, setResult] = useState<JSONMono>([])
+
+  useEffect(() => {
+    if (value.length < 1) return
+
+    async function callback() {
+      try {
+        const q = t2s(value.toLocaleUpperCase()).trim()
+        if (!q) {
+          setResult([])
+          return
+        }
+
+        if (value && !mono.length) {
+          mono = await loadJSON('mono')
+        }
+
+        if (memo.has(q)) {
+          setResult(memoMono.get(q))
+          return
+        }
+
+        const result: JSONMono = []
+        mono.forEach(item => {
+          if (result.length >= 10) return
+          if (item.n.toLocaleUpperCase().includes(q)) result.push(item)
+        })
+
+        setResult(result)
+        memoMono.set(q, result)
+      } catch (error) {}
+    }
+    callback()
+  }, [value])
+
+  return result
 }

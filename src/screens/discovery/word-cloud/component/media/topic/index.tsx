@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 19:27:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 20:49:42
+ * @Last Modified time: 2024-10-31 04:27:57
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -65,7 +65,7 @@ function Topic(_props, { $ }: Ctx) {
               bold
               numberOfLines={2}
             >
-              {bottom}
+              {bottom.replace(/ {2,}/g, ' ')}
             </Text>
           </Flex>
         </Flex.Item>

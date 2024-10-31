@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 06:07:07
+ * @Last Modified time: 2024-10-31 04:27:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,7 +44,7 @@ function Content(_props, { $, navigation }: Ctx) {
         navigation={navigation}
         style={_.mt.lg}
         ratio={1.2}
-        msg={$.detail}
+        msg={$.detail.replace(/ {2,}/g, ' ')}
         length={400}
         matchLink={false}
       />
