@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 17:56:07
+ * @Last Modified time: 2024-11-01 07:51:28
  */
 import { rakuenStore, subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { get } from '@utils/kv'
-import { D } from '@constants'
+import { get, update } from '@utils/kv'
+import { D, DEV } from '@constants'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -29,9 +29,38 @@ export default class Fetch extends Computed {
               _loaded: now
             }
           })
-          return true
+          return this.state.data.list.length >= 20
         }
       }
+    } catch (error) {}
+
+    return false
+  }
+
+  /** 获取趋势 */
+  fetchTrend = async () => {
+    try {
+      const trend = await get(this.trendId)
+      if (typeof trend?.value === 'number') {
+        this.setState({
+          trend: Number(trend.value + 1) || 1
+        })
+      } else {
+        this.setState({
+          trend: 1
+        })
+      }
+
+      if (DEV) return
+
+      update(
+        this.trendId,
+        {
+          value: Number(this.state.trend || 1)
+        },
+        true,
+        true
+      )
     } catch (error) {}
 
     return false

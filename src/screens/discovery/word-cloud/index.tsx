@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 16:37:56
+ * @Last Modified time: 2024-11-01 07:49:06
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'
+import { _ } from '@stores'
 import { ic } from '@utils/decorators'
 import Bg from './component/bg'
 import Cavans from './component/cavans'
@@ -29,10 +30,17 @@ const WordCloud = (_props, context: Ctx) => {
         <Bg />
         <Media />
         <ScrollView
-          style={{
-            height: '100%'
-          }}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+          style={_.container.h100}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              colors={[_.colorMain]}
+              titleColor={_.colorSub}
+              tintColor={_.colorSub}
+              progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
+              onRefresh={handleRefresh}
+            />
+          }
         >
           <Cavans />
         </ScrollView>

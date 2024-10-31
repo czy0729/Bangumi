@@ -217,14 +217,6 @@ export const TIMELINE_TYPE = [
   {
     label: '目录',
     value: 'index'
-  },
-  // {
-  //   label: '天窗',
-  //   value: 'doujin'
-  // },
-  {
-    label: '',
-    value: 'all'
   }
 ] as const
 

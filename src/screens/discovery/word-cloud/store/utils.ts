@@ -19,6 +19,8 @@ export function removeSlogan(str: string, max?: number) {
   if (!str || typeof str !== 'string') return str
 
   str = str.split('[来自Bangumi')?.[0] || ''
+  str = str.replace(/删除了回复/g, '')
+
   if (max) str = str.slice(0, max)
 
   return str

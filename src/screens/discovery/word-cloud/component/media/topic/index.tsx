@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 19:27:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-31 04:27:57
+ * @Last Modified time: 2024-11-01 07:27:12
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -44,6 +44,7 @@ function Topic(_props, { $ }: Ctx) {
           <Flex style={styles.body} direction='column' justify='between' align='start'>
             <Text type='__plain__' bold numberOfLines={2}>
               {top}
+              {'  '}
               {!!$.topic.time && (
                 <Text
                   style={styles.opacity}
@@ -53,7 +54,6 @@ function Topic(_props, { $ }: Ctx) {
                   bold
                   numberOfLines={2}
                 >
-                  {'  '}
                   {$.topic.group}
                 </Text>
               )}

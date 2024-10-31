@@ -2,19 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-09-27 16:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-29 18:47:53
+ * @Last Modified time: 2024-11-01 07:14:08
  */
 import { useCallback, useState } from 'react'
 import { StatusBar } from '@components'
 import { systemStore } from '@stores'
 import { info } from '@utils'
-import { useFocusEffect, useRunAfter } from '@utils/hooks'
+import { useFocusEffect, useMount, useRunAfter } from '@utils/hooks'
 import { Ctx } from './types'
 
 /** 词云页面逻辑 */
 export function useWordCloudPage({ $ }: Ctx) {
   useRunAfter(() => {
     $.init()
+  })
+
+  useMount(() => {
+    $.fetchTrend()
   })
 
   useFocusEffect(() => {

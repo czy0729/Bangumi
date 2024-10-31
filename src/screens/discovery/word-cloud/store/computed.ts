@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-10 11:35:48
+ * @Last Modified time: 2024-11-01 07:04:38
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore } from '@stores'
@@ -10,7 +10,7 @@ import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
 import { Id, UserId } from '@types'
 import { MAX_PAGE, PAGE_LIMIT } from '../ds'
-import { SnapshotId } from '../types'
+import { SnapshotId, TrendId } from '../types'
 import { getPlainText, removeSlogan, removeSpec } from './utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -43,6 +43,11 @@ export default class Computed extends State {
   /** 快照 ID */
   @computed get snapshotId(): SnapshotId {
     return `extract_${String(this.id).replace(/\//g, '_')}`
+  }
+
+  /** 趋势 ID */
+  @computed get trendId(): TrendId {
+    return `trend_${String(this.id).replace(/\//g, '_')}`
   }
 
   /** 页面唯一命名空间 */
