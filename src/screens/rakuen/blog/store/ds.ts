@@ -32,6 +32,9 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
+  /** 展开的子楼层 ID */
+  expands: [],
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

@@ -21,10 +21,7 @@ function List({ type }: Props, { $ }: Ctx) {
   const blog = $.blog(type)
   return (
     <>
-      <ScrollView
-        keyboardDismissMode='on-drag'
-        // scrollToTop={type === $.type}
-      >
+      <ScrollView keyboardDismissMode='on-drag'>
         {$.state.show && (
           <View style={styles.container}>
             {blog._loaded ? (

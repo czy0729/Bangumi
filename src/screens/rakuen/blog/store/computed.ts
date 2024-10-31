@@ -15,6 +15,7 @@ export default class Computed extends State {
   @computed get blogId() {
     const { blogId = '' } = this.params
     if (!blogId) return '0'
+
     return String(blogId).split('#')[0]
   }
 

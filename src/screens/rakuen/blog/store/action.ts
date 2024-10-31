@@ -12,8 +12,14 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { Fn, Id, TopicId } from '@types'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
+  /** 本地化 */
+  save = () => {
+    return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
   /** 显示评论框 */
   showFixedTextarea = (placeholder: any, replySub: any, message?: any) => {
     t('日志.显示评论框', {
@@ -90,6 +96,15 @@ export default class Action extends Fetch {
       })
       showFixedTextareCallback()
     }, 0)
+  }
+
+  /** 展开的子楼层 */
+  toggleExpand = (id: any) => {
+    const { expands } = this.state
+    this.setState({
+      expands: expands.includes(id) ? expands.filter(item => item !== id) : [...expands, id]
+    })
+    this.save()
   }
 
   // -------------------- action --------------------
