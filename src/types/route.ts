@@ -659,10 +659,13 @@ export type RouteMilestone = Route<
   {
     userId?: UserId
 
-    /** options, 若网页分享则全都为 string */
+    /** filters */
     subjectType?: SubjectType
     type?: CollectionStatus
     order?: CollectionsOrder
+    tag?: string
+
+    /** options, 若网页分享则全都为 string */
     numColumns?: number | string
     radius?: boolean | string
     autoHeight?: boolean | string

@@ -21,7 +21,7 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Filter(_props, { $ }: Ctx) {
-  const { subjectType, order } = $.state
+  const { subjectType, order, tag } = $.state
   let action: string = '看'
   if (subjectType === 'music') action = '听'
   if (subjectType === 'book') action = '读'
@@ -35,36 +35,52 @@ function Filter(_props, { $ }: Ctx) {
   }
 
   return (
-    <Flex style={styles.filter}>
-      <Popover
-        style={styles.item}
-        data={SUBJECT_TYPE.map(item => item.title)}
-        onSelect={$.selectSubjectType}
-      >
-        <Text size={12} bold>
-          {MODEL_SUBJECT_TYPE.getTitle($.state.subjectType)}
-        </Text>
-      </Popover>
-      <Text size={12} bold>
-        ·
-      </Text>
-      <Popover
-        style={styles.item}
-        data={COLLECTION_STATUS.map(item => item.label.replace('看', action))}
-        onSelect={$.selectType}
-      >
-        <Text size={12} bold>
-          {MODEL_COLLECTION_STATUS.getLabel($.state.type).replace('看', action)}
-        </Text>
-      </Popover>
-      <Text size={12} bold>
-        ·
-      </Text>
-      <Popover style={styles.item} data={ORDER_DS} onSelect={$.selectOrder}>
-        <Text size={12} bold>
-          按{orderText}
-        </Text>
-      </Popover>
+    <Flex style={styles.container}>
+      <Flex.Item>
+        <Flex>
+          <Popover
+            style={styles.item}
+            data={SUBJECT_TYPE.map(item => item.title)}
+            onSelect={$.selectSubjectType}
+          >
+            <Text size={11} bold>
+              {MODEL_SUBJECT_TYPE.getTitle($.state.subjectType)}
+            </Text>
+          </Popover>
+          <Text style={styles.split} size={11} bold>
+            ·
+          </Text>
+          <Popover
+            style={styles.item}
+            data={COLLECTION_STATUS.map(item => item.label.replace('看', action))}
+            onSelect={$.selectType}
+          >
+            <Text size={11} bold>
+              {MODEL_COLLECTION_STATUS.getLabel($.state.type).replace('看', action)}
+            </Text>
+          </Popover>
+          <Text style={styles.split} size={11} bold>
+            ·
+          </Text>
+          <Popover style={styles.item} data={ORDER_DS} onSelect={$.selectOrder}>
+            <Text size={11} bold>
+              按{orderText}
+            </Text>
+          </Popover>
+          <Text style={styles.split} size={11} bold>
+            ·
+          </Text>
+          <Popover
+            style={styles.item}
+            data={['全部', ...$.userCollectionsTags.map(item => `${item.tag} (${item.count})`)]}
+            onSelect={$.selectTag}
+          >
+            <Text size={11} bold>
+              {tag || '标签'}
+            </Text>
+          </Popover>
+        </Flex>
+      </Flex.Item>
       <IconTouchable
         style={styles.setting}
         name='icon-setting'

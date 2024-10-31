@@ -30,6 +30,7 @@ export default class ScreenWordCloud extends Action {
       subjectType,
       type,
       order,
+      tag,
       numColumns,
       radius,
       autoHeight,
@@ -63,6 +64,8 @@ export default class ScreenWordCloud extends Action {
     ) {
       data.order = order
     }
+
+    if (typeof tag === 'string' && tag) data.tag = tag
 
     /** options */
     if (

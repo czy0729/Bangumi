@@ -19,7 +19,8 @@ export default class Action extends Fetch {
 
   selectSubjectType = (title: SubjectTypeCn) => {
     this.setState({
-      subjectType: MODEL_SUBJECT_TYPE.getLabel(title)
+      subjectType: MODEL_SUBJECT_TYPE.getLabel(title),
+      tag: ''
     })
     this.fetchCollections()
     this.save()
@@ -27,7 +28,8 @@ export default class Action extends Fetch {
 
   selectType = (title: CollectionStatusCn) => {
     this.setState({
-      type: MODEL_COLLECTION_STATUS.getValue(title.replace(/听|读|玩/g, '看'))
+      type: MODEL_COLLECTION_STATUS.getValue(title.replace(/听|读|玩/g, '看')),
+      tag: ''
     })
     this.fetchCollections()
     this.save()
@@ -43,6 +45,15 @@ export default class Action extends Fetch {
 
     this.setState({
       order
+    })
+    this.fetchCollections(true)
+    this.save()
+  }
+
+  selectTag = (title: string = '') => {
+    const tag = (title === '全部' ? '' : title.split(' (')?.[0]) || ''
+    this.setState({
+      tag
     })
     this.fetchCollections(true)
     this.save()

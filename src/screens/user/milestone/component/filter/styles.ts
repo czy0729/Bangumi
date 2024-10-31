@@ -7,15 +7,19 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  filter: {
+  container: {
     opacity: 0.72
   },
   item: {
-    paddingVertical: 8,
-    paddingHorizontal: 3
+    paddingVertical: 4,
+    paddingHorizontal: 4
+  },
+  split: {
+    marginHorizontal: -1,
+    opacity: 0.72,
+    pointerEvents: 'none'
   },
   setting: {
-    marginRight: -8,
-    marginLeft: 2
+    marginRight: -8
   }
 })

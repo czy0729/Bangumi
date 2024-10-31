@@ -40,7 +40,7 @@ function User(_props, { $, navigation }: Ctx) {
               <Text size={userName.length >= 6 ? 13 : 14} bold>
                 {userName}
               </Text>
-              <Text style={_.mt.xs} type='sub' size={12} bold>
+              <Text style={_.mt.xs} type='sub' size={12} lineHeight={14} bold>
                 @{userId}
               </Text>
             </Touchable>

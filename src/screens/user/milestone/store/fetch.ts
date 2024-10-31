@@ -15,11 +15,13 @@ export default class Fetch extends Computed {
   }
 
   fetchUserCollections = (refresh: boolean = false) => {
+    const { subjectType, type, order, tag } = this.state
     return collectionStore.fetchUserCollections(
       {
-        subjectType: this.state.subjectType,
-        type: this.state.type,
-        order: this.state.order,
+        subjectType,
+        type,
+        order,
+        tag,
         userId: this.userId
       },
       refresh

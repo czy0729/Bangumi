@@ -27,6 +27,10 @@ export default class Computed extends State {
     return collectionStore.userCollections(this.userId, this.state.subjectType, this.state.type)
   }
 
+  @computed get userCollectionsTags() {
+    return collectionStore.userCollectionsTags(this.userId, this.state.subjectType, this.state.type)
+  }
+
   @computed get data() {
     const { limit } = this.state
     if (!limit) return this.collections
@@ -42,7 +46,8 @@ export default class Computed extends State {
       this.userId,
       this.state.subjectType,
       this.state.type,
-      this.state.order
+      this.state.order,
+      this.state.tag
     )
   }
 

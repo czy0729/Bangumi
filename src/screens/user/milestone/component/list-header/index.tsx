@@ -35,7 +35,7 @@ function ListHeader(_props, { $ }: Ctx) {
             justify='center'
           >
             <Text type='sub' size={12} bold>
-              没有收藏
+              {!$.userId ? '当前没有选择用户，可点击右上方设置按钮输入用户ID' : '没有收藏'}
             </Text>
           </Flex>
         )

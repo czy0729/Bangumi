@@ -16,13 +16,11 @@ export const EXCLUDE_STATE = {
 }
 
 export const STATE = {
-  ...EXCLUDE_STATE,
-  _loaded: false as Loaded,
-
   /** filters */
   subjectType: SUBJECT_TYPE[0].label as SubjectType,
   type: COLLECTION_STATUS[1].value as CollectionStatus,
   order: COLLECTIONS_ORDERBY[0].value as CollectionsOrder,
+  tag: '',
 
   /** options */
   bg: true,
@@ -36,5 +34,8 @@ export const STATE = {
   starsFull: false,
   starsColor: true,
   lastTime: false,
-  limit: 100
+  limit: 100,
+
+  ...EXCLUDE_STATE,
+  _loaded: false as Loaded
 }
