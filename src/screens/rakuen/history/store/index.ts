@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:35:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 19:50:05
+ * @Last Modified time: 2024-11-01 11:52:03
  */
 import { rakuenStore } from '@stores'
 import Action from './action'
@@ -22,6 +22,7 @@ class ScreenRakuenHistory extends Action {
 
     rakuenStore.getFavor()
     this.fetchGroup()
+    this.fetchCollectRank()
 
     return true
   }

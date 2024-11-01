@@ -3,12 +3,11 @@ import { info } from '@utils'
  * @Author: czy0729
  * @Date: 2024-06-04 15:34:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 20:45:58
+ * @Last Modified time: 2024-11-01 13:25:55
  */
 import { gets } from '@utils/kv'
-import { Types } from '../types'
+import { CollectRankSort, Types } from '../types'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
   /** 切换 Tab */
@@ -16,7 +15,7 @@ export default class Action extends Fetch {
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 切换类型 */
@@ -24,7 +23,7 @@ export default class Action extends Fetch {
     this.setState({
       type: title
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 加载一页云端帖子数据 */
@@ -42,7 +41,25 @@ export default class Action extends Fetch {
     this.setState({
       topics: datas
     })
-    this.setStorage(NAMESPACE)
+    this.save()
+  }
+
+  /** 加载一页云端帖子数据 */
+  onPageMemo = async (data: string[]) => {
+    if (!data.length) return true
+
+    const keys = []
+    data.forEach(item => {
+      const key = `favor_${item.replace('/', '_')}`
+      if (!this.state.topics[key]) keys.push(key)
+    })
+    if (!keys.length) return true
+
+    const datas = await gets(keys)
+    this.setState({
+      topics: datas
+    })
+    this.save()
   }
 
   /** 上一页 */
@@ -61,7 +78,7 @@ export default class Action extends Fetch {
       this.setState({
         show: true
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }, 400)
   }
 
@@ -79,7 +96,7 @@ export default class Action extends Fetch {
       this.setState({
         show: true
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }, 400)
   }
 
@@ -89,6 +106,14 @@ export default class Action extends Fetch {
     this.setState({
       ipt: text
     })
+  }
+
+  /** 切换热门排序 */
+  onCollectRankSortChange = (title: CollectRankSort) => {
+    this.setState({
+      collectRankSort: title
+    })
+    this.save()
   }
 
   /** 页码跳转 */
@@ -111,7 +136,7 @@ export default class Action extends Fetch {
       this.setState({
         show: true
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     }, 400)
   }
 }

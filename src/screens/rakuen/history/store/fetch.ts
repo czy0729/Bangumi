@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-05 19:42:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 16:27:11
+ * @Last Modified time: 2024-11-01 11:58:33
  */
 import { rakuenStore } from '@stores'
 import { getInt } from '@stores/rakuen/utils'
 import { getTimestamp, queue } from '@utils'
+import { collectRank } from '@utils/kv'
 import { H12 } from '@constants'
 import { TopicId } from '@types'
 import Computed from './computed'
@@ -59,5 +60,18 @@ export default class Fetch extends Computed {
     })
 
     return queue(fetchs)
+  }
+
+  /** 获取热门帖子 */
+  fetchCollectRank = async () => {
+    try {
+      const data = await collectRank()
+      if (Array.isArray(data?.data)) {
+        this.setState({
+          collectRank: data.data
+        })
+        this.save()
+      }
+    } catch (error) {}
   }
 }

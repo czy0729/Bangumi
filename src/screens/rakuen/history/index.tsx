@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 21:11:36
+ * @Last Modified time: 2024-11-01 11:50:21
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 帖子聚合 */
-const RakuenHistory = (props, { $ }: Ctx) => {
+const RakuenHistory = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

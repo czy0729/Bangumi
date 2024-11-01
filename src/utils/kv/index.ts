@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 18:49:02
+ * @Last Modified time: 2024-11-01 13:26:54
  */
 import axios from '@utils/thirdParty/axios'
 import { WEB } from '@constants/device'
@@ -258,4 +258,22 @@ export async function extract(q: string) {
       weight: number
     }[]
   ).map(item => [item.word, item.weight.toFixed(0)]) as [string, string][]
+}
+
+export async function collectRank(count: number = 200) {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  // @ts-expect-error
+  const { data } = await axios({
+    method: 'post',
+    url: `${HOST}/v1/collect/rank`,
+    data: {
+      // startTime: dayjs().subtract(30, 'day').unix(),
+      // endTime: dayjs().unix(),
+      // startsWith,
+      count
+    }
+  })
+
+  return data
 }

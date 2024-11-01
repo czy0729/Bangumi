@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 10:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-04 16:23:47
+ * @Last Modified time: 2024-11-01 08:23:37
  */
 export const COMPONENT = 'RakuenHistory'
 
@@ -14,6 +14,10 @@ export const TABS = [
   {
     key: 'favor',
     title: '收藏'
+  },
+  {
+    key: 'hot',
+    title: '热门'
   },
   {
     key: 'local',

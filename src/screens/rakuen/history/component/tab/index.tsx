@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 15:00:32
+ * @Last Modified time: 2024-11-01 11:13:58
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -14,12 +14,13 @@ import { r } from '@utils/dev'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import FavorList from '../favor-list'
+import HotList from '../hot-list'
 import LocalList from '../local-list'
 import ReplyList from '../reply-list'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Tab(props, { $ }: Ctx) {
+function Tab(_props, { $ }: Ctx) {
   r(COMPONENT)
 
   const renderScene = useMemo(
@@ -27,6 +28,7 @@ function Tab(props, { $ }: Ctx) {
       SceneMap({
         reply: () => <ReplyList />,
         favor: () => <FavorList />,
+        hot: () => <HotList />,
         local: () => <LocalList />
       }),
     []

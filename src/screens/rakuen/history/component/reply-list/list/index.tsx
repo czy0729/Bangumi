@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-05 20:47:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-07 07:28:37
+ * @Last Modified time: 2024-11-01 08:08:19
  */
 import React from 'react'
 import { Flex, Mesume, ScrollView, Text } from '@components'
@@ -13,7 +13,7 @@ import Item from '../item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   const { list, _loaded } = $.myReply
   if (_loaded && !list.length) {
     return (

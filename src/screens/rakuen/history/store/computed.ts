@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 20:25:40
+ * @Last Modified time: 2024-11-01 13:31:13
  */
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
@@ -86,6 +86,20 @@ export default class Computed extends State {
   /** 我回复的帖子 */
   @computed get myReply() {
     return rakuenStore.group('my_reply', this.state.replyPage)
+  }
+
+  /** 热门帖子 */
+  @computed get collectRank() {
+    const { collectRank, collectRankSort } = this.state
+    if (collectRankSort === '收藏数') {
+      return collectRank.filter(item => item.collect_count >= 10)
+    }
+
+    return collectRank
+      .filter(item => item.collect_count >= 10)
+      .sort(
+        (a, b) => Number(b.topic_id.split('/')?.[1] || 0) - Number(a.topic_id.split('/')?.[1] || 0)
+      )
   }
 
   /** 帖子历史查看记录 */
