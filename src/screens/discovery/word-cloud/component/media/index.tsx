@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 16:51:37
+ * @Last Modified time: 2024-11-01 23:50:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { Ctx } from '../../types'
 import Mono from './mono'
 import Subject from './subject'
 import Topic from './topic'
+import User from './user'
 import { COMPONENT } from './ds'
 
 function Media(_props, { $, navigation }: Ctx) {
@@ -25,6 +26,8 @@ function Media(_props, { $, navigation }: Ctx) {
     el = <Topic />
   } else if ($.monoId) {
     el = <Mono />
+  } else if ($.userId) {
+    el = <User />
   }
   if (!el) return null
 
@@ -49,6 +52,13 @@ function Media(_props, { $, navigation }: Ctx) {
           if ($.monoId) {
             navigation.push('Mono', {
               monoId: $.monoId
+            })
+            return
+          }
+
+          if ($.userId) {
+            navigation.push('Zone', {
+              userId: $.userId
             })
             return
           }

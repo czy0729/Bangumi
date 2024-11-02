@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-29 02:14:10
+ * @Last Modified time: 2024-11-03 06:42:45
  */
 import {
   findTreeNode,
@@ -26,7 +26,7 @@ import {
   HTML_USER_COLLECTIONS,
   MODEL_COLLECTION_STATUS,
   MODEL_SUBJECT_TYPE,
-  STORYBOOK
+  WEB
 } from '@constants'
 import {
   CollectionsOrder,
@@ -40,12 +40,8 @@ import {
 } from '@types'
 import userStore from '../user'
 import Computed from './computed'
-import {
-  DEFAULT_COLLECTION_STATUS,
-  DEFAULT_ORDER,
-  DEFAULT_SUBJECT_TYPE,
-  NAMESPACE
-} from './init'
+import { DEFAULT_COLLECTION_STATUS, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE, NAMESPACE } from './init'
+import { UserCollections } from './types'
 
 export default class Fetch extends Computed {
   /** 只本地化自己的收藏概览 */
@@ -169,9 +165,8 @@ export default class Fetch extends Computed {
       // 总页数
       if (page === 1) {
         const pageHTML =
-          html.match(
-            /<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/
-          ) || html.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
+          html.match(/<span class="p_edge">\(&nbsp;\d+&nbsp;\/&nbsp;(\d+)&nbsp;\)<\/span>/) ||
+          html.match(/(\d+)<\/a>([^>]*>&rsaquo)/)
         pageTotal = pageHTML?.[1] || 1
       }
 
@@ -185,8 +180,7 @@ export default class Fetch extends Computed {
 
         // 封面
         node =
-          findTreeNode(children, 'a > span > img') ||
-          findTreeNode(children, 'a > noscript > img')
+          findTreeNode(children, 'a > span > img') || findTreeNode(children, 'a > noscript > img')
         let cover = node ? node[0].attrs.src : ''
         if (cover === '/img/info_only.png') cover = ''
 
@@ -239,7 +233,7 @@ export default class Fetch extends Computed {
     }
 
     const key = 'userCollections'
-    const data = {
+    const data: UserCollections = {
       list: refresh ? items : [...list, ...items],
       pagination: {
         page,
@@ -254,7 +248,7 @@ export default class Fetch extends Computed {
     })
 
     // 只本地化自己的收藏概览
-    if (userId === userStore.userInfo.username || userId === userStore.myUserId) {
+    if (WEB || userId === userStore.userInfo.username || userId === userStore.myUserId) {
       this.setUserCollectionsStroage()
     }
 
@@ -274,9 +268,7 @@ export default class Fetch extends Computed {
       const userId = username || userStore.myUserId
       if (!userId) return false
 
-      const subjectType = MODEL_SUBJECT_TYPE.getLabel<SubjectTypeValue>(
-        typeCn
-      ) as SubjectType
+      const subjectType = MODEL_SUBJECT_TYPE.getLabel<SubjectTypeValue>(typeCn) as SubjectType
       const now = getTimestamp()
       for (const item of COLLECTION_STATUS) {
         const { _loaded } = this.userCollections(userId, subjectType, item.value)
@@ -356,9 +348,7 @@ export default class Fetch extends Computed {
       await sleep(2400)
 
       const { _response } = await xhrCustom({
-        url: `${API_MOSAIC_TILE(
-          _username
-        )}?begin=2019-07-01&end=2020-12-31&state=${getTimestamp()}`
+        url: `${API_MOSAIC_TILE(_username)}?begin=2019-07-01&end=2020-12-31&state=${getTimestamp()}`
       })
 
       const data = JSON.parse(_response)
@@ -391,7 +381,7 @@ export default class Fetch extends Computed {
     await this.init(keyCollectionStatus)
     await this.init(keyLastFetchMS)
 
-    if (STORYBOOK) {
+    if (WEB) {
       /** @todo 目前在网页端中 userStore.isLogin 一定返回 false */
       if (!userStore.accessToken.access_token || !subjectIds.length) return {} // [1]
     } else {
@@ -423,9 +413,7 @@ export default class Fetch extends Computed {
     const data = {}
     results.forEach(result => {
       if (result?.subject_id && result?.type) {
-        data[result.subject_id] = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(
-          result.type
-        )
+        data[result.subject_id] = MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(result.type)
       }
     })
 

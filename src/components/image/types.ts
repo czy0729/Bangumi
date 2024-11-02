@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-03-05 18:31:36
  */
 import { ColorValue, ImageProps } from 'react-native'
-import { EventType, Fn, ImageStyle, Override, Source, ViewStyle } from '@types'
+import { EventType, Fn, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
 import { SkeletonProps } from '../skeleton'
 
 export type Props = Override<
@@ -18,7 +18,7 @@ export type Props = Override<
     imageStyle?: ImageStyle
 
     /** 图片地址 */
-    src?: Source | string
+    src?: ImageSource | string
 
     /** 大小 | 宽度 */
     size?: number
@@ -114,7 +114,7 @@ export type State = {
   error: boolean
 
   /** 图片加载实际地址 */
-  uri: Source | string
+  uri: ImageSource | string
 
   /** 图片当前宽度 */
   width: number

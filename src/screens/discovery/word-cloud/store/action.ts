@@ -2,13 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 22:18:22
+ * @Last Modified time: 2024-11-03 06:51:35
  */
 import { getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
-import { extract, update } from '@utils/kv'
+import { extract, gets, update } from '@utils/kv'
+import { D, MODEL_SUBJECT_TYPE } from '@constants'
+import { SubjectId, SubjectTypeCn } from '@types'
 import { MAX_PAGE } from '../ds'
+import { CutType, SnapshotSubjectsItem } from '../types'
 import Fetch from './fetch'
+import { getSubjectCutList } from './utils'
 import { FILTER_WORD } from './ds'
 
 export default class Action extends Fetch {
@@ -70,6 +74,64 @@ export default class Action extends Fetch {
     return true
   }
 
+  /** 批量获取收藏条目信息 */
+  batchUserSubject = async () => {
+    await this.fetchCollection()
+
+    const subjectIds: SubjectId[] = []
+    const now = getTimestamp()
+    this.userCollections.forEach(item => {
+      const subjectId = item.id
+      const subject = this.state.subjects[subjectId]
+      if (!subject?._loaded || (subject?._loaded && now - Number(subject?._loaded) >= D)) {
+        subjectIds.push(subjectId)
+      }
+    })
+    if (!subjectIds.length) return true
+
+    const data: Record<`subject_${SubjectId}`, SnapshotSubjectsItem> = await gets(
+      subjectIds.map(item => `subject_${item}`),
+      ['id', 'name', 'name_cn', 'image', 'tags', 'character', 'staff', 'rating', 'rank']
+    )
+    const subjects: Record<SubjectId, SnapshotSubjectsItem> = {}
+    Object.entries(data).forEach(([, value]: [any, SnapshotSubjectsItem]) => {
+      if (value) {
+        subjects[value.id] = {
+          ...value,
+          _loaded: now
+        }
+      }
+    })
+    this.setState({
+      subjects
+    })
+    this.save()
+  }
+
+  /** 计算条目本地分词 */
+  genSubjectCut = () => {
+    this.setState({
+      user: {
+        [this.userId]: {
+          list: getSubjectCutList(
+            this.state.cutType,
+            this.subjectIds,
+            this.state.subjectType,
+            this.state.subjects
+          ),
+          _loaded: getTimestamp()
+        }
+      }
+    })
+  }
+
+  /** 批量获取收藏条目信息后分词 */
+  batchUserSubjectThenCut = async () => {
+    await this.batchUserSubject()
+    this.genSubjectCut()
+    this.save()
+  }
+
   /** 分词 */
   cut = async () => {
     const result = await extract(this.plainText)
@@ -100,11 +162,12 @@ export default class Action extends Fetch {
   /** 分词点击 */
   onWordPress = (title: string) => {
     this.setState({
-      title
+      title: title.trim()
     })
 
     setTimeout(() => {
-      if (!this.selectedComment.length) {
+      if (this.userId) {
+      } else if (!this.selectedComment.length) {
         info('没有找到对应吐槽')
         return
       }
@@ -125,5 +188,25 @@ export default class Action extends Fetch {
     this.setState({
       show: false
     })
+  }
+
+  /** 选择条目类型 */
+  selectSubjectType = (title: SubjectTypeCn) => {
+    if (this.state.fetchingCollections) return
+
+    this.setState({
+      subjectType: MODEL_SUBJECT_TYPE.getLabel(title)
+    })
+    this.batchUserSubjectThenCut()
+    this.save()
+  }
+
+  /** 选择条目类型 */
+  selectCutType = (title: CutType) => {
+    this.setState({
+      cutType: title
+    })
+    this.genSubjectCut()
+    this.save()
   }
 }

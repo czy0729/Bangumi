@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-27 08:17:53
+ * @Last Modified time: 2024-11-03 06:25:30
  */
 import { subjectStore } from '@stores'
 import Action from './action'
@@ -20,9 +20,13 @@ export default class ScreenWordCloud extends Action {
       if (!this.subject._loaded) await subjectStore.fetchSubject(this.subjectId)
     } else if (this.topicId) {
       if (!this.topic._loaded) await this.fetchTopic()
+    } else if (this.userId) {
+      if (!this.users._loaded) await this.fetchUser()
     }
 
-    if (!(await this.fetchSnapshot())) {
+    if (this.userId) {
+      this.batchUserSubjectThenCut()
+    } else if (!(await this.fetchSnapshot())) {
       if (this.subjectId) {
         this.batchSubjectThenCut()
       } else if (this.topicId) {

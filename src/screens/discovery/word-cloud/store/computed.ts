@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 07:04:38
+ * @Last Modified time: 2024-11-03 06:54:09
  */
 import { computed } from 'mobx'
-import { rakuenStore, subjectStore } from '@stores'
+import { collectionStore, rakuenStore, subjectStore, usersStore } from '@stores'
+import { UserCollectionsItem } from '@stores/collection/types'
 import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
-import { Id, UserId } from '@types'
 import { MAX_PAGE, PAGE_LIMIT } from '../ds'
-import { SnapshotId, TrendId } from '../types'
+import { SelectedCommentItem, SnapshotId, TrendId } from '../types'
 import { getPlainText, removeSlogan, removeSpec } from './utils'
 import State from './state'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -36,8 +36,13 @@ export default class Computed extends State {
     return this.params.monoId
   }
 
+  /** 用户 ID */
+  @computed get userId() {
+    return this.params.userId
+  }
+
   @computed get id() {
-    return this.subjectId || this.topicId || this.monoId || ''
+    return this.subjectId || this.topicId || this.monoId || this.userId || ''
   }
 
   /** 快照 ID */
@@ -52,7 +57,7 @@ export default class Computed extends State {
 
   /** 页面唯一命名空间 */
   @computed get namespace() {
-    return `${NAMESPACE}|${this.id}`
+    return this.userId ? NAMESPACE : `${NAMESPACE}|${this.id}`
   }
 
   /** 条目信息 */
@@ -83,6 +88,11 @@ export default class Computed extends State {
   /** 角色回复 */
   @computed get monoComments() {
     return subjectStore.monoComments(this.monoId)
+  }
+
+  /** 用户信息 */
+  @computed get users() {
+    return usersStore.users(this.userId)
   }
 
   /** 吐槽纯文本 */
@@ -122,15 +132,7 @@ export default class Computed extends State {
   }
 
   /** 点击词云后选中的吐槽 */
-  @computed get selectedComment(): readonly {
-    id: Id
-    avatar: string
-    userId: UserId
-    userName: string
-    comment: string
-    time: string
-    action?: string
-  }[] {
+  @computed get selectedComment(): readonly SelectedCommentItem[] {
     const { title } = this.state
     if (this.subjectId) {
       const { list } = this.subjectComments
@@ -186,6 +188,57 @@ export default class Computed extends State {
     return FROZEN_ARRAY
   }
 
+  /** 参与计算的用户收藏 */
+  @computed get userCollections() {
+    const { subjectType } = this.state
+    return [
+      ...collectionStore.userCollections(this.userId, subjectType, 'wish').list,
+      ...collectionStore.userCollections(this.userId, subjectType, 'do').list,
+      ...collectionStore.userCollections(this.userId, subjectType, 'collect').list
+    ]
+  }
+
+  /** 当前收藏条目集 */
+  @computed get subjectIds() {
+    return this.userCollections.map(item => item.id)
+  }
+
+  /** 点击词云后选中的条目 */
+  @computed get selectedSubjects(): readonly UserCollectionsItem[] {
+    const { title } = this.state
+    if (!title) return FROZEN_ARRAY
+
+    if (this.userId) {
+      if (!this.userCollections.length) return FROZEN_ARRAY
+
+      const { cutType } = this.state
+      return this.userCollections
+        .filter(item => {
+          const subject = this.state.subjects[item.id]
+          if (!subject) return false
+
+          if (cutType === '标签') {
+            return subject?.tags?.some(i => title === i.name)
+          } else if (cutType === '制作人员') {
+            return subject?.staff?.some(i => title === i.name || title === i.nameJP)
+          } else if (cutType === '声优') {
+            return subject?.character?.some(i => title === i.desc)
+          } else if (cutType === '排名') {
+            const { rank } = subject
+            if (title === 'N/A') return !rank
+            if (title === '前百') return rank <= 100
+            if (title.includes('百')) return title === `${Math.floor(rank / 100)}百`
+            if (title.includes('千')) return title === `${Math.floor(rank / 1000)}千`
+          }
+
+          return false
+        })
+        .sort((a, b) => b.time.localeCompare(a.time))
+    }
+
+    return FROZEN_ARRAY
+  }
+
   /** 总楼层数 */
   @computed get total() {
     let sum = 0
@@ -203,6 +256,7 @@ export default class Computed extends State {
       this.topic?.title ||
       this.mono?.nameCn ||
       this.mono?.name ||
+      this.users?.userName ||
       ''
     )
   }
@@ -210,5 +264,19 @@ export default class Computed extends State {
   /** 浏览器地址 */
   @computed get url() {
     return `word_cloud/${String(this.id).replace(/\//g, '_')}`
+  }
+
+  /** 分词数据 */
+  @computed get data() {
+    if (this.userId) {
+      return (
+        this.state.user[this.userId] || {
+          list: [],
+          _loaded: 0
+        }
+      )
+    }
+
+    return this.state.data
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 19:20:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 21:48:21
+ * @Last Modified time: 2024-11-01 23:30:17
  */
 import React from 'react'
 import { BlurView, BLURVIEW_TINT_DARK } from '@components'
@@ -21,6 +21,8 @@ function Bg(_props, { $ }: Ctx) {
   } else if ($.monoId) {
     src = $.mono?.cover
     if (src) src = getMonoCoverSmall(src)
+  } else if ($.userId) {
+    src = $.users.avatar
   }
 
   if (!src) return null

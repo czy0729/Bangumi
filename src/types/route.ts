@@ -285,6 +285,9 @@ export type RouteWordCloud = Route<
     /** 人物 ID, 与其他 ID 互斥 */
     monoId?: MonoId
 
+    /** 用户 ID, 与其他 ID 互斥 */
+    userId?: UserId
+
     /** 条目类型中文 */
     _type?: SubjectTypeCn
   }

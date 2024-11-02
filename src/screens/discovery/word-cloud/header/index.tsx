@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 07:23:16
+ * @Last Modified time: 2024-11-02 07:05:26
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Iconfont, Text, Touchable } from '@components'
@@ -21,6 +21,7 @@ function Header(_props, { $ }: Ctx) {
       title={$.title ? `${$.title}的词云` : '词云'}
       hm={[$.url, 'WordCloud']}
       headerRight={() =>
+        !$.userId &&
         !!trend && (
           <Touchable
             onPress={() => {

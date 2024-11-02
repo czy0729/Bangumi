@@ -10,7 +10,7 @@ import { Fn, Override } from '@types'
 export type Props<ItemT> = Override<
   ListViewProps<ItemT>,
   {
-    data: ItemT[]
+    data: ItemT[] | readonly ItemT[]
 
     /** 链接 ref */
     forwardRef?: Fn
