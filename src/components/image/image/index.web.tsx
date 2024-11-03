@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 14:43:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-26 08:03:40
+ * @Last Modified time: 2024-11-03 08:19:29
  */
 import React, { useEffect, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -138,5 +138,5 @@ function preloadImage(src: string, onLoaded: Function) {
     image = null
   }
   image.onload = load
-  image.onerror = load
+  // image.onerror = load
 }

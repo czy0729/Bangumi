@@ -23,7 +23,7 @@ const HeaderTitle = memo(
             {nameTop}
           </Text>
           {!!nameBottom && (
-            <Text type='sub' size={10} numberOfLines={1}>
+            <Text type='sub' size={10} lineHeight={12} numberOfLines={1}>
               {nameBottom}
             </Text>
           )}

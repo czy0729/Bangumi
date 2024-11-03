@@ -16,7 +16,7 @@ function HeaderTitleWrap({ $ }: Ctx) {
       cover={$.thumb}
       tinygrail={$.tinygrail}
       nameTop={$.nameTop}
-      nameBottom={$.nameBottom}
+      nameBottom={[$.nameBottom, $.position].filter(item => !!item).join(' · ')}
     />
   )
 }

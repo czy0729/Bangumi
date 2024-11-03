@@ -82,11 +82,17 @@ const Voice = memo(
                   >
                     <Flex align='start'>
                       <Flex.Item>
-                        <Text style={_.mt.xxs} size={12} align='right' bold>
+                        <Text style={_.mt.xxs} size={12} align='right' bold numberOfLines={3}>
                           {subjectTop}
                         </Text>
                         {!!subjectBottom && subjectBottom !== subjectTop && (
-                          <Text style={_.mt.xs} size={10} type='sub' align='right'>
+                          <Text
+                            style={_.mt.xs}
+                            size={10}
+                            type='sub'
+                            align='right'
+                            numberOfLines={2}
+                          >
                             {subjectBottom}
                           </Text>
                         )}

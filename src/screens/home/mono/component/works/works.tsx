@@ -55,11 +55,10 @@ const Works = memo(
               >
                 <Flex style={styles.item} align='start'>
                   <Cover
-                    size={COVER_WIDTH}
+                    size={type === '音乐' ? COVER_WIDTH * 1.14 : COVER_WIDTH}
                     height={COVER_HEIGHT}
                     src={item.cover}
                     radius
-                    shadow
                     type={type}
                   />
                   <Flex.Item style={styles.content}>
