@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-11-02 08:08:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:50:52
+ * @Last Modified time: 2024-11-04 19:16:31
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   container: {
-    marginTop: _.md,
+    marginTop: 8,
     opacity: 0.72
   },
   item: {
-    paddingVertical: 4,
-    paddingHorizontal: 8
+    paddingVertical: 8,
+    paddingHorizontal: 6
   },
   split: {
     opacity: 0.72,
@@ -23,7 +23,7 @@ export const styles = _.create({
     marginLeft: _.xs,
     transform: [
       {
-        scale: 0.72
+        scale: _.web(0.72, 1)
       }
     ]
   }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 15:18:24
+ * @Last Modified time: 2024-11-04 19:45:59
  */
 import { computed } from 'mobx'
-import { rakuenStore, subjectStore, usersStore } from '@stores'
+import { rakuenStore, subjectStore, usersStore, userStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { FROZEN_ARRAY } from '@constants'
 import { CoverCrt, SubjectId } from '@types'
@@ -38,7 +38,8 @@ export default class Computed extends State {
 
   /** 用户 ID */
   @computed get userId() {
-    return this.params.userId
+    if (this.subjectId || this.topicId || this.monoId) return ''
+    return this.params.userId || userStore.myId || ''
   }
 
   @computed get id() {

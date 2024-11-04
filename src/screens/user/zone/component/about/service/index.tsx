@@ -2,25 +2,36 @@
  * @Author: czy0729
  * @Date: 2024-04-09 08:03:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:34:31
+ * @Last Modified time: 2024-11-04 18:42:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, Text } from '@components'
-import { open, stl } from '@utils'
+import { _ } from '@stores'
+import { NetworkServiceItem } from '@stores/users/types'
+import { info, open, stl } from '@utils'
 import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Service(_props, { $ }: Ctx) {
-  const { networkService } = $.users
-  if (!networkService?.length) return null
+  const data: NetworkServiceItem[] = [...($.users.networkService || [])]
+  if ($.isAdvance) {
+    data.unshift({
+      label: 'VIP',
+      value: '高级会员',
+      color: _.colorWarning,
+      href: ''
+    })
+  }
+
+  if (!data.length) return null
 
   return (
     <>
       <Flex style={styles.service} wrap='wrap'>
-        {networkService.map(item => (
+        {data.map(item => (
           <Flex key={item.label} style={styles.item}>
             <View
               style={stl(
@@ -38,7 +49,11 @@ function Service(_props, { $ }: Ctx) {
               size={11}
               bold
               onPress={
-                item.href
+                item.label === 'VIP'
+                  ? () => {
+                      info('本标签只会在高级会员之间显示', 3)
+                    }
+                  : item.href
                   ? () => {
                       open(item.href)
                     }

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 16:07:54
+ * @Last Modified time: 2024-11-04 18:53:22
  */
 import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
-import { cnjp, getTimestamp, info } from '@utils'
+import { cnjp, feedback, getTimestamp, info } from '@utils'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
 import { Collection } from '@utils/fetch.v0/types'
@@ -127,11 +127,8 @@ export default class Fetch extends Computed {
             API_COLLECTIONS(this.userId, subjectTypeValue, i, 100, item.value),
             undefined,
             {
-              timeout: 4000,
-              onError: ex => {
-                console.log(ex)
-                info('请求超时, 请重试')
-              }
+              timeout: 8000,
+              onError: () => {}
             }
           )
           if (Array.isArray(response?.data)) list.push(...response.data)
@@ -142,23 +139,27 @@ export default class Fetch extends Computed {
       info('请求发生错误, 请重试')
     }
 
-    if (list.length) {
+    const data = list
+      .filter(item => !!item)
+      .map(item => ({
+        id: item.subject_id,
+        name: cnjp(item.subject?.name_cn, item.subject?.name) || '',
+        cover: item.subject?.images?.large || '',
+        tags: item.tags || [],
+        score: item.rate || 0,
+        time: dayjs(item.updated_at).format('YYYY-MM-DD') || ''
+      }))
+    if (data.length) {
       this.setState({
         collections: {
           ...collections,
-          [key]: list
-            .filter(item => !!item)
-            .map(item => ({
-              id: item.subject_id,
-              name: cnjp(item.subject?.name_cn, item.subject?.name) || '',
-              cover: item.subject?.images?.large || '',
-              tags: item.tags || [],
-              score: item.rate || 0,
-              time: dayjs(item.updated_at).format('YYYY-MM-DD') || ''
-            }))
+          [key]: data
         }
       })
       this.save()
+
+      feedback()
+      info(`索引到 ${data.length} 个收藏`)
     }
 
     this.setState({

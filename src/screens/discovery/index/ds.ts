@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-26 06:41:11
+ * @Last Modified time: 2024-11-04 19:43:16
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -169,6 +169,18 @@ export const MENU_MAP: MenuMapType = {
     icon: 'md-workspaces-outline',
     login: true
   },
+  Milestone: {
+    key: 'Milestone',
+    name: '照片墙',
+    icon: 'md-image-aspect-ratio'
+  },
+  WordCloud: {
+    key: 'WordCloud',
+    name: '我的词云',
+    text: '词',
+    size: 18,
+    login: true
+  },
   Character: {
     key: 'Character',
     name: '我的人物',
@@ -190,11 +202,6 @@ export const MENU_MAP: MenuMapType = {
 } as const
 
 export const MENU_MAP_STORYBOOK: MenuMapType = {
-  Milestone: {
-    key: 'Milestone',
-    name: '照片墙',
-    icon: 'md-image-aspect-ratio'
-  },
   Setting: {
     key: 'Setting',
     name: '设置',

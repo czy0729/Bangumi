@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 23:50:18
+ * @Last Modified time: 2024-11-04 19:57:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,6 +56,7 @@ function Media(_props, { $, navigation }: Ctx) {
             return
           }
 
+          console.log($.userId)
           if ($.userId) {
             navigation.push('Zone', {
               userId: $.userId

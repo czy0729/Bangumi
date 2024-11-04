@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-31 10:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 21:06:30
+ * @Last Modified time: 2024-11-04 20:44:09
  */
 import { open } from '@utils'
 import { t } from '@utils/fetch'
@@ -39,6 +39,12 @@ export function handleMenuPopoverPress(
 
     case '我的日志':
       navigation.push('Blogs')
+      break
+
+    case '我的词云':
+      navigation.push('WordCloud', {
+        userId: username || userId
+      })
       break
 
     case '我的时间线':

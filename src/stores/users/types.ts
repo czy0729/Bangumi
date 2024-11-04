@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-02 10:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 17:47:32
+ * @Last Modified time: 2024-11-04 18:36:28
  */
 import {
   Avatar,
@@ -36,6 +36,13 @@ export type FriendsMap = Record<UserId, Friend>
 /** 我的好友 userId 哈希映射 */
 export type MyFriendsMap = Record<UserId, true | number> & {
   _loaded: number
+}
+
+export type NetworkServiceItem = {
+  label: string
+  value: string
+  color: ColorValue
+  href: string
 }
 
 /** 用户信息 */
@@ -77,12 +84,7 @@ export type Users = {
     std: string
     total: string
   }
-  networkService: {
-    label: string
-    value: string
-    color: ColorValue
-    href: string
-  }[]
+  networkService: NetworkServiceItem[]
   _loaded?: Loaded
 }
 

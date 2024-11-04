@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 17:11:35
+ * @Last Modified time: 2024-11-04 20:40:16
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -40,9 +40,9 @@ const WordCloud = (_props, context: Ctx) => {
                 <RefreshControl
                   refreshing={refreshing}
                   colors={[_.colorMain]}
-                  titleColor={_.colorSub}
-                  tintColor={_.colorSub}
-                  progressBackgroundColor={_.select(_.colorPlain, _._colorDarkModeLevel2)}
+                  titleColor='rgba(255, 255, 255, 0.52)'
+                  tintColor='rgba(255, 255, 255, 0.52)'
+                  progressBackgroundColor={_._colorDarkModeLevel2}
                   onRefresh={handleRefresh}
                 />
               }

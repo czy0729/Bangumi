@@ -2,23 +2,28 @@
  * @Author: czy0729
  * @Date: 2024-10-14 06:26:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:48:25
+ * @Last Modified time: 2024-11-04 18:48:34
  */
 import React from 'react'
-import { Flex, Iconfont, Touchable } from '@components'
+import { Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { GROUP_THUMB_MAP } from '@assets/images'
 import { Ctx } from '../../../types'
-import { styles } from './styles'
 
 function Milestone(_props, { $, navigation }: Ctx) {
   return (
     <Touchable
+      style={{
+        padding: 8,
+        marginRight: 8,
+        opacity: _.select(1, 0.9)
+      }}
       onPress={() => {
         const { id, username } = $.usersInfo
         const userId = username || id
-        navigation.push('Milestone', {
+        navigation.push('WordCloud', {
           userId
         })
 
@@ -28,9 +33,13 @@ function Milestone(_props, { $, navigation }: Ctx) {
         })
       }}
     >
-      <Flex style={styles.icon} justify='center'>
-        <Iconfont name='md-image-aspect-ratio' size={19} color={_.__colorPlain__} />
-      </Flex>
+      <Image
+        src={GROUP_THUMB_MAP.wordcloud}
+        size={19}
+        resizeMode='contain'
+        placeholder={false}
+        skeleton={false}
+      />
     </Touchable>
   )
 }

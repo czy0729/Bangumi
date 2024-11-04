@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 17:41:47
+ * @Last Modified time: 2024-11-04 19:55:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -58,11 +58,11 @@ function SelectedList(_props, { $, navigation }: Ctx) {
       }
       if (image && typeof image === 'string') {
         titleLeft = (
-          <View style={_.mr.sm}>
+          <View style={[_.ml._sm, _.mr.sm]}>
             <Avatar
               src={image}
               size={24}
-              radius={0}
+              radius={3}
               skeleton={false}
               placeholder={false}
               onPress={handleTitle}
@@ -77,9 +77,9 @@ function SelectedList(_props, { $, navigation }: Ctx) {
   let height = ACTION_SHEET_HEIGHT_LG
   if (isCollection) {
     if (length <= NUM_COLUMNS) {
-      height = Math.floor(ACTION_SHEET_HEIGHT_SM / 1.2)
+      height = ACTION_SHEET_HEIGHT_SM
     } else if (length <= NUM_COLUMNS * 2) {
-      height = Math.floor(ACTION_SHEET_HEIGHT_MD / 1.2)
+      height = ACTION_SHEET_HEIGHT_MD
     }
   } else {
     if (length <= 2) {

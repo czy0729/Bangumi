@@ -2,17 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 16:59:02
+ * @Last Modified time: 2024-11-04 19:06:24
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, getCoverSrc, Image, Text, Touchable } from '@components'
+import { Cover, Flex, getCoverSrc, Text, Touchable } from '@components'
 import { Stars } from '@_'
 import { _ } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
+import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { NUM_COLUMNS } from '../../ds'
 import { Ctx } from '../../../../types'
 import { memoStyles } from './styles'
@@ -64,15 +64,14 @@ function Item({ item, index }: Props, { $, navigation }: Ctx) {
             justify='center'
           >
             <View style={styles.image}>
-              <Image
-                src={item.cover ? getCoverSrc(item.cover, width, false, true) : IMG_SUBJECT_ONLY}
+              <Cover
+                src={item.cover || IMG_SUBJECT_ONLY}
                 size={width}
                 height={$.state.subjectType === 'music' ? width : Math.floor(width * 1.4)}
                 radius={0}
                 skeleton={false}
-                placeholder={false}
-                border={_.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.16)')}
-                priority={index < 10 ? 'high' : index < 24 ? 'normal' : 'low'}
+                border={WEB ? _.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.16)') : 0}
+                priority={index < 4 ? 'high' : index < 8 ? 'normal' : 'low'}
               />
             </View>
           </Flex>
