@@ -8,7 +8,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Highlight, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { t2s } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useResult } from './hooks'
@@ -45,10 +44,13 @@ const Advance = memo(
             <Flex.Item>
               <Touchable
                 onPress={() => {
-                  onSubmit(item)
+                  const subjectId = substrings.current[item]
+                  navigation.push('Subject', {
+                    subjectId
+                  })
 
-                  t('搜索.模糊查询点击', {
-                    text: t2s(value.toLocaleUpperCase()).trim()
+                  t('搜索.模糊查询跳转', {
+                    subjectId
                   })
                 }}
               >
@@ -62,23 +64,17 @@ const Advance = memo(
                 </Highlight>
               </Touchable>
             </Flex.Item>
-            <Touchable style={styles.search} onPress={() => onSubmit(item)}>
-              <Iconfont name='md-search' size={20} />
-            </Touchable>
             <Touchable
               style={styles.open}
               onPress={() => {
-                const subjectId = substrings.current[item]
-                navigation.push('Subject', {
-                  subjectId
-                })
+                onSubmit(item)
 
-                t('搜索.模糊查询跳转', {
-                  subjectId
+                t('搜索.模糊查询点击', {
+                  text: item
                 })
               }}
             >
-              <Iconfont name='md-open-in-new' size={17} />
+              <Iconfont name='md-search' size={20} />
             </Touchable>
           </Flex>
         ))}

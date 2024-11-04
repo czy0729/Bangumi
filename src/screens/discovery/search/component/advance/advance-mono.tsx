@@ -97,7 +97,16 @@ const AdvanceMono = memo(
                   </Flex>
                 </Touchable>
               </Flex.Item>
-              <Touchable style={styles.open} onPress={() => onSubmit(item.n)}>
+              <Touchable
+                style={styles.open}
+                onPress={() => {
+                  onSubmit(item.n)
+
+                  t('搜索.模糊查询点击', {
+                    text: item.n
+                  })
+                }}
+              >
                 <Iconfont name='md-search' size={20} />
               </Touchable>
             </Flex>

@@ -21,7 +21,7 @@ let game: SubStrings = {}
 
 export function useResult(cat: SearchCat, value: string) {
   const [result, setResult] = useState<SubjectTitle[]>([])
-  const substrings = useRef({})
+  const substrings = useRef(cat === 'subject_1' ? book : cat === 'subject_4' ? game : anime)
 
   useEffect(() => {
     if (value.length < 2) return
@@ -85,7 +85,7 @@ export function useResult(cat: SearchCat, value: string) {
   }, [cat, value])
 
   return {
-    result,
+    result: result || [],
     substrings
   }
 }
@@ -129,5 +129,5 @@ export function useMonoResult(value: string) {
     callback()
   }, [value])
 
-  return result
+  return result || []
 }
