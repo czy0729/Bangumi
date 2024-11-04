@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 03:51:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 05:51:08
+ * @Last Modified time: 2024-11-04 15:34:15
  */
 import { StyleSheet } from 'react-native'
 import { IOS } from '@constants/constants'
@@ -159,6 +159,9 @@ export const mr = StyleSheet.create({
   },
   _sm: {
     marginRight: -sm
+  },
+  _md: {
+    marginRight: -md
   }
 } as const)
 

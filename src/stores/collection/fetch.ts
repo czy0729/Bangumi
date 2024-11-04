@@ -95,7 +95,8 @@ export default class Fetch extends Computed {
       order?: CollectionsOrder
       tag?: string
     },
-    refreshOrPage?: boolean | number
+    refreshOrPage?: boolean | number,
+    maxPage?: number
   ) => {
     const {
       userId: _userId,
@@ -118,7 +119,10 @@ export default class Fetch extends Computed {
     }
 
     // 没有更多不再请求
-    if (!refresh && pagination.page >= pagination.pageTotal) {
+    if (
+      !refresh &&
+      (pagination.page >= pagination.pageTotal || (maxPage && pagination.page >= maxPage))
+    ) {
       return this.userCollections(userId, subjectType, type)
     }
 

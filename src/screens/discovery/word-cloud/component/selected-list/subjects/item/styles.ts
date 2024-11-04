@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:57:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:56:59
+ * @Last Modified time: 2024-11-04 16:02:31
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
-    minHeight: 88,
+    minHeight: 130,
     paddingBottom: 16
   },
   image: {

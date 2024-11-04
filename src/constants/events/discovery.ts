@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:37:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 17:40:14
+ * @Last Modified time: 2024-11-04 15:45:57
  */
 
 /** Discovery */
@@ -216,5 +216,6 @@ export default {
   // 词云
   '词云.刷新': 'WordCloud.batch',
   '词云.分词': 'WordCloud.cut',
-  '词云.点击': 'WordCloud.press'
+  '词云.点击': 'WordCloud.press',
+  '词云.跳转': 'WordCloud.to'
 }

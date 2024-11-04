@@ -24,7 +24,6 @@ function Bg(_props, { $ }: Ctx) {
   } else if ($.userId) {
     src = $.users.avatar
   }
-
   if (!src) return null
 
   return (
@@ -32,7 +31,7 @@ function Bg(_props, { $ }: Ctx) {
       style={styles.bg}
       tint={BLURVIEW_TINT_DARK}
       src={src}
-      intensity={80}
+      intensity={96}
       blurRadius={32}
     />
   )

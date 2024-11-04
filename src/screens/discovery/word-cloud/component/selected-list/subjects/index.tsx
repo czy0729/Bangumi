@@ -2,43 +2,35 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:41:28
+ * @Last Modified time: 2024-11-04 17:43:43
  */
-import React, { useCallback } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
+import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
-import Item from './item'
-import { memoStyles } from './styles'
+import { NUM_COLUMNS } from '../ds'
+import { renderItem } from './utils'
+import { styles } from './styles'
 
-const NUM_COLUMNS = _.isPad ? 5 : 4
+function Subjects(_props, { $ }: Ctx) {
+  if (!$.selectedSubjects.length) return null
 
-function Subjects({ $, navigation }: Ctx) {
-  const renderItem = useCallback(
-    ({ item, index }) => <Item $={$} navigation={navigation} item={item} index={index} />,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+  return (
+    <PaginationList2
+      keyExtractor={keyExtractor}
+      style={styles.scrollView}
+      contentContainerStyle={styles.container}
+      data={$.selectedSubjects}
+      limit={20}
+      numColumns={NUM_COLUMNS}
+      renderItem={renderItem}
+      removeClippedSubviews={false}
+      footerEmptyDataComponent={<View />}
+      footerNoMoreDataComponent={<View />}
+    />
   )
-
-  return useObserver(() => {
-    const styles = memoStyles()
-    return (
-      <PaginationList2
-        keyExtractor={keyExtractor}
-        style={styles.container}
-        contentContainerStyle={styles.container}
-        data={$.selectedSubjects}
-        limit={12}
-        numColumns={NUM_COLUMNS}
-        renderItem={renderItem}
-        footerEmptyDataComponent={<View />}
-        footerNoMoreDataComponent={<View />}
-      />
-    )
-  })
 }
 
-export default Subjects
+export default obc(Subjects)

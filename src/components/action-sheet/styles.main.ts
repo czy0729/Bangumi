@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-12 22:11:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 05:22:25
+ * @Last Modified time: 2024-11-04 18:13:02
  */
 import { _ } from '@stores'
 
@@ -25,19 +25,5 @@ export const memoStyles = _.memoStyles(() => ({
     borderTopRightRadius: _.radiusLg,
     borderTopLeftRadius: _.radiusLg,
     overflow: 'hidden'
-  },
-  body: {
-    paddingVertical: _.md,
-    paddingHorizontal: _.wind - _._wind
-  },
-  close: {
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
-  },
-  btnContainer: {
-    height: 44
-  },
-  btn: {
-    paddingTop: _.md,
-    paddingBottom: _.ios(_.lg, _.md)
   }
 }))

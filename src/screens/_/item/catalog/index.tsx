@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 18:46:04
+ * @Last Modified time: 2024-11-04 15:51:15
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
-import { _, discoveryStore } from '@stores'
+import { discoveryStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
 import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'

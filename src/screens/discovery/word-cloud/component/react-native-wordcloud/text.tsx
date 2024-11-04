@@ -9,7 +9,7 @@ import { Text as TextComp, Touchable } from '@components'
 
 function Text({ style, onPress, onLayout, children }) {
   const el = (
-    <TextComp style={style} onLayout={onLayout}>
+    <TextComp style={style} noWrap onLayout={onLayout}>
       {children}
     </TextComp>
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:11:28
+ * @Last Modified time: 2024-11-04 18:11:06
  */
 import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
@@ -13,12 +13,12 @@ import { useBackHandler } from '@utils/hooks'
 import { IOS, USE_NATIVE_DRIVER } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
+import { Iconfont } from '../iconfont'
 import { Mask } from '../mask'
 import { Portal } from '../portal'
-import { SafeAreaBottom } from '../safe-area-bottom'
-import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
-import { Touchable } from '../touchable'
+import Btn from './btn'
+import Scroll from './scroll'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props as ActionSheetProps } from './types'
@@ -30,16 +30,20 @@ export const ActionSheet = ({
   show = false,
   height = 440,
   title = '',
+  titleLeft,
+  scrollEnabled = true,
+  usePortal = true,
+  onTitlePress,
   onClose,
   children
 }: ActionSheetProps) => {
   r(COMPONENT)
 
-  const y = useRef(new Animated.Value(0))
-  const [_show, _setShow] = useState(show)
+  const y = useRef(new Animated.Value(show ? 1 : 0))
+  const [showValue, setShow] = useState(show)
 
-  const _onShow = useCallback(() => {
-    _setShow(true)
+  const handleShow = useCallback(() => {
+    setShow(true)
     setTimeout(() => {
       Animated.timing(y.current, {
         toValue: 1,
@@ -48,8 +52,8 @@ export const ActionSheet = ({
       }).start()
     }, 0)
   }, [])
-  const _onClose = useCallback(() => {
-    if (_show) {
+  const handleClose = useCallback(() => {
+    if (showValue) {
       onClose()
       Animated.timing(y.current, {
         toValue: 0,
@@ -57,95 +61,102 @@ export const ActionSheet = ({
         useNativeDriver: USE_NATIVE_DRIVER
       }).start()
       setTimeout(() => {
-        _setShow(false)
+        setShow(false)
       }, 240)
     }
-  }, [_show, onClose])
+  }, [showValue, onClose])
 
   useEffect(() => {
     if (show) {
-      _onShow()
+      handleShow()
       return
     }
 
-    if (_show) {
-      _onClose()
+    if (showValue) {
+      handleClose()
     }
-  }, [_onClose, _onShow, _show, show])
+  }, [handleClose, handleShow, showValue, show])
 
   useBackHandler(() => {
-    if (IOS || !_show) return false
+    if (IOS || !showValue) return false
 
-    _onClose()
+    handleClose()
     return true
   })
 
   return useObserver(() => {
-    if (!_show) return null
+    if (!showValue) return null
 
     const styles = memoStyles()
-    const h = Math.min(height || _.window.height * 0.5, _.window.height * 0.88)
-    return (
-      <Portal>
-        <Suspense>
-          <Component id='component-action-sheet' style={styles.actionSheet}>
-            <Mask
-              style={{
-                opacity: y.current
-              }}
-              onPress={onClose}
-            />
-            <Animated.View
-              style={[
-                styles.content,
-                {
-                  height: h,
-                  transform: [
-                    {
-                      translateY: y.current.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [h, 0]
-                      })
-                    }
-                  ]
-                }
-              ]}
-            >
-              <ScrollView
-                style={[
-                  styles.body,
-                  {
-                    height
-                  }
-                ]}
-                contentContainerStyle={_.container.bottom}
-              >
-                {typeof title === 'string'
-                  ? !!title && (
-                      <Text style={_.mb.sm} size={12} bold type='sub' align='center'>
-                        {title}
-                      </Text>
-                    )
-                  : title}
-                {children}
-              </ScrollView>
-              <Touchable style={styles.close} onPress={onClose}>
-                <SafeAreaBottom
-                  style={_.ios(styles.btnContainer, undefined)}
-                  type={_.ios('height', 'paddingBottom')}
-                >
-                  <Flex style={styles.btn} justify='center'>
-                    <Text size={15} bold type='sub'>
-                      收起
-                    </Text>
-                  </Flex>
-                </SafeAreaBottom>
-              </Touchable>
-            </Animated.View>
-          </Component>
-        </Suspense>
-      </Portal>
+    const calcHeight = Math.min(
+      height || _.window.height * 0.5,
+      _.window.height * _.web(0.92, 0.88)
     )
+    let elTitle =
+      typeof title === 'string'
+        ? !!title && (
+            <Text size={12} bold type='sub' align='center' onPress={onTitlePress}>
+              {title}
+            </Text>
+          )
+        : title
+
+    if (titleLeft) {
+      elTitle = (
+        <Flex justify='center'>
+          {titleLeft}
+          {elTitle}
+        </Flex>
+      )
+    }
+
+    const elContent = (
+      <>
+        {!!elTitle && (
+          <Flex style={_.mb.sm} justify='center'>
+            {elTitle}
+            {!!onTitlePress && <Iconfont name='md-navigate-next' size={18} />}
+          </Flex>
+        )}
+        {children}
+      </>
+    )
+
+    const el = (
+      <Suspense>
+        <Component id='component-action-sheet' style={styles.actionSheet}>
+          <Mask
+            style={{
+              opacity: y.current
+            }}
+            onPress={onClose}
+          />
+          <Animated.View
+            style={[
+              styles.content,
+              {
+                height: calcHeight,
+                transform: [
+                  {
+                    translateY: y.current.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [calcHeight, 0]
+                    })
+                  }
+                ]
+              }
+            ]}
+          >
+            <Scroll height={calcHeight} scrollEnabled={scrollEnabled}>
+              {elContent}
+            </Scroll>
+            <Btn onClose={onClose} />
+          </Animated.View>
+        </Component>
+      </Suspense>
+    )
+
+    return usePortal ? <Portal>{el}</Portal> : el
   })
 }
 

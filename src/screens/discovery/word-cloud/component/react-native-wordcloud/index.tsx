@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { ViewStyle } from '@types'
 import Space from './space'
 import Text from './text'
-import Util, { spaceTypes } from './util'
+import { spaceTypes } from './util'
 import Word from './word'
 
 /** https://github.com/jekingohel/react-native-wordcloud */

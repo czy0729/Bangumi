@@ -85,7 +85,7 @@ export async function fetchSubjectV0(config: { url: string }) {
 async function fetchCollectionAll(userId: UserId) {
   const all: Collection['data'] = []
 
-  // 动画请求最多3 页
+  // 动画请求最多 3 页
   let collection = await request<Collection>(API_COLLECTIONS(userId, '2'))
   if (Array.isArray(collection?.data)) all.push(...collection.data)
 

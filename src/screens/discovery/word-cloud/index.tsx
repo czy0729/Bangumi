@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:58:06
+ * @Last Modified time: 2024-11-04 17:11:35
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -49,10 +49,10 @@ const WordCloud = (_props, context: Ctx) => {
             >
               <Cavans />
             </ScrollView>
-            <SelectedList />
           </>
         )}
       </Page>
+      <SelectedList />
     </Component>
   ))
 }

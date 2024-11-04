@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:48:24
+ * @Last Modified time: 2024-11-04 18:20:48
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -35,8 +35,8 @@ function Filter(_props, { $ }: Ctx) {
   }
 
   return (
-    <Flex style={styles.container}>
-      <Flex.Item>
+    <>
+      <Flex.Item style={styles.container}>
         <Flex>
           <Popover
             style={styles.item}
@@ -88,7 +88,7 @@ function Filter(_props, { $ }: Ctx) {
         color={_.colorDesc}
         onPress={() => $.setOptions('show', true)}
       />
-    </Flex>
+    </>
   )
 }
 

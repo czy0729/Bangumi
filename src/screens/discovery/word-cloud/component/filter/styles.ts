@@ -16,7 +16,6 @@ export const styles = _.create({
     paddingHorizontal: 8
   },
   split: {
-    marginHorizontal: 4,
     opacity: 0.72,
     pointerEvents: 'none'
   },

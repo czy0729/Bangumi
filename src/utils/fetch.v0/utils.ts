@@ -2,25 +2,35 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 01:14:13
+ * @Last Modified time: 2024-11-04 15:41:44
  */
 import { getTimestamp, urlStringify } from '@utils'
 import { safe } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { APP_ID, UA } from '@constants/constants'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
 import { Config } from './types'
 
-export async function request<T>(url: string, data?: object): Promise<T> {
+export async function request<T>(
+  url: string,
+  data?: object,
+  config: {
+    timeout?: number
+    onError?: (ex: Error) => any
+  } = {
+    timeout: 8000,
+    onError: () => {}
+  }
+): Promise<T> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   // @ts-expect-error
   axios.defaults.withCredentials = false
 
   // @ts-expect-error
-  axios.defaults.timeout = 8000
+  axios.defaults.timeout = config?.timeout || 8000
 
   try {
     const { accessToken } = syncUserStore()
@@ -37,7 +47,7 @@ export async function request<T>(url: string, data?: object): Promise<T> {
       headers: {}
     }
 
-    if (!STORYBOOK) {
+    if (!WEB) {
       config.headers['User-Agent'] = UA
     }
 
@@ -54,6 +64,7 @@ export async function request<T>(url: string, data?: object): Promise<T> {
     const { data: responseData } = await axios(config)
     return safe(responseData) as T
   } catch (ex) {
+    if (typeof config?.onError === 'function') config.onError(ex)
     return {} as T
   }
 }

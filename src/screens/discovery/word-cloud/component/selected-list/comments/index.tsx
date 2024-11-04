@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:51:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 05:04:04
+ * @Last Modified time: 2024-11-04 16:30:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,12 +10,15 @@ import { Avatar, Flex, Highlight, Text, UserStatus } from '@components'
 import { Name } from '@_'
 import { _ } from '@stores'
 import { correctAgo } from '@utils'
-import { ob } from '@utils/decorators'
+import { obc } from '@utils/decorators'
 import { Ctx } from '../../../types'
-import { memoStyles } from './styles'
+import { styles } from './styles'
 
-function Comments({ $, navigation }: Ctx) {
-  const styles = memoStyles()
+const EVENT = {
+  id: '词云.跳转'
+} as const
+
+function Comments(_props, { $, navigation }: Ctx) {
   const { title } = $.state
   return (
     <View style={styles.container}>
@@ -30,6 +33,7 @@ function Comments({ $, navigation }: Ctx) {
                 name={userName}
                 src={item.avatar}
                 size={32}
+                event={EVENT}
               />
             </UserStatus>
             <Flex.Item style={_.ml.sm}>
@@ -59,4 +63,4 @@ function Comments({ $, navigation }: Ctx) {
   )
 }
 
-export default ob(Comments)
+export default obc(Comments)

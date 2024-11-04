@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:51:35
+ * @Last Modified time: 2024-11-04 15:36:01
  */
 import { getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
@@ -75,12 +75,12 @@ export default class Action extends Fetch {
   }
 
   /** 批量获取收藏条目信息 */
-  batchUserSubject = async () => {
-    await this.fetchCollection()
+  batchUserSubject = async (refresh: boolean = false) => {
+    await this.fetchCollectionV0(refresh)
 
     const subjectIds: SubjectId[] = []
     const now = getTimestamp()
-    this.userCollections.forEach(item => {
+    this.collections.forEach(item => {
       const subjectId = item.id
       const subject = this.state.subjects[subjectId]
       if (!subject?._loaded || (subject?._loaded && now - Number(subject?._loaded) >= D)) {
@@ -89,47 +89,82 @@ export default class Action extends Fetch {
     })
     if (!subjectIds.length) return true
 
+    this.setState({
+      fetchingCollections: true
+    })
     const data: Record<`subject_${SubjectId}`, SnapshotSubjectsItem> = await gets(
       subjectIds.map(item => `subject_${item}`),
       ['id', 'name', 'name_cn', 'image', 'tags', 'character', 'staff', 'rating', 'rank']
     )
     const subjects: Record<SubjectId, SnapshotSubjectsItem> = {}
-    Object.entries(data).forEach(([, value]: [any, SnapshotSubjectsItem]) => {
+    Object.entries(data).forEach(([key, value]: [`subject_${string}`, SnapshotSubjectsItem]) => {
       if (value) {
+        // 因为数据有冗余, 有必要主动重新构建
         subjects[value.id] = {
-          ...value,
+          id: value.id,
+          image: typeof value.image === 'string' ? value.image : '',
+          name: value.name,
+          name_cn: value.name_cn,
+          rank: value.rank,
+          tags: value.tags,
+          character: (value.character || []).map(item => ({
+            id: item.id,
+            name: item.name,
+            nameJP: item.nameJP,
+            image: typeof item.image === 'string' ? item.image : '',
+            desc: item.desc,
+            actorId: item.actorId
+          })),
+          staff: (value.staff || []).map(item => ({
+            id: item.id,
+            name: item.name,
+            nameJP: item.nameJP,
+            image: typeof item.image === 'string' ? item.image : '',
+            desc: item.desc
+          })),
+          _loaded: now
+        }
+      } else {
+        // 就算没有快照也需要合并, 能避免重复请求
+        const subjectId = (Number(key.replace('subject_', '')) || 0) as SubjectId
+        subjects[subjectId] = {
           _loaded: now
         }
       }
     })
     this.setState({
-      subjects
+      subjects,
+      fetchingCollections: false
     })
     this.save()
   }
 
   /** 计算条目本地分词 */
   genSubjectCut = () => {
-    this.setState({
-      user: {
-        [this.userId]: {
-          list: getSubjectCutList(
-            this.state.cutType,
-            this.subjectIds,
-            this.state.subjectType,
-            this.state.subjects
-          ),
-          _loaded: getTimestamp()
+    setTimeout(() => {
+      this.setState({
+        user: {
+          [this.userId]: {
+            list: getSubjectCutList(
+              this.state.cutType,
+              this.state.subCutType,
+              this.subjectIdsWithYear,
+              this.state.subjectType,
+              this.state.subjects,
+              this.collections
+            ),
+            _loaded: getTimestamp()
+          }
         }
-      }
-    })
+      })
+      this.save()
+    }, 80)
   }
 
   /** 批量获取收藏条目信息后分词 */
-  batchUserSubjectThenCut = async () => {
-    await this.batchUserSubject()
+  batchUserSubjectThenCut = async (refresh: boolean = false) => {
+    await this.batchUserSubject(refresh)
     this.genSubjectCut()
-    this.save()
   }
 
   /** 分词 */
@@ -167,6 +202,10 @@ export default class Action extends Fetch {
 
     setTimeout(() => {
       if (this.userId) {
+        if (!this.selectedSubjects.length) {
+          info('没有找到对应条目')
+          return
+        }
       } else if (!this.selectedComment.length) {
         info('没有找到对应吐槽')
         return
@@ -195,18 +234,39 @@ export default class Action extends Fetch {
     if (this.state.fetchingCollections) return
 
     this.setState({
-      subjectType: MODEL_SUBJECT_TYPE.getLabel(title)
+      subjectType: MODEL_SUBJECT_TYPE.getLabel(title),
+      subCutType: '',
+      year: ''
     })
-    this.batchUserSubjectThenCut()
     this.save()
+
+    setTimeout(() => {
+      this.batchUserSubjectThenCut()
+    }, 40)
   }
 
-  /** 选择条目类型 */
+  /** 选择条目分词类型 */
   selectCutType = (title: CutType) => {
     this.setState({
-      cutType: title
+      cutType: title,
+      subCutType: ''
     })
     this.genSubjectCut()
-    this.save()
+  }
+
+  /** 选择条目分词二级类型 */
+  selectSubCutType = (title: string) => {
+    this.setState({
+      subCutType: (title === '全部' || title === '全部职位' ? '' : title.split(' (')?.[0]) || ''
+    })
+    this.genSubjectCut()
+  }
+
+  /** 选择收藏年份 */
+  selectYear = (title: string) => {
+    this.setState({
+      year: title === '收藏时间' ? '' : title
+    })
+    this.genSubjectCut()
   }
 }

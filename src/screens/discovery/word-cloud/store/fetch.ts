@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:53:44
+ * @Last Modified time: 2024-11-04 16:07:54
  */
-import { collectionStore, rakuenStore, subjectStore, usersStore } from '@stores'
-import { getTimestamp } from '@utils'
+import dayjs from 'dayjs'
+import { rakuenStore, subjectStore, usersStore } from '@stores'
+import { cnjp, getTimestamp, info } from '@utils'
+import { request } from '@utils/fetch.v0'
+import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
+import { Collection } from '@utils/fetch.v0/types'
 import { get, update } from '@utils/kv'
-import { D, DEV } from '@constants'
+import { D, DEV, MODEL_SUBJECT_TYPE } from '@constants'
 import Computed from './computed'
+import { COLLECTION_STATUS } from './ds'
 
 export default class Fetch extends Computed {
   /** 分词快照 */
@@ -104,61 +109,60 @@ export default class Fetch extends Computed {
   }
 
   /** 获取用户收藏 */
-  fetchCollection = async () => {
-    await collectionStore.init('userCollections')
+  fetchCollectionV0 = async (refresh: boolean = false) => {
+    const { collections, subjectType } = this.state
+    const subjectTypeValue = MODEL_SUBJECT_TYPE.getValue(subjectType)
+    const key = `${this.userId}|${subjectType}`
+    if (!refresh && collections[key]?.length) return false
 
-    const { subjectType } = this.state
-    if (!collectionStore.userCollections(this.userId, subjectType, 'wish')._loaded) {
-      this.setState({
-        fetchingCollections: true
-      })
+    this.setState({
+      fetchingCollections: true
+    })
 
-      const query = {
-        subjectType,
-        type: 'wish',
-        userId: this.userId
-      } as const
-      await collectionStore.fetchUserCollections(query, true)
-      for (let i = 1; i < 10; i += 1) {
-        await collectionStore.fetchUserCollections(query, false)
+    const list: Collection['data'] = []
+    try {
+      for (const item of COLLECTION_STATUS) {
+        for (let i = 1; i <= item.page; i += 1) {
+          const response = await request<Collection>(
+            API_COLLECTIONS(this.userId, subjectTypeValue, i, 100, item.value),
+            undefined,
+            {
+              timeout: 4000,
+              onError: ex => {
+                console.log(ex)
+                info('请求超时, 请重试')
+              }
+            }
+          )
+          if (Array.isArray(response?.data)) list.push(...response.data)
+          if ((response?.offset || 0) + (response?.limit || 100) >= (response?.total || 100)) break
+        }
       }
+    } catch (error) {
+      info('请求发生错误, 请重试')
     }
 
-    if (!collectionStore.userCollections(this.userId, subjectType, 'do')._loaded) {
+    if (list.length) {
       this.setState({
-        fetchingCollections: true
+        collections: {
+          ...collections,
+          [key]: list
+            .filter(item => !!item)
+            .map(item => ({
+              id: item.subject_id,
+              name: cnjp(item.subject?.name_cn, item.subject?.name) || '',
+              cover: item.subject?.images?.large || '',
+              tags: item.tags || [],
+              score: item.rate || 0,
+              time: dayjs(item.updated_at).format('YYYY-MM-DD') || ''
+            }))
+        }
       })
-
-      const query = {
-        subjectType,
-        type: 'do',
-        userId: this.userId
-      } as const
-      await collectionStore.fetchUserCollections(query, true)
-      for (let i = 1; i < 10; i += 1) {
-        await collectionStore.fetchUserCollections(query, false)
-      }
-    }
-
-    if (!collectionStore.userCollections(this.userId, subjectType, 'collect')._loaded) {
-      this.setState({
-        fetchingCollections: true
-      })
-
-      const query = {
-        subjectType,
-        type: 'collect',
-        userId: this.userId
-      } as const
-      await collectionStore.fetchUserCollections(query, true)
-      for (let i = 1; i < 20; i += 1) {
-        await collectionStore.fetchUserCollections(query, false)
-      }
+      this.save()
     }
 
     this.setState({
       fetchingCollections: false
     })
-    return true
   }
 }

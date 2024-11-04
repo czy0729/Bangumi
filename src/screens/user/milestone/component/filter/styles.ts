@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:20:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 08:07:08
+ * @Last Modified time: 2024-11-04 18:20:46
  */
 import { _ } from '@stores'
 
@@ -20,6 +20,7 @@ export const styles = _.create({
     pointerEvents: 'none'
   },
   setting: {
-    marginRight: -8
+    marginRight: -8,
+    opacity: 0.72
   }
 })
