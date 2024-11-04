@@ -10,7 +10,6 @@ import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { ACTIONS_MANAGE, HIT_SLOP, ORIGINS_MANAGE } from './ds'
 import { IconProps } from './types'
@@ -20,7 +19,7 @@ function IconSearch({ style, children }: IconProps, { $, navigation }: Ctx) {
     ...$.onlineComicOrigins.map(item => (typeof item === 'object' ? item.name : item)),
     ORIGINS_MANAGE
   ]
-  if (!$.actions.length && !WEB) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length) data.push(ACTIONS_MANAGE)
 
   return (
     <Popover

@@ -11,7 +11,6 @@ import {
   MODEL_SETTING_HOME_LAYOUT,
   MODEL_SETTING_HOME_SORTING,
   MODEL_SETTING_INITIAL_PAGE,
-  MODEL_SETTING_QUALITY,
   MODEL_SETTING_TRANSITION,
   MODEL_SETTING_USER_GRID_NUM,
   VERSION_GITHUB_RELEASE,
@@ -26,7 +25,6 @@ import {
   SettingHomeLayout,
   SettingHomeSorting,
   SettingInitialPage,
-  SettingQuality,
   SettingTransition,
   SettingUserGridNum
 } from '@types'
@@ -163,7 +161,7 @@ export const INIT_SETTING = {
   deepDark: true,
 
   /** @deprecated 设置页面显示最基本的设置 */
-  simple: true,
+  // simple: true,
 
   /** 头像是否圆形 */
   avatarRound: false,
@@ -193,7 +191,7 @@ export const INIT_SETTING = {
   filterDefault: false,
 
   /** @deprecated 扁平化 */
-  flat: true,
+  // flat: true,
 
   /** 章节热力图 */
   heatMap: true,
@@ -208,10 +206,10 @@ export const INIT_SETTING = {
   imageFadeIn: true,
 
   /** @deprecated iOS 风格弹出菜单 */
-  iosMenu: false,
+  // iosMenu: false,
 
   /** @deprecated 首页收藏阴影 */
-  itemShadow: false,
+  // itemShadow: false,
 
   /** 片假名终结者 */
   katakana: false,
@@ -259,10 +257,13 @@ export const INIT_SETTING = {
   initialPage: MODEL_SETTING_INITIAL_PAGE.getValue<SettingInitialPage>('进度'),
 
   /** @deprecated 图片质量 */
-  quality: MODEL_SETTING_QUALITY.getValue<SettingQuality>('默认'),
+  // quality: MODEL_SETTING_QUALITY.getValue<SettingQuality>('默认'),
 
   /** 切页动画 */
   transition: MODEL_SETTING_TRANSITION.getValue<SettingTransition>('水平'),
+
+  /** 显示正版播放源 */
+  showLegalSource: WEB,
 
   /** 首页列表搜索框 */
   homeFilter: true,

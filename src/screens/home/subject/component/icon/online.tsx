@@ -10,7 +10,6 @@ import { Popover } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { obc } from '@utils/decorators'
-import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import IconActions from './actions'
 import { ACTIONS_MANAGE, HIT_SLOP, ICS_MANAGE, ORIGINS_MANAGE } from './ds'
@@ -18,7 +17,7 @@ import { IconProps } from './types'
 
 function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
-  if (!$.actions.length && !WEB) data.push(ACTIONS_MANAGE)
+  if (!$.actions.length) data.push(ACTIONS_MANAGE)
   if (systemStore.setting.exportICS) data.push(ICS_MANAGE)
 
   return (

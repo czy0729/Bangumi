@@ -332,13 +332,15 @@ export default class Computed extends State {
         })
     }
 
-    // bangumi-data
-    const { sites = [] } = this.state.bangumiInfo
-    sites
-      .filter(item => SITES_DS.includes(item.site))
-      .forEach(item => {
-        data.push(item.site)
-      })
+    if (systemStore.setting.showLegalSource) {
+      // bangumi-data
+      const { sites = [] } = this.state.bangumiInfo
+      sites
+        .filter(item => SITES_DS.includes(item.site))
+        .forEach(item => {
+          data.push(item.site)
+        })
+    }
 
     return freeze(data)
   }
@@ -396,7 +398,7 @@ export default class Computed extends State {
       pressable: boolean
       value: string
     }[] = []
-    let exist = {}
+    const exist = {}
     if (animeInfoTags) {
       animeInfoTags.forEach(item => {
         tags.push({

@@ -24,7 +24,7 @@ const Cloud = ({ isLogin, active, onToggle, onDownloaded }) => {
   const text = useCloud()
 
   return useObserver(() => {
-    const { focusOrigin } = systemStore.setting
+    const { focusOrigin, showLegalSource } = systemStore.setting
     return (
       <>
         {/* 同步设置 */}
@@ -93,7 +93,7 @@ const Cloud = ({ isLogin, active, onToggle, onDownloaded }) => {
               value={focusOrigin}
               onSyncPress={() => {
                 t('设置.切换', {
-                  title: ' 突出源头按钮',
+                  title: '突出源头按钮',
                   checked: !focusOrigin
                 })
 
@@ -105,6 +105,28 @@ const Cloud = ({ isLogin, active, onToggle, onDownloaded }) => {
             '0/2024/png/386799/1705044747998-45792520-30b5-4079-8889-1eb471b977b1.png',
             '0/2024/png/386799/1705044615611-9e2bf83f-d563-4e85-89c8-5a1136a08e6d.png'
           ])}
+        />
+
+        {/** 显示正版播放源 */}
+        <ItemSetting
+          style={styles.item}
+          contentStyle={styles.content}
+          hd='显示正版播放源'
+          information='若有正版播放数据，会在源头选项底部插入 acfun、bilibili、qq、iqiyi、netflix 等播放源头（数据来源自 bangumi-data）'
+          ft={
+            <SwitchPro
+              style={styles.switch}
+              value={showLegalSource}
+              onSyncPress={() => {
+                t('设置.切换', {
+                  title: '显示正版播放源',
+                  checked: !showLegalSource
+                })
+
+                systemStore.switchSetting('showLegalSource')
+              }}
+            />
+          }
         />
 
         {/* 显示所有项 */}
