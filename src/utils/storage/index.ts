@@ -10,6 +10,8 @@ import { queue } from '../utils'
 import { getItem, setItem } from './utils'
 import { CACHE_MAP, LAZY_SET_STORAGE_INTERVAL, LAZY_SET_STORAGE_SIZE } from './ds'
 
+const DEV_LOG = false
+
 let setStorageInterval: any
 if (setStorageInterval) clearInterval(setStorageInterval)
 
@@ -35,7 +37,9 @@ export async function setStorage(key: string, data: any) {
     return
   }
 
-  setItem(key, _data)
+  try {
+    setItem(key, _data)
+  } catch (error) {}
 }
 
 /** 数据较大的键, 合并没必要的多次写入 */
@@ -45,15 +49,17 @@ setStorageInterval = setInterval(() => {
   const setItems = []
   CACHE_MAP.forEach((value, key) => {
     setItems.push(async () => {
-      await setItem(key, value)
+      try {
+        await setItem(key, value)
+      } catch (error) {}
       CACHE_MAP.delete(key)
 
-      // if (DEV) {
-      //   const size = (String(value).length / 1000).toFixed(2)
-      //   if (Number(size) >= 100) {
-      //     console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
-      //   }
-      // }
+      if (DEV_LOG) {
+        const size = (String(value).length / 1000).toFixed(2)
+        if (Number(size) >= 100) {
+          console.info('setStorageLazy', `${size}kb`.padEnd(10, ' '), key)
+        }
+      }
     })
   })
 

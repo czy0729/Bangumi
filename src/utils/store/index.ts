@@ -236,24 +236,29 @@ export default class Store<
    * @param {*} defaultValue
    */
   getStorage = async (key: string, namespace?: string, defaultValue?: any): Promise<any> => {
-    // 只传了一个参数时, 第一个参数作为 namespace
-    if (namespace === undefined && defaultValue === undefined) {
+    try {
+      // 只传了一个参数时, 第一个参数作为 namespace
+      if (namespace === undefined && defaultValue === undefined) {
+        // @ts-expect-error
+        let _key = key || this.namespace
+        _key += '|state'
+        return (
+          JSON.parse((await getItem(_key)) || null) ||
+          (defaultValue === undefined ? {} : defaultValue)
+        )
+      }
+
       // @ts-expect-error
-      let _key = key || this.namespace
+      let _key = namespace || this.namespace
+      if (key) _key += `|${key}`
       _key += '|state'
       return (
         JSON.parse((await getItem(_key)) || null) ||
         (defaultValue === undefined ? {} : defaultValue)
       )
+    } catch (error) {
+      return defaultValue === undefined ? {} : defaultValue
     }
-
-    // @ts-expect-error
-    let _key = namespace || this.namespace
-    if (key) _key += `|${key}`
-    _key += '|state'
-    return (
-      JSON.parse((await getItem(_key)) || null) || (defaultValue === undefined ? {} : defaultValue)
-    )
   }
 
   /**

@@ -12,6 +12,7 @@ export const styles = _.create({
   },
   container: {
     paddingHorizontal: _._wind,
-    paddingBottom: _.lg
+    paddingBottom: _.lg,
+    marginTop: _.web(8, 0)
   }
 })
