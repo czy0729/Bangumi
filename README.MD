@@ -83,7 +83,7 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 基于 [@storybook/react-native 6.5](https://github.com/storybookjs/react-native) 生成的 iframe.html，尽量少入侵原项目的基础上，补全了一个完整的单页面流程（当然这样是不考虑性能问题的，不可能与正常开发的，例如使用 Next.js 的相提并论）。
 
-关键代码实现：[navigate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/src/components/storybook/utils.ts#L23） | [window popstate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/.storybook/preview.js#L22)
+关键代码实现：[navigate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/src/components/storybook/utils.ts#L23) | [window popstate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/.storybook/preview.js#L22)
 
 因现在 expo 在网页上面已经很成熟，若以后有空再考虑使用同一套方案补全网页端。
 
