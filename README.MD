@@ -83,6 +83,8 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 
 基于 [@storybook/react-native 6.5](https://github.com/storybookjs/react-native) 生成的 iframe.html，尽量少入侵原项目的基础上，补全了一个完整的单页面流程（当然这样是不考虑性能问题的，不可能与正常开发的，例如使用 Next.js 的相提并论）。
 
+关键代码实现：[navigate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/src/components/storybook/utils.ts#L23） | [window popstate](https://github.com/czy0729/Bangumi/blob/5904f862203b8f805e24fdae5e1592431deae934/.storybook/preview.js#L22)
+
 因现在 expo 在网页上面已经很成熟，若以后有空再考虑使用同一套方案补全网页端。
 
 [SPA 应用预览](https://czy0729.github.io/Bangumi-Storybook/storybook-static/iframe.html?id=screens-discovery--discovery&viewMode=story)（网页收藏管理条目相关功能不定期开发中，已支持基本的信息展示，移动端最佳）
@@ -102,10 +104,10 @@ iOS 和安卓都做了兼容，并最大限度保持一致
 ![60](https://github.com/czy0729/Bangumi/assets/13514316/eb3e6f5c-b43f-4c61-a03f-830c3082d718)
 ![70](https://github.com/czy0729/Bangumi/assets/13514316/a753a8a7-701e-46cb-95e6-ea172ff1137b)
 ![80](https://github.com/czy0729/Bangumi/assets/13514316/8e05e8fe-15bc-4801-9834-575d9ad59a2d)
-![90](https://github.com/czy0729/Bangumi/assets/13514316/bbd669e9-1752-40d5-a318-626d13c10704)
-![100](https://github.com/czy0729/Bangumi/assets/13514316/027d8499-51a8-4f89-b81e-652fc8210e6f)
-![110](https://github.com/czy0729/Bangumi/assets/13514316/9e0bfb5d-c5e7-48cb-988d-5a79f5f3cf14)
-![120](https://github.com/czy0729/Bangumi/assets/13514316/b92b92f4-387e-4a9c-8a90-c35e6245d925)
+![90](https://github.com/user-attachments/assets/442c4cdc-1772-49d7-85e3-6f126fbef438)
+![100](https://github.com/user-attachments/assets/fa74ea9c-ced4-4979-8d30-0e9cfc45956e)
+![110](https://github.com/czy0729/Bangumi/assets/13514316/027d8499-51a8-4f89-b81e-652fc8210e6f)
+![120](https://github.com/czy0729/Bangumi/assets/13514316/9e0bfb5d-c5e7-48cb-988d-5a79f5f3cf14)
 
 # 开发心得
 
