@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-06-24 16:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:14:42
+ * @Last Modified time: 2024-11-06 20:15:14
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import { stl } from '@utils'
 import { USE_NATIVE_DRIVER } from '@constants'
+import { DataSource } from '@types'
 import { Props } from '../types'
 import { SegmentedControlTab } from '../segmented-control-tab'
 import { styles } from './styles'
 
-function SegmentedControlComp({
+function SegmentedControlComp<T extends DataSource>({
   style,
   values,
   selectedIndex,
@@ -26,11 +27,26 @@ function SegmentedControlComp({
   styleExtra,
   type,
   size
-}: Props) {
+}: Props<T>) {
   // 组件内缓存一层, 使 UI 能尽快响应
   const [_selectedIndex, _setSelectedIndex] = useState(selectedIndex)
   const [segmentWidth, setSegmentWidth] = useState(0)
   const animation = useRef(new Animated.Value(0)).current
+
+  const handleLayout = useCallback(
+    ({
+      nativeEvent: {
+        layout: { width }
+      }
+    }) => {
+      const newSegmentWidth = values.length ? width / values.length : 0
+      if (newSegmentWidth !== segmentWidth) {
+        animation.setValue(newSegmentWidth * (_selectedIndex || 0))
+        setSegmentWidth(newSegmentWidth)
+      }
+    },
+    [_selectedIndex, animation, segmentWidth, values.length]
+  )
 
   const handleChange = useCallback(
     (index: number) => {
@@ -72,20 +88,9 @@ function SegmentedControlComp({
         backgroundColor && { backgroundColor }
         // !enabled && styles.disabled
       )}
-      onLayout={({
-        nativeEvent: {
-          layout: { width }
-        }
-      }) => {
-        const newSegmentWidth = values.length ? width / values.length : 0
-        if (newSegmentWidth !== segmentWidth) {
-          animation.setValue(newSegmentWidth * (_selectedIndex || 0))
-          setSegmentWidth(newSegmentWidth)
-        }
-      }}
+      onLayout={handleLayout}
     >
       {_selectedIndex != null && segmentWidth ? (
-        // @ts-expect-error
         <Animated.View
           style={stl(
             styles.slider,

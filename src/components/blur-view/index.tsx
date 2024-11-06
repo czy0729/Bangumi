@@ -4,13 +4,13 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:38:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 02:43:04
+ * @Last Modified time: 2024-11-06 21:55:55
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
-import { matchCoverUrl } from '@utils'
+import { matchCoverUrl, stl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { Component } from '../component'
@@ -33,17 +33,28 @@ export const BlurView = observer(
     intensity = 100,
     blurRadius = 16,
     cdn = true,
+    height,
     children
   }: BlurViewProps) => {
     r(COMPONENT)
 
     if (!src) return null
 
-    const _src = cdn ? matchCoverUrl(src) : src
+    const imageSrc = cdn ? matchCoverUrl(src) : src
     if (IOS) {
       return (
         <Component id='component-blur-view' style={style}>
-          <Image imageStyle={styles.image} src={_src} fadeDuration={0} textOnly={false} />
+          <Image
+            imageStyle={stl(
+              styles.image,
+              height && {
+                height
+              }
+            )}
+            src={imageSrc}
+            fadeDuration={0}
+            textOnly={false}
+          />
           <ExpoBlurView style={StyleSheet.absoluteFill} tint={tint} intensity={intensity} />
           {children}
         </Component>
@@ -53,8 +64,13 @@ export const BlurView = observer(
     return (
       <Component id='component-blur-view' style={style}>
         <Image
-          imageStyle={styles.image}
-          src={_src}
+          imageStyle={stl(
+            styles.image,
+            height && {
+              height
+            }
+          )}
+          src={imageSrc}
           fadeDuration={0}
           blurRadius={blurRadius}
           textOnly={false}

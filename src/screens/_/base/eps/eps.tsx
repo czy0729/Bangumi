@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-08-31 14:21:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-02 23:44:57
+ * @Last Modified time: 2024-11-06 20:34:39
  */
 import React, { useCallback, useMemo, useState } from 'react'
-import { View } from 'react-native'
+import { LayoutChangeEvent, View } from 'react-native'
 import { _ } from '@stores'
-import { arrGroup, asc } from '@utils'
+import { arrGroup, asc, runAfter } from '@utils'
 import { memo } from '@utils/decorators'
 import { MODEL_EP_TYPE, WSA } from '@constants'
 import { EpTypeCn } from '@types'
@@ -109,11 +109,14 @@ export default memo(
       return arrGroup(_eps, arrNum)
     }, [eps, numbersOfLine, lines, advance])
 
-    const onLayout = useCallback(
-      ({ nativeEvent }) => {
+    const handleLayout = useCallback(
+      (event: LayoutChangeEvent) => {
         if (layoutWidth) return
 
-        setWidth(nativeEvent.layout.width - marginRight)
+        const { width } = event.nativeEvent.layout
+        runAfter(() => {
+          setWidth(width - marginRight)
+        }, true)
       },
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +126,7 @@ export default memo(
     if (!pages.length) return null
 
     const mounted = width !== 0
-    const _style = mounted
+    const layoutStyle = mounted
       ? [
           style,
           {
@@ -131,10 +134,9 @@ export default memo(
           }
         ]
       : undefined
-    const _onLayout = layoutWidth ? undefined : onLayout
     if (pagination) {
       return (
-        <View style={_style} onLayout={_onLayout}>
+        <View style={layoutStyle} onLayout={handleLayout}>
           {mounted ? (
             pages.length <= 1 ? (
               <NormalButtons props={passProps} eps={pages[0]} />
@@ -151,7 +153,7 @@ export default memo(
       marginBottom: margin ? -margin : 0 // 抵消最后一行的 marginBottom
     }
     return (
-      <View style={[_style, marginStyle]} onLayout={_onLayout}>
+      <View style={[layoutStyle, marginStyle]} onLayout={handleLayout}>
         {mounted && <NormalButtons props={passProps} eps={pages[0]} />}
       </View>
     )

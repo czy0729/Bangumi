@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 23:03:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-03 01:24:23
+ * @Last Modified time: 2024-11-06 21:57:41
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,7 @@ export const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0,
-    width: 'auto',
+    width: _.ios('auto', _.window.width),
     height: 'auto'
   },
   mask: {

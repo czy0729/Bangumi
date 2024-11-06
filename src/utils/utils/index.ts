@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-27 17:24:54
+ * @Last Modified time: 2024-11-06 20:31:18
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -73,9 +73,16 @@ export function isObject(value: any): boolean {
 }
 
 /** 缩短 runAfterInteractions */
-export function runAfter(fn: () => any) {
+export function runAfter(fn: () => any, postTask: boolean = false) {
   // return InteractionManager.runAfterInteractions(fn)
-  return requestAnimationFrame(fn)
+  if (postTask) {
+    setTimeout(() => {
+      requestAnimationFrame(fn)
+    }, 0)
+    return
+  }
+
+  requestAnimationFrame(fn)
 }
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */

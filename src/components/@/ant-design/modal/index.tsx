@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:55:57
+ * @Last Modified time: 2024-11-06 21:49:50
  */
 import React from 'react'
-import { Platform, StyleSheet, KeyboardAvoidingView, View, Text } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
 import PropTypes from 'prop-types'
-import RCModal from '@ant-design/react-native/lib/modal/ModalView'
 import alert from '@ant-design/react-native/lib/modal/alert'
-import modalStyles from '@ant-design/react-native/lib/modal/style/index'
+import RCModal from '@ant-design/react-native/lib/modal/ModalView'
 import operation from '@ant-design/react-native/lib/modal/operation'
 import prompt from '@ant-design/react-native/lib/modal/prompt'
+import modalStyles from '@ant-design/react-native/lib/modal/style/index'
 import { WithTheme } from '@ant-design/react-native/lib/style'
 import { syncThemeStore } from '@utils/async'
 import { stl } from '@utils/utils'
 import { window } from '@styles'
 import { Flex } from '../../../flex'
-import { Touchable } from '../../../touchable'
 import { Iconfont } from '../../../iconfont'
+import { Touchable } from '../../../touchable'
 import { BlurView } from './blur-view'
 import { Wrap } from './wrap'
 import { styles as overideStyles } from './styles'

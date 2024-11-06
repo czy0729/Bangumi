@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 12:30:04
+ * @Last Modified time: 2024-11-06 20:32:27
  */
 import React, { useCallback, useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { LayoutChangeEvent, View } from 'react-native'
 import { Flex } from '@components'
 import { _ } from '@stores'
+import { runAfter } from '@utils'
 import { r } from '@utils/dev'
 import { DEV } from '@constants'
 import { COMPONENT } from './ds'
@@ -26,10 +27,12 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
   const [top, setTop] = useState(y)
   const [show, setShow] = useState(false)
   const onLayout = useCallback(
-    ({ nativeEvent }) => {
-      const { layout } = nativeEvent
-      if (layout.y) setTop(layout.y)
-      if (log) console.info('layout.height', log, layout.height)
+    (event: LayoutChangeEvent) => {
+      const { y, height } = event.nativeEvent.layout
+      runAfter(() => {
+        if (y) setTop(y)
+        if (log) console.info('layout.height', log, height)
+      }, true)
     },
     [log]
   )
@@ -38,7 +41,7 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
     if (show) return
 
     if (y && y < top) setTop(y)
-  }, [show, y])
+  }, [show, top, y])
 
   useEffect(() => {
     if (show) return

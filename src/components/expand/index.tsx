@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 21:56:54
+ * @Last Modified time: 2024-11-06 20:35:14
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Animated, View } from 'react-native'
+import { Animated, LayoutChangeEvent, View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { runAfter, stl } from '@utils'
 import { r } from '@utils/dev'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -36,7 +36,7 @@ export const Expand = ({
   r(COMPONENT)
 
   // 窗口高度 (网页端适当放大比例, 减少重排)
-  const ratioHeight = _.r(216) * ratio * (STORYBOOK ? 2 : 1)
+  const ratioHeight = _.r(216) * ratio * (WEB ? 2 : 1)
   const aHeight = useRef(new Animated.Value(0))
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)
@@ -61,7 +61,7 @@ export const Expand = ({
     [checkLayout, height, ratioHeight, style]
   )
 
-  const onExpand = useCallback(() => {
+  const handleExpand = useCallback(() => {
     if (typeof onExpandCb === 'function') {
       onExpandCb()
 
@@ -73,14 +73,15 @@ export const Expand = ({
       setExpand(true)
     }
   }, [onExpandCb])
-  const onLayout = useCallback(
-    event => {
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
       const { height } = event.nativeEvent.layout
-      setHeight(height)
-
-      if (checkLayout && height && height <= ratioHeight) onExpand()
+      runAfter(() => {
+        setHeight(height)
+        if (checkLayout && height && height <= ratioHeight) handleExpand()
+      }, true)
     },
-    [checkLayout, ratioHeight, onExpand]
+    [checkLayout, ratioHeight, handleExpand]
   )
 
   useEffect(() => {
@@ -97,7 +98,7 @@ export const Expand = ({
     <Component id='component-expand'>
       {/* @ts-ignore */}
       <Animated.View style={animatedStyles}>
-        <View style={styles.layout} onLayout={onLayout}>
+        <View style={styles.layout} onLayout={handleLayout}>
           {children}
         </View>
         {!expand && (
@@ -114,7 +115,7 @@ export const Expand = ({
               />
             )}
             <View style={stl(styles.more, moreStyle)}>
-              <Touchable onPress={onExpand}>
+              <Touchable onPress={handleExpand}>
                 <Flex justify='center'>
                   <Iconfont
                     name='md-keyboard-arrow-down'

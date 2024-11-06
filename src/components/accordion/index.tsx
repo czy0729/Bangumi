@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-09-26 13:37:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 21:27:45
+ * @Last Modified time: 2024-11-06 20:37:47
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, View } from 'react-native'
@@ -37,10 +37,14 @@ export const Accordion = ({ style, expand = false, lazy = true, children }: Acco
     ],
     [h, style]
   )
-  const onLayout = useCallback(
+  const handleLayout = useCallback(
     (evt: LayoutChangeEvent) => {
       const { height } = evt.nativeEvent.layout
-      if (height > h) setH(height)
+      if (height <= h) return
+
+      runAfter(() => {
+        setH(height)
+      }, true)
     },
     [h]
   )
@@ -70,7 +74,7 @@ export const Accordion = ({ style, expand = false, lazy = true, children }: Acco
 
   return (
     <Animated.View style={animatedStyles}>
-      <View onLayout={onLayout}>{children}</View>
+      <View onLayout={handleLayout}>{children}</View>
     </Animated.View>
   )
 }
