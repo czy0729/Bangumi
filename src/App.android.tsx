@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-27 04:56:30
+ * @Last Modified time: 2024-11-06 18:03:59
  */
 import React, { Suspense, useEffect } from 'react'
 import { LogBox, StatusBar } from 'react-native'
@@ -20,11 +20,11 @@ import {
   useOrientation
 } from '@utils/hooks'
 import { WSA } from '@constants'
-import Stacks from '@src/navigations/native-stacks'
+import NativeStacks from '@src/navigations/native-stacks'
 import theme from '@styles/theme'
 import { ANDROID_DEV_MENU } from './config'
 
-enableScreens(false)
+enableScreens(true)
 LogBox.ignoreAllLogs(true)
 StatusBar.setBarStyle('dark-content')
 StatusBar.setBackgroundColor('transparent')
@@ -60,7 +60,7 @@ export default function App() {
       <SafeAreaProvider style={_.container.flex}>
         {/* @ts-ignore */}
         <Provider theme={theme}>
-          <Stacks isLoadingComplete={isLoadingComplete} />
+          <NativeStacks isLoadingComplete={isLoadingComplete} />
           {isLoadingComplete && (
             <Suspense>
               <AppCommon />

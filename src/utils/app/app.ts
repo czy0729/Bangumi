@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:19:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 20:23:42
+ * @Last Modified time: 2024-11-06 19:54:37
  */
 import { Alert, BackHandler } from 'react-native'
 import { ON_AIR } from '@stores/calendar/onair'
@@ -240,7 +240,7 @@ export function tinygrailOSS(str: string, w: 120 | 150 | 480 = 120) {
   if (typeof str !== 'string') return str
 
   if (str.includes('lain.bgm.tv')) {
-    let cover = str
+    const cover = str
       .replace(/lain.bgm.tv\/pic\/crt\/(g|s|c|m)\//, `lain.bgm.tv/pic/crt/l/`)
       .replace(/r\/\d+\//, '')
     return cover.includes('/user/')

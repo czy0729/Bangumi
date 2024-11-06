@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-02 21:27:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:20:20
+ * @Last Modified time: 2024-11-06 18:06:21
  */
 import { FROZEN_FN } from '@constants/init'
 import { getTimestamp } from '../date'
@@ -18,6 +18,7 @@ const memo = new Map<string, number>()
  * */
 export default function useRunAfter(
   fn = FROZEN_FN,
+
   /** 唯一标识 (web only) */
   name: string = ''
 ) {

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-24 21:42:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 18:01:27
+ * @Last Modified time: 2024-11-06 18:13:22
  */
 import { rakuenStore, systemStore } from '@stores'
-import { DEV } from '@constants'
+import { D, DEV } from '@constants'
 import { t, ua } from '../fetch'
 import { getStorage, setStorage } from '../storage'
 import { arrGroup, getTimestamp, omit } from '../utils'
@@ -27,7 +27,7 @@ export default function useGlobalMount() {
       try {
         const lastMs = (await getStorage(CACHE_KEY)) || 0
         const now = getTimestamp()
-        if (now - lastMs >= 60 * 60 * 24) {
+        if (now - lastMs >= D) {
           const settings = omit(systemStore.setting, ['homeRenderTabs', 'discoveryMenu'])
           const keys = Object.keys(settings)
           keys.forEach(key => {

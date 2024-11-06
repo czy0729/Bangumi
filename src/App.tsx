@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-30 19:25:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-27 04:56:29
+ * @Last Modified time: 2024-11-06 18:03:54
  */
 import React, { Suspense, useEffect } from 'react'
 import { LogBox } from 'react-native'
@@ -15,13 +15,12 @@ import { HoldMenuProvider } from '@components/@/react-native-hold-menu'
 import { AppCommon } from '@_'
 import { _ } from '@stores'
 import { useCachedResources, useOrientation } from '@utils/hooks'
-import Stacks from '@src/navigations/native-stacks'
+import NaviteStacks from '@src/navigations/native-stacks'
 import theme from '@styles/theme'
 
 LogBox.ignoreAllLogs(true)
 
 // iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化
-// if (IOS_IPA) enableScreens(false)
 enableScreens(false)
 
 export default function App() {
@@ -43,7 +42,7 @@ export default function App() {
         {/* @ts-ignore */}
         <Provider theme={theme}>
           <HoldMenuProvider>
-            <Stacks isLoadingComplete={isLoadingComplete} />
+            <NaviteStacks isLoadingComplete={isLoadingComplete} />
           </HoldMenuProvider>
           {isLoadingComplete && (
             <Suspense>

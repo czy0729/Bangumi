@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-14 15:51:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:36:00
+ * @Last Modified time: 2024-11-06 18:12:12
  */
 import React, { Suspense } from 'react'
 import { toJS } from 'mobx'
@@ -10,7 +10,7 @@ import { Component, Heatmap, ImageViewer } from '@components'
 import { systemStore, uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useGlobalMount, useKeepAwake, useObserver } from '@utils/hooks'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { LikesGrid } from '../likes-grid'
 import { LikesUsers } from '../likes-users'
 import { ListenClipboard } from '../listen-clipboard'
@@ -44,7 +44,7 @@ export const AppCommon = () => {
           onSubmit={uiStore.submitManageModal}
           onClose={uiStore.closeManageModal}
         />
-        {!STORYBOOK && <ListenClipboard />}
+        {!WEB && <ListenClipboard />}
         {/* @ts-expect-error */}
         <Heatmap.Control />
       </Component>

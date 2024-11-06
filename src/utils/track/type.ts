@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-01 20:21:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-02 20:24:15
+ * @Last Modified time: 2024-11-06 18:13:59
  */
 export type HMQuery = {
   /** 版本号 */
@@ -22,5 +22,5 @@ export type HMQuery = {
 }
 
 export type EventData = {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean | any[]
 }
