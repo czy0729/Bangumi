@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:38:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 21:23:46
+ * @Last Modified time: 2024-11-08 04:59:30
  */
 
 /** Home */
@@ -79,6 +79,9 @@ export default {
   '条目.绝交': 'Subject.blockUser',
   '条目.切换标签类型': 'Subject.switchTyperank',
   '条目.跳转位置': 'Subject.scrollTo',
+
+  // 条目详情
+  '条目详情.跳转': 'SubjectInfo.to',
 
   // 章节
   '章节.跳转': 'Episodes.to',

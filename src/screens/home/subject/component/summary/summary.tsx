@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-03-24 05:24:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 17:07:12
+ * @Last Modified time: 2024-11-08 06:49:01
  */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Expand, Text } from '@components'
 import { SectionTitle } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { memo } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { TITLE_SUMMARY } from '../../ds'
 import IconHidden from '../icon/hidden'
 import IconTranslate from '../icon/translate'
@@ -17,7 +18,31 @@ import { fixedTranslateResult } from '../utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Summary = memo(
-  ({ styles, showSummary, translateResult, content, onSwitchBlock }) => {
+  ({
+    navigation,
+    styles,
+    subjectId,
+    showSummary,
+    translateResult,
+    content,
+    name,
+    onSwitchBlock
+  }) => {
+    const handlePress = useCallback(() => {
+      navigation.push('SubjectInfo', {
+        subjectId,
+        name,
+        type: '简介'
+      })
+
+      t('条目.跳转', {
+        to: 'SubjectInfo',
+        type: 'Summary',
+        subjectId
+      })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [subjectId])
+
     return (
       <View style={showSummary ? styles.container : styles.hide}>
         <SectionTitle
@@ -50,7 +75,10 @@ const Summary = memo(
               </View>
             ) : (
               !!content && (
-                <Expand ratio={0.88}>
+                <Expand
+                  ratio={0.88}
+                  onPress={systemStore.setting.subjectHtmlExpand ? undefined : handlePress}
+                >
                   <Text style={_.mt.md} size={15} lineHeight={22} selectable>
                     {content}
                   </Text>

@@ -17,7 +17,7 @@ const Bg = memo(
       tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
       src={src}
       intensity={80}
-      blurRadius={8}
+      blurRadius={_.web(16, 8)}
       cdn={cdn}
       height={_.ios(style.height, _.window.width)}
     />

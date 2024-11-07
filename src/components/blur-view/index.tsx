@@ -32,8 +32,8 @@ export const BlurView = observer(
     tint = BLURVIEW_TINT_LIGHT,
     intensity = 100,
     blurRadius = 16,
-    cdn = true,
     height,
+    cdn = true,
     children
   }: BlurViewProps) => {
     r(COMPONENT)

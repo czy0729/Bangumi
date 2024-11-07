@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 13:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-11 04:40:47
+ * @Last Modified time: 2024-11-08 07:08:49
  */
 import { rc } from '@utils/dev'
 import i18n from '@constants/i18n'
@@ -81,6 +81,9 @@ export const VALUES_2 = ['显示', '隐藏'] as const
 export const TEXTS = {
   subjectShowAirdayMonth: {
     hd: '发布日期显示到月份'
+  },
+  subjectHtmlExpand: {
+    hd: '简介、详情使用新页面展开'
   },
   showCount: {
     hd: '其他用户收藏数量',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-27 04:58:16
+ * @Last Modified time: 2024-11-08 05:34:36
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -346,6 +346,9 @@ export const INIT_SETTING = {
 
   /** 条目发布日期是否显示到月份 */
   subjectShowAirdayMonth: true,
+
+  /** 条目简介、详情是否展开，否则跳转到新页面展示 */
+  subjectHtmlExpand: false,
 
   /** 突出显示源头按钮 */
   focusOrigin: WEB,

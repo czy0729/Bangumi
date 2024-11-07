@@ -8,15 +8,24 @@ import { Expand, ViewStyle } from '@types'
 
 export type Props = Expand<{
   style?: ViewStyle
+
+  /** 图片地址 */
   src?: string
-  tint?: 'default' | 'extraLight' | 'light' | 'dark'
 
   /** iOS only */
+  tint?: 'default' | 'extraLight' | 'light' | 'dark'
+
+  /** 高斯模糊度, 各端之间具体效果不一, 请自行确定具体值 (iOS only) */
   intensity?: number
 
-  /** android only */
+  /** 图片模糊度 (android | web only) */
   blurRadius?: number
-  cdn?: boolean
+
+  /** 图片高度 */
   height?: number
+
+  /** 图片是否允许 CDN */
+  cdn?: boolean
+
   children?: any
 }>

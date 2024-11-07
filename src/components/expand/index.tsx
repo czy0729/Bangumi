@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-09 16:49:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 20:35:14
+ * @Last Modified time: 2024-11-08 06:44:57
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, View } from 'react-native'
@@ -30,7 +30,8 @@ export const Expand = ({
   ratio = 1,
   linearGradient = true,
   checkLayout = true,
-  onExpand: onExpandCb,
+  onExpand,
+  onPress,
   children
 }: ExpandProps) => {
   r(COMPONENT)
@@ -62,8 +63,8 @@ export const Expand = ({
   )
 
   const handleExpand = useCallback(() => {
-    if (typeof onExpandCb === 'function') {
-      onExpandCb()
+    if (typeof onExpand === 'function') {
+      onExpand()
 
       // 延后展开, 通知上层组件撤销懒加载
       setTimeout(() => {
@@ -72,7 +73,7 @@ export const Expand = ({
     } else {
       setExpand(true)
     }
-  }, [onExpandCb])
+  }, [onExpand])
   const handleLayout = useCallback(
     (event: LayoutChangeEvent) => {
       const { height } = event.nativeEvent.layout
@@ -83,6 +84,13 @@ export const Expand = ({
     },
     [checkLayout, ratioHeight, handleExpand]
   )
+  const handlePress = useCallback(() => {
+    if (typeof onPress === 'function') {
+      onPress()
+    } else {
+      handleExpand()
+    }
+  }, [handleExpand, onPress])
 
   useEffect(() => {
     if (!expand) return
@@ -115,7 +123,7 @@ export const Expand = ({
               />
             )}
             <View style={stl(styles.more, moreStyle)}>
-              <Touchable onPress={handleExpand}>
+              <Touchable onPress={handlePress}>
                 <Flex justify='center'>
                   <Iconfont
                     name='md-keyboard-arrow-down'

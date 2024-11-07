@@ -2,26 +2,41 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-16 06:18:54
+ * @Last Modified time: 2024-11-08 06:48:35
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, RenderHtml } from '@components'
 import { SectionTitle } from '@_'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
+import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Info = memo(
-  ({ navigation, styles, subjectId, showInfo, info, onSwitchBlock }) => {
+  ({ navigation, styles, subjectId, showInfo, info, name, onSwitchBlock }) => {
     const [expand, setExpand] = useState(false)
-    const onExpand = useCallback(() => {
+    const handleExpand = useCallback(() => {
       setExpand(true)
-    }, [setExpand])
+    }, [])
+    const handlePress = useCallback(() => {
+      navigation.push('SubjectInfo', {
+        subjectId,
+        name,
+        type: '详情'
+      })
+
+      t('条目.跳转', {
+        to: 'SubjectInfo',
+        type: 'Info',
+        subjectId
+      })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [name, subjectId])
 
     let html = info
     try {
@@ -43,12 +58,17 @@ const Info = memo(
         {showInfo && (
           <View>
             {!!info && (
-              <Expand ratio={0.88} checkLayout={false} onExpand={onExpand}>
+              <Expand
+                ratio={0.88}
+                checkLayout={false}
+                onExpand={handleExpand}
+                onPress={systemStore.setting.subjectHtmlExpand ? undefined : handlePress}
+              >
                 <RenderHtml
                   style={styles.info}
                   html={html}
                   // katakana
-                  onLinkPress={href =>
+                  onLinkPress={href => {
                     appNavigate(
                       href,
                       navigation,
@@ -61,7 +81,7 @@ const Info = memo(
                         }
                       }
                     )
-                  }
+                  }}
                 />
               </Expand>
             )}

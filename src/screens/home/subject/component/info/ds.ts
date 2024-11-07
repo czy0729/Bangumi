@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 00:59:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:58:51
+ * @Last Modified time: 2024-11-08 05:45:51
  */
 import { systemStore } from '@stores'
 import { rc } from '@utils/dev'
@@ -22,5 +22,6 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as $['subjectId'],
   showInfo: true as typeof systemStore.setting.showInfo,
   info: '' as $['info'],
+  name: '',
   onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
 }

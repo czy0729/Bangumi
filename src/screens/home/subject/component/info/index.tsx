@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-16 06:30:13
+ * @Last Modified time: 2024-11-08 06:35:43
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
 import { _, systemStore } from '@stores'
+import { cnjp } from '@utils'
 import { obc } from '@utils/decorators'
 import { TITLE_INFO } from '../../ds'
 import { Ctx } from '../../types'
@@ -28,6 +29,7 @@ function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
           subjectId={$.subjectId}
           showInfo={systemStore.setting.showInfo}
           info={$.rawInfo.replace('展开+', '')}
+          name={cnjp($.cn, $.jp)}
           onSwitchBlock={$.onSwitchBlock}
         />
       </Component>

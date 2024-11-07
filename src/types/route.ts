@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 20:45:26
+ * @Last Modified time: 2024-11-08 06:30:58
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -68,6 +68,7 @@ export type NavigationPushType = RouteActions &
   RouteShare &
   RouteSubject &
   RouteSubjectCatalogs &
+  RouteSubjectInfo &
   RouteSubjectWiki &
   RouteTag &
   RouteTags &
@@ -507,6 +508,20 @@ export type RouteSubject = Route<
 
     /** @deprecated 找条目, NSFW */
     _hid?: Id
+  }
+>
+
+export type RouteSubjectInfo = Route<
+  'SubjectInfo',
+  {
+    /** 条目 ID */
+    subjectId: SubjectId
+
+    /** 条目名 */
+    name?: string
+
+    /** 详情类型 */
+    type?: '简介' | '详情'
   }
 >
 

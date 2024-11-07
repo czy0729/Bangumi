@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 18:28:21
+ * @Last Modified time: 2024-11-08 04:55:15
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -85,7 +85,7 @@ export default class Computed extends State {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
   }
 
-  /** 条目唯一 id */
+  /** 条目唯一 ID */
   @computed get subjectId() {
     return this.params.subjectId
   }

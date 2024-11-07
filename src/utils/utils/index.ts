@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 20:31:18
+ * @Last Modified time: 2024-11-08 06:24:53
  */
 import { ComponentType } from 'react'
 import { Linking } from 'react-native'
@@ -553,6 +553,8 @@ export function findLastIndex(arr: any[] | readonly any[], callback: any, thisAr
 
 /** 段落是否中文语境 */
 export function isChineseParagraph(text: string = '', threshold: number = 0.8) {
+  text = text.replace(/「|」|、|，|。|？|！|・|―|/g, '')
+
   const chineseRegex = /[\u4e00-\u9fa5]/
   const totalCharCount = text.length
 

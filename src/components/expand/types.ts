@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-31 08:31:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-26 18:13:27
+ * @Last Modified time: 2024-11-08 06:45:58
  */
-import { ViewStyle, ReactNode, Fn, ColorValue } from '@types'
+import { ColorValue, Fn, ReactNode, ViewStyle } from '@types'
 
 export type Props = {
   /** 容器样式 */
@@ -27,6 +27,9 @@ export type Props = {
 
   /** 展开回调 */
   onExpand?: Fn
+
+  /** 点击回调替代展开 */
+  onPress?: Fn
 
   children: ReactNode
 }
