@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 17:58:37
+ * @Last Modified time: 2024-11-07 15:02:18
  */
 import {
   collectionStore,
@@ -235,7 +235,7 @@ export default class Fetch extends Computed {
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
-    if (WEB || this.type !== '动画' || this.nsfw) return false
+    if (this.type !== '动画' || this.nsfw) return false
 
     try {
       const { _response } = await xhrCustom({

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:20:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 06:49:27
+ * @Last Modified time: 2024-11-07 14:51:14
  */
 import dayjs from 'dayjs'
+import { systemStore } from '@stores'
 import { desc, HTMLDecode } from '@utils'
-import { STORYBOOK, WSA } from '@constants'
+import { WEB, WSA } from '@constants'
 import { DEFAULT_PROPS } from './ds'
 
 const today = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
@@ -22,7 +23,7 @@ export function getPopoverData(
   const discuss = HTMLDecode(`(+${item.comment}) ${item.name_cn || item.name || '本集讨论'}`)
 
   // 计算放送时间是否在今天以后
-  let canAddCalendar = !STORYBOOK && !WSA && !userProgress[item.id] && !isSp
+  let canAddCalendar = !WEB && !WSA && !userProgress[item.id] && !isSp
   try {
     if (canAddCalendar && item?.airdate) {
       canAddCalendar = desc(String(item.airdate), today) !== -1
@@ -44,7 +45,7 @@ export function getPopoverData(
   if (canAddCalendar) data.push('添加提醒')
   data.push(discuss)
 
-  if (canPlay) data.push('正版播放')
+  if (systemStore.setting.showLegalSource && canPlay) data.push('正版播放')
 
   return data
 }

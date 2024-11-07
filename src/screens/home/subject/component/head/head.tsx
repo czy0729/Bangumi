@@ -64,7 +64,7 @@ const Head = memo(
 
     // 副标题大小
     const maxLen = 28
-    let tops: string[] = []
+    const tops: string[] = []
     let topsString = ''
     let topSize = 13
     if (top !== bottom) {
