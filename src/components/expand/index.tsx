@@ -11,7 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { _ } from '@stores'
 import { runAfter, stl } from '@utils'
 import { r } from '@utils/dev'
-import { WEB } from '@constants'
+
 import { Component } from '../component'
 import { Flex } from '../flex'
 import { Iconfont } from '../iconfont'
@@ -37,7 +37,7 @@ export const Expand = ({
   r(COMPONENT)
 
   // 窗口高度 (网页端适当放大比例, 减少重排)
-  const ratioHeight = _.r(216) * ratio * (WEB ? 2 : 1)
+  const ratioHeight = _.r(216) * ratio
   const aHeight = useRef(new Animated.Value(0))
   const [expand, setExpand] = useState(false)
   const [height, setHeight] = useState(0)

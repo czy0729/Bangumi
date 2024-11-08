@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:57:19
+ * @Last Modified time: 2024-11-08 13:25:58
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -86,12 +86,12 @@ export default class Action extends Fetch {
 
   /** 显示收藏管理 */
   showManageModel = () => {
-    t('条目.显示收藏管理', {
-      subjectId: this.subjectId
-    })
-
     this.setState({
       visible: true
+    })
+
+    t('条目.显示收藏管理', {
+      subjectId: this.subjectId
     })
   }
 
@@ -104,36 +104,34 @@ export default class Action extends Fetch {
 
   /** 章节倒序 */
   toggleReverseEps = () => {
+    this.setState({
+      epsReverse: !this.state.epsReverse
+    })
+    this.save()
+
     t('条目.章节倒序', {
       subjectId: this.subjectId
     })
-
-    const { epsReverse } = this.state
-    this.setState({
-      epsReverse: !epsReverse
-    })
-    this.save()
   }
 
   /** 吐槽倒序 */
   toggleReverseComments = () => {
+    this.fetchSubjectComments(true, !this.subjectComments._reverse)
+
     t('条目.吐槽倒序', {
       subjectId: this.subjectId
     })
-
-    const { _reverse } = this.subjectComments
-    this.fetchSubjectComments(true, !_reverse)
   }
 
   /** 书籍章节输入框改变 */
   changeText = (name: string, text: string) => {
-    t('条目.书籍章节输入框改变', {
-      subjectId: this.subjectId
-    })
-
     try {
       this.setState({
         [name]: String(text)
+      })
+
+      t('条目.书籍章节输入框改变', {
+        subjectId: this.subjectId
       })
     } catch (error) {
       console.error(NAMESPACE, 'changeText', error)
@@ -151,7 +149,7 @@ export default class Action extends Fetch {
 
       let url: string
 
-      // AGE动漫，有自维护id数据，优先匹配
+      // AGE 动漫，有自维护 ID 数据，优先匹配
       if (key === 'AGE动漫') {
         const aid = this.params._aid
         if (aid) {
@@ -186,7 +184,11 @@ export default class Action extends Fetch {
       if (!url) {
         const { bangumiInfo } = this.state
         const { sites = [] } = bangumiInfo
-        let item
+        let item: {
+          site: string
+          id: Id
+          url?: string
+        }
         switch (key) {
           case 'AGE动漫':
             url = `${SITE_AGEFANS()}/search?query=${encodeURIComponent(this.cn || this.jp)}&page=1`
@@ -194,12 +196,6 @@ export default class Action extends Fetch {
 
           case 'Anime1':
             url = `https://anime1.me/?s=${encodeURIComponent(s2t(this.cn || this.jp))}`
-            break
-
-          case '奇奇动漫':
-            url = `https://www.qiqidongman.com/vod-search-wd-${encodeURIComponent(
-              this.cn || this.jp
-            )}.html`
             break
 
           case 'Hanime1':
@@ -219,6 +215,7 @@ export default class Action extends Fetch {
     }
   }
 
+  /** 判断是否需要复制地址后跳转 */
   open = (url: string) => {
     if (url) {
       const { openInfo } = systemStore.setting
@@ -235,12 +232,6 @@ export default class Action extends Fetch {
   /** 漫画源头选择 */
   onlineComicSelected = (key: string) => {
     try {
-      t('条目.搜索源', {
-        type: key,
-        subjectId: this.subjectId,
-        subjectType: this.type
-      })
-
       let url: string
 
       // 匹配用户自定义源头
@@ -252,8 +243,13 @@ export default class Action extends Fetch {
           ID: this.subjectId
         })
       }
-
       this.open(url)
+
+      t('条目.搜索源', {
+        type: key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
     } catch (error) {
       console.error(NAMESPACE, 'onlineComicSelected', error)
     }
@@ -262,12 +258,6 @@ export default class Action extends Fetch {
   /** 音乐源头选择 */
   onlineDiscSelected = (key: string) => {
     try {
-      t('条目.搜索源', {
-        type: key,
-        subjectId: this.subjectId,
-        subjectType: this.type
-      })
-
       let url: string
 
       // 匹配用户自定义源头
@@ -279,8 +269,13 @@ export default class Action extends Fetch {
           ID: this.subjectId
         })
       }
-
       this.open(url)
+
+      t('条目.搜索源', {
+        type: key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
     } catch (error) {
       console.error(NAMESPACE, 'onlineDiscSelected', error)
     }
@@ -289,12 +284,6 @@ export default class Action extends Fetch {
   /** 游戏源头选择 */
   onlineGameSelected = (key: string) => {
     try {
-      t('条目.搜索源', {
-        type: key,
-        subjectId: this.subjectId,
-        subjectType: this.type
-      })
-
       let url: string
 
       // 匹配用户自定义源头
@@ -306,8 +295,13 @@ export default class Action extends Fetch {
           ID: this.subjectId
         })
       }
-
       this.open(url)
+
+      t('条目.搜索源', {
+        type: key,
+        subjectId: this.subjectId,
+        subjectType: this.type
+      })
     } catch (error) {
       console.error(NAMESPACE, 'onlineGameSelected', error)
     }
@@ -316,61 +310,60 @@ export default class Action extends Fetch {
   /** 去漫画DB */
   toManhuadb = () => {
     const { mangaId } = this.source || {}
+    const url = `${SITE_MANHUADB()}/manhua/${mangaId}`
+    this.open(url)
+
     t('条目.阅读漫画', {
       subjectId: this.subjectId,
       mid: mangaId
     })
-
-    const url = `${SITE_MANHUADB()}/manhua/${mangaId}`
-    this.open(url)
   }
 
   /** 去文库8 */
   toWenku8 = () => {
     const { wenkuId } = this.source || {}
+    const url = `${SITE_WK8()}/novel/${Math.floor(wenkuId / 1000)}/${wenkuId}/index.htm`
+    this.open(url)
+
     t('条目.阅读轻小说', {
       subjectId: this.subjectId,
       wid: wenkuId
     })
-
-    const url = `${SITE_WK8()}/novel/${Math.floor(wenkuId / 1000)}/${wenkuId}/index.htm`
-    this.open(url)
   }
 
   /** 前往 PSNINE 查看游戏奖杯 */
   toPSNINE = () => {
+    open(`https://psnine.com/psngame?title=${encodeURIComponent(this.cn || this.jp)}`)
+
     t('条目.查看奖杯', {
       subjectId: this.subjectId
     })
-
-    open(`https://psnine.com/psngame?title=${encodeURIComponent(this.cn || this.jp)}`)
   }
 
   /** 设置章节筛选 */
   updateFilterEps = (key: string) => {
     let filterEps = parseInt(key.match(/\d+/g)[0])
     if (filterEps === 1) filterEps = 0
+    this.setState({
+      filterEps
+    })
+    this.save()
 
     t('条目.设置章节筛选', {
       subjectId: this.subjectId,
       filterEps
     })
-
-    this.setState({
-      filterEps
-    })
-    this.save()
   }
 
   /** 筛选分数 */
   filterScores = (label: string) => {
+    this.setState({
+      filterScores: label === '全部' ? [] : label.split('-')
+    })
+
     t('条目.筛选分数', {
       subjectId: this.subjectId,
       label
-    })
-
-    this.setState({
-      filterScores: label === '全部' ? [] : label.split('-')
     })
   }
 
@@ -378,11 +371,6 @@ export default class Action extends Fetch {
   filterStatus = async (label: string) => {
     const filterStatus = label === '全部' ? '' : MODEL_RATING_STATUS.getValue(label) || ''
     if (filterStatus === this.state.filterStatus) return
-
-    t('条目.筛选吐槽状态', {
-      subjectId: this.subjectId,
-      label
-    })
 
     this.setState({
       filterStatus,
@@ -392,17 +380,15 @@ export default class Action extends Fetch {
 
     await this.fetchSubjectComments(true, false)
     feedback()
+
+    t('条目.筛选吐槽状态', {
+      subjectId: this.subjectId,
+      label
+    })
   }
 
   /** 去用户评分页面 */
   toRating = (navigation: Navigation, from?: string, status?: '' | RatingStatus) => {
-    t('条目.跳转', {
-      to: 'Rating',
-      from,
-      subjectId: this.subjectId,
-      status
-    })
-
     const { wish, collect, doing, on_hold: onHold, dropped } = this.subjectCollection
     navigation.push('Rating', {
       subjectId: this.subjectId,
@@ -415,24 +401,31 @@ export default class Action extends Fetch {
       dropped,
       type: this.type
     })
+
+    t('条目.跳转', {
+      to: 'Rating',
+      from,
+      subjectId: this.subjectId,
+      status
+    })
   }
 
   /** 展开收起功能块 */
   onSwitchBlock = (key: Parameters<typeof systemStore.switchSetting>[0]) => {
+    systemStore.switchSetting(key)
+
     t('条目.展开收起功能块', {
       key
     })
-
-    systemStore.switchSetting(key)
   }
 
   /** 展开收起功能块 */
   hiddenBlock = (key: Parameters<typeof systemStore.switchSetting>[0]) => {
+    systemStore.setSetting(key, -1)
+
     t('条目.展开收起功能块', {
       key: `${key} | -1`
     })
-
-    systemStore.setSetting(key, -1)
   }
 
   /** 用于延迟底部块渲染 (优化条目页面进入渲染时, 同时渲染过多块导致掉帧的问题) */
@@ -461,12 +454,12 @@ export default class Action extends Fetch {
       return
     }
 
-    const { folder } = this.state
+    const value = !this.state.folder
     this.setState({
-      folder: !folder
+      folder: value
     })
 
-    if (!folder) {
+    if (value) {
       t('条目.管理目录', {
         subjectId: this.subjectId
       })
@@ -475,18 +468,20 @@ export default class Action extends Fetch {
 
   /** 自定义放送时间 */
   onSelectOnAir = (weekDayCN: string | number, timeCN: string) => {
+    calendarStore.updateOnAirUser(this.subjectId, weekDayCN, timeCN)
+
     t('条目.自定义放送', {
       subjectId: this.subjectId
     })
-    calendarStore.updateOnAirUser(this.subjectId, weekDayCN, timeCN)
   }
 
   /** 重置条目的自定义放送时间 */
   resetOnAirUser = () => {
+    calendarStore.resetOnAirUser(this.subjectId)
+
     t('条目.重置放送', {
       subjectId: this.subjectId
     })
-    calendarStore.resetOnAirUser(this.subjectId)
   }
 
   /** 自定义跳转点击回调 */
@@ -518,12 +513,12 @@ export default class Action extends Fetch {
     confirm(
       `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
       () => {
+        rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
+        info(`已屏蔽 ${values.userName}`)
+
         t('条目.屏蔽用户', {
           userId: values.userId
         })
-
-        rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
-        info(`已屏蔽 ${values.userName}`)
       }
     )
   }
@@ -539,12 +534,12 @@ export default class Action extends Fetch {
           {
             keyword: String(values.userId)
           },
-          async () => {
-            t('条目.绝交')
-
+          () => {
             info('已添加绝交')
             feedback()
             rakuenStore.fetchPrivacy()
+
+            t('条目.绝交')
           },
           () => {
             info('添加失败, 可能授权信息过期')
@@ -573,15 +568,10 @@ export default class Action extends Fetch {
         return false
       }
 
-      return uiStore.showLikesGrid(
-        this.subjectId,
-        relatedId,
-        userStore.formhash,
-        LIKE_TYPE_TIMELINE,
-        {
-          recommandPosition: 'top'
-        }
-      )
+      uiStore.showLikesGrid(this.subjectId, relatedId, userStore.formhash, LIKE_TYPE_TIMELINE, {
+        recommandPosition: 'top'
+      })
+      return
     }
 
     if (title === TEXT_COPY_COMMENT) {
@@ -790,10 +780,6 @@ export default class Action extends Fetch {
   // -------------------- action --------------------
   /** 管理收藏 */
   doUpdateCollection = async (values: Parameters<typeof collectionStore.doUpdateCollection>[0]) => {
-    t('条目.管理收藏', {
-      subjectId: this.subjectId
-    })
-
     try {
       this.prepareFlip()
       this.setState({
@@ -817,6 +803,10 @@ export default class Action extends Fetch {
 
       this.closeManageModal()
       webhookCollection(values, this.subject, userStore.userInfo)
+
+      t('条目.管理收藏', {
+        subjectId: this.subjectId
+      })
     } catch (error) {
       console.error(NAMESPACE, 'doUpdateCollection', error)
     }
@@ -828,11 +818,6 @@ export default class Action extends Fetch {
 
   /** 本集讨论 */
   toEp = (item: EpsItem, navigation: Navigation) => {
-    t('条目.章节菜单操作', {
-      title: '本集讨论',
-      subjectId: this.subjectId
-    })
-
     // 数据占位
     appNavigate(
       item.url || `/ep/${item.id}`,
@@ -854,17 +839,17 @@ export default class Action extends Fetch {
         }
       }
     )
+
+    t('条目.章节菜单操作', {
+      title: '本集讨论',
+      subjectId: this.subjectId
+    })
   }
 
   /** 正版播放 */
   toPlay = (item: EpsItem) => {
     postTask(() => {
       showActionSheet(this.onlinePlayActionSheetData, index => {
-        t('条目.章节菜单操作', {
-          title: this.onlinePlayActionSheetData[index],
-          subjectId: this.subjectId
-        })
-
         const isSp = item.type === 1
         let url: string
 
@@ -891,6 +876,11 @@ export default class Action extends Fetch {
         }
 
         if (url) open(url)
+
+        t('条目.章节菜单操作', {
+          title: this.onlinePlayActionSheetData[index],
+          subjectId: this.subjectId
+        })
       })
     }, 320)
   }
@@ -909,12 +899,6 @@ export default class Action extends Fetch {
   /** 更新收视进度 */
   doUpdateEpStatus = async (value: string, item: EpsItem) => {
     const status = MODEL_EP_STATUS.getValue<EpStatus>(value)
-    t('条目.章节菜单操作', {
-      title: '更新收视进度',
-      subjectId: this.subjectId,
-      status
-    })
-
     this.prepareEpsFlip()
 
     // 更新收视进度
@@ -933,6 +917,12 @@ export default class Action extends Fetch {
       this.subject,
       userStore.userInfo
     )
+
+    t('条目.章节菜单操作', {
+      title: '更新收视进度',
+      subjectId: this.subjectId,
+      status
+    })
   }
 
   /** 批量更新收视进度 */
@@ -987,7 +977,6 @@ export default class Action extends Fetch {
       this.subject,
       userStore.userInfo
     )
-    return
   }
 
   /** 章节菜单操作 */
@@ -1041,10 +1030,6 @@ export default class Action extends Fetch {
 
   /** 更新书籍下一个章节 */
   doUpdateNext = async (name: string | number) => {
-    t('条目.更新书籍下一个章节', {
-      subjectId: this.subjectId
-    })
-
     const { chap, vol } = this.state
     const next = String(parseInt(this.state[name] || 0) + 1)
     const query = {
@@ -1062,14 +1047,14 @@ export default class Action extends Fetch {
       },
       true
     )
+
+    t('条目.更新书籍下一个章节', {
+      subjectId: this.subjectId
+    })
   }
 
   /** 更新书籍章节 */
   doUpdateBookEp = async () => {
-    t('条目.更新书籍章节', {
-      subjectId: this.subjectId
-    })
-
     const { chap, vol } = this.state
 
     // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
@@ -1080,19 +1065,23 @@ export default class Action extends Fetch {
       },
       true
     )
+
+    t('条目.更新书籍章节', {
+      subjectId: this.subjectId
+    })
   }
 
   /** 输入框更新章节 */
   doUpdateSubjectEp = async () => {
-    t('条目.输入框更新章节', {
-      subjectId: this.subjectId
-    })
-
     const { watchedEps } = this.state
 
     // 20220414 nsfw 无效，待废弃，改用 doUpdateEp
     this.doUpdateEp({
       eps: watchedEps
+    })
+
+    t('条目.输入框更新章节', {
+      subjectId: this.subjectId
     })
   }
 
@@ -1141,10 +1130,6 @@ export default class Action extends Fetch {
   }: Partial<{
     id: Id
   }>) => {
-    t('条目.章节按钮长按', {
-      subjectId: this.subjectId
-    })
-
     try {
       const userProgress = this.userProgress
       let status: EpStatus
@@ -1164,6 +1149,10 @@ export default class Action extends Fetch {
 
       userStore.fetchCollectionSingle(this.subjectId)
       userStore.fetchUserProgress(this.subjectId)
+
+      t('条目.章节按钮长按', {
+        subjectId: this.subjectId
+      })
     } catch (error) {
       console.error(NAMESPACE, 'doEpsLongPress', error)
     }
@@ -1173,10 +1162,6 @@ export default class Action extends Fetch {
   doEraseCollection = async () => {
     const { formhash } = this.subjectFormHTML
     if (!formhash) return
-
-    t('条目.删除收藏', {
-      subjectId: this.subjectId
-    })
 
     try {
       this.prepareFlip()
@@ -1199,6 +1184,10 @@ export default class Action extends Fetch {
 
             // 不是在看的话要删掉对应条目信息
             userStore.removeCollection(this.subjectId)
+
+            t('条目.删除收藏', {
+              subjectId: this.subjectId
+            })
           }, 40)
         }
       )

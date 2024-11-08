@@ -22,6 +22,14 @@
   position: relative;
   max-width: 512px;
   margin: auto;
+
+  .p-r {
+    position: relative;
+  }
+
+  .d-b {
+    display: block;
+  }
 }
 
 span {

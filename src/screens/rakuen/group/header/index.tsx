@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:28:17
+ * @Last Modified time: 2024-11-09 03:08:39
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -15,6 +15,7 @@ import { HOST, HTML_NEW_TOPIC } from '@constants'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   const { joinUrl, byeUrl } = $.groupInfo
@@ -32,7 +33,7 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       hm={[$.url, 'Group']}
       headerTitle={<HeaderTitle $={$} />}
       headerRight={() => (
-        <Flex>
+        <Flex style={styles.headerRight}>
           <IconTouchable
             style={_.mr.sm}
             name='md-edit'
@@ -56,11 +57,6 @@ function Header({ fixed }, { $, navigation }: Ctx) {
           <HeaderComp.Popover
             data={data}
             onSelect={async key => {
-              t('小组.右上角菜单', {
-                key,
-                groupId: $.groupId
-              })
-
               switch (key) {
                 case '浏览器查看':
                   open($.url)
@@ -83,6 +79,11 @@ function Header({ fixed }, { $, navigation }: Ctx) {
                 default:
                   break
               }
+
+              t('小组.右上角菜单', {
+                key,
+                groupId: $.groupId
+              })
             }}
           >
             <Heatmap id='小组.右上角菜单' />

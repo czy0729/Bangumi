@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-04 14:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 14:36:37
+ * @Last Modified time: 2024-11-09 03:15:27
  */
-import { Navigation, ColorValue, Fn } from '@types'
+import { ColorValue, Fn, Navigation, ViewStyle } from '@types'
 
 export type Props = {
   navigation: Navigation
+
+  style?: ViewStyle
 
   /** 箭头颜色 */
   color?: ColorValue

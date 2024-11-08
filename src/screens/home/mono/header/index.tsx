@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 21:19:34
+ * @Last Modified time: 2024-11-09 03:03:04
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -15,6 +15,7 @@ import Extra from '../component/extra'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
+import { styles } from './styles'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   return (
@@ -27,10 +28,15 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       hm={[$.url, 'Mono']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
-        <Flex>
+        <Flex style={styles.headerRight}>
           <IconWordCloud
             onPress={() => {
               navigation.push('WordCloud', {
+                monoId: $.monoId
+              })
+
+              t('人物.跳转', {
+                to: 'WordCloud',
                 monoId: $.monoId
               })
             }}
@@ -39,10 +45,6 @@ function Header({ fixed }, { $, navigation }: Ctx) {
           <HeaderComp.Popover
             data={DATA}
             onSelect={key => {
-              t('人物.右上角菜单', {
-                key
-              })
-
               switch (key) {
                 case TEXT_MENU_BROWSER:
                   open($.url)
@@ -59,6 +61,10 @@ function Header({ fixed }, { $, navigation }: Ctx) {
                 default:
                   break
               }
+
+              t('人物.右上角菜单', {
+                key
+              })
             }}
           >
             <Heatmap id='人物.右上角菜单' />

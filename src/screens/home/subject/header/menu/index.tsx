@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 12:04:05
+ * @Last Modified time: 2024-11-09 03:27:15
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
@@ -22,8 +22,10 @@ import {
   TEXT_SHARE,
   TEXT_WEB_SHARE
 } from './ds'
+import { memoStyles } from './styles'
 
 function Menu({ onScrollTo }, { $, navigation }: Ctx) {
+  const styles = memoStyles()
   const color = _.isDark || !$.state.fixed ? '#fff' : '#000'
   const data = [
     `浏览器打开 · ${$.subjectId}`,
@@ -39,11 +41,7 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
   return (
     <Flex>
       <Touchable
-        style={{
-          padding: 8,
-          marginRight: 8,
-          opacity: _.select(1, 0.9)
-        }}
+        style={styles.wordCloud}
         onPress={() => {
           navigation.push('WordCloud', {
             subjectId: $.subjectId,
@@ -66,23 +64,17 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
       </Touchable>
       <HeaderComp.Popover
         key={String($.locationDS.length)}
-        style={_.mr.xs}
+        style={styles.location}
         data={$.locationDS}
         name='md-menu-open'
         color={color}
-        onSelect={key => {
-          onScrollTo(key)
-        }}
+        onSelect={onScrollTo}
       />
       <HeaderComp.Popover
+        style={styles.menu}
         data={data}
         color={color}
         onSelect={key => {
-          t('条目.右上角菜单', {
-            subjectId: $.subjectId,
-            key
-          })
-
           switch (key) {
             case TEXT_COPY:
               copy($.url, '已复制链接')
@@ -119,6 +111,11 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
               open($.url)
               break
           }
+
+          t('条目.右上角菜单', {
+            subjectId: $.subjectId,
+            key
+          })
         }}
       >
         <Heatmap id='条目.右上角菜单' />

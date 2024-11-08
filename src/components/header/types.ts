@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 12:19:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 00:10:57
+ * @Last Modified time: 2024-11-09 03:04:58
  */
 import { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
 import { Props as PlaceholderProps } from './placeholder/types'
@@ -34,7 +34,7 @@ export type Props = {
   headerLeft?: ReactNode
 
   /**
-   * 右侧 element
+   * 右侧 element (WEB 中因各种因素影响, 请注意包裹容器需定义 z-index)
    * https://reactnavigation.org/docs/5.x/stack-navigator#headerright
    */
   headerRight?: () => ReactNode

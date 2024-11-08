@@ -9,7 +9,7 @@ import '../../styles/index.scss'
 import { AnyObject } from '@types'
 import { parseUrlParams } from '../storybook/utils'
 import { convertToDashCase, transformStyles } from './utils'
-import { Props as ComponentProps } from './types'
+import { CustomClassnames, Props as ComponentProps } from './types'
 
 export { ComponentProps }
 
@@ -20,15 +20,30 @@ export { ComponentProps }
  * */
 export const Component = ({ id, parseParams = false, children, ...props }: ComponentProps) => {
   const { style, 'data-title': dataTitle, ...otherProps } = props
-  const passProps: AnyObject = {
-    ...otherProps,
-    style: transformStyles(
-      style,
-      // @ts-ignore
-      children?.type
-    )
+  const styles = transformStyles(
+    style,
+    // @ts-ignore
+    children?.type
+  )
+
+  const classNames: CustomClassnames[] = []
+  if (styles.position === 'relative') {
+    classNames.push('p-r')
+    delete styles.position
   }
-  if (dataTitle) passProps.title = dataTitle
+
+  // @ts-ignore
+  if (styles.display === 'block') {
+    classNames.push('d-b')
+    delete styles.display
+  }
+
+  const passProps: AnyObject = {
+    class: classNames.length ? classNames.join(' ') : undefined,
+    ...otherProps,
+    style: Object.keys(styles).length ? styles : undefined,
+    title: dataTitle ? dataTitle : undefined
+  }
 
   if (parseParams && id.startsWith('screen-')) {
     Object.entries(parseUrlParams()).forEach(([key, value]) => {

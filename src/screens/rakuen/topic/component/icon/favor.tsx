@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:44:05
+ * @Last Modified time: 2024-11-09 02:59:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import { styles } from './styles'
 
 function Icon({ $ }: Ctx) {
   return (
-    <View style={$.favorCount ? styles.withCollect : _.mr.xs}>
+    <View style={[styles.favor, $.favorCount ? styles.withCollect : _.mr.xs]}>
       <IconHeader
         name={$.isFavor ? 'md-star' : 'md-star-outline'}
         color={$.isFavor ? _.colorYellow : _.colorDesc}

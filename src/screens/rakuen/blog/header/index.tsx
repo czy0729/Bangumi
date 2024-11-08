@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:20:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:35:59
+ * @Last Modified time: 2024-11-09 03:09:01
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -14,6 +14,7 @@ import Favor from '../component/favor'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function Header({ fixed }, { $, navigation }: Ctx) {
   const url = $.params?._url || `${HOST}/blog/${$.blogId}`
@@ -27,15 +28,11 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       hm={[url, 'Blog']}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
-        <Flex>
+        <Flex style={styles.headerRight}>
           <Favor $={$} />
           <HeaderComp.Popover
             data={['浏览器查看', '复制链接', '复制分享']}
             onSelect={key => {
-              t('日志.右上角菜单', {
-                key
-              })
-
               switch (key) {
                 case '浏览器查看':
                   open(url)
@@ -52,6 +49,10 @@ function Header({ fixed }, { $, navigation }: Ctx) {
                 default:
                   break
               }
+
+              t('日志.右上角菜单', {
+                key
+              })
             }}
           >
             <Heatmap id='日志.右上角菜单' />

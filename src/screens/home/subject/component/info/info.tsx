@@ -12,7 +12,6 @@ import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { WEB } from '@constants'
 import IconHidden from '../icon/hidden'
 import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -40,7 +39,7 @@ const Info = memo(
 
     let html = info
     try {
-      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, WEB ? 1000 : 440)
+      html = expand ? decodeURIComponent(html) : decodeURIComponent(html).slice(0, 440)
     } catch (error) {
       console.error('home/subject/info.js', 'Info', error)
     }

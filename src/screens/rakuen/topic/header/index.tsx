@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 21:18:06
+ * @Last Modified time: 2024-11-09 03:08:05
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
@@ -15,6 +15,7 @@ import HeaderTitle from '../component/header-title'
 import IconFavor from '../component/icon/favor'
 import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
+import { styles } from './styles'
 
 function Header(_props, { $, navigation }: Ctx) {
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
@@ -34,16 +35,18 @@ function Header(_props, { $, navigation }: Ctx) {
               navigation.push('WordCloud', {
                 topicId: $.topicId
               })
+
+              t('帖子.跳转', {
+                to: 'WordCloud',
+                topicId: $.topicId
+              })
             }}
           />
           <IconFavor $={$} />
           <HeaderComp.Popover
+            style={styles.menu}
             data={[`帖子 · ${$.topicId}`, ...DATA]}
             onSelect={key => {
-              t('帖子.右上角菜单', {
-                key: key.includes('帖子') ? '浏览器查看' : key
-              })
-
               switch (key) {
                 case TEXT_SPA:
                   open(
@@ -69,6 +72,10 @@ function Header(_props, { $, navigation }: Ctx) {
                   open(url)
                   break
               }
+
+              t('帖子.右上角菜单', {
+                key: key.includes('帖子') ? '浏览器查看' : key
+              })
             }}
           >
             <Heatmap id='帖子.右上角菜单' />

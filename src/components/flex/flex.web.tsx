@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-12-04 20:56:16
  */
 import React from 'react'
-import { TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
+import { View, ViewStyle } from 'react-native'
 import { stl } from '@utils'
 import { Props as FlexProps } from './types'
 
@@ -21,8 +21,7 @@ export default class Flex extends React.Component<FlexProps, any> {
   }
 
   render() {
-    const { style, direction, wrap, justify, align, children, ...restProps } =
-      this.props
+    const { style, direction, wrap, justify, align, children, ...restProps } = this.props
     const transferConst = [justify, align]
     const transferConstStyle = transferConst.map(el => {
       let tempTxt
@@ -47,35 +46,20 @@ export default class Flex extends React.Component<FlexProps, any> {
       return tempTxt
     })
     const flexStyle: ViewStyle = {
+      // @ts-ignore
+      zIndex: 'unset',
       flexDirection: direction,
       flexWrap: wrap,
       justifyContent: transferConstStyle[0],
       alignItems: transferConstStyle[1]
     }
-    if (wrap === 'wrap') {
-      flexStyle.maxWidth = '100vw'
-    }
+    // @ts-ignore
+    if (wrap === 'wrap') flexStyle.maxWidth = '100vw'
 
-    const inner = (
+    return (
       <View style={stl(flexStyle, style)} {...restProps}>
         {children}
       </View>
     )
-
-    const shouldWrapInTouchableComponent =
-      // @ts-expect-error
-      restProps.onPress ||
-      // @ts-expect-error
-      restProps.onLongPress ||
-      // @ts-expect-error
-      restProps.onPressIn ||
-      // @ts-expect-error
-      restProps.onPressOut
-
-    if (shouldWrapInTouchableComponent) {
-      return <TouchableWithoutFeedback {...restProps}>{inner}</TouchableWithoutFeedback>
-    } else {
-      return inner
-    }
   }
 }

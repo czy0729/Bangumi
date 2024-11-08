@@ -17,3 +17,5 @@ export type Props = {
   style?: ViewProps['style']
   children?: ViewProps['children']
 }
+
+export type CustomClassnames = 'p-r' | 'd-b'
