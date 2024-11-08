@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 17:05:58
+ * @Last Modified time: 2024-11-08 12:04:05
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
@@ -48,6 +48,11 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
           navigation.push('WordCloud', {
             subjectId: $.subjectId,
             _type: $.type
+          })
+
+          t('条目.跳转', {
+            to: 'WordCloud',
+            subjectId: $.subjectId
           })
         }}
       >

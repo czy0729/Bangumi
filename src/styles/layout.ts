@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-19 11:42:31
+ * @Last Modified time: 2024-11-08 12:41:56
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
@@ -13,9 +13,9 @@ import {
   PAD_LEVEL_1,
   PAD_LEVEL_2,
   RATIO,
-  STORYBOOK,
   STORYBOOK_HEIGHT,
   STORYBOOK_WIDTH,
+  WEB,
   WSA
 } from '@constants/device'
 
@@ -81,13 +81,13 @@ export const radiusLg = 16
 export const logoWidth = 124 * ratio
 
 /** 状态栏高度 */
-export const statusBarHeight = STORYBOOK || WSA ? 0 : Constants.statusBarHeight
+export const statusBarHeight = WEB || WSA ? 0 : Constants.statusBarHeight
 
 /** [待重构] 头部高度 (顶部 Tab) */
 export const appBarHeight = IOS ? statusBarHeight : 56 - (WSA ? Constants.statusBarHeight : 0)
 
 /** 最大头部高度 */
-const MAX_HEADER_HEIGHT = STORYBOOK ? 48 : 80
+const MAX_HEADER_HEIGHT = WEB ? 48 : 80
 
 /**
  * 整个头部高度 (状态栏高度 + 头部高度)
@@ -104,7 +104,7 @@ export const headerHeight = Math.max(
 )
 
 /** 标签页的标签栏高度 */
-export const tabsHeight = STORYBOOK ? 64 : 42
+export const tabsHeight = WEB ? 64 : 42
 
 /** 带标签栏的头部高度 */
 export const tabsHeaderHeight = headerHeight + tabsHeight
@@ -120,12 +120,12 @@ export const tabBarHeight = 50 + (IOS ? (IS_IOS_5_6_7_8 ? 4 : 20) : 6)
 export const bottomWeb = 128
 
 /** 底部留空 */
-export const bottom = STORYBOOK ? bottomWeb : tabBarHeight + lg
+export const bottom = WEB ? bottomWeb : tabBarHeight + lg
 
 /** 计算 App 布局参数 */
 export function getAppLayout() {
   let { width, height } = Dimensions.get('window')
-  if (STORYBOOK) {
+  if (WEB) {
     width = STORYBOOK_WIDTH
     height = STORYBOOK_HEIGHT
   }

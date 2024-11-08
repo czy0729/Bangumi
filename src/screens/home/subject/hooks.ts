@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:04:09
+ * @Last Modified time: 2024-11-08 12:40:51
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
@@ -97,25 +97,35 @@ export function useSubjectPage({ $ }: Ctx) {
           // 单行本 (10) => 单行本
           const name = component.split('(')[0].trim()
           if (scrollViewRef.current && blockRefs.current[name]) {
-            if (IOS || WEB) {
+            const callback = () => {
+              feedback(true)
+              t('条目.跳转位置', {
+                subjectId: $.subjectId,
+                component
+              })
+            }
+
+            if (IOS) {
               blockRefs.current[TITLE_HEAD].measure(
                 (_x: number, _y: number, _w: number, h: number) => {
                   blockRefs.current[name].measure((_x: number, y: number) => {
-                    if (WEB) {
-                      scrollToTop(y + h + 116)
-                    } else {
-                      scrollViewRef.current.scrollToOffset({
-                        offset: y + h - _.headerHeight,
-                        animated: true
-                      })
-                    }
-                    feedback()
-
-                    t('条目.跳转位置', {
-                      subjectId: $.subjectId,
-                      component
+                    scrollViewRef.current.scrollToOffset({
+                      offset: y + h - _.headerHeight,
+                      animated: true
                     })
+                    callback()
                   })
+                }
+              )
+              return
+            }
+
+            if (WEB) {
+              blockRefs.current[name].measureLayout(
+                blockRefs.current[TITLE_HEAD],
+                (_x: number, y: number) => {
+                  scrollToTop(y + 128)
+                  callback()
                 }
               )
               return
@@ -128,12 +138,7 @@ export function useSubjectPage({ $ }: Ctx) {
                   offset: y - _.headerHeight,
                   animated: true
                 })
-                feedback()
-
-                t('条目.跳转位置', {
-                  subjectId: $.subjectId,
-                  component
-                })
+                callback()
               }
             )
           }
