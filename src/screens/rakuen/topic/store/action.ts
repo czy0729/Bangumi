@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 06:46:48
+ * @Last Modified time: 2024-11-08 11:40:34
  */
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
 import { rakuenStore, uiStore } from '@stores'
@@ -14,6 +14,7 @@ import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import { RakuenReplyType } from '@constants/html/types'
 import { AnyObject, Fn, Id, ScrollEvent, TopicType } from '@types'
+import { getTopicMainFloorRawText } from '../utils'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -470,11 +471,7 @@ export default class Action extends Fetch {
     let hide: () => void
     try {
       hide = loading()
-      const response = await baiduTranslate(
-        String(`${this.title}\n${this.html}`)
-          .replace(/<br \/>/g, '\n')
-          .replace(/<\/?[^>]*>/g, '') // 去除HTML tag
-      )
+      const response = await baiduTranslate(getTopicMainFloorRawText(this.title, this.html))
       hide()
 
       const { trans_result: translateResult } = JSON.parse(response)

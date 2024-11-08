@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 09:34:47
+ * @Last Modified time: 2024-11-08 11:41:23
  */
 import React, { useCallback } from 'react'
 import { appNavigate } from '@utils'
@@ -28,6 +28,7 @@ function ContentWrap(_props, { $, navigation }: Ctx) {
   return (
     <Content
       topicId={$.topicId}
+      title={$.title}
       html={$.html}
       isEp={$.isEp}
       id={$.topic?.id}

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:50:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 19:12:48
+ * @Last Modified time: 2024-11-08 11:43:45
  */
 import { _ } from '@stores'
 import { Comments, Topic } from '@stores/rakuen/types'
 import { WEB } from '@constants'
-import { Id, Loaded } from '@types'
+import { Id, Loaded, TranslateResult } from '@types'
 import { COMPONENT } from '../ds'
 import { FilterType } from '../types'
 
@@ -42,7 +42,7 @@ export const EXCLUDE_STATE = {
   message: '',
 
   /** 翻译缓存 */
-  translateResult: [],
+  translateResult: [] as TranslateResult,
 
   /** 楼层翻译缓存 */
   translateResultFloor: {},

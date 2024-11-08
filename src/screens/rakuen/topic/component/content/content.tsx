@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-03 20:09:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 20:35:41
+ * @Last Modified time: 2024-11-08 11:41:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,11 +11,24 @@ import { IconTouchable, Likes } from '@_'
 import { _, uiStore } from '@stores'
 import { isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
 import { memo } from '@utils/decorators'
+import { fixedTranslateResult } from '@screens/home/subject/component/utils'
+import { getTopicMainFloorRawText } from '../../utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 const Content = memo(
-  ({ topicId, html, isEp, id, formhash, likeType, translateResult, doTranslate, onLinkPress }) => {
+  ({
+    topicId,
+    title,
+    html,
+    isEp,
+    id,
+    formhash,
+    likeType,
+    translateResult,
+    doTranslate,
+    onLinkPress
+  }) => {
     const isGroup = topicId.includes('group/')
     return (
       <View style={styles.html}>
@@ -26,16 +39,18 @@ const Content = memo(
         )}
         {translateResult.length ? (
           <View>
-            {translateResult.map((item, index) => (
-              <View key={index}>
-                <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
-                  {item.src.trim()}
-                </Text>
-                <Text style={_.mt.xs} size={15} lineHeight={17}>
-                  {item.dst.trim()}
-                </Text>
-              </View>
-            ))}
+            {fixedTranslateResult(translateResult, getTopicMainFloorRawText(title, html)).map(
+              (item, index) => (
+                <View key={index}>
+                  <Text style={_.mt.md} size={13} lineHeight={14} type='sub'>
+                    {item.src.trim()}
+                  </Text>
+                  <Text style={_.mt.xs} size={15} lineHeight={17}>
+                    {item.dst.trim()}
+                  </Text>
+                </View>
+              )
+            )}
           </View>
         ) : (
           !!html && (
