@@ -1,87 +1,23 @@
 /*
  * @Author: czy0729
- * @Date: 2020-05-02 15:57:53
+ * @Date: 2024-11-09 06:39:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 21:32:49
+ * @Last Modified time: 2024-11-09 10:13:37
  */
-import { computed, observable } from 'mobx'
 import { discoveryStore, subjectStore } from '@stores'
 import { CatalogDetail } from '@stores/discovery/types'
 import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
 import { queue } from '@utils/fetch'
 import { get, update } from '@utils/kv'
-import store from '@utils/store'
-import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
+import { D7 } from '@constants'
 import { Id, Override } from '@types'
-import { STATE } from './ds'
-import { Params } from './types'
+import { SnapshotId } from '../types'
+import Computed from './computed'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = []
+const THIRD_PARTY_UPDATED: SnapshotId[] = []
 
-export default class ScreenSubjectCatalogs extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
-  init = () => {
-    this.setState({
-      _loaded: true
-    })
-    return this.fetchSubjectCatalogs(true)
-  }
-
-  onHeaderRefresh = () => {
-    return this.fetchSubjectCatalogs(true)
-  }
-
-  // -------------------- get --------------------
-  @computed get subjectId() {
-    const { subjectId } = this.params
-    return subjectId
-  }
-
-  @computed get url() {
-    return HTML_SUBJECT_CATALOGS(this.subjectId)
-  }
-
-  @computed get subjectCatalogs() {
-    return subjectStore.subjectCatalogs(this.subjectId)
-  }
-
-  /** 包含条目的目录 */
-  @computed get list() {
-    if (!this.subjectCatalogs._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
-            }
-          }
-        : LIST_EMPTY
-    }
-
-    return this.subjectCatalogs
-  }
-
-  /** 目录详情 */
-  catalogDetail(id: Id) {
-    return computed(() => discoveryStore.catalogDetail(id)).get()
-  }
-
-  /** 云快照 */
-  @computed get ota() {
-    const { ota } = this.state
-    return ota[this.thirdPartyKey]
-  }
-
-  @computed get thirdPartyKey() {
-    return `subject-catalogs_${this.subjectId}`
-  }
-
-  // -------------------- fetch --------------------
+export default class Fetch extends Computed {
   /** 包含条目的目录 */
   fetchSubjectCatalogs = async (refresh: boolean = false) => {
     if (refresh) this.fetchThirdParty()
@@ -100,7 +36,7 @@ export default class ScreenSubjectCatalogs extends store<typeof STATE> {
     ) {
       const ts = this.ota?.ts || 0
       const _loaded = getTimestamp()
-      if (_loaded - ts >= 60 * 60 * 24 * 7) this.updateThirdParty()
+      if (_loaded - ts >= D7) this.updateThirdParty()
     }
 
     queue(data.list.map(item => () => this.fetchCatalogDetail(item.id)))
@@ -197,7 +133,7 @@ export default class ScreenSubjectCatalogs extends store<typeof STATE> {
         time,
         collect,
         list: list
-          .filter((item, index: number) => index < 3)
+          .filter((_item, index: number) => index < 3)
           .map(item => ({
             id: item.id,
             image: item.image,

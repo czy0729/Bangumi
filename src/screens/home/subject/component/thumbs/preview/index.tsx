@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 17:46:40
+ * @Last Modified time: 2024-11-09 10:18:29
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
@@ -42,6 +42,7 @@ function Preview({ item, index, thumbs, epsThumbsHeader }: Props, { $ }: Ctx) {
         autoHeight={IMAGE_HEIGHT}
         headers={epsThumbsHeader}
         radius={_.radiusSm}
+        skeleton={false}
         errorToHide={!WEB}
       />
     </Touchable>

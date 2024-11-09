@@ -15,7 +15,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 条目目录 */
-const Catalogs = (props, { $ }: Ctx) => {
+const Catalogs = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

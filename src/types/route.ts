@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:30:58
+ * @Last Modified time: 2024-11-09 06:32:04
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -555,13 +555,15 @@ export type RouteEpisodes = Route<
   }
 >
 
-export type RouteSubjectCatalogs = (
-  path: 'SubjectCatalogs',
-  params: {
+export type RouteSubjectCatalogs = Route<
+  'SubjectCatalogs',
+  {
     subjectId: SubjectId
+
+    /** 条目名 */
     name?: string
   }
-) => any
+>
 
 export type RouteRank = Route<
   'Rank',
