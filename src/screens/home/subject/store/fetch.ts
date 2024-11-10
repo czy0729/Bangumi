@@ -31,7 +31,7 @@ import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from 
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { decode, get as protoGet } from '@utils/protobuf'
-import { API_ANITABI, CDN_EPS, D, D7, H, H12, SITES, WEB } from '@constants'
+import { API_ANITABI, CDN_EPS, D1, D7, H1, M5, SITES, WEB } from '@constants'
 import { UserId } from '@types'
 import { AnitabiData } from '../types'
 import Computed from './computed'
@@ -43,7 +43,7 @@ export default class Fetch extends Computed {
    * @opitimize 60s
    */
   fetchSubject = () => {
-    if (this.subject._responseGroup !== 'large' && opitimize(this.subject, 60)) {
+    if (this.subject._responseGroup !== 'large' && opitimize(this.subject, M5)) {
       return this.subject
     }
 
@@ -51,7 +51,9 @@ export default class Fetch extends Computed {
   }
 
   /** 网页的条目信息 (书籍只有网页端有数据源, 需要初始值) */
-  fetchSubjectFromHTML = async () => {
+  fetchSubjectFromHTML = async (refresh: boolean = false) => {
+    if (!refresh && opitimize(this.subjectFormHTML, M5)) return false
+
     const data = await subjectStore.fetchSubjectFromHTML(this.subjectId)
     const { watchedEps, book } = data
     this.setState({
@@ -111,7 +113,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      if (_loaded - ts >= D) this.updateCommentsThirdParty()
+      if (_loaded - ts >= D1) this.updateCommentsThirdParty()
     } catch (error) {}
   }
 
@@ -222,7 +224,7 @@ export default class Fetch extends Computed {
     const now = getTimestamp()
     userIds.forEach(item => {
       const collection = collectionStore.usersSubjectCollection(item, this.subjectId)
-      if (!collection._loaded || now - Number(collection._loaded) >= H) {
+      if (!collection._loaded || now - Number(collection._loaded) >= H1) {
         fetchs.push(() => collectionStore.fetchUsersCollection(item, this.subjectId))
       }
     })
@@ -235,30 +237,31 @@ export default class Fetch extends Computed {
 
   /** 获取单集播放源 */
   fetchEpsData = async () => {
-    if (this.type !== '动画' || this.nsfw) return false
+    if (this.type !== '动画' || this.nsfw || opitimize(this.state.epsData, D7)) return false
+
+    const epsData = {
+      _loaded: getTimestamp()
+    }
 
     try {
       const { _response } = await xhrCustom({
         url: CDN_EPS(this.subjectId)
       })
 
-      const epsData = {
-        _loaded: getTimestamp()
-      }
       SITES.forEach(item => (epsData[item] = {}))
       JSON.parse(_response).eps.forEach((item: any, index: number) => {
         item.sites.forEach((i: any) => {
           if (SITES.includes(i.site)) epsData[i.site][index] = i.url
         })
       })
-
-      this.setState({
-        epsData
-      })
-      this.save()
     } catch (error) {
       console.error(NAMESPACE, 'fetchEpsData', error)
     }
+
+    this.setState({
+      epsData
+    })
+    this.save()
   }
 
   /** staff 数据 */
@@ -570,7 +573,7 @@ export default class Fetch extends Computed {
     }, 0)
   }
 
-  /** 装载第三方找条目数据 */
+  /** 装载找条目快照数据 */
   fetchOTA = () => {
     if (this.type === '动画') {
       if (this.animeInfo?.i) otaStore.fetchAnime(this.animeInfo.i)
@@ -585,65 +588,63 @@ export default class Fetch extends Computed {
 
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
-    if (this.type !== '动画' || this.nsfw) return false
+    if (
+      this.type !== '动画' ||
+      this.nsfw ||
+      systemStore.setting.showAnitabi === -1 ||
+      !systemStore.setting.showAnitabi ||
+      opitimize(this.state.anitabi, D1)
+    ) {
+      return false
+    }
 
-    const { showAnitabi } = systemStore.setting
-    if (showAnitabi === -1 || !showAnitabi) return false
-
-    const { _loaded } = this.state.anitabi
-    if (_loaded && getTimestamp() - Number(_loaded) <= D) return true
-
-    const key = `anitabi_${this.subjectId}`
+    const now = getTimestamp()
+    const snapshotId = `anitabi_${this.subjectId}`
     try {
-      const cloud = await get(key)
-      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= D) {
+      const snapshot = await get(snapshotId)
+      if (opitimize(snapshot, D1)) {
         this.setState({
-          anitabi: cloud
+          anitabi: {
+            ...snapshot,
+            _loaded: now
+          }
         })
         return true
       }
     } catch (error) {}
 
-    const checkKey = `fetchAnitabi|${this.subjectId}`
-    if (await getStorage(checkKey)) return false
-
+    const fetchId = `fetchAnitabi|${this.subjectId}`
+    let anitabi: Partial<AnitabiData> = {
+      _loaded: now
+    }
     try {
-      const { _response } = await xhrCustom({
-        url: API_ANITABI(this.subjectId)
-      })
-      const data: AnitabiData = _response.length ? JSON.parse(_response) : {}
-
-      let anitabi: any
-      if (!data?.litePoints?.length) {
-        anitabi = {
-          _loaded: getTimestamp()
-        }
-        this.setState({
-          anitabi: {
-            _loaded: getTimestamp()
-          }
+      const fetched = await getStorage(fetchId)
+      if (!fetched) {
+        const { _response } = await xhrCustom({
+          url: API_ANITABI(this.subjectId)
         })
-      } else {
-        anitabi = {
-          ...data,
-          _loaded: getTimestamp()
+        const data: AnitabiData = _response.length ? JSON.parse(_response) : {}
+        if (data?.litePoints?.length) {
+          anitabi = {
+            ...data,
+            _loaded: now
+          }
         }
+
+        postTask(() => {
+          update(snapshotId, anitabi)
+        }, 0)
       }
-      this.setState({
-        anitabi
-      })
-      this.save()
-
-      postTask(() => {
-        update(key, anitabi)
-      }, 0)
-
-      return true
     } catch (error) {
-      setStorage(checkKey, true)
+      setStorage(fetchId, true)
     }
 
-    return false
+    this.setState({
+      anitabi
+    })
+    this.save()
+
+    return true
   }
 
   /**
@@ -651,17 +652,20 @@ export default class Fetch extends Computed {
    * @opitimize 12h
    * */
   fetchVIB = async () => {
-    if (systemStore.setting.hideScore || systemStore.setting.showRating !== true) return false
-
-    if (opitimize(this.vib, H12)) return this.vib
+    if (
+      systemStore.setting.hideScore ||
+      systemStore.setting.showRating !== true ||
+      opitimize(this.vib, D1)
+    ) {
+      return false
+    }
 
     try {
-      const key = `vib_${this.subjectId}`
-      const cloud = await get(key)
-      if (cloud?._loaded && getTimestamp() - Number(cloud?._loaded) <= D) {
-        subjectStore.updateVIB(this.subjectId, cloud)
-
-        if (!cloud?.avg) {
+      const snapshotId = `vib_${this.subjectId}`
+      const snapshot = await get(snapshotId)
+      if (snapshot?._loaded && getTimestamp() - Number(snapshot?._loaded) <= D1) {
+        subjectStore.updateVIB(this.subjectId, snapshot)
+        if (!snapshot?.avg) {
           postTask(() => {
             subjectStore.fetchVIB(this.subjectId)
           }, 0)
@@ -676,7 +680,7 @@ export default class Fetch extends Computed {
         await subjectStore.fetchMAL(this.subjectId, this.jp || this.cn)
         await subjectStore.fetchAniDB(this.subjectId, this.jp || this.cn)
       }
-      if (this.vib._loaded) update(key, this.vib)
+      if (this.vib._loaded) update(snapshotId, this.vib)
 
       return true
     } catch (error) {}

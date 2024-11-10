@@ -5,11 +5,12 @@
  * @Last Modified time: 2024-07-29 14:00:04
  */
 import { discoveryStore } from '@stores'
+import { CatalogDetail } from '@stores/discovery/types'
 import { HTMLDecode, removeHTMLTag } from '@utils'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { decode } from '@utils/protobuf'
-import { Id } from '@types'
+import { Id, Override } from '@types'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
@@ -67,10 +68,20 @@ export default class Fetch extends Computed {
   }
 
   /** 上传目录详情 */
-  updateCatalogDetail = data => {
+  updateCatalogDetail = (
+    data: Override<
+      CatalogDetail,
+      {
+        id: Id
+        info?: string
+        _loaded?: any
+      }
+    >
+  ) => {
     setTimeout(() => {
-      const { id, title, info, content, avatar, nickname, userId, time, collect, list } = data
+      if (!data?.list?.length) return
 
+      const { id, title, info, content, avatar, nickname, userId, time, collect, list } = data
       const desc = HTMLDecode(removeHTMLTag(info || content))
       update(`catalog_${id}`, {
         id,
@@ -82,7 +93,7 @@ export default class Fetch extends Computed {
         time,
         collect,
         list: list
-          .filter((item, index: number) => index < 3)
+          .filter((_item, index: number) => index < 3)
           .map(item => ({
             id: item.id,
             image: item.image,

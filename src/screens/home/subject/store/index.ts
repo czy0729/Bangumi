@@ -8,7 +8,7 @@ import { collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { ApiSubjectResponse } from '@stores/subject/types'
 import { getTimestamp, postTask } from '@utils'
 import { queue } from '@utils/fetch'
-import { SHARE_MODE, WEB } from '@constants'
+import { M5, SHARE_MODE, WEB } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE } from './ds'
 
@@ -20,10 +20,10 @@ class ScreenSubject extends Action {
   /** 初始化 */
   init = async () => {
     // 是否需要更新数据
-    const current = getTimestamp()
+    const now = getTimestamp()
     const needRefresh =
-      !this._initDone || !this.state._loaded || current - Number(this.state._loaded) > 60 * 5
-    const _loaded = needRefresh ? current : this.state._loaded
+      !this._initDone || !this.state._loaded || now - Number(this.state._loaded) > M5
+    const _loaded = needRefresh ? now : this.state._loaded
 
     try {
       this.setState({
@@ -32,7 +32,7 @@ class ScreenSubject extends Action {
         _loaded
       })
 
-      // 装载条目云端缓存数据
+      // 请求条目快照
       this.fetchSubjectFromOSS()
       if (!needRefresh) return true
 
@@ -49,8 +49,8 @@ class ScreenSubject extends Action {
   }
 
   /**
-   * 访问私有 cdn, 加速未缓存条目首屏数据渲染
-   *  - 每个请求都判断 this.state.mounted 若用户在未请求完就退出页面需要尽快终止余下请求
+   * 访问快照, 加速未缓存条目首屏数据渲染
+   *  - 每个请求都判断 this.state.mounted 判断用户在未请求完就退出页面需要尽快终止余下请求
    * */
   onHeaderRefresh = async () => {
     queue(
@@ -61,8 +61,9 @@ class ScreenSubject extends Action {
         },
         () => {
           if (!this.state.mounted || SHARE_MODE) return
-          if (userStore.isStorybookLogin) return userStore.fetchUserProgressV0(this.subjectId)
-          return userStore.fetchUserProgress(this.subjectId)
+          return userStore.isStorybookLogin
+            ? userStore.fetchUserProgressV0(this.subjectId)
+            : userStore.fetchUserProgress(this.subjectId)
         }
       ],
       1
@@ -91,7 +92,7 @@ class ScreenSubject extends Action {
           // 网页端走的反代, 很容易请求挂起, 需要第一时间回去云端缓存数据
           if (WEB) return this.fetchCommentsFromOSS()
 
-          // APP 端可以延迟获取, 若正常数据获取到, 会取消获取云端数据
+          // 客户端可以延迟获取, 若正常数据获取到, 会取消获取云端数据
           postTask(() => {
             if (!this.state.mounted) return
             this.fetchCommentsFromOSS()

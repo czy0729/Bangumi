@@ -120,8 +120,9 @@ export default class Fetch extends Computed {
     >
   ) => {
     setTimeout(() => {
-      const { id, title, info, content, avatar, nickname, userId, time, collect, list } = data
+      if (!data?.list?.length) return
 
+      const { id, title, info, content, avatar, nickname, userId, time, collect, list } = data
       const desc = HTMLDecode(removeHTMLTag(info || content))
       update(`catalog_${id}`, {
         id,

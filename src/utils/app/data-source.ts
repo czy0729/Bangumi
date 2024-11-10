@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-06 19:54:51
  */
 import { isObservableArray } from 'mobx'
-import { FROZEN_ARRAY, FROZEN_OBJECT, WEB } from '@constants'
+import { FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
 import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
 import { HOST, HOST_2, IMG_DEFAULT } from '@constants/constants'
 import { getJSON } from '@assets/json'
@@ -154,7 +154,7 @@ export function findSubjectJp(cn: string = '', subjectId?: SubjectId): string {
 
 /** 简单控制请求频率工具函数, 若不需要发请求返回 true */
 export function opitimize(data: any, s = 60) {
-  if (WEB || !data?._loaded) return false
+  if (!data?._loaded) return false
 
   return getTimestamp() - Number(data?._loaded || 0) < s
 }

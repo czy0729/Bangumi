@@ -477,8 +477,17 @@ export const DATA_ALPHABET = [
 /** 公共标签 */
 export const DATA_META = ['公共标签', '用户标签'] as const
 
+/** 1 分钟 */
+export const M1 = 60
+
+/** 5 分钟 */
+export const M5 = M1 * 5
+
 /** 1 小时 */
-export const H = 60 * 60
+export const H1 = 60 * 60
+
+/** 1 小时 */
+export const H = H1
 
 /** 6 小时 */
 export const H6 = H * 6
@@ -487,7 +496,10 @@ export const H6 = H * 6
 export const H12 = H * 12
 
 /** 1 天 */
-export const D = H * 24
+export const D1 = H * 24
+
+/** 1 天 */
+export const D = D1
 
 /** 1 天 */
 export const D3 = D * 3

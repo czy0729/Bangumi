@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-09-03 12:54:57
  */
 component-header {
-  &-back {
+  &-back,
+  &-right {
     z-index: 1;
   }
 }
