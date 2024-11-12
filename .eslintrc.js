@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 16:47:55
+ * @Last Modified time: 2024-11-12 11:45:42
  */
 module.exports = {
   root: true,
@@ -48,7 +48,7 @@ module.exports = {
     radix: 0,
 
     /** 设置最大嵌套深度 */
-    'max-depth': ['warn', 4],
+    'max-depth': ['warn', 5],
     'react-hooks/exhaustive-deps': 'warn'
   }
 }

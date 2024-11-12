@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-08 19:26:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 19:30:18
+ * @Last Modified time: 2024-11-12 10:36:33
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
@@ -15,7 +15,7 @@ import { TABS } from '../ds'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header(_props, { $ }: Ctx) {
   const { uri } = $.state
   return (
     <HeaderComp

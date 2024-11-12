@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-04 20:56:16
+ * @Last Modified time: 2024-11-12 10:33:28
  */
 import React from 'react'
 import { View, ViewStyle } from 'react-native'
@@ -45,6 +45,7 @@ export default class Flex extends React.Component<FlexProps, any> {
 
       return tempTxt
     })
+
     const flexStyle: ViewStyle = {
       // @ts-ignore
       zIndex: 'unset',
@@ -53,8 +54,7 @@ export default class Flex extends React.Component<FlexProps, any> {
       justifyContent: transferConstStyle[0],
       alignItems: transferConstStyle[1]
     }
-    // @ts-ignore
-    if (wrap === 'wrap') flexStyle.maxWidth = '100vw'
+    if (wrap === 'wrap') flexStyle.maxWidth = '100%'
 
     return (
       <View style={stl(flexStyle, style)} {...restProps}>

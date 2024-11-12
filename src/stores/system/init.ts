@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 05:34:36
+ * @Last Modified time: 2024-11-12 17:58:44
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -391,10 +391,10 @@ export const INIT_SETTING = {
    * ['自己评分', '收藏状态', '条目排名', '条目分数', '已看集数',
    *  '自己点评', '私密收藏', '最近收藏', '标签倾向', '多次推荐']
    */
-  likeRec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] as LikeRec,
+  likeRec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0] as LikeRec,
 
   /** 猜你喜欢显示已收藏条目 */
-  likeCollected: true,
+  likeCollected: false,
 
   /** 启用毛玻璃布局 (android) */
   androidBlur: WEB,

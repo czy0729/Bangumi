@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 11:44:02
+ * @Last Modified time: 2024-11-13 07:22:37
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,34 +15,30 @@ import { obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CollectionStatus, SubjectType, SubjectTypeCn } from '@types'
-import { Ctx, ListItem } from '../../types'
+import { Ctx } from '../../types'
 import { getReasonsInfo } from '../../utils'
 import Sub from './sub'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Item(
-  {
-    item
-  }: {
-    item: ListItem
-  },
-  { $, navigation }: Ctx
-) {
-  const { type } = $.state
+function Item({ item }: Props, { $, navigation }: Ctx) {
   const subject = $.subjects(item.id)
-  if (!subject || type !== MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subject.type)) return null
+  if (!subject || $.state.type !== MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subject.type)) {
+    return null
+  }
 
   const collection = collectionStore.collect(item.id)
   if (collection && !systemStore.setting.likeCollected) return null
 
   const styles = memoStyles()
-  const image = `https://lain.bgm.tv/pic/cover/m/${item.image}.jpg`
+  const isFromTyperank = item.image.includes('//')
+  const image = isFromTyperank ? item.image : `https://lain.bgm.tv/pic/cover/m/${item.image}.jpg`
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = getAction(typeCn)
 
   const { width } = styles.cover
-  let height = typeCn === '音乐' ? width : styles.cover.height
+  const height = typeCn === '音乐' ? width : styles.cover.height
 
   let size = 14
   if (item.name.length >= 36) {
@@ -86,7 +82,13 @@ function Item(
           align='start'
         >
           <Flex direction='column' align='start'>
-            <Text style={styles.title} size={size} bold numberOfLines={3}>
+            <Text
+              style={styles.title}
+              size={size}
+              bold
+              numberOfLines={2}
+              // underline={isFromTyperank}
+            >
               {item.name}
               {!!subject.year && (
                 <Text size={size} bold>
@@ -95,26 +97,27 @@ function Item(
                 </Text>
               )}
             </Text>
-            <Manage
-              style={_.ml.xxs}
-              subjectId={item.id}
-              collection={collection}
-              typeCn={typeCn}
-              horizontal
-              onPress={() => {
-                uiStore.showManageModal(
-                  {
-                    subjectId: item.id,
-                    title: item.name,
-                    action,
-                    status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
-                  },
-                  '猜你喜欢'
-                )
-              }}
-            />
+            <View style={styles.manage}>
+              <Manage
+                subjectId={item.id}
+                collection={collection}
+                typeCn={typeCn}
+                horizontal
+                onPress={() => {
+                  uiStore.showManageModal(
+                    {
+                      subjectId: item.id,
+                      title: item.name,
+                      action,
+                      status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+                    },
+                    '猜你喜欢'
+                  )
+                }}
+              />
+            </View>
           </Flex>
-          <View>
+          <View style={_.container.block}>
             {!!subject.total && (
               <Flex>
                 <Rank value={subject.rank} />

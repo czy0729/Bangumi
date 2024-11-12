@@ -2,53 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 06:58:31
+ * @Last Modified time: 2024-11-12 18:08:43
  */
-import { Loaded, SubjectId, SubjectType, SubjectTypeValue, UserId } from '@types'
-import { CollectionsItem, ListItem } from './types'
+import { SubjectTypeValue, UserId } from '@types'
 
 export const COMPONENT = 'Like'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const EXCLUDE_STATE = {
-  fetching: false,
-  message: '',
-  current: 0,
-  total: 0
-}
-
-export const STATE = {
-  /** 当前类型 */
-  type: 'anime' as SubjectType,
-
-  /** 关联到的条目的基本信息 */
-  relates: {} as Record<SubjectId, CollectionsItem>,
-
-  /** 列表数据条目的基本信息 */
-  list: {
-    anime: [],
-    book: [],
-    game: [],
-    music: [],
-    real: []
-  } as Record<SubjectType, ListItem[]>,
-
-  /** 条目基本信息集合 */
-  subjects: {} as Record<
-    SubjectId,
-    {
-      type?: SubjectTypeValue
-      rank?: number
-      score?: number
-      total?: number
-      year?: string
-      _loaded: Loaded
-    }
-  >,
-  ...EXCLUDE_STATE,
-  _loaded: false as Loaded
-}
 
 export const HOST_API_V0 = 'https://api.bgm.tv/v0'
 
@@ -93,3 +51,5 @@ export const REASONS_INFO = [
   '标签是你倾向打的，越多相对加越多分',
   '被多个条目推荐到相对加分'
 ] as const
+
+export const TIME_PATTERN = /^\d+$|^.*([年月改]).*$/

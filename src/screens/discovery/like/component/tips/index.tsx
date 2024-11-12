@@ -10,7 +10,7 @@ import { obc } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Tips(props, { $ }: Ctx) {
+function Tips(_props, { $ }: Ctx) {
   const { fetching, message, current, total } = $.state
   return <Progress show={fetching} message={message} current={current} total={total} />
 }

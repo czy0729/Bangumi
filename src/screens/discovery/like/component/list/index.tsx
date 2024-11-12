@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 07:55:54
+ * @Last Modified time: 2024-11-12 17:56:14
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -14,14 +14,14 @@ import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List(_props, { $ }: Ctx) {
   if ($.state.fetching) return <Loading />
 
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
-      data={$.state.list[$.state.type]}
+      data={$.list}
       limit={12}
       renderItem={renderItem}
       onScroll={$.onScroll}

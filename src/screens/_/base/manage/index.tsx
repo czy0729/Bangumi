@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 00:07:17
+ * @Last Modified time: 2024-11-11 13:43:22
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { HOST, STORYBOOK } from '@constants'
+import { HOST, WEB } from '@constants'
 import { IconTouchable } from '../../icon/touchable'
 import Content from './content'
 import Flip from './flip'
@@ -30,7 +30,7 @@ export const Manage = ob(
     showRedirect,
     onPress
   }: ManageProps) => {
-    if (STORYBOOK) {
+    if (WEB) {
       if (!subjectId) return null
 
       if (showRedirect || !collection) {
@@ -95,7 +95,7 @@ export const Manage = ob(
             scale={0.9}
             hitSlop={HIT_SLOP}
             onPress={() => {
-              if (STORYBOOK) {
+              if (WEB) {
                 open(`${HOST}/subject/${subjectId}`)
                 return
               }

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:43:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-11 19:06:41
+ * @Last Modified time: 2024-11-12 16:11:04
  */
 import { factory } from '@utils'
-import { CollectionStatusValue, Navigation, SubjectId } from '@types'
+import { CollectionStatusValue, GetRouteParams, Navigation, RouteLike, SubjectId } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -16,6 +16,8 @@ export type Ctx = {
   $: StoreType
   navigation?: Navigation
 }
+
+export type Params = GetRouteParams<RouteLike>
 
 export type CollectionsItem = {
   /** 条目 Id */
@@ -51,9 +53,13 @@ export type CollectionsItem = {
   /** 用户最后管理与现在差多少天 */
   diff: number
 
+  tags: string[]
+
   /** 标签推荐值 */
   rec: number
 }
+
+export type Relates = Record<SubjectId, CollectionsItem>
 
 export type ListItem = {
   id: SubjectId
@@ -62,4 +68,10 @@ export type ListItem = {
   rate: number
   relates: SubjectId[]
   reasons: number[]
+}
+
+export type LikeItem = {
+  id: SubjectId
+  name: string
+  image: string
 }

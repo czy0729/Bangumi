@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-01 11:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 14:18:09
+ * @Last Modified time: 2024-11-11 13:56:01
  */
 import { _ } from '@stores'
 
@@ -10,8 +10,7 @@ export const memoStyles = _.memoStyles(() => ({
   /** base style */
   base: {
     includeFontPadding: false,
-    // @ts-ignore
-    textAlignVertical: _.web('text-bottom', 'center')
+    textAlignVertical: _.web(undefined, 'center')
   },
   text: _.fontStyle,
   bold: _.fontBoldStyle,

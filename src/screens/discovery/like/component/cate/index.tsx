@@ -12,7 +12,7 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Cate(props, { $ }: Ctx) {
+function Cate(_props, { $ }: Ctx) {
   const styles = memoStyles()
   const { type } = $.state
   return (

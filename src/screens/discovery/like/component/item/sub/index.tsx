@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-11 15:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 11:37:03
+ * @Last Modified time: 2024-11-11 13:51:53
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -10,22 +10,12 @@ import { _, uiStore } from '@stores'
 import { desc, getType, similar } from '@utils'
 import { obc } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { Ctx, ListItem } from '../../../types'
+import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
-function Sub(
-  {
-    name,
-    relates,
-    action
-  }: {
-    name: ListItem['name']
-    relates: ListItem['relates']
-    action: string
-  },
-  { $ }: Ctx
-) {
+function Sub({ name, relates, action }: Props, { $ }: Ctx) {
   let len = 0
   let count = 0
   return (

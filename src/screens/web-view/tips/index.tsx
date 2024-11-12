@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:49:32
+ * @Last Modified time: 2024-11-12 10:36:30
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -14,7 +14,7 @@ import Store from './store'
 import { Ctx } from './types'
 
 /** 特色功能 */
-const Tips = (props, { $ }: Ctx) => {
+const Tips = (_props, { $ }: Ctx) => {
   useRunAfter(() => {
     $.init()
   })

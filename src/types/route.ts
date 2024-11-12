@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 06:32:04
+ * @Last Modified time: 2024-11-11 11:19:23
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -51,6 +51,7 @@ export type NavigationPushType = RouteActions &
   RouteGroup &
   RouteHentai &
   RouteInformation &
+  RouteLike &
   RouteManga &
   RouteMilestone &
   RouteMono &
@@ -623,6 +624,13 @@ export type RouteInformation = (
     images?: string[]
   }
 ) => any
+
+export type RouteLike = Route<
+  'Like',
+  {
+    userId?: UserId
+  }
+>
 
 export type RouteShare = (
   path: 'Share',

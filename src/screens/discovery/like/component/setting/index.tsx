@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-06-13 05:32:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 11:27:14
+ * @Last Modified time: 2024-11-13 07:05:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Divider, Flex, SwitchPro, Text } from '@components'
-import { IconTouchable } from '@_'
+import { IconTouchable, Notice } from '@_'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useObserver } from '@utils/hooks'
@@ -25,15 +25,15 @@ function Setting({ length }) {
 
     return (
       <>
-        <IconTouchable name='icon-setting' color={_.colorDesc} onPress={setTrue} />
+        <IconTouchable name='icon-setting' size={20} color={_.colorDesc} onPress={setTrue} />
         <ActionSheet show={state} title='设置' height={800} onClose={setFalse}>
-          <View style={_.container.wind}>
-            <Text style={_.mv.sm} size={11} lineHeight={15} type='sub'>
-              这是一个基于全站用户、条目页面中的「猜你喜欢」数据，并根据你目前的收藏，计算出的一个整合数据列表。与另一「推荐番剧」功能不同，此功能非
-              AI
-              模型推导结果，只是全程在本地进行的一些很简单的规则累加计算。所以只要你收藏、打分越多，数据就会越多。
-            </Text>
+          <Notice>
+            这是基于全站用户条目页面中的「猜你喜欢」和客户端的「分类排行」，并根据当前用户收藏，计算出的一个列表。与另一「推荐番剧」功能不同，此功能非
+            AI
+            模型推导结果，只是全程在本地进行的一些很简单的规则累加计算。所以只要你收藏、打分越多，数据就会越多。
+          </Notice>
 
+          <View style={_.container.wind}>
             {!!length && (
               <Text style={[_.mt.md, _.mb.sm]} bold>
                 当前类型已索引到 {length} 个条目
@@ -66,7 +66,7 @@ function Setting({ length }) {
 
             {REASONS.map((item, index) => {
               return (
-                <View style={_.mt.md}>
+                <View key={item} style={_.mt.md}>
                   <Flex>
                     <Flex.Item>
                       <Text bold>{item}</Text>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 13:19:58
+ * @Last Modified time: 2024-11-12 18:17:45
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -116,7 +116,7 @@ export function alert(content: string, title: string = '提示') {
 
   if (WEB) {
     setTimeout(() => {
-      window.alert(`${alertTitle}：${alertContent}`)
+      window.alert(`${alertTitle}：\n${alertContent}`)
     }, 80)
     return
   }

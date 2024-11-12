@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-10 15:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-13 06:01:21
+ * @Last Modified time: 2024-11-12 18:12:54
  */
 import { systemStore } from '@stores'
 import { desc } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { CollectionStatusCn } from '@types'
-import { REASONS } from './ds'
+import { loadJSON } from '@assets/json'
+import { CollectionStatusCn, SubjectId, SubjectType } from '@types'
+import { REASONS, TIME_PATTERN } from './ds'
 import { CollectionsItem } from './types'
 
 /** 推荐值 */
@@ -219,4 +220,64 @@ export function matchYear(info: string) {
       )?.[2] || ''
     ).match(/(\d{4})/)?.[0] || ''
   )
+}
+
+/** 交集 */
+function intersection(arr1: SubjectId[], arr2: SubjectId[], k: number = 5) {
+  const set2 = new Set(arr2)
+  const result = arr1.filter(item => set2.has(item))
+  return result.length > k ? result.slice(0, k) : result
+}
+
+/** 不进入计算的标签 */
+const FILTER_TAG = new Set(['TV', 'OVA', 'WEB', '短片', '剧场版', '泡面番', '日本', '原创'])
+
+/**
+ * 2024/11/12 v2.0
+ * 因官方猜你喜欢已两年没有更新数据
+ *  - 从 typerank 中猜测一批新番数据
+ *  - 在收藏标签里挑选最多两个标签, 在 typerank 中取出所有前百 ID
+ *  - 前百 ID 相交的条目作为 relateID
+ */
+export async function getTyperankRelates(
+  collections: CollectionsItem[],
+  type: SubjectType = 'anime'
+) {
+  const relates: Record<SubjectId, SubjectId[]> = {}
+  const subjectIds: SubjectId[] = []
+  if (!collections.length || type !== 'anime') return [relates, subjectIds] as const
+
+  try {
+    const typerank = await loadJSON(`typerank/${type}-ids`)
+    collections.forEach(item => {
+      const tags = (item.tags || []).filter(
+        item => !FILTER_TAG.has(item) && !TIME_PATTERN.test(item)
+      )
+      const tag1 = tags?.[0] || ''
+      const tag2 = tags?.[1] || ''
+
+      let ids: SubjectId[] = []
+      let ids1: SubjectId[] = []
+      let ids2: SubjectId[] = []
+
+      if (tag1 && tag1 in typerank) ids1 = typerank[tag1].filter(i => item.id != i)
+      if (tag2 && tag2 in typerank) ids2 = typerank[tag2].filter(i => item.id != i)
+
+      if (ids1.length && ids2.length) {
+        ids = intersection(ids1, ids2)
+      }
+      // else if (ids1.length) {
+      //   ids = ids1.slice(0, 2)
+      // } else if (ids2.length) {
+      //   ids = ids2.slice(0, 2)
+      // }
+
+      if (ids.length) {
+        relates[item.id] = ids
+        subjectIds.push(...ids)
+      }
+    })
+  } catch (error) {}
+
+  return [relates, [...new Set(subjectIds)]] as const
 }
