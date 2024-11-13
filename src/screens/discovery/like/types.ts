@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:43:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 16:11:04
+ * @Last Modified time: 2024-11-13 07:29:09
  */
 import { factory } from '@utils'
 import { CollectionStatusValue, GetRouteParams, Navigation, RouteLike, SubjectId } from '@types'
@@ -53,6 +53,7 @@ export type CollectionsItem = {
   /** 用户最后管理与现在差多少天 */
   diff: number
 
+  /** 保留几个标签用于在分类排名补充推荐数据 */
   tags: string[]
 
   /** 标签推荐值 */

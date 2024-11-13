@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:20:48
+ * @Last Modified time: 2024-11-13 07:41:46
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -43,7 +43,7 @@ function Filter(_props, { $ }: Ctx) {
             data={SUBJECT_TYPE.map(item => item.title)}
             onSelect={$.selectSubjectType}
           >
-            <Text size={11} bold>
+            <Text size={11} bold noWrap>
               {MODEL_SUBJECT_TYPE.getTitle($.state.subjectType)}
             </Text>
           </Popover>
@@ -55,7 +55,7 @@ function Filter(_props, { $ }: Ctx) {
             data={COLLECTION_STATUS.map(item => item.label.replace('看', action))}
             onSelect={$.selectType}
           >
-            <Text size={11} bold>
+            <Text size={11} bold noWrap>
               {MODEL_COLLECTION_STATUS.getLabel($.state.type).replace('看', action)}
             </Text>
           </Popover>
@@ -63,7 +63,7 @@ function Filter(_props, { $ }: Ctx) {
             ·
           </Text>
           <Popover style={styles.item} data={ORDER_DS} onSelect={$.selectOrder}>
-            <Text size={11} bold>
+            <Text size={11} bold noWrap>
               按{orderText}
             </Text>
           </Popover>
@@ -75,7 +75,7 @@ function Filter(_props, { $ }: Ctx) {
             data={['全部', ...$.userCollectionsTags.map(item => `${item.tag} (${item.count})`)]}
             onSelect={$.selectTag}
           >
-            <Text size={11} bold>
+            <Text size={11} bold noWrap>
               {tag || '标签'}
             </Text>
           </Popover>

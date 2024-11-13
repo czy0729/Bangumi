@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 15:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 18:12:54
+ * @Last Modified time: 2024-11-13 08:54:27
  */
 import { systemStore } from '@stores'
 import { desc } from '@utils'
@@ -158,8 +158,8 @@ export function calc(item: CollectionsItem, length = 1) {
 }
 
 /** 构建推荐理由 */
-export function getReasonsInfo(reasons: number[]) {
-  return reasons
+export function getReasonsInfo(reasons: number[], isFromTyperank: boolean) {
+  const infos = reasons
     .map((item, index) => {
       let info = ''
       if (item !== 0) {
@@ -173,6 +173,9 @@ export function getReasonsInfo(reasons: number[]) {
     .filter(item => !!item[0])
     .sort((a, b) => desc(a[1], b[1]))
     .map(item => item[0])
+  infos.push(`数据来源于「${isFromTyperank ? '分类排行' : '全站猜你喜欢'}」`)
+
+  return infos
 }
 
 /** 数组求和 */
@@ -245,7 +248,7 @@ export async function getTyperankRelates(
 ) {
   const relates: Record<SubjectId, SubjectId[]> = {}
   const subjectIds: SubjectId[] = []
-  if (!collections.length || type !== 'anime') return [relates, subjectIds] as const
+  if (!collections.length) return [relates, subjectIds] as const
 
   try {
     const typerank = await loadJSON(`typerank/${type}-ids`)
@@ -265,12 +268,14 @@ export async function getTyperankRelates(
 
       if (ids1.length && ids2.length) {
         ids = intersection(ids1, ids2)
+      } else if (type !== 'anime') {
+        // 非动画一般没有多少数据, 放宽条件从排行里面多取数据
+        if (ids1.length) {
+          ids = ids1.slice(0, 5)
+        } else if (ids2.length) {
+          ids = ids2.slice(0, 5)
+        }
       }
-      // else if (ids1.length) {
-      //   ids = ids1.slice(0, 2)
-      // } else if (ids2.length) {
-      //   ids = ids2.slice(0, 2)
-      // }
 
       if (ids.length) {
         relates[item.id] = ids

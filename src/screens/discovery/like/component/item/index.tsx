@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 07:22:37
+ * @Last Modified time: 2024-11-13 08:49:13
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Divider, Flex, Text } from '@components'
+import { Flex, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Rate, Stars } from '@_'
 import { _, collectionStore, systemStore, uiStore } from '@stores'
@@ -82,13 +82,7 @@ function Item({ item }: Props, { $, navigation }: Ctx) {
           align='start'
         >
           <Flex direction='column' align='start'>
-            <Text
-              style={styles.title}
-              size={size}
-              bold
-              numberOfLines={2}
-              // underline={isFromTyperank}
-            >
+            <Text style={styles.title} size={size} bold numberOfLines={2}>
               {item.name}
               {!!subject.year && (
                 <Text size={size} bold>
@@ -117,7 +111,7 @@ function Item({ item }: Props, { $, navigation }: Ctx) {
               />
             </View>
           </Flex>
-          <View style={_.container.block}>
+          <View style={styles.extra}>
             {!!subject.total && (
               <Flex>
                 <Rank value={subject.rank} />
@@ -127,7 +121,6 @@ function Item({ item }: Props, { $, navigation }: Ctx) {
                 </Text>
               </Flex>
             )}
-            <Divider style={styles.divider} />
             <Sub name={item.name} relates={item.relates} action={action} />
           </View>
         </Flex>
@@ -135,7 +128,7 @@ function Item({ item }: Props, { $, navigation }: Ctx) {
       <Rate
         value={item.rate}
         onPress={() => {
-          alert(getReasonsInfo(item.reasons).join('\n'), item.name)
+          alert(getReasonsInfo(item.reasons, isFromTyperank).join('\n'), item.name)
         }}
       />
     </Flex>

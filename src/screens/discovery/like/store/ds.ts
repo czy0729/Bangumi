@@ -1,10 +1,11 @@
+import { MODEL_COLLECTION_STATUS } from '@constants'
 /*
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 06:49:19
+ * @Last Modified time: 2024-11-13 09:20:43
  */
-import { Loaded, SubjectId, SubjectType, SubjectTypeValue } from '@types'
+import { CollectionStatusValue, Loaded, SubjectId, SubjectType, SubjectTypeValue } from '@types'
 import { COMPONENT } from '../ds'
 import { ListItem, Relates } from '../types'
 
@@ -89,3 +90,26 @@ export const STATE = {
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
+
+export const COLLECTION_STATUS = [
+  {
+    value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('想看'),
+    page: 1
+  },
+  {
+    value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('在看'),
+    page: 1
+  },
+  {
+    value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('看过'),
+    page: 3
+  },
+  {
+    value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('搁置'),
+    page: 1
+  },
+  {
+    value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('抛弃'),
+    page: 1
+  }
+] as const

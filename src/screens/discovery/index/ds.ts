@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 14:21:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 19:43:16
+ * @Last Modified time: 2024-11-13 08:16:16
  */
 import { _ } from '@stores'
 import { IOS, WEB } from '@constants'
@@ -77,8 +77,7 @@ export const MENU_MAP: MenuMapType = {
   Like: {
     key: 'Like',
     name: '猜你喜欢',
-    icon: 'md-looks',
-    login: true
+    icon: 'md-looks'
   },
   Recommend: {
     key: 'Recommend',

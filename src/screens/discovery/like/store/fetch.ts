@@ -2,25 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-11-11 10:06:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 06:52:36
+ * @Last Modified time: 2024-11-13 09:27:25
  */
 import { userStore } from '@stores'
 import { asc, confirm, desc, getTimestamp, HTMLDecode, info, queue, sleep } from '@utils'
 import { request } from '@utils/fetch.v0'
+import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
 import { get, gets, update } from '@utils/kv'
-import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
-import i18n from '@constants/i18n'
-import {
-  CollectionStatusValue,
-  ResponseV0UserCollections,
-  SubjectId,
-  SubjectTypeValue
-} from '@types'
-import { API_COLLECTIONS, LIMIT, MAX_COLLECT_PAGE, TIME_PATTERN } from '../ds'
+import { MODEL_SUBJECT_TYPE } from '@constants'
+import { ResponseV0UserCollections, SubjectId } from '@types'
+import { MAX_COLLECT_PAGE, TIME_PATTERN } from '../ds'
 import { CollectionsItem, LikeItem, ListItem, Relates } from '../types'
 import { calc, dayDiff, getTyperankRelates, matchYear, mergeArrays } from '../utils'
 import Computed from './computed'
-import { EXCLUDE_STATE } from './ds'
+import { COLLECTION_STATUS, EXCLUDE_STATE } from './ds'
 
 export default class Fetch extends Computed {
   /** 本地化 */
@@ -30,10 +25,7 @@ export default class Fetch extends Computed {
 
   /** 获取用户在看和看过的收藏 */
   fetchCollections = async () => {
-    if (!this.userId) {
-      info(`此功能依赖收藏数据，请先${i18n.login()}`, 4)
-      return false
-    }
+    if (!this.userId) return false
 
     if (this.state.fetching) return false
 
@@ -79,10 +71,9 @@ export default class Fetch extends Computed {
           })
         }
 
-        const name = HTMLDecode(item.subject.name_cn || item.subject.name)
         return {
           id: item.subject_id,
-          name: name.length >= 18 ? `${name.slice(0, 18)}...` : name,
+          name: HTMLDecode(item.subject.name_cn || item.subject.name),
           image: item.subject.images?.large?.split('/l/')?.[1]?.split('.jpg')?.[0] || '',
           rank: item.subject.rank || 0,
           score: item.subject.score || 0,
@@ -100,100 +91,42 @@ export default class Fetch extends Computed {
 
   /** 队列请求用户各收藏状态的收藏列表 */
   fetchCollectionsQueue = async () => {
-    const { type } = this.state
-    const data: ResponseV0UserCollections['data'][] = []
-
-    // 看过 2 页
     this.setState({
       fetching: true,
       message: '获取用户收藏',
       current: 1,
       total: MAX_COLLECT_PAGE
     })
-    const subjectType = MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(type)
-    let result = await request<ResponseV0UserCollections>(
-      API_COLLECTIONS(
-        this.userId,
-        subjectType,
-        MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('看过')
-      )
-    )
-    if (Array.isArray(result?.data) && result.data.length) {
-      data.push(...result.data)
 
-      // 最多 MAX_COLLECT_PAGE 页
-      if (result?.total > 100) {
-        for (let i = 2; i <= Math.min(Math.ceil(result.total / LIMIT), MAX_COLLECT_PAGE); i += 1) {
-          result = await request<ResponseV0UserCollections>(
-            API_COLLECTIONS(
-              this.userId,
-              subjectType,
-              MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('看过'),
-              (i - 1) * LIMIT
-            )
+    const subjectTypeValue = MODEL_SUBJECT_TYPE.getValue(this.state.type)
+    const list: ResponseV0UserCollections['data'][] = []
+    try {
+      for (const item of COLLECTION_STATUS) {
+        for (let i = 1; i <= item.page; i += 1) {
+          const response = await request<ResponseV0UserCollections>(
+            API_COLLECTIONS(this.userId, subjectTypeValue, i, 100, item.value),
+            undefined,
+            {
+              timeout: 8000,
+              onError: () => {}
+            }
           )
-          if (Array.isArray(result?.data) && result.data.length) data.push(...result.data)
+          this.setState({
+            current: this.state.current + 1
+          })
+
+          if (Array.isArray(response?.data)) list.push(...response.data)
+          if ((response?.offset || 0) + (response?.limit || 100) >= (response?.total || 100)) break
         }
       }
+    } catch (error) {
+      info('部分请求发生错误, 请重试')
     }
-
-    // 在看 1 页
-    this.setState({
-      current: 2
-    })
-    result = await request<ResponseV0UserCollections>(
-      API_COLLECTIONS(
-        this.userId,
-        subjectType,
-        MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('在看')
-      )
-    )
-    if (Array.isArray(result?.data) && result.data.length) data.push(...result.data)
-
-    // 想看 1 页
-    this.setState({
-      current: 3
-    })
-    result = await request<ResponseV0UserCollections>(
-      API_COLLECTIONS(
-        this.userId,
-        subjectType,
-        MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('想看')
-      )
-    )
-    if (Array.isArray(result?.data) && result.data.length) data.push(...result.data)
-
-    // 搁置 1 页
-    this.setState({
-      current: 4
-    })
-    result = await request<ResponseV0UserCollections>(
-      API_COLLECTIONS(
-        this.userId,
-        subjectType,
-        MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('搁置')
-      )
-    )
-    if (Array.isArray(result?.data) && result.data.length) data.push(...result.data)
-
-    // 抛弃 1 页
-    this.setState({
-      current: MAX_COLLECT_PAGE
-    })
-    result = await request<ResponseV0UserCollections>(
-      API_COLLECTIONS(
-        this.userId,
-        subjectType,
-        MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('抛弃')
-      )
-    )
-    if (Array.isArray(result?.data) && result.data.length) data.push(...result.data)
 
     this.setState({
       ...EXCLUDE_STATE
     })
-
-    return data
+    return list
   }
 
   /** 获取每个条目的猜你喜欢 */

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:53:22
+ * @Last Modified time: 2024-11-13 09:19:09
  */
 import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
@@ -136,7 +136,7 @@ export default class Fetch extends Computed {
         }
       }
     } catch (error) {
-      info('请求发生错误, 请重试')
+      info('部分请求发生错误, 请重试')
     }
 
     const data = list

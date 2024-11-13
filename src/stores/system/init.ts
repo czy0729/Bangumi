@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 17:58:44
+ * @Last Modified time: 2024-11-13 07:59:36
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -394,7 +394,7 @@ export const INIT_SETTING = {
   likeRec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0] as LikeRec,
 
   /** 猜你喜欢显示已收藏条目 */
-  likeCollected: false,
+  likeCollected: true,
 
   /** 启用毛玻璃布局 (android) */
   androidBlur: WEB,

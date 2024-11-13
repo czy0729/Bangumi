@@ -2,10 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 18:08:43
+ * @Last Modified time: 2024-11-13 09:24:16
  */
-import { SubjectTypeValue, UserId } from '@types'
-
 export const COMPONENT = 'Like'
 
 export const HOST_API_V0 = 'https://api.bgm.tv/v0'
@@ -13,18 +11,6 @@ export const HOST_API_V0 = 'https://api.bgm.tv/v0'
 export const MAX_COLLECT_PAGE = 8
 
 export const LIMIT = 100
-
-export const API_COLLECTIONS = (
-  userId: UserId,
-  subjectType: SubjectTypeValue,
-  type: any,
-  offset?: number,
-  limit: number = LIMIT
-) => {
-  let url = `${HOST_API_V0}/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}`
-  if (offset) url += `&offset=${offset}`
-  return url
-}
 
 export const REASONS = [
   '自己评分',
