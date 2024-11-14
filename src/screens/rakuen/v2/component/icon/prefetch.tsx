@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 19:42:48
+ * @Last Modified time: 2024-11-15 03:22:46
  */
 import React from 'react'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Flex, Text, Touchable } from '@components'
 import { IconTabsHeader } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function IconPrefetch(_props, { $ }: Ctx) {
+function IconPrefetch() {
+  const { $ } = useStore<Ctx>()
   if ($.state.prefetching) {
     return (
       <Touchable
@@ -33,7 +35,7 @@ function IconPrefetch(_props, { $ }: Ctx) {
 
   return (
     <IconTabsHeader
-      style={styles.icon}
+      style={styles.prefetch}
       size={18}
       // @ts-expect-error
       name='download'
@@ -43,11 +45,4 @@ function IconPrefetch(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconPrefetch)
-
-const styles = _.create({
-  icon: {
-    marginRight: -6,
-    marginBottom: 0
-  }
-})
+export default ob(IconPrefetch)

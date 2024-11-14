@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { Component } from '@components'
-import { rakuenStore, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { rakuenStore, userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_RAKUEN_NEW_FLOOR_STYLE, MODEL_RAKUEN_SCROLL_DIRECTION } from '@constants'
 import { RakuenScrollDirection } from '@types'
 import { Ctx } from '../../types'
@@ -15,7 +15,8 @@ import { TouchScroll } from './touch-scroll'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function TouchScrollWrap({ onPress }, { $ }: Ctx) {
+function TouchScrollWrap({ onPress }) {
+  const { $ } = useStore<Ctx>()
   const { scrollDirection } = rakuenStore.setting
   if (
     scrollDirection === MODEL_RAKUEN_SCROLL_DIRECTION.getValue<RakuenScrollDirection>('隐藏') ||
@@ -40,4 +41,4 @@ function TouchScrollWrap({ onPress }, { $ }: Ctx) {
   )
 }
 
-export default obc(TouchScrollWrap, COMPONENT)
+export default ob(TouchScrollWrap, COMPONENT)

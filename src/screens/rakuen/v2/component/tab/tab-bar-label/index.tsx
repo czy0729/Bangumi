@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-12 17:17:10
+ * @Last Modified time: 2024-11-15 03:27:42
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
 import { TABS } from '../../../ds'
 import { Ctx } from '../../../types'
 import Label from '../label'
 import { COMPONENT } from './ds'
 
-function TabBarLabel({ route, focused }, { $ }: Ctx) {
+function TabBarLabel({ route, focused }) {
+  const { $ } = useStore<Ctx>()
   if (route.title === '小组' && TABS[$.state.page].title === '小组') {
     return (
       <Label
@@ -48,4 +49,4 @@ function TabBarLabel({ route, focused }, { $ }: Ctx) {
   )
 }
 
-export default obc(TabBarLabel, COMPONENT)
+export default ob(TabBarLabel, COMPONENT)

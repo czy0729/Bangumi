@@ -6,15 +6,16 @@
  */
 import React from 'react'
 import { FixedTextarea, Flex, SafeAreaBottom, Text } from '@components'
-import { _, userStore } from '@stores'
+import { _, userStore, useStore } from '@stores'
 import { appNavigate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Extra from './extra'
 import { COMPONENT, MARKS } from './ds'
 import { memoStyles } from './styles'
 
-function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
+function Bottom({ fixedTextareaRef, onDirect }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!userStore.isWebLogin || userStore.isLimit) return null
 
   const styles = memoStyles()
@@ -60,4 +61,4 @@ function Bottom({ fixedTextareaRef, onDirect }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Bottom, COMPONENT)
+export default ob(Bottom, COMPONENT)

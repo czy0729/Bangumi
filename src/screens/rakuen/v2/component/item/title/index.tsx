@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 17:33:43
+ * @Last Modified time: 2024-11-15 03:26:19
  */
 import React from 'react'
 import { Text } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { OLD_GROUP_ID } from './ds'
 
-function Title({ topicId, title, replyCount, isGroup }, { $ }: Ctx) {
+function Title({ topicId, title, replyCount, isGroup }) {
+  const { $ } = useStore<Ctx>()
   const isReaded = $.readed(topicId).time
 
   // 处理 (+30) +10 样式
@@ -53,4 +55,4 @@ function Title({ topicId, title, replyCount, isGroup }, { $ }: Ctx) {
   )
 }
 
-export default obc(Title)
+export default ob(Title)

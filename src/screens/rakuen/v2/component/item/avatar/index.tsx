@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-21 17:49:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-15 12:27:43
+ * @Last Modified time: 2024-11-15 03:24:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar as AvatarComp } from '@_'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from './ds'
 import { styles } from './styles'
 
-function Avatar({ avatar, userName, userId, priority }, { navigation }: Ctx) {
+function Avatar({ avatar, userName, userId, priority }) {
+  const navigation = useNavigation()
   return (
     <View style={styles.avatar}>
       <AvatarComp
@@ -27,4 +28,4 @@ function Avatar({ avatar, userName, userId, priority }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Avatar)
+export default ob(Avatar)

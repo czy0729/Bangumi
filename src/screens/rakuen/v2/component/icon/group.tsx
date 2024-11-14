@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 19:39:34
+ * @Last Modified time: 2024-11-15 03:20:18
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
+import { styles } from './styles'
 
-function IconGroup(_props, { navigation }: Ctx) {
+function IconGroup() {
+  const navigation = useNavigation()
   return (
     <IconTabsHeader
-      style={stl(styles.icon, _.isPad && styles.iconPad)}
+      style={stl(styles.group, _.isPad && styles.groupPad)}
       name='md-filter-none'
       size={18}
       onPress={() => {
@@ -32,16 +34,4 @@ function IconGroup(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(IconGroup)
-
-const styles = _.create({
-  icon: {
-    marginBottom: 0,
-    marginLeft: _.xs,
-    borderRadius: 40,
-    overflow: 'hidden'
-  },
-  iconPad: {
-    height: 52
-  }
-})
+export default ob(IconGroup)

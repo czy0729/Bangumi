@@ -2,22 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 19:30:11
+ * @Last Modified time: 2024-11-15 03:26:35
  */
 import React from 'react'
-import { rakuenStore } from '@stores'
+import { rakuenStore, useStore } from '@stores'
 import { findSubjectCn, getIsBlocked, getIsBlockedUser } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from './item'
 import { getIsAd, getIsGroup, getReplyCount, getTopicId, getUserId, handlePress } from './utils'
 import { COMPONENT, LIMIT_HEAVY } from './ds'
 import { memoStyles } from './styles'
 
-function ItemWrap(
-  { index, avatar, userId, userName, group, groupHref, href, title, time, replies },
-  { $, navigation }: Ctx
-) {
+function ItemWrap({
+  index,
+  avatar,
+  userId,
+  userName,
+  group,
+  groupHref,
+  href,
+  title,
+  time,
+  replies
+}) {
+  const { $, navigation } = useStore<Ctx>()
   if (index >= LIMIT_HEAVY && !$.state._mounted) return null
 
   const topicId = getTopicId(href)
@@ -66,4 +75,4 @@ function ItemWrap(
   )
 }
 
-export default obc(ItemWrap, COMPONENT)
+export default ob(ItemWrap, COMPONENT)

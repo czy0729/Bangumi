@@ -6,15 +6,16 @@
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, subjectStore } from '@stores'
+import { _, subjectStore, useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { InferArray } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Ep(_props, { $, navigation }: Ctx) {
+function Ep() {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.groupHref?.includes('/subject/')) return null
 
   const subjectId = Number($.groupHref.replace('/subject/', ''))
@@ -94,4 +95,4 @@ function Ep(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Ep, COMPONENT)
+export default ob(Ep, COMPONENT)

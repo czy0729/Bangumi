@@ -16,6 +16,7 @@ export const IGNORE_ITEMS = [
   '意外',
   '日常',
   '暑假',
+  '自由',
   '音乐'
 ] as const
 

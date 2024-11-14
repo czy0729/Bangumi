@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Detail from '../detail'
 import Title from '../title'
 import { styles } from './styles'
@@ -20,4 +20,4 @@ function Content({ groupCn, replyCount, time, title, topicId, userId, userName, 
   )
 }
 
-export default obc(Content)
+export default ob(Content)

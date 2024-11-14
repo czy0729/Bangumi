@@ -7,8 +7,9 @@
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconWordCloud } from '@_'
+import { useStore } from '@stores'
 import { copy, getSPAParams, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, URL_SPA } from '@constants'
 import HeaderTitle from '../component/header-title'
@@ -17,7 +18,8 @@ import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
 import { styles } from './styles'
 
-function Header(_props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   const url = $.params?._url || `${HOST}/rakuen/topic/${$.topicId}`
   return (
     <HeaderComp
@@ -86,4 +88,4 @@ function Header(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

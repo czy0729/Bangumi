@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:23:34
+ * @Last Modified time: 2024-11-15 03:21:52
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Touchable } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { HTML_NEW_TOPIC, WEB } from '@constants'
-import { Ctx } from '../../types'
+import { styles } from './styles'
 
 const TEXT_SEARCH = '小组搜索'
 const TEXT_SETTING = '超展开设置'
 const TEXT_POST = '添加新讨论'
 
-function IconMore({ style }, { navigation }: Ctx) {
+function IconMore({ style }) {
+  const navigation = useNavigation()
   const DATA = []
   if (!WEB) DATA.push(TEXT_SEARCH)
   DATA.push(TEXT_SETTING, TEXT_POST)
@@ -32,12 +34,12 @@ function IconMore({ style }, { navigation }: Ctx) {
           navigation.push('RakuenHistory')
         }}
       >
-        <Flex style={styles.icon} justify='center'>
+        <Flex style={styles.moreIcon} justify='center'>
           <Iconfont name='md-inbox' color={_.colorTitle} size={20} />
         </Flex>
       </Touchable>
       <Popover
-        style={stl(styles.touch, style)}
+        style={stl(styles.more, style)}
         data={DATA}
         onSelect={key => {
           t('超展开.右上角菜单', {
@@ -67,7 +69,7 @@ function IconMore({ style }, { navigation }: Ctx) {
           }
         }}
       >
-        <Flex style={styles.icon} justify='center'>
+        <Flex style={styles.moreIcon} justify='center'>
           <Iconfont name='md-more-horiz' color={_.colorTitle} />
         </Flex>
         <Heatmap id='超展开.右上角菜单' />
@@ -78,16 +80,4 @@ function IconMore({ style }, { navigation }: Ctx) {
   )
 }
 
-export default obc(IconMore)
-
-const styles = _.create({
-  touch: {
-    marginRight: _.xs,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  icon: {
-    width: 36,
-    height: 36
-  }
-})
+export default ob(IconMore)

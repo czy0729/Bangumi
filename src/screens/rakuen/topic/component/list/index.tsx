@@ -5,12 +5,14 @@
  * @Last Modified time: 2024-01-03 23:40:15
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import List from './list'
 import { COMPONENT } from './ds'
 
-function ListWrap({ forwardRef, onShowFixedTextarea, onScrollToIndexFailed }, { $ }: Ctx) {
+function ListWrap({ forwardRef, onShowFixedTextarea, onScrollToIndexFailed }) {
+  const { $ } = useStore<Ctx>()
   return (
     <List
       forwardRef={forwardRef}
@@ -24,4 +26,4 @@ function ListWrap({ forwardRef, onShowFixedTextarea, onScrollToIndexFailed }, { 
   )
 }
 
-export default obc(ListWrap, COMPONENT)
+export default ob(ListWrap, COMPONENT)

@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 19:42:50
+ * @Last Modified time: 2024-11-15 03:23:31
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
+import { styles } from './styles'
 
-function IconSearch(_props, { navigation }: Ctx) {
+function IconSearch() {
+  const navigation = useNavigation()
   return (
     <IconTabsHeader
-      style={styles.icon}
+      style={styles.search}
       name='md-search'
       onPress={() => {
+        navigation.push('RakuenSearch')
+
         t('超展开.跳转', {
           to: 'RakuenSearch'
         })
-
-        navigation.push('RakuenSearch')
       }}
     >
       <Heatmap right={36} bottom={9} id='超展开.跳转' to='RakuenSearch' alias='搜索' />
@@ -30,11 +31,4 @@ function IconSearch(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(IconSearch)
-
-const styles = _.create({
-  icon: {
-    marginRight: -12,
-    marginBottom: 0
-  }
-})
+export default ob(IconSearch)

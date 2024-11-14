@@ -5,17 +5,18 @@
  * @Last Modified time: 2024-09-01 09:44:52
  */
 import React from 'react'
-import { systemStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { getGroupThumbStatic } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER } from '@constants'
 import { Ctx } from '../../types'
 import Top from './top'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function TopWrap(_props, { $, navigation }: Ctx) {
+function TopWrap() {
+  const { $, navigation } = useStore<Ctx>()
   let groupThumb = getGroupThumbStatic($.groupThumb)
   if (
     typeof groupThumb === 'string' &&
@@ -56,4 +57,4 @@ function TopWrap(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(TopWrap, COMPONENT)
+export default ob(TopWrap, COMPONENT)

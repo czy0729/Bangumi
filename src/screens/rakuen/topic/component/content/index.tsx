@@ -5,13 +5,15 @@
  * @Last Modified time: 2024-11-08 11:41:23
  */
 import React, { useCallback } from 'react'
+import { useStore } from '@stores'
 import { appNavigate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Content from './content'
 import { COMPONENT } from './ds'
 
-function ContentWrap(_props, { $, navigation }: Ctx) {
+function ContentWrap() {
+  const { $, navigation } = useStore<Ctx>()
   const onLinkPress = useCallback(
     (href, passProps = {}) => {
       appNavigate(href, navigation, passProps, {
@@ -41,4 +43,4 @@ function ContentWrap(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ContentWrap, COMPONENT)
+export default ob(ContentWrap, COMPONENT)

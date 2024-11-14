@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
-import { _, rakuenStore, userStore } from '@stores'
+import { _, rakuenStore, userStore, useStore } from '@stores'
 import { feedback, info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import {
   COMPONENT,
@@ -23,7 +23,8 @@ import {
 import { styles } from './styles'
 import { DATA } from './types'
 
-function Segement(_props, { $ }: Ctx) {
+function Segement() {
+  const { $ } = useStore<Ctx>()
   const data: DATA = [FILTER_ALL]
   if ($.state.filterPost) {
     data.push(FILTER_POST)
@@ -115,4 +116,4 @@ function Segement(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Segement, COMPONENT)
+export default ob(Segement, COMPONENT)

@@ -42,7 +42,7 @@ export default function Image({ style, source, autoSize, autoHeight, fadeDuratio
         ([entry]) => {
           if (entry.isIntersecting) {
             // 进入可视区域
-            const div = ref.current.querySelector(':first-child')
+            const div = ref.current?.querySelector(':first-child')
             if (div) {
               // 使用 dom 预加载图片, 以便制做渐出效果
               preloadImage(uri, () => {

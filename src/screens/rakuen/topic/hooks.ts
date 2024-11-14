@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
-import { _, rakuenStore, uiStore } from '@stores'
+import { _, rakuenStore, uiStore, useInitStore } from '@stores'
 import { androidKeyboardAdjust, feedback, info } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
@@ -18,11 +18,15 @@ import {
   useRunAfter
 } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Id } from '@types'
+import { Id, NavigationProps } from '@types'
+import store from './store'
 import { PRE_OFFSET } from './ds'
 import { Ctx } from './types'
 
-export function useTopicPage({ $ }: Ctx) {
+export function useTopicPage(props: NavigationProps) {
+  const context = useInitStore<Ctx['$']>(props, store)
+  const { $ } = context
+
   const isFocused = useIsFocused()
   const isFocusedRef = useIsFocusedRef()
   const forwardRef = useRef(null)
@@ -185,7 +189,7 @@ export function useTopicPage({ $ }: Ctx) {
         }
       }
     },
-    [$.comments, $.postId, scrollTo]
+    [$, scrollTo]
   )
 
   /** 楼层进度条点击 */
@@ -302,6 +306,8 @@ export function useTopicPage({ $ }: Ctx) {
   })
 
   return {
+    ...context,
+
     /** 底部回复框引用 */
     fixedTextareaRef,
 

@@ -2,20 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:31:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:27:17
+ * @Last Modified time: 2024-11-15 03:24:27
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TEXT_IGNORE_USER } from '../../../ds'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function BtnPopover(
-  { groupCn, groupHref, href, topicId, userId, userName, isGroup },
-  { $, navigation }: Ctx
-) {
+function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGroup }) {
+  const { $, navigation } = useStore<Ctx>()
   const isSubject = topicId.includes('subject/')
 
   // 类别进入点击
@@ -61,4 +60,4 @@ function BtnPopover(
   )
 }
 
-export default obc(BtnPopover)
+export default ob(BtnPopover)

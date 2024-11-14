@@ -7,12 +7,14 @@
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Milestone(_props, { $ }: Ctx) {
+function Milestone() {
+  const { $ } = useStore<Ctx>()
   if ($.topicId !== 'group/366561') return null
 
   const styles = memoStyles()
@@ -36,4 +38,4 @@ function Milestone(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Milestone, COMPONENT)
+export default ob(Milestone, COMPONENT)

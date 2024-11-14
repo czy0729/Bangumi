@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-03 10:48:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 17:06:33
+ * @Last Modified time: 2024-11-15 03:28:02
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { TABS } from '../../ds'
 import List from '../list'
 
-const renderScene = (item: any, index: number) => () => <List index={index} />
+const renderScene = (_item: any, index: number) => () => <List index={index} />
 
 export default SceneMap(
   TABS.reduce(

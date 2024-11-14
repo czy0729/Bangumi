@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-14 17:39:33
+ * @Last Modified time: 2024-11-15 03:25:02
  */
 import React, { useCallback, useState } from 'react'
 import { Text } from '@components'
@@ -17,7 +17,7 @@ function Detail({ time, groupCn, userName, userId }) {
     (removeSpecText: string) => {
       setName(removeSpecText)
     },
-    [name, setName]
+    [setName]
   )
 
   return useObserver(() => (

@@ -6,15 +6,16 @@
  */
 import React from 'react'
 import { Heatmap, Text } from '@components'
-import { IconReverse, SectionTitle as CompSectionTitle } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { IconReverse, SectionTitle as SectionTitleComp } from '@_'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Segment from '../segment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle(_props, { $ }: Ctx) {
+function SectionTitle() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { list = [] } = $.comments
   let commentsCount = 0
@@ -24,7 +25,7 @@ function SectionTitle(_props, { $ }: Ctx) {
   })
 
   return (
-    <CompSectionTitle
+    <SectionTitleComp
       style={styles.title}
       right={
         <>
@@ -47,8 +48,8 @@ function SectionTitle(_props, { $ }: Ctx) {
           {commentsCount}
         </Text>
       )}
-    </CompSectionTitle>
+    </SectionTitleComp>
   )
 }
 
-export default obc(SectionTitle, COMPONENT)
+export default ob(SectionTitle, COMPONENT)
