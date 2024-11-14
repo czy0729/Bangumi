@@ -2,27 +2,27 @@
  * @Author: czy0729
  * @Date: 2021-06-11 17:29:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:06:52
+ * @Last Modified time: 2024-11-14 20:47:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { autorun } from 'mobx'
 import { ActionSheet, Flex, Iconfont, Input, Modal, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import { COMPONENT, LINKS } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(
-  class LinkModal extends React.Component {
+export default ob(
+  class LinkModal extends React.Component<Ctx> {
     state = {
       show: false
     }
 
     componentDidMount() {
-      const { $ } = this.context as Ctx
+      const { $ } = this.props
       autorun(() => {
         if ($.state.visible) {
           setTimeout(() => {
@@ -71,13 +71,13 @@ export default obc(
     }
 
     onSelect = (text: string) => {
-      const { $ } = this.context as Ctx
+      const { $ } = this.props
       $.onChangeText(text)
       this.onCloseActionSheet()
     }
 
     renderModal() {
-      const { $, navigation } = this.context as Ctx
+      const { $, navigation } = this.props
       const { visible, link } = $.state
       return (
         <Modal

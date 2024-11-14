@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-29 04:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:38:06
+ * @Last Modified time: 2024-11-14 20:47:56
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { AnyObject, SubjectType } from '@types'
 import { Ctx } from '../../types'
 import ListItem from './list-item'
@@ -14,16 +15,14 @@ import { memoStyles } from './styles'
 
 const LIST_CACHE = {}
 
-function ListItemWrap(
-  {
-    style,
-    index,
-    type = 'anime'
-  }: AnyObject<{
-    type: SubjectType
-  }>,
-  { $ }: Ctx
-) {
+function ListItemWrap({
+  style,
+  index,
+  type = 'anime'
+}: AnyObject<{
+  type: SubjectType
+}>) {
+  const { $ } = useStore<Ctx>()
   if ($.state.dragging) return null
 
   const list = LIST_CACHE[type] || $.ramdonHome[type]
@@ -43,4 +42,4 @@ function ListItemWrap(
   )
 }
 
-export default obc(ListItemWrap, COMPONENT)
+export default ob(ListItemWrap, COMPONENT)

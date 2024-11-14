@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 11:21:59
+ * @Last Modified time: 2024-11-14 20:38:43
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,21 +12,16 @@ import { systemStore } from '@stores'
 import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { withT } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
+import { useNavigation, useObserver } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST, TEXT_ONLY } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 // import { getHtml } from './utils'
 import { memoStyles } from './styles'
 
-function Award2021(
-  _props,
-  {
-    // $,
-    navigation
-  }: Ctx
-) {
+function Award2021() {
   r(COMPONENT)
+
+  const navigation = useNavigation()
 
   // const show = useIsFocused()
   return useObserver(() => {

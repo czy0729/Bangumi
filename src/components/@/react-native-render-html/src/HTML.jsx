@@ -3,10 +3,10 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 08:08:01
+ * @Last Modified time: 2024-11-14 23:13:44
  */
 import React, { PureComponent } from 'react'
-import { View, Text, ActivityIndicator, Dimensions } from 'react-native'
+import { View, Text, Dimensions } from 'react-native'
 import {
   cssStringToRNStyle,
   _getElementClassStyles,
@@ -37,7 +37,7 @@ import { optimizeCmputeTextStyles } from './utils'
 
 const flexStyle = { flex: 1, alignItems: 'center' }
 
-let k = 0
+const k = 0
 
 export default class HTML extends PureComponent {
   // static propTypes = {

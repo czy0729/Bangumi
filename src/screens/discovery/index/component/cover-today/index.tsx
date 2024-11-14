@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 00:00:03
+ * @Last Modified time: 2024-11-14 20:44:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,15 @@ import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, systemStore } from '@stores'
 import { cnjp, getCoverMedium, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { linearColor } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT, WEEKDAY_CN } from './ds'
 import { memoStyles } from './styles'
 
-function CoverToday({ data }, { navigation }: Ctx) {
+function CoverToday({ data }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { width, height } = styles.cover
   return (
@@ -81,4 +82,4 @@ function CoverToday({ data }, { navigation }: Ctx) {
   )
 }
 
-export default obc(CoverToday, COMPONENT)
+export default ob(CoverToday, COMPONENT)

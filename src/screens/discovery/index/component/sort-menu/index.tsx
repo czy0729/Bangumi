@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-10-18 11:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 15:50:41
+ * @Last Modified time: 2024-11-14 20:48:44
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import SortMenu from './sort-menu'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SortMenuWrap(_props, { $, navigation }: Ctx) {
+function SortMenuWrap() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <View style={stl(styles.container, systemStore.setting.discoveryMenuNum < 5 && _.mt.sm)}>
@@ -33,4 +34,4 @@ function SortMenuWrap(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SortMenuWrap, COMPONENT)
+export default ob(SortMenuWrap, COMPONENT)

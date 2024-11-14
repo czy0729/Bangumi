@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-12-26 07:20:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 11:21:54
+ * @Last Modified time: 2024-11-14 20:37:46
  */
 import React from 'react'
 import { Flex, Squircle, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { Ctx } from '../../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function More(_props, { navigation }: Ctx) {
+function More() {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { width, height } = styles.more
   const type = _.select('plain', 'title')
@@ -46,4 +47,4 @@ function More(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(More, COMPONENT)
+export default ob(More, COMPONENT)

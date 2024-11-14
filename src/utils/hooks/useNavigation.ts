@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-08 04:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-13 19:48:37
+ * @Last Modified time: 2024-11-14 20:44:27
  */
 import { useContext } from 'react'
 import { NavigationContext } from '@react-navigation/native'
-import { STORYBOOK } from '@constants'
+import { WEB } from '@constants'
 import { Navigation } from '@types'
 
 /**
@@ -17,9 +17,8 @@ export default function useNavigation(): Navigation {
   const navigation = useContext(NavigationContext)
 
   if (navigation === undefined) {
-    if (STORYBOOK) {
-      return require('@components/storybook/navigation')
-        .StorybookNavigation as Navigation
+    if (WEB) {
+      return require('@components/storybook/navigation').StorybookNavigation as Navigation
     }
 
     throw new Error(

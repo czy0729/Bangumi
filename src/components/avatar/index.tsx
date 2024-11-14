@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-19 17:10:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 12:59:49
+ * @Last Modified time: 2024-11-14 23:16:27
  */
 import React from 'react'
 import { useObserver } from 'mobx-react'
@@ -63,7 +63,6 @@ export const Avatar = ({
     })
 
     const passProps = {
-      key: typeof avatarSrc === 'string' ? avatarSrc : 'avatar',
       style: stl(
         style,
         systemStore.dev &&
@@ -81,13 +80,14 @@ export const Avatar = ({
       borderWidth,
       placeholder
     }
+    const key = typeof avatarSrc === 'string' ? avatarSrc : 'avatar'
 
     const el = avatarRadius ? (
       <Squircle width={avatarSize} height={avatarSize} radius={avatarRadius}>
-        <Image {...passProps} border={0} />
+        <Image {...passProps} key={key} border={0} />
       </Squircle>
     ) : (
-      <Image {...passProps} radius={avatarRadius} />
+      <Image {...passProps} key={key} radius={avatarRadius} />
     )
 
     if (avatarOnPress || onLongPress) {

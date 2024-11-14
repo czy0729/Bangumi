@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-12-26 07:10:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-11 05:19:08
+ * @Last Modified time: 2024-11-14 20:35:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Image, Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { ASSETS_AWARDS, HOST } from '@constants'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Block({ year }, { navigation }: Ctx) {
+function Block({ year }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { width, height } = styles.item
   return (
@@ -51,4 +52,4 @@ function Block({ year }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Block, COMPONENT)
+export default ob(Block, COMPONENT)

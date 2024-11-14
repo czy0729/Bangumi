@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-28 19:40:06
+ * @Last Modified time: 2024-11-14 22:45:17
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -50,8 +50,8 @@ module.exports = {
     const prefix = isProduction ? 'production.min' : 'development'
     return `
       ${head}
-      <script src="https://unpkg.com/react@18.1.0/umd/react.${prefix}.js" crossorigin="anonymous"></script>
-      <script src="https://unpkg.com/react-dom@18.1.0/umd/react-dom.${prefix}.js" crossorigin="anonymous"></script>
+      <script src="https://unpkg.com/react@18.3.1/umd/react.${prefix}.js" crossorigin="anonymous"></script>
+      <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.${prefix}.js" crossorigin="anonymous"></script>
     `
   },
   webpackFinal: async (config, { configType }) => {

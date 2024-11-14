@@ -11,7 +11,7 @@ import { D, H6, WEB } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
-class ScreenDiscovery extends Action {
+export default class ScreenDiscovery extends Action {
   init = async () => {
     this.setState({
       ...(await this.getStorage(NAMESPACE)),
@@ -72,5 +72,3 @@ class ScreenDiscovery extends Action {
     ])
   }, '发现.下拉刷新')
 }
-
-export default ScreenDiscovery

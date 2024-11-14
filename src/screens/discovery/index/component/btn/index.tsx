@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 18:47:38
+ * @Last Modified time: 2024-11-14 20:43:06
  */
 import React from 'react'
 import { Clipboard } from 'react-native'
-import { userStore } from '@stores'
+import { userStore, useStore } from '@stores'
 import { appNavigate, info, matchBgmUrl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { DEV } from '@constants'
 import i18n from '@constants/i18n'
@@ -18,7 +18,8 @@ import { Ctx } from '../../types'
 import Btn from './btn'
 import { COMPONENT } from './ds'
 
-export default obc(({ item }, { $, navigation }: Ctx) => {
+function BtnWrap({ item }) {
+  const { $, navigation } = useStore<Ctx>()
   const { username, id } = userStore.userInfo
   const userId = username || id
 
@@ -87,5 +88,7 @@ export default obc(({ item }, { $, navigation }: Ctx) => {
     }
   }
 
-  return <Btn item={item} userId={username || id} onPress={handlePress} />
-}, COMPONENT)
+  return <Btn item={item} userId={userId} onPress={handlePress} />
+}
+
+export default ob(BtnWrap, COMPONENT)

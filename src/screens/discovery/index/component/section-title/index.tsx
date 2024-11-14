@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:45:02
+ * @Last Modified time: 2024-11-14 20:48:24
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { SectionTitle as CompSectionTitle } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle({ title, type }, { navigation }: Ctx) {
+function SectionTitle({ title, type }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <CompSectionTitle
@@ -48,4 +49,4 @@ function SectionTitle({ title, type }, { navigation }: Ctx) {
   )
 }
 
-export default obc(SectionTitle, COMPONENT)
+export default ob(SectionTitle, COMPONENT)

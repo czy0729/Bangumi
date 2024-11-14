@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-03 16:02:05
  */
-import { getSPAId, urlStringify } from '@utils'
+import { getSPAId } from '@utils'
 import { SHARE_MODE, WEB } from '@constants'
 import { AnyObject, Fn } from '@types'
 import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
@@ -125,7 +125,6 @@ export function getStorybookRoute(routeName: string) {
 export function getStorybookArgs(routeName: string) {
   const route = getStorybookRoute(routeName)
   return {
-    key: urlStringify(route.params),
     navigation: StorybookNavigation,
     route
   }

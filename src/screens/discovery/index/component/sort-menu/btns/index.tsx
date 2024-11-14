@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 15:51:07
+ * @Last Modified time: 2024-11-14 20:49:08
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,14 +11,15 @@ import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { INIT_DISCOVERY_MENU } from '@stores/system/init'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
+const Btns = ({ setMenu, onCancel, onSave }) => {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <View style={WEB && styles.web}>
@@ -80,4 +81,4 @@ const Btns = ({ setMenu, onCancel, onSave }, { navigation }: Ctx) => {
   )
 }
 
-export default obc(Btns, COMPONENT)
+export default ob(Btns, COMPONENT)

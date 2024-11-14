@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:47:09
+ * @Last Modified time: 2024-11-14 20:45:13
  */
 import React from 'react'
 import { _, subjectStore, systemStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import CoverXs from './cover-xs'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function CoverXsWrap({ title, avatar, data }, { navigation }: Ctx) {
+function CoverXsWrap({ title, avatar, data }) {
+  const navigation = useNavigation()
   if (!avatar || !data.cover) return null
 
   const subjectId = data.id
@@ -38,4 +39,4 @@ function CoverXsWrap({ title, avatar, data }, { navigation }: Ctx) {
   )
 }
 
-export default obc(CoverXsWrap, COMPONENT)
+export default ob(CoverXsWrap, COMPONENT)

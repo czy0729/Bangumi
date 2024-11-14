@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 05:51:57
+ * @Last Modified time: 2024-11-14 20:43:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,14 +12,15 @@ import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
 import { cnjp, getCoverLarge, HTMLDecode, matchCoverUrl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { linearColor } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
+function CoverLg({ title, src, cn, data }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { subjectId } = data
   const subjectJP = subjectStore.jp(subjectId) || data.title
@@ -84,4 +85,4 @@ function CoverLg({ title, src, cn, data }, { navigation }: Ctx) {
   )
 }
 
-export default obc(CoverLg, COMPONENT)
+export default ob(CoverLg, COMPONENT)
