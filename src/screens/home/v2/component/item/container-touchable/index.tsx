@@ -9,31 +9,29 @@ import { View } from 'react-native'
 import { Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { IMG_WIDTH } from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
 import { COMPONENT, TITLE_HIT_SLOPS } from './ds'
 import { styles } from './styles'
 
-function ContainerTouchable(
-  {
-    subjectId,
-    typeCn,
-    name,
-    name_cn,
-    image,
-    children
-  }: PropsWithChildren<{
-    subjectId: SubjectId
-    typeCn: SubjectTypeCn
-    name: string
-    name_cn: string
-    image: string
-  }>,
-  { navigation }: Ctx
-) {
+function ContainerTouchable({
+  subjectId,
+  typeCn,
+  name,
+  name_cn,
+  image,
+  children
+}: PropsWithChildren<{
+  subjectId: SubjectId
+  typeCn: SubjectTypeCn
+  name: string
+  name_cn: string
+  image: string
+}>) {
+  const navigation = useNavigation()
   return (
     <View style={systemStore.setting.homeListCompact ? styles.compact : styles.touch}>
       <Touchable
@@ -50,7 +48,7 @@ function ContainerTouchable(
             _jp: name,
             _cn: name_cn,
             _image: getCoverSrc(image, IMG_WIDTH),
-            _collection: '在看',
+            // _collection: '在看',
             _type: typeCn
           })
         }}
@@ -61,4 +59,4 @@ function ContainerTouchable(
   )
 }
 
-export default obc(ContainerTouchable, COMPONENT)
+export default ob(ContainerTouchable, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:12:44
+ * @Last Modified time: 2024-11-14 20:12:47
  */
 import { _ } from '@stores'
 import { Loaded, Override, Subject, SubjectId } from '@types'
@@ -90,8 +90,8 @@ export const PAGE_LIMIT_GRID = 4 * 6
 export const BANGUMI_INFO = {
   title: '',
   type: 'tv',
-  sites: [],
+  sites: [] as any,
   titleTranslate: {
-    'zh-Hans': []
+    'zh-Hans': [] as any
   }
 } as const

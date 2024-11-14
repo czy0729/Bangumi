@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { Text } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEEK_DAY_MAP } from '../../../ds'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
-function Onair({ subjectId }, { $ }: Ctx) {
+function Onair({ subjectId }) {
+  const { $ } = useStore<Ctx>()
   const style = _.isMobileLanscape ? _.mt.xs : _.mt.md
   if ($.isToday(subjectId)) {
     const { h, m } = $.onAirCustom(subjectId)
@@ -48,4 +49,4 @@ function Onair({ subjectId }, { $ }: Ctx) {
   return null
 }
 
-export default obc(Onair, COMPONENT)
+export default ob(Onair, COMPONENT)

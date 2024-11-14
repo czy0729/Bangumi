@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-04 22:21:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-19 12:03:55
+ * @Last Modified time: 2024-11-14 00:16:51
  */
 export { default as c } from './c'
 export { default as context } from './c'
@@ -16,5 +16,4 @@ export { default as observer } from './observer'
 /** @deprecated */
 export { default as withHeader } from './withHeader'
 
-/** @deprecated */
-export { default as withTransitionHeader } from './withTransitionHeader'
+// export { default as withTransitionHeader } from './withTransitionHeader'

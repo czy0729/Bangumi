@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-08 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:22:53
+ * @Last Modified time: 2024-11-14 06:14:50
  */
 import React from 'react'
 import { View } from 'react-native'
+import { AnyObject } from '@types'
 import { Props as ComponentProps } from './types'
 
 export { ComponentProps }
@@ -19,14 +20,14 @@ export const Component = ({
   id,
   parseParams,
   children = null,
-  ...props
+  ...otherProps
 }: ComponentProps): JSX.Element | null => {
-  const filteredProps = Object.keys(props).reduce((acc, key) => {
-    if (!key.startsWith('data-')) acc[key] = props[key]
+  const filteredProps: AnyObject = Object.keys(otherProps).reduce((acc, key) => {
+    if (!key.startsWith('data-')) acc[key] = otherProps[key]
     return acc
   }, {})
 
   if (!Object.keys(filteredProps).length) return children as JSX.Element | null
 
-  return <View {...filteredProps}>{children}</View>
+  return <View {...otherProps}>{children}</View>
 }

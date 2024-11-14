@@ -6,14 +6,16 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Opacity({ subjectId, children }, { $ }: Ctx) {
+function Opacity({ subjectId, children }) {
+  const { $ } = useStore<Ctx>()
   const { subject_id: current } = $.state.grid || {}
   return <View style={current === subjectId && styles.active}>{children}</View>
 }
 
-export default obc(Opacity, COMPONENT)
+export default ob(Opacity, COMPONENT)

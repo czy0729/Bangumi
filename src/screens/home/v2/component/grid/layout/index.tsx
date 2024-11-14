@@ -7,15 +7,16 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, Mesume, Text } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { memoStyles } from '../styles'
 import Info from '../info'
 import { COMPONENT, PREV_TEXT } from './ds'
 
-function Layout({ title }, { $ }: Ctx) {
+function Layout({ title }) {
+  const { $ } = useStore<Ctx>()
   if (!$.collection._loaded) return <Loading />
 
   const styles = memoStyles()
@@ -63,4 +64,4 @@ function Layout({ title }, { $ }: Ctx) {
   )
 }
 
-export default obc(Layout, COMPONENT)
+export default ob(Layout, COMPONENT)

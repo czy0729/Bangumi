@@ -7,13 +7,14 @@
 import React from 'react'
 import { TabView } from '@components'
 import { BlurViewTab } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { renderTabBar } from './utils'
 import { COMPONENT_MAIN } from './ds'
 
-function Tab({ renderScene }, { $ }: Ctx) {
+function Tab({ renderScene }) {
+  const { $ } = useStore<Ctx>()
   return (
     <TabView
       key={_.orientation}
@@ -29,4 +30,4 @@ function Tab({ renderScene }, { $ }: Ctx) {
   )
 }
 
-export default obc(Tab, COMPONENT_MAIN)
+export default ob(Tab, COMPONENT_MAIN)

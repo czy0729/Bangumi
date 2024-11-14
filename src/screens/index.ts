@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:04:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 05:02:11
+ * @Last Modified time: 2024-11-14 00:17:22
  */
 import { lazy } from 'react'
 
@@ -29,7 +29,7 @@ export { default as Discovery } from './discovery/index/index'
 export const DiscoveryBlog = lazy(() => import('./discovery/blog'))
 export const Dollars = lazy(() => import('./discovery/dollars'))
 export const Game = lazy(() => import('./discovery/game'))
-export const Guess = lazy(() => import('./discovery/guess'))
+// export const Guess = lazy(() => import('./discovery/guess'))
 export const Hentai = lazy(() => import('./discovery/hentai'))
 export const Like = lazy(() => import('./discovery/like'))
 export const Manga = lazy(() => import('./discovery/manga'))
@@ -47,8 +47,8 @@ export const WordCloud = lazy(() => import('./discovery/word-cloud'))
 export const Yearbook = lazy(() => import('./discovery/yearbook'))
 
 // Reader
-export const Comic = lazy(() => import('./reader/comic'))
-export const HD = lazy(() => import('./reader/hd'))
+// export const Comic = lazy(() => import('./reader/comic'))
+// export const HD = lazy(() => import('./reader/hd'))
 
 // Timeline
 export const Say = lazy(() => import('./timeline/say'))

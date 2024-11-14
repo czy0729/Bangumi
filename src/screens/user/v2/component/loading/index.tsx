@@ -12,7 +12,7 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Loading() {
-  return <LoadingComp style={[_.ios(_.container.plain, _.container._plain), styles.loading]} />
+  return <LoadingComp style={[_.ios(_.container.plain, _.container.plain), styles.loading]} />
 }
 
 export default ob(Loading, COMPONENT)

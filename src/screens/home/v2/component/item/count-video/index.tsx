@@ -7,22 +7,15 @@
 import React from 'react'
 import { Flex, Text } from '@components'
 import { IconExpand } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function CountVideo(
-  {
-    subjectId,
-    epStatus
-  }: {
-    subjectId: SubjectId
-    epStatus: string | number
-  },
-  { $ }: Ctx
-) {
+function CountVideo({ subjectId, epStatus }: { subjectId: SubjectId; epStatus: string | number }) {
+  const { $ } = useStore<Ctx>()
   const { expand } = $.$Item(subjectId)
   return (
     <Flex style={styles.count}>
@@ -38,4 +31,4 @@ function CountVideo(
   )
 }
 
-export default obc(CountVideo, COMPONENT)
+export default ob(CountVideo, COMPONENT)

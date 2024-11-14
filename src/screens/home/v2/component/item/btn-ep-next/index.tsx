@@ -7,24 +7,23 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BtnEpNext(
-  {
-    subjectId,
-    epStatus,
-    isFirst
-  }: {
-    subjectId: SubjectId
-    epStatus: string | number
-    isFirst: boolean
-  },
-  { $ }: Ctx
-) {
+function BtnEpNext({
+  subjectId,
+  epStatus,
+  isFirst
+}: {
+  subjectId: SubjectId
+  epStatus: string | number
+  isFirst: boolean
+}) {
+  const { $ } = useStore<Ctx>()
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null
 
@@ -41,4 +40,4 @@ function BtnEpNext(
   )
 }
 
-export default obc(BtnEpNext, COMPONENT)
+export default ob(BtnEpNext, COMPONENT)

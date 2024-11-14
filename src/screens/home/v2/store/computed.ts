@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:14:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 06:01:20
+ * @Last Modified time: 2024-11-14 20:13:32
  */
 import { computed } from 'mobx'
 import { _, calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
@@ -339,9 +339,7 @@ export default class Computed extends State {
             if (systemStore.setting.homeEpStartAtLastWathed) {
               let lastIndex: number
 
-              // @ts-expect-error
               if (typeof eps.findLastIndex === 'function') {
-                // @ts-expect-error
                 lastIndex = eps.findLastIndex((item: Ep) => userProgress[item.id] === '看过')
               } else {
                 lastIndex = findLastIndex(eps, (item: Ep) => userProgress[item.id] === '看过')
@@ -523,6 +521,7 @@ export default class Computed extends State {
   }
 
   /** bangumi-data 数据扩展 */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bangumiInfo(_subjectId: SubjectId) {
     // 暂时不使用 bangumi-data 数据
     return BANGUMI_INFO
@@ -677,6 +676,7 @@ export default class Computed extends State {
   }
 
   /** 当前是否显示 ScrollToTop 组件 */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   scrollToTop(_title: TabsLabel) {
     return false
 

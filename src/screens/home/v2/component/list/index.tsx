@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { Loading } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { Ctx } from '../../types'
 import Grid from '../grid/index.lazy'
@@ -15,11 +15,12 @@ import List from './list'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
-function ListWrap({ title = '全部' }: Props, { $ }: Ctx) {
+function ListWrap({ title = '全部' }: Props) {
   if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
     return <Grid title={title} />
   }
 
+  const { $ } = useStore<Ctx>()
   if (!$.collection._loaded) return <Loading />
 
   const showItem = $.showItem(title)
@@ -43,4 +44,4 @@ function ListWrap({ title = '全部' }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(ListWrap, COMPONENT)
+export default ob(ListWrap, COMPONENT)

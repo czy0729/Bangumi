@@ -7,7 +7,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import CountBook from '../count-book'
@@ -15,20 +16,17 @@ import CountVideo from '../count-video'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Count(
-  {
-    subjectId,
-    typeCn,
-    epStatus,
-    isFirst
-  }: {
-    subjectId: SubjectId
-    typeCn: SubjectTypeCn
-    epStatus: string | number
-    isFirst: boolean
-  },
-  { $ }: Ctx
-) {
+function Count({
+  subjectId,
+  typeCn,
+  epStatus,
+  isFirst
+}: {
+  subjectId: SubjectId
+  typeCn: SubjectTypeCn
+  epStatus: string | number
+  isFirst: boolean
+}) {
   if (typeCn === '游戏') return null
 
   if (typeCn === '书籍') {
@@ -39,6 +37,7 @@ function Count(
     )
   }
 
+  const { $ } = useStore<Ctx>()
   return (
     <Touchable style={styles.count} onPress={() => $.itemToggleExpand(subjectId)}>
       <CountVideo epStatus={epStatus} subjectId={subjectId} />
@@ -47,4 +46,4 @@ function Count(
   )
 }
 
-export default obc(Count, COMPONENT)
+export default ob(Count, COMPONENT)

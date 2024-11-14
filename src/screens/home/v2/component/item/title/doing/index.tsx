@@ -6,27 +6,25 @@
  */
 import React from 'react'
 import { Text } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { WEEK_DAY_MAP } from '../../../ds'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
-function Doing(
-  {
-    subjectId,
-    typeCn,
-    doing
-  }: {
-    subjectId: SubjectId
-    typeCn: SubjectTypeCn
-    doing: number
-  },
-  { $ }: Ctx
-) {
+function Doing({
+  subjectId,
+  typeCn,
+  doing
+}: {
+  subjectId: SubjectId
+  typeCn: SubjectTypeCn
+  doing: number
+}) {
   if (systemStore.setting.homeListCompact) return null
 
+  const { $ } = useStore<Ctx>()
   const currentDoing = doing || $.subject(subjectId)?.collection?.doing || 0
   if (!currentDoing) return null
 
@@ -45,4 +43,4 @@ function Doing(
   )
 }
 
-export default obc(Doing, COMPONENT)
+export default ob(Doing, COMPONENT)

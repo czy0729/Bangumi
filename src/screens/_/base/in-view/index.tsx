@@ -16,7 +16,7 @@ export { InViewProps }
 
 /** 由于 react-native 没有原生的懒渲染, 根据滚动 y 轴控制懒渲染 */
 export const InView = obc(
-  ({ index, y, log, flex, children, ...other }: InViewProps, { $ }: AnyObject) => {
+  ({ index, y, log, flex, children, ...other }: InViewProps, { $ }: AnyObject = {}) => {
     // web 或者若页面没有管理的 y 轴数值, 或者传递了 index
     if (WEB || (typeof index === 'number' && index < 8) || $?.state?.visibleBottom === undefined) {
       return Object.keys(other).length ? <View {...other}>{children}</View> : children

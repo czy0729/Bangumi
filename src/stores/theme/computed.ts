@@ -582,41 +582,16 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 容器 (工具类) */
   @computed get container() {
     return StyleSheet.create({
-      /**
-       * 特殊布局, background 与 item 应配合使用
-       * 安卓为了防止过渡绘制, 全局底色为白色, 所以 Item 为白色时可以使用透明
-       * iOS 因为有弹簧, 所以不设置成灰色时, 列表下拉会很奇怪, Item 相应也要设置成白色
-       *
-       * iOS: 灰
-       * android: 透明
-       */
       bg: {
-        flex: 1,
-        backgroundColor: this.colorBg
-      },
-      /** @deprecated 这种写法会影响到毛玻璃的表现, 所以废弃 */
-      _bg: {
-        flex: 1,
-        // backgroundColor: IOS ? this.colorBg : this.select('transparent', this._colorBg)
+        width: '100%',
         backgroundColor: this.colorBg
       },
       plain: {
-        flex: 1,
-        backgroundColor: this.colorPlain
-      },
-      /** @deprecated */
-      _plain: {
-        flex: 1,
-        // backgroundColor: IOS ? this.colorPlain : this.select('transparent', this._colorPlain)
+        width: '100%',
         backgroundColor: this.colorPlain
       },
       item: {
         width: '100%',
-        backgroundColor: this.colorPlain
-      },
-      /** @deprecated */
-      _item: {
-        // backgroundColor: IOS ? this.colorPlain : this.select('transparent', this.colorPlain)
         backgroundColor: this.colorPlain
       },
 

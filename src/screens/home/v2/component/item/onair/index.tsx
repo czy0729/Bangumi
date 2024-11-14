@@ -6,27 +6,19 @@
  */
 import React from 'react'
 import { Text } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import { WEEK_DAY_MAP } from '../../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function OnAir(
-  {
-    subjectId,
-    typeCn
-  }: {
-    subjectId: SubjectId
-    typeCn: SubjectTypeCn
-  },
-  { $ }: Ctx
-) {
+function OnAir({ subjectId, typeCn }: { subjectId: SubjectId; typeCn: SubjectTypeCn }) {
   if (typeCn !== '动画' && typeCn !== '三次元') return null
 
   // 防止完结的番剧因放送数据更新不及时, 导致一直显示放送中的问题
+  const { $ } = useStore<Ctx>()
   const current = $.currentOnAir(subjectId)
   if (current >= 8 && !systemStore.setting.homeOnAir) {
     const total = $.epsCount(subjectId)
@@ -69,4 +61,4 @@ function OnAir(
   return null
 }
 
-export default obc(OnAir, COMPONENT)
+export default ob(OnAir, COMPONENT)

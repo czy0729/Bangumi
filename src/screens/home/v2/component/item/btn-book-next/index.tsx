@@ -6,24 +6,23 @@
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BtnBookNext(
-  {
-    subjectId,
-    epStatus,
-    volStatus
-  }: {
-    subjectId: SubjectId
-    epStatus: string | number
-    volStatus: string | number
-  },
-  { $ }: Ctx
-) {
+function BtnBookNext({
+  subjectId,
+  epStatus,
+  volStatus
+}: {
+  subjectId: SubjectId
+  epStatus: string | number
+  volStatus: string | number
+}) {
+  const { $ } = useStore<Ctx>()
   return (
     <Touchable style={styles.touch} onPress={() => $.doUpdateNext(subjectId, epStatus, volStatus)}>
       <Flex style={styles.btn} justify='center'>
@@ -33,4 +32,4 @@ function BtnBookNext(
   )
 }
 
-export default obc(BtnBookNext, COMPONENT)
+export default ob(BtnBookNext, COMPONENT)

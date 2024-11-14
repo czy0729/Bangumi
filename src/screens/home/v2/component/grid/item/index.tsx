@@ -8,9 +8,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { OnairProgress } from '@_'
-import { systemStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
@@ -20,7 +20,8 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Item({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) {
+function Item({ subject = {}, subjectId = 0, epStatus }: Props) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   epStatus = Math.max(Number(epStatus) || 0, $.epStatus(subjectId))
 
@@ -62,4 +63,4 @@ function Item({ subject = {}, subjectId = 0, epStatus }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

@@ -85,7 +85,7 @@ export type NavigationProps<T = {}> = Override<
     route?: {
       key: string
       name: string
-      params: AnyObject
+      params: T
     }
   },
   T

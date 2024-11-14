@@ -6,23 +6,15 @@
  */
 import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import BtnBookNext from '../btn-book-next'
 import { COMPONENT } from './ds'
 
-function CountBook(
-  {
-    subjectId,
-    isFirst
-  }: {
-    subjectId: SubjectId
-    isFirst: boolean
-  },
-  { $ }: Ctx
-) {
+function CountBook({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean }) {
+  const { $ } = useStore<Ctx>()
   const { list = [] } = $.collection
   const { ep_status: epStatus, vol_status: volStatus } =
     list.find(item => item.subject_id === subjectId) || {}
@@ -56,4 +48,4 @@ function CountBook(
   )
 }
 
-export default obc(CountBook, COMPONENT)
+export default ob(CountBook, COMPONENT)

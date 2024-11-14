@@ -8,9 +8,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Input, Loading, Text } from '@components'
 import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
@@ -32,13 +31,8 @@ class Filter extends React.Component<Props> {
     })
   }
 
-  get show() {
-    const { setting } = systemStore
-    return setting.homeFilter
-  }
-
   get filter() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { filterPage } = $.state
     if (filterPage >= 0 && filterPage <= $.tabs.length) {
       if (this.props.title === $.tabs[filterPage].title) return $.state.filter
@@ -49,9 +43,9 @@ class Filter extends React.Component<Props> {
   render() {
     r(COMPONENT)
 
-    if (!this.show) return null
+    if (!systemStore.setting.homeFilter) return null
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     return (
       <View style={this.styles.filter}>
         <Input
@@ -87,4 +81,4 @@ class Filter extends React.Component<Props> {
   }
 }
 
-export default obc(Filter)
+export default ob(Filter)

@@ -6,12 +6,14 @@
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BookNextBtn({ subjectId, epStatus, volStatus }, { $ }: Ctx) {
+function BookNextBtn({ subjectId, epStatus, volStatus }) {
+  const { $ } = useStore<Ctx>()
   return (
     <Touchable
       style={styles.touchable}
@@ -24,4 +26,4 @@ function BookNextBtn({ subjectId, epStatus, volStatus }, { $ }: Ctx) {
   )
 }
 
-export default obc(BookNextBtn, COMPONENT)
+export default ob(BookNextBtn, COMPONENT)

@@ -5,16 +5,15 @@
  * @Last Modified time: 2024-08-30 05:21:55
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
-function ItemWrap(
-  { index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props,
-  { $ }: Ctx
-) {
+function ItemWrap({ index = 0, subjectId = 0, subject = {}, title, epStatus = '' }: Props) {
+  const { $ } = useStore<Ctx>()
   return (
     <Item
       index={index}
@@ -31,4 +30,4 @@ function ItemWrap(
   )
 }
 
-export default obc(ItemWrap, COMPONENT)
+export default ob(ItemWrap, COMPONENT)

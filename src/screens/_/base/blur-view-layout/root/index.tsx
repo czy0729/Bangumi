@@ -5,7 +5,6 @@
  * @Last Modified time: 2024-08-01 23:37:02
  */
 import React from 'react'
-import { View } from 'react-native'
 import { HardwareTextureRootBlurView } from '@components'
 import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
@@ -20,9 +19,8 @@ import { COMPONENT } from './ds'
 export const BlurViewRoot = ({ children }) => {
   r(COMPONENT)
 
-  const { androidBlur, blurBottomTabs } = systemStore.setting
-  if (IOS || !(androidBlur && blurBottomTabs)) {
-    return <View style={_.container.flex}>{children}</View>
+  if (IOS || !(systemStore.setting.androidBlur && systemStore.setting.blurBottomTabs)) {
+    return children
   }
 
   return (

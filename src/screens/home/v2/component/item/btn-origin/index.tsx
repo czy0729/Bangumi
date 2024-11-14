@@ -7,24 +7,18 @@
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BtnOrigin(
-  {
-    subjectId
-  }: {
-    subjectId: SubjectId
-  },
-  { $ }: Ctx
-) {
+function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
   if (systemStore.setting.homeOrigin === -1) return null
 
+  const { $ } = useStore<Ctx>()
   const origins: string[] = [...$.actions(subjectId).map(item => item.name)]
   if (systemStore.setting.homeOrigin === true) {
     origins.push(
@@ -68,4 +62,4 @@ function BtnOrigin(
   )
 }
 
-export default obc(BtnOrigin, COMPONENT)
+export default ob(BtnOrigin, COMPONENT)

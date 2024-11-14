@@ -6,11 +6,13 @@
  */
 import React from 'react'
 import { Progress } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Tips(_props, { $ }: Ctx) {
+function Tips() {
+  const { $ } = useStore<Ctx>()
   return (
     <Progress
       show={$.state.progress.fetching}
@@ -21,4 +23,4 @@ function Tips(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tips, COMPONENT)
+export default ob(Tips, COMPONENT)

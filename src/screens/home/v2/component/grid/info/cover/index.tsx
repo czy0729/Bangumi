@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { Cover as CoverComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../../types'
 import { memoStyles as gridItemMemoStyles } from '../../item/styles'
 import { COMPONENT } from './ds'
 
-function Cover({ subjectId, subject = {} as any, onPress }, { $ }: Ctx) {
+function Cover({ subjectId, subject = {} as any, onPress }) {
+  const { $ } = useStore<Ctx>()
   const _subject = $.subject(subjectId)
   const itemStyles = gridItemMemoStyles()
   const imageWidth = _.isMobileLanscape ? 60 : itemStyles.item.width
@@ -24,10 +25,9 @@ function Cover({ subjectId, subject = {} as any, onPress }, { $ }: Ctx) {
       height={imageHeight}
       src={_subject?.images?.medium || subject?.images?.medium || ''}
       radius
-      shadow
       onPress={onPress}
     />
   )
 }
 
-export default obc(Cover, COMPONENT)
+export default ob(Cover, COMPONENT)

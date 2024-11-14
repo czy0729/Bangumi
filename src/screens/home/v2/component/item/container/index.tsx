@@ -6,22 +6,20 @@
  */
 import React, { PropsWithChildren } from 'react'
 import { View } from 'react-native'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Container(
-  {
-    subjectId,
-    children
-  }: PropsWithChildren<{
-    subjectId: SubjectId
-  }>,
-  { $ }: Ctx
-) {
+function Container({
+  subjectId,
+  children
+}: PropsWithChildren<{
+  subjectId: SubjectId
+}>) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <View
@@ -34,4 +32,4 @@ function Container(
   )
 }
 
-export default obc(Container, COMPONENT)
+export default ob(Container, COMPONENT)

@@ -8,23 +8,16 @@ import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { Eps as EpsComp } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { window } from '@styles'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Eps(
-  {
-    subjectId,
-    isFirst
-  }: {
-    subjectId: SubjectId
-    isFirst: boolean
-  },
-  { $, navigation }: Ctx
-) {
+function Eps({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <View style={styles.eps}>
       <EpsComp
@@ -48,4 +41,4 @@ function Eps(
   )
 }
 
-export default obc(Eps, COMPONENT)
+export default ob(Eps, COMPONENT)

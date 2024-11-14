@@ -6,22 +6,14 @@
  */
 import React from 'react'
 import { OnairProgress } from '@_'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Progress(
-  {
-    subjectId,
-    epStatus
-  }: {
-    subjectId: SubjectId
-    epStatus: string | number
-  },
-  { $ }: Ctx
-) {
+function Progress({ subjectId, epStatus }: { subjectId: SubjectId; epStatus: string | number }) {
+  const { $ } = useStore<Ctx>()
   const total = $.epsCount(subjectId)
   let current = $.currentOnAir(subjectId)
 
@@ -41,4 +33,4 @@ function Progress(
   )
 }
 
-export default obc(Progress, COMPONENT)
+export default ob(Progress, COMPONENT)

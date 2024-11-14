@@ -6,20 +6,14 @@
  */
 import React from 'react'
 import { Loading as LoadingComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Loading(
-  {
-    subjectId
-  }: {
-    subjectId: SubjectId
-  },
-  { $ }: Ctx
-) {
+function Loading({ subjectId }: { subjectId: SubjectId }) {
+  const { $ } = useStore<Ctx>()
   const { progress } = $.state
   if (progress.fetchingSubjectId1 !== subjectId && progress.fetchingSubjectId2 !== subjectId) {
     return null
@@ -28,4 +22,4 @@ function Loading(
   return <LoadingComp.Medium color={_.colorSub} size={16} />
 }
 
-export default obc(Loading, COMPONENT)
+export default ob(Loading, COMPONENT)

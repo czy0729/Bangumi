@@ -7,13 +7,15 @@
 import React from 'react'
 import { Button, Flex, Mesume, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COMPONENT, FOOTER_EMPTY_TEXT } from './ds'
 import { memoStyles } from './styles'
 
-function Empty({ title, length }, { $, navigation }: Ctx) {
+function Empty({ title, length }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { filter } = $.state
   return (
@@ -45,4 +47,4 @@ function Empty({ title, length }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Empty, COMPONENT)
+export default ob(Empty, COMPONENT)

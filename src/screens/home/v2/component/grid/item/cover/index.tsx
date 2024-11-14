@@ -6,15 +6,16 @@
  */
 import React from 'react'
 import { Cover as CoverComp, Touchable } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
 import { SettingHomeGridCoverLayoutCn } from '@types'
 import { memoStyles } from '../styles'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
-function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
+function Cover({ subjectId, subject, epStatus }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const homeGridCoverLayoutCn =
     MODEL_SETTING_HOME_GRID_COVER_LAYOUT.getLabel<SettingHomeGridCoverLayoutCn>(
@@ -35,7 +36,6 @@ function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
         size={styles.item.width}
         height={styles.item.width * (homeGridCoverLayoutCn === '长方形' ? 1.4 : 1)}
         src={subject?.images?.medium || ''}
-        shadow
         radius
         delay={false}
       />
@@ -43,4 +43,4 @@ function Cover({ subjectId, subject, epStatus }, { $ }: Ctx) {
   )
 }
 
-export default obc(Cover, COMPONENT)
+export default ob(Cover, COMPONENT)

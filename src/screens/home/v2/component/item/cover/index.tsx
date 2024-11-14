@@ -9,15 +9,16 @@ import { Cover as CoverComp, getCoverSrc, Touchable } from '@components'
 import { InView } from '@_'
 import { _, systemStore } from '@stores'
 import { x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../../types'
+import { useNavigation } from '@utils/hooks'
 import Heatmaps from './heatmaps'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
-function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props, { navigation }: Ctx) {
+function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props) {
+  const navigation = useNavigation()
   const { homeListCompact } = systemStore.setting
   const style = homeListCompact ? styles.inViewCompact : styles.inView
   const width = style.minWidth
@@ -36,7 +37,7 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props, { navi
           _jp: name,
           _cn: name_cn,
           _image: getCoverSrc(image, width),
-          _collection: '在看',
+          // _collection: '在看',
           _type: typeCn
         })
       }}
@@ -57,4 +58,4 @@ function Cover({ index, subjectId, typeCn, name, name_cn, image }: Props, { navi
   )
 }
 
-export default obc(Cover, COMPONENT)
+export default ob(Cover, COMPONENT)

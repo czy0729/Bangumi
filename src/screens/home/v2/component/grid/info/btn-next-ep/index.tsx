@@ -7,12 +7,14 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BtnNextEp({ subjectId }, { $ }: Ctx) {
+function BtnNextEp({ subjectId }) {
+  const { $ } = useStore<Ctx>()
   const { sort } = $.nextWatchEp(subjectId)
   if (!sort) return null
 
@@ -33,4 +35,4 @@ function BtnNextEp({ subjectId }, { $ }: Ctx) {
   )
 }
 
-export default obc(BtnNextEp, COMPONENT)
+export default ob(BtnNextEp, COMPONENT)

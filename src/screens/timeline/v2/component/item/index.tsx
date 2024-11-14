@@ -48,7 +48,7 @@ function Item(
     <>
       {!!item.date && <SectionHeader>{item.date}</SectionHeader>}
       <ItemTimeline
-        style={_.container._item}
+        style={_.container.item}
         navigation={navigation}
         {...item}
         full={MODEL_TIMELINE_SCOPE.getLabel(scope) === '自己'}

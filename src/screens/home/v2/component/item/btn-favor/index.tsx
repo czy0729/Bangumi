@@ -6,26 +6,25 @@
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BtnFavor(
-  {
-    subjectId,
-    name,
-    name_cn,
-    isFirst
-  }: {
-    subjectId: SubjectId
-    name: string
-    name_cn: string
-    isFirst: boolean
-  },
-  { $ }: Ctx
-) {
+function BtnFavor({
+  subjectId,
+  name,
+  name_cn,
+  isFirst
+}: {
+  subjectId: SubjectId
+  name: string
+  name_cn: string
+  isFirst: boolean
+}) {
+  const { $ } = useStore<Ctx>()
   return (
     <Touchable
       style={styles.touch}
@@ -44,4 +43,4 @@ function BtnFavor(
   )
 }
 
-export default obc(BtnFavor, COMPONENT)
+export default ob(BtnFavor, COMPONENT)

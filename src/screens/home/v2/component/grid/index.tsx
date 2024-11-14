@@ -7,7 +7,8 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Loading } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Info from './layout'
 import Linear from './linear'
@@ -18,7 +19,8 @@ import { Props } from './types'
 
 const RENDERED = {}
 
-function Grid({ title = '全部' }: Props, { $ }: Ctx) {
+function Grid({ title = '全部' }: Props) {
+  const { $ } = useStore<Ctx>()
   if ($.tabsLabel === title) RENDERED[title] = true
 
   if ($.tabsLabel !== title && !RENDERED[title]) return null
@@ -44,4 +46,4 @@ function Grid({ title = '全部' }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(Grid, COMPONENT)
+export default ob(Grid, COMPONENT)

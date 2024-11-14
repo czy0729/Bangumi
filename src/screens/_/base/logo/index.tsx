@@ -8,7 +8,7 @@ import React from 'react'
 import { Component, Flex, Iconfont, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import { COMPONENT } from './ds'
@@ -21,8 +21,8 @@ export { LogoProps }
 let pendding = false
 
 /** bgm.tv Logo */
-export const Logo = obc(
-  ({ forceUpdate, path = 'Setting' }: LogoProps, { navigation }) => (
+export const Logo = ob(
+  ({ navigation, forceUpdate, path = 'Setting' }: LogoProps) => (
     <Component id='base-logo'>
       <Touchable
         style={styles.radius}

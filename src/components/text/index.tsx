@@ -37,7 +37,7 @@ function TextComp(
     children,
     ...other
   }: TextProps,
-  { lineHeightIncrease: contextLineHeightIncrease }: Context
+  { lineHeightIncrease: contextLineHeightIncrease }: Context = {}
 ) {
   r(COMPONENT)
 

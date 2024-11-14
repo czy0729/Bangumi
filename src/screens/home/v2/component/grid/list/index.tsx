@@ -6,14 +6,15 @@
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { memoStyles } from '../styles'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List({ title }, { $ }: Ctx) {
+function List({ title }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { homeGridCoverLayout } = systemStore.setting
   const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
@@ -32,4 +33,4 @@ function List({ title }, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

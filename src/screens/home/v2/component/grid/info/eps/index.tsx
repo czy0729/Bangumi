@@ -7,13 +7,15 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Eps as EpsComp } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { InferArray } from '@types'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Eps({ subjectId }, { $, navigation }: Ctx) {
+function Eps({ subjectId }) {
+  const { $, navigation } = useStore<Ctx>()
   const eps = $.eps(subjectId)
   type Ep = InferArray<typeof eps>
 
@@ -37,4 +39,4 @@ function Eps({ subjectId }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Eps, COMPONENT)
+export default ob(Eps, COMPONENT)

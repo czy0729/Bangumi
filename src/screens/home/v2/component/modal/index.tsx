@@ -6,11 +6,13 @@
  */
 import React from 'react'
 import { ManageModal } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Modal(_props, { $ }: Ctx) {
+function Modal() {
+  const { $ } = useStore<Ctx>()
   const { subjectId } = $.state
   const { name, name_cn: nameCn } = $.subject(subjectId)
   return (
@@ -25,4 +27,4 @@ function Modal(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Modal, COMPONENT)
+export default ob(Modal, COMPONENT)

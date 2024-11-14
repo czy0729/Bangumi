@@ -6,7 +6,9 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { PaginationList2 } from '@_'
+import { useStore } from '@stores'
 import { memo } from '@utils/decorators'
+import { Ctx } from '../../types'
 import Empty from '../empty'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
@@ -24,6 +26,7 @@ const List = memo(
     onHeaderRefresh,
     onFooterRefresh
   }) => {
+    const { $, navigation } = useStore<Ctx>()
     const { length } = data.list
     const elEmpty = <Empty title={title} length={length} />
     const _renderItem = useCallback(
@@ -41,7 +44,7 @@ const List = memo(
       [title, showItem]
     )
     const ListHeaderComponent = useMemo(
-      () => <Filter title={title} length={length} />,
+      () => <Filter $={$} navigation={navigation} title={title} length={length} />,
       [title, length]
     )
 

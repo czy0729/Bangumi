@@ -7,22 +7,15 @@
 import React from 'react'
 import { Collapsible as CollapsibleComp } from '@components'
 import { numbersOfLine } from '@_/base/eps/ds'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import Eps from '../eps'
 import { COMPONENT } from './ds'
 
-function Collapsible(
-  {
-    subjectId,
-    isFirst
-  }: {
-    subjectId: SubjectId
-    isFirst: boolean
-  },
-  { $ }: Ctx
-) {
+function Collapsible({ subjectId, isFirst }: { subjectId: SubjectId; isFirst: boolean }) {
+  const { $ } = useStore<Ctx>()
   return (
     <CollapsibleComp
       key={String(Math.floor(Number($.epsCount(subjectId)) / numbersOfLine))}
@@ -33,4 +26,4 @@ function Collapsible(
   )
 }
 
-export default obc(Collapsible, COMPONENT)
+export default ob(Collapsible, COMPONENT)

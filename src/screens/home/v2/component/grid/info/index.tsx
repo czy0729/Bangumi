@@ -8,9 +8,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH_SM } from '@constants'
 import { Ctx } from '../../../types'
@@ -24,10 +24,8 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Info(
-  { subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props,
-  { $, navigation }: Ctx
-) {
+function Info({ subjectId = 0, subject = {}, epStatus = '', tip = '', time = '' }: Props) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const isTop = $.state.top.indexOf(subjectId) !== -1
   return (
@@ -73,4 +71,4 @@ function Info(
   )
 }
 
-export default obc(Info, COMPONENT)
+export default ob(Info, COMPONENT)

@@ -2,35 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:14:00
+ * @Last Modified time: 2024-11-14 20:15:14
  */
 import React from 'react'
 import { Highlight, Katakana } from '@components'
+import { useStore } from '@stores'
 import { cnjp, getPinYinFilterValue, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
-import { SubjectId, SubjectTypeCn } from '@types'
-import { Ctx, TabsLabel } from '../../../types'
+import { ob } from '@utils/decorators'
+import { Ctx } from '../../../types'
 import Doing from './doing'
 import { COMPONENT } from './ds'
+import { Props } from './types'
 
-function Title(
-  {
-    subjectId,
-    typeCn,
-    title,
-    name,
-    name_cn,
-    doing
-  }: {
-    subjectId: SubjectId
-    typeCn: SubjectTypeCn
-    title: TabsLabel
-    name: string
-    name_cn: string
-    doing: number
-  },
-  { $ }: Ctx
-) {
+function Title({ subjectId, typeCn, title, name, name_cn, doing }: Props) {
+  const { $ } = useStore<Ctx>()
   const text = HTMLDecode(
     cnjp(name_cn || $.subject(subjectId)?.name_cn, name || $.subject(subjectId)?.name)
   )
@@ -57,4 +42,4 @@ function Title(
   )
 }
 
-export default obc(Title, COMPONENT)
+export default ob(Title, COMPONENT)

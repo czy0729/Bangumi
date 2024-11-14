@@ -6,24 +6,19 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SubjectId } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Top(
-  {
-    subjectId
-  }: {
-    subjectId: SubjectId
-  },
-  { $ }: Ctx
-) {
+function Top({ subjectId }: { subjectId: SubjectId }) {
+  const { $ } = useStore<Ctx>()
   if ($.state.top.indexOf(subjectId) === -1) return null
 
   const styles = memoStyles()
   return <View style={styles.top} />
 }
 
-export default obc(Top, COMPONENT)
+export default ob(Top, COMPONENT)

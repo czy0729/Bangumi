@@ -6,12 +6,14 @@
  */
 import React from 'react'
 import { Text } from '@components'
+import { useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../../types'
 import { COMPONENT } from './ds'
 
-function Title({ subjectId, subject = {} as any }, { $ }: Ctx) {
+function Title({ subjectId, subject = {} as any }) {
+  const { $ } = useStore<Ctx>()
   const _subject = $.subject(subjectId)
   const title = HTMLDecode(
     cnjp(_subject?.name_cn || subject?.name_cn, _subject?.name || subject?.name)
@@ -23,4 +25,4 @@ function Title({ subjectId, subject = {} as any }, { $ }: Ctx) {
   )
 }
 
-export default obc(Title, COMPONENT)
+export default ob(Title, COMPONENT)

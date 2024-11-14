@@ -8,13 +8,14 @@ import React from 'react'
 import { Flex } from '@components'
 import { IconNotify, IconTabsHeader, IconTinygrail } from '@_'
 import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function Icons(_props, { navigation }: Ctx) {
+function Icons() {
+  const navigation = useNavigation()
   return (
     <Flex style={styles.icons}>
       <IconNotify style={styles.notify} navigation={navigation} event={EVENT} />
@@ -36,4 +37,4 @@ function Icons(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Icons, COMPONENT)
+export default ob(Icons, COMPONENT)

@@ -19,7 +19,7 @@ export { LoginProps }
 /** 提示登录块 */
 export const Login = obc(
   ({ style, text = '', btnText = `重新${i18n.login()}` }: LoginProps, { navigation }) => (
-    <Component id='base-login' style={stl(_.container.column, _.container._plain, style)}>
+    <Component id='base-login' style={stl(_.container.column, _.container.plain, style)}>
       {!!text && (
         <Text style={_.mb.md} type='sub' size={16}>
           {text}

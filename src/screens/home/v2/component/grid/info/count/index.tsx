@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../../../types'
@@ -15,7 +15,8 @@ import BookNextBtn from '../book-next-btn'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Count({ subjectId, subject = {} as any, epStatus, tip }, { $ }: Ctx) {
+function Count({ subjectId, subject = {} as any, epStatus, tip }) {
+  const { $ } = useStore<Ctx>()
   const _subject = $.subject(subjectId)
   const label = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(_subject?.type || subject?.type)
   if (label === '游戏') {
@@ -62,4 +63,4 @@ function Count({ subjectId, subject = {} as any, epStatus, tip }, { $ }: Ctx) {
   )
 }
 
-export default obc(Count, COMPONENT)
+export default ob(Count, COMPONENT)
