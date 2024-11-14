@@ -2,22 +2,24 @@
  * @Author: czy0729
  * @Date: 2021-08-20 14:44:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:07:13
+ * @Last Modified time: 2024-11-15 01:53:01
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { confirm, info } from '@utils/ui'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function IconHidden({ name, value }, { $ }: Ctx) {
+function IconHidden({ name, value }) {
+  const { $ } = useStore<Ctx>()
   if (!name || !value) return null
 
   return (
     <IconTouchable
-      style={styles.touch}
+      style={styles.hidden}
       name='md-close'
       color={_.colorIcon}
       onPress={() => {
@@ -32,12 +34,4 @@ function IconHidden({ name, value }, { $ }: Ctx) {
   )
 }
 
-export default obc(IconHidden)
-
-const styles = _.create({
-  touch: {
-    paddingVertical: 0,
-    marginRight: -_.sm,
-    marginLeft: 4
-  }
-})
+export default ob(IconHidden)

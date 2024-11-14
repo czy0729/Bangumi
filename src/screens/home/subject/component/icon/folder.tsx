@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-05-27 10:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:05:29
+ * @Last Modified time: 2024-11-15 01:50:20
  */
 import React from 'react'
 import { Flex, Heatmap, Text } from '@components'
 import { FolderManageModal, IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function IconFolder(_props, { $ }: Ctx) {
+function IconFolder() {
+  const { $ } = useStore<Ctx>()
   if (SHARE_MODE) return null
 
   const isInclude = !!$.catalogIncludes
@@ -33,13 +35,4 @@ function IconFolder(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconFolder)
-
-const styles = _.create({
-  num: {
-    position: 'absolute',
-    zIndex: 1,
-    right: -2,
-    bottom: 6
-  }
-})
+export default ob(IconFolder)

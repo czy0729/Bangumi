@@ -2,26 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-09-19 20:45:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:16:59
+ * @Last Modified time: 2024-11-15 01:55:13
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
+import { useStore } from '@stores'
 import { cnjp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconRelation(
-  {
-    title = '关联',
-    list = []
-  }: {
-    title: string
-    list: any[] | readonly any[]
-  },
-  { $, navigation }: Ctx
-) {
+function IconRelation({
+  title = '关联',
+  list = []
+}: {
+  title: string
+  list: any[] | readonly any[]
+}) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <Touchable
       style={styles.touch}
@@ -47,4 +46,4 @@ function IconRelation(
   )
 }
 
-export default obc(IconRelation)
+export default ob(IconRelation)

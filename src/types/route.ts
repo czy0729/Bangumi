@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-11 11:19:23
+ * @Last Modified time: 2024-11-15 02:01:02
  */
 import { ImageSourcePropType } from 'react-native'
 import {
   CollectionsOrder,
   CollectionStatus,
+  CollectionStatusCn,
   RatingStatus,
   SubjectType,
   SubjectTypeCn
@@ -39,6 +40,7 @@ export type NavigationPushType = RouteActions &
   RouteAward &
   RouteBlog &
   RouteBlogs &
+  RouteBoard &
   RouteCatalogDetail &
   RouteCatalogs &
   RouteChannel &
@@ -447,6 +449,16 @@ export type RouteBlogs = Route<
   }
 >
 
+export type RouteBoard = Route<
+  'Board',
+  {
+    subjectId: SubjectId
+
+    /** 条目中文名 */
+    name?: string
+  }
+>
+
 export type RouteCharacter = (
   path: 'Character',
   params: {
@@ -497,6 +509,9 @@ export type RouteSubject = Route<
 
     /** 封面占位, 比 _image 优先 */
     _imageForce?: string
+
+    /** 默认收藏状态 */
+    _collection?: CollectionStatusCn
 
     /** 找条目, 动画 */
     _aid?: Id

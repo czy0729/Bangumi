@@ -2,21 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 12:40:51
+ * @Last Modified time: 2024-11-15 01:26:11
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
-import { _ } from '@stores'
+import { _, useInitStore } from '@stores'
 import { feedback, postTask } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { useFocusEffect, useIsFocusedRef, useMount, useRunAfter } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
+import { NavigationProps } from '@types'
+import store from './store'
 import { TITLE_HEAD } from './ds'
 import { Ctx } from './types'
 
 /** 条目页面逻辑 */
-export function useSubjectPage({ $ }: Ctx) {
+export function useSubjectPage(props: NavigationProps) {
+  const context = useInitStore<Ctx['$']>(props, store)
+  const { $ } = context
+
   /** 页面是否聚焦 */
   const isFocused = useIsFocusedRef()
 
@@ -62,6 +67,8 @@ export function useSubjectPage({ $ }: Ctx) {
   const blockRefs = useRef<any>({})
 
   return {
+    ...context,
+
     /** 收集 ListView.ref */
     forwardRef: useCallback((ref: any) => {
       scrollViewRef.current = ref

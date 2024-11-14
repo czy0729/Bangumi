@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-03-01 08:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:10:32
+ * @Last Modified time: 2024-11-15 01:34:00
  */
 import React from 'react'
-import { collectionStore } from '@stores'
+import { collectionStore, useStore } from '@stores'
 import { date } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import FlipBtn from './flip-btn'
 import { COMPONENT } from './ds'
 
-function FlipBtnWrap({ onPress }, { $ }: Ctx) {
+function FlipBtnWrap({ onPress }) {
+  const { $ } = useStore<Ctx>()
   const {
     status: collectionStatus = { name: '未收藏', type: null },
     rating = 0,
@@ -48,4 +49,4 @@ function FlipBtnWrap({ onPress }, { $ }: Ctx) {
   )
 }
 
-export default obc(FlipBtnWrap, COMPONENT)
+export default ob(FlipBtnWrap, COMPONENT)

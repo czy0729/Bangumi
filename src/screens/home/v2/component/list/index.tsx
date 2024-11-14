@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-04 16:38:51
+ * @Last Modified time: 2024-11-15 02:58:18
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -16,11 +16,11 @@ import { COMPONENT } from './ds'
 import { Props } from './types'
 
 function ListWrap({ title = '全部' }: Props) {
+  const { $ } = useStore<Ctx>()
   if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
     return <Grid title={title} />
   }
 
-  const { $ } = useStore<Ctx>()
   if (!$.collection._loaded) return <Loading />
 
   const showItem = $.showItem(title)

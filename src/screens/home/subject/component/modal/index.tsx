@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 20:33:17
+ * @Last Modified time: 2024-11-15 02:04:36
  */
 import React, { Suspense } from 'react'
 import { Component } from '@components'
-import { userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Modal from './modal.lazy'
 import { COMPONENT } from './ds'
 
-function ModalWrap(_props, { $ }: Ctx) {
+function ModalWrap() {
+  const { $ } = useStore<Ctx>()
   if (!userStore.isLogin) return null
 
   return (
@@ -33,4 +34,4 @@ function ModalWrap(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ModalWrap, COMPONENT)
+export default ob(ModalWrap, COMPONENT)

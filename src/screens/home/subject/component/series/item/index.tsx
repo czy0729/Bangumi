@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-11-24 19:20:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-09 15:26:06
+ * @Last Modified time: 2024-11-15 02:06:37
  */
 import React from 'react'
 import { Cover, Flex, Heatmap, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT } from '@constants'
 import { Ctx } from '../../../types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../ds'
 import { memoStyles } from './styles'
 
-function Item({ from, data }, { $, navigation }: Ctx) {
+function Item({ from, data }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const _from = `系列${from}`
   return (
@@ -25,16 +26,16 @@ function Item({ from, data }, { $, navigation }: Ctx) {
       animate
       scale={0.9}
       onPress={() => {
-        t('条目.跳转', {
-          to: 'Subject',
-          from: _from,
-          subjectId: $.subjectId
-        })
-
         navigation.push('Subject', {
           subjectId: data.id,
           _jp: data.title,
           _image: getCoverSrc(data.image, COVER_WIDTH)
+        })
+
+        t('条目.跳转', {
+          to: 'Subject',
+          from: _from,
+          subjectId: $.subjectId
         })
       }}
     >
@@ -59,4 +60,4 @@ function Item({ from, data }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

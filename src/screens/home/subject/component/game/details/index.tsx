@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-08-13 12:23:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 17:12:32
+ * @Last Modified time: 2024-11-15 01:40:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, otaStore } from '@stores'
+import { _, otaStore, useStore } from '@stores'
 import { formatPlaytime, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Details(_props, { $ }: Ctx) {
+function Details() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const isADV = $.gameInfo?.isADV
   let title = ''
@@ -119,4 +120,4 @@ function Details(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Details, COMPONENT)
+export default ob(Details, COMPONENT)

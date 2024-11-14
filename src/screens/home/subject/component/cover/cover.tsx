@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Cover as CoverComp, Heatmap, Squircle } from '@components'
 import { systemStore } from '@stores'
 import { getCoverLarge, postTask } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { IMG_DEFAULT, WEB } from '@constants'
 import { COMPONENT_MAIN } from './ds'
@@ -124,4 +124,4 @@ class Cover extends React.Component<Props> {
   }
 }
 
-export default obc(Cover)
+export default ob(Cover)

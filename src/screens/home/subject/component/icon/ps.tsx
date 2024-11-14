@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:32:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:08:36
+ * @Last Modified time: 2024-11-15 01:55:00
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconPS(_props, { $ }: Ctx) {
+function IconPS() {
+  const { $ } = useStore<Ctx>()
   if (!$.isPS) return null
 
   return (
@@ -26,4 +27,4 @@ function IconPS(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconPS)
+export default ob(IconPS)

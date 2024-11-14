@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-10-21 13:06:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 17:37:25
+ * @Last Modified time: 2024-11-15 01:54:45
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconPreview({ data, headers }, { $, navigation }: Ctx) {
+function IconPreview({ data, headers }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!systemStore.setting.showThumbs) return null
 
   return (
@@ -43,4 +44,4 @@ function IconPreview({ data, headers }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconPreview)
+export default ob(IconPreview)

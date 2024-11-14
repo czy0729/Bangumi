@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-08 22:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-03 00:06:54
+ * @Last Modified time: 2024-11-15 01:39:10
  */
 import React from 'react'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import BookEp from './book-ep'
 import { memoStyles } from './styles'
 
-function BookEpWrap({ onScrollIntoViewIfNeeded }, { $ }: Ctx) {
+function BookEpWrap({ onScrollIntoViewIfNeeded }) {
+  const { $ } = useStore<Ctx>()
   return (
     <BookEp
       styles={memoStyles()}
@@ -29,4 +30,4 @@ function BookEpWrap({ onScrollIntoViewIfNeeded }, { $ }: Ctx) {
   )
 }
 
-export default obc(BookEpWrap)
+export default ob(BookEpWrap)

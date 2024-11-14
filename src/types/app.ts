@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 11:43:20
+ * @Last Modified time: 2024-11-15 02:17:37
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -79,12 +79,17 @@ export type Navigation = {
 }
 
 /**  带 navigation 定义的 props */
-export type NavigationProps<T = {}> = Override<
+export type NavigationProps<
+  T = AnyObject<{
+    routeName?: string
+  }>
+> = Override<
   {
     navigation: Navigation
     route?: {
       key: string
       name: string
+
       params: T
     }
   },

@@ -2,41 +2,29 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:59:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:08:46
+ * @Last Modified time: 2024-11-15 01:56:29
  */
 import React from 'react'
 import { Heatmap } from '@components'
-import { IconReverse as CompIconReverse } from '@_'
-import { _ } from '@stores'
+import { IconReverse as IconReverseComp } from '@_'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function IconReverse(_props, { $ }: Ctx) {
+function IconReverse() {
+  const { $ } = useStore<Ctx>()
   const { epsReverse } = $.state
   return (
-    <CompIconReverse
-      style={stl(styles.touch, epsReverse && styles.reverse)}
+    <IconReverseComp
+      style={stl(styles.iconReverse, epsReverse && styles.reverse)}
       color={epsReverse ? _.colorMain : _.colorIcon}
       onPress={$.toggleReverseEps}
     >
       <Heatmap right={-5} id='条目.章节倒序' />
-    </CompIconReverse>
+    </IconReverseComp>
   )
 }
 
-export default obc(IconReverse)
-
-const styles = _.create({
-  touch: {
-    marginRight: -_.sm,
-    marginLeft: 4
-  },
-  reverse: {
-    transform: [
-      {
-        rotateX: '180deg'
-      }
-    ]
-  }
-})
+export default ob(IconReverse)

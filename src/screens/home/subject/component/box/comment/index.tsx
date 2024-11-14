@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-03-25 11:07:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-30 11:31:52
+ * @Last Modified time: 2024-11-15 01:33:24
  */
 import React, { useState } from 'react'
 import { Expand, Text } from '@components'
 import { Likes } from '@_'
-import { timelineStore, uiStore, userStore } from '@stores'
-import { c } from '@utils/decorators'
+import { timelineStore, uiStore, userStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Comment(_props, { $ }: Ctx) {
+function Comment() {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const [lines, setLines] = useState(3)
 
   return useObserver(() => {
@@ -57,4 +57,4 @@ function Comment(_props, { $ }: Ctx) {
   })
 }
 
-export default c(Comment)
+export default Comment

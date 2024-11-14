@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-11-19 11:05:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:48:24
+ * @Last Modified time: 2024-11-15 02:59:04
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { SectionTitle as CompSectionTitle } from '@_'
+import { SectionTitle as SectionTitleComp } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
@@ -18,7 +18,7 @@ function SectionTitle({ title, type }) {
   const navigation = useNavigation()
   const styles = memoStyles()
   return (
-    <CompSectionTitle
+    <SectionTitleComp
       style={styles.section}
       right={
         <Touchable
@@ -45,7 +45,7 @@ function SectionTitle({ title, type }) {
       }
     >
       {title}
-    </CompSectionTitle>
+    </SectionTitleComp>
   )
 }
 

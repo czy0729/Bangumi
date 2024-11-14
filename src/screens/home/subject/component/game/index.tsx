@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:46:19
+ * @Last Modified time: 2024-11-15 01:40:36
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Expand } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TITLE_GAME } from '../../ds'
 import { Ctx } from '../../types'
 import IconHidden from '../icon/hidden'
@@ -19,7 +19,8 @@ import Details from './details'
 import Thumbs from './thumbs'
 import { COMPONENT } from './ds'
 
-function Game({ onBlockRef }, { $ }: Ctx) {
+function Game({ onBlockRef }) {
+  const { $ } = useStore<Ctx>()
   if (!$.showGame[1]) return null
 
   const { showGameInfo } = systemStore.setting
@@ -55,4 +56,4 @@ function Game({ onBlockRef }, { $ }: Ctx) {
   )
 }
 
-export default obc(Game, COMPONENT)
+export default ob(Game, COMPONENT)

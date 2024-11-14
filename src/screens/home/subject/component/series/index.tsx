@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 17:16:35
+ * @Last Modified time: 2024-11-15 02:06:52
  */
 import React, { Suspense } from 'react'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Series from './series.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SeriewWrap({ size }: { size: number }, { $, navigation }: Ctx) {
+function SeriewWrap({ size }: { size: number }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.hasSeries) return null
 
   /**
@@ -77,4 +78,4 @@ function SeriewWrap({ size }: { size: number }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SeriewWrap, COMPONENT)
+export default ob(SeriewWrap, COMPONENT)

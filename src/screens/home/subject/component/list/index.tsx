@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 11:30:18
+ * @Last Modified time: 2024-11-15 02:03:41
  */
 import React from 'react'
 import { ListView } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import HeaderComponent from '../header-component'
 import { renderItem } from './utils'
 import { COMPONENT, REFRESH_CONTROL_PROPS } from './ds'
 
-function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) {
+function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }) {
+  const { $ } = useStore<Ctx>()
   return (
     <ListView
       ref={forwardRef}
@@ -41,4 +42,4 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }, { $ }: Ctx) 
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

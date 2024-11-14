@@ -2,30 +2,31 @@
  * @Author: czy0729
  * @Date: 2022-04-07 03:09:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:10:56
+ * @Last Modified time: 2024-11-15 01:58:51
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
-import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconSMB(_props, { navigation }: Ctx) {
+function IconSMB() {
+  const navigation = useNavigation()
   if (WEB || !systemStore.setting.showSMB) return null
 
   return (
     <Touchable
       style={styles.touch}
       onPress={() => {
+        navigation.push('Smb')
+
         t('条目.跳转', {
           to: 'SMB',
           from: '本地'
         })
-
-        navigation.push('Smb')
       }}
     >
       <Flex>
@@ -36,4 +37,4 @@ function IconSMB(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(IconSMB)
+export default ob(IconSMB)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 03:27:15
+ * @Last Modified time: 2024-11-15 02:10:53
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { cnjp, copy, info, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { URL_ABOUT, WEB } from '@constants'
 import { GROUP_THUMB_MAP } from '@assets/images'
@@ -24,7 +24,8 @@ import {
 } from './ds'
 import { memoStyles } from './styles'
 
-function Menu({ onScrollTo }, { $, navigation }: Ctx) {
+function Menu({ onScrollTo }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const color = _.isDark || !$.state.fixed ? '#fff' : '#000'
   const data = [
@@ -124,4 +125,4 @@ function Menu({ onScrollTo }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Menu)
+export default ob(Menu)

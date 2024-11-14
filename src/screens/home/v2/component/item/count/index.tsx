@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:34:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:10:31
+ * @Last Modified time: 2024-11-15 02:57:41
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ function Count({
   epStatus: string | number
   isFirst: boolean
 }) {
+  const { $ } = useStore<Ctx>()
   if (typeCn === '游戏') return null
 
   if (typeCn === '书籍') {
@@ -37,7 +38,6 @@ function Count({
     )
   }
 
-  const { $ } = useStore<Ctx>()
   return (
     <Touchable style={styles.count} onPress={() => $.itemToggleExpand(subjectId)}>
       <CountVideo epStatus={epStatus} subjectId={subjectId} />

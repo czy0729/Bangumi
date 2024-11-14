@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-08-23 00:24:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:35:43
+ * @Last Modified time: 2024-11-15 02:02:52
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { cnjp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TITLE_INFO } from '../../ds'
 import { Ctx } from '../../types'
 import Info from './info.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
+function InfoWrap({ onBlockRef }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.showInfo[1]) return null
 
   return (
@@ -37,4 +38,4 @@ function InfoWrap({ onBlockRef }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(InfoWrap, COMPONENT)
+export default ob(InfoWrap, COMPONENT)

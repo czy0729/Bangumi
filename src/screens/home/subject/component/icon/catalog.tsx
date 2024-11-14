@@ -2,30 +2,32 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-22 21:20:04
+ * @Last Modified time: 2024-11-15 01:43:59
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
+import { useStore } from '@stores'
 import { cnjp } from '@utils/app'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconCatalog(_props, { $, navigation }: Ctx) {
+function IconCatalog() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <Touchable
       style={styles.touch}
       onPress={() => {
+        navigation.push('SubjectCatalogs', {
+          subjectId: $.subjectId,
+          name: cnjp($.cn, $.jp)
+        })
+
         t('条目.跳转', {
           to: 'SubjectCatalogs',
           from: '目录',
           subjectId: $.subjectId
-        })
-
-        navigation.push('SubjectCatalogs', {
-          subjectId: $.subjectId,
-          name: cnjp($.cn, $.jp)
         })
       }}
     >
@@ -38,4 +40,4 @@ function IconCatalog(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconCatalog)
+export default ob(IconCatalog)

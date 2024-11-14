@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-12-28 15:16:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:25:12
+ * @Last Modified time: 2024-11-15 02:04:26
  */
 import React from 'react'
 import { Component, Flex, Mesume, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { memoStyles } from './styles'
 
-function Lock(_props, { $ }: Ctx) {
+function Lock() {
+  const { $ } = useStore<Ctx>()
   if (!$.lock) return null
 
   const styles = memoStyles()
@@ -32,4 +33,4 @@ function Lock(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Lock)
+export default ob(Lock)

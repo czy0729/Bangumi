@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:21:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-20 00:47:26
+ * @Last Modified time: 2024-11-15 01:49:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function IconEpFilter(_props, { $ }: Ctx) {
+function IconEpFilter() {
+  const { $ } = useStore<Ctx>()
   if (($.eps.length || 0) < 160) return null
 
   const { filterEps } = $.state
@@ -33,19 +35,4 @@ function IconEpFilter(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconEpFilter)
-
-const styles = _.create({
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    minWidth: 38,
-    height: 38
-  },
-  text: {
-    marginRight: _.sm,
-    marginLeft: _.xs
-  }
-})
+export default ob(IconEpFilter)

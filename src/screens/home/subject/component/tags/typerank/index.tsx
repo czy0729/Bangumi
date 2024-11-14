@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-10-31 14:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-22 08:18:16
+ * @Last Modified time: 2024-11-15 02:09:23
  */
 import React from 'react'
 import { Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { calc, exist } from '../utils'
 import { COMPONENT } from './ds'
 
-function Typerank({ tag }, { $ }: Ctx) {
+function Typerank({ tag }) {
+  const { $ } = useStore<Ctx>()
   let text: string
   let percent: number
 
@@ -30,4 +31,4 @@ function Typerank({ tag }, { $ }: Ctx) {
   )
 }
 
-export default obc(Typerank, COMPONENT)
+export default ob(Typerank, COMPONENT)

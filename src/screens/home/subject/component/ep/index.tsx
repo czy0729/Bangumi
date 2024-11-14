@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:40:35
+ * @Last Modified time: 2024-11-15 01:39:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, subjectStore, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, subjectStore, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { TITLE_DISC, TITLE_EP } from '../../ds'
 import { Ctx } from '../../types'
@@ -18,7 +18,8 @@ import Ep from './ep'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
+function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }) {
+  const { $ } = useStore<Ctx>()
   if (!$.showEp[1]) return null
 
   const typeCn = $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId))
@@ -54,4 +55,4 @@ function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }, { $ }: Ctx) {
   )
 }
 
-export default obc(EpWrap, COMPONENT)
+export default ob(EpWrap, COMPONENT)

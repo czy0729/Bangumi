@@ -7,6 +7,7 @@
 import { contextTypes } from '@constants/constants'
 import { IReactComponent } from '@types'
 
+/** @deprecated */
 export default function context<T extends IReactComponent>(Component: T, defaultProps?: object): T {
   if (defaultProps) Component.defaultProps = defaultProps
   Component.contextTypes = contextTypes

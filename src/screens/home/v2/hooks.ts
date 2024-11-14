@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-05 20:34:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:11:24
+ * @Last Modified time: 2024-11-15 02:56:09
  */
 import { useInitStore } from '@stores'
 import { useFocusEffect, useRunAfter } from '@utils/hooks'
@@ -15,6 +15,7 @@ import { Ctx } from './types'
 export function useHomePage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { $, navigation } = context
+
   useRunAfter(() => {
     $.updateInitialPage(navigation)
 

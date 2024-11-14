@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:29:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 21:13:03
+ * @Last Modified time: 2024-11-15 02:01:23
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconTranslate({ content = '' }, { $ }: Ctx) {
+function IconTranslate({ content = '' }) {
+  const { $ } = useStore<Ctx>()
   if (
     !systemStore.setting.showSummary ||
     $.state.translateResult.length ||
@@ -28,4 +29,4 @@ function IconTranslate({ content = '' }, { $ }: Ctx) {
   )
 }
 
-export default obc(IconTranslate)
+export default ob(IconTranslate)

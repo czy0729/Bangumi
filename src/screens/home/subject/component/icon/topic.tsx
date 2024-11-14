@@ -2,32 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-04-06 19:39:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:10:27
+ * @Last Modified time: 2024-11-15 02:01:08
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconTopic(_props, { $, navigation }: Ctx) {
+function IconTopic() {
+  const { $, navigation } = useStore<Ctx>()
   if (!systemStore.setting.showTopic) return null
 
   return (
     <Touchable
       style={styles.touch}
       onPress={() => {
+        navigation.push('Board', {
+          subjectId: $.subjectId,
+          name: $.cn
+        })
+
         t('条目.跳转', {
           to: 'Board',
           from: '帖子',
           subjectId: $.subjectId
-        })
-
-        navigation.push('Board', {
-          subjectId: $.subjectId,
-          name: $.cn
         })
       }}
     >
@@ -39,4 +40,4 @@ function IconTopic(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconTopic)
+export default ob(IconTopic)

@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-08-31 18:58:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:10:49
+ * @Last Modified time: 2024-11-15 01:57:38
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { ACTIONS_MANAGE, HIT_SLOP, ORIGINS_MANAGE } from './ds'
+import { styles } from './styles'
 import { IconProps } from './types'
 
-function IconSearchDisc({ style, children }: IconProps, { $, navigation }: Ctx) {
+function IconSearchDisc({ style, children }: IconProps) {
+  const { $, navigation } = useStore<Ctx>()
   const data = [
     ...$.onlineDiscOrigins.map(item => (typeof item === 'object' ? item.name : item)),
     ORIGINS_MANAGE
@@ -44,7 +46,7 @@ function IconSearchDisc({ style, children }: IconProps, { $, navigation }: Ctx) 
       }}
     >
       {children || (
-        <Flex style={styles.btn} justify='center'>
+        <Flex style={styles.searchDiscBtn} justify='center'>
           <Iconfont name='md-airplay' size={18} />
         </Flex>
       )}
@@ -52,15 +54,4 @@ function IconSearchDisc({ style, children }: IconProps, { $, navigation }: Ctx) 
   )
 }
 
-export default obc(IconSearchDisc)
-
-const styles = _.create({
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    paddingVertical: 2,
-    paddingHorizontal: 8
-  }
-})
+export default ob(IconSearchDisc)

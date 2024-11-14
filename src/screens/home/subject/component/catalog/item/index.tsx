@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-07-03 07:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-07-03 07:22:36
+ * @Last Modified time: 2024-11-15 01:36:03
  */
 import React from 'react'
 import { Cover, Flex, Text, Touchable } from '@components'
 import { fixedAll } from '@components/avatar/utils'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { HTMLDecode, x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function Item({ item }, { $, navigation }: Ctx) {
+function Item({ item }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const title = HTMLDecode(item.title)
   return (
@@ -55,4 +56,4 @@ function Item({ item }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

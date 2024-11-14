@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 18:22:10
+ * @Last Modified time: 2024-11-15 02:10:29
  */
 import React from 'react'
 import { Component, Divider } from '@components'
 import { InView, ItemComment } from '@_'
-import { _, collectionStore, systemStore, usersStore } from '@stores'
+import { _, collectionStore, systemStore, usersStore, useStore } from '@stores'
 import { getTimestamp, lastDate, titleCase } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusCn, UserId } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, POPOVER_DATA } from './ds'
 
-function TrackComment(_props, { $, navigation }: Ctx) {
+function TrackComment() {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.subjectTypeValue) return null
 
   const userIds = systemStore.setting[`comment${titleCase($.subjectTypeValue)}`] as UserId[]
@@ -68,4 +69,4 @@ function TrackComment(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(TrackComment, COMPONENT)
+export default ob(TrackComment, COMPONENT)

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-08-13 11:42:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 12:57:12
+ * @Last Modified time: 2024-11-15 01:40:15
  */
 import React, { useCallback, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { Image } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { showImageViewer } from '@utils'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -19,9 +18,10 @@ import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { styles } from './styles'
 
-function Thumbs(_props, { $ }: Ctx) {
+function Thumbs() {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const [scrolled, setScrolled] = useState(false)
   const handleScroll = useCallback(() => {
     if (!scrolled) setScrolled(true)
@@ -71,4 +71,4 @@ function Thumbs(_props, { $ }: Ctx) {
   })
 }
 
-export default c(Thumbs)
+export default Thumbs

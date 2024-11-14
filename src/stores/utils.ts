@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-14 06:16:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 19:53:07
+ * @Last Modified time: 2024-11-15 02:18:22
  */
 import { createContext, useContext } from 'react'
 import { urlStringify } from '@utils/utils'
@@ -60,5 +60,5 @@ function getScreenKey(route: NavigationProps['route']) {
       return obj
     }, {})
 
-  return `${route.name}?${urlStringify(params, false)}`
+  return `${route.name || ''}?${urlStringify(params, false)}`
 }

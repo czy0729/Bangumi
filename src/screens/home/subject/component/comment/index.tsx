@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-08-14 16:22:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:50:07
+ * @Last Modified time: 2024-11-15 01:37:07
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TITLE_COMMENT } from '../../ds'
 import { Ctx } from '../../types'
 import Comment from './comment.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function CommentWrap({ onBlockRef }, { $ }: Ctx) {
+function CommentWrap({ onBlockRef }) {
+  const { $ } = useStore<Ctx>()
   const { showComment } = systemStore.setting
   const hidden = showComment === -1
   return (
@@ -39,4 +40,4 @@ function CommentWrap({ onBlockRef }, { $ }: Ctx) {
   )
 }
 
-export default obc(CommentWrap, COMPONENT)
+export default ob(CommentWrap, COMPONENT)

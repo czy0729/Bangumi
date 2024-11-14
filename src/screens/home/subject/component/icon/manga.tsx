@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:31:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 13:57:53
+ * @Last Modified time: 2024-11-15 01:53:12
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { _, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconManga(_props, { $ }: Ctx) {
+function IconManga() {
+  const { $ } = useStore<Ctx>()
   if (userStore.isLimit || !$.source?.mangaId) return null
 
   return (
@@ -27,4 +28,4 @@ function IconManga(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconManga)
+export default ob(IconManga)

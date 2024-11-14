@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:45:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 05:45:05
+ * @Last Modified time: 2024-11-15 02:09:11
  */
 import React, { useEffect, useState } from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
@@ -22,9 +21,10 @@ import { exist, loadTyperankData } from '../utils'
 import { COMPONENT, EXPAND_NUM } from './ds'
 import { memoStyles } from './styles'
 
-function TagList({ showTyperank }, { $, navigation }: Ctx) {
+function TagList({ showTyperank }) {
   r(COMPONENT)
 
+  const { $, navigation } = useStore<Ctx>()
   const [expand, setExpand] = useState(false)
   const [show, setShow] = useState(false)
   useEffect(() => {
@@ -36,6 +36,7 @@ function TagList({ showTyperank }, { $, navigation }: Ctx) {
       }
       loaded()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showTyperank])
 
   return useObserver(() => {
@@ -56,29 +57,29 @@ function TagList({ showTyperank }, { $, navigation }: Ctx) {
                     showTyperank &&
                     exist(MODEL_SUBJECT_TYPE.getLabel<SubjectType>($.subjectType), name)
                   ) {
-                    t('条目.跳转', {
-                      to: 'Typerank',
-                      from: TITLE_TAGS,
-                      subjectId: $.subjectId
-                    })
-
                     navigation.push('Typerank', {
                       type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>($.subjectType),
                       tag: name,
                       subjectId: $.subjectId
                     })
+
+                    t('条目.跳转', {
+                      to: 'Typerank',
+                      from: TITLE_TAGS,
+                      subjectId: $.subjectId
+                    })
                     return
                   }
+
+                  navigation.push('Tag', {
+                    type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>($.subjectType),
+                    tag: name
+                  })
 
                   t('条目.跳转', {
                     to: 'Tag',
                     from: TITLE_TAGS,
                     subjectId: $.subjectId
-                  })
-
-                  navigation.push('Tag', {
-                    type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>($.subjectType),
-                    tag: name
                   })
                 }}
               >
@@ -129,4 +130,4 @@ function TagList({ showTyperank }, { $, navigation }: Ctx) {
   })
 }
 
-export default c(TagList)
+export default TagList

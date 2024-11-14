@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 10:18:29
+ * @Last Modified time: 2024-11-15 02:09:45
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { showImageViewer, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import { Ctx } from '../../../types'
@@ -17,7 +17,8 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
-function Preview({ item, index, thumbs, epsThumbsHeader }: Props, { $ }: Ctx) {
+function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
+  const { $ } = useStore<Ctx>()
   if (!systemStore.setting.showCharacter) return null
 
   return (
@@ -49,4 +50,4 @@ function Preview({ item, index, thumbs, epsThumbsHeader }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(Preview, COMPONENT)
+export default ob(Preview, COMPONENT)

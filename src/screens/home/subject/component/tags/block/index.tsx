@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-04-19 09:04:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 17:01:17
+ * @Last Modified time: 2024-11-15 02:07:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Block({ path, tags }, { $, navigation }: Ctx) {
+function Block({ path, tags }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!tags?.length) return null
 
   const styles = memoStyles()
@@ -42,14 +44,14 @@ function Block({ path, tags }, { $, navigation }: Ctx) {
                 animate
                 scale={0.9}
                 onPress={() => {
+                  navigation.push(path, {
+                    _tags: [item]
+                  })
+
                   t('条目.跳转', {
                     to: path,
                     from: '标签',
                     subjectId: $.subjectId
-                  })
-
-                  navigation.push(path, {
-                    _tags: [item]
                   })
                 }}
               >
@@ -75,4 +77,4 @@ function Block({ path, tags }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Block, COMPONENT)
+export default ob(Block, COMPONENT)

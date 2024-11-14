@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-01-17 01:10:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-30 01:33:29
+ * @Last Modified time: 2024-11-15 02:04:56
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, SCORES_DS } from './ds'
 import { styles } from './styles'
 
-function RateSegement(_props, { $ }: Ctx) {
+function RateSegement() {
+  const { $ } = useStore<Ctx>()
   const { filterScores } = $.state
   return (
     <Popover style={styles.touch} data={SCORES_DS} onSelect={$.filterScores}>
@@ -33,4 +34,4 @@ function RateSegement(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(RateSegement, COMPONENT)
+export default ob(RateSegement, COMPONENT)

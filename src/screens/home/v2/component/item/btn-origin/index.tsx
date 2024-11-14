@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:49:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-20 07:38:20
+ * @Last Modified time: 2024-11-15 02:57:21
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
@@ -16,9 +16,9 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function BtnOrigin({ subjectId }: { subjectId: SubjectId }) {
+  const { $ } = useStore<Ctx>()
   if (systemStore.setting.homeOrigin === -1) return null
 
-  const { $ } = useStore<Ctx>()
   const origins: string[] = [...$.actions(subjectId).map(item => item.name)]
   if (systemStore.setting.homeOrigin === true) {
     origins.push(

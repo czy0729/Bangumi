@@ -2,32 +2,36 @@
  * @Author: czy0729
  * @Date: 2021-01-16 19:14:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-28 10:59:21
+ * @Last Modified time: 2024-11-15 01:45:48
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm, info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
 import { Ctx } from '../../types'
+import { styles } from './styles'
 
-function IconClose(_props, { $ }: Ctx) {
+const HIT_SLOP = {
+  top: 6,
+  right: _.device(2, 4),
+  bottom: 6,
+  left: _.device(2, 4)
+} as const
+
+function IconClose() {
+  const { $ } = useStore<Ctx>()
   if (SHARE_MODE) return null
 
   return (
     <IconTouchable
-      style={styles.touch}
+      style={styles.close}
       name='md-close'
       color={_.colorIcon}
-      hitSlop={{
-        top: 6,
-        right: _.device(2, 4),
-        bottom: 6,
-        left: _.device(2, 4)
-      }}
+      hitSlop={HIT_SLOP}
       onPress={() => {
         const { status = { name: '未收藏' } } = $.collection
         if (status.name === '未收藏') {
@@ -48,11 +52,4 @@ function IconClose(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconClose)
-
-const styles = _.create({
-  touch: {
-    marginRight: -_.sm,
-    marginLeft: 3
-  }
-})
+export default ob(IconClose)

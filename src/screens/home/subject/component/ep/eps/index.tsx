@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-08-07 07:13:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-07 15:01:35
+ * @Last Modified time: 2024-11-15 01:39:18
  */
 import React from 'react'
 import { Eps as EpsComp } from '@_'
-import { _, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { InferArray } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT, LAYOUT_WIDTH } from './ds'
 
-function Eps(_props, { $, navigation }: Ctx) {
+function Eps() {
+  const { $, navigation } = useStore<Ctx>()
   const showPlay = $.onlinePlayActionSheetData.length >= 2
   return (
     <EpsComp
@@ -34,4 +35,4 @@ function Eps(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Eps, COMPONENT)
+export default ob(Eps, COMPONENT)

@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:25:35
+ * @Last Modified time: 2024-11-15 01:35:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TITLE_BOX } from '../../ds'
 import { Ctx } from '../../types'
 import Box from './box'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function BoxWrap({ onBlockRef }, { $, navigation }: Ctx) {
+function BoxWrap({ onBlockRef }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <Component id='screen-subject-box'>
       <View style={_.container.layout} ref={ref => onBlockRef(ref, TITLE_BOX)} />
@@ -34,4 +35,4 @@ function BoxWrap({ onBlockRef }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(BoxWrap, COMPONENT)
+export default ob(BoxWrap, COMPONENT)

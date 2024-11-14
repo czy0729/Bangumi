@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 13:53:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 06:55:02
+ * @Last Modified time: 2024-11-15 02:57:58
  */
 import React from 'react'
 import { Text } from '@components'
@@ -15,10 +15,10 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function OnAir({ subjectId, typeCn }: { subjectId: SubjectId; typeCn: SubjectTypeCn }) {
+  const { $ } = useStore<Ctx>()
   if (typeCn !== '动画' && typeCn !== '三次元') return null
 
   // 防止完结的番剧因放送数据更新不及时, 导致一直显示放送中的问题
-  const { $ } = useStore<Ctx>()
   const current = $.currentOnAir(subjectId)
   if (current >= 8 && !systemStore.setting.homeOnAir) {
     const total = $.epsCount(subjectId)

@@ -2,32 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-01-16 20:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:03:56
+ * @Last Modified time: 2024-11-15 01:44:27
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconCharacter(_props, { $, navigation }: Ctx) {
+function IconCharacter() {
+  const { $, navigation } = useStore<Ctx>()
   if (!systemStore.setting.showCharacter) return null
 
   return (
     <Touchable
       style={styles.touch}
       onPress={() => {
+        navigation.push('Characters', {
+          subjectId: $.subjectId,
+          name: $.cn
+        })
+
         t('条目.跳转', {
           to: 'Characters',
           from: '角色',
           subjectId: $.subjectId
-        })
-
-        navigation.push('Characters', {
-          subjectId: $.subjectId,
-          name: $.cn
         })
       }}
     >
@@ -39,4 +40,4 @@ function IconCharacter(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconCharacter)
+export default ob(IconCharacter)

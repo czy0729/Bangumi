@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-06-10 22:00:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:48:51
+ * @Last Modified time: 2024-11-15 02:03:29
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TITLE_LIKE } from '../../ds'
 import { Ctx } from '../../types'
 import Like from './like.lazy'
 import { COMPONENT } from './ds'
 
-function LikeWrap({ onBlockRef }, { $, navigation }: Ctx) {
+function LikeWrap({ onBlockRef }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.showLike[1]) return null
 
   return (
@@ -34,4 +35,4 @@ function LikeWrap({ onBlockRef }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(LikeWrap, COMPONENT)
+export default ob(LikeWrap, COMPONENT)

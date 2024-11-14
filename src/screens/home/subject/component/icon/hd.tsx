@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:35:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 13:57:43
+ * @Last Modified time: 2024-11-15 01:52:23
  */
 import React from 'react'
 import { IconTouchable } from '@_'
-import { _, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function IconHD(_props, { $, navigation }: Ctx) {
+function IconHD() {
+  const { $, navigation } = useStore<Ctx>()
   if (userStore.isLimit || !$.hd) return null
 
   return (
@@ -27,4 +28,4 @@ function IconHD(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconHD)
+export default ob(IconHD)

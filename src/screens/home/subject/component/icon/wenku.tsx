@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:34:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-31 13:58:00
+ * @Last Modified time: 2024-11-15 02:02:22
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { _, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, userStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconWenku(_props, { $ }: Ctx) {
+function IconWenku() {
+  const { $ } = useStore<Ctx>()
   if (userStore.isLimit || !$.source?.wenkuId) return null
 
   return (
@@ -27,4 +28,4 @@ function IconWenku(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(IconWenku)
+export default ob(IconWenku)

@@ -2,32 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-07-15 19:15:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 00:15:48
+ * @Last Modified time: 2024-11-15 01:43:35
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import styles from './styles'
 
-function IconBlog(_props, { $, navigation }: Ctx) {
+function IconBlog() {
+  const { $, navigation } = useStore<Ctx>()
   if (!systemStore.setting.showBlog) return null
 
   return (
     <Touchable
       style={styles.touch}
       onPress={() => {
+        navigation.push('Reviews', {
+          subjectId: $.subjectId,
+          name: $.cn
+        })
+
         t('条目.跳转', {
           to: 'Reviews',
           from: '日志',
           subjectId: $.subjectId
-        })
-
-        navigation.push('Reviews', {
-          subjectId: $.subjectId,
-          name: $.cn
         })
       }}
     >
@@ -39,4 +40,4 @@ function IconBlog(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconBlog)
+export default ob(IconBlog)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-29 14:15:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 16:22:27
+ * @Last Modified time: 2024-11-15 01:33:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Iconfont } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import IconActions from '../../icon/actions'
 import IconGame from '../../icon/game'
@@ -19,7 +19,8 @@ import IconSearchDisc from '../../icon/search-disc'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Extra(_props, { $ }: Ctx) {
+function Extra() {
+  const { $ } = useStore<Ctx>()
   if (!systemStore.setting.focusOrigin) return null
 
   // 设置的实现: [自定义跳转] 和 [若有自定义跳转隐藏通用源头按钮]
@@ -72,4 +73,4 @@ function Extra(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Extra, COMPONENT)
+export default ob(Extra, COMPONENT)

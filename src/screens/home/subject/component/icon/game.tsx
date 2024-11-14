@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-24 08:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:10:40
+ * @Last Modified time: 2024-11-15 01:52:02
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { ACTIONS_MANAGE, HIT_SLOP, ORIGINS_MANAGE } from './ds'
+import { styles } from './styles'
 import { IconProps } from './types'
 
-function IconGame({ style, children }: IconProps, { $, navigation }: Ctx) {
+function IconGame({ style, children }: IconProps) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.titleLabel.includes('游戏')) return null
 
   const data = [
@@ -25,7 +27,7 @@ function IconGame({ style, children }: IconProps, { $, navigation }: Ctx) {
 
   return (
     <Popover
-      style={stl(!children && styles.touch, style)}
+      style={stl(!children && styles.game, style)}
       data={data}
       hitSlop={HIT_SLOP}
       onSelect={(title: string) => {
@@ -47,7 +49,7 @@ function IconGame({ style, children }: IconProps, { $, navigation }: Ctx) {
     >
       {children || (
         <>
-          <Flex style={styles.btn} justify='center'>
+          <Flex style={styles.btn2} justify='center'>
             <Iconfont name='md-airplay' size={18} />
           </Flex>
           <Heatmap right={55} bottom={-7} id='条目.搜索源' />
@@ -57,16 +59,4 @@ function IconGame({ style, children }: IconProps, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconGame)
-
-const styles = _.create({
-  touch: {
-    marginRight: -_.sm,
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    width: 38,
-    height: 38
-  }
-})
+export default ob(IconGame)

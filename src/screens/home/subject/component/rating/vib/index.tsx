@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-02-15 00:58:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 01:48:40
+ * @Last Modified time: 2024-11-15 02:05:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
+import { useStore } from '@stores'
 import { cnjp, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function VIB(_props, { $, navigation }: Ctx) {
+function VIB() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const data = ['VIB']
   if ($.vib.anidb) data.push('AniDB')
@@ -97,4 +99,4 @@ function VIB(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(VIB, COMPONENT)
+export default ob(VIB, COMPONENT)

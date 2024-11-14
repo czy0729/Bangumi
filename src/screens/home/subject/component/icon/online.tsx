@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:56:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 17:10:46
+ * @Last Modified time: 2024-11-15 01:54:33
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _, systemStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import IconActions from './actions'
 import { ACTIONS_MANAGE, HIT_SLOP, ICS_MANAGE, ORIGINS_MANAGE } from './ds'
+import { styles } from './styles'
 import { IconProps } from './types'
 
-function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
+function IconOnline({ style, children }: IconProps) {
+  const { $, navigation } = useStore<Ctx>()
   const data = [...$.onlineOrigins, ORIGINS_MANAGE]
   if (!$.actions.length) data.push(ACTIONS_MANAGE)
   if (systemStore.setting.exportICS) data.push(ICS_MANAGE)
@@ -50,7 +52,7 @@ function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
       >
         {children || (
           <>
-            <Flex style={styles.btn} justify='center'>
+            <Flex style={styles.btn2} justify='center'>
               <Iconfont name='md-airplay' size={18} />
             </Flex>
             <Heatmap right={55} bottom={-7} id='条目.搜索源' />
@@ -62,19 +64,4 @@ function IconOnline({ style, children }: IconProps, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconOnline)
-
-const styles = _.create({
-  touch: {
-    borderRadius: 20,
-    overflow: 'hidden'
-  },
-  btn: {
-    width: 38,
-    height: 38
-  },
-  actions: {
-    marginRight: 4,
-    marginLeft: 2
-  }
-})
+export default ob(IconOnline)

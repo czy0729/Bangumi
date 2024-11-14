@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-04-08 10:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:47:58
+ * @Last Modified time: 2024-11-15 02:06:24
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TITLE_RELATIONS } from '../../ds'
 import { Ctx } from '../../types'
 import Relations from './relations.lazy'
 import { COMPONENT } from './ds'
 
-function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
+function RelationsWrap({ onBlockRef }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.showRelations[1]) return null
 
   return (
@@ -34,4 +35,4 @@ function RelationsWrap({ onBlockRef }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(RelationsWrap, COMPONENT)
+export default ob(RelationsWrap, COMPONENT)

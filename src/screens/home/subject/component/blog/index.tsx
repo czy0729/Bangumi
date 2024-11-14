@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-03-26 02:36:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:49:10
+ * @Last Modified time: 2024-11-15 01:31:59
  */
 import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TITLE_BLOG } from '../../ds'
 import { Ctx } from '../../types'
 import Blog from './blog.lazy'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function BlogWrap({ onBlockRef }, { $, navigation }: Ctx) {
+function BlogWrap({ onBlockRef }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.showBlog[1]) return null
 
   return (
@@ -35,4 +36,4 @@ function BlogWrap({ onBlockRef }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(BlogWrap, COMPONENT)
+export default ob(BlogWrap, COMPONENT)

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 20:22:31
+ * @Last Modified time: 2024-11-15 02:11:58
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { Component, ErrorBoundary } from '@components'
 import { renderWithErrorBoundary } from '@components/error-boundary/utils'
-import { _ } from '@stores'
-import { c } from '@utils/decorators'
+import { _, useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS } from '@constants'
 import { Ctx } from '../../types'
@@ -18,13 +17,16 @@ import Head from '../head'
 import Loading from '../loading'
 import { BottomEls, TopEls } from './ds'
 
-function HeaderComponent(props, { $ }: Ctx) {
+function HeaderComponent(props) {
+  const { $ } = useStore<Ctx>()
   const elTop = useMemo(
     () => TopEls.map((item, index) => renderWithErrorBoundary(item, index, props)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
   const elBottom = useMemo(
     () => BottomEls.map((item, index) => renderWithErrorBoundary(item, index, props)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -45,4 +47,4 @@ function HeaderComponent(props, { $ }: Ctx) {
   ))
 }
 
-export default c(HeaderComponent)
+export default HeaderComponent

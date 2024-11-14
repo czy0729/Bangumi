@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-20 06:49:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 06:55:18
+ * @Last Modified time: 2024-11-15 02:58:10
  */
 import React from 'react'
 import { Text } from '@components'
@@ -22,9 +22,9 @@ function Doing({
   typeCn: SubjectTypeCn
   doing: number
 }) {
+  const { $ } = useStore<Ctx>()
   if (systemStore.setting.homeListCompact) return null
 
-  const { $ } = useStore<Ctx>()
   const currentDoing = doing || $.subject(subjectId)?.collection?.doing || 0
   if (!currentDoing) return null
 

@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 17:09:40
+ * @Last Modified time: 2024-11-15 02:10:09
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { open, stl } from '@utils'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { ReactNode } from '@types'
 import { TITLE_THUMBS } from '../../ds'
@@ -23,9 +22,10 @@ import Video from './video'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Thumbs({ onBlockRef }, { $ }: Ctx) {
+function Thumbs({ onBlockRef }) {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const [scrolled, setScrolled] = useState(false)
   const handleScroll = useCallback(() => {
     if (!scrolled) setScrolled(true)
@@ -127,4 +127,4 @@ function Thumbs({ onBlockRef }, { $ }: Ctx) {
   })
 }
 
-export default c(Thumbs)
+export default Thumbs

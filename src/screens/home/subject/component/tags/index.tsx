@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-03-25 05:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:41:30
+ * @Last Modified time: 2024-11-15 02:09:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TITLE_TAGS } from '../../ds'
 import { Ctx } from '../../types'
 import Tags from './tags'
 import { COMPONENT } from './ds'
 
-function TagsWrap({ onBlockRef }, { $ }: Ctx) {
+function TagsWrap({ onBlockRef }) {
+  const { $ } = useStore<Ctx>()
   if (!$.showTags[1]) return null
 
   return (
@@ -33,4 +34,4 @@ function TagsWrap({ onBlockRef }, { $ }: Ctx) {
   )
 }
 
-export default obc(TagsWrap, COMPONENT)
+export default ob(TagsWrap, COMPONENT)

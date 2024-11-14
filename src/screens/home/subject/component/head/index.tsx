@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 19:18:57
+ * @Last Modified time: 2024-11-15 01:40:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TITLE_HEAD } from '../../ds'
 import { Ctx } from '../../types'
 import Head from './head'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function HeadWrap({ onBlockRef }, { $ }: Ctx) {
+function HeadWrap({ onBlockRef }) {
+  const { $ } = useStore<Ctx>()
+
   // 书籍显示连载时间段
   const { subjectShowAirdayMonth } = systemStore.setting
   let year = subjectShowAirdayMonth ? $.yearAndMount : $.year
@@ -54,4 +56,4 @@ function HeadWrap({ onBlockRef }, { $ }: Ctx) {
   )
 }
 
-export default obc(HeadWrap, COMPONENT)
+export default ob(HeadWrap, COMPONENT)

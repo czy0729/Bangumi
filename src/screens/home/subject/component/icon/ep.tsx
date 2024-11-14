@@ -2,34 +2,35 @@
  * @Author: czy0729
  * @Date: 2021-01-17 00:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-06 03:05:23
+ * @Last Modified time: 2024-11-15 01:49:39
  */
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 
-function IconEp(_props, { $, navigation }: Ctx) {
+function IconEp() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <IconTouchable
       style={_.ml.xs}
       name='md-menu'
       onPress={() => {
-        t('条目.跳转', {
-          to: 'Episodes',
-          from: '章节',
-          subjectId: $.subjectId
-        })
-
         navigation.push('Episodes', {
           subjectId: $.subjectId,
           name: $.cn || $.jp,
           epsThumbs: $.state.epsThumbs,
           epsThumbsHeader: $.state.epsThumbsHeader,
           filterEps: $.state.filterEps
+        })
+
+        t('条目.跳转', {
+          to: 'Episodes',
+          from: '章节',
+          subjectId: $.subjectId
         })
       }}
     >
@@ -38,4 +39,4 @@ function IconEp(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(IconEp)
+export default ob(IconEp)

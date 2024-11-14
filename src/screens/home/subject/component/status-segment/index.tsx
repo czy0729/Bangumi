@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-04-29 22:36:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 05:04:49
+ * @Last Modified time: 2024-11-15 02:07:24
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_RATING_STATUS } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, STATUS_DS } from './ds'
 import { styles } from './styles'
 
-function StatusSegement(_props, { $ }: Ctx) {
+function StatusSegement() {
+  const { $ } = useStore<Ctx>()
   const { filterStatus } = $.state
   const isAnime = $.action === '看'
   const data = isAnime ? STATUS_DS : STATUS_DS.map(item => item.replace('看', $.action))
@@ -42,4 +43,4 @@ function StatusSegement(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(StatusSegement, COMPONENT)
+export default ob(StatusSegement, COMPONENT)
