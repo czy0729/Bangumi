@@ -5,14 +5,16 @@
  * @Last Modified time: 2024-01-06 22:48:15
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { Ctx } from '../../types'
 import TabBarLabel from './tab-bar-label'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
-function TabBarLabelWrap({ style, title, focused }: Props, { $ }: Ctx) {
+function TabBarLabelWrap({ style, title, focused }: Props) {
+  const { $ } = useStore<Ctx>()
   const { subjectType } = $.state
   return (
     <TabBarLabel
@@ -24,4 +26,4 @@ function TabBarLabelWrap({ style, title, focused }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(TabBarLabelWrap, COMPONENT)
+export default ob(TabBarLabelWrap, COMPONENT)

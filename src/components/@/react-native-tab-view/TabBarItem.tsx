@@ -1,15 +1,8 @@
 import * as React from 'react'
-import {
-  StyleSheet,
-  View,
-  StyleProp,
-  LayoutChangeEvent,
-  TextStyle,
-  ViewStyle
-} from 'react-native'
-import { Scene, Route, NavigationState } from 'react-native-tab-view/src/types'
+import { LayoutChangeEvent, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import memoize from 'react-native-tab-view/src/memoize'
+import { NavigationState, Route, Scene } from 'react-native-tab-view/src/types'
 import { stl } from '@utils'
 import TouchableItem from './TouchableItem'
 
@@ -28,11 +21,7 @@ type Props<T extends Route> = {
   getAccessible: (scene: Scene<T>) => boolean | undefined
   getAccessibilityLabel: (scene: Scene<T>) => string | undefined
   getTestID: (scene: Scene<T>) => string | undefined
-  renderLabel?: (scene: {
-    route: T
-    focused: boolean
-    color: string
-  }) => React.ReactNode
+  renderLabel?: (scene: { route: T; focused: boolean; color: string }) => React.ReactNode
   renderIcon?: (scene: { route: T; focused: boolean; color: string }) => React.ReactNode
   renderBadge?: (scene: Scene<T>) => React.ReactNode
   onLayout?: (event: LayoutChangeEvent) => void
@@ -100,16 +89,8 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
     const tabIndex = navigationState.routes.indexOf(route)
     const isFocused = navigationState.index === tabIndex
 
-    const activeOpacity = this.getActiveOpacity(
-      position,
-      navigationState.routes,
-      tabIndex
-    )
-    const inactiveOpacity = this.getInactiveOpacity(
-      position,
-      navigationState.routes,
-      tabIndex
-    )
+    const activeOpacity = this.getActiveOpacity(position, navigationState.routes, tabIndex)
+    const inactiveOpacity = this.getInactiveOpacity(position, navigationState.routes, tabIndex)
 
     let icon: React.ReactNode | null = null
     let label: React.ReactNode | null = null
@@ -129,12 +110,8 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
       if (inactiveIcon != null && activeIcon != null) {
         icon = (
           <View style={styles.icon}>
-            <Animated.View style={{ opacity: inactiveOpacity }}>
-              {inactiveIcon}
-            </Animated.View>
-            <Animated.View
-              style={[StyleSheet.absoluteFill, { opacity: activeOpacity }]}
-            >
+            <Animated.View style={{ opacity: inactiveOpacity }}>{inactiveIcon}</Animated.View>
+            <Animated.View style={[StyleSheet.absoluteFill, { opacity: activeOpacity }]}>
               {activeIcon}
             </Animated.View>
           </View>
@@ -151,12 +128,7 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
             if (typeof labelText === 'string') {
               return (
                 <Animated.Text
-                  style={stl(
-                    styles.label,
-                    icon ? { marginTop: 0 } : null,
-                    { color },
-                    labelStyle
-                  )}
+                  style={stl(styles.label, icon ? { marginTop: 0 } : null, { color }, labelStyle)}
                 >
                   {labelText}
                 </Animated.Text>
@@ -180,9 +152,7 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
 
       label = (
         <View>
-          <Animated.View style={{ opacity: inactiveOpacity }}>
-            {inactiveLabel}
-          </Animated.View>
+          <Animated.View style={{ opacity: inactiveOpacity }}>{inactiveLabel}</Animated.View>
           <Animated.View style={[StyleSheet.absoluteFill, { opacity: activeOpacity }]}>
             {activeLabel}
           </Animated.View>
@@ -199,9 +169,7 @@ export default class TabBarItem<T extends Route> extends React.Component<Props<T
     let accessibilityLabel = getAccessibilityLabel(scene)
 
     accessibilityLabel =
-      typeof accessibilityLabel !== 'undefined'
-        ? accessibilityLabel
-        : getLabelText(scene)
+      typeof accessibilityLabel !== 'undefined' ? accessibilityLabel : getLabelText(scene)
 
     const badge = renderBadge ? renderBadge(scene) : null
 

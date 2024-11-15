@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { COLLECTIONS_ORDERBY, MODEL_COLLECTIONS_ORDERBY } from '@constants'
 import { CollectionsOrderCn } from '@types'
 import { Ctx } from '../../types'
 
-function Sort(_props, { $ }: Ctx) {
+function Sort() {
+  const { $ } = useStore<Ctx>()
   const { order } = $.state
   return (
     <ToolBar.Popover
@@ -27,4 +28,4 @@ function Sort(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Sort)
+export default ob(Sort)

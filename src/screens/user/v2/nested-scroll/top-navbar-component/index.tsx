@@ -7,14 +7,15 @@
 import React from 'react'
 import { Avatar, Flex } from '@components'
 import { VerticalAlign } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function TopNavbarComponent(_props, { $ }: Ctx) {
+function TopNavbarComponent() {
+  const { $ } = useStore<Ctx>()
   const { avatar, nickname } = $.usersInfo
   return (
     <Flex justify='center'>
@@ -40,4 +41,4 @@ function TopNavbarComponent(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(TopNavbarComponent, COMPONENT)
+export default ob(TopNavbarComponent, COMPONENT)

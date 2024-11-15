@@ -6,12 +6,14 @@
  */
 import React from 'react'
 import { Track } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Heatmaps from '../heatmaps'
 import { COMPONENT } from './ds'
 
-function Extra(_props, { $ }: Ctx) {
+function Extra() {
+  const { $ } = useStore<Ctx>()
   return (
     <>
       <Track title='时光机' hm={[`user/${$.myUserId}?route=user`, 'User']} />
@@ -20,4 +22,4 @@ function Extra(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Extra, COMPONENT)
+export default ob(Extra, COMPONENT)

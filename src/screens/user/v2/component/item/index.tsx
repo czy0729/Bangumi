@@ -5,17 +5,19 @@
  * @Last Modified time: 2024-01-01 16:26:03
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
-import ItemList from './item-list'
 import ItemGrid from './item-grid'
+import ItemList from './item-list'
 import { COMPONENT } from './ds'
 
-function Item({ item, index, page }, { $ }: Ctx) {
+function Item({ item, index, page }) {
+  const { $ } = useStore<Ctx>()
   const { list } = $.state
   if (list) return <ItemList item={item} index={index} page={page} />
 
   return <ItemGrid item={item} numColumns={$.numColumns} />
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

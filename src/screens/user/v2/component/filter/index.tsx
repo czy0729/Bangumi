@@ -5,14 +5,16 @@
  * @Last Modified time: 2023-12-31 15:38:53
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Filter from './filter'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(({ page }, { $ }: Ctx) => {
+function FilterWrap({ page }) {
+  const { $ } = useStore<Ctx>()
   const { subjectType, showFilter, fliterInputText } = $.state
   const { key: type } = TABS[page]
   const isTabActive = $.isTabActive(subjectType, type)
@@ -27,4 +29,6 @@ export default obc(({ page }, { $ }: Ctx) => {
       onFilterChange={$.onFilterChange}
     />
   )
-}, COMPONENT)
+}
+
+export default ob(FilterWrap, COMPONENT)

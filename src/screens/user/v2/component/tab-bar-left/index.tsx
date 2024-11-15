@@ -7,14 +7,16 @@
 import React from 'react'
 import { Button, Flex, Heatmap } from '@components'
 import { Popover } from '@_'
+import { useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, DS } from './ds'
 import { memoStyles } from './styles'
 
-function TabBarLeft(_props, { $ }: Ctx) {
+function TabBarLeft() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { subjectType } = $.state
   return (
@@ -34,4 +36,4 @@ function TabBarLeft(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(TabBarLeft, COMPONENT)
+export default ob(TabBarLeft, COMPONENT)

@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { TABS, DEFAULT_SUBJECT_TYPE } from '../../ds'
+import { DEFAULT_SUBJECT_TYPE, TABS } from '../../ds'
 import { Ctx } from '../../types'
 
-function Tag({ page }, { $ }: Ctx) {
+function Tag({ page }) {
+  const { $ } = useStore<Ctx>()
   const { subjectType = DEFAULT_SUBJECT_TYPE, tag } = $.state
 
   const filterData = ['重置']
@@ -34,4 +35,4 @@ function Tag({ page }, { $ }: Ctx) {
   )
 }
 
-export default obc(Tag)
+export default ob(Tag)

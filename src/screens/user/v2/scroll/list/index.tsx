@@ -5,9 +5,9 @@
  * @Last Modified time: 2024-01-01 11:49:14
  */
 import React from 'react'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { getKeyString } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import Loading from '../../component/loading'
@@ -16,13 +16,13 @@ import List from './list'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(({ page, title, scrollY, onScroll, onRefreshOffset }, { $ }: Ctx) => {
+export default ob(({ page, title, scrollY, onScroll, onRefreshOffset }) => {
+  const { $ } = useStore<Ctx>()
   const { subjectType, list } = $.state
   const userCollections = $.userCollections(
     subjectType,
     MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(title)
   )
-
   if (!userCollections._loaded) return <Loading />
 
   const { userPagination, userGridNum } = systemStore.setting

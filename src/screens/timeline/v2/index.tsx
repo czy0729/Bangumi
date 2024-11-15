@@ -7,31 +7,31 @@
 import React from 'react'
 import { Component, Page } from '@components'
 import { TapListener } from '@_'
-import { ic } from '@utils/decorators'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Tab from './component/tab'
 import Header from './header'
 import { useTimelinePage } from './hooks'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 时间胶囊 */
-const Timeline = (_props, context: Ctx) => {
-  useTimelinePage(context)
+const Timeline = (props: NavigationProps) => {
+  const { id, $ } = useTimelinePage(props)
 
-  const { $ } = context
   return useObserver(() => (
     <Component id='screen-timeline'>
-      <TapListener>
-        <Page>
-          <Header />
-          {$.state._loaded && <Tab />}
-        </Page>
-      </TapListener>
-      <Extra />
+      <StoreContext.Provider value={id}>
+        <TapListener>
+          <Page>
+            <Header />
+            {$.state._loaded && <Tab />}
+          </Page>
+        </TapListener>
+        <Extra />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Timeline)
+export default Timeline

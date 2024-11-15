@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { Pagination as PaginationComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Pagination(_props, { $ }: Ctx) {
+function Pagination() {
+  const { $ } = useStore<Ctx>()
   const { ipt } = $.state
   return (
     <PaginationComp
@@ -25,4 +26,4 @@ function Pagination(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Pagination, COMPONENT)
+export default ob(Pagination, COMPONENT)

@@ -5,14 +5,15 @@
  * @Last Modified time: 2024-01-01 11:51:20
  */
 import React from 'react'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import ParallaxImage from './parallax-image'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(({ scrollY, fixed }, { $, navigation }: Ctx) => {
+export default ob(({ scrollY, fixed }) => {
+  const { $, navigation } = useStore<Ctx>()
   const { id, avatar, nickname, username } = $.usersInfo
   return (
     <ParallaxImage

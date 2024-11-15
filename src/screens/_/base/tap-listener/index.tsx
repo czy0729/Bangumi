@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-13 09:58:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-02 02:50:15
+ * @Last Modified time: 2024-11-15 15:06:01
  */
 import React from 'react'
-import { View } from 'react-native'
 import {
   PanGestureHandler,
   PanGestureHandlerStateChangeEvent,
@@ -37,7 +36,7 @@ export const TapListener = ob(
         }
       }}
     >
-      <View style={_.container.flex}>{children}</View>
+      {children}
     </PanGestureHandler>
   ),
   COMPONENT

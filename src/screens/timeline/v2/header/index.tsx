@@ -7,9 +7,9 @@
 import React from 'react'
 import { Heatmap } from '@components'
 import { IconTabsHeader, LogoHeader } from '@_'
-import { userStore } from '@stores'
+import { userStore, useStore } from '@stores'
 import { info, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -17,9 +17,11 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(_props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <LogoHeader
+      navigation={navigation}
       right={
         <IconTabsHeader
           style={styles.icon}
@@ -35,11 +37,11 @@ function Header(_props, { $, navigation }: Ctx) {
               return
             }
 
-            t('时间胶囊.新吐槽')
-
             navigation.push('Say', {
               onNavigationCallback: $.fetchTimeline
             })
+
+            t('时间胶囊.新吐槽')
           }}
         >
           <Heatmap id='时间胶囊.新吐槽' />
@@ -49,4 +51,4 @@ function Header(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

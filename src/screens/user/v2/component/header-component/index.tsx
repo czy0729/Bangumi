@@ -7,15 +7,16 @@
 import React from 'react'
 import { Flex } from '@components'
 import { VerticalAlign } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import CenterAvatar from '../center-avatar'
 import { COMPONENT } from './ds'
 import { Props } from './types'
 
-function HeaderComponent({ style }: Props, { $ }: Ctx) {
+function HeaderComponent({ style }: Props) {
+  const { $ } = useStore<Ctx>()
   const { nickname, id, username } = $.usersInfo
   return (
     <Flex style={style} direction='column' justify='center'>
@@ -30,4 +31,4 @@ function HeaderComponent({ style }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(HeaderComponent, COMPONENT)
+export default ob(HeaderComponent, COMPONENT)

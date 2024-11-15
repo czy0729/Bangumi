@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function More({ onRefreshOffset }, { $ }: Ctx) {
+function More({ onRefreshOffset }) {
+  const { $ } = useStore<Ctx>()
   const { userPagination } = systemStore.setting
   const { list, showYear } = $.state
   const paginationOption = `分页 · ${userPagination ? '开启' : '关闭'}`
@@ -37,4 +38,4 @@ function More({ onRefreshOffset }, { $ }: Ctx) {
   )
 }
 
-export default obc(More)
+export default ob(More)

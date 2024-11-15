@@ -7,14 +7,16 @@
 import React from 'react'
 import { Button, Flex, Heatmap } from '@components'
 import { Popover } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
 import { TimeLineScopeCn } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT, DATA } from './ds'
 import { memoStyles } from './styles'
 
-function TabBarLeft(_props, { $ }: Ctx) {
+function TabBarLeft() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <Popover data={DATA} onSelect={$.onSelectScope}>
@@ -28,4 +30,4 @@ function TabBarLeft(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(TabBarLeft, COMPONENT)
+export default ob(TabBarLeft, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:03:41
+ * @Last Modified time: 2024-11-15 15:08:00
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -19,12 +19,10 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }) {
   return (
     <ListView
       ref={forwardRef}
-      style={_.container.flex}
-      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
       data={$.subjectComments}
       scrollEventThrottle={16}
-      scrollToTop
       keyboardDismissMode='on-drag'
       footerEmptyDataComponent={$.footerEmptyDataComponent}
       refreshControlProps={REFRESH_CONTROL_PROPS}

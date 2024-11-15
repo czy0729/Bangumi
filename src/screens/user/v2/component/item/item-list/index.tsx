@@ -6,15 +6,16 @@
  */
 import React from 'react'
 import { ItemCollections } from '@_'
-import { collectionStore, subjectStore, timelineStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { collectionStore, subjectStore, timelineStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { H_HEADER, TABS } from '../../../ds'
 import { Ctx } from '../../../types'
 import { COMPONENT, EVENT } from './ds'
 
-function ItemList({ item, index, page }, { $, navigation }: Ctx) {
+function ItemList({ item, index, page }) {
+  const { $, navigation } = useStore<Ctx>()
   const { subjectType, filter } = $.state
   const { key: type } = TABS[page]
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
@@ -49,4 +50,4 @@ function ItemList({ item, index, page }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ItemList, COMPONENT)
+export default ob(ItemList, COMPONENT)

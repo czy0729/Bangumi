@@ -7,9 +7,9 @@
 import React from 'react'
 import { View } from 'react-native'
 import { ToolBar as ToolBarComp } from '@components'
-import { systemStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Filter from '../filter'
 import More from './more'
@@ -20,7 +20,8 @@ import Tag from './tag'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset = undefined }, { $ }: Ctx) {
+function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset = undefined }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { list } = $.state
   const { userPagination } = systemStore.setting
@@ -43,4 +44,4 @@ function ToolBar({ page, pageCurrent, pageTotal, onRefreshOffset = undefined }, 
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

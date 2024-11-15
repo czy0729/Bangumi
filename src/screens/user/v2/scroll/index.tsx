@@ -5,13 +5,15 @@
  * @Last Modified time: 2024-10-12 20:55:55
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import Scroll from './scroll'
 import { COMPONENT } from './ds'
 
 /** iOS 和 WEB 用 */
-export default obc((_props, { $ }: Ctx) => {
+export default ob(() => {
+  const { $ } = useStore<Ctx>()
   const { page } = $.state
   return (
     <Scroll

@@ -6,27 +6,17 @@
  */
 import React from 'react'
 import { ItemTimeline, SectionHeader } from '@_'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, useStore } from '@stores'
 import { TimelineItem } from '@stores/timeline/types'
 import { getIsBlockedUser } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
 import { Ctx, TabLabel } from '../../types'
 import ItemHeatmaps from '../item-heatmaps'
 import { COMPONENT } from './ds'
 
-function Item(
-  {
-    title,
-    item,
-    index
-  }: {
-    title: TabLabel
-    item: TimelineItem
-    index: number
-  },
-  { $, navigation }: Ctx
-) {
+function Item({ title, item, index }: { title: TabLabel; item: TimelineItem; index: number }) {
+  const { $, navigation } = useStore<Ctx>()
   const { p1 } = item
   const url = p1?.url || ''
   if (url.includes('/user/')) {
@@ -68,4 +58,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

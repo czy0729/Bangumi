@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
 import TabBarLabel from '../component/tab-bar-label'
@@ -42,7 +42,7 @@ function NestedScroll(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(NestedScroll, COMPONENT)
+export default ob(NestedScroll, COMPONENT)
 
 function renderLabel({ style, title }) {
   return <TabBarLabel style={style} title={title} />

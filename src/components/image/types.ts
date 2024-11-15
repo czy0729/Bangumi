@@ -32,7 +32,7 @@ export type Props = Override<
     /** 是否带边框, truely 则显示 */
     border?: number | boolean | ColorValue
 
-    /** @deprecated 边框大小 */
+    /** 边框大小 */
     borderWidth?: number
 
     /** 是否带圆角 */

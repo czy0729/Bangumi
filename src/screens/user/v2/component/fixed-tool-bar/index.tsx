@@ -6,14 +6,17 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { obc } from '@utils/decorators'
-import ToolBar from '../tool-bar'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
-import { styles } from './styles'
+import ToolBar from '../tool-bar'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 import { Props } from './types'
 
-function FixedToolBar({ fixed, page, pageCurrent, pageTotal, onRefreshOffset }: Props, { $ }: Ctx) {
+function FixedToolBar({ fixed, page, pageCurrent, pageTotal, onRefreshOffset }: Props) {
+  const { $ } = useStore<Ctx>()
+
   // 显示容器外固定工具条
   if (fixed) {
     if ($.state.fixed) {
@@ -33,9 +36,7 @@ function FixedToolBar({ fixed, page, pageCurrent, pageTotal, onRefreshOffset }: 
   }
 
   // 固定的时候, 容器内工具条不渲染, 显示占位
-  if ($.state.fixed) {
-    return <View style={styles.placeholder} />
-  }
+  if ($.state.fixed) return <View style={styles.placeholder} />
 
   // 非固定的时候, 容器内工具条
   return (
@@ -48,4 +49,4 @@ function FixedToolBar({ fixed, page, pageCurrent, pageTotal, onRefreshOffset }: 
   )
 }
 
-export default obc(FixedToolBar, COMPONENT)
+export default ob(FixedToolBar, COMPONENT)

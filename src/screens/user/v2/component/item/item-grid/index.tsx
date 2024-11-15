@@ -6,14 +6,16 @@
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
+import { useStore } from '@stores'
 import { matchYear, matchYearAndMonth } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../../types'
 import { COMPONENT, EVENT } from './ds'
 
-function ItemGrid({ item, numColumns }, { $, navigation }: Ctx) {
+function ItemGrid({ item, numColumns }) {
+  const { $, navigation } = useStore<Ctx>()
   const { subjectType, showYear } = $.state
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subjectType)
   return (
@@ -31,4 +33,4 @@ function ItemGrid({ item, numColumns }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid, COMPONENT)
+export default ob(ItemGrid, COMPONENT)

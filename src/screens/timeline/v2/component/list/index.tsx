@@ -7,8 +7,7 @@
 import React, { useCallback } from 'react'
 import { ListView, Loading, ScrollToIndex } from '@components'
 import { Login } from '@_'
-import { uiStore, userStore } from '@stores'
-import { c } from '@utils/decorators'
+import { uiStore, userStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
@@ -20,16 +19,10 @@ import { keyExtractor } from './utils'
 import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
 import { styles } from './styles'
 
-function List(
-  {
-    title
-  }: {
-    title?: TabLabel
-  },
-  { $ }: Ctx
-) {
+function List({ title }: { title?: TabLabel }) {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const handleForwardRef = useCallback(
     (ref: { scrollToIndex: ScrollToIndex }) => {
       return $.forwardRef(
@@ -37,13 +30,16 @@ function List(
         TABS.findIndex(item => item.title === title)
       )
     },
-    [title]
+    [$, title]
   )
-  const handleScroll = useCallback((evt: ScrollEvent) => {
-    uiStore.closePopableSubject()
-    uiStore.closeLikesGrid()
-    $.onScroll(evt)
-  }, [])
+  const handleScroll = useCallback(
+    (evt: ScrollEvent) => {
+      uiStore.closePopableSubject()
+      uiStore.closeLikesGrid()
+      $.onScroll(evt)
+    },
+    [$]
+  )
   const renderItem = useCallback(
     ({ item, index }) => <Item title={title} item={item} index={index} />,
     [title]
@@ -83,4 +79,4 @@ function List(
   })
 }
 
-export default c(List)
+export default List

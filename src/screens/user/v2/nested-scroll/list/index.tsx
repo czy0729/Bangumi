@@ -6,8 +6,8 @@
  */
 import React from 'react'
 import { Loading } from '@components'
-import { systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
 import { TABS } from '../../ds'
@@ -16,7 +16,8 @@ import List from './list'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(({ title }, { $ }: Ctx) => {
+export default ob(({ title }) => {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { userPagination } = systemStore.setting
   const { subjectType, list } = $.state

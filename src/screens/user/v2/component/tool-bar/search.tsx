@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Search(_props, { $ }: Ctx) {
+function Search() {
+  const { $ } = useStore<Ctx>()
   const { showFilter } = $.state
   return (
     <ToolBar.Icon
@@ -21,4 +22,4 @@ function Search(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Search)
+export default ob(Search)

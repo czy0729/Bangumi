@@ -1,3 +1,9 @@
+/*
+ * @Author: czy0729
+ * @Date: 2024-11-15 14:30:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-11-15 16:05:11
+ */
 import * as React from 'react'
 import { LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { Pager } from 'react-native-tab-view/src/Pager'
@@ -83,18 +89,18 @@ export function TabView<T extends Route>({
   }
 
   return (
-    <View onLayout={handleLayout} style={[styles.pager, style]}>
+    <View style={[styles.pager, style]} onLayout={handleLayout}>
       <Pager
+        style={pagerStyle}
         layout={layout}
         navigationState={navigationState}
         keyboardDismissMode={keyboardDismissMode}
         swipeEnabled={swipeEnabled}
+        animationEnabled={animationEnabled}
+        overScrollMode={overScrollMode}
         onSwipeStart={onSwipeStart}
         onSwipeEnd={onSwipeEnd}
         onIndexChange={jumpToIndex}
-        animationEnabled={animationEnabled}
-        overScrollMode={overScrollMode}
-        style={pagerStyle}
       >
         {({ position, render, addEnterListener, jumpTo }) => {
           // All of the props here must not change between re-renders
@@ -106,7 +112,7 @@ export function TabView<T extends Route>({
           }
 
           return (
-            <React.Fragment>
+            <>
               {tabBarPosition === 'top' &&
                 renderTabBar({
                   ...sceneRendererProps,
@@ -115,29 +121,27 @@ export function TabView<T extends Route>({
               {renderContentHeaderComponent}
               {!IOS && renderBackground}
               {render(
-                navigationState.routes.map((route, i) => {
-                  return (
-                    <SceneView
-                      {...sceneRendererProps}
-                      addEnterListener={addEnterListener}
-                      key={route.key}
-                      index={i}
-                      lazy={typeof lazy === 'function' ? lazy({ route }) : lazy}
-                      lazyPreloadDistance={lazyPreloadDistance}
-                      navigationState={navigationState}
-                      style={sceneContainerStyle}
-                    >
-                      {({ loading }) =>
-                        loading
-                          ? renderLazyPlaceholder({ route })
-                          : renderScene({
-                              ...sceneRendererProps,
-                              route
-                            })
-                      }
-                    </SceneView>
-                  )
-                })
+                navigationState.routes.map((route, i) => (
+                  <SceneView
+                    key={route.key}
+                    {...sceneRendererProps}
+                    style={sceneContainerStyle}
+                    index={i}
+                    lazy={typeof lazy === 'function' ? lazy({ route }) : lazy}
+                    lazyPreloadDistance={lazyPreloadDistance}
+                    navigationState={navigationState}
+                    addEnterListener={addEnterListener}
+                  >
+                    {({ loading }) =>
+                      loading
+                        ? renderLazyPlaceholder({ route })
+                        : renderScene({
+                            ...sceneRendererProps,
+                            route
+                          })
+                    }
+                  </SceneView>
+                ))
               )}
               {IOS && renderBackground}
               {tabBarPosition === 'bottom' &&
@@ -145,7 +149,7 @@ export function TabView<T extends Route>({
                   ...sceneRendererProps,
                   navigationState
                 })}
-            </React.Fragment>
+            </>
           )
         }}
       </Pager>
@@ -155,7 +159,8 @@ export function TabView<T extends Route>({
 
 const styles = StyleSheet.create({
   pager: {
-    flex: 1,
+    height: '100%',
+    // flex: 1,
     overflow: 'hidden'
   }
 })

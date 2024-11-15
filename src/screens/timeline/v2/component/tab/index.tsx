@@ -8,8 +8,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { TabView } from '@components'
 import { BlurViewBottomTab, BlurViewRoot, BlurViewTab } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import renderScene from './renderScene'
@@ -18,7 +18,8 @@ import TabBarLeft from './tab-bar-left'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Tab(_props, { $ }: Ctx) {
+function Tab() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <BlurViewRoot>
@@ -41,7 +42,7 @@ function Tab(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tab, COMPONENT)
+export default ob(Tab, COMPONENT)
 
 function renderTabBar(props) {
   return <TabBar {...props} />

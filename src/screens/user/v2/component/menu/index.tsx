@@ -8,14 +8,15 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { IconBack, IconHeader, Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { handleMenuPopoverPress, handleSettingPress, handleUserTimelinePress } from './utils'
 import { COMPONENT, DATA_ME, DATA_OTHER } from './ds'
 import { styles } from './styles'
 
-function Menu(_props, { $, navigation }: Ctx) {
+function Menu() {
+  const { $, navigation } = useStore<Ctx>()
   const { userId: paramsUserId } = $.params
   const { id, username, nickname } = $.usersInfo
   const isMe = !!id && $.myUserId === id
@@ -73,4 +74,4 @@ function Menu(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Menu, COMPONENT)
+export default ob(Menu, COMPONENT)

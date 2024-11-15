@@ -7,23 +7,19 @@
 import React from 'react'
 import { Component, Page } from '@components'
 import { BlurViewBottomTab, BlurViewRoot, Login } from '@_'
-import { _, userStore } from '@stores'
-import { ic } from '@utils/decorators'
+import { _, StoreContext, userStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { ANDROID } from '@constants'
-import { ReactNode } from '@types'
+import { NavigationProps, ReactNode } from '@types'
 import Extra from './component/extra'
 import { useUserPage } from './hooks'
 import NestedScroll from './nested-scroll'
 import Scroll from './scroll'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 时光机 */
-const User = (_props, context: Ctx) => {
-  useUserPage(context)
+const User = (props: NavigationProps) => {
+  const { id, $ } = useUserPage(props)
 
-  const { $ } = context
   return useObserver(() => {
     let el: ReactNode
 
@@ -31,7 +27,7 @@ const User = (_props, context: Ctx) => {
     if (!$.usersInfo.id && !userStore.isLogin) {
       el = <Login style={_.container.plain} />
     } else {
-      let elScroll: ReactNode = !!$.state._loaded && (ANDROID ? <NestedScroll /> : <Scroll />)
+      const elScroll: ReactNode = !!$.state._loaded && (ANDROID ? <NestedScroll /> : <Scroll />)
 
       // 来自于别人的空间
       if ($.params.userId) {
@@ -49,11 +45,13 @@ const User = (_props, context: Ctx) => {
 
     return (
       <Component id='screen-user'>
-        <Page>{el}</Page>
-        <Extra />
+        <StoreContext.Provider value={id}>
+          <Page>{el}</Page>
+          <Extra />
+        </StoreContext.Provider>
       </Component>
     )
   })
 }
 
-export default ic(Store, User)
+export default User

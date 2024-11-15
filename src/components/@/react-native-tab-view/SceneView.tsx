@@ -114,7 +114,8 @@ export default class SceneView<T extends Route> extends React.Component<Props<T>
 
 const styles = StyleSheet.create({
   route: {
-    flex: 1
+    // width: '100%'
+    // flex: 1
     // overflow: 'hidden',
   }
 })

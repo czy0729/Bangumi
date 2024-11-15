@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Pagination({ pageCurrent, pageTotal }, { $ }: Ctx) {
+function Pagination({ pageCurrent, pageTotal }) {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBar.Popover
       data={generateArray(pageTotal)}
@@ -23,7 +24,7 @@ function Pagination({ pageCurrent, pageTotal }, { $ }: Ctx) {
   )
 }
 
-export default obc(Pagination)
+export default ob(Pagination)
 
 function generateArray(num: number) {
   const arr = []
