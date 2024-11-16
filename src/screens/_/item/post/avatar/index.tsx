@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 18:49:04
+ * @Last Modified time: 2024-11-16 09:24:49
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { InView, UserStatusAvatar } from '../../../base'
 import { AVATAR_SIZE, ITEM_HEIGHT } from './ds'
 import { styles } from './styles'
 
-function Avatar({ index, inViewY, userId, userName, avatar, event }, { navigation }) {
+function Avatar({ index, inViewY, userId, userName, avatar, event }) {
+  const navigation = useNavigation()
   return (
     <InView style={styles.inView} y={ITEM_HEIGHT * index + inViewY + 1}>
       <UserStatusAvatar
@@ -27,4 +29,4 @@ function Avatar({ index, inViewY, userId, userName, avatar, event }, { navigatio
   )
 }
 
-export default obc(Avatar)
+export default ob(Avatar)

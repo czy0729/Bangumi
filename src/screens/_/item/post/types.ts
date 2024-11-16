@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-21 22:33:09
  */
-import { Id, UserId, EventType, ViewStyle, Fn } from '@types'
+import { AnyObject, DeepPartial, EventType, Fn, Id, TopicId, UserId, ViewStyle } from '@types'
 
 export type Props = {
   inViewY?: number
@@ -75,3 +75,27 @@ export type Props = {
   /** 埋点 */
   event?: EventType
 }
+
+export type Ctx = DeepPartial<{
+  $: {
+    params: {
+      _url: string
+    }
+    state: {
+      directFloor: string
+      expands: any[]
+      translateResultFloor: AnyObject
+    }
+    topicId: TopicId
+    blogId: TopicId
+    topic: {
+      formhash: string
+      likeType: string
+    }
+    readed: {
+      _time: string
+    }
+    myFriendsMap: Record<UserId, true>
+    toggleExpand: Fn
+  }
+}>

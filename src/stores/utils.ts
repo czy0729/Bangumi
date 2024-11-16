@@ -42,7 +42,11 @@ export const StoreContext = createContext('')
 /** 获取页面的状态机 */
 export function useStore<T>() {
   const id = useContext(StoreContext)
-  return Stores.get(id) as Override<
+  return (Stores.get(id) || {
+    id: '',
+    $: {},
+    navigation: {}
+  }) as Override<
     T,
     {
       id: string

@@ -76,9 +76,9 @@ export type Flatten<T> = {
 /** 复写 type */
 export type Override<P, S> = Expand<Omit<P, keyof S> & S>
 
-/** 深偏 */
+/** 深遍历 */
 export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
+  [P in keyof T]?: T[P] extends Function ? T[P] : T[P] extends object ? DeepPartial<T[P]> : T[P]
 }
 
 /** 取值 */

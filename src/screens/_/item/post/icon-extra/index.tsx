@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-01-20 12:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-01 18:31:16
+ * @Last Modified time: 2024-11-16 09:13:21
  */
 import React from 'react'
 import { Flex, Iconfont } from '@components'
-import { _, rakuenStore, uiStore, userStore } from '@stores'
+import { _, rakuenStore, uiStore, userStore, useStore } from '@stores'
 import {
   confirm,
   copy,
@@ -18,7 +18,7 @@ import {
   removeURLs,
   stl
 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_BLOG, HTML_TOPIC } from '@constants'
 import { AnyObject, TopicId } from '@types'
@@ -36,27 +36,26 @@ import {
   ACTION_UNTRACK
 } from './ds'
 import { styles } from './styles'
+import { Ctx } from './types'
 
-function IconExtra(
-  {
-    style,
-    topicId,
-    id,
-    formhash,
-    likeType,
-    replySub,
-    erase,
-    userId,
-    userName,
-    message = '',
-    msg,
-    onJumpTo,
-    onShowFixedTextare
-  }: AnyObject<{
-    topicId: TopicId
-  }>,
-  { $ }
-) {
+function IconExtra({
+  style,
+  topicId,
+  id,
+  formhash,
+  likeType,
+  replySub,
+  erase,
+  userId,
+  userName,
+  message = '',
+  msg,
+  onJumpTo,
+  onShowFixedTextare
+}: AnyObject<{
+  topicId: TopicId
+}>) {
+  const { $ } = useStore<Ctx>()
   const data = [
     // 编辑
     erase && $?.doDeleteReply && ACTION_EDIT,
@@ -99,12 +98,14 @@ function IconExtra(
             break
 
           case ACTION_REPLY:
-            $?.showFixedTextarea?.(userName, replySub, message, msg)
+            if (typeof $?.showFixedTextarea === 'function')
+              $.showFixedTextarea(userName, replySub, message, msg)
             if (typeof onShowFixedTextare === 'function') onShowFixedTextare()
             break
 
           case ACTION_EDIT:
-            $?.showFixedTextareaEdit?.(id, onShowFixedTextare, onJumpTo)
+            if (typeof $?.showFixedTextareaEdit === 'function')
+              $.showFixedTextareaEdit(id, onShowFixedTextare, onJumpTo)
             break
 
           case ACTION_COPY:
@@ -142,7 +143,7 @@ function IconExtra(
             break
 
           case ACTION_TRANSLATE:
-            $?.doTranslateFloor?.(id, msg)
+            if (typeof $?.doTranslateFloor === 'function') $.doTranslateFloor(id, msg)
             break
 
           case ACTION_IGNORE:
@@ -171,7 +172,8 @@ function IconExtra(
             break
 
           case ACTION_DELETE:
-            confirm('确定删除回复?', () => $?.doDeleteReply?.(erase))
+            if (typeof $?.doDeleteReply === 'function')
+              confirm('确定删除回复?', () => $.doDeleteReply(erase))
             break
 
           default:
@@ -186,4 +188,4 @@ function IconExtra(
   )
 }
 
-export default obc(IconExtra)
+export default ob(IconExtra)

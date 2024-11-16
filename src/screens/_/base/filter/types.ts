@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-07-20 12:14:05
  */
-import { ReactNode } from '@types'
+import { AnyObject, DeepPartial, Fn, ReactNode } from '@types'
 import { FilterSwitchName } from '../filter-switch/types'
 
 type FilterItem = {
@@ -27,3 +27,18 @@ export type Props = {
   information?: string
   renderRight?: ReactNode
 }
+
+export type Ctx = DeepPartial<{
+  $: {
+    state: {
+      query: AnyObject
+      layout: string
+      expand: boolean
+    }
+    list: any[]
+    total: number
+    isLogin: boolean
+    onSelect: Fn
+    onExpand: Fn
+  }
+}>

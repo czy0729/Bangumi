@@ -2,41 +2,43 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:03:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-02 07:05:31
+ * @Last Modified time: 2024-11-16 09:21:14
  */
 import React from 'react'
-import { rakuenStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { rakuenStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { isBlockUser } from '../utils'
 import ItemSub from './item'
 import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-export default obc(
-  (
-    {
-      extraStyle,
-      authorId,
-      avatar,
-      erase,
-      floor,
-      id,
-      matchLink,
-      message,
-      postId,
-      readedTime,
-      replySub,
-      time,
-      uid,
-      url,
-      userId,
-      userName,
-      newFloorStyle,
-      event,
-      onJumpTo,
-      onShowFixedTextare
-    },
-    { $, navigation }
-  ) => {
+export default ob(
+  ({
+    extraStyle,
+    authorId,
+    avatar,
+    erase,
+    floor,
+    id,
+    matchLink,
+    message,
+    postId,
+    readedTime,
+    replySub,
+    time,
+    uid,
+    url,
+    userId,
+    userName,
+    newFloorStyle,
+    event,
+    onJumpTo,
+    onShowFixedTextare
+  }) => {
+    const navigation = useNavigation()
+    const { $ } = useStore<Ctx>()
+
     // 屏蔽脏数据
     if (!userId) return null
 

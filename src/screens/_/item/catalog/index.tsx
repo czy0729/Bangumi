@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 15:51:15
+ * @Last Modified time: 2024-11-16 09:25:41
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
 import { discoveryStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { InView } from '../../base'
 import Covers from './covers'
@@ -17,35 +18,33 @@ import Desc from './desc'
 import Title from './title'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
-import { Context, Props as ItemCatalogProps } from './types'
+import { Props as ItemCatalogProps } from './types'
 
 export { ItemCatalogProps }
 
-export const ItemCatalog = obc(
-  (
-    {
-      event = EVENT,
-      index,
-      id,
-      name,
-      userName,
-      title,
-      info,
-      book,
-      anime,
-      music,
-      game,
-      real,
-      time,
-      last,
-      isUser,
-      hideScore = false,
-      filter,
-      detail,
-      children
-    }: ItemCatalogProps,
-    { navigation }: Context
-  ) => {
+export const ItemCatalog = ob(
+  ({
+    event = EVENT,
+    index,
+    id,
+    name,
+    userName,
+    title,
+    info,
+    book,
+    anime,
+    music,
+    game,
+    real,
+    time,
+    last,
+    isUser,
+    hideScore = false,
+    filter,
+    detail,
+    children
+  }: ItemCatalogProps) => {
+    const navigation = useNavigation()
     if (!isUser && !book && !anime && !music && !game && !real) return null
 
     const styles = memoStyles()

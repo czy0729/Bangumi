@@ -2,23 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-09-26 22:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-23 19:45:56
+ * @Last Modified time: 2024-11-16 09:24:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, RenderHtml, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate, HTMLDecode, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { Name } from '../../../base'
 import { memoStyles } from './styles'
 
 const avatarWidth = 20
 
-function Mark(
-  { style = undefined, id, message, userId, userName, avatar, url, directFloor, event },
-  { navigation }
-) {
+function Mark({
+  style = undefined,
+  id,
+  message,
+  userId,
+  userName,
+  avatar,
+  url,
+  directFloor,
+  event
+}) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { avatarRound } = systemStore.setting
   const imagesMaxWidthSub = _.window.width - _.wind - avatarWidth - _.sm
@@ -58,4 +67,4 @@ function Mark(
   )
 }
 
-export default obc(Mark)
+export default ob(Mark)

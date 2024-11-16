@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-29 22:03:08
+ * @Last Modified time: 2024-11-16 09:27:31
  */
 import React from 'react'
 import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { URL_ZHINAN, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { IconTouchable } from '../../icon/touchable'
 import { StatusBarPlaceholder } from '../status-bar-placeholder'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
-import { Context } from './types'
 
 /** 未登录页面 */
-export const Auth = obc(
-  (_props, { navigation }: Context) => (
+export const Auth = ob(() => {
+  const navigation = useNavigation()
+  return (
     <Component id='base-auth' style={_.container.plain}>
       <StatusBarPlaceholder />
       <Flex style={styles.toolbar}>
@@ -76,8 +77,7 @@ export const Auth = obc(
         </Button>
       </Flex>
     </Component>
-  ),
-  COMPONENT
-)
+  )
+}, COMPONENT)
 
 export default Auth

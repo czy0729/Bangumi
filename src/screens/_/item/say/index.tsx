@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:58:52
+ * @Last Modified time: 2024-11-16 09:21:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Component, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { EVENT, FROZEN_FN } from '@constants'
 import { Name } from '../../base'
 import { getBgmHtml } from './utils'
@@ -19,22 +20,20 @@ import { Props as ItemSayProps } from './types'
 
 export { ItemSayProps }
 
-export const ItemSay = obc(
-  (
-    {
-      event = EVENT,
-      position = 'left',
-      avatar,
-      showName,
-      name,
-      text,
-      id,
-      time,
-      format = true,
-      onLongPress = FROZEN_FN
-    }: ItemSayProps,
-    { navigation }
-  ) => {
+export const ItemSay = ob(
+  ({
+    event = EVENT,
+    position = 'left',
+    avatar,
+    showName,
+    name,
+    text,
+    id,
+    time,
+    format = true,
+    onLongPress = FROZEN_FN
+  }: ItemSayProps) => {
+    const navigation = useNavigation()
     const styles = memoStyles()
     if (position === 'right') {
       return (

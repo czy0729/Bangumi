@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { Component } from '@components'
-import { rakuenStore, uiStore } from '@stores'
+import { rakuenStore, uiStore, useStore } from '@stores'
 import { getIsBlocked, getTimestamp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, MODEL_RAKUEN_NEW_FLOOR_STYLE } from '@constants'
 import Item from './item'
@@ -16,39 +16,38 @@ import PlusOne from './plus-one'
 import { isBlockUser } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Props as ItemPostProps } from './types'
+import { Ctx, Props as ItemPostProps } from './types'
 
 export { ItemPostProps }
 
-export const ItemPost = obc(
-  (
-    {
-      inViewY,
-      index,
-      contentStyle,
-      extraStyle,
-      avatar,
-      userId,
-      userName,
-      replySub,
-      message,
-      sub,
-      id,
-      authorId,
-      postId,
-      time,
-      floor,
-      userSign,
-      erase,
-      rendered,
-      matchLink,
-      expandNums,
-      event,
-      showFixedTextare: onShowFixedTextarea,
-      onJumpTo
-    }: ItemPostProps,
-    { $ }
-  ) => {
+export const ItemPost = ob(
+  ({
+    inViewY,
+    index,
+    contentStyle,
+    extraStyle,
+    avatar,
+    userId,
+    userName,
+    replySub,
+    message,
+    sub,
+    id,
+    authorId,
+    postId,
+    time,
+    floor,
+    userSign,
+    erase,
+    rendered,
+    matchLink,
+    expandNums,
+    event,
+    showFixedTextare: onShowFixedTextarea,
+    onJumpTo
+  }: ItemPostProps) => {
+    const { $ } = useStore<Ctx>()
+
     // 屏蔽脏数据
     if (!userId) return null
 
@@ -104,7 +103,7 @@ export const ItemPost = obc(
     const newFloorStyle = MODEL_RAKUEN_NEW_FLOOR_STYLE.getLabel(rakuenStore.setting.newFloorStyle)
     const readedTime = $?.readed?._time
     let isNew = false
-    if (newFloorStyle !== '不设置') isNew = !!readedTime && getTimestamp(time) > readedTime
+    if (newFloorStyle !== '不设置') isNew = !!readedTime && getTimestamp(time) > Number(readedTime)
 
     // 跳转楼层标识
     const isJump = !!postId && postId === id

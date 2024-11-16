@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-23 18:48:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-07 07:20:13
+ * @Last Modified time: 2024-11-16 09:24:34
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { HTMLDecode, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { IMAGES_MAX_WIDTH } from '../ds'
 import { Likes, Name } from '../../../base'
 import CollapsedHtml from '../collapsed-html'
@@ -17,35 +18,33 @@ import IconExtra from '../icon-extra'
 import UserLabel from '../user-label'
 import { memoStyles } from './styles'
 
-function FloorMain(
-  {
-    contentStyle,
-    extraStyle,
-    topicId,
-    erase,
-    floor,
-    id,
-    isAuthor,
-    isFriend,
-    isNew,
-    matchLink,
-    msg,
-    replySub,
-    time,
-    translate,
-    url,
-    userId,
-    userName,
-    userSign,
-    formhash,
-    likeType,
-    event,
-    onJumpTo,
-    onLikesLongPress,
-    onShowFixedTextare
-  },
-  { navigation }
-) {
+function FloorMain({
+  contentStyle,
+  extraStyle,
+  topicId,
+  erase,
+  floor,
+  id,
+  isAuthor,
+  isFriend,
+  isNew,
+  matchLink,
+  msg,
+  replySub,
+  time,
+  translate,
+  url,
+  userId,
+  userName,
+  userSign,
+  formhash,
+  likeType,
+  event,
+  onJumpTo,
+  onLikesLongPress,
+  onShowFixedTextare
+}) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <Flex.Item style={stl(styles.content, contentStyle)}>
@@ -105,4 +104,4 @@ function FloorMain(
   )
 }
 
-export default obc(FloorMain)
+export default ob(FloorMain)

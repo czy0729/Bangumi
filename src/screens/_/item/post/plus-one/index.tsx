@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-12-21 16:24:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-07 07:31:58
+ * @Last Modified time: 2024-11-16 09:22:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, RenderHtml, Text, UserStatus } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate, HTMLDecode, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { Name } from '../../../base'
 import UserLabel from '../user-label'
 import { memoStyles } from './styles'
@@ -17,23 +18,21 @@ import { Props } from './types'
 
 const AVATAR_WIDTH = 20
 
-function ItemPlusOne(
-  {
-    id,
-    message,
-    userId,
-    userName,
-    avatar,
-    url,
-    floor,
-    directFloor,
-    isAuthor,
-    isFriend,
-    isLayer,
-    event
-  }: Props,
-  { navigation }
-) {
+function ItemPlusOne({
+  id,
+  message,
+  userId,
+  userName,
+  avatar,
+  url,
+  floor,
+  directFloor,
+  isAuthor,
+  isFriend,
+  isLayer,
+  event
+}: Props) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { avatarRound } = systemStore.setting
   const imagesMaxWidthSub = _.window.width - 2 * _.wind - 2 * AVATAR_WIDTH - 2 * _.sm
@@ -85,4 +84,4 @@ function ItemPlusOne(
   )
 }
 
-export default obc(ItemPlusOne)
+export default ob(ItemPlusOne)

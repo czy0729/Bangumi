@@ -7,9 +7,10 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Component, Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { info, isArray, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import i18n from '@constants/i18n'
 import { EventKeys } from '@types'
@@ -17,24 +18,23 @@ import { FilterSwitch } from '../filter-switch'
 import { scrollToX } from './utils'
 import { COMPONENT, HIT_SLOP } from './ds'
 import { memoStyles } from './styles'
-import { Props as FilterProps } from './types'
+import { Ctx, Props as FilterProps } from './types'
 
 export { FilterProps }
 
 /** 筛选组 */
-export const Filter = obc(
-  (
-    {
-      filterDS = [],
-      title = '频道',
-      name = '番剧',
-      type = 'Anime',
-      lastUpdate,
-      information = '',
-      renderRight
-    }: FilterProps,
-    { $, navigation }
-  ) => {
+export const Filter = ob(
+  ({
+    filterDS = [],
+    title = '频道',
+    name = '番剧',
+    type = 'Anime',
+    lastUpdate,
+    information = '',
+    renderRight
+  }: FilterProps) => {
+    const { $ } = useStore<Ctx>()
+    const navigation = useNavigation()
     const styles = memoStyles()
     const { query, layout, expand } = $?.state || {}
     const { length } = $?.list || []
@@ -84,7 +84,9 @@ export const Filter = obc(
                         }
                       )}
                       hitSlop={HIT_SLOP}
-                      onPress={() => $?.onSelect?.(item.type, '')}
+                      onPress={() => {
+                        if (typeof $?.onSelect === 'function') $.onSelect(item.type, '')
+                      }}
                     >
                       <Text size={11} noWrap>
                         {item.type === 'sort' ? '默认' : '全部'}
@@ -120,10 +122,16 @@ export const Filter = obc(
                                       isActive && styles.itemActive
                                     )}
                                     hitSlop={HIT_SLOP}
-                                    onPress={() => $?.onSelect?.(item.type, tag)}
+                                    onPress={() => {
+                                      if (typeof $?.onSelect === 'function')
+                                        $.onSelect(item.type, tag)
+                                    }}
                                     onLongPress={
                                       multiSelect
-                                        ? () => $?.onSelect?.(item.type, tag, true)
+                                        ? () => {
+                                            if (typeof $?.onSelect === 'function')
+                                              $.onSelect(item.type, tag, true)
+                                          }
                                         : undefined
                                     }
                                   >
@@ -162,7 +170,9 @@ export const Filter = obc(
                                     styles.itemActive
                                 )}
                                 hitSlop={HIT_SLOP}
-                                onPress={() => $?.onSelect?.(item.type, i)}
+                                onPress={() => {
+                                  if (typeof $?.onSelect === 'function') $.onSelect(item.type, i)
+                                }}
                               >
                                 <Text size={11} noWrap>
                                   {i}
@@ -189,7 +199,12 @@ export const Filter = obc(
             )
           })}
         <Flex style={_.mt.sm} justify='center'>
-          <Touchable style={styles.more} onPress={$?.onExpand}>
+          <Touchable
+            style={styles.more}
+            onPress={() => {
+              if (typeof $?.onExpand === 'function') $.onExpand()
+            }}
+          >
             <Text size={11} lineHeight={12} type='icon' bold noWrap>
               {expand ? '收起' : '更多'}选项
             </Text>

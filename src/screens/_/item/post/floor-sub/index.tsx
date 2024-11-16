@@ -67,7 +67,11 @@ function FloorSub({
             ))}
         </Flex>
         {sub.length > expandNums && (
-          <Touchable onPress={() => onToggleExpand(id)}>
+          <Touchable
+            onPress={() => {
+              if (typeof onToggleExpand === 'function') onToggleExpand(id)
+            }}
+          >
             <Text
               style={styles.expand}
               type={isExpand ? 'sub' : 'main'}

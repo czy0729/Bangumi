@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 01:43:53
+ * @Last Modified time: 2024-11-16 09:24:59
  */
 import React from 'react'
 import { Component, Cover, Flex, Touchable } from '@components'
 import { _ } from '@stores'
 import { cnjp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import { InView } from '../../base'
 import Actors from './actors'
@@ -20,25 +21,23 @@ import { Props as ItemCharacterProps } from './types'
 
 export { ItemCharacterProps }
 
-export const ItemCharacter = obc(
-  (
-    {
-      event = EVENT,
-      index,
-      type = 'character',
-      id,
-      cover,
-      name,
-      nameCn,
-      replies,
-      info,
-      actors = [],
-      positions = [],
-      position,
-      children
-    }: ItemCharacterProps,
-    { navigation }
-  ) => {
+export const ItemCharacter = ob(
+  ({
+    event = EVENT,
+    index,
+    type = 'character',
+    id,
+    cover,
+    name,
+    nameCn,
+    replies,
+    info,
+    actors = [],
+    positions = [],
+    position,
+    children
+  }: ItemCharacterProps) => {
+    const navigation = useNavigation()
     const styles = memoStyles()
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()

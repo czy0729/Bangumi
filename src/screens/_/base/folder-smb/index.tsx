@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-04-07 02:20:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 23:15:57
+ * @Last Modified time: 2024-11-16 09:26:43
  */
 import React, { useState } from 'react'
 import { Linking, View } from 'react-native'
 import { Component, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { alert, copy, desc } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
 import { getUrl } from './utils'
 import { COMPONENT, SORT_ORDER } from './ds'
@@ -97,7 +97,7 @@ function FolderSMBComp({ styles, smb, folder }: FolderSMBProps) {
 }
 
 /** SMB 管理弹窗 */
-export const FolderSMB = obc(
+export const FolderSMB = ob(
   ({
     smb = {
       uuid: '',

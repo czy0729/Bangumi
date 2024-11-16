@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-08-02 20:28:57
  */
 import { ViewProps } from 'react-native'
-import { Override } from '@types'
+import { DeepPartial, Override } from '@types'
 
 export type Props = Override<
   ViewProps,
@@ -16,3 +16,11 @@ export type Props = Override<
     flex?: boolean
   }
 >
+
+export type Ctx = DeepPartial<{
+  $: {
+    state: {
+      visibleBottom: number
+    }
+  }
+}>

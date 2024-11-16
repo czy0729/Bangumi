@@ -2,41 +2,40 @@
  * @Author: czy0729
  * @Date: 2020-03-22 15:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:49:40
+ * @Last Modified time: 2024-11-16 09:25:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Cover, Flex, Text, Touchable } from '@components'
 import { _, discoveryStore } from '@stores'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import BtnPopover from './btn-popover'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
-import { Ctx, Props as ItemBlogProps } from './types'
+import { Props as ItemBlogProps } from './types'
 
 export { ItemBlogProps }
 
-export const ItemBlog = obc(
-  (
-    {
-      style,
-      id,
-      cover,
-      title,
-      content,
-      username,
-      subject,
-      typeCn,
-      time,
-      replies,
-      tags = [],
-      event = EVENT
-    }: ItemBlogProps,
-    { navigation }: Ctx
-  ) => {
+export const ItemBlog = ob(
+  ({
+    style,
+    id,
+    cover,
+    title,
+    content,
+    username,
+    subject,
+    typeCn,
+    time,
+    replies,
+    tags = [],
+    event = EVENT
+  }: ItemBlogProps) => {
+    const navigation = useNavigation()
     const styles = memoStyles()
     const readed = discoveryStore.blogReaded(id)
     const line = []
