@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:31:02
+ * @Last Modified time: 2024-11-16 11:20:12
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
-import { _, collectionStore, otaStore, uiStore } from '@stores'
+import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { fill } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
@@ -19,7 +19,8 @@ import { Ctx } from '../types'
 import Tags from './tags'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+function Item({ index, pickIndex }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const subjectId = otaStore.wenkuSubjectId(pickIndex)
   const {
@@ -153,4 +154,4 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

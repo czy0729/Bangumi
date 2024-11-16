@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:22:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 17:35:58
+ * @Last Modified time: 2024-11-16 09:54:26
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { SUBJECT_TYPE } from '@constants'
 import { Ctx } from '../../types'
 
 const DATA = SUBJECT_TYPE.map(item => item.title)
 
 /** 类型 */
-function Type(_props, { $ }: Ctx) {
+function Type() {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBar.Popover
       data={DATA}
@@ -28,4 +29,4 @@ function Type(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Type)
+export default ob(Type)

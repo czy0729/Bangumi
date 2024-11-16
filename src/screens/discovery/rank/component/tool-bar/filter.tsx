@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:35:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 18:20:40
+ * @Last Modified time: 2024-11-16 09:48:50
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import {
   MODEL_RANK_ANIME_FILTER,
   MODEL_RANK_BOOK_FILTER,
@@ -24,7 +25,8 @@ const DATA = {
 } as const
 
 /** 一级分类 */
-function Filter(_props, { $ }: Ctx) {
+function Filter() {
+  const { $ } = useStore<Ctx>()
   if (!DATA[$.typeCn]) return null
 
   const { filter } = $.state
@@ -42,4 +44,4 @@ function Filter(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Filter)
+export default ob(Filter)

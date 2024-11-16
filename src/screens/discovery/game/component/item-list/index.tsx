@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:25:26
+ * @Last Modified time: 2024-11-16 11:06:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,16 +11,17 @@ import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl, x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS, WEB } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../../types'
 import { getThumbs, toArray } from './utils'
 import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
-function ItemList({ index, pickIndex }, { navigation }: Ctx) {
+function ItemList({ index, pickIndex }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.gameSubjectId(pickIndex)
   const game = otaStore.game(subjectId)
@@ -131,7 +132,7 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs.filter((item, index) => {
+                data={thumbs.filter((_item, index) => {
                   if (!WEB) return index < 3
 
                   if (thumbs.length <= 1) return true
@@ -187,4 +188,4 @@ function ItemList({ index, pickIndex }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemList)
+export default ob(ItemList)

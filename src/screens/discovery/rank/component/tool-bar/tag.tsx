@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-22 07:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:09:19
+ * @Last Modified time: 2024-11-16 09:53:13
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_ANIME_TAG, DATA_GAME_TAG } from '@constants'
 import { Ctx } from '../../types'
 
@@ -16,7 +17,8 @@ const DATA = {
 } as const
 
 /** 类型 */
-function Tag(_props, { $ }: Ctx) {
+function Tag() {
+  const { $ } = useStore<Ctx>()
   const data = DATA[$.typeCn]
   if (!data) return null
 
@@ -32,4 +34,4 @@ function Tag(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tag)
+export default ob(Tag)

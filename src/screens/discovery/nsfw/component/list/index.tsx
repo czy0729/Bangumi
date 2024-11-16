@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:10:44
+ * @Last Modified time: 2024-11-16 11:39:41
  */
 import React from 'react'
 import { Loading, Text, Touchable } from '@components'
 import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { ADVANCE_LIMIT, filterDS } from '../../ds'
 import { Ctx } from '../../types'
@@ -17,10 +17,12 @@ import ItemGrid from '../item-grid'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 
-class List extends React.Component {
+class List extends React.Component<Ctx> {
   connectRef = (ref: { scrollToOffset: any }) => {
-    const { $ } = this.context as Ctx
-    if (ref && ref.scrollToOffset) $.scrollToOffset = ref.scrollToOffset
+    if (ref && ref.scrollToOffset) {
+      const { $ } = this.props
+      $.scrollToOffset = ref.scrollToOffset
+    }
   }
 
   get num() {
@@ -28,7 +30,7 @@ class List extends React.Component {
   }
 
   renderItem = ({ item: pickIndex, index }) => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     if ($.isList) return <Item pickIndex={pickIndex} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
@@ -51,7 +53,7 @@ class List extends React.Component {
             <Touchable
               style={_.mr.xs}
               onPress={() => {
-                const { navigation } = this.context as Ctx
+                const { navigation } = this.props
                 navigation.push('Hentai')
               }}
             >
@@ -68,7 +70,7 @@ class List extends React.Component {
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (
@@ -97,4 +99,4 @@ class List extends React.Component {
   }
 }
 
-export default obc(List)
+export default ob(List)

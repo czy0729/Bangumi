@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:56:17
+ * @Last Modified time: 2024-11-16 11:48:09
  */
 import React from 'react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
-import { _, collectionStore, otaStore, uiStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
 import {
@@ -24,7 +24,8 @@ import { Ctx } from '../types'
 import { getType } from './utils'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { $, navigation }: Ctx) {
+function Item({ index, pickIndex }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const subjectId = otaStore.hentaiSubjectId(pickIndex)
   const {
@@ -138,4 +139,4 @@ function Item({ index, pickIndex }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

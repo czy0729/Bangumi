@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 04:32:52
+ * @Last Modified time: 2024-11-16 10:25:37
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Rank, Stars, Tags } from '@_'
-import { _, collectionStore, otaStore, uiStore } from '@stores'
+import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { cnjp, desc, x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
@@ -18,7 +18,8 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemList({ index, pickIndex }, { $, navigation }: Ctx) {
+function ItemList({ index, pickIndex }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const anime = otaStore.anime(subjectId)
@@ -140,4 +141,4 @@ function ItemList({ index, pickIndex }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ItemList, COMPONENT)
+export default ob(ItemList, COMPONENT)

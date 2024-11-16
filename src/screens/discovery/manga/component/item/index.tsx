@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 22:38:13
+ * @Last Modified time: 2024-11-16 11:12:41
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
-import { _, collectionStore, otaStore, uiStore } from '@stores'
+import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { desc, x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
@@ -18,7 +18,8 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ pickIndex }, { $, navigation }: Ctx) {
+function Item({ pickIndex }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
   const manga = otaStore.manga(subjectId)
@@ -154,4 +155,4 @@ function Item({ pickIndex }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

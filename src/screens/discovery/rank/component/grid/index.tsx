@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:09:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:54:45
+ * @Last Modified time: 2024-11-16 09:42:18
  */
 import React from 'react'
 import { Empty, Flex } from '@components'
 import { FilterText, ItemCollectionsGrid } from '@_'
-import { _, collectionStore } from '@stores'
+import { _, collectionStore, useStore } from '@stores'
 import { matchYear } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function Grid(_props, { $, navigation }: Ctx) {
+function Grid() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { list } = $.list
   const { _filter } = $.rank
@@ -53,4 +54,4 @@ function Grid(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Grid, COMPONENT)
+export default ob(Grid, COMPONENT)

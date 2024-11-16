@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-06 08:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:25:32
+ * @Last Modified time: 2024-11-16 09:47:07
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Expand(_props, { $ }: Ctx) {
+function Expand() {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBar.Icon
       icon={$.state.expand ? 'md-keyboard-arrow-up' : 'md-keyboard-arrow-down'}
@@ -18,4 +20,4 @@ function Expand(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Expand)
+export default ob(Expand)

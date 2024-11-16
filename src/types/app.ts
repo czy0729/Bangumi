@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:17:37
+ * @Last Modified time: 2024-11-16 11:26:20
  */
 import AppIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/AntDesign.json'
 import IoniconsIcons from '@components/@/vector-icons/vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
@@ -108,13 +108,13 @@ export type EventType = {
 }
 
 /** 列表对象 */
-export type ListEmpty<T> = Expand<{
-  list: T[] | readonly T[]
+export type ListEmpty<T = any> = Expand<{
+  list: T[]
   pagination?: {
     page: number
     pageTotal: number
   }
-  _list?: T[] | readonly T[]
+  _list?: T[]
   _loaded?: Loaded
 }>
 

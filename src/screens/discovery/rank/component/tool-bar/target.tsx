@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-22 07:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:14:15
+ * @Last Modified time: 2024-11-16 09:53:24
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_ANIME_TARGET, DATA_GAME_TARGET } from '@constants'
 import { Ctx } from '../../types'
 
@@ -16,7 +17,8 @@ const DATA = {
 } as const
 
 /** 受众 */
-function Target(_props, { $ }: Ctx) {
+function Target() {
+  const { $ } = useStore<Ctx>()
   const data = DATA[$.typeCn]
   if (!data) return null
 
@@ -32,4 +34,4 @@ function Target(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Target)
+export default ob(Target)

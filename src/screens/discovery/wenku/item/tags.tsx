@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-09-21 00:33:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:39:26
+ * @Last Modified time: 2024-11-16 11:20:27
  */
 import React from 'react'
 import { Tags as CompTags } from '@_'
+import { useStore } from '@stores'
 import { desc } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Tags({ value }, { $ }: Ctx) {
+function Tags({ value }) {
+  const { $ } = useStore<Ctx>()
   if (!value || typeof value !== 'string') return null
 
   const { tags: selected } = $.state.query
@@ -18,4 +20,4 @@ function Tags({ value }, { $ }: Ctx) {
   return <CompTags value={tags} />
 }
 
-export default obc(Tags)
+export default ob(Tags)

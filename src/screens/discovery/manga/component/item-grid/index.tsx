@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:01:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 22:32:14
+ * @Last Modified time: 2024-11-16 11:14:13
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
+function ItemGrid({ pickIndex, index, num }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
   const manga = otaStore.manga(subjectId)
@@ -55,4 +56,4 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid, COMPONENT)
+export default ob(ItemGrid, COMPONENT)

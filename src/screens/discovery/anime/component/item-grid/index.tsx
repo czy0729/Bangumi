@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 19:35:58
+ * @Last Modified time: 2024-11-16 10:25:22
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemGrid({ index, pickIndex, num }, { navigation }: Ctx) {
+function ItemGrid({ index, pickIndex, num }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const { id, ageId, image, cn, jp, score, begin, rank } = otaStore.anime(subjectId)
@@ -54,4 +55,4 @@ function ItemGrid({ index, pickIndex, num }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid, COMPONENT)
+export default ob(ItemGrid, COMPONENT)

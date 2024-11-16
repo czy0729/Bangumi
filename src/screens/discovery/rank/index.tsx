@@ -2,35 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-01 11:54:41
+ * @Last Modified time: 2024-11-16 09:39:54
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Layout from './component/layout'
 import Pagination from './component/pagination'
 import ToolBar from './component/tool-bar'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useRankPage } from './hooks'
 
 /** 排行榜 */
-const Rank = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Rank = (props: NavigationProps) => {
+  const { id, $ } = useRankPage(props)
 
   return useObserver(() => (
     <Component id='screen-rank'>
-      <Header />
-      <Page>
-        {$.state.fixed && <ToolBar />}
-        {$.state._loaded && <Layout />}
-        {$.state.fixedPagination && <Pagination />}
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page>
+          {$.state.fixed && <ToolBar />}
+          {$.state._loaded && <Layout />}
+          {$.state.fixedPagination && <Pagination />}
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Rank)
+export default Rank

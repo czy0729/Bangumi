@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:56:27
+ * @Last Modified time: 2024-11-16 11:48:28
  */
 import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
-import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 const EVENT = {
   id: 'Hentai.跳转'
 } as const
 
-function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
+function ItemGrid({ pickIndex, index, num }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.hentaiSubjectId(pickIndex)
   const { id, i: image, c: cn, a: air, s: score, r: rank } = otaStore.hentai(subjectId)
@@ -56,4 +57,4 @@ function ItemGrid({ pickIndex, index, num }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid)
+export default ob(ItemGrid)

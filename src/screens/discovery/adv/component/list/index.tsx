@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 17:26:17
+ * @Last Modified time: 2024-11-16 10:17:40
  */
 import React from 'react'
 import { Loading } from '@components'
 import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { TEXT_UPDATE_GAME } from '@constants'
 import { ADVANCE_LIMIT, filterDS } from '../../ds'
@@ -18,10 +18,10 @@ import ItemGrid from '../item-grid'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 
-class List extends React.Component {
+class List extends React.Component<Ctx> {
   connectRef = (ref: { scrollToOffset: any }) => {
-    const { $ } = this.context as Ctx
     if (ref && ref.scrollToOffset) {
+      const { $ } = this.props
       $.scrollToOffset = ref.scrollToOffset
     }
   }
@@ -31,7 +31,7 @@ class List extends React.Component {
   }
 
   renderItem = ({ item: pickIndex, index }) => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     if ($.isList) return <Item pickIndex={pickIndex} index={index} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
@@ -57,7 +57,7 @@ class List extends React.Component {
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (
@@ -86,4 +86,4 @@ class List extends React.Component {
   }
 }
 
-export default obc(List)
+export default ob(List)

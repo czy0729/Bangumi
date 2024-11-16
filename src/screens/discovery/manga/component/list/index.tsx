@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 05:36:35
+ * @Last Modified time: 2024-11-16 11:15:27
  */
 import React from 'react'
 import { Loading } from '@components'
 import { Filter, PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { TEXT_UPDATE_MANGA } from '@constants'
 import { ADVANCE_LIMIT, filterDS } from '../../ds'
@@ -17,21 +17,21 @@ import Item from '../item'
 import ItemGrid from '../item-grid'
 import { COMPONENT } from './ds'
 
-class List extends React.Component {
+class List extends React.Component<Ctx> {
   connectRef = (ref: { scrollToOffset: any }) => {
-    if (ref && ref.scrollToOffset) this.$.scrollToOffset = ref.scrollToOffset
+    if (ref && ref.scrollToOffset) {
+      const { $ } = this.props
+      $.scrollToOffset = ref.scrollToOffset
+    }
   }
 
   get num() {
     return _.portrait(3, 5)
   }
 
-  get $() {
-    return (this.context as Ctx).$
-  }
-
   renderItem = ({ item: pickIndex, index }) => {
-    if (this.$.isList) return <Item pickIndex={pickIndex} />
+    const { $ } = this.props
+    if ($.isList) return <Item pickIndex={pickIndex} />
 
     return <ItemGrid pickIndex={pickIndex} index={index} num={this.num} />
   }
@@ -55,7 +55,8 @@ class List extends React.Component {
   render() {
     r(COMPONENT)
 
-    const { _loaded, layout, data } = this.$.state
+    const { $ } = this.props
+    const { _loaded, layout, data } = $.state
     if (!_loaded && !data._loaded) {
       return (
         <>
@@ -65,7 +66,7 @@ class List extends React.Component {
       )
     }
 
-    const numColumns = this.$.isList ? undefined : this.num
+    const numColumns = $.isList ? undefined : this.num
     return (
       <PaginationList2
         key={`${layout}${numColumns}`}
@@ -73,17 +74,17 @@ class List extends React.Component {
         connectRef={this.connectRef}
         contentContainerStyle={_.container.bottom}
         numColumns={numColumns}
-        data={this.$.list}
+        data={$.list}
         limit={9}
         ListHeaderComponent={this.renderFilter()}
         renderItem={this.renderItem}
-        onPage={this.$.onPage}
+        onPage={$.onPage}
       />
     )
   }
 }
 
-export default obc(List)
+export default ob(List)
 
 export function keyExtractor(item: any) {
   return String(item)

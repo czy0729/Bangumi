@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:25:03
+ * @Last Modified time: 2024-11-16 09:49:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ToolBar as ToolBarComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Area from './area'
 import Classification from './classification'
@@ -26,7 +27,8 @@ import Year from './year'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   const showExpand = $.typeCn !== '音乐'
   return (
     <View style={styles.scale}>
@@ -54,4 +56,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

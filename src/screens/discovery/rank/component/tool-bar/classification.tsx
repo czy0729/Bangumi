@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-22 07:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:14:15
+ * @Last Modified time: 2024-11-16 09:46:36
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_CLASSIFICATION } from '@constants'
 import { Ctx } from '../../types'
 
@@ -15,7 +16,8 @@ const DATA = {
 } as const
 
 /** 分级 */
-function Classification(_props, { $ }: Ctx) {
+function Classification() {
+  const { $ } = useStore<Ctx>()
   const data = DATA[$.typeCn]
   if (!data) return null
 
@@ -31,4 +33,4 @@ function Classification(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Classification)
+export default ob(Classification)

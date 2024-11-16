@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-22 07:08:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:13:26
+ * @Last Modified time: 2024-11-16 09:46:11
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_ANIME_AREA, DATA_REAL_AREA } from '@constants'
 import { Ctx } from '../../types'
 
@@ -16,7 +17,8 @@ const DATA = {
 } as const
 
 /** 地区 */
-function Area(_props, { $ }: Ctx) {
+function Area() {
+  const { $ } = useStore<Ctx>()
   const data = DATA[$.typeCn]
   if (!data) return null
 
@@ -32,4 +34,4 @@ function Area(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Area)
+export default ob(Area)

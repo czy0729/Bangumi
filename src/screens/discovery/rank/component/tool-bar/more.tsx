@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-03 13:18:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 06:14:45
+ * @Last Modified time: 2024-11-16 09:49:30
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
 /** 额外选项 */
-function More(_props, { $ }: Ctx) {
+function More() {
+  const { $ } = useStore<Ctx>()
   const { list, fixed, fixedPagination, collected } = $.state
   return (
     <ToolBar.Popover
@@ -36,4 +37,4 @@ function More(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(More)
+export default ob(More)

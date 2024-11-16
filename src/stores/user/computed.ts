@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:09:34
+ * @Last Modified time: 2024-11-16 11:24:17
  */
 import { computed } from 'mobx'
-import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, HOST, LIST_EMPTY, UA, WEB } from '@constants'
+import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, DEV, HOST, LIST_EMPTY, UA, WEB } from '@constants'
 import {
   CollectionStatusCn,
   EpId,
@@ -242,7 +242,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 是否限制内容展示, 用于审核 */
   @computed get isLimit() {
     const { id } = this.userInfo
-    return !this.isLogin || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH
+    return !DEV && (!this.isLogin || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH)
   }
 
   /** api.v0 需要使用的 headers */

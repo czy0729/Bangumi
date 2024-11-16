@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:30:54
+ * @Last Modified time: 2024-11-16 10:16:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,16 +11,17 @@ import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { formatPlaytime, HTMLDecode, showImageViewer, stl, x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { IMG_DEFAULT, IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../../types'
 import { getThumbs } from './utils'
 import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, pickIndex }, { navigation }: Ctx) {
+function Item({ index, pickIndex }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.advSubjectId(pickIndex)
   const adv = otaStore.adv(subjectId)
@@ -107,7 +108,7 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
           {!!thumbs.length && (
             <View style={styles.thumbs}>
               <HorizontalList
-                data={thumbs.filter((item, index) => index < 3)}
+                data={thumbs.filter((_item, index) => index < 3)}
                 renderItem={(item, index) => (
                   <Image
                     style={stl(!!index && _.ml.sm, index === thumbs.length - 1 && _.mr.md)}
@@ -158,4 +159,4 @@ function Item({ index, pickIndex }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

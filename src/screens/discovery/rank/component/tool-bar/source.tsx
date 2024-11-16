@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-10-19 17:18:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 19:31:53
+ * @Last Modified time: 2024-11-16 09:53:04
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_SOURCE } from '@constants'
 import { Ctx } from '../../types'
 
@@ -15,7 +16,8 @@ const DATA = {
 } as const
 
 /** 来源 */
-function Source(_props, { $ }: Ctx) {
+function Source() {
+  const { $ } = useStore<Ctx>()
   const data = DATA[$.typeCn]
   if (!data) return null
 
@@ -31,4 +33,4 @@ function Source(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Source)
+export default ob(Source)

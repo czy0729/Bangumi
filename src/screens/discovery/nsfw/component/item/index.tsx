@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-07-20 11:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:25:38
+ * @Last Modified time: 2024-11-16 11:38:25
  */
 import React from 'react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import {
   IMG_DEFAULT,
   IMG_HEIGHT_LG,
@@ -19,11 +20,11 @@ import {
   TEXT_ONLY
 } from '@constants'
 import { CollectionStatus } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ pickIndex }, { $, navigation }: Ctx) {
+function Item({ pickIndex }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const subjectId = otaStore.nsfwSubjectId(pickIndex)
   const { id, title, cover, score, total, rank, info, date, eps } = otaStore.nsfw(subjectId)
@@ -106,4 +107,4 @@ function Item({ pickIndex }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)
