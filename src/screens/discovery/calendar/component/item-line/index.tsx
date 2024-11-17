@@ -2,21 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 12:40:20
+ * @Last Modified time: 2024-11-17 01:20:37
  */
 import React from 'react'
-import { collectionStore, systemStore } from '@stores'
+import { collectionStore, systemStore, useStore } from '@stores'
 import { getOnAirItem } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import ItemLine from './item-line'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemLineWrap(
-  { subjectId, images, name, desc, time, prevTime, rank, score, total, section, index },
-  { $ }: Ctx
-) {
+function ItemLineWrap({
+  subjectId,
+  images,
+  name,
+  desc,
+  time,
+  prevTime,
+  rank,
+  score,
+  total,
+  section,
+  index
+}) {
+  const { $ } = useStore<Ctx>()
   const { expand } = $.state
   if (!expand && !time) return null
 
@@ -61,4 +71,4 @@ function ItemLineWrap(
   )
 }
 
-export default obc(ItemLineWrap, COMPONENT)
+export default ob(ItemLineWrap, COMPONENT)

@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:57:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-04 07:27:32
+ * @Last Modified time: 2024-11-17 08:15:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn } from '@utils'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ id, name, detail, userName, userId, time }, { navigation }: Ctx) {
+function Item({ id, name, detail, userName, userId, time }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <View style={styles.item}>
@@ -59,4 +60,4 @@ function Item({ id, name, detail, userName, userId, time }, { navigation }: Ctx)
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

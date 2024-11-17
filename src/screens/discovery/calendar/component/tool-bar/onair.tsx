@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 08:46:42
+ * @Last Modified time: 2024-11-17 01:24:42
  */
 import React, { useMemo } from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { c } from '@utils/decorators'
+import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
@@ -15,17 +14,18 @@ import { getData } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Onair({ list, adapt, tag, origin }, { $ }: Ctx) {
+function Onair({ list, adapt, tag, origin }) {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const { adapts, tags, origins } = getData(list, {
     adapt,
     tag,
     origin
   })
-  const adaptsDS = useMemo(() => ['全部', ...adapts], [adapts.length])
-  const tagsDS = useMemo(() => ['全部', ...tags], [tags.length])
-  const originDS = useMemo(() => ['全部', ...origins], [origins.length])
+  const adaptsDS = useMemo(() => ['全部', ...adapts], [adapts])
+  const tagsDS = useMemo(() => ['全部', ...tags], [tags])
+  const originDS = useMemo(() => ['全部', ...origins], [origins])
 
   return useObserver(() => (
     <>
@@ -63,4 +63,4 @@ function Onair({ list, adapt, tag, origin }, { $ }: Ctx) {
   ))
 }
 
-export default c(Onair)
+export default Onair

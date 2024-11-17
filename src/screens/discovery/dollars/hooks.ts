@@ -2,14 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-04-06 12:30:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 12:32:28
+ * @Last Modified time: 2024-11-17 07:34:22
  */
-import React, { useRef } from 'react'
+import { useRef } from 'react'
+import { useInitStore } from '@stores'
 import { useMount, useRunAfter } from '@utils/hooks'
+import { NavigationProps } from '@types'
+import store from './store'
 import { Ctx } from './types'
 
 /** Dollars 页面逻辑 */
-export function useDollarsPage({ $ }: Ctx) {
+export function useDollarsPage(props: NavigationProps) {
+  const context = useInitStore<Ctx['$']>(props, store)
+  const { $ } = context
+
   useRunAfter(() => {
     $.init()
   })
@@ -26,4 +32,6 @@ export function useDollarsPage({ $ }: Ctx) {
       clearInterval(interval.current)
     }
   })
+
+  return context
 }

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:13:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 21:12:45
+ * @Last Modified time: 2024-11-17 07:23:44
  */
 import React from 'react'
 import { Button, ToolBar as ToolBarComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Collect from './collect'
 import Layout from './layout'
@@ -16,7 +16,8 @@ import Sort from './sort'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBarComp>
       <Sort />
@@ -36,4 +37,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

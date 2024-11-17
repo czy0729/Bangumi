@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-05 04:51:43
+ * @Last Modified time: 2024-11-17 08:09:28
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { Notice } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { SubjectType } from '@types'
+import { Override, SubjectType } from '@types'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Filter from '../filter'
@@ -18,10 +18,15 @@ import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 
-class List extends React.Component<{
-  title: string
-  id: SubjectType
-}> {
+class List extends React.Component<
+  Override<
+    Ctx,
+    {
+      title: string
+      id: SubjectType
+    }
+  >
+> {
   static defaultProps = {
     title: '全部'
   }
@@ -31,12 +36,12 @@ class List extends React.Component<{
   }
 
   onHeaderRefresh = () => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     return $.fetchList(this.id, true)
   }
 
   onFooterRefresh = () => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     return $.fetchList(this.id)
   }
 
@@ -47,7 +52,7 @@ class List extends React.Component<{
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const list = $.list(this.id)
     const numColumns = _.num(4)
     return (
@@ -83,4 +88,4 @@ class List extends React.Component<{
   }
 }
 
-export default obc(List)
+export default ob(List)

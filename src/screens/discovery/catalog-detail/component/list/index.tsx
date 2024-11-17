@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-09-06 15:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 21:24:44
+ * @Last Modified time: 2024-11-17 07:23:01
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TEXT_18X } from '@constants/text'
 import { Ctx } from '../../types'
 import Info from '../info'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List({ onScroll }, { $ }: Ctx) {
+function List({ onScroll }) {
+  const { $ } = useStore<Ctx>()
   const numColumns = $.isList ? undefined : $.gridNum
   return (
     <PaginationList2
@@ -36,4 +37,4 @@ function List({ onScroll }, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

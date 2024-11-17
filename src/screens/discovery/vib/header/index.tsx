@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-05-04 18:58:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-01 15:28:58
+ * @Last Modified time: 2024-11-17 08:11:07
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
 import { Props } from './types'
@@ -46,4 +46,4 @@ function Header({ navigation, data, onSelect }: Props) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

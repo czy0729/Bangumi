@@ -2,33 +2,33 @@
  * @Author: czy0729
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:27:56
+ * @Last Modified time: 2024-11-17 08:08:06
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import Tabs from './component/tabs'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useTagsPage } from './hooks'
 
 /** 标签 */
-const Tags = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Tags = (props: NavigationProps) => {
+  const { id, $ } = useTagsPage(props)
 
   return useObserver(() => (
     <Component id='screen-tags'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <Tabs />
-      </Page>
-      <Extra />
+      <StoreContext.Provider value={id}>
+        <Page loaded={$.state._loaded}>
+          <Tabs />
+        </Page>
+        <Extra />
+        <Header />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Tags)
+export default Tags

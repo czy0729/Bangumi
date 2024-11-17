@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-08-09 19:55:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 19:57:06
+ * @Last Modified time: 2024-11-17 07:23:06
  */
 import React from 'react'
 import { FolderManageModal } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Modal(_props, { $ }: Ctx) {
+function Modal() {
+  const { $ } = useStore<Ctx>()
   return (
     <FolderManageModal
       id={$.catalogId}
@@ -22,4 +24,4 @@ function Modal(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Modal, COMPONENT)
+export default ob(Modal, COMPONENT)

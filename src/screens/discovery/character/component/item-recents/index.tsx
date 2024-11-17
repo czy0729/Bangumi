@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:43:14
+ * @Last Modified time: 2024-11-17 07:32:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,18 +11,16 @@ import { getCoverSrc } from '@components/cover/utils'
 import { Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { cnjp, HTMLDecode, stl, x18 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { IMG_HEIGHT_LG, IMG_WIDTH_LG, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemRecents(
-  { index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] },
-  { navigation }: Ctx
-) {
+function ItemRecents({ index, id, cover, name, nameJP, type, info, star, starInfo, actors = [] }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
   const onPress = () => {
@@ -131,4 +129,4 @@ function ItemRecents(
   )
 }
 
-export default obc(ItemRecents, COMPONENT)
+export default ob(ItemRecents, COMPONENT)

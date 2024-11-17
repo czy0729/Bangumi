@@ -2,33 +2,32 @@
  * @Author: czy0729
  * @Date: 2021-04-15 19:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 17:07:22
+ * @Last Modified time: 2024-11-17 08:05:43
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useStaffPage } from './hooks'
 
 /** 新番 */
-const Staff = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Staff = (props: NavigationProps) => {
+  const { id } = useStaffPage(props)
 
   return useObserver(() => (
     <Component id='screen-staff'>
-      <Header />
-      <Page>
-        <List />
-      </Page>
-      <Heatmap bottom={_.bottom} id='新番' screen='Staff' />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page>
+          <List />
+        </Page>
+        <Heatmap bottom={_.bottom} id='新番' screen='Staff' />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Staff)
+export default Staff

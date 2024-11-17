@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-11-02 08:08:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 19:52:56
+ * @Last Modified time: 2024-11-17 08:18:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
 import { CUT_TYPE, METAS } from '../../ds'
 import { Ctx } from '../../types'
@@ -19,7 +19,8 @@ import { styles } from './styles'
 
 const SUBJECT_TYPE_DS = SUBJECT_TYPE.map(item => item.title)
 
-function Filter(_props, { $ }: Ctx) {
+function Filter() {
+  const { $ } = useStore<Ctx>()
   if (!$.userId) return null
 
   const positions = ['全部职位', ...$.positions]
@@ -106,4 +107,4 @@ function Filter(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Filter, COMPONENT)
+export default ob(Filter, COMPONENT)

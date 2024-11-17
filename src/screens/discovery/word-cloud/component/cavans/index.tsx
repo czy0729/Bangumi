@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-26 18:30:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-02 11:15:59
+ * @Last Modified time: 2024-11-17 08:18:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MAX_PAGE } from '../../ds'
 import { Ctx } from '../../types'
 import RNWordCloud from '../react-native-wordcloud'
@@ -16,7 +16,8 @@ import { getWords } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Cavans(_props, { $ }: Ctx) {
+function Cavans() {
+  const { $ } = useStore<Ctx>()
   if (!$.state._loaded) return null
 
   const styles = memoStyles()
@@ -59,4 +60,4 @@ function Cavans(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Cavans, COMPONENT)
+export default ob(Cavans, COMPONENT)

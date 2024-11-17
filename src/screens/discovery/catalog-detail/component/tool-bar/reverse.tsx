@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-10-24 21:04:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-24 21:11:40
+ * @Last Modified time: 2024-11-17 07:24:01
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Reverse(_props, { $ }: Ctx) {
+function Reverse() {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBar.Icon
       iconStyle={{
@@ -25,4 +27,4 @@ function Reverse(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Reverse)
+export default ob(Reverse)

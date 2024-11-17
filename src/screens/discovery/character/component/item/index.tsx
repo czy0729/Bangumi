@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 16:03:21
+ * @Last Modified time: 2024-11-17 07:32:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Image, Katakana, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, id, avatar, name }, { navigation }: Ctx) {
+function Item({ index, id, avatar, name }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <View style={stl(styles.item, index % _.portrait(5, 8) === 0 && styles.left)}>
@@ -44,4 +45,4 @@ function Item({ index, id, avatar, name }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

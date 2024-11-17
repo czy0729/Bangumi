@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:21:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 16:45:15
+ * @Last Modified time: 2024-11-17 06:54:07
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import T2S from '../component/t2s'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title='搜索'
@@ -39,4 +41,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

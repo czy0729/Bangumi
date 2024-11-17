@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-08-10 13:59:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 14:11:31
+ * @Last Modified time: 2024-11-17 07:22:10
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { simpleTime } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Desc(_props, { $, navigation }: Ctx) {
+function Desc() {
+  const { $, navigation } = useStore<Ctx>()
   const { avatar, nickname, userId, time } = $.detail
   if (!nickname || time) return null
 
@@ -51,4 +52,4 @@ function Desc(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Desc, COMPONENT)
+export default ob(Desc, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:01:02
+ * @Last Modified time: 2024-11-17 06:48:48
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -318,9 +318,9 @@ export type RouteTags = Route<
   }
 >
 
-export type RouteSearch = (
-  path: 'Search',
-  params: {
+export type RouteSearch = Route<
+  'Search',
+  {
     type?: string
     value?: string
 
@@ -330,7 +330,7 @@ export type RouteSearch = (
     /** 若使用 _value 而不使用 value, 会导致页面可能不刷新 */
     _value?: string
   }
-) => any
+>
 
 export type RouteMono = Route<
   'Mono',

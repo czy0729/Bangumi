@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-05 11:48:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 13:49:38
+ * @Last Modified time: 2024-11-17 08:00:35
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_AIRTIME } from '@constants'
 import { Ctx } from '../../types'
 
-function Year(props, { $ }: Ctx) {
+function Year() {
+  const { $ } = useStore<Ctx>()
   const { airtime } = $.state
   return (
     <ToolBar.Popover
@@ -22,4 +24,4 @@ function Year(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Year)
+export default ob(Year)

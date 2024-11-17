@@ -2,33 +2,35 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 20:02:12
+ * @Last Modified time: 2024-11-17 07:17:30
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import List from './component/list'
 import Modal from './component/modal'
 import Tips from './component/tips'
 import Header from './header'
 import { useCatalogDetailPage } from './hooks'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 目录详情 */
-const CatalogDetail = (_props, context: Ctx) => {
-  const { fixed, onScroll } = useCatalogDetailPage(context)
+const CatalogDetail = (props: NavigationProps) => {
+  const { id, fixed, onScroll } = useCatalogDetailPage(props)
+
   return useObserver(() => (
     <Component id='screen-catalog-detail'>
-      <Header fixed={fixed} />
-      <Page statusBarEvent={false}>
-        <List onScroll={onScroll} />
-        <Tips />
-      </Page>
-      <Modal />
+      <StoreContext.Provider value={id}>
+        <Header fixed={fixed} />
+        <Page statusBarEvent={false}>
+          <List onScroll={onScroll} />
+          <Tips />
+        </Page>
+        <Modal />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, CatalogDetail)
+export default CatalogDetail

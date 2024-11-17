@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-29 04:00:51
+ * @Last Modified time: 2024-11-17 01:20:00
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { CalendarItem } from '@stores/calendar/types'
 import { cnjp, date, getTimestamp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { getTime } from '../../utils'
 import ItemGrid from '../item-grid'
@@ -20,7 +20,8 @@ import Line from './line'
 let day = new Date().getDay()
 if (day === 0) day = 7
 
-function Item({ item, section }, { $ }: Ctx) {
+function Item({ item, section }) {
+  const { $ } = useStore<Ctx>()
   const items = item.items as CalendarItem[]
   const current = parseInt(date('Hi', getTimestamp()))
   let renderLine = false
@@ -90,4 +91,4 @@ function Item({ item, section }, { $ }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

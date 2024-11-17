@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 12:36:22
+ * @Last Modified time: 2024-11-17 07:36:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, UserStatus } from '@components'
 import { Avatar, InView } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
+function Item({ index, avatar, nickname, msg, color }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const userId = String(avatar).match(/\/(\d+)\.jpg/)?.[1]
   return (
@@ -69,4 +70,4 @@ function Item({ index, avatar, nickname, msg, color }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

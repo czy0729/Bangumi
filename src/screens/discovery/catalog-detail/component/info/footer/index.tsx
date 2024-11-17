@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-08-10 13:59:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 14:40:50
+ * @Last Modified time: 2024-11-17 07:22:21
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Footer(_props, { $, navigation }: Ctx) {
+function Footer() {
+  const { $, navigation } = useStore<Ctx>()
   const { userId, replyCount } = $.detail
   const replyText = replyCount == 5 ? '5+' : replyCount
   return (
@@ -59,4 +61,4 @@ function Footer(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Footer, COMPONENT)
+export default ob(Footer, COMPONENT)

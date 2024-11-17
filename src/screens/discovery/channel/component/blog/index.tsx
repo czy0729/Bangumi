@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-05-04 15:40:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 05:22:51
+ * @Last Modified time: 2024-11-17 07:28:32
  */
 import React from 'react'
 import { View } from 'react-native'
 import { IconNavigate, ItemBlog, SectionTitle } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Blog(_props, { $, navigation }: Ctx) {
+function Blog() {
+  const { $, navigation } = useStore<Ctx>()
   const { blog = [] } = $.channel
   return (
     <View style={_.mt.lg}>
@@ -57,4 +58,4 @@ function Blog(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Blog, COMPONENT)
+export default ob(Blog, COMPONENT)

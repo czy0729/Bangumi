@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-04 18:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 05:47:34
+ * @Last Modified time: 2024-11-17 07:29:30
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 import { IconNavigate, SectionTitle } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import ItemLg from './item-lg'
@@ -17,7 +17,8 @@ import ItemSm from './item-sm'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Rank(_props, { $, navigation }: Ctx) {
+function Rank() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { rank = [] } = $.channel
   const top = rank.slice(0, 3)
@@ -60,4 +61,4 @@ function Rank(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Rank, COMPONENT)
+export default ob(Rank, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 05:38:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 17:38:32
+ * @Last Modified time: 2024-11-17 07:11:05
  */
 import { EventKeys } from '@constants/events'
 import { ColorValue, Override, ReactNode, TextStyle, ViewStyle } from '@types'
@@ -11,6 +11,8 @@ import { IconfontNames } from '../iconfont/types'
 import { TextType } from '../text'
 import { Props as TouchableProps } from '../touchable/types'
 
+type Data = (string | number)[] | readonly (string | number)[]
+
 export type ToolBarIconProps = {
   icon: IconfontNames
   iconStyle?: TextStyle
@@ -18,10 +20,10 @@ export type ToolBarIconProps = {
   onSelect: (event?: any) => any
 }
 
-export type ToolBarPopoverProps<Data extends string[] | readonly string[]> = {
+export type ToolBarPopoverProps<T extends Data> = {
   style?: ViewStyle
   itemStyle?: ViewStyle
-  data: Data
+  data: T
   icon?: IconfontNames
   iconColor?: ColorValue
   iconSize?: number
@@ -29,7 +31,7 @@ export type ToolBarPopoverProps<Data extends string[] | readonly string[]> = {
   text?: string | number | false
   heatmap?: EventKeys
   transparent?: boolean
-  onSelect?: (title?: Data[number], index?: number) => any
+  onSelect?: (title?: T[number], index?: number) => any
 }
 
 export type ToolBarTouchableProps = {
@@ -49,8 +51,6 @@ type ToolBarProps = Override<
 export interface IToolBar {
   (props: ToolBarProps): JSX.Element
   Icon?: (props: ToolBarIconProps) => JSX.Element
-  Popover?: <Data extends string[] | readonly string[]>(
-    props: ToolBarPopoverProps<Data>
-  ) => JSX.Element
+  Popover?: <T extends Data>(props: ToolBarPopoverProps<T>) => JSX.Element
   Touchable?: (props: ToolBarTouchableProps) => JSX.Element
 }

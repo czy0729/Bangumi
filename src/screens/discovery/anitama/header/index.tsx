@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-11 18:03:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-04 22:35:30
+ * @Last Modified time: 2024-11-16 12:07:16
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { NEWS } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   const { useWebView } = $.state
   return (
     <HeaderComp
@@ -58,4 +59,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

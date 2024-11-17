@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 19:55:47
+ * @Last Modified time: 2024-11-17 08:19:52
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ActionSheet, Avatar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Fn, ReactNode } from '@types'
 import { Ctx } from '../../types'
@@ -22,7 +22,8 @@ import {
   NUM_COLUMNS
 } from './ds'
 
-function SelectedList(_props, { $, navigation }: Ctx) {
+function SelectedList() {
+  const { $, navigation } = useStore<Ctx>()
   const isCollection = !!$.userId
   let titleLeft: ReactNode
   let handleTitle: Fn
@@ -105,4 +106,4 @@ function SelectedList(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SelectedList, COMPONENT)
+export default ob(SelectedList, COMPONENT)

@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-05 11:50:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:40:22
+ * @Last Modified time: 2024-11-17 08:00:07
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_FILTER } from '../../ds'
 import { Ctx } from '../../types'
 
-function Filter(props, { $ }: Ctx) {
+function Filter() {
+  const { $ } = useStore<Ctx>()
   const { filter } = $.state
   return (
     <ToolBar.Popover
@@ -22,4 +24,4 @@ function Filter(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Filter)
+export default ob(Filter)

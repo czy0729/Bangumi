@@ -2,23 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-05-04 16:32:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 14:52:38
+ * @Last Modified time: 2024-11-17 07:29:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, SectionTitle } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { findSubjectCn, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COVER_HEIGHT_SM, COVER_WIDTH_SM } from '../rank/ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Friends(_props, { $, navigation }: Ctx) {
+function Friends() {
+  const { $, navigation } = useStore<Ctx>()
   const { friends = [] } = $.channel
   if (!friends.length) return null
 
@@ -99,4 +100,4 @@ function Friends(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Friends, COMPONENT)
+export default ob(Friends, COMPONENT)

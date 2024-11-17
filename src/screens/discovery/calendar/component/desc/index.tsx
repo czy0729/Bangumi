@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:27:52
+ * @Last Modified time: 2024-11-17 01:19:05
  */
 import React from 'react'
 import { Text } from '@components'
+import { useStore } from '@stores'
 import { getOnAirItem } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { ReactNode } from '@types'
 import { Ctx } from '../../types'
 import { Props } from './type'
 import { COMPONENT } from './ds'
 
-function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Props, { $ }: Ctx) {
+function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Props) {
+  const { $ } = useStore<Ctx>()
   if (filterToShow && !($.state.adapt || $.state.origin || $.state.tag)) return null
 
   const els: ReactNode[] = []
@@ -83,4 +85,4 @@ function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Prop
   )
 }
 
-export default obc(Desc, COMPONENT)
+export default ob(Desc, COMPONENT)

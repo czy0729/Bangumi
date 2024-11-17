@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-09-27 19:27:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 07:27:12
+ * @Last Modified time: 2024-11-17 08:19:35
  */
 import React from 'react'
 import { View } from 'react-native'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Topic(_props, { $ }: Ctx) {
+function Topic() {
+  const { $ } = useStore<Ctx>()
   if (!$.topic?.title) return null
 
   const styles = memoStyles()
@@ -74,4 +75,4 @@ function Topic(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Topic, COMPONENT)
+export default ob(Topic, COMPONENT)

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-05-04 20:01:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 17:09:10
+ * @Last Modified time: 2024-11-17 07:28:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { SectionTitle } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { findSubjectCn } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Discuss(_props, { $, navigation }: Ctx) {
+function Discuss() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { discuss = [] } = $.channel
   return (
@@ -80,4 +81,4 @@ function Discuss(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Discuss, COMPONENT)
+export default ob(Discuss, COMPONENT)

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 16:13:10
+ * @Last Modified time: 2024-11-17 07:32:47
  */
 import React, { useCallback } from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
@@ -16,11 +15,12 @@ import { renderItem, renderItemRecents } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List({ id }, { $ }: Ctx) {
+function List({ id }) {
   r(COMPONENT)
 
-  const handleHeaderRefresh = useCallback(() => $.fetchList(id, true), [])
-  const handleFooterRefresh = useCallback(() => $.fetchList(id), [])
+  const { $ } = useStore<Ctx>()
+  const handleHeaderRefresh = useCallback(() => $.fetchList(id, true), [$, id])
+  const handleFooterRefresh = useCallback(() => $.fetchList(id), [$, id])
 
   return useObserver(() => {
     const list = $.list(id)
@@ -43,4 +43,4 @@ function List({ id }, { $ }: Ctx) {
   })
 }
 
-export default c(List)
+export default List

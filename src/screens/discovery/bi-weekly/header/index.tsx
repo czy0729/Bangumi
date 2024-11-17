@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:56:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 22:51:13
+ * @Last Modified time: 2024-11-16 12:12:28
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
-import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { navigation }: Ctx) {
+function Header() {
+  const navigation = useNavigation()
   return (
     <HeaderComp
       title='Bangumi 半月刊'
@@ -46,4 +47,4 @@ function Header(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

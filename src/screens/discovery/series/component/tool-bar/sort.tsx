@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-05 11:47:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-28 00:39:37
+ * @Last Modified time: 2024-11-17 08:00:21
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_SORT } from '../../ds'
 import { Ctx } from '../../types'
 
-function Sort(props, { $ }: Ctx) {
+function Sort() {
+  const { $ } = useStore<Ctx>()
   const { sort } = $.state
   return (
     <ToolBar.Popover
@@ -25,4 +26,4 @@ function Sort(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Sort)
+export default ob(Sort)

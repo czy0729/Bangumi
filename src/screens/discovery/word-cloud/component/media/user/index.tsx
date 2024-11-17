@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-11-01 23:25:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-02 08:21:01
+ * @Last Modified time: 2024-11-17 08:19:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, BLURVIEW_TINT_DARK, Flex, Text } from '@components'
 import { BlurView } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function User(_props, { $ }: Ctx) {
+function User() {
+  const { $ } = useStore<Ctx>()
   if (!$.users?.userId) return null
 
   const styles = memoStyles()
@@ -67,4 +68,4 @@ function User(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(User, COMPONENT)
+export default ob(User, COMPONENT)

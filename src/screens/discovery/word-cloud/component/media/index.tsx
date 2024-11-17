@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:32:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 19:57:51
+ * @Last Modified time: 2024-11-17 08:19:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { ReactNode } from '@types'
 import { Ctx } from '../../types'
@@ -18,7 +18,8 @@ import Topic from './topic'
 import User from './user'
 import { COMPONENT } from './ds'
 
-function Media(_props, { $, navigation }: Ctx) {
+function Media() {
+  const { $, navigation } = useStore<Ctx>()
   let el: ReactNode
   if ($.subjectId) {
     el = <Subject />
@@ -73,4 +74,4 @@ function Media(_props, { $, navigation }: Ctx) {
   return <View style={_.container.wind}>{el}</View>
 }
 
-export default obc(Media, COMPONENT)
+export default ob(Media, COMPONENT)

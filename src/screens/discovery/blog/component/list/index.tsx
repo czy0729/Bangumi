@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 05:56:13
+ * @Last Modified time: 2024-11-17 09:35:17
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Loading, ScrollView } from '@components'
 import { ItemBlog } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Pagination from '../paginantion'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function List({ type }: Props, { $ }: Ctx) {
+function List({ type }: Props) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const blog = $.blog(type)
   return (
@@ -39,4 +40,4 @@ function List({ type }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

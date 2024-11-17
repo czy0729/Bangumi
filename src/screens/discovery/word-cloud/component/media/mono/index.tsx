@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-09-28 16:51:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 07:27:38
+ * @Last Modified time: 2024-11-17 08:19:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { getMonoCoverSmall } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Mono(_props, { $ }: Ctx) {
+function Mono() {
+  const { $ } = useStore<Ctx>()
   if (!$.mono?.name) return null
 
   const styles = memoStyles()
@@ -73,4 +74,4 @@ function Mono(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Mono, COMPONENT)
+export default ob(Mono, COMPONENT)

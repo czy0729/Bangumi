@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-01-09 11:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:20:17
+ * @Last Modified time: 2024-11-17 07:07:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Mesume, ScrollView, Text } from '@components'
 import { ItemCatalog } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Pagination from '../pagination'
 import ToolBar from '../tool-bar'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <ScrollView contentContainerStyle={_.mb.md} scrollToTop>
       {!$.state.fixedFilter && <ToolBar />}
@@ -63,4 +64,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

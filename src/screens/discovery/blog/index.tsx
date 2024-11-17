@@ -2,33 +2,33 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-21 04:45:16
+ * @Last Modified time: 2024-11-17 09:34:46
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Heatmaps from './component/heatmaps'
 import Tabs from './component/tabs'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useDiscoveryBlogPage } from './hooks'
 
 /** 全站日志 */
-const DiscoveryBlog = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const DiscoveryBlog = (props: NavigationProps) => {
+  const { id, $ } = useDiscoveryBlogPage(props)
 
   return useObserver(() => (
     <Component id='screen-discovery-blog'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <Tabs />
-        <Heatmaps />
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <Tabs />
+          <Heatmaps />
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, DiscoveryBlog)
+export default DiscoveryBlog

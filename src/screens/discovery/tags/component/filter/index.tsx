@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2021-12-31 02:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 06:48:54
+ * @Last Modified time: 2024-11-17 08:08:22
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Flex, Iconfont, Input } from '@components'
-import { c } from '@utils/decorators'
+import { useStore } from '@stores'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Filter(_props, { $ }: Ctx) {
+function Filter() {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const [focus, setFocus] = useState(false)
   const handleFocus = useCallback(() => setFocus(true), [])
   const handleBlur = useCallback(() => setFocus(false), [])
@@ -47,4 +48,4 @@ function Filter(_props, { $ }: Ctx) {
   })
 }
 
-export default c(Filter)
+export default Filter

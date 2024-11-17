@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-16 04:01:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 08:53:40
+ * @Last Modified time: 2024-11-17 01:23:12
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import More from './more'
 import OnAir from './onair'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   const { adapt, tag, origin } = $.state
   return (
     <ToolBarComp style={styles.toolBar}>
@@ -24,4 +26,4 @@ function ToolBar(props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

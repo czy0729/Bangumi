@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-07-13 07:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:12:42
+ * @Last Modified time: 2024-11-17 07:41:40
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import Setting from '../component/setting'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   const length = $.state.list[$.state.type]?.length
   return (
     <HeaderComp
@@ -38,4 +39,4 @@ function Header(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

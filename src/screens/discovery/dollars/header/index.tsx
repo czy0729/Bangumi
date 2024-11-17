@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-04-27 16:45:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 13:46:24
+ * @Last Modified time: 2024-11-17 07:36:53
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   const { show } = $.state
   return (
     <HeaderComp
@@ -46,4 +47,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

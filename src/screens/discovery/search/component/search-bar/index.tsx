@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:45:08
+ * @Last Modified time: 2024-11-17 06:53:33
  */
 import React from 'react'
 import { Input } from '@components'
+import { useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_SEARCH_CAT } from '@constants'
 import { SearchCatCn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SearchBar(_props, { $, navigation }: Ctx) {
+function SearchBar() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const label = MODEL_SEARCH_CAT.getLabel<SearchCatCn>($.state.cat)
   return (
@@ -34,4 +36,4 @@ function SearchBar(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SearchBar, COMPONENT)
+export default ob(SearchBar, COMPONENT)

@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-05-24 12:33:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 18:44:00
+ * @Last Modified time: 2024-11-17 07:52:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, ScrollView, Text } from '@components'
 import { ItemSearch } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { desc } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IOS, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT, SORT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $, navigation }: Ctx) {
+function List() {
+  const { $, navigation } = useStore<Ctx>()
   if ($.state.searching) return <Loading style={_.container.flex} />
 
   const { cat } = $.state
@@ -137,4 +138,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

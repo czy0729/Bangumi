@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 12:48:49
+ * @Last Modified time: 2024-11-17 07:36:34
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <PaginationList2
       forwardRef={$.forwardRef}
@@ -30,4 +31,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

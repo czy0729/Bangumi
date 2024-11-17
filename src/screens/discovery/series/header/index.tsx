@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 13:35:43
+ * @Last Modified time: 2024-11-17 08:00:45
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <HeaderComp
       title='关联系列'
@@ -53,4 +54,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

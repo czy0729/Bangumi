@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-08-10 14:06:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 14:12:02
+ * @Last Modified time: 2024-11-17 07:22:36
  */
 import React from 'react'
 import { Flex, Heatmap, Image, UserStatus } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { getCoverLarge } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Thumb(_props, { $ }: Ctx) {
+function Thumb() {
+  const { $ } = useStore<Ctx>()
   const { avatar, userId } = $.detail
   if (!avatar) return null
 
@@ -37,4 +38,4 @@ function Thumb(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Thumb, COMPONENT)
+export default ob(Thumb, COMPONENT)

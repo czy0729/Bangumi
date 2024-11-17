@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-03 22:42:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-19 23:45:44
+ * @Last Modified time: 2024-11-17 08:10:29
  */
 import React, { useCallback } from 'react'
 import { useObserver } from 'mobx-react'
@@ -22,7 +22,7 @@ import { Props } from './types'
 const VIB = ({ navigation }: Props) => {
   const { data, index, loaded, scrollTo, handleSelect } = useVIBPage()
   const current = data[index]
-  const handleForwardRef = useCallback((fn: any) => (scrollTo.current = fn), [])
+  const handleForwardRef = useCallback((fn: any) => (scrollTo.current = fn), [scrollTo])
   const handleScroll = useCallback(() => {
     uiStore.closePopableSubject()
   }, [])

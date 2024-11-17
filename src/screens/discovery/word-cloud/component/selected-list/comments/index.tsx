@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:51:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 16:30:13
+ * @Last Modified time: 2024-11-17 08:20:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Highlight, Text, UserStatus } from '@components'
 import { Name } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { correctAgo } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
@@ -18,7 +18,8 @@ const EVENT = {
   id: '词云.跳转'
 } as const
 
-function Comments(_props, { $, navigation }: Ctx) {
+function Comments() {
+  const { $, navigation } = useStore<Ctx>()
   const { title } = $.state
   return (
     <View style={styles.container}>
@@ -63,4 +64,4 @@ function Comments(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Comments)
+export default ob(Comments)

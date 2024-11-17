@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 07:27:32
+ * @Last Modified time: 2024-11-17 08:19:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView, Rank, Stars } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, IOS } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Subject(_props, { $ }: Ctx) {
+function Subject() {
+  const { $ } = useStore<Ctx>()
   if (!$.subject?.id) return null
 
   const styles = memoStyles()
@@ -75,4 +76,4 @@ function Subject(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Subject, COMPONENT)
+export default ob(Subject, COMPONENT)

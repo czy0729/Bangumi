@@ -2,39 +2,39 @@
  * @Author: czy0729
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-09 22:13:20
+ * @Last Modified time: 2024-11-17 08:14:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Cate from './component/cate'
 import Counts from './component/counts'
 import List from './component/list'
 import Header from './header'
-import Store from './store'
+import { useWikiPage } from './hooks'
 import { styles } from './styles'
-import { Ctx } from './types'
 
 /** 维基人 */
-const Wiki = (props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Wiki = (props: NavigationProps) => {
+  const { id } = useWikiPage(props)
 
   return useObserver(() => (
     <Component id='screen-wiki'>
-      <Header />
-      <Page>
-        <Counts />
-        <View style={styles.list}>
-          <Cate />
-          <List />
-        </View>
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page>
+          <Counts />
+          <View style={styles.list}>
+            <Cate />
+            <List />
+          </View>
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Wiki)
+export default Wiki

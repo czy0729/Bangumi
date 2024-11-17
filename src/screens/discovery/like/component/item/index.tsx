@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:49:13
+ * @Last Modified time: 2024-11-17 07:40:36
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Rate, Stars } from '@_'
-import { _, collectionStore, systemStore, uiStore } from '@stores'
+import { _, collectionStore, systemStore, uiStore, useStore } from '@stores'
 import { alert, getAction } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CollectionStatus, SubjectType, SubjectTypeCn } from '@types'
@@ -22,7 +22,8 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Item({ item }: Props, { $, navigation }: Ctx) {
+function Item({ item }: Props) {
+  const { $, navigation } = useStore<Ctx>()
   const subject = $.subjects(item.id)
   if (!subject || $.state.type !== MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subject.type)) {
     return null
@@ -135,4 +136,4 @@ function Item({ item }: Props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

@@ -2,35 +2,35 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 05:19:33
+ * @Last Modified time: 2024-11-17 07:06:47
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import List from './component/list'
 import Pagination from './component/pagination'
 import ToolBar from './component/tool-bar'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useCatalogPage } from './hooks'
 
 /** 目录 */
-const Catalog = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Catalog = (props: NavigationProps) => {
+  const { id, $ } = useCatalogPage(props)
 
   return useObserver(() => (
     <Component id='screen-catalog'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        {$.state.fixedFilter && <ToolBar />}
-        <List />
-        {$.state.fixedPagination && <Pagination />}
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          {$.state.fixedFilter && <ToolBar />}
+          <List />
+          {$.state.fixedPagination && <Pagination />}
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Catalog)
+export default Catalog

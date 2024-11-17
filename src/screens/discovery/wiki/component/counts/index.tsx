@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-04 07:26:30
+ * @Last Modified time: 2024-11-17 08:15:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView, Text } from '@components'
 import { PreventTouchPlaceholder } from '@_'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { LABEL_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Counts(props, { $ }: Ctx) {
+function Counts() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { counts, lastCounts = [] } = $.wiki
   return (
@@ -58,4 +59,4 @@ function Counts(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Counts, COMPONENT)
+export default ob(Counts, COMPONENT)

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-11-03 04:54:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 19:06:24
+ * @Last Modified time: 2024-11-17 08:20:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, getCoverSrc, Text, Touchable } from '@components'
 import { Stars } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { NUM_COLUMNS } from '../../ds'
@@ -18,7 +18,8 @@ import { Ctx } from '../../../../types'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Item({ item, index }: Props, { $, navigation }: Ctx) {
+function Item({ item, index }: Props) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const width = Math.floor(_.window.contentWidth / (NUM_COLUMNS + 0.2 * NUM_COLUMNS))
   const ts = getTimestamp(item.time)
@@ -88,4 +89,4 @@ function Item({ item, index }: Props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

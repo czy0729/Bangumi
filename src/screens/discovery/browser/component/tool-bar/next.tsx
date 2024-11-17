@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-04 07:24:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-01 13:58:29
+ * @Last Modified time: 2024-11-17 06:59:06
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Next(props, { $ }: Ctx) {
+function Next() {
+  const { $ } = useStore<Ctx>()
   return <ToolBar.Icon icon='md-arrow-forward' iconColor={_.colorDesc} onSelect={$.onAirdateNext} />
 }
 
-export default obc(Next)
+export default ob(Next)

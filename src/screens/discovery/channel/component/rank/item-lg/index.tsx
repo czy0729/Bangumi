@@ -2,32 +2,24 @@
  * @Author: czy0729
  * @Date: 2024-08-20 15:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 17:33:56
+ * @Last Modified time: 2024-11-17 07:29:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Katakana, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Rate, Tag } from '@_'
-import { _, collectionStore } from '@stores'
+import { _, collectionStore, useStore } from '@stores'
 import { ChannelRankItem } from '@stores/discovery/types'
 import { findSubjectCn, HTMLDecode, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COVER_HEIGHT, COVER_WIDTH } from '../ds'
 import { memoStyles } from './styles'
 
-function ItemLg(
-  {
-    item,
-    index
-  }: {
-    item: ChannelRankItem
-    index: number
-  },
-  { $, navigation }: Ctx
-) {
+function ItemLg({ item, index }: { item: ChannelRankItem; index: number }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const collection = collectionStore.collect(item.id)
   const value = index + 1
@@ -83,4 +75,4 @@ function ItemLg(
   )
 }
 
-export default obc(ItemLg)
+export default ob(ItemLg)

@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-06-11 15:57:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:46:02
+ * @Last Modified time: 2024-11-17 07:41:12
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { uiStore } from '@stores'
+import { uiStore, useStore } from '@stores'
 import { desc, getType, similar } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Sub({ name, relates, action }: Props, { $ }: Ctx) {
+function Sub({ name, relates, action }: Props) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   let len = 0
   let count = 0
@@ -70,4 +71,4 @@ function Sub({ name, relates, action }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(Sub, COMPONENT)
+export default ob(Sub, COMPONENT)

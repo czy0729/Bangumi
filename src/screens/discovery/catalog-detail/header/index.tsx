@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 16:21:19
+ * @Last Modified time: 2024-11-17 07:24:18
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, URL_SPA } from '@constants'
-// import IconCopy from '../component/icon-copy'
 import IconFavor from '../component/icon-favor'
 import { Ctx } from '../types'
 import { COMPONENT, DATA, TEXT_BROWSER, TEXT_COPY, TEXT_SPA } from './ds'
 
-function Header({ fixed }, { $, navigation }: Ctx) {
+function Header({ fixed }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <HeaderComp
       mode='float'
@@ -25,7 +26,6 @@ function Header({ fixed }, { $, navigation }: Ctx) {
       hm={[`index/${$.catalogId}`, 'CatalogDetail']}
       headerRight={() => (
         <Flex>
-          {/* <IconCopy $={$} navigation={navigation} /> */}
           <IconFavor $={$} />
           <HeaderComp.Popover
             data={DATA}
@@ -54,4 +54,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

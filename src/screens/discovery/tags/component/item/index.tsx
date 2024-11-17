@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:08:33
+ * @Last Modified time: 2024-11-17 08:08:40
  */
 import React from 'react'
 import { Flex, Heatmap, Highlight, Squircle, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber, HTMLDecode, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { getTyperankNums } from '../../utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
+function Item({ type, name, nums, index }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { width, height } = styles.item
 
@@ -77,4 +78,4 @@ function Item({ type, name, nums, index }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

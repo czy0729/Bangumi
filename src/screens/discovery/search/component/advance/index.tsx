@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 22:45:54
+ * @Last Modified time: 2024-11-17 06:51:51
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Advance from './advance'
 import AdvanceMono from './advance-mono'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function AdvanceWrap(_props, { $, navigation }: Ctx) {
+function AdvanceWrap() {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.showAdvance) return null
 
   const styles = memoStyles()
@@ -35,4 +37,4 @@ function AdvanceWrap(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(AdvanceWrap, COMPONENT)
+export default ob(AdvanceWrap, COMPONENT)

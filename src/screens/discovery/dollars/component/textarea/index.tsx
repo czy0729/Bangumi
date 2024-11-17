@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-04-27 15:04:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 10:34:52
+ * @Last Modified time: 2024-11-17 07:36:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Input, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Textarea(props, { $ }: Ctx) {
+function Textarea() {
+  const { $ } = useStore<Ctx>()
   if (!$.state.show) return null
 
   const styles = memoStyles()
@@ -44,4 +45,4 @@ function Textarea(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Textarea, COMPONENT)
+export default ob(Textarea, COMPONENT)

@@ -2,34 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 10:49:40
+ * @Last Modified time: 2024-11-17 07:59:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Progress, Rank, Stars } from '@_'
-import { _, collectionStore, uiStore } from '@stores'
+import { _, collectionStore, uiStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
 import { SubjectId, ViewStyle } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Subject(
-  {
-    style,
-    id,
-    small = false
-  }: {
-    style?: ViewStyle
-    id: SubjectId
-    small?: boolean
-  },
-  { $, navigation }: Ctx
-) {
+function Subject({
+  style,
+  id,
+  small = false
+}: {
+  style?: ViewStyle
+  id: SubjectId
+  small?: boolean
+}) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const subject = $.subject(id)
   if (subject._loaded === 0) {
@@ -137,4 +135,4 @@ function Subject(
   )
 }
 
-export default obc(Subject, COMPONENT)
+export default ob(Subject, COMPONENT)

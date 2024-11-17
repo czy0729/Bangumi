@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 20:15:55
+ * @Last Modified time: 2024-11-17 07:23:51
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { LAYOUT_DS } from '../../ds'
 import { Ctx } from '../../types'
 import { LAYOUT_DATA } from './ds'
 
-function Layout(_props, { $ }: Ctx) {
+function Layout() {
+  const { $ } = useStore<Ctx>()
   const text = LAYOUT_DS.find(item => item.key === $.state.layout)?.['title']
   return (
     <ToolBar.Popover
@@ -27,4 +28,4 @@ function Layout(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Layout)
+export default ob(Layout)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-07 09:21:16
+ * @Last Modified time: 2024-11-16 12:06:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, Image, ScrollView, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { hm, t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -17,7 +17,8 @@ import { memoStyles } from './styles'
 
 const title = '资讯'
 
-function List(props, { $, navigation }: Ctx) {
+function List() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
 
   const onPress = item => {
@@ -84,4 +85,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

@@ -7,7 +7,7 @@
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
 import { getSPAParams, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, URL_SPA, WEB } from '@constants'
 import { COMPONENT } from './ds'
@@ -49,4 +49,4 @@ function Header() {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

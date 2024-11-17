@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-06-05 12:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-06-05 12:17:25
+ * @Last Modified time: 2024-11-17 08:00:14
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function More(props, { $ }: Ctx) {
+function More() {
+  const { $ } = useStore<Ctx>()
   const { fixed } = $.state
   return (
     <ToolBar.Popover
@@ -27,4 +28,4 @@ function More(props, { $ }: Ctx) {
   )
 }
 
-export default obc(More)
+export default ob(More)

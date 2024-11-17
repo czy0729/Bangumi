@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-06-04 07:06:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-12-30 22:56:22
+ * @Last Modified time: 2024-11-17 06:58:46
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DATA_BROWSER_MONTH } from '@constants'
 import { Ctx } from '../../types'
 
-function Month(props, { $ }: Ctx) {
+function Month() {
+  const { $ } = useStore<Ctx>()
   const { month } = $.state
   return (
     <ToolBar.Popover
@@ -23,4 +25,4 @@ function Month(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Month)
+export default ob(Month)
