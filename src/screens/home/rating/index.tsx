@@ -2,33 +2,32 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-25 13:29:11
+ * @Last Modified time: 2024-11-17 11:18:03
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Tab from './component/tab'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useRatingPage } from './hooks'
 
 /** 用户评分 */
-const Rating = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Rating = (props: NavigationProps) => {
+  const { id, $ } = useRatingPage(props)
 
   return useObserver(() => (
     <Component id='screen-rating'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <Tab />
-        <Heatmap bottom={_.bottom} id='用户评分' screen='Rating' />
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <Tab />
+          <Heatmap bottom={_.bottom} id='用户评分' screen='Rating' />
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Rating)
+export default Rating

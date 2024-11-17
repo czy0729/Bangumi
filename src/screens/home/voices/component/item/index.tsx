@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-03-02 14:17:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 16:33:51
+ * @Last Modified time: 2024-11-17 11:38:22
  */
 import React from 'react'
 import { ItemVoice } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
-function Item({ item, index }, { navigation }: Ctx) {
+function Item({ item, index }) {
+  const navigation = useNavigation()
   return (
     <ItemVoice
       style={_.container.item}
@@ -23,4 +24,4 @@ function Item({ item, index }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

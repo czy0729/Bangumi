@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-26 08:47:30
+ * @Last Modified time: 2024-11-17 11:18:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,12 +10,13 @@ import { Flex, Text, UserStatus } from '@components'
 import { Avatar, Stars } from '@_'
 import { _ } from '@stores'
 import { simpleTime } from '@utils'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
+function Item({ id, avatar, name, time, star, comment }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <View style={styles.container}>
@@ -45,4 +46,4 @@ function Item({ id, avatar, name, time, star, comment }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

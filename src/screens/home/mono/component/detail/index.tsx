@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-31 04:27:15
+ * @Last Modified time: 2024-11-17 10:03:10
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { HTML, IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Content(_props, { $, navigation }: Ctx) {
+function Content() {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.detail) return null
 
   const { translateResultDetail } = $.state
@@ -61,4 +62,4 @@ function Content(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Content, COMPONENT)
+export default ob(Content, COMPONENT)

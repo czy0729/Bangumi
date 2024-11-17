@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-28 11:15:25
+ * @Last Modified time: 2024-11-17 11:18:58
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { MODEL_RATING_STATUS } from '@constants'
 import { RatingStatus } from '@types'
 import { TABS } from '../../ds'
@@ -17,7 +17,8 @@ import Item from '../item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List({ title }, { $ }: Ctx) {
+function List({ title }) {
+  const { $ } = useStore<Ctx>()
   const status = MODEL_RATING_STATUS.getValue<RatingStatus>(title)
   const data = $.rating(status)
   if (!data._loaded) return <Loading />
@@ -42,7 +43,7 @@ function List({ title }, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)
 
 function renderItem({ item }) {
   return <Item {...item} />

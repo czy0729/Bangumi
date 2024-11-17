@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-24 11:54:05
+ * @Last Modified time: 2024-11-17 09:50:39
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
@@ -28,4 +29,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

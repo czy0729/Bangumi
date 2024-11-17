@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:55:55
+ * @Last Modified time: 2024-11-17 11:27:00
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
+import { useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   const { tag } = $.params
   return (
     <HeaderComp
@@ -35,4 +37,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

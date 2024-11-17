@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:46:39
+ * @Last Modified time: 2024-11-17 11:38:46
  */
 import React from 'react'
 import { Heatmap, ToolBar as ToolBarComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   const { position } = $.state
   const { filters = [] } = $.monoVoices
   return (
@@ -35,4 +37,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

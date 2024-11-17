@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-05 15:30:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-18 13:33:01
+ * @Last Modified time: 2024-11-17 11:26:44
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_TAG_ORDERBY, TAG_ORDERBY } from '@constants'
 import { Ctx } from '../../types'
 
 const DATA = TAG_ORDERBY.map(item => item.label)
 
-function Sort(_props, { $ }: Ctx) {
+function Sort() {
+  const { $ } = useStore<Ctx>()
   const { order } = $.state
   return (
     <ToolBarComp.Popover
@@ -28,4 +29,4 @@ function Sort(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Sort)
+export default ob(Sort)

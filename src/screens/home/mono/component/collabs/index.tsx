@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 17:10:53
+ * @Last Modified time: 2024-11-17 10:02:20
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { appNavigate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Collabs(_props, { $, navigation }: Ctx) {
+function Collabs() {
+  const { $, navigation } = useStore<Ctx>()
   const { collabs } = $.mono
   if (!collabs?.length) return null
 
@@ -97,4 +98,4 @@ function Collabs(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Collabs, COMPONENT)
+export default ob(Collabs, COMPONENT)

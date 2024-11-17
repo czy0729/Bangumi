@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 04:35:56
+ * @Last Modified time: 2024-11-17 11:36:18
  */
 import React from 'react'
 import { Empty, Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   const { ids } = $.state
   if (!ids.length) return <Empty text='此标签没有足够的列表数据' />
 
@@ -32,4 +33,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

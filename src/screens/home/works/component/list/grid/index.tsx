@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:42:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 01:25:43
+ * @Last Modified time: 2024-11-17 11:43:21
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore } from '@stores'
 import { matchYear, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
 
 const EVENT = {
   id: '作品.跳转',
@@ -20,7 +20,8 @@ const EVENT = {
   }
 } as const
 
-function Grid({ item, index, numColumns }, { navigation }: Ctx) {
+function Grid({ item, index, numColumns }) {
+  const navigation = useNavigation()
   const id = String(item.id).replace('/subject/', '')
   return (
     <ItemCollectionsGrid
@@ -40,4 +41,4 @@ function Grid({ item, index, numColumns }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Grid)
+export default ob(Grid)

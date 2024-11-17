@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 10:15:07
+ * @Last Modified time: 2024-11-17 09:47:18
  */
 import React from 'react'
 import { ListView } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <ListView
       keyExtractor={keyExtractor}
@@ -26,4 +27,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

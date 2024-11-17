@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-10-21 12:58:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-07 01:49:54
+ * @Last Modified time: 2024-11-17 11:16:57
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       headerTitleStyle={styles.title}
@@ -22,4 +24,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:50:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:57:49
+ * @Last Modified time: 2024-11-17 09:56:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { IconTouchable } from '@_'
-import { systemStore } from '@stores'
+import { systemStore, useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function Translate({ content = '' }, { $ }: Ctx) {
+function Translate({ content = '' }) {
+  const { $ } = useStore<Ctx>()
   if (
     !systemStore.setting.showSummary ||
     $.state.translateResult.length ||
@@ -29,4 +30,4 @@ function Translate({ content = '' }, { $ }: Ctx) {
   )
 }
 
-export default obc(Translate)
+export default ob(Translate)

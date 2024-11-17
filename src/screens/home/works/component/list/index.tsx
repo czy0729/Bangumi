@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 15:52:38
+ * @Last Modified time: 2024-11-17 11:43:07
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import ToolBar from '../tool-bar'
 import { renderGridItem, renderListItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   if (!$.list._loaded) {
     return (
       <>
@@ -43,4 +44,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

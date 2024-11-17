@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-10-20 22:57:46
+ * @Last Modified time: 2024-11-17 10:02:37
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
 import { Avatar, InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { Ctx } from '../../types'
 import { styles } from './styles'
 
-function Collected(_props, { $, navigation }: Ctx) {
+function Collected() {
+  const { $, navigation } = useStore<Ctx>()
   const { collected } = $.mono
   if (!collected?.length) return null
 
@@ -98,4 +99,4 @@ function Collected(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Collected)
+export default ob(Collected)

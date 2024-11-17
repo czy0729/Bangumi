@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-18 15:49:28
+ * @Last Modified time: 2024-11-17 09:54:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
 import { Flex, Heatmap, Image, ScrollView, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
-function List(_props, { $, navigation }: Ctx) {
+function List() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
 
   // sp 排在正常章节后面, 已播放优先
@@ -100,4 +101,4 @@ function List(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

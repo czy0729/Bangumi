@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:49:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 08:05:49
+ * @Last Modified time: 2024-11-17 11:25:34
  */
 import React from 'react'
 import { ItemCollectionsGrid } from '@_'
-import { _, collectionStore } from '@stores'
+import { _, collectionStore, useStore } from '@stores'
 import { matchYear } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { EVENT } from './ds'
 
-function Grid({ item, index, numColumns }, { $, navigation }: Ctx) {
+function Grid({ item, index, numColumns }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <ItemCollectionsGrid
       navigation={navigation}
@@ -29,4 +30,4 @@ function Grid({ item, index, numColumns }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Grid)
+export default ob(Grid)

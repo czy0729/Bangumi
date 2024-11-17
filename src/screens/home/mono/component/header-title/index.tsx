@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-03-19 19:40:45
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import HeaderTitle from './header-title'
 import { COMPONENT } from './ds'
@@ -21,4 +21,4 @@ function HeaderTitleWrap({ $ }: Ctx) {
   )
 }
 
-export default obc(HeaderTitleWrap, COMPONENT)
+export default ob(HeaderTitleWrap, COMPONENT)

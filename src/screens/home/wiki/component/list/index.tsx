@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:21:00
+ * @Last Modified time: 2024-11-17 11:40:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,15 +10,15 @@ import { Divider, Flex, HorizontalList, ScrollView, Text } from '@components'
 import { Avatar, Cover } from '@_'
 import { _ } from '@stores'
 import { getCoverLarge, showImageViewer, simpleTime, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { API_AVATAR, WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 
-class List extends React.Component {
+class List extends React.Component<Ctx> {
   renderCovers() {
-    const { $, navigation } = this.context as Ctx
+    const { $, navigation } = this.props
     const { covers } = $.wiki
     if (!covers?.length) return null
 
@@ -84,7 +84,7 @@ class List extends React.Component {
   }
 
   renderEdits() {
-    const { $, navigation } = this.context as Ctx
+    const { $, navigation } = this.props
     const { edits } = $.wiki
     if (!edits?.length) return null
 
@@ -154,4 +154,4 @@ class List extends React.Component {
   }
 }
 
-export default obc(List)
+export default ob(List)

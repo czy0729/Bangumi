@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-08-16 01:11:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 05:17:32
+ * @Last Modified time: 2024-11-17 10:05:42
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { SectionTitle as SectionTitleComp } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle(_props, { $, navigation }: Ctx) {
+function SectionTitle() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <SectionTitleComp
@@ -54,4 +56,4 @@ function SectionTitle(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SectionTitle, COMPONENT)
+export default ob(SectionTitle, COMPONENT)

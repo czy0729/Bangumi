@@ -2,33 +2,33 @@
  * @Author: czy0729
  * @Date: 2020-10-17 16:59:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-24 07:16:29
+ * @Last Modified time: 2024-11-17 09:54:06
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useEpisodesPage } from './hooks'
 
 /** 章节 */
-const Episodes = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Episodes = (props: NavigationProps) => {
+  const { id, $ } = useEpisodesPage(props)
 
   return useObserver(() => (
     <Component id='screen-episodes'>
-      <Header />
-      <Page loaded={$.subject._loaded}>
-        <List />
-      </Page>
-      <Extra />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.subject._loaded}>
+          <List />
+        </Page>
+        <Extra />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Episodes)
+export default Episodes

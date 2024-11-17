@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-26 08:49:18
+ * @Last Modified time: 2024-11-17 11:19:15
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER } from '@constants'
 import Filter from '../component/filter'
@@ -15,7 +16,8 @@ import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title={$.params?.name || '用户评分'}
@@ -46,4 +48,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

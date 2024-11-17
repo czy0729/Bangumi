@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 03:03:04
+ * @Last Modified time: 2024-11-17 10:06:03
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconWordCloud } from '@_'
+import { useStore } from '@stores'
 import { cnjp, copy, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER, TEXT_MENU_COPY_LINK, TEXT_MENU_COPY_SHARE } from '@constants'
 import Extra from '../component/extra'
@@ -17,7 +18,8 @@ import { Ctx } from '../types'
 import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 
-function Header({ fixed }, { $, navigation }: Ctx) {
+function Header({ fixed }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <HeaderComp
       mode='transition'
@@ -75,4 +77,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

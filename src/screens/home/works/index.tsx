@@ -2,33 +2,33 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 01:24:18
+ * @Last Modified time: 2024-11-17 11:42:51
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useWorksPage } from './hooks'
 
 /** 人物的作品 */
-const Works = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Works = (props: NavigationProps) => {
+  const { id, $ } = useWorksPage(props)
 
   return useObserver(() => (
     <Component id='screen-works'>
-      <Header />
-      <Page>
-        {$.state.fixed && <ToolBar />}
-        <List />
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page>
+          {$.state.fixed && <ToolBar />}
+          <List />
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Works)
+export default Works

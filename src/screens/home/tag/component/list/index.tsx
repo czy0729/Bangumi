@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-20 10:40:20
+ * @Last Modified time: 2024-11-17 11:24:43
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { Notice } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor, x18s } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TEXT_18X } from '@constants'
 import { Ctx } from '../../types'
 import ToolBar from '../tool-bar'
@@ -17,7 +17,8 @@ import GridItem from './grid'
 import ListItem from './list'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   if (!$.list._loaded || $.state.hide) {
     return (
       <>
@@ -60,4 +61,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

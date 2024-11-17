@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-05 03:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-02 17:21:10
+ * @Last Modified time: 2024-11-17 11:36:08
  */
 import React from 'react'
 import { ItemSubject } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { EVENT } from './ds'
 
-function Item({ subjectId, index }, { $, navigation }: Ctx) {
+function Item({ subjectId, index }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <ItemSubject
       navigation={navigation}
@@ -25,4 +27,4 @@ function Item({ subjectId, index }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

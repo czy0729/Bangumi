@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-16 05:23:48
+ * @Last Modified time: 2024-11-17 10:03:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, HeaderPlaceholder, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Collabs from '../collabs'
 import Collected from '../collected'
@@ -22,7 +22,8 @@ import Works from '../works'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Info(_props, { $ }: Ctx) {
+function Info() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <View style={styles.info}>
@@ -56,11 +57,11 @@ function Info(_props, { $ }: Ctx) {
       <Voice style={_.mt.md} />
       <Works style={_.mt.md} />
       <Jobs style={_.mt.md} />
-      <Collabs style={_.mt.md} />
-      <Collected style={_.mt.md} />
+      <Collabs />
+      <Collected />
       <SectionTitle />
     </View>
   )
 }
 
-export default obc(Info, COMPONENT)
+export default ob(Info, COMPONENT)

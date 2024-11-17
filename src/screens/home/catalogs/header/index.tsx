@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-15 00:48:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-10 11:32:35
+ * @Last Modified time: 2024-11-17 09:47:29
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
+import { useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title={$.params?.name ? `包含${$.params.name}的目录` : '条目目录'}
@@ -37,4 +39,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

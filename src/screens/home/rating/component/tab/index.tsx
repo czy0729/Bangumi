@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-26 08:46:18
+ * @Last Modified time: 2024-11-17 11:19:08
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { Flex, Heatmap, TabBar, TabView, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import List from '../list'
 import { COMPONENT, STATUS_MAP } from './ds'
 import { memoStyles } from './styles'
 
-function Tab(_props, { $ }: Ctx) {
+function Tab() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { page } = $.state
   const renderScene = SceneMap(
@@ -87,4 +88,4 @@ function Tab(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tab, COMPONENT)
+export default ob(Tab, COMPONENT)

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 07:58:03
+ * @Last Modified time: 2024-11-17 11:25:59
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Meta from './meta'
 import Month from './month'
@@ -16,7 +16,8 @@ import Sort from './sort'
 import Year from './year'
 import { COMPONENT } from './ds'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBarComp style={!$.state.list && _.mb.sm}>
       <Sort />
@@ -28,4 +29,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

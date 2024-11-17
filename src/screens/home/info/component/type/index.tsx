@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:06:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 06:34:10
+ * @Last Modified time: 2024-11-17 09:57:08
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 const DS = ['简介', '详情'] as const
 
-function Type(_props, { $ }: Ctx) {
+function Type() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { type } = $.state
   return (
@@ -32,4 +34,4 @@ function Type(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Type, COMPONENT)
+export default ob(Type, COMPONENT)

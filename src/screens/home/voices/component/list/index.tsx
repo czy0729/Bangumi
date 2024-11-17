@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:46:38
+ * @Last Modified time: 2024-11-17 11:38:35
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   if (!$.monoVoices._loaded) return <Loading />
 
   return (
@@ -32,4 +33,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

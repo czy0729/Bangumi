@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 17:25:59
+ * @Last Modified time: 2024-11-17 10:10:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,22 +11,15 @@ import { InView } from '@_'
 import { getTypeCn } from '@_/base/horizontal-list/item/utils'
 import { _ } from '@stores'
 import { getCoverLarge } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx, ListItem } from '../../types'
+import { useNavigation } from '@utils/hooks'
+import { ListItem } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Item(
-  {
-    item,
-    index
-  }: {
-    item: ListItem
-    index: number
-  },
-  { navigation }: Ctx
-) {
+function Item({ item, index }: { item: ListItem; index: number }) {
+  const navigation = useNavigation()
   const isMusic = getTypeCn(item.name, item.desc) === '音乐'
   const width = _.window.contentWidth
   const height = isMusic ? width : Math.floor(width * 1.41)
@@ -70,4 +63,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 01:18:18
+ * @Last Modified time: 2024-11-17 11:43:48
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_MONO_WORKS_ORDERBY, MONO_WORKS_ORDERBY } from '@constants'
 import { MonoWorksOrderbyCn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   const { order, position, list, fixed, collected } = $.state
   const { filters } = $.monoWorks
   return (
@@ -64,4 +65,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

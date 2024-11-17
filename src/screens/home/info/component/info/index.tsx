@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-11-08 04:57:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 05:00:25
+ * @Last Modified time: 2024-11-17 09:56:31
  */
 import React from 'react'
 import { RenderHtml } from '@components'
+import { useStore } from '@stores'
 import { appNavigate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Info(_props, { $, navigation }: Ctx) {
+function Info() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <RenderHtml
@@ -35,4 +37,4 @@ function Info(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Info, COMPONENT)
+export default ob(Info, COMPONENT)
