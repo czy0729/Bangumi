@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-22 16:48:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 18:05:08
+ * @Last Modified time: 2024-11-18 02:10:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,15 +10,13 @@ import { Flex, Text, Touchable } from '@components'
 import { Avatar, Name } from '@_'
 import { _, rakuenStore } from '@stores'
 import { correctAgo, getIsBlockedUser, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
-  { id, title, replies, time, content, avatar, userId, userName },
-  { navigation }: Ctx
-) {
+function Item({ id, title, replies, time, content, avatar, userId, userName }) {
+  const navigation = useNavigation()
   if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
 
   const styles = memoStyles()
@@ -61,4 +59,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

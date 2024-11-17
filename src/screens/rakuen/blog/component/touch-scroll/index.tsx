@@ -2,28 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:56:10
+ * @Last Modified time: 2024-11-17 12:29:08
  */
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl, titleCase } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { FROZEN_FN, MODEL_RAKUEN_SCROLL_DIRECTION, WEB } from '@constants'
 import { Fn } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function TouchScroll(
-  {
-    onPress = FROZEN_FN
-  }: {
-    onPress?: Fn
-  },
-  { $ }: Ctx
-) {
+function TouchScroll({ onPress = FROZEN_FN }: { onPress?: Fn }) {
+  const { $ } = useStore<Ctx>()
   if (WEB) return null
 
   const { scrollDirection } = $.setting
@@ -87,4 +81,4 @@ function TouchScroll(
   )
 }
 
-export default obc(TouchScroll, COMPONENT)
+export default ob(TouchScroll, COMPONENT)

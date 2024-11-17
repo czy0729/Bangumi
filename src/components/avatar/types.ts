@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-12 16:04:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 16:14:49
+ * @Last Modified time: 2024-11-17 12:34:21
  */
-import { AnyObject, ColorValue, EventType, Fn, Navigation, Source, ViewStyle } from '@types'
+import { AnyObject, ColorValue, EventType, Fn, Navigation, ViewStyle } from '@types'
 import { ImageProps } from '../image'
 
 export type Props = {
@@ -21,7 +21,7 @@ export type Props = {
   name?: string
 
   /** 头像地址 */
-  src?: string | Source
+  src?: ImageProps['src']
 
   /** 大小 */
   size?: number

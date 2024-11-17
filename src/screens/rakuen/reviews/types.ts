@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-26 21:19:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 01:01:28
+ * @Last Modified time: 2024-11-18 02:10:35
  */
 import { factory } from '@utils'
-import { Navigation, SubjectId } from '@types'
+import { GetRouteParams, Navigation, RouteReviews } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,7 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  subjectId?: SubjectId
-  name?: string
-}
+export type Params = GetRouteParams<RouteReviews>

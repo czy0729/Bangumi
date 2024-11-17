@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 08:08:26
+ * @Last Modified time: 2024-11-17 16:27:51
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
-function Header(_props, { navigation }: Ctx) {
+function Header() {
+  const navigation = useNavigation()
   return (
     <HeaderComp
       title='帖子聚合'
@@ -40,4 +41,4 @@ function Header(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

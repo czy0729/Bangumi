@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2024-01-18 07:26:05
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-19 19:23:32
+ * @Date: 2024-11-17 16:19:20
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-11-17 16:19:20
  */
 import { useInitStore } from '@stores'
 import { useRunAfter } from '@utils/hooks'
@@ -10,14 +10,13 @@ import { NavigationProps } from '@types'
 import store from './store'
 import { Ctx } from './types'
 
-/** 电波提醒页面逻辑 */
-export function useNotifyPage(props: NavigationProps) {
+/** 帖子聚合页面逻辑 */
+export function useRakuenHistoryPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { $ } = context
 
-  useRunAfter(async () => {
-    await $.init()
-    $.doClearNotify()
+  useRunAfter(() => {
+    $.init()
   })
 
   return context

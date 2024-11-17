@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-03 04:06:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-03 04:28:14
+ * @Last Modified time: 2024-11-17 12:39:24
  */
 import { factory } from '@utils'
-import { Id, Navigation } from '@types'
+import { GetRouteParams, Navigation, RouteGroup } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,7 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  groupId: Id
-  _title?: string
-}
+export type Params = GetRouteParams<RouteGroup>

@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:56:30
+ * @Last Modified time: 2024-11-18 02:14:36
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function History({ style }, { $ }: Ctx) {
+function History({ style }) {
+  const { $ } = useStore<Ctx>()
   if ($.state.value !== '') return null
 
   const styles = memoStyles()
@@ -38,4 +40,4 @@ function History({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(History, COMPONENT)
+export default ob(History, COMPONENT)

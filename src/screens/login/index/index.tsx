@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-31 11:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:36:21
+ * @Last Modified time: 2024-11-17 11:47:42
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,10 +16,9 @@ import { HTMLTrim } from '@utils/html'
 import { feedback, info } from '@utils/ui'
 import { APP_ID, HOST, SDK, URL_OAUTH, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
+import { NavigationProps } from '@types'
 import { memoStyles } from './styles'
 
-const title = '登录V1'
 const uri = `${URL_OAUTH}?${urlStringify({
   response_type: 'code',
   client_id: APP_ID,
@@ -27,9 +26,7 @@ const uri = `${URL_OAUTH}?${urlStringify({
 })}`
 
 /** @deprecated 授权登录 */
-class Login extends React.Component<{
-  navigation: Navigation
-}> {
+class Login extends React.Component<NavigationProps> {
   state = {
     clicked: false,
     refreshed: false

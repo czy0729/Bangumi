@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:40:24
+ * @Last Modified time: 2024-11-17 12:28:27
  */
 import React from 'react'
 import { Text } from '@components'
 import { SectionTitle as SectionTitleComp } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SectionTitle(props, { $ }: Ctx) {
+function SectionTitle() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { list = [] } = $.comments
   let commentsCount = 0
@@ -33,4 +35,4 @@ function SectionTitle(props, { $ }: Ctx) {
   )
 }
 
-export default obc(SectionTitle, COMPONENT)
+export default ob(SectionTitle, COMPONENT)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:31:35
+ * @Last Modified time: 2024-11-17 12:41:18
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Mesume, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { appNavigate, correctAgo, HTMLDecode, info, open, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import { TopicId } from '@types'
@@ -17,7 +17,8 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List({ style = undefined }, { $, navigation }: Ctx) {
+function List({ style = undefined }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { title: group } = $.groupInfo
   const { list, _loaded } = $.group
@@ -34,7 +35,7 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
 
   return (
     <View style={style}>
-      {list.map(({ title, href, replies, time, userName, userId }, index) => {
+      {list.map(({ title, href, replies, time, userName }, index) => {
         const topicId = href.replace('/group/topic/', 'group/') as TopicId
         const readed = $.readed(topicId)
         const isReaded = !!readed.time
@@ -114,4 +115,4 @@ function List({ style = undefined }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

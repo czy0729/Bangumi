@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-29 16:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-29 17:06:35
+ * @Last Modified time: 2024-11-17 12:18:34
  */
 import { factory } from '@utils'
-import { Id, Navigation } from '@types'
+import { GetRouteParams, Navigation, RouteBlog } from '@types'
 import Store from './store'
 
 const f = factory(Store)
@@ -17,12 +17,4 @@ export type Ctx = {
   navigation?: Navigation
 }
 
-export type Params = {
-  blogId: Id
-  _title?: string
-  _time?: string
-  _avatar?: string
-  _userId?: string
-  _userName?: string
-  _url?: string
-}
+export type Params = GetRouteParams<RouteBlog>

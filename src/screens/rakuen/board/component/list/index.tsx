@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-23 05:25:51
+ * @Last Modified time: 2024-11-17 12:34:43
  */
 import React from 'react'
 import { Flex, Mesume, ScrollView, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $, navigation }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   const { list, _loaded } = $.board
   if (_loaded && !list.length) {
     return (
@@ -35,4 +36,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:48:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 18:09:02
+ * @Last Modified time: 2024-11-17 12:40:17
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,13 +16,14 @@ import {
   RenderHtml,
   Text
 } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Info(_props, { $ }: Ctx) {
+function Info() {
+  const { $ } = useStore<Ctx>()
   return (
     <View style={[styles.container, _.container.inner]}>
       <HeaderPlaceholder />
@@ -63,4 +64,4 @@ function Info(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Info, COMPONENT)
+export default ob(Info, COMPONENT)

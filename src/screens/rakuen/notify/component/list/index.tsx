@@ -6,14 +6,18 @@
  */
 import React from 'react'
 import { ListView, ListViewProps } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { NotifyItem } from '@stores/rakuen/types'
+import { PmItem } from '@stores/user/types'
+import { ob } from '@utils/decorators'
 import { Ctx, TabsKey } from '../../types'
 import { keyExtractor, renderNotifyItem, renderPmInItem, renderPmOutItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List({ id }: { id: TabsKey }, { $ }: Ctx) {
-  const passProps: Partial<ListViewProps> = {
+function List({ id }: { id: TabsKey }) {
+  const { $ } = useStore<Ctx>()
+  const passProps: Partial<ListViewProps<NotifyItem | PmItem>> = {
     keyExtractor,
     contentContainerStyle: styles.contentContainerStyle,
     scrollEventThrottle: 16,
@@ -48,4 +52,4 @@ function List({ id }: { id: TabsKey }, { $ }: Ctx) {
   return <ListView {...passProps} />
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

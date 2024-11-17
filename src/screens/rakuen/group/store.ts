@@ -3,10 +3,11 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:31:49
+ * @Last Modified time: 2024-11-17 12:41:16
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
+import { Group } from '@stores/rakuen/types'
 import { feedback, getTimestamp, info } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
 import { fetchHTML, t } from '@utils/fetch'
@@ -125,7 +126,7 @@ export default class ScreenGroup extends store<typeof STATE> {
   }
 
   /** 小组帖子列表 */
-  @computed get group() {
+  @computed get group(): Group {
     const { page } = this.state
     const group = rakuenStore.group(this.groupId, page)
     if (!group._loaded) {

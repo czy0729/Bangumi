@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 02:36:02
+ * @Last Modified time: 2024-11-17 11:47:50
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -24,7 +24,7 @@ import { ob } from '@utils/decorators'
 import { t, xhrCustom } from '@utils/fetch'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
-import { Navigation } from '@types'
+import { NavigationProps } from '@types'
 import { memoStyles } from './styles'
 
 const code = `JSON.stringify({
@@ -33,9 +33,7 @@ const code = `JSON.stringify({
 });`
 
 /** 辅助登录 */
-class LoginAssist extends React.Component<{
-  navigation: Navigation
-}> {
+class LoginAssist extends React.Component<NavigationProps> {
   state = {
     result: '',
     loading: false,

@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { ItemNotify as ItemNotifyComp } from '@_'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 import { Props } from './types'
 
-function ItemNotify({ item, index }: Props, { navigation }: Ctx) {
+function ItemNotify({ item, index }: Props) {
+  const navigation = useNavigation()
   return (
     <ItemNotifyComp
       {...item}
@@ -23,4 +24,4 @@ function ItemNotify({ item, index }: Props, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemNotify, COMPONENT)
+export default ob(ItemNotify, COMPONENT)

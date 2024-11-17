@@ -2,28 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-11-01 10:21:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 13:19:09
+ * @Last Modified time: 2024-11-17 16:23:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
 import { Avatar, Name, Rate } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { simpleTime } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { CollectRankItem, Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
-  {
-    item
-  }: {
-    item: CollectRankItem
-  },
-  { $, navigation }: Ctx
-) {
+function Item({ item }: { item: CollectRankItem }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { topic_id: topicId } = item
   const topic = $.topic(topicId)
@@ -97,4 +91,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

@@ -2,31 +2,31 @@
  * @Author: czy0729
  * @Date: 2019-11-28 16:57:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 11:50:21
+ * @Last Modified time: 2024-11-17 16:20:52
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Tab from './component/tab'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useRakuenHistoryPage } from './hooks'
 
 /** 帖子聚合 */
-const RakuenHistory = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const RakuenHistory = (props: NavigationProps) => {
+  const { id, $ } = useRakuenHistoryPage(props)
 
   return useObserver(() => (
     <Component id='screen-history'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <Tab />
-      </Page>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <Tab />
+        </Page>
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, RakuenHistory)
+export default RakuenHistory

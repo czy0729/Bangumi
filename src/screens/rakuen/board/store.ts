@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:34:25
+ * @Last Modified time: 2024-11-17 12:35:32
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore } from '@stores'
+import { Board } from '@stores/rakuen/types'
 import { getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import store from '@utils/store'
@@ -105,7 +106,7 @@ export default class ScreenBoard extends store<typeof STATE> {
     return `${NAMESPACE}|${this.subjectId}`
   }
 
-  @computed get board() {
+  @computed get board(): Board {
     const board = rakuenStore.board(this.subjectId)
     if (!board._loaded) {
       return this.ota

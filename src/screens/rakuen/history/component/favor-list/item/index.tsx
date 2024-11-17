@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-11-28 05:50:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-05 13:40:18
+ * @Last Modified time: 2024-11-17 16:23:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Loading, Text, Touchable, UserStatus } from '@components'
 import { Avatar, Name } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { simpleTime } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ item: topicId }, { $, navigation }: Ctx) {
+function Item({ item: topicId }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const topic = $.topic(topicId)
   if (!topic) {
@@ -98,4 +99,4 @@ function Item({ item: topicId }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

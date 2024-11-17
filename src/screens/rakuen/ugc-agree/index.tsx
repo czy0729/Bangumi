@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-31 15:45:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-28 01:42:00
+ * @Last Modified time: 2024-11-18 02:23:39
  */
 import React from 'react'
-import { ScrollView, RenderHtml, Flex, Button } from '@components'
+import { Button, Flex, RenderHtml, ScrollView } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils/app'
-import { withHeader, ob } from '@utils/decorators'
+import { ob, withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Navigation } from '@types'
+import { NavigationProps } from '@types'
 import { HTML } from './ds'
 import { memoStyles } from './styles'
 
 const title = '社区指导原则'
 
-class UGCAgree extends React.Component<{
-  navigation: Navigation
-}> {
+class UGCAgree extends React.Component<NavigationProps> {
   updateUGCAgree = (value: boolean) => {
     const { navigation } = this.props
     systemStore.updateUGCAgree(value)

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-07 07:29:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-13 18:13:52
+ * @Last Modified time: 2024-11-17 16:26:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { IconTouchable, Likes } from '@_'
-import { _, uiStore } from '@stores'
+import { _, uiStore, useStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, removeHTMLTag, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { LIKE_TYPE_RAKUEN } from '@constants'
 import { TopicId } from '@types'
 import { Ctx } from '../../../types'
@@ -18,7 +18,8 @@ import Title from '../title'
 import { removeHtmlEntities } from './utils'
 import { memoStyles } from './styles'
 
-function Comment({ topicId }, { $, navigation }: Ctx) {
+function Comment({ topicId }) {
+  const { $, navigation } = useStore<Ctx>()
   const data = $.comment(topicId)
   if (!data.length) return null
 
@@ -62,4 +63,4 @@ function Comment({ topicId }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Comment)
+export default ob(Comment)

@@ -2,34 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-11-28 17:16:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:23:39
+ * @Last Modified time: 2024-11-17 16:24:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable, UserStatus } from '@components'
 import { Avatar, Name } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
-  { topicId, avatar, userName, title, group, time = '', userId },
-  { $, navigation }: Ctx
-) {
+function Item({ topicId, avatar, userName, title, group, time = '', userId }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
-  const desc = [time.split(' ')?.[1], userName, group].filter(item => !!item).join(' / ')
   return (
     <Touchable
       animate
       onPress={() => {
-        t('本地帖子.跳转', {
-          to: 'Topic',
-          topicId
-        })
-
         navigation.push('Topic', {
           topicId,
           _noFetch: true,
@@ -39,6 +31,11 @@ function Item(
           _avatar: avatar,
           _userName: userName,
           _userId: userId
+        })
+
+        t('本地帖子.跳转', {
+          to: 'Topic',
+          topicId
         })
       }}
     >
@@ -72,4 +69,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

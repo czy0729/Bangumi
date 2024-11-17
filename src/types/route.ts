@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 06:48:48
+ * @Last Modified time: 2024-11-18 02:10:25
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -90,13 +90,13 @@ export type NavigationPushType = RouteActions &
   RouteZone &
   ((path: Paths) => any)
 
-export type RouteReviews = (
-  path: 'Reviews',
-  params: {
+export type RouteReviews = Route<
+  'Reviews',
+  {
     subjectId: SubjectId
     name: string
   }
-) => any
+>
 
 export type RouteNotify = Route<
   'Notify',
@@ -220,13 +220,18 @@ export type RouteWorks = Route<
   }
 >
 
-export type RouteBlog = (
-  path: 'Blog',
-  params: {
+export type RouteBlog = Route<
+  'Blog',
+  {
     blogId: Id
     _title?: string
+    _time?: string
+    _avatar?: string
+    _userId?: string
+    _userName?: string
+    _url?: string
   }
-) => any
+>
 
 export type RouteCharacters = Route<
   'Characters',
@@ -352,13 +357,13 @@ export type RouteMono = Route<
   }
 >
 
-export type RouteGroup = (
-  path: 'Group',
-  params: {
+export type RouteGroup = Route<
+  'Group',
+  {
     groupId: string
     _title?: string
   }
-) => any
+>
 
 export type RouteWebBrowser = (
   path: 'WebBrowser',

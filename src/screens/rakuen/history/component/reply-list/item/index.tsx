@@ -2,25 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-06-07 07:19:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-09 17:17:25
+ * @Last Modified time: 2024-11-17 16:27:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text, Touchable, UserStatus } from '@components'
 import { Name } from '@_'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, useStore } from '@stores'
 import { correctAgo, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TopicId } from '@types'
 import { Ctx } from '../../../types'
 import Comment from '../comment'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
-  { title, href, replies, userName, tip = '', tipHref = '', time },
-  { $, navigation }: Ctx
-) {
+function Item({ title, href, replies, userName, tip = '', tipHref = '', time }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const topicId = href.replace('/group/topic/', 'group/') as TopicId
   const readed = $.readed(topicId)
@@ -96,4 +94,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 03:08:39
+ * @Last Modified time: 2024-11-17 12:41:37
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HOST, HTML_NEW_TOPIC } from '@constants'
 import HeaderTitle from '../component/header-title'
@@ -17,7 +17,8 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header({ fixed }, { $, navigation }: Ctx) {
+function Header({ fixed }) {
+  const { $, navigation } = useStore<Ctx>()
   const { joinUrl, byeUrl } = $.groupInfo
   const data = ['浏览器查看', '小组成员']
   if (joinUrl) data.push('加入小组')
@@ -94,4 +95,4 @@ function Header({ fixed }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

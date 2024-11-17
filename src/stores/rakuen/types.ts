@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-15 14:14:14
+ * @Last Modified time: 2024-11-17 12:35:28
  */
 import {
   Avatar,
@@ -240,16 +240,14 @@ export type UserTopicsFormCDN = ListEmpty<
 >
 
 /** 条目帖子列表 */
-export type Board = ListEmpty<
-  DeepPartial<{
-    href: `/subject/topic/${Id}`
-    title: string
-    userId: UserId
-    userName: string
-    replies: string
-    time: string
-  }>
->
+export type Board = ListEmpty<{
+  href: `/subject/topic/${Id}`
+  title: string
+  userId: UserId
+  userName: string
+  replies: string
+  time: string
+}>
 
 /** 条目讨论版 */
 export type Reviews = ListEmpty<

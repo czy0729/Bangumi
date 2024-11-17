@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 04:42:27
+ * @Last Modified time: 2024-11-17 12:28:47
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,16 +17,17 @@ import {
 } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Avatar, HorizontalList, Name } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { appNavigate, simpleTime } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import SectionTitle from '../section-title'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Top(props, { $, navigation }: Ctx) {
+function Top() {
+  const { $, navigation } = useStore<Ctx>()
   const { related = [], _loaded } = $.blog
   const event = {
     id: '日志.跳转',
@@ -127,4 +128,4 @@ function Top(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Top, COMPONENT)
+export default ob(Top, COMPONENT)

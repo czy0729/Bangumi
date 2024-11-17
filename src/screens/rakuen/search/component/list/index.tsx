@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:57:35
+ * @Last Modified time: 2024-11-18 02:17:18
  */
 import React from 'react'
 import { ListView, Loading, Text } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 
-class List extends React.Component {
+class List extends React.Component<Ctx> {
   renderItem = ({ item, index }) => <Item index={index} {...item} />
 
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { searching } = $.state
     if (searching) return <Loading style={_.container.flex} />
 
@@ -51,4 +51,4 @@ class List extends React.Component {
   }
 }
 
-export default obc(List)
+export default ob(List)

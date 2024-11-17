@@ -6,12 +6,14 @@
  */
 import React from 'react'
 import { ItemPM as ItemPMComp } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { Props } from './types'
 
-function ItemPM({ id, item, index }: Props, { $, navigation }: Ctx) {
+function ItemPM({ id, item, index }: Props) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <ItemPMComp
       {...item}
@@ -23,4 +25,4 @@ function ItemPM({ id, item, index }: Props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ItemPM, COMPONENT)
+export default ob(ItemPM, COMPONENT)

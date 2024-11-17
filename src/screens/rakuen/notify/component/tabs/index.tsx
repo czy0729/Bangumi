@@ -6,14 +6,15 @@
  */
 import React from 'react'
 import { TabsV2 } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function Tabs(_props, { $ }: Ctx) {
+function Tabs() {
+  const { $ } = useStore<Ctx>()
   return (
     <TabsV2
       key={_.orientation}
@@ -27,4 +28,4 @@ function Tabs(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tabs, COMPONENT)
+export default ob(Tabs, COMPONENT)

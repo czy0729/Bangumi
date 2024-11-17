@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 21:09:31
+ * @Last Modified time: 2024-11-17 11:47:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -36,16 +36,14 @@ import {
 } from '@constants'
 import i18n from '@constants/i18n'
 import { HOST_PROXY } from '@src/config'
-import { Navigation } from '@types'
+import { NavigationProps } from '@types'
 import Form from './form'
 import Preview from './preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 import { memoStyles } from './styles'
 
 /** 账号密码登录 */
-class LoginV2 extends React.Component<{
-  navigation: Navigation
-}> {
+class LoginV2 extends React.Component<NavigationProps> {
   state = {
     host: WEB ? HOST_PROXY : HOST,
     clicked: false,

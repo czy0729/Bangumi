@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:32:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 12:05:43
+ * @Last Modified time: 2024-11-17 16:21:16
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { DS } from '../../ds'
 import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function FavorList(_props, { $ }: Ctx) {
+function FavorList() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { type } = $.state
   return (
@@ -40,4 +41,4 @@ function FavorList(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(FavorList, COMPONENT)
+export default ob(FavorList, COMPONENT)

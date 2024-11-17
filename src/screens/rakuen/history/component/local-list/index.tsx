@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-01 12:05:46
+ * @Last Modified time: 2024-11-17 16:23:47
  */
 import React from 'react'
 import { ListView } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { keyExtractor, renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 
-function LocalList(_props, { $ }: Ctx) {
+function LocalList() {
+  const { $ } = useStore<Ctx>()
   return (
     <ListView
       key={$.sections.length}
@@ -25,4 +26,4 @@ function LocalList(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(LocalList, COMPONENT)
+export default ob(LocalList, COMPONENT)

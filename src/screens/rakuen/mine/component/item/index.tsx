@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 07:25:06
+ * @Last Modified time: 2024-11-17 16:37:40
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,14 +10,15 @@ import { Cover, Flex, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { getGroupThumbStatic } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { CDN_OSS_MAGMA_PIC } from '@constants'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
+function Item({ id, cover, name, num }: any) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   let src = getGroupThumbStatic(cover)
   if (
@@ -65,4 +66,4 @@ function Item({ id, cover, name, num }: any, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

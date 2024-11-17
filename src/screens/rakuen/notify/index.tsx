@@ -6,29 +6,29 @@
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Heatmaps from './component/heatmaps'
 import Tabs from './component/tabs'
 import Header from './header'
 import { useNotifyPage } from './hooks'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 电波提醒 */
-const Notify = (_props, context: Ctx) => {
-  useNotifyPage(context)
+const Notify = (props: NavigationProps) => {
+  const { id, $ } = useNotifyPage(props)
 
-  const { $ } = context
   return useObserver(() => (
     <Component id='screen-notify'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <Tabs />
-      </Page>
-      <Heatmaps />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <Tabs />
+        </Page>
+        <Heatmaps />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Notify)
+export default Notify

@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-06-23 05:22:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-23 05:24:10
+ * @Last Modified time: 2024-11-17 12:33:58
  */
 
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, Name } from '@_'
-import { _, rakuenStore } from '@stores'
+import { _, rakuenStore, useStore } from '@stores'
 import { appNavigate, correctAgo, getIsBlockedUser, HTMLDecode, info, open, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import { TopicId } from '@types'
@@ -19,7 +19,8 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ title, href, replies, time, userId, userName }, { $, navigation }: Ctx) {
+function Item({ title, href, replies, time, userId, userName }) {
+  const { $, navigation } = useStore<Ctx>()
   if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Board|${href}`)) return null
 
   const styles = memoStyles()
@@ -93,4 +94,4 @@ function Item({ title, href, replies, time, userId, userName }, { $, navigation 
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

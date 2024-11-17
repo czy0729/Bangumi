@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:28:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 17:56:53
+ * @Last Modified time: 2024-11-18 02:11:54
  */
 import React from 'react'
 import { Flex, ListView, Mesume, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(props, { $, navigation }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   const { list, _loaded } = $.reviews
   if (_loaded && !list.length) {
     return (
@@ -38,4 +39,4 @@ function List(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

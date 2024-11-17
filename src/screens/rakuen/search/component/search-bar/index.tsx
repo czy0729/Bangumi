@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-16 01:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:11:45
+ * @Last Modified time: 2024-11-18 02:17:35
  */
 import React from 'react'
 import { Input } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function SearchBar(props, { $ }: Ctx) {
+function SearchBar() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <Input
@@ -27,4 +29,4 @@ function SearchBar(props, { $ }: Ctx) {
   )
 }
 
-export default obc(SearchBar, COMPONENT)
+export default ob(SearchBar, COMPONENT)

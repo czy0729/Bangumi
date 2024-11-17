@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 21:18:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-03 11:05:27
+ * @Last Modified time: 2024-11-17 12:28:04
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,18 +10,23 @@ import { FixedTextarea, ListView } from '@components'
 import { ItemPost } from '@_'
 import { _ } from '@stores'
 import { info, keyExtractor, runAfter } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
-import { Fn } from '@types'
+import { Fn, Override } from '@types'
 import { Ctx } from '../../types'
 import Top from '../top'
 import TouchScroll from '../touch-scroll'
 import { COMPONENT } from './ds'
 
-class Blog extends React.Component<{
-  onScroll: Fn
-}> {
+class Blog extends React.Component<
+  Override<
+    Ctx,
+    {
+      onScroll: Fn
+    }
+  >
+> {
   listView: any
 
   fixedTextarea: any
@@ -30,7 +35,7 @@ class Blog extends React.Component<{
 
   componentDidMount() {
     runAfter(async () => {
-      const { $ } = this.context as Ctx
+      const { $ } = this.props
       await $.init()
 
       if ($.postId) this.jump()
@@ -42,7 +47,7 @@ class Blog extends React.Component<{
   connectFixedTextareaRef = ref => (this.fixedTextarea = ref)
 
   jump = () => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     if (!$.postId) return
 
     const { list, _loaded } = $.comments
@@ -73,7 +78,7 @@ class Blog extends React.Component<{
   }
 
   scrollTo = (index = 0) => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { list } = $.comments
     info(list[index].floor, 0.8)
 
@@ -89,7 +94,7 @@ class Blog extends React.Component<{
   }
 
   scrollToThenFeedback = (index = 0) => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     t('日志.楼层跳转', {
       blogId: $.blogId,
       index
@@ -130,7 +135,7 @@ class Blog extends React.Component<{
   showFixedTextare = () => this.fixedTextarea.onFocus()
 
   renderItem = ({ item, index }) => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const event = {
       id: '日志.跳转',
       data: {
@@ -152,8 +157,7 @@ class Blog extends React.Component<{
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
-    const { onScroll } = this.props
+    const { $, onScroll } = this.props
     const { placeholder, value } = $.state
     return (
       <View style={_.container.content}>
@@ -187,4 +191,4 @@ class Blog extends React.Component<{
   }
 }
 
-export default obc(Blog)
+export default ob(Blog)
