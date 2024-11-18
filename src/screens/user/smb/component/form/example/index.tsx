@@ -2,25 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-16 22:38:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:07:11
+ * @Last Modified time: 2024-11-18 07:22:25
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { ReactNode } from '@types'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Example(
-  {
-    store
-  }: {
-    store: Ctx['$']
-  },
-  { $ }: Ctx
-) {
+function Example({ store }: { store: Ctx['$'] }) {
+  let { $ } = useStore<Ctx>()
   $ = $ || store
 
   const { webDAV } = $.state
@@ -113,4 +107,4 @@ function Example(
   )
 }
 
-export default obc(Example)
+export default ob(Example)

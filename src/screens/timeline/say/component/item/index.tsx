@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:54:32
+ * @Last Modified time: 2024-11-18 05:43:16
  */
 import React from 'react'
 import { Text } from '@components'
 import { ItemSay } from '@_'
-import { userStore } from '@stores'
+import { userStore, useStore } from '@stores'
 import { SayItem } from '@stores/timeline/types'
 import { getAvatarLocal } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { API_AVATAR } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 
-function Item({ item, index }, { $ }: Ctx) {
+function Item({ item, index }) {
+  const { $ } = useStore<Ctx>()
   if (!item.id) return null
 
   const { list } = $.say
@@ -40,4 +41,4 @@ function Item({ item, index }, { $ }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

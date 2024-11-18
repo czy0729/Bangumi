@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-24 14:59:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:08:49
+ * @Last Modified time: 2024-11-18 07:29:36
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, ModalFixed, ScrollView } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { Ctx } from '../../types'
@@ -18,7 +18,8 @@ import Subject from '../subject'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ModalFolders(_props, { $, navigation }: Ctx) {
+function ModalFolders() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { folders } = $.state
   const { visible, subjectId, folder, merge } = folders
@@ -67,4 +68,4 @@ function ModalFolders(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(ModalFolders, COMPONENT)
+export default ob(ModalFolders, COMPONENT)

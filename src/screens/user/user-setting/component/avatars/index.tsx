@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 14:06:33
+ * @Last Modified time: 2024-11-18 07:47:32
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { arrGroup } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { fixedRemote } from '@utils/user-setting'
 import { Ctx } from '../../types'
 import { getHeaders } from '../utils'
 import { COMPONENT } from './ds'
 
-function Avatars({ avatar }, { $ }: Ctx) {
+function Avatars({ avatar }) {
+  const { $ } = useStore<Ctx>()
   return (
     <>
       {arrGroup($.state.avatars, 5).map((items, index) => (
@@ -75,4 +76,4 @@ function Avatars({ avatar }, { $ }: Ctx) {
   )
 }
 
-export default obc(Avatars, COMPONENT)
+export default ob(Avatars, COMPONENT)

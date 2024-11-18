@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:30:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:33:39
+ * @Last Modified time: 2024-11-18 08:14:26
  */
 import React from 'react'
 import { Animated } from 'react-native'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { H_HEADER } from '../../../store'
 import { styles } from './styles'
 
-function Mask({ style }, { $ }: Ctx) {
+function Mask({ style }) {
+  const { $ } = useStore<Ctx>()
   return (
     <Animated.View
       style={[
         styles.parallaxWrap,
         style,
-        // eslint-disable-next-line react-native/no-inline-styles
         {
           backgroundColor: 'rgba(0, 0, 0, 0.24)',
           opacity: $.scrollY.interpolate({
@@ -36,4 +36,4 @@ function Mask({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Mask)
+export default ob(Mask)

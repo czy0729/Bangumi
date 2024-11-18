@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-23 18:16:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 03:54:17
+ * @Last Modified time: 2024-11-18 07:01:22
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { OriginItem } from '../../utils'
 import { COMPONENT } from './ds'
 
-const Title = ({ type, name }, { $ }: Ctx) => {
+const Title = ({ type, name }) => {
+  const { $ } = useStore<Ctx>()
   const data = ($.data[type] as OriginItem[]).filter(item => item.active === 1)
   const activeData = data.map(item => item.name)
   return (
@@ -47,4 +48,4 @@ const Title = ({ type, name }, { $ }: Ctx) => {
   )
 }
 
-export default obc(Title, COMPONENT)
+export default ob(Title, COMPONENT)

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 06:32:26
+ * @Last Modified time: 2024-11-18 08:04:50
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Member(_props, { $ }: Ctx) {
+function Member() {
+  const { $ } = useStore<Ctx>()
   if (!$.isAdvance) return null
 
   return (
@@ -26,4 +27,4 @@ function Member(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Member)
+export default ob(Member)

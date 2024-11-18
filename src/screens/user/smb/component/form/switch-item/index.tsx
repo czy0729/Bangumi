@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-11-23 13:20:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-23 15:48:06
+ * @Last Modified time: 2024-11-18 07:23:20
  */
 import React from 'react'
 import { Flex, SwitchPro, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { alert } from '@utils'
 import { s2tAsync } from '@utils/async'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function SwitchItem(_props, { $ }: Ctx) {
+function SwitchItem() {
+  const { $ } = useStore<Ctx>()
   const { autoJA } = $.state
   return (
     <Flex style={_.mt.sm}>
@@ -42,4 +43,4 @@ function SwitchItem(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(SwitchItem)
+export default ob(SwitchItem)

@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-10-11 05:10:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 08:10:17
+ * @Last Modified time: 2024-11-18 06:49:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, getCoverSrc, Image, ImageProps, Text, Touchable } from '@components'
 import { Stars } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { getTimestamp, HTMLDecode, lastDate, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Item({ item, index }: Props, { $, navigation }: Ctx) {
+function Item({ item, index }: Props) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const numberOfLines = Number($.state.numberOfLines) || 0
   let titleText = ''
@@ -162,4 +163,4 @@ function Item({ item, index }: Props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

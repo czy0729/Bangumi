@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:55:47
+ * @Last Modified time: 2024-11-18 08:31:45
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
+import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import HeaderComponent from '../component/header-component'
 import Menu from '../component/menu'
@@ -18,7 +19,8 @@ import TopNavbarComponent from './top-navbar-component'
 import { COMPONENT } from './ds'
 
 /** 安卓用 */
-function NestedScroll(_props, { $ }: Ctx) {
+function NestedScroll() {
+  const { $ } = useStore<Ctx>()
   return (
     <>
       <NestedScrollParallaxHeader

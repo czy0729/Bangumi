@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-10-24 23:25:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 08:48:23
+ * @Last Modified time: 2024-11-18 08:21:10
  */
 import React from 'react'
 import { Text } from '@components'
-import { userStore } from '@stores'
+import { userStore, useStore } from '@stores'
 import { toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
 const userJson = {}
 
-function User({ style }, { $ }: Ctx) {
+function User({ style }) {
+  const { $ } = useStore<Ctx>()
   const { username } = userStore.userInfo
   if (username !== 'sukaretto') return null
 
@@ -36,4 +37,4 @@ function User({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(User, COMPONENT)
+export default ob(User, COMPONENT)

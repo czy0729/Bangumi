@@ -2,39 +2,39 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:29:23
+ * @Last Modified time: 2024-11-18 06:26:16
  */
 import React from 'react'
 import { Component, Page, ScrollView } from '@components'
-import { ic } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Create from './component/create'
 import List from './component/list'
 import Header from './header'
-import Store from './store'
+import { useActionsPage } from './hooks'
 import { memoStyles } from './styles'
-import { Ctx } from './types'
 
 /** 自定义跳转 */
-const Actions = (_props, { $ }: Ctx) => {
-  useMount(() => {
-    $.init()
-  })
+const Actions = (props: NavigationProps) => {
+  const { id, $ } = useActionsPage(props)
 
   return useObserver(() => {
     const styles = memoStyles()
     return (
       <Component id='screen-actions'>
-        <Header />
-        <Page loaded={$.state._loaded}>
-          <ScrollView contentContainerStyle={styles.scrollView}>
-            <List />
-            <Create />
-          </ScrollView>
-        </Page>
+        <StoreContext.Provider value={id}>
+          <Header />
+          <Page loaded={$.state._loaded}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
+              <List />
+              <Create />
+            </ScrollView>
+          </Page>
+        </StoreContext.Provider>
       </Component>
     )
   })
 }
 
-export default ic(Store, Actions)
+export default Actions

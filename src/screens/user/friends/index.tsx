@@ -2,35 +2,34 @@
  * @Author: czy0729
  * @Date: 2019-07-24 10:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:14:32
+ * @Last Modified time: 2024-11-18 06:42:09
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Filter from './component/filter'
 import List from './component/list'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useFriendsPage } from './hooks'
 
 /** 好友 */
-const Friends = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Friends = (props: NavigationProps) => {
+  const { id } = useFriendsPage(props)
 
   return useObserver(() => (
     <Component id='screen-friends'>
-      <Header />
-      <Page>
-        <Filter />
-        <List />
-      </Page>
-      <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page>
+          <Filter />
+          <List />
+        </Page>
+        <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Friends)
+export default Friends

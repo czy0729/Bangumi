@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-25 10:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:08:39
+ * @Last Modified time: 2024-11-18 07:29:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import ItemGrid from '../../item-grid'
 import { styles } from './styles'
 
-function Grids(_props, { $ }: Ctx) {
+function Grids() {
+  const { $ } = useStore<Ctx>()
   const { layoutGridNums } = $.state.configs
   return (
     <Flex style={styles.grids} justify='between' wrap='wrap'>
@@ -34,4 +35,4 @@ function Grids(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Grids)
+export default ob(Grids)

@@ -2,32 +2,31 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:16:09
+ * @Last Modified time: 2024-11-18 07:11:47
  */
 import React from 'react'
 import { Component } from '@components'
-import { ic } from '@utils/decorators'
-import { useKeyboardAdjustResize, useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Heatmaps from './component/heatmaps'
 import Page from './component/page'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { usePMPage } from './hooks'
 
 /** 短信 */
-const PM = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
-  useKeyboardAdjustResize()
+const PM = (props: NavigationProps) => {
+  const { id, $, navigation } = usePMPage(props)
 
   return useObserver(() => (
     <Component id='screen-pm'>
-      <Header />
-      <Page />
-      <Heatmaps />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page $={$} navigation={navigation} />
+        <Heatmaps />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, PM)
+export default PM

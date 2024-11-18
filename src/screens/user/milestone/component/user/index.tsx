@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-10-10 12:41:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:37:59
+ * @Last Modified time: 2024-11-18 06:50:30
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Filter from '../filter'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function User(_props, { $, navigation }: Ctx) {
+function User() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { userId, userName } = $.users
   return (
@@ -52,4 +53,4 @@ function User(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(User, COMPONENT)
+export default ob(User, COMPONENT)

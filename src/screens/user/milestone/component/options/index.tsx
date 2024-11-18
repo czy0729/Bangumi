@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:38:59
+ * @Last Modified time: 2024-11-18 06:50:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ActionSheet, SegmentedControl, SwitchPro, Touchable } from '@components'
 import { IconTouchable, ItemSetting, Notice } from '@_'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { info, open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../../ds'
 import { Ctx } from '../../types'
@@ -18,7 +18,8 @@ import Input from '../input'
 import { COMPONENT, SEGMENTED_WIDTH } from './ds'
 import { styles } from './styles'
 
-function Options(_props, { $, navigation }: Ctx) {
+function Options() {
+  const { $, navigation } = useStore<Ctx>()
   const { advance } = systemStore
   const { numberOfLines, extraTitle } = $.state
   const elExtra = (
@@ -261,4 +262,4 @@ function Options(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Options, COMPONENT)
+export default ob(Options, COMPONENT)

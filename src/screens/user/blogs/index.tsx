@@ -2,33 +2,32 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 18:12:13
+ * @Last Modified time: 2024-11-18 06:35:35
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import List from './component/list'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useUserBlogsPage } from './hooks'
 
 /** 用户日志 */
-const UserBlogs = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const UserBlogs = (props: NavigationProps) => {
+  const { id } = useUserBlogsPage(props)
 
   return useObserver(() => (
     <Component id='screen-user-blogs'>
-      <Header />
-      <Page>
-        <List />
-      </Page>
-      <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page>
+          <List />
+        </Page>
+        <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, UserBlogs)
+export default UserBlogs

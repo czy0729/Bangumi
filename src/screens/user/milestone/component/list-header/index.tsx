@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-10-11 23:21:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:25:58
+ * @Last Modified time: 2024-11-18 06:50:11
  */
 import React from 'react'
 import { Flex, Loading, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import User from '../user'
 import { COMPONENT } from './ds'
 
-function ListHeader(_props, { $ }: Ctx) {
+function ListHeader() {
+  const { $ } = useStore<Ctx>()
   const { list, _loaded } = $.collections
   return (
     <>
@@ -44,4 +45,4 @@ function ListHeader(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ListHeader, COMPONENT)
+export default ob(ListHeader, COMPONENT)

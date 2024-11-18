@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:43:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:29:28
+ * @Last Modified time: 2024-11-18 06:30:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, SwitchPro, Text } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   const { focusOrigin, focusAction } = systemStore.setting
   return (
     <View>
@@ -68,4 +69,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

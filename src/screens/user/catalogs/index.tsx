@@ -2,33 +2,32 @@
  * @Author: czy0729
  * @Date: 2020-03-22 18:45:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:26:19
+ * @Last Modified time: 2024-11-18 06:37:56
  */
 import React from 'react'
 import { Component, Heatmap, Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useCatelogsPage } from './hooks'
 
 /** 用户目录 */
-const Catelogs = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Catelogs = (props: NavigationProps) => {
+  const { id, $ } = useCatelogsPage(props)
 
   return useObserver(() => (
     <Component id='screen-catelogs'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <Tabs />
-      </Page>
-      <Heatmap bottom={_.bottom} id='用户目录' screen='Catelogs' />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <Tabs />
+        </Page>
+        <Heatmap bottom={_.bottom} id='用户目录' screen='Catelogs' />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Catelogs)
+export default Catelogs

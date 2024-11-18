@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 19:54:17
+ * @Last Modified time: 2024-11-18 08:28:07
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Flex, Image, Loading, Modal, Text } from '@components'
 import { _, timelineStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import {
   hash,
@@ -18,14 +18,11 @@ import {
   VERSIONS_AVATAR
 } from '@constants'
 import { TimeLineType } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-class UsedModal extends React.Component<{
-  defaultAvatar?: string
-  visible?: boolean
-}> {
+class UsedModal extends React.Component<Props> {
   static defaultProps = {
     title: '',
     visible: false
@@ -51,7 +48,7 @@ class UsedModal extends React.Component<{
   }
 
   checkUsedName = async () => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { id, username } = $.usersInfo
     const userId = username || id
     const data = {
@@ -79,7 +76,7 @@ class UsedModal extends React.Component<{
   }
 
   checkUserAvatar = async () => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { avatar } = $.usersInfo
     const { medium } = avatar || {}
     let _src = String(medium || '').split('?')[0]
@@ -172,8 +169,7 @@ class UsedModal extends React.Component<{
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
-    const { visible } = this.props
+    const { $, visible } = this.props
     return (
       <Modal
         style={this.styles.modal}
@@ -194,4 +190,4 @@ class UsedModal extends React.Component<{
   }
 }
 
-export default obc(UsedModal)
+export default ob(UsedModal)

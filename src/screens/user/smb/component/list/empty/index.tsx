@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-11-25 10:48:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:08:36
+ * @Last Modified time: 2024-11-18 07:27:56
  */
 import React from 'react'
 import { Empty as EmptyComp, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 
-function Empty(_props, { $, navigation }: Ctx) {
+function Empty() {
+  const { $, navigation } = useStore<Ctx>()
   const { filter } = $.state
   const value = filter.trim()
   return (
@@ -45,4 +46,4 @@ function Empty(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Empty)
+export default ob(Empty)

@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-02-14 06:57:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:38:43
+ * @Last Modified time: 2024-11-18 08:30:00
  */
 import React from 'react'
 import { View } from 'react-native'
 // import { WebView } from 'react-native-webview'
 import { Image, Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { withT } from '@utils/fetch'
 import { useNavigation, useObserver } from '@utils/hooks'
@@ -96,4 +95,4 @@ function Award2021() {
   })
 }
 
-export default c(Award2021)
+export default Award2021

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-10-14 06:26:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:48:34
+ * @Last Modified time: 2024-11-18 08:13:41
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { Ctx } from '../../../types'
 
-function Milestone(_props, { $, navigation }: Ctx) {
+function Milestone() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <Touchable
       style={{
@@ -44,4 +45,4 @@ function Milestone(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Milestone)
+export default ob(Milestone)

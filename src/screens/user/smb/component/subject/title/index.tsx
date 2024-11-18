@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-02-21 01:34:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-22 06:35:31
+ * @Last Modified time: 2024-11-18 07:31:11
  */
 import React from 'react'
 import { Flex, Highlight } from '@components'
+import { useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TEXT_SPACE } from '@constants'
 import { Ctx } from '../../../types'
 
-function Title({ name, nameCn }, { $ }: Ctx) {
+function Title({ name, nameCn }) {
+  const { $ } = useStore<Ctx>()
   const { filter } = $.state
   const hasName = !!name
   const left = HTMLDecode(cnjp(nameCn, name))
@@ -42,4 +44,4 @@ function Title({ name, nameCn }, { $ }: Ctx) {
   )
 }
 
-export default obc(Title)
+export default ob(Title)

@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-11-22 05:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:16:30
+ * @Last Modified time: 2024-11-18 07:19:54
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Input } from '@components'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-class Filter extends React.Component {
+class Filter extends React.Component<Ctx> {
   state = {
     focus: false
   }
@@ -33,7 +33,7 @@ class Filter extends React.Component {
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { _filter } = $.state
     const { focus } = this.state
     return (
@@ -63,4 +63,4 @@ class Filter extends React.Component {
   }
 }
 
-export default obc(Filter)
+export default ob(Filter)

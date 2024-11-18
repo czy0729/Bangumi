@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-11-22 13:03:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:08:19
+ * @Last Modified time: 2024-11-18 07:17:27
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Modal, SegmentedControl, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { HTML_SINGLE_DOC, WEB } from '@constants'
 import { Ctx } from '../../types'
 import {
@@ -23,7 +23,8 @@ import {
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Config(_props, { $ }: Ctx) {
+function Config() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { configVisible, configs } = $.state
   return (
@@ -151,4 +152,4 @@ function Config(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Config, COMPONENT)
+export default ob(Config, COMPONENT)

@@ -2,31 +2,29 @@
  * @Author: czy0729
  * @Date: 2023-11-17 04:55:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:53:37
+ * @Last Modified time: 2024-11-18 07:23:35
  */
 import React from 'react'
 import { Alert } from 'react-native'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { alert, open } from '@utils'
 import { s2tAsync } from '@utils/async'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { FROZEN_FN, WEB } from '@constants'
 import { AnyObject } from '@types'
 import { Ctx } from '../../../types'
 import { CONTENT_DIRECTORY, CONTENT_SMB, TITLE } from './ds'
 import { styles } from './styles'
 
-function UrlItem(
-  {
-    store,
-    connectRef
-  }: AnyObject<{
-    store: Ctx['$']
-  }>,
-  { $ }: Ctx
-) {
+function UrlItem({
+  store,
+  connectRef
+}: AnyObject<{
+  store: Ctx['$']
+}>) {
+  let { $ } = useStore<Ctx>()
   $ = $ || store
 
   const { url } = $.state
@@ -91,4 +89,4 @@ function UrlItem(
   )
 }
 
-export default obc(UrlItem)
+export default ob(UrlItem)

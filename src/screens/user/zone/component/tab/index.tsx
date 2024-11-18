@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-06-03 09:53:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 20:13:59
+ * @Last Modified time: 2024-11-18 08:24:14
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
 import { H_HEADER } from '../../store'
 import About from '../about'
 import BangumiList from '../bangumi-list'
@@ -26,8 +25,7 @@ import { Props } from './types'
 
 class Tab extends React.Component<Props> {
   onIndexChange = (index: number) => {
-    const { $ } = this.context as Ctx
-    const { onIndexChange } = this.props
+    const { $, onIndexChange } = this.props
     onIndexChange(index)
     $.onTabChange(index)
   }
@@ -78,7 +76,7 @@ class Tab extends React.Component<Props> {
   })
 
   get navigationState() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { page } = $.state
     return {
       index: page,
@@ -87,7 +85,7 @@ class Tab extends React.Component<Props> {
   }
 
   get transform() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     return {
       transform: [
         {
@@ -112,7 +110,7 @@ class Tab extends React.Component<Props> {
   )
 
   renderTabBar = props => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const width = _.window.width / $.tabs.length
     return (
       <Animated.View style={[this.styles.tabBarWrap, this.transform]}>
@@ -149,7 +147,6 @@ class Tab extends React.Component<Props> {
         key={_.orientation}
         lazy
         lazyPreloadDistance={0}
-        // @ts-expect-error
         navigationState={this.navigationState}
         renderTabBar={this.renderTabBar}
         renderScene={this.renderScene}
@@ -164,4 +161,4 @@ class Tab extends React.Component<Props> {
   }
 }
 
-export default obc(Tab)
+export default ob(Tab)

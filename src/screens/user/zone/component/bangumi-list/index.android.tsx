@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-01-06 22:02:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:34:29
+ * @Last Modified time: 2024-11-18 08:01:04
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ListView, Loading } from '@components'
+import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Footer from './footer'
 import Item from './item'
@@ -16,7 +17,8 @@ import SectionHeader from './section-header'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function BangumiList(_props, { $ }: Ctx) {
+function BangumiList() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { list, _loaded } = $.userCollections
   if (!_loaded) {
@@ -49,7 +51,7 @@ function BangumiList(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(BangumiList, COMPONENT)
+export default ob(BangumiList, COMPONENT)
 
 function renderSectionHeader({ section: { title, count } }) {
   return <SectionHeader title={title} count={count} />

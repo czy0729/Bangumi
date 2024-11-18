@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-06-23 22:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 23:32:54
+ * @Last Modified time: 2024-11-18 08:00:22
  */
 import React, { useCallback } from 'react'
 import { Animated, View } from 'react-native'
 import { Component } from '@components'
-import { userStore } from '@stores'
-import { c } from '@utils/decorators'
+import { userStore, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
@@ -22,15 +21,19 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function About(props: Props, { $ }: Ctx) {
+function About(props: Props) {
   r(COMPONENT)
 
-  const handleRef = useCallback(ref => {
-    $.connectRef(
-      ref,
-      TABS.findIndex(item => item.title === '关于')
-    )
-  }, [])
+  const { $ } = useStore<Ctx>()
+  const handleRef = useCallback(
+    ref => {
+      $.connectRef(
+        ref,
+        TABS.findIndex(item => item.title === '关于')
+      )
+    },
+    [$]
+  )
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -69,4 +72,4 @@ function About(props: Props, { $ }: Ctx) {
   })
 }
 
-export default c(About)
+export default About

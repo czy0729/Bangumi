@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:19:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 00:02:46
+ * @Last Modified time: 2024-11-18 08:14:00
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { Component } from '@components'
+import { useStore } from '@stores'
 import { getBlurRadius, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function Bg({ style }, { $ }: Ctx) {
+function Bg({ style }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <Component id='screen-zone-parallax-image-bg'>
@@ -25,4 +27,4 @@ function Bg({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Bg)
+export default ob(Bg)

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-27 21:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:32:58
+ * @Last Modified time: 2024-11-18 08:21:19
  */
 import React from 'react'
 import { NestedScrollParallaxHeader } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import About from '../component/about'
 import BangumiList from '../component/bangumi-list'
 import Menu from '../component/menu'
@@ -24,7 +25,8 @@ import { memoStyles } from './styles'
 const PAGES = TABS.map(item => item.title)
 
 /** 安卓用 */
-function NestedScroll(_props, { $ }: Ctx) {
+function NestedScroll() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <>
@@ -51,4 +53,4 @@ function NestedScroll(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(NestedScroll, COMPONENT)
+export default ob(NestedScroll, COMPONENT)

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:01:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 10:51:22
+ * @Last Modified time: 2024-11-18 08:03:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Remark({ style }, { $ }: Ctx) {
+function Remark({ style }) {
+  const { $ } = useStore<Ctx>()
   return (
     <View style={style}>
       <Touchable style={styles.remark} animate scale={0.8} onPress={$.openRemarkModal}>
@@ -24,4 +25,4 @@ function Remark({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Remark)
+export default ob(Remark)

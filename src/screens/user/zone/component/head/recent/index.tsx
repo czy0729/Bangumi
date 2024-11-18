@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:58:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 11:16:00
+ * @Last Modified time: 2024-11-18 08:03:44
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 
-function Recent({ style }, { $ }: Ctx) {
+function Recent({ style }) {
+  const { $ } = useStore<Ctx>()
   let activeText = '历史'
   if ($.usersTimeline.list.length && $.usersTimeline.list?.[0]?.time) {
     activeText = `${String($.usersTimeline.list[0]?.time.split(' ·')?.[0]).replace('·', '')}活跃`
@@ -40,4 +41,4 @@ function Recent({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Recent)
+export default ob(Recent)

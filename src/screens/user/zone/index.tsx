@@ -2,37 +2,36 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 13:16:04
+ * @Last Modified time: 2024-11-18 08:22:34
  */
 import React from 'react'
+import './styles'
 import { Component } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
+import { NavigationProps } from '@types'
 import Extra from './component/extra'
 import { useZonePage } from './hooks'
 import NestedScroll from './nested-scroll'
 import Scroll from './scroll'
-import Store from './store'
-import { Ctx } from './types'
-import './styles'
 
 /** 用户空间 */
-const Zone = (_props, context: Ctx) => {
-  useZonePage(context)
+const Zone = (props: NavigationProps) => {
+  const { id, $ } = useZonePage(props)
 
-  const { $ } = context
   return useObserver(() => (
     <Component id='screen-zone' style={_.container.plain}>
-      {!!$.state._loaded && (
-        <>
-          {!IOS && !WEB ? <NestedScroll /> : <Scroll />}
-          <Extra />
-        </>
-      )}
+      <StoreContext.Provider value={id}>
+        {!!$.state._loaded && (
+          <>
+            {!IOS && !WEB ? <NestedScroll /> : <Scroll $={$} />}
+            <Extra />
+          </>
+        )}
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Zone)
+export default Zone

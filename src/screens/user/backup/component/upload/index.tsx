@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-12-06 06:14:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:19:21
+ * @Last Modified time: 2024-11-18 06:33:21
  */
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Btn from '../btn'
 import { injectedHTML } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Upload(_props, { $ }: Ctx) {
+function Upload() {
+  const { $ } = useStore<Ctx>()
   if (!$.state.modal) return null
 
   const styles = memoStyles()
@@ -58,4 +59,4 @@ function Upload(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Upload, COMPONENT)
+export default ob(Upload, COMPONENT)

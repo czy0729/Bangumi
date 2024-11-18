@@ -2,34 +2,27 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:54:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-09 08:18:37
+ * @Last Modified time: 2024-11-18 08:02:02
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
 import { ItemBangumiList } from '@_'
+import { useStore } from '@stores'
 import { CollectionsItem } from '@stores/user/types'
 import { cnjp } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { CollectionStatusCn } from '@types'
 import { Ctx } from '../../../types'
 import { EVENT } from './ds'
 
-function Item(
-  {
-    item,
-    title
-  }: {
-    item: CollectionsItem
-    title: CollectionStatusCn
-  },
-  { $, navigation }: Ctx
-) {
+function Item({ item, title }: { item: CollectionsItem; title: CollectionStatusCn }) {
+  const { $, navigation } = useStore<Ctx>()
   if (!$.state.expand[title]) return null
 
   return (
     <Flex wrap='wrap' align='start'>
       {item.list
-        .filter((item, index) => index < 20)
+        .filter((_item, index) => index < 20)
         .map(item => (
           <ItemBangumiList
             key={item.id}
@@ -45,4 +38,4 @@ function Item(
   )
 }
 
-export default obc(Item)
+export default ob(Item)

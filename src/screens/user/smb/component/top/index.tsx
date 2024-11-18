@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-04-01 03:05:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 15:56:43
+ * @Last Modified time: 2024-11-18 07:32:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Loading, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { ACTIONS_SMB } from '../../ds'
 import { Ctx } from '../../types'
 import Servers from '../servers'
@@ -17,7 +17,8 @@ import ToolBar from '../tool-bar'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Top(_props, { $, navigation }: Ctx) {
+function Top() {
+  const { $, navigation } = useStore<Ctx>()
   const smb = $.current?.smb
   if (!smb) return null
 
@@ -58,4 +59,4 @@ function Top(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Top, COMPONENT)
+export default ob(Top, COMPONENT)

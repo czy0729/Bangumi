@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-09-23 07:04:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:09:00
+ * @Last Modified time: 2024-11-18 07:31:36
  */
 import React from 'react'
 import { ToolBar } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 
-function Tag(_props, { $ }: Ctx) {
+function Tag() {
+  const { $ } = useStore<Ctx>()
   const { subjectTags } = $.state
   const tagsCount = $.tagsSubjectCount()
   return (
@@ -37,4 +38,4 @@ function Tag(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Tag)
+export default ob(Tag)

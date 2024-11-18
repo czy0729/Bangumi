@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-06-28 09:46:25
+ * @Last Modified time: 2024-11-18 08:14:10
  */
 import React from 'react'
 import { Animated, View } from 'react-native'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { H_HEADER } from '../../../store'
 import Head from '../../head'
 import { memoStyles } from './styles'
 
-function Center({ style }, { $ }: Ctx) {
+function Center({ style }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <Animated.View style={[styles.parallaxWrap, style]}>
@@ -37,4 +38,4 @@ function Center({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Center)
+export default ob(Center)

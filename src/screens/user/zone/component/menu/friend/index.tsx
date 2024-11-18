@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:56:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 06:32:34
+ * @Last Modified time: 2024-11-18 08:04:32
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Friend(_props, { $ }: Ctx) {
+function Friend() {
+  const { $ } = useStore<Ctx>()
   if (!$.users.disconnectUrl) return null
 
   return (
@@ -23,4 +24,4 @@ function Friend(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Friend)
+export default ob(Friend)

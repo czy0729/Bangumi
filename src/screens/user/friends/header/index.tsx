@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:14:54
+ * @Last Modified time: 2024-11-18 06:47:32
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
+import { useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title='好友'
@@ -35,4 +37,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 07:41:46
+ * @Last Modified time: 2024-11-18 06:49:33
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import {
   COLLECTION_STATUS,
   MODEL_COLLECTION_STATUS,
@@ -20,7 +20,8 @@ import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Filter(_props, { $ }: Ctx) {
+function Filter() {
+  const { $ } = useStore<Ctx>()
   const { subjectType, order, tag } = $.state
   let action: string = '看'
   if (subjectType === 'music') action = '听'
@@ -92,4 +93,4 @@ function Filter(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Filter, COMPONENT)
+export default ob(Filter, COMPONENT)

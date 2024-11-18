@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:09:10
+ * @Last Modified time: 2024-11-18 07:33:10
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title='本地管理'
@@ -46,4 +48,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

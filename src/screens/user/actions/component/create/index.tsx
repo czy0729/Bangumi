@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:03:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:29:24
+ * @Last Modified time: 2024-11-18 06:29:39
  */
 import React from 'react'
 import { Button, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Form from '../form'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-const Create = (_props, { $ }: Ctx) => {
+const Create = () => {
+  const { $ } = useStore<Ctx>()
   const { edit } = $.state
   const isCreate = edit.show && edit.uuid === ''
   return isCreate ? (
@@ -42,4 +43,4 @@ const Create = (_props, { $ }: Ctx) => {
   )
 }
 
-export default obc(Create, COMPONENT)
+export default ob(Create, COMPONENT)

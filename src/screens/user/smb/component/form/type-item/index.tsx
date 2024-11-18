@@ -2,23 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:01:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 14:41:50
+ * @Last Modified time: 2024-11-18 07:23:27
  */
 import React from 'react'
 import { Flex, SegmentedControl, Text, Touchable } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { IOS } from '@constants'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function TypeItem(
-  {
-    store
-  }: {
-    store: Ctx['$']
-  },
-  { $ }: Ctx
-) {
+function TypeItem({ store }: { store: Ctx['$'] }) {
+  let { $ } = useStore<Ctx>()
   $ = $ || store
 
   const { webDAV } = $.state
@@ -55,4 +50,4 @@ function TypeItem(
   )
 }
 
-export default obc(TypeItem)
+export default ob(TypeItem)

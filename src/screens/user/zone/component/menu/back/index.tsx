@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:50:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:34:08
+ * @Last Modified time: 2024-11-18 08:04:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { IconBack } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { styles } from './styles'
 
-function Back(_props, { navigation }: Ctx) {
+function Back() {
+  const navigation = useNavigation()
   return (
     <View style={[_.header.left, styles.back]}>
       <IconBack navigation={navigation} color={_.__colorPlain__} />
@@ -20,4 +21,4 @@ function Back(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Back)
+export default ob(Back)

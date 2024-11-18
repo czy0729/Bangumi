@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-12-07 14:31:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:18:27
+ * @Last Modified time: 2024-11-18 06:32:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { ItemSettingBlock } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COLOR_SUCCESS, COMPONENT } from './ds'
 import { styles } from './styles'
 
-const Cloud = (_props, { $ }: Ctx) => {
+const Cloud = () => {
+  const { $ } = useStore<Ctx>()
   const { includeUrl, includeImage, upload } = $.state
   const { length } = Object.keys(upload)
   return (
@@ -65,4 +66,4 @@ const Cloud = (_props, { $ }: Ctx) => {
   )
 }
 
-export default obc(Cloud, COMPONENT)
+export default ob(Cloud, COMPONENT)

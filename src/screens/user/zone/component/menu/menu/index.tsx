@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:52:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 06:32:15
+ * @Last Modified time: 2024-11-18 08:05:12
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import { handleSelect } from './utils'
@@ -25,7 +25,8 @@ import {
 } from './ds'
 import { styles } from './styles'
 
-function Menu(_props, context: Ctx) {
+function Menu() {
+  const context = useStore<Ctx>()
   const { $ } = context
 
   const data = [TEXT_BROWSER, TEXT_COPY_LINK, TEXT_COPY_SHARE]
@@ -58,4 +59,4 @@ function Menu(_props, context: Ctx) {
   )
 }
 
-export default obc(Menu)
+export default ob(Menu)

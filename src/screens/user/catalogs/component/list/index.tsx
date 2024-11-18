@@ -2,29 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 21:42:20
+ * @Last Modified time: 2024-11-18 06:38:43
  */
 import React, { useCallback } from 'react'
 import { ListView, Loading } from '@components'
 import { ItemCatalog } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { Ctx, TabsLabel } from '../../types'
 import { COMPONENT } from './ds'
 
-function List(
-  {
-    id
-  }: {
-    id: TabsLabel
-  },
-  { $ }: Ctx
-) {
+function List({ id }: { id: TabsLabel }) {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   const renderItem = useCallback(
     ({ item }) => (
       <ItemCatalog
@@ -38,10 +31,10 @@ function List(
         }}
       />
     ),
-    []
+    [$.userId]
   )
-  const handleHeaderRefresh = useCallback(() => $.fetchCatalogs(id, true), [])
-  const handleFooterRefresh = useCallback(() => $.fetchCatalogs(id), [])
+  const handleHeaderRefresh = useCallback(() => $.fetchCatalogs(id, true), [$, id])
+  const handleFooterRefresh = useCallback(() => $.fetchCatalogs(id), [$, id])
 
   return useObserver(() => {
     const catalogs = $.catalogs(id)
@@ -62,4 +55,4 @@ function List(
   })
 }
 
-export default c(List)
+export default List

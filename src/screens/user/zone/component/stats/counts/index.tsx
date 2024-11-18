@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-28 10:39:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:33:21
+ * @Last Modified time: 2024-11-18 08:18:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function Counts(_props, { $ }: Ctx) {
+function Counts() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const userStats = ($.users?.userStats || {}) as any
   return (
@@ -84,4 +86,4 @@ function Counts(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Counts)
+export default ob(Counts)

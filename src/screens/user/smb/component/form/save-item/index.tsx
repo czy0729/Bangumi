@@ -2,24 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-11-17 05:11:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:07:36
+ * @Last Modified time: 2024-11-18 07:23:07
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Example(
-  {
-    store
-  }: {
-    store: Ctx['$']
-  },
-  { $ }: Ctx
-) {
+function Example({ store }: { store: Ctx['$'] }) {
+  let { $ } = useStore<Ctx>()
   $ = $ || store
 
   const { id } = $.state
@@ -39,4 +33,4 @@ function Example(
   )
 }
 
-export default obc(Example)
+export default ob(Example)

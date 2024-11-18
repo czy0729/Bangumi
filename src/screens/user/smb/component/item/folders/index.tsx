@@ -2,34 +2,32 @@
  * @Author: czy0729
  * @Date: 2023-11-23 06:30:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-25 13:54:19
+ * @Last Modified time: 2024-11-18 07:27:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { desc } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx, SMBListItem } from '../../../types'
 import Folder from '../folder'
 import { styles } from './styles'
 
 const LIMIT = 3
 
-function Folders(
-  {
-    fixedStyle = true,
-    folder,
-    merge,
-    defaultShow = false
-  }: {
-    fixedStyle?: boolean
-    folder: SMBListItem
-    merge?: SMBListItem[]
-    defaultShow?: boolean
-  },
-  { $ }: Ctx
-) {
+function Folders({
+  fixedStyle = true,
+  folder,
+  merge,
+  defaultShow = false
+}: {
+  fixedStyle?: boolean
+  folder: SMBListItem
+  merge?: SMBListItem[]
+  defaultShow?: boolean
+}) {
+  const { $ } = useStore<Ctx>()
   const { layoutList } = $.state.configs
   const folderNames = [folder.name]
   if (merge?.length) merge.forEach(item => folderNames.push(item.name))
@@ -50,7 +48,7 @@ function Folders(
             }
             return desc(a.name, b.name)
           })
-          .filter((item, index) => (foldersExpanded ? true : index < LIMIT))
+          .filter((_item, index) => (foldersExpanded ? true : index < LIMIT))
           .map((item, index) => (
             <Folder
               key={item.name}
@@ -72,4 +70,4 @@ function Folders(
   )
 }
 
-export default obc(Folders)
+export default ob(Folders)

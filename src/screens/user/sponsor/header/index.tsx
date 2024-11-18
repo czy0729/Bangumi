@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:59:29
+ * @Last Modified time: 2024-11-18 07:36:05
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { timeDiff } from '../utils'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   const { list } = $.state
   return (
     <HeaderComp
@@ -54,4 +55,4 @@ function Header(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

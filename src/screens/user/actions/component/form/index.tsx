@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 13:47:00
+ * @Last Modified time: 2024-11-18 06:29:57
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const Form = ({ style = undefined, name = '', url = '' }, { $ }: Ctx) => {
+const Form = ({ style = undefined, name = '', url = '' }) => {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { edit } = $.state
   return (
@@ -73,4 +74,4 @@ const Form = ({ style = undefined, name = '', url = '' }, { $ }: Ctx) => {
   )
 }
 
-export default obc(Form, COMPONENT)
+export default ob(Form, COMPONENT)

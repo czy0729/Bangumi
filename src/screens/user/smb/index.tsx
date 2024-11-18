@@ -2,40 +2,40 @@
  * @Author: czy0729
  * @Date: 2022-03-28 12:31:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-03 13:38:34
+ * @Last Modified time: 2024-11-18 07:16:54
  */
 import React from 'react'
+import './styles'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useMount, useObserver } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Config from './component/config'
 import Form from './component/form'
 import List from './component/list'
 import ModalFolders from './component/modal-folders'
 import Scrape from './component/scrape'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
-import './styles'
+import { useSmbPage } from './hooks'
 
 /** 本地管理 */
-const Smb = (_props, { $ }: Ctx) => {
-  useMount(() => {
-    $.init()
-  })
+const Smb = (props: NavigationProps) => {
+  const { id, $ } = useSmbPage(props)
 
   return useObserver(() => (
     <Component id='screen-smb'>
-      <Header />
-      <Page loaded={$.state._loaded}>
-        <List />
-        <Form />
-      </Page>
-      <ModalFolders />
-      <Config />
-      <Scrape />
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page loaded={$.state._loaded}>
+          <List />
+          <Form />
+        </Page>
+        <ModalFolders />
+        <Config />
+        <Scrape />
+      </StoreContext.Provider>
     </Component>
   ))
 }
 
-export default ic(Store, Smb)
+export default Smb

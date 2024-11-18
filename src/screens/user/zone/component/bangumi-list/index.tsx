@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 23:46:26
+ * @Last Modified time: 2024-11-18 08:01:20
  */
 import React, { useCallback } from 'react'
 import { Animated } from 'react-native'
 import { Component, ListView, Loading } from '@components'
+import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
@@ -19,15 +19,19 @@ import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function BangumiList(props, { $ }: Ctx) {
+function BangumiList(props) {
   r(COMPONENT)
 
-  const handleRef = useCallback((ref: any) => {
-    $.connectRef(
-      ref,
-      TABS.findIndex(item => item.title === '番剧')
-    )
-  }, [])
+  const { $ } = useStore<Ctx>()
+  const handleRef = useCallback(
+    (ref: any) => {
+      $.connectRef(
+        ref,
+        TABS.findIndex(item => item.title === '番剧')
+      )
+    },
+    [$]
+  )
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -67,4 +71,4 @@ function BangumiList(props, { $ }: Ctx) {
   })
 }
 
-export default c(BangumiList)
+export default BangumiList

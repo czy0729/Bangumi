@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-08 19:32:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 19:20:23
+ * @Last Modified time: 2024-11-18 08:13:52
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { H_HEADER } from '../../store'
 import Menu from '../menu'
@@ -18,7 +18,8 @@ import Mask from './mask'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ParallaxImage(_props, { $ }: Ctx) {
+function ParallaxImage() {
+  const { $ } = useStore<Ctx>()
   const parallaxStyle = {
     transform: [
       {
@@ -62,4 +63,4 @@ function ParallaxImage(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ParallaxImage, COMPONENT)
+export default ob(ParallaxImage, COMPONENT)

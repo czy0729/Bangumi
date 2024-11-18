@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-12-26 05:11:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:33:28
+ * @Last Modified time: 2024-11-18 08:18:25
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { getHeight } from './utils'
 import { memoStyles } from './styles'
 
-function Chart(_props, { $ }: Ctx) {
+function Chart() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const userStats = ($.users?.userStats || {}) as any
   const count = userStats?.chart
@@ -60,4 +61,4 @@ function Chart(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Chart)
+export default ob(Chart)

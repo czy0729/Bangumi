@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-11-24 15:39:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:29:29
+ * @Last Modified time: 2024-11-18 06:30:57
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <HeaderComp
       title={$.params.name || '自定义跳转'}
@@ -37,4 +38,4 @@ function Header(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

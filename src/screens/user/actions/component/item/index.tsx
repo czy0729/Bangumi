@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 14:56:04
+ * @Last Modified time: 2024-11-18 06:30:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover, Tag } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Form from '../form'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-const Item = ({ uuid, active, name, url, sort }, { $ }: Ctx) => {
+const Item = ({ uuid, active, name, url, sort }) => {
+  const { $ } = useStore<Ctx>()
   const actions = []
   const isActive = !!active
   actions.push('编辑', isActive ? '停用' : '启用', '删除', '测试')
@@ -96,4 +97,4 @@ const Item = ({ uuid, active, name, url, sort }, { $ }: Ctx) => {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

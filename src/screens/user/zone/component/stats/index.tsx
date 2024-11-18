@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-12-26 04:29:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 23:52:29
+ * @Last Modified time: 2024-11-18 08:18:04
  */
 import React, { useCallback } from 'react'
 import { Animated, View } from 'react-native'
 import { useObserver } from 'mobx-react'
 import { Component, Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { c } from '@utils/decorators'
+import { _, useStore } from '@stores'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { SCROLL_VIEW_RESET_PROPS, USE_NATIVE_DRIVER } from '@constants'
@@ -20,15 +19,19 @@ import Counts from './counts'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Stats(props, { $, navigation }: Ctx) {
+function Stats(props) {
   r(COMPONENT)
 
-  const handleRef = useCallback(ref => {
-    $.connectRef(
-      ref,
-      TABS.findIndex(item => item.title === '统计')
-    )
-  }, [])
+  const { $, navigation } = useStore<Ctx>()
+  const handleRef = useCallback(
+    ref => {
+      $.connectRef(
+        ref,
+        TABS.findIndex(item => item.title === '统计')
+      )
+    },
+    [$]
+  )
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -86,4 +89,4 @@ function Stats(props, { $, navigation }: Ctx) {
   })
 }
 
-export default c(Stats)
+export default Stats

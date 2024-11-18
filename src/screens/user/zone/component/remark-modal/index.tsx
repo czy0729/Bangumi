@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-04-09 16:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-10 10:37:14
+ * @Last Modified time: 2024-11-18 08:17:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { autorun } from 'mobx'
 import { Flex, Input, Modal, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(
-  class RemarkModal extends React.Component {
+export default ob(
+  class RemarkModal extends React.Component<Ctx> {
     iptRef: any
 
     componentDidMount() {
-      const { $ } = this.context as Ctx
+      const { $ } = this.props
       autorun(() => {
         if ($.state.remarkModalVisible) {
           setTimeout(() => {
@@ -39,7 +39,7 @@ export default obc(
     render() {
       r(COMPONENT)
 
-      const { $ } = this.context as Ctx
+      const { $ } = this.props
       const { remarkModalVisible, remarkModalInput } = $.state
       return (
         <Modal

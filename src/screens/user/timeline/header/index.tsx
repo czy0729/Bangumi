@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-16 02:01:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 18:31:49
+ * @Last Modified time: 2024-11-18 07:43:48
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   const { userName } = $.params
   return (
     <HeaderComp
@@ -30,4 +31,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

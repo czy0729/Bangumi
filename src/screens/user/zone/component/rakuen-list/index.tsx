@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-22 17:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:11:04
+ * @Last Modified time: 2024-11-18 08:14:55
  */
 import React, { useCallback } from 'react'
 import { Animated } from 'react-native'
 import { Component, Heatmap, ListView, Loading, ScrollView, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
@@ -20,15 +19,19 @@ import { handleToQiafan, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function RakuenList(props, { $, navigation }: Ctx) {
+function RakuenList(props) {
   r(COMPONENT)
 
-  const handleRef = useCallback((ref: any) => {
-    $.connectRef(
-      ref,
-      TABS.findIndex(item => item.title === '番剧')
-    )
-  }, [])
+  const { $, navigation } = useStore<Ctx>()
+  const handleRef = useCallback(
+    (ref: any) => {
+      $.connectRef(
+        ref,
+        TABS.findIndex(item => item.title === '番剧')
+      )
+    },
+    [$]
+  )
 
   const renderItem = useCallback(
     ({ item, index }) => (
@@ -36,7 +39,7 @@ function RakuenList(props, { $, navigation }: Ctx) {
         {!index && <Heatmap id='空间.跳转' to='Topic' alias='帖子' />}
       </RakuenItem>
     ),
-    []
+    [navigation]
   )
 
   return useObserver(() => {
@@ -110,4 +113,4 @@ function RakuenList(props, { $, navigation }: Ctx) {
   })
 }
 
-export default c(RakuenList)
+export default RakuenList

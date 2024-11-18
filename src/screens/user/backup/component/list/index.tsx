@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-04-24 14:16:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:19:14
+ * @Last Modified time: 2024-11-18 06:33:08
  */
 import React from 'react'
 import { PaginationList2 as PaginationList } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <PaginationList
       contentContainerStyle={_.container.bottom}
@@ -25,4 +26,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

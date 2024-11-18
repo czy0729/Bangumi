@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 13:24:03
+ * @Last Modified time: 2024-11-18 05:44:03
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   const { list } = $.say
   const date = list[list.length - 1]?.date
   return (
@@ -70,4 +71,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

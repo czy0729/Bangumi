@@ -2,37 +2,40 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 11:42:57
+ * @Last Modified time: 2024-11-18 05:45:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { FixedTextarea, Flex, Loading, Page, Text } from '@components'
 import { _, userStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { Ctx } from '../../types'
 import Chat from '../chat'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-class Say extends React.Component {
+class Say extends React.Component<Ctx> {
   scrollView: any
 
   async componentDidMount() {
-    await this.$.init(this.scrollView)
+    const { $ } = this.props
+    await $.init(this.scrollView)
 
     setTimeout(() => {
-      this.$.scrollToBottom(this.scrollView)
+      $.scrollToBottom(this.scrollView)
     }, 480)
   }
 
   componentWillUnmount() {
-    this.$.scrollViewRef = null
+    const { $ } = this.props
+    $.scrollViewRef = null
   }
 
   connectRefScrollView = (ref: any) => {
     if (ref) {
-      this.$.scrollViewRef = ref
+      const { $ } = this.props
+      $.scrollViewRef = ref
       this.scrollView = ref
     }
   }
@@ -40,14 +43,15 @@ class Say extends React.Component {
   renderTextarea(placeholder: string) {
     if (!userStore.isWebLogin) return null
 
+    const { $, navigation } = this.props
     return (
       <FixedTextarea
         placeholder={placeholder}
         simple
-        value={this.$.state.value}
-        onChange={this.$.onChange}
-        onClose={this.$.closeFixedTextarea}
-        onSubmit={value => this.$.doSubmit(value, this.scrollView, this.navigation)}
+        value={$.state.value}
+        onChange={$.onChange}
+        onClose={$.closeFixedTextarea}
+        onSubmit={value => $.doSubmit(value, this.scrollView, navigation)}
       />
     )
   }
@@ -65,7 +69,8 @@ class Say extends React.Component {
   }
 
   renderList() {
-    if (!this.$.say._loaded) {
+    const { $ } = this.props
+    if (!$.say._loaded) {
       return (
         <Flex style={_.container.screen} justify='center'>
           <Loading />
@@ -81,21 +86,12 @@ class Say extends React.Component {
     )
   }
 
-  get $() {
-    return this.context.$ as Ctx['$']
-  }
-
-  get navigation() {
-    return this.context.navigation as Ctx['navigation']
-  }
-
   render() {
     r(COMPONENT)
 
-    return (
-      <Page style={_.container.screen}>{this.$.isNew ? this.renderNew() : this.renderList()}</Page>
-    )
+    const { $ } = this.props
+    return <Page style={_.container.screen}>{$.isNew ? this.renderNew() : this.renderList()}</Page>
   }
 }
 
-export default obc(Say)
+export default ob(Say)

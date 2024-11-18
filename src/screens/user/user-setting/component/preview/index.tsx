@@ -2,30 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-01-22 01:06:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 14:08:33
+ * @Last Modified time: 2024-11-18 07:48:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { getHeaders } from '../utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Preview(
-  {
-    bg,
-    avatar,
-    blurRadius
-  }: {
-    bg: string
-    avatar: string
-    blurRadius: number
-  },
-  { $, navigation }: Ctx
-) {
+function Preview({ bg, avatar, blurRadius }: { bg: string; avatar: string; blurRadius: number }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { nickname, id, username } = $.usersInfo
 
@@ -80,4 +70,4 @@ function Preview(
   )
 }
 
-export default obc(Preview, COMPONENT)
+export default ob(Preview, COMPONENT)

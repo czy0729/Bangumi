@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:17:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 14:08:43
+ * @Last Modified time: 2024-11-18 07:49:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Refresh({ onRefresh }, { $ }: Ctx) {
+function Refresh({ onRefresh }) {
+  const { $ } = useStore<Ctx>()
   if ($.state.selectedIndex !== 1) return null
 
   const styles = memoStyles()
@@ -28,4 +29,4 @@ function Refresh({ onRefresh }, { $ }: Ctx) {
   )
 }
 
-export default obc(Refresh, COMPONENT)
+export default ob(Refresh, COMPONENT)

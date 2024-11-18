@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-06-28 08:38:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:34:14
+ * @Last Modified time: 2024-11-18 08:03:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { VerticalAlign } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Name(_props, { $ }: Ctx) {
+function Name() {
+  const { $ } = useStore<Ctx>()
   const { id, username } = $.usersInfo
   const userId = id || $.params._id
   const isRename = !!username && username != userId
@@ -41,4 +42,4 @@ function Name(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Name)
+export default ob(Name)

@@ -9,7 +9,7 @@ import { Flex, Text, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IMG_DEFAULT_AVATAR } from '@constants'
 import { NavigationProps } from '@types'
 import { USERS_MAP } from '../../ds'
@@ -42,4 +42,4 @@ function ListItem({ item }, { navigation }: NavigationProps) {
   )
 }
 
-export default obc(ListItem, COMPONENT)
+export default ob(ListItem, COMPONENT)

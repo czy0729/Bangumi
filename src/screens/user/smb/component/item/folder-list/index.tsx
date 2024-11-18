@@ -2,28 +2,22 @@
  * @Author: czy0729
  * @Date: 2023-11-17 09:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 12:14:38
+ * @Last Modified time: 2024-11-18 07:24:38
  */
 import React from 'react'
 import { Linking, View } from 'react-native'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { copy, desc } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
 import { Ctx, SMBListItem } from '../../../types'
 import FolderEp from '../folder-ep'
 import LastModified from '../last-modified'
 import { styles } from './styles'
 
-function FolderList(
-  {
-    folder
-  }: {
-    folder: SMBListItem
-  },
-  { $ }: Ctx
-) {
+function FolderList({ folder }: { folder: SMBListItem }) {
+  const { $ } = useStore<Ctx>()
   const { smb } = $.current
   const { name, lastModified, list } = folder
   const showFiles = $.isFiles(name)
@@ -96,4 +90,4 @@ function FolderList(
   return <FolderEp folder={folder} />
 }
 
-export default obc(FolderList)
+export default ob(FolderList)

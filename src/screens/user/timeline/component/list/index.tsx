@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 18:31:43
+ * @Last Modified time: 2024-11-18 07:43:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <View style={styles.container}>
@@ -123,4 +124,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:35:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:53:41
+ * @Last Modified time: 2024-11-18 08:14:18
  */
 import React from 'react'
 import { Animated } from 'react-native'
 import { Flex, Text } from '@components'
 import { Avatar } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { HTMLDecode } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { H_HEADER } from '../../../store'
 import { styles } from './styles'
 
-function Header({ style }, { $ }: Ctx) {
+function Header({ style }) {
+  const { $ } = useStore<Ctx>()
   const { _name } = $.params
   const { avatar, nickname } = $.usersInfo
   return (
@@ -59,4 +60,4 @@ function Header({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

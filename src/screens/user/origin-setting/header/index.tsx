@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:21:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 03:53:12
+ * @Last Modified time: 2024-11-18 07:01:36
  */
 import React from 'react'
 import { Header as HeaderComp, Heatmap } from '@components'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
-function Header(_props, { navigation }: Ctx) {
+function Header() {
+  const navigation = useNavigation()
   return (
     <HeaderComp
       title='自定义源头'
@@ -38,4 +39,4 @@ function Header(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-15 22:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-19 09:10:22
+ * @Last Modified time: 2024-11-18 07:21:03
  */
 import React, { useRef, useState } from 'react'
 import { Button, Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { transformData } from '../../../utils/directory'
 import { loadJAData } from '../../../utils/load-data'
 import { styles } from './styles'
 
-const DirectoryItem = (_props, { $ }: Ctx) => {
+const DirectoryItem = () => {
+  const { $ } = useStore<Ctx>()
   const inputRef = useRef(null)
   const [uploading, setUploading] = useState(false)
   const [num, setNum] = useState(0)
@@ -94,4 +95,4 @@ const DirectoryItem = (_props, { $ }: Ctx) => {
   )
 }
 
-export default obc(DirectoryItem)
+export default ob(DirectoryItem)

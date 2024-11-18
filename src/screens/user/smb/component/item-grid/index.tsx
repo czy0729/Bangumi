@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:07:51
+ * @Last Modified time: 2024-11-18 07:27:44
  */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Cover, Flex, Hover, HoverProps, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { _, collectionStore } from '@stores'
+import { _, collectionStore, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { ASSETS_ICONS, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { SubjectTypeCn } from '@types'
@@ -19,7 +19,8 @@ import { Ctx, MergeListItem } from '../../types'
 import { COLORS, COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemGrid({ subjectId, merge, ...folder }: MergeListItem, { $, navigation }: Ctx) {
+function ItemGrid({ subjectId, merge, ...folder }: MergeListItem) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { jp, cn, image, type } = $.subjectV2(subjectId)
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
@@ -117,4 +118,4 @@ function ItemGrid({ subjectId, merge, ...folder }: MergeListItem, { $, navigatio
   )
 }
 
-export default obc(ItemGrid, COMPONENT)
+export default ob(ItemGrid, COMPONENT)

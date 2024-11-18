@@ -8,7 +8,7 @@ import React from 'react'
 import { Text } from '@components'
 import { PaginationList2 } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
 import { keyExtractor, renderItem } from './utils'
@@ -32,4 +32,4 @@ function List() {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

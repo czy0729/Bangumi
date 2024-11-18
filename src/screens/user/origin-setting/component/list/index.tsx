@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:16:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 03:53:05
+ * @Last Modified time: 2024-11-18 06:59:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TYPES_DS } from '../../ds'
 import { Ctx } from '../../types'
 import Create from '../create'
@@ -16,7 +17,8 @@ import Title from '../title'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <>
       {TYPES_DS.map((item, index) => {
@@ -40,4 +42,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

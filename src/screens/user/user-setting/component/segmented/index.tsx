@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:30:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 14:05:42
+ * @Last Modified time: 2024-11-18 07:49:12
  */
 import React from 'react'
 import { SegmentedControl } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, DS } from './ds'
 import { styles } from './styles'
 
-function Segmented(_props, { $ }: Ctx) {
+function Segmented() {
+  const { $ } = useStore<Ctx>()
   return (
     <SegmentedControl
       key={String($.state._loaded)}
@@ -23,4 +25,4 @@ function Segmented(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Segmented, COMPONENT)
+export default ob(Segmented, COMPONENT)

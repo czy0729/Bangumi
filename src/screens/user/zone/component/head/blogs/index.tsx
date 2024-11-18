@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:04:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-19 04:49:30
+ * @Last Modified time: 2024-11-18 08:02:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Heatmap, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 
-function Blogs({ style }, { $, navigation }: Ctx) {
+function Blogs({ style }) {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <View style={style}>
       <Touchable
@@ -38,4 +39,4 @@ function Blogs({ style }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Blogs)
+export default ob(Blogs)

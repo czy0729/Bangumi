@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:27:34
+ * @Last Modified time: 2024-11-18 08:30:22
  */
 import React, { useMemo } from 'react'
 import { SceneMap } from 'react-native-tab-view'
 import { useObserver } from 'mobx-react'
 import { Flex, TabBar, TabView, Text } from '@components'
 import { _, useStore } from '@stores'
-import { c } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
@@ -86,4 +85,4 @@ function Tab() {
   })
 }
 
-export default c(Tab)
+export default Tab

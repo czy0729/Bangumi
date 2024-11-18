@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-12 02:17:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:15:47
+ * @Last Modified time: 2024-11-18 06:47:06
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,13 +10,14 @@ import { Avatar, Text, Touchable } from '@components'
 import { Name } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemGrid({ index, item }, { navigation }: Ctx) {
+function ItemGrid({ index, item }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const { userId, avatar, userName } = item
   return (
@@ -49,4 +50,4 @@ function ItemGrid({ index, item }, { navigation }: Ctx) {
   )
 }
 
-export default obc(ItemGrid, COMPONENT)
+export default ob(ItemGrid, COMPONENT)

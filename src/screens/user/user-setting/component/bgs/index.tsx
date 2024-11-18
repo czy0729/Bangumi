@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 14:07:33
+ * @Last Modified time: 2024-11-18 07:47:42
  */
 import React from 'react'
 import { Flex, Heatmap, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { fixedRemote } from '@utils/user-setting'
 import { IOS } from '@constants'
 import { Ctx } from '../../types'
@@ -16,7 +16,8 @@ import { getHeaders } from '../utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Bgs({ avatar, more, onViewOrigin, onMore }, { $ }: Ctx) {
+function Bgs({ avatar, more, onViewOrigin, onMore }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { bgs } = $.state
   return (
@@ -74,4 +75,4 @@ function Bgs({ avatar, more, onViewOrigin, onMore }, { $ }: Ctx) {
   )
 }
 
-export default obc(Bgs, COMPONENT)
+export default ob(Bgs, COMPONENT)

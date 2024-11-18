@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-11-26 17:34:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-04 21:08:54
+ * @Last Modified time: 2024-11-18 07:30:37
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Input, Modal, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Scrape(_props, { $ }: Ctx) {
+function Scrape() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <Modal
@@ -50,4 +51,4 @@ function Scrape(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Scrape, COMPONENT)
+export default ob(Scrape, COMPONENT)

@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 01:16:49
+ * @Last Modified time: 2024-11-18 07:09:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Text } from '@components'
 import { ItemSay } from '@_'
+import { useStore } from '@stores'
 import { PmDetailItem } from '@stores/user/types'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function Chat(_props, { $ }: Ctx) {
+function Chat() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { list } = $.pmDetail
   return (
@@ -43,4 +45,4 @@ function Chat(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Chat, COMPONENT)
+export default ob(Chat, COMPONENT)

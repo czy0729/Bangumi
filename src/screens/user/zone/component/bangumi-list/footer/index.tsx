@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-02-13 15:59:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:34:23
+ * @Last Modified time: 2024-11-18 08:01:55
  */
 import React from 'react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, systemStore, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Footer(_props, { $, navigation }: Ctx) {
+function Footer() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <Flex style={_.mt.lg} justify='center'>
       <Touchable
@@ -48,4 +49,4 @@ function Footer(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Footer)
+export default ob(Footer)

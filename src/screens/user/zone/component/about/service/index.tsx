@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-04-09 08:03:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:42:56
+ * @Last Modified time: 2024-11-18 08:00:53
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { NetworkServiceItem } from '@stores/users/types'
 import { info, open, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Service(_props, { $ }: Ctx) {
+function Service() {
+  const { $ } = useStore<Ctx>()
   const data: NetworkServiceItem[] = [...($.users.networkService || [])]
   if ($.isAdvance) {
     data.unshift({
@@ -70,4 +71,4 @@ function Service(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Service, COMPONENT)
+export default ob(Service, COMPONENT)

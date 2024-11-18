@@ -2,25 +2,19 @@
  * @Author: czy0729
  * @Date: 2023-12-25 15:27:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-05 15:52:21
+ * @Last Modified time: 2024-11-18 07:30:47
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function Servers(
-  {
-    store
-  }: {
-    store: Ctx['$']
-  },
-  { $ }: Ctx
-) {
+function Servers({ store }: { store: Ctx['$'] }) {
+  let { $ } = useStore<Ctx>()
   $ = $ || store
 
   const smb = $.current?.smb
@@ -49,4 +43,4 @@ function Servers(
   )
 }
 
-export default obc(Servers, COMPONENT)
+export default ob(Servers, COMPONENT)

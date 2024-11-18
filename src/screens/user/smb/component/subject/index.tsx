@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-11-24 16:11:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-08 00:01:30
+ * @Last Modified time: 2024-11-18 07:30:56
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Bottom from './bottom'
 import Manage from './manage'
 import Title from './title'
 import { COMPONENT } from './ds'
 
-function Subject({ subjectId }, { $ }: Ctx) {
+function Subject({ subjectId }) {
+  const { $ } = useStore<Ctx>()
   if (!subjectId) return null
 
   const { jp, cn, eps = 0, rank, rating } = $.subjectV2(subjectId)
@@ -33,4 +34,4 @@ function Subject({ subjectId }, { $ }: Ctx) {
   )
 }
 
-export default obc(Subject, COMPONENT)
+export default ob(Subject, COMPONENT)

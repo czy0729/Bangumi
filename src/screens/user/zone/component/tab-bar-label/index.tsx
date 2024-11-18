@@ -2,29 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-01-01 20:26:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-01 11:07:00
+ * @Last Modified time: 2024-11-18 08:18:54
  */
 import React from 'react'
 import { Flex, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { MODEL_TIMELINE_TYPE, TIMELINE_TYPE } from '@constants'
 import { TextStyle } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT, TIMELINE_PAGE } from './ds'
 import { styles } from './styles'
 
-function TabBarLabel(
-  {
-    style,
-    title
-  }: {
-    style?: TextStyle
-    title: string
-  },
-  { $ }: Ctx
-) {
+function TabBarLabel({ style, title }: { style?: TextStyle; title: string }) {
+  const { $ } = useStore<Ctx>()
   const elText = (
     <Text style={style} type='title' size={13} lineHeight={13} noWrap>
       {title}
@@ -52,4 +44,4 @@ function TabBarLabel(
   return elText
 }
 
-export default obc(TabBarLabel, COMPONENT)
+export default ob(TabBarLabel, COMPONENT)

@@ -2,37 +2,35 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-12 23:39:27
+ * @Last Modified time: 2024-11-18 06:59:03
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { AnyObject } from '@types'
 import { Ctx } from '../../types'
 import Form from '../form'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-const Item = (
-  {
-    type,
-    id,
-    uuid,
-    active,
-    icon,
-    iconSquare,
-    name,
-    url,
-    sort
-  }: AnyObject<{
-    uuid?: string
-  }>,
-  { $ }: Ctx
-) => {
+const Item = ({
+  type,
+  id,
+  uuid,
+  active,
+  icon,
+  iconSquare,
+  name,
+  url,
+  sort
+}: AnyObject<{
+  uuid?: string
+}>) => {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const actions = []
   const isBase = !!id
@@ -153,4 +151,4 @@ const Item = (
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

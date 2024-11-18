@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:53:04
+ * @Last Modified time: 2024-11-18 07:49:48
  */
 import React from 'react'
 import { View } from 'react-native'
 import { ScrollView } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { fixedRemote } from '@utils/user-setting'
@@ -24,7 +24,7 @@ import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-class Scroll extends React.Component {
+class Scroll extends React.Component<Ctx> {
   state = {
     expand: false,
     more: false
@@ -60,31 +60,31 @@ class Scroll extends React.Component {
       })
     }
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     $.onRefresh()
   }
 
   get avatar() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     return $.usersInfo.avatar?.large
   }
 
   get previewAvatarSrc() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     if (!$.state.avatar) return $.usersInfo.avatar?.large
 
     return fixedRemote($.state.avatar, true) || $.usersInfo.avatar?.large
   }
 
   get previewBgSrc() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     if (!$.state.bg) return this.previewAvatarSrc
 
     return fixedRemote($.state.bg) || fixedRemote($.state.avatar, true) || $.usersInfo.avatar?.large
   }
 
   get blurRadius() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     if ($.state.bg) return 0
 
     return IOS ? ($.state.bg === '' && $.state.avatar ? 48 : 10) : 8
@@ -93,7 +93,7 @@ class Scroll extends React.Component {
   render() {
     r(COMPONENT)
 
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { selectedIndex } = $.state
     const { expand } = this.state
     const elPreview = (
@@ -131,4 +131,4 @@ class Scroll extends React.Component {
   }
 }
 
-export default obc(Scroll)
+export default ob(Scroll)

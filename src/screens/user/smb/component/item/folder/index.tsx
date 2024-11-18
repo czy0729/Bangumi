@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-02-22 01:43:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-26 12:38:17
+ * @Last Modified time: 2024-11-18 07:24:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { copy } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { ASSETS_ICONS } from '@constants'
 import { Ctx, SMBListItem } from '../../../types'
@@ -18,16 +18,8 @@ import { fixedUrl, openURL } from '../../../utils'
 import FolderList from '../folder-list'
 import { memoStyles } from './styles'
 
-function Folder(
-  {
-    folder,
-    defaultShow = false
-  }: {
-    folder: SMBListItem
-    defaultShow?: boolean
-  },
-  { $ }: Ctx
-) {
+function Folder({ folder, defaultShow = false }: { folder: SMBListItem; defaultShow?: boolean }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { smb } = $.current
   let showFolder = $.isExpanded(folder.name)
@@ -121,4 +113,4 @@ function Folder(
   )
 }
 
-export default obc(Folder)
+export default ob(Folder)

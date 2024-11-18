@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-26 15:28:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 19:16:56
+ * @Last Modified time: 2024-11-18 07:43:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,14 +11,15 @@ import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Stars, Tag } from '@_'
 import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { HEIGHT, memoStyles, WIDTH } from './styles'
 
-function Item({ subject, action }, { navigation }: Ctx) {
+function Item({ subject, action }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <Flex style={styles.subjects} align='start' wrap='wrap'>
@@ -75,4 +76,4 @@ function Item({ subject, action }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

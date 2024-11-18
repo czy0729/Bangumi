@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-11-19 11:39:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-25 16:24:06
+ * @Last Modified time: 2024-11-18 07:24:20
  */
 import React, { useState } from 'react'
 import { Linking } from 'react-native'
 import { Button, Flex, Text, Touchable } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { copy, desc } from '@utils'
-import { c } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useObserver } from '@utils/hooks'
 import { Ctx, SMBListItem } from '../../../types'
@@ -32,14 +31,8 @@ import {
 } from './ds'
 import { styles } from './styles'
 
-function FolderEp(
-  {
-    folder
-  }: {
-    folder: SMBListItem
-  },
-  { $ }: Ctx
-) {
+function FolderEp({ folder }: { folder: SMBListItem }) {
+  const { $ } = useStore<Ctx>()
   const [filter, setFilter] = useState('')
 
   return useObserver(() => {
@@ -197,4 +190,4 @@ function FolderEp(
   })
 }
 
-export default c(FolderEp)
+export default FolderEp

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:17:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:18:13
+ * @Last Modified time: 2024-11-18 06:34:19
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
-function Header(_props, { navigation }: Ctx) {
+function Header() {
+  const navigation = useNavigation()
   return (
     <HeaderComp
       title='本地备份'
@@ -36,4 +37,4 @@ function Header(_props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

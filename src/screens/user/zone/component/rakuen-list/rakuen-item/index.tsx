@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-10-22 19:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 00:49:12
+ * @Last Modified time: 2024-11-18 08:16:46
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function RakuenItem(
-  { topicId, userName, title, group, date, time, userId, children },
-  { navigation }: Ctx
-) {
+function RakuenItem({ topicId, userName, title, group, date, time, userId, children }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   return (
     <Flex style={styles.container} align='start'>
@@ -56,4 +54,4 @@ function RakuenItem(
   )
 }
 
-export default obc(RakuenItem, COMPONENT)
+export default ob(RakuenItem, COMPONENT)
