@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:50:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 19:37:26
+ * @Last Modified time: 2024-11-19 16:20:25
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { calculateRate } from '@screens/tinygrail/_/utils'
 import { Ctx } from '../../../types'
 import Refine from '../refine'
 import { memoStyles } from './styles'
 
-function Head(props, { $ }: Ctx) {
+function Head() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <Flex style={styles.info}>
@@ -32,4 +33,4 @@ function Head(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Head)
+export default ob(Head)

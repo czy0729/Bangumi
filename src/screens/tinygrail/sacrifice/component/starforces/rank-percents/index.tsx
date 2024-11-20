@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-07 17:40:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:54:24
+ * @Last Modified time: 2024-11-19 16:19:45
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { calculateRatio, decimal } from '@screens/tinygrail/_/utils'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function RankPercents(props, { $ }: Ctx) {
+function RankPercents() {
+  const { $ } = useStore<Ctx>()
   return (
     <View style={styles.rankPercents}>
       {$.rankPercents.map((item, index: number) => {
@@ -53,4 +54,4 @@ function RankPercents(props, { $ }: Ctx) {
   )
 }
 
-export default obc(RankPercents)
+export default ob(RankPercents)

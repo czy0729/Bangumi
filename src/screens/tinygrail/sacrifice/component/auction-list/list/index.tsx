@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-08 02:49:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 16:33:31
+ * @Last Modified time: 2024-11-19 16:21:40
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { c } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchAuctionList])
   })
@@ -58,4 +58,4 @@ function List(props, { $ }: Ctx) {
   })
 }
 
-export default c(List)
+export default List

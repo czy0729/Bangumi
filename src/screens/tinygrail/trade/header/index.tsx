@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-01 22:34:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:54:38
+ * @Last Modified time: 2024-11-20 11:58:43
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text } from '@components'
 import { IconHeader, IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { tinygrailOSS, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import { Ctx } from '../types'
 import Today from './today'
 import { memoStyles } from './styles'
 
-function Header({ goBack = FROZEN_FN }, { $, navigation }: Ctx) {
+function Header({ goBack = FROZEN_FN }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { icon, name, current, fluctuation, bonus } = $.chara
   let color = _.colorTinygrailPlain
@@ -117,4 +118,4 @@ function Header({ goBack = FROZEN_FN }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

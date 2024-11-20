@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 15:56:27
+ * @Last Modified time: 2024-11-19 16:21:43
  */
 import React from 'react'
 import { View } from 'react-native'
-import { c } from '@utils/decorators'
+import { useStore } from '@stores'
 import { r } from '@utils/dev'
 import { useMount, useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
@@ -18,9 +18,10 @@ import Title from './title'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Info(props, { $ }: Ctx) {
+function Info() {
   r(COMPONENT)
 
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchCharacters, $.fetchIssuePrice])
   })
@@ -39,4 +40,4 @@ function Info(props, { $ }: Ctx) {
   })
 }
 
-export default c(Info)
+export default Info

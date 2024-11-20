@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:42:28
+ * @Last Modified time: 2024-11-19 11:00:42
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber, info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 const LIMIT = 5
 
-function Records(props, { $ }: Ctx) {
+function Records() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { expand } = $.state
   const { bidHistory, askHistory } = $.userLogs
@@ -30,7 +31,7 @@ function Records(props, { $ }: Ctx) {
           </Text>
           {bidHistory.length === 0 && <Text type='tinygrailText'>-</Text>}
           {bidHistory
-            .filter((item, index) => (expand ? true : index < LIMIT))
+            .filter((_item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
               <Touchable
                 key={index}
@@ -65,7 +66,7 @@ function Records(props, { $ }: Ctx) {
           </Text>
           {askHistory.length === 0 && <Text type='tinygrailText'>-</Text>}
           {askHistory
-            .filter((item, index) => (expand ? true : index < LIMIT))
+            .filter((_item, index) => (expand ? true : index < LIMIT))
             .map((item, index) => (
               <Touchable
                 key={index}
@@ -106,4 +107,4 @@ function Records(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Records)
+export default ob(Records)

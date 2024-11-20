@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:39:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 06:42:43
+ * @Last Modified time: 2024-11-19 16:15:08
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Expand(props, { $ }: Ctx) {
+function Expand() {
+  const { $ } = useStore<Ctx>()
   // const { s, subject, r } = $.relation
   return (
     <Flex style={_.mt.sm} justify='center'>
@@ -54,4 +55,4 @@ function Expand(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Expand)
+export default ob(Expand)

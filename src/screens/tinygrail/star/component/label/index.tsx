@@ -7,7 +7,7 @@
 import React from 'react'
 import { SegmentedControl } from '@components'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT, LABEL_DS } from './ds'
 import { styles } from './styles'
@@ -27,4 +27,4 @@ function Label({ $ }: Ctx) {
   )
 }
 
-export default obc(Label, COMPONENT)
+export default ob(Label, COMPONENT)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 12:17:39
+ * @Last Modified time: 2024-11-20 11:37:37
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
 import { Ctx } from '../types'
@@ -18,9 +18,9 @@ const EVENT = {
   id: '英灵殿.跳转'
 } as const
 
-function List(props, { $ }: Ctx) {
-  const { _loaded } = $.computedList
-  if (!_loaded) {
+function List() {
+  const { $ } = useStore<Ctx>()
+  if (!$.computedList._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 
@@ -44,7 +44,7 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
+export default ob(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} type='valhall' event={EVENT} {...item} />

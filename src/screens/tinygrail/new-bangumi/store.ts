@@ -2,26 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 19:36:18
+ * @Last Modified time: 2024-11-19 15:32:02
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { getTimestamp } from '@utils'
-import store from '@utils/store'
-import { t } from '@utils/fetch'
-import { levelList, sortList, relation } from '@tinygrail/_/utils'
-import { NAMESPACE, TABS } from './ds'
 import { ListKey } from '@stores/tinygrail/types'
+import { getTimestamp } from '@utils'
+import { t } from '@utils/fetch'
+import store from '@utils/store'
+import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { NAMESPACE, STATE, TABS } from './ds'
 
-export default class ScreenTinygrailNew extends store {
-  state = observable({
-    page: 0,
-    level: '',
-    sort: '',
-    direction: '' as '' | 'up' | 'down',
-    go: '卖出',
-    _loaded: false
-  })
+export default class ScreenTinygrailNew extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state
@@ -57,9 +50,7 @@ export default class ScreenTinygrailNew extends store {
   @computed get levelMap() {
     const { list } = this.list(this.currentKey)
     const data = {}
-    list.forEach(item =>
-      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
-    )
+    list.forEach(item => (data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)))
     return data
   }
 

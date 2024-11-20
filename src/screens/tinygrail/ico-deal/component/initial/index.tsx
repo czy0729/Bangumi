@@ -2,25 +2,25 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:30:14
+ * @Last Modified time: 2024-11-19 12:09:40
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { caculateICO, formatNumber, tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function Initial(props, { $, navigation }: Ctx) {
+function Initial() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { users } = $.chara
   const { list } = $.initial
   const { nextUser } = caculateICO($.chara)
-
   return (
     <View style={styles.container}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
@@ -62,4 +62,4 @@ function Initial(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Initial, COMPONENT)
+export default ob(Initial, COMPONENT)

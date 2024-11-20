@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 20:43:43
+ * @Last Modified time: 2024-11-19 11:00:01
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Slider as CompSlider, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Slider({ style }, { $ }: Ctx) {
+function Slider({ style }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { value, amount, isIce } = $.state
   const { balance } = $.assets
@@ -88,7 +89,7 @@ function Slider({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Slider)
+export default ob(Slider)
 
 const memoStyles = _.memoStyles(() => ({
   inputWrap: {

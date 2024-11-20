@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-03 22:48:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:40:00
+ * @Last Modified time: 2024-11-20 12:08:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,19 +10,13 @@ import { Avatar } from '@components'
 import { _, systemStore, tinygrailStore } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { HOST_IMAGE } from '@utils/app/ds'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { CDN_OSS_MAGMA_MONO } from '@constants'
-import { Navigation } from '@types'
 
-function Icon(
-  { id, monoId, name, icon, event },
-  {
-    navigation
-  }: {
-    navigation: Navigation
-  }
-) {
+function Icon({ id, monoId, name, icon, event }) {
+  const navigation = useNavigation()
   const favor = tinygrailStore.collected(id)
 
   const { cdn, cdnOrigin } = systemStore.setting
@@ -57,4 +51,4 @@ function Icon(
   )
 }
 
-export default obc(Icon)
+export default ob(Icon)

@@ -2,29 +2,33 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:48:31
+ * @Last Modified time: 2024-11-20 12:06:12
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, HTMLDecode, navigationReference, tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
-import { Navigation } from '@types'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import Rank from '../../rank'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Log(
-  { monoId, name = '', icon, amount, rank = 0, oldRank = 0, userName, time, type, onToggle },
-  {
-    navigation
-  }: {
-    navigation: Navigation
-  }
-) {
+function Log({
+  monoId,
+  name = '',
+  icon,
+  amount,
+  rank = 0,
+  oldRank = 0,
+  userName,
+  time,
+  type,
+  onToggle
+}) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const rankChange = oldRank - rank
-
   return (
     <Flex style={styles.container}>
       <Avatar
@@ -123,4 +127,4 @@ function Log(
   )
 }
 
-export default obc(Log, COMPONENT)
+export default ob(Log, COMPONENT)

@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-03-10 17:27:05
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import TabsComp from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import { renderItem } from './utils'
@@ -15,4 +15,4 @@ function Tabs() {
   return <TabsComp routes={TABS} tabBarLength={6} renderItem={renderItem} />
 }
 
-export default obc(Tabs, COMPONENT)
+export default ob(Tabs, COMPONENT)

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-03-07 02:43:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 18:38:13
+ * @Last Modified time: 2024-11-19 16:18:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Amount from './amount'
 import Head from './head'
@@ -16,7 +16,8 @@ import Slider from './slider'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Starforces(props, { $ }: Ctx) {
+function Starforces() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   return (
     <View style={styles.container}>
@@ -32,4 +33,4 @@ function Starforces(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Starforces, COMPONENT)
+export default ob(Starforces, COMPONENT)

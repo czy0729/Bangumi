@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:43:21
+ * @Last Modified time: 2024-11-19 11:00:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text, TextType } from '@components'
 import { IconBack, IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { tinygrailOSS, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate } from '@tinygrail/_/utils'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { icon, name = '', fluctuation, rate, level, rank, stars } = $.chara
   let color: TextType = 'tinygrailPlain'
@@ -144,4 +145,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

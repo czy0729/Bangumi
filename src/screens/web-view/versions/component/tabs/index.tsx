@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 15:59:11
+ * @Last Modified time: 2024-11-19 05:45:35
  */
 import React from 'react'
 import { TabsV2 } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Web from '../web'
 import { COMPONENT } from './ds'
 
-function Tabs({ routes }, { $ }: Ctx) {
+function Tabs({ routes }) {
+  const { $ } = useStore<Ctx>()
   const { page } = $.state
   return (
     <TabsV2
@@ -30,4 +31,4 @@ function Tabs({ routes }, { $ }: Ctx) {
   )
 }
 
-export default obc(Tabs, COMPONENT)
+export default ob(Tabs, COMPONENT)

@@ -2,31 +2,31 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 10:36:30
+ * @Last Modified time: 2024-11-19 05:44:17
  */
 import React from 'react'
 import { Component, Page } from '@components'
-import { ic } from '@utils/decorators'
-import { useObserver, useRunAfter } from '@utils/hooks'
+import { StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import Web from '@screens/web-view/versions/component/web'
+import { NavigationProps } from '@types'
 import Header from './header'
-import Store from './store'
-import { Ctx } from './types'
+import { useTipsPage } from './hooks'
 
 /** 特色功能 */
-const Tips = (_props, { $ }: Ctx) => {
-  useRunAfter(() => {
-    $.init()
-  })
+const Tips = (props: NavigationProps) => {
+  const { id, $ } = useTipsPage(props)
 
   return useObserver(() => {
     return (
       <Component id='screen-tips'>
-        <Header />
-        <Page>{!!$.state._loaded && <Web uri={$.state.uri} />}</Page>
+        <StoreContext.Provider value={id}>
+          <Header />
+          <Page>{!!$.state._loaded && <Web uri={$.state.uri} />}</Page>
+        </StoreContext.Provider>
       </Component>
     )
   })
 }
 
-export default ic(Store, Tips)
+export default Tips

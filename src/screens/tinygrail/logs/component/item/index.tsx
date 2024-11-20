@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 07:18:28
+ * @Last Modified time: 2024-11-19 13:36:02
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { tinygrailLastDate } from '@tinygrail/_/utils'
 import { Fn, MonoId } from '@types'
 import { Ctx } from '../../types'
@@ -20,7 +20,8 @@ import { COMPONENT, ITEMS } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Item({ balance, desc = '', change, time, charaId }: Props, { $, navigation }: Ctx) {
+function Item({ balance, desc = '', change, time, charaId }: Props) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { go } = $.state
 
@@ -73,4 +74,4 @@ function Item({ balance, desc = '', change, time, charaId }: Props, { $, navigat
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

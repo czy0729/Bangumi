@@ -7,14 +7,15 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ItemEdit({ item, type, users, event }, { $ }: Ctx) {
+function ItemEdit({ item, type, users, event }) {
+  const { $ } = useStore<Ctx>()
   const { editing, editingIds } = $.state
   const { id, monoId, state } = item
   const isActive = editingIds[id]
@@ -49,4 +50,4 @@ function ItemEdit({ item, type, users, event }, { $ }: Ctx) {
   return el
 }
 
-export default obc(ItemEdit, COMPONENT)
+export default ob(ItemEdit, COMPONENT)

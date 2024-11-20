@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:55:20
+ * @Last Modified time: 2024-11-20 12:08:47
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -21,7 +21,7 @@ import {
   toFixed,
   trim
 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import { calculateRate } from '../utils'
 import Item from './item'
@@ -223,7 +223,7 @@ class CharactersModal extends React.Component<Props> {
 
   doSearch = async () => {
     const { rightValue } = this.state
-    let keyword = String(rightValue).trim()
+    const keyword = String(rightValue).trim()
     if (!keyword) {
       info('请输入关键字')
       return
@@ -989,4 +989,4 @@ class CharactersModal extends React.Component<Props> {
   }
 }
 
-export default obc(CharactersModal)
+export default ob(CharactersModal)

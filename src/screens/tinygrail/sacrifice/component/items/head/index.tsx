@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-08 03:12:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 05:44:09
+ * @Last Modified time: 2024-11-19 16:16:28
  */
 import React from 'react'
 import { Flex, Text } from '@components'
+import { useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import ExpandBtn from '../../expand-btn'
 
-function Head(props, { $ }: Ctx) {
+function Head() {
+  const { $ } = useStore<Ctx>()
   const { showItems } = $.state
   const text = []
   if (showItems) {
@@ -43,4 +45,4 @@ function Head(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Head)
+export default ob(Head)

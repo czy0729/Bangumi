@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-07 16:28:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:53:49
+ * @Last Modified time: 2024-11-19 16:18:17
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm, formatNumber, lastDate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 
-function Check(props, { $ }: Ctx) {
+function Check() {
+  const { $ } = useStore<Ctx>()
   const { lastSacrifice } = $.state
   return (
     <Flex style={_.mt.sm}>
@@ -45,4 +46,4 @@ function Check(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Check)
+export default ob(Check)

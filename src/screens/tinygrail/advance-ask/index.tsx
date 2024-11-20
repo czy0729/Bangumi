@@ -2,32 +2,27 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:07:06
+ * @Last Modified time: 2024-11-19 06:32:09
  */
 import React from 'react'
-import { Header, Page } from '@components'
+import { Component, Header, Page } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
+import { _, StoreContext } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { alert } from '@utils/ui'
 import ToolBar from '@tinygrail/_/tool-bar'
+import { NavigationProps } from '@types'
+import { useTinygrailAdvanceAskPage } from './hooks'
 import List from './list'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 买入推荐 */
-class TinygrailAdvanceAsk extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+const TinygrailAdvanceAsk = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailAdvanceAskPage(props)
 
-  render() {
-    const { $ } = this.context as Ctx
-    const { level } = $.state
-    return (
-      <>
+  return useObserver(() => (
+    <Component id='screen-tinygrail-advance-ask'>
+      <StoreContext.Provider value={id}>
         <Header
           title='买入推荐'
           hm={['tinygrail/advance-ask', 'TinygrailAdvanceAsk']}
@@ -51,15 +46,15 @@ class TinygrailAdvanceAsk extends React.Component {
         <Page style={_.container.tinygrail}>
           <ToolBar
             style={_.mt._sm}
-            level={level}
+            level={$.state.level}
             levelMap={$.levelMap}
             onLevelSelect={$.onLevelSelect}
           />
           <List />
         </Page>
-      </>
-    )
-  }
+      </StoreContext.Provider>
+    </Component>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailAdvanceAsk))
+export default TinygrailAdvanceAsk

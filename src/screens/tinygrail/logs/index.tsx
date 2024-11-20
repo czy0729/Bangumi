@@ -2,34 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 17:29:07
+ * @Last Modified time: 2024-11-19 13:35:44
  */
 import React from 'react'
-import { Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
+import { Component, Page } from '@components'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
 import Header from './header'
 import { useTinygrailLogsPage } from './hooks'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 资金日志 */
-const TinygrailLogs = (props, context: Ctx) => {
-  useTinygrailLogsPage(context)
+const TinygrailLogs = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailLogsPage(props)
 
-  const { $ } = context
   return useObserver(() => (
-    <Page
-      style={_.container.tinygrail}
-      loaded={$.state._loaded}
-      loadingColor={_.colorTinygrailText}
-    >
-      <Header />
-      <Tabs />
-    </Page>
+    <Component id='screen-tinygrail-logs'>
+      <StoreContext.Provider value={id}>
+        <Page
+          style={_.container.tinygrail}
+          loaded={$.state._loaded}
+          loadingColor={_.colorTinygrailText}
+        >
+          <Header />
+          <Tabs />
+        </Page>
+      </StoreContext.Provider>
+    </Component>
   ))
 }
 
-export default ic(Store, TinygrailLogs)
+export default TinygrailLogs

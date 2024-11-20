@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:42:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:07:05
+ * @Last Modified time: 2024-11-19 06:22:39
  */
 import React from 'react'
 import { Header, Page } from '@components'
@@ -11,13 +11,11 @@ import { _ } from '@stores'
 import { alert } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Navigation } from '@types'
+import { NavigationProps } from '@types'
 import Menus from './menus'
 
 /** 高级分析 */
-class TinygrailAdvance extends React.Component<{
-  navigation: Navigation
-}> {
+class TinygrailAdvance extends React.Component<NavigationProps> {
   render() {
     const { navigation } = this.props
     return (

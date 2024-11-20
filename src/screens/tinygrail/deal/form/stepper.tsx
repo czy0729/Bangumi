@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:04:25
+ * @Last Modified time: 2024-11-19 11:00:09
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Stepper({ style }, { $ }: Ctx) {
+function Stepper({ style }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { value } = $.state
   return (
@@ -43,7 +44,7 @@ function Stepper({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(Stepper)
+export default ob(Stepper)
 
 const memoStyles = _.memoStyles(() => ({
   stepper: {

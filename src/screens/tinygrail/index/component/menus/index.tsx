@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-14 20:37:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 22:45:54
+ * @Last Modified time: 2024-11-19 06:22:04
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Assets from '../assets'
 import MenuItem from '../menu-item'
 import { COMPONENT } from './ds'
 
-function Menus(props, { $ }: Ctx) {
+function Menus() {
+  const { $ } = useStore<Ctx>()
   const bids = $.list('bid').list.length
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
@@ -117,4 +118,4 @@ function Menus(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Menus, COMPONENT)
+export default ob(Menus, COMPONENT)

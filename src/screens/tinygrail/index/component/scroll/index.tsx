@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-13 22:34:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 22:45:28
+ * @Last Modified time: 2024-11-19 06:22:23
  */
 import React from 'react'
 import { BlurViewBottomTab, BlurViewRoot } from '@_'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import ScrollView from '@tinygrail/_/scroll-view'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Scroll({ children }, { $ }: Ctx) {
+function Scroll({ children }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const elScroll = (
     <ScrollView
@@ -33,4 +35,4 @@ function Scroll({ children }, { $ }: Ctx) {
   )
 }
 
-export default obc(Scroll, COMPONENT)
+export default ob(Scroll, COMPONENT)

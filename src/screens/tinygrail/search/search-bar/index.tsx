@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:34:05
+ * @Last Modified time: 2024-11-19 16:45:24
  */
 import React from 'react'
-import { Flex, Input, Touchable, Text, Activity } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { Activity, Flex, Input, Text, Touchable } from '@components'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function SearchBar(props, { $, navigation }: Ctx) {
+function SearchBar() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { value, searching } = $.state
   return (
@@ -48,4 +49,4 @@ function SearchBar(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(SearchBar)
+export default ob(SearchBar)

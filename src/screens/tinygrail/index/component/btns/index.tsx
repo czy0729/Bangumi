@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-12-23 12:07:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 22:39:30
+ * @Last Modified time: 2024-11-19 06:21:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Iconfont, Touchable } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { APP_ID_SAY_TINYGRAIL } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Btns(props, { $, navigation }: Ctx) {
+function Btns() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const price = 2000 * 2 ** ($.state.count || 0)
   return (
@@ -107,4 +108,4 @@ function Btns(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Btns, COMPONENT)
+export default ob(Btns, COMPONENT)

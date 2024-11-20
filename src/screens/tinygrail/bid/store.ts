@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-08 06:41:15
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { info, feedback } from '@utils/ui'
-import { throttleInfo, levelList, sortList, relation } from '@tinygrail/_/utils'
-import { tabs } from './ds'
-import { Params, TabsKeys } from './types'
+import store from '@utils/store'
+import { feedback, info } from '@utils/ui'
+import { levelList, relation, sortList, throttleInfo } from '@tinygrail/_/utils'
 import { Id } from '@types'
+import { EXCLUDE_STATE, tabs } from './ds'
+import { Params, TabsKeys } from './types'
 
-export default class ScreenTinygrailBid extends store {
+export default class ScreenTinygrailBid extends store<typeof EXCLUDE_STATE> {
   params: Params
 
   state = observable({
@@ -55,8 +55,7 @@ export default class ScreenTinygrailBid extends store {
 
   @computed get canCancelCount() {
     if (this.currentTitle === '拍卖') {
-      return this.computedList(this.currentKey).list.filter(item => item.state === 0)
-        .length
+      return this.computedList(this.currentKey).list.filter(item => item.state === 0).length
     }
     return this.computedList(this.currentKey).list.length
   }
@@ -198,9 +197,7 @@ export default class ScreenTinygrailBid extends store {
     })
 
     for (const item of list) {
-      throttleInfo(
-        `${list.findIndex((i: { id: any }) => item.id === i.id) + 1} / ${list.length}`
-      )
+      throttleInfo(`${list.findIndex((i: { id: any }) => item.id === i.id) + 1} / ${list.length}`)
 
       // 请求角色挂单信息
       const logs = await tinygrailStore.fetchUserLogs(item.id)
@@ -227,9 +224,7 @@ export default class ScreenTinygrailBid extends store {
   }
 
   doCancelAllAuction = async () => {
-    const list = this.computedList(this.currentKey).list.filter(
-      item => item.state === 0
-    )
+    const list = this.computedList(this.currentKey).list.filter(item => item.state === 0)
     t('我的委托.一键取消', {
       length: list.length
     })

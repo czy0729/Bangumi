@@ -2,21 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-03-08 17:58:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 19:32:13
+ * @Last Modified time: 2024-11-19 16:24:59
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text, UserStatus } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber, getTimestamp, toFixed } from '@utils'
-import { c } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../../types'
 import { EVENT, PARAMS } from '../ds'
 import { memoStyles } from './styles'
 
-function List(props, { $, navigation }: Ctx) {
+function List() {
+  const { $, navigation } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchUsers, $.fetchCharaPool])
   })
@@ -26,7 +26,7 @@ function List(props, { $, navigation }: Ctx) {
     return (
       <Flex style={_.mt.sm} wrap='wrap'>
         {$.users.list
-          .filter((item, index) => ($.state.showUsers ? true : index < 3))
+          .filter((_item, index) => ($.state.showUsers ? true : index < 3))
           .map((item, index) => (
             <Flex key={index} style={styles.item}>
               {$.state.showUsers && (
@@ -74,4 +74,4 @@ function List(props, { $, navigation }: Ctx) {
   })
 }
 
-export default c(List)
+export default List

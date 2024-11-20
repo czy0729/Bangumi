@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-03-07 21:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 16:33:48
+ * @Last Modified time: 2024-11-19 16:21:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Iconfont, Input, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber, lastDate } from '@utils'
-import { c } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { COUNT_DS } from '../ds'
 import Stepper from '../../stepper'
 import { memoStyles } from './styles'
 
-function Amount(props, { $ }: Ctx) {
+function Amount() {
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchAssets, $.fetchValhallChara, $.fetchAuctionStatus])
   })
@@ -77,4 +77,4 @@ function Amount(props, { $ }: Ctx) {
   })
 }
 
-export default c(Amount)
+export default Amount

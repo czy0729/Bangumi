@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-08 15:57:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 20:11:23
+ * @Last Modified time: 2024-11-19 16:24:54
  */
 import React from 'react'
 import { Flex } from '@components'
-import { c } from '@utils/decorators'
+import { useStore } from '@stores'
 import { useMount, useObserver } from '@utils/hooks'
 import ItemTemple from '@screens/tinygrail/_/item-temple'
 import { Ctx } from '../../../types'
 import { EVENT } from '../ds'
 import { memoStyles } from './styles'
 
-function List(props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchUsers])
   })
@@ -51,7 +52,7 @@ function List(props, { $ }: Ctx) {
       list.unshift(myTemple)
     }
 
-    if (!$.state.expand) list = list.filter((item, index) => index < 9)
+    if (!$.state.expand) list = list.filter((_item, index) => index < 9)
 
     // 活跃时间
     const lastActiveMap = {}
@@ -81,4 +82,4 @@ function List(props, { $ }: Ctx) {
   })
 }
 
-export default c(List)
+export default List

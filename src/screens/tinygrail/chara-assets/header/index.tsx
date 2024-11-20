@@ -6,12 +6,14 @@
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import Right from '../component/right'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(_props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title={$.params?.userName ? `${$.params.userName}的持仓` : '我的持仓'}
@@ -24,4 +26,4 @@ function Header(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

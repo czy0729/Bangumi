@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:38:13
+ * @Last Modified time: 2024-11-19 10:30:00
  */
 import React from 'react'
 import { ListView } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
-import Item from '../../_/item'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
+import Item from '../../_/item'
 
 const EVENT = {
   id: '粘贴板.跳转'
 } as const
 
-function List(props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <ListView
       style={_.container.flex}
@@ -39,7 +40,7 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
+export default ob(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} event={EVENT} {...item} />

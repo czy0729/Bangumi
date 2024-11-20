@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-03-08 21:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 16:07:30
+ * @Last Modified time: 2024-11-19 16:21:49
  */
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { c } from '@utils/decorators'
+import { useStore } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { Ctx } from '../../types'
 import Head from './head'
@@ -14,7 +14,8 @@ import List from './list'
 import Modal from './modal'
 import { memoStyles } from './styles'
 
-function Items(props, { $ }: Ctx) {
+function Items() {
+  const { $ } = useStore<Ctx>()
   const [title, setTitle] = useState('')
   const [visible, setVisible] = useState(false)
 
@@ -43,4 +44,4 @@ function Items(props, { $ }: Ctx) {
   })
 }
 
-export default c(Items)
+export default Items

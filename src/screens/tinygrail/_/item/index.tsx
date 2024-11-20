@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:55:09
+ * @Last Modified time: 2024-11-20 12:04:45
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN } from '@constants'
 import Auction from './auction'
@@ -18,8 +18,10 @@ import Icon from './icon'
 import Title from './title'
 import { getOnPress } from './utils'
 import { memoStyles } from './styles'
+import { Ctx } from './types'
 
-function Item(props, { $, navigation }) {
+function Item(props) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { style, id, monoId, event, type, end, withoutFeedback } = props
   const go = props.go || $.state.go
@@ -78,7 +80,7 @@ function Item(props, { $, navigation }) {
   )
 }
 
-export default obc(Item, {
+export default ob(Item, {
   event: EVENT,
   showMenu: true,
   withoutFeedback: false,

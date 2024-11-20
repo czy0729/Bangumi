@@ -2,23 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-15 10:54:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-04 18:59:45
+ * @Last Modified time: 2024-11-19 06:21:51
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function MenuItem(
-  { style, index, iconStyle, pathname, config, title, icon }: Props,
-  { navigation }: Ctx
-) {
+function MenuItem({ style, index, iconStyle, pathname, config, title, icon }: Props) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const num = _.portrait(2, 4)
   return (
@@ -43,4 +41,4 @@ function MenuItem(
   )
 }
 
-export default obc(MenuItem, COMPONENT)
+export default ob(MenuItem, COMPONENT)

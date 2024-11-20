@@ -2,32 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:08
+ * @Last Modified time: 2024-11-20 09:46:57
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore } from '@stores'
-import { toFixed, info, tinygrailOSS } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { _, tinygrailStore } from '@stores'
+import { info, tinygrailOSS, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import treemap from '@utils/thirdParty/treemap'
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
-import _ from '@styles'
 import { TinygrailCaculateRichType, TinygrailCaculateRichTypeCn } from '@types'
+import { H_TOOL_BAR, KEY, NAMESPACE, STATE } from './ds'
 
-const H_TOOL_BAR = 44
-const NAMESPACE = 'ScreenTinygrailTreeRich'
-const KEY = '1/100'
-const DEFAULT_CACULATE_TYPE =
-  MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue<TinygrailCaculateRichType>('周股息')
-
-export default class ScreenTinygrailTreeRich extends store {
-  @observable state = {
-    caculateType: DEFAULT_CACULATE_TYPE,
-    loading: false,
-    data: [],
-    total: 0,
-    filterItems: []
-  }
+export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}
@@ -73,13 +61,7 @@ export default class ScreenTinygrailTreeRich extends store {
       const { list } = this.rich
       if (!list.length) return
 
-      const {
-        total = 0,
-        currentTotal,
-        filterCount,
-        filterTotal,
-        nodes
-      } = this.caculate()
+      const { total = 0, currentTotal, filterCount, filterTotal, nodes } = this.caculate()
       if (filterCount) {
         nodes.push({
           id: 0,
@@ -87,8 +69,7 @@ export default class ScreenTinygrailTreeRich extends store {
           data: `其他${filterCount}个用户`,
 
           // 其他的占比不会大于3.2%
-          weight:
-            filterTotal / currentTotal > 0.032 ? currentTotal * 0.032 : filterTotal,
+          weight: filterTotal / currentTotal > 0.032 ? currentTotal * 0.032 : filterTotal,
           price: filterTotal,
           percent: filterTotal / total
         })
@@ -177,9 +158,13 @@ export default class ScreenTinygrailTreeRich extends store {
       filterItems:
         index === -1
           ? [...filterItems, { id, name }]
-          : filterItems.filter((item, idx) => idx !== index)
+          : filterItems.filter((_item, idx) => idx !== index)
     })
     this.generateTreeMap()
+
+    t('前百首富.长按隐藏', {
+      id
+    })
   }
 
   /** 选择计算类型 */
@@ -190,9 +175,7 @@ export default class ScreenTinygrailTreeRich extends store {
 
     this.setState({
       caculateType:
-        MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue<TinygrailCaculateRichType>(
-          caculateType
-        ),
+        MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue<TinygrailCaculateRichType>(caculateType),
       filterItems: []
     })
     this.generateTreeMap()

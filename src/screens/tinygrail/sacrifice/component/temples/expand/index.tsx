@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-08 16:09:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-08 16:22:30
+ * @Last Modified time: 2024-11-19 16:20:18
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Expand(props, { $ }: Ctx) {
+function Expand() {
+  const { $ } = useStore<Ctx>()
   return (
     <Flex style={_.mt.md} justify='center'>
       <Touchable style={styles.touch} onPress={$.toggleTemples}>
@@ -29,4 +30,4 @@ function Expand(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Expand)
+export default ob(Expand)

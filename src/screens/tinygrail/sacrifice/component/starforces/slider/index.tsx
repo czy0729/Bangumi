@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-07 18:35:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 15:19:21
+ * @Last Modified time: 2024-11-19 16:19:54
  */
 import React from 'react'
 import { Flex, Slider as SliderComp, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { debounce, formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 
-function Slider(props, { $ }: Ctx) {
+function Slider() {
+  const { $ } = useStore<Ctx>()
   const max = Number($.myTemple.assets || $.userLogs.sacrifices || 0)
   return (
     <>
@@ -38,4 +39,4 @@ function Slider(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Slider)
+export default ob(Slider)

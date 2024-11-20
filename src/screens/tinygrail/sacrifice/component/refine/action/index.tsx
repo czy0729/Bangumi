@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-11 18:21:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 15:35:56
+ * @Last Modified time: 2024-11-19 16:17:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex } from '@components'
+import { useStore } from '@stores'
 import { confirm, formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { calculateRefineCost } from '@tinygrail/_/utils'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Action(props, { $ }: Ctx) {
+function Action() {
+  const { $ } = useStore<Ctx>()
   if (!$.myTemple.assets) return null
 
   return (
@@ -43,4 +45,4 @@ function Action(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Action)
+export default ob(Action)

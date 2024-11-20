@@ -2,36 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-11 10:04:04
+ * @Last Modified time: 2024-11-20 09:10:04
  */
-import { observable, computed, toJS } from 'mobx'
-import { tinygrailStore } from '@stores'
-import { toFixed, info, tinygrailOSS } from '@utils'
-import store from '@utils/store'
+import { computed, observable, toJS } from 'mobx'
+import { _, tinygrailStore } from '@stores'
+import { info, tinygrailOSS, toFixed } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import treemap from '@utils/thirdParty/treemap'
 import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
-import _ from '@styles'
 import { VALHALL_PRICE } from '@tinygrail/_/ds'
+import { H_TOOL_BAR, NAMESPACE, STATE, TINYGRAIL_VALHALL_ID } from './ds'
 import { Params } from './types'
 
-const TINYGRAIL_VALHALL_ID = 'valhalla@tinygrail.com'
-const H_TOOL_BAR = 44
-const NAMESPACE = 'ScreenTinygrailTree'
-const DEFAULT_TYPE = MODEL_TINYGRAIL_ASSETS_TYPE.getValue('所有')
-const DEFAULT_CACULATE_TYPE = MODEL_TINYGRAIL_CACULATE_TYPE.getValue('周股息')
-
-export default class ScreenTinygrailTree extends store {
+export default class ScreenTinygrailTree extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    type: DEFAULT_TYPE,
-    caculateType: DEFAULT_CACULATE_TYPE,
-    loading: false,
-    data: [],
-    total: 0,
-    filterItems: []
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = (await this.getStorage(NAMESPACE)) || {}
@@ -129,13 +116,7 @@ export default class ScreenTinygrailTree extends store {
       const list = this.charaAssets
       if (!list.length) return
 
-      const {
-        total = 0,
-        currentTotal,
-        filterCount,
-        filterTotal,
-        nodes
-      } = this.caculate()
+      const { total = 0, currentTotal, filterCount, filterTotal, nodes } = this.caculate()
       if (filterCount) {
         // @ts-expect-error
         nodes.push({
@@ -232,9 +213,13 @@ export default class ScreenTinygrailTree extends store {
       filterItems:
         index === -1
           ? [...filterItems, { id, name }]
-          : filterItems.filter((item, idx) => idx !== index)
+          : filterItems.filter((_item, idx) => idx !== index)
     })
     this.generateTreeMap()
+
+    t('资产分析.长按隐藏', {
+      id
+    })
   }
 
   /** 选择范围 */
@@ -268,20 +253,14 @@ export default class ScreenTinygrailTree extends store {
   /** 隐藏低持仓 */
   onHideLow = () => {
     this.setState({
-      filterItems: this.charaAssets.filter(
-        item => caculateValue(item, '持仓价值') < 100
-      )
+      filterItems: this.charaAssets.filter(item => caculateValue(item, '持仓价值') < 100)
     })
     this.generateTreeMap()
   }
 }
 
 /** 计算列表的总值 */
-function caculateTotal(
-  list: any[],
-  label: string | boolean,
-  isTemple: boolean = false
-) {
+function caculateTotal(list: any[], label: string | boolean, isTemple: boolean = false) {
   let total = 0
   try {
     list.forEach(item => {
@@ -330,8 +309,7 @@ function caculateValue(
         } else if (item.sacrifices) {
           // 所有, 合并
           value +=
-            (item.state || 0) * item.rate +
-            item.sacrifices * item.rate * (item.level + 1) * 0.3
+            (item.state || 0) * item.rate + item.sacrifices * item.rate * (item.level + 1) * 0.3
         } else {
           value += (item.state || 0) * item.rate
         }

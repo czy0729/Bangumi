@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-11 10:49:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:53:28
+ * @Last Modified time: 2024-11-19 15:59:39
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
-function Header(props, { navigation }: Ctx) {
+function Header() {
+  const navigation = useNavigation()
   return (
     <HeaderComp
       title='番市首富'
@@ -38,4 +39,4 @@ function Header(props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

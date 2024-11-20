@@ -2,36 +2,35 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 05:03:34
+ * @Last Modified time: 2024-11-19 15:41:45
  */
 import React from 'react'
-import { Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
+import { Component, Page } from '@components'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
 import Header from './header'
 import { useTinygrailOverviewPage } from './hooks'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 热门榜单 */
-const TinygrailOverview = (props, context: Ctx) => {
-  useTinygrailOverviewPage(context)
+const TinygrailOverview = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailOverviewPage(props)
 
-  const { $ } = context
   return useObserver(() => (
-    <>
-      <Header />
-      <Page
-        style={_.container.tinygrail}
-        loadingColor={_.colorTinygrailText}
-        loaded={$.state._loaded}
-      >
-        <Tabs />
-      </Page>
-    </>
+    <Component id='screen-tinygrail-overview'>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page
+          style={_.container.tinygrail}
+          loadingColor={_.colorTinygrailText}
+          loaded={$.state._loaded}
+        >
+          <Tabs />
+        </Page>
+      </StoreContext.Provider>
+    </Component>
   ))
 }
 
-export default ic(Store, TinygrailOverview)
+export default TinygrailOverview

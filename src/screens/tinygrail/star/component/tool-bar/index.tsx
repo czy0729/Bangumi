@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-03-02 17:57:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-09 05:31:12
+ * @Last Modified time: 2024-11-19 18:34:13
  */
 import React from 'react'
 import { Text } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import Btns from '@tinygrail/_/btns'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   return (
     <Btns>
       <Btns.Touchable
@@ -47,4 +49,4 @@ function ToolBar(props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

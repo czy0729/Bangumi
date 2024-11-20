@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-01-25 11:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:00:51
+ * @Last Modified time: 2024-11-20 12:09:00
  */
 import React from 'react'
-import { Flex, Touchable, Heatmap } from '@components'
+import { Flex, Heatmap, Touchable } from '@components'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
 function Btns({ style = undefined, children = undefined, ...other }) {
@@ -35,4 +35,4 @@ Btns.Touchable = function Item({
   )
 }
 
-export default obc(Btns)
+export default ob(Btns)

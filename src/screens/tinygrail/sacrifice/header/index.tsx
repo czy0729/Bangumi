@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-11-11 05:52:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-20 10:29:52
+ * @Last Modified time: 2024-11-19 16:21:20
  */
 import React from 'react'
 import { Flex, Header as HeaderComp, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Header(props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   return (
     <HeaderComp
       title='资产重组'
@@ -82,4 +83,4 @@ function Header(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

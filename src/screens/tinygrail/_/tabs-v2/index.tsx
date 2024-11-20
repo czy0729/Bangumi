@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-09-16 19:41:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 01:39:00
+ * @Last Modified time: 2024-11-20 12:05:45
  */
 import React from 'react'
 import { TabsV2 } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
-import { AnyObject } from '@types'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 
-function Tabs({ routes, renderItem, ...other }, { $ }: AnyObject) {
+function Tabs({ routes, renderItem, ...other }) {
+  const { $ } = useStore<any>()
   return (
     <TabsV2
       key={_.orientation}
@@ -28,4 +28,4 @@ function Tabs({ routes, renderItem, ...other }, { $ }: AnyObject) {
   )
 }
 
-export default obc(Tabs)
+export default ob(Tabs)

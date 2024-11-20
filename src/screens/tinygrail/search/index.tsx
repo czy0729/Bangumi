@@ -2,50 +2,44 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:26:06
+ * @Last Modified time: 2024-11-19 16:43:21
  */
 import React from 'react'
-import { Flex, Header, Page } from '@components'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
+import { Component, Flex, Header, Page } from '@components'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import History from './history'
+import { useTinygrailSearchPage } from './hooks'
 import Result from './result'
 import SearchBar from './search-bar'
-import Store from './store'
 import { memoStyles } from './styles'
-import { Ctx } from './types'
 
 /** 人物直达 */
-class TinygrailSearch extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+const TinygrailSearch = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailSearchPage(props)
 
-  render() {
-    const { $ } = this.context as Ctx
-    const { list } = $.state
+  return useObserver(() => {
+    const styles = memoStyles()
     return (
-      <>
-        <Header
-          title='人物直达'
-          hm={['tinygrail/search', 'TinygrailSearch']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
-        />
-        <Page style={_.container.tinygrail}>
-          <Flex style={this.styles.searchBar}>
-            <SearchBar />
-          </Flex>
-          {list.length ? <Result style={_.mt.sm} /> : <History style={_.mt.sm} />}
-        </Page>
-      </>
+      <Component id='screen-tinygrail-search'>
+        <StoreContext.Provider value={id}>
+          <Header
+            title='人物直达'
+            hm={['tinygrail/search', 'TinygrailSearch']}
+            statusBarEvents={false}
+            statusBarEventsType='Tinygrail'
+          />
+          <Page style={_.container.tinygrail}>
+            <Flex style={styles.searchBar}>
+              <SearchBar />
+            </Flex>
+            {$.state.list.length ? <Result style={_.mt.sm} /> : <History style={_.mt.sm} />}
+          </Page>
+        </StoreContext.Provider>
+      </Component>
     )
-  }
-
-  get styles() {
-    return memoStyles()
-  }
+  })
 }
 
-export default inject(Store)(obc(TinygrailSearch))
+export default TinygrailSearch

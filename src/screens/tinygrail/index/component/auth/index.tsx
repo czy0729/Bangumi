@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-04 21:58:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:35:13
+ * @Last Modified time: 2024-11-19 06:18:35
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { IconBack, IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Btns from '../btns'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Auth(_props, { $, navigation }: Ctx) {
+function Auth() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { nickname, avatar } = $.userInfo
   return (
@@ -69,4 +70,4 @@ function Auth(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Auth, COMPONENT)
+export default ob(Auth, COMPONENT)

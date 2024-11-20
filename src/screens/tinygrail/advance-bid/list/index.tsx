@@ -6,15 +6,17 @@
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import ItemAdvance from '@tinygrail/_/item-advance'
 import { Ctx } from '../types'
 
-function List(props, { $ }: Ctx) {
-  const { _loaded } = $.computedList
-  if (!_loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+function List() {
+  const { $ } = useStore<Ctx>()
+  if (!$.computedList._loaded) {
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+  }
 
   const EVENT = {
     id: '买一推荐.跳转',
@@ -22,9 +24,7 @@ function List(props, { $ }: Ctx) {
       userId: $.myUserId
     }
   } as const
-  const renderItem = ({ item, index }) => (
-    <ItemAdvance index={index} event={EVENT} {...item} />
-  )
+  const renderItem = ({ item, index }) => <ItemAdvance index={index} event={EVENT} {...item} />
 
   return (
     <ListView
@@ -48,4 +48,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
+export default ob(List)

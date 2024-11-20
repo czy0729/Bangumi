@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-08 02:06:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-09 05:49:41
+ * @Last Modified time: 2024-11-19 16:14:11
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function LastWeek(props, { $ }: Ctx) {
+function LastWeek() {
+  const { $ } = useStore<Ctx>()
   if (!$.auctionList._loaded) return null
 
   const { list } = $.auctionList
@@ -44,4 +45,4 @@ function LastWeek(props, { $ }: Ctx) {
   )
 }
 
-export default obc(LastWeek)
+export default ob(LastWeek)

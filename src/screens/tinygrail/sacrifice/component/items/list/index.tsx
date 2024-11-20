@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:25:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 16:09:07
+ * @Last Modified time: 2024-11-19 16:24:39
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm, info, tinygrailOSS } from '@utils'
-import { c } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import { Fn } from '@types'
@@ -17,14 +16,8 @@ import { Ctx } from '../../../types'
 import { OSS } from '../ds'
 import { styles } from './styles'
 
-function List(
-  {
-    onOpen
-  }: {
-    onOpen: Fn
-  },
-  { $ }: Ctx
-) {
+function List({ onOpen }: { onOpen: Fn }) {
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchUserLogs, $.fetchMyTemple])
   })
@@ -188,4 +181,4 @@ function List(
   ))
 }
 
-export default c(List)
+export default List

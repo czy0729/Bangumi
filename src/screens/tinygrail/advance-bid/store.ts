@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:42:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:26:29
+ * @Last Modified time: 2024-11-19 06:51:07
  */
 import { computed, observable } from 'mobx'
 import { systemStore, tinygrailStore, userStore } from '@stores'
@@ -10,8 +10,9 @@ import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { levelList } from '@tinygrail/_/utils'
+import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenTinygrailAdvanceBid extends store {
+export default class ScreenTinygrailAdvanceBid extends store<typeof EXCLUDE_STATE> {
   state = observable({
     level: '',
     _loaded: false

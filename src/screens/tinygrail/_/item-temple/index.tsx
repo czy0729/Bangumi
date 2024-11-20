@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 08:24:19
+ * @Last Modified time: 2024-11-20 12:06:58
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
-import { Navigation } from '@types'
 import Progress from '../progress'
 import Cover from './cover'
 import Title from './title'
@@ -19,32 +19,26 @@ import User from './user'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemTemple(
-  {
-    style,
-    assets,
-    avatar,
-    cover,
-    coverSize,
-    event,
-    level,
-    cLevel,
-    name,
-    rank,
-    nickname,
-    sacrifices,
-    refine,
-    lastActive,
-    type,
-    userId,
-    onPress
-  }: Props,
-  {
-    navigation
-  }: {
-    navigation: Navigation
-  }
-) {
+function ItemTemple({
+  style,
+  assets,
+  avatar,
+  cover,
+  coverSize,
+  event,
+  level,
+  cLevel,
+  name,
+  rank,
+  nickname,
+  sacrifices,
+  refine,
+  lastActive,
+  type,
+  userId,
+  onPress
+}: Props) {
+  const navigation = useNavigation()
   const styles = memoStyles()
 
   /** 最近圣殿页面用 */
@@ -82,4 +76,4 @@ function ItemTemple(
   )
 }
 
-export default obc(ItemTemple, COMPONENT)
+export default ob(ItemTemple, COMPONENT)

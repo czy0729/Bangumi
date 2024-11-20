@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TINYGRAIL_ASSETS_LIMIT } from '@constants'
 import { Ctx } from '../../../types'
 import { COMPONENT } from './ds'
 
-function Label({ route, focused }, { $ }: Ctx) {
+function Label({ route, focused }) {
+  const { $ } = useStore<Ctx>()
   let count: string | number
   switch (route.key) {
     case 'chara':
@@ -50,4 +51,4 @@ function Label({ route, focused }, { $ }: Ctx) {
   )
 }
 
-export default obc(Label, COMPONENT)
+export default ob(Label, COMPONENT)

@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-07 16:57:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 15:56:43
+ * @Last Modified time: 2024-11-19 16:24:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Input, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { confirm, formatNumber } from '@utils'
-import { c } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import { Ctx } from '../../../types'
 import { memoStyles } from './styles'
 
-function Amount(props, { $ }: Ctx) {
+function Amount() {
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchUserLogs])
   })
@@ -61,4 +61,4 @@ function Amount(props, { $ }: Ctx) {
   })
 }
 
-export default c(Amount)
+export default Amount

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-04-24 14:16:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 16:55:21
+ * @Last Modified time: 2024-11-19 05:37:56
  */
 import React from 'react'
 import { Notice, PaginationList2 as PaginationList } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(_props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <>
       <ToolBar />
@@ -31,4 +32,4 @@ function List(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

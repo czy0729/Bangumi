@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:55:01
+ * @Last Modified time: 2024-11-20 12:08:18
  */
 import React from 'react'
 import { IconTouchable } from '@_'
 import { _, tinygrailStore } from '@stores'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
 import Popover from '../../popover'
 import StockPreview from '../../stock-preview'
@@ -72,4 +72,4 @@ function Control(props: Props) {
   )
 }
 
-export default obc(Control)
+export default ob(Control)

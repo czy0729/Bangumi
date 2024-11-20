@@ -2,25 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 19:43:28
+ * @Last Modified time: 2024-11-20 11:31:13
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
-import { levelList, sortList, relation } from '@tinygrail/_/utils'
+import store from '@utils/store'
+import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { NAMESPACE, STATE } from './ds'
 
-const NAMESPACE = 'ScreenTinygrailValhall'
-
-export default class ScreenTinygrailValhall extends store {
-  state = observable({
-    level: '',
-    sort: '',
-    direction: '' as '' | 'up' | 'down',
-    go: '资产重组',
-    _loaded: false
-  })
+export default class ScreenTinygrailValhall extends store<typeof STATE> {
+  state = observable(STATE)
 
   init = async () => {
     const { _loaded } = this.state
@@ -75,9 +68,7 @@ export default class ScreenTinygrailValhall extends store {
   @computed get levelMap() {
     const { list } = this.valhallList
     const data = {}
-    list.forEach(item =>
-      data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)
-    )
+    list.forEach(item => (data[item.level] ? (data[item.level] += 1) : (data[item.level] = 1)))
     return data
   }
 

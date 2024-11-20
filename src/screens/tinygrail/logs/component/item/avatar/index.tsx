@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:57:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 07:06:14
+ * @Last Modified time: 2024-11-19 13:36:19
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar as AvatarComp } from '@components'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../../types'
+import { useNavigation } from '@utils/hooks'
 
-function Avatar({ charaId, icons, desc, onPress }, { navigation }: Ctx) {
+function Avatar({ charaId, icons, desc, onPress }) {
+  const navigation = useNavigation()
   if (!icons) return null
 
   return (
@@ -42,4 +43,4 @@ function Avatar({ charaId, icons, desc, onPress }, { navigation }: Ctx) {
   )
 }
 
-export default obc(Avatar)
+export default ob(Avatar)

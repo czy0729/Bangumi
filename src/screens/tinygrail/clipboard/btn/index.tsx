@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-11-30 20:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:35:13
+ * @Last Modified time: 2024-11-19 10:29:49
  */
 import React from 'react'
-import { Flex, Button } from '@components'
+import { Button, Flex } from '@components'
+import { useStore } from '@stores'
 import { confirm } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Btn(props, { $ }: Ctx) {
+function Btn() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const ids = $.list.list.filter(item => !!item.icoId).map(item => item.icoId)
   if (!ids.length) return null
@@ -35,4 +37,4 @@ function Btn(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Btn)
+export default ob(Btn)

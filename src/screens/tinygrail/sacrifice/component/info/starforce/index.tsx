@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:19:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:39:39
+ * @Last Modified time: 2024-11-19 16:15:16
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Stars from '@tinygrail/_/stars'
 import { Ctx } from '../../../types'
 
-function Starforce(props, { $ }: Ctx) {
+function Starforce() {
+  const { $ } = useStore<Ctx>()
   if (!$.starForces) return null
 
   return (
@@ -26,4 +27,4 @@ function Starforce(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Starforce)
+export default ob(Starforce)

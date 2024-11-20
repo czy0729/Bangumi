@@ -5,20 +5,29 @@
  * @Last Modified time: 2022-11-08 06:34:07
  */
 import {
-  SORT_GDS,
-  SORT_SC,
-  SORT_GX,
   SORT_DJ,
-  SORT_HYD,
-  SORT_SCJ,
-  SORT_FHL,
   SORT_DQJ,
   SORT_DQZD,
-  SORT_XFJL,
-  SORT_SSGX,
+  SORT_FHL,
+  SORT_GDS,
+  SORT_GX,
+  SORT_HYD,
   SORT_RK,
+  SORT_SC,
+  SORT_SCJ,
+  SORT_SSGX,
+  SORT_XFJL,
   SORT_XX
 } from '@tinygrail/_/utils'
+import { Loaded } from '@types'
+
+export const EXCLUDE_STATE = {
+  page: 0,
+  level: '',
+  sort: '',
+  direction: '' as '' | 'up' | 'down',
+  _loaded: false as Loaded
+}
 
 export const tabs = [
   {

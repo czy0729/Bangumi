@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-08 17:38:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 06:21:45
+ * @Last Modified time: 2024-11-19 16:20:46
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 
-function Head(props, { $ }: Ctx) {
+function Head() {
+  const { $ } = useStore<Ctx>()
   return (
     <Flex>
       <Text type='tinygrailPlain' lineHeight={16}>
@@ -34,4 +35,4 @@ function Head(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Head)
+export default ob(Head)

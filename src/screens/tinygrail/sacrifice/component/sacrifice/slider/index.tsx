@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:57:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 17:04:16
+ * @Last Modified time: 2024-11-19 16:18:30
  */
 import React from 'react'
 import { Flex, Slider as SliderComp, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { debounce, formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import { styles } from './styles'
 
-function Slider(props, { $ }: Ctx) {
+function Slider() {
+  const { $ } = useStore<Ctx>()
   const { amount } = $.userLogs
   const max = Math.floor(amount)
   return (
@@ -49,4 +50,4 @@ function Slider(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Slider)
+export default ob(Slider)

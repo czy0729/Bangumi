@@ -10,7 +10,7 @@ import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
 
-export default class ScreenTinygrailAdvanceAuction extends store {
+export default class ScreenTinygrailAdvanceAuction extends store<null> {
   init = () => {
     const { _loaded } = this.advanceSacrificeList
     if (!_loaded) this.fetchAdvanceSacrificeList(false)

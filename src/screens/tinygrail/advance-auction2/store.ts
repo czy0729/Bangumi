@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:27:12
+ * @Last Modified time: 2024-11-19 06:37:26
  */
 import { computed, observable } from 'mobx'
 import { systemStore, tinygrailStore, userStore } from '@stores'
@@ -10,12 +10,13 @@ import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { levelList, SORT_GF, sortList } from '@tinygrail/_/utils'
+import { EXCLUDE_STATE } from './ds'
 
 export const sortDS = [SORT_GF] as const
 
 const NAMESPACE = 'ScreenTinygrailAdvanceAuction2'
 
-export default class ScreenTinygrailAdvanceAuction2 extends store {
+export default class ScreenTinygrailAdvanceAuction2 extends store<typeof EXCLUDE_STATE> {
   state = observable({
     level: '',
     sort: '',

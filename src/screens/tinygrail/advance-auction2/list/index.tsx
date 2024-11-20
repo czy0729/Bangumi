@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:04:13
+ * @Last Modified time: 2024-11-19 06:39:13
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import ItemAdvance from '@tinygrail/_/item-advance'
 import { Ctx } from '../types'
 
-function List(props, { $ }: Ctx) {
-  const { _loaded } = $.computedList
-  if (!_loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+function List() {
+  const { $ } = useStore<Ctx>()
+  if (!$.computedList._loaded) {
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+  }
 
   const EVENT = {
     id: '竞拍推荐.跳转',
@@ -54,4 +56,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
+export default ob(List)

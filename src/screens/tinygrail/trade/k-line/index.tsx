@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-01 13:51:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:25:50
+ * @Last Modified time: 2024-11-20 12:02:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,18 +10,16 @@ import { Loading, Text } from '@components'
 import WebView from '@components/@/web-view'
 import { _, tinygrailStore } from '@stores'
 import { info } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { HOST_CDN } from '@constants'
-import { Ctx } from '../types'
 import html from './html'
 import { getKData } from './utils'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
 let renderCount = 0
 
-class KLine extends React.Component<{
-  focus: boolean
-}> {
+class KLine extends React.Component<Props> {
   static defaultProps = {
     focus: false
   }
@@ -31,14 +29,13 @@ class KLine extends React.Component<{
   }
 
   onError = () => {
-    const { navigation } = this.context as Ctx
-    info('网络似乎出了点问题')
+    const { navigation } = this.props
     navigation.goBack()
+    info('网络似乎出了点问题')
   }
 
   onLoad = () => {
-    const { $ } = this.context as Ctx
-    const { focus } = this.props
+    const { $, focus } = this.props
 
     if (focus) {
       setTimeout(() => {
@@ -69,7 +66,7 @@ class KLine extends React.Component<{
   }
 
   render() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { loading, distance } = $.state
     const { _webview } = tinygrailStore.state
     return (
@@ -106,4 +103,4 @@ class KLine extends React.Component<{
   }
 }
 
-export default obc(KLine)
+export default ob(KLine)

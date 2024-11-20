@@ -2,30 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 12:20:34
+ * @Last Modified time: 2024-11-19 13:36:42
  */
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
 import { ListEmpty } from '@types'
 import { TABS } from '../../ds'
 import { Ctx, TabsTitle } from '../../types'
-import Item from '../item'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
-function List(
-  {
-    title = '全部'
-  }: {
-    title: TabsTitle
-  },
-  { $ }: Ctx
-) {
+function List({ title = '全部' }: { title: TabsTitle }) {
+  const { $ } = useStore<Ctx>()
   if (!$.balance._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
   let data: ListEmpty
@@ -108,4 +101,4 @@ function List(
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

@@ -7,8 +7,8 @@
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { TINYGRAIL_LIST_PROPS } from '@tinygrail/_/ds'
 import { ListEmpty } from '@types'
 import { Ctx } from '../../types'
@@ -18,7 +18,8 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
-function List({ id }: Props, { $ }: Ctx) {
+function List({ id }: Props) {
+  const { $ } = useStore<Ctx>()
   if (!$.myCharaAssets._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
@@ -62,4 +63,4 @@ function List({ id }: Props, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-01 22:59:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-02 00:11:03
+ * @Last Modified time: 2024-11-19 12:10:02
  */
 import React from 'react'
 import { Header as HeaderComp } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
-function Header(props, { $ }: Ctx) {
+function Header() {
+  const { $ } = useStore<Ctx>()
   return (
     <HeaderComp
       title='ICO'
@@ -21,4 +23,4 @@ function Header(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Header, COMPONENT)
+export default ob(Header, COMPONENT)

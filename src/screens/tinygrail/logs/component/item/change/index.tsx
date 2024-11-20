@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:51:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 07:18:18
+ * @Last Modified time: 2024-11-19 13:36:28
  */
 import React from 'react'
 import { Flex, Text, TextProps } from '@components'
 import { _, systemStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
-import { Ctx } from '../../../types'
+import { ob } from '@utils/decorators'
 
-function Item({ desc, change }, { $ }: Ctx) {
+function Item({ desc, change }) {
   let type: TextProps['type']
   if (change > 0) {
     type = 'bid'
@@ -57,4 +56,4 @@ function Item({ desc, change }, { $ }: Ctx) {
   )
 }
 
-export default obc(Item)
+export default ob(Item)

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-09-20 20:24:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:26:15
+ * @Last Modified time: 2024-11-19 12:09:24
  */
 import React from 'react'
 import { View } from 'react-native'
 import { CountDown, Flex, Iconfont, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import {
   caculateICO,
   formatNumber,
@@ -16,15 +16,15 @@ import {
   HTMLDecode,
   tinygrailOSS
 } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../types'
 import Bar from '../bar'
 import { COMPONENT, MAX_SIZE } from './ds'
 import { memoStyles } from './styles'
 
-function Info(props, { $, navigation }: Ctx) {
+function Info() {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { icon, monoId, name, total, end = '', bonus } = $.chara
   const { next, level, price, amount } = caculateICO($.chara)
@@ -110,4 +110,4 @@ function Info(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Info, COMPONENT)
+export default ob(Info, COMPONENT)

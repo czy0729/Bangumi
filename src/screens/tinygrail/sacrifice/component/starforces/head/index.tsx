@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-07 17:20:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-07 17:36:01
+ * @Last Modified time: 2024-11-19 16:19:39
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 import ExpandBtn from '../../expand-btn'
 
-function Head(props, { $ }: Ctx) {
+function Head() {
+  const { $ } = useStore<Ctx>()
   const { showStarForces } = $.state
   return (
     <Flex>
@@ -24,4 +26,4 @@ function Head(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Head)
+export default ob(Head)

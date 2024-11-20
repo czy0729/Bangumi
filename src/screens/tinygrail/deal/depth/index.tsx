@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:15:52
+ * @Last Modified time: 2024-11-19 10:59:41
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, TextType, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Depth(props, { $ }: Ctx) {
+function Depth() {
+  const { $ } = useStore<Ctx>()
   const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) return null
 
@@ -75,8 +76,7 @@ function Depth(props, { $ }: Ctx) {
             .reverse()
             .map((item, index) => {
               const price = toFixed(item.price, 0)
-              const isMyOrder =
-                userAsks.findIndex(i => price === toFixed(i.price, 0)) !== -1
+              const isMyOrder = userAsks.findIndex(i => price === toFixed(i.price, 0)) !== -1
               const width =
                 ((asksAmount - filterCalculateAsks - calculateAsks) /
                   (asksAmount + filterCalculateAsks)) *
@@ -130,11 +130,10 @@ function Depth(props, { $ }: Ctx) {
             // 0优先, 之后大的优先
             .slice()
             .sort((a, b) => (b.price || 10000000) - (a.price || 10000000))
-            .filter((item, index) => index < 5)
+            .filter((_item, index) => index < 5)
             .map((item, index) => {
               const price = toFixed(item.price, 0)
-              const isMyOrder =
-                userBids.findIndex(i => price === toFixed(i.price, 0)) !== -1
+              const isMyOrder = userBids.findIndex(i => price === toFixed(i.price, 0)) !== -1
               calculateBids += item.amount
               return (
                 <Touchable
@@ -170,4 +169,4 @@ function Depth(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Depth)
+export default ob(Depth)

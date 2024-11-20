@@ -5,29 +5,24 @@
  * @Last Modified time: 2024-05-05 16:01:05
  */
 import React from 'react'
-import { Header, Page } from '@components'
+import { Component, Header, Page } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
+import { _, StoreContext } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { alert } from '@utils/ui'
 import ToolBar from '@tinygrail/_/tool-bar'
+import { NavigationProps } from '@types'
+import { useTinygrailAdvanceStatePage } from './hooks'
 import List from './list'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 低价股 */
-class TinygrailAdvanceState extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+const TinygrailAdvanceState = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailAdvanceStatePage(props)
 
-  render() {
-    const { $ } = this.context as Ctx
-    const { level } = $.state
-    return (
-      <>
+  return useObserver(() => (
+    <Component id='screen-tinygrail-advance-state'>
+      <StoreContext.Provider value={id}>
         <Header
           title='低价股'
           hm={['tinygrail/advance-state', 'TinygrailAdvanceState']}
@@ -48,15 +43,15 @@ class TinygrailAdvanceState extends React.Component {
         <Page style={_.container.tinygrail}>
           <ToolBar
             style={_.mt._sm}
-            level={level}
+            level={$.state.level}
             levelMap={$.levelMap}
             onLevelSelect={$.onLevelSelect}
           />
           <List />
         </Page>
-      </>
-    )
-  }
+      </StoreContext.Provider>
+    </Component>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailAdvanceState))
+export default TinygrailAdvanceState

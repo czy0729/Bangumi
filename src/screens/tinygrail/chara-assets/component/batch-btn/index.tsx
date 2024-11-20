@@ -6,13 +6,14 @@
  */
 import React from 'react'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function BatchBtn(_props, { $ }: Ctx) {
+function BatchBtn() {
+  const { $ } = useStore<Ctx>()
   if (!$.state.editing) return null
 
   return (
@@ -24,4 +25,4 @@ function BatchBtn(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(BatchBtn, COMPONENT)
+export default ob(BatchBtn, COMPONENT)

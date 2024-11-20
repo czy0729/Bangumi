@@ -5,33 +5,32 @@
  * @Last Modified time: 2024-03-05 03:43:23
  */
 import React from 'react'
-import { Page } from '@components'
-import { _ } from '@stores'
-import { ic } from '@utils/decorators'
+import { Component, Page } from '@components'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Tabs from './component/tabs'
 import Header from './header'
 import { useTinygrailCharaAssetsPage } from './hooks'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 我的持仓 */
-const TinygrailCharaAssets = (_props, context: Ctx) => {
-  useTinygrailCharaAssetsPage(context)
+const TinygrailCharaAssets = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailCharaAssetsPage(props)
 
-  const { $ } = context
   return useObserver(() => (
-    <>
-      <Header />
-      <Page
-        style={_.container.tinygrail}
-        loaded={$.state._loaded}
-        loadingColor={_.colorTinygrailText}
-      >
-        <Tabs />
-      </Page>
-    </>
+    <Component id='screen-tinygrail-chara-assets'>
+      <StoreContext.Provider value={id}>
+        <Header />
+        <Page
+          style={_.container.tinygrail}
+          loaded={$.state._loaded}
+          loadingColor={_.colorTinygrailText}
+        >
+          <Tabs />
+        </Page>
+      </StoreContext.Provider>
+    </Component>
   ))
 }
 
-export default ic(Store, TinygrailCharaAssets)
+export default TinygrailCharaAssets

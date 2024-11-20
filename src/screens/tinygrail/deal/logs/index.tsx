@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:27:53
+ * @Last Modified time: 2024-11-19 11:00:35
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable, Iconfont } from '@components'
-import { _ } from '@stores'
+import { Flex, Iconfont, Text, Touchable } from '@components'
+import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Logs(props, { $ }: Ctx) {
+function Logs() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { bids, asks } = $.userLogs
   return (
@@ -30,10 +31,7 @@ function Logs(props, { $ }: Ctx) {
             </Text>
           </Flex.Item>
           {!!bids.length && (
-            <Touchable
-              style={[styles.cancel, _.ml.sm]}
-              onPress={() => $.doCancelAll('bid')}
-            >
+            <Touchable style={[styles.cancel, _.ml.sm]} onPress={() => $.doCancelAll('bid')}>
               <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
             </Touchable>
           )}
@@ -77,10 +75,7 @@ function Logs(props, { $ }: Ctx) {
             </Text>
           </Flex.Item>
           {!!asks.length && (
-            <Touchable
-              style={[styles.cancel, _.ml.sm]}
-              onPress={() => $.doCancelAll('ask')}
-            >
+            <Touchable style={[styles.cancel, _.ml.sm]} onPress={() => $.doCancelAll('ask')}>
               <Iconfont name='md-close' size={14} color={_.colorTinygrailIcon} />
             </Touchable>
           )}
@@ -120,4 +115,4 @@ function Logs(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Logs)
+export default ob(Logs)

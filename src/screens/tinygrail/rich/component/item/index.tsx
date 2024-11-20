@@ -2,40 +2,39 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 17:51:08
+ * @Last Modified time: 2024-11-19 15:58:51
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Text, TextType, Touchable } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { decimal } from '@tinygrail/_/utils'
-import { Ctx } from '../../types'
+
 import Avatar from './avatar'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item(
-  {
-    index,
-    title,
-    page,
-    limit,
-    avatar,
-    userId,
-    nickname,
-    total,
-    share,
-    assets,
-    principal,
-    lastActiveDate,
-    lastIndex,
-    state
-  },
-  { navigation }: Ctx
-) {
+function Item({
+  index,
+  title,
+  page,
+  limit,
+  avatar,
+  userId,
+  nickname,
+  total,
+  share,
+  assets,
+  principal,
+  lastActiveDate,
+  lastIndex,
+  state
+}) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
 
@@ -137,4 +136,4 @@ function Item(
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

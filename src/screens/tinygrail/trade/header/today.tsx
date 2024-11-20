@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-09-02 15:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 04:21:58
+ * @Last Modified time: 2024-11-20 11:58:55
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { date, getTimestamp, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Today(props, { $ }: Ctx) {
+function Today() {
+  const { $ } = useStore<Ctx>()
   let high = '-'
   let low = '-'
   let amount = 0
@@ -57,7 +58,7 @@ function Today(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Today)
+export default ob(Today)
 
 const styles = _.create({
   today: {

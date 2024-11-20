@@ -5,14 +5,16 @@
  * @Last Modified time: 2024-03-05 03:10:46
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import ToolBarComp from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '../../ds'
 import { Ctx } from '../../types'
 import BatchBtn from '../batch-btn'
 import { COMPONENT } from './ds'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   if ($.state.page > 2) return null
 
   return (
@@ -29,4 +31,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

@@ -2,49 +2,28 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:22:14
+ * @Last Modified time: 2024-11-19 15:35:27
  */
 import React from 'react'
-import { Header, Page } from '@components'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
+import { Component, Header, Page } from '@components'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import IconGo from '@tinygrail/_/icon-go'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '@tinygrail/overview/ds'
+import { NavigationProps } from '@types'
+import { useTinygrailNewPage } from './hooks'
 import List from './list'
-import Store from './store'
 import { TABS } from './ds'
-import { Ctx } from './types'
 
-/** 新番榜单 */
-class TinygrailNew extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+/** 资金日志 */
+const TinygrailNew = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailNewPage(props)
 
-  renderContentHeaderComponent() {
-    const { $ } = this.context as Ctx
-    const { level, sort, direction } = $.state
-    return (
-      <ToolBar
-        data={SORT_DS}
-        level={level}
-        levelMap={$.levelMap}
-        sort={sort}
-        direction={direction}
-        onLevelSelect={$.onLevelSelect}
-        onSortPress={$.onSortPress}
-      />
-    )
-  }
-
-  render() {
-    const { $ } = this.context as Ctx
-    const { _loaded } = $.state
-    return (
-      <>
+  return useObserver(() => (
+    <Component id='screen-tinygrail-new'>
+      <StoreContext.Provider value={id}>
         <Header
           title='新番榜单'
           hm={['tinygrail/new', 'TinygrailNew']}
@@ -52,16 +31,26 @@ class TinygrailNew extends React.Component {
           statusBarEventsType='Tinygrail'
           headerRight={() => <IconGo $={$} />}
         />
-        <Page style={_.container.tinygrail} loaded={_loaded}>
+        <Page style={_.container.tinygrail} loaded={$.state._loaded}>
           <Tabs
             routes={TABS}
-            renderContentHeaderComponent={this.renderContentHeaderComponent()}
+            renderContentHeaderComponent={
+              <ToolBar
+                data={SORT_DS}
+                level={$.state.level}
+                levelMap={$.levelMap}
+                sort={$.state.sort}
+                direction={$.state.direction}
+                onLevelSelect={$.onLevelSelect}
+                onSortPress={$.onSortPress}
+              />
+            }
             renderItem={item => <List key={item.key} id={item.key} />}
           />
         </Page>
-      </>
-    )
-  }
+      </StoreContext.Provider>
+    </Component>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailNew))
+export default TinygrailNew

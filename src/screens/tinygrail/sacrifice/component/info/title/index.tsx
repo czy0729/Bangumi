@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-07 05:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:32:14
+ * @Last Modified time: 2024-11-19 16:15:26
  */
 import React from 'react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Bonus from '@screens/tinygrail/_/bonus'
 import Level from '@screens/tinygrail/_/level'
 import Rank from '@tinygrail/_/rank'
 import { Ctx } from '../../../types'
 
-function Title(props, { $, navigation }: Ctx) {
+function Title() {
+  const { $, navigation } = useStore<Ctx>()
   const size = 13
   return (
     <Flex style={$.state.showCover && _.mt.md} justify='center'>
@@ -53,4 +54,4 @@ function Title(props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Title)
+export default ob(Title)

@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 16:59:01
+ * @Last Modified time: 2024-11-19 15:59:25
  */
 import React from 'react'
 import { toJS } from 'mobx'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { refreshControlProps } from '@tinygrail/styles'
 import { TABS } from '../../ds'
 import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 
-function List({ id, title = '全部' }, { $ }: Ctx) {
+function List({ id, title = '全部' }) {
+  const { $ } = useStore<Ctx>()
   const rich = $.rich(id)
   if (!rich._loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
 
@@ -55,4 +56,4 @@ function List({ id, title = '全部' }, { $ }: Ctx) {
   )
 }
 
-export default obc(List, COMPONENT)
+export default ob(List, COMPONENT)

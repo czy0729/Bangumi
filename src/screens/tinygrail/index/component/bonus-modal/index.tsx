@@ -2,22 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-07-30 18:10:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 16:36:04
+ * @Last Modified time: 2024-11-19 06:20:35
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
 import { Button, Flex, Image, Modal, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-class BonusModal extends React.Component<{
-  visible?: boolean
-}> {
+class BonusModal extends React.Component<Props> {
   static defaultProps = {
     visible: false
   }
@@ -33,7 +31,7 @@ class BonusModal extends React.Component<{
   }
 
   onBackAndroid = () => {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { visible } = this.props
     if (visible) {
       $.onCloseModal()
@@ -44,7 +42,7 @@ class BonusModal extends React.Component<{
   }
 
   get imageWidth() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { bonus } = $.state
     if (bonus.length <= 4) {
       return Math.floor((Math.min(_.window.width - 2 * _.wind, 400) - 2 * _._wind - _.md) * 0.5)
@@ -58,7 +56,7 @@ class BonusModal extends React.Component<{
   }
 
   get total() {
-    const { $ } = this.context as Ctx
+    const { $ } = this.props
     const { bonus } = $.state
     return bonus.reduce((total, item) => total + item.Amount * item.CurrentPrice, 0)
   }
@@ -66,9 +64,8 @@ class BonusModal extends React.Component<{
   render() {
     r(COMPONENT)
 
-    const { $, navigation } = this.context as Ctx
+    const { $, navigation, visible } = this.props
     const { bonus, isBonus2, loadingBonus } = $.state
-    const { visible } = this.props
     return (
       <Modal
         style={this.styles.modal}
@@ -160,4 +157,4 @@ class BonusModal extends React.Component<{
   }
 }
 
-export default obc(BonusModal)
+export default ob(BonusModal)

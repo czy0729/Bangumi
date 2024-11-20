@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-11 17:30:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 17:32:30
+ * @Last Modified time: 2024-11-19 15:59:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar as AvatarComp, UserStatus } from '@components'
 import { _ } from '@stores'
 import { getTimestamp, tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../../types'
+import { useNavigation } from '@utils/hooks'
 import { memoStyles } from './styles'
 
-function Avatar({ avatar, nickname, userId, lastActiveDate }, { navigation }: Ctx) {
+function Avatar({ avatar, nickname, userId, lastActiveDate }) {
+  const navigation = useNavigation()
   const styles = memoStyles()
   const lastActiveTS = getTimestamp(lastActiveDate.replace('T', ' '))
   return (
@@ -43,4 +44,4 @@ function Avatar({ avatar, nickname, userId, lastActiveDate }, { navigation }: Ct
   )
 }
 
-export default obc(Avatar)
+export default ob(Avatar)

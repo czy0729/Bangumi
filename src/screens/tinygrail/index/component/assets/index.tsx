@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-11-17 01:37:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 13:55:02
+ * @Last Modified time: 2024-11-19 06:18:07
  */
 import React from 'react'
 import { Flex, Text, TextType, Touchable } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { M } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Assets(props, { $ }: Ctx) {
+function Assets() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const {
     // loadingAssets,
@@ -124,4 +125,4 @@ function Assets(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Assets, COMPONENT)
+export default ob(Assets, COMPONENT)

@@ -10,8 +10,9 @@ import { getTimestamp, info } from '@utils'
 import store from '@utils/store'
 import { DEV } from '@constants'
 import { levelList } from '@tinygrail/_/utils'
+import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenTinygrailAdvanceState extends store {
+export default class ScreenTinygrailAdvanceState extends store<typeof EXCLUDE_STATE> {
   state = observable({
     level: '',
     _loaded: false

@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:55:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 05:51:10
+ * @Last Modified time: 2024-11-19 06:32:46
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import ItemAdvance from '@tinygrail/_/item-advance'
 import { Ctx } from '../types'
 
-function List(props, { $ }: Ctx) {
+function List() {
+  const { $ } = useStore<Ctx>()
   const { _loaded } = $.computedList
   if (!_loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
@@ -24,9 +25,7 @@ function List(props, { $ }: Ctx) {
       userId: $.myUserId
     }
   } as const
-  const renderItem = ({ item, index }) => (
-    <ItemAdvance index={index} event={EVENT} {...item} />
-  )
+  const renderItem = ({ item, index }) => <ItemAdvance index={index} event={EVENT} {...item} />
 
   return (
     <ListView
@@ -50,4 +49,4 @@ function List(props, { $ }: Ctx) {
   )
 }
 
-export default obc(List)
+export default ob(List)

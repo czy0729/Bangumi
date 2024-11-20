@@ -2,47 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:55:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:36:41
+ * @Last Modified time: 2024-11-20 11:38:21
  */
 import React from 'react'
-import { Header, Page } from '@components'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
+import { Component, Header, Page } from '@components'
+import { _, StoreContext } from '@stores'
+import { useObserver } from '@utils/hooks'
 import IconGo from '@tinygrail/_/icon-go'
 import ToolBar from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '@tinygrail/overview/ds'
+import { NavigationProps } from '@types'
+import { useTinygrailValhallPage } from './hooks'
 import List from './list'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 英灵殿 */
-class TinygrailValhall extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+const TinygrailValhall = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailValhallPage(props)
 
-  renderContentHeaderComponent() {
-    const { $ } = this.context as Ctx
-    const { level, sort, direction } = $.state
-    return (
-      <ToolBar
-        style={_.mt._sm}
-        data={SORT_DS}
-        level={level}
-        levelMap={$.levelMap}
-        sort={sort}
-        direction={direction}
-        onLevelSelect={$.onLevelSelect}
-        onSortPress={$.onSortPress}
-      />
-    )
-  }
-
-  render() {
-    const { $ } = this.context as Ctx
-    return (
-      <>
+  return useObserver(() => (
+    <Component id='screen-tinygrail-valhall'>
+      <StoreContext.Provider value={id}>
         <Header
           title='英灵殿'
           hm={['tinygrail/valhall', 'TinygrailValhall']}
@@ -51,12 +30,21 @@ class TinygrailValhall extends React.Component {
           headerRight={() => <IconGo $={$} />}
         />
         <Page style={_.container.tinygrail}>
-          {this.renderContentHeaderComponent()}
+          <ToolBar
+            style={_.mt._sm}
+            data={SORT_DS}
+            level={$.state.level}
+            levelMap={$.levelMap}
+            sort={$.state.sort}
+            direction={$.state.direction}
+            onLevelSelect={$.onLevelSelect}
+            onSortPress={$.onSortPress}
+          />
           <List />
         </Page>
-      </>
-    )
-  }
+      </StoreContext.Provider>
+    </Component>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailValhall))
+export default TinygrailValhall

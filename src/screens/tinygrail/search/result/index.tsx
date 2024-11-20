@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-11-05 12:14:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:42:17
+ * @Last Modified time: 2024-11-19 16:45:16
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl, tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function Result({ style }, { $, navigation }: Ctx) {
+function Result({ style }) {
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { list } = $.state
   return (
@@ -82,4 +83,4 @@ function Result({ style }, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Result)
+export default ob(Result)

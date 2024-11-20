@@ -2,20 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:08:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 18:59:33
+ * @Last Modified time: 2024-11-19 16:24:43
  */
 import React from 'react'
 import { Flex, Text } from '@components'
-import { _, tinygrailStore } from '@stores'
+import { _, tinygrailStore, useStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { c } from '@utils/decorators'
 import { useMount, useObserver } from '@utils/hooks'
 import ItemTemple from '@screens/tinygrail/_/item-temple'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate, calculateTempleRate, decimal } from '@tinygrail/_/utils'
 import { Ctx } from '../../../types'
 
-function Temple(props, { $ }: Ctx) {
+function Temple() {
+  const { $ } = useStore<Ctx>()
   useMount(() => {
     $.fetchQueueUnique([$.fetchTest, $.fetchMyTemple])
   })
@@ -100,4 +100,4 @@ function Temple(props, { $ }: Ctx) {
   })
 }
 
-export default c(Temple)
+export default Temple

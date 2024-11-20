@@ -7,8 +7,8 @@
 import React from 'react'
 import { Loading } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
 import { tabs } from '../ds'
@@ -24,14 +24,8 @@ const GO = {
   auction: '资产重组'
 } as const
 
-function List(
-  {
-    id
-  }: {
-    id: TabsKeys
-  },
-  { $ }: Ctx
-) {
+function List({ id }: { id: TabsKeys }) {
+  const { $ } = useStore<Ctx>()
   const list = $.computedList(id)
   if (!list._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
@@ -40,14 +34,14 @@ function List(
   const { page } = $.state
   return (
     <PaginationList2
+      keyExtractor={(_item, index) => String(index)}
       style={_.container.flex}
       contentContainerStyle={_.container.bottom}
-      keyExtractor={(item, index) => String(index)}
       refreshControlProps={refreshControlProps}
       footerTextType='tinygrailText'
       data={list.list}
       scrollToTop={tabs[page].key === id}
-      renderItem={({ item, index }) => (
+      renderItem={({ item, index }: any) => (
         <Item
           index={index}
           type={id}
@@ -62,4 +56,4 @@ function List(
   )
 }
 
-export default obc(List)
+export default ob(List)

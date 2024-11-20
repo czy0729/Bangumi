@@ -2,27 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:13:51
+ * @Last Modified time: 2024-11-19 15:48:10
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { LIST_EMPTY } from '@constants'
 import {
   relation,
-  SORT_SC,
-  SORT_GX,
-  SORT_GXB,
-  SORT_SDGX,
-  SORT_SDGXB,
-  SORT_HYD,
+  SORT_DJ,
   SORT_DQJ,
   SORT_DQZD,
-  SORT_XFJL,
-  SORT_DJ
+  SORT_GX,
+  SORT_GXB,
+  SORT_HYD,
+  SORT_SC,
+  SORT_SDGX,
+  SORT_SDGXB,
+  SORT_XFJL
 } from '../_/utils'
+import { STATE } from './ds'
 import { Params } from './types'
 
 export const SORT_DS = [
@@ -40,16 +41,10 @@ export const SORT_DS = [
 
 const NAMESPACE = 'ScreenTinygrailRelation'
 
-export default class ScreenTinygrailRelation extends store {
+export default class ScreenTinygrailRelation extends store<typeof STATE> {
   params: Params
 
-  state = observable({
-    level: '',
-    sort: '',
-    direction: '' as '' | 'up' | 'down',
-    go: '买入',
-    _loaded: false
-  })
+  state = observable(STATE)
 
   init = async () => {
     const state = await this.getStorage(NAMESPACE)

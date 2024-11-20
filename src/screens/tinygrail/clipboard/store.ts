@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2020-11-30 16:16:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 17:16:34
+ * @Last Modified time: 2024-11-19 09:34:18
  */
 import { Clipboard } from 'react-native'
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
-import { getTimestamp, copy, info, feedback } from '@utils'
-import store from '@utils/store'
+import { copy, feedback, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { MonoId, Navigation } from '@types'
-import { throttleInfo, relation } from '../_/utils'
+import { relation, throttleInfo } from '../_/utils'
+import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenTinygrailClipboard extends store {
+export default class ScreenTinygrailClipboard extends store<typeof EXCLUDE_STATE> {
   state = observable({
     ids: [],
     _loaded: false
@@ -70,9 +71,7 @@ export default class ScreenTinygrailClipboard extends store {
     }
 
     copy(
-      this.list.list
-        .map(item => `https://bgm.tv/character/${item.id}\n${item.name}`)
-        .join('\n'),
+      this.list.list.map(item => `https://bgm.tv/character/${item.id}\n${item.name}`).join('\n'),
       `已复制 ${this.list.list.length} 个角色的分享链接`
     )
   }

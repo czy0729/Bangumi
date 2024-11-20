@@ -2,24 +2,24 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-09 06:16:36
+ * @Last Modified time: 2024-11-19 15:56:31
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
-import { _ } from '@stores'
+import { ListView, Loading } from '@components'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
+import { Ctx } from '../types'
 import Item from '../../_/item'
 import { levelList, sortList } from '../../_/utils'
-import { Ctx } from '../types'
 
 const EVENT = {
   id: '关联角色.跳转'
 } as const
 
-function List(props, { $ }: Ctx) {
-  const { _loaded } = $.list
-  if (!_loaded) {
+function List() {
+  const { $ } = useStore<Ctx>()
+  if (!$.list._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
 

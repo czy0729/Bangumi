@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-11 10:29:24
+ * @Last Modified time: 2024-11-19 12:09:50
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Input, Slider as SliderComp, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { debounce, formatNumber } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Slider(props, { $ }: Ctx) {
+function Slider() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { loading, amount } = $.state
   const { balance } = $.assets
@@ -70,4 +71,4 @@ function Slider(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Slider, COMPONENT)
+export default ob(Slider, COMPONENT)

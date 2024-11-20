@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-04-27 19:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 16:07:38
+ * @Last Modified time: 2024-11-19 05:38:04
  */
 import React from 'react'
 import { Flex, Iconfont, Text, ToolBar as ToolBarComp } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
-function ToolBar(_props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   return (
     <ToolBarComp>
       <ToolBarComp.Touchable onSelect={() => $.onToggle('hideNotMatched')}>
@@ -49,4 +50,4 @@ function ToolBar(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar, COMPONENT)
+export default ob(ToolBar, COMPONENT)

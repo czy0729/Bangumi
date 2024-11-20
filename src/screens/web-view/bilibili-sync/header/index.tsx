@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 15:55:56
+ * @Last Modified time: 2024-11-19 05:38:14
  */
 import React from 'react'
 import { Flex, Header as HeaderComp } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
 
-function Header(_props, { $, navigation }: Ctx) {
+function Header() {
+  const { $, navigation } = useStore<Ctx>()
   const { hide } = $.state
   return (
     <HeaderComp
@@ -52,4 +53,4 @@ function Header(_props, { $, navigation }: Ctx) {
   )
 }
 
-export default obc(Header)
+export default ob(Header)

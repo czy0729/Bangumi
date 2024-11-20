@@ -2,30 +2,26 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:03:35
+ * @Last Modified time: 2024-11-19 10:29:33
  */
 import React from 'react'
-import { Flex, Header, Page } from '@components'
+import { Component, Flex, Header, Page } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
-import { inject, obc } from '@utils/decorators'
+import { _, StoreContext } from '@stores'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
+import { NavigationProps } from '@types'
 import Btn from './btn'
+import { useTinygrailClipboardPage } from './hooks'
 import List from './list'
-import Store from './store'
-import { Ctx } from './types'
 
 /** 粘贴板 */
-class TinygrailClipboard extends React.Component {
-  async componentDidMount() {
-    const { $, navigation } = this.context as Ctx
-    $.init(navigation)
-  }
+const TinygrailClipboard = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailClipboardPage(props)
 
-  render() {
-    const { $ } = this.context as Ctx
-    return (
-      <>
+  return useObserver(() => (
+    <Component id='screen-tinygrail-clipboard'>
+      <StoreContext.Provider value={id}>
         <Header
           title='粘贴板'
           hm={['tinygrail/clipboard', 'TinygrailClipboard']}
@@ -58,9 +54,9 @@ class TinygrailClipboard extends React.Component {
           <List />
           <Btn />
         </Page>
-      </>
-    )
-  }
+      </StoreContext.Provider>
+    </Component>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailClipboard))
+export default TinygrailClipboard

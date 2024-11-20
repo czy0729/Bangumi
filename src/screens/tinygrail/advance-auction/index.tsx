@@ -2,32 +2,28 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-14 05:08:10
+ * @Last Modified time: 2024-11-19 06:36:02
  */
 import React from 'react'
-import { Header, Page } from '@components'
+import { Component, Header, Page } from '@components'
 import { IconHeader } from '@_'
-import { _ } from '@stores'
+import { _, StoreContext } from '@stores'
 import { alert } from '@utils'
-import { inject, obc } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import ToolBar from '@tinygrail/_/tool-bar'
+import { NavigationProps } from '@types'
+import { useTinygrailAdvanceAuctionPage } from './hooks'
 import List from './list'
-import Store, { sortDS } from './store'
-import { Ctx } from './types'
+import { sortDS } from './store'
 
 /** 拍卖推荐 */
-class TinygrailAdvanceAuction extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+const TinygrailAdvanceAuction = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailAdvanceAuctionPage(props)
 
-  render() {
-    const { $ } = this.context as Ctx
-    const { level, sort } = $.state
-    return (
-      <>
+  return useObserver(() => (
+    <Component id='screen-tinygrail-advance-auction'>
+      <StoreContext.Provider value={id}>
         <Header
           title='拍卖推荐'
           hm={['tinygrail/advance-auction', 'TinygrailAdvanceAuction']}
@@ -52,19 +48,19 @@ class TinygrailAdvanceAuction extends React.Component {
         />
         <Page style={_.container.tinygrail}>
           <ToolBar
-            level={level}
+            level={$.state.level}
             levelMap={$.levelMap}
             data={sortDS}
-            sort={sort}
-            direction={sort ? 'down' : undefined}
+            sort={$.state.sort}
+            direction={$.state.sort ? 'down' : undefined}
             onLevelSelect={$.onLevelSelect}
             onSortPress={$.onSortPress}
           />
           <List />
         </Page>
-      </>
-    )
-  }
+      </StoreContext.Provider>
+    </Component>
+  ))
 }
 
-export default inject(Store)(obc(TinygrailAdvanceAuction))
+export default TinygrailAdvanceAuction

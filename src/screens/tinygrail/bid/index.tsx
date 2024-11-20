@@ -5,105 +5,99 @@
  * @Last Modified time: 2024-05-05 16:03:17
  */
 import React from 'react'
-import { Flex, Header, Page, Text } from '@components'
+import { Component, Flex, Header, Page, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, StoreContext } from '@stores'
 import { confirm } from '@utils'
-import { inject, obc } from '@utils/decorators'
+import { useObserver } from '@utils/hooks'
 import Tabs from '@tinygrail/_/tabs-v2'
 import ToolBar from '@tinygrail/_/tool-bar'
+import { NavigationProps } from '@types'
+import { useTinygrailBidPage } from './hooks'
 import List from './list'
-import Store from './store'
 import { sortDS, tabs } from './ds'
 import { styles } from './styles'
-import { Ctx } from './types'
 
 /** 我的委托 */
-class TinygrailBid extends React.Component {
-  componentDidMount() {
-    const { $ } = this.context as Ctx
-    $.init()
-  }
+const TinygrailBid = (props: NavigationProps) => {
+  const { id, $ } = useTinygrailBidPage(props)
 
-  getCount = (route: { key: string }) => {
-    const { $ } = this.context as Ctx
-    switch (route.key) {
-      case 'bid':
-      case 'asks':
-        return $.list(route.key)?.list?.length || 0
-
-      case 'auction':
-        return $.list(route.key)?.list.filter(item => item.state === 0).length || 0
-
-      default:
-        return 0
-    }
-  }
-
-  renderContentHeaderComponent() {
-    const { $ } = this.context as Ctx
-    const { level, sort, direction } = $.state
-    return (
-      <ToolBar
-        data={sortDS}
-        level={level}
-        levelMap={$.levelMap}
-        sort={sort}
-        direction={direction}
-        onLevelSelect={$.onLevelSelect}
-        onSortPress={$.onSortPress}
-      />
-    )
-  }
-
-  render() {
-    const { $ } = this.context as Ctx
+  return useObserver(() => {
     const { type = 'bid' } = $.params
-    const { _loaded } = $.state
+    const getCount = (route: { key: string }) => {
+      switch (route.key) {
+        case 'bid':
+        case 'asks':
+          return $.list(route.key)?.list?.length || 0
+
+        case 'auction':
+          return $.list(route.key)?.list.filter(item => item.state === 0).length || 0
+
+        default:
+          return 0
+      }
+    }
+
     return (
-      <>
-        <Header
-          title='我的委托'
-          hm={[`tinygrail/${type}`, 'TinygrailBid']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
-          headerRight={() => (
-            <IconTouchable
-              name='md-cancel-presentation'
-              color={_.colorTinygrailPlain}
-              onPress={() => {
-                confirm(
-                  `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
-                  () => $.onBatchCancel(),
-                  '小圣杯助手'
-                )
-              }}
-            />
-          )}
-        />
-        <Page style={_.container.tinygrail} loaded={_loaded} loadingColor={_.colorTinygrailText}>
-          <Tabs
-            routes={tabs}
-            renderContentHeaderComponent={this.renderContentHeaderComponent()}
-            renderItem={item => <List key={item.key} id={item.key} />}
-            renderLabel={({ route, focused }) => (
-              <Flex style={styles.labelText} justify='center'>
-                <Text type='tinygrailPlain' size={13} bold={focused}>
-                  {route.title}
-                </Text>
-                {!!this.getCount(route) && (
-                  <Text type='tinygrailText' size={11} bold lineHeight={13}>
-                    {' '}
-                    {this.getCount(route)}{' '}
-                  </Text>
-                )}
-              </Flex>
+      <Component id='screen-tinygrail-bid'>
+        <StoreContext.Provider value={id}>
+          <Header
+            title='我的委托'
+            hm={[`tinygrail/${type}`, 'TinygrailBid']}
+            statusBarEvents={false}
+            statusBarEventsType='Tinygrail'
+            headerRight={() => (
+              <IconTouchable
+                name='md-cancel-presentation'
+                color={_.colorTinygrailPlain}
+                onPress={() => {
+                  confirm(
+                    `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
+                    () => $.onBatchCancel(),
+                    '小圣杯助手'
+                  )
+                }}
+              />
             )}
           />
-        </Page>
-      </>
+          <Page
+            style={_.container.tinygrail}
+            loaded={$.state._loaded}
+            loadingColor={_.colorTinygrailText}
+          >
+            <Tabs
+              routes={tabs}
+              renderContentHeaderComponent={
+                <ToolBar
+                  data={sortDS}
+                  level={$.state.level}
+                  levelMap={$.levelMap}
+                  sort={$.state.sort}
+                  direction={$.state.direction}
+                  onLevelSelect={$.onLevelSelect}
+                  onSortPress={$.onSortPress}
+                />
+              }
+              renderItem={item => <List key={item.key} id={item.key} />}
+              renderLabel={({ route, focused }) => (
+                <Flex style={styles.labelText} justify='center'>
+                  <Text type='tinygrailPlain' size={13} bold={focused}>
+                    {route.title}
+                  </Text>
+                  {!!getCount(route) && (
+                    <Text type='tinygrailText' size={11} bold lineHeight={13}>
+                      {' '}
+                      {getCount(route)}{' '}
+                    </Text>
+                  )}
+                </Flex>
+              )}
+            />
+          </Page>
+        </StoreContext.Provider>
+      </Component>
     )
-  }
+  })
 }
 
-export default inject(Store)(obc(TinygrailBid))
+export default TinygrailBid

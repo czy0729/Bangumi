@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-07 06:26:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:36:56
+ * @Last Modified time: 2024-11-19 16:15:00
  */
 import React from 'react'
 import { Flex, Text, TextType } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../../types'
 
-function Detail(props, { $ }: Ctx) {
+function Detail() {
+  const { $ } = useStore<Ctx>()
   let color: TextType = 'tinygrailPlain'
   if ($.fluctuation < 0) {
     color = 'ask'
@@ -44,4 +45,4 @@ function Detail(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Detail)
+export default ob(Detail)

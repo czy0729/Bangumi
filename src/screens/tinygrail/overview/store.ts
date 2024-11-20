@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-03 06:42:46
+ * @Last Modified time: 2024-11-19 15:42:15
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -31,7 +31,7 @@ export default class ScreenTinygrailOverview extends store<typeof STATE> {
   }
 
   // -------------------- fetch --------------------
-  fetchList = (key: TabsKey) => {
+  fetchList = (key?: TabsKey) => {
     if (!key) key = this.currentKey
 
     return key === 'refine/temple'

@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-02 20:30:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:23:59
+ * @Last Modified time: 2024-11-20 11:55:46
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function DepthList({ style }, { $ }: Ctx) {
+function DepthList({ style }) {
+  const { $ } = useStore<Ctx>()
   const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) return null
   if (!asks.length && !bids.length) return null
@@ -56,12 +57,7 @@ function DepthList({ style }, { $ }: Ctx) {
         <Text style={styles.amount} type='tinygrailText' size={10} align='right'>
           数量
         </Text>
-        <Text
-          style={[styles.index, _.mr.md]}
-          type='tinygrailText'
-          size={10}
-          align='right'
-        >
+        <Text style={[styles.index, _.mr.md]} type='tinygrailText' size={10} align='right'>
           卖盘
         </Text>
       </Flex>
@@ -106,12 +102,7 @@ function DepthList({ style }, { $ }: Ctx) {
                     {item.price && toFixed(item.price, 2)}
                   </Text>
                 </Flex.Item>
-                <Text
-                  style={styles.amount}
-                  type='tinygrailText'
-                  size={12}
-                  align='right'
-                >
+                <Text style={styles.amount} type='tinygrailText' size={12} align='right'>
                   {item.amount}
                 </Text>
                 <View style={[styles.index, _.mr.md]}>
@@ -136,4 +127,4 @@ function DepthList({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(DepthList)
+export default ob(DepthList)

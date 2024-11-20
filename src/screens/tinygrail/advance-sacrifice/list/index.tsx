@@ -6,15 +6,17 @@
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
-import ItemAdvance from '../../_/item-advance'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
+import ItemAdvance from '../../_/item-advance'
 
-function List(props, { $ }: Ctx) {
-  const { _loaded } = $.advanceSacrificeList
-  if (!_loaded) return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+function List() {
+  const { $ } = useStore<Ctx>()
+  if (!$.advanceSacrificeList._loaded) {
+    return <Loading style={_.container.flex} color={_.colorTinygrailText} />
+  }
 
   const EVENT = {
     id: '献祭推荐.跳转',
@@ -22,9 +24,6 @@ function List(props, { $ }: Ctx) {
       userId: $.myUserId
     }
   } as const
-  const renderItem = ({ item, index }) => (
-    <ItemAdvance index={index} event={EVENT} {...item} />
-  )
 
   return (
     <ListView
@@ -42,10 +41,10 @@ function List(props, { $ }: Ctx) {
       updateCellsBatchingPeriod={24}
       lazy={24}
       scrollToTop
-      renderItem={renderItem}
+      renderItem={({ item, index }) => <ItemAdvance index={index} event={EVENT} {...item} />}
       onHeaderRefresh={$.fetchAdvanceSacrificeList}
     />
   )
 }
 
-export default obc(List)
+export default ob(List)

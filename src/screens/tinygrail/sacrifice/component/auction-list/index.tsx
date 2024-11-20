@@ -2,20 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-11-17 14:24:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 16:26:44
+ * @Last Modified time: 2024-11-19 16:14:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Touchable } from '@components'
-import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { _, useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import LastWeek from './last-week'
 import List from './list'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function AuctionList(props, { $ }: Ctx) {
+function AuctionList() {
+  const { $ } = useStore<Ctx>()
   if (!$.state.showAuction) return null
 
   const styles = memoStyles()
@@ -37,4 +38,4 @@ function AuctionList(props, { $ }: Ctx) {
   )
 }
 
-export default obc(AuctionList, COMPONENT)
+export default ob(AuctionList, COMPONENT)

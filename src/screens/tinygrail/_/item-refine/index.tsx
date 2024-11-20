@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-03-03 06:24:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-13 08:11:06
+ * @Last Modified time: 2024-11-20 12:07:42
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { Navigation } from '@types'
 import { getOnPress } from '../item/utils'
@@ -18,16 +18,22 @@ import Refine from '../refine'
 import { tinygrailLastDate } from '../utils'
 import { memoStyles } from './styles'
 
-function ItemRefine(
-  { assets, cover, index, lastActive, monoId, name, refine, sacrifices, userId, userName },
-  {
-    $,
-    navigation
-  }: {
+function ItemRefine({
+  assets,
+  cover,
+  index,
+  lastActive,
+  monoId,
+  name,
+  refine,
+  sacrifices,
+  userId,
+  userName
+}) {
+  const { $, navigation } = useStore<{
     $: any
     navigation: Navigation
-  }
-) {
+  }>()
   const styles = memoStyles()
   const go = $.state.go
   const onPress = () => {
@@ -82,4 +88,4 @@ function ItemRefine(
   )
 }
 
-export default obc(ItemRefine)
+export default ob(ItemRefine)

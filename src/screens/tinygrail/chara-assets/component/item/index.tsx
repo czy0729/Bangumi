@@ -6,16 +6,17 @@
  */
 import React from 'react'
 import { _ } from '@stores'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import ItemTemple from '@tinygrail/_/item-temple'
-import { Ctx } from '../../types'
 import ItemEdit from '../item-edit'
 import { COMPONENT, EVENT } from './ds'
 import { styles } from './styles'
 import { Props } from './types'
 
-function Item({ id, index, item }: Props, { navigation }: Ctx) {
+function Item({ id, index, item }: Props) {
+  const navigation = useNavigation()
   if (id === 'temple') {
     return (
       <ItemTemple
@@ -45,4 +46,4 @@ function Item({ id, index, item }: Props, { navigation }: Ctx) {
   )
 }
 
-export default obc(Item, COMPONENT)
+export default ob(Item, COMPONENT)

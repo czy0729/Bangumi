@@ -2,28 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:18:55
+ * @Last Modified time: 2024-11-20 09:48:28
  */
 import React from 'react'
-import { Flex, Text, Iconfont } from '@components'
+import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import {
-  B,
-  M,
-  MODEL_TINYGRAIL_CACULATE_RICH_TYPE,
-  TINYGRAIL_CACULATE_RICH_TYPE
-} from '@constants'
+import { B, M, MODEL_TINYGRAIL_CACULATE_RICH_TYPE, TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
 import { TinygrailCaculateRichTypeCn } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
 const caculateTypeData = TINYGRAIL_CACULATE_RICH_TYPE.map(item => item.label)
 
-function ToolBar(props, { $ }: Ctx) {
+function ToolBar() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { caculateType, total = 0, filterItems } = $.state
   const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getLabel(caculateType)
@@ -40,9 +36,7 @@ function ToolBar(props, { $ }: Ctx) {
       <Flex.Item>
         <Popover
           data={caculateTypeData}
-          onSelect={(title: TinygrailCaculateRichTypeCn) =>
-            $.onCaculateTypeSelect(title)
-          }
+          onSelect={(title: TinygrailCaculateRichTypeCn) => $.onCaculateTypeSelect(title)}
         >
           <Flex style={styles.item} justify='center'>
             <Text type='warning'>{caculateTypeLabel || '计算类型'}</Text>
@@ -80,10 +74,7 @@ function ToolBar(props, { $ }: Ctx) {
               name='md-filter-list'
               size={16}
             />
-            <Text
-              style={_.ml.sm}
-              type={filterItems.length ? 'warning' : 'tinygrailText'}
-            >
+            <Text style={_.ml.sm} type={filterItems.length ? 'warning' : 'tinygrailText'}>
               {filterItems.length || '-'}
             </Text>
           </Flex>
@@ -93,4 +84,4 @@ function ToolBar(props, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar)
+export default ob(ToolBar)

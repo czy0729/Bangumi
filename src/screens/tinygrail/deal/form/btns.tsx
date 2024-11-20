@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:17:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-03-29 05:04:07
+ * @Last Modified time: 2024-11-19 10:59:54
  */
 import React from 'react'
 import { Flex, Text, Touchable } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 
-function Btns(props, { $ }: Ctx) {
+function Btns() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { type } = $.state
   const isBid = type === 'bid'
@@ -51,7 +52,7 @@ function Btns(props, { $ }: Ctx) {
   )
 }
 
-export default obc(Btns)
+export default ob(Btns)
 
 const memoStyles = _.memoStyles(() => ({
   btn: {

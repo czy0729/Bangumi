@@ -6,47 +6,30 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { IconHeader } from '@_'
-import { _ } from '@stores'
-import { inject, obc, withHeader } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { alert } from '@utils/ui'
+import { Component } from '@components'
+import { _, StoreContext } from '@stores'
+import { inject, ob, withHeader } from '@utils/decorators'
+import { NavigationProps } from '@types'
 import { withHeaderParams } from '../styles'
+import { useTinygrailAdvanceSacrificePage } from './hooks'
 import List from './list'
 import Store from './store'
-import { Ctx } from './types'
 
 const title = '献祭推荐'
 
 /** 献祭推荐 */
-class TinygrailAdvanceSacrifice extends React.Component {
-  componentDidMount() {
-    const { $, navigation } = this.context as Ctx
-    $.init()
+const TinygrailAdvanceSacrifice = (props: NavigationProps) => {
+  const { id } = useTinygrailAdvanceSacrificePage(props)
 
-    navigation.setParams({
-      extra: (
-        <IconHeader
-          style={_.mr._right}
-          name='md-info-outline'
-          color={_.colorTinygrailPlain}
-          onPress={() => {
-            t('献祭推荐.提示')
-
-            alert('从持仓列表里面查找\n圣殿股息 - 流动股息 = 分数', '当前计算方式')
-          }}
-        />
-      )
-    })
-  }
-
-  render() {
-    return (
-      <View style={_.container.tinygrail}>
-        <List />
-      </View>
-    )
-  }
+  return (
+    <Component id='screen-tinygrail-advance-sacrifice'>
+      <StoreContext.Provider value={id}>
+        <View style={_.container.tinygrail}>
+          <List />
+        </View>
+      </StoreContext.Provider>
+    </Component>
+  )
 }
 
 export default inject(Store)(
@@ -54,5 +37,5 @@ export default inject(Store)(
     screen: title,
     hm: ['tinygrail/advance-sacrifice', 'TinygrailAdvanceSacrifice'],
     withHeaderParams
-  })(obc(TinygrailAdvanceSacrifice))
+  })(ob(TinygrailAdvanceSacrifice))
 )

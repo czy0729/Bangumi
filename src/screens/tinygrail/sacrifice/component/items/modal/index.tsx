@@ -2,26 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-03-08 05:32:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 11:52:51
+ * @Last Modified time: 2024-11-19 16:17:05
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import CharactersModal from '@tinygrail/_/characters-modal'
 import { Fn } from '@types'
 import { Ctx } from '../../../types'
 
-function Modal(
-  {
-    title,
-    visible,
-    onClose
-  }: {
-    title: string
-    visible: boolean
-    onClose: Fn
-  },
-  { $ }: Ctx
-) {
+function Modal({ title, visible, onClose }: { title: string; visible: boolean; onClose: Fn }) {
+  const { $ } = useStore<Ctx>()
   const item = {
     assets: $.myTemple.assets || 0,
     icon: $.icon,
@@ -54,4 +45,4 @@ function Modal(
   )
 }
 
-export default obc(Modal)
+export default ob(Modal)

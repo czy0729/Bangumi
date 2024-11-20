@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 02:16:22
+ * @Last Modified time: 2024-11-20 09:11:23
  */
 import React from 'react'
-import { Flex, Text, Iconfont } from '@components'
+import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { stl, toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { B, M } from '@constants'
 import {
-  TINYGRAIL_ASSETS_TYPE,
-  TINYGRAIL_CACULATE_TYPE,
-  TINYGRAIL_CACULATE_TEMPLE_TYPE,
+  B,
+  M,
   MODEL_TINYGRAIL_ASSETS_TYPE,
-  MODEL_TINYGRAIL_CACULATE_TYPE
+  MODEL_TINYGRAIL_CACULATE_TYPE,
+  TINYGRAIL_ASSETS_TYPE,
+  TINYGRAIL_CACULATE_TEMPLE_TYPE,
+  TINYGRAIL_CACULATE_TYPE
 } from '@constants'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
@@ -26,7 +27,8 @@ const TYPE_DATA = TINYGRAIL_ASSETS_TYPE.map(item => item.label)
 const CACULATE_TYPE_DATA = TINYGRAIL_CACULATE_TYPE.map(item => item.label)
 const CACULATE_TEMPLE_TYPE_DATA = TINYGRAIL_CACULATE_TEMPLE_TYPE.map(item => item.label)
 
-function ToolBar({ style }, { $ }: Ctx) {
+function ToolBar({ style }) {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { type, caculateType, total = 0, filterItems } = $.state
   const typeLabel = MODEL_TINYGRAIL_ASSETS_TYPE.getLabel(type)
@@ -66,11 +68,7 @@ function ToolBar({ style }, { $ }: Ctx) {
       </Flex.Item>
       <Flex.Item flex={0.8}>
         <Popover
-          data={[
-            '重置',
-            '隐藏低持仓',
-            ...filterItems.map(item => `${item.name} #${item.id}`)
-          ]}
+          data={['重置', '隐藏低持仓', ...filterItems.map(item => `${item.name} #${item.id}`)]}
           onSelect={title => {
             t('资产分析.选择筛选', {
               title
@@ -101,10 +99,7 @@ function ToolBar({ style }, { $ }: Ctx) {
               name='md-filter-list'
               size={16}
             />
-            <Text
-              style={_.ml.sm}
-              type={filterItems.length ? 'warning' : 'tinygrailText'}
-            >
+            <Text style={_.ml.sm} type={filterItems.length ? 'warning' : 'tinygrailText'}>
               {filterItems.length || '-'}
             </Text>
           </Flex>
@@ -114,4 +109,4 @@ function ToolBar({ style }, { $ }: Ctx) {
   )
 }
 
-export default obc(ToolBar)
+export default ob(ToolBar)

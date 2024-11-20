@@ -2,22 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 14:29:08
+ * @Last Modified time: 2024-11-19 05:42:12
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { info, open, stl } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../../types'
 import Btn from '../../../bilibili-sync/component/btn'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Login(_props, { $ }: Ctx) {
+function Login() {
+  const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { doubanId, hide, data, progress } = $.state
   return (
@@ -106,4 +107,4 @@ function Login(_props, { $ }: Ctx) {
   )
 }
 
-export default obc(Login, COMPONENT)
+export default ob(Login, COMPONENT)

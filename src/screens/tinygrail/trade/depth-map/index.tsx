@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-09-02 16:31:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-02-23 05:36:05
+ * @Last Modified time: 2024-11-20 11:58:29
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
-function DepthMap(props, { $ }: Ctx) {
+function DepthMap() {
+  const { $ } = useStore<Ctx>()
   const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) return null
   if (!asks.length && !bids.length) return null
@@ -155,7 +156,7 @@ function DepthMap(props, { $ }: Ctx) {
   )
 }
 
-export default obc(DepthMap)
+export default ob(DepthMap)
 
 function getKStr(amount) {
   if (amount > 1000) return `${toFixed(amount / 1000, 2)}K`

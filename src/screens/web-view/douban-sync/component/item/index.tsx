@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 16:38:14
+ * @Last Modified time: 2024-11-19 05:41:50
  */
 import React from 'react'
-import { obc } from '@utils/decorators'
+import { useStore } from '@stores'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default obc(({ item }, { $, navigation }: Ctx) => {
+export default ob(({ item }) => {
+  const { $, navigation } = useStore<Ctx>()
   const { subjectId } = item
 
   // 隐藏未匹配

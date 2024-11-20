@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 19:38:39
+ * @Last Modified time: 2024-11-19 15:38:56
  */
 import React from 'react'
-import { Loading, ListView } from '@components'
-import { _ } from '@stores'
+import { ListView, Loading } from '@components'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { obc } from '@utils/decorators'
-import { refreshControlProps } from '@tinygrail/styles'
 import Item from '@tinygrail/_/item'
+import { refreshControlProps } from '@tinygrail/styles'
 import { TABS } from '../ds'
 import { Ctx } from '../types'
 
@@ -18,7 +18,8 @@ const EVENT = {
   id: '新番榜单.跳转'
 } as const
 
-function List({ id }, { $ }: Ctx) {
+function List({ id }) {
+  const { $ } = useStore<Ctx>()
   const list = $.computedList(id)
   if (!list._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
