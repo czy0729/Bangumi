@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-11 08:25:45
  */
-// @ts-nocheck
 import React, { memo, useEffect, useMemo } from 'react'
 import { MenuInternalProps } from 'react-native-hold-menu/src/components/menu/types'
 import { Action, StateProps } from 'react-native-hold-menu/src/components/provider/reducer'
@@ -47,6 +46,7 @@ const ProviderComponent = ({
 
   useEffect(() => {
     theme.value = selectedTheme || 'light'
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTheme])
 
   const internalContextVariables = useMemo(

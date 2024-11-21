@@ -4,8 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-09 06:28:13
  */
-// @ts-nocheck
-import React from 'react'
+import React, { useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import styles from 'react-native-hold-menu/src/components/menu/styles'
 import { MenuItemProps } from 'react-native-hold-menu/src/components/menu/types'
@@ -18,7 +17,6 @@ import { useInternal } from 'react-native-hold-menu/src/hooks'
 import { deepEqual } from 'react-native-hold-menu/src/utils/validations'
 import Animated, {
   runOnJS,
-  useAnimatedProps,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -82,12 +80,6 @@ const MenuListComponent = () => {
     }
   })
 
-  const animatedProps = useAnimatedProps(() => {
-    return {
-      tint: theme.value === 'light' ? 'extraLight' : 'dark'
-    }
-  }, [theme])
-
   const setter = (items: MenuItemProps[]) => {
     setItemList(items)
     prevList.value = items
@@ -103,12 +95,20 @@ const MenuListComponent = () => {
     [menuProps]
   )
 
-  const AnimatedView = Animated.createAnimatedComponent<{
-    animatedProps: Partial<{ tint: string }>
-  }>(BlurView)
+  const [themeValue, setThemeValue] = useState(theme.value)
+  const themeSetter = value => {
+    setThemeValue(value)
+  }
+  useAnimatedReaction(
+    () => theme.value,
+    value => {
+      runOnJS(themeSetter)(value)
+    },
+    [theme]
+  )
 
+  const AnimatedView = Animated.createAnimatedComponent(BlurView)
   const elMenuItems = <MenuItems items={itemList} />
-
   return (
     <Animated.View
       style={[
@@ -119,11 +119,7 @@ const MenuListComponent = () => {
         }
       ]}
     >
-      <AnimatedView
-        style={StyleSheet.absoluteFillObject}
-        intensity={80}
-        animatedProps={animatedProps}
-      >
+      <AnimatedView style={StyleSheet.absoluteFillObject} intensity={80} tint={themeValue}>
         {itemList.length > 6 ? (
           <ScrollView
             contentContainerStyle={additionStyles.contentContainerStyle}

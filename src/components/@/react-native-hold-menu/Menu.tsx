@@ -4,7 +4,6 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-02-19 10:53:03
  */
-// @ts-nocheck
 import React from 'react'
 import styles from 'react-native-hold-menu/src/components/menu/styles'
 import {
