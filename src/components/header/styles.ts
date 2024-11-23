@@ -1,11 +1,11 @@
-import { _ } from '@stores'
-
 /*
  * @Author: czy0729
  * @Date: 2022-03-12 04:58:28
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-19 11:53:34
  */
+import { _ } from '@stores'
+
 export const styles = _.create({
   headerLeftContainerStyle: {
     marginLeft: _.ios(-4, -9)

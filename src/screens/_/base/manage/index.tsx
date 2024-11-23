@@ -57,7 +57,7 @@ export const Manage = ob(
       type = 'warning'
       size = 21
     } else if (collection.includes('在')) {
-      icon = 'ios-star'
+      icon = 'md-star'
       type = 'primary'
     } else if (collection.includes('想')) {
       icon = 'md-favorite'
@@ -71,7 +71,7 @@ export const Manage = ob(
       icon = 'md-delete-outline'
       type = 'desc'
     } else {
-      icon = 'ios-star-outline'
+      icon = 'md-star-outline'
     }
 
     let _collection: string = collection

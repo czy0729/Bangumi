@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-10 03:49:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-13 16:14:08
+ * @Last Modified time: 2024-11-21 12:34:02
  */
 import React, { Suspense, useCallback, useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
@@ -11,12 +11,20 @@ import { tinygrailStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
-import { Fn } from '@types'
+import { Fn, Navigation } from '@types'
 import List from './list'
 import { COMPONENT, DRAWER_WITDH } from './ds'
 import { memoStyles } from './styles'
 
-function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
+function StarsLogs({
+  navigation,
+  show,
+  onToggle
+}: {
+  navigation: Navigation
+  show: boolean
+  onToggle: Fn
+}) {
   r(COMPONENT)
 
   const x = useRef(new Animated.Value(0))
@@ -44,7 +52,7 @@ function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
       }).start()
       return
     }
-  }, [show])
+  }, [onHeaderRefresh, show])
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -78,7 +86,7 @@ function StarsLogs({ show, onToggle }: { show: boolean; onToggle: Fn }) {
                 }
               ]}
             >
-              <List onHeaderRefresh={onHeaderRefresh} onToggle={onToggle} />
+              <List navigation={navigation} onHeaderRefresh={onHeaderRefresh} onToggle={onToggle} />
             </Animated.View>
           </Flex>
         </Suspense>

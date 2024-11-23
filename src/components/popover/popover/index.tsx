@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 12:22:38
+ * @Last Modified time: 2024-11-21 12:53:20
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -65,6 +65,7 @@ function Popover({ children, ...other }) {
   return (
     <View style={other.style}>
       <HoldItem
+        key={items.map(item => item.text).join()}
         // @ts-expect-error
         styles={styles.holdItem}
         items={items}

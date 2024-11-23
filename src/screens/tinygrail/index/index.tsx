@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:20:15
+ * @Last Modified time: 2024-11-21 12:34:14
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -33,7 +33,7 @@ const Tinygrail = (props: NavigationProps) => {
             <Footer />
           </Scroll>
           <BonusModal $={$} navigation={navigation} visible={$.state.visible} />
-          <StarsLogs show={$.state.show} onToggle={$.onToggleLogs} />
+          <StarsLogs navigation={navigation} show={$.state.show} onToggle={$.onToggleLogs} />
         </Page>
       </StoreContext.Provider>
     </Component>

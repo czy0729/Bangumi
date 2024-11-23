@@ -18,7 +18,7 @@ export const ToolBarIcon = observer(
     return (
       <Touchable style={styles.iconTouch} onPress={onSelect}>
         <Flex style={styles.iconItem} justify='center'>
-          {!!icon && <Iconfont style={iconStyle} name={icon} size={17} color={iconColor} />}
+          {!!icon && <Iconfont style={iconStyle} name={icon} size={19} color={iconColor} />}
         </Flex>
       </Touchable>
     )

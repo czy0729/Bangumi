@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-30 23:10:52
+ * @Last Modified time: 2024-11-23 13:43:15
  */
 import React from 'react'
 import {
@@ -137,3 +137,6 @@ export type NonBooleanKeys<T> = Extract<
 
 /** 使一个键变成可选 */
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+/** 允许只读 */
+export type MaybeReadonly<T> = T | ReadonlyResult<T>

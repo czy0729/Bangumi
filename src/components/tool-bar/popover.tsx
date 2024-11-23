@@ -11,13 +11,14 @@ import { stl } from '@utils'
 import { Flex } from '../flex'
 import { Heatmap } from '../heatmap'
 import { Iconfont } from '../iconfont'
+import { PopoverData } from '../popover'
 import { Popover } from '../popover/comp'
 import { Text } from '../text'
 import { memoStyles } from './styles'
 import { ToolBarPopoverProps } from './types'
 
 export const ToolBarPopover = observer(
-  ({
+  <Data extends PopoverData>({
     style,
     itemStyle,
     data,
@@ -29,23 +30,14 @@ export const ToolBarPopover = observer(
     heatmap,
     transparent,
     onSelect
-  }: ToolBarPopoverProps) => {
+  }: ToolBarPopoverProps<Data>) => {
     const styles = memoStyles()
     return (
-      <Popover
-        style={stl(styles.touch, transparent && styles.transparentTouch, style)}
-        data={data}
-        onSelect={onSelect}
-      >
-        <Flex
-          style={stl(styles.item, transparent && styles.transparentItem, itemStyle)}
-          justify='center'
-        >
-          {!!icon && (
-            <Iconfont style={!!text && _.mr.xs} name={icon} size={iconSize} color={iconColor} />
-          )}
+      <Popover style={stl(styles.touch, style)} data={data} onSelect={onSelect}>
+        <Flex style={stl(styles.item, transparent && styles.opacity, itemStyle)} justify='center'>
+          {!!icon && <Iconfont name={icon} size={iconSize} color={iconColor} />}
           {!!text && (
-            <Text size={12} type={type} bold noWrap selectable={false}>
+            <Text style={stl(icon && _.ml.xs)} type={type} size={12} bold noWrap selectable={false}>
               {text}
             </Text>
           )}

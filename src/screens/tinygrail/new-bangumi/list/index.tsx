@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:38:56
+ * @Last Modified time: 2024-11-20 12:10:50
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
 import { TABS } from '../ds'
@@ -46,7 +46,7 @@ function List({ id }) {
   )
 }
 
-export default obc(List)
+export default ob(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} event={EVENT} {...item} />

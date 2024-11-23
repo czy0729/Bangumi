@@ -8,9 +8,14 @@ import React from 'react'
 import { FROZEN_FN, IOS } from '@constants'
 import { Menu } from '../menu'
 import { Popover as PopoverComp } from './index'
-import { Props } from './types'
+import { PopoverData, Props } from './types'
 
-export const Popover = ({ data = [], onSelect = FROZEN_FN, children, ...other }: Props) => {
+export const Popover = <Data extends PopoverData>({
+  data = [],
+  onSelect = FROZEN_FN,
+  children,
+  ...other
+}: Props<Data>) => {
   const popoverProps = IOS
     ? {
         overlay: <Menu data={data} onSelect={title => setTimeout(() => onSelect(title), 0)} />

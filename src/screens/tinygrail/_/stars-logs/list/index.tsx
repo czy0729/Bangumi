@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-10 04:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-10 04:12:36
+ * @Last Modified time: 2024-11-21 12:33:50
  */
 import React, { useCallback } from 'react'
 import { SafeAreaView } from 'react-navigation'
@@ -11,14 +11,24 @@ import { ListView, Loading } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { refreshControlProps } from '@tinygrail/styles'
-import { Fn } from '@types'
+import { Fn, Navigation } from '@types'
 import Log from '../log'
 import { styles } from './styles'
 
-function List({ onHeaderRefresh, onToggle }: { onHeaderRefresh: Fn; onToggle: Fn }) {
+function List({
+  navigation,
+  onHeaderRefresh,
+  onToggle
+}: {
+  navigation: Navigation
+  onHeaderRefresh: Fn
+  onToggle: Fn
+}) {
   const renderItem = useCallback(
-    ({ item, index }) => <Log {...item} index={index} onToggle={onToggle} />,
-    [onToggle]
+    ({ item, index }) => (
+      <Log navigation={navigation} {...item} index={index} onToggle={onToggle} />
+    ),
+    [navigation, onToggle]
   )
 
   return useObserver(() => {

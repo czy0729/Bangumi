@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:56:31
+ * @Last Modified time: 2024-11-20 12:10:49
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
 import Item from '../../_/item'
 import { levelList, sortList } from '../../_/utils'
@@ -59,7 +59,7 @@ function List() {
   )
 }
 
-export default obc(List)
+export default ob(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} event={EVENT} {...item} />

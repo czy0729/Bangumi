@@ -583,11 +583,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get container() {
     return StyleSheet.create({
       bg: {
-        width: '100%',
+        flex: 1,
         backgroundColor: this.colorBg
       },
       plain: {
-        width: '100%',
+        flex: 1,
         backgroundColor: this.colorPlain
       },
       item: {

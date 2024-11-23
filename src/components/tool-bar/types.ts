@@ -8,10 +8,9 @@ import { EventKeys } from '@constants/events'
 import { ColorValue, Override, ReactNode, TextStyle, ViewStyle } from '@types'
 import { Props as FlexProps } from '../flex/types'
 import { IconfontNames } from '../iconfont/types'
+import { PopoverData } from '../popover'
 import { TextType } from '../text'
 import { Props as TouchableProps } from '../touchable/types'
-
-type Data = (string | number)[] | readonly (string | number)[]
 
 export type ToolBarIconProps = {
   icon: IconfontNames
@@ -20,7 +19,7 @@ export type ToolBarIconProps = {
   onSelect: (event?: any) => any
 }
 
-export type ToolBarPopoverProps<T extends Data> = {
+export type ToolBarPopoverProps<T extends PopoverData> = {
   style?: ViewStyle
   itemStyle?: ViewStyle
   data: T
@@ -51,6 +50,6 @@ type ToolBarProps = Override<
 export interface IToolBar {
   (props: ToolBarProps): JSX.Element
   Icon?: (props: ToolBarIconProps) => JSX.Element
-  Popover?: <T extends Data>(props: ToolBarPopoverProps<T>) => JSX.Element
+  Popover?: <T extends PopoverData>(props: ToolBarPopoverProps<T>) => JSX.Element
   Touchable?: (props: ToolBarTouchableProps) => JSX.Element
 }

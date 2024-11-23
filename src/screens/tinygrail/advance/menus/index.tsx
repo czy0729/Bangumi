@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-01-09 16:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 05:43:15
+ * @Last Modified time: 2024-11-20 12:11:07
  */
 import React from 'react'
 import { Flex } from '@components'
-import { obc } from '@utils/decorators'
+import { ob } from '@utils/decorators'
 import { Navigation } from '@types'
 import MenuItem from '../menu-item'
 import { memoStyles } from './styles'
@@ -63,4 +63,4 @@ function Menus({ navigation }: { navigation: Navigation }) {
   )
 }
 
-export default obc(Menus)
+export default ob(Menus)

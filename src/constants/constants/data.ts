@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-26 08:15:41
+ * @Last Modified time: 2024-11-21 13:06:12
  */
 import { ImageRequireSource } from 'react-native'
 import PropTypes from 'prop-types'
@@ -547,5 +547,6 @@ export const SCROLL_VIEW_RESET_PROPS = {
   alwaysBounceVertical: false,
   overScrollMode: 'never',
   showsHorizontalScrollIndicator: false,
-  showsVerticalScrollIndicator: false
+  showsVerticalScrollIndicator: false,
+  directionalLockEnabled: true
 } as const

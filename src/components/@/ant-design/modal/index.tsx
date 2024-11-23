@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-03-21 19:50:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 21:49:50
+ * @Last Modified time: 2024-11-23 14:13:26
  */
 import React from 'react'
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import PropTypes from 'prop-types'
 import alert from '@ant-design/react-native/lib/modal/alert'
 import RCModal from '@ant-design/react-native/lib/modal/ModalView'
@@ -79,6 +79,7 @@ class AntmModal extends React.Component<typeof defaultProps> {
     return (
       <WithTheme styles={styles} themeStyles={modalStyles}>
         {styles => (
+          // @ts-expect-error
           <RCModal
             style={stl(style, overideStyles.transparent)}
             wrapStyle={overideStyles.center}
@@ -90,33 +91,31 @@ class AntmModal extends React.Component<typeof defaultProps> {
             onClose={onClose}
           >
             <Wrap focus={focus}>
-              <KeyboardAvoidingView behavior='position'>
-                <BlurView>
-                  <View style={maxHeight}>
-                    <View style={overideStyles.title}>
-                      {title && (
-                        <Text
-                          style={stl(!IOS && overideStyles.font, styles.header)}
-                          textBreakStrategy='simple'
-                          numberOfLines={0}
-                        >
-                          {title}
-                        </Text>
-                      )}
-                    </View>
-                    <View style={stl(styles.body, bodyStyle)}>{children}</View>
-                    {closable && (
-                      <View style={[styles.closeWrap, overideStyles.close]}>
-                        <Touchable style={overideStyles.touch} onPress={onClose}>
-                          <Flex style={overideStyles.btn} justify='center'>
-                            <Iconfont name='md-close' color={_.colorIcon} />
-                          </Flex>
-                        </Touchable>
-                      </View>
+              <BlurView>
+                <View style={maxHeight}>
+                  <View style={overideStyles.title}>
+                    {title && (
+                      <Text
+                        style={stl(!IOS && overideStyles.font, styles.header)}
+                        textBreakStrategy='simple'
+                        numberOfLines={0}
+                      >
+                        {title}
+                      </Text>
                     )}
                   </View>
-                </BlurView>
-              </KeyboardAvoidingView>
+                  <View style={stl(styles.body, bodyStyle)}>{children}</View>
+                  {closable && (
+                    <View style={[styles.closeWrap, overideStyles.close]}>
+                      <Touchable style={overideStyles.touch} onPress={onClose}>
+                        <Flex style={overideStyles.btn} justify='center'>
+                          <Iconfont name='md-close' color={_.colorIcon} />
+                        </Flex>
+                      </Touchable>
+                    </View>
+                  )}
+                </View>
+              </BlurView>
             </Wrap>
           </RCModal>
         )}

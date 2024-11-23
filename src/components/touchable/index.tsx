@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /*
  * @Author: czy0729
  * @Date: 2019-03-28 15:35:04
@@ -45,8 +46,8 @@ export const Touchable = observer(
     const passProps = {
       style,
       hitSlop,
-      delayPressIn,
-      delayPressOut,
+      // delayPressIn,
+      // delayPressOut,
       // extraButtonProps: _.select(EXTRA_BUTTON_PROPS, EXTRA_BUTTON_PROPS_DARK),
       disabled: disabled || handleDisabled,
       useRN,

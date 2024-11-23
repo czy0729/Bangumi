@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-14 05:47:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 19:47:12
+ * @Last Modified time: 2024-11-22 07:49:36
  */
 export * from './accordion/index.lazy'
 export * from './action-sheet'
@@ -29,6 +29,7 @@ export * from './flex'
 export * from './flip'
 export * from './hardware-texture-blur-view'
 export * from './header'
+export * from './header-v2'
 export * from './header-placeholder'
 export * from './heatmap'
 export * from './highlight'

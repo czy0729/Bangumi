@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2021-02-28 17:51:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:06:12
+ * @Last Modified time: 2024-11-21 12:33:13
  */
 import React from 'react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { formatNumber, HTMLDecode, navigationReference, tinygrailOSS } from '@utils'
 import { ob } from '@utils/decorators'
-import { useNavigation } from '@utils/hooks'
 import Rank from '../../rank'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Log({
+  navigation,
   monoId,
   name = '',
   icon,
@@ -26,7 +26,6 @@ function Log({
   type,
   onToggle
 }) {
-  const navigation = useNavigation()
   const styles = memoStyles()
   const rankChange = oldRank - rank
   return (

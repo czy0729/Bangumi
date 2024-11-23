@@ -34,24 +34,24 @@ export const updateHeader = ({
 }: UpdateHeaderProps) => {
   if (!navigation) return
 
-  const _title = systemStore.setting.s2t ? s2t(title) : title
-  const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
+  const titleText = systemStore.setting.s2t ? s2t(title) : title
+  const tintColor = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
   const backgroundColor = backgroundColors[statusBarEventsType]
     ? backgroundColors[statusBarEventsType](fixed)
     : undefined
-  const _headerTitleStyle = [
+  const headerTitleStyles = [
     {
       fontSize: 15,
       fontWeight: 'normal'
     },
     IOS &&
-      !!_title &&
+      !!titleText &&
       headerTitleAlign === 'left' && {
         marginLeft: -18
       },
     headerTitleStyle
   ]
-  if (!IOS) _headerTitleStyle.push(_.fontStyle)
+  if (!IOS) headerTitleStyles.push(_.fontStyle)
 
   const options = {
     /** ==================== header ==================== */
@@ -75,17 +75,17 @@ export const updateHeader = ({
     headerLeft: () => (
       <>
         <View style={styles.headerLeftContainerStyle}>
-          <Back navigation={navigation} color={color} onPress={onBackPress} />
+          <Back navigation={navigation} color={tintColor} onPress={onBackPress} />
         </View>
         {headerLeft}
       </>
     ),
 
     /** ==================== headerTitle ==================== */
-    headerTitle: mode ? '' : _title,
+    headerTitle: mode ? '' : titleText,
     headerTitleAlign: headerTitleAlign || (mode ? 'left' : 'center'),
-    headerTitleStyle: _headerTitleStyle,
-    headerTintColor: color || _.colorTitle,
+    headerTitleStyle: headerTitleStyles,
+    headerTintColor: tintColor || _.colorTitle,
 
     /** ==================== headerRight ==================== */
     headerRightContainerStyle: {},

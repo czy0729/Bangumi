@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-18 04:31:55
+ * @Last Modified time: 2024-11-23 13:28:14
  */
 import { ReactNode, ViewStyle } from '@types'
 
-export type Props<ItemT extends string[] | readonly string[]> = {
+export type PopoverData = string[] | readonly string[]
+
+export type Props<Data extends PopoverData> = {
   style?: ViewStyle
 
   /** 菜单项 */
-  data?: ItemT
+  data?: Data
 
   /** 菜单位置 (iOS only) */
   placement?: string
@@ -26,10 +28,10 @@ export type Props<ItemT extends string[] | readonly string[]> = {
   hitSlop?: Record<'top' | 'right' | 'bottom' | 'left', number>
 
   /** 菜单选择 */
-  onSelect?: (title?: ItemT[number], index?: number) => any
+  onSelect?: (title?: Data[number], index?: number) => any
 
   /** 菜单长按选择 (不推荐使用) */
-  onLongPress?: (title?: ItemT[number]) => any
+  onLongPress?: (title?: Data[number]) => any
 
   children?: ReactNode
 }
