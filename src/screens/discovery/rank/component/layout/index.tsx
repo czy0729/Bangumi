@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-07-28 16:42:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:42:56
+ * @Last Modified time: 2024-11-23 14:33:19
  */
 import React from 'react'
-import { Flex, Loading, ScrollView } from '@components'
+import { View } from 'react-native'
+import { ScrollView } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
@@ -18,26 +19,24 @@ import { styles } from './styles'
 
 function Layout() {
   const { $ } = useStore<Ctx>()
-  if ($.state.show && $.list._loaded) {
-    return (
+  const { fixed, fixedPagination, show, list } = $.state
+  const elToolbar = <ToolBar />
+  const elPagination = <Pagination />
+  return (
+    <>
+      {fixed && <View style={styles.fixedToolBar}>{elToolbar}</View>}
       <ScrollView
         forwardRef={$.forwardRef}
-        contentContainerStyle={styles.scrollView}
+        contentContainerStyle={!fixed && styles.contentContainerStyle}
         scrollEventThrottle={16}
         onScroll={$.onScroll}
       >
-        {!$.state.fixed && <ToolBar />}
-        {$.state.list ? <List /> : <Grid />}
-        {!$.state.fixedPagination && <Pagination />}
+        {!fixed && elToolbar}
+        {show && $.list._loaded && (list ? <List /> : <Grid />)}
+        {!fixedPagination && elPagination}
       </ScrollView>
-    )
-  }
-
-  return (
-    <Flex.Item>
-      {!$.state.fixed && <ToolBar />}
-      <Loading />
-    </Flex.Item>
+      {fixedPagination && elPagination}
+    </>
   )
 }
 

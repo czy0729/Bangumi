@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:14:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-19 18:25:37
+ * @Last Modified time: 2024-11-23 15:24:22
  */
 import { ScrollTo } from '@components'
 import { info, updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY, WEB } from '@constants'
+import {
+  MODEL_SUBJECT_TYPE,
+  MODEL_TAG_ORDERBY,
+  TEXT_MENU_FAVOR,
+  TEXT_MENU_LAYOUT,
+  TEXT_MENU_PAGINATION,
+  TEXT_MENU_TOOLBAR,
+  WEB
+} from '@constants'
 import {
   Airtime,
   Area,
@@ -340,6 +348,14 @@ export default class Action extends Fetch {
         [type]: nativeEvent.text
       }
     })
+  }
+
+  /** 工具栏设置 */
+  onToolBarSetting = (title: string) => {
+    if (title.includes(TEXT_MENU_TOOLBAR)) return this.onToggleToolbar('fixed')
+    if (title.includes(TEXT_MENU_LAYOUT)) return this.onToggleList()
+    if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleToolbar('collected')
+    if (title.includes(TEXT_MENU_PAGINATION)) return this.onToggleToolbar('fixedPagination')
   }
 
   /** 页码跳转 */

@@ -2,12 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:09:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-24 10:12:15
+ * @Last Modified time: 2024-11-23 15:23:38
  */
 import { computed } from 'mobx'
 import { tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
-import { HTML_RANK_V2, LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
+import {
+  HTML_RANK_V2,
+  LIST_EMPTY,
+  MODEL_SUBJECT_TYPE,
+  TEXT_MENU_FAVOR,
+  TEXT_MENU_FIXED,
+  TEXT_MENU_FLOAT,
+  TEXT_MENU_GRID,
+  TEXT_MENU_LAYOUT,
+  TEXT_MENU_LIST,
+  TEXT_MENU_NOT_SHOW,
+  TEXT_MENU_PAGINATION,
+  TEXT_MENU_SHOW,
+  TEXT_MENU_TOOLBAR
+} from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { ComputedRank, SnapshotId } from '../types'
 import State from './state'
@@ -134,6 +148,11 @@ export default class Computed extends State {
     return HTML_RANK_V2(this.query)
   }
 
+  /** hm */
+  @computed get hm() {
+    return [this.url, 'Rank'] as const
+  }
+
   /** 云端数据键值 */
   @computed get thirdPartyKey(): SnapshotId {
     const { type } = this.state
@@ -153,6 +172,16 @@ export default class Computed extends State {
     ]
       .filter(item => !!item)
       .join('_')}`
+  }
+
+  /** 工具栏菜单 */
+  @computed get toolBar() {
+    return [
+      `${TEXT_MENU_TOOLBAR}〔${this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT}〕`,
+      `${TEXT_MENU_LAYOUT}〔${this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID}〕`,
+      `${TEXT_MENU_FAVOR}〔${this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW}〕`,
+      `${TEXT_MENU_PAGINATION}〔${this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT}〕`
+    ]
   }
 
   /** 尝试从云端数据查找封面 */

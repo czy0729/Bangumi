@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-16 12:49:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-13 22:40:40
+ * @Last Modified time: 2024-11-23 14:51:55
  */
-import { ViewStyle, ColorValue } from '@types'
+import { ColorValue, ViewStyle } from '@types'
 
 export type Props = {
   /** 样式 */
@@ -18,6 +18,9 @@ export type Props = {
 
   /** 加载指示器背景颜色 */
   backgroundColor?: ColorValue
+
+  /** 页面内的加载指示器 */
+  loading?: boolean
 
   /** 是否自动触发默认 StatusBar 事件 */
   statusBarEvent?: boolean

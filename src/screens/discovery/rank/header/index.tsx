@@ -2,46 +2,45 @@
  * @Author: czy0729
  * @Date: 2022-03-12 23:08:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:54:55
+ * @Last Modified time: 2024-11-23 15:24:48
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { URL_SPA } from '@constants'
+import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
 import { Ctx } from '../types'
-import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
+import { COMPONENT, DATA } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title='排行榜'
-      hm={[$.url, 'Rank']}
+      hm={$.hm}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={DATA}
-          onSelect={key => {
-            t('排行榜.右上角菜单', {
-              key
-            })
-
-            if (key === TEXT_BROWSER) {
+        <HeaderV2Popover
+          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open($.url)
-              return
-            }
 
-            if (key === TEXT_SPA) {
-              const url = `${URL_SPA}/${getSPAParams('Rank')}`
-              open(url)
-              return
+              t('排行榜.右上角菜单', {
+                key: title
+              })
+            } else if (title === TEXT_MENU_SPA) {
+              open(`${URL_SPA}/${getSPAParams('Rank')}`)
+
+              t('排行榜.右上角菜单', {
+                key: title
+              })
+            } else {
+              $.onToolBarSetting(title)
             }
           }}
-        >
-          <Heatmap id='排行榜.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

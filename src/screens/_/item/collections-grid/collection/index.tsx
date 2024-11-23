@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2022-07-25 19:50:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-10 18:05:41
+ * @Last Modified time: 2024-11-23 15:28:14
  */
 import React from 'react'
-import { Flex, Iconfont, Text } from '@components'
+import { Flex, Iconfont, Text, TextType } from '@components'
 import { _ } from '@stores'
 import { titleCase } from '@utils'
 import { ob } from '@utils/decorators'
+import { IconfontNames } from '@types'
 
 function Collection({ collection, typeCn, airtime }) {
   if (!collection && !airtime) return null
 
-  let icon
-  let type: any = 'icon'
+  let icon: IconfontNames
+  let type: TextType = 'icon'
   let size = 13
   if (collection.includes('过')) {
     icon = 'md-check'
     type = 'warning'
     size = 14
   } else if (collection.includes('在')) {
-    icon = 'ios-star'
+    icon = 'md-star'
     type = 'primary'
   } else if (collection.includes('想')) {
     icon = 'md-favorite'
@@ -34,7 +35,7 @@ function Collection({ collection, typeCn, airtime }) {
     icon = 'md-delete-outline'
     type = 'desc'
   } else {
-    icon = 'ios-star-outline'
+    icon = 'md-star-outline'
   }
 
   let _collection = collection
@@ -45,12 +46,7 @@ function Collection({ collection, typeCn, airtime }) {
   return (
     <Flex style={_.mt.xs} justify='center'>
       {!!_collection && (
-        <Iconfont
-          style={_.mr.xs}
-          name={icon}
-          size={size}
-          color={_[`color${titleCase(type)}`]}
-        />
+        <Iconfont style={_.mr.xs} name={icon} size={size} color={_[`color${titleCase(type)}`]} />
       )}
       <Text size={11} lineHeight={13} type='sub' bold align='center'>
         <Text size={11} lineHeight={13} type={type} bold>

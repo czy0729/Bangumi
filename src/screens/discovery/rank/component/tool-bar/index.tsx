@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:49:04
+ * @Last Modified time: 2024-11-23 14:58:44
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ import Expand from './expand'
 import Filter from './filter'
 import FilterSub from './filter-sub'
 import Month from './month'
-import More from './more'
+// import More from './more'
 import Sort from './sort'
 import Source from './source'
 import Tag from './tag'
@@ -25,20 +25,19 @@ import Theme from './theme'
 import Type from './type'
 import Year from './year'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 
 function ToolBar() {
   const { $ } = useStore<Ctx>()
   const showExpand = $.typeCn !== '音乐'
   return (
-    <View style={styles.scale}>
+    <View>
       <ToolBarComp>
         <Type />
         <Sort />
         <Year />
         <Month />
         {showExpand && <Expand />}
-        <More />
+        {/* <More /> */}
       </ToolBarComp>
       {showExpand && $.state.expand && (
         <ToolBarComp>

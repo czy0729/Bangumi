@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-07-22 17:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-11 13:43:22
+ * @Last Modified time: 2024-11-23 15:27:55
  */
 import React from 'react'
-import { Component, Flex, Touchable } from '@components'
+import { Component, Flex, TextType, Touchable } from '@components'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { HOST, WEB } from '@constants'
+import { IconfontNames } from '@types'
 import { IconTouchable } from '../../icon/touchable'
 import Content from './content'
 import Flip from './flip'
@@ -49,8 +50,8 @@ export const Manage = ob(
       }
     }
 
-    let icon: string
-    let type: any = 'icon'
+    let icon: IconfontNames
+    let type: TextType = 'icon'
     let size = 20
     if (collection.includes('过')) {
       icon = 'md-check'

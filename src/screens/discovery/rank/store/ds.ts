@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-22 07:17:28
+ * @Last Modified time: 2024-11-23 14:53:48
  */
 import { _ } from '@stores'
-import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY, WEB } from '@constants'
+import { MODEL_SUBJECT_TYPE, MODEL_TAG_ORDERBY } from '@constants'
 import {
   Airtime,
   Area,
@@ -101,10 +101,10 @@ export const STATE = {
   list: true,
 
   /** 是否锁定工具条 (工具条) */
-  fixed: WEB,
+  fixed: true,
 
   /** 是否锁定分液器 (工具条) */
-  fixedPagination: WEB,
+  fixedPagination: true,
 
   /** 是否显示收藏条目 (工具条) */
   collected: true,
