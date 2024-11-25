@@ -21,7 +21,7 @@ function More() {
       iconSize={16}
       type='desc'
       transparent
-      onSelect={$.onToolBarSetting}
+      onSelect={$.onToolBar}
     />
   )
 }

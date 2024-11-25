@@ -9,11 +9,9 @@ import { ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
-// import Sort from './sort'
 import Back from './back'
 import Filter from './filter'
 import Month from './month'
-import More from './more'
 import Next from './next'
 import Year from './year'
 import { COMPONENT } from './ds'
@@ -23,12 +21,10 @@ function ToolBar() {
   return (
     <ToolBarComp style={!$.isList && _.mb.xs}>
       <Filter />
-      {/* <Sort /> */}
       <Back />
       <Year />
       <Month />
       <Next />
-      <More />
     </ToolBarComp>
   )
 }

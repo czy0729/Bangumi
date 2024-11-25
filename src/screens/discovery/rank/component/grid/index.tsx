@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-25 17:09:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:42:18
+ * @Last Modified time: 2024-11-25 21:25:18
  */
 import React from 'react'
 import { Empty, Flex } from '@components'
@@ -28,6 +28,7 @@ function Grid() {
         list.map((item, index: number) => {
           const id = String(item.id).replace('/subject/', '')
           const collection = collectionStore.collect(id)
+          const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)
           return (
             <ItemCollectionsGrid
               key={item.id}
@@ -38,10 +39,10 @@ function Grid() {
               {...item}
               id={id}
               cover={item.cover || $.cover(item.id)}
-              typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)}
+              typeCn={typeCn}
               collection={collection}
               isCollect={item.collected}
-              isRectangle={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type) === '音乐'}
+              isRectangle={typeCn === '音乐'}
               event={EVENT}
             />
           )

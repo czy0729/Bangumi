@@ -7,7 +7,21 @@
 import { computed } from 'mobx'
 import { subjectStore, tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
-import { HTML_BROSWER, LIST_EMPTY } from '@constants'
+import {
+  HTML_BROSWER,
+  LIST_EMPTY,
+  TEXT_MENU_FAVOR,
+  TEXT_MENU_FIXED,
+  TEXT_MENU_FLOAT,
+  TEXT_MENU_GRID,
+  TEXT_MENU_LAYOUT,
+  TEXT_MENU_LIST,
+  TEXT_MENU_NOT_SHOW,
+  TEXT_MENU_SHOW,
+  TEXT_MENU_SPLIT_LEFT,
+  TEXT_MENU_SPLIT_RIGHT,
+  TEXT_MENU_TOOLBAR
+} from '@constants'
 import { SubjectId, SubjectType } from '@types'
 import State from './state'
 
@@ -84,5 +98,24 @@ export default class Computed extends State {
   @computed get thirdPartyKey() {
     const query = [this.state.type, this.airtime, this.state.sort].join('_')
     return `browser_${query}`
+  }
+
+  /** 工具栏菜单 */
+  @computed get toolBar() {
+    return [
+      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.layout === 'list' ? TEXT_MENU_LIST : TEXT_MENU_GRID
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
+      }${TEXT_MENU_SPLIT_RIGHT}`
+    ]
+  }
+
+  @computed get hm() {
+    return [this.url, 'Browser'] as const
   }
 }

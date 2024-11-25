@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-25 04:31:11
+ * @Last Modified time: 2024-11-25 21:56:30
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -17,6 +17,7 @@ export const EXCLUDE_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height,
 
+  /** 排序 */
   sort: 'date' as BrowserSort,
 
   /** 是否显示列表, 制造切页效果 */
@@ -44,6 +45,7 @@ export const STATE = {
 
   /** 是否显示已收藏 (工具栏) */
   collected: true,
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

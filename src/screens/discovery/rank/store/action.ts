@@ -369,7 +369,7 @@ export default class Action extends Fetch {
   }
 
   /** 工具栏设置 */
-  onToolBarSetting = (title: string) => {
+  onToolBar = (title: string) => {
     if (title.includes(TEXT_MENU_TOOLBAR)) return this.onToggleToolbar('fixed')
     if (title.includes(TEXT_MENU_LAYOUT)) return this.onToggleList()
     if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleToolbar('collected')

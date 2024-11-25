@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-05-25 08:09:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-28 06:37:05
+ * @Last Modified time: 2024-11-25 21:04:13
  */
 import { ScrollToOffset } from '@components'
-import { info, updateVisibleBottom } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import { MODEL_BROWSER_SORT, MODEL_SUBJECT_TYPE } from '@constants'
+import {
+  MODEL_BROWSER_SORT,
+  MODEL_SUBJECT_TYPE,
+  TEXT_MENU_FAVOR,
+  TEXT_MENU_LAYOUT,
+  TEXT_MENU_TOOLBAR
+} from '@constants'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset
@@ -42,7 +49,8 @@ export default class Action extends Fetch {
   /** 类型选择 */
   onTypeSelect = (type: any) => {
     this.setState({
-      type: MODEL_SUBJECT_TYPE.getLabel(type)
+      type: MODEL_SUBJECT_TYPE.getLabel(type),
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.resetScrollView(true)
 
@@ -54,7 +62,8 @@ export default class Action extends Fetch {
   /** 年选择 */
   onAirdateSelect = (airtime: any) => {
     this.setState({
-      airtime: airtime === '全部' ? '' : airtime
+      airtime: airtime === '全部' ? '' : airtime,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.resetScrollView(true)
 
@@ -71,7 +80,8 @@ export default class Action extends Fetch {
     }
 
     this.setState({
-      month: month === '全部' ? '' : month
+      month: month === '全部' ? '' : month,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.resetScrollView(true)
 
@@ -103,7 +113,8 @@ export default class Action extends Fetch {
       }
       this.setState({
         airtime: _airtime,
-        month: _month
+        month: _month,
+        visibleBottom: EXCLUDE_STATE.visibleBottom
       })
     }
     this.resetScrollView(true)
@@ -134,7 +145,8 @@ export default class Action extends Fetch {
       }
       this.setState({
         airtime: _airtime,
-        month: _month
+        month: _month,
+        visibleBottom: EXCLUDE_STATE.visibleBottom
       })
     }
     this.resetScrollView(true)
@@ -146,7 +158,8 @@ export default class Action extends Fetch {
   onOrderSelect = (label: any) => {
     const value = MODEL_BROWSER_SORT.getValue(label)
     this.setState({
-      sort: value
+      sort: value,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.resetScrollView(true)
 
@@ -163,6 +176,9 @@ export default class Action extends Fetch {
     })
     this.save()
 
+    info(this.toolBar?.[1])
+    feedback(true)
+
     t('索引.切换布局', {
       layout: value
     })
@@ -174,6 +190,9 @@ export default class Action extends Fetch {
       fixed: !this.state.fixed
     })
     this.save()
+
+    info(this.toolBar?.[0])
+    feedback(true)
   }
 
   /** 切换显示收藏 (工具条) */
@@ -182,6 +201,16 @@ export default class Action extends Fetch {
       collected: !this.state.collected
     })
     this.save()
+
+    info(this.toolBar?.[2])
+    feedback(true)
+  }
+
+  /** 工具栏设置 */
+  onToolBar = (title: string) => {
+    if (title.includes(TEXT_MENU_TOOLBAR)) return this.onToggleFixed()
+    if (title.includes(TEXT_MENU_LAYOUT)) return this.switchLayout()
+    if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleCollected()
   }
 
   /** 更新可视范围底部 y */

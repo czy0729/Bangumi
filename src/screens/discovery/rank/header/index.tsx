@@ -37,7 +37,7 @@ function Header() {
                 key: title
               })
             } else {
-              $.onToolBarSetting(title)
+              $.onToolBar(title)
             }
           }}
         />
