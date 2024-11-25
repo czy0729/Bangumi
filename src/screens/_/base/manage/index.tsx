@@ -75,16 +75,16 @@ export const Manage = ob(
       icon = 'md-star-outline'
     }
 
-    let _collection: string = collection
-    if (typeCn === '音乐') _collection = _collection.replace('看', '听')
-    if (typeCn === '书籍') _collection = _collection.replace('看', '读')
-    if (typeCn === '游戏') _collection = _collection.replace('看', '玩')
+    let action: string = collection
+    if (typeCn === '音乐') action = action.replace('看', '听')
+    if (typeCn === '书籍') action = action.replace('看', '读')
+    if (typeCn === '游戏') action = action.replace('看', '玩')
 
     const passProps = {
       icon,
       size,
       type,
-      collection: _collection,
+      collection: action,
       horizontal
     }
     return (

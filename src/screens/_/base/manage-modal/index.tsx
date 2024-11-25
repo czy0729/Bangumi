@@ -103,6 +103,11 @@ export const ManageModal = ob(
           } = await collectionStore.fetchCollection(subjectId)
           this.fetchUserTags()
 
+          // 若传递有收藏状态, 而请求后实际又没有, 主动清理全局缓存收藏状态
+          if (!Object.keys(_status).length && nextProps.status) {
+            collectionStore.removeStatus(subjectId)
+          }
+
           const state: State = {
             rating,
             tags: tag.join(' '),
