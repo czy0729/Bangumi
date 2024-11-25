@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-12-16 15:46:13
  */
 import { _ } from '@stores'
-import { IMG_WIDTH_LG, IMG_HEIGHT_LG } from '@constants'
+import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
@@ -26,7 +26,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   musicContent: {
     height: 'auto',
-    minHeight: IMG_WIDTH_LG - 8
+    minHeight: IMG_WIDTH_LG * 1.1 - 10
   },
   title: {
     width: '100%',

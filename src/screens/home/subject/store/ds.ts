@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-22 17:11:16
  */
+import { _ } from '@stores'
 import { Crt, Ep, Staff, SubjectFromHTML } from '@stores/subject/types'
 import { LIST_EMPTY, WEB } from '@constants'
 import {
@@ -29,7 +30,7 @@ export const EXCLUDE_STATE = {
   fixed: false,
 
   /** 可视范围底部 y */
-  visibleBottom: 0,
+  visibleBottom: _.window.height,
 
   /** 是否显示管理模态框 */
   visible: false,

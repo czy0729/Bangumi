@@ -68,6 +68,12 @@ export const TEXT_MENU_COPY_SHARE = '复制分享'
 /** 菜单: 分割 */
 export const TEXT_MENU_SPLIT = '一一一'
 
+/** 菜单: 左分割 */
+export const TEXT_MENU_SPLIT_LEFT = '〔'
+
+/** 菜单: 右分割 */
+export const TEXT_MENU_SPLIT_RIGHT = '〕'
+
 /** 菜单: 工具栏 */
 export const TEXT_MENU_TOOLBAR = '工具栏'
 

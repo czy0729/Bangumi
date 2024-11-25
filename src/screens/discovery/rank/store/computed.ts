@@ -20,6 +20,8 @@ import {
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_PAGINATION,
   TEXT_MENU_SHOW,
+  TEXT_MENU_SPLIT_LEFT,
+  TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR
 } from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
@@ -177,10 +179,18 @@ export default class Computed extends State {
   /** 工具栏菜单 */
   @computed get toolBar() {
     return [
-      `${TEXT_MENU_TOOLBAR}〔${this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT}〕`,
-      `${TEXT_MENU_LAYOUT}〔${this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID}〕`,
-      `${TEXT_MENU_FAVOR}〔${this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW}〕`,
-      `${TEXT_MENU_PAGINATION}〔${this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT}〕`
+      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_PAGINATION}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`
     ]
   }
 

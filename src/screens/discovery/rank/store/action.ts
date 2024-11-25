@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-23 15:24:22
  */
 import { ScrollTo } from '@components'
-import { info, updateVisibleBottom } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import {
@@ -34,6 +34,7 @@ import {
 } from '@types'
 import { ToolBarKeys } from '../types'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** ScrollView.scrollTo */
@@ -142,6 +143,7 @@ export default class Action extends Fetch {
   onResetPage = () => {
     const { type, currentPage, ipt } = this.state
     this.setState({
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [type]: 1
@@ -272,6 +274,9 @@ export default class Action extends Fetch {
     })
     this.refresh()
 
+    info(this.toolBar?.[1])
+    feedback(true)
+
     t('排行榜.切换布局', {
       list: value
     })
@@ -284,6 +289,17 @@ export default class Action extends Fetch {
       [key]: value
     })
     this.save()
+
+    if (key === 'fixed') {
+      info(this.toolBar?.[0])
+      feedback(true)
+    } else if (key === 'collected') {
+      info(this.toolBar?.[2])
+      feedback(true)
+    } else if (key === 'fixedPagination') {
+      info(this.toolBar?.[3])
+      feedback(true)
+    }
 
     t('排行榜.工具栏', {
       [key]: value
@@ -298,6 +314,7 @@ export default class Action extends Fetch {
 
     const value = page - 1
     this.setState({
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [type]: value
@@ -322,6 +339,7 @@ export default class Action extends Fetch {
 
     const value = page + 1
     this.setState({
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [type]: value
@@ -368,6 +386,7 @@ export default class Action extends Fetch {
     }
 
     this.setState({
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [type]: value

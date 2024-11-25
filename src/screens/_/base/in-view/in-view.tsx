@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
 import { Flex } from '@components'
 import { _ } from '@stores'
-import { runAfter } from '@utils'
 import { r } from '@utils/dev'
 import { DEV } from '@constants'
 import { COMPONENT } from './ds'
@@ -24,35 +23,34 @@ if (!DEV) {
 export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
   r(COMPONENT)
 
-  const [top, setTop] = useState(y)
-  const [show, setShow] = useState(false)
-  const onLayout = useCallback(
-    (event: LayoutChangeEvent) => {
-      const { y, height } = event.nativeEvent.layout
-      runAfter(() => {
-        if (y) setTop(y)
-        if (log) console.info('layout.height', log, height)
-      }, true)
-    },
-    [log]
-  )
+  const [currentY, setCurrentY] = useState(y)
+  const [show, setShow] = useState(y && visibleBottom ? y <= visibleBottom : false)
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    setCurrentY(event.nativeEvent.layout.y)
+  }, [])
 
   useEffect(() => {
     if (show) return
 
-    if (y && y < top) setTop(y)
-  }, [show, top, y])
+    /**
+     * 通常 key 是 subjectId, 而 y 是通过 height * index 得到的,
+     * 为了防止同一个组件在后续重渲染中, y 变小了不会自动判断是否能显示
+     */
+    if (y && y < currentY) setCurrentY(y)
+  }, [show, currentY, y])
 
   useEffect(() => {
     if (show) return
 
-    if (top && visibleBottom + preDistance >= top) setShow(true)
-  }, [show, visibleBottom, top])
+    if (currentY && visibleBottom + preDistance >= currentY) setShow(true)
+  }, [show, visibleBottom, currentY])
+
+  if (log) console.info('InView', visibleBottom, y, show)
 
   const Component = flex ? Flex : View
   return (
     // @ts-expect-error
-    <Component {...other} onLayout={onLayout}>
+    <Component {...other} onLayout={y ? undefined : onLayout}>
       {show ? children : null}
     </Component>
   )

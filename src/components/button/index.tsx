@@ -94,20 +94,22 @@ export const Button = observer(
           </View>
         ) : (
           <>
-            <Text
-              style={stl(
-                // 部分安卓机不写具体 width 会导致文字显示不全
-                size === 'sm' && styles.androidFixed,
-                textStyle,
-                styleText
-              )}
-              align='center'
-              bold={textBold || bold}
-              selectable={false}
-              noWrap={noWrap}
-            >
-              {children}
-            </Text>
+            {!!children && (
+              <Text
+                style={stl(
+                  // 部分安卓机不写具体 width 会导致文字显示不全
+                  size === 'sm' && styles.androidFixed,
+                  textStyle,
+                  styleText
+                )}
+                align='center'
+                bold={textBold || bold}
+                selectable={false}
+                noWrap={noWrap}
+              >
+                {children}
+              </Text>
+            )}
             {extra}
           </>
         )}

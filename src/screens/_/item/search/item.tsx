@@ -39,13 +39,19 @@ const Item = memo(
     screen,
     event
   }) => {
+    const subjectId = String(id).replace('/subject/', '')
+    const justify = tip || position.length ? 'between' : 'start'
+
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !String(id).includes('/subject/')
     const isMusic = typeCn === '音乐'
-    const justify = tip || position.length ? 'between' : 'start'
-    const subjectId = String(id).replace('/subject/', '')
-    const width = isMono ? 56 : IMG_WIDTH_LG
-    const height = isMono ? 56 : isMusic ? IMG_WIDTH_LG : IMG_HEIGHT_LG
+    let width = isMono ? 56 : IMG_WIDTH_LG
+    let height = isMono ? 56 : isMusic ? IMG_WIDTH_LG : IMG_HEIGHT_LG
+    if (isMusic) {
+      width = Math.floor(width * 1.1)
+      height = Math.floor(height * 1.1)
+    }
+
     return (
       <Touchable
         style={stl(styles.container, style)}
@@ -71,7 +77,7 @@ const Item = memo(
               minWidth: width,
               minHeight: height
             }}
-            y={height * index + 1}
+            y={height * (index + 1)}
           >
             <Cover
               src={cover}
