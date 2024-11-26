@@ -5,36 +5,45 @@
  * @Last Modified time: 2024-05-12 05:10:19
  */
 import React from 'react'
-import { Katakana, Text } from '@components'
+import { Highlight, Katakana, Text } from '@components'
 import { cnjp } from '@utils'
 import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
-function Title({ name, nameCn, comments }) {
+function Title({ name, nameCn, comments, highlight }) {
   const top = cnjp(nameCn, name)
   const bottom = cnjp(name, nameCn)
+
   const showBottom = !!bottom && bottom !== top
+  const title = top || bottom
+  const numberOfLines = showBottom ? 2 : 3
 
   const { length: lt } = top || bottom
   const size = lt >= 28 ? 12 : lt >= 20 ? 13 : lt >= 12 ? 14 : 15
 
   const { length: lb } = bottom
   const sizeBottom = lb >= 32 ? 9 : lb >= 24 ? 10 : lb >= 16 ? 11 : 12
+
   return (
     <>
-      {!!(top || bottom) && (
-        <Katakana.Provider size={size} numberOfLines={showBottom ? 2 : 3} bold>
-          <Katakana size={size} bold>
-            {top || bottom}
-          </Katakana>
-          {!!comments && (
-            <Text type='main' lineHeight={size}>
-              {' '}
-              {comments}
-            </Text>
-          )}
-        </Katakana.Provider>
-      )}
+      {!!title &&
+        (highlight ? (
+          <Highlight size={size} numberOfLines={numberOfLines} bold value={highlight}>
+            {title}
+          </Highlight>
+        ) : (
+          <Katakana.Provider size={size} numberOfLines={numberOfLines} bold>
+            <Katakana size={size} bold>
+              {title}
+            </Katakana>
+            {!!comments && (
+              <Text type='main' lineHeight={size}>
+                {' '}
+                {comments}
+              </Text>
+            )}
+          </Katakana.Provider>
+        ))}
       {showBottom && (
         <Katakana.Provider
           itemStyle={styles.itemStyle}

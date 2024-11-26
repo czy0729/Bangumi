@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   searchBar: {
-    marginTop: _.xs,
+    paddingTop: _.headerHeight + _.sm,
     paddingBottom: _.sm,
     paddingHorizontal: _.wind
   }

@@ -39,17 +39,16 @@ export default class Action extends Fetch {
     const { cat } = this.state
     const nextCat = MODEL_SEARCH_CAT.getValue<SearchCat>(label)
     if (nextCat !== cat) {
-      t('搜索.切换类型', {
-        cat: nextCat
-      })
-
       this.setState({
         cat: nextCat
       })
       this.save()
 
-      const { value } = this.state
-      if (value) this.doSearch()
+      if (this.state.value) this.doSearch()
+
+      t('搜索.切换类型', {
+        cat: nextCat
+      })
     }
   }
 
@@ -58,17 +57,16 @@ export default class Action extends Fetch {
     const { legacy } = this.state
     const nextLegacy = MODEL_SEARCH_LEGACY.getValue<SearchLegacy>(label)
     if (nextLegacy !== legacy) {
-      t('搜索.切换细分类型', {
-        legacy: nextLegacy
-      })
-
       this.setState({
         legacy: nextLegacy
       })
       this.save()
 
-      const { value } = this.state
-      if (value) this.doSearch()
+      if (this.state.value) this.doSearch()
+
+      t('搜索.切换细分类型', {
+        legacy: nextLegacy
+      })
     }
   }
 
@@ -95,27 +93,27 @@ export default class Action extends Fetch {
 
   /** 选择历史 */
   selectHistory = (value: string) => {
-    t('搜索.选择历史', {
+    this.setState({
+      _value: value,
       value
     })
 
-    this.setState({
-      _value: value,
+    t('搜索.选择历史', {
       value
     })
   }
 
   /** 删除历史 */
   deleteHistory = (value: string) => {
-    t('搜索.删除历史', {
-      value
-    })
-
     const { history } = this.state
     this.setState({
       history: history.filter(item => item !== value)
     })
     this.save()
+
+    t('搜索.删除历史', {
+      value
+    })
   }
 
   /** 删除全部历史 */

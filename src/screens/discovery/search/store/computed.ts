@@ -49,4 +49,8 @@ export default class Computed extends State {
   subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
   }
+
+  @computed get hm() {
+    return [this.url, 'Search'] as const
+  }
 }

@@ -7,4 +7,4 @@
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
-export const COMPONENT = rc(PARENT, 'Header')
+export const COMPONENT = rc(PARENT, 'Background')

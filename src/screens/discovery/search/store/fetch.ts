@@ -5,9 +5,10 @@
  * @Last Modified time: 2024-10-30 17:09:58
  */
 import { collectionStore, searchStore } from '@stores'
-import { info } from '@utils'
+import { feedback, info } from '@utils'
 import { t } from '@utils/fetch'
 import Computed from './computed'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Fetch extends Computed {
   /** 搜索 */
@@ -31,7 +32,8 @@ export default class Fetch extends Computed {
 
       this.setState({
         history: _history,
-        searching: true
+        searching: true,
+        visibleBottom: EXCLUDE_STATE.visibleBottom
       })
       this.save()
     }
@@ -61,5 +63,6 @@ export default class Fetch extends Computed {
     this.setState({
       searching: false
     })
+    if (refresh) feedback(true)
   }
 }

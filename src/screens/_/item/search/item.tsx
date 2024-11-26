@@ -37,6 +37,7 @@ const Item = memo(
     position,
     showManage,
     screen,
+    highlight,
     event
   }) => {
     const subjectId = String(id).replace('/subject/', '')
@@ -98,7 +99,7 @@ const Item = memo(
           >
             <Flex style={styles.title} align='start'>
               <Flex.Item>
-                <Title name={name} nameCn={nameCn} comments={comments} />
+                <Title name={name} nameCn={nameCn} comments={comments} highlight={highlight} />
               </Flex.Item>
               {showManage && !isMono && (
                 <View style={styles.manage}>

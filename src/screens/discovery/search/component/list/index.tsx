@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-17 06:53:04
  */
 import React from 'react'
-import { ListView, Loading } from '@components'
+import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { ob } from '@utils/decorators'
@@ -15,17 +15,14 @@ import { COMPONENT } from './ds'
 
 function List() {
   const { $ } = useStore<Ctx>()
-  if ($.state.searching) return <Loading style={_.container.flex} />
-
   if (!$.search._loaded) return null
 
   return (
     <ListView
-      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
       data={$.search}
       keyboardDismissMode='on-drag'
-      scrollToTop
       renderItem={renderItem}
       scrollEventThrottle={16}
       onScroll={$.onScroll}

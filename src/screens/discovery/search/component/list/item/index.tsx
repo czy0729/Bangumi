@@ -6,17 +6,15 @@
  */
 import React from 'react'
 import { ItemSearch } from '@_'
-import { _, collectionStore } from '@stores'
+import { _, collectionStore, useStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { useNavigation } from '@utils/hooks'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
+import { Ctx } from '../../../types'
 import { EVENT } from './ds'
 
 function Item({ item, index }) {
-  const navigation = useNavigation()
-  const id = String(item.id).replace('/subject/', '')
-  const collection = collectionStore.collect(id)
+  const { $, navigation } = useStore<Ctx>()
   return (
     <ItemSearch
       style={_.container.item}
@@ -25,7 +23,8 @@ function Item({ item, index }) {
       event={EVENT}
       {...item}
       typeCn={MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(item.type)}
-      collection={collection}
+      collection={collectionStore.collect(String(item.id).replace('/subject/', ''))}
+      highlight={$.state.value}
     />
   )
 }

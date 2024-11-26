@@ -34,6 +34,7 @@ export const ItemSearch = ob(
     showManage,
     position,
     screen,
+    highlight,
     event
   }: ItemSearchProps) => {
     return (
@@ -58,6 +59,7 @@ export const ItemSearch = ob(
           showManage={showManage}
           position={position}
           screen={screen}
+          highlight={highlight}
           event={event}
         />
       </Component>

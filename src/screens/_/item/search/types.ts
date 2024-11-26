@@ -14,7 +14,6 @@ export type Props = {
   name?: string
   nameCn?: string
   cover?: string
-  // type?: SubjectType
   typeCn?: SubjectTypeCn
   tip?: string
   rank?: number | string
@@ -26,5 +25,6 @@ export type Props = {
   showManage?: boolean
   position?: string[]
   screen?: string
+  highlight?: string
   event?: EventType
 }

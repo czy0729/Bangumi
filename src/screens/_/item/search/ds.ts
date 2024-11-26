@@ -24,7 +24,6 @@ export const DEFAULT_PROPS = {
   name: '' as $['name'],
   nameCn: '' as $['nameCn'],
   cover: '' as $['cover'],
-  // type: '',
   typeCn: '' as $['typeCn'],
   tip: '' as $['tip'],
   rank: '' as $['rank'],
@@ -40,5 +39,6 @@ export const DEFAULT_PROPS = {
   showManage: true as boolean,
   position: [] as $['position'],
   screen: '' as string,
+  highlight: '' as string,
   event: EVENT as $['event']
 }

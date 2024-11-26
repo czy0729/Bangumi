@@ -17,7 +17,7 @@ export type Props = {
   /** [WEB] 若有此值, 页面标题以此优先 */
   domTitle?: string
 
-  /** 统计参数: [url地址, 对应页面key] */
+  /** 统计参数: [url 地址, 对应页面 key] */
   hm?: TrackProps['hm']
 
   /** 统计别名 */
