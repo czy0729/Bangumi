@@ -8,12 +8,23 @@ import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { date, getTimestamp, x18s } from '@utils'
 import { get } from '@utils/protobuf'
-import { APP_USERID_IOS_AUTH, APP_USERID_TOURIST, MODEL_SUBJECT_TYPE, WEB } from '@constants'
+import {
+  APP_USERID_IOS_AUTH,
+  APP_USERID_TOURIST,
+  MODEL_SUBJECT_TYPE,
+  TEXT_MENU_FIXED,
+  TEXT_MENU_FLOAT,
+  TEXT_MENU_PAGINATION,
+  TEXT_MENU_SPLIT_LEFT,
+  TEXT_MENU_SPLIT_RIGHT,
+  TEXT_MENU_TOOLBAR,
+  WEB
+} from '@constants'
 import { SubjectType, SubjectTypeCn } from '@types'
 import State from './state'
 
 export default class Computed extends State {
-  /** 目录 (高级) */
+  /** 目录 (整合) */
   @computed get catalogAdvance() {
     if (!this.state.loadedCatalog) return []
 
@@ -46,7 +57,7 @@ export default class Computed extends State {
     })
   }
 
-  /** 目录筛选后 (高级) */
+  /** 目录筛选后 (整合) */
   @computed get catalogAdvanceFilter() {
     const { page, filterType, filterYear, filterKey } = this.state
     let list = this.catalogAdvance
@@ -104,5 +115,17 @@ export default class Computed extends State {
 
     const { id } = userStore.userInfo
     if (!id || id == APP_USERID_TOURIST || id == APP_USERID_IOS_AUTH) return true
+  }
+
+  /** 工具栏菜单 */
+  @computed get toolBar() {
+    return [
+      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.fixedFilter ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_PAGINATION}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`
+    ]
   }
 }

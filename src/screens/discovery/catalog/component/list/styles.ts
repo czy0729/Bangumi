@@ -7,15 +7,22 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
+  fixedToolBar: {
+    paddingTop: _.headerHeight
+  },
+  contentContainerStyle: {
+    paddingTop: _.headerHeight
+  },
   container: {
-    minHeight: _.window.height * 0.64,
+    minHeight: Math.floor(_.window.height * 0.64),
     marginBottom: _.md
   },
   empty: {
-    minHeight: _.window.height * 0.5
+    minHeight: Math.floor(_.window.height * 0.75)
   },
   text: {
     maxWidth: _.window.contentWidth - 2 * _.md,
+    marginTop: _.sm,
     ..._.fontSize14
   }
 })

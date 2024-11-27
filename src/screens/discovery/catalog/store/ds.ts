@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-29 14:11:38
  */
+import { _ } from '@stores'
 import { Loaded } from '@types'
 import { COMPONENT, FILTER_KEY_DS, FILTER_TYPE_DS, FILTER_YEAR_DS, TYPE_DS } from '../ds'
 import { FilterKey, FilterType, FilterYear, TypeType } from '../types'
@@ -12,7 +13,10 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   /** 是否加载 catalog */
-  loadedCatalog: false
+  loadedCatalog: false,
+
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
 }
 
 export const STATE = {
@@ -32,10 +36,10 @@ export const STATE = {
   filterKey: FILTER_KEY_DS[0][0] as FilterKey,
 
   /** 是否锁定筛选 */
-  fixedFilter: false,
+  fixedFilter: true,
 
   /** 是否锁定分页器 */
-  fixedPagination: false,
+  fixedPagination: true,
 
   ...EXCLUDE_STATE,
   _loaded: false as Loaded

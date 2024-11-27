@@ -6,11 +6,12 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Highlight, Text } from '@components'
+import { Flex, Highlight, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
+import { Tag } from '../../../base'
 
-function Title({ title, desc, collect, filter }) {
+function Title({ title, typeCn, desc, collect, filter }) {
   return (
     <View style={_.container.block}>
       <Highlight bold numberOfLines={3} value={filter} t2s={false}>
@@ -19,17 +20,22 @@ function Title({ title, desc, collect, filter }) {
       {!!desc && desc !== title && (
         <Text
           style={_.mt.sm}
-          size={11}
+          size={10}
           numberOfLines={(collect ? 2 : 3) - (title.length >= 40 ? 1 : 0)}
         >
           {desc}
         </Text>
       )}
-      {!!collect && (
-        <Text style={_.mt.xs} size={10} lineHeight={14} type='sub' bold>
-          {collect} 人收藏
-        </Text>
-      )}
+      <Flex style={_.mt.sm}>
+        {!!typeCn && <Tag style={_.mr.sm} value={typeCn} />}
+        {!!collect && (
+          <Flex.Item>
+            <Text size={10} type='sub' bold>
+              {collect} 人收藏
+            </Text>
+          </Flex.Item>
+        )}
+      </Flex>
     </View>
   )
 }

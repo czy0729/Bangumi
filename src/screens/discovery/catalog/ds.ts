@@ -10,7 +10,7 @@ export const COMPONENT = 'Catalog'
 export const TYPE_DS = [
   {
     key: 'advance',
-    title: '高级'
+    title: '整合'
   },
   {
     key: 'collect',

@@ -16,4 +16,4 @@ export const WIDTH = Math.floor(Math.min(_.window.contentWidth / 4, _.r(72)))
 
 export const CATALOG_WIDTH = WIDTH * 2
 
-export const AVATAR_WIDTH = _.r(28)
+export const AVATAR_WIDTH = 28

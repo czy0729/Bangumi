@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Flex, Mesume, ScrollView, Text } from '@components'
 import { ItemCatalog } from '@_'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import Pagination from '../pagination'
@@ -18,49 +18,54 @@ import { styles } from './styles'
 
 function List() {
   const { $ } = useStore<Ctx>()
+  if ($.isLimit) {
+    return (
+      <Flex style={styles.empty} direction='column' justify='center'>
+        <Mesume size={80} />
+        <Text style={styles.text} type='sub' size={13} lineHeight={15} align='center'>
+          此功能仅对正常注册用户开放
+        </Text>
+      </Flex>
+    )
+  }
+
+  const { fixedFilter, fixedPagination, show } = $.state
+  const { list, _loaded } = $.catalog
+  const elToolBar = <ToolBar />
+  const elPagination = <Pagination />
   return (
-    <ScrollView contentContainerStyle={_.mb.md} scrollToTop>
-      {!$.state.fixedFilter && <ToolBar />}
-      {$.isLimit ? (
-        <Flex style={styles.empty} direction='column' justify='center'>
-          <Mesume size={80} />
-          <Text style={[styles.text, _.mt.sm]} type='sub' size={13} lineHeight={15} align='center'>
-            此功能仅对正常注册用户开放
-          </Text>
-        </Flex>
-      ) : (
-        <>
-          <View style={styles.container}>
-            {$.state.show &&
-              (!!$.catalog._loaded && !$.catalog.list.length ? (
-                <Flex style={styles.empty} direction='column' justify='center'>
-                  <Mesume size={80} />
-                  <Text
-                    style={[styles.text, _.mt.sm]}
-                    type='sub'
-                    size={13}
-                    lineHeight={15}
-                    align='center'
-                  >
-                    到底了
-                  </Text>
-                </Flex>
-              ) : (
-                $.catalog.list.map((item, index: number) => (
-                  <ItemCatalog
-                    key={item.id}
-                    event={EVENT}
-                    {...item}
-                    index={index}
-                    filter={$.state.filterKey === '不限' ? '' : $.state.filterKey}
-                  />
-                ))
-              ))}
-          </View>
-          {!$.state.fixedPagination && $.state.show && <Pagination />}
-        </>
-      )}
-    </ScrollView>
+    <>
+      {fixedFilter && <View style={styles.fixedToolBar}>{elToolBar}</View>}
+      <ScrollView
+        contentContainerStyle={!fixedFilter && styles.contentContainerStyle}
+        onScroll={$.onScroll}
+      >
+        {!fixedFilter && elToolBar}
+        <View style={styles.container}>
+          {show &&
+            (!!_loaded && !list.length ? (
+              <Flex style={styles.empty} direction='column' justify='center'>
+                <Mesume size={80} />
+                <Text style={styles.text} type='sub' size={13} lineHeight={15} align='center'>
+                  到底了
+                </Text>
+              </Flex>
+            ) : (
+              list.map((item, index: number) => (
+                <ItemCatalog
+                  key={item.id}
+                  event={EVENT}
+                  {...item}
+                  index={index}
+                  filter={$.state.filterKey === '不限' ? '' : $.state.filterKey}
+                />
+              ))
+            ))}
+        </View>
+        {!fixedPagination && show && elPagination}
+      </ScrollView>
+      {fixedPagination && elPagination}
+    </>
   )
 }
 

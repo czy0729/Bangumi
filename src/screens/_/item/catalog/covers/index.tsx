@@ -13,7 +13,7 @@ import { CATALOG_WIDTH, WIDTH } from '../ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Covers({ list, total = 0 }: Props) {
+function Covers({ title = '', list, total = 0 }: Props) {
   const styles = memoStyles()
   return (
     <View style={styles.catalog}>
@@ -46,7 +46,7 @@ function Covers({ list, total = 0 }: Props) {
             size={WIDTH}
             src={item.image}
             placeholder={false}
-            cdn={!x18(item.id)}
+            cdn={!x18(item.id, title)}
           />
         ))}
         {!!list.length && (

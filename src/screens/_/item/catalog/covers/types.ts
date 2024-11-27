@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-07-29 19:14:07
  */
 export type Props = {
+  title: string
   list: {
     id: any
     image: any

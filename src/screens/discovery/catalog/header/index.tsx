@@ -5,45 +5,42 @@
  * @Last Modified time: 2024-09-16 20:25:38
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
+import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, URL_SPA, WEB } from '@constants'
-import { COMPONENT } from './ds'
-
-const TEXT_BROWSER = '浏览器查看'
-const TEXT_SPA = '网页版查看'
-const DATA = [TEXT_BROWSER]
-if (!WEB) DATA.push(TEXT_SPA)
+import { HOST, TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
+import { Ctx } from '../types'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
+  const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title='目录'
-      hm={['discovery/catalog', 'Catalog']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={DATA}
-          onSelect={key => {
-            t('目录.右上角菜单', {
-              key
-            })
-
-            if (key === TEXT_BROWSER) {
+        <HeaderV2Popover
+          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open(`${HOST}/index/browser?orderby=collect`)
-              return
-            }
 
-            if (key === TEXT_SPA) {
-              const url = `${URL_SPA}/${getSPAParams('Catalog')}`
-              open(url)
-              return
+              t('目录.右上角菜单', {
+                key: title
+              })
+            } else if (title === TEXT_MENU_SPA) {
+              open(`${URL_SPA}/${getSPAParams('Catalog')}`)
+
+              t('目录.右上角菜单', {
+                key: title
+              })
+            } else {
+              $.onToolBar(title)
             }
           }}
-        >
-          <Heatmap id='目录.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

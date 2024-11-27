@@ -12,22 +12,15 @@ import { Ctx } from '../../types'
 
 function More() {
   const { $ } = useStore<Ctx>()
-  const { fixedFilter, fixedPagination } = $.state
   return (
     <ToolBar.Popover
-      data={[
-        `选项 · ${fixedFilter ? '锁定上方' : '浮动'}`,
-        `分页 · ${fixedPagination ? '锁定下方' : '浮动'}`
-      ]}
+      data={$.toolBar}
       icon='md-more-vert'
       iconColor={_.colorDesc}
       iconSize={16}
       type='desc'
       transparent
-      onSelect={(title: string) => {
-        if (title.includes('选项')) return $.onToggleFixed('fixedFilter')
-        if (title.includes('分页')) return $.onToggleFixed('fixedPagination')
-      }}
+      onSelect={$.onToolBar}
     />
   )
 }

@@ -16,6 +16,7 @@ function Type({ type }) {
   return (
     <ToolBar.Popover
       data={TYPE_DS.map(item => item.title)}
+      icon='icon-more-grid'
       iconColor={_.colorDesc}
       text={type}
       type='desc'

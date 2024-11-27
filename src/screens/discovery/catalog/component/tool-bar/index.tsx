@@ -13,7 +13,6 @@ import { Ctx } from '../../types'
 import FilterKey from './filter-key'
 import FilterType from './filter-type'
 import FilterYear from './filter-year'
-import More from './more'
 import Type from './type'
 import { COMPONENT } from './ds'
 
@@ -23,14 +22,13 @@ function ToolBar() {
   return (
     <ToolBarComp>
       <Type type={type} />
-      {type === '高级' && (
+      {type === '整合' && (
         <>
           <FilterType />
           <FilterYear />
           <FilterKey />
         </>
       )}
-      <More />
     </ToolBarComp>
   )
 }

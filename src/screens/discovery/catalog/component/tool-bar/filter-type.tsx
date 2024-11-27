@@ -17,6 +17,7 @@ function FilterType() {
   return (
     <ToolBar.Popover
       data={FILTER_TYPE_DS}
+      icon='md-filter-list'
       iconColor={_.colorDesc}
       text={text === '不限' ? '类型' : text}
       type='desc'

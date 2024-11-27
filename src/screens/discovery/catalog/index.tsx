@@ -10,8 +10,6 @@ import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import List from './component/list'
-import Pagination from './component/pagination'
-import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useCatalogPage } from './hooks'
 
@@ -22,12 +20,10 @@ const Catalog = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-catalog'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page loaded={$.state._loaded}>
-          {$.state.fixedFilter && <ToolBar />}
+        <Page loaded={$.state._loaded} loading={!$.catalog._loaded}>
           <List />
-          {$.state.fixedPagination && <Pagination />}
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

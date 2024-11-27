@@ -12,6 +12,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
+import { SubjectTypeCn } from '@types'
 import { InView } from '../../base'
 import Covers from './covers'
 import Desc from './desc'
@@ -45,9 +46,23 @@ export const ItemCatalog = ob(
     children
   }: ItemCatalogProps) => {
     const navigation = useNavigation()
-    if (!isUser && !book && !anime && !music && !game && !real) return null
+    if (!isUser && !anime && !book && !game && !real && !music) return null
 
     const styles = memoStyles()
+    const max = Math.max(anime || 0, book || 0, music || 0, game || 0, real || 0)
+    let typeCn: SubjectTypeCn
+    if (max === anime) {
+      typeCn = '动画'
+    } else if (max === book) {
+      typeCn = '书籍'
+    } else if (max === game) {
+      typeCn = '游戏'
+    } else if (max === real) {
+      typeCn = '三次元'
+    } else if (max === music) {
+      typeCn = '音乐'
+    }
+
     const detailValue = detail || discoveryStore.catalogDetail(id)
     const oss = discoveryStore.catalogDetailFromOSS(id)
     let data: any
@@ -102,8 +117,9 @@ export const ItemCatalog = ob(
           }}
         >
           <Flex style={styles.wrap} align='start'>
-            <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+            <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
               <Covers
+                title={titleValue}
                 list={list
                   .filter((_: any, index: number) => index < 3)
                   .map((item: { id: any; image: any }) => ({
@@ -115,7 +131,13 @@ export const ItemCatalog = ob(
             </InView>
             <Flex.Item>
               <Flex style={styles.content} direction='column' justify='between' align='start'>
-                <Title title={titleValue} desc={desc} collect={collectValue} filter={filter} />
+                <Title
+                  title={titleValue}
+                  typeCn={typeCn}
+                  desc={desc}
+                  collect={collectValue}
+                  filter={filter}
+                />
                 <Desc
                   navigation={navigation}
                   userId={userIdValue}

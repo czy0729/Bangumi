@@ -29,12 +29,12 @@ function Desc({ navigation, userId, avatar, name, date, event }) {
       </View>
       <Flex.Item>
         {!!name && (
-          <Text style={_.mb.xxs} size={12} bold numberOfLines={1}>
+          <Text size={12} bold numberOfLines={1}>
             {name}
           </Text>
         )}
         {!!date && (
-          <Text size={10} type='sub'>
+          <Text size={10} lineHeight={11} type='sub'>
             {date}
           </Text>
         )}

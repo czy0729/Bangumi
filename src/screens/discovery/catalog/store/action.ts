@@ -4,10 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-29 20:20:37
  */
-import { info } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
+import { TEXT_MENU_PAGINATION, TEXT_MENU_TOOLBAR } from '@constants'
 import { TypeLabel } from '../types'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 显示列表 */
@@ -22,18 +24,19 @@ export default class Action extends Fetch {
 
   /** 切换类型 */
   onToggleType = async (label: TypeLabel) => {
-    const { type } = this.state
     if (label) {
+      const { type } = this.state
       if (label === '最新' && type === '') return
       if (label === '热门' && type === 'collect') return
-      if (label === '高级' && type === 'advance') return
+      if (label === '整合' && type === 'advance') return
     }
 
     this.setState({
-      type: label === '热门' ? 'collect' : label === '高级' ? 'advance' : '',
+      type: label === '热门' ? 'collect' : label === '整合' ? 'advance' : '',
       page: 1,
       ipt: '1',
-      show: false
+      show: false,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
 
     await this.fetchCatalog()
@@ -56,7 +59,8 @@ export default class Action extends Fetch {
     this.setState({
       page: value,
       show: false,
-      ipt: String(value)
+      ipt: String(value),
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.fetchCatalog()
     this.onShow()
@@ -73,7 +77,8 @@ export default class Action extends Fetch {
     this.setState({
       page: value,
       show: false,
-      ipt: String(value)
+      ipt: String(value),
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.fetchCatalog()
     this.onShow()
@@ -96,7 +101,8 @@ export default class Action extends Fetch {
       page: 1,
       show: false,
       ipt: '1',
-      [key]: value
+      [key]: value,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.onShow()
     this.fetchCatalog()
@@ -114,10 +120,27 @@ export default class Action extends Fetch {
     })
     this.save()
 
+    if (key === 'fixedFilter') {
+      info(this.toolBar?.[0])
+      feedback(true)
+    } else if (key === 'fixedPagination') {
+      info(this.toolBar?.[1])
+      feedback(true)
+    }
+
     t('目录.切换锁定', {
       value: `${key}|${value}`
     })
   }
+
+  /** 工具栏设置 */
+  onToolBar = (title: string) => {
+    if (title.includes(TEXT_MENU_TOOLBAR)) return this.onToggleFixed('fixedFilter')
+    if (title.includes(TEXT_MENU_PAGINATION)) return this.onToggleFixed('fixedPagination')
+  }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   /** 页码跳转 */
@@ -132,7 +155,8 @@ export default class Action extends Fetch {
     this.setState({
       page: value,
       show: false,
-      ipt: String(value)
+      ipt: String(value),
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.fetchCatalog()
 
