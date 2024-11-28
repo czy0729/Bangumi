@@ -31,6 +31,10 @@ export const SORT_DS = [
   {
     key: '2',
     title: '评分'
+  },
+  {
+    key: '3',
+    title: '评分人数'
   }
 ] as const
 

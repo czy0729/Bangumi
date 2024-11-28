@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 14:11:24
+ * @Last Modified time: 2024-11-28 15:32:09
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, subjectStore, userStore } from '@stores'
@@ -78,15 +78,19 @@ export default class Computed extends State {
           )
         })
       )
-    }
-
-    // 分数
-    if (String(sort) === '2') {
+    } else if (String(sort) === '2') {
+      // 分数
       return CacheManager.set(
         key,
         list
           .slice()
           .sort((a, b) => desc(a, b, item => (item.rank ? 10000 - item.rank : item.score)))
+      )
+    } else if (String(sort) === '3') {
+      // 评分人数
+      return CacheManager.set(
+        key,
+        list.slice().sort((a, b) => desc(a, b, item => item.total || 0))
       )
     }
 
@@ -116,5 +120,9 @@ export default class Computed extends State {
   /** 网格布局个数 */
   @computed get gridNum() {
     return _.portrait(3, 5)
+  }
+
+  @computed get hm() {
+    return [`index/${this.catalogId}`, 'CatalogDetail'] as const
   }
 }

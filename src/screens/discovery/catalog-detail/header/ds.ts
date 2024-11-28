@@ -5,18 +5,14 @@
  * @Last Modified time: 2024-08-10 15:28:53
  */
 import { rc } from '@utils/dev'
-import { WEB } from '@constants'
+import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, WEB } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Header')
 
 export const TEXT_COPY = '复制并创建目录'
 
-export const TEXT_BROWSER = '浏览器查看'
-
-export const TEXT_SPA = '网页版查看'
-
-const DATA = [TEXT_COPY, TEXT_BROWSER]
-if (!WEB) DATA.push(TEXT_SPA)
+const DATA = [TEXT_COPY, TEXT_MENU_BROWSER]
+if (!WEB) DATA.push(TEXT_MENU_SPA)
 
 export { DATA }

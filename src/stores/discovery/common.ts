@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 17:36:22
+ * @Last Modified time: 2024-11-28 15:56:05
  */
 import { cData, cheerio, cMap, cText, HTMLDecode, htmlMatch, matchUserId, safeObject } from '@utils'
 import { SubjectTypeCn } from '@types'
@@ -107,7 +107,7 @@ export function cheerioCatalogDetail(html: string) {
     .get()
 
   const $a = $('div.grp_box > a.l')
-  const [time = '', collect = ''] = ($('div.grp_box > span.tip_j').text().trim() || '').split('\n/')
+  const [time = '', collect = ''] = ($('div.grp_box > span.tip_j').text().trim() || '').split('/')
 
   const href = $('div.rr > a').attr('href') || ''
   let joinUrl = ''

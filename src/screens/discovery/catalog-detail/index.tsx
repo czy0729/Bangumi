@@ -22,11 +22,11 @@ const CatalogDetail = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-catalog-detail'>
       <StoreContext.Provider value={id}>
-        <Header fixed={fixed} />
         <Page statusBarEvent={false}>
           <List onScroll={onScroll} />
           <Tips />
         </Page>
+        <Header fixed={fixed} />
         <Modal />
       </StoreContext.Provider>
     </Component>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-10 13:59:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:22:10
+ * @Last Modified time: 2024-11-28 16:05:33
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -16,13 +16,12 @@ import { COMPONENT } from './ds'
 function Desc() {
   const { $, navigation } = useStore<Ctx>()
   const { avatar, nickname, userId, time } = $.detail
-  if (!nickname || time) return null
+  if (!(nickname || time)) return null
 
   const lastUpdate = $.params._lastUpdate || ''
   return (
     <Flex style={_.mt.sm}>
       <Text
-        type='title'
         size={13}
         lineHeight={15}
         bold

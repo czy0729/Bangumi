@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:14:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:24:07
+ * @Last Modified time: 2024-11-28 15:33:29
  */
 import React from 'react'
 import { ToolBar } from '@components'
@@ -17,7 +17,7 @@ function Sort() {
   return (
     <ToolBar.Popover
       data={SORT_DATA}
-      icon='md-filter-list'
+      icon='md-sort'
       iconColor={_.colorDesc}
       text={SORT_DS.find(item => item.key === $.state.sort)?.['title']}
       type='desc'

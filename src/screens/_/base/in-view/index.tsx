@@ -24,7 +24,14 @@ export const InView = ob(({ index, y, log, flex, children, ...other }: InViewPro
   }
 
   return (
-    <InViewComp {...other} y={y} visibleBottom={$.state.visibleBottom} log={log} flex={flex}>
+    <InViewComp
+      {...other}
+      index={index}
+      y={y}
+      visibleBottom={$.state.visibleBottom}
+      log={log}
+      flex={flex}
+    >
       {children}
     </InViewComp>
   )

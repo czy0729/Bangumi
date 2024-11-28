@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-11-09 03:04:58
  */
 import { Expand, Fn, Navigation, ReactNode, TextStyle } from '@types'
+import { TrackProps } from '../track'
 import { Props as PlaceholderProps } from './placeholder/types'
 import { Props as PopoverProps } from './popover/types'
 
@@ -24,8 +25,8 @@ export type Props = {
   /** [WEB] 若有此值, 页面标题以此优先 */
   domTitle?: string
 
-  /** 统计参数: [url地址, 对应页面key] */
-  hm?: [string] | [string, string]
+  /** 统计参数: [url 地址, 对应页面 key] */
+  hm?: TrackProps['hm']
 
   /** 统计别名 */
   alias?: string

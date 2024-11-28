@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-11 14:20:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 15:29:52
+ * @Last Modified time: 2024-11-28 15:58:25
  */
 import { _ } from '@stores'
 
@@ -13,7 +13,7 @@ export const styles = _.create({
   },
   num: {
     position: 'absolute',
-    right: 4,
+    left: 32,
     bottom: 5
   }
 })
