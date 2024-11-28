@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:31:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:29:36
+ * @Last Modified time: 2024-11-28 16:23:25
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,10 +25,9 @@ function BgWrap() {
     return <View style={styles.bg} />
   }
 
+  const image = $.coverPlaceholder || $.subject.images?.common || $.cover
   const cdn = !$.nsfw
-  const src = cdn
-    ? getCover400($.coverPlaceholder || $.subject.images?.common || $.cover)
-    : $.subject.images?.common
+  const src = cdn ? getCover400(image) : $.subject.images?.common || image
   if (typeof src !== 'string') return <View style={styles.bg} />
 
   return (

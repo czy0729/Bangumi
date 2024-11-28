@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-19 00:04:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:37:20
+ * @Last Modified time: 2024-11-28 16:21:51
  */
 import React from 'react'
 import { useStore } from '@stores'
@@ -15,8 +15,8 @@ function CoverWrap() {
   const { $ } = useStore<Ctx>()
   return (
     <Cover
-      image={$.nsfw ? $.subject.images?.common : $.cover}
-      placeholder={$.nsfw ? $.subject.images?.common : $.coverPlaceholder}
+      image={($.nsfw ? $.subject.images?.common : $.cover) || $.cover}
+      placeholder={($.nsfw ? $.subject.images?.common : $.coverPlaceholder) || $.coverPlaceholder}
       width={$.imageWidth}
       height={$.imageHeight}
       subjectId={$.subjectId}
