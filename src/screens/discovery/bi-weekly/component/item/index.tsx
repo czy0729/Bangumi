@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 12:12:03
+ * @Last Modified time: 2024-11-30 05:09:28
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -17,9 +17,9 @@ import { styles } from './styles'
 function Item({ item, index }) {
   const navigation = useNavigation()
   const isCatalog = item.title.includes('【目录】')
-  const width = isCatalog ? 160 : _.window.contentWidth
-  const height = isCatalog ? 160 : Math.floor(width * 1.41)
-  const descSize = item.desc ? 9 : 0
+  const width = isCatalog ? Math.floor(_.window.contentWidth * 0.8) : _.window.contentWidth
+  const height = isCatalog ? width : Math.floor(width * 1.41)
+  const descSize = item.desc ? 10 : 0
   const titleSize = 15
   return (
     <Touchable
@@ -40,7 +40,13 @@ function Item({ item, index }) {
     >
       <Flex justify='center'>
         <InView y={(height + styles.item.marginBottom + descSize + titleSize) * index + 1}>
-          <Image style={styles.cover} width={width} height={height} src={item.cover} />
+          <Image
+            style={styles.cover}
+            width={width}
+            height={height}
+            src={item.cover}
+            radius={isCatalog ? _.radiusMd : 0}
+          />
         </InView>
       </Flex>
       {!!item.desc && (

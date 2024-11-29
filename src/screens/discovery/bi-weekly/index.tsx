@@ -20,10 +20,10 @@ const BiWeekly = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-bi-weekly'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={loaded}>
           <List data={data} />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

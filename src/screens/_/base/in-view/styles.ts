@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-29 09:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 13:18:17
+ * @Last Modified time: 2024-11-30 04:51:49
  */
 import { _ } from '@stores'
 
@@ -17,7 +17,7 @@ export const styles = _.create({
   devText: {
     paddingVertical: 2,
     paddingHorizontal: 4,
-    backgroundColor: _.colorWarning,
+    backgroundColor: _.colorBid,
     borderRadius: 4
   }
 })

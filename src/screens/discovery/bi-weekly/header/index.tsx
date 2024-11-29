@@ -5,41 +5,37 @@
  * @Last Modified time: 2024-11-16 12:12:28
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { HOST } from '@constants'
-import { COMPONENT } from './ds'
+import { HOST, TEXT_MENU_BROWSER } from '@constants'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
   const navigation = useNavigation()
   return (
-    <HeaderComp
+    <HeaderV2
       title='Bangumi 半月刊'
-      hm={['biweekly', 'BiWeekly']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
+        <HeaderV2Popover
           name='md-menu'
-          data={['小组讨论', '浏览器查看']}
-          onSelect={label => {
-            t('半月刊.右上角菜单', {
-              label
-            })
-
-            if (label === '小组讨论') {
+          data={DATA}
+          onSelect={title => {
+            if (title === DATA[0]) {
               navigation.push('Group', {
                 groupId: 'biweekly',
                 _title: 'Bangumi半月刊'
               })
-              return
+            } else if (title === TEXT_MENU_BROWSER) {
+              open(`${HOST}/group/biweekly`)
             }
 
-            if (label === '浏览器查看') {
-              open(`${HOST}/group/biweekly`)
-              return
-            }
+            t('半月刊.右上角菜单', {
+              label: title
+            })
           }}
         />
       )}
