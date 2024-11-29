@@ -2,16 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 11:02:02
+ * @Last Modified time: 2024-11-29 11:32:11
  */
 import React from 'react'
 import { BackHandler } from 'react-native'
 import ActivityIndicator from '@ant-design/react-native/lib/activity-indicator'
 import { Component, Flex, Modal, Text } from '@components'
 import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import { getStorage, getTimestamp, info, setStorage, sleep } from '@utils'
+import {
+  alert,
+  confirm,
+  getStorage,
+  getTimestamp,
+  info,
+  navigationReference,
+  setStorage,
+  sleep
+} from '@utils'
 import { ob } from '@utils/decorators'
 import { FROZEN_FN, H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
+import i18n from '@constants/i18n'
 import { Private, PrivateCn, RatingStatus, SubjectType } from '@types'
 import { StarGroup } from '../star-group'
 import CommentInput from './comment-input'
@@ -54,6 +64,9 @@ export const ManageModal = ob(
       privacy: MODEL_PRIVATE.getValue<Private>('公开')
     }
 
+    /** 用于判断收藏请求是否已经发出并返回数据 */
+    private _fetched = false
+
     /** 用于判断用户在数据更新前就已经操作, 不再改变选定的状态 */
     private _changedStatus = false
 
@@ -94,14 +107,32 @@ export const ManageModal = ob(
             status
           })
 
-          const {
-            rating,
-            tag = [],
-            comment,
-            private: privacy,
-            status: _status = {}
-          } = await collectionStore.fetchCollection(subjectId)
-          this.fetchUserTags()
+          const result = await collectionStore.fetchCollection(subjectId)
+          this._fetched = true
+
+          // 提前告知授权信息失效
+          if (result?.error && result.error.includes('token')) {
+            const navigation = navigationReference()
+            const content = `获取收藏信息失败：${result.error}，授权信息可能过期了`
+            if (navigation) {
+              confirm(
+                content,
+                () => {
+                  this.props.onClose()
+                  setTimeout(() => {
+                    navigation.push('LoginV2')
+                  }, 400)
+                },
+                '警告',
+                undefined,
+                `去${i18n.login()}`
+              )
+            } else {
+              alert(content)
+            }
+          }
+
+          const { rating, tag = [], comment, private: privacy, status: _status = {} } = result
 
           // 若传递有收藏状态, 而请求后实际又没有, 主动清理全局缓存收藏状态
           if (!Object.keys(_status).length && nextProps.status) {
@@ -116,6 +147,8 @@ export const ManageModal = ob(
           if (!this._changedStatus) state.status = _status.type
           if (privacy !== undefined) state.privacy = privacy
           this.setState(state)
+
+          this.fetchUserTags()
         }
       }
     }
@@ -208,7 +241,7 @@ export const ManageModal = ob(
 
     handleSubmit = async () => {
       const { rating, tags, comment, status, privacy } = this.state
-      if (!status) {
+      if (!this._fetched && !status) {
         info('收藏数据仍在获取中，请稍等')
         return
       }
