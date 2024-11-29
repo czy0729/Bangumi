@@ -2,24 +2,39 @@
  * @Author: czy0729
  * @Date: 2023-12-17 08:12:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-07 22:04:43
+ * @Last Modified time: 2024-11-29 13:13:10
  */
+import { _ } from '@stores'
 import { NEWS } from '@constants'
-import { Loaded } from '@types'
+import { Id, Loaded } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
+  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  show: true,
+
+  /** 当前页数 */
   page: 1,
-  ipt: '1'
+
+  /** Input 页数 */
+  ipt: '1',
+
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
 }
 
 export const STATE = {
-  show: false,
-  history: [],
-  type: NEWS[0].value,
+  /** 记录文章点击过的 ID */
+  history: [] as Id[],
+
+  /** 站点 */
+  type: NEWS[2].value,
+
+  /** 是否使用内置浏览器打开, 否则使用外部 */
   useWebView: false,
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

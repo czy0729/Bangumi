@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-01 12:19:02
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-01 12:19:02
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-11-29 13:04:19
  */
 import { _ } from '@stores'
 
@@ -11,6 +11,9 @@ export const memoStyles = _.memoStyles(() => {
   return {
     container: {
       minHeight: _.window.height
+    },
+    contentContainerStyle: {
+      paddingTop: _.headerHeight
     },
     item: {
       paddingTop: _.md,

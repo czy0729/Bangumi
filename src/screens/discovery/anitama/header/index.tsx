@@ -2,58 +2,51 @@
  * @Author: czy0729
  * @Date: 2022-03-11 18:03:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 12:07:16
+ * @Last Modified time: 2024-11-29 12:37:23
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { NEWS } from '@constants'
+import { NEWS, TEXT_MENU_BROWSER } from '@constants'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
-  const { useWebView } = $.state
   return (
-    <HeaderComp
+    <HeaderV2
       title='二次元资讯'
       alias='Anitama'
-      hm={['discovery/anitama', 'Anitama']}
+      hm={HM}
       headerRight={() => (
-        <Flex>
+        <>
           <IconTouchable
             style={_.mr.xs}
-            name={useWebView ? 'md-radio-button-on' : 'md-radio-button-off'}
+            name={$.state.useWebView ? 'md-radio-button-on' : 'md-radio-button-off'}
             size={20}
             color={_.colorDesc}
             onPress={$.toggleUseWebView}
           />
-          <HeaderComp.Popover
+          <HeaderV2Popover
             name='md-menu'
-            data={[...NEWS.map(item => item.label), '浏览器查看']}
-            onSelect={key => {
-              t('Anitama.右上角菜单', {
-                key
-              })
-
-              switch (key) {
-                case '浏览器查看':
-                  open($.url)
-                  break
-
-                default:
-                  $.toggleType(key)
-                  break
+            data={[...NEWS.map(item => item.label), TEXT_MENU_BROWSER]}
+            onSelect={title => {
+              if (title === TEXT_MENU_BROWSER) {
+                open($.url)
+              } else {
+                $.toggleType(title)
               }
+
+              t('Anitama.右上角菜单', {
+                key: title
+              })
             }}
-          >
-            <Heatmap id='Anitama.右上角菜单' />
-          </HeaderComp.Popover>
-        </Flex>
+          />
+        </>
       )}
     />
   )

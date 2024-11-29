@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-29 09:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 09:52:26
+ * @Last Modified time: 2024-11-29 13:18:17
  */
 import { _ } from '@stores'
 
@@ -10,13 +10,14 @@ export const styles = _.create({
   dev: {
     position: 'absolute',
     zIndex: 100,
-    right: 0,
-    top: 0,
-    left: 0,
+    top: _.sm,
+    left: _.sm,
     pointerEvents: 'none'
   },
   devText: {
-    padding: 2,
-    backgroundColor: _.colorDepthBid
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+    backgroundColor: _.colorWarning,
+    borderRadius: 4
   }
 })

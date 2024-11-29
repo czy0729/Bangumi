@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-24 19:34:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 12:05:49
+ * @Last Modified time: 2024-11-29 12:33:45
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -21,7 +21,6 @@ const Anitama = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-anitama'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page
           style={_.select(_.container.bg, _.container.plain)}
           loaded={$.state._loaded && $.state.show}
@@ -29,6 +28,7 @@ const Anitama = (props: NavigationProps) => {
           <List />
           <Pagination />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

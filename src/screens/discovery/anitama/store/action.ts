@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-07 22:50:39
+ * @Last Modified time: 2024-11-29 13:14:05
  */
-import { info } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import { MODEL_NEWS, NEWS } from '@constants'
+import { MODEL_NEWS } from '@constants'
 import { Id } from '@types'
 import Fetch from './fetch'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -15,18 +15,14 @@ let prevPage: number
 
 export default class Action extends Fetch {
   init = async () => {
-    const state = await this.getStorage(NAMESPACE)
-
-    // 动漫之家 api 暂时挂了
-    if (state?.type === NEWS[2].value) state.type = NEWS[0].value
     this.setState({
-      ...state,
+      ...(await this.getStorage(NAMESPACE)),
       ...EXCLUDE_STATE,
       show: true,
       _loaded: true
     })
 
-    // App 首次启动使用页码 1, 再次进入页面使用之前的页码
+    // 首次启动使用页码 1, 再次进入页面使用之前的页码
     if (!prevPage) {
       prevPage = this.state.page
     } else {
@@ -43,7 +39,8 @@ export default class Action extends Fetch {
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
   resetScrollView = () => {
     this.setState({
-      show: false
+      show: false,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
 
     setTimeout(() => {
@@ -136,11 +133,15 @@ export default class Action extends Fetch {
     } else {
       info('使用外部浏览器打开')
     }
+    feedback(true)
 
     t('Anitama.内置浏览器', {
       value
     })
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 
   /** 页码跳转 */
   doSearch = () => {
