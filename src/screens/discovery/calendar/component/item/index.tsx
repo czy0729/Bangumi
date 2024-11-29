@@ -2,70 +2,68 @@
  * @Author: czy0729
  * @Date: 2023-03-13 02:53:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 01:20:00
+ * @Last Modified time: 2024-11-29 10:58:25
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
-import { CalendarItem } from '@stores/calendar/types'
 import { cnjp, date, getTimestamp } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { PREV_DAY_HOUR } from '../../ds'
+import { Ctx, SectionListCalendarItem } from '../../types'
 import { getTime } from '../../utils'
-import ItemGrid from '../item-grid'
-import ItemLine from '../item-line'
+import ItemGrid from './item-grid'
+import ItemLine from './item-line'
 import Line from './line'
+import { getItemTime } from './utils'
 
 let day = new Date().getDay()
 if (day === 0) day = 7
 
 function Item({ item, section }) {
   const { $ } = useStore<Ctx>()
-  const items = item.items as CalendarItem[]
+  const items = item.items as SectionListCalendarItem[]
   const current = parseInt(date('Hi', getTimestamp()))
   let renderLine = false
 
   return (
     <Flex wrap='wrap' align='start'>
-      {items.map((i, idx) => {
-        // 如果存在多个同一时间放送的条目, 只在第一个条目显示时间
-        let time = getTime(i, i.id)
-        if (idx > 0 && time === '2359' && getTime(items[idx - 1], i.id) === time) time = ''
-
-        const prevItem = items?.[idx - 1]
+      {items.map((item, index) => {
+        const prevItem = items?.[index - 1]
         let prevTime = ''
         if (prevItem) prevTime = getTime(prevItem, prevItem.id)
 
-        // 放送到多少集, 自增 1
-        let { air } = i
-        if (i.air_weekday !== day && air !== 0) air = Number(air) + 1
+        // @depercated 放送到多少集, 自增 1
+        // let { air } = item
+        // if (item.air_weekday !== day && air !== 0) air = Number(air) + 1
 
+        const time = getItemTime(item, index, items)
         const passProps = {
-          key: i.id,
-          subjectId: i.id,
-          images: i.images,
-          name: cnjp(i.name_cn, i.name),
-          desc: cnjp(i.name, i.name_cn),
-          rank: i.rank,
-          score: i?.rating?.score,
-          total: i?.rating?.total,
-          air,
+          key: item.id,
+          subjectId: item.id,
+          images: item.images,
+          name: cnjp(item.name_cn, item.name),
+          desc: cnjp(item.name, item.name_cn),
+          rank: item.rank,
+          score: item?.rating?.score,
+          total: item?.rating?.total,
+          // air,
           time,
           prevTime,
           section: section.index,
-          index: idx
+          index: item.index
         }
 
         if ($.isList) {
-          const showPrevDay = new Date().getHours() < 12
+          const showPrevDay = new Date().getHours() < PREV_DAY_HOUR
           const linePosition = section.index === (showPrevDay ? 1 : 0)
 
           // 当前时间在番组播放之前
           if (linePosition && !renderLine && parseInt(time) > current) {
             renderLine = true
             return (
-              <View key={i.id} style={_.container.block}>
+              <View key={item.id} style={_.container.block}>
                 <Line />
                 <ItemLine {...passProps} />
               </View>
@@ -73,9 +71,9 @@ function Item({ item, section }) {
           }
 
           // 当前时间之后已没有未播放番组
-          if (linePosition && !renderLine && idx === items.length - 1) {
+          if (linePosition && !renderLine && index === items.length - 1) {
             return (
-              <View key={i.id} style={_.container.block}>
+              <View key={item.id} style={_.container.block}>
                 <ItemLine {...passProps} />
                 <Line />
               </View>
@@ -85,7 +83,7 @@ function Item({ item, section }) {
           return <ItemLine {...passProps} />
         }
 
-        return <ItemGrid index={idx} {...passProps} />
+        return <ItemGrid index={index} {...passProps} />
       })}
     </Flex>
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-02-23 10:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 15:23:05
+ * @Last Modified time: 2024-11-28 20:48:12
  */
 import { WEB } from '../device'
 
@@ -100,6 +100,9 @@ export const TEXT_MENU_SHOW = '显示'
 
 /** 菜单: 收藏不显示 */
 export const TEXT_MENU_NOT_SHOW = '不显示'
+
+/** 菜单: 收藏只显示 */
+export const TEXT_MENU_ONLY_SHOW = '只显示'
 
 /** 菜单: 分页器 */
 export const TEXT_MENU_PAGINATION = '分页器'

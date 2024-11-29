@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:46:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 01:16:57
+ * @Last Modified time: 2024-11-28 16:52:07
  */
 import React from 'react'
-import { Component, Loading, Page } from '@components'
+import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
@@ -21,11 +21,11 @@ const Calendar = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-calendar'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page>
+        <Page loaded={$.state._loaded} loading={!$.calendar._loaded}>
           <ToolBar />
-          {$.state._loaded && $.calendar._loaded ? <List /> : <Loading />}
+          <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

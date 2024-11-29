@@ -2,43 +2,42 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 01:24:20
+ * @Last Modified time: 2024-11-28 20:55:44
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
+import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
-import { HOST, URL_SPA } from '@constants'
-import { COMPONENT, DATA, TEXT_BROWSER, TEXT_INFOR, TEXT_SPA } from './ds'
+import { HOST, TEXT_MENU_BROWSER, TEXT_MENU_SPA, TEXT_MENU_SPLIT, URL_SPA } from '@constants'
+import { Ctx } from '../types'
+import { COMPONENT, DATA, HM, TEXT_INFOR } from './ds'
 
 function Header() {
-  const navigation = useNavigation()
+  const { $, navigation } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title='每日放送'
-      hm={['calendar', 'Calendar']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={DATA}
-          onSelect={key => {
-            t('每日放送.右上角菜单', {
-              key
-            })
-
-            if (key === TEXT_BROWSER) {
+        <HeaderV2Popover
+          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open(`${HOST}/calendar`)
-              return
-            }
 
-            if (key === TEXT_SPA) {
+              t('每日放送.右上角菜单', {
+                key: title
+              })
+            } else if (title === TEXT_MENU_SPA) {
               const url = `${URL_SPA}/${getSPAParams('Calendar')}`
               open(url)
-              return
-            }
 
-            if (key === TEXT_INFOR) {
+              t('每日放送.右上角菜单', {
+                key: title
+              })
+            } else if (title === TEXT_INFOR) {
               navigation.push('Information', {
                 title: '每日放送数据',
                 message: [
@@ -48,11 +47,15 @@ function Header() {
                   '3：标签和动画制作数据摘取自 https://yuc.wiki。'
                 ]
               })
+
+              t('每日放送.右上角菜单', {
+                key: title
+              })
+            } else {
+              $.onToolBar(title)
             }
           }}
-        >
-          <Heatmap id='每日放送.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

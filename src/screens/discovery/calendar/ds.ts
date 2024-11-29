@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-26 04:31:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 17:58:13
+ * @Last Modified time: 2024-11-29 10:58:02
  */
 export const COMPONENT = 'Calendar'
 
@@ -27,3 +27,6 @@ export const TYPE_DS = [
     title: '收藏'
   }
 ] as const
+
+/** 早上几点前需要显示前一日的放送 */
+export const PREV_DAY_HOUR = 9

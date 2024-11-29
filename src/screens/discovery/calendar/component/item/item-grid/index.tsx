@@ -2,30 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-03-22 09:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 01:20:19
+ * @Last Modified time: 2024-11-29 10:02:07
  */
 import React from 'react'
-import { collectionStore, systemStore, useStore } from '@stores'
-import { getOnAirItem } from '@utils'
+import { collectionStore, systemStore } from '@stores'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+import { useNavigation } from '@utils/hooks'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemGridWrap({ subjectId, name, images, score, time }) {
-  const { $, navigation } = useStore<Ctx>()
-  const collection = collectionStore.collect(subjectId)
-  if ($.state.type === 'collect' && !collection) return null
-
-  const { origin = '', tag = '' } = getOnAirItem(subjectId)
-  if (
-    ($.state.origin && !origin?.includes($.state.origin)) ||
-    ($.state.tag && !tag?.includes($.state.tag))
-  ) {
-    return null
-  }
-
+  const navigation = useNavigation()
   return (
     <Item
       navigation={navigation}
@@ -35,7 +23,7 @@ function ItemGridWrap({ subjectId, name, images, score, time }) {
       name={name}
       image={images?.medium}
       score={score}
-      collection={collection}
+      collection={collectionStore.collect(subjectId)}
       time={time}
     />
   )

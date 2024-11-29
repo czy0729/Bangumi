@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 01:22:11
+ * @Last Modified time: 2024-11-28 16:52:32
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -21,13 +21,11 @@ function List() {
   return (
     <ListView
       key={`${$.state.layout}${numColumns}`}
+      keyExtractor={keyExtractor}
       style={_.mt._sm}
       contentContainerStyle={styles.contentContainerStyle}
-      keyExtractor={keyExtractor}
       sections={$.sections}
-      lazy={2}
       numColumns={numColumns}
-      // scrollToTop
       renderSectionHeader={renderSectionHeader}
       renderItem={renderItem}
       scrollEventThrottle={16}

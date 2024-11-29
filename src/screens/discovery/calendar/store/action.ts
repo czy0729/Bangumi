@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 19:41:32
+ * @Last Modified time: 2024-11-28 21:06:43
  */
-import { updateVisibleBottom } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
+import { TEXT_MENU_FAVOR, TEXT_MENU_LAYOUT } from '@constants'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -16,6 +17,9 @@ export default class Action extends Fetch {
       layout
     })
     this.save()
+
+    info(this.toolBar?.[0])
+    feedback(true)
 
     t('每日放送.切换布局', {
       layout
@@ -30,6 +34,9 @@ export default class Action extends Fetch {
     })
     this.save()
 
+    info(this.toolBar?.[1])
+    feedback(true)
+
     t('每日放送.切换类型', {
       type
     })
@@ -41,6 +48,9 @@ export default class Action extends Fetch {
       expand: !this.state.expand
     })
     this.save()
+
+    info(this.toolBar?.[2])
+    feedback(true)
   }
 
   /** 切换改编 */
@@ -101,6 +111,13 @@ export default class Action extends Fetch {
       tag: '',
       origin: ''
     })
+  }
+
+  /** 工具栏设置 */
+  onToolBar = (title: string) => {
+    if (title.includes(TEXT_MENU_LAYOUT)) return this.onSwitchLayout()
+    if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleType()
+    if (title.includes('未知时间番剧')) return this.onToggleExpand()
   }
 
   /** 更新可视范围底部 y */
