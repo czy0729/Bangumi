@@ -2,31 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:59:48
+ * @Last Modified time: 2024-11-30 20:25:14
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Progress, Rank, Stars } from '@_'
+import { Cover, InView, Manage, Progress, Rank, Stars } from '@_'
 import { _, collectionStore, uiStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants'
-import { SubjectId, ViewStyle } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function Subject({
-  style,
-  id,
-  small = false
-}: {
-  style?: ViewStyle
-  id: SubjectId
-  small?: boolean
-}) {
+function Subject({ style, id, small = false, section = 0 }: Props) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const subject = $.subject(id)
@@ -51,15 +43,17 @@ function Subject({
   }
 
   const platform = subject.platform && subject.platform !== 'TV' && subject.platform
+  if (platform) eps.push(platform)
+
   const bottom = [
     !!subject.total && `(${subject.total})`,
-    String(subject.date).slice(0, 7) || '未放送',
-    platform
+    String(subject.date).slice(0, 7) || '未放送'
   ].filter(item => !!item)
 
   const { length } = subject.name
   const size = length > 24 ? 11 : length > 16 ? 12 : length > 8 ? 13 : 14
-  const width = small ? IMG_WIDTH_SM * 0.88 : IMG_WIDTH_SM
+  const width = small ? Math.floor(IMG_WIDTH_SM * 0.88) : IMG_WIDTH_SM
+  const height = small ? Math.floor(IMG_HEIGHT_SM * 0.88) : IMG_HEIGHT_SM
 
   const manageCollection =
     collectionStore.collect(id) || MODEL_COLLECTION_STATUS.getLabel(collection?.type) || ''
@@ -81,12 +75,14 @@ function Subject({
       }}
     >
       <Flex style={stl(styles.item, style)} align='start'>
-        <Cover
-          src={subject.image}
-          width={width}
-          height={small ? IMG_HEIGHT_SM * 0.88 : IMG_HEIGHT_SM}
-          radius
-        />
+        <InView
+          style={{
+            width
+          }}
+          y={section < 4 ? height : _.window.height * 2}
+        >
+          <Cover src={subject.image} width={width} height={height} radius={_.radiusSm} />
+        </InView>
         <Flex.Item>
           <Flex
             style={small ? styles.bodySm : styles.body}

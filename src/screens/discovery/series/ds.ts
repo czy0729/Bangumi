@@ -2,36 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-03 10:17:45
+ * @Last Modified time: 2024-11-30 19:40:40
  */
 import { RANK_ANIME_FILTER } from '@constants'
-import { Loaded } from '@types'
 
 export const COMPONENT = 'Series'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
-
-export const EXCLUDE_STATE = {
-  fetching: false,
-  message: '',
-  current: 0,
-  total: 0
-}
-
-export const STATE = {
-  collections: [],
-  otherCollections: [],
-  relations: {},
-  subjects: {},
-  data: [],
-  sort: '',
-  filter: '',
-  airtime: '',
-  status: '',
-  fixed: true,
-  ...EXCLUDE_STATE,
-  _loaded: false as Loaded
-}
 
 export const DATA_SORT = ['默认', '关联数', '新放送', '评分'] as const
 

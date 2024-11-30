@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-16 10:54:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-21 12:53:20
+ * @Last Modified time: 2024-11-30 20:27:22
  */
 import React, { useEffect, useMemo, useRef } from 'react'
 import { DeviceEventEmitter, View } from 'react-native'
@@ -54,7 +54,7 @@ function Popover({ children, ...other }) {
 
         setTimeout(() => {
           onSelect(data[index], index)
-        }, 0)
+        }, 160)
       },
       [onSelect]
     )

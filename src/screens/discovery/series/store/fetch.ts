@@ -1,48 +1,49 @@
 /*
  * @Author: czy0729
- * @Date: 2022-04-15 09:20:13
+ * @Date: 2024-11-30 19:34:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-02 17:24:39
+ * @Last Modified time: 2024-11-30 19:44:06
  */
-import { computed, observable, toJS } from 'mobx'
-import { systemStore, userStore } from '@stores'
+import { toJS } from 'mobx'
+import { systemStore } from '@stores'
 import { asc, cnjp, desc, getTimestamp, info } from '@utils'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import store from '@utils/store'
 import i18n from '@constants/i18n'
 import { SubjectId } from '@types'
-import {
-  DISTANCE,
-  EXCLUDE_STATE,
-  HOST_API_V0,
-  LIMIT,
-  NAMESPACE,
-  RELATIONS,
-  STATE,
-  SUBJECT_ITEM,
-  SUBJECT_TYPE
-} from './ds'
+import { DISTANCE, HOST_API_V0, LIMIT, RELATIONS, SUBJECT_TYPE } from '../ds'
+import Computed from './computed'
+import { EXCLUDE_STATE } from './ds'
 
 const loaded = {}
 
 let indexes = {}
 
-export default class ScreenSeries extends store<typeof STATE> {
-  state = observable(STATE)
+export default class Fetch extends Computed {
+  /** 建立系列关系列表 */
+  calculateData = () => {
+    const { relations } = this.state
+    const data = []
 
-  init = async () => {
+    Object.keys(relations)
+      .sort((a, b) => desc(a, b))
+      .forEach(id => {
+        const ids = [Number(id), ...relations[id]]
+        const find = ids.find(id => id in indexes)
+        if (!find) {
+          data.push(ids)
+          ids.forEach(id => {
+            indexes[id] = data.length - 1
+          })
+        } else {
+          data[indexes[find]].push(...ids)
+        }
+      })
+
     this.setState({
-      ...(await this.getStorage(NAMESPACE)),
-      ...EXCLUDE_STATE,
+      data: data.map(item => Array.from(new Set(item)).sort((a, b) => asc(a, b))),
       _loaded: getTimestamp()
     })
-
-    if (!this.state.data.length) {
-      this.fetchSeries()
-    } else {
-      this.calculateData()
-    }
   }
 
   /** 组织请求构成关联系列数据 */
@@ -137,7 +138,7 @@ export default class ScreenSeries extends store<typeof STATE> {
       ...EXCLUDE_STATE
     })
 
-    this.setStorage(NAMESPACE)
+    this.save()
     return true
   }
 
@@ -177,7 +178,7 @@ export default class ScreenSeries extends store<typeof STATE> {
         }))
     })
 
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 关联条目 */
@@ -217,7 +218,7 @@ export default class ScreenSeries extends store<typeof STATE> {
     )
 
     this.clearState('relations', relations)
-    this.setStorage(NAMESPACE)
+    this.save()
     return true
   }
 
@@ -280,7 +281,7 @@ export default class ScreenSeries extends store<typeof STATE> {
       })
     }, 1600)
 
-    this.setStorage(NAMESPACE)
+    this.save()
     return true
   }
 
@@ -323,7 +324,7 @@ export default class ScreenSeries extends store<typeof STATE> {
     })
 
     await queue(fetchs, 2)
-    this.setStorage(NAMESPACE)
+    this.save()
 
     return true
   }
@@ -342,236 +343,5 @@ export default class ScreenSeries extends store<typeof STATE> {
 
     subjectIds.length = 200
     this.fetchSubjects(subjectIds)
-  }
-
-  /** 建立系列关系列表 */
-  calculateData = () => {
-    const { relations } = this.state
-    const data = []
-
-    Object.keys(relations)
-      .sort((a, b) => desc(a, b))
-      .forEach(id => {
-        const ids = [Number(id), ...relations[id]]
-        const find = ids.find(id => id in indexes)
-        if (!find) {
-          data.push(ids)
-          ids.forEach(id => {
-            indexes[id] = data.length - 1
-          })
-        } else {
-          data[indexes[find]].push(...ids)
-        }
-      })
-
-    this.setState({
-      data: data.map(item => Array.from(new Set(item)).sort((a, b) => asc(a, b))),
-      _loaded: getTimestamp()
-    })
-  }
-
-  /** 配合 PaginationList 的下一页 */
-  onPage = (list = []) => {
-    const subjectIds = []
-    list.forEach(item => {
-      if (Array.isArray(toJS(item))) {
-        subjectIds.push(...item)
-      } else {
-        subjectIds.push(item)
-      }
-    })
-
-    this.fetchSubjects(subjectIds)
-  }
-
-  // -------------------- get --------------------
-  @computed get userId() {
-    return userStore.usersInfo(userStore.myUserId).username || userStore.myUserId
-  }
-
-  @computed get subjectIds() {
-    return this.state.collections.map(item => item.id)
-  }
-
-  collection(subjectId: SubjectId) {
-    return computed(() => {
-      return (
-        this.state.collections.find(item => item.id === subjectId) ||
-        this.state.otherCollections.find(item => item.id === subjectId)
-      )
-    }).get()
-  }
-
-  collections(subjectIds: SubjectId[]) {
-    return computed(() => {
-      const data = {}
-      subjectIds.forEach(subjectId => {
-        const item = this.collection(subjectId)
-        if (item) data[subjectId] = item
-      })
-
-      return data
-    }).get()
-  }
-
-  subject(subjectId: SubjectId) {
-    return computed(() => {
-      return this.state.subjects[subjectId] || SUBJECT_ITEM
-    }).get()
-  }
-
-  subjects(subjectIds: SubjectId[]) {
-    return computed(() => {
-      const data = {}
-      subjectIds.forEach(subjectId => {
-        data[subjectId] = this.subject(subjectId)
-      })
-      return data
-    }).get()
-  }
-
-  filterData(item: SubjectId[]) {
-    return computed(() => {
-      const { filter } = this.state
-      let data = item
-      if (filter) {
-        data = data.filter(subjectId => {
-          const subject = this.subject(subjectId)
-          return subject?.platform && String(subject.platform).includes(filter)
-        })
-      }
-
-      const { airtime } = this.state
-      if (airtime) {
-        data = data.filter(subjectId => {
-          const subject = this.subject(subjectId)
-          return subject?.date && String(subject.date).includes(`${airtime}-`)
-        })
-      }
-
-      const { status } = this.state
-      if (status === '未收藏') {
-        data = data.filter(subjectId => !this.collection(subjectId))
-      } else if (status === '看过') {
-        data = data.filter(subjectId => this.collection(subjectId)?.type === 2)
-      } else if (status === '在看') {
-        data = data.filter(subjectId => this.collection(subjectId)?.type === 3)
-      } else if (status === '未看完') {
-        data = data.filter(subjectId => {
-          const collection = this.collection(subjectId)
-          const subject = this.subject(subjectId)
-          return collection?.ep && subject?.eps && collection?.ep !== subject?.eps
-        })
-      }
-
-      return data
-    }).get()
-  }
-
-  @computed get data() {
-    const { data, sort } = this.state
-    if (sort === '关联数') return data.slice().sort((a, b) => desc(a.length, b.length))
-
-    if (sort === '新放送') {
-      return data.slice().sort((a, b) => {
-        const dateA = Math.max(
-          ...a.map((item: SubjectId) =>
-            Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
-          )
-        )
-        const dateB = Math.max(
-          ...b.map((item: SubjectId) =>
-            Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
-          )
-        )
-        return desc(dateA, dateB)
-      })
-    }
-
-    if (sort === '评分') {
-      return data.slice().sort((a, b) => {
-        const rankA = Math.min(...a.map((item: SubjectId) => this.subject(item).rank || 9999))
-        const rankB = Math.min(...b.map((item: SubjectId) => this.subject(item).rank || 9999))
-        return asc(rankA, rankB)
-      })
-    }
-
-    return data
-  }
-
-  @computed get info() {
-    let total = 0
-    this.data.forEach(item => (total += item.length))
-    return {
-      series: this.data.length,
-      total
-    }
-  }
-
-  // -------------------- page --------------------
-  onToggleFixed = () => {
-    const { fixed } = this.state
-
-    this.setState({
-      fixed: !fixed
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  onSortSelect = title => {
-    if (title === '默认') {
-      this.setState({
-        sort: ''
-      })
-
-      return
-    }
-
-    this.setState({
-      sort: title
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  onFilterSelect = title => {
-    if (title === '全部') {
-      this.setState({
-        filter: ''
-      })
-      return
-    }
-
-    this.setState({
-      filter: title
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  onAirtimeSelect = title => {
-    if (title === '全部') {
-      this.setState({
-        airtime: ''
-      })
-      return
-    }
-
-    this.setState({
-      airtime: title
-    })
-    this.setStorage(NAMESPACE)
-  }
-
-  onStatusSelect = title => {
-    if (title === '全部') {
-      this.setState({
-        status: ''
-      })
-      return
-    }
-
-    this.setState({
-      status: title
-    })
-    this.setStorage(NAMESPACE)
   }
 }

@@ -16,5 +16,6 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   data: [] as ReturnType<$['filterData']>,
+  index: 0 as number,
   subjects: {} as ReturnType<$['subjects']>
 }
