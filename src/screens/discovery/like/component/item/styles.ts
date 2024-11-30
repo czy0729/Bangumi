@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-28 00:22:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:49:32
+ * @Last Modified time: 2024-11-30 05:36:10
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
@@ -24,8 +24,9 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: 64
   },
   manage: {
+    height: 32,
     marginTop: _.web(8, 0),
-    marginLeft: _.web(-_.sm, 2)
+    marginLeft: _.web(-_.sm, -2)
   },
   extra: {
     width: '100%',

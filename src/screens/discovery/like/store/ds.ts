@@ -1,10 +1,11 @@
-import { MODEL_COLLECTION_STATUS } from '@constants'
+import { _ } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 09:20:43
+ * @Last Modified time: 2024-11-30 16:08:25
  */
+import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusValue, Loaded, SubjectId, SubjectType, SubjectTypeValue } from '@types'
 import { COMPONENT } from '../ds'
 import { ListItem, Relates } from '../types'
@@ -25,7 +26,10 @@ export const EXCLUDE_STATE = {
   total: 0,
 
   /** 用户 ID 自定义值 */
-  ipt: ''
+  ipt: '',
+
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
 }
 
 export const STATE = {

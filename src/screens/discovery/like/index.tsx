@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:37:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:39:48
+ * @Last Modified time: 2024-11-30 16:33:30
  */
 import React from 'react'
 import { Component, Empty, Page } from '@components'
@@ -24,9 +24,8 @@ const Like = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-like'>
       <StoreContext.Provider value={id}>
-        <Header />
         <TapListener>
-          <Page loaded={$.state._loaded}>
+          <Page loaded={$.state._loaded} loading={$.state.fetching}>
             {$.userId ? (
               <>
                 <Cate />
@@ -40,6 +39,7 @@ const Like = (props: NavigationProps) => {
             )}
           </Page>
         </TapListener>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

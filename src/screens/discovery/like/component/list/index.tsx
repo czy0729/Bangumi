@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:40:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:41:21
+ * @Last Modified time: 2024-11-30 16:33:20
  */
 import React from 'react'
-import { Loading } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
@@ -16,7 +15,7 @@ import { COMPONENT } from './ds'
 
 function List() {
   const { $ } = useStore<Ctx>()
-  if ($.state.fetching) return <Loading />
+  if (!$.state._loaded) return null
 
   return (
     <PaginationList2

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:40:36
+ * @Last Modified time: 2024-11-30 16:17:22
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Rate, Stars } from '@_'
+import { Cover, InView, Manage, Rank, Rate, Stars } from '@_'
 import { _, collectionStore, systemStore, uiStore, useStore } from '@stores'
 import { alert, getAction } from '@utils'
 import { ob } from '@utils/decorators'
@@ -22,7 +22,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import { Props } from './types'
 
-function Item({ item }: Props) {
+function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>()
   const subject = $.subjects(item.id)
   if (!subject || $.state.type !== MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subject.type)) {
@@ -38,44 +38,48 @@ function Item({ item }: Props) {
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = getAction(typeCn)
 
-  const { width } = styles.cover
-  const height = typeCn === '音乐' ? width : styles.cover.height
+  const isMusic = typeCn === '音乐'
+  let { width } = styles.cover
+  if (isMusic) width = Math.floor(width * 1.1)
+  const height = isMusic ? width : styles.cover.height
 
   let size = 14
-  if (item.name.length >= 36) {
+  if (item.name.length >= 30) {
     size = 10
-  } else if (item.name.length >= 24) {
+  } else if (item.name.length >= 20) {
     size = 12
   }
 
   return (
     <Flex style={styles.item} align='start'>
-      <Cover
-        src={image}
-        width={width}
-        height={height}
-        radius
-        type={typeCn}
-        onPress={() => {
-          navigation.push('Subject', {
-            subjectId: item.id,
-            _cn: item.name,
-            _image: getCoverSrc(image, width),
-            _type: typeCn
-          })
+      <InView y={height * (index + 1)}>
+        <Cover
+          src={image}
+          width={width}
+          height={height}
+          radius
+          type={typeCn}
+          onPress={() => {
+            navigation.push('Subject', {
+              subjectId: item.id,
+              _cn: item.name,
+              _image: getCoverSrc(image, width),
+              _type: typeCn
+            })
 
-          t('猜你喜欢.跳转', {
-            subjectId: item.id,
-            userId: $.userId
-          })
-        }}
-      />
+            t('猜你喜欢.跳转', {
+              subjectId: item.id,
+              userId: $.userId
+            })
+          }}
+        />
+      </InView>
       <Flex.Item>
         <Flex
           style={[
             styles.body,
             {
-              height: typeCn === '音乐' ? 'auto' : height
+              minHeight: isMusic ? height - 10 : height
             }
           ]}
           direction='column'

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-13 05:32:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 08:11:02
+ * @Last Modified time: 2024-11-30 16:28:13
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,7 +27,7 @@ function Setting({ navigation, length }: { navigation: Navigation; length: numbe
 
     return (
       <>
-        <IconTouchable name='icon-setting' size={20} color={_.colorDesc} onPress={setTrue} />
+        <IconTouchable name='icon-setting' size={19} color={_.colorDesc} onPress={setTrue} />
         <ActionSheet show={state} title='设置' height={800} onClose={setFalse}>
           <View style={styles.share}>
             <IconTouchable
@@ -35,9 +35,13 @@ function Setting({ navigation, length }: { navigation: Navigation; length: numbe
               color={_.colorIcon}
               size={18}
               onPress={() => {
-                navigation.push('Tips', {
-                  key: 'hyrzz32whgurgg6t'
-                })
+                setFalse()
+
+                setTimeout(() => {
+                  navigation.push('Tips', {
+                    key: 'hyrzz32whgurgg6t'
+                  })
+                }, 400)
               }}
             />
           </View>
@@ -96,29 +100,27 @@ function Setting({ navigation, length }: { navigation: Navigation; length: numbe
               计算非基于结果中显示的条目项，而是推荐这个项的条目
             </Text>
 
-            {REASONS.map((item, index) => {
-              return (
-                <View key={item} style={_.mt.md}>
-                  <Flex>
-                    <Flex.Item>
-                      <Text bold>{item}</Text>
-                      <Text style={_.mt.xs} size={11} type='sub'>
-                        {REASONS_INFO[index]}
-                      </Text>
-                    </Flex.Item>
-                    <SwitchPro
-                      style={styles.switch}
-                      value={likeRec[index] === 1}
-                      onSyncPress={() => {
-                        const value = [...likeRec]
-                        value[index] = value[index] ? 0 : 1
-                        systemStore.setSetting('likeRec', value)
-                      }}
-                    />
-                  </Flex>
-                </View>
-              )
-            })}
+            {REASONS.map((item, index) => (
+              <View key={item} style={_.mt.md}>
+                <Flex>
+                  <Flex.Item>
+                    <Text bold>{item}</Text>
+                    <Text style={_.mt.xs} size={11} type='sub'>
+                      {REASONS_INFO[index]}
+                    </Text>
+                  </Flex.Item>
+                  <SwitchPro
+                    style={styles.switch}
+                    value={likeRec[index] === 1}
+                    onSyncPress={() => {
+                      const value = [...likeRec]
+                      value[index] = value[index] ? 0 : 1
+                      systemStore.setSetting('likeRec', value)
+                    }}
+                  />
+                </Flex>
+              </View>
+            ))}
           </View>
         </ActionSheet>
       </>

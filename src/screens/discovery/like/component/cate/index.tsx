@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:40:13
+ * @Last Modified time: 2024-11-30 05:30:49
  */
 import React from 'react'
+import { View } from 'react-native'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
@@ -18,14 +19,16 @@ function Cate() {
   const styles = memoStyles()
   const { type } = $.state
   return (
-    <SegmentedControl
-      key={type}
-      style={styles.segment}
-      size={11}
-      values={SUBJECT_TYPE.map(item => item.title)}
-      selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === type)}
-      onValueChange={$.onChange}
-    />
+    <View style={styles.container}>
+      <SegmentedControl
+        key={type}
+        style={styles.segment}
+        size={11}
+        values={SUBJECT_TYPE.map(item => item.title)}
+        selectedIndex={SUBJECT_TYPE.findIndex(item => item.label === type)}
+        onValueChange={$.onChange}
+      />
+    </View>
   )
 }
 
