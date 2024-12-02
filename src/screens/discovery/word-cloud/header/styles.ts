@@ -9,7 +9,7 @@ import { _ } from '@stores'
 export const styles = _.create({
   trend: {
     marginRight: _._wind,
-    marginLeft: 8,
+    marginLeft: 6,
     opacity: 0.64
   }
 })

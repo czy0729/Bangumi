@@ -11,13 +11,11 @@ import { IconTouchable, Popover } from '@_'
 import { _, useStore } from '@stores'
 import { confirm } from '@utils'
 import { ob } from '@utils/decorators'
-import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
+import { MODEL_SUBJECT_TYPE } from '@constants'
 import { CUT_TYPE, METAS } from '../../ds'
 import { Ctx } from '../../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, SUBJECT_TYPE_DS } from './ds'
 import { styles } from './styles'
-
-const SUBJECT_TYPE_DS = SUBJECT_TYPE.map(item => item.title)
 
 function Filter() {
   const { $ } = useStore<Ctx>()

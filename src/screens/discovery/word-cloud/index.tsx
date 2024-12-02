@@ -25,7 +25,6 @@ const WordCloud = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-word-cloud'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page>
           <Bg />
           <Media />
@@ -50,6 +49,7 @@ const WordCloud = (props: NavigationProps) => {
             </>
           )}
         </Page>
+        <Header />
         <SelectedList />
       </StoreContext.Provider>
     </Component>

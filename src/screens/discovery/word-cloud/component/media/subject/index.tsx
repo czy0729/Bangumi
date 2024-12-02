@@ -54,7 +54,7 @@ function Subject() {
                 <Text
                   style={[styles.opacity, _.mt.xs]}
                   type='__plain__'
-                  size={13}
+                  size={12}
                   bold
                   numberOfLines={2}
                 >

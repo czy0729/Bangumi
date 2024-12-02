@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:06:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 21:02:29
+ * @Last Modified time: 2024-12-01 19:07:56
  */
-import { getTimestamp, info } from '@utils'
+import { getTimestamp, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { extract, gets, update } from '@utils/kv'
 import { D, MODEL_SUBJECT_TYPE } from '@constants'
@@ -13,7 +13,7 @@ import { MAX_PAGE } from '../ds'
 import { CutType, SnapshotSubjectsItem } from '../types'
 import Fetch from './fetch'
 import { getSubjectCutList } from './utils'
-import { FILTER_WORD } from './ds'
+import { EXCLUDE_STATE, FILTER_WORD } from './ds'
 
 export default class Action extends Fetch {
   /** 批量获取吐槽 */
@@ -225,7 +225,8 @@ export default class Action extends Fetch {
   /** 收起吐槽列表 */
   onClose = () => {
     this.setState({
-      show: false
+      show: false,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
   }
 
@@ -269,4 +270,7 @@ export default class Action extends Fetch {
     })
     this.genSubjectCut()
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

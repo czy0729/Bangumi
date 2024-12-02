@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-03 07:05:06
  */
+import { _ } from '@stores'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CollectionStatusValue, Loaded, SubjectId, SubjectType, UserId } from '@types'
 import { COMPONENT } from '../ds'
@@ -12,10 +13,20 @@ import { CollectionsV0Item, CutList, CutType, SnapshotSubjectsItem } from '../ty
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
+  /** ActionSheet 标题 */
   title: '',
+
+  /** ActionSheet 是否显示 */
   show: false,
+
+  /** 请求中步骤第几步 */
   fetching: 0,
-  fetchingCollections: false
+
+  /** 请求收藏中 */
+  fetchingCollections: false,
+
+  /** 可视范围底部 y */
+  visibleBottom: Math.floor(_.window.height * 0.75)
 }
 
 export const STATE = {
@@ -59,6 +70,7 @@ export const STATE = {
   _loaded: false as Loaded
 }
 
+/** 获取用户收藏配置 */
 export const COLLECTION_STATUS = [
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('想看'),

@@ -31,6 +31,7 @@ function Subjects() {
       removeClippedSubviews={false}
       footerEmptyDataComponent={<View />}
       footerNoMoreDataComponent={<View />}
+      onScroll={$.onScroll}
     />
   )
 }

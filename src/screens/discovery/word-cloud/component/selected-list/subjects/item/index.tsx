@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, getCoverSrc, Text, Touchable } from '@components'
-import { Stars } from '@_'
+import { InView, Stars } from '@_'
 import { _, useStore } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
 import { ob } from '@utils/decorators'
@@ -22,9 +22,12 @@ function Item({ item, index }: Props) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const width = Math.floor(_.window.contentWidth / (NUM_COLUMNS + 0.2 * NUM_COLUMNS))
+  const height = $.state.subjectType === 'music' ? width : Math.floor(width * 1.4)
+
   const ts = getTimestamp(item.time)
   let extraTitleText = lastDate(ts)
   if (extraTitleText.includes('年')) extraTitleText = lastDate(ts, false)
+
   return (
     <Flex
       style={{
@@ -65,15 +68,23 @@ function Item({ item, index }: Props) {
             justify='center'
           >
             <View style={styles.image}>
-              <Cover
-                src={item.cover || IMG_SUBJECT_ONLY}
-                size={width}
-                height={$.state.subjectType === 'music' ? width : Math.floor(width * 1.4)}
-                radius={0}
-                skeleton={false}
-                border={WEB ? _.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.16)') : 0}
-                priority={index < 4 ? 'high' : index < 8 ? 'normal' : 'low'}
-              />
+              <InView
+                style={{
+                  width,
+                  height
+                }}
+                y={(height + 40) * Math.floor(index / 4 + 1)}
+              >
+                <Cover
+                  src={item.cover || IMG_SUBJECT_ONLY}
+                  size={width}
+                  height={height}
+                  radius={0}
+                  skeleton={false}
+                  border={WEB ? _.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.16)') : 0}
+                  priority={index < 4 ? 'high' : index < 8 ? 'normal' : 'low'}
+                />
+              </InView>
             </View>
           </Flex>
           <Text style={styles.title} size={12} bold numberOfLines={2} align='center'>

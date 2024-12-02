@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-27 03:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:19:52
+ * @Last Modified time: 2024-12-01 19:07:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -100,6 +100,7 @@ function SelectedList() {
       usePortal={false}
       onTitlePress={handleTitle}
       onClose={$.onClose}
+      onScroll={$.onScroll}
     >
       {isCollection ? <Subjects /> : <Comments />}
     </ActionSheet>

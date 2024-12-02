@@ -23,7 +23,7 @@ function Header() {
       mode='float'
       statusBarEventsType='Subject'
       title={$.title ? `${$.title}的词云` : '词云'}
-      hm={[$.url, 'WordCloud']}
+      hm={$.hm}
       headerRight={() => (
         <Flex>
           {!$.userId && !!trend && (

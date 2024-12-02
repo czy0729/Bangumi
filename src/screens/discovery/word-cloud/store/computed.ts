@@ -415,4 +415,8 @@ export default class Computed extends State {
 
     return this.state.data
   }
+
+  @computed get hm() {
+    return [this.url, 'WordCloud']
+  }
 }
