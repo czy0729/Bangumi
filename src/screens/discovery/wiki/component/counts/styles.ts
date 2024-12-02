@@ -11,14 +11,14 @@ export const memoStyles = _.memoStyles(() => ({
     paddingTop: _.sm,
     paddingHorizontal: _.wind,
     paddingLeft: _.wind - _.sm,
-    minHeight: _.r(56)
+    minHeight: 56
   },
   count: {
-    padding: _.device(_.sm, _.md),
+    paddingVertical: _.sm,
+    paddingHorizontal: _.md,
     marginTop: _.sm,
     marginLeft: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
-    borderRadius: _.radiusSm,
     borderWidth: _.hairlineWidth,
     borderColor: _.colorBorder
   }

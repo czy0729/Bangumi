@@ -35,6 +35,7 @@ export const ActionSheet = ({
   usePortal = true,
   onTitlePress,
   onClose,
+  onScroll,
   children
 }: ActionSheetProps) => {
   r(COMPONENT)
@@ -147,7 +148,7 @@ export const ActionSheet = ({
               }
             ]}
           >
-            <Scroll height={calcHeight} scrollEnabled={scrollEnabled}>
+            <Scroll height={calcHeight} scrollEnabled={scrollEnabled} onScroll={onScroll}>
               {elContent}
             </Scroll>
             <Btn onClose={onClose} />

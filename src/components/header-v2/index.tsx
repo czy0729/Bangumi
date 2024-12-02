@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 13:28:48
+ * @Last Modified time: 2024-12-02 17:52:42
  */
 import React, { useEffect } from 'react'
 import { r } from '@utils/dev'
@@ -15,7 +15,14 @@ import { Props as HeaderV2Props } from './types'
 
 export { HeaderV2Props, HeaderV2Popover }
 
-export const HeaderV2 = ({ title, domTitle, hm, alias, headerRight }: HeaderV2Props) => {
+export const HeaderV2 = ({
+  title,
+  domTitle,
+  hm,
+  alias,
+  headerTitleAlign,
+  headerRight
+}: HeaderV2Props) => {
   r(COMPONENT)
 
   const navigation = useNavigation()
@@ -30,7 +37,7 @@ export const HeaderV2 = ({ title, domTitle, hm, alias, headerRight }: HeaderV2Pr
 
   return useObserver(() => (
     <>
-      <Header title={title} headerRight={headerRight} />
+      <Header title={title} headerRight={headerRight} headerTitleAlign={headerTitleAlign} />
       <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
     </>
   ))

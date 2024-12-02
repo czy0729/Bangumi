@@ -5,12 +5,12 @@
  * @Last Modified time: 2024-11-17 08:20:48
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { ob } from '@utils/decorators'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
-  return <HeaderComp title='Bangumi年鉴' hm={['discovery/yearbook', 'Yearbook']} />
+  return <HeaderV2 title='Bangumi年鉴' hm={HM} />
 }
 
 export default ob(Header, COMPONENT)

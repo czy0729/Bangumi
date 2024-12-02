@@ -51,9 +51,11 @@ function Item({ id, name, detail, userName, userId, time }) {
             )}
           </Text>
         </Flex.Item>
-        <Text type='sub' size={12}>
-          {time}
-        </Text>
+        {!!time && (
+          <Text style={_.ml.md} type='sub' size={12} lineHeight={15}>
+            {time}
+          </Text>
+        )}
       </Flex>
       <Divider style={_.mt.sm} />
     </View>

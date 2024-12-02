@@ -57,4 +57,8 @@ export default class Computed extends State {
       return tags
     }).get()
   }
+
+  @computed get hm() {
+    return [this.url, 'Tags']
+  }
 }

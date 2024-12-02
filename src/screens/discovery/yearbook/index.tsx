@@ -22,7 +22,6 @@ const Yearbook = () => {
     const styles = memoStyles()
     return (
       <Component id='screen-yearbook'>
-        <Header />
         <Page>
           <ScrollView contentContainerStyle={styles.container} scrollToTop>
             <Award2023 width={styles.item2021.width} height={styles.item2021.height} />
@@ -33,6 +32,7 @@ const Yearbook = () => {
             <Years />
           </ScrollView>
         </Page>
+        <Header />
       </Component>
     )
   })

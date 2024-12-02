@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Page } from '@components'
-import { StoreContext } from '@stores'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Cate from './component/cate'
@@ -24,14 +24,14 @@ const Wiki = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-wiki'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page>
+        <Page style={_.container.header}>
           <Counts />
           <View style={styles.list}>
             <Cate />
             <List />
           </View>
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

@@ -5,23 +5,23 @@
  * @Last Modified time: 2024-11-17 08:11:07
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM, TEXT_GROUP } from './ds'
 import { Props } from './types'
 
 function Header({ navigation, data, onSelect }: Props) {
   return (
-    <HeaderComp
+    <HeaderV2
       title='VIB 数据月刊'
-      hm={['vib', 'VIB']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
+        <HeaderV2Popover
           name='md-menu'
-          data={['小组讨论', ...data]}
-          onSelect={label => {
-            if (label === '小组讨论') {
+          data={[TEXT_GROUP, ...data]}
+          onSelect={title => {
+            if (title === TEXT_GROUP) {
               navigation.push('Group', {
                 groupId: 'qpz',
                 _title: '评分与排名讨论会'
@@ -33,7 +33,7 @@ function Header({ navigation, data, onSelect }: Props) {
               return
             }
 
-            const index = data.findIndex(item => item === label)
+            const index = data.findIndex(item => item === title)
             onSelect(index)
 
             t('评分月刊.选择', {

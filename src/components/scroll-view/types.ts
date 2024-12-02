@@ -17,9 +17,11 @@ export type Props = Expand<
     animated?: boolean
 
     /** 连接 ref.scrollTo */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     forwardRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
 
     /** @deprecated 连接 ref.scrollTo */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     connectRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => any
 
     children?: ReactNode

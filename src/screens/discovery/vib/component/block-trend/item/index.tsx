@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-22 15:49:24
+ * @Last Modified time: 2024-12-02 09:55:53
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, uiStore } from '@stores'
 import { findSubjectJp, HTMLDecode } from '@utils'
@@ -58,9 +59,11 @@ function Item({ navigation, item, index }: Props) {
         }}
       >
         <Flex style={styles.value} align='start'>
-          <Text style={up && styles.reverse} type={up ? 'bid' : 'ask'} size={28}>
-            ▾
-          </Text>
+          <View style={up && styles.reverse}>
+            <Text type={up ? 'bid' : 'ask'} size={28}>
+              ▾
+            </Text>
+          </View>
           <Text size={16} lineHeight={30}>
             {' '}
             {value}

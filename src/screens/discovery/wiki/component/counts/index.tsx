@@ -20,7 +20,7 @@ function Counts() {
   const styles = memoStyles()
   const { counts, lastCounts = [] } = $.wiki
   return (
-    <View style={_.mt._sm}>
+    <View>
       <PreventTouchPlaceholder />
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}

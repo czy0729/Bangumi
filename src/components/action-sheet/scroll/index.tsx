@@ -13,7 +13,7 @@ import { BTN_HEIGHT } from '../ds'
 import { ScrollView } from '../../scroll-view'
 import { memoStyles } from './styles'
 
-export const Scroll = ({ height, scrollEnabled = true, children }) => {
+export const Scroll = ({ height, scrollEnabled = true, onScroll, children }) => {
   const { bottom } = useSafeAreaInsets()
 
   return useObserver(() => {
@@ -28,6 +28,7 @@ export const Scroll = ({ height, scrollEnabled = true, children }) => {
             }
           ]}
           contentContainerStyle={_.container.bottom}
+          onScroll={onScroll}
         >
           {children}
         </ScrollView>

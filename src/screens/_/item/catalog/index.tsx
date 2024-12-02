@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:25:41
+ * @Last Modified time: 2024-12-01 00:14:32
  */
 import React from 'react'
 import { Component, Flex, Touchable } from '@components'
@@ -88,14 +88,16 @@ export const ItemCatalog = ob(
 
     let date = ''
     let lastUpdate = ''
-    if (last) {
-      date = `创建于 ${last}`
-    } else if (time && !time.includes('创建于')) {
-      date = `最后更新 ${lastDate(getTimestamp(time))}`
-      lastUpdate = time
-    } else if (_detailTime) {
-      date = `创建于 ${lastDate(getTimestamp(_detailTime))?.slice(0, 10)}`
-    }
+    try {
+      if (last) {
+        date = `创建于 ${last}`
+      } else if (time && !time.includes('创建于')) {
+        date = `最后更新 ${lastDate(getTimestamp(time))}`
+        lastUpdate = time
+      } else if (_detailTime) {
+        date = `创建于 ${lastDate(getTimestamp(_detailTime.split(' ')?.[0]))?.slice(0, 10)}`
+      }
+    } catch (error) {}
 
     return (
       <Component id='item-catalog' data-key={id}>

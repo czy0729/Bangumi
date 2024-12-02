@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-17 08:10:02
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -18,36 +18,29 @@ import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title='标签'
       alias='标签索引'
-      hm={[$.url, 'Tags']}
+      hm={$.hm}
       headerTitleAlign='left'
       headerRight={() => (
-        <Flex>
+        <>
           {!!$.state._loaded && <RecSegement value={$.state.rec} onValueChange={$.onValueChange} />}
-          <HeaderComp.Popover
+          <HeaderV2Popover
             data={DATA}
-            onSelect={key => {
-              t('标签索引.右上角菜单', {
-                key
-              })
-
-              if (key === TEXT_BROWSER) {
+            onSelect={title => {
+              if (title === TEXT_BROWSER) {
                 open($.url)
-                return
+              } else if (title === TEXT_SPA) {
+                open(`${URL_SPA}/${getSPAParams('Tags')}`)
               }
 
-              if (key === TEXT_SPA) {
-                const url = `${URL_SPA}/${getSPAParams('Tags')}`
-                open(url)
-                return
-              }
+              t('标签索引.右上角菜单', {
+                key: title
+              })
             }}
-          >
-            <Heatmap id='标签索引.右上角菜单' />
-          </HeaderComp.Popover>
-        </Flex>
+          />
+        </>
       )}
     />
   )

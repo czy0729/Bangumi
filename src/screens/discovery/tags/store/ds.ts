@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 12:36:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-18 05:39:27
+ * @Last Modified time: 2024-12-02 10:05:39
  */
 import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
@@ -21,6 +21,7 @@ export const EXCLUDE_STATE = {
 export const STATE = {
   page: 0,
   rec: false,
+
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

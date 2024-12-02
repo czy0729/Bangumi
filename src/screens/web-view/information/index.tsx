@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-02-02 08:17:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:46:31
+ * @Last Modified time: 2024-11-30 23:34:45
  */
 import React from 'react'
-import { Component, Header, Page, ScrollView, Text } from '@components'
+import { Component, HeaderV2, Page, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import Images from './images'
+import { HM } from './ds'
+import { styles } from './styles'
 
 /** 说明 */
 const Information = ({ navigation, route }) => {
@@ -16,9 +18,8 @@ const Information = ({ navigation, route }) => {
   const imagesData: string[] = typeof images === 'string' ? images.split(',') : images
   return (
     <Component id='screen-information'>
-      <Header title='' hm={['information', 'Information']} />
       <Page>
-        <ScrollView style={_.container.wind} contentContainerStyle={_.container.bottom}>
+        <ScrollView style={_.container.wind} contentContainerStyle={styles.contentContainerStyle}>
           {!!title && (
             <Text style={[_.mt.md, _.mb.sm]} size={24} lineHeight={28} bold selectable>
               {title}说明
@@ -49,6 +50,7 @@ const Information = ({ navigation, route }) => {
           )}
         </ScrollView>
       </Page>
+      <HeaderV2 title='' hm={HM} />
     </Component>
   )
 }

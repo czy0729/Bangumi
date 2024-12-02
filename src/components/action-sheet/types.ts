@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-11-04 16:39:00
  */
 import { PropsWithChildren } from 'react'
+import { ScrollViewProps } from 'react-native'
 import { ReactNode } from '@types'
 
 export type Props = PropsWithChildren<{
@@ -31,4 +32,6 @@ export type Props = PropsWithChildren<{
 
   /** 关闭回调函数 */
   onClose?: () => any
+
+  onScroll?: ScrollViewProps['onScroll']
 }>

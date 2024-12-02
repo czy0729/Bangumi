@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:05:56
+ * @Last Modified time: 2024-11-30 23:48:07
  */
 import React from 'react'
 import { ListView, Loading } from '@components'
@@ -12,6 +12,7 @@ import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 function List() {
   const { $ } = useStore<Ctx>()
@@ -19,11 +20,9 @@ function List() {
 
   return (
     <ListView
-      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
+      contentContainerStyle={styles.contentContainerStyle}
       data={$.catalogs}
-      lazy={6}
-      scrollToTop
       renderItem={renderItem}
       scrollEventThrottle={16}
       onScroll={$.onScroll}

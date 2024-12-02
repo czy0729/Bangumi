@@ -22,6 +22,10 @@ export default class ScreenWiki extends store<typeof STATE> {
     return discoveryStore.fetchWiki()
   }
 
+  save = () => {
+    return this.saveStorage(NAMESPACE)
+  }
+
   // -------------------- get --------------------
   @computed get wiki() {
     return discoveryStore.wiki
@@ -69,7 +73,7 @@ export default class ScreenWiki extends store<typeof STATE> {
     this.setState({
       top: TOP_DS.findIndex(item => item === title) as TopIndex
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   onChangeSub = (title: string) => {
@@ -77,6 +81,6 @@ export default class ScreenWiki extends store<typeof STATE> {
     this.setState({
       [key]: values.findIndex((item: string) => item === title)
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 }

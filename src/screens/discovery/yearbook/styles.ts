@@ -6,19 +6,19 @@
  */
 import { _ } from '@stores'
 
+const NUM = 1
+
 export const memoStyles = _.memoStyles(() => {
-  const num = 1
-  const width = (_.window.width - 2 * _.wind - _.md * (num - 1)) / num
-  const height = width * 0.4
+  const width = Math.floor((_.window.width - 2 * _.wind - _.md * (NUM - 1)) / NUM)
   return {
     container: {
-      paddingTop: _.sm,
+      paddingTop: _.headerHeight + _.sm,
       paddingHorizontal: _.wind,
       paddingBottom: _.bottom
     },
     item2021: {
       width,
-      height,
+      height: Math.floor(width * 0.4),
       backgroundColor: '#ebf3ec'
     }
   }

@@ -5,30 +5,31 @@
  * @Last Modified time: 2024-04-06 13:35:01
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
-import { COMPONENT } from './ds'
+import { HOST, TEXT_MENU_BROWSER } from '@constants'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
   return (
-    <HeaderComp
+    <HeaderV2
       title='维基人'
-      hm={['wiki', 'Wiki']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={['浏览器查看']}
-          onSelect={key => {
-            if (key === '浏览器查看') {
-              t('维基人.右上角菜单', { key })
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open(`${HOST}/wiki`)
+
+              t('维基人.右上角菜单', {
+                key: title
+              })
             }
           }}
-        >
-          <Heatmap id='维基人.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

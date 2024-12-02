@@ -2,17 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-05-16 13:09:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-16 15:36:00
+ * @Last Modified time: 2024-12-02 10:22:29
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useInitStore } from '@stores'
+import { NavigationProps } from '@types'
+import store from './store'
 import { getData, initBangumiData } from './utils'
-import { Data } from './types'
+import { Ctx, Data } from './types'
 
 let fetched = false
 let memo = null
 
 /** 评分月刊页面逻辑 */
-export function useVIBPage() {
+export function useVIBPage(props: NavigationProps) {
+  const context = useInitStore<Ctx['$']>(props, store)
   const [loaded, setLoaded] = useState(fetched)
   const [index, setIndex] = useState(0)
 
@@ -55,6 +59,7 @@ export function useVIBPage() {
   })
 
   return {
+    ...context,
     loaded,
     data,
     index,

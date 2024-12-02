@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-04-15 19:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:05:43
+ * @Last Modified time: 2024-11-30 23:41:55
  */
 import React from 'react'
-import { Component, Heatmap, Page } from '@components'
-import { _, StoreContext } from '@stores'
+import { Component, Page } from '@components'
+import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import List from './component/list'
@@ -20,11 +20,10 @@ const Staff = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-staff'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page>
           <List />
         </Page>
-        <Heatmap bottom={_.bottom} id='新番' screen='Staff' />
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

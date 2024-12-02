@@ -582,6 +582,9 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 容器 (工具类) */
   @computed get container() {
     return StyleSheet.create({
+      header: {
+        paddingTop: _.headerHeight
+      },
       bg: {
         flex: 1,
         backgroundColor: this.colorBg
