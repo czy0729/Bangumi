@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 23:08:00
+ * @Last Modified time: 2024-12-02 18:13:12
  */
 import React from 'react'
 import { HorizontalList } from '@components'
@@ -14,9 +14,9 @@ import { t } from '@utils/fetch'
 import { IMG_DEFAULT, MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { INITIAL_RENDER_NUMS_XS } from '../../ds'
-import CoverLg from '../cover-lg'
-import CoverSm from '../cover-sm'
-import CoverXs from '../cover-xs'
+import CoverLg from '../cover/lg'
+import CoverSm from '../cover/sm'
+import CoverXs from '../cover/xs'
 import SectionTitle from '../section-title'
 import { COMPONENT_MAIN, DEFAULT_PROPS, INITIAL_RENDER_NUMS_SM, ITEM_HEIGHT } from './ds'
 
@@ -35,7 +35,7 @@ const ListItem = memo(
         <HorizontalList
           style={style}
           contentContainerStyle={styles.contentContainerStyle}
-          data={list.filter((item, index) => index > 0)}
+          data={list.filter((_item, index) => index > 0)}
           initialRenderNums={INITIAL_RENDER_NUMS_SM}
           renderItem={item => (
             <CoverSm

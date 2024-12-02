@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 08:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-24 22:53:20
+ * @Last Modified time: 2024-12-02 18:14:46
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { INITIAL_RENDER_NUMS_XS } from '../../ds'
-import CoverToday from '../cover-today'
+import CoverToday from '../cover/today'
 import { COMPONENT_MAIN, DEFAULTP_ROPS } from './ds'
 
 const Today = memo(

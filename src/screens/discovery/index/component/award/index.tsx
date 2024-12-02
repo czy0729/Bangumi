@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-05-29 16:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-11 05:18:26
+ * @Last Modified time: 2024-12-02 18:17:08
  */
 import React, { useCallback, useState } from 'react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { ScrollEvent } from '@types'
-import Award2023 from '../award-2023'
+import Award2023 from './award-2023'
 import Block from './block'
 import More from './more'
 import ScrollViewHorizontal from './scroll-view-horizontal'

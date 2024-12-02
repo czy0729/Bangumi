@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 14:00:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-13 07:59:36
+ * @Last Modified time: 2024-12-02 19:38:25
  */
 import {
   MODEL_SETTING_CDN_ORIGIN,
@@ -100,54 +100,39 @@ export const INIT_SUBJECT_LAYOUT = {
 } as const
 
 /** 发现页自定义菜单 */
-export const INIT_DISCOVERY_MENU = WEB
-  ? ([
-      'Rank',
-      'Anime',
-      'Browser',
-      'Catalog',
-      'Calendar',
-      'DiscoveryBlog',
-      'Tags',
-      'Staff',
-      'Smb',
-      'Netabare',
-      'Open',
-      'Like',
-      'Recommend',
-      'Wiki',
-      'UserTimeline',
-      'Series',
-      'Character',
-      'Catalogs'
-    ] as const)
-  : ([
-      'Rank',
-      'Anime',
-      'Browser',
-      'Catalog',
-      'Calendar',
-      'DiscoveryBlog',
-      'Tags',
-      'Staff',
-      'Anitama',
-      'Open',
-      'Search',
-      'Tinygrail',
-      'Guess',
-      'Wiki',
-      'Yearbook',
-      'UserTimeline',
-      'Netabare',
-      'Smb',
-      'BilibiliSync',
-      'DoubanSync',
-      'Series',
-      'Backup',
-      'Character',
-      'Catalogs',
-      'Link'
-    ] as const)
+export const INIT_DISCOVERY_MENU = [
+  'Rank',
+  'Anime',
+  'Catalog',
+  'Calendar',
+  'DiscoveryBlog',
+  'Tags',
+  'Staff',
+  'Like',
+  'BiWeekly',
+  'VIB',
+  'Dollars',
+  'Anitama',
+
+  // 分割符
+  'Open',
+  'Browser',
+  'Search',
+  'Tinygrail',
+  'Recommend',
+  'Wiki',
+  'Yearbook',
+  'UserTimeline',
+  'Netabare',
+  'Smb',
+  'BilibiliSync',
+  'DoubanSync',
+  'Series',
+  'Backup',
+  'Character',
+  'Catalogs',
+  'Link'
+] as const
 
 /** 默认设置 */
 export const INIT_SETTING = {

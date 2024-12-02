@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:02:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 14:47:58
+ * @Last Modified time: 2024-12-02 18:12:14
  */
 import { rc } from '@utils/dev'
 import { Navigation, SubjectId, SubjectTypeCn, UserId } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 import { memoStyles } from './styles'
 
-export const COMPONENT = rc(PARENT, 'CoverXs')
+export const COMPONENT = rc(PARENT, 'Xs')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 

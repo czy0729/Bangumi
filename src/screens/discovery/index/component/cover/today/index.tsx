@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:44:51
+ * @Last Modified time: 2024-12-02 18:12:05
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import { cnjp, getCoverMedium, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { linearColor } from '../../ds'
+import { linearColor } from '../../../ds'
 import { COMPONENT, WEEKDAY_CN } from './ds'
 import { memoStyles } from './styles'
 

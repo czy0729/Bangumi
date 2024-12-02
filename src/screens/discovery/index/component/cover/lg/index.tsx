@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2020-11-19 10:44:09
+ * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:44:20
+ * @Last Modified time: 2024-12-02 18:11:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -11,15 +11,15 @@ import { Katakana, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
-import { cnjp, getCoverMedium, HTMLDecode, stl } from '@utils'
+import { cnjp, getCoverLarge, HTMLDecode, matchCoverUrl } from '@utils'
 import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { linearColor } from '../../ds'
+import { linearColor } from '../../../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function CoverSm({ title, src, cn, data }) {
+function CoverLg({ title, src, cn, data }) {
   const navigation = useNavigation()
   const styles = memoStyles()
   const { subjectId } = data
@@ -30,6 +30,7 @@ function CoverSm({ title, src, cn, data }) {
   const { width, height: h } = styles.cover
   const height = isMusic ? width : h
 
+  const isUseCDN = systemStore.setting.cdnOrigin === 'magma'
   return (
     <Touchable
       style={styles.item}
@@ -48,31 +49,32 @@ function CoverSm({ title, src, cn, data }) {
         {
           to: 'Subject',
           subjectId,
-          from: `CoverSm|${title}`
+          from: `CoverLg|${title}`
         }
       )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-        <Cover src={getCoverMedium(src)} size={width} height={height} />
-        <LinearGradient
-          style={stl(styles.linear, isMusic && styles.linearMusic)}
-          colors={linearColor}
-          pointerEvents='none'
+        <Cover
+          src={isUseCDN ? matchCoverUrl(src, false) : getCoverLarge(src)}
+          size={width}
+          height={height}
+          cdn={isUseCDN}
         />
+        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.desc} pointerEvents='none'>
-          <Text size={10} type={_.select('plain', 'title')} numberOfLines={1} bold>
+          <Text type={_.select('plain', 'desc')} bold>
             {data.info}
           </Text>
-          <View style={_.mt.xs}>
+          <View style={_.mt.sm}>
             <Katakana.Provider
               itemStyle={styles.itemStyle}
               itemSecondStyle={styles.itemSecondStyle}
               type={_.select('plain', 'title')}
-              size={11}
-              numberOfLines={2}
+              size={22}
               bold
+              numberOfLines={2}
             >
-              <Katakana type={_.select('plain', 'title')} size={11} bold numberOfLines={2}>
+              <Katakana size={22} type={_.select('plain', 'title')} bold numberOfLines={2}>
                 {HTMLDecode(cnjp(subjectCN, subjectJP))}
               </Katakana>
             </Katakana.Provider>
@@ -83,4 +85,4 @@ function CoverSm({ title, src, cn, data }) {
   )
 }
 
-export default ob(CoverSm, COMPONENT)
+export default ob(CoverLg, COMPONENT)

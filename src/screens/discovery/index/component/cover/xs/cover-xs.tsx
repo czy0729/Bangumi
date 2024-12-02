@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 07:05:30
+ * @Last Modified time: 2024-12-02 18:12:22
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ import { _ } from '@stores'
 import { getCoverMedium, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { linearColor } from '../../ds'
+import { linearColor } from '../../../ds'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { AVATAR_SIZE } from './styles'
 

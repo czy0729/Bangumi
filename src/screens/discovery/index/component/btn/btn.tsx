@@ -2,26 +2,25 @@
  * @Author: czy0729
  * @Date: 2021-10-19 17:56:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 15:59:35
+ * @Last Modified time: 2024-12-02 18:41:37
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Heatmap, Iconfont, Squircle, Text, Touchable } from '@components'
+import { Flex, Heatmap, Iconfont, Image, Squircle, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
+import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT_MAIN } from './ds'
 import { memoStyles } from './styles'
 
 const BtnMain = ({ item, userId, onPress }) => {
   const styles = memoStyles()
   const { key, name, text, icon, size, login } = item
-
   const isSm = systemStore.setting.discoveryMenuNum >= 5
   const wrapStyle = isSm ? styles.wrapSm : styles.wrap
   const itemStyle = isSm ? styles.itemSm : styles.item
-
   if (key === 'Split') {
     return (
       <View style={_.container.touch}>
@@ -40,12 +39,20 @@ const BtnMain = ({ item, userId, onPress }) => {
   const iconTextSize = (size || 16) - (isSm ? 2 : 0)
   const iconSize = (size || 24) - (isSm ? 2 : 0)
   const textSize = 12
-  const content = (
+  const elContent = (
     <Flex style={wrapStyle} justify='center'>
       <Flex style={itemStyle} direction='column' justify='center'>
         <Squircle style={iconWrapStyle} width={width} height={width} radius={width}>
           <Flex style={iconStyle} justify='center'>
-            {text ? (
+            {key === 'WordCloud' ? (
+              <Image
+                src={GROUP_THUMB_MAP[_.select('wordcloud_0', 'wordcloud')]}
+                size={19}
+                resizeMode='contain'
+                placeholder={false}
+                skeleton={false}
+              />
+            ) : text ? (
               <Text type='__plain__' size={iconTextSize} bold>
                 {text}
               </Text>
@@ -68,13 +75,13 @@ const BtnMain = ({ item, userId, onPress }) => {
         animate
         onPress={onPress}
       >
-        {content}
+        {elContent}
         <Heatmap id='发现.跳转' to={key} alias={name} />
       </Touchable>
     )
   }
 
-  return <View style={_.container.touch}>{content}</View>
+  return <View style={_.container.touch}>{elContent}</View>
 }
 
 export default ob(BtnMain, COMPONENT_MAIN)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-11 11:27:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 20:49:08
+ * @Last Modified time: 2024-12-02 19:44:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -61,6 +61,10 @@ const Btns = ({ setMenu, onCancel, onSave }) => {
               navigation.push('Setting', {
                 open: 'Discovery'
               })
+
+              setTimeout(() => {
+                onCancel()
+              }, 400)
             },
             '发现.跳转',
             {
