@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:36:19
+ * @Last Modified time: 2024-12-03 00:48:23
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ function Item({ index, avatar, nickname, msg, color }) {
     <Flex style={styles.item} align='start'>
       <Flex style={styles.avatar} direction='column'>
         <UserStatus userId={userId}>
-          <InView style={styles.inView} y={ITEM_HEIGHT * index + 1}>
+          <InView style={styles.inView} y={ITEM_HEIGHT * (index + 1)}>
             <Avatar
               src={`${HOST}/pic/user/l/${avatar}`}
               size={52}

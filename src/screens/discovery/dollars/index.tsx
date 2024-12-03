@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-26 15:22:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:36:03
+ * @Last Modified time: 2024-12-03 00:51:49
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Component, Page } from '@components'
-import { StoreContext } from '@stores'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import List from './component/list'
@@ -21,11 +22,13 @@ const Dollars = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-dollars'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.dollars._loaded}>
-          <Textarea />
-          <List />
+          <View style={_.container.header}>
+            <Textarea />
+            <List />
+          </View>
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

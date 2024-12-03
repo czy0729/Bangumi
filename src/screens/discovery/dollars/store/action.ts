@@ -1,31 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-26 15:25:25
- * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 12:55:15
+ * @Date: 2024-12-03 13:48:48
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2024-12-03 13:48:48
  */
-import { computed, observable } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
-import { EXCLUDE_STATE, STATE } from './ds'
+import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
-export default class ScreenDollars extends store<typeof STATE> {
-  state = observable(STATE)
-
+export default class Action extends Fetch {
   scrollViewRef = null
 
   inputRef = null
-
-  init = async () => {
-    this.setState({
-      ...EXCLUDE_STATE,
-      _loaded: true
-    })
-
-    return this.fetchDollars()
-  }
 
   forwardRef = (ref: any) => {
     this.scrollViewRef = ref
@@ -37,25 +25,8 @@ export default class ScreenDollars extends store<typeof STATE> {
     } catch (error) {}
   }
 
-  fetchDollars = () => {
-    return discoveryStore.fetchDollars()
-  }
-
-  updateDollars = () => {
-    return discoveryStore.updateDollars()
-  }
-
-  /** 是否登录 (web) */
-  @computed get isWebLogin() {
-    return userStore.isWebLogin
-  }
-
-  @computed get dollars() {
-    return discoveryStore.dollars
-  }
-
   /** 滚动到顶 */
-  scrollToTop = (animated = false) => {
+  scrollToTop = () => {
     if (this.scrollViewRef?.scrollToIndex) {
       setTimeout(() => {
         try {
@@ -64,6 +35,12 @@ export default class ScreenDollars extends store<typeof STATE> {
             index: 0,
             viewOffset: 0
           })
+
+          setTimeout(() => {
+            this.setState({
+              visibleBottom: EXCLUDE_STATE.visibleBottom
+            })
+          }, 400)
         } catch (error) {}
       }, 160)
     }
@@ -83,7 +60,7 @@ export default class ScreenDollars extends store<typeof STATE> {
     }
   }
 
-  onToggleShow = (nickname?: string) => {
+  onToggleShow = (nickname: string = '') => {
     if (!this.isWebLogin) {
       info('未登录')
       return
