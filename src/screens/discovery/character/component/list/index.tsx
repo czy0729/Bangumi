@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:32:47
+ * @Last Modified time: 2024-12-03 20:44:25
  */
 import React, { useCallback } from 'react'
-import { ListView, Loading } from '@components'
+import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils/app'
 import { r } from '@utils/dev'
@@ -24,7 +24,7 @@ function List({ id }) {
 
   return useObserver(() => {
     const list = $.list(id)
-    if (!list._loaded) return <Loading />
+    if (!list._loaded) return null
 
     const styles = memoStyles()
     const isRecents = id === 'recents'
@@ -36,6 +36,7 @@ function List({ id }) {
         numColumns={numColumns}
         data={list}
         renderItem={isRecents ? renderItemRecents : renderItem}
+        onScroll={$.onScroll}
         onHeaderRefresh={handleHeaderRefresh}
         onFooterRefresh={handleFooterRefresh}
       />

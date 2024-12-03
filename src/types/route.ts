@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 02:10:25
+ * @Last Modified time: 2024-12-03 15:56:15
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -464,13 +464,13 @@ export type RouteBoard = Route<
   }
 >
 
-export type RouteCharacter = (
-  path: 'Character',
-  params: {
+export type RouteCharacter = Route<
+  'Character',
+  {
     /** 用户 ID */
     userName: UserId
   }
-) => any
+>
 
 export type RouteFriends = Route<
   'Friends',
