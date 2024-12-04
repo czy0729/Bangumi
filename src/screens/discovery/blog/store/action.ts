@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-09 03:54:22
  */
-import { info } from '@utils'
+import { info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { TABS } from '../ds'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -51,6 +52,7 @@ export default class Action extends Fetch {
 
     this.setState({
       show: false,
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [this.type]: page - 1
@@ -75,6 +77,7 @@ export default class Action extends Fetch {
 
     this.setState({
       show: false,
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [this.type]: page + 1
@@ -115,11 +118,12 @@ export default class Action extends Fetch {
     })
 
     this.setState({
+      show: false,
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
       currentPage: {
         ...currentPage,
         [this.type]: _ipt
       },
-      show: false,
       ipt: {
         ...ipt,
         [this.type]: String(_ipt)
@@ -128,4 +132,7 @@ export default class Action extends Fetch {
     this.fetchBlog()
     this.onShow()
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

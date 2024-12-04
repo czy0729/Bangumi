@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:28:00
+ * @Last Modified time: 2024-12-04 01:06:28
  */
 import React from 'react'
 import { Component, Flex, Mesume, Page, ScrollView } from '@components'
@@ -25,9 +25,8 @@ const Channel = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-channel'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.channel._loaded}>
-          <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+          <ScrollView contentContainerStyle={[_.container.header, _.container.bottom]}>
             <Rank />
             <Friends />
             <Blog />
@@ -39,6 +38,7 @@ const Channel = (props: NavigationProps) => {
             </Flex>
           </ScrollView>
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

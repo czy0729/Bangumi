@@ -22,12 +22,18 @@ function List({ type }: Props) {
   const blog = $.blog(type)
   return (
     <>
-      <ScrollView keyboardDismissMode='on-drag'>
+      <ScrollView keyboardDismissMode='on-drag' onScroll={$.onScroll}>
         {$.state.show && (
           <View style={styles.container}>
             {blog._loaded ? (
-              blog.list.map(item => (
-                <ItemBlog key={item.id} style={_.container.item} event={EVENT} {...item} />
+              blog.list.map((item, index) => (
+                <ItemBlog
+                  key={item.id}
+                  style={_.container.item}
+                  index={index}
+                  event={EVENT}
+                  {...item}
+                />
               ))
             ) : (
               <Loading />

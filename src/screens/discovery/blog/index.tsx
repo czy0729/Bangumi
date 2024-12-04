@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:02:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:34:46
+ * @Last Modified time: 2024-12-04 01:25:36
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -21,11 +21,11 @@ const DiscoveryBlog = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-discovery-blog'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <Tabs />
           <Heatmaps />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

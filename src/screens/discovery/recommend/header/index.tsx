@@ -5,30 +5,30 @@
  * @Last Modified time: 2024-11-17 07:52:31
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
   const navigation = useNavigation()
   return (
-    <HeaderComp
+    <HeaderV2
       title='AI 推荐'
-      hm={['recommend', 'Recommend']}
+      hm={HM}
       headerRight={() => {
         if (WEB) return null
 
         return (
-          <HeaderComp.Popover
-            data={['说明', '帖子讨论']}
-            onSelect={key => {
-              if (key === '说明') {
+          <HeaderV2Popover
+            data={DATA}
+            onSelect={title => {
+              if (title === '说明') {
                 navigation.push('Tips', {
                   key: 'hyrzz32whgurgg6t'
                 })
-              } else if (key === '帖子讨论') {
+              } else if (title === '帖子讨论') {
                 navigation.push('Topic', {
                   topicId: 'group/382655'
                 })

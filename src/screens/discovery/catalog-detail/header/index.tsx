@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Header as HeaderComp, Image, Text, UserStatus } from '@components'
+import { Flex, Header as HeaderComp, HeaderV2Popover, Image, Text, UserStatus } from '@components'
 import { _, useStore } from '@stores'
 import { getCoverLarge, getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -48,7 +48,7 @@ function Header({ fixed }) {
       headerRight={() => (
         <Flex>
           <IconFavor $={$} />
-          <HeaderComp.Popover
+          <HeaderV2Popover
             data={DATA}
             onSelect={title => {
               if (title === TEXT_COPY) {

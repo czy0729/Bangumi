@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-20 14:23:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 15:24:12
+ * @Last Modified time: 2024-12-03 21:08:21
  */
 import { computed } from 'mobx'
 import { collectionStore, discoveryStore } from '@stores'
@@ -43,5 +43,9 @@ export default class Computed extends State {
 
   @computed get thirdPartyKey() {
     return `channel_v2_${this.type}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Channel']
   }
 }

@@ -8,3 +8,7 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Header')
+
+export const HM = ['recommend', 'Recommend'] as const
+
+export const DATA = ['说明', '帖子讨论'] as const

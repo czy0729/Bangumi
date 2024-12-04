@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-20 16:32:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:29:59
+ * @Last Modified time: 2024-12-04 01:13:18
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,14 @@ import { memoStyles } from './styles'
 function ItemSm({ item, index }: { item: ChannelRankItem; index: number }) {
   const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
-  const collection = collectionStore.collect(item.id)
+  let collection = collectionStore.collect(item.id) || ''
+  if ($.typeCn === '书籍') {
+    collection = collection.replace('看', '读')
+  } else if ($.typeCn === '音乐') {
+    collection = collection.replace('看', '听')
+  } else if ($.typeCn === '游戏') {
+    collection = collection.replace('看', '玩')
+  }
 
   const isMusic = $.typeCn === '音乐'
   const numberOfLines = isMusic ? 2 : 3

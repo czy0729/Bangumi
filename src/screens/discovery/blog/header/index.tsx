@@ -2,45 +2,37 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:26:05
+ * @Last Modified time: 2024-12-04 01:31:32
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { getSPAParams, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { URL_SPA, WEB } from '@constants'
-import { COMPONENT } from './ds'
-
-const TEXT_BROWSER = '浏览器查看'
-const TEXT_SPA = '网页版查看'
-const DATA = [TEXT_BROWSER]
-if (!WEB) DATA.push(TEXT_SPA)
+import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, URL_SPA } from '@constants'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
   return (
-    <HeaderComp
+    <HeaderV2
       title='日志'
       alias='全站日志'
-      hm={['discovery/blog', 'DiscoveryBlog']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
+        <HeaderV2Popover
           data={DATA}
-          onSelect={key => {
-            if (key === TEXT_BROWSER) {
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open('https://bgm.tv/blog')
-            } else if (key === TEXT_SPA) {
-              const url = `${URL_SPA}/${getSPAParams('DiscoveryBlog')}`
-              open(url)
+            } else if (title === TEXT_MENU_SPA) {
+              open(`${URL_SPA}/${getSPAParams('DiscoveryBlog')}`)
             }
 
             t('全站日志.右上角菜单', {
-              key
+              key: title
             })
           }}
-        >
-          <Heatmap id='全站日志.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

@@ -14,9 +14,9 @@ export const memoStyles = _.memoStyles(() => ({
   readed: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1)
   },
-  imgContainer: {
+  inView: {
     width: IMG_WIDTH_SM,
-    marginRight: _._wind
+    marginRight: _.md
   },
   wrap: {
     paddingVertical: _.md,

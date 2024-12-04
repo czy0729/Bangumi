@@ -2,55 +2,53 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:30:22
+ * @Last Modified time: 2024-12-04 01:03:57
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
-import { MODEL_SUBJECT_TYPE, SUBJECT_TYPE } from '@constants'
+import { MODEL_SUBJECT_TYPE, TEXT_MENU_BROWSER } from '@constants'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA } from './ds'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title={`${$.typeCn}频道`}
       alias='频道'
-      hm={[$.url, 'Channel']}
+      hm={$.hm}
       headerRight={() => (
-        <HeaderComp.Popover
+        <HeaderV2Popover
           name='md-menu'
-          data={[...SUBJECT_TYPE.map(item => item.title), '浏览器查看']}
-          onSelect={key => {
+          data={DATA}
+          onSelect={title => {
             t('频道.右上角菜单', {
-              key
+              key: title
             })
 
-            switch (key) {
-              case '浏览器查看':
+            switch (title) {
+              case TEXT_MENU_BROWSER:
                 open($.url)
                 break
 
               default:
                 setTimeout(() => {
                   navigation.setOptions({
-                    title: `${key}频道`
+                    title: `${title}频道`
                   })
-                  $.toggleType(MODEL_SUBJECT_TYPE.getLabel(key))
+                  $.toggleType(MODEL_SUBJECT_TYPE.getLabel(title))
 
                   scrollToTop()
                 }, 40)
                 break
             }
           }}
-        >
-          <Heatmap id='频道.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

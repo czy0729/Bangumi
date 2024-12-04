@@ -13,6 +13,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { EVENT, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
+import { InView } from '../../base/in-view'
 import BtnPopover from './btn-popover'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -23,6 +24,7 @@ export { ItemBlogProps }
 export const ItemBlog = ob(
   ({
     style,
+    index = 0,
     id,
     cover,
     title,
@@ -38,6 +40,7 @@ export const ItemBlog = ob(
     const navigation = useNavigation()
     const styles = memoStyles()
     const readed = discoveryStore.blogReaded(id)
+
     const line = []
     if (username) line.push(username)
     if (subject) line.push(findSubjectCn(subject, id))
@@ -58,20 +61,16 @@ export const ItemBlog = ob(
       })
     }
 
+    const height = IMG_HEIGHT_SM
+
     return (
       <Component id='item-blog' data-key={id}>
         <View style={stl(styles.container, style, readed && styles.readed)}>
           <Flex style={styles.wrap} align='start'>
             {!!cover && (
-              <View style={styles.imgContainer}>
-                <Cover
-                  src={cover}
-                  width={IMG_WIDTH_SM}
-                  height={IMG_HEIGHT_SM}
-                  radius
-                  type={typeCn}
-                />
-              </View>
+              <InView style={styles.inView} y={height * 1.5 * (index + 1)}>
+                <Cover src={cover} width={IMG_WIDTH_SM} height={height} radius type={typeCn} />
+              </InView>
             )}
             <Flex.Item>
               <Flex align='start'>

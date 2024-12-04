@@ -18,7 +18,7 @@ function Tabs() {
   return (
     <TabsV2
       key={_.orientation}
-      style={_.mt._sm}
+      style={_.container.header}
       routes={TABS}
       page={$.state.page}
       backgroundColor={_.colorPlain}

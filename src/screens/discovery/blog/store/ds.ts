@@ -4,10 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-09 03:54:17
  */
+import { _ } from '@stores'
 import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
+
+export const EXCLUDE_STATE = {
+  /** 可视范围底部 y */
+  visibleBottom: _.window.height
+}
 
 export const STATE = {
   /** tab 的 page */
@@ -35,5 +41,7 @@ export const STATE = {
     music: '1',
     real: '1'
   },
+
+  ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }

@@ -28,7 +28,6 @@ const Recommend = (props: NavigationProps) => {
     return (
       <Component id='screen-recommend'>
         <StoreContext.Provider value={id}>
-          <Header />
           <Page>
             <Flex style={styles.searchBar}>
               <Category />
@@ -51,6 +50,7 @@ const Recommend = (props: NavigationProps) => {
               />
             </View>
           )}
+          <Header />
         </StoreContext.Provider>
       </Component>
     )

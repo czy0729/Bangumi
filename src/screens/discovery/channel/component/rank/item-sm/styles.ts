@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-20 16:38:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-30 07:00:52
+ * @Last Modified time: 2024-12-04 01:09:30
  */
 import { _ } from '@stores'
 import { COVER_HEIGHT_SM, COVER_WIDTH_SM } from '../ds'
@@ -25,7 +25,7 @@ export const memoStyles = _.memoStyles(() => ({
   rec: {
     top: undefined,
     right: 0,
-    bottom: 0
+    bottom: _.ios(-12, 0)
   },
   recText: {
     fontSize: 40,
