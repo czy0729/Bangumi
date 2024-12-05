@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:53:12
+ * @Last Modified time: 2024-12-05 21:12:15
  */
 import React from 'react'
 import { Modal, View } from 'react-native'
@@ -14,6 +14,7 @@ import { FROZEN_FN, HOST_DOGE, IOS } from '@constants'
 import { Component } from '../component'
 import RNImageViewer from '../@/react-native-image-zoom-viewer/image-viewer.component'
 import { Iconfont } from '../iconfont'
+import { Image } from '../image'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
 import { ACTION_SHEET_DS, COMPONENT } from './ds'
@@ -28,16 +29,17 @@ export { ImageViewerProps }
  */
 export const ImageViewer = observer(
   class ImageViewerComponent extends React.Component<ImageViewerProps> {
-    static defaultProps = {
+    static defaultProps: ImageViewerProps = {
       index: 0,
       visible: false,
       imageUrls: [],
+      mini: false,
       onCancel: FROZEN_FN
     }
 
     onRequestClose = () => {
       const { onCancel } = this.props
-      onCancel()
+      if (typeof onCancel === 'function') onCancel()
     }
 
     onMenus = () => {
@@ -75,6 +77,20 @@ export const ImageViewer = observer(
       )
     }
 
+    renderImage = (props: any) => {
+      const { imageUrls } = this.props
+      return (
+        <Image
+          src={props?.source?.uri}
+          width={props?.style?.width}
+          height={props?.style?.height}
+          headers={imageUrls?.[0]?.headers}
+          placeholder={false}
+          skeleton={false}
+        />
+      )
+    }
+
     render() {
       r(COMPONENT)
 
@@ -87,7 +103,6 @@ export const ImageViewer = observer(
             hardwareAccelerated={false}
             animationType='fade'
             statusBarTranslucent
-            // presentationStyle='fullScreen'
             onRequestClose={this.onRequestClose}
           >
             <View style={styles.container}>
@@ -97,7 +112,8 @@ export const ImageViewer = observer(
               <View style={stl(styles.viewerContainer, mini && styles.viewerMini)}>
                 <RNImageViewer
                   style={styles.viewer}
-                  index={index}
+                  // tofix
+                  index={IOS ? 0 : index}
                   imageUrls={imageUrls}
                   backgroundColor='transparent'
                   enableSwipeDown={!mini}
@@ -105,6 +121,7 @@ export const ImageViewer = observer(
                   menus={this.onMenus}
                   saveToLocalByLongPress={false}
                   renderIndicator={this.renderIndicator}
+                  renderImage={this.renderImage}
                   onCancel={onCancel}
                   {...other}
                 />

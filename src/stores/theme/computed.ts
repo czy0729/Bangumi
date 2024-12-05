@@ -582,38 +582,64 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 容器 (工具类) */
   @computed get container() {
     return StyleSheet.create({
+      /** 带头部间隔布局 */
       header: {
         paddingTop: _.headerHeight
       },
+
+      /** 带底部间隔布局 */
+      bottom: {
+        paddingBottom: _.bottom
+      },
+
+      /** 带头部和底部间隔布局 */
+      page: {
+        paddingTop: _.headerHeight,
+        paddingBottom: _.bottom
+      },
+
+      /** 背景色布局 */
       bg: {
         flex: 1,
         backgroundColor: this.colorBg
       },
+
+      /** 白色布局 */
       plain: {
         flex: 1,
         backgroundColor: this.colorPlain
       },
+
+      /** 项布局 */
       item: {
         width: '100%',
         backgroundColor: this.colorPlain
       },
 
-      /** 普通布局 */
+      /** 弹性布局 */
       flex: {
         flex: 1
       },
+
+      /** 白色弹性布局 */
       content: {
         flex: 1,
         backgroundColor: this.colorPlain
       },
+
+      /** 背景色弹性布局 */
       screen: {
         flex: 1,
         backgroundColor: this.colorBg
       },
+
+      /** 小圣杯主题弹性布局 */
       tinygrail: {
         flex: 1,
         backgroundColor: this.colorTinygrailContainer
       },
+
+      /** 水平居中弹性布局 */
       column: {
         flex: 1,
         display: 'flex',
@@ -621,6 +647,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
         justifyContent: 'center',
         alignItems: 'center'
       },
+
+      /** 垂直居中弹性布局 */
       row: {
         flex: 1,
         display: 'flex',
@@ -628,48 +656,69 @@ export default class Computed extends State implements StoreConstructor<typeof S
         justifyContent: 'center',
         alignItems: 'center'
       },
+
+      /** @deprecated */
       outer: {
         paddingHorizontal: this.wind,
         paddingTop: _.space,
         paddingBottom: _.bottom
       },
+
+      /** @deprecated */
       inner: {
         paddingVertical: _.space,
         paddingHorizontal: this.wind
       },
+
+      /** 带两翼间隔布局 */
       wind: {
         paddingHorizontal: this.wind
       },
+
+      /** @deprecated */
       windMtSm: {
         paddingHorizontal: this.wind,
         marginTop: _.md
       },
+
+      /** @deprecated */
       windMtMd: {
         paddingHorizontal: this.wind,
         marginTop: _.md
       },
-      bottom: {
-        paddingBottom: _.bottom
-      },
+
+      /** @deprecated */
       sm: {
         padding: _.sm
       },
+
+      /** 点击容器布局 */
       touch: {
         borderRadius: _.radiusSm,
         overflow: 'hidden'
       },
+
+      /** @deprecated */
       left: {
         marginLeft: this.wind
       },
+
+      /** 块布局 */
       block: {
         width: '100%'
       },
+
+      /** @deprecated 请使用 block 代替 */
       w100: {
         width: '100%'
       },
+
+      /** @deprecated */
       h100: {
         height: '100%'
       },
+
+      /** @deprecated */
       layout: {
         width: '100%',
         height: 1

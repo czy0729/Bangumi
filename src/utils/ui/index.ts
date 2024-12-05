@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-12 18:17:45
+ * @Last Modified time: 2024-12-05 17:08:57
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import * as Haptics from 'expo-haptics'
@@ -176,16 +176,7 @@ export function showImageViewer(
 ) {
   if (!Array.isArray(imageUrls) || imageUrls.length === 0) return
 
-  syncSystemStore().showImageViewer(
-    imageUrls,
-    // .map(item => ({
-    //   ...item,
-    //   url: typeof item.url === 'string' ? item.url.replace('http://', 'https://') : item.url,
-    //   _url: typeof item._url === 'string' ? item._url.replace('http://', 'https://') : item._url
-    // }))
-    index,
-    mini
-  )
+  syncSystemStore().showImageViewer(imageUrls, index, mini)
 }
 
 /** 隐藏 ImageViewer */

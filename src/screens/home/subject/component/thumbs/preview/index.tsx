@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:54:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:09:45
+ * @Last Modified time: 2024-12-05 20:07:55
  */
 import React from 'react'
 import { Image, Touchable } from '@components'
@@ -24,7 +24,6 @@ function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
   return (
     <Touchable
       style={stl(styles.image, !index && styles.side)}
-      animate
       withoutFeedback
       onPress={() => {
         showImageViewer(
