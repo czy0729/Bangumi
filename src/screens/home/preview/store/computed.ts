@@ -55,4 +55,8 @@ export default class Computed extends State {
   @computed get url() {
     return `${HOST}/preview/${this.subjectId}`
   }
+
+  @computed get hm() {
+    return [this.url, 'Preview']
+  }
 }

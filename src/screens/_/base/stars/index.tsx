@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-10 15:17:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 16:34:56
+ * @Last Modified time: 2024-12-06 16:12:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,16 @@ export { StarsProps }
 
 /** 评分 */
 export const Stars = ob(
-  ({ style, textStyle, simple = false, value = 0, size = 11, type = 'sub', color }: StarsProps) => {
+  ({
+    style,
+    textStyle,
+    simple = false,
+    value = 0,
+    size = 11,
+    type = 'sub',
+    color,
+    extraText
+  }: StarsProps) => {
     if (systemStore.setting.hideScore || !value) return null
 
     const transform = WEB && size < 12
@@ -32,6 +41,7 @@ export const Stars = ob(
             <Iconfont style={webStyle} name='md-star' size={size} color={color || _.colorWarning} />
             <Text style={stl(_.ml.xxs, textStyle, webStyle)} type={type} size={size} bold>
               {value}
+              {extraText}
             </Text>
           </Flex>
         </Component>
@@ -91,6 +101,7 @@ export const Stars = ob(
             bold
           >
             {value}
+            {extraText}
           </Text>
         </Flex>
       </Component>

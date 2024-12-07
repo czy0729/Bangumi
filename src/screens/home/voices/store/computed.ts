@@ -46,4 +46,8 @@ export default class Computed extends State {
   @computed get url() {
     return HTML_MONO_VOICES(this.monoId, this.state.position)
   }
+
+  @computed get hm() {
+    return [this.url, 'Voices']
+  }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:18:44
+ * @Last Modified time: 2024-12-06 17:04:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -18,6 +18,7 @@ import { memoStyles } from './styles'
 function Item({ id, avatar, name, time, star, comment }) {
   const navigation = useNavigation()
   const styles = memoStyles()
+  const recent = simpleTime(time).split(' ')?.[0] || ''
   return (
     <View style={styles.container}>
       <Flex>
@@ -25,19 +26,23 @@ function Item({ id, avatar, name, time, star, comment }) {
           <Avatar navigation={navigation} size={36} event={EVENT} userId={id} src={avatar} radius />
         </UserStatus>
         <Flex.Item style={_.ml.sm}>
-          <Text size={12} bold>
+          <Text size={12} bold numberOfLines={1}>
             {name}
-            <Text size={10} lineHeight={12} type='sub'>
-              {'  '}
-              {simpleTime(time).split(' ')[0]}
-            </Text>
           </Text>
-          {!!star && <Stars style={_.mt.xxs} value={star} size={11} />}
+          <View style={_.mt.xs}>
+            {star ? (
+              <Stars value={star} size={10} extraText={` · ${recent}`} />
+            ) : (
+              <Text size={10} lineHeight={12} type='sub' bold>
+                {recent}
+              </Text>
+            )}
+          </View>
         </Flex.Item>
       </Flex>
       {!!comment && (
         <Flex style={_.mt.xs}>
-          <Text style={styles.comment} size={_.web(12, _.device(13, 14))} lineHeight={15}>
+          <Text style={styles.comment} size={_.web(12, 13)} lineHeight={15}>
             {comment}
           </Text>
         </Flex>

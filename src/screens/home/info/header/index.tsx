@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-17 09:57:15
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
@@ -13,12 +13,7 @@ import { COMPONENT } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
-  return (
-    <HeaderComp
-      title={$.params.name || '详情'}
-      hm={[`subject_info/${$.subjectId}`, 'SubjectInfo']}
-    />
-  )
+  return <HeaderV2 title={$.params.name || '详情'} hm={$.hm} />
 }
 
 export default ob(Header, COMPONENT)

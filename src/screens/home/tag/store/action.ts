@@ -1,19 +1,21 @@
 /*
  * @Author: czy0729
  * @Date: 2024-06-03 07:50:57
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-06-03 07:50:57
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-12-07 03:47:18
  */
-import { info, updateVisibleBottom } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import { MODEL_TAG_ORDERBY } from '@constants'
+import { MODEL_TAG_ORDERBY, TEXT_MENU_FAVOR, TEXT_MENU_LAYOUT, TEXT_MENU_TOOLBAR } from '@constants'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
   resetScrollView = () => {
     this.setState({
-      hide: true
+      hide: true,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
 
     setTimeout(() => {
@@ -97,6 +99,9 @@ export default class Action extends Fetch {
       list: value
     })
 
+    info(this.toolBar?.[1])
+    feedback(true)
+
     t('用户标签.切换布局', {
       list: !value
     })
@@ -109,6 +114,9 @@ export default class Action extends Fetch {
       fixed: value
     })
     this.save()
+
+    info(this.toolBar?.[0])
+    feedback(true)
   }
 
   /** 切换显示收藏 */
@@ -118,6 +126,16 @@ export default class Action extends Fetch {
       collected: value
     })
     this.save()
+
+    info(this.toolBar?.[2])
+    feedback(true)
+  }
+
+  /** 工具栏设置 */
+  onToolBar = (title: string) => {
+    if (title.includes(TEXT_MENU_TOOLBAR)) return this.onToggleFixed()
+    if (title.includes(TEXT_MENU_LAYOUT)) return this.onToggleList()
+    if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleCollected()
   }
 
   /** 更新可视范围底部 y */

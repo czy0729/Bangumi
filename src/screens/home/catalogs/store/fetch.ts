@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-09 06:39:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-09 10:13:37
+ * @Last Modified time: 2024-12-04 20:13:38
  */
 import { discoveryStore, subjectStore } from '@stores'
 import { CatalogDetail } from '@stores/discovery/types'

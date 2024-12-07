@@ -54,4 +54,8 @@ export default class Computed extends State {
   @computed get thirdPartyKey(): SnapshotId {
     return `subject-catalogs_${this.subjectId}`
   }
+
+  @computed get hm() {
+    return [this.url, 'SubjectCatalogs']
+  }
 }

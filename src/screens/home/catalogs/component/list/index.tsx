@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:47:18
+ * @Last Modified time: 2024-12-04 20:17:41
  */
 import React from 'react'
 import { ListView } from '@components'
@@ -18,9 +18,10 @@ function List() {
   return (
     <ListView
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={[_.container.header, _.container.bottom]}
       data={$.list}
       renderItem={renderItem}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchSubjectCatalogs}
     />

@@ -5,8 +5,9 @@
  * @Last Modified time: 2024-11-17 11:37:48
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Component, Page } from '@components'
-import { StoreContext } from '@stores'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import List from './component/list'
@@ -16,16 +17,18 @@ import { useVoicesPage } from './hooks'
 
 /** 人物的角色 */
 const Voices = (props: NavigationProps) => {
-  const { id } = useVoicesPage(props)
+  const { id, $ } = useVoicesPage(props)
 
   return useObserver(() => (
     <Component id='screen-voices'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page>
-          <ToolBar />
-          <List />
+        <Page loaded={$.state._loaded} loading={!$.monoVoices._loaded}>
+          <View style={_.container.header}>
+            <ToolBar />
+            <List />
+          </View>
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

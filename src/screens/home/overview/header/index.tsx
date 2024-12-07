@@ -5,15 +5,15 @@
  * @Last Modified time: 2024-11-17 10:10:46
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
-  return <HeaderComp title={`${$.params.title} (${$.list.length})`} hm={['overview', 'Overview']} />
+  return <HeaderV2 title={`${$.params.title} (${$.list.length})`} hm={HM} />
 }
 
 export default ob(Header, COMPONENT)

@@ -5,23 +5,22 @@
  * @Last Modified time: 2024-11-17 11:36:26
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { SubjectTypeCn } from '@types'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title={`分类排行 · ${MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.type)} · ${$.tag} (${
         $.state.ids.length
       })`}
-      hm={['typerank', 'Typerank']}
-      headerTitleAlign='left'
+      hm={HM}
     />
   )
 }

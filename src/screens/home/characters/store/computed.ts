@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-24 11:21:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-24 11:24:47
+ * @Last Modified time: 2024-12-04 20:49:19
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
@@ -44,5 +44,9 @@ export default class Computed extends State {
 
   @computed get thirdPartyKey() {
     return `characters_${this.subjectId}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Characters']
   }
 }

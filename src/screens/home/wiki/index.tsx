@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-07-12 09:55:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:41:36
+ * @Last Modified time: 2024-12-07 15:23:44
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,10 +20,10 @@ const SubjectWiki = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-subject-wiki'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page>
           <List $={$} navigation={navigation} />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

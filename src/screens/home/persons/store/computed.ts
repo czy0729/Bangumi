@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-27 04:39:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 21:25:26
+ * @Last Modified time: 2024-12-04 21:44:46
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
@@ -96,5 +96,9 @@ export default class Computed extends State {
 
   @computed get thirdPartyKey() {
     return `persons_${this.subjectId}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Persons']
   }
 }

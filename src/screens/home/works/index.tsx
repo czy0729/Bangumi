@@ -10,7 +10,6 @@ import { StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import List from './component/list'
-import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useWorksPage } from './hooks'
 
@@ -21,11 +20,10 @@ const Works = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-works'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page>
-          {$.state.fixed && <ToolBar />}
+        <Page loaded={$.state._loaded} loading={!$.list._loaded}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

@@ -2,11 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:45:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-18 03:35:09
+ * @Last Modified time: 2024-12-07 03:39:20
  */
 import { computed } from 'mobx'
 import { subjectStore, tagStore } from '@stores'
-import { HTML_TAG, LIST_EMPTY, MODEL_SUBJECT_TYPE } from '@constants'
+import {
+  HTML_TAG,
+  LIST_EMPTY,
+  MODEL_SUBJECT_TYPE,
+  TEXT_MENU_FAVOR,
+  TEXT_MENU_FIXED,
+  TEXT_MENU_FLOAT,
+  TEXT_MENU_GRID,
+  TEXT_MENU_LAYOUT,
+  TEXT_MENU_LIST,
+  TEXT_MENU_NOT_SHOW,
+  TEXT_MENU_SHOW,
+  TEXT_MENU_SPLIT_LEFT,
+  TEXT_MENU_SPLIT_RIGHT,
+  TEXT_MENU_TOOLBAR
+} from '@constants'
 import { SubjectId, SubjectTypeCn } from '@types'
 import { SnapshotId } from '../types'
 import State from './state'
@@ -81,5 +96,24 @@ export default class Computed extends State {
   /** 条目信息 */
   subject(subjectId: SubjectId) {
     return computed(() => subjectStore.subject(subjectId)).get()
+  }
+
+  /** 工具栏菜单 */
+  @computed get toolBar() {
+    return [
+      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID
+      }${TEXT_MENU_SPLIT_RIGHT}`,
+      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
+        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
+      }${TEXT_MENU_SPLIT_RIGHT}`
+    ]
+  }
+
+  @computed get hm() {
+    return [this.url, 'Tag']
   }
 }

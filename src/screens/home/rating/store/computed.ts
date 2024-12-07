@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-26 08:13:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-26 08:19:45
+ * @Last Modified time: 2024-12-06 15:59:57
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -48,5 +48,9 @@ export default class Computed extends State {
   /** 所有人评分 */
   @computed get url() {
     return HTML_SUBJECT_RATING(this.subjectId, TABS[this.state.page].key, this.state.isFriend)
+  }
+
+  @computed get hm() {
+    return [this.url, 'Rating']
   }
 }

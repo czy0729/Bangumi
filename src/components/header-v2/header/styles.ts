@@ -9,6 +9,7 @@ import { _ } from '@stores'
 export const memoStyles = _.memoStyles(() => ({
   header: {
     position: 'absolute',
+    zIndex: 10,
     top: 0,
     right: 0,
     left: 0,

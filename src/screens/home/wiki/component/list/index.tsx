@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:40:55
+ * @Last Modified time: 2024-12-07 15:56:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Divider, Flex, HorizontalList, ScrollView, Text } from '@components'
-import { Avatar, Cover } from '@_'
+import { Flex, HorizontalList, ScrollView, Text } from '@components'
+import { Cover, Tag } from '@_'
 import { _ } from '@stores'
 import { getCoverLarge, showImageViewer, simpleTime, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { API_AVATAR, WEB } from '@constants'
 import { Ctx } from '../../types'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 
@@ -24,10 +23,10 @@ class List extends React.Component<Ctx> {
 
     return (
       <HorizontalList
-        style={[_.mt.md, _.mb.md]}
+        style={_.mv.sm}
         contentContainerStyle={_.container.wind}
         data={covers}
-        initialRenderNums={_.device(4, 8)}
+        initialRenderNums={_.device(5, 12)}
         renderItem={({ cover, userId, userName }, index) => (
           <View
             key={cover}
@@ -43,6 +42,7 @@ class List extends React.Component<Ctx> {
               size={COVER_WIDTH}
               height={COVER_HEIGHT}
               radius
+              cdn={false}
               onPress={() => {
                 showImageViewer(
                   covers.map(item => ({
@@ -52,31 +52,23 @@ class List extends React.Component<Ctx> {
                 )
               }}
             />
-            <Flex style={_.mt.sm}>
-              {!WEB && (
-                <Avatar
-                  navigation={navigation}
-                  userId={userId}
-                  src={API_AVATAR(userId)}
-                  size={20}
-                />
-              )}
-              <Flex.Item style={_.ml.sm}>
-                <Text
-                  size={11}
-                  bold
-                  numberOfLines={1}
-                  onPress={() => {
-                    navigation.push('Zone', {
-                      userId,
-                      _name: userName
-                    })
-                  }}
-                >
-                  {userName || userId}
-                </Text>
-              </Flex.Item>
-            </Flex>
+            <Text
+              style={_.mt.sm}
+              size={11}
+              bold
+              numberOfLines={1}
+              onPress={() => {
+                navigation.push('Zone', {
+                  userId,
+                  _name: userName
+                })
+              }}
+            >
+              <Text type='sub' size={11} bold>
+                by{' '}
+              </Text>
+              {userName || userId || '-'}
+            </Text>
           </View>
         )}
       />
@@ -91,36 +83,29 @@ class List extends React.Component<Ctx> {
     return (
       <View style={_.container.wind}>
         {edits.map(({ id, comment, sub, time, userId, userName }, index) => (
-          <View key={id} style={_.mt.sm}>
-            <Text lineHeight={15} bold>
-              [{edits.length - index}] {comment || 'N/A'}
-              {!!sub && (
-                <Text size={13} lineHeight={15} bold>
-                  {' '}
-                  ({sub})
-                </Text>
-              )}
-            </Text>
+          <View key={id} style={_.mv.md}>
+            <Flex>
+              <Tag type='primary' value={String(edits.length - index)} />
+              <Text style={_.ml.sm} lineHeight={15} bold>
+                {comment || '-'}
+                {!!sub && (
+                  <Text size={13} lineHeight={15} bold>
+                    {' '}
+                    ({sub})
+                  </Text>
+                )}
+              </Text>
+            </Flex>
             {!!(userName || userId) && (
-              <Flex style={_.mt.sm}>
-                <Text style={_.ml.sm} size={12} lineHeight={13} bold>
+              <Flex style={_.mt.xs}>
+                <Text size={12} lineHeight={13} bold>
                   {simpleTime(time)}
                 </Text>
-                <Text style={_.ml.xs} type='sub' size={12} lineHeight={13}>
+                <Text style={_.ml.xs} type='sub' size={12} lineHeight={13} bold>
                   by
                 </Text>
-                {!WEB && (
-                  <View style={_.ml.sm}>
-                    <Avatar
-                      navigation={navigation}
-                      userId={userId}
-                      src={API_AVATAR(userId)}
-                      size={20}
-                    />
-                  </View>
-                )}
                 <Text
-                  style={_.ml.sm}
+                  style={_.ml.xs}
                   size={12}
                   lineHeight={13}
                   bold
@@ -131,11 +116,10 @@ class List extends React.Component<Ctx> {
                     })
                   }}
                 >
-                  {userName || userId}
+                  {userName || userId || '-'}
                 </Text>
               </Flex>
             )}
-            <Divider style={_.mt.xs} />
           </View>
         ))}
       </View>
@@ -146,7 +130,7 @@ class List extends React.Component<Ctx> {
     r(COMPONENT)
 
     return (
-      <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+      <ScrollView contentContainerStyle={_.container.page}>
         {this.renderCovers()}
         {this.renderEdits()}
       </ScrollView>

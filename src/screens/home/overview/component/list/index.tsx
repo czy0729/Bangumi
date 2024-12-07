@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 function List() {
   const { $ } = useStore<Ctx>()
   return (
-    <ScrollView contentContainerStyle={_.container.bottom} onScroll={$.onScroll}>
+    <ScrollView contentContainerStyle={_.container.page} onScroll={$.onScroll}>
       {$.list.map((item, index) => (
         <Item key={item.id} item={item} index={index} />
       ))}

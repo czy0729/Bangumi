@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:54:40
+ * @Last Modified time: 2024-12-05 15:40:13
  */
 import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
 import { Flex, Heatmap, Image, ScrollView, Text, Touchable } from '@components'
+import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -29,21 +30,21 @@ function List() {
   const { filterEps = 0, epsThumbsHeader = {} } = $.params
 
   return (
-    <ScrollView style={_.container.plain} contentContainerStyle={_.container.bottom} scrollToTop>
+    <ScrollView contentContainerStyle={_.container.page} onScroll={$.onScroll}>
       {eps.map((item, index) => (
         <Touchable
           key={item.id}
           animate
           onPress={() => {
-            t('章节.跳转', {
-              to: 'Topic',
-              topicId: `ep/${item.id}`
-            })
-
             navigation.push('Topic', {
               topicId: `ep/${item.id}`,
               _title: `ep${item.sort}.${item.name}`,
               _desc: `时长:${item.duration} / 首播:${item.airdate}<br />${item.desc}`
+            })
+
+            t('章节.跳转', {
+              to: 'Topic',
+              topicId: `ep/${item.id}`
             })
           }}
         >
@@ -73,25 +74,25 @@ function List() {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            {!WEB && !!epsThumbs[index + filterEps] && (
-              <View style={_.ml.sm}>
+            {!WEB && !!epsThumbs?.[index + filterEps] && (
+              <InView style={styles.inView} y={IMAGE_HEIGHT * (index + 1)}>
                 <Image
                   src={epsThumbs[index]}
                   size={IMAGE_WIDTH}
                   height={IMAGE_HEIGHT}
-                  radius
+                  radius={_.radiusSm}
                   headers={epsThumbsHeader}
                   onPress={() => {
                     showImageViewer(
                       epsThumbs.map(item => ({
-                        url: item.split('@')[0],
+                        url: item.split('@')?.[0] || '',
                         headers: epsThumbsHeader
                       })),
                       index
                     )
                   }}
                 />
-              </View>
+              </InView>
             )}
           </Flex>
           {!index && <Heatmap id='章节.跳转' />}

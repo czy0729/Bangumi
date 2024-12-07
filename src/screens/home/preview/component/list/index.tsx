@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:16:35
+ * @Last Modified time: 2024-12-06 15:53:19
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Image, ScrollView, Text, Touchable } from '@components'
+import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { showImageViewer } from '@utils'
 import { ob } from '@utils/decorators'
@@ -46,15 +46,15 @@ function List() {
   }
 
   return (
-    <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+    <ScrollView style={_.mt.sm} contentContainerStyle={_.container.page} onScroll={$.onScroll}>
       {images.map((item, index) => (
-        <View key={item} style={styles.item}>
+        <InView key={item} style={styles.item} y={200 * (index + 1)}>
           <Touchable
             withoutFeedback
             onPress={() => {
               showImageViewer(
                 images.map(item => ({
-                  url: item.split('@')[0],
+                  url: item.split('@')?.[0],
                   headers
                 })),
                 index
@@ -63,7 +63,7 @@ function List() {
           >
             <Image {...passProps} src={item} headers={headers} errorToHide />
           </Touchable>
-        </View>
+        </InView>
       ))}
       {!!(WEB && $.subjectId) && (
         <Touchable

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:19:08
+ * @Last Modified time: 2024-12-06 16:02:56
  */
 import React from 'react'
 import { SceneMap } from 'react-native-tab-view'
@@ -32,7 +32,7 @@ function Tab() {
     <>
       <TabView
         key={_.orientation}
-        style={_.mt._sm}
+        style={_.container.header}
         lazyPreloadDistance={0}
         navigationState={{
           index: page,

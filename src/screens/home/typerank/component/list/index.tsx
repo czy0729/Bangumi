@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-17 11:36:18
  */
 import React from 'react'
-import { Empty, Loading } from '@components'
+import { Empty } from '@components'
 import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
@@ -18,12 +18,10 @@ function List() {
   const { ids } = $.state
   if (!ids.length) return <Empty text='此标签没有足够的列表数据' />
 
-  if ($.state.searching) return <Loading style={_.container.flex} />
-
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={_.container.header}
       data={ids}
       limit={12}
       renderItem={renderItem}

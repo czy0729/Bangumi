@@ -20,10 +20,10 @@ const Overview = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-overview'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

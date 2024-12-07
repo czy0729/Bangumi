@@ -11,7 +11,7 @@ import { _ } from '@stores'
 import { stl, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
 import { getDeviation, getDispute, getHeight } from './utils'
-import { COMPONENT_MAIN, DEFAULT_PROPS, DEFAULT_RATES } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, DEFAULT_RATES, MESSAGES } from './ds'
 
 const Chart = memo(
   ({ navigation, styles, friend, rating, total, count, score, toRating }) => {
@@ -97,14 +97,7 @@ const Chart = memo(
             onPress={() => {
               navigation.push('Information', {
                 title: '标准差',
-                message: [
-                  '0-1 异口同声',
-                  '1.15 基本一致',
-                  '1.3 略有分歧',
-                  '1.45 莫衷一是',
-                  '1.6 各执一词',
-                  '1.75 你死我活'
-                ]
+                message: MESSAGES
               })
             }}
           >

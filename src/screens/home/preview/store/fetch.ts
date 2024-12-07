@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-07 01:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 17:36:48
+ * @Last Modified time: 2024-12-06 15:43:59
  */
 import { getPreview, matchMovie, search } from '@utils/douban'
 import { get } from '@utils/kv'
-import Computed from './computed'
+import Action from './action'
 
-export default class Fetch extends Computed {
+export default class Fetch extends Action {
   /** 从 donban 匹配条目, 并获取官方剧照信息 */
   fetchMovieFromDouban = async () => {
     const { cn, jp, year } = this.params

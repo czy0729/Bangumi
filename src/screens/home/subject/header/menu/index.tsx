@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-05-18 03:58:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:10:53
+ * @Last Modified time: 2024-12-07 15:58:14
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap, Image, Touchable } from '@components'
+import { Flex, HeaderV2Popover, Image, Touchable } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { cnjp, copy, info, open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -63,7 +63,7 @@ function Menu({ onScrollTo }) {
           skeleton={false}
         />
       </Touchable>
-      <HeaderComp.Popover
+      <HeaderV2Popover
         key={String($.locationDS.length)}
         style={styles.location}
         data={$.locationDS}
@@ -71,7 +71,7 @@ function Menu({ onScrollTo }) {
         color={color}
         onSelect={onScrollTo}
       />
-      <HeaderComp.Popover
+      <HeaderV2Popover
         style={styles.menu}
         data={data}
         color={color}
@@ -118,9 +118,7 @@ function Menu({ onScrollTo }) {
             key
           })
         }}
-      >
-        <Heatmap id='条目.右上角菜单' />
-      </HeaderComp.Popover>
+      />
     </Flex>
   )
 }

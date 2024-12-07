@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:50:39
+ * @Last Modified time: 2024-12-04 21:08:12
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -18,10 +18,9 @@ function List() {
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={_.container.page}
       data={$.characters.list}
       limit={12}
-      scrollToTop
       renderItem={renderItem}
       scrollEventThrottle={16}
       onScroll={$.onScroll}

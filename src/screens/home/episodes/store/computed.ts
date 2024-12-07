@@ -33,4 +33,8 @@ export default class Computed extends State {
   @computed get url() {
     return `${HOST}/subject/${this.subjectId}/ep`
   }
+
+  @computed get hm() {
+    return [this.url, 'Episodes']
+  }
 }

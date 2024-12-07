@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-04-25 14:54:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:43:48
+ * @Last Modified time: 2024-12-07 15:15:42
  */
 import React from 'react'
 import { ToolBar as ToolBarComp } from '@components'
@@ -15,7 +15,7 @@ import { COMPONENT } from './ds'
 
 function ToolBar() {
   const { $ } = useStore<Ctx>()
-  const { order, position, list, fixed, collected } = $.state
+  const { order, position } = $.state
   const { filters } = $.monoWorks
   return (
     <ToolBarComp>
@@ -44,23 +44,6 @@ function ToolBar() {
           />
         )
       })}
-      <ToolBarComp.Popover
-        data={[
-          `选项 · ${fixed ? '锁定上方' : '浮动'}`,
-          `布局 · ${list ? '列表' : '网格'}`,
-          `收藏 · ${collected ? '显示' : '不显示'}`
-        ]}
-        icon='md-more-vert'
-        iconColor={_.colorDesc}
-        iconSize={16}
-        type='desc'
-        transparent
-        onSelect={title => {
-          if (title.includes('选项')) return $.onToggleToolbar('fixed')
-          if (title.includes('布局')) return $.onToggleList()
-          if (title.includes('收藏')) return $.onToggleToolbar('collected')
-        }}
-      />
     </ToolBarComp>
   )
 }

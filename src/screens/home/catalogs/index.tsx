@@ -21,10 +21,10 @@ const Catalogs = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-subject-catalogs'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.list._loaded}>
           <List />
         </Page>
+        <Header />
         <Extra />
       </StoreContext.Provider>
     </Component>

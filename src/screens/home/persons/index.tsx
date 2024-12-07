@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:09:41
+ * @Last Modified time: 2024-12-04 21:47:05
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Component, Page } from '@components'
-import { StoreContext } from '@stores'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Extra from './component/extra'
@@ -22,11 +23,13 @@ const Persons = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-persons'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.persons._loaded}>
-          <ToolBar />
-          <List />
+          <View style={_.container.header}>
+            <ToolBar />
+            <List />
+          </View>
         </Page>
+        <Header />
         <Extra />
       </StoreContext.Provider>
     </Component>

@@ -20,10 +20,10 @@ const Typerank = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-typerank'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page loaded={$.state._loaded}>
+        <Page loaded={$.state._loaded} loading={$.state.searching}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

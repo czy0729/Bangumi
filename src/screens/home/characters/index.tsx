@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 09:50:24
+ * @Last Modified time: 2024-12-04 20:18:51
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -21,10 +21,10 @@ const Characters = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-characters'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.characters._loaded}>
           <List />
         </Page>
+        <Header />
         <Extra />
       </StoreContext.Provider>
     </Component>

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-15 02:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:06:03
+ * @Last Modified time: 2024-12-07 15:57:53
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
 import { IconWordCloud } from '@_'
 import { useStore } from '@stores'
 import { cnjp, copy, open } from '@utils'
@@ -44,7 +44,7 @@ function Header({ fixed }) {
             }}
           />
           <Extra $={$} navigation={navigation} />
-          <HeaderComp.Popover
+          <HeaderV2Popover
             data={DATA}
             onSelect={key => {
               switch (key) {
@@ -68,9 +68,7 @@ function Header({ fixed }) {
                 key
               })
             }}
-          >
-            <Heatmap id='人物.右上角菜单' />
-          </HeaderComp.Popover>
+          />
         </Flex>
       )}
     />

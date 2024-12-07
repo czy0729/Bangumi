@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-16 20:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:17:32
+ * @Last Modified time: 2024-12-07 15:24:39
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -25,5 +25,9 @@ export default class Computed extends State {
 
   @computed get url() {
     return `${HOST}/subject/${this.subjectId}/edit`
+  }
+
+  @computed get hm() {
+    return [this.url, 'SubjectWiki']
   }
 }

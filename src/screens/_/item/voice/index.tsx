@@ -40,7 +40,7 @@ export const ItemVoice = ({
     const styles = memoStyles()
     const cn = cnjp(nameCn, name)
     const jp = cnjp(name, nameCn)
-    const y = ITEM_HEIGHT * index + 1
+    const y = ITEM_HEIGHT * (index + 1)
     const content = (
       <>
         <Flex style={styles.wrap} align='start'>
@@ -64,7 +64,7 @@ export const ItemVoice = ({
             >
               <Flex align='start'>
                 <InView style={styles.inViewAvatar} y={y}>
-                  <Image size={AVATAR_SIZE} src={cover} radius shadow />
+                  <Image size={AVATAR_SIZE} src={cover} radius />
                 </InView>
                 <Flex.Item style={_.ml.sm}>
                   <Text size={12} bold>

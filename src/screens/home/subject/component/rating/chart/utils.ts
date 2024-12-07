@@ -11,7 +11,7 @@ export function getHeight(total: string | number, current: number) {
   if (!total || !current) return 0
   let percent = current / Number(total)
   if (percent > 0 && percent < min) percent = min
-  return `${Math.min(percent * 1.44 || min, 0.9) * 100}%`
+  return `${Math.min(percent * 1.44 || min, 0.66) * 100}%`
 }
 
 /** 计算标准差 */

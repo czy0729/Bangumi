@@ -20,10 +20,10 @@ const Preview = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-preview'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

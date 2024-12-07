@@ -33,4 +33,8 @@ export default class Computed extends State {
   @computed get rawInfo() {
     return this.subjectFromHTML.info || ''
   }
+
+  @computed get hm() {
+    return [`subject_info/${this.subjectId}`, 'SubjectInfo']
+  }
 }

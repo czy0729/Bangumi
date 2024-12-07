@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-01 10:41:51
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-01 10:41:51
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2024-12-06 17:04:46
  */
 import { _ } from '@stores'
 
@@ -12,8 +12,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm + 2
   },
   comment: {
-    paddingVertical: _.xs,
-    paddingHorizontal: _.sm,
+    padding: _.sm,
     marginTop: _.sm,
     marginRight: _.sm,
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),

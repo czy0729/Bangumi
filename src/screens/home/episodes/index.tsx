@@ -21,10 +21,10 @@ const Episodes = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-episodes'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.subject._loaded}>
           <List />
         </Page>
+        <Header />
         <Extra />
       </StoreContext.Provider>
     </Component>

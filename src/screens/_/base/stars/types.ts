@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-13 12:34:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 16:34:11
+ * @Last Modified time: 2024-12-06 16:12:35
  */
 import { TextType } from '@components'
 import { ColorValue, TextStyle, ViewStyle } from '@types'
@@ -28,4 +28,7 @@ export type Props = {
 
   /** 星星颜色 */
   color?: ColorValue
+
+  /** 额外的文字, 插入在分数后方 */
+  extraText?: string
 }
