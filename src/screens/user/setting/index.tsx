@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-07-10 10:10:35
  */
 import React from 'react'
-import { Component, Header, Input, Page, ScrollView } from '@components'
+import { Component, HeaderV2, Input, Page, ScrollView } from '@components'
 import { _ } from '@stores'
 import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
@@ -37,6 +37,7 @@ import UserSetting from './component/user-setting'
 import Version from './component/version'
 import Zhinan from './component/zhinan'
 import { useSettingPage } from './hooks'
+import { HM } from './ds'
 import { styles } from './styles'
 
 /** 设置 */
@@ -46,7 +47,6 @@ const Setting = (props: NavigationProps) => {
   const { navigation } = props
   return useObserver(() => (
     <Component id='screen-setting'>
-      <Header title={i18n.setting()} alias='设置' hm={['settings', 'Setting']} />
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <ScrollView forwardRef={forwardRef} contentContainerStyle={styles.container}>
           <Block>
@@ -98,6 +98,7 @@ const Setting = (props: NavigationProps) => {
           <Dev navigation={navigation} />
         </ScrollView>
       </Page>
+      <HeaderV2 title={i18n.setting()} alias='设置' hm={HM} />
     </Component>
   ))
 }

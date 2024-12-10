@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 05:43:16
+ * @Last Modified time: 2024-12-10 18:06:42
  */
 import React from 'react'
 import { Text } from '@components'
@@ -26,6 +26,7 @@ function Item({ item, index }) {
     <>
       <ItemSay
         {...item}
+        index={index}
         event={EVENT}
         position={isMe ? 'right' : 'left'}
         avatar={getAvatarLocal(item.id) || API_AVATAR(item.id)}

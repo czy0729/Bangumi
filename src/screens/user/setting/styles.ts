@@ -35,7 +35,7 @@ export default _.create({
 
 export const styles = _.create({
   container: {
-    paddingTop: _.sm,
+    paddingTop: _.headerHeight + _.sm,
     paddingBottom: _.md
   },
   input: {

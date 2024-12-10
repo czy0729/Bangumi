@@ -7,7 +7,8 @@
 import { _ } from '@stores'
 
 export const styles = _.create({
-  transparent: {
-    opacity: 0
+  block: {
+    width: 20,
+    height: 20
   }
 })

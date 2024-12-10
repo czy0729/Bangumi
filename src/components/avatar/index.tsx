@@ -9,7 +9,7 @@ import { useObserver } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import { HOST_CDN, IMG_DEFAULT, IMG_EMPTY, IMG_EMPTY_DARK } from '@constants'
+import { HOST_CDN, IMG_DEFAULT } from '@constants'
 import { Component } from '../component'
 import { Image } from '../image'
 import { Squircle } from '../squircle'
@@ -46,7 +46,7 @@ export const Avatar = ({
 }: AvatarProps) => {
   r(COMPONENT)
 
-  const { url, isFromApi } = useAvatar(src, userId)
+  const { url } = useAvatar(src, userId)
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -70,7 +70,7 @@ export const Avatar = ({
           avatarSrc.includes(HOST_CDN) &&
           styles.dev
       ),
-      src: isFromApi ? _.select(IMG_EMPTY, IMG_EMPTY_DARK) : avatarSrc,
+      src: avatarSrc,
       fallbackSrc: fixedHD(fixedSize(String(fallbackSrc || src))),
       priority,
       skeleton,

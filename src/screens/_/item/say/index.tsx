@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-11 11:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:21:55
+ * @Last Modified time: 2024-12-10 18:25:10
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { appNavigate } from '@utils'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { EVENT, FROZEN_FN } from '@constants'
-import { Name } from '../../base'
+import { InView, Name } from '../../base'
 import { getBgmHtml } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -22,6 +22,7 @@ export { ItemSayProps }
 
 export const ItemSay = ob(
   ({
+    index,
     event = EVENT,
     position = 'left',
     avatar,
@@ -84,18 +85,20 @@ export const ItemSay = ob(
       <Component id='item-say' data-type='left'>
         <Flex style={showName ? _.mt.md : _.mt.sm} align='start'>
           <Flex style={styles.avatarWrapLeft} justify='center'>
-            <UserStatus userId={id}>
-              <Avatar
-                navigation={navigation}
-                src={avatar}
-                size={34}
-                userId={id}
-                name={name}
-                borderWidth={0}
-                event={event}
-                onLongPress={onLongPress}
-              />
-            </UserStatus>
+            <InView y={128 * (index + 1)}>
+              <UserStatus userId={id}>
+                <Avatar
+                  navigation={navigation}
+                  src={avatar}
+                  size={34}
+                  userId={id}
+                  name={name}
+                  borderWidth={0}
+                  event={event}
+                  onLongPress={onLongPress}
+                />
+              </UserStatus>
+            </InView>
           </Flex>
           <Flex.Item style={styles.contentLeft}>
             <Flex direction='column' align='start'>

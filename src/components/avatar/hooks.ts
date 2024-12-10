@@ -19,6 +19,7 @@ import { Props } from './types'
  */
 export function useAvatar(src: Props['src'], userId: Props['userId']) {
   const key = `avatar|${userId}`
+
   let initUrl: string | ImageSourcePropType
   if (typeof src === 'string' && src.includes(HOST_API_V0)) {
     initUrl = CacheManager.get(key) || src
@@ -40,7 +41,9 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
 
     setTimeout(() => {
       ;(async () => {
-        const responseURL = await head(url)
+        let responseURL = await head(url)
+        if (typeof responseURL !== 'string') responseURL = url
+
         setUrl(CacheManager.set(key, responseURL))
       })()
     }, 0)

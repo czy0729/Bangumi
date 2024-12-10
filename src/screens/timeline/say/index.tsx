@@ -21,8 +21,8 @@ const Say = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-say'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page $={$} navigation={navigation} />
+        <Header />
         <Heatmaps />
       </StoreContext.Provider>
     </Component>

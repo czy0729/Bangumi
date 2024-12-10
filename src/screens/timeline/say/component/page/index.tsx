@@ -90,7 +90,11 @@ class Say extends React.Component<Ctx> {
     r(COMPONENT)
 
     const { $ } = this.props
-    return <Page style={_.container.screen}>{$.isNew ? this.renderNew() : this.renderList()}</Page>
+    return (
+      <Page style={[_.container.screen, _.container.header]}>
+        {$.isNew ? this.renderNew() : this.renderList()}
+      </Page>
+    )
   }
 }
 

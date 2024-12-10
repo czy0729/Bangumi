@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-23 10:43:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 10:49:39
+ * @Last Modified time: 2024-12-10 17:36:48
  */
 import { timelineStore, userStore } from '@stores'
-import { feedback, info } from '@utils'
+import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { webhookSay } from '@utils/webhooks'
 import { IOS } from '@constants'
@@ -197,4 +197,7 @@ export default class Action extends Fetch {
 
     t('吐槽.回复吐槽')
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

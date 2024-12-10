@@ -40,4 +40,8 @@ export default class Computed extends State {
       ? `${HOST}/timeline?type=say`
       : `${HOST}/user/${this.params.userId}/timeline/status/${this.id}`
   }
+
+  @computed get hm() {
+    return [this.url, 'Say'] as const
+  }
 }

@@ -5,3 +5,5 @@
  * @Last Modified time: 2024-01-10 20:32:35
  */
 export const COMPONENT = 'Setting'
+
+export const HM = ['settings', 'Setting'] as const

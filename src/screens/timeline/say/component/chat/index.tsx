@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 05:43:03
+ * @Last Modified time: 2024-12-10 18:11:11
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
@@ -29,6 +29,7 @@ function Chat({ forwardRef }: any) {
       renderItem={renderItem}
       showFooter={false}
       ListFooterComponent={null}
+      onScroll={$.onScroll}
     />
   )
 }
