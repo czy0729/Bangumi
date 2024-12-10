@@ -28,7 +28,7 @@ function List() {
   }
 
   return (
-    <ScrollView contentContainerStyle={_.container.bottom} scrollToTop>
+    <ScrollView contentContainerStyle={_.container.page}>
       {list.map(item => (
         <Item key={item.href} {...item} />
       ))}

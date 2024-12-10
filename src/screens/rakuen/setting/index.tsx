@@ -19,10 +19,10 @@ const RakuenSetting = ({ navigation }: NavigationProps) => {
 
   return useObserver(() => (
     <Component id='screen-rakuen-setting'>
-      <Header />
       <TapListener>
         <Scroll navigation={navigation} />
       </TapListener>
+      <Header />
     </Component>
   ))
 }

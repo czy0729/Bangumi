@@ -10,6 +10,11 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     paddingLeft: _.wind - _._wind + _.md
   },
+  inView: {
+    minWidth: 40,
+    minHeight: 40,
+    marginRight: _.sm
+  },
   wrap: {
     paddingVertical: _.md,
     paddingRight: _.wind - _._wind + _.md

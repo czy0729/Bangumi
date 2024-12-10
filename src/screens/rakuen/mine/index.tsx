@@ -21,8 +21,8 @@ const Mine = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-mine'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>{$.state.type === 'mine' ? <List /> : <ListAll />}</Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

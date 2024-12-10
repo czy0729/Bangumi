@@ -5,21 +5,20 @@
  * @Last Modified time: 2024-11-17 12:29:24
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { copy, open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST } from '@constants'
+import { TEXT_MENU_BROWSER, TEXT_MENU_COPY_LINK, TEXT_MENU_COPY_SHARE } from '@constants'
 import Favor from '../component/favor'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA } from './ds'
 import { styles } from './styles'
 
 function Header({ fixed }) {
   const { $, navigation } = useStore<Ctx>()
-  const url = $.params?._url || `${HOST}/blog/${$.blogId}`
   return (
     <HeaderComp
       mode='transition'
@@ -27,25 +26,25 @@ function Header({ fixed }) {
       fixed={fixed}
       title={$.title}
       alias='日志'
-      hm={[url, 'Blog']}
+      hm={$.hm}
       headerTitle={<HeaderTitle $={$} navigation={navigation} />}
       headerRight={() => (
         <Flex style={styles.headerRight}>
           <Favor $={$} />
-          <HeaderComp.Popover
-            data={['浏览器查看', '复制链接', '复制分享']}
-            onSelect={key => {
-              switch (key) {
-                case '浏览器查看':
-                  open(url)
+          <HeaderV2Popover
+            data={DATA}
+            onSelect={title => {
+              switch (title) {
+                case TEXT_MENU_BROWSER:
+                  open($.url)
                   break
 
-                case '复制链接':
-                  copy(url, '已复制链接')
+                case TEXT_MENU_COPY_LINK:
+                  copy($.url, '已复制链接')
                   break
 
-                case '复制分享':
-                  copy(`【链接】${$.title} | Bangumi番组计划\n${url}`, '已复制分享文案')
+                case TEXT_MENU_COPY_SHARE:
+                  copy(`【链接】${$.title} | Bangumi番组计划\n${$.url}`, '已复制分享文案')
                   break
 
                 default:
@@ -53,12 +52,10 @@ function Header({ fixed }) {
               }
 
               t('日志.右上角菜单', {
-                key
+                key: title
               })
             }}
-          >
-            <Heatmap id='日志.右上角菜单' />
-          </HeaderComp.Popover>
+          />
         </Flex>
       )}
     />

@@ -5,23 +5,23 @@
  * @Last Modified time: 2024-11-17 16:27:51
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
   const navigation = useNavigation()
   return (
-    <HeaderComp
+    <HeaderV2
       title='帖子聚合'
       alias='本地帖子'
-      hm={['rakuen/history', 'RakuenHistory']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={['说明']}
-          onSelect={key => {
-            if (key === '说明') {
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === '说明') {
               navigation.push('Information', {
                 title: '帖子聚合',
                 advance: true,

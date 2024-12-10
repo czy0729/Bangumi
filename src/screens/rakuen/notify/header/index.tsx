@@ -5,30 +5,31 @@
  * @Last Modified time: 2024-01-18 05:56:25
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HTML_NOTIFY } from '@constants'
-import { COMPONENT } from './ds'
+import { HTML_NOTIFY, TEXT_MENU_BROWSER } from '@constants'
+import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
   return (
-    <HeaderComp
+    <HeaderV2
       title='电波提醒'
-      hm={['notify/all', 'Notify']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={['浏览器查看']}
-          onSelect={key => {
-            if (key === '浏览器查看') {
-              t('电波提醒.右上角菜单', { key })
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open(HTML_NOTIFY())
+
+              t('电波提醒.右上角菜单', {
+                key: title
+              })
             }
           }}
-        >
-          <Heatmap id='电波提醒.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

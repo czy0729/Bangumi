@@ -11,6 +11,6 @@ export function keyExtractor(item: any, index: number) {
   return String(item.id || index)
 }
 
-export function renderItem({ item }) {
-  return <Item {...item} />
+export function renderItem({ item, index }) {
+  return <Item {...item} index={index} />
 }

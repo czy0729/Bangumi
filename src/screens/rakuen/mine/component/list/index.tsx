@@ -15,8 +15,8 @@ import { COMPONENT } from './ds'
 const List = () => {
   const { $ } = useStore<Ctx>()
   return (
-    <ScrollView contentContainerStyle={_.container.outer} scrollToTop>
-      <Flex style={_.mt._sm} wrap='wrap'>
+    <ScrollView contentContainerStyle={_.container.page}>
+      <Flex wrap='wrap'>
         {$.mine.list.map(item => (
           <Item key={item.id} {...item} />
         ))}

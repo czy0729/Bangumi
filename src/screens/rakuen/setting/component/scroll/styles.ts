@@ -8,7 +8,6 @@ import { _ } from '@stores'
 
 export const styles = _.create({
   container: {
-    paddingTop: _.sm,
-    paddingBottom: _.bottom
+    paddingTop: _.headerHeight + _.sm
   }
 })

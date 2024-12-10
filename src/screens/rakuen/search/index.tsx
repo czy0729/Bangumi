@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Component, Flex, Header, Heatmap, Page } from '@components'
+import { Button, Component, Flex, HeaderV2, Heatmap, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
@@ -14,6 +14,7 @@ import History from './component/history'
 import List from './component/list'
 import SearchBar from './component/search-bar'
 import { useRakuenSearchPage } from './hooks'
+import { HM } from './ds'
 import { memoStyles } from './styles'
 
 /** 小组搜索 */
@@ -25,7 +26,6 @@ const RakuenSearch = (props: NavigationProps) => {
     return (
       <Component id='screen-rakuen-search'>
         <StoreContext.Provider value={id}>
-          <Header title='小组搜索' hm={['rakuenSearch', 'RakuenSearch']} />
           <Page>
             <Flex style={styles.searchBar}>
               <Flex.Item>
@@ -41,6 +41,7 @@ const RakuenSearch = (props: NavigationProps) => {
             <History style={_.mt.sm} />
             <List $={$} />
           </Page>
+          <HeaderV2 title='小组搜索' hm={HM} />
         </StoreContext.Provider>
       </Component>
     )

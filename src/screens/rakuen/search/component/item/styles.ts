@@ -13,6 +13,11 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPlain
   },
   touch: {
-    paddingVertical: _.md
+    paddingVertical: _.sm
+  },
+  inView: {
+    minWidth: 40,
+    minHeight: 40,
+    marginRight: _.sm
   }
 }))

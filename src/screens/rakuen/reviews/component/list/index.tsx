@@ -30,9 +30,10 @@ function List() {
   return (
     <ListView
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={_.container.page}
       data={$.reviews}
       renderItem={renderItem}
+      onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
       onFooterRefresh={$.fetchReviews}
     />

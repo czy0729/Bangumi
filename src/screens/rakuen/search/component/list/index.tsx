@@ -31,7 +31,7 @@ class List extends React.Component<Ctx> {
       _filter > 0 ? (
         <>
           <Text style={_.mt.lg} type='sub' align='center' size={13} bold>
-            非会员只显示 8 条结果
+            非会员仅显示 8 条结果
           </Text>
           <Text style={_.mt.xs} type='sub' align='center' size={13} bold>
             高级会员显示 20 条结果
@@ -41,11 +41,12 @@ class List extends React.Component<Ctx> {
 
     return (
       <ListView
-        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
+        contentContainerStyle={_.container.bottom}
         data={$.search}
         renderItem={this.renderItem}
         ListFooterComponent={ListFooterComponent}
+        onScroll={$.onScroll}
       />
     )
   }

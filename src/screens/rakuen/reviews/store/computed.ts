@@ -56,4 +56,8 @@ export default class Computed extends State {
   @computed get thirdPartyKey() {
     return `reviews_${this.subjectId}`
   }
+
+  @computed get hm() {
+    return [this.url, 'Reviews']
+  }
 }

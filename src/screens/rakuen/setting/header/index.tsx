@@ -5,33 +5,27 @@
  * @Last Modified time: 2024-02-01 18:33:48
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
-import { open } from '@utils'
+import { HeaderV2 } from '@components'
 import { ob } from '@utils/decorators'
-import { t } from '@utils/fetch'
-import { HTML_PRIVACY } from '@constants'
-import { COMPONENT } from './ds'
-
-const TEXT_BROWSER = '浏览器查看'
-const DATA = [TEXT_BROWSER]
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   return (
-    <HeaderComp
+    <HeaderV2
       title='超展开设置'
-      hm={['rakuen/settings', 'RakuenSetting']}
-      headerRight={() => (
-        <HeaderComp.Popover
-          data={DATA}
-          onSelect={key => {
-            t('超展开设置.右上角菜单', {
-              key
-            })
+      hm={HM}
+      // headerRight={() => (
+      //   <HeaderV2Popover
+      //     data={DATA}
+      //     onSelect={title => {
+      //       if (title === TEXT_MENU_BROWSER) open(HTML_PRIVACY())
 
-            if (key === TEXT_BROWSER) open(HTML_PRIVACY())
-          }}
-        />
-      )}
+      //       t('超展开设置.右上角菜单', {
+      //         key: title
+      //       })
+      //     }}
+      //   />
+      // )}
     />
   )
 }

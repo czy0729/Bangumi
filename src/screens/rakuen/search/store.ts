@@ -6,7 +6,7 @@
  */
 import { computed, observable } from 'mobx'
 import { searchStore, systemStore } from '@stores'
-import { info } from '@utils'
+import { info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
@@ -24,6 +24,10 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
     return state
   }
 
+  save = () => {
+    return this.saveStorage(NAMESPACE, EXCLUDE_STATE)
+  }
+
   // -------------------- get --------------------
   @computed get search() {
     const { advance } = systemStore
@@ -32,7 +36,7 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
     if (advance) return search
 
     const filterCount = 8
-    const list = search.list.filter((item, index) => index <= filterCount)
+    const list = search.list.filter((_item, index) => index <= filterCount)
     return {
       ...search,
       list,
@@ -73,8 +77,11 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
     this.setState({
       history: history.filter(item => item !== value)
     })
-    this.setStorage(undefined, undefined, NAMESPACE)
+    this.save()
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 
   // -------------------- action --------------------
   doSearch = async () => {
@@ -94,9 +101,10 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
     if (_history.length > 10) _history.pop()
     this.setState({
       history: _history,
-      searching: true
+      searching: true,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
-    this.setStorage(NAMESPACE)
+    this.save()
 
     try {
       await searchStore.fetchRakuenSearch(value, true)
@@ -108,37 +116,4 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
       searching: false
     })
   }
-
-  // cacheTopics = () => {
-  //   const { cache } = this.state
-  //   const fetchs = []
-  //   this.search.list.forEach(item => {
-  //     if (!cache[item.topicId]) {
-  //       fetchs.push(async () => {
-  //         try {
-  //           const { _response } = await xhrCustom({
-  //             url: CDN_RAKUEN(item.topicId.replace('group/', ''))
-  //           })
-
-  //           const { title, avatar, userName, time, group } = JSON.parse(_response)
-  //           cache[item.topicId] = {
-  //             title,
-  //             avatar,
-  //             userName,
-  //             time,
-  //             group
-  //           }
-  //           this.setState({
-  //             cache
-  //           })
-  //           return true
-  //         } catch (error) {
-  //           return true
-  //         }
-  //       })
-
-  //       queue(fetchs)
-  //     }
-  //   })
-  // }
 }

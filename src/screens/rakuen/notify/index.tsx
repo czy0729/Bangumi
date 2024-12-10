@@ -21,10 +21,10 @@ const Notify = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-notify'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <Tabs />
         </Page>
+        <Header />
         <Heatmaps />
       </StoreContext.Provider>
     </Component>

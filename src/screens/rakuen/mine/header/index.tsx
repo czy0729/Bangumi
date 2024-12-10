@@ -5,16 +5,16 @@
  * @Last Modified time: 2024-11-17 16:38:52
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Extra from '../component/extra'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
-  return <HeaderComp title='小组' hm={['group/mine', 'Mine']} headerRight={() => <Extra $={$} />} />
+  return <HeaderV2 title='小组' hm={HM} headerRight={() => <Extra $={$} />} />
 }
 
 export default ob(Header, COMPONENT)

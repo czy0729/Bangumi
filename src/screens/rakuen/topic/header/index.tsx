@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-09 03:08:05
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
 import { IconWordCloud } from '@_'
 import { useStore } from '@stores'
 import { copy, getSPAParams, open } from '@utils'
@@ -45,7 +45,7 @@ function Header() {
             }}
           />
           <IconFavor $={$} />
-          <HeaderComp.Popover
+          <HeaderV2Popover
             style={styles.menu}
             data={[`帖子 · ${$.topicId}`, ...DATA]}
             onSelect={key => {
@@ -79,9 +79,7 @@ function Header() {
                 key: key.includes('帖子') ? '浏览器查看' : key
               })
             }}
-          >
-            <Heatmap id='帖子.右上角菜单' />
-          </HeaderComp.Popover>
+          />
         </Flex>
       )}
     />

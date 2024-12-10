@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:41:16
+ * @Last Modified time: 2024-12-08 11:06:14
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
@@ -185,6 +185,10 @@ export default class ScreenGroup extends store<typeof STATE> {
     const { page } = this.state
     const query = [this.groupId, page].join('_').replace('/', '_')
     return `group_${query}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Group']
   }
 
   // -------------------- page --------------------

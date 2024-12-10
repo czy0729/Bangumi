@@ -7,6 +7,7 @@
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, usersStore, userStore } from '@stores'
 import { HTMLDecode } from '@utils'
+import { HOST } from '@constants'
 import State from './state'
 import { NAMESPACE } from './ds'
 
@@ -118,5 +119,13 @@ export default class Computed extends State {
 
   @computed get isUGCAgree() {
     return systemStore.isUGCAgree
+  }
+
+  @computed get url() {
+    return this.params?._url || `${HOST}/blog/${this.blogId}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Blog']
   }
 }

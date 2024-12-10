@@ -5,7 +5,8 @@
  * @Last Modified time: 2024-11-17 16:38:44
  */
 import React from 'react'
-import { PaginationList } from '@_'
+import { View } from 'react-native'
+import { PaginationList2 } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { getJSON } from '@assets/json'
@@ -19,18 +20,18 @@ const ListAll = () => {
   const data = getJSON('group', [])
   const { filter } = $.state
   return (
-    <>
+    <View style={_.container.header}>
       <Filter $={$} />
-      <PaginationList
-        style={_.mt._md}
-        contentContainerStyle={_.container.outer}
+      <PaginationList2
+        style={_.mt._sm}
+        contentContainerStyle={[_.container.wind, _.container.bottom]}
         data={
           filter ? data.filter(item => item.t.toLowerCase().includes(filter.toLowerCase())) : data
         }
         numColumns={2}
         renderItem={renderItem}
       />
-    </>
+    </View>
   )
 }
 

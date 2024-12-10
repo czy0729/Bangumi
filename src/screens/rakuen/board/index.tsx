@@ -20,10 +20,10 @@ const Board = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-board'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.board._loaded}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

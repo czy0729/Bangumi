@@ -5,33 +5,35 @@
  * @Last Modified time: 2024-11-17 12:35:47
  */
 import React from 'react'
-import { Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
+import { TEXT_MENU_BROWSER } from '@constants'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, DATA } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title={$.params?.name ? `${$.params.name}的讨论版` : '讨论版'}
       alias='讨论版'
-      hm={[$.url, 'Board']}
+      hm={$.hm}
       headerRight={() => (
-        <HeaderComp.Popover
-          data={['浏览器查看']}
-          onSelect={key => {
-            if (key === '浏览器查看') {
-              t('讨论版.右上角菜单', { key })
+        <HeaderV2Popover
+          data={DATA}
+          onSelect={title => {
+            if (title === TEXT_MENU_BROWSER) {
               open($.url)
+
+              t('讨论版.右上角菜单', {
+                key: title
+              })
             }
           }}
-        >
-          <Heatmap id='讨论版.右上角菜单' />
-        </HeaderComp.Popover>
+        />
       )}
     />
   )

@@ -5,9 +5,8 @@
  * @Last Modified time: 2024-11-18 02:10:51
  */
 import React from 'react'
-import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
-import { Avatar, Name } from '@_'
+import { Avatar, InView, Name } from '@_'
 import { _, rakuenStore } from '@stores'
 import { correctAgo, getIsBlockedUser, HTMLDecode } from '@utils'
 import { ob } from '@utils/decorators'
@@ -15,7 +14,7 @@ import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ id, title, replies, time, content, avatar, userId, userName }) {
+function Item({ index, id, title, replies, time, content, avatar, userId, userName }) {
   const navigation = useNavigation()
   if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
 
@@ -31,22 +30,22 @@ function Item({ id, title, replies, time, content, avatar, userId, userName }) {
       }}
     >
       <Flex style={styles.wrap} align='start'>
-        <View style={_.mr.sm}>
+        <InView style={styles.inView} y={150 * (index + 1)}>
           <Avatar navigation={navigation} userId={userId} name={userName} src={avatar} />
-        </View>
+        </InView>
         <Flex.Item>
-          <Text size={15}>
+          <Text size={15} bold>
             {HTMLDecode(title)}
             {replies !== '+0' && (
               <Text type='main' size={12} lineHeight={15} bold>
-                {' '}
+                {'  '}
                 {replies}
               </Text>
             )}
           </Text>
-          <Text style={_.mt.sm} type='sub' size={12}>
+          <Text style={_.mt.xs} type='sub' size={12}>
             {correctAgo(time)} /{' '}
-            <Name userId={userId} showFriend type='sub' size={12} bold>
+            <Name userId={userId} showFriend type='sub' size={12}>
               {userName}
             </Name>
           </Text>

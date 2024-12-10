@@ -20,10 +20,10 @@ const RakuenHistory = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-history'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <Tab />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

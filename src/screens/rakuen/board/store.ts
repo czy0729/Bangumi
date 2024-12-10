@@ -142,6 +142,10 @@ export default class ScreenBoard extends store<typeof STATE> {
     return `board_${this.subjectId}`
   }
 
+  @computed get hm() {
+    return [this.url, 'Board']
+  }
+
   // -------------------- page --------------------
   /** 更新帖子历史查看信息 */
   onItemPress = (topicId: TopicId, replies: any) => {

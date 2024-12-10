@@ -7,13 +7,13 @@
 
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Text, Touchable } from '@components'
-import { Avatar, Name } from '@_'
+import { Text, Touchable } from '@components'
+import { Name } from '@_'
 import { _, rakuenStore, useStore } from '@stores'
 import { appNavigate, correctAgo, getIsBlockedUser, HTMLDecode, info, open, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { API_AVATAR, HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import { TopicId } from '@types'
 import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
@@ -63,33 +63,23 @@ function Item({ title, href, replies, time, userId, userName }) {
         }
       }}
     >
-      <Flex style={styles.wrap} align='start'>
-        <View style={_.mr.sm}>
-          <Avatar
-            navigation={navigation}
-            userId={userId}
-            name={userName}
-            src={API_AVATAR(userId)}
-          />
-        </View>
-        <Flex.Item>
-          <Text size={15}>
-            {HTMLDecode(title)}
-            {replyText !== '+0' && (
-              <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15} bold>
-                {' '}
-                {replyText}
-              </Text>
-            )}
-          </Text>
-          <Text style={_.mt.xs} type='sub' size={12}>
-            {correctAgo(time)} /{' '}
-            <Name userId={userId} showFriend size={12} bold>
-              {userName}
-            </Name>
-          </Text>
-        </Flex.Item>
-      </Flex>
+      <View style={styles.wrap}>
+        <Text size={15}>
+          {HTMLDecode(title)}
+          {replyText !== '+0' && (
+            <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={15} bold>
+              {' '}
+              {replyText}
+            </Text>
+          )}
+        </Text>
+        <Text style={_.mt.xs} type='sub' size={12}>
+          {correctAgo(time)} /{' '}
+          <Name userId={userId} showFriend size={12} bold>
+            {userName}
+          </Name>
+        </Text>
+      </View>
     </Touchable>
   )
 }

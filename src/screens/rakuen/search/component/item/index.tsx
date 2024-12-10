@@ -7,7 +7,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Divider, Flex, Heatmap, Highlight, Text, Touchable } from '@components'
-import { Avatar } from '@_'
+import { Avatar, InView } from '@_'
 import { _, useStore } from '@stores'
 import { getTimestamp, lastDate } from '@utils'
 import { ob } from '@utils/decorators'
@@ -29,19 +29,21 @@ function Item({ index, id, title, message, avatar, userId, userName, time, group
       <Touchable
         style={styles.touch}
         onPress={() => {
-          t('帖子搜索.跳转', {
-            to: 'Topic',
+          navigation.push('Topic', {
             topicId: `group/${id}`
           })
 
-          navigation.push('Topic', {
+          t('帖子搜索.跳转', {
+            to: 'Topic',
             topicId: `group/${id}`
           })
         }}
       >
         <Flex align='start'>
-          <Avatar src={avatar} userId={userId} />
-          <Flex.Item style={_.ml.sm}>
+          <InView style={styles.inView} y={120 * (index + 1)}>
+            <Avatar src={avatar} userId={userId} />
+          </InView>
+          <Flex.Item>
             <Highlight size={16} bold value={value}>
               {title}
             </Highlight>

@@ -8,8 +8,9 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   searchBar: {
-    paddingVertical: _.md,
-    paddingHorizontal: _.wind
+    paddingTop: _.headerHeight + _.sm,
+    paddingHorizontal: _.wind,
+    paddingBottom: _.md
   },
   btn: {
     width: 68,

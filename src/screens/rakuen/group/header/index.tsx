@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 12:41:37
+ * @Last Modified time: 2024-12-08 11:06:19
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { HOST, HTML_NEW_TOPIC } from '@constants'
+import { HOST, HTML_NEW_TOPIC, TEXT_MENU_BROWSER } from '@constants'
 import HeaderTitle from '../component/header-title'
 import { Ctx } from '../types'
 import { COMPONENT } from './ds'
@@ -20,7 +20,7 @@ import { styles } from './styles'
 function Header({ fixed }) {
   const { $, navigation } = useStore<Ctx>()
   const { joinUrl, byeUrl } = $.groupInfo
-  const data = ['浏览器查看', '小组成员']
+  const data = [TEXT_MENU_BROWSER, '小组成员']
   if (joinUrl) data.push('加入小组')
   if (byeUrl) data.push('退出小组')
 
@@ -31,7 +31,7 @@ function Header({ fixed }) {
       fixed={fixed}
       title={$.groupInfo.title}
       alias='小组'
-      hm={[$.url, 'Group']}
+      hm={$.hm}
       headerTitle={<HeaderTitle $={$} />}
       headerRight={() => (
         <Flex style={styles.headerRight}>
@@ -55,11 +55,11 @@ function Header({ fixed }) {
               })
             }}
           />
-          <HeaderComp.Popover
+          <HeaderV2Popover
             data={data}
-            onSelect={async key => {
-              switch (key) {
-                case '浏览器查看':
+            onSelect={async title => {
+              switch (title) {
+                case TEXT_MENU_BROWSER:
                   open($.url)
                   break
 
@@ -82,13 +82,11 @@ function Header({ fixed }) {
               }
 
               t('小组.右上角菜单', {
-                key,
+                key: title,
                 groupId: $.groupId
               })
             }}
-          >
-            <Heatmap id='小组.右上角菜单' />
-          </HeaderComp.Popover>
+          />
         </Flex>
       )}
     />
