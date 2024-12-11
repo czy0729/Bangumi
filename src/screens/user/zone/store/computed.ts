@@ -19,7 +19,7 @@ import { getBlurRadius, HTMLDecode } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { H_HEADER } from '@screens/user/v2/ds'
-import { Source } from '@types'
+import { ImageSource } from '@types'
 import { TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 
@@ -134,7 +134,7 @@ export default class Computed extends State {
   @computed get imageSource() {
     const { _image } = this.params
     const { avatar } = this.usersInfo
-    let source: Source = {
+    let source: ImageSource = {
       uri: avatar?.large
     }
 

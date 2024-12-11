@@ -9,7 +9,7 @@ import { feedback, info, loading } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
 import { webhookFriend } from '@utils/webhooks'
 import { HOST, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
-import { Navigation, TimeLineScope, TimeLineType, TimeLineTypeCn } from '@types'
+import { Navigation, ScrollEvent, TimeLineScope, TimeLineType, TimeLineTypeCn } from '@types'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -51,13 +51,7 @@ export default class Action extends Fetch {
   }
 
   /** 滚动事件, 控制顶部背景是否固定 */
-  onScroll = (e: {
-    nativeEvent: {
-      contentOffset: {
-        y: any
-      }
-    }
-  }) => {
+  onScroll = (e: ScrollEvent) => {
     uiStore.closePopableSubject()
     uiStore.closeLikesGrid()
 

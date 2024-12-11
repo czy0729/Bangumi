@@ -7,21 +7,21 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Text, Touchable } from '@components'
-import { Name } from '@_'
-import { _ } from '@stores'
+import { InView, Name } from '@_'
+import { _, useStore } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { useNavigation } from '@utils/hooks'
+import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemGrid({ index, item }) {
-  const navigation = useNavigation()
+  const { $, navigation } = useStore<Ctx>()
   const styles = memoStyles()
   const { userId, avatar, userName } = item
   return (
-    <View style={stl(styles.item, index % _.portrait(5, 8) === 0 && styles.left)}>
+    <View style={stl(styles.item, index % $.numColumns === 0 && styles.left)}>
       <Touchable
         animate
         scale={0.9}
@@ -38,7 +38,9 @@ function ItemGrid({ index, item }) {
           })
         }}
       >
-        <Avatar size={styles.item.width} src={avatar} radius />
+        <InView style={styles.inView} y={120 * (Math.floor(index / $.numColumns) + 1)}>
+          <Avatar size={styles.item.width} src={avatar} radius />
+        </InView>
         <Name style={_.mt.sm} size={11} bold userId={userId}>
           {HTMLDecode(userName)}
         </Name>

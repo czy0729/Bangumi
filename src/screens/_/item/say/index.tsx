@@ -53,7 +53,7 @@ export const ItemSay = ob(
                     {name}
                   </Text>
                 )}
-                <View style={[styles.text, styles.textActive, _.mt.xs]}>
+                <View style={[styles.text, styles.textActive, _.mt.sm]}>
                   <RenderHtml
                     baseFontStyle={styles.baseFontStyleRight}
                     linkStyle={styles.linkStyleRight}
@@ -123,7 +123,7 @@ export const ItemSay = ob(
                   </Name>
                 </View>
               )}
-              <View style={[styles.text, _.mt.xs]}>
+              <View style={[styles.text, _.mt.sm]}>
                 <RenderHtml
                   baseFontStyle={styles.baseFontStyle}
                   html={format ? getBgmHtml(text) : text}

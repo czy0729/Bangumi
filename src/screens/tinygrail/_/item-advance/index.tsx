@@ -2,44 +2,44 @@
  * @Author: czy0729
  * @Date: 2020-01-08 15:21:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 18:40:07
+ * @Last Modified time: 2024-12-11 21:19:06
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import PropTypes from 'prop-types'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
 import { tinygrailOSS } from '@utils/app'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { EVENT } from '@constants'
 import Rank from '@tinygrail/_/rank'
 import { calculateRate } from '@tinygrail/_/utils'
 import { memoStyles } from './styles'
 
-function Item(props, { navigation }) {
+function Item({
+  event = EVENT,
+  assets,
+  index,
+  id,
+  name,
+  icon,
+  bonus,
+  level,
+  amount,
+  current,
+  firstAsks,
+  firstBids,
+  firstAmount,
+  rate,
+  rank,
+  stars,
+  mark,
+  isAuctioning
+}) {
+  const navigation = useNavigation()
   const styles = memoStyles()
-  const {
-    event = EVENT,
-    assets,
-    index,
-    id,
-    name,
-    icon,
-    bonus,
-    level,
-    amount,
-    current,
-    firstAsks,
-    firstBids,
-    firstAmount,
-    rate,
-    rank,
-    stars,
-    mark,
-    isAuctioning
-  } = props
   const { id: eventId, data: eventData } = event
   const isAuction = !firstBids && !firstAsks
   const isBids = !!firstBids
@@ -159,10 +159,6 @@ function Item(props, { navigation }) {
       </Flex.Item>
     </Flex>
   )
-}
-
-Item.contextTypes = {
-  navigation: PropTypes.object
 }
 
 export default observer(Item)

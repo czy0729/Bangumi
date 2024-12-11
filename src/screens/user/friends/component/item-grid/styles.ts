@@ -17,6 +17,10 @@ export const memoStyles = _.memoStyles(() => {
     },
     left: {
       marginLeft: 0
+    },
+    inView: {
+      minWidth: gridStyles.width,
+      minHeight: gridStyles.width
     }
   }
 })

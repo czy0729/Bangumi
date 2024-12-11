@@ -21,8 +21,8 @@ function Section1() {
           {lastDate(getTimestamp('2019-02-01'), false).replace('前', '')}
         </Text>
         。第一次做 App，最初仅为用于练手，后来发现很有趣便一直开发至今。回头一看已有{' '}
-        <Text {...FONT_STRONG}>2300</Text> 次代码提交，超过百万行代码的增改，
-        <Text {...FONT_STRONG}>160</Text> 多次版本发布，用爱发电时间超过万小时。
+        <Text {...FONT_STRONG}>2700</Text> 次代码提交，超过百万行代码的增改，
+        <Text {...FONT_STRONG}>180</Text> 多次版本发布，用爱发电时间超过万小时。
       </Text>
       <Flex style={_.mt.md} justify='center'>
         <Image

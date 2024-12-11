@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-13 05:05:51
  */
-import { debounce } from '@utils'
+import { debounce, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { Sort } from '../types'
 import Fetch from './fetch'
@@ -31,4 +31,7 @@ export default class Action extends Fetch {
       filter: filter.trim()
     })
   })
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

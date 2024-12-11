@@ -21,8 +21,8 @@ const PM = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-pm'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page $={$} navigation={navigation} />
+        <Header />
         <Heatmaps />
       </StoreContext.Provider>
     </Component>

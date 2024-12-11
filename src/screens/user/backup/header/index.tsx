@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:17:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:34:19
+ * @Last Modified time: 2024-12-11 05:35:57
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const navigation = useNavigation()
   return (
-    <HeaderComp
+    <HeaderV2
       title='本地备份'
-      hm={['backup', 'Backup']}
+      hm={HM}
       headerRight={() => (
         <IconTouchable
           name='md-info-outline'

@@ -4,9 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-13 05:39:38
  */
+import { updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { TABS } from '../ds'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
 export default class Action extends Fetch {
   /** 标签页切换 */
@@ -14,7 +16,8 @@ export default class Action extends Fetch {
     if (page === this.state.page) return
 
     this.setState({
-      page
+      page,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.save()
     this.tabChangeCallback(page)
@@ -27,4 +30,7 @@ export default class Action extends Fetch {
     const { key } = TABS[page]
     if (!this.catalogs(key)._loaded) this.fetchCatalogs(key, true)
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

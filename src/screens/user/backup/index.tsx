@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:16:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:31:55
+ * @Last Modified time: 2024-12-11 05:39:57
  */
 import React from 'react'
 import { Component, Loading, Page } from '@components'
-import { StoreContext } from '@stores'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Cloud from './component/cloud'
@@ -23,12 +23,12 @@ const Backup = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-backup'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page>
+        <Page style={_.container.header}>
           <Upload />
           <Cloud />
           {$.state.progress.fetching ? <Loading /> : <List />}
         </Page>
+        <Header />
         <Tips />
       </StoreContext.Provider>
     </Component>

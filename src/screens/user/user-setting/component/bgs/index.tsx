@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:47:42
+ * @Last Modified time: 2024-12-12 05:27:36
  */
 import React from 'react'
-import { Flex, Heatmap, Image, Text, Touchable } from '@components'
+import { Flex, Image, Text, Touchable } from '@components'
+import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
@@ -51,15 +52,21 @@ function Bgs({ avatar, more, onViewOrigin, onMore }) {
               onPress={() => $.onSelectBg(item)}
               onLongPress={() => onViewOrigin(item, index)}
             >
-              <Image
-                key={item}
-                src={fixedRemote(item)}
-                width={styles.image.width}
-                height={styles.image.height}
-                headers={getHeaders(item)}
-                radius
-              />
-              {!index && <Heatmap id='个人设置.查看原图' />}
+              <InView
+                y={
+                  styles.bg.height * (Math.floor((index + 1) / 2) + 1) +
+                  Math.floor(_.window.contentWidth * 0.72)
+                }
+              >
+                <Image
+                  key={item}
+                  src={fixedRemote(item)}
+                  width={styles.image.width}
+                  height={styles.image.height}
+                  headers={getHeaders(item)}
+                  radius
+                />
+              </InView>
             </Touchable>
           ))}
       </Flex>

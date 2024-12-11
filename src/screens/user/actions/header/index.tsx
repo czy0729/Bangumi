@@ -2,22 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-11-24 15:39:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:30:57
+ * @Last Modified time: 2024-12-10 18:59:54
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title={$.params.name || '自定义跳转'}
-      hm={['actions', 'Actions']}
+      hm={HM}
       headerRight={() => (
         <IconTouchable
           name='md-info-outline'

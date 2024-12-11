@@ -180,6 +180,8 @@ export function fixedSize(src: any) {
 
 /** 网页端新出的图片规则, 地址后接 hd=1 开启高清头像 */
 export function fixedHD(src: any) {
+  if (typeof src === 'string' && src.indexOf('//') === 0) src = `https:${src}`
+
   if (
     typeof src !== 'string' ||
     !src.includes(HOST_IMAGE) ||

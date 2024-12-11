@@ -26,9 +26,8 @@ function List() {
   return useObserver(() => (
     <ListView
       keyExtractor={keyExtractor}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={_.container.page}
       data={$.blogs}
-      scrollToTop
       renderItem={renderItem}
       onHeaderRefresh={$.refresh}
       onFooterRefresh={$.fetchBlogs}

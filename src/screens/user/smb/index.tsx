@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-28 12:31:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:16:54
+ * @Last Modified time: 2024-12-11 21:02:16
  */
 import React from 'react'
 import './styles'
@@ -25,11 +25,11 @@ const Smb = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-smb'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <List />
           <Form />
         </Page>
+        <Header />
         <ModalFolders />
         <Config />
         <Scrape />

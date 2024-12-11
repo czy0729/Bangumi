@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-10 11:30:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:59:14
+ * @Last Modified time: 2024-12-11 22:41:54
  */
-import { info } from '@utils'
+import { info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import State from './state'
 
@@ -21,4 +21,7 @@ export default class Action extends State {
       list: value
     })
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

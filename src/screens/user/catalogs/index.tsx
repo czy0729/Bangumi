@@ -20,10 +20,10 @@ const Catelogs = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-catelogs'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <Tabs />
         </Page>
+        <Header />
         <Heatmap bottom={_.bottom} id='用户目录' screen='Catelogs' />
       </StoreContext.Provider>
     </Component>

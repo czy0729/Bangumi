@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-09-08 13:51:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-08 13:57:44
+ * @Last Modified time: 2024-12-12 05:13:04
  */
 import { usersStore, userStore } from '@stores'
-import { feedback, HTMLDecode, info } from '@utils'
+import { feedback, HTMLDecode, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import { REG_AVATAR, REG_BG, REG_FIXED } from '../ds'
@@ -123,4 +123,7 @@ export default class Action extends Fetch {
 
     this.save()
   }
+
+  /** 更新可视范围底部 y */
+  onScroll = updateVisibleBottom.bind(this)
 }

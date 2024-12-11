@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-09-13 05:02:24
  */
 import { computed } from 'mobx'
-import { usersStore, userStore } from '@stores'
+import { _, usersStore, userStore } from '@stores'
 import { Friend } from '@stores/users/types'
 import { desc, getPinYinFilterValue } from '@utils'
 import CacheManager from '@utils/cache-manager'
@@ -64,8 +64,17 @@ export default class Computed extends State {
     return CacheManager.set(key, list)
   }
 
+  /** 一行多少个 */
+  @computed get numColumns() {
+    return _.portrait(5, 8)
+  }
+
   /** 网址 */
   @computed get url() {
     return HTML_FRIENDS(this.params?.userId || userStore.myId)
+  }
+
+  @computed get hm() {
+    return [this.url, 'Friends'] as const
   }
 }

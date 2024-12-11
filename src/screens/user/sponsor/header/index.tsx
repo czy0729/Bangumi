@@ -2,27 +2,27 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:36:05
+ * @Last Modified time: 2024-12-11 21:21:14
  */
 import React from 'react'
-import { Flex, Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
 import { timeDiff } from '../utils'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>()
   const { list } = $.state
   return (
-    <HeaderComp
+    <HeaderV2
       title='赞助者'
-      hm={['sponsor', 'Sponsor']}
+      hm={HM}
       headerRight={() => (
-        <Flex>
+        <>
           <IconTouchable
             style={_.mr.sm}
             name={list ? 'md-insert-chart-outlined' : 'md-sort'}
@@ -31,6 +31,7 @@ function Header() {
           />
           <IconTouchable
             name='md-info-outline'
+            size={21}
             color={_.colorTitle}
             onPress={() => {
               navigation.push('Information', {
@@ -49,7 +50,7 @@ function Header() {
               t('赞助者.提示')
             }}
           />
-        </Flex>
+        </>
       )}
     />
   )

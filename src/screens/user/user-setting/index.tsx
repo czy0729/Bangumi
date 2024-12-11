@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:50:31
+ * @Last Modified time: 2024-12-12 05:06:10
  */
 import React from 'react'
 import { Component } from '@components'
@@ -20,8 +20,8 @@ const UserSetting = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-user-setting'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Scroll $={$} />
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

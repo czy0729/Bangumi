@@ -20,10 +20,10 @@ const UserBlogs = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-user-blogs'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page>
           <List />
         </Page>
+        <Header />
         <Heatmap bottom={_.bottom} id='用户日志' screen='Blogs' />
       </StoreContext.Provider>
     </Component>

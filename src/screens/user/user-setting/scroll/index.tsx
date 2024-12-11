@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:49:48
+ * @Last Modified time: 2024-12-12 05:29:51
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -64,6 +64,10 @@ class Scroll extends React.Component<Ctx> {
     $.onRefresh()
   }
 
+  onForwardRef = scrollTo => {
+    this.scrollTo = scrollTo
+  }
+
   get avatar() {
     const { $ } = this.props
     return $.usersInfo.avatar?.large
@@ -101,12 +105,13 @@ class Scroll extends React.Component<Ctx> {
     )
 
     return (
-      <View style={_.container.plain}>
+      <View style={[_.container.header, _.container.plain]}>
         <View style={this.styles.preview}>{!expand && elPreview}</View>
         <ScrollView
-          connectRef={scrollTo => (this.scrollTo = scrollTo)}
+          forwardRef={this.onForwardRef}
           contentContainerStyle={this.styles.contentContainerStyle}
           keyboardDismissMode='on-drag'
+          onScroll={$.onScroll}
         >
           {expand && elPreview}
           <Form expand={this.state.expand} onExpand={this.onExpand} />

@@ -7,6 +7,7 @@
 import React from 'react'
 import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
+import { ScrollEvent } from '@types'
 import ParallaxImage from '../component/parallax-image'
 import Tab from '../component/tab'
 import { Ctx } from '../types'
@@ -25,13 +26,7 @@ class Zone extends React.Component<Ctx> {
     }, 0)
   }
 
-  onScroll = (e: {
-    nativeEvent: {
-      contentOffset: {
-        y: any
-      }
-    }
-  }) => {
+  onScroll = (e: ScrollEvent) => {
     const { $ } = this.props
     $.onScroll(e)
   }

@@ -2,23 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:27:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 11:42:37
+ * @Last Modified time: 2024-12-11 22:53:54
  */
 import React from 'react'
 import { Text } from '@components'
 import { PaginationList2 } from '@_'
-import { _ } from '@stores'
+import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { TEXT_UPDATE_SPONSOR } from '@constants'
 import { LIST } from '../../ds'
+import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 function List() {
+  const { $ } = useStore<Ctx>()
   return (
     <PaginationList2
-      contentContainerStyle={_.container.bottom}
       keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.page}
       data={LIST}
       numColumns={2}
       limit={40}
@@ -28,6 +30,7 @@ function List() {
         </Text>
       }
       renderItem={renderItem}
+      onScroll={$.onScroll}
     />
   )
 }

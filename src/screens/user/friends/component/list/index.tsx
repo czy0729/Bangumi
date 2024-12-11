@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { PaginationList2 } from '@_'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
@@ -16,16 +16,16 @@ import { memoStyles } from './styles'
 function List() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  const numColumns = _.portrait(5, 8)
   return (
     <PaginationList2
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.contentContainerStyle}
       data={$.list}
-      numColumns={numColumns}
-      limit={numColumns * 6}
+      numColumns={$.numColumns}
+      limit={$.numColumns * 6}
       renderItem={renderItem}
       onHeaderRefresh={$.fetchFriends}
+      onScroll={$.onScroll}
     />
   )
 }

@@ -19,9 +19,10 @@ function List({ id }: { id: TabsLabel }) {
 
   const { $ } = useStore<Ctx>()
   const renderItem = useCallback(
-    ({ item }) => (
+    ({ item, index }) => (
       <ItemCatalog
         {...item}
+        index={index}
         isUser
         event={{
           id: '用户目录.跳转',
@@ -42,12 +43,12 @@ function List({ id }: { id: TabsLabel }) {
 
     return (
       <ListView
+        keyExtractor={keyExtractor}
         style={_.container.plain}
         contentContainerStyle={_.container.bottom}
-        keyExtractor={keyExtractor}
         data={catalogs}
-        scrollToTop
         renderItem={renderItem}
+        onScroll={$.onScroll}
         onHeaderRefresh={handleHeaderRefresh}
         onFooterRefresh={handleFooterRefresh}
       />

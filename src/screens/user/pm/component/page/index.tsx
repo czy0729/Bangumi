@@ -63,11 +63,10 @@ class PM extends React.Component<Ctx> {
     const { $ } = this.props
     const { value } = $.state
     return (
-      <Page style={_.container.screen}>
+      <Page style={[_.container.header, _.container.screen]}>
         {$.pmParams._loaded || $.pmDetail._loaded ? (
           <ScrollView
             ref={this.connectRefScrollView}
-            style={_.container.screen}
             contentContainerStyle={_.container.bottom}
             {...SCROLL_VIEW_RESET_PROPS}
           >

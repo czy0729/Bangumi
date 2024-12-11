@@ -21,4 +21,8 @@ export default class Computed extends State {
   @computed get url() {
     return HTML_USERS_BLOGS(this.userId)
   }
+
+  @computed get hm() {
+    return [this.url, 'Blogs'] as const
+  }
 }

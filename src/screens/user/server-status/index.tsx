@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-10-13 17:10:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-11 20:11:38
+ * @Last Modified time: 2024-12-11 21:01:30
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Activity, Button, Component, Flex, Header, Heatmap, ScrollView, Text } from '@components'
+import { Activity, Button, Component, Flex, HeaderV2, Heatmap, ScrollView, Text } from '@components'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { ping, t } from '@utils/fetch'
 import { getSitesList } from './utils'
+import { HM } from './ds'
 import { memoStyles } from './styles'
 
 /** 最大尝试访问次数 */
@@ -111,18 +112,26 @@ class ServerStatus extends React.Component {
 
   render() {
     const { list } = this.state
-    const msDesc =
-      '绿色 < 150ms，黄色 < 1000ms，红色 (或超时) > 1000ms (5000ms)，若必要服务为红色则严重影响 App 的正常使用'
     return (
       <Component id='screen-server-status'>
-        <Header title='网络探针' hm={['server-status', 'ServerStatus']} />
         <ScrollView
           style={_.container.plain}
           contentContainerStyle={this.styles.contentContainerStyle}
           scrollToTop
         >
           <Text style={_.mt.md} size={12} lineHeight={14} type='sub'>
-            {msDesc}
+            <Text size={12} lineHeight={14} type='success'>
+              绿色 {'<'} 150ms
+            </Text>
+            ，
+            <Text size={12} lineHeight={14} type='warning'>
+              黄色 {'<'} 1000ms
+            </Text>
+            ，
+            <Text size={12} lineHeight={14} type='danger'>
+              红色 (或超时) {'>'} 1000ms (5000ms)
+            </Text>{' '}
+            ，若必要服务为红色则严重影响 App 的正常使用
           </Text>
           {list.map((item, index) => (
             <Flex key={item.title} style={_.mt.lg} align='start'>
@@ -178,6 +187,7 @@ class ServerStatus extends React.Component {
           </Button>
           <Heatmap right={80} id='网络探针.全部检测' />
         </View>
+        <HeaderV2 title='网络探针' hm={HM} />
       </Component>
     )
   }

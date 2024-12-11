@@ -6,8 +6,9 @@
  */
 import React, { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
-import { useMount } from '@utils/hooks'
 import { memo } from '@utils/decorators'
+import { useMount } from '@utils/hooks'
+import { ScrollEvent } from '@types'
 import ParallaxImage from './parallax-image'
 import Tab from './tab'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -23,13 +24,7 @@ const Scroll = memo(
     const fixed = useRef(false)
 
     const _onScroll = useCallback(
-      (e: {
-        nativeEvent: {
-          contentOffset: {
-            y: any
-          }
-        }
-      }) => {
+      (e: ScrollEvent) => {
         onScroll(e)
 
         const { y: evtY } = e.nativeEvent.contentOffset

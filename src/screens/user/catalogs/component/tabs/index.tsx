@@ -23,6 +23,7 @@ function Tabs() {
   return useObserver(() => (
     <TabsV2
       key={_.orientation}
+      style={_.container.header}
       routes={TABS}
       page={$.state.page}
       renderItem={renderItem}

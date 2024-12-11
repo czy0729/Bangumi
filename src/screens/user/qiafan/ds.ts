@@ -4,6 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-25 23:23:15
  */
+export const HM = ['qiafan', 'Qiafan'] as const
+
 export const FONT_BASE = {
   lineHeight: 16
 } as const

@@ -32,4 +32,8 @@ export default class Computed extends State {
   catalogDetail(id: Id) {
     return computed(() => discoveryStore.catalogDetail(id)).get()
   }
+
+  @computed get hm() {
+    return [this.url, 'Catelogs'] as const
+  }
 }

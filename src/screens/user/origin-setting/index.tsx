@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-03-22 16:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:51:54
+ * @Last Modified time: 2024-12-11 05:30:05
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Component, Page, ScrollView, Text } from '@components'
 import { Notice } from '@_'
-import { StoreContext } from '@stores'
+import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
 import Cloud from './component/cloud'
@@ -26,9 +26,8 @@ const OriginSetting = (props: NavigationProps) => {
     return (
       <Component id='screen-origin-setting'>
         <StoreContext.Provider value={id}>
-          <Header />
           <Page loaded={$.state._loaded}>
-            <ScrollView>
+            <ScrollView contentContainerStyle={_.container.header}>
               <Notice style={styles.hd}>客户端内仅提供辅助跳转，均不提供直接播放等功能</Notice>
               <View style={styles.scrollView}>
                 <Cloud
@@ -44,6 +43,7 @@ const OriginSetting = (props: NavigationProps) => {
               </Text>
             </ScrollView>
           </Page>
+          <Header />
         </StoreContext.Provider>
       </Component>
     )

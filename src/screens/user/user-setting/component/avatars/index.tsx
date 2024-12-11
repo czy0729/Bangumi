@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:47:32
+ * @Last Modified time: 2024-12-12 05:26:40
  */
 import React from 'react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -38,7 +38,6 @@ function Avatars({ avatar }) {
                     border={_.__colorPlain__}
                     borderWidth={0}
                     placeholder={false}
-                    shadow
                     fallback
                   />
                 </Touchable>

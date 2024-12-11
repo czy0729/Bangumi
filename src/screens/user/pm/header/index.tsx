@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-18 07:11:33
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Heatmap } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
@@ -13,7 +13,7 @@ import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
@@ -26,12 +26,12 @@ function Header() {
   } catch (error) {}
 
   return (
-    <HeaderComp
+    <HeaderV2
       title={`短信${list.length ? ` (${list.length})` : ''}${title ? ` · ${title}` : ''}`}
-      hm={['pm', 'PM']}
+      hm={HM}
       headerTitleAlign='left'
       headerRight={() => (
-        <Flex>
+        <>
           {list.length >= 10 && (
             <>
               <IconTouchable
@@ -53,7 +53,7 @@ function Header() {
               />
             </>
           )}
-          <HeaderComp.Popover
+          <HeaderV2Popover
             data={['浏览器查看']}
             onSelect={key => {
               if (key === '浏览器查看') {
@@ -61,10 +61,8 @@ function Header() {
                 open($.url)
               }
             }}
-          >
-            <Heatmap id='短信.右上角菜单' />
-          </HeaderComp.Popover>
-        </Flex>
+          />
+        </>
       )}
     />
   )

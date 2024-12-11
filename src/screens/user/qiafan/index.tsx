@@ -5,22 +5,22 @@
  * @Last Modified time: 2024-05-05 16:42:45
  */
 import React from 'react'
-import { Component, Divider, Header, ScrollView } from '@components'
+import { Component, Divider, HeaderV2, ScrollView } from '@components'
 import { _, userStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Section1 from './component/section-1'
 import Section2 from './component/section-2'
 import Section3 from './component/section-3'
 import Section4 from './component/section-4'
+import { HM } from './ds'
 
 /** 关于客户端 */
 function Qiafan() {
   return (
     <Component id='screen-qiafan'>
-      <Header title='关于客户端' hm={['qiafan', 'Qiafan']} />
       <ScrollView
         style={_.container.plain}
-        contentContainerStyle={[_.container.wind, _.container.bottom]}
+        contentContainerStyle={[_.container.page, _.container.wind]}
       >
         <Section1 />
         {!userStore.isLimit && (
@@ -34,6 +34,7 @@ function Qiafan() {
           </>
         )}
       </ScrollView>
+      <HeaderV2 title='关于客户端' hm={HM} />
     </Component>
   )
 }

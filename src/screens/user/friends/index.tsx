@@ -21,11 +21,11 @@ const Friends = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-friends'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page>
+        <Page style={_.container.header}>
           <Filter />
           <List />
         </Page>
+        <Header />
         <Heatmap bottom={_.bottom + _.sm} id='好友' screen='Friends' />
       </StoreContext.Provider>
     </Component>

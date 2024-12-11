@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2023-09-23 05:03:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:33:10
+ * @Last Modified time: 2024-12-11 21:05:25
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { Ctx } from '../types'
+import { DATA, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
       title='本地管理'
-      hm={['smb', 'Smb']}
+      hm={HM}
       headerRight={() => (
-        <HeaderComp.Popover
+        <HeaderV2Popover
           name='md-menu'
-          data={['新增服务', '下载配置', '上传配置', '通用配置']}
+          data={DATA}
           onSelect={key => {
             switch (key) {
               case '新增服务':
