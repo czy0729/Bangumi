@@ -6,12 +6,14 @@
  */
 // import { ONAIR_2024S1 } from './2024S1'
 // import { ONAIR_2024S2 } from './2024S2'
-import { ONAIR_2024S3 } from './2024S3'
+// import { ONAIR_2024S3 } from './2024S3'
 import { ONAIR_2024S4 } from './2024S4'
+import { ONAIR_2025S1 } from './2025S1'
 
 export const ON_AIR = {
   // ...ONAIR_2024S1,
   // ...ONAIR_2024S2,
-  ...ONAIR_2024S3,
-  ...ONAIR_2024S4
+  // ...ONAIR_2024S3,
+  ...ONAIR_2024S4,
+  ...ONAIR_2025S1
 } as const
