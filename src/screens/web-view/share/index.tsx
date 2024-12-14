@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:30:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:49:21
+ * @Last Modified time: 2024-12-12 06:41:50
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Component, Header } from '@components'
+import { Component, HeaderV2 } from '@components'
 import WebView from '@components/@/web-view'
 import { IconTouchable, SafeAreaView } from '@_'
 import { _ } from '@stores'
@@ -122,24 +122,11 @@ class WebViewShare extends React.Component<{
     const backgroundColor = dark ? '#000' : '#fff'
     return (
       <Component id='screen-webview-share'>
-        <Header
-          title={IOS ? 'iOS暂请自行截屏' : '长按保存图片'}
-          alias='条目分享'
-          hm={[`share/subject/${route?.params?._subjectId}`, 'Share']}
-          headerRight={() => (
-            <IconTouchable
-              style={_.mr.xs}
-              name={dark ? 'ios-moon' : 'ios-sunny'}
-              size={20}
-              color={_.colorDesc}
-              onPress={this.onToggleTheme}
-            />
-          )}
-        />
         <SafeAreaView
           style={[
-            _.container.flex,
+            _.container.header,
             {
+              flex: 1,
               backgroundColor: '#000'
             }
           ]}
@@ -161,6 +148,20 @@ class WebViewShare extends React.Component<{
             />
           )}
         </SafeAreaView>
+        <HeaderV2
+          title={IOS ? 'iOS 暂请自行截屏' : '长按保存图片'}
+          alias='条目分享'
+          hm={[`share/subject/${route?.params?._subjectId}`, 'Share']}
+          headerRight={() => (
+            <IconTouchable
+              style={_.mr.xs}
+              name={dark ? 'moon' : 'sunny'}
+              size={19}
+              color={_.colorDesc}
+              onPress={this.onToggleTheme}
+            />
+          )}
+        />
       </Component>
     )
   }

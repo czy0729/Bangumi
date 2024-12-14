@@ -2,26 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:48:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 05:42:35
+ * @Last Modified time: 2024-12-12 05:44:33
  */
 import React from 'react'
-import { Flex, Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>()
   const { hide } = $.state
   return (
-    <HeaderComp
+    <HeaderV2
       title='豆瓣同步'
-      hm={['douban-sync', 'DoubanSync']}
+      hm={HM}
       headerRight={() => (
-        <Flex>
+        <>
           <IconTouchable
             style={_.mr.xs}
             name={hide ? 'md-refresh' : 'md-close'}
@@ -33,8 +33,6 @@ function Header() {
             color={_.colorDesc}
             size={19}
             onPress={() => {
-              t('豆瓣同步.关于')
-
               navigation.push('Information', {
                 title: '豆瓣同步',
                 message: [
@@ -45,9 +43,11 @@ function Header() {
                 ],
                 advance: true
               })
+
+              t('豆瓣同步.关于')
             }}
           />
-        </Flex>
+        </>
       )}
     />
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:50:21
+ * @Last Modified time: 2024-12-12 06:46:59
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,7 @@ function Options() {
       {!WEB && (
         <View style={styles.theme}>
           <IconTouchable
-            name={_.isDark ? 'ios-moon' : 'ios-sunny'}
+            name={_.isDark ? 'moon' : 'sunny'}
             color={_.colorIcon}
             size={18}
             onPress={() => {

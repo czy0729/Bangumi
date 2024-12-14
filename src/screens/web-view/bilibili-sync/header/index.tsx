@@ -2,26 +2,27 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 05:38:14
+ * @Last Modified time: 2024-12-12 05:36:35
  */
 import React from 'react'
-import { Flex, Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
 import { Ctx } from '../types'
+import { HM } from './ds'
 
 function Header() {
   const { $, navigation } = useStore<Ctx>()
   const { hide } = $.state
   return (
-    <HeaderComp
+    <HeaderV2
       title='bilibili 同步'
-      hm={['bilibili-sync', 'BilibiliSync']}
+      hm={HM}
       headerRight={() => (
-        <Flex>
+        <>
           <IconTouchable
             style={_.mr.xs}
             name={hide ? 'md-refresh' : 'md-close'}
@@ -33,8 +34,6 @@ function Header() {
             color={_.colorDesc}
             size={19}
             onPress={() => {
-              t('bili同步.关于')
-
               navigation.push('Information', {
                 title: 'bilibili 同步',
                 message: [
@@ -45,9 +44,11 @@ function Header() {
                 ],
                 advance: true
               })
+
+              t('bili同步.关于')
             }}
           />
-        </Flex>
+        </>
       )}
     />
   )

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 05:36:56
+ * @Last Modified time: 2024-12-12 05:41:38
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -21,7 +21,6 @@ const BilibiliSync = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-bilibili-sync'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <Login
             hide={$.state.hide}
@@ -31,6 +30,7 @@ const BilibiliSync = (props: NavigationProps) => {
           />
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

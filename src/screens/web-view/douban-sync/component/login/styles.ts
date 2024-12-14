@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-10-17 13:27:27
+ * @Last Modified time: 2024-12-12 06:14:37
  */
 import { _ } from '@stores'
 
@@ -18,7 +18,7 @@ export const memoStyles = _.memoStyles(() => ({
   fixed: {
     position: 'absolute',
     zIndex: 2,
-    top: 8,
+    top: _.headerHeight + 8,
     right: _.wind,
     width: _.window.contentWidth,
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),

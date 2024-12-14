@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-14 17:59:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 09:27:31
+ * @Last Modified time: 2024-12-12 06:46:10
  */
 import React from 'react'
 import { Button, Component, Flex, Iconfont, Text, Touchable } from '@components'
@@ -35,7 +35,7 @@ export const Auth = ob(() => {
         {!WEB && (
           <IconTouchable
             style={_.mr.xs}
-            name={_.isDark ? 'ios-moon' : 'ios-sunny'}
+            name={_.isDark ? 'moon' : 'sunny'}
             color={_.colorDesc}
             size={22}
             onPress={() => {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-04-20 00:38:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-20 16:29:12
+ * @Last Modified time: 2024-12-12 06:47:18
  */
 import React from 'react'
 import { Heatmap } from '@components'
@@ -30,7 +30,7 @@ function AppTheme({ navigation, filter }) {
       {!WEB && (
         <ItemSettingBlock.Item
           style={_.mr.md}
-          icon='ios-sunny'
+          icon='sunny'
           iconColor={_.colorYellow}
           active={!_.isDark}
           filter={filter}
@@ -44,7 +44,7 @@ function AppTheme({ navigation, filter }) {
       )}
       <ItemSettingBlock.Item
         style={_.mr.md}
-        icon='ios-moon'
+        icon='moon'
         iconColor={_.colorYellow}
         active={_.isDark && systemStore.setting.deepDark}
         filter={filter}
@@ -56,7 +56,7 @@ function AppTheme({ navigation, filter }) {
         <Heatmap id='设置.切换' title='纯黑' />
       </ItemSettingBlock.Item>
       <ItemSettingBlock.Item
-        icon='ios-moon'
+        icon='moon'
         iconColor={_.colorYellow}
         active={_.isDark && !systemStore.setting.deepDark}
         filter={filter}

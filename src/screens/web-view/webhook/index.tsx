@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-10 18:42:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:51:14
+ * @Last Modified time: 2024-12-12 06:36:11
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,6 @@ const Webhook = () => {
     const { webhook, webhookUrl } = systemStore.setting
     return (
       <Component id='screen-webhook'>
-        <Header />
         <Page style={styles.container}>
           <Flex>
             <Flex.Item>
@@ -84,6 +83,7 @@ const Webhook = () => {
             ))}
           </ScrollView>
         </Page>
+        <Header />
       </Component>
     )
   })

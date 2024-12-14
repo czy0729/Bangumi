@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:48:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 05:41:35
+ * @Last Modified time: 2024-12-12 05:43:57
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -22,12 +22,12 @@ const DoubanSync = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-douban-sync'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <Login />
           <List />
           <Tips />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

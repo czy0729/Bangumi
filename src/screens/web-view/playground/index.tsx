@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-08 11:15:53
+ * @Last Modified time: 2024-12-12 06:22:15
  */
 import React from 'react'
 import { View } from 'react-native'
 import { useObserver } from 'mobx-react'
-import { Button, Component, Header, Page } from '@components'
+import { Button, Component, HeaderV2, Page } from '@components'
 import { _ } from '@stores'
 import { get, update } from '@utils/kv'
 
 const Playground = () => {
   return useObserver(() => (
     <Component id='screen-playground'>
-      <Header title='Playground' />
       <Page>
-        <View style={_.container.outer}>
+        <View style={[_.container.page, _.container.wind]}>
           <Button
             style={_.mb.md}
             onPress={() => {
@@ -40,6 +39,7 @@ const Playground = () => {
           </Button>
         </View>
       </Page>
+      <HeaderV2 title='Playground' />
     </Component>
   ))
 }
