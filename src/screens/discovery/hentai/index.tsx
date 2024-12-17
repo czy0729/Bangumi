@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:49:21
+ * @Last Modified time: 2024-12-17 16:33:21
  */
 import React from 'react'
 import { Component, Page, Text } from '@components'
@@ -13,6 +13,7 @@ import { NavigationProps } from '@types'
 import Header from '../anime/header'
 import { useHentaiPage } from './hooks'
 import List from './list'
+import { HM } from './ds'
 
 /** 找番剧 */
 const Hentai = (props: NavigationProps) => {
@@ -21,8 +22,7 @@ const Hentai = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-hentai'>
       <StoreContext.Provider value={id}>
-        <Header title='找番剧' alias='Hentai' hm={['hentai', 'Hentai']} />
-        <Page loaded={$.state._loaded}>
+        <Page style={_.container.header} loaded={$.state._loaded}>
           <Notice>此页面已不再维护</Notice>
           {!$.access ? (
             <>
@@ -35,6 +35,7 @@ const Hentai = (props: NavigationProps) => {
             <List $={$} />
           )}
         </Page>
+        <Header title='找番剧' alias='Hentai' hm={HM} />
       </StoreContext.Provider>
     </Component>
   ))

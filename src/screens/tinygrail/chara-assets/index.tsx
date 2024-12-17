@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-19 00:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-05 03:43:23
+ * @Last Modified time: 2024-12-16 21:22:36
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,7 +20,6 @@ const TinygrailCharaAssets = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-chara-assets'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page
           style={_.container.tinygrail}
           loaded={$.state._loaded}
@@ -28,6 +27,7 @@ const TinygrailCharaAssets = (props: NavigationProps) => {
         >
           <Tabs />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

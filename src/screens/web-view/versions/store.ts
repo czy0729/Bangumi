@@ -24,7 +24,7 @@ export default class ScreenVersions extends store<typeof STATE> {
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 菜单切换 */

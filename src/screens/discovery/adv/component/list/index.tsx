@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-02 18:21:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 10:17:40
+ * @Last Modified time: 2024-12-17 16:20:43
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -72,9 +72,9 @@ class List extends React.Component<Ctx> {
     return (
       <PaginationList2
         key={`${layout}${numColumns}`}
-        connectRef={this.connectRef}
-        contentContainerStyle={_.container.bottom}
         keyExtractor={keyExtractor}
+        connectRef={this.connectRef}
+        contentContainerStyle={_.container.page}
         numColumns={numColumns}
         data={$.list}
         limit={9}

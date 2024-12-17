@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:17:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 08:20:28
+ * @Last Modified time: 2024-12-17 16:11:46
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Iconfont, Text, Touchable } from '@components'
+import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { useStore } from '@stores'
 import { info } from '@utils'
@@ -19,13 +19,12 @@ function Header() {
   const { $, navigation } = useStore<Ctx>()
   const { trend } = $.state
   return (
-    <HeaderComp
-      mode='float'
-      statusBarEventsType='Subject'
+    <HeaderV2
+      transparent
       title={$.title ? `${$.title}的词云` : '词云'}
       hm={$.hm}
       headerRight={() => (
-        <Flex>
+        <>
           {!$.userId && !!trend && (
             <Touchable
               onPress={() => {
@@ -55,7 +54,7 @@ function Header() {
               })
             }}
           />
-        </Flex>
+        </>
       )}
     />
   )

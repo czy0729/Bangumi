@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:59:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 21:54:50
+ * @Last Modified time: 2024-12-17 16:18:06
  */
 import {
   MANGA_COLLECTED,
@@ -75,3 +75,5 @@ export const filterDS = [
     data: MANGA_COLLECTED
   }
 ] as const
+
+export const HM = ['manga', 'Manga'] as const

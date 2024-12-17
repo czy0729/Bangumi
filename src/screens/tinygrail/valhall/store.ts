@@ -82,7 +82,7 @@ export default class ScreenTinygrailValhall extends store<typeof STATE> {
     this.setState({
       go: title
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 筛选 */
@@ -94,7 +94,7 @@ export default class ScreenTinygrailValhall extends store<typeof STATE> {
     this.setState({
       level
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 排序 */
@@ -131,6 +131,6 @@ export default class ScreenTinygrailValhall extends store<typeof STATE> {
       })
     }
 
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }

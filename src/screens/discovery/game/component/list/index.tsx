@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:06:47
+ * @Last Modified time: 2024-12-17 16:17:23
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -31,7 +31,7 @@ function List() {
       key={`${$.state.layout}${numColumns}`}
       keyExtractor={keyExtractor}
       forwardRef={$.forwardRef}
-      contentContainerStyle={_.container.bottom}
+      contentContainerStyle={_.container.page}
       numColumns={numColumns}
       data={$.list}
       limit={9}

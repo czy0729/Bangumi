@@ -17,3 +17,5 @@ export const EXCLUDE_STATE = {
 export const STATE = {
   ...EXCLUDE_STATE
 }
+
+export const HM = ['tinygrail/relation', 'TinygrailRelation'] as const

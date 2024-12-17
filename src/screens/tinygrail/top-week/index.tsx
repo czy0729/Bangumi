@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-08 20:39:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 19:10:47
+ * @Last Modified time: 2024-12-17 15:48:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import {
   Avatar,
   Component,
   Flex,
-  Header,
+  HeaderV2,
   Page,
   ScrollView,
   Text,
@@ -25,6 +25,7 @@ import { useObserver } from '@utils/hooks'
 import { M } from '@constants'
 import { NavigationProps } from '@types'
 import { useTinygrailTopWeekPage } from './hooks'
+import { HM } from './ds'
 import { memoStyles } from './styles'
 
 /** 每周萌王 */
@@ -36,30 +37,8 @@ const TinygrailTopWeek = (props: NavigationProps) => {
     return (
       <Component id='screen-tinygrail-top-week'>
         <StoreContext.Provider value={id}>
-          <Header
-            title='每周萌王'
-            hm={['tinygrail/top-week', 'TopWeek']}
-            statusBarEvents={false}
-            statusBarEventsType='Tinygrail'
-            headerRight={() => (
-              <IconHeader
-                name='md-refresh'
-                color={_.colorTinygrailPlain}
-                onPress={async () => {
-                  t('每周萌王.刷新')
-
-                  await $.fetchTopWeek()
-                  info('已刷新')
-                }}
-              />
-            )}
-          />
           <Page style={_.container.tinygrail}>
-            <ScrollView
-              style={_.container.flex}
-              contentContainerStyle={_.container.bottom}
-              scrollToTop
-            >
+            <ScrollView contentContainerStyle={_.container.page} scrollToTop>
               {$.topWeek.list.map(item => {
                 let changeColor: TextType
                 if (item.rankChange === 'new') {
@@ -194,6 +173,23 @@ const TinygrailTopWeek = (props: NavigationProps) => {
               })}
             </ScrollView>
           </Page>
+          <HeaderV2
+            backgroundStyle={_.container.tinygrail}
+            title='每周萌王'
+            hm={HM}
+            headerRight={() => (
+              <IconHeader
+                name='md-refresh'
+                color={_.colorTinygrailPlain}
+                onPress={async () => {
+                  await $.fetchTopWeek()
+                  info('已刷新')
+
+                  t('每周萌王.刷新')
+                }}
+              />
+            )}
+          />
         </StoreContext.Provider>
       </Component>
     )

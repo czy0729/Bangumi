@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 04:58:20
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { info } from '@utils'
-import store from '@utils/store'
 import { t } from '@utils/fetch'
+import store from '@utils/store'
 import { MonoId, Navigation } from '@types'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
@@ -59,7 +59,7 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
     this.setState({
       history: _history
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 删除历史 */
@@ -72,7 +72,7 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
     this.setState({
       history: history.filter(item => item !== value)
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   // -------------------- action --------------------

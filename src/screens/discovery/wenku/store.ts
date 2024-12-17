@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:44:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:35:55
+ * @Last Modified time: 2024-12-17 16:39:01
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, otaStore, systemStore } from '@stores'
@@ -40,6 +40,10 @@ export default class ScreenWenku extends store<typeof STATE> {
         _loaded: true
       })
     }, 120)
+  }
+
+  save = () => {
+    return this.saveStorage(NAMESPACE)
   }
 
   /** 文库本地数据查询 */
@@ -130,7 +134,7 @@ export default class ScreenWenku extends store<typeof STATE> {
 
     setTimeout(() => {
       this.search()
-      this.setStorage(NAMESPACE)
+      this.save()
 
       t('文库.选择', {
         type,
@@ -161,7 +165,7 @@ export default class ScreenWenku extends store<typeof STATE> {
     this.setState({
       layout: value
     })
-    this.setStorage(NAMESPACE)
+    this.save()
 
     t('文库.切换布局', {
       layout: value
@@ -173,7 +177,7 @@ export default class ScreenWenku extends store<typeof STATE> {
     this.setState({
       expand: !this.state.expand
     })
-    this.setStorage(NAMESPACE)
+    this.save()
   }
 
   /** 加载下一页 */

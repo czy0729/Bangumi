@@ -20,10 +20,10 @@ const TinygrailRich = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-rich'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page style={_.container.tinygrail} loaded={$.state._loaded}>
+        <Page style={[_.container.tinygrail, _.container.header]} loaded={$.state._loaded}>
           <Tabs />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

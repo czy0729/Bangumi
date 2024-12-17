@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:09:07
+ * @Last Modified time: 2024-12-17 16:24:46
  */
 import {
   HENTAI_BODY,
@@ -91,3 +91,5 @@ export const filterDS = [
     data: HENTAI_COLLECTED
   }
 ] as const
+
+export const HM = ['hentai', 'Hentai'] as const

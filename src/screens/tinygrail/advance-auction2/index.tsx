@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:50:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:39:29
+ * @Last Modified time: 2024-12-17 05:03:43
  */
 import React from 'react'
-import { Component, Header, Page } from '@components'
+import { Component, HeaderV2, Page } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { alert } from '@utils'
@@ -15,7 +15,8 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import { NavigationProps } from '@types'
 import { useTinygrailAdvanceAuction2Page } from './hooks'
 import List from './list'
-import { sortDS } from './store'
+import { SORT_DS } from './store'
+import { HM } from './ds'
 
 /** 拍卖推荐 B */
 const TinygrailAdvanceAuction2 = (props: NavigationProps) => {
@@ -24,11 +25,23 @@ const TinygrailAdvanceAuction2 = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-advance-auction-2'>
       <StoreContext.Provider value={id}>
-        <Header
+        <Page style={[_.container.tinygrail, _.container.header]}>
+          <ToolBar
+            style={_.mt._sm}
+            level={$.state.level}
+            levelMap={$.levelMap}
+            data={SORT_DS}
+            sort={$.state.sort}
+            direction={$.state.sort ? 'down' : undefined}
+            onLevelSelect={$.onLevelSelect}
+            onSortPress={$.onSortPress}
+          />
+          <List />
+        </Page>
+        <HeaderV2
+          backgroundStyle={_.container.tinygrail}
           title='拍卖推荐 B'
-          hm={['tinygrail/advance-auction2', 'TinygrailAdvanceAuction2']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
+          hm={HM}
           headerRight={() => (
             <IconHeader
               name='md-info-outline'
@@ -46,19 +59,6 @@ const TinygrailAdvanceAuction2 = (props: NavigationProps) => {
             />
           )}
         />
-        <Page style={_.container.tinygrail}>
-          <ToolBar
-            style={_.mt._sm}
-            level={$.state.level}
-            levelMap={$.levelMap}
-            data={sortDS}
-            sort={$.state.sort}
-            direction={$.state.sort ? 'down' : undefined}
-            onLevelSelect={$.onLevelSelect}
-            onSortPress={$.onSortPress}
-          />
-          <List />
-        </Page>
       </StoreContext.Provider>
     </Component>
   ))

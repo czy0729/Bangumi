@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { Component, Flex, Header, Iconfont, Image, Page, Text, Touchable } from '@components'
+import { Component, Flex, HeaderV2, Iconfont, Image, Page, Text, Touchable } from '@components'
 import { _, StoreContext } from '@stores'
 import { formatNumber, tinygrailOSS } from '@utils'
 import { useObserver } from '@utils/hooks'
@@ -15,6 +15,7 @@ import CharactersModal, { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import { ITEMS_DESC } from '@tinygrail/_/ds'
 import { NavigationProps } from '@types'
 import { useTinygrailItemsPage } from './hooks'
+import { HM } from './ds'
 import { memoStyles } from './styles'
 
 /** 我的道具 */
@@ -27,18 +28,8 @@ const TinygrailItems = (props: NavigationProps) => {
     return (
       <Component id='screen-tinygrail-items'>
         <StoreContext.Provider value={id}>
-          <Header
-            title='我的道具'
-            hm={['tinygrail/items', 'TinygrailItems']}
-            statusBarEvents={false}
-            statusBarEventsType='Tinygrail'
-          />
           <Page style={_.container.tinygrail}>
-            <ScrollView
-              style={_.container.flex}
-              contentContainerStyle={_.container.bottom}
-              {...SCROLL_VIEW_RESET_PROPS}
-            >
+            <ScrollView contentContainerStyle={_.container.page} {...SCROLL_VIEW_RESET_PROPS}>
               {list
                 .slice()
                 .sort((a, b) => (ITEMS_USED[b.name] || 0) - (ITEMS_USED[a.name] || 0))
@@ -52,10 +43,11 @@ const TinygrailItems = (props: NavigationProps) => {
                       >
                         <Flex style={styles.wrap} align='start'>
                           <Image
+                            style={styles.image}
                             size={36}
                             src={tinygrailOSS(item.icon)}
                             radius
-                            skeletonType='tinygrail'
+                            skeleton={false}
                           />
                           <Flex.Item style={_.ml.md}>
                             <Text type='tinygrailPlain' size={15} bold>
@@ -82,10 +74,11 @@ const TinygrailItems = (props: NavigationProps) => {
                     <View key={item.id} style={styles.item}>
                       <Flex style={styles.wrap} align='start'>
                         <Image
+                          style={styles.image}
                           size={36}
                           src={tinygrailOSS(item.icon)}
                           radius
-                          skeletonType='tinygrail'
+                          skeleton={false}
                         />
                         <Flex.Item style={_.ml.md}>
                           <Text type='tinygrailPlain' bold>
@@ -110,6 +103,7 @@ const TinygrailItems = (props: NavigationProps) => {
               onSubmit={$.doUse}
             />
           </Page>
+          <HeaderV2 backgroundStyle={_.container.tinygrail} title='我的道具' hm={HM} />
         </StoreContext.Provider>
       </Component>
     )

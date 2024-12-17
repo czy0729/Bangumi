@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:37:00
+ * @Last Modified time: 2024-12-17 16:36:51
  */
 import { computed, observable } from 'mobx'
 import { collectionStore, otaStore, systemStore, userStore } from '@stores'
@@ -43,7 +43,7 @@ export default class ScreenHentai extends store<typeof STATE> {
   }
 
   save = () => {
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** hentai 本地数据查询 */
@@ -178,6 +178,6 @@ export default class ScreenHentai extends store<typeof STATE> {
       })
     }
 
-    return otaStore.onGamePage(pageData)
+    return otaStore.onHentaiPage(pageData)
   }
 }

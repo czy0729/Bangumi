@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 10:23:29
+ * @Last Modified time: 2024-12-17 16:16:32
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,10 +20,10 @@ const Anime = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-anime'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

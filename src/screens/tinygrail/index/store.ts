@@ -181,7 +181,7 @@ export default class ScreenTinygrail extends store<typeof STATE> {
         loading: false,
         _loaded: getTimestamp()
       })
-      this.setStorage(NAMESPACE)
+      this.saveStorage(NAMESPACE)
     } catch (error) {
       t('小圣杯.授权失败')
 
@@ -504,7 +504,7 @@ export default class ScreenTinygrail extends store<typeof STATE> {
       lastBalance: currentBalance,
       lastTotal: currentTotal
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 开启 / 关闭缩略资金 */

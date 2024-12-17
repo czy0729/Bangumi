@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 09:50:21
+ * @Last Modified time: 2024-12-17 15:52:18
  */
 import React from 'react'
-import { Component, Header, Loading, Page, Text } from '@components'
+import { Component, HeaderV2, Loading, Page, Text } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
@@ -13,6 +13,7 @@ import { NavigationProps } from '@types'
 import Chart from './chart'
 import { useTinygrailTreeRichPage } from './hooks'
 import ToolBar from './tool-bar'
+import { HM } from './ds'
 
 /** 前百首富 */
 const TinygrailTreeRich = (props: NavigationProps) => {
@@ -21,11 +22,18 @@ const TinygrailTreeRich = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-tree-rich'>
       <StoreContext.Provider value={id}>
-        <Header
+        <Page style={[_.container.tinygrail, _.container.header]}>
+          <ToolBar />
+          {$.state.loading ? (
+            <Loading style={_.container.tinygrail} color={_.colorTinygrailText} />
+          ) : (
+            <Chart data={$.state.data} onPress={handleShowMenu} onLongPress={$.onToggleItem} />
+          )}
+        </Page>
+        <HeaderV2
+          backgroundStyle={_.container.tinygrail}
           title='前百首富'
-          hm={['tinygrail/tree-rich', 'TinygrailTreeRich']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
+          hm={HM}
           headerRight={() =>
             refreshing ? (
               <Text style={_.mr.xs} type='tinygrailPlain' size={12}>
@@ -42,14 +50,6 @@ const TinygrailTreeRich = (props: NavigationProps) => {
             )
           }
         />
-        <Page style={_.container.tinygrail}>
-          <ToolBar />
-          {$.state.loading ? (
-            <Loading style={_.container.tinygrail} color={_.colorTinygrailText} />
-          ) : (
-            <Chart data={$.state.data} onPress={handleShowMenu} onLongPress={$.onToggleItem} />
-          )}
-        </Page>
       </StoreContext.Provider>
     </Component>
   ))

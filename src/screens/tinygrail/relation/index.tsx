@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-19 15:58:29
  */
 import React from 'react'
-import { Component, Header, Page } from '@components'
+import { Component, HeaderV2, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import { NavigationProps } from '@types'
@@ -14,6 +14,7 @@ import ToolBar from '../_/tool-bar'
 import { useTinygrailRelationPage } from './hooks'
 import List from './list'
 import { SORT_DS } from './store'
+import { HM } from './ds'
 
 /** 关联角色 */
 const TinygrailRelation = (props: NavigationProps) => {
@@ -22,17 +23,8 @@ const TinygrailRelation = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-relation'>
       <StoreContext.Provider value={id}>
-        <Header
-          title={$.params?.name || '关联角色'}
-          alias='关联角色'
-          hm={['tinygrail/relation', 'TinygrailRelation']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
-          headerRight={() => <IconGo $={$} />}
-        />
-        <Page style={_.container.tinygrail}>
+        <Page style={[_.container.tinygrail, _.container.header]}>
           <ToolBar
-            style={_.mt._sm}
             data={SORT_DS}
             level={$.state.level}
             sort={$.state.sort}
@@ -42,6 +34,13 @@ const TinygrailRelation = (props: NavigationProps) => {
           />
           <List />
         </Page>
+        <HeaderV2
+          backgroundStyle={_.container.tinygrail}
+          title={$.params?.name || '关联角色'}
+          alias='关联角色'
+          hm={HM}
+          headerRight={() => <IconGo $={$} />}
+        />
       </StoreContext.Provider>
     </Component>
   ))

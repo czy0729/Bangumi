@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 07:07:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 13:30:35
+ * @Last Modified time: 2024-12-17 16:18:49
  */
 import {
   WENKU_ANIME,
@@ -97,3 +97,5 @@ export const filterDS = [
     data: WENKU_COLLECTED
   }
 ] as const
+
+export const HM = ['wenku', 'Wenku'] as const

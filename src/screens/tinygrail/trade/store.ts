@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 06:23:24
  */
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
-import store from '@utils/store'
 import { queue, t } from '@utils/fetch'
+import store from '@utils/store'
 import { MonoId } from '@types'
-import { STATE, m1, m5, m15, h1, h4, h12, d1, w1, month1, NAMESPACE } from './ds'
+import { d1, h1, h12, h4, m1, m15, m5, month1, NAMESPACE, STATE, w1 } from './ds'
 import { Params } from './types'
 
 export { m1, m5, m15, h1, h4, h12, d1, w1, month1 }
@@ -33,11 +33,7 @@ export default class ScreenTinygrailTrade extends store<typeof STATE> {
     })
 
     if (needFetch) {
-      return queue([
-        () => this.fetchChara(),
-        () => this.fetchKline(),
-        () => this.fetchDepth()
-      ])
+      return queue([() => this.fetchChara(), () => this.fetchKline(), () => this.fetchDepth()])
     }
     return true
   }
@@ -88,6 +84,6 @@ export default class ScreenTinygrailTrade extends store<typeof STATE> {
     this.setState({
       distance
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }

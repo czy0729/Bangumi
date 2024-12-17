@@ -5,21 +5,20 @@
  * @Last Modified time: 2024-11-19 18:34:20
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
-import { useStore } from '@stores'
+import { HeaderV2 } from '@components'
+import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import Label from '../component/label'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
+      backgroundStyle={_.container.tinygrail}
       title='通天塔(β)'
-      hm={['tinygrail/star', 'Star']}
-      statusBarEvents={false}
-      statusBarEventsType='Tinygrail'
+      hm={HM}
       headerRight={() => <Label $={$} />}
     />
   )

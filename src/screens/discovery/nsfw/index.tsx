@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:45:52
+ * @Last Modified time: 2024-12-17 16:20:59
  */
 import React from 'react'
 import { Component, Page, Text } from '@components'
@@ -13,6 +13,7 @@ import { NavigationProps } from '@types'
 import Header from '../anime/header'
 import List from './component/list'
 import { useNSFWPage } from './hooks'
+import { HM } from './ds'
 
 /** 找番剧 */
 const NSFW = (props: NavigationProps) => {
@@ -21,7 +22,6 @@ const NSFW = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-nsfw'>
       <StoreContext.Provider value={id}>
-        <Header title='找条目' alias='NSFW' hm={['nsfw', 'NSFW']} />
         <Page loaded={$.state._loaded}>
           {userStore.isLimit ? (
             <>
@@ -34,6 +34,7 @@ const NSFW = (props: NavigationProps) => {
             <List $={$} navigation={navigation} />
           )}
         </Page>
+        <Header title='找条目' alias='NSFW' hm={HM} />
       </StoreContext.Provider>
     </Component>
   ))

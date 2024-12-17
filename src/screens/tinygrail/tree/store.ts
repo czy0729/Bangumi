@@ -233,7 +233,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
       filterItems: []
     })
     this.generateTreeMap()
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 选择计算类型 */
@@ -247,7 +247,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
       filterItems: []
     })
     this.generateTreeMap()
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 隐藏低持仓 */

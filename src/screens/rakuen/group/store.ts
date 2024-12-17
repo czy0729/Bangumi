@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-08 11:06:14
+ * @Last Modified time: 2024-12-17 16:40:59
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
@@ -37,6 +37,10 @@ export default class ScreenGroup extends store<typeof STATE> {
 
     this.fetchGroup()
     return this.fetchGroupInfo()
+  }
+
+  save = () => {
+    return this.saveStorage(this.key)
   }
 
   // -------------------- fetch --------------------
@@ -213,7 +217,7 @@ export default class ScreenGroup extends store<typeof STATE> {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, this.key)
+      this.save()
     }, 400)
   }
 
@@ -236,7 +240,7 @@ export default class ScreenGroup extends store<typeof STATE> {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, this.key)
+      this.save()
     }, 400)
   }
 
@@ -279,7 +283,7 @@ export default class ScreenGroup extends store<typeof STATE> {
       this.setState({
         show: true
       })
-      this.setStorage(undefined, undefined, this.key)
+      this.save()
     }, 400)
   }
 

@@ -90,7 +90,7 @@ export default class ScreenTinygrailRelation extends store<typeof STATE> {
     this.setState({
       go: title
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   onLevelSelect = (level: any) => {
@@ -98,7 +98,7 @@ export default class ScreenTinygrailRelation extends store<typeof STATE> {
       level
     })
 
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 排序 */
@@ -135,6 +135,6 @@ export default class ScreenTinygrailRelation extends store<typeof STATE> {
       })
     }
 
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }

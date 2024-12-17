@@ -7,7 +7,7 @@
 import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, HOST } from '@constants'
-import { cheerioToday } from './common'
+import { cheerioRaw, cheerioToday } from './common'
 import Computed from './computed'
 import { INIT_HOME, NAMESPACE } from './init'
 import { fixedOnAir } from './utils'
@@ -166,5 +166,13 @@ export default class Fetch extends Computed {
       this.save(key)
       this._fetchOnAir = true
     } catch (error) {}
+  }
+
+  fetchRaw = async () => {
+    const { _response } = await xhrCustom({
+      url: 'https://yuc.wiki/202501'
+    })
+    const data = cheerioRaw(_response)
+    console.info(data)
   }
 }

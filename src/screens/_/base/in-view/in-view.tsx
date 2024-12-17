@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-19 12:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-06 20:32:27
+ * @Last Modified time: 2024-12-05 15:35:33
  */
 import React, { useCallback, useEffect, useState } from 'react'
 import { LayoutChangeEvent, View } from 'react-native'
-import { Flex } from '@components'
+import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { DEV } from '@constants'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 /** 提前渲染的 y 轴距离 */
 let preDistance = 0
@@ -20,7 +21,7 @@ if (!DEV) {
   }, 20000)
 }
 
-export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
+export default ({ index = 0, y = 0, log = DEV, flex, visibleBottom, children, ...other }) => {
   r(COMPONENT)
 
   const [currentY, setCurrentY] = useState(y)
@@ -45,13 +46,29 @@ export default ({ y = 0, log, flex, visibleBottom, children, ...other }) => {
     if (currentY && visibleBottom + preDistance >= currentY) setShow(true)
   }, [show, visibleBottom, currentY])
 
-  if (log) console.info('InView', visibleBottom, y, show)
+  const logText: string[] = []
+  if (log) {
+    logText.push(`c:${visibleBottom}`)
+    if (y) {
+      logText.push(`y:${Math.floor(y)}`)
+    } else {
+      logText.push(`cy:${Math.floor(currentY)}`)
+    }
+    if (index) logText.push(`i:${index}`)
+  }
 
   const Component = flex ? Flex : View
   return (
     // @ts-expect-error
     <Component {...other} onLayout={y ? undefined : onLayout}>
       {show ? children : null}
+      {log && (
+        <Flex style={styles.dev}>
+          <Text style={styles.devText} size={8} bold shadow>
+            {logText.join(', ')}
+          </Text>
+        </Flex>
+      )}
     </Component>
   )
 }

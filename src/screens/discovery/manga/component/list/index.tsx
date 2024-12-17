@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-09 01:00:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:15:27
+ * @Last Modified time: 2024-12-17 16:18:20
  */
 import React from 'react'
 import { Loading } from '@components'
@@ -72,7 +72,7 @@ class List extends React.Component<Ctx> {
         key={`${layout}${numColumns}`}
         keyExtractor={keyExtractor}
         connectRef={this.connectRef}
-        contentContainerStyle={_.container.bottom}
+        contentContainerStyle={_.container.page}
         numColumns={numColumns}
         data={$.list}
         limit={9}

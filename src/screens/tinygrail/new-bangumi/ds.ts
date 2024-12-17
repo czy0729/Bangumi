@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 14:29:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:31:52
+ * @Last Modified time: 2024-12-16 21:26:37
  */
 import { Loaded } from '@types'
 
@@ -31,3 +31,5 @@ export const TABS = [
     key: 'tnbc'
   }
 ] as const
+
+export const HM = ['tinygrail/new', 'TinygrailNew'] as const

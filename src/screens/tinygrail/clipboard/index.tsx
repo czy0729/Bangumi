@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-11-30 15:39:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 10:29:33
+ * @Last Modified time: 2024-12-17 05:37:45
  */
 import React from 'react'
-import { Component, Flex, Header, Page } from '@components'
+import { Component, Flex, HeaderV2, Page } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { t } from '@utils/fetch'
@@ -14,6 +14,7 @@ import { NavigationProps } from '@types'
 import Btn from './btn'
 import { useTinygrailClipboardPage } from './hooks'
 import List from './list'
+import { HM } from './ds'
 
 /** 粘贴板 */
 const TinygrailClipboard = (props: NavigationProps) => {
@@ -22,11 +23,14 @@ const TinygrailClipboard = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-clipboard'>
       <StoreContext.Provider value={id}>
-        <Header
+        <Page style={_.container.tinygrail}>
+          <List />
+          <Btn />
+        </Page>
+        <HeaderV2
+          backgroundStyle={_.container.tinygrail}
           title='粘贴板'
-          hm={['tinygrail/clipboard', 'TinygrailClipboard']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
+          hm={HM}
           headerRight={() => (
             <Flex>
               <IconHeader
@@ -50,10 +54,6 @@ const TinygrailClipboard = (props: NavigationProps) => {
             </Flex>
           )}
         />
-        <Page style={_.container.tinygrail}>
-          <List />
-          <Btn />
-        </Page>
       </StoreContext.Provider>
     </Component>
   ))

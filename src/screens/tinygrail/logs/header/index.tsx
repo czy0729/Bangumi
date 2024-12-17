@@ -5,21 +5,20 @@
  * @Last Modified time: 2024-11-19 13:36:57
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
-import { useStore } from '@stores'
+import { HeaderV2 } from '@components'
+import { _, useStore } from '@stores'
 import { ob } from '@utils/decorators'
 import IconGo from '@tinygrail/_/icon-go'
 import { Ctx } from '../types'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const { $ } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
+      backgroundStyle={_.container.tinygrail}
       title='资金日志'
-      hm={['tinygrail/logs', 'TinygrailLogs']}
-      statusBarEvents={false}
-      statusBarEventsType='Tinygrail'
+      hm={HM}
       headerRight={() => <IconGo $={$} />}
     />
   )

@@ -179,7 +179,7 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
       filterItems: []
     })
     this.generateTreeMap()
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }
 

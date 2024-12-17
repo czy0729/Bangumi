@@ -21,13 +21,13 @@ const TinygrailLogs = (props: NavigationProps) => {
     <Component id='screen-tinygrail-logs'>
       <StoreContext.Provider value={id}>
         <Page
-          style={_.container.tinygrail}
+          style={[_.container.tinygrail, _.container.header]}
           loaded={$.state._loaded}
           loadingColor={_.colorTinygrailText}
         >
-          <Header />
           <Tabs />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

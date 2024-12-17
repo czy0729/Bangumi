@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:14:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-27 20:31:42
+ * @Last Modified time: 2024-12-17 16:38:23
  */
 import { desc, fixedSubjectInfo, getTimestamp, info, pick } from '@utils'
 import { t } from '@utils/fetch'
@@ -11,7 +11,7 @@ import axios from '@utils/thirdParty/axios'
 import { MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { SubjectTypeValue } from '@types'
 import Computed from './computed'
-import { HOST_REC, NAMESPACE } from './ds'
+import { HOST_REC } from './ds'
 
 export default class Fetch extends Computed {
   /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
@@ -121,7 +121,7 @@ export default class Fetch extends Computed {
       this.setState({
         subjects: data
       })
-      this.setStorage(NAMESPACE)
+      this.save()
     } catch (error) {}
   }
 
@@ -177,14 +177,14 @@ export default class Fetch extends Computed {
         })
         if (!WEB) await this.fetchSubjects()
         await this.fetchSubjectsFromOSS()
-        this.setStorage(NAMESPACE)
+        this.save()
       } else if (data?.message) {
         this.setState({
           dataV2: {
             [cat]: []
           }
         })
-        this.setStorage(NAMESPACE)
+        this.save()
 
         info(data.message)
       }

@@ -19,3 +19,5 @@ export const STATE = {
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
+
+export const HM = ['tinygrail/search', 'TinygrailSearch'] as const

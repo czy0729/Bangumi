@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:26:24
+ * @Last Modified time: 2024-12-17 16:20:27
  */
 import { ADV_COLLECTED, ADV_DEV, ADV_FIRST, ADV_SORT, ADV_YEAR } from '@utils/subject/adv'
 import { ADV_CN, ADV_PLAYTIME } from '@utils/subject/adv/ds'
@@ -55,3 +55,5 @@ export const filterDS = [
     data: ADV_COLLECTED
   }
 ] as const
+
+export const HM = ['adv', 'ADV'] as const

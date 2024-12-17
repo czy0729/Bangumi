@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-17 04:51:31
  */
-import { observable, computed } from 'mobx'
-import { tinygrailStore, systemStore } from '@stores'
-import { toFixed, getTimestamp, info, confirm, feedback } from '@utils'
-import store from '@utils/store'
+import { computed, observable } from 'mobx'
+import { systemStore, tinygrailStore } from '@stores'
+import { confirm, feedback, getTimestamp, info, toFixed } from '@utils'
 import { queue, t } from '@utils/fetch'
+import store from '@utils/store'
 import { getXsbRelationOTA } from '@constants'
 import { MonoId } from '@types'
+import { DEFAULT_TYPE, EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 import { Params } from './types'
-import { NAMESPACE, DEFAULT_TYPE, STATE, EXCLUDE_STATE } from './ds'
 
 export default class ScreenTinygrailDeal extends store<typeof STATE> {
   params: Params
@@ -133,11 +133,7 @@ export default class ScreenTinygrailDeal extends store<typeof STATE> {
     }
 
     if (this.isBid && Number(value) * amount > 20000) {
-      confirm(
-        `金额较大, 当前买入${amount}股 * ${value}, 确定?`,
-        this.doSubmitConfirm,
-        '小圣杯助手'
-      )
+      confirm(`金额较大, 当前买入${amount}股 * ${value}, 确定?`, this.doSubmitConfirm, '小圣杯助手')
       return
     }
 
@@ -192,11 +188,9 @@ export default class ScreenTinygrailDeal extends store<typeof STATE> {
       type
     })
 
-    const result = await tinygrailStore[type === 'bid' ? 'doCancelBid' : 'doCancelAsk'](
-      {
-        id
-      }
-    )
+    const result = await tinygrailStore[type === 'bid' ? 'doCancelBid' : 'doCancelAsk']({
+      id
+    })
     feedback()
 
     if (!result) {
@@ -345,7 +339,7 @@ export default class ScreenTinygrailDeal extends store<typeof STATE> {
     this.setState({
       isIce: !isIce
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }
 

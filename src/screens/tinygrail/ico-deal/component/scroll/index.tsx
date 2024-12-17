@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-01 23:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 23:34:19
+ * @Last Modified time: 2024-12-17 05:47:31
  */
 import React, { useCallback, useState } from 'react'
 import { RefreshControl } from 'react-native'
@@ -28,10 +28,11 @@ function Scroll({ onRefresh }) {
         setRefreshing(false)
       }, 1200)
     }, 0)
-  }, [])
+  }, [onRefresh])
 
   return useObserver(() => (
     <ScrollView
+      contentContainerStyle={_.container.page}
       refreshControl={
         <RefreshControl
           {...refreshControlProps}

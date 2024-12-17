@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-05 15:53:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-08 06:34:07
+ * @Last Modified time: 2024-12-16 20:59:52
  */
 import {
   SORT_DJ,
@@ -44,7 +44,7 @@ export const tabs = [
   }
 ] as const
 
-export const sortDS = [
+export const SORT_DS = [
   SORT_SC,
   SORT_GDS,
   SORT_GX,

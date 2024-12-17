@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:09:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 10:32:03
+ * @Last Modified time: 2024-12-17 16:17:12
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,10 +20,10 @@ const Game = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-game'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page loaded={$.state._loaded}>
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

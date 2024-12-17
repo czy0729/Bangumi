@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-19 16:21:20
  */
 import React from 'react'
-import { Flex, Header as HeaderComp, Iconfont, Touchable } from '@components'
+import { HeaderV2, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { ob } from '@utils/decorators'
@@ -17,13 +17,12 @@ import { styles } from './styles'
 function Header() {
   const { $, navigation } = useStore<Ctx>()
   return (
-    <HeaderComp
+    <HeaderV2
+      backgroundStyle={_.container.tinygrail}
       title='资产重组'
       hm={[`tinygrail/sacrifice/${$.monoId}`, 'TinygrailSacrifice']}
-      statusBarEvents={false}
-      statusBarEventsType='Tinygrail'
       headerRight={() => (
-        <Flex>
+        <>
           <Touchable
             style={styles.touch}
             onPress={() => {
@@ -77,7 +76,7 @@ function Header() {
           >
             <Iconfont name='icon-link' size={20} color={_.colorTinygrailPlain} />
           </Touchable>
-        </Flex>
+        </>
       )}
     />
   )

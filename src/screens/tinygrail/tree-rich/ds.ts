@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-20 09:37:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 09:37:52
+ * @Last Modified time: 2024-12-17 15:51:47
  */
 import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
 import { Loaded, TinygrailCaculateRichType } from '@types'
@@ -28,3 +28,5 @@ export const STATE = {
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
+
+export const HM = ['tinygrail/tree-rich', 'TinygrailTreeRich'] as const

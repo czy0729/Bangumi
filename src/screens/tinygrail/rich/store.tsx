@@ -62,7 +62,7 @@ export default class ScreenTinygrailRich extends store<typeof STATE> {
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
     this.tabChangeCallback(page)
   }
 

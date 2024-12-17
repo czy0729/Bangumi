@@ -56,7 +56,7 @@ export default class ScreenTinygrailLogs extends store<typeof STATE> {
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
     this.tabChangeCallback()
   }
 
@@ -69,7 +69,7 @@ export default class ScreenTinygrailLogs extends store<typeof STATE> {
     this.setState({
       go: title
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   tabChangeCallback = () => {

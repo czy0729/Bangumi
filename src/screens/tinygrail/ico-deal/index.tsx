@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 12:08:59
+ * @Last Modified time: 2024-12-17 05:46:44
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,10 +20,10 @@ const TinygrailICODeal = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-ico-deal'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page style={_.container.tinygrail}>
           <Scroll onRefresh={$.refresh} />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

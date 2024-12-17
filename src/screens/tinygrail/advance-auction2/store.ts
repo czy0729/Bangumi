@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-09 19:43:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:37:26
+ * @Last Modified time: 2024-12-17 16:41:41
  */
 import { computed, observable } from 'mobx'
 import { systemStore, tinygrailStore, userStore } from '@stores'
@@ -12,7 +12,7 @@ import { DEV } from '@constants'
 import { levelList, SORT_GF, sortList } from '@tinygrail/_/utils'
 import { EXCLUDE_STATE } from './ds'
 
-export const sortDS = [SORT_GF] as const
+export const SORT_DS = [SORT_GF] as const
 
 const NAMESPACE = 'ScreenTinygrailAdvanceAuction2'
 
@@ -135,6 +135,6 @@ export default class ScreenTinygrailAdvanceAuction2 extends store<typeof EXCLUDE
     this.setState({
       sort: item === sort ? '' : item
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }

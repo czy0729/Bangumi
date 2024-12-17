@@ -95,7 +95,7 @@ export default class ScreenTinygrailNew extends store<typeof STATE> {
     this.setState({
       page
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
     this.tabChangeCallback(page)
   }
 
@@ -108,7 +108,7 @@ export default class ScreenTinygrailNew extends store<typeof STATE> {
     this.setState({
       go: title
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   tabChangeCallback = (page: number) => {
@@ -126,7 +126,7 @@ export default class ScreenTinygrailNew extends store<typeof STATE> {
     this.setState({
       level
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   /** 排序 */
@@ -163,6 +163,6 @@ export default class ScreenTinygrailNew extends store<typeof STATE> {
       })
     }
 
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 09:11:23
+ * @Last Modified time: 2024-12-17 05:30:50
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -20,6 +20,7 @@ import {
   TINYGRAIL_CACULATE_TEMPLE_TYPE,
   TINYGRAIL_CACULATE_TYPE
 } from '@constants'
+import { ViewStyle } from '@types'
 import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
@@ -27,7 +28,7 @@ const TYPE_DATA = TINYGRAIL_ASSETS_TYPE.map(item => item.label)
 const CACULATE_TYPE_DATA = TINYGRAIL_CACULATE_TYPE.map(item => item.label)
 const CACULATE_TEMPLE_TYPE_DATA = TINYGRAIL_CACULATE_TEMPLE_TYPE.map(item => item.label)
 
-function ToolBar({ style }) {
+function ToolBar({ style }: { style?: ViewStyle }) {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
   const { type, caculateType, total = 0, filterItems } = $.state

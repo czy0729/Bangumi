@@ -20,14 +20,14 @@ const TinygrailOverview = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-overview'>
       <StoreContext.Provider value={id}>
-        <Header />
         <Page
-          style={_.container.tinygrail}
+          style={[_.container.header, _.container.tinygrail]}
           loadingColor={_.colorTinygrailText}
           loaded={$.state._loaded}
         >
           <Tabs />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

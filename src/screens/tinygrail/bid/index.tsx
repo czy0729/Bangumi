@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-05 16:03:17
+ * @Last Modified time: 2024-12-17 05:35:11
  */
 import React from 'react'
-import { Component, Flex, Header, Page, Text } from '@components'
+import { Component, Flex, HeaderV2, Page, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, StoreContext } from '@stores'
 import { confirm } from '@utils'
@@ -15,7 +15,7 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import { NavigationProps } from '@types'
 import { useTinygrailBidPage } from './hooks'
 import List from './list'
-import { sortDS, tabs } from './ds'
+import { SORT_DS, tabs } from './ds'
 import { styles } from './styles'
 
 /** 我的委托 */
@@ -41,35 +41,17 @@ const TinygrailBid = (props: NavigationProps) => {
     return (
       <Component id='screen-tinygrail-bid'>
         <StoreContext.Provider value={id}>
-          <Header
-            title='我的委托'
-            hm={[`tinygrail/${type}`, 'TinygrailBid']}
-            statusBarEvents={false}
-            statusBarEventsType='Tinygrail'
-            headerRight={() => (
-              <IconTouchable
-                name='md-cancel-presentation'
-                color={_.colorTinygrailPlain}
-                onPress={() => {
-                  confirm(
-                    `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
-                    () => $.onBatchCancel(),
-                    '小圣杯助手'
-                  )
-                }}
-              />
-            )}
-          />
           <Page
             style={_.container.tinygrail}
             loaded={$.state._loaded}
             loadingColor={_.colorTinygrailText}
           >
             <Tabs
+              style={_.container.header}
               routes={tabs}
               renderContentHeaderComponent={
                 <ToolBar
-                  data={sortDS}
+                  data={SORT_DS}
                   level={$.state.level}
                   levelMap={$.levelMap}
                   sort={$.state.sort}
@@ -94,6 +76,24 @@ const TinygrailBid = (props: NavigationProps) => {
               )}
             />
           </Page>
+          <HeaderV2
+            backgroundStyle={_.container.tinygrail}
+            title='我的委托'
+            hm={[`tinygrail/${type}`, 'TinygrailBid']}
+            headerRight={() => (
+              <IconTouchable
+                name='md-cancel-presentation'
+                color={_.colorTinygrailPlain}
+                onPress={() => {
+                  confirm(
+                    `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
+                    () => $.onBatchCancel(),
+                    '小圣杯助手'
+                  )
+                }}
+              />
+            )}
+          />
         </StoreContext.Provider>
       </Component>
     )

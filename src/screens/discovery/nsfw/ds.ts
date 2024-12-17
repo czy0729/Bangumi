@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-20 09:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 05:08:25
+ * @Last Modified time: 2024-12-17 16:21:11
  */
 import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from '@utils/subject/nsfw'
 
@@ -35,3 +35,5 @@ export const filterDS = [
     data: NSFW_COLLECTED
   }
 ] as const
+
+export const HM = ['nsfw', 'NSFW'] as const

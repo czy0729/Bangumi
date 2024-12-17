@@ -11,3 +11,5 @@ export const STATE = {
   visible: false,
   _loaded: false as Loaded
 }
+
+export const HM = ['tinygrail/items', 'TinygrailItems'] as const

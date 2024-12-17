@@ -57,13 +57,13 @@ export default class ScreenTinygrailStar extends store<typeof STATE> {
       page,
       limit
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 
   setLabel = (label: string) => {
     this.setState({
       label
     })
-    this.setStorage(NAMESPACE)
+    this.saveStorage(NAMESPACE)
   }
 }

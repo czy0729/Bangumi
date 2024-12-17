@@ -21,11 +21,11 @@ const TinygrailStar = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-star'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page style={_.container.tinygrail}>
+        <Page style={[_.container.tinygrail, _.container.header]}>
           <ToolBar />
           <List />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

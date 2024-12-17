@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-08 11:37:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 06:32:09
+ * @Last Modified time: 2024-12-17 00:01:41
  */
 import React from 'react'
-import { Component, Header, Page } from '@components'
+import { Component, HeaderV2, Page } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { t } from '@utils/fetch'
@@ -15,6 +15,7 @@ import ToolBar from '@tinygrail/_/tool-bar'
 import { NavigationProps } from '@types'
 import { useTinygrailAdvanceAskPage } from './hooks'
 import List from './list'
+import { HM } from './ds'
 
 /** 买入推荐 */
 const TinygrailAdvanceAsk = (props: NavigationProps) => {
@@ -23,11 +24,14 @@ const TinygrailAdvanceAsk = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-advance-ask'>
       <StoreContext.Provider value={id}>
-        <Header
+        <Page style={[_.container.tinygrail, _.container.header]}>
+          <ToolBar level={$.state.level} levelMap={$.levelMap} onLevelSelect={$.onLevelSelect} />
+          <List />
+        </Page>
+        <HeaderV2
+          backgroundStyle={_.container.tinygrail}
           title='买入推荐'
-          hm={['tinygrail/advance-ask', 'TinygrailAdvanceAsk']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
+          hm={HM}
           headerRight={() => (
             <IconHeader
               name='md-info-outline'
@@ -43,15 +47,6 @@ const TinygrailAdvanceAsk = (props: NavigationProps) => {
             />
           )}
         />
-        <Page style={_.container.tinygrail}>
-          <ToolBar
-            style={_.mt._sm}
-            level={$.state.level}
-            levelMap={$.levelMap}
-            onLevelSelect={$.onLevelSelect}
-          />
-          <List />
-        </Page>
       </StoreContext.Provider>
     </Component>
   ))

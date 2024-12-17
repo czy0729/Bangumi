@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-20 08:57:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 08:58:09
+ * @Last Modified time: 2024-12-17 05:27:16
  */
 import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
 import { Loaded } from '@types'
@@ -30,3 +30,5 @@ export const STATE = {
   ...EXCLUDE_STATE,
   _loaded: false as Loaded
 }
+
+export const HM = ['tinygrail/tree', 'TinygrailTree'] as const

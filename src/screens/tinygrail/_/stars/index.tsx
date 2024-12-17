@@ -23,19 +23,19 @@ function Stars({ value = 0, size = 11 }) {
       {!!sun &&
         new Array(sun)
           .fill('')
-          .map((item, index) => (
+          .map((_item, index) => (
             <Iconfont key={index} style={style} name='sunny' size={size} color='#ffc107' />
           ))}
       {!!moon &&
         new Array(moon)
           .fill('')
-          .map((item, index) => (
+          .map((_item, index) => (
             <Iconfont key={index} style={style} name='moon' size={size} color='#ffc107' />
           ))}
       {!!star &&
         new Array(star)
           .fill('')
-          .map((item, index) => (
+          .map((_item, index) => (
             <Iconfont key={index} style={style} name='md-star' size={size} color='#ffc107' />
           ))}
     </>

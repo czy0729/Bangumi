@@ -5,22 +5,21 @@
  * @Last Modified time: 2024-11-19 15:59:39
  */
 import React from 'react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { COMPONENT } from './ds'
+import { COMPONENT, HM } from './ds'
 
 function Header() {
   const navigation = useNavigation()
   return (
-    <HeaderComp
+    <HeaderV2
+      backgroundStyle={_.container.tinygrail}
       title='番市首富'
-      hm={['tinygrail/rich', 'TinygrailRich']}
-      statusBarEvents={false}
-      statusBarEventsType='Tinygrail'
+      hm={HM}
       headerRight={() => (
         <IconTouchable
           style={_.mr.xs}

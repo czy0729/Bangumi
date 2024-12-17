@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:40:43
+ * @Last Modified time: 2024-12-17 05:42:25
  */
 import React from 'react'
 import { Component, Page } from '@components'
@@ -20,10 +20,10 @@ const TinygrailICO = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-ico'>
       <StoreContext.Provider value={id}>
-        <Header />
-        <Page style={_.container.tinygrail} loaded={$.state._loaded}>
+        <Page style={[_.container.tinygrail, _.container.header]} loaded={$.state._loaded}>
           <Tabs />
         </Page>
+        <Header />
       </StoreContext.Provider>
     </Component>
   ))

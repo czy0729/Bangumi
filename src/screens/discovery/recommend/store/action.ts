@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-06-22 05:15:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:25:13
+ * @Last Modified time: 2024-12-17 16:38:00
  */
 import { updateVisibleBottom } from '@utils'
 import { WEB } from '@constants'
 import Fetch from './fetch'
-import { NAMESPACE } from './ds'
 
 export default class Action extends Fetch {
   onChange = ({ nativeEvent }) => {
@@ -34,7 +33,8 @@ export default class Action extends Fetch {
 
       if (!WEB) await this.fetchSubjects()
       await this.fetchSubjectsFromOSS()
-      this.setStorage(NAMESPACE)
+
+      this.save()
     }, 16)
   }
 

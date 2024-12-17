@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:35:27
+ * @Last Modified time: 2024-12-16 21:27:13
  */
 import React from 'react'
-import { Component, Header, Page } from '@components'
+import { Component, HeaderV2, Page } from '@components'
 import { _, StoreContext } from '@stores'
 import { useObserver } from '@utils/hooks'
 import IconGo from '@tinygrail/_/icon-go'
@@ -15,7 +15,7 @@ import { SORT_DS } from '@tinygrail/overview/ds'
 import { NavigationProps } from '@types'
 import { useTinygrailNewPage } from './hooks'
 import List from './list'
-import { TABS } from './ds'
+import { HM, TABS } from './ds'
 
 /** 资金日志 */
 const TinygrailNew = (props: NavigationProps) => {
@@ -24,15 +24,9 @@ const TinygrailNew = (props: NavigationProps) => {
   return useObserver(() => (
     <Component id='screen-tinygrail-new'>
       <StoreContext.Provider value={id}>
-        <Header
-          title='新番榜单'
-          hm={['tinygrail/new', 'TinygrailNew']}
-          statusBarEvents={false}
-          statusBarEventsType='Tinygrail'
-          headerRight={() => <IconGo $={$} />}
-        />
         <Page style={_.container.tinygrail} loaded={$.state._loaded}>
           <Tabs
+            style={_.container.header}
             routes={TABS}
             renderContentHeaderComponent={
               <ToolBar
@@ -48,6 +42,12 @@ const TinygrailNew = (props: NavigationProps) => {
             renderItem={item => <List key={item.key} id={item.key} />}
           />
         </Page>
+        <HeaderV2
+          backgroundStyle={_.container.tinygrail}
+          title='新番榜单'
+          hm={HM}
+          headerRight={() => <IconGo $={$} />}
+        />
       </StoreContext.Provider>
     </Component>
   ))
