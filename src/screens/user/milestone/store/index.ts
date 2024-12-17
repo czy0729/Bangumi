@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-26 06:19:52
+ * @Last Modified time: 2024-12-17 23:00:50
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES, SUB_TITLE } from '../ds'
@@ -40,6 +40,7 @@ export default class ScreenWordCloud extends Action {
       extraTitle,
       starsFull,
       starsColor,
+      nsfw,
       lastTime,
       limit
     } = this.params
@@ -129,6 +130,14 @@ export default class ScreenWordCloud extends Action {
         data.starsColor = true
       } else if (starsColor === 'false') {
         data.starsColor = false
+      }
+    }
+
+    if (typeof nsfw === 'string') {
+      if (nsfw === 'true') {
+        data.nsfw = true
+      } else if (nsfw === 'false') {
+        data.nsfw = false
       }
     }
 

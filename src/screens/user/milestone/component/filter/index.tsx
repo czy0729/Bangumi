@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 06:49:33
+ * @Last Modified time: 2024-12-17 23:50:25
  */
 import React from 'react'
 import { Flex, Text } from '@components'
@@ -38,17 +38,17 @@ function Filter() {
   return (
     <>
       <Flex.Item style={styles.container}>
-        <Flex>
+        <Flex justify='end'>
           <Popover
             style={styles.item}
             data={SUBJECT_TYPE.map(item => item.title)}
             onSelect={$.selectSubjectType}
           >
-            <Text size={11} bold noWrap>
+            <Text size={12} bold noWrap>
               {MODEL_SUBJECT_TYPE.getTitle($.state.subjectType)}
             </Text>
           </Popover>
-          <Text style={styles.split} size={11} bold>
+          <Text style={styles.split} size={12} bold>
             ·
           </Text>
           <Popover
@@ -56,27 +56,26 @@ function Filter() {
             data={COLLECTION_STATUS.map(item => item.label.replace('看', action))}
             onSelect={$.selectType}
           >
-            <Text size={11} bold noWrap>
+            <Text size={12} bold noWrap>
               {MODEL_COLLECTION_STATUS.getLabel($.state.type).replace('看', action)}
             </Text>
           </Popover>
-          <Text style={styles.split} size={11} bold>
+          <Text style={styles.split} size={12} bold>
             ·
           </Text>
           <Popover style={styles.item} data={ORDER_DS} onSelect={$.selectOrder}>
-            <Text size={11} bold noWrap>
+            <Text size={12} bold noWrap>
               按{orderText}
             </Text>
           </Popover>
-          <Text style={styles.split} size={11} bold>
-            ·
-          </Text>
+        </Flex>
+        <Flex justify='end'>
           <Popover
             style={styles.item}
             data={['全部', ...$.userCollectionsTags.map(item => `${item.tag} (${item.count})`)]}
             onSelect={$.selectTag}
           >
-            <Text size={11} bold noWrap>
+            <Text size={12} bold noWrap>
               {tag || '标签'}
             </Text>
           </Popover>

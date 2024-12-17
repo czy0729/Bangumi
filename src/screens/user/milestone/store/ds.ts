@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-14 07:41:39
+ * @Last Modified time: 2024-12-17 22:51:59
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { CollectionsOrder, CollectionStatus, Loaded, SubjectType } from '@types'
@@ -33,6 +33,7 @@ export const STATE = {
   extraTitle: '无' as SubTitle,
   starsFull: false,
   starsColor: true,
+  nsfw: true,
   lastTime: false,
   limit: 100,
 

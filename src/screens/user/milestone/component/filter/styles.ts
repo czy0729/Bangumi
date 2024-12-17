@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:20:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-04 18:20:46
+ * @Last Modified time: 2024-12-17 23:49:20
  */
 import { _ } from '@stores'
 
@@ -12,7 +12,7 @@ export const styles = _.create({
   },
   item: {
     paddingVertical: 4,
-    paddingHorizontal: 4
+    paddingHorizontal: 6
   },
   split: {
     marginHorizontal: -1,
@@ -20,7 +20,8 @@ export const styles = _.create({
     pointerEvents: 'none'
   },
   setting: {
-    marginRight: -8,
+    marginRight: -6,
+    marginLeft: 4,
     opacity: 0.72
   }
 })

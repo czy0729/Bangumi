@@ -3,11 +3,11 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:36:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 02:39:52
+ * @Last Modified time: 2024-12-17 23:32:13
  */
 import { API_HOST, API_V0 } from '@constants/api'
 import { APP_ID, HOST, UA } from '@constants/constants'
-import { STORYBOOK } from '@constants/device'
+import { WEB } from '@constants/device'
 import { HOST_PROXY } from '@src/config'
 import { syncUserStore } from '../async'
 import { isDevtoolsOpen } from '../dom'
@@ -42,12 +42,12 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
     timeout: FETCH_TIMEOUT
   }
 
-  if (!STORYBOOK) {
+  if (!WEB) {
     config.headers['User-Agent'] = UA
   }
 
   /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
-  if (STORYBOOK && !isGet) {
+  if (WEB && !isGet) {
     log('fetchAPI', 'fetchAPI denied:', url)
     return Promise.reject('denied')
   }
@@ -55,7 +55,7 @@ export async function fetchAPI(args: FetchAPIArgs): Promise<any> {
   const { accessToken } = syncUserStore()
   if (accessToken.access_token) {
     /** @todo [网页端] 旧 API 不支持新的 token, 需要重构相关部分的逻辑代码 */
-    if (STORYBOOK && url.includes(API_HOST) && !url.includes(API_V0)) {
+    if (WEB && url.includes(API_HOST) && !url.includes(API_V0)) {
       log('fetchAPI', 'fetchAPI ignored token:', url)
     } else {
       config.headers.Authorization = `${accessToken.token_type} ${accessToken.access_token}`
@@ -140,7 +140,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   const isGet = method === 'GET'
 
   /** @todo [网页端] POST 请求需要携带授权信息, 暂没接入 */
-  if (STORYBOOK && !isGet) {
+  if (WEB && !isGet) {
     log('fetchHTML', 'fetchHTML denied:', url)
     return Promise.reject('denied')
   }
@@ -213,7 +213,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     hideCb = loading('Loading...', 8)
   }
 
-  if (STORYBOOK && HOST_PROXY) {
+  if (WEB && HOST_PROXY) {
     _url = _url.replace(HOST, HOST_PROXY)
 
     // 反代穿透

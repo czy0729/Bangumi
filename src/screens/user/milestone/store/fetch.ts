@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 01:08:23
+ * @Last Modified time: 2024-12-17 23:35:21
  */
 import { collectionStore, usersStore } from '@stores'
 import Computed from './computed'
@@ -15,14 +15,15 @@ export default class Fetch extends Computed {
   }
 
   fetchUserCollections = (refresh: boolean = false) => {
-    const { subjectType, type, order, tag } = this.state
+    const { subjectType, type, order, tag, nsfw } = this.state
     return collectionStore.fetchUserCollections(
       {
         subjectType,
         type,
         order,
         tag,
-        userId: this.userId
+        userId: this.userId,
+        auth: nsfw
       },
       refresh
     )

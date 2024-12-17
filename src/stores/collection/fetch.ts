@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-03 06:42:45
+ * @Last Modified time: 2024-12-17 23:34:59
  */
 import {
   findTreeNode,
@@ -94,6 +94,7 @@ export default class Fetch extends Computed {
       type?: CollectionStatus
       order?: CollectionsOrder
       tag?: string
+      auth?: boolean
     },
     refreshOrPage?: boolean | number,
     maxPage?: number
@@ -103,7 +104,8 @@ export default class Fetch extends Computed {
       subjectType = DEFAULT_SUBJECT_TYPE,
       type = DEFAULT_COLLECTION_STATUS,
       order = DEFAULT_ORDER,
-      tag = ''
+      tag = '',
+      auth = true
     } = args || {}
     const userId = _userId || userStore.myUserId
     const { list, pagination } = this.userCollections(userId, subjectType, type)
@@ -128,7 +130,14 @@ export default class Fetch extends Computed {
 
     const html = HTMLTrim(
       await fetchHTML({
-        url: HTML_USER_COLLECTIONS(userId, subjectType, type, order, tag, page)
+        url: `${auth ? '' : '!'}${HTML_USER_COLLECTIONS(
+          userId,
+          subjectType,
+          type,
+          order,
+          tag,
+          page
+        )}`
       })
     )
     const stateKey = `${userId}|${subjectType}|${type}`

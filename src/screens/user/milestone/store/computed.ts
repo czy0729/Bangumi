@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-12 20:05:42
+ * @Last Modified time: 2024-12-17 23:44:26
  */
 import { computed } from 'mobx'
 import { collectionStore, usersStore, userStore } from '@stores'
@@ -32,12 +32,21 @@ export default class Computed extends State {
   }
 
   @computed get data() {
-    const { limit } = this.state
-    if (!limit) return this.collections
+    const { limit, nsfw } = this.state
+    if (!limit && nsfw) return this.collections
+
+    let { list } = this.collections
+    if (!nsfw) list = list.filter(item => item.cover && !item.cover.includes('no_icon_subject'))
+    if (!limit) {
+      return {
+        ...this.collections,
+        list
+      }
+    }
 
     return {
       ...this.collections,
-      list: this.collections.list.slice(0, limit)
+      list: list.slice(0, limit)
     }
   }
 

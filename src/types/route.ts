@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-03 15:56:15
+ * @Last Modified time: 2024-12-17 23:01:17
  */
 import { ImageSourcePropType } from 'react-native'
 import {
@@ -723,6 +723,7 @@ export type RouteMilestone = Route<
     extraTitle?: string
     starsFull?: boolean | string
     starsColor?: boolean | string
+    nsfw?: boolean | string
     lastTime?: boolean | string
     limit?: number | string
   }

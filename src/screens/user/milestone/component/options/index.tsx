@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-12 06:46:59
+ * @Last Modified time: 2024-12-17 23:36:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -255,6 +255,23 @@ function Options() {
             style={styles.switch}
             value={$.state.starsColor}
             onSyncPress={() => $.setOptions('starsColor')}
+          />
+        }
+      />
+
+      <ItemSetting
+        hd='显示 NSFW'
+        ft={
+          <SwitchPro
+            style={styles.switch}
+            value={$.state.nsfw}
+            onSyncPress={() => {
+              $.setOptions('nsfw')
+
+              setTimeout(() => {
+                $.fetchUserCollections(true)
+              }, 0)
+            }}
           />
         }
       />
