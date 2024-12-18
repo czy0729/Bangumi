@@ -27,7 +27,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     transform: [
       {
-        rotateZ: '45deg'
+        rotate: '45deg'
       }
     ]
   }

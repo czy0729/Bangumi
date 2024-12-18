@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-10 10:55:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 14:30:10
+ * @Last Modified time: 2024-12-18 16:25:56
  */
 import { _ } from '@stores'
 
@@ -24,7 +24,7 @@ export const memoStyles = _.memoStyles(() => ({
     borderColor: _.select(_.colorBg, _._colorDarkModeLevel2),
     transform: [
       {
-        rotateZ: '45deg'
+        rotate: '45deg'
       }
     ]
   }
