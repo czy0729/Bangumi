@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:55:08
+ * @Last Modified time: 2024-12-18 11:33:55
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -57,10 +57,14 @@ class ToggleImage extends React.Component<Props, State> {
     })
   }
 
-  onLoadEnd = () => {
+  handleLoadEnd = () => {
     this.setState({
       loaded: true
     })
+  }
+
+  handleLongPress = () => {
+    open(this.src)
   }
 
   get src() {
@@ -114,7 +118,7 @@ class ToggleImage extends React.Component<Props, State> {
   get autoSize() {
     let autoSize: number | boolean
     if (typeof this.props.autoSize === 'number' && this.props.autoSize) {
-      autoSize = this.props.autoSize - _.sm
+      autoSize = this.props.autoSize - 24
     }
     return autoSize
   }
@@ -159,11 +163,12 @@ class ToggleImage extends React.Component<Props, State> {
                 {...this.props}
                 autoSize={this.autoSize}
                 radius={_.radiusXs}
-                fallback
                 withoutFeedback
-                onLoadEnd={this.onLoadEnd}
-                onError={this.onLoadEnd}
-                onLongPress={() => open(this.src)}
+                imageViewer={typeof this.src === 'string'}
+                imageViewerSrc={typeof this.src === 'string' ? this.src : undefined}
+                onLoadEnd={this.handleLoadEnd}
+                onError={this.handleLoadEnd}
+                onLongPress={this.handleLongPress}
               />
             </View>
           )}

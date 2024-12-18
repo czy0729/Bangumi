@@ -2,19 +2,32 @@
  * @Author: czy0729
  * @Date: 2023-02-28 16:14:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-17 18:15:24
+ * @Last Modified time: 2024-12-18 11:32:50
  */
 import React from 'react'
-import { TouchableOpacity as RNTouchableOpacity, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableWithoutFeedback as RNTouchableWithoutFeedback, View } from 'react-native'
 
-function TouchableWithoutFeedback({ useRN, extraButtonProps = undefined, children, ...other }) {
-  const Component = useRN ? RNTouchableOpacity : TouchableOpacity
+// import { TouchableOpacity } from 'react-native-gesture-handler'
+
+function TouchableWithoutFeedback({
+  useRN,
+  // extraButtonProps = undefined,
+  children,
+  ...other
+}) {
+  // if (useRN) {
   return (
-    <Component {...other} activeOpacity={1} extraButtonProps={extraButtonProps}>
+    <RNTouchableWithoutFeedback {...other}>
       <View>{children}</View>
-    </Component>
+    </RNTouchableWithoutFeedback>
   )
+  // }
+
+  // return (
+  //   <TouchableOpacity {...other} activeOpacity={1} extraButtonProps={extraButtonProps}>
+  //     <View>{children}</View>
+  //   </TouchableOpacity>
+  // )
 }
 
 export default TouchableWithoutFeedback
