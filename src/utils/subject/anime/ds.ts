@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-26 03:51:52
+ * @Last Modified time: 2024-12-20 07:11:22
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
@@ -68,6 +68,7 @@ export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB'] as const
 export const ANIME_FIRST = DATA_ALPHABET
 
 export const ANIME_YEAR = [
+  2025,
   2024,
   2023,
   2022,
@@ -148,12 +149,9 @@ export const ANIME_TAGS = [
   '偶像'
 ] as const
 
-const ANIME_TAGS_MAP = {}
-ANIME_TAGS.forEach((item, index) => {
-  ANIME_TAGS_MAP[item] = index
-})
-
-export { ANIME_TAGS_MAP }
+export const ANIME_TAGS_MAP = Object.fromEntries(
+  ANIME_TAGS.map((item, index) => [item, index])
+) as Record<(typeof ANIME_TAGS)[number], number>
 
 export const ANIME_OFFICIAL = [
   'J.C.STAFF',
@@ -206,12 +204,12 @@ export const ANIME_OFFICIAL = [
   'SHIN-EI动画',
   'Manglobe',
   'Hoods Entertainment',
+  '暂缺',
   'TNK',
   '圆谷制作',
   'Seven Arcs',
   'GoHands',
   'ZERO-G',
-  '暂缺',
   'Seven',
   'TYO Animations',
   'Passione',
@@ -236,6 +234,7 @@ export const ANIME_OFFICIAL = [
   '福煦影视',
   'Studio 3Hz',
   'ライデンフィルム',
+  'トムス・エンタテインメント',
   'Arms',
   'Hal Film Maker',
   'Nippon Animation',
@@ -243,7 +242,6 @@ export const ANIME_OFFICIAL = [
   '中影年年',
   'MAHO FILM',
   'A・C・G・T',
-  'トムス・エンタテインメント',
   'Graphinica',
   'C-Station',
   'NAZ',
@@ -252,6 +250,7 @@ export const ANIME_OFFICIAL = [
   'Creators in Pack',
   '幻维数码',
   'GEEKTOYS',
+  'studio HōKIBOSHI',
   'asread',
   'AIC ASTA',
   'STUDIO 4℃',
@@ -259,16 +258,12 @@ export const ANIME_OFFICIAL = [
   '朱夏',
   'PPI',
   'AXsiZ',
-  'Science SARU',
-  'studio HōKIBOSHI'
+  'Science SARU'
 ] as const
 
-const ANIME_OFFICIAL_MAP = {}
-ANIME_OFFICIAL.forEach((item, index) => {
-  ANIME_OFFICIAL_MAP[item] = index
-})
-
-export { ANIME_OFFICIAL_MAP }
+export const ANIME_OFFICIAL_MAP = Object.fromEntries(
+  ANIME_OFFICIAL.map((item, index) => [item, index])
+) as Record<(typeof ANIME_OFFICIAL)[number], number>
 
 export const ANIME_SORT = ['排名', '上映时间', '评分人数', '随机', '名称'] as const
 

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-13 21:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-19 13:10:08
+ * @Last Modified time: 2024-12-22 20:20:05
  */
 import { DATA_ALPHABET } from '@constants/constants'
-import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
+import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
 export const GAME_FIRST = DATA_ALPHABET
 
@@ -104,12 +104,9 @@ export const GAME_CATE = [
   '养成'
 ] as const
 
-const GAME_CATE_MAP = {}
-GAME_CATE.forEach((item, index) => {
-  GAME_CATE_MAP[item] = index
-})
-
-export { GAME_CATE_MAP }
+export const GAME_CATE_MAP = Object.fromEntries(
+  GAME_CATE.map((item, index) => [item, index])
+) as Record<(typeof GAME_CATE)[number], number>
 
 export const GAME_DEV = [
   'Nintendo',
@@ -158,12 +155,9 @@ export const GAME_DEV = [
   'Tamsoft'
 ] as const
 
-const GAME_DEV_MAP = {}
-GAME_DEV.forEach((item, index) => {
-  GAME_DEV_MAP[item] = index
-})
-
-export { GAME_DEV_MAP }
+export const GAME_DEV_MAP = Object.fromEntries(
+  GAME_DEV.map((item, index) => [item, index])
+) as Record<(typeof GAME_DEV)[number], number>
 
 export const GAME_PUB = [
   'Nintendo',
@@ -201,12 +195,9 @@ export const GAME_PUB = [
   'CyberConnect2'
 ] as const
 
-const GAME_PUB_MAP = {}
-GAME_PUB.forEach((item, index) => {
-  GAME_PUB_MAP[item] = index
-})
-
-export { GAME_PUB_MAP }
+export const GAME_PUB_MAP = Object.fromEntries(
+  GAME_PUB.map((item, index) => [item, index])
+) as Record<(typeof GAME_PUB)[number], number>
 
 export const GAME_SORT = [
   '发行',

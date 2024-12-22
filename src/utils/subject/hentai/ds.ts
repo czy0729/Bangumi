@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-14 16:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-14 16:53:41
+ * @Last Modified time: 2024-12-22 20:34:41
  */
 import { DATA_ALPHABET } from '@constants/constants'
-import { ANIME_COLLECTED, ANIME_YEAR } from './../anime'
+import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
 export const HENTAI_FIRST = DATA_ALPHABET
 
@@ -16,16 +16,7 @@ export const HENTAI_COLLECTED = ANIME_COLLECTED
 export const HENTAI_SORT = ['排名', '评分人数', '上映时间', '随机', '名称'] as const
 
 /** 人物 */
-export const HENTAI_CHARA = [
-  '姐',
-  '妹',
-  '母',
-  '人妻',
-  '青梅竹马',
-  '处女',
-  '御姐',
-  '熟女'
-] as const
+export const HENTAI_CHARA = ['姐', '妹', '母', '人妻', '青梅竹马', '处女', '御姐', '熟女'] as const
 
 /** 职业 */
 export const HENTAI_JOB = [
@@ -119,9 +110,6 @@ export const HENTAI_TAGS = [
   ...HENTAI_CONTENT // 40-80+
 ] as const
 
-const HENTAI_TAGS_MAP = {}
-HENTAI_TAGS.forEach((item, index) => {
-  HENTAI_TAGS_MAP[item] = index
-})
-
-export { HENTAI_TAGS_MAP }
+export const HENTAI_TAGS_MAP = Object.fromEntries(
+  HENTAI_TAGS.map((item, index) => [item, index])
+) as Record<(typeof HENTAI_TAGS)[number], number>

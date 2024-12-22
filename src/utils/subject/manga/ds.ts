@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-22 06:31:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 22:02:13
+ * @Last Modified time: 2024-12-22 20:35:09
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
@@ -66,12 +66,9 @@ export const MANGA_TAGS = [
   '连环画'
 ] as const
 
-const MANGA_TAGS_MAP = {}
-MANGA_TAGS.forEach((item, index) => {
-  MANGA_TAGS_MAP[item] = index
-})
-
-export { MANGA_TAGS_MAP }
+export const MANGA_TAGS_MAP = Object.fromEntries(
+  MANGA_TAGS.map((item, index) => [item, index])
+) as Record<(typeof MANGA_TAGS)[number], number>
 
 export const MANGA_AUTHORS = [
   '手冢治虫',
@@ -117,12 +114,9 @@ export const MANGA_AUTHORS = [
   '本宫宏志'
 ] as const
 
-const MANGA_AUTHORS_MAP = {}
-MANGA_AUTHORS.forEach((item, index) => {
-  MANGA_AUTHORS_MAP[item] = index
-})
-
-export { MANGA_AUTHORS_MAP }
+export const MANGA_AUTHORS_MAP = Object.fromEntries(
+  MANGA_AUTHORS.map((item, index) => [item, index])
+) as Record<(typeof MANGA_AUTHORS)[number], number>
 
 export const MANGA_HD = ['HD'] as const
 

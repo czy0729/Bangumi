@@ -10,6 +10,7 @@ import { TouchableWithoutFeedback as RNTouchableWithoutFeedback, View } from 're
 // import { TouchableOpacity } from 'react-native-gesture-handler'
 
 function TouchableWithoutFeedback({
+  style,
   useRN,
   // extraButtonProps = undefined,
   children,
@@ -18,7 +19,7 @@ function TouchableWithoutFeedback({
   // if (useRN) {
   return (
     <RNTouchableWithoutFeedback {...other}>
-      <View>{children}</View>
+      <View style={style}>{children}</View>
     </RNTouchableWithoutFeedback>
   )
   // }

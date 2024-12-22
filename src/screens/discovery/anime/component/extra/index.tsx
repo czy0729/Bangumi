@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 16:59:14
+ * @Last Modified time: 2024-12-22 20:43:11
  */
 import React from 'react'
 import { Flex, Heatmap } from '@components'
@@ -26,7 +26,7 @@ function Extra({ $, title = 'Anime' }: Props) {
   const currenIsList = $?.isList === undefined ? isList : $?.isList
 
   return (
-    <Flex style={_.mr.xs}>
+    <Flex>
       {showLayoutIcon && (
         <IconLayout style={_.mr.xs} list={currenIsList} onPress={$?.switchLayout || FROZEN_FN}>
           <Heatmap right={30} id={`${title}.切换布局`} />

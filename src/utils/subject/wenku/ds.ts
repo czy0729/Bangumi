@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-20 01:18:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-22 04:20:23
+ * @Last Modified time: 2024-12-22 20:38:59
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { desc } from '../../utils'
@@ -34,12 +34,9 @@ export const WENKU_CATE = [
   '游戏剧本'
 ] as const
 
-const WENKU_CATE_MAP = {}
-WENKU_CATE.forEach((item, index) => {
-  WENKU_CATE_MAP[item] = index
-})
-
-export { WENKU_CATE_MAP }
+export const WENKU_CATE_MAP = Object.fromEntries(
+  WENKU_CATE.map((item, index) => [item, index])
+) as Record<(typeof WENKU_CATE)[number], number>
 
 export const WENKU_AUTHOR = [
   '西尾维新',
@@ -125,12 +122,9 @@ export const WENKU_AUTHOR = [
   '柑橘ゆすら'
 ] as const
 
-const WENKU_AUTHOR_MAP = {}
-WENKU_AUTHOR.forEach((item, index) => {
-  WENKU_AUTHOR_MAP[item] = index
-})
-
-export { WENKU_AUTHOR_MAP }
+export const WENKU_AUTHOR_MAP = Object.fromEntries(
+  WENKU_AUTHOR.map((item, index) => [item, index])
+) as Record<(typeof WENKU_AUTHOR)[number], number>
 
 export const WENKU_SORT = [
   '发行',
@@ -197,11 +191,8 @@ export const WENKU_TAGS_NUMS_MAP = {
 
 export const WENKU_TAGS = Object.keys(WENKU_TAGS_NUMS_MAP).sort((a, b) =>
   desc(WENKU_TAGS_NUMS_MAP[a], WENKU_TAGS_NUMS_MAP[b])
-)
+) as (keyof typeof WENKU_TAGS_NUMS_MAP)[]
 
-const WENKU_TAGS_MAP = {}
-WENKU_TAGS.forEach((item, index) => {
-  WENKU_TAGS_MAP[item] = index
-})
-
-export { WENKU_TAGS_MAP }
+export const WENKU_TAGS_MAP = Object.fromEntries(
+  WENKU_TAGS.map((item, index) => [item, index])
+) as Record<(typeof WENKU_TAGS)[number], number>

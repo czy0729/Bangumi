@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-13 21:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 17:28:28
+ * @Last Modified time: 2024-12-22 20:31:42
  */
 import { DATA_ALPHABET } from '@constants/constants'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
@@ -80,12 +80,9 @@ export const ADV_DEV = [
   'アトリエかぐや Honky-Tonk Pumpkin'
 ] as const
 
-const ADV_DEV_MAP = {}
-ADV_DEV.forEach((item, index) => {
-  ADV_DEV_MAP[item] = index
-})
-
-export { ADV_DEV_MAP }
+export const ADV_DEV_MAP = Object.fromEntries(
+  ADV_DEV.map((item, index) => [item, index])
+) as Record<(typeof ADV_DEV)[number], number>
 
 export const ADV_SORT = ['发行', '排名', '评分人数', '随机', '名称'] as const
 
