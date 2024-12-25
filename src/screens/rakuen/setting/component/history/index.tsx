@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:28:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:55:59
+ * @Last Modified time: 2024-12-25 15:25:01
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -13,9 +13,10 @@ import { BlockedUsersItem } from '@stores/rakuen/types'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { API_AVATAR, FROZEN_FN } from '@constants'
-import { Fn, Navigation, UserId, ViewStyle } from '@types'
+import { UserId } from '@types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
 /** 屏蔽列表 */
 function History({
@@ -25,14 +26,7 @@ function History({
   showAvatar = false,
   onNavigate,
   onDelete = FROZEN_FN
-}: {
-  navigation?: Navigation
-  style?: ViewStyle
-  data: string[] | BlockedUsersItem[]
-  showAvatar?: boolean
-  onNavigate?: Fn
-  onDelete?: Fn
-}) {
+}: Props) {
   const styles = memoStyles()
   if (!data.length) {
     return (

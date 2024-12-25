@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:05:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-01 18:34:41
+ * @Last Modified time: 2024-12-25 15:34:16
  */
 import React, { useCallback } from 'react'
 import { useObserver } from 'mobx-react'
@@ -22,13 +22,13 @@ import { styles } from './styles'
 function Scroll({ navigation }: { navigation: Navigation }) {
   r(COMPONENT)
 
-  const onScroll = useCallback(() => {
+  const handleScroll = useCallback(() => {
     uiStore.closePopableSubject()
   }, [])
 
   return useObserver(() => (
     <Page style={_.select(_.container.bg, _.container.plain)}>
-      <ScrollView contentContainerStyle={styles.container} onScroll={onScroll}>
+      <ScrollView contentContainerStyle={styles.container} onScroll={handleScroll}>
         <Likes />
         <Topic />
         <Slider />

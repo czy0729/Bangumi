@@ -23,7 +23,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: 48,
     bottom: 0,
     left: 48,
-    height: 36,
+    height: _.ios(36, 48),
     pointerEvents: 'none'
   },
   titleText: {

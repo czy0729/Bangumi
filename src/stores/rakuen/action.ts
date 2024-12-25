@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 13:14:49
+ * @Last Modified time: 2024-12-25 17:52:14
  */
 import { confirm, getTimestamp, info } from '@utils'
 import { syncSystemStore, syncUserStore } from '@utils/async'
@@ -598,7 +598,7 @@ export default class Action extends Fetch {
         this.setState({
           [key]: {
             ...this.setting,
-            ...setting,
+            // ...setting,
             blockKeywords,
             blockGroups,
             blockUserIds
@@ -636,7 +636,7 @@ export default class Action extends Fetch {
       this.setState({
         [key]: {
           ...this.setting,
-          ...setting,
+          // ...setting,
           blockKeywords,
           blockGroups,
           blockUserIds

@@ -2,24 +2,33 @@
  * @Author: czy0729
  * @Date: 2024-01-31 17:57:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-31 18:10:22
+ * @Last Modified time: 2024-12-25 15:32:50
  */
 import React from 'react'
 import { Flex, SwitchPro, Text } from '@components'
 import { ItemSetting } from '@_'
-import { rakuenStore, uiStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { uiStore } from '@stores'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
+import { useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
 import { COMPONENT } from './ds'
 
 /** 媒体信息块 */
 function Media() {
-  const { acSearch, acSearchPopable, matchLink } = rakuenStore.setting
-  return (
+  r(COMPONENT)
+
+  const { value: matchLink, handleSwitch: handleSwitchMatchLink } =
+    useAsyncSwitchSetting('matchLink')
+  const { value: acSearch, handleSwitch: handleSwitchAcSearch } = useAsyncSwitchSetting('acSearch')
+  const { value: acSearchPopable, handleSwitch: handleSwitchAcSearchPopable } =
+    useAsyncSwitchSetting('acSearchPopable')
+
+  return useObserver(() => (
     <Block>
       <Tip>媒体信息块</Tip>
 
@@ -32,11 +41,12 @@ function Media() {
             style={styles.switch}
             value={matchLink}
             onSyncPress={() => {
+              handleSwitchMatchLink()
+
               t('超展开设置.切换', {
                 title: '显示信息块',
                 checked: !matchLink
               })
-              rakuenStore.switchSetting('matchLink')
             }}
           />
         }
@@ -56,11 +66,12 @@ function Media() {
             style={styles.switch}
             value={acSearch}
             onSyncPress={() => {
+              handleSwitchAcSearch()
+
               t('超展开设置.切换', {
                 title: '猜测条目',
                 checked: !acSearch
               })
-              rakuenStore.switchSetting('acSearch')
             }}
           />
         }
@@ -80,11 +91,12 @@ function Media() {
             style={styles.switch}
             value={acSearchPopable}
             onSyncPress={() => {
+              handleSwitchAcSearchPopable()
+
               t('超展开设置.切换', {
                 title: '猜测条目',
                 checked: !acSearch
               })
-              rakuenStore.switchSetting('acSearchPopable')
             }}
           />
         }
@@ -113,7 +125,7 @@ function Media() {
         </Text>
       </Flex>
     </Block>
-  )
+  ))
 }
 
-export default ob(Media, COMPONENT)
+export default Media

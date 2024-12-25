@@ -68,7 +68,7 @@ export function useAsyncSwitchSetting(key: BooleanKeys<Setting>) {
     setTimeout(() => {
       systemStore.switchSetting(key)
     }, 40)
-  }, [value])
+  }, [key, value])
 
   return {
     value,
@@ -86,7 +86,7 @@ export function useAsyncSetSetting<T extends NonBooleanKeys<Setting>>(key: T) {
         systemStore.setSetting(key, updateValue)
       }, 40)
     },
-    [value]
+    [key]
   )
 
   return {

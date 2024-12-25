@@ -22,10 +22,10 @@ function BlockedKeyword() {
   r(COMPONENT)
 
   const [keyword, setKeyword] = useState('')
-  const onChange = useCallback(keyword => {
+  const handleChange = useCallback((keyword: string) => {
     setKeyword(keyword.trim())
   }, [])
-  const onSubmit = useCallback(() => {
+  const handleSubmit = useCallback(() => {
     if (!keyword.length) {
       info('不能为空')
       return
@@ -34,14 +34,14 @@ function BlockedKeyword() {
     rakuenStore.addBlockKeyword(keyword)
     setKeyword('')
   }, [keyword])
+  const handleDelete = useCallback((item: string) => {
+    handleDeleteKeyword(item)
+  }, [])
 
   return useObserver(() => (
     <Block>
       <Tip>屏蔽关键字（对超展开标题、帖子正文生效）</Tip>
-      <History
-        data={rakuenStore.setting.blockKeywords}
-        onDelete={(item: string) => handleDeleteKeyword(item)}
-      />
+      <History data={rakuenStore.setting.blockKeywords} onDelete={handleDelete} />
       <Flex style={styles.section}>
         <Flex.Item>
           <Input
@@ -50,11 +50,11 @@ function BlockedKeyword() {
             placeholder='输入关键字'
             returnKeyType='search'
             returnKeyLabel='添加'
-            onChangeText={onChange}
-            onSubmitEditing={onSubmit}
+            onChangeText={handleChange}
+            onSubmitEditing={handleSubmit}
           />
         </Flex.Item>
-        <Touchable style={_.ml.md} onPress={onSubmit}>
+        <Touchable style={_.ml.md} onPress={handleSubmit}>
           <Flex style={styles.icon} justify='center'>
             <Iconfont name='md-add' size={24} />
           </Flex>

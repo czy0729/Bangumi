@@ -7,20 +7,30 @@
 import React from 'react'
 import { SegmentedControl, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
-import { _, rakuenStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import { MODEL_RAKUEN_SCROLL_DIRECTION, RAKUEN_SCROLL_DIRECTION } from '@constants'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
+import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
 import { COMPONENT } from './ds'
 
 /** 楼层 */
 function Slider() {
-  const { switchSlider, sliderAnimated, scrollDirection } = rakuenStore.setting
-  return (
+  r(COMPONENT)
+
+  const { value: sliderAnimated, handleSwitch: handleSwitchSliderAnimated } =
+    useAsyncSwitchSetting('sliderAnimated')
+  const { value: switchSlider, handleSwitch: handleSwitchSwitchSlider } =
+    useAsyncSwitchSetting('switchSlider')
+  const { value: scrollDirection, handleSet: handleSetScrollDirection } =
+    useAsyncSetSetting('scrollDirection')
+
+  return useObserver(() => (
     <Block>
       <Tip>楼层跳转</Tip>
 
@@ -33,11 +43,12 @@ function Slider() {
             style={styles.switch}
             value={sliderAnimated}
             onSyncPress={() => {
+              handleSwitchSliderAnimated()
+
               t('超展开设置.切换', {
                 title: '楼层跳转滚动动画',
                 checked: !sliderAnimated
               })
-              rakuenStore.switchSetting('sliderAnimated')
             }}
           />
         }
@@ -53,11 +64,12 @@ function Slider() {
             style={styles.switch}
             value={switchSlider}
             onSyncPress={() => {
+              handleSwitchSwitchSlider()
+
               t('超展开设置.切换', {
                 title: '交换楼层跳转按钮',
                 checked: !switchSlider
               })
-              rakuenStore.switchSetting('switchSlider')
             }}
           />
         }
@@ -81,11 +93,12 @@ function Slider() {
               item => item.value === scrollDirection
             )}
             onValueChange={title => {
+              handleSetScrollDirection(MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title))
+
               t('超展开设置.切换', {
                 title: '楼层导航条方向',
                 value: title
               })
-              rakuenStore.setScrollDirection(MODEL_RAKUEN_SCROLL_DIRECTION.getValue(title))
             }}
           />
         }
@@ -94,7 +107,7 @@ function Slider() {
         ])}
       />
     </Block>
-  )
+  ))
 }
 
-export default ob(Slider, COMPONENT)
+export default Slider

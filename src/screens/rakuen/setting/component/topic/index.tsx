@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-01-31 17:53:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-31 13:22:08
+ * @Last Modified time: 2024-12-25 16:26:36
  */
 import React from 'react'
 import { SegmentedControl, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
-import { _, rakuenStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { _ } from '@stores'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { useObserver } from '@utils/hooks'
 import {
   MODEL_RAKUEN_AUTO_LOAD_IMAGE,
   MODEL_RAKUEN_NEW_FLOOR_STYLE,
@@ -21,14 +22,25 @@ import {
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
+import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
 import { COMPONENT } from './ds'
 
 /** 帖子 */
 function Topic() {
-  const { autoLoadImageV2, quote, quoteAvatar, subExpand, wide, newFloorStyle } =
-    rakuenStore.setting
-  return (
+  r(COMPONENT)
+
+  const { value: quote, handleSwitch: handleSwitchQuote } = useAsyncSwitchSetting('quote')
+  const { value: quoteAvatar, handleSwitch: handleSwitchQuoteAvatar } =
+    useAsyncSwitchSetting('quoteAvatar')
+  const { value: wide, handleSwitch: handleSwitchWide } = useAsyncSwitchSetting('wide')
+  const { value: autoLoadImageV2, handleSet: handleSetAutoLoadImageV2 } =
+    useAsyncSetSetting('autoLoadImageV2')
+  const { value: newFloorStyle, handleSet: handleSetNewFloorStyle } =
+    useAsyncSetSetting('newFloorStyle')
+  const { value: subExpand, handleSet: handleSetSubExpand } = useAsyncSetSetting('subExpand')
+
+  return useObserver(() => (
     <Block>
       <Tip>帖子</Tip>
 
@@ -41,7 +53,7 @@ function Topic() {
             style={styles.switch}
             value={quote}
             onSyncPress={() => {
-              rakuenStore.switchSetting('quote')
+              handleSwitchQuote()
 
               t('超展开设置.切换', {
                 title: '展开引用',
@@ -66,7 +78,7 @@ function Topic() {
               style={styles.switch}
               value={quoteAvatar}
               onSyncPress={() => {
-                rakuenStore.switchSetting('quoteAvatar')
+                handleSwitchQuoteAvatar()
 
                 t('超展开设置.切换', {
                   title: '显示引用头像',
@@ -91,7 +103,7 @@ function Topic() {
             style={styles.switch}
             value={wide}
             onSyncPress={() => {
-              rakuenStore.switchSetting('wide')
+              handleSwitchWide()
 
               t('超展开设置.切换', {
                 title: '加宽展示',
@@ -119,7 +131,7 @@ function Topic() {
             values={RAKUEN_AUTO_LOAD_IMAGE.map(item => item.label)}
             selectedIndex={RAKUEN_AUTO_LOAD_IMAGE.findIndex(item => item.value === autoLoadImageV2)}
             onValueChange={title => {
-              rakuenStore.setAutoLoadImage(MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue(title))
+              handleSetAutoLoadImageV2(MODEL_RAKUEN_AUTO_LOAD_IMAGE.getValue(title))
 
               t('超展开设置.切换', {
                 title: '楼层中图片自动加载',
@@ -141,7 +153,7 @@ function Topic() {
             values={RAKUEN_NEW_FLOOR_STYLE.map(item => item.label)}
             selectedIndex={RAKUEN_NEW_FLOOR_STYLE.findIndex(item => item.value === newFloorStyle)}
             onValueChange={title => {
-              rakuenStore.setNewFloorStyle(MODEL_RAKUEN_NEW_FLOOR_STYLE.getValue(title))
+              handleSetNewFloorStyle(MODEL_RAKUEN_NEW_FLOOR_STYLE.getValue(title))
 
               t('超展开设置.切换', {
                 title: '新楼层样式',
@@ -169,7 +181,7 @@ function Topic() {
             values={RAKUEN_SUB_EXPAND.map(item => item.label)}
             selectedIndex={RAKUEN_SUB_EXPAND.findIndex(item => item.value === subExpand)}
             onValueChange={title => {
-              rakuenStore.setSubExpand(MODEL_RAKUEN_SUB_EXPAND.getValue(title))
+              handleSetSubExpand(MODEL_RAKUEN_SUB_EXPAND.getValue(title))
 
               t('超展开设置.切换', {
                 title: '子楼层折叠',
@@ -180,7 +192,7 @@ function Topic() {
         }
       />
     </Block>
-  )
+  ))
 }
 
-export default ob(Topic, COMPONENT)
+export default Topic

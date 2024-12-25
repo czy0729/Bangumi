@@ -2,24 +2,28 @@
  * @Author: czy0729
  * @Date: 2024-01-31 16:53:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-31 17:26:12
+ * @Last Modified time: 2024-12-25 15:26:35
  */
 import React from 'react'
+import { useObserver } from 'mobx-react'
 import { SwitchPro } from '@components'
 import { ItemSetting } from '@_'
-import { rakuenStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
 import { styles } from '../styles'
+import { useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
 import { COMPONENT } from './ds'
 
 /** 贴贴模块 */
 function Likes() {
-  const { likes } = rakuenStore.setting
-  return (
+  r(COMPONENT)
+
+  const { value, handleSwitch } = useAsyncSwitchSetting('likes')
+
+  return useObserver(() => (
     <Block>
       <Tip>贴贴</Tip>
       <ItemSetting
@@ -28,13 +32,14 @@ function Likes() {
         ft={
           <SwitchPro
             style={styles.switch}
-            value={likes}
+            value={value}
             onSyncPress={() => {
+              handleSwitch()
+
               t('超展开设置.切换', {
                 title: '贴贴模块',
-                checked: !likes
+                checked: !value
               })
-              rakuenStore.switchSetting('likes')
             }}
           />
         }
@@ -45,7 +50,7 @@ function Likes() {
         withoutFeedback
       />
     </Block>
-  )
+  ))
 }
 
-export default ob(Likes, COMPONENT)
+export default Likes

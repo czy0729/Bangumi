@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-31 19:17:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-23 04:25:56
+ * @Last Modified time: 2024-12-25 15:20:58
  */
 import React, { useCallback, useState } from 'react'
 import { Flex, Iconfont, Input, Text, Touchable } from '@components'
@@ -12,21 +12,21 @@ import { useObserver } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
-import { Fn, Navigation } from '@types'
 import History from '../history'
 import { handleBlockUser, handleDeleteBlockUser } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import { Props } from './types'
 
 /** 用户绝交 */
-function BlockedUsers({ navigation, onNavigate }: { navigation: Navigation; onNavigate?: Fn }) {
+function BlockedUsers({ navigation, onNavigate }: Props) {
   r(COMPONENT)
 
   const [keyword, setKeyword] = useState('')
-  const onChange = useCallback(keyword => {
+  const handleChange = useCallback((keyword: string) => {
     setKeyword(keyword.trim())
   }, [])
-  const onSubmit = useCallback(() => {
+  const handleSubmit = useCallback(() => {
     handleBlockUser(keyword, () => {
       setKeyword('')
     })
@@ -40,7 +40,6 @@ function BlockedUsers({ navigation, onNavigate }: { navigation: Navigation; onNa
           <History
             navigation={navigation}
             data={rakuenStore.blockedUsers.list}
-            // showAvatar
             onNavigate={onNavigate}
             onDelete={handleDeleteBlockUser}
           />
@@ -52,11 +51,11 @@ function BlockedUsers({ navigation, onNavigate }: { navigation: Navigation; onNa
                 placeholder='输入用户 ID 或用户名'
                 returnKeyType='search'
                 returnKeyLabel='添加'
-                onChangeText={onChange}
-                onSubmitEditing={onSubmit}
+                onChangeText={handleChange}
+                onSubmitEditing={handleSubmit}
               />
             </Flex.Item>
-            <Touchable style={_.ml.md} onPress={onSubmit}>
+            <Touchable style={_.ml.md} onPress={handleSubmit}>
               <Flex style={styles.icon} justify='center'>
                 <Iconfont name='md-add' size={24} />
               </Flex>
