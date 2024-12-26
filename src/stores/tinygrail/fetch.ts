@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:38:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 19:43:29
+ * @Last Modified time: 2024-12-26 02:40:55
  */
 import { toJS } from 'mobx'
 import { getTimestamp, HTMLDecode, info, lastDate, toFixed } from '@utils'
@@ -698,7 +698,7 @@ export default class Fetch extends Computed {
   }
 
   /** 用户挂单和交易记录 */
-  fetchUserLogs = async (monoId: MonoId) => {
+  fetchUserLogs = async (monoId: Id) => {
     const result = await this.fetch(API_TINYGRAIL_USER_CHARA(monoId))
 
     let data = {

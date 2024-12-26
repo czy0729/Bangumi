@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:04:45
+ * @Last Modified time: 2024-12-27 06:58:46
  */
 import React from 'react'
 import { Flex, Touchable } from '@components'
@@ -11,10 +11,10 @@ import { stl } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN } from '@constants'
+import Icon from '../icon'
 import Auction from './auction'
 import Control from './control'
 import Detail from './detail'
-import Icon from './icon'
 import Title from './title'
 import { getOnPress } from './utils'
 import { memoStyles } from './styles'
@@ -59,7 +59,7 @@ function Item(props) {
 
   return (
     <Flex style={stl(styles.container, style)} align='start'>
-      <Icon {...props} />
+      <Icon style={_.mt.md} {...props} />
       <Flex.Item style={styles.wrap}>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>

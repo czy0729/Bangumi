@@ -1,38 +1,19 @@
 /*
  * @Author: czy0729
- * @Date: 2019-11-29 21:58:45
+ * @Date: 2024-12-26 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-16 16:15:22
+ * @Last Modified time: 2024-12-27 07:41:18
  */
-import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { alert, feedback, info, toFixed } from '@utils'
 import { t } from '@utils/fetch'
-import store from '@utils/store'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
-import { FnParams } from '@types'
-import { STATE } from './ds'
+import { FnParams, Override } from '@types'
+import { ItemsType, ItemUseParams } from '../types'
+import Fetch from './fetch'
 
-export default class ScreenTinygrailItems extends store<typeof STATE> {
-  state = observable(STATE)
-
-  init = () => {
-    return this.fetchItems()
-  }
-
-  // -------------------- fetch --------------------
-  /** 道具 */
-  fetchItems = () => {
-    return tinygrailStore.fetchItems()
-  }
-
-  // -------------------- get --------------------
-  /** 我的道具 */
-  @computed get items() {
-    return tinygrailStore.items
-  }
-
-  // -------------------- page --------------------
+export default class Action extends Fetch {
+  /** 打开道具模态框 */
   onShowModal = (title: string) => {
     return this.setState({
       title,
@@ -40,18 +21,66 @@ export default class ScreenTinygrailItems extends store<typeof STATE> {
     })
   }
 
+  /** 关闭道具模态框 */
   onCloseModal = () => {
     return this.setState({
       visible: false
     })
   }
 
-  // -------------------- action --------------------
+  /** 记忆上一次道具使用方式 */
+  memoItemUsed = (
+    params: Override<
+      ItemUseParams,
+      {
+        type: ItemsType
+        leftItem?: any
+        rightItem?: any
+      }
+    >
+  ) => {
+    const { type, leftItem, rightItem, ...other } = params
+    this.setState({
+      memoItemUsed: {
+        ...this.memoItemUsed,
+        [type]: {
+          ...other,
+          monoName: leftItem?.name || '',
+          monoAvatar: leftItem?.cover || leftItem?.icon || '',
+          monoLv: leftItem?.cLevel || leftItem?.level || 0,
+          toMonoName: rightItem?.name || '',
+          toMonoAvatar: rightItem?.cover || rightItem?.icon || '',
+          toMonoLv: rightItem?.cLevel || rightItem?.level || 0
+        }
+      }
+    })
+    this.save()
+  }
+
   /** 使用道具 */
-  doUse = async ({ title, monoId, toMonoId, amount, isTemple }) => {
+  doUse = async (
+    params: Override<
+      ItemUseParams,
+      {
+        leftItem?: any
+        rightItem?: any
+      }
+    >,
+    memo = true
+  ) => {
     try {
+      const { title, monoId, toMonoId, amount, isTemple } = params
       const type = ITEMS_TYPE[title]
       if (!type) return false
+
+      if (memo) {
+        setTimeout(() => {
+          this.memoItemUsed({
+            ...params,
+            type
+          })
+        }, 0)
+      }
 
       const data: FnParams<typeof tinygrailStore.doMagic> = {
         monoId,

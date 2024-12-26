@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 14:07:21
+ * @Last Modified time: 2024-12-26 01:51:34
  */
 import { toJS } from 'mobx'
 import { getTimestamp, info } from '@utils'
@@ -310,7 +310,7 @@ export default class Action extends Fetch {
     amount,
     isTemple
   }: {
-    monoId?: MonoId
+    monoId?: Id
     type?: TinygrailMagic
     toMonoId?: Id
     amount?: number

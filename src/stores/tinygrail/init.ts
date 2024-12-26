@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-15 04:44:59
+ * @Last Modified time: 2024-12-26 01:25:55
  */
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
+import { ListEmpty, Loaded } from '@types'
+import { TinygrailItemsItem } from './types'
 
 export const NAMESPACE = 'Tinygrail'
 
@@ -335,7 +336,7 @@ export const STATE = {
   valhallList: LIST_EMPTY,
 
   /** 我的道具 */
-  items: LIST_EMPTY,
+  items: LIST_EMPTY as ListEmpty<TinygrailItemsItem>,
 
   /** 我的拍卖列表 */
   auction: LIST_EMPTY,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-28 21:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-19 14:48:11
+ * @Last Modified time: 2024-12-26 01:25:16
  */
 import { Loaded } from '@types'
 import { INIT_CHARACTERS_ITEM } from './init'
@@ -40,4 +40,13 @@ export type MyTemple = {
   sacrifices: number
   refine: number
   _loaded: Loaded
+}
+
+export type TinygrailItemsItem = {
+  id: number
+  name: string
+  icon: string
+  line: string
+  amount: number
+  last: string
 }

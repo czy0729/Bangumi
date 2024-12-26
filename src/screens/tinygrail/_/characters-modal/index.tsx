@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-06-28 14:02:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 12:08:47
+ * @Last Modified time: 2024-12-26 02:04:38
  */
 import React from 'react'
 import { BackHandler, View } from 'react-native'
@@ -274,7 +274,9 @@ class CharactersModal extends React.Component<Props> {
       monoId: leftItem.id,
       toMonoId: rightItem ? rightItem.id : 0,
       amount,
-      isTemple
+      isTemple,
+      leftItem,
+      rightItem
     })
 
     this.setState({
