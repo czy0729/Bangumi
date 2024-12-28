@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:13:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-27 07:48:10
+ * @Last Modified time: 2024-12-28 08:03:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -37,6 +37,7 @@ function Item({ item }: { item: TinygrailItemsItem }) {
                 size={IMAGE_WIDTH}
                 src={tinygrailOSS(item.icon)}
                 radius={_.radiusXs}
+                skeletonType='tinygrail'
               />
               <Flex.Item style={_.ml.md}>
                 <Text type='tinygrailPlain' size={15} bold>
@@ -65,6 +66,7 @@ function Item({ item }: { item: TinygrailItemsItem }) {
             size={IMAGE_WIDTH}
             src={tinygrailOSS(item.icon)}
             radius={_.radiusXs}
+            skeletonType='tinygrail'
           />
           <Flex.Item style={_.ml.md}>
             <Text type='tinygrailPlain' bold>

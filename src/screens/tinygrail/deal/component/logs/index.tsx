@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 15:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:00:35
+ * @Last Modified time: 2024-12-28 05:50:34
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Logs() {
@@ -20,11 +21,7 @@ function Logs() {
   return (
     <Flex style={styles.container} align='start'>
       <Flex.Item>
-        <Flex
-          style={{
-            marginBottom: _.sm
-          }}
-        >
+        <Flex style={_.mb.sm}>
           <Flex.Item>
             <Text type='bid' size={16}>
               买入委托
@@ -115,4 +112,4 @@ function Logs() {
   )
 }
 
-export default ob(Logs)
+export default ob(Logs, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-12 11:40:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:00:16
+ * @Last Modified time: 2024-12-28 11:46:32
  */
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../../types'
+import { memoStyles } from './styles'
 
 function Submit({ style }) {
   const { $ } = useStore<Ctx>()
@@ -33,19 +34,3 @@ function Submit({ style }) {
 }
 
 export default ob(Submit)
-
-const memoStyles = _.memoStyles(() => ({
-  btn: {
-    padding: 8,
-    marginVertical: 8
-  },
-  text: {
-    color: _.__colorPlain__
-  },
-  btnBid: {
-    backgroundColor: _.colorBid
-  },
-  btnAsk: {
-    backgroundColor: _.colorAsk
-  }
-}))

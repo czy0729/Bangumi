@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-09-12 19:58:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:00:42
+ * @Last Modified time: 2024-12-28 06:59:33
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { formatNumber, info } from '@utils'
+import { formatNumber, getTimestamp, info, lastDate } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 const LIMIT = 5
@@ -54,13 +55,15 @@ function Records() {
                     </Text>
                   </Flex.Item>
                   <Text size={12} type='tinygrailPlain'>
-                    -{formatNumber(item.price * item.amount, 2, $.short)}
+                    {item.price
+                      ? `-${formatNumber(item.price * item.amount, 2, $.short)}`
+                      : lastDate(getTimestamp(String(item.time).replace('T', ' ')))}
                   </Text>
                 </Flex>
               </Touchable>
             ))}
         </Flex.Item>
-        <Flex.Item style={_.ml.wind}>
+        <Flex.Item style={_.ml.md}>
           <Text style={_.mb.sm} type='ask' size={16}>
             卖出记录
           </Text>
@@ -89,7 +92,9 @@ function Records() {
                     </Text>
                   </Flex.Item>
                   <Text type='tinygrailPlain' size={12}>
-                    +{formatNumber(item.price * item.amount, 2, $.short)}
+                    {item.price
+                      ? `+${formatNumber(item.price * item.amount, 2, $.short)}`
+                      : lastDate(getTimestamp(String(item.time).replace('T', ' ')))}
                   </Text>
                 </Flex>
               </Touchable>
@@ -107,4 +112,4 @@ function Records() {
   )
 }
 
-export default ob(Records)
+export default ob(Records, COMPONENT)

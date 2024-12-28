@@ -2,15 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:52:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:00:01
+ * @Last Modified time: 2024-12-28 11:12:35
  */
 import React from 'react'
 import { View } from 'react-native'
-import { Flex, Input, Slider as CompSlider, Text, Touchable } from '@components'
+import { Flex, Input, Slider as SliderComp, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../../types'
+import { memoStyles } from './styles'
 
 function Slider({ style }) {
   const { $ } = useStore<Ctx>()
@@ -19,12 +20,13 @@ function Slider({ style }) {
   const { balance } = $.assets
   const { amount: userAmount } = $.userLogs
   const min = 0
-  let balanceText
+  let balanceText: string
   if ($.isBid) {
     balanceText = `可用 ${formatNumber(balance, 2, $.short)}`
   } else {
     balanceText = `可用 ${userAmount} 股`
   }
+
   return (
     <View style={style}>
       <View style={styles.inputWrap}>
@@ -44,12 +46,12 @@ function Slider({ style }) {
       <Flex style={styles.slider}>
         <Flex.Item>
           <View style={styles.sliderWrap}>
-            <CompSlider
+            <SliderComp
               value={amount}
               min={min}
               max={$.max}
               minimumTrackTintColor={$.isBid ? _.colorBid : _.colorAsk}
-              maximumTrackTintColor={_.colorTinygrailBorder}
+              maximumTrackTintColor={_.select(_.colorTinygrailIcon, _.colorTinygrailPlain)}
               onChange={value => $.changeAmount(value)}
             />
           </View>
@@ -67,7 +69,7 @@ function Slider({ style }) {
           </Text>
         </Flex.Item>
         <Text type='tinygrailText' size={12}>
-          {Number($.max)}
+          {formatNumber(Number($.max), 0)}
         </Text>
       </Flex>
       <Flex style={_.mt.md}>
@@ -90,39 +92,3 @@ function Slider({ style }) {
 }
 
 export default ob(Slider)
-
-const memoStyles = _.memoStyles(() => ({
-  inputWrap: {
-    paddingLeft: 4,
-    borderColor: _.colorTinygrailBorder,
-    borderWidth: 1
-  },
-  input: {
-    height: 34,
-    color: _.colorTinygrailPlain,
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 0
-  },
-  placeholder: {
-    position: 'absolute',
-    zIndex: 100,
-    top: 8,
-    right: 8
-  },
-  balance: {
-    marginTop: 16
-  },
-  slider: {
-    height: 40,
-    marginTop: _.sm,
-    marginLeft: _.ios(0, -10),
-    opacity: 0.8
-  },
-  sliderWrap: {
-    width: '100%'
-  },
-  max: {
-    paddingVertical: _.sm
-  }
-}))

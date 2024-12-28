@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 15:01:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 10:59:41
+ * @Last Modified time: 2024-12-28 07:03:14
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, Text, TextType, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../types'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Depth() {
@@ -85,7 +86,7 @@ function Depth() {
               return (
                 <Touchable
                   key={index}
-                  style={_.container.block}
+                  style={styles.block}
                   onPress={() => $.changeValue(toFixed(item.price, 2), item.amount)}
                 >
                   <Flex style={styles.item}>
@@ -120,7 +121,7 @@ function Depth() {
             </Touchable>
           </Flex.Item>
           {!!$.issuePrice && (
-            <Text type='tinygrailText' size={11}>
+            <Text type='tinygrailText' size={10}>
               发行价 {toFixed($.issuePrice, 1)}
             </Text>
           )}
@@ -138,7 +139,7 @@ function Depth() {
               return (
                 <Touchable
                   key={index}
-                  style={_.container.block}
+                  style={styles.block}
                   onPress={() => $.changeValue(toFixed(item.price, 2), item.amount)}
                 >
                   <Flex style={styles.item}>
@@ -169,4 +170,4 @@ function Depth() {
   )
 }
 
-export default ob(Depth)
+export default ob(Depth, COMPONENT)

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-11 17:20:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 11:00:09
+ * @Last Modified time: 2024-12-28 11:14:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,8 @@ import { Flex, Input, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+import { Ctx } from '../../../types'
+import { memoStyles } from './styles'
 
 function Stepper({ style }) {
   const { $ } = useStore<Ctx>()
@@ -45,45 +46,3 @@ function Stepper({ style }) {
 }
 
 export default ob(Stepper)
-
-const memoStyles = _.memoStyles(() => ({
-  stepper: {
-    paddingLeft: 4,
-    borderColor: _.colorTinygrailBorder,
-    borderWidth: 1
-  },
-  input: {
-    height: 34,
-    color: _.colorTinygrailPlain,
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 0
-  },
-  step: {
-    width: 32,
-    height: 32
-  },
-  stepMinus: {
-    borderLeftWidth: 1,
-    borderLeftColor: _.colorTinygrailBorder
-  },
-  split: {
-    width: 1,
-    height: 14,
-    backgroundColor: _.colorTinygrailBorder
-  },
-  minus: {
-    width: 14,
-    height: 1,
-    backgroundColor: _.colorTinygrailText
-  },
-  plus: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 9,
-    left: 16,
-    width: 1,
-    height: 14,
-    backgroundColor: _.colorTinygrailText
-  }
-}))

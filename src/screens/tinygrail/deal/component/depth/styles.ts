@@ -21,6 +21,10 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: _.sm,
     paddingHorizontal: _.sm
   },
+  block: {
+    width: '100%',
+    marginVertical: -_.hairlineWidth
+  },
   item: {
     width: '100%',
     paddingVertical: 5

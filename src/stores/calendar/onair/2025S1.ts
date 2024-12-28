@@ -9,7 +9,7 @@ export const ONAIR_2025S1 = {
   454684: {
     origin: 'SANZIGEN',
     tag: '校园/乐队/群像',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 4
   },
@@ -18,7 +18,7 @@ export const ONAIR_2025S1 = {
   491915: {
     origin: 'GoHands',
     tag: '异能/都市/日常',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 4
   },
@@ -27,7 +27,7 @@ export const ONAIR_2025S1 = {
   486039: {
     origin: 'MAPPA',
     tag: '穿越/异能/欺诈',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 7
   },
@@ -36,7 +36,7 @@ export const ONAIR_2025S1 = {
   479788: {
     origin: 'Yostar Pictures',
     tag: '运动/青春/日常',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 0
   },
@@ -45,7 +45,7 @@ export const ONAIR_2025S1 = {
   424454: {
     origin: '东映动画/Studio DEEN',
     tag: '后传/魔法/成长',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 6
   },
@@ -54,7 +54,7 @@ export const ONAIR_2025S1 = {
   474999: {
     origin: 'BNPictures',
     tag: '冒险/机战/子供',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 7
   },
@@ -63,7 +63,7 @@ export const ONAIR_2025S1 = {
   425355: {
     origin: 'Satelight',
     tag: '科幻/机战/合体',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 4
   },
@@ -72,7 +72,7 @@ export const ONAIR_2025S1 = {
   447954: {
     origin: 'CloverWorks',
     tag: '音乐/偶像/群像',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 6
   },
@@ -81,7 +81,7 @@ export const ONAIR_2025S1 = {
   440880: {
     origin: 'BUSHIROAD',
     tag: 'TCG/竞技/对战',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 6
   },
@@ -90,7 +90,7 @@ export const ONAIR_2025S1 = {
   526104: {
     origin: '东映动画',
     tag: '魔法/格斗/偶像',
-    timeCN: '',
+    timeCN: '2355',
     type: '原创动画',
     weekDayCN: 7
   },
@@ -99,7 +99,7 @@ export const ONAIR_2025S1 = {
   471578: {
     origin: 'TMS娱乐',
     tag: '冒险/热血/奇科幻',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 4
   },
@@ -108,7 +108,7 @@ export const ONAIR_2025S1 = {
   341139: {
     origin: 'Orange',
     tag: '拟人/恋爱/成长',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 4
   },
@@ -117,7 +117,7 @@ export const ONAIR_2025S1 = {
   487630: {
     origin: 'A-1 Pictures',
     tag: '奇幻/冒险/战斗',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 0
   },
@@ -126,7 +126,7 @@ export const ONAIR_2025S1 = {
   514744: {
     origin: 'Production I.G',
     tag: '超人/宇宙/战斗',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 7
   },
@@ -135,7 +135,7 @@ export const ONAIR_2025S1 = {
   464593: {
     origin: 'Lerche',
     tag: '妖怪/校园/恋爱',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 7
   },
@@ -144,7 +144,7 @@ export const ONAIR_2025S1 = {
   471793: {
     origin: 'Bibury动画工作室',
     tag: '恋爱/后宫/逆天',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 7
   },
@@ -153,7 +153,7 @@ export const ONAIR_2025S1 = {
   506773: {
     origin: 'J.C.STAFF',
     tag: 'TCG/对战/异能',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 6
   },
@@ -162,7 +162,7 @@ export const ONAIR_2025S1 = {
   496617: {
     origin: 'TMS娱乐',
     tag: '杀手/异能/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 6
   },
@@ -171,7 +171,7 @@ export const ONAIR_2025S1 = {
   498934: {
     origin: 'Studio Bind',
     tag: '校园/社团/青春',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 2
   },
@@ -180,7 +180,7 @@ export const ONAIR_2025S1 = {
   482719: {
     origin: 'J.C.STAFF',
     tag: '校园/恋爱/青春',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 3
   },
@@ -189,7 +189,7 @@ export const ONAIR_2025S1 = {
   482301: {
     origin: '台风Graphics',
     tag: '校园/恋爱/青春',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 4
   },
@@ -198,7 +198,7 @@ export const ONAIR_2025S1 = {
   494267: {
     origin: 'SynergySP',
     tag: '校园/恋爱/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 1
   },
@@ -207,7 +207,7 @@ export const ONAIR_2025S1 = {
   504710: {
     origin: 'BLADE',
     tag: '职场/恋爱/狗粮',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 1
   },
@@ -216,7 +216,7 @@ export const ONAIR_2025S1 = {
   430699: {
     origin: 'ENGI',
     tag: '花滑/励志/成长',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 6
   },
@@ -225,7 +225,7 @@ export const ONAIR_2025S1 = {
   480545: {
     origin: '动画工房',
     tag: '恋爱/姐弟/兄妹',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: ''
   },
@@ -234,7 +234,7 @@ export const ONAIR_2025S1 = {
   443930: {
     origin: 'Millepensee',
     tag: '方言/恋爱/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 6
   },
@@ -243,7 +243,7 @@ export const ONAIR_2025S1 = {
   479922: {
     origin: 'Quad',
     tag: '奇妙日常/恋爱',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 6
   },
@@ -252,7 +252,7 @@ export const ONAIR_2025S1 = {
   482708: {
     origin: 'GAINA',
     tag: '奇妙日常/耽美',
-    timeCN: '',
+    timeCN: '2355',
     weekDayCN: 6
   },
 
@@ -260,7 +260,7 @@ export const ONAIR_2025S1 = {
   481649: {
     origin: 'Satelight/Staple',
     tag: '奇幻/复仇/黄暴',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 5
   },
@@ -269,7 +269,7 @@ export const ONAIR_2025S1 = {
   504591: {
     origin: 'GEEKTOYS/CompTown',
     tag: '穿越/奇幻/日常',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 1
   },
@@ -278,7 +278,7 @@ export const ONAIR_2025S1 = {
   507581: {
     origin: 'Satelight',
     tag: '穿越/冒险/热血',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: '1/12周日深夜'
   },
@@ -287,7 +287,7 @@ export const ONAIR_2025S1 = {
   473497: {
     origin: '​​​亚细亚堂',
     tag: '穿越/性转/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '漫画改编动画',
     weekDayCN: 4
   },
@@ -296,7 +296,7 @@ export const ONAIR_2025S1 = {
   510728: {
     origin: 'WHITE FOX',
     tag: '穿越/奇幻/冒险',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 3
   },
@@ -305,7 +305,7 @@ export const ONAIR_2025S1 = {
   501205: {
     origin: 'ENGI',
     tag: '奇幻/成长/恋爱',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 2
   },
@@ -314,7 +314,7 @@ export const ONAIR_2025S1 = {
   485782: {
     origin: 'Passione',
     tag: '奇幻/群像/死斗',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 3
   },
@@ -323,7 +323,7 @@ export const ONAIR_2025S1 = {
   455626: {
     origin: 'Kinema Citrus',
     tag: '和风奇幻/恋爱',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 1
   },
@@ -332,7 +332,7 @@ export const ONAIR_2025S1 = {
   486347: {
     origin: '东宝动画工作室/OLM',
     tag: '中华风/宫廷/轻推理',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 5
   },
@@ -341,7 +341,7 @@ export const ONAIR_2025S1 = {
   463205: {
     origin: 'EMT Squared',
     tag: '宫廷/恋爱/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 7
   },
@@ -350,7 +350,7 @@ export const ONAIR_2025S1 = {
   488177: {
     origin: 'project No.9',
     tag: '推理/学者症候群',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 3
   },
@@ -359,7 +359,7 @@ export const ONAIR_2025S1 = {
   501023: {
     origin: 'Studio五组/AXsiZ',
     tag: '校园/恋爱/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 5
   },
@@ -368,7 +368,7 @@ export const ONAIR_2025S1 = {
   472661: {
     origin: 'ZERO-G',
     tag: '逆穿越/恋爱/喜剧',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 5
   },
@@ -377,7 +377,7 @@ export const ONAIR_2025S1 = {
   445827: {
     origin: 'CloverWorks',
     tag: '冒险/喜剧/凤傲天',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 5
   },
@@ -386,7 +386,7 @@ export const ONAIR_2025S1 = {
   485469: {
     origin: 'ZERO-G/SaberWorks',
     tag: '转生/后宫/涩涩',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: '12/28周六深夜'
   },
@@ -395,7 +395,7 @@ export const ONAIR_2025S1 = {
   511126: {
     origin: 'BN Pictures',
     tag: '奇幻/后宫/师徒',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 6
   },
@@ -404,7 +404,7 @@ export const ONAIR_2025S1 = {
   508588: {
     origin: 'East Fish Studio',
     tag: '穿越/异能/后宫',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 4
   },
@@ -413,7 +413,7 @@ export const ONAIR_2025S1 = {
   500840: {
     origin: 'OkurutoNoboru',
     tag: '奇幻/冒险/傲天',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 4
   },
@@ -422,7 +422,7 @@ export const ONAIR_2025S1 = {
   484952: {
     origin: 'Studio DEEN/Marvy Jack',
     tag: '穿越/魔法/冒险',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 1
   },
@@ -431,7 +431,7 @@ export const ONAIR_2025S1 = {
   503268: {
     origin: 'Studio DEEN',
     tag: '转生/魔法/成长',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 3
   },
@@ -440,7 +440,7 @@ export const ONAIR_2025S1 = {
   493758: {
     origin: 'Studio COMET',
     tag: '穿越/奇幻/异能',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 3
   },
@@ -449,7 +449,7 @@ export const ONAIR_2025S1 = {
   497909: {
     origin: '旭Production',
     tag: '奇幻/冒险/异能',
-    timeCN: '',
+    timeCN: '2355',
     type: '小说改编动画',
     weekDayCN: 2
   },
@@ -458,7 +458,7 @@ export const ONAIR_2025S1 = {
   371829: {
     origin: 'Bibury动画工作室',
     tag: '特工/枪战/后宫',
-    timeCN: '',
+    timeCN: '2355',
     type: '游戏改编动画',
     weekDayCN: 3
   },
@@ -467,7 +467,7 @@ export const ONAIR_2025S1 = {
   501033: {
     origin: 'PRA',
     tag: '解谜/推理/剧情',
-    timeCN: '',
+    timeCN: '2355',
     type: '游戏改编动画',
     weekDayCN: 3
   },
@@ -476,7 +476,7 @@ export const ONAIR_2025S1 = {
   500356: {
     origin: 'Bridge',
     tag: '奇幻/战斗/养怪',
-    timeCN: '',
+    timeCN: '2355',
     type: '游戏改编动画',
     weekDayCN: 5
   },
@@ -485,7 +485,7 @@ export const ONAIR_2025S1 = {
   465094: {
     origin: 'LIDENFILMS',
     tag: '奇幻/魔法/成长',
-    timeCN: '',
+    timeCN: '2355',
     type: '游戏改编动画',
     weekDayCN: 1
   },
@@ -494,7 +494,7 @@ export const ONAIR_2025S1 = {
   526223: {
     origin: 'ILCA',
     tag: '怪谈/都市传说',
-    timeCN: '',
+    timeCN: '2355',
     type: '都市传说衍生画剧动画',
     weekDayCN: 7
   }
