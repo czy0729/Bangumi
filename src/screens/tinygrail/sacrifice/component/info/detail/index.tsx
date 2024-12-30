@@ -5,6 +5,7 @@
  * @Last Modified time: 2024-11-19 16:15:00
  */
 import React from 'react'
+import { View } from 'react-native'
 import { Flex, Text, TextType } from '@components'
 import { _, useStore } from '@stores'
 import { formatNumber, toFixed } from '@utils'
@@ -28,20 +29,27 @@ function Detail() {
   }
 
   return (
-    <Flex style={[_.container.wind, _.mt.xs]} justify='center' align='baseline'>
-      <Text type='tinygrailPlain' size={15} bold>
-        ₵{$.current && toFixed($.current, 1)}
+    <View style={[_.container.wind, _.mt.xs]}>
+      <Flex justify='center' align='baseline'>
+        <Text type='tinygrailPlain' size={15} bold>
+          ₵{$.current && toFixed($.current, 1)}
+        </Text>
+        <Text type={color} align='center' size={12}>
+          {' '}
+          {fluctuationText}
+        </Text>
+        <Text type='tinygrailText' align='center' size={12}>
+          {' '}
+          / 发行价 {toFixed($.issuePrice, 1)} / 市值 {formatNumber($.marketValue, 0, $.short)} /
+          流通量 {formatNumber($.total, 0, $.short)}
+        </Text>
+      </Flex>
+      <Text style={_.mt.xs} type='tinygrailText' align='center' size={12} lineHeight={14}>
+        持有 {formatNumber(Number($.userLogs.amount), 0)} 股 / 资产{' '}
+        {formatNumber(Number($.myTemple.assets || $.userLogs.sacrifices || 0), 0)} (
+        {formatNumber(Number($.myTemple.sacrifices || $.userLogs.sacrifices || 0), 0)})
       </Text>
-      <Text type={color} align='center' size={12}>
-        {' '}
-        {fluctuationText}
-      </Text>
-      <Text type='tinygrailText' align='center' size={12}>
-        {' '}
-        / 发行价 {toFixed($.issuePrice, 1)} / 市值 {formatNumber($.marketValue, 0, $.short)} / 量{' '}
-        {formatNumber($.total, 0, $.short)}
-      </Text>
-    </Flex>
+    </View>
   )
 }
 

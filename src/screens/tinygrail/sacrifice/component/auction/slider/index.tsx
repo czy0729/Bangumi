@@ -45,7 +45,7 @@ function Slider() {
           max={max}
           disabled={!max}
           minimumTrackTintColor={_.colorAsk}
-          maximumTrackTintColor={_.colorTinygrailBorder}
+          maximumTrackTintColor={_.select(_.colorTinygrailIcon, _.colorTinygrailPlain)}
           onChange={debounce($.changeAuctionAmount)}
         />
       </View>

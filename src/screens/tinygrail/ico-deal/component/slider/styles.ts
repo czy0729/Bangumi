@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-08 18:54:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-01 23:29:42
+ * @Last Modified time: 2024-12-31 01:02:57
  */
 import { _ } from '@stores'
 
@@ -15,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
   },
   inputWrap: {
     paddingLeft: 4,
-    borderColor: _.colorTinygrailBorder,
+    borderColor: _.select(_.colorTinygrailBorder, _.colorTinygrailIcon),
     borderWidth: 1
   },
   input: {

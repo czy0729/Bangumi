@@ -46,7 +46,7 @@ function List({ onOpen }: { onOpen: Fn }) {
           <Flex style={_.mr.sm} align='start'>
             <Image
               size={28}
-              radius
+              radius={_.radiusXs}
               src={tinygrailOSS(`${OSS}/cube.png`)}
               skeletonType='tinygrail'
             />
@@ -75,7 +75,7 @@ function List({ onOpen }: { onOpen: Fn }) {
           <Flex align='start'>
             <Image
               size={28}
-              radius
+              radius={_.radiusXs}
               src={tinygrailOSS(`${OSS}/sign.png`)}
               skeletonType='tinygrail'
             />
@@ -104,7 +104,7 @@ function List({ onOpen }: { onOpen: Fn }) {
           <Flex style={_.mr.sm} align='start'>
             <Image
               size={28}
-              radius
+              radius={_.radiusXs}
               src={tinygrailOSS(`${OSS}/star.png`)}
               skeletonType='tinygrail'
             />
@@ -133,7 +133,7 @@ function List({ onOpen }: { onOpen: Fn }) {
           <Flex align='start'>
             <Image
               size={28}
-              radius
+              radius={_.radiusXs}
               src={tinygrailOSS(`${OSS}/fire.png`)}
               skeletonType='tinygrail'
             />
@@ -162,7 +162,7 @@ function List({ onOpen }: { onOpen: Fn }) {
           <Flex align='start'>
             <Image
               size={28}
-              radius
+              radius={_.radiusXs}
               src={tinygrailOSS(`${OSS}/eye2.png`)}
               skeletonType='tinygrail'
             />

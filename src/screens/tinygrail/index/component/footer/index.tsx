@@ -19,7 +19,7 @@ import { styles } from './styles'
 function Footer() {
   const navigation = useNavigation()
   return (
-    <Flex style={_.mb.md} justify='center'>
+    <Flex style={_.mv.sm} justify='center'>
       <View style={styles.touch}>
         <Text type='tinygrailText' size={12}>
           {VERSION_TINYGRAIL_PLUGIN}

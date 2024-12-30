@@ -8,7 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   inputWrap: {
-    borderColor: _.colorTinygrailBorder,
+    borderColor: _.select(_.colorTinygrailBorder, _.colorTinygrailIcon),
     borderWidth: 1
   },
   input: {
@@ -21,7 +21,7 @@ export const memoStyles = _.memoStyles(() => ({
   starforce: {
     position: 'absolute',
     zIndex: 1,
-    top: 8,
+    top: 9,
     right: 12
   },
   btnSubmit: {

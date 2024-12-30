@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-09-20 22:05:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 12:09:50
+ * @Last Modified time: 2024-12-31 01:01:45
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -52,7 +52,7 @@ function Slider() {
             max={balance < 5000 ? 5000 : Number(balance)}
             step={1000}
             minimumTrackTintColor={_.colorBid}
-            maximumTrackTintColor={_.colorTinygrailBorder}
+            maximumTrackTintColor={_.select(_.colorTinygrailIcon, _.colorTinygrailPlain)}
             onChange={debounce(value => $.changeAmount(value < 5000 ? 5000 : value))}
           />
         </View>

@@ -20,16 +20,17 @@ function Title() {
   return (
     <Flex style={$.state.showCover && _.mt.md} justify='center'>
       <Touchable
+        style={_.mr._sm}
         onPress={() => {
+          navigation.push('Mono', {
+            monoId: `character/${$.id}`,
+            _name: $.name
+          })
+
           t('资产重组.跳转', {
             to: 'Mono',
             from: '顶部',
             monoId: $.id
-          })
-
-          navigation.push('Mono', {
-            monoId: `character/${$.id}`,
-            _name: $.name
           })
         }}
       >
@@ -45,8 +46,8 @@ function Title() {
           >
             #{$.id} - {$.name}
           </Text>
-          <Bonus value={$.bonus} lineHeight={size} />
-          <Level value={$.level} lineHeight={size} />
+          <Level value={$.level} size={size - 1} lineHeight={size} />
+          <Bonus value={$.chara.crown} size={size - 1} lineHeight={size} />
           <Iconfont name='md-navigate-next' color={_.colorTinygrailText} />
         </Flex>
       </Touchable>

@@ -42,7 +42,7 @@ export const memoStyles = _.memoStyles(() => ({
     textShadowRadius: 1,
     textShadowColor: 'rgba(0, 0, 0, 0.48)',
     backgroundColor: '#ffc107',
-    borderRadius: 4,
+    borderRadius: 2,
     overflow: 'hidden'
   },
   amount: {

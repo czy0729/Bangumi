@@ -20,7 +20,7 @@ export const memoStyles = _.memoStyles(() => ({
     marginTop: -1,
     marginRight: 4,
     color: _.__colorPlain__,
-    borderRadius: 4,
+    borderRadius: 2,
     overflow: 'hidden'
   }
 }))

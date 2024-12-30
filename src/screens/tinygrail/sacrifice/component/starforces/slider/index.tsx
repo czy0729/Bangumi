@@ -22,10 +22,10 @@ function Slider() {
         max={max}
         disabled={!max}
         minimumTrackTintColor={_.colorAsk}
-        maximumTrackTintColor={_.colorTinygrailBorder}
+        maximumTrackTintColor={_.select(_.colorTinygrailIcon, _.colorTinygrailPlain)}
         onChange={debounce($.changeStarForces)}
       />
-      <Flex>
+      <Flex style={_.mt.sm}>
         <Flex.Item>
           <Text type='tinygrailText' size={12}>
             可用 0

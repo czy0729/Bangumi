@@ -96,7 +96,16 @@ export const INIT_CHARACTERS_ITEM = {
   sa: 0,
 
   /** 上市时间 */
-  listedDate: ''
+  listedDate: '',
+
+  /** 萌王次数 */
+  crown: 0,
+
+  /** 条目 ID */
+  subjectId: 0,
+
+  /** 条目名 */
+  subjectName: ''
 } as const
 
 export const INIT_RICH = {

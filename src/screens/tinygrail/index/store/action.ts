@@ -1,13 +1,11 @@
 /*
  * @Author: czy0729
- * @Date: 2019-03-22 08:49:20
+ * @Date: 2024-12-29 11:16:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-09 20:16:11
+ * @Last Modified time: 2024-12-29 11:17:36
  */
-import { computed, observable } from 'mobx'
 import cheerio from 'cheerio-without-node-native'
-import { systemStore, tinygrailStore, userStore } from '@stores'
-import { ListKey } from '@stores/tinygrail/types'
+import { systemStore, tinygrailStore } from '@stores'
 import {
   alert,
   confirm,
@@ -18,12 +16,10 @@ import {
   toFixed,
   urlStringify
 } from '@utils'
-import { queue, t } from '@utils/fetch'
-import store from '@utils/store'
+import { t } from '@utils/fetch'
 import axios from '@utils/thirdParty/axios'
 import {
   API_TINYGRAIL_LOGOUT,
-  DEV,
   HOST,
   M,
   TINYGRAIL_APP_ID,
@@ -31,74 +27,15 @@ import {
 } from '@constants'
 import i18n from '@constants/i18n'
 import { Navigation } from '@types'
-import { ERROR_STR, EXCLUDE_STATE, MAX_ERROR_COUNT, NAMESPACE, STATE } from './ds'
-import { Params } from './types'
+import Fetch from './fetch'
+import { ERROR_STR, MAX_ERROR_COUNT, NAMESPACE } from './ds'
 
-export default class ScreenTinygrail extends store<typeof STATE> {
-  params: Params
-
-  state = observable(STATE)
-
+export default class Action extends Fetch {
   formhash = ''
 
   errorCount = 0
 
-  init = async () => {
-    this.setState({
-      ...(await this.getStorage(NAMESPACE)),
-      ...EXCLUDE_STATE,
-      _loaded: tinygrailStore.cookie ? getTimestamp() : false
-    })
-
-    // 没有资产就自动授权
-    const { _loaded } = await tinygrailStore.fetchAssets()
-    if (!_loaded && !DEV) await this.doAuth()
-
-    // 获取资产和用户唯一标识
-    await queue([
-      () => tinygrailStore.fetchAssets(),
-      () => tinygrailStore.fetchHash(),
-      () => this.fetchCharaAssets()
-    ])
-
-    systemStore.fetchAdvance()
-    this.caculateChange()
-    this.fetchCount()
-    this.checkCount()
-
-    return true
-  }
-
-  // -------------------- fetch --------------------
-  fetchCharaAssets = async () => {
-    this.setState({
-      loadingAssets: true
-    })
-    const res = tinygrailStore.fetchCharaAssets(this.hash)
-    await res
-    this.setState({
-      loadingAssets: false
-    })
-
-    return res
-  }
-
-  /** 获取买单卖单数量 */
-  fetchCount = (refresh: boolean = false) => {
-    const fetchs = []
-    if (refresh || !this.list('bid')._loaded) {
-      fetchs.push(() => tinygrailStore.fetchBid())
-    }
-    if (refresh || !this.list('asks')._loaded) {
-      fetchs.push(() => tinygrailStore.fetchAsks())
-    }
-    if (refresh || !this.list('auction')._loaded) {
-      fetchs.push(() => tinygrailStore.fetchAuction())
-    }
-    if (fetchs.length) {
-      queue(fetchs)
-    }
-  }
+  _doAuthFailCount = 0
 
   refresh = async () => {
     const results = await Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
@@ -110,53 +47,6 @@ export default class ScreenTinygrail extends store<typeof STATE> {
 
     return results
   }
-
-  // -------------------- get --------------------
-  @computed get short() {
-    return systemStore.setting.xsbShort
-  }
-
-  @computed get userCookie() {
-    return userStore.userCookie
-  }
-
-  @computed get advance() {
-    return systemStore.advance
-  }
-
-  @computed get userInfo() {
-    return userStore.userInfo
-  }
-
-  @computed get hash() {
-    return tinygrailStore.hash
-  }
-
-  @computed get assets() {
-    return tinygrailStore.assets
-  }
-
-  @computed get charaAssets() {
-    return tinygrailStore.charaAssets(this.hash)
-  }
-
-  @computed get total() {
-    const { assets } = this.assets
-    return assets
-  }
-
-  /** 幻想乡刮刮乐下一次的价格 (每次翻倍) */
-  @computed get nextPrice() {
-    const { count = 0, isBonus2 } = this.state
-    return isBonus2 ? 2000 * 2 ** count : 1000
-  }
-
-  list(key: ListKey = 'bid') {
-    return computed(() => tinygrailStore.list(key)).get()
-  }
-
-  // -------------------- action --------------------
-  _doAuthFailCount = 0
 
   /** 小圣杯授权 */
   doAuth = async () => {

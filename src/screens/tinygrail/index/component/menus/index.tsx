@@ -19,7 +19,7 @@ function Menus() {
   const asks = $.list('asks').list.length
   const auction = $.list('auction').list.filter(item => item.state === 0).length
   return (
-    <Flex style={_.mt.sm} wrap='wrap'>
+    <Flex style={_.mt.xs} wrap='wrap'>
       <MenuItem index={0} title='热门榜单' pathname='TinygrailOverview' icon='md-whatshot' />
       <MenuItem index={1} title='新番榜单' pathname='TinygrailNew' icon='md-local-play' />
       <MenuItem index={2} title='ICO 榜单' pathname='TinygrailICO' icon='md-attach-money' />

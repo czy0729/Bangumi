@@ -9,7 +9,7 @@ import { getStorage, getTimestamp } from '@utils'
 import Action from './action'
 import { EXCLUDE_STATE, INIT_LAST_AUCTION, INIT_LAST_SACRIFICE, NAMESPACE } from './ds'
 
-class ScreenTinygrailSacrifice extends Action {
+export default class ScreenTinygrailSacrifice extends Action {
   init = async () => {
     await tinygrailStore.init('test')
 
@@ -24,5 +24,3 @@ class ScreenTinygrailSacrifice extends Action {
     return true
   }
 }
-
-export default ScreenTinygrailSacrifice

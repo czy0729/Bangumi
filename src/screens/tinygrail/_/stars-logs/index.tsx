@@ -11,30 +11,22 @@ import { tinygrailStore } from '@stores'
 import { r } from '@utils/dev'
 import { useObserver } from '@utils/hooks'
 import { USE_NATIVE_DRIVER } from '@constants'
-import { Fn, Navigation } from '@types'
 import List from './list'
 import { COMPONENT, DRAWER_WITDH } from './ds'
 import { memoStyles } from './styles'
+import { Props } from './types'
 
-function StarsLogs({
-  navigation,
-  show,
-  onToggle
-}: {
-  navigation: Navigation
-  show: boolean
-  onToggle: Fn
-}) {
+function StarsLogs({ navigation, show, onToggle }: Props) {
   r(COMPONENT)
 
   const x = useRef(new Animated.Value(0))
-  const onHeaderRefresh = useCallback(() => {
+  const handleHeaderRefresh = useCallback(() => {
     return tinygrailStore.fetchStarLogs(1, 100)
   }, [])
 
   useEffect(() => {
     if (show) {
-      if (!tinygrailStore.starLogs._loaded) onHeaderRefresh()
+      if (!tinygrailStore.starLogs._loaded) handleHeaderRefresh()
 
       Animated.timing(x.current, {
         toValue: 1,
@@ -52,7 +44,7 @@ function StarsLogs({
       }).start()
       return
     }
-  }, [onHeaderRefresh, show])
+  }, [handleHeaderRefresh, show])
 
   return useObserver(() => {
     const styles = memoStyles()
@@ -86,7 +78,11 @@ function StarsLogs({
                 }
               ]}
             >
-              <List navigation={navigation} onHeaderRefresh={onHeaderRefresh} onToggle={onToggle} />
+              <List
+                navigation={navigation}
+                onHeaderRefresh={handleHeaderRefresh}
+                onToggle={onToggle}
+              />
             </Animated.View>
           </Flex>
         </Suspense>
